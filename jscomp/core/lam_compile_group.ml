@@ -369,8 +369,8 @@ let lambda_as_module
     (lam : Lambda.lambda) = 
   begin 
     Js_config.set_current_file filename ;  
-#if BS_DEBUG then    
-    Js_config.set_debug_file "test_include.ml";
+#if BS_DEBUG then        
+    Js_config.set_debug_file "high_order_map.ml";
 #end    
     let lambda_output = compile ~filename output_prefix env sigs lam in
     let (//) = Filename.concat in 

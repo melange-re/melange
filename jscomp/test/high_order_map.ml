@@ -24,4 +24,11 @@ let b = small_should_inline2 1 2 [@bs]
 let f x y = 
         Js.log (x,y);
         x + y 
-let f ?(x=3) y = f x y 
+
+
+
+let opt_f ?(x=3) y = f x y 
+
+let v = opt_f 3 
+
+let v = opt_f ~x:2 3 
