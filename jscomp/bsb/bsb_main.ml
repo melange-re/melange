@@ -339,7 +339,7 @@ let regenerate_ninja cwd bsc_dir forced : Bsb_default.package_specs option =
   if String.length reason <> 0 then
     begin
       print_endline reason ;
-      print_endline "Regenrating build spec";
+      print_endline "Regenerating build spec";
       let globbed_dirs = write_ninja_file bsc_dir cwd in
       Literals.bsconfig_json :: globbed_dirs
       |> List.map

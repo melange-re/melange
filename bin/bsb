@@ -15,6 +15,7 @@ if (fs.existsSync(bsconfig)) {
         child_process.execFileSync(bsb_exe, delegate_args, { stdio: 'inherit' })
     } catch (e) {
         console.error('Error happend when running command', bsb_exe, 'with args', delegate_args)
+        process.exit(2)
     }
 } else {
     var path = require('path')
@@ -33,6 +34,7 @@ if (fs.existsSync(bsconfig)) {
             child_process.execFileSync(bsb_exe, delegate_args, { stdio: 'inherit', cwd: search_dir })
         } catch (e) {
             console.error('Error happend when running command', bsb_exe, 'with args', delegate_args)
+            process.exit(2)
         }
     }
 }

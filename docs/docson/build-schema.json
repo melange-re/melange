@@ -35,15 +35,21 @@
                 "$ref": "#/definitions/single-ppx-spec"
             }
         },
+        "bs-dependency" : {
+            "type" : "string",
+            "title": "dependency"
+         },
         "bs-dependencies": {
             "type": "array",
             "items": {
-                "type": "string"
+                "$ref": "#/definitions/bs-dependency"
             },
             "description": "Bucklescript package dependencies"
         },
         "sourceItem": {
             "title": "sourceItem",
+            "oneOf" : [ {
+                "type" : "object",
             "properties": {
                 "dir": {
                     "type": "string"
@@ -93,13 +99,15 @@
                         {
                             "enum": [
                                 "all"
-                            ]
+                            ],
+                            "description": "All modules in this directory"
                         },
                         {
                             "type": "array",
                             "items": {
                                 "type": "string"
-                            }
+                            },
+                            "description": "Selected modules, for example, [Module_a, Module_b] "
                         }
                     ]
                 },
@@ -112,8 +120,18 @@
                 "subdirs": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/sourceItem"
-                    }
+                        "oneOf" : [
+                            {
+                                "$ref": "#/definitions/sourceItem"
+                            },
+                            {
+                                "type" : "string",
+                                "description": "All valid sources in such directory"
+                            }
+                        ]
+                        
+                    },
+                    "description": "Array of nested directories"
                 },
                 "group": {
                     "oneOf": [
@@ -132,7 +150,8 @@
                                 }
                             }
                         }
-                    ]
+                    ],
+                    "description": "Not implemented yet"
                 },
                 "internal-depends": {
                     "type": "array",
@@ -144,6 +163,13 @@
             },
             "required": [
                 "dir"
+            ]
+            },
+            {
+                "title": "single non nested directory",
+                "type" : "string",
+                "description": "directory name (no nested)"
+            }
             ]
         },
         "stringArray": {
@@ -225,7 +251,7 @@
         
         "generate-merlin": {
             "type": "boolean",
-            "description": "default false (generate .merlin)"
+            "description": "default true (generate .merlin)"
         }
     },
     "additionalProperties": false,

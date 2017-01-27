@@ -237,6 +237,8 @@ let rec parsing_source (dir_index : int) cwd (x : Ext_json.t String_map.t )
               match json with 
               | `Obj m -> (* could also be a string *)
                 parsing_source current_dir_index !dir  m  ++ origin
+              | `Str _ as s  -> 
+                parsing_simple_dir current_dir_index !dir s ++ origin 
               | _ -> origin ) empty s in 
         children :=  res.files ; 
         children_update_queue := res.intervals;
@@ -257,13 +259,16 @@ let rec parsing_source (dir_index : int) cwd (x : Ext_json.t String_map.t )
     intervals = !update_queue @ !children_update_queue ;
     globbed_dirs = !globbed_dirs @ !children_globbed_dirs;
   } 
-
+and parsing_simple_dir dir_index cwd  dir  : t = 
+  parsing_source dir_index cwd (String_map.singleton Bsb_build_schemas.dir dir)
 
 let  parsing_sources dir_index cwd (file_groups : Ext_json.t array)  = 
   Array.fold_left (fun  origin x ->
       match x with 
       | `Obj map ->  
         parsing_source dir_index cwd map ++ origin
+      | `Str _  as dir -> 
+        parsing_simple_dir dir_index cwd dir ++ origin 
       | _ -> origin
     ) empty  file_groups 
 
