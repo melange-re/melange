@@ -3094,6 +3094,7 @@ type callback =
   | `Arr_loc of (t array -> Lexing.position -> Lexing.position -> unit)
   | `Null of (unit -> unit)
   | `Not_found of (unit -> unit)
+  | `Id of (t -> unit )
   ]
 
 val test:
@@ -3797,6 +3798,7 @@ type callback =
   | `Arr_loc of (t array -> Lexing.position -> Lexing.position -> unit)
   | `Null of (unit -> unit)
   | `Not_found of (unit -> unit)
+  | `Id of (t -> unit )
   ]
 
 let test   ?(fail=(fun () -> ())) key 
@@ -3806,7 +3808,7 @@ let test   ?(fail=(fun () -> ())) key
        | exception Not_found  ->
         begin match cb with `Not_found f ->  f ()
         | _ -> fail ()
-        end
+        end      
        | `True, `Bool cb -> cb true
        | `False, `Bool cb  -> cb false 
        | `Flo s , `Flo cb  -> cb s 
@@ -3817,6 +3819,7 @@ let test   ?(fail=(fun () -> ())) key
        | `Null, `Null cb  -> cb ()
        | `Str {str = s }, `Str cb  -> cb s 
        | `Str {str = s ; loc }, `Str_loc cb -> cb s loc 
+       |  any  , `Id  cb -> cb any
        | _, _ -> fail () 
      end;
      m
@@ -3835,7 +3838,7 @@ let query path (json : t ) =
       end
   in aux [] path json
 
-# 733 "ext/ext_json.ml"
+# 735 "ext/ext_json.ml"
 
 end
 module Ext_list : sig 
@@ -6246,9 +6249,9 @@ val lib_dir_index : dir_index
 
 val get_current_number_of_dev_groups : unit -> int 
 
-val parsing_source : 
+(* val parsing_source : 
   dir_index -> 
-  string -> Ext_json.t String_map.t -> t 
+  string -> Ext_json.t  -> t  *)
 
 (** entry is to the 
     [sources] in the schema
@@ -6256,7 +6259,7 @@ val parsing_source :
 val parsing_sources : 
   dir_index -> 
   string -> 
-  Ext_json.t array ->
+  Ext_json.t  ->
   t 
   
 
@@ -6405,8 +6408,16 @@ let (++) (u : t)  (v : t)  =
 
 
 (** [dir_index] can be inherited  *)
-let rec parsing_source (dir_index : int) cwd (x : Ext_json.t String_map.t )
+let rec 
+parsing_simple_dir dir_index  cwd dir =
+  parsing_source dir_index cwd 
+    (`Obj (String_map.singleton Bsb_build_schemas.dir dir))
+and parsing_source (dir_index : int) cwd (x : Ext_json.t )
   : t  =
+  match x with 
+  | `Str _ as dir -> 
+    parsing_simple_dir dir_index cwd dir   
+  | `Obj x -> 
   let dir = ref cwd in
   let sources = ref String_map.empty in
   let resources = ref [] in 
@@ -6498,12 +6509,14 @@ let rec parsing_source (dir_index : int) cwd (x : Ext_json.t String_map.t )
     |? (Bsb_build_schemas.subdirs, `Arr (fun s -> 
         let res  = 
           Array.fold_left (fun  origin json ->
-              match json with 
+            parsing_source current_dir_index !dir json  ++ origin 
+              (* match json with 
               | `Obj m -> (* could also be a string *)
                 parsing_source current_dir_index !dir  m  ++ origin
               | `Str _ as s  -> 
                 parsing_simple_dir current_dir_index !dir s ++ origin 
-              | _ -> origin ) empty s in 
+              | _ -> origin *)
+              ) empty s in 
         children :=  res.files ; 
         children_update_queue := res.intervals;
         children_globbed_dirs := res.globbed_dirs
@@ -6523,20 +6536,21 @@ let rec parsing_source (dir_index : int) cwd (x : Ext_json.t String_map.t )
     intervals = !update_queue @ !children_update_queue ;
     globbed_dirs = !globbed_dirs @ !children_globbed_dirs;
   } 
-and parsing_simple_dir dir_index cwd  dir  : t = 
+| _ -> empty 
+(* and parsing_simple_dir dir_index cwd  dir  : t = 
   parsing_source dir_index cwd (String_map.singleton Bsb_build_schemas.dir dir)
+*)
 
 let  parsing_sources dir_index cwd (file_groups : Ext_json.t array)  = 
   Array.fold_left (fun  origin x ->
-      match x with 
-      | `Obj map ->  
-        parsing_source dir_index cwd map ++ origin
-      | `Str _  as dir -> 
-        parsing_simple_dir dir_index cwd dir ++ origin 
-      | _ -> origin
+    parsing_source dir_index cwd x ++ origin 
     ) empty  file_groups 
 
-
+let  parsing_sources dir_index cwd (sources : Ext_json.t )  = 
+  match sources with   
+  | `Arr file_groups -> 
+    parsing_sources dir_index cwd file_groups.Ext_json.content
+  | _ -> parsing_source dir_index cwd sources
 end
 module Ext_sys : sig 
 #1 "ext_sys.mli"
@@ -8243,23 +8257,13 @@ let write_ninja_file bsc_dir cwd =
       |? (Bsb_build_schemas.ppx_flags, `Arr (Bsb_default.set_ppx_flags ~cwd))
       |? (Bsb_build_schemas.refmt, `Str (Bsb_default.set_refmt ~cwd))
 
-      |? (Bsb_build_schemas.sources, `Obj (fun x ->
-          let res : Bsb_build_ui.t =
-            Bsb_build_ui.parsing_source
-              Bsb_build_ui.lib_dir_index
-              Filename.current_dir_name x in
-          handle_bsb_build_ui res
+      |? (Bsb_build_schemas.sources, `Id (fun x ->
+          Bsb_build_ui.parsing_sources
+            Bsb_build_ui.lib_dir_index
+            Filename.current_dir_name x
+          |>
+          handle_bsb_build_ui 
         ))
-      |?  (Bsb_build_schemas.sources, `Arr (fun xs ->
-
-          let res : Bsb_build_ui.t  =
-            Bsb_build_ui.parsing_sources
-              Bsb_build_ui.lib_dir_index
-              Filename.current_dir_name xs
-          in
-          handle_bsb_build_ui res
-        ))
-
       |> ignore
     | _ -> ()
   in
@@ -8373,7 +8377,7 @@ let clean_bs_deps () =
       clean_bs_garbage cwd
     )
 
-
+let clean_self () = clean_bs_garbage cwd 
 
 
 let bsb_main_flags =
@@ -8391,6 +8395,8 @@ let bsb_main_flags =
     " (internal)Overide package specs (in combination with -regen)";
     "-clean-world", Arg.Unit clean_bs_deps,
     " Clean all bs dependencies";
+    "-clean", Arg.Unit clean_self, 
+    " Clean only current project";
     "-make-world", Arg.Set make_world,
     " Build all dependencies and itself "
   ]
