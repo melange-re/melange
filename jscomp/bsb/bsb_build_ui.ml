@@ -155,7 +155,9 @@ and parsing_source (dir_index : int) cwd (x : Ext_json.t )
   let sources = ref String_map.empty in
   let resources = ref [] in 
   let bs_dependencies = ref [] in
-  let public = ref Export_none in 
+  (* let public = ref Export_none in  *)
+  (* let public = ref Bsb_config.default_public in *)
+  let public = ref Export_all in (* TODO: move to {!Bsb_default} later*)
 
   let current_dir_index = ref dir_index in 
   (** Get the real [dir_index] *)

@@ -48,7 +48,8 @@
         },
         "sourceItem": {
             "title": "sourceItem",
-            "oneOf" : [ {
+            "oneOf" : [ 
+                {
                 "type" : "object",
             "properties": {
                 "dir": {
@@ -109,7 +110,8 @@
                             },
                             "description": "Selected modules, for example, [Module_a, Module_b] "
                         }
-                    ]
+                    ],
+                    "description": "default: export all modules by default, it is recommended for library developers to hide some interfaces"
                 },
                 "resources": {
                     "type": "array",
@@ -118,20 +120,8 @@
                     }
                 },
                 "subdirs": {
-                    "type": "array",
-                    "items": {
-                        "oneOf" : [
-                            {
-                                "$ref": "#/definitions/sourceItem"
-                            },
-                            {
-                                "type" : "string",
-                                "description": "All valid sources in such directory"
-                            }
-                        ]
-                        
-                    },
-                    "description": "Array of nested directories"
+                   "$ref" : "#/definitions/sources",
+                   "description": "nested specifications inside"
                 },
                 "group": {
                     "oneOf": [
@@ -171,6 +161,22 @@
                 "description": "directory name (no nested)"
             }
             ]
+        },
+        "sources" : {
+             "oneOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/sourceItem"
+                    },
+                    "description" : "A list of source items"
+                },
+                {
+                    "$ref": "#/definitions/sourceItem",
+                    "description": "A single source item"
+                }
+            ],
+            "description": "can be either a single sourceItem or an array of sourceItems, sourceItem can be either a single string(non nested directory) or an detailed object config"
         },
         "stringArray": {
             "type": "array",
@@ -234,19 +240,8 @@
             "description": "external include directories, which will be applied -I to all compilation units, it is *not needed* in most cases"
         },
         "sources": {
-            "oneOf": [
-                {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/sourceItem"
-                    },
-                    "description" : "A list of source items"
-                },
-                {
-                    "$ref": "#/definitions/sourceItem",
-                    "description": "A single source item"
-                }
-            ]
+          "$ref" : "#/definitions/sources",
+          "description": "specication of where source code is "
         },
         
         "generate-merlin": {
