@@ -113,41 +113,14 @@ let ocaml_to_js_eff
   | Nothing  | Array ->  [arg], []
 
 
-   
+
 let empty_pair = [],[]       
-
-let assemble_args (arg_types : Ast_ffi_types.arg_kind list) args : E.t list * E.t option  = 
-  let rec aux (labels : Ast_ffi_types.arg_kind list) args = 
-    match labels, args with 
-    | [] , [] as empty_pair -> empty_pair
-    | { arg_label =  Empty_int_lit i } :: labels  , args 
-    | { arg_label =  Label_int_lit (_,i)} :: labels  , args -> 
-      let accs, eff = aux labels args in 
-      E.int (Int32.of_int i) ::accs, eff 
-    | { arg_label =  Label_string_lit(_,i)} :: labels , args 
-    | { arg_label =  Empty_string_lit i} :: labels , args
-      -> 
-      let accs, eff = aux labels args in 
-      E.str i :: accs, eff
-
-    | ({arg_label = Empty | Label _ | Optional _ } as arg_kind) ::labels, arg::args 
-      ->  
-      let accs, eff = aux labels args in 
-      let acc, new_eff = ocaml_to_js_eff arg_kind arg in 
-      acc @ accs, new_eff @ eff
-    | { arg_label = Empty | Label _ | Optional _  } :: _ , [] -> assert false 
-    | [],  _ :: _  -> assert false      
-  in 
-  let args, eff = aux arg_types args in
-  args, begin match eff with 
-    | [] -> None
-    | x::xs -> Some (E.fuse_to_seq x xs)
-  end
 
 let add_eff eff e =
   match eff with
   | None -> e 
   | Some v -> E.seq v e 
+
 
 
 (* TODO: fix splice, 
@@ -156,26 +129,6 @@ let add_eff eff e =
    no compiler failure here 
    Invariant : Array encoding
 *)
-
-let ocaml_to_js ~js_splice:(js_splice : bool) call_loc ffi
-    last ({ Ast_ffi_types.arg_label;  arg_type = ty } as arg_ty)
-    (arg : J.expression) 
-  = 
-  if last && js_splice then
-    match ty with 
-    | Array -> 
-      begin match arg with 
-        | {expression_desc = Array (ls,_mutable_flag) } -> 
-          ls, [] 
-        | _ -> 
-          Location.raise_errorf ~loc:call_loc
-            "function call with %s  is a primitive with [@@bs.splice], it expects its arguments to be a syntactic array in the call site" 
-            (Ast_ffi_types.name_of_ffi ffi)
-      end
-    | _ -> assert  false
-  else 
-    ocaml_to_js_eff arg_ty arg 
-
 let assemble_args_splice call_loc ffi  js_splice arg_types args : E.t list * E.t option = 
   let rec aux (labels : Ast_ffi_types.arg_kind list) args = 
     match labels, args with 
@@ -189,12 +142,26 @@ let assemble_args_splice call_loc ffi  js_splice arg_types args : E.t list * E.t
       -> 
       let accs, eff = aux labels args in 
       E.str i :: accs, eff
-
-    | ({arg_label = Empty | Label _ | Optional _ } as arg_kind) ::labels, arg::args 
+    | ({arg_label = Empty | Label _ | Optional _ } as arg_kind) ::labels, arg :: args
       ->  
-      let accs, eff = aux labels args in 
-      let acc, new_eff = ocaml_to_js call_loc ffi ~js_splice (args = []) arg_kind arg in 
-      acc @ accs, new_eff @ eff
+      if js_splice && args = [] then 
+        let accs, eff = aux labels [] in 
+        begin match arg_kind.arg_type with 
+          | Array -> 
+            begin match (arg : E.t) with 
+              | {expression_desc = Array (ls,_mutable_flag) } -> 
+                ls @ accs, eff 
+              | _ -> 
+                Location.raise_errorf ~loc:call_loc
+                  "function call with %s  is a primitive with [@@bs.splice], it expects its arguments to be a syntactic array in the call site" 
+                  (Ast_ffi_types.name_of_ffi ffi)
+            end
+          | _ -> assert false 
+        end
+      else 
+        let accs, eff = aux labels args in 
+        let acc, new_eff = ocaml_to_js_eff arg_kind arg in 
+        acc @ accs, new_eff @ eff
     | { arg_label = Empty | Label _ | Optional _  } :: _ , [] -> assert false 
     | [],  _ :: _  -> assert false      
 
@@ -209,8 +176,8 @@ let assemble_args_splice call_loc ffi  js_splice arg_types args : E.t list * E.t
 
 
 let translate_ffi 
-  call_loc (ffi : Ast_ffi_types.ffi ) 
-  (* prim_name *)
+    call_loc (ffi : Ast_ffi_types.ffi ) 
+    (* prim_name *)
     (cxt  : Lam_compile_defs.cxt)
     arg_types result_type
     (args : J.expression list) = 
@@ -255,7 +222,7 @@ let translate_ffi
     let fn =
       let (id,name) = handle_external  module_name in
       E.external_var_dot id ~external_name:name  in           
-    let args,eff = assemble_args arg_types args in 
+    let args,eff = assemble_args_splice call_loc  ffi false  arg_types args in 
     (* TODO: fix in rest calling convention *)   
     add_eff eff        
       begin 
