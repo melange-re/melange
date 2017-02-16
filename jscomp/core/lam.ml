@@ -1203,7 +1203,9 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : t =
           prim ~primitive:(Pjs_call(prim_name, arg_types,result_type,ffi)) 
             ~args loc
         else 
-           (* TODO: sort out the order here *)
+           (* TODO: sort out the order here
+            consolidate {!Lam_compile_external_call.assemble_args_splice}
+            *)
           let rec aux (arg_types : Ast_ffi_types.arg_kind list) 
             (args : t list ) = 
             match arg_types,args with 

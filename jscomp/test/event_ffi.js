@@ -37,10 +37,9 @@ function h34(x) {
 }
 
 function ocaml_run(param, param$1) {
-  var x = 1;
-  var y = param;
-  var z = param$1;
-  return (x + y | 0) + z | 0;
+  return function (x, y, z) {
+            return (x + y | 0) + z | 0;
+          }(1, param, param$1);
 }
 
 function a0() {

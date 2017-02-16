@@ -52,6 +52,30 @@ function h3(x) {
             });
 }
 
+function h4(x) {
+  return ff1(x, 3, function (param, param$1) {
+              return add3(1, param, param$1);
+            });
+}
+
+function h5(x) {
+  return ff2(x, "3", function (param, param$1) {
+              return add3(2, param, param$1);
+            });
+}
+
+function add(x, y) {
+  console.log(/* tuple */[
+        x,
+        y
+      ]);
+  return x + y | 0;
+}
+
+function h6(x) {
+  return ff2(x, "3", add);
+}
+
 exports.bs   = bs;
 exports.xs   = xs;
 exports.f    = f;
@@ -60,4 +84,8 @@ exports.h1   = h1;
 exports.add3 = add3;
 exports.h2   = h2;
 exports.h3   = h3;
+exports.h4   = h4;
+exports.h5   = h5;
+exports.add  = add;
+exports.h6   = h6;
 /* bs Not a pure module */

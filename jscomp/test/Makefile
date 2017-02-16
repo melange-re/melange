@@ -97,7 +97,7 @@ OTHERS := literals a test_ari test_export2 test_internalOO test_obj_simple_ffi t
 	js_re_test\
 	name_mangle_test\
 	oo_js_test_date\
-	bs_uncurry_test
+	bs_auto_uncurry
 
 
 SOURCE_LIST :=  $(OTHERS)

@@ -73,6 +73,13 @@ let alpha_conversion (meta : Lam_stats.meta) (lam : Lam.t) : Lam.t =
       let bindings = List.map (fun (k,l) -> (k, simpl l)) bindings in 
       Lam.letrec bindings (simpl body) 
     | Lglobal_module _ -> lam 
+    | Lprim {primitive = (Lam.Pjs_fn_make len) as primitive ; args = [arg] 
+      ; loc } -> 
+      begin match Lam_stats_util.get_arity meta arg with       
+      | Determin (b, (x,_)::_, tail) when x = len 
+        -> simpl arg 
+      | _  -> Lam.prim ~primitive ~args:[simpl arg] loc
+      end
     | Lprim {primitive; args ; loc} -> 
       Lam.prim ~primitive ~args:(List.map simpl  args) loc
     | Lfunction {arity; kind; params; body = l} ->

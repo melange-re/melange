@@ -39,6 +39,15 @@ external ff :
     int -> (int [@bs.ignore]) -> (int -> int -> int [@bs.uncurry]) -> int 
     = "" [@@bs.val]
 
+external ff1 : 
+    int -> (_ [@bs.as 3 ]) -> (int -> int -> int [@bs.uncurry]) -> int 
+    = "" [@@bs.val]
+
+
+external ff2 : 
+    int -> (_ [@bs.as "3" ]) -> (int -> int -> int [@bs.uncurry]) -> int 
+    = "" [@@bs.val]
+
 
 let f x y z = 
     map2 x y (fun x -> z x)    
@@ -58,7 +67,19 @@ let h2 x  =
 let h3 x = 
     ff x 2 (add3 1 )    
 
+let h4 x = 
+    ff1 x (add3  1)
 
+let h5 x = 
+    ff2 x (add3 2)
+let add x y = 
+    Js.log (x,y) ; 
+    x + y
+
+
+
+let h6 x = 
+    ff2 x add     
 (** used in return value 
     This should fail, we did not 
     support uncurry return value yet
@@ -66,6 +87,8 @@ let h3 x =
 external v3 :
     int -> int -> (int -> int -> int [@bs.uncurry])
     = ""[@@bs.val]
+
+
 (* ^ should be an error instead of warning *)    
 
 
