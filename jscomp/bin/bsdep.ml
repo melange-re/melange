@@ -23701,8 +23701,6 @@ let is_single_int (x : t ) =
       _}] -> Some name
   | _  -> None
 
-
-
 let as_string_exp (x : t ) = 
   match x with  (** TODO also need detect empty phrase case *)
   | PStr [ {
@@ -25361,8 +25359,6 @@ val bs_method : attr
 
 
 val warn_unused_attributes : t -> unit
-
-
 
 end = struct
 #1 "ast_attributes.ml"
