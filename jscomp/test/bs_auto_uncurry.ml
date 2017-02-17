@@ -75,11 +75,24 @@ let h5 x =
 let add x y = 
     Js.log (x,y) ; 
     x + y
-
+let add4 a b c d =
+    Js.log (a,b,c,d) ;
+    a + b + c + d 
 
 
 let h6 x = 
     ff2 x add     
+
+let h7  xs arg0 arg1 arg2 = 
+    let a = map xs  add4  in     
+    let b = map xs (add4 arg0) in 
+    let c = map xs (add4 arg0 arg1) in 
+    let d = map xs (add4 arg0 arg1 arg2) in 
+    let _ = map xs (Js.log arg0; add4 arg0) in 
+    let _ = map xs (Js.log arg0; Js.log arg1; add4 arg0 arg1) in 
+    let _ = map xs (Js.log arg0; Js.log arg1; Js.log arg2 ; add4 arg0 arg1 arg2) in 
+    a,b,c,d
+
 (** used in return value 
     This should fail, we did not 
     support uncurry return value yet

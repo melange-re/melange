@@ -76,8 +76,32 @@ let alpha_conversion (meta : Lam_stats.meta) (lam : Lam.t) : Lam.t =
     | Lprim {primitive = (Lam.Pjs_fn_make len) as primitive ; args = [arg] 
       ; loc } -> 
       begin match Lam_stats_util.get_arity meta arg with       
-      | Determin (b, (x,_)::_, tail) when x = len 
-        -> simpl arg 
+      | Determin (b, (x,_)::_, tail) 
+        -> 
+        (* if we do optimization here, other optimizations 
+          should not change its arity. 
+          For example
+          {[
+             (x) => (y) => x + y 
+          ]}
+          could not be optimized into 
+          {{
+            (x,y) => x + y
+          }}
+         *)
+          if x = len then 
+             simpl arg 
+            else if x > len then 
+               (* fun x -> (fun y -> (f x y))
+                  
+                  ('a -> 'b )
+                  (int -> int -> int ) --> 
+                  return type then will be inferred as 
+                  (int -> int ) aray
+                *)
+                assert false 
+            else (* Pjs_fn_make (fun x y -> (f x) y ) *)
+              assert false
       | _  -> Lam.prim ~primitive ~args:[simpl arg] loc
       end
     | Lprim {primitive; args ; loc} -> 
