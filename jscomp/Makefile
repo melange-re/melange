@@ -239,6 +239,7 @@ DEPENDS_CMXS=$(addprefix depends/, $(addsuffix .cmx, $(DEPENDS_SRCS)))
 CORE_SRCS= type_int_to_string type_util  ocaml_stdlib_slots bs_conditional_initial ocaml_options ocaml_parse\
 	js_op\
 	lam_module_ident\
+	lam_import\
 	lam\
 	lam_print lam_beta_reduce_util lam_inline_util lam_analysis\
 	lam_closure\

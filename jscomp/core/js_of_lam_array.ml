@@ -55,7 +55,7 @@ module E  = Js_exp_make
 
 
 (* Parrayref(u|s) *)
-let make_array mt (kind : Lambda.array_kind) args = 
+let make_array mt (kind : Lam.array_kind) args = 
   match kind with 
   | Pgenarray
   | Paddrarray -> E.arr ~comment:"array" mt args 

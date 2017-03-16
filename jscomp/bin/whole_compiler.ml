@@ -64873,17 +64873,59 @@ module Lam : sig
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type array_kind = Lambda.array_kind
-type boxed_integer = Lambda.boxed_integer
-type comparison = Lambda.comparison 
-type bigarray_kind = Lambda.bigarray_kind
-type bigarray_layout = Lambda.bigarray_layout
-type compile_time_constant = Lambda.compile_time_constant
+type array_kind =
+  | Pgenarray 
+  | Paddrarray 
+  | Pintarray 
+  | Pfloatarray
 
-type tag_info = Lambda.tag_info
+type boxed_integer = 
+  | Pnativeint | Pint32 | Pint64
+
+type comparison = 
+  | Ceq | Cneq | Clt | Cgt | Cle | Cge
+
+type bigarray_kind = 
+  | Pbigarray_unknown
+  | Pbigarray_float32 | Pbigarray_float64
+  | Pbigarray_sint8 | Pbigarray_uint8
+  | Pbigarray_sint16 | Pbigarray_uint16
+  | Pbigarray_int32 | Pbigarray_int64
+  | Pbigarray_caml_int | Pbigarray_native_int
+  | Pbigarray_complex32 | Pbigarray_complex64
+
+type bigarray_layout =
+  | Pbigarray_unknown_layout
+  | Pbigarray_c_layout
+  | Pbigarray_fortran_layout
+
+
+type compile_time_constant = 
+  | Big_endian
+  | Word_size
+  | Ostype_unix
+  | Ostype_win32
+  | Ostype_cygwin
+
+type tag_info = 
+  | Blk_constructor of string * int (* Number of non-const constructors*)
+  | Blk_tuple
+  | Blk_array
+  | Blk_variant of string 
+  | Blk_record of string array (* when its empty means we dont get such information *)
+  | Blk_module of string list option
+  | Blk_na
+
 type mutable_flag = Asttypes.mutable_flag
-type field_dbg_info = Lambda.field_dbg_info 
-type set_field_dbg_info = Lambda.set_field_dbg_info
+
+type field_dbg_info = 
+  | Fld_na
+  | Fld_record of string
+  | Fld_module of string 
+
+type set_field_dbg_info 
+  = Fld_set_na
+  | Fld_record_set of string 
 
 type ident = Ident.t
 
@@ -64937,14 +64979,14 @@ type primitive =
   | Pnegint | Paddint | Psubint | Pmulint | Pdivint | Pmodint
   | Pandint | Porint | Pxorint
   | Plslint | Plsrint | Pasrint
-  | Pintcomp of Lambda.comparison
+  | Pintcomp of comparison
   | Poffsetint of int
   | Poffsetref of int
   | Pintoffloat | Pfloatofint
   | Pnegfloat | Pabsfloat
   | Paddfloat | Psubfloat | Pmulfloat | Pdivfloat
-  | Pfloatcomp of Lambda.comparison
-  | Pjscomp of Lambda.comparison
+  | Pfloatcomp of comparison
+  | Pjscomp of comparison
   | Pjs_apply (*[f;arg0;arg1; arg2; ... argN]*)
   | Pjs_runtime_apply (* [f; [...]] *)
   | Pstringlength 
@@ -65215,22 +65257,64 @@ end = struct
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type array_kind = Lambda.array_kind
-type boxed_integer = Lambda.boxed_integer
-type comparison = Lambda.comparison 
-type bigarray_kind = Lambda.bigarray_kind
-type bigarray_layout = Lambda.bigarray_layout
-type compile_time_constant = Lambda.compile_time_constant
+type array_kind = Lambda.array_kind = 
+  | Pgenarray 
+  | Paddrarray 
+  | Pintarray 
+  | Pfloatarray
+type boxed_integer = Lambda.boxed_integer = 
+  | Pnativeint | Pint32 | Pint64
+type comparison = Lambda.comparison =
+  | Ceq | Cneq | Clt | Cgt | Cle | Cge
 
-type tag_info = Lambda.tag_info
+type bigarray_kind = Lambda.bigarray_kind =
+  | Pbigarray_unknown
+  | Pbigarray_float32 | Pbigarray_float64
+  | Pbigarray_sint8 | Pbigarray_uint8
+  | Pbigarray_sint16 | Pbigarray_uint16
+  | Pbigarray_int32 | Pbigarray_int64
+  | Pbigarray_caml_int | Pbigarray_native_int
+  | Pbigarray_complex32 | Pbigarray_complex64
+
+
+type bigarray_layout = Lambda.bigarray_layout =
+  |Pbigarray_unknown_layout
+  | Pbigarray_c_layout
+  | Pbigarray_fortran_layout
+
+type compile_time_constant = Lambda.compile_time_constant =
+  | Big_endian
+  | Word_size
+  | Ostype_unix
+  | Ostype_win32
+  | Ostype_cygwin
+
+
+type tag_info = Lambda.tag_info =
+  | Blk_constructor of string * int (* Number of non-const constructors*)
+  | Blk_tuple
+  | Blk_array
+  | Blk_variant of string 
+  | Blk_record of string array (* when its empty means we dont get such information *)
+  | Blk_module of string list option
+  | Blk_na
+
 type mutable_flag = Asttypes.mutable_flag
-type field_dbg_info = Lambda.field_dbg_info 
+
+type field_dbg_info = Lambda.field_dbg_info =
+  | Fld_na
+  | Fld_record of string
+  | Fld_module of string 
+
 type set_field_dbg_info = Lambda.set_field_dbg_info
+  = Fld_set_na
+  | Fld_record_set of string 
 
 type ident = Ident.t
 
 type function_arities = 
   | Determin of bool * (int * Ident.t list option) list  * bool
+  (** Those idents are introduced to print typescript [.t.ds] maybe not needed anymore *)
   | NA 
 
 
@@ -66184,7 +66268,7 @@ let staticcatch  a b c : t = Lstaticcatch(a,b,c)
 
 let staticraise a b : t = Lstaticraise(a,b)
 
-let comparison (cmp : Lambda.comparison) a b : bool = 
+let comparison (cmp : comparison) a b : bool = 
   match cmp with 
   | Ceq -> a = b 
   | Cneq -> a <> b 
@@ -68425,7 +68509,7 @@ module Lam_compile_util : sig
 
 (** Some utilities for lambda compilation*)
 
-val jsop_of_comp : Lambda.comparison -> Js_op.binop
+val jsop_of_comp : Lam.comparison -> Js_op.binop
 
 val comment_of_tag_info : Lambda.tag_info -> string option
 
@@ -68466,7 +68550,7 @@ end = struct
 
 
 
-let jsop_of_comp (cmp : Lambda.comparison) : Js_op.binop = 
+let jsop_of_comp (cmp : Lam.comparison) : Js_op.binop = 
   match cmp with 
   | Ceq -> EqEqEq (* comparison*)
   | Cneq -> NotEqEq
@@ -68700,10 +68784,10 @@ val float_div : binary_op
 val float_notequal : binary_op
 val float_mod : binary_op  
 
-val int_comp : Lambda.comparison -> binary_op
+val int_comp : Lam.comparison -> binary_op
 val string_comp : Js_op.binop -> binary_op
-val float_comp :  Lambda.comparison -> binary_op
-val js_comp :  Lambda.comparison -> binary_op
+val float_comp :  Lam.comparison -> binary_op
+val js_comp :  Lam.comparison -> binary_op
 
 
 val not : t -> t
@@ -69796,7 +69880,7 @@ let string_comp cmp ?comment  e0 e1 =
   bool_of_boolean @@ bin ?comment cmp e0 e1
 
 
-let rec int_comp (cmp : Lambda.comparison) ?comment  (e0 : t) (e1 : t) = 
+let rec int_comp (cmp : Lam.comparison) ?comment  (e0 : t) (e1 : t) = 
   match cmp, e0.expression_desc, e1.expression_desc with
   | _, Call ({
       expression_desc = 
@@ -71043,7 +71127,7 @@ let rec struct_const ppf (cst : Lam.constant) =
         List.iter (fun f -> fprintf ppf "@ %s" f) fl in
       fprintf ppf "@[<1>[|@[%s%a@]|]@]" f1 floats fl
 
-let boxed_integer_name (i : Lambda.boxed_integer) =
+let boxed_integer_name (i : Lam.boxed_integer) =
   match i with 
   | Pnativeint -> "nativeint"
   | Pint32 -> "int32"
@@ -71055,7 +71139,7 @@ let print_boxed_integer name ppf bi =
 let print_boxed_integer_conversion ppf bi1 bi2 =
   fprintf ppf "%s_of_%s" (boxed_integer_name bi2) (boxed_integer_name bi1)
 
-let boxed_integer_mark name (i : Lambda.boxed_integer) = 
+let boxed_integer_mark name (i : Lam.boxed_integer) = 
   match i with 
   | Pnativeint -> Printf.sprintf "Nativeint.%s" name
   | Pint32 -> Printf.sprintf "Int32.%s" name
@@ -71064,12 +71148,12 @@ let boxed_integer_mark name (i : Lambda.boxed_integer) =
 let print_boxed_integer name ppf bi =
   fprintf ppf "%s" (boxed_integer_mark name bi);;
 
-let print_bigarray name unsafe (kind : Lambda.bigarray_kind) ppf 
-    (layout : Lambda.bigarray_layout) =
+let print_bigarray name unsafe (kind : Lam.bigarray_kind) ppf 
+    (layout : Lam.bigarray_layout) =
   fprintf ppf "Bigarray.%s[%s,%s]"
     (if unsafe then "unsafe_"^ name else name)
     (match kind with
-     | Lambda.Pbigarray_unknown -> "generic"
+     | Pbigarray_unknown -> "generic"
      | Pbigarray_float32 -> "float32"
      | Pbigarray_float64 -> "float64"
      | Pbigarray_sint8 -> "sint8"
@@ -71083,7 +71167,7 @@ let print_bigarray name unsafe (kind : Lambda.bigarray_kind) ppf
      | Pbigarray_complex32 -> "complex32"
      | Pbigarray_complex64 -> "complex64")
     (match layout with
-     | Lambda.Pbigarray_unknown_layout -> "unknown"
+     | Pbigarray_unknown_layout -> "unknown"
      | Pbigarray_c_layout -> "C"
      | Pbigarray_fortran_layout -> "Fortran")
 
@@ -88070,7 +88154,8 @@ module Js_of_lam_array : sig
 
 (** Utilities for creating Array of JS IR *)
 
-val make_array : J.mutable_flag -> Lambda.array_kind -> J.expression list -> J.expression
+val make_array : 
+  J.mutable_flag -> Lam.array_kind -> J.expression list -> J.expression
 (** create an array *)
 
 val set_array : J.expression -> J.expression -> J.expression -> J.expression
@@ -88139,7 +88224,7 @@ module E  = Js_exp_make
 
 
 (* Parrayref(u|s) *)
-let make_array mt (kind : Lambda.array_kind) args = 
+let make_array mt (kind : Lam.array_kind) args = 
   match kind with 
   | Pgenarray
   | Paddrarray -> E.arr ~comment:"array" mt args 
@@ -89291,7 +89376,7 @@ val of_const : int64 -> J.expression
 val to_int32 : int64_call
 
 val of_int32 : int64_call
-val comp : Lambda.comparison -> int64_call
+val comp : Lam.comparison -> int64_call
 val neg : int64_call
 val add : int64_call
 val sub : int64_call
@@ -89399,7 +89484,7 @@ let of_int32 (args : J.expression list) =
     else make_const ~lo:i ~hi:0l
   | _ -> int64_call  "of_int32" args
 
-let comp (cmp : Lambda.comparison) args = 
+let comp (cmp : Lam.comparison) args = 
   E.runtime_call  Js_config.int64
     (match cmp with 
      | Ceq -> "eq"
@@ -92251,7 +92336,7 @@ let translate  loc
         E.float_minus   e1  e2
       | _ -> assert false 
     end
-  | Pmulbint Lambda.Pnativeint
+  | Pmulbint Pnativeint
     -> 
     begin match args with
       | [e1; e2]  ->
@@ -92260,7 +92345,7 @@ let translate  loc
     end
 
   | Pmulint 
-  | Pmulbint Lambda.Pint32
+  | Pmulbint Pint32
     ->
     begin match args with
       | [e1; e2]  ->
@@ -92309,20 +92394,20 @@ let translate  loc
         E.int32_mod   ~checked:(!Js_config.check_div_by_zero) e1  e2
       | _ -> assert false 
     end
-  | Pmodbint Lambda.Pint64 
+  | Pmodbint Pint64 
     -> Js_long.mod_ args  
   | Plslint 
-  | Plslbint Lambda.Pnativeint
-  | Plslbint Lambda.Pint32
+  | Plslbint Pnativeint
+  | Plslbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_lsl e1  e2
       | _ -> assert false 
     end
-  | Plslbint Lambda.Pint64 
+  | Plslbint Pint64 
     -> Js_long.lsl_ args
-  | Plsrbint Lambda.Pnativeint
+  | Plsrbint Pnativeint
     -> 
     begin match args with
       | [e1; e2] ->
@@ -92330,7 +92415,7 @@ let translate  loc
       | _ -> assert false
     end
   | Plsrint 
-  | Plsrbint Lambda.Pint32
+  | Plsrbint Pint32
     ->
     begin match args with
       | [e1; {J.expression_desc = Number (Int {i=0l; _}|Uint 0l | Nint 0n); _}]
@@ -92340,51 +92425,51 @@ let translate  loc
         E.to_int32 @@ E.int32_lsr   e1  e2
       | _ -> assert false
     end
-  | Plsrbint Lambda.Pint64
+  | Plsrbint Pint64
     -> Js_long.lsr_ args
   | Pasrint 
-  | Pasrbint Lambda.Pnativeint
-  | Pasrbint Lambda.Pint32
+  | Pasrbint Pnativeint
+  | Pasrbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_asr  e1  e2
       | _ -> assert false
     end
-  | Pasrbint Lambda.Pint64 
+  | Pasrbint Pint64 
     -> Js_long.asr_ args      
   | Pandint 
-  | Pandbint Lambda.Pnativeint
-  | Pandbint Lambda.Pint32
+  | Pandbint Pnativeint
+  | Pandbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_band  e1  e2
       | _ -> assert false
     end
-  | Pandbint Lambda.Pint64
+  | Pandbint Pint64
     -> Js_long.and_ args
   | Porint 
-  | Porbint Lambda.Pnativeint
-  | Porbint Lambda.Pint32
+  | Porbint Pnativeint
+  | Porbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_bor  e1  e2
       | _ -> assert false
     end
-  | Porbint Lambda.Pint64 
+  | Porbint Pint64 
     -> Js_long.or_ args
   | Pxorint 
-  | Pxorbint Lambda.Pnativeint
-  | Pxorbint Lambda.Pint32 
+  | Pxorbint Pnativeint
+  | Pxorbint Pint32 
     -> 
     begin match args with
       | [e1;e2] ->
         E.int32_bxor  e1  e2
       | _ -> assert false
     end
-  | Pxorbint Lambda.Pint64 
+  | Pxorbint Pint64 
     ->
     Js_long.xor args    
   | Pjscomp cmp ->
@@ -92720,11 +92805,11 @@ let translate  loc
   | Pbswap16 
     -> 
     E.runtime_call Js_config.int32 "caml_bswap16" args
-  | Pbbswap Lambda.Pnativeint
-  | Pbbswap Lambda.Pint32
+  | Pbbswap Pnativeint
+  | Pbbswap Pint32
     -> 
     E.runtime_call Js_config.int32 "caml_int32_bswap" args
-  | Pbbswap Lambda.Pint64
+  | Pbbswap Pint64
     -> Js_long.swap args 
   | Pstring_load_16 unsafe
     -> E.runtime_call Js_config.string "caml_string_get16" args

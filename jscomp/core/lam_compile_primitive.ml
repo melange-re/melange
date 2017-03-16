@@ -286,7 +286,7 @@ let translate  loc
         E.float_minus   e1  e2
       | _ -> assert false 
     end
-  | Pmulbint Lambda.Pnativeint
+  | Pmulbint Pnativeint
     -> 
     begin match args with
       | [e1; e2]  ->
@@ -295,7 +295,7 @@ let translate  loc
     end
 
   | Pmulint 
-  | Pmulbint Lambda.Pint32
+  | Pmulbint Pint32
     ->
     begin match args with
       | [e1; e2]  ->
@@ -344,20 +344,20 @@ let translate  loc
         E.int32_mod   ~checked:(!Js_config.check_div_by_zero) e1  e2
       | _ -> assert false 
     end
-  | Pmodbint Lambda.Pint64 
+  | Pmodbint Pint64 
     -> Js_long.mod_ args  
   | Plslint 
-  | Plslbint Lambda.Pnativeint
-  | Plslbint Lambda.Pint32
+  | Plslbint Pnativeint
+  | Plslbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_lsl e1  e2
       | _ -> assert false 
     end
-  | Plslbint Lambda.Pint64 
+  | Plslbint Pint64 
     -> Js_long.lsl_ args
-  | Plsrbint Lambda.Pnativeint
+  | Plsrbint Pnativeint
     -> 
     begin match args with
       | [e1; e2] ->
@@ -365,7 +365,7 @@ let translate  loc
       | _ -> assert false
     end
   | Plsrint 
-  | Plsrbint Lambda.Pint32
+  | Plsrbint Pint32
     ->
     begin match args with
       | [e1; {J.expression_desc = Number (Int {i=0l; _}|Uint 0l | Nint 0n); _}]
@@ -375,51 +375,51 @@ let translate  loc
         E.to_int32 @@ E.int32_lsr   e1  e2
       | _ -> assert false
     end
-  | Plsrbint Lambda.Pint64
+  | Plsrbint Pint64
     -> Js_long.lsr_ args
   | Pasrint 
-  | Pasrbint Lambda.Pnativeint
-  | Pasrbint Lambda.Pint32
+  | Pasrbint Pnativeint
+  | Pasrbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_asr  e1  e2
       | _ -> assert false
     end
-  | Pasrbint Lambda.Pint64 
+  | Pasrbint Pint64 
     -> Js_long.asr_ args      
   | Pandint 
-  | Pandbint Lambda.Pnativeint
-  | Pandbint Lambda.Pint32
+  | Pandbint Pnativeint
+  | Pandbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_band  e1  e2
       | _ -> assert false
     end
-  | Pandbint Lambda.Pint64
+  | Pandbint Pint64
     -> Js_long.and_ args
   | Porint 
-  | Porbint Lambda.Pnativeint
-  | Porbint Lambda.Pint32
+  | Porbint Pnativeint
+  | Porbint Pint32
     ->
     begin match args with
       | [e1;e2] ->
         E.int32_bor  e1  e2
       | _ -> assert false
     end
-  | Porbint Lambda.Pint64 
+  | Porbint Pint64 
     -> Js_long.or_ args
   | Pxorint 
-  | Pxorbint Lambda.Pnativeint
-  | Pxorbint Lambda.Pint32 
+  | Pxorbint Pnativeint
+  | Pxorbint Pint32 
     -> 
     begin match args with
       | [e1;e2] ->
         E.int32_bxor  e1  e2
       | _ -> assert false
     end
-  | Pxorbint Lambda.Pint64 
+  | Pxorbint Pint64 
     ->
     Js_long.xor args    
   | Pjscomp cmp ->
@@ -755,11 +755,11 @@ let translate  loc
   | Pbswap16 
     -> 
     E.runtime_call Js_config.int32 "caml_bswap16" args
-  | Pbbswap Lambda.Pnativeint
-  | Pbbswap Lambda.Pint32
+  | Pbbswap Pnativeint
+  | Pbbswap Pint32
     -> 
     E.runtime_call Js_config.int32 "caml_int32_bswap" args
-  | Pbbswap Lambda.Pint64
+  | Pbbswap Pint64
     -> Js_long.swap args 
   | Pstring_load_16 unsafe
     -> E.runtime_call Js_config.string "caml_string_get16" args

@@ -994,7 +994,7 @@ let string_comp cmp ?comment  e0 e1 =
   bool_of_boolean @@ bin ?comment cmp e0 e1
 
 
-let rec int_comp (cmp : Lambda.comparison) ?comment  (e0 : t) (e1 : t) = 
+let rec int_comp (cmp : Lam.comparison) ?comment  (e0 : t) (e1 : t) = 
   match cmp, e0.expression_desc, e1.expression_desc with
   | _, Call ({
       expression_desc = 

@@ -31,7 +31,7 @@
 
 
 
-let jsop_of_comp (cmp : Lambda.comparison) : Js_op.binop = 
+let jsop_of_comp (cmp : Lam.comparison) : Js_op.binop = 
   match cmp with 
   | Ceq -> EqEqEq (* comparison*)
   | Cneq -> NotEqEq
@@ -40,7 +40,7 @@ let jsop_of_comp (cmp : Lambda.comparison) : Js_op.binop =
   | Cle -> Le 
   | Cge  -> Ge
 
-let comment_of_tag_info  (x : Lambda.tag_info) = 
+let comment_of_tag_info  (x : Lam.tag_info) = 
   match x with 
   | Blk_constructor (n, _) -> Some n 
   | Blk_tuple -> Some "tuple"
@@ -52,9 +52,9 @@ let comment_of_tag_info  (x : Lambda.tag_info) =
      (* Turn it on next time to save some noise diff*)
     Some "module"
   | Blk_na -> None 
-let comment_of_pointer_info (x :  Lambda.pointer_info)= 
+let comment_of_pointer_info (x :  Lam.pointer_info)= 
   match x with 
   | Pt_constructor x -> Some x 
   | Pt_variant x -> Some x 
-  | Lambda.Pt_module_alias -> None (* FIXME *)
+  | Pt_module_alias -> None (* FIXME *)
   | Pt_na -> None

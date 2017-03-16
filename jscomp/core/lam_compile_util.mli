@@ -32,8 +32,8 @@
 
 (** Some utilities for lambda compilation*)
 
-val jsop_of_comp : Lambda.comparison -> Js_op.binop
+val jsop_of_comp : Lam.comparison -> Js_op.binop
 
-val comment_of_tag_info : Lambda.tag_info -> string option
+val comment_of_tag_info : Lam.tag_info -> string option
 
-val comment_of_pointer_info : Lambda.pointer_info -> string option
+val comment_of_pointer_info : Lam.pointer_info -> string option

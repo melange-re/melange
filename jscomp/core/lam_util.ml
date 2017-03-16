@@ -250,7 +250,7 @@ let field_flatten_get
    lam v i (tbl : Lam_stats.kind Ident_hashtbl.t) : Lam.t =
   match Ident_hashtbl.find_opt tbl v  with 
   | Some (Module g) -> 
-    Lam.prim ~primitive:(Pfield (i, Lambda.Fld_na)) 
+    Lam.prim ~primitive:(Pfield (i, Lam.Fld_na)) 
       ~args:[ Lam.global_module g ] Location.none
   | Some (ImmutableBlock (arr, _)) -> 
     begin match arr.(i) with 

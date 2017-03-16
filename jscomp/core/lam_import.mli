@@ -22,41 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-type int64_call = J.expression list -> J.expression  
-
-val make_const : lo:Int32.t -> hi:Int32.t -> J.expression
-
-val of_const : int64 -> J.expression
-
-val to_int32 : int64_call
-
-val of_int32 : int64_call
-val comp : Lam.comparison -> int64_call
-val neg : int64_call
-val add : int64_call
-val sub : int64_call
-val mul : int64_call
-val div : int64_call
-val xor : int64_call
-val mod_ : int64_call
-val lsl_ : int64_call
-val lsr_ : int64_call
-val asr_ : int64_call
-val and_ : int64_call
-val or_ : int64_call
-val swap : int64_call
-val discard_sign : int64_call
-val div_mod : int64_call
-val to_hex : int64_call  
-val to_float : int64_call
-val of_float : int64_call
-val compare : int64_call
-val of_string : int64_call
-val float_of_bits : int64_call
-val bits_of_float : int64_call  
-val get64 : int64_call
+type tag_info =
+  | Blk_constructor of string * int (* Number of non-const constructors*)
+  | Blk_tuple
+  | Blk_array
+  | Blk_variant of string 
+  | Blk_record of string array (* when its empty means we dont get such information *)
+  | Blk_module of string list option
+  | Blk_na

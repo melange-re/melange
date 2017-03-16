@@ -22,17 +22,59 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type array_kind = Lambda.array_kind
-type boxed_integer = Lambda.boxed_integer
-type comparison = Lambda.comparison 
-type bigarray_kind = Lambda.bigarray_kind
-type bigarray_layout = Lambda.bigarray_layout
-type compile_time_constant = Lambda.compile_time_constant
+type array_kind =
+  | Pgenarray 
+  | Paddrarray 
+  | Pintarray 
+  | Pfloatarray
 
-type tag_info = Lambda.tag_info
+type boxed_integer = 
+  | Pnativeint | Pint32 | Pint64
+
+type comparison = 
+  | Ceq | Cneq | Clt | Cgt | Cle | Cge
+
+type bigarray_kind = 
+  | Pbigarray_unknown
+  | Pbigarray_float32 | Pbigarray_float64
+  | Pbigarray_sint8 | Pbigarray_uint8
+  | Pbigarray_sint16 | Pbigarray_uint16
+  | Pbigarray_int32 | Pbigarray_int64
+  | Pbigarray_caml_int | Pbigarray_native_int
+  | Pbigarray_complex32 | Pbigarray_complex64
+
+type bigarray_layout =
+  | Pbigarray_unknown_layout
+  | Pbigarray_c_layout
+  | Pbigarray_fortran_layout
+
+
+type compile_time_constant = 
+  | Big_endian
+  | Word_size
+  | Ostype_unix
+  | Ostype_win32
+  | Ostype_cygwin
+
+type tag_info = 
+  | Blk_constructor of string * int (* Number of non-const constructors*)
+  | Blk_tuple
+  | Blk_array
+  | Blk_variant of string 
+  | Blk_record of string array (* when its empty means we dont get such information *)
+  | Blk_module of string list option
+  | Blk_na
+
 type mutable_flag = Asttypes.mutable_flag
-type field_dbg_info = Lambda.field_dbg_info 
-type set_field_dbg_info = Lambda.set_field_dbg_info
+
+type field_dbg_info = 
+  | Fld_na
+  | Fld_record of string
+  | Fld_module of string 
+
+type set_field_dbg_info 
+  = Fld_set_na
+  | Fld_record_set of string 
 
 type ident = Ident.t
 
@@ -46,6 +88,12 @@ type function_arities =
    *)
   | NA 
 
+type pointer_info
+  = Pt_constructor of string
+  | Pt_variant of string 
+  | Pt_module_alias
+  | Pt_na
+
 type constant = 
   | Const_int of int
   | Const_char of char
@@ -55,8 +103,8 @@ type constant =
   | Const_int32 of int32
   | Const_int64 of int64
   | Const_nativeint of nativeint
-  | Const_pointer of int * Lambda.pointer_info
-  | Const_block of int * Lambda.tag_info * constant list
+  | Const_pointer of int * pointer_info
+  | Const_block of int * tag_info * constant list
   | Const_float_array of string list
   | Const_immstring of string
 
@@ -64,11 +112,11 @@ type primitive =
   | Pbytes_to_string
   | Pbytes_of_string
   | Pglobal_exception of ident 
-  | Pmakeblock of int * Lambda.tag_info * Asttypes.mutable_flag
-  | Pfield of int * Lambda.field_dbg_info
-  | Psetfield of int * bool * Lambda.set_field_dbg_info
-  | Pfloatfield of int * Lambda.field_dbg_info
-  | Psetfloatfield of int * Lambda.set_field_dbg_info
+  | Pmakeblock of int * tag_info * Asttypes.mutable_flag
+  | Pfield of int * field_dbg_info
+  | Psetfield of int * bool * set_field_dbg_info
+  | Pfloatfield of int * field_dbg_info
+  | Psetfloatfield of int * set_field_dbg_info
   | Pduprecord of Types.record_representation * int
   | Plazyforce
 
@@ -86,14 +134,14 @@ type primitive =
   | Pnegint | Paddint | Psubint | Pmulint | Pdivint | Pmodint
   | Pandint | Porint | Pxorint
   | Plslint | Plsrint | Pasrint
-  | Pintcomp of Lambda.comparison
+  | Pintcomp of comparison
   | Poffsetint of int
   | Poffsetref of int
   | Pintoffloat | Pfloatofint
   | Pnegfloat | Pabsfloat
   | Paddfloat | Psubfloat | Pmulfloat | Pdivfloat
-  | Pfloatcomp of Lambda.comparison
-  | Pjscomp of Lambda.comparison
+  | Pfloatcomp of comparison
+  | Pjscomp of comparison
   | Pjs_apply (*[f;arg0;arg1; arg2; ... argN]*)
   | Pjs_runtime_apply (* [f; [...]] *)
   | Pstringlength 

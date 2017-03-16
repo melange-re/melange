@@ -22,24 +22,66 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type array_kind = Lambda.array_kind
-type boxed_integer = Lambda.boxed_integer
-type comparison = Lambda.comparison 
-type bigarray_kind = Lambda.bigarray_kind
-type bigarray_layout = Lambda.bigarray_layout
-type compile_time_constant = Lambda.compile_time_constant
+type array_kind = Lambda.array_kind = 
+  | Pgenarray 
+  | Paddrarray 
+  | Pintarray 
+  | Pfloatarray
+type boxed_integer = Lambda.boxed_integer = 
+  | Pnativeint | Pint32 | Pint64
+type comparison = Lambda.comparison =
+  | Ceq | Cneq | Clt | Cgt | Cle | Cge
 
-type tag_info = Lambda.tag_info
+type bigarray_kind = Lambda.bigarray_kind =
+  | Pbigarray_unknown
+  | Pbigarray_float32 | Pbigarray_float64
+  | Pbigarray_sint8 | Pbigarray_uint8
+  | Pbigarray_sint16 | Pbigarray_uint16
+  | Pbigarray_int32 | Pbigarray_int64
+  | Pbigarray_caml_int | Pbigarray_native_int
+  | Pbigarray_complex32 | Pbigarray_complex64
+
+
+type bigarray_layout = Lambda.bigarray_layout =
+  |Pbigarray_unknown_layout
+  | Pbigarray_c_layout
+  | Pbigarray_fortran_layout
+
+type compile_time_constant = Lambda.compile_time_constant =
+  | Big_endian
+  | Word_size
+  | Ostype_unix
+  | Ostype_win32
+  | Ostype_cygwin
+
+
+type tag_info = Lam_import.tag_info
+
 type mutable_flag = Asttypes.mutable_flag
-type field_dbg_info = Lambda.field_dbg_info 
+
+type field_dbg_info = Lambda.field_dbg_info =
+  | Fld_na
+  | Fld_record of string
+  | Fld_module of string 
+
 type set_field_dbg_info = Lambda.set_field_dbg_info
+  = Fld_set_na
+  | Fld_record_set of string 
 
 type ident = Ident.t
 
 type function_arities = 
   | Determin of bool * (int * Ident.t list option) list  * bool
+  (** Those idents are introduced to print typescript [.t.ds] maybe not needed anymore *)
   | NA 
 
+type pointer_info = Lambda.pointer_info
+  = Pt_constructor of string
+  | Pt_variant of string 
+  | Pt_module_alias
+  | Pt_na
+
+type module_id = { id : Ident.t; kind  : kind}
 
 type constant = 
   | Const_int of int
@@ -50,8 +92,8 @@ type constant =
   | Const_int32 of int32
   | Const_int64 of int64
   | Const_nativeint of nativeint
-  | Const_pointer of int * Lambda.pointer_info
-  | Const_block of int * Lambda.tag_info * constant list
+  | Const_pointer of int * pointer_info
+  | Const_block of int * tag_info * constant list
   | Const_float_array of string list
   | Const_immstring of string
 
@@ -991,7 +1033,7 @@ let staticcatch  a b c : t = Lstaticcatch(a,b,c)
 
 let staticraise a b : t = Lstaticraise(a,b)
 
-let comparison (cmp : Lambda.comparison) a b : bool = 
+let comparison (cmp : comparison) a b : bool = 
   match cmp with 
   | Ceq -> a = b 
   | Cneq -> a <> b 
