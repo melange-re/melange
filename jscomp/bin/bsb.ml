@@ -5949,7 +5949,12 @@ val string_of_bsb_dev_include : int -> string
 
 val resolve_bsb_magic_file : cwd:string -> desc:string -> string -> string
 
-val walk_all_deps : string -> (bool -> string -> unit) -> unit
+type package_context = {
+  cwd : string ; 
+  top : bool ; 
+}
+
+val walk_all_deps : string -> (package_context -> unit) -> unit
 
 end = struct
 #1 "bsb_build_util.ml"
@@ -6048,7 +6053,8 @@ let get_bsc_bsdep cwd =
 
 (** 
 {[
-mkp "a/b/c/d"
+mkp "a/b/c/d";;
+mkp "/a/b/c/d"
 ]}
 *)
 let rec mkp dir = 
@@ -6092,6 +6098,10 @@ let string_of_bsb_dev_include i =
 let (|?)  m (key, cb) =
   m  |> Ext_json.test key cb
 
+type package_context = {
+  cwd : string ; 
+  top : bool ; 
+}
 
 (**
   TODO: check duplicate package name
@@ -6105,16 +6115,7 @@ let (|?)  m (key, cb) =
 *)
 let rec walk_all_deps_aux visited paths top dir cb =
   let bsconfig_json =  (dir // Literals.bsconfig_json) in
-
-  match Ext_json_parse.parse_json_from_file bsconfig_json with
-  | Obj {map; loc} ->
-    let cur_package_name = 
-      match String_map.find_opt Bsb_build_schemas.name map  with 
-      | Some (Str {str }) -> str
-      | Some _ 
-      | None -> Bsb_exception.failf  "package name missing in %s/bsconfig.json" dir 
-    in 
-
+  let (+>) cur_package_name paths = 
     if List.mem cur_package_name paths then 
       begin 
       Format.fprintf Format.err_formatter "@{<error>Cylic dependency@} %a @." 
@@ -6122,46 +6123,51 @@ let rec walk_all_deps_aux visited paths top dir cb =
         (cur_package_name :: paths);
       exit 2 ;
       end
-    ;
-    let paths =  cur_package_name :: paths in 
-    map
-    |?
-    (Bsb_build_schemas.bs_dependencies,
-      `Arr (fun (new_packages : Ext_json_types.t array) ->
-         new_packages
-         |> Array.iter (fun (js : Ext_json_types.t) ->
-             begin match js with
-               | Str {str = new_package} ->
-                 begin match String_hashtbl.find_opt visited new_package with 
-                   | None -> 
-                     begin match Bsb_pkg.resolve_bs_package ~cwd:dir new_package with
-                       | None -> 
-                         Bsb_exception.error (Bsb_exception.Package_not_found 
-                                                (new_package, Some bsconfig_json))
-                       | Some package_dir  ->
-                         Format.fprintf 
-                           Format.std_formatter "@{<info>Walking@} deps %s in %s from %s@."
-                           new_package
-                           package_dir
-                           cur_package_name;
+    else cur_package_name :: paths 
+  in 
+  match Ext_json_parse.parse_json_from_file bsconfig_json with
+  | Obj {map; loc} ->
+    let cur_package_name = 
+      match String_map.find_opt Bsb_build_schemas.name map  with 
+      | Some (Str {str }) -> str
+      | Some _ 
+      | None -> Bsb_exception.failf ~loc "package name missing in %s/bsconfig.json" dir 
+    in 
+    if String_hashtbl.mem visited cur_package_name then 
+      Format.fprintf Format.std_formatter
+        "@{<info>Already visited@} %s@." cur_package_name
+    else 
+      map
+      |?
+      (Bsb_build_schemas.bs_dependencies,
+       `Arr (fun (new_packages : Ext_json_types.t array) ->
+           new_packages
+           |> Array.iter (fun (js : Ext_json_types.t) ->
+               begin match js with
+                 | Str {str = new_package} ->
+                   begin match Bsb_pkg.resolve_bs_package ~cwd:dir new_package with
+                     | None -> 
+                       Bsb_exception.error (Bsb_exception.Package_not_found 
+                                              (new_package, Some bsconfig_json))
+                     | Some package_dir  ->
+                       Format.fprintf 
+                         Format.std_formatter "@{<info>Walking@} deps %s in %s from %s@."
+                         new_package
+                         package_dir
+                         cur_package_name;
 
-                         walk_all_deps_aux visited paths  false package_dir cb  ;
-                     end
-                   | Some _ -> 
-                     Format.fprintf Format.std_formatter
-                       "@{<info>Already visited@} %s@." new_package;
-                     (*FIXME: Note that here it is fine to  avoid revisiting such package, however, 
-                       it is ninja file should point package to the correct path
-                     *)
-                 end
-               | _ -> 
-                 Bsb_exception.(failf ~loc 
-                                  "%s expect an array"
-                                  Bsb_build_schemas.bs_dependencies)
-             end
-           )))
-    |> ignore ;
-    cb top dir;
+                       walk_all_deps_aux visited (cur_package_name +> paths)  false package_dir cb  ;
+                   end
+
+
+                 | _ -> 
+                   Bsb_exception.(failf ~loc 
+                                    "%s expect an array"
+                                    Bsb_build_schemas.bs_dependencies)
+               end
+             )))
+      |> ignore ;
+    cb {top ; cwd = dir};
     String_hashtbl.add visited cur_package_name dir;
   | _ -> ()
   | exception _ -> failwith ( "failed to parse" ^ bsconfig_json ^ " properly")
@@ -7368,6 +7374,7 @@ val get_current_number_of_dev_groups : unit -> int
     [sources] in the schema
 *)
 val parsing_sources : 
+  bool -> 
   dir_index -> 
   string -> 
   Ext_json_types.t  ->
@@ -7521,24 +7528,24 @@ let (++) (u : t)  (v : t)  =
 
 (** [dir_index] can be inherited  *)
 let rec 
-  parsing_simple_dir dir_index  cwd dir =
-  if !Bsb_config.no_dev && dir_index <> lib_dir_index then empty 
-  else parsing_source_dir_map dir_index 
+  parsing_simple_dir no_dev dir_index  cwd dir =
+  if no_dev && dir_index <> lib_dir_index then empty 
+  else parsing_source_dir_map no_dev dir_index 
       (cwd // Ext_filename.simple_convert_node_path_to_os_path dir) 
       String_map.empty
 
-and parsing_source (dir_index : int) cwd (x : Ext_json_types.t )
+and parsing_source no_dev (dir_index : int) cwd (x : Ext_json_types.t )
   : t  =
   match x with 
   | Str  { str = dir }  -> 
-    parsing_simple_dir dir_index cwd dir   
+    parsing_simple_dir no_dev dir_index cwd dir   
   | Obj {map} ->
     let current_dir_index = 
       match String_map.find_opt Bsb_build_schemas.type_ map with 
       | Some (Str {str="dev"}) -> get_dev_index ()
       | Some _ -> Bsb_exception.failwith_config x {|type field expect "dev" literal |}
       | None -> dir_index in 
-    if !Bsb_config.no_dev && current_dir_index <> lib_dir_index then empty 
+    if no_dev && current_dir_index <> lib_dir_index then empty 
     else 
       let dir = 
         match String_map.find_opt Bsb_build_schemas.dir map with 
@@ -7551,10 +7558,10 @@ and parsing_source (dir_index : int) cwd (x : Ext_json_types.t )
           {|required field %s  missing, please checkout the schema http://bloomberg.github.io/bucklescript/docson/#build-schema.json |} "dir"
       in
 
-      parsing_source_dir_map current_dir_index dir map
+      parsing_source_dir_map no_dev current_dir_index dir map
   | _ -> empty 
 
-and parsing_source_dir_map current_dir_index dir (x : Ext_json_types.t String_map.t) = 
+and parsing_source_dir_map no_dev current_dir_index dir (x : Ext_json_types.t String_map.t) = 
   let cur_sources = ref String_map.empty in
   let resources = ref [] in 
   let bs_dependencies = ref [] in
@@ -7644,7 +7651,7 @@ and parsing_source_dir_map current_dir_index dir (x : Ext_json_types.t String_ma
     let children, children_update_queue, children_globbed_dirs = 
       match String_map.find_opt Bsb_build_schemas.subdirs x with 
       | Some s -> 
-        let res  = parsing_sources current_dir_index dir s in 
+        let res  = parsing_sources no_dev current_dir_index dir s in 
         res.files ,
         res.intervals,
         res.globbed_dirs
@@ -7660,16 +7667,16 @@ and parsing_source_dir_map current_dir_index dir (x : Ext_json_types.t String_ma
    parsing_source dir_index cwd (String_map.singleton Bsb_build_schemas.dir dir)
 *)
 
-and  parsing_arr_sources dir_index cwd (file_groups : Ext_json_types.t array)  = 
+and  parsing_arr_sources no_dev dir_index cwd (file_groups : Ext_json_types.t array)  = 
   Array.fold_left (fun  origin x ->
-      parsing_source dir_index cwd x ++ origin 
+      parsing_source no_dev dir_index cwd x ++ origin 
     ) empty  file_groups 
 
-and  parsing_sources dir_index cwd (sources : Ext_json_types.t )  = 
+and  parsing_sources no_dev dir_index cwd (sources : Ext_json_types.t )  = 
   match sources with   
   | Arr file_groups -> 
-    parsing_arr_sources dir_index cwd file_groups.content
-  | _ -> parsing_source dir_index cwd sources
+    parsing_arr_sources no_dev dir_index cwd file_groups.content
+  | _ -> parsing_source no_dev dir_index cwd sources
 
 
 
@@ -8071,6 +8078,8 @@ val refmt_flags : string list
 
 val package_specs : String_set.t
 
+val main_entries : Bsb_config_types.entries_t list
+
 end = struct
 #1 "bsb_default.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -8133,6 +8142,8 @@ let refmt_flags = ["--print"; "binary"]
 
 let package_specs = String_set.singleton Literals.commonjs
 
+let main_entries = [Bsb_config_types.JsTarget "Index"]
+
 end
 module Bsb_config_parse : sig 
 #1 "bsb_config_parse.mli"
@@ -8165,12 +8176,15 @@ val package_specs_from_bsconfig :
 
 
 val merlin_file_gen : 
-    (string * string) -> Bsb_config_types.t -> unit    
+  cwd:string -> 
+  (string * string) -> Bsb_config_types.t -> unit    
 
 
 val interpret_json : 
     override_package_specs:Bsb_config.package_specs option -> 
     bsc_dir:string -> 
+    generate_watch_metadata:bool -> 
+    no_dev:bool -> 
     string -> 
     Bsb_config_types.t
 
@@ -8289,7 +8303,7 @@ let package_specs_from_bsconfig () =
 
 
 (** [new_content] should start end finish with newline *)
-let revise_merlin new_content =
+let revise_merlin merlin new_content =
   if Sys.file_exists merlin then
     let merlin_chan = open_in_bin merlin in
     let size = in_channel_length merlin_chan in
@@ -8336,7 +8350,7 @@ let merlin_b = "\nB "
 
 
 let merlin_flg = "\nFLG "
-let merlin_file_gen 
+let merlin_file_gen ~cwd
     (built_in_ppx, reactjs_jsx_ppx)
     ({bs_file_groups = res_files ; 
       generate_merlin;
@@ -8403,7 +8417,7 @@ let merlin_file_gen
         Buffer.add_string buffer (Bsb_config.lib_bs//x.dir) ;
       ) ;
     Buffer.add_string buffer "\n";
-    revise_merlin buffer 
+    revise_merlin (cwd // merlin) buffer 
   end
 
 
@@ -8414,9 +8428,8 @@ let merlin_file_gen
 
 
 
-let generate_sourcedirs_meta (res : Bsb_build_ui.t) = 
-  let builddir = Bsb_config.lib_bs in 
-  let ochan = open_out_bin (builddir // sourcedirs_meta) in
+let generate_sourcedirs_meta cwd (res : Bsb_build_ui.t) = 
+  let ochan = open_out_bin (cwd // Bsb_config.lib_bs // sourcedirs_meta) in
   res.files |> List.iter
     (fun (x : Bsb_build_ui.file_group) ->
        output_string ochan x.dir; (* to [.sourcedirs] *)
@@ -8425,19 +8438,19 @@ let generate_sourcedirs_meta (res : Bsb_build_ui.t) =
   close_out ochan
 
 
+(** ATT: make sure such function is re-entrant. 
+    With a given [cwd] it works anywhere*)
 let interpret_json 
     ~override_package_specs
     ~bsc_dir 
+    ~generate_watch_metadata
+    ~no_dev 
     cwd  
 
   : Bsb_config_types.t =
-  let builddir = Bsb_config.lib_bs in
-  let () = Bsb_build_util.mkp builddir in
   
   let reason_react_jsx = ref false in 
-
-  let config_json_chan = open_in_bin Literals.bsconfig_json in
-  let global_data = Ext_json_parse.parse_json_from_chan config_json_chan  in
+  let config_json = (cwd // Literals.bsconfig_json) in
   let ocamllex = ref Bsb_default.ocamllex in 
   let refmt = ref None in
   let refmt_flags = ref Bsb_default.refmt_flags in
@@ -8463,11 +8476,13 @@ let interpret_json
      1. if [build.ninja] does use [ninja] we need set a variable
      2. we need store it so that we can call ninja correctly
   *)
-  let entries = ref [Bsb_config_types.JsTarget "Index"] in
+  let entries = ref Bsb_default.main_entries in
 
+  let config_json_chan = open_in_bin config_json  in
+  let global_data = Ext_json_parse.parse_json_from_chan config_json_chan  in
   match global_data with
   | Obj { map} ->
-
+    (* The default situation is empty *)
     (match String_map.find_opt Bsb_build_schemas.use_stdlib map with      
      | Some (False _) -> 
        ()
@@ -8515,22 +8530,24 @@ let interpret_json
     |> ignore ;
     begin match String_map.find_opt Bsb_build_schemas.sources map with 
       | Some x -> 
-        let res = Bsb_build_ui.parsing_sources
+        let res = Bsb_build_ui.parsing_sources no_dev
             Bsb_build_ui.lib_dir_index
-            Filename.current_dir_name x in 
-        generate_sourcedirs_meta res ;     
+            cwd x in 
+        if generate_watch_metadata then
+          generate_sourcedirs_meta cwd res ;     
         begin match List.sort Ext_file_pp.interval_compare  res.intervals with
           | [] -> ()
           | queue ->
             let file_size = in_channel_length config_json_chan in
-            let oc = open_out_bin config_file_bak in
+            let output_file = (cwd //config_file_bak) in 
+            let oc = open_out_bin output_file in
             let () =
               Ext_file_pp.process_wholes
                 queue file_size config_json_chan oc in
             close_out oc ;
             close_in config_json_chan ;
-            Unix.unlink Literals.bsconfig_json;
-            Unix.rename config_file_bak Literals.bsconfig_json
+            Unix.unlink config_json;
+            Unix.rename output_file config_json
         end;
 
         {
@@ -8803,6 +8820,243 @@ let install_if_exists ~destdir input_name =
         copy_with_permission input_name (Filename.concat destdir (Filename.basename input_name))   
 
 end
+module Bsb_rule : sig 
+#1 "bsb_rule.mli"
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * In addition to the permissions granted to you by the LGPL, you may combine
+ * or link a "work that uses the Library" with a publicly distributed version
+ * of this file to produce a combined library or application, then distribute
+ * that combined work under the terms of your choosing, with no requirement
+ * to comply with the obligations normally placed on you by section 4 of the
+ * LGPL version 3 (or the corresponding section of a later version of the LGPL
+ * should you choose to use a later version).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+
+
+
+type t  
+val get_name : t  -> out_channel -> string
+
+val define :
+  command:string ->
+  ?depfile:string ->
+  ?restat:unit -> 
+  ?description:string ->
+  string -> t 
+
+val build_ast_and_deps : t
+val build_ast_and_deps_from_reason_impl : t 
+val build_ast_and_deps_from_reason_intf : t 
+val build_bin_deps : t 
+val reload : t 
+val copy_resources : t
+val build_ml_from_mll : t 
+val build_cmj_js : t
+val build_cmj_cmi_js : t 
+val build_cmi : t
+
+val reset : unit -> unit
+
+end = struct
+#1 "bsb_rule.ml"
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * In addition to the permissions granted to you by the LGPL, you may combine
+ * or link a "work that uses the Library" with a publicly distributed version
+ * of this file to produce a combined library or application, then distribute
+ * that combined work under the terms of your choosing, with no requirement
+ * to comply with the obligations normally placed on you by section 4 of the
+ * LGPL version 3 (or the corresponding section of a later version of the LGPL
+ * should you choose to use a later version).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+
+
+let rule_id = ref 0
+let rule_names = ref String_set.empty
+let ask_name name =
+  let current_id = !rule_id in
+  let () = incr rule_id in
+  match String_set.find name !rule_names with
+  | exception Not_found ->
+    rule_names := String_set.add name !rule_names ;
+    name
+  | _ ->
+    begin (* could be improved later
+             1. instead of having a global id, having a unique id per rule name
+             2. the rule id is increased only when actually used
+          *)
+      let new_name =  (name ^ Printf.sprintf "_%d" current_id) in
+      rule_names := String_set.add new_name  !rule_names ;
+      new_name
+    end
+type t = { mutable used : bool; rule_name : string  ; name : out_channel -> string }
+let get_name (x : t) oc = x.name oc
+let print_rule oc ~description ?restat ?depfile ~command   name  =
+  output_string oc "rule "; output_string oc name ; output_string oc "\n";
+  output_string oc "  command = "; output_string oc command; output_string oc "\n";
+  begin match depfile with
+    | None -> ()
+    | Some f ->
+      output_string oc "  depfile = "; output_string oc f; output_string oc  "\n"
+  end;
+  begin match restat with
+    | None -> ()
+    | Some () ->
+      output_string oc "  restat = 1"; output_string oc  "\n"
+  end;
+
+  output_string oc "  description = " ; output_string oc description; output_string oc "\n"
+
+
+let define
+    ~command
+    ?depfile
+    ?restat
+    ?(description = "\027[34mBuilding\027[39m \027[2m${out}\027[22m") (* blue, dim *)
+    name
+  =
+  let rec self = {
+    used  = false;
+    rule_name = ask_name name ;
+    name = fun oc ->
+      if not self.used then
+        begin
+          print_rule oc ~description ?depfile ?restat ~command name;
+          self.used <- true
+        end ;
+      self.rule_name
+  } in self
+
+
+let build_ast_and_deps =
+  define
+    ~command:"${bsc}  ${pp_flags} ${ppx_flags} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast ${in}"
+    "build_ast_and_deps"
+
+let build_ast_and_deps_from_reason_impl =
+  define
+    ~command:"${bsc} -pp \"${refmt} ${refmt_flags}\" ${reason_react_jsx}  ${ppx_flags} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -impl ${in}"
+    "build_ast_and_deps_from_reason_impl"
+
+let build_ast_and_deps_from_reason_intf =
+  (* we have to do this way,
+     because it need to be ppxed by bucklescript
+  *)
+  define
+    ~command:"${bsc} -pp \"${refmt} ${refmt_flags}\" ${reason_react_jsx} ${ppx_flags} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -intf ${in}"
+    "build_ast_and_deps_from_reason_intf"
+
+
+let build_bin_deps =
+  define
+    ~command:"${bsdep} -g ${bsb_dir_group} -MD ${in}"
+    "build_deps"
+
+let reload =
+  define
+    ~command:"${bsbuild} -init"
+    "reload"
+let copy_resources =
+  let name = "copy_resource" in
+  if Ext_sys.is_windows_or_cygwin then
+    define ~command:"cmd.exe /C copy /Y ${in} ${out} > null"
+      name
+  else
+    define
+      ~command:"cp ${in} ${out}"
+      name
+
+
+
+(* only generate mll no mli generated *)
+(* actually we would prefer generators in source ?
+   generator are divided into two categories:
+   1. not system dependent (ocamllex,ocamlyacc)
+   2. system dependent - has to be run on client's machine
+*)
+
+let build_ml_from_mll =
+  define
+    ~command:"${ocamllex} -o ${out} ${in}"
+    "build_ml_from_mll"
+(**************************************)
+(* below are rules not local any more *)
+(**************************************)
+
+(* [bsc_lib_includes] are fixed for libs
+   [bsc_extra_includes] are for app test etc
+   it wil be
+   {[
+     bsc_extra_includes = ${bsc_group_1_includes}
+   ]}
+   where [bsc_group_1_includes] will be pre-calcuated
+*)
+let build_cmj_js =
+  define
+    ~command:"${bsc} ${bs_package_flags} -bs-assume-has-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include  \
+              ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${bsc_flags} -o ${in} -c  ${in} ${postbuild}"
+
+    ~depfile:"${in}.d"
+    "build_cmj_only"
+
+let build_cmj_cmi_js =
+  define
+    ~command:"${bsc} ${bs_package_flags} -bs-assume-no-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include \
+              ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${bsc_flags} -o ${in} -c  ${in} ${postbuild}"
+    ~depfile:"${in}.d"
+    "build_cmj_cmi" (* the compiler should never consult [.cmi] when [.mli] does not exist *)
+let build_cmi =
+  define
+    ~command:"${bsc} ${bs_package_flags} -bs-no-builtin-ppx-mli -bs-no-implicit-include \
+              ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${bsc_flags} -o ${out} -c  ${in}"
+    ~depfile:"${in}.d"
+    "build_cmi" (* the compiler should always consult [.cmi], current the vanilla ocaml compiler only consult [.cmi] when [.mli] found*)
+
+let reset () = 
+  rule_id := 0;
+  build_ast_and_deps.used <- false ;
+  build_ast_and_deps_from_reason_impl.used <- false ;  
+  build_ast_and_deps_from_reason_intf.used <- false ;
+  build_bin_deps.used <- false;
+  reload.used <- false; 
+  copy_resources.used <- false ;
+  build_ml_from_mll.used <- false ; 
+  build_cmj_js.used <- false;
+  build_cmj_cmi_js.used <- false ;
+  build_cmi.used <- false 
+
+
+
+end
 module Bsb_ninja : sig 
 #1 "bsb_ninja.mli"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -8832,29 +9086,6 @@ module Bsb_ninja : sig
 
 
 
-module Rules : sig
-  type t  
-  val get_name : t  -> out_channel -> string
-    
-  val define :
-    command:string ->
-    ?depfile:string ->
-    ?restat:unit -> 
-    ?description:string ->
-    string -> t 
-
-  val build_ast_and_deps : t
-  val build_ast_and_deps_from_reason_impl : t 
-  val build_ast_and_deps_from_reason_intf : t 
-  val build_bin_deps : t 
-  val reload : t 
-  val copy_resources : t
-  val build_ml_from_mll : t 
-  val build_cmj_js : t
-  val build_cmj_cmi_js : t 
-  val build_cmi : t
-end
-
 
 (** output should always be marked explicitly,
    otherwise the build system can not figure out clearly
@@ -8870,7 +9101,7 @@ val output_build :
   ?restat:unit ->
   output:string ->
   input:string ->
-  rule:Rules.t -> out_channel -> unit
+  rule:Bsb_rule.t -> out_channel -> unit
 
 
 val phony  :
@@ -8897,6 +9128,7 @@ val handle_file_groups : out_channel ->
 
 (** TODO: need clean up when running across projects process *)
 (* val files_to_install : String_hash_set.t  *)
+
 end = struct
 #1 "bsb_ninja.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -8924,150 +9156,7 @@ end = struct
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-module Rules = struct
-
-  let rule_id = ref 0
-  let rule_names = ref String_set.empty
-  let ask_name name =
-    let current_id = !rule_id in
-    let () = incr rule_id in
-    match String_set.find name !rule_names with
-    | exception Not_found ->
-      rule_names := String_set.add name !rule_names ;
-      name
-    | _ ->
-      begin (* could be improved later
-               1. instead of having a global id, having a unique id per rule name
-               2. the rule id is increased only when actually used
-            *)
-        let new_name =  (name ^ Printf.sprintf "_%d" current_id) in
-        rule_names := String_set.add new_name  !rule_names ;
-        new_name
-      end
-  type t = { mutable used : bool; rule_name : string  ; name : out_channel -> string }
-  let get_name (x : t) oc = x.name oc
-  let print_rule oc ~description ?restat ?depfile ~command   name  =
-    output_string oc "rule "; output_string oc name ; output_string oc "\n";
-    output_string oc "  command = "; output_string oc command; output_string oc "\n";
-    begin match depfile with
-      | None -> ()
-      | Some f ->
-        output_string oc "  depfile = "; output_string oc f; output_string oc  "\n"
-    end;
-    begin match restat with
-      | None -> ()
-      | Some () ->
-        output_string oc "  restat = 1"; output_string oc  "\n"
-    end;
-
-    output_string oc "  description = " ; output_string oc description; output_string oc "\n"
-
-
-  let define
-      ~command
-      ?depfile
-      ?restat
-      ?(description = "\027[34mBuilding\027[39m \027[2m${out}\027[22m") (* blue, dim *)
-      name
-    =
-    let rec self = {
-      used  = false;
-      rule_name = ask_name name ;
-      name = fun oc ->
-        if not self.used then
-          begin
-            print_rule oc ~description ?depfile ?restat ~command name;
-            self.used <- true
-          end ;
-        self.rule_name
-    } in self
-
-
-  let build_ast_and_deps =
-    define
-      ~command:"${bsc}  ${pp_flags} ${ppx_flags} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast ${in}"
-      "build_ast_and_deps"
-
-  let build_ast_and_deps_from_reason_impl =
-    define
-      ~command:"${bsc} -pp \"${refmt} ${refmt_flags}\" ${reason_react_jsx}  ${ppx_flags} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -impl ${in}"
-      "build_ast_and_deps_from_reason_impl"
-
-  let build_ast_and_deps_from_reason_intf =
-    (* we have to do this way,
-       because it need to be ppxed by bucklescript
-    *)
-    define
-      ~command:"${bsc} -pp \"${refmt} ${refmt_flags}\" ${reason_react_jsx} ${ppx_flags} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -intf ${in}"
-      "build_ast_and_deps_from_reason_intf"
-
-
-  let build_bin_deps =
-    define
-      ~command:"${bsdep} -g ${bsb_dir_group} -MD ${in}"
-      "build_deps"
-
-  let reload =
-    define
-      ~command:"${bsbuild} -init"
-      "reload"
-  let copy_resources =
-    let name = "copy_resource" in
-    if Ext_sys.is_windows_or_cygwin then
-      define ~command:"cmd.exe /C copy /Y ${in} ${out} > null"
-      name
-    else
-    define
-      ~command:"cp ${in} ${out}"
-      name
-
-
-
-  (* only generate mll no mli generated *)
-  (* actually we would prefer generators in source ?
-     generator are divided into two categories:
-     1. not system dependent (ocamllex,ocamlyacc)
-     2. system dependent - has to be run on client's machine
-  *)
-
-  let build_ml_from_mll =
-    define
-      ~command:"${ocamllex} -o ${out} ${in}"
-      "build_ml_from_mll"
-  (**************************************)
-  (* below are rules not local any more *)
-  (**************************************)
-
-  (* [bsc_lib_includes] are fixed for libs
-     [bsc_extra_includes] are for app test etc
-     it wil be
-     {[
-       bsc_extra_includes = ${bsc_group_1_includes}
-     ]}
-     where [bsc_group_1_includes] will be pre-calcuated
-  *)
-  let build_cmj_js =
-    define
-      ~command:"${bsc} ${bs_package_flags} -bs-assume-has-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include  \
-                ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${bsc_flags} -o ${in} -c  ${in} ${postbuild}"
-
-      ~depfile:"${in}.d"
-      "build_cmj_only"
-
-  let build_cmj_cmi_js =
-    define
-      ~command:"${bsc} ${bs_package_flags} -bs-assume-no-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include \
-                ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${bsc_flags} -o ${in} -c  ${in} ${postbuild}"
-      ~depfile:"${in}.d"
-      "build_cmj_cmi" (* the compiler should never consult [.cmi] when [.mli] does not exist *)
-  let build_cmi =
-    define
-      ~command:"${bsc} ${bs_package_flags} -bs-no-builtin-ppx-mli -bs-no-implicit-include \
-                ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${bsc_flags} -o ${out} -c  ${in}"
-      ~depfile:"${in}.d"
-      "build_cmi" (* the compiler should always consult [.cmi], current the vanilla ocaml compiler only consult [.cmi] when [.mli] found*)
-end
-
+module Rules = Bsb_rule 
 let output_build
     ?(order_only_deps=[])
     ?(implicit_deps=[])
@@ -9080,7 +9169,7 @@ let output_build
     ~input
     ~rule
     oc =
-  let rule = Rules.get_name rule  oc in
+  let rule = Rules.get_name rule  oc in (* Trigger building if not used *)
   output_string oc "build ";
   output_string oc output ;
   outputs |> List.iter (fun s -> output_string oc Ext_string.single_space ; output_string oc s  );
@@ -9483,13 +9572,14 @@ let output_ninja
     reason_react_jsx
     }
   =
+  let () = Bsb_rule.reset () in 
   let bsc = bsc_dir // bsc_exe in   (* The path to [bsc.exe] independent of config  *)
   let bsdep = bsc_dir // bsb_helper_exe in (* The path to [bsb_heler.exe] *)
-  let builddir = Bsb_config.lib_bs in 
+  (* let builddir = Bsb_config.lib_bs in  *)
   let ppx_flags = Bsb_build_util.flag_concat dash_ppx ppx_flags in
   let bsc_flags =  String.concat Ext_string.single_space bsc_flags in
   let refmt_flags = String.concat Ext_string.single_space refmt_flags in
-  let oc = open_out_bin (builddir // Literals.build_ninja) in
+  let oc = open_out_bin (cwd // Bsb_config.lib_bs // Literals.build_ninja) in
   begin
     let () =
       output_string oc ninja_required_version ;
@@ -9540,7 +9630,7 @@ let output_ninja
           List.fold_left (fun (acc, dirs,acc_resources) ({Bsb_build_ui.sources ; dir; resources }) ->
               merge_module_info_map  acc  sources ,  dir::dirs , (List.map (fun x -> dir // x ) resources) @ acc_resources
             ) (String_map.empty,[],[]) bs_file_groups in
-        Binary_cache.write_build_cache (builddir // Binary_cache.bsbuild_cache) [|bs_groups|] ;
+        Binary_cache.write_build_cache (cwd // Bsb_config.lib_bs // Binary_cache.bsbuild_cache) [|bs_groups|] ;
         Bsb_ninja.output_kv
           Bsb_build_schemas.bsc_lib_includes (Bsb_build_util.flag_concat dash_i @@ 
           (all_includes source_dirs  ))  oc ;
@@ -9565,7 +9655,7 @@ let output_ninja
           Bsb_ninja.output_kv (Bsb_build_util.string_of_bsb_dev_include i)
             (Bsb_build_util.flag_concat "-I" @@ source_dirs.(i)) oc
         done  ;
-        Binary_cache.write_build_cache (builddir // Binary_cache.bsbuild_cache) bs_groups ;
+        Binary_cache.write_build_cache (cwd // Bsb_config.lib_bs // Binary_cache.bsbuild_cache) bs_groups ;
         static_resources;
     in
     let all_info =
@@ -9575,7 +9665,7 @@ let output_ninja
       List.iter (fun x -> Bsb_ninja.output_build oc
                     ~output:x
                     ~input:(Bsb_config.proj_rel x)
-                    ~rule:Bsb_ninja.Rules.copy_resources) static_resources in
+                    ~rule:Bsb_rule.copy_resources) static_resources in
     Bsb_ninja.phony oc ~order_only_deps:(static_resources @ all_info.all_config_deps)
       ~inputs:[]
       ~output:Literals.build_ninja ;
@@ -9685,7 +9775,7 @@ let run_command_execv_unix  cmd =
       | Unix.WEXITED eid ->
         if eid <> 0 then 
           begin 
-            Format.fprintf Format.err_formatter "@{<error>Failue:@} %s \n Location: %s@." cmd.cmd cmd.cwd;
+            Format.fprintf Format.err_formatter "@{<error>Failure:@} %s \n Location: %s@." cmd.cmd cmd.cwd;
             exit eid    
           end;
       | Unix.WSIGNALED _ | Unix.WSTOPPED _ -> 
@@ -9905,7 +9995,7 @@ end = struct
 
 
 
-
+let bsppx_exe = "bsppx.exe"
 let bsdeps = ".bsdeps"
 
 let (//) = Ext_filename.combine
@@ -9939,11 +10029,15 @@ let separator = "--"
 
 let internal_package_specs = "-internal-package-specs"
 let internal_install = "-internal-install"
-let build_bs_deps package_specs   =
+
+let build_bs_deps  deps  =
+  let package_specs = 
+    (String_set.fold
+       (fun k acc -> k ^ "," ^ acc ) deps Ext_string.empty )  in 
   let bsc_dir = Bsb_build_util.get_bsc_dir cwd in
   let bsb_exe = bsc_dir // "bsb.exe" in
   Bsb_build_util.walk_all_deps  cwd
-    (fun top cwd ->
+    (fun {top; cwd} ->
        if not top then
          Bsb_unix.run_command_execv
            {cmd = bsb_exe;
@@ -9957,11 +10051,61 @@ let build_bs_deps package_specs   =
                  regen;
                  separator |]})
 
+let build_bs_deps_dry_run deps =
+  let bsc_dir = Bsb_build_util.get_bsc_dir cwd in
+  let vendor_ninja = bsc_dir // "ninja.exe" in 
+  Bsb_build_util.walk_all_deps  cwd
+    (fun {top; cwd} ->
+       if not top then
+         begin
+           Bsb_build_util.mkp (cwd // Bsb_config.lib_bs);
+           let config = 
+             Bsb_config_parse.interpret_json 
+               ~override_package_specs:(Some deps)
+               ~generate_watch_metadata:false
+               ~bsc_dir
+               ~no_dev:true
+               cwd in 
+           Bsb_config_parse.merlin_file_gen ~cwd
+             (bsc_dir // bsppx_exe, 
+              bsc_dir // Literals.reactjs_jsx_ppx_exe) config;
+           Bsb_gen.output_ninja ~cwd ~bsc_dir config ;
+           Bsb_unix.run_command_execv
+             {cmd = vendor_ninja;
+              cwd = cwd;
+              args  = [|"-C";Bsb_config.lib_bs|]
+             }
+
+         end
+
+    )
+
+
 let annoymous filename =
   String_vec.push  filename targets
 
 let watch_mode = ref false
-let make_world = ref false
+
+type make_world_config = {
+  mutable  set : bool ;
+  mutable dry_run : bool 
+}
+
+let make_world = {
+  set = false ;
+  dry_run = false;
+}
+
+(* let make_world_dry_run = ref false  *)
+
+let set_make_world () = 
+  make_world.set <- true
+
+let set_make_world_dry_run () = 
+  make_world.set <- true ; 
+  make_world.dry_run <- true 
+
+
 let color_enabled = ref (Unix.isatty Unix.stdin)
 let set_color ppf =
   Format.pp_set_formatter_tag_functions ppf 
@@ -9997,7 +10141,7 @@ let clean_bs_garbage cwd =
 
 
 let clean_bs_deps () =
-  Bsb_build_util.walk_all_deps  cwd  (fun top cwd ->
+  Bsb_build_util.walk_all_deps  cwd  (fun {top; cwd} ->
       clean_bs_garbage cwd
     )
 
@@ -10026,10 +10170,12 @@ let bsb_main_flags : (string * Arg.spec * string) list=
     " Clean all bs dependencies";
     "-clean", Arg.Unit clean_self,
     " Clean only current project";
-    "-make-world", Arg.Set make_world,
-    " Build all dependencies and itself "
+    "-make-world", Arg.Unit set_make_world,
+    " Build all dependencies and itself ";
+    "-make-world-dry-run", Arg.Unit set_make_world_dry_run,
+    " (internal) Debugging utitlies"
   ]
-let bsppx_exe = "bsppx.exe"
+
 (** Regenerate ninja file and return None if we dont need regenerate
     otherwise return some info
 *)
@@ -10050,12 +10196,16 @@ let regenerate_ninja cwd bsc_dir forced =
         print_endline "Also clean current repo due to we have detected a different compiler";
         clean_self (); 
       end ; 
+      Bsb_build_util.mkp (cwd // Bsb_config.lib_bs); 
       let config = 
         Bsb_config_parse.interpret_json 
           ~override_package_specs:!Bsb_config.cmd_package_specs
-          ~bsc_dir cwd in 
+          ~bsc_dir
+          ~generate_watch_metadata:true
+          ~no_dev:!Bsb_config.no_dev
+          cwd in 
       begin 
-        Bsb_config_parse.merlin_file_gen 
+        Bsb_config_parse.merlin_file_gen ~cwd
           (bsc_dir // bsppx_exe, 
            bsc_dir // Literals.reactjs_jsx_ppx_exe) config;
         Bsb_gen.output_ninja ~cwd ~bsc_dir config ; 
@@ -10173,9 +10323,11 @@ let make_world_deps (config : Bsb_config_types.t option) =
       *)
       Bsb_config_parse.package_specs_from_bsconfig ()
     | Some {package_specs} -> package_specs in
-  build_bs_deps 
-    (String_set.fold
-       (fun k acc -> k ^ "," ^ acc ) deps Ext_string.empty )
+  if make_world.dry_run then 
+    build_bs_deps_dry_run deps 
+  else 
+    build_bs_deps deps
+    
 
 let () =
   let bsc_dir = Bsb_build_util.get_bsc_dir cwd in
@@ -10184,7 +10336,7 @@ let () =
   (* see discussion #929 *)
   if Array.length Sys.argv <= 1 then
     begin
-      let config_opt =  (regenerate_ninja cwd bsc_dir false) in 
+      let config_opt =  regenerate_ninja cwd bsc_dir false in 
       ninja_command_exit vendor_ninja [||] config_opt
     end
   else
@@ -10195,7 +10347,8 @@ let () =
         begin
           Arg.parse bsb_main_flags annoymous usage;
           (* [-make-world] should never be combined with [-package-specs] *)
-          begin match !make_world, !force_regenerate with
+          let make_world = make_world.set in 
+          begin match make_world, !force_regenerate with
             | false, false -> 
               if !watch_mode then begin
                 watch_exit ()
@@ -10230,7 +10383,7 @@ let () =
           Arg.parse_argv bsb_args bsb_main_flags annoymous usage ;
           let config_opt = regenerate_ninja cwd bsc_dir !force_regenerate in
           (* [-make-world] should never be combined with [-package-specs] *)
-          if !make_world then
+          if make_world.set then
             make_world_deps config_opt ;
           if !watch_mode then watch_exit ()
           else ninja_command_exit vendor_ninja ninja_args config_opt
