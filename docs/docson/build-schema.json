@@ -29,10 +29,33 @@
             "title": "dependency"
         },
         "bs-dependencies": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/bs-dependency"
-            }
+            "oneOf": [
+                {
+                    "title" : "Lib dependencies",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/bs-dependency"
+                    }
+                },
+                {
+                    "title": "Dev And Lib dependencies",
+                    "properties": {
+                    "dev": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/bs-dependency"
+                        }
+                    },
+                    "lib": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/bs-dependency"
+                        }
+                                            
+                    }
+                    }
+                }
+            ]
         },
         "js-post-build": {
             "type": "object",
@@ -41,6 +64,14 @@
                   "type": "string"
                 }
             }
+        },
+        "sourceType" : {
+           
+                 "enum": [
+                                "dev",
+                                "lib"
+                            ]
+           
         },
         "sourceItem": {
             "title": "sourceItem",
@@ -56,10 +87,7 @@
                             "$ref": "#/definitions/ppx-specs"
                         },
                         "type": {
-                            "enum": [
-                                "dev",
-                                "lib"
-                            ]
+                            "$ref":  "#/definitions/sourceType"
                         },
                         "files": {
                             "oneOf": [
@@ -91,10 +119,7 @@
                                 }
                             ]
                         },
-                        "bs-dependencies": {
-                            "$ref": "#/definitions/bs-dependencies",
-                            "description": "More dependencies added to this group"
-                        },
+
                         "public": {
                             "oneOf": [
                                 {
