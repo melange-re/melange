@@ -37,6 +37,19 @@ type t =
 
 external process : t = "" [@@bs.module]
 
+
+(**
+   @node api/process.html#process_event_beforeexit
+*)
+external onBeforeExit:
+  (_ [@bs.as "beforeExit"]) -> 
+  (exitCode:int -> unit [@bs.uncurry]) -> unit    = "on" [@@bs.send.pipe: t ]
+
+external onDisconnect: 
+  (_ [@bs.as "disconnect"]) -> 
+  (unit -> unit [@bs]) -> unit = "on" [@@bs.send.pipe: t ]
+
+
 external exit : int -> unit = "" [@@bs.module "process"]
 
 (** The process.uptime() method returns the number of seconds 

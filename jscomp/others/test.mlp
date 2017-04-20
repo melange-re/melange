@@ -1,0 +1,22 @@
+#define ASTR(x) #x
+#define EXTERNAL(b) ASTR(process##b)
+#define METHOD(b) external b : string = EXTERNAL(b) [@@bs.val]
+METHOD(exit)
+
+external exit : unit -> unit = "exit" [@@bs.scope "process"] [@@bs.val]
+
+#define METHOD2(b,ty) external b : ty =  ASTR(b) [@@bs.scope "process"] [@@bs.val]
+
+METHOD2(exit, unit -> unit)
+
+METHOD2(exit, ty -> ty)
+
+METHOD2(exit, ty -> ty)
+
+METHOD2(exit, ty -> ty)
+
+#define EVENT(name) external CONCAT(on,name) : (_ [@bs.as STRINGIFY(name)]) -> ty -> unit = "on" [@@bs.send.pipe: t]
+
+EVENT(beforeExit)
+
+    
