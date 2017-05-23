@@ -706,9 +706,14 @@ let handle_attributes
         begin match arg_types_ty, new_name, val_name  with         
           | [], `Nm_na,  _ -> Js_module_as_var external_module_name
           | _, `Nm_na, _ -> Js_module_as_fn {splice; external_module_name }
-          | _, #bundle_source, #bundle_source ->
-            Bs_syntaxerr.err loc Conflict_ffi_attribute
-
+          | _, #bundle_source, #bundle_source ->            
+            Location.raise_errorf 
+            ~loc "[@@bs.new] [@@bs.val] "
+          | [],(`Nm_val _ | `Nm_external _) , `Nm_na
+           -> 
+           Location.raise_errorf ~loc 
+            "[@@bs.new] expect a function type"
+            (* case:  external g : a = "" [@@bs.module ] [@@bs.new] *)
           | _, (`Nm_val _ | `Nm_external _) , `Nm_na
             -> Js_module_as_class external_module_name
           | _, `Nm_payload _ , `Nm_na

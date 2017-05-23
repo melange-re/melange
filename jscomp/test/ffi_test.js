@@ -1,5 +1,6 @@
 'use strict';
 
+var F = require("f");
 
 function u() {
   return xx(3);
@@ -19,10 +20,8 @@ function v() {
   return u.minHeight;
 }
 
-function f() {
-  var v = new Int32Array(32);
-  v[0] = 3;
-  return v[0];
+function hh() {
+  return new F(3);
 }
 
 var a = match_000;
@@ -41,5 +40,5 @@ exports.d          = d;
 exports.Textarea   = Textarea;
 exports.Int32Array = Int32Array;
 exports.v          = v;
-exports.f          = f;
+exports.hh         = hh;
 /*  Not a pure module */

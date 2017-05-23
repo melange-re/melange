@@ -44,3 +44,16 @@ let f () =
     v.(0) <- 3   ;
     v.(0)
   end
+
+
+external f : int ->  int = ""
+ [@@bs.module ] [@@bs.new ] [@@bs.val ]
+
+type a = int -> int [@bs]
+
+
+(* external g : a = "" [@@bs.module] [@@bs.new]*)
+
+let hh () =
+   f 3
+   (* g 2 [@bs]*)
