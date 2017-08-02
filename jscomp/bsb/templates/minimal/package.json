@@ -3,8 +3,8 @@
   "version": "${bsb:proj-version}",
   "scripts": {
     "clean": "bsb -clean-world",
-    "build": "bsb -make-world",
-    "start": "bsb -make-world -w"
+    "build": "bsb ",
+    "start": "bsb  -w"
   },
   "keywords": [
     "BuckleScript"

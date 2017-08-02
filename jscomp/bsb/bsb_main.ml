@@ -37,9 +37,9 @@ let generate_theme_with_path = ref None
 let regen = "-regen"
 let separator = "--"
 let watch_mode = ref false
-let make_world = ref false 
+let make_world = ref true
 let set_make_world () = make_world := true
-
+let unset_make_world () = make_world := false 
 
 
 let bsb_main_flags : (string * Arg.spec * string) list=
@@ -55,12 +55,17 @@ let bsb_main_flags : (string * Arg.spec * string) list=
     ;
     "-clean-world", Arg.Unit (fun _ -> 
       Bsb_clean.clean_bs_deps bsc_dir cwd),
-    " Clean all bs dependencies";
+    " (Deprecated, use -clean directly)Clean all bs dependencies";
     "-clean", Arg.Unit (fun _ -> 
+      Bsb_clean.clean_bs_deps bsc_dir cwd),
+    " Clean only current project";
+    "-clean-self", Arg.Unit (fun _ -> 
       Bsb_clean.clean_self bsc_dir cwd),
     " Clean only current project";
+    "-make-self", Arg.Unit unset_make_world,
+    " Build self (not dependencies)";
     "-make-world", Arg.Unit set_make_world,
-    " Build all dependencies and itself ";
+    " (Deprecated, turned on by default) Build all dependencies and itself ";
     "-init", Arg.String (fun path -> generate_theme_with_path := Some path),
     " Init sample project to get started. Note (`bsb -init sample` will create a sample project while `bsb -init .` will resuse current directory)";
     "-theme", Arg.String set_theme,
@@ -144,7 +149,10 @@ let () =
   
   let vendor_ninja = bsc_dir // "ninja.exe" in  
   match Sys.argv with 
-  | [| _ |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
+  | [| _ ; "-make-self" |] ->  
+    (* specialize this path [bsb.exe] which is used in watcher
+       [bsb_watcher.js]
+     *)
     begin
       let _config_opt =  
         Bsb_ninja_regen.regenerate_ninja ~override_package_specs:None ~no_dev:false 
@@ -165,7 +173,9 @@ let () =
           match !generate_theme_with_path with
           | Some path -> Bsb_init.init_sample_project ~cwd ~theme:!current_theme path
           | None -> 
-            (* [-make-world] should never be combined with [-package-specs] *)
+            (* make world should never be combined with [-package-specs] 
+              it should always be [-make-self] together with [-package-specs]
+            *)
             let make_world = !make_world in 
             begin match make_world, !force_regenerate with
               | false, false -> 

@@ -123,7 +123,7 @@ let interpret_json
   (* When we plan to add more deps here,
      Make sure check it is consistent that for nested deps, we have a 
      quck check by just re-parsing deps 
-     Make sure it works with [-make-world] [-clean-world]
+     Make sure it works with  [-clean-world]
   *)
   let bs_dependencies = ref [] in 
   let bs_dev_dependencies = ref [] in

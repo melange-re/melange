@@ -42,7 +42,7 @@ let to_string (x : error) =
         else 
         Printf.sprintf 
             "BuckleScript package %s not found or built %s, if it is not built\n\
-            Please run 'bsb -make-world', otherwise please install it " name in_json
+            Please run 'bsb' not 'bsb -make-self', otherwise please install it " name in_json
 
 let () = 
     Printexc.register_printer (fun x ->

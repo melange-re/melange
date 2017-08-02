@@ -39,5 +39,5 @@ val all_lib_artifacts : string list
 val rev_lib_bs_prefix : string -> string
 
 
-(** default not install, only when -make-world, its dependencies will be installed  *)
+(** default not install, only when make world, its dependencies will be installed  *)
 

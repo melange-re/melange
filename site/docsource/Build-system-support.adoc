@@ -149,7 +149,7 @@ After your `npm install`,
 [source,sh]
 ----------
 bsb -clean-world // <1>
-bsb -make-world // <2>
+bsb  // <2>
 bsb -w // <3>
 ----------
 <1> Clean the binary artifact of current build and your dependency
@@ -160,7 +160,7 @@ You can also streamline the three commands as below:
 
 [source,sh]
 -----------
-bsb -clean-world -make-world -w
+bsb -clean-world  -w
 -----------
 
 ==== Mark your directory as dev only
@@ -257,11 +257,11 @@ Suppose you are in `bucklescript-have-tea` top directory,
 ----------
 npm install // <1>
 npm install bs-platform <2>
-./node_modules/.bin/bsb -clean-world -make-world -w <3>
+./node_modules/.bin/bsb -clean-world  -w <3>
 ----------
 <1> Install the dependencies
 <2> Install peer dependencies
-<3> On Windows, it would be `.\node_modules\.bin\bsb -clean-world -make-world -w`
+<3> On Windows, it would be `.\node_modules\.bin\bsb -clean-world -w`
 
 
 You can also change the `package-specs` to have another module format, for example, tweak your `bsconfig.json`:

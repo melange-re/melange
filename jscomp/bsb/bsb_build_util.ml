@@ -151,7 +151,7 @@ type package_context = {
    Basic requirements
      1. cycle detection
      2. avoid duplication
-     3. deterministic, since -make-world will also comes with -clean-world
+     3. deterministic, since make world will also comes with clean world
 
 *)
 
