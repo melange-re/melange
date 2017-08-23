@@ -1407,12 +1407,13 @@ let make_variant_matching_nonconst p lab def ctx = function
           default=def} ;
         ctx=ctx ;
         pat = normalize_pat p}
-
+#if undefined BS_NO_COMPILER_PATCH then 
+#else
 let get_key_variant p = match p.pat_desc with
 | Tpat_variant(lab, Some _ , _) ->  Cstr_block (Btype.hash_variant lab)
 | Tpat_variant(lab, None , _) -> Cstr_constant (Btype.hash_variant lab)
 |  _ -> assert false
-
+#end
 let divide_variant row ctx {cases = cl; args = al; default=def} =
   let row = Btype.row_repr row in
   let rec divide = function
