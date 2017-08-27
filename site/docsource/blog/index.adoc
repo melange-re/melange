@@ -1,4 +1,20 @@
 
+
+# Announcing BuckleScript 1.9
+
+Aug 28, 2017
+
+BuckleScript 1.9 is available now, a non-complete list of changes are available https://github.com/BuckleScript/bucklescript/blob/master/Changes.md#190[here]
+
+There are two major features coming along, one is better error message that is expanded https://reasonml.github.io/community/blog/#way-way-waaaay-nicer-error-messages[here], 
+thanks to ReasonML team!
+
+The other quite important feature is namespace support.
+
+It used to be not a big deal when you work in a big company using OCaml, since 
+
+
+
 # Bloomberg announcing BuckleScript 1.0
 
 
