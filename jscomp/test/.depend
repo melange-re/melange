@@ -229,6 +229,7 @@ gpr_1484.cmj :
 gpr_1501_test.cmj : ../stdlib/printexc.cmj mt.cmj
 gpr_1503_test.cmj : mt.cmj ../stdlib/int64.cmj
 gpr_1539_test.cmj :
+gpr_1565_test.cmj :
 gpr_1600_test.cmj : ../runtime/js.cmj ../stdlib/array.cmj
 gpr_1658_test.cmj : mt.cmj ../runtime/js.cmj
 gpr_1667_test.cmj : mt.cmj
