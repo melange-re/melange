@@ -346,6 +346,7 @@ js_typed_array_test.cmj : mt.cmj ../runtime/js_typed_array.cmj \
     ../runtime/js.cmj ../stdlib/int32.cmj ../stdlib/array.cmj
 js_undefined_test.cmj : mt.cmj ../runtime/js_undefined.cmj
 js_val.cmj :
+json_fun_test.cmj :
 jsoo_400_test.cmj : ../stdlib/string.cmj mt.cmj
 jsoo_485.cmj :
 jsoo_485_test.cmj :
