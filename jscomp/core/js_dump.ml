@@ -139,7 +139,19 @@ type name =
    hit, then there is no cost when passed
 *)
 
-
+(** shrink nested consective comments into a single comment
+  /* :: */ [1, [2, [3, 0] ]
+  Assume the outer is already list constructor
+*)
+let rec unnest_list_comments (e : J.expression) = 
+    match e with 
+    | {expression_desc = 
+        Caml_block([head; tail], Immutable,);
+       comment = Some "::"} 
+      ->
+        let b,desc2 = unnest_desc desc in
+        if not b then  e 
+        else 
 (* TODO: refactoring
    Note that {!pp_function} could print both statement and expression when [No_name] is given
 *)
