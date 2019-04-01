@@ -28,3 +28,19 @@ let xx h : int  =
 let yy h =
   h
   |> send "x"    
+
+
+type t ;;
+
+external make :
+  ?accessible:bool ->
+  ?accessibilityLabel:string ->
+  ?accessibilityRole:(([ `none  | `button  | `link  | `search  | 
+                         `image 
+                       | `keyboardkey  | `text  | `adjustable  | 
+                       `header 
+                       | `summary  | `imagebutton ])[@bs.string ])
+  -> t= "TouchableOpacity"[@@react.component ][@@bs.module
+  (("react-native")
+     [@reason.raw_literal
+       "react-native"])]
