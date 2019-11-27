@@ -7,6 +7,7 @@ var Curry = require("../../lib/js/curry.js");
 var Caml_module = require("../../lib/js/caml_module.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var A = Caml_module.init_mod(/* tuple */[
@@ -188,16 +189,16 @@ function bal(l, v, r) {
       } else if (lr) {
         return create(create(ll, lv, lr[/* l */0]), lr[/* v */1], create(lr[/* r */2], v, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -209,16 +210,16 @@ function bal(l, v, r) {
       } else if (rl) {
         return create(create(l, v, rl[/* l */0]), rl[/* v */1], create(rl[/* r */2], rv, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -320,7 +321,7 @@ function min_elt(_param) {
         return param[/* v */1];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -354,7 +355,7 @@ function max_elt(_param) {
         return param[/* v */1];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -385,10 +386,10 @@ function remove_min_elt(param) {
       return param[/* r */2];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Set.remove_min_elt"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Set.remove_min_elt"
+            ]);
   }
 }
 
@@ -823,7 +824,7 @@ function find(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -859,7 +860,7 @@ function find_first(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -931,7 +932,7 @@ function find_last(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -1117,14 +1118,14 @@ function of_list(l) {
                           match$4[1]
                         ];
                 } else {
-                  throw [
-                        Caml_builtin_exceptions.assert_failure,
-                        /* tuple */[
-                          "set.ml",
-                          510,
-                          18
-                        ]
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.assert_failure,
+                            /* tuple */[
+                              "set.ml",
+                              510,
+                              18
+                            ]
+                          ]);
                 }
               };
               return sub(List.length(l$1), l$1)[0];

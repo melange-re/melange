@@ -37,33 +37,33 @@ function parse(token) {
             var v = parse_expr_aux(parse_term_aux(parse_atom(/* () */0)));
             var match = token$1(/* () */0);
             if (match.tag) {
-              throw [
-                    Parse_error,
-                    "Unbalanced parens"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Parse_error,
+                        "Unbalanced parens"
+                      ]);
             } else if (match[0] === ")") {
               return v;
             } else {
-              throw [
-                    Parse_error,
-                    "Unbalanced parens"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Parse_error,
+                        "Unbalanced parens"
+                      ]);
             }
           } else {
             Queue.push(e, look_ahead);
-            throw [
-                  Parse_error,
-                  "unexpected token"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Parse_error,
+                      "unexpected token"
+                    ]);
           }
       case /* Int */2 :
           return e[0];
       default:
         Queue.push(e, look_ahead);
-        throw [
-              Parse_error,
-              "unexpected token"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Parse_error,
+                  "unexpected token"
+                ]);
     }
   };
   var parse_term_aux = function (e1) {
@@ -187,31 +187,31 @@ function l_parse(token) {
             var v = parse_t_aux(parse_f_aux(parse_f(/* () */0)));
             var t$1 = token$1(/* () */0);
             if (t$1.tag) {
-              throw [
-                    Parse_error,
-                    "Unbalanced )"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Parse_error,
+                        "Unbalanced )"
+                      ]);
             } else if (t$1[0] === ")") {
               return v;
             } else {
-              throw [
-                    Parse_error,
-                    "Unbalanced )"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Parse_error,
+                        "Unbalanced )"
+                      ]);
             }
           } else {
-            throw [
-                  Parse_error,
-                  "Unexpected token"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Parse_error,
+                      "Unexpected token"
+                    ]);
           }
       case /* Int */2 :
           return t[0];
       default:
-        throw [
-              Parse_error,
-              "Unexpected token"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Parse_error,
+                  "Unexpected token"
+                ]);
     }
   };
   var parse_t_aux = function (_a) {

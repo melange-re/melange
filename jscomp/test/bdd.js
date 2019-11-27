@@ -2,6 +2,7 @@
 
 var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_int32 = require("../../lib/js/caml_int32.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function $$eval(_bdd, vars) {
@@ -61,14 +62,14 @@ function resize(newSize) {
       if (bucket) {
         var n = bucket[0];
         if (typeof n === "number") {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "bdd.ml",
-                  54,
-                  27
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "bdd.ml",
+                      54,
+                      27
+                    ]
+                  ]);
         }
         var ind = hashVal(getId(n[0]), getId(n[3]), n[1]) & newSz_1;
         Caml_array.caml_array_set(newArr, ind, /* :: */[
@@ -130,14 +131,14 @@ function mkNode(low, v, high) {
       if (b) {
         var n = b[0];
         if (typeof n === "number") {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "bdd.ml",
-                  99,
-                  31
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "bdd.ml",
+                      99,
+                      31
+                    ]
+                  ]);
         }
         if (v === n[1] && idl === getId(n[0]) && idh === getId(n[3])) {
           return n;
@@ -384,14 +385,14 @@ function main(param) {
   if (succeeded) {
     return 0;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "bdd.ml",
-            233,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "bdd.ml",
+                233,
+                2
+              ]
+            ]);
   }
 }
 

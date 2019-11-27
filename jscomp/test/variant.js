@@ -98,7 +98,7 @@ function rollback_path(subst, p) {
         
       }
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -131,7 +131,7 @@ function fooExn(f) {
       var match = exn[1];
       return match[0] + match[1] | 0;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

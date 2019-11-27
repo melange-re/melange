@@ -7,6 +7,7 @@ var Caml_obj = require("../../lib/js/caml_obj.js");
 var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var equal = Caml_obj.caml_equal;
@@ -504,10 +505,10 @@ function get_exn(e) {
   if (e !== undefined) {
     return Caml_option.valFromOption(e);
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "CCSexp.Traverse.get_exn"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "CCSexp.Traverse.get_exn"
+            ]);
   }
 }
 

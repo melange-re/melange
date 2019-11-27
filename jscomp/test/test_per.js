@@ -14,17 +14,17 @@ var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js")
 var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
 
 function failwith(s) {
-  throw [
-        Caml_builtin_exceptions.failure,
-        s
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.failure,
+            s
+          ]);
 }
 
 function invalid_arg(s) {
-  throw [
-        Caml_builtin_exceptions.invalid_argument,
-        s
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.invalid_argument,
+            s
+          ]);
 }
 
 var Exit = Caml_exceptions.create("Test_per.Exit");
@@ -100,10 +100,10 @@ function $caret(s1, s2) {
 
 function char_of_int(n) {
   if (n < 0 || n > 255) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "char_of_int"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "char_of_int"
+            ]);
   }
   return n;
 }
@@ -123,10 +123,10 @@ function bool_of_string(param) {
     case "true" :
         return true;
     default:
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "bool_of_string"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "bool_of_string"
+              ]);
   }
 }
 
@@ -246,20 +246,20 @@ function output_string(oc, s) {
 
 function output(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "output"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "output"
+            ]);
   }
   return Caml_io.caml_ml_output(oc, s, ofs, len);
 }
 
 function output_substring(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "output_substring"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "output_substring"
+            ]);
   }
   return Caml_io.caml_ml_output(oc, s, ofs, len);
 }
@@ -314,10 +314,10 @@ function open_in_bin(name) {
 
 function input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "input"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "input"
+            ]);
   }
   return Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
 }
@@ -331,7 +331,7 @@ function unsafe_really_input(ic, s, _ofs, _len) {
     } else {
       var r = Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
       if (r === 0) {
-        throw Caml_builtin_exceptions.end_of_file;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.end_of_file);
       }
       _len = len - r | 0;
       _ofs = ofs + r | 0;
@@ -342,10 +342,10 @@ function unsafe_really_input(ic, s, _ofs, _len) {
 
 function really_input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "really_input"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "really_input"
+            ]);
   }
   return unsafe_really_input(ic, s, ofs, len);
 }
@@ -383,7 +383,7 @@ function input_line(chan) {
       if (accu) {
         return build_result(Caml_bytes.caml_create_bytes(len), len, accu);
       } else {
-        throw Caml_builtin_exceptions.end_of_file;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.end_of_file);
       }
     } else if (n > 0) {
       var res = Caml_bytes.caml_create_bytes(n - 1 | 0);

@@ -5,6 +5,7 @@ var List = require("../../lib/js/list.js");
 var Block = require("../../lib/js/block.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -59,14 +60,14 @@ var three = {
 
 var v = {
   contents: (function (param) {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "rec_value_test.ml",
-              23,
-              24
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "rec_value_test.ml",
+                  23,
+                  24
+                ]
+              ]);
     })
 };
 
@@ -239,24 +240,24 @@ var suites_001 = /* :: */[
           if (match) {
             tmp = match[0];
           } else {
-            throw [
-                  Caml_builtin_exceptions.assert_failure,
-                  /* tuple */[
-                    "rec_value_test.ml",
-                    108,
-                    2
-                  ]
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.assert_failure,
+                      /* tuple */[
+                        "rec_value_test.ml",
+                        108,
+                        2
+                      ]
+                    ]);
           }
         } else {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "rec_value_test.ml",
-                  108,
-                  2
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "rec_value_test.ml",
+                      108,
+                      2
+                    ]
+                  ]);
         }
         return /* Eq */Block.__(0, [
                   3,
@@ -378,14 +379,14 @@ var suites_001 = /* :: */[
                     "File \"rec_value_test.ml\", line 129, characters 2-9",
                     (function (param) {
                         if (rec_variant_b.tag) {
-                          throw [
-                                Caml_builtin_exceptions.assert_failure,
-                                /* tuple */[
-                                  "rec_value_test.ml",
-                                  132,
-                                  11
-                                ]
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.assert_failure,
+                                    /* tuple */[
+                                      "rec_value_test.ml",
+                                      132,
+                                      11
+                                    ]
+                                  ]);
                         } else {
                           return /* Eq */Block.__(0, [
                                     Curry._1(rec_variant_b[1], /* () */0),
@@ -404,14 +405,14 @@ var suites_001 = /* :: */[
                                       rec_variant_b
                                     ]);
                           } else {
-                            throw [
-                                  Caml_builtin_exceptions.assert_failure,
-                                  /* tuple */[
-                                    "rec_value_test.ml",
-                                    137,
-                                    11
-                                  ]
-                                ];
+                            throw Caml_exceptions.stacktrace([
+                                      Caml_builtin_exceptions.assert_failure,
+                                      /* tuple */[
+                                        "rec_value_test.ml",
+                                        137,
+                                        11
+                                      ]
+                                    ]);
                           }
                         })
                     ],

@@ -2,6 +2,7 @@
 
 var Curry = require("../../lib/js/curry.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(param, v) {
@@ -17,24 +18,24 @@ function f3(param) {
   return (function (param) {
       var rhs = param.rank;
       if (typeof lhs === "number") {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "fun_pattern_match.ml",
-                44,
-                9
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "fun_pattern_match.ml",
+                    44,
+                    9
+                  ]
+                ]);
       }
       if (typeof rhs === "number") {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "fun_pattern_match.ml",
-                44,
-                9
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "fun_pattern_match.ml",
+                    44,
+                    9
+                  ]
+                ]);
       }
       return Caml_primitive.caml_int_compare(lhs[0], rhs[0]);
     });
@@ -45,24 +46,24 @@ function f4(param) {
   return (function (param) {
       var rhs = param.rank;
       if (typeof lhs === "number") {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "fun_pattern_match.ml",
-                52,
-                9
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "fun_pattern_match.ml",
+                    52,
+                    9
+                  ]
+                ]);
       }
       if (typeof rhs === "number") {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "fun_pattern_match.ml",
-                52,
-                9
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "fun_pattern_match.ml",
+                    52,
+                    9
+                  ]
+                ]);
       }
       return Caml_primitive.caml_int_compare(lhs[0], rhs[0]);
     });

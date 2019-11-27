@@ -3,6 +3,7 @@
 var Curry = require("../../lib/js/curry.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function Make(funarg) {
@@ -19,7 +20,7 @@ function Make(funarg) {
       if (exn === Caml_builtin_exceptions.not_found) {
         return false;
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
   };
@@ -36,24 +37,24 @@ function Make(funarg) {
     };
     var step2 = function (top, rest_of_stack) {
       if (find_default(already_processed, top)) {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "gpr_405_test.ml",
-                43,
-                6
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "gpr_405_test.ml",
+                    43,
+                    6
+                  ]
+                ]);
       }
       if (find_default(on_the_stack, top)) {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "gpr_405_test.ml",
-                44,
-                6
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "gpr_405_test.ml",
+                    44,
+                    6
+                  ]
+                ]);
       }
       Curry._3(H.add, on_the_stack, top, true);
       Curry._3(H.add, n_labels, top, counter.contents);
@@ -92,10 +93,10 @@ function Make(funarg) {
             Curry._3(H.add, l_labels, top$1, 0);
           }
           if (Curry._2(H.find, l_labels, top$1) > Curry._2(H.find, n_labels, top$1)) {
-            throw [
-                  Caml_builtin_exceptions.invalid_argument,
-                  "Graph.Mincut: graph not reducible"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.invalid_argument,
+                      "Graph.Mincut: graph not reducible"
+                    ]);
           }
           if (rest_of_stack$1) {
             var match = rest_of_stack$1[0];

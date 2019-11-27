@@ -4,6 +4,7 @@ var Mt = require("./mt.js");
 var Lazy = require("../../lib/js/lazy.js");
 var Block = require("../../lib/js/block.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
@@ -36,14 +37,14 @@ function f(param) {
     if (match$1 !== undefined) {
       return 1;
     } else {
-      throw [
-            Caml_builtin_exceptions.match_failure,
-            /* tuple */[
-              "lazy_test.ml",
-              11,
-              8
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.match_failure,
+                /* tuple */[
+                  "lazy_test.ml",
+                  11,
+                  8
+                ]
+              ]);
     }
   } else {
     return 0;
@@ -78,7 +79,7 @@ catch (raw_exn){
   if (exn[0] === Caml_builtin_exceptions.match_failure) {
     h = 2;
   } else {
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
 }
 
@@ -116,12 +117,12 @@ var f006 = Caml_obj.caml_lazy_make((function (param) {
       }));
 
 var f007 = Caml_obj.caml_lazy_make((function (param) {
-        throw Caml_builtin_exceptions.not_found;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
       }));
 
 var f008 = Caml_obj.caml_lazy_make((function (param) {
         console.log("hi");
-        throw Caml_builtin_exceptions.not_found;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
       }));
 
 Mt.from_pair_suites("Lazy_test", /* :: */[

@@ -10,6 +10,7 @@ var Js_vector = require("../../lib/js/js_vector.js");
 var Belt_Array = require("../../lib/js/belt_Array.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var suites = {
@@ -139,14 +140,14 @@ var v$1 = /* array */[
 ];
 
 if (!Belt_Array.set(v$1, 0, 0)) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "bs_array_test.ml",
-          34,
-          33
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "bs_array_test.ml",
+              34,
+              33
+            ]
+          ]);
 }
 
 b("File \"bs_array_test.ml\", line 34, characters 4-11", Belt_Array.getExn(v$1, 0) === 0);
@@ -157,14 +158,14 @@ var v$2 = /* array */[
 ];
 
 if (!Belt_Array.set(v$2, 1, 0)) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "bs_array_test.ml",
-          35,
-          32
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "bs_array_test.ml",
+              35,
+              32
+            ]
+          ]);
 }
 
 b("File \"bs_array_test.ml\", line 35, characters 4-11", Belt_Array.getExn(v$2, 1) === 0);
@@ -389,7 +390,7 @@ function addone(x) {
 
 function makeMatrixExn(sx, sy, init) {
   if (!(sx >= 0 && sy >= 0)) {
-    throw new Error("File \"bs_array_test.ml\", line 109, characters 4-10");
+    throw Caml_exceptions.stacktrace(new Error("File \"bs_array_test.ml\", line 109, characters 4-10"));
   }
   var res = new Array(sx);
   for(var x = 0 ,x_finish = sx - 1 | 0; x <= x_finish; ++x){

@@ -3,6 +3,7 @@
 var Immutable = require("immutable");
 var Belt_Array = require("../../lib/js/belt_Array.js");
 var Belt_MapInt = require("../../lib/js/belt_MapInt.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 var empty = new Immutable.OrderedMap();
 
@@ -19,7 +20,7 @@ function should(b) {
   if (b) {
     return 0;
   } else {
-    throw new Error("impossible");
+    throw Caml_exceptions.stacktrace(new Error("impossible"));
   }
 }
 

@@ -31,10 +31,10 @@ function f(param) {
   try {
     for(var i = 0; i <= 200; ++i){
       if (i === 10) {
-        throw [
-              A,
-              0
-            ];
+        throw Caml_exceptions.stacktrace([
+                  A,
+                  0
+                ]);
       }
       
     }
@@ -45,7 +45,7 @@ function f(param) {
     if (exn[0] === A) {
       return /* () */0;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

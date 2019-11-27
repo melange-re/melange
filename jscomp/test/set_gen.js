@@ -44,7 +44,7 @@ function min_elt(_param) {
         return param[1];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -61,7 +61,7 @@ function max_elt(_param) {
         return param[1];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -205,11 +205,11 @@ function check_height_and_diff(param) {
     var hl = check_height_and_diff(param[0]);
     var hr = check_height_and_diff(param[2]);
     if (h !== (max_int_2(hl, hr) + 1 | 0)) {
-      throw Height_invariant_broken;
+      throw Caml_exceptions.stacktrace(Height_invariant_broken);
     }
     var diff = Pervasives.abs(hl - hr | 0);
     if (diff > 2) {
-      throw Height_diff_borken;
+      throw Caml_exceptions.stacktrace(Height_diff_borken);
     }
     return h;
   } else {
@@ -246,24 +246,24 @@ function internal_bal(l, v, r) {
       } else if (lr) {
         return create(create(ll, lv, lr[0]), lr[1], create(lr[2], v, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "set_gen.ml",
-                235,
-                19
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "set_gen.ml",
+                    235,
+                    19
+                  ]
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "set_gen.ml",
-              225,
-              15
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "set_gen.ml",
+                  225,
+                  15
+                ]
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -275,24 +275,24 @@ function internal_bal(l, v, r) {
       } else if (rl) {
         return create(create(l, v, rl[0]), rl[1], create(rl[2], rv, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "set_gen.ml",
-                251,
-                19
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "set_gen.ml",
+                    251,
+                    19
+                  ]
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "set_gen.ml",
-              245,
-              15
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "set_gen.ml",
+                  245,
+                  15
+                ]
+              ]);
     }
   } else {
     return /* Node */[
@@ -313,10 +313,10 @@ function remove_min_elt(param) {
       return param[2];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Set.remove_min_elt"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Set.remove_min_elt"
+            ]);
   }
 }
 
@@ -521,14 +521,14 @@ function of_sorted_list(l) {
               match$4[1]
             ];
     } else {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "set_gen.ml",
-              361,
-              14
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "set_gen.ml",
+                  361,
+                  14
+                ]
+              ]);
     }
   };
   return sub(List.length(l), l)[0];

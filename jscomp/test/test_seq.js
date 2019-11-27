@@ -25,16 +25,16 @@ function assoc3(x, _l) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
 
 function help_action(param) {
-  throw [
-        Stop,
-        /* Unknown */Block.__(0, ["-help"])
-      ];
+  throw Caml_exceptions.stacktrace([
+            Stop,
+            /* Unknown */Block.__(0, ["-help"])
+          ]);
 }
 
 function v(speclist) {
@@ -63,7 +63,7 @@ function add_help(speclist) {
         /* [] */0
       ];
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   var add2;
@@ -82,7 +82,7 @@ function add_help(speclist) {
         /* [] */0
       ];
     } else {
-      throw exn$1;
+      throw Caml_exceptions.stacktrace(exn$1);
     }
   }
   return Pervasives.$at(speclist, Pervasives.$at(add1, add2));

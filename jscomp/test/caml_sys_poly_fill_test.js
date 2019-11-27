@@ -5,6 +5,7 @@ var Sys = require("../../lib/js/sys.js");
 var Block = require("../../lib/js/block.js");
 var Caml_sys = require("../../lib/js/caml_sys.js");
 var Node_process = require("../../lib/js/node_process.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var suites = {
@@ -55,7 +56,7 @@ catch (exn){
   if (exn === Caml_builtin_exceptions.not_found) {
     tmp = "Z";
   } else {
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
 }
 

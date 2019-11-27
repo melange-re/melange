@@ -4,6 +4,7 @@ var Mt = require("./mt.js");
 var $$Array = require("../../lib/js/array.js");
 var Block = require("../../lib/js/block.js");
 var Caml_string = require("../../lib/js/caml_string.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var suites = {
@@ -41,14 +42,14 @@ function convert(s) {
                     if (match !== undefined) {
                       return match;
                     } else {
-                      throw [
-                            Caml_builtin_exceptions.assert_failure,
-                            /* tuple */[
-                              "chn_test.ml",
-                              20,
-                              18
-                            ]
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.assert_failure,
+                                /* tuple */[
+                                  "chn_test.ml",
+                                  20,
+                                  18
+                                ]
+                              ]);
                     }
                   })));
 }

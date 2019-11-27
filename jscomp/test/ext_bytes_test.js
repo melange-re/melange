@@ -136,7 +136,7 @@ function starts_with(xs, prefix, p) {
     try {
       for(var i = 0 ,i_finish = len2 - 1 | 0; i <= i_finish; ++i){
         if (!Curry._2(p, Caml_bytes.get(xs, i), Caml_bytes.get(prefix, i))) {
-          throw H;
+          throw Caml_exceptions.stacktrace(H);
         }
         
       }
@@ -146,7 +146,7 @@ function starts_with(xs, prefix, p) {
       if (exn === H) {
         return false;
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
   }

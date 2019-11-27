@@ -6,6 +6,7 @@ var Block = require("../../lib/js/block.js");
 var Curry = require("../../lib/js/curry.js");
 var Stream = require("../../lib/js/stream.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function classify(chr) {
@@ -50,19 +51,19 @@ function utf8_decode(strm) {
                   Stream.junk(strm);
                   var match$1 = classify(match);
                   if (typeof match$1 === "number") {
-                    throw [
-                          Stream.$$Error,
-                          "Invalid byte"
-                        ];
+                    throw Caml_exceptions.stacktrace([
+                              Stream.$$Error,
+                              "Invalid byte"
+                            ]);
                   } else {
                     switch (match$1.tag | 0) {
                       case /* Single */0 :
                           return Stream.icons(match$1[0], utf8_decode(strm));
                       case /* Cont */1 :
-                          throw [
-                                Stream.$$Error,
-                                "Unexpected continuation byte"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Stream.$$Error,
+                                    "Unexpected continuation byte"
+                                  ]);
                       case /* Leading */2 :
                           var follow = function (strm, _n, _c) {
                             while(true) {
@@ -73,19 +74,19 @@ function utf8_decode(strm) {
                               } else {
                                 var match = classify(Stream.next(strm));
                                 if (typeof match === "number") {
-                                  throw [
-                                        Stream.$$Error,
-                                        "Continuation byte expected"
-                                      ];
+                                  throw Caml_exceptions.stacktrace([
+                                            Stream.$$Error,
+                                            "Continuation byte expected"
+                                          ]);
                                 } else if (match.tag === /* Cont */1) {
                                   _c = (c << 6) | match[0] & 63;
                                   _n = n - 1 | 0;
                                   continue ;
                                 } else {
-                                  throw [
-                                        Stream.$$Error,
-                                        "Continuation byte expected"
-                                      ];
+                                  throw Caml_exceptions.stacktrace([
+                                            Stream.$$Error,
+                                            "Continuation byte expected"
+                                          ]);
                                 }
                               }
                             };
@@ -121,10 +122,10 @@ function decode(bytes, offset) {
   var offset$1 = offset;
   var match = classify(Caml_bytes.get(bytes, offset$1));
   if (typeof match === "number") {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "decode"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "decode"
+            ]);
   } else {
     switch (match.tag | 0) {
       case /* Single */0 :
@@ -133,10 +134,10 @@ function decode(bytes, offset) {
                   offset$1 + 1 | 0
                 ];
       case /* Cont */1 :
-          throw [
-                Caml_builtin_exceptions.invalid_argument,
-                "decode"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.invalid_argument,
+                    "decode"
+                  ]);
       case /* Leading */2 :
           var _n = match[0];
           var _c = match[1];
@@ -153,20 +154,20 @@ function decode(bytes, offset) {
             } else {
               var match$1 = classify(Caml_bytes.get(bytes, offset$2));
               if (typeof match$1 === "number") {
-                throw [
-                      Caml_builtin_exceptions.invalid_argument,
-                      "decode"
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.invalid_argument,
+                          "decode"
+                        ]);
               } else if (match$1.tag === /* Cont */1) {
                 _offset = offset$2 + 1 | 0;
                 _c = (c << 6) | match$1[0] & 63;
                 _n = n - 1 | 0;
                 continue ;
               } else {
-                throw [
-                      Caml_builtin_exceptions.invalid_argument,
-                      "decode"
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.invalid_argument,
+                          "decode"
+                        ]);
               }
             }
           };

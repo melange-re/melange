@@ -10,6 +10,7 @@ var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function split(delim, s) {
@@ -32,7 +33,7 @@ function split(delim, s) {
                     l
                   ];
           } else {
-            throw exn;
+            throw Caml_exceptions.stacktrace(exn);
           }
         }
         var l_000 = $$String.sub(s, i$prime + 1 | 0, (i - i$prime | 0) - 1 | 0);
@@ -156,16 +157,16 @@ function bal(l, x, d, r) {
       } else if (lr) {
         return create(create(ll, lv, ld, lr[/* l */0]), lr[/* v */1], lr[/* d */2], create(lr[/* r */3], x, d, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -178,16 +179,16 @@ function bal(l, x, d, r) {
       } else if (rl) {
         return create(create(l, x, d, rl[/* l */0]), rl[/* v */1], rl[/* d */2], create(rl[/* r */3], rv, rd, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -265,7 +266,7 @@ function find(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -307,7 +308,7 @@ function find_first(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -391,7 +392,7 @@ function find_last(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -487,7 +488,7 @@ function min_binding(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -527,7 +528,7 @@ function max_binding(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -561,10 +562,10 @@ function remove_min_binding(param) {
       return param[/* r */3];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Map.remove_min_elt"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Map.remove_min_elt"
+            ]);
   }
 }
 
@@ -871,14 +872,14 @@ function merge$1(f, s1, s2) {
     var match$1 = split$1(v2, s1);
     return concat_or_join(merge$1(f, match$1[0], s2[/* l */0]), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2[/* d */2])), merge$1(f, match$1[2], s2[/* r */3]));
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "map.ml",
-            393,
-            10
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "map.ml",
+                393,
+                10
+              ]
+            ]);
   }
 }
 
@@ -1178,17 +1179,17 @@ function compute_update_sequences(all_tickers) {
                 var l$1 = List.sort_uniq((function (lhs, rhs) {
                         var match = lhs.rank;
                         if (typeof match === "number") {
-                          throw [
-                                Caml_builtin_exceptions.failure,
-                                "All nodes should be ranked"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.failure,
+                                    "All nodes should be ranked"
+                                  ]);
                         }
                         var match$1 = rhs.rank;
                         if (typeof match$1 === "number") {
-                          throw [
-                                Caml_builtin_exceptions.failure,
-                                "All nodes should be ranked"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.failure,
+                                    "All nodes should be ranked"
+                                  ]);
                         }
                         return Caml_primitive.caml_int_compare(match[0], match$1[0]);
                       }), l);
@@ -1218,10 +1219,10 @@ function process_quote(ticker_map, new_ticker, new_value) {
                   ticker.value = new_value;
                   return /* () */0;
                 } else {
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Only single Market ticker should be udpated upon a new quote"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Only single Market ticker should be udpated upon a new quote"
+                          ]);
                 }
               }), update_sequence);
 }
@@ -1250,10 +1251,10 @@ function process_input_line(ticker_map, all_tickers, line) {
             var match$1 = match[1];
             if (match$1) {
               if (match$1[1]) {
-                throw [
-                      Caml_builtin_exceptions.failure,
-                      "Invalid input line"
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.failure,
+                          "Invalid input line"
+                        ]);
               }
               var ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
               var value = Caml_format.caml_float_of_string(match$1[0]);
@@ -1263,16 +1264,16 @@ function process_input_line(ticker_map, all_tickers, line) {
                       Caml_option.some(ticker_map$1)
                     ];
             } else {
-              throw [
-                    Caml_builtin_exceptions.failure,
-                    "Invalid input line"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Caml_builtin_exceptions.failure,
+                        "Invalid input line"
+                      ]);
             }
           } else {
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "Invalid input line"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "Invalid input line"
+                    ]);
           }
       case "R" :
           var match$2 = tokens[1];
@@ -1287,10 +1288,10 @@ function process_input_line(ticker_map, all_tickers, line) {
                       var match$5 = match$4[1];
                       if (match$5) {
                         if (match$5[1]) {
-                          throw [
-                                Caml_builtin_exceptions.failure,
-                                "Invalid input line"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.failure,
+                                    "Invalid input line"
+                                  ]);
                         }
                         return /* tuple */[
                                 /* :: */[
@@ -1300,16 +1301,16 @@ function process_input_line(ticker_map, all_tickers, line) {
                                 ticker_map
                               ];
                       } else {
-                        throw [
-                              Caml_builtin_exceptions.failure,
-                              "Invalid input line"
-                            ];
+                        throw Caml_exceptions.stacktrace([
+                                  Caml_builtin_exceptions.failure,
+                                  "Invalid input line"
+                                ]);
                       }
                     } else {
-                      throw [
-                            Caml_builtin_exceptions.failure,
-                            "Invalid input line"
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.failure,
+                                "Invalid input line"
+                              ]);
                     }
                 case "-" :
                     var match$6 = match$3[1];
@@ -1317,10 +1318,10 @@ function process_input_line(ticker_map, all_tickers, line) {
                       var match$7 = match$6[1];
                       if (match$7) {
                         if (match$7[1]) {
-                          throw [
-                                Caml_builtin_exceptions.failure,
-                                "Invalid input line"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.failure,
+                                    "Invalid input line"
+                                  ]);
                         }
                         return /* tuple */[
                                 /* :: */[
@@ -1330,23 +1331,23 @@ function process_input_line(ticker_map, all_tickers, line) {
                                 ticker_map
                               ];
                       } else {
-                        throw [
-                              Caml_builtin_exceptions.failure,
-                              "Invalid input line"
-                            ];
+                        throw Caml_exceptions.stacktrace([
+                                  Caml_builtin_exceptions.failure,
+                                  "Invalid input line"
+                                ]);
                       }
                     } else {
-                      throw [
-                            Caml_builtin_exceptions.failure,
-                            "Invalid input line"
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.failure,
+                                "Invalid input line"
+                              ]);
                     }
                 case "S" :
                     if (match$3[1]) {
-                      throw [
-                            Caml_builtin_exceptions.failure,
-                            "Invalid input line"
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.failure,
+                                "Invalid input line"
+                              ]);
                     }
                     return /* tuple */[
                             /* :: */[
@@ -1361,34 +1362,34 @@ function process_input_line(ticker_map, all_tickers, line) {
                             ticker_map
                           ];
                 default:
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Invalid input line"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Invalid input line"
+                          ]);
               }
             } else {
-              throw [
-                    Caml_builtin_exceptions.failure,
-                    "Invalid input line"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Caml_builtin_exceptions.failure,
+                        "Invalid input line"
+                      ]);
             }
           } else {
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "Invalid input line"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "Invalid input line"
+                    ]);
           }
       default:
-        throw [
-              Caml_builtin_exceptions.failure,
-              "Invalid input line"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.failure,
+                  "Invalid input line"
+                ]);
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Invalid input line"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Invalid input line"
+            ]);
   }
 }
 

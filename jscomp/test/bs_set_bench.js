@@ -1,6 +1,7 @@
 'use strict';
 
 var Belt_SetInt = require("../../lib/js/belt_SetInt.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function bench(param) {
@@ -13,14 +14,14 @@ function bench(param) {
   console.time("test/bs_set_bench.ml 11");
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     if (!Belt_SetInt.has(data, i$1)) {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "bs_set_bench.ml",
-              12,
-              4
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "bs_set_bench.ml",
+                  12,
+                  4
+                ]
+              ]);
     }
     
   }
@@ -33,14 +34,14 @@ function bench(param) {
   if (Belt_SetInt.size(data) === 0) {
     return 0;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "bs_set_bench.ml",
-            17,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "bs_set_bench.ml",
+                17,
+                2
+              ]
+            ]);
   }
 }
 

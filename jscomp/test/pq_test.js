@@ -65,7 +65,7 @@ function remove_top(param) {
       return left;
     }
   } else {
-    throw Queue_is_empty;
+    throw Caml_exceptions.stacktrace(Queue_is_empty);
   }
 }
 
@@ -77,7 +77,7 @@ function extract(queue) {
             remove_top(queue)
           ];
   } else {
-    throw Queue_is_empty;
+    throw Caml_exceptions.stacktrace(Queue_is_empty);
   }
 }
 

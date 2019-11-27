@@ -2,6 +2,7 @@
 
 var Block = require("../../lib/js/block.js");
 var Parsing = require("../../lib/js/parsing.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var yytransl_const = /* array */[
@@ -46,10 +47,10 @@ var yynames_block = "NUMERAL\0IDENT\0";
 
 var yyact = /* array */[
   (function (param) {
-      throw [
-            Caml_builtin_exceptions.failure,
-            "parser"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "parser"
+              ]);
     }),
   (function (__caml_parser_env) {
       return Parsing.peek_val(__caml_parser_env, 1);
@@ -102,10 +103,10 @@ var yyact = /* array */[
       return Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     })
 ];
 

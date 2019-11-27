@@ -2,6 +2,7 @@
 
 var Js_exn = require("../../lib/js/js_exn.js");
 var Caml_option = require("../../lib/js/caml_option.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 
 function test_js_error(param) {
@@ -15,7 +16,7 @@ function test_js_error(param) {
       console.log(exn[1].stack);
       return ;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   return Caml_option.some(e);
@@ -29,9 +30,9 @@ function test_js_error2(param) {
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e[0] === Js_exn.$$Error) {
       console.log(e[1].stack);
-      throw e;
+      throw Caml_exceptions.stacktrace(e);
     } else {
-      throw e;
+      throw Caml_exceptions.stacktrace(e);
     }
   }
 }
@@ -47,7 +48,7 @@ function example1(param) {
       console.log(exn[1].stack);
       return ;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   return Caml_option.some(v);
@@ -62,7 +63,7 @@ function example2(param) {
     if (exn[0] === Js_exn.$$Error) {
       return ;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

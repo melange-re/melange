@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(x) {
@@ -155,14 +156,14 @@ function f11(x) {
   if (typeof x === "number") {
     return 2;
   } else if (x.tag) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "adt_optimize_test.ml",
-            191,
-            9
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "adt_optimize_test.ml",
+                191,
+                9
+              ]
+            ]);
   } else {
     return 1;
   }

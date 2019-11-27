@@ -1,6 +1,7 @@
 'use strict';
 
 var Block = require("../../lib/js/block.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function is_number(_expr) {
@@ -50,14 +51,14 @@ function compare(context, state, _a, _b) {
                 exit$2 = 4;
                 break;
             case /* Frac */4 :
-                throw [
-                      Caml_builtin_exceptions.assert_failure,
-                      /* tuple */[
-                        "gpr_1698_test.ml",
-                        45,
-                        10
-                      ]
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.assert_failure,
+                          /* tuple */[
+                            "gpr_1698_test.ml",
+                            45,
+                            10
+                          ]
+                        ]);
             case /* Pow */3 :
             case /* Gcd */5 :
                 exit = 1;
@@ -75,14 +76,14 @@ function compare(context, state, _a, _b) {
       case /* Frac */4 :
           switch (b.tag | 0) {
             case /* Val */0 :
-                throw [
-                      Caml_builtin_exceptions.assert_failure,
-                      /* tuple */[
-                        "gpr_1698_test.ml",
-                        45,
-                        10
-                      ]
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.assert_failure,
+                          /* tuple */[
+                            "gpr_1698_test.ml",
+                            45,
+                            10
+                          ]
+                        ]);
             case /* Neg */1 :
                 exit$3 = 5;
                 break;

@@ -5,6 +5,7 @@ var Block = require("../../lib/js/block.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var Pervasives = require("../../lib/js/pervasives.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function map(f, a) {
@@ -29,10 +30,10 @@ function init(l, f) {
     return /* array */[];
   } else {
     if (l$1 < 0) {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Array.init"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Array.init"
+              ]);
     }
     var res = Caml_array.caml_make_vect(l$1, f$1(0));
     for(var i = 1 ,i_finish = l$1 - 1 | 0; i <= i_finish; ++i){

@@ -10,7 +10,7 @@ function scanf_bad_input(ib, x) {
   if (x[0] === Scan_failure || x[0] === Caml_builtin_exceptions.failure) {
     s = x[1];
   } else {
-    throw x;
+    throw Caml_exceptions.stacktrace(x);
   }
   for(var i = 0; i <= 100; ++i){
     console.log(s);

@@ -12,6 +12,7 @@ var Caml_io = require("../../lib/js/caml_io.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Pervasives = require("../../lib/js/pervasives.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
@@ -114,10 +115,10 @@ function get_lines(fname) {
                   ]),
                 "in file %s, %s"
               ]), fname, exn[1]);
-      throw [
-            Caml_builtin_exceptions.failure,
-            s
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                s
+              ]);
     } else if (exn === Caml_builtin_exceptions.end_of_file) {
       var s$1 = Curry._1(Printf.sprintf(/* Format */[
                 /* String_literal */Block.__(11, [
@@ -132,12 +133,12 @@ function get_lines(fname) {
                   ]),
                 "in file %s, unexpected end of file"
               ]), fname);
-      throw [
-            Caml_builtin_exceptions.failure,
-            s$1
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                s$1
+              ]);
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -173,7 +174,7 @@ function add_digest_ib(ob, ib) {
     if (exn === Caml_builtin_exceptions.end_of_file) {
       return /* () */0;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

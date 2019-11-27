@@ -6,6 +6,7 @@ var Block = require("../../lib/js/block.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_module = require("../../lib/js/caml_module.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
@@ -92,7 +93,7 @@ catch (exn){
   if (exn === Lazy.Undefined) {
     tmp = -1;
   } else {
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
 }
 
@@ -152,7 +153,7 @@ catch (raw_exn){
   if (exn$1[0] === Caml_builtin_exceptions.undefined_recursive_module) {
     tmp$1 = 4;
   } else {
-    throw exn$1;
+    throw Caml_exceptions.stacktrace(exn$1);
   }
 }
 

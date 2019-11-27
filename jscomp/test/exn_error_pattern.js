@@ -68,7 +68,7 @@ eq("File \"exn_error_pattern.ml\", line 37, characters 5-12", f([
 var tmp;
 
 try {
-  throw new Error("x");
+  throw Caml_exceptions.stacktrace(new Error("x"));
 }
 catch (raw_e){
   tmp = Caml_js_exceptions.internalToOCamlException(raw_e);

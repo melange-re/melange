@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(children) {
@@ -50,14 +51,14 @@ function f(children) {
                                 var a14 = children$14[0];
                                 if (children$15) {
                                   if (children$15[1]) {
-                                    throw [
-                                          Caml_builtin_exceptions.assert_failure,
-                                          /* tuple */[
-                                            "gpr_1150.ml",
-                                            56,
-                                            34
-                                          ]
-                                        ];
+                                    throw Caml_exceptions.stacktrace([
+                                              Caml_builtin_exceptions.assert_failure,
+                                              /* tuple */[
+                                                "gpr_1150.ml",
+                                                56,
+                                                34
+                                              ]
+                                            ]);
                                   }
                                   return /* array */[
                                           a0,

@@ -23,14 +23,14 @@ function to_int(x) {
   } else if (x[0] === Int$1) {
     return x[2];
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "extensible_variant_test.ml",
-            16,
-            9
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "extensible_variant_test.ml",
+                16,
+                9
+              ]
+            ]);
   }
 }
 

@@ -46,7 +46,7 @@ function a1(f) {
     if (exn === E) {
       return 1;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

@@ -6,6 +6,7 @@ var Curry = require("../../lib/js/curry.js");
 var Stack = require("../../lib/js/stack.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Mt_global = require("./mt_global.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -64,7 +65,7 @@ function does_raise(f, s) {
     if (exn === Stack.Empty) {
       return true;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

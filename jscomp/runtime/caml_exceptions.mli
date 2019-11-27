@@ -37,3 +37,8 @@ val caml_fresh_oo_id :
 val create : string -> Caml_builtin_exceptions.exception_block
 (* val makeExtension : string -> Caml_builtin_exceptions.exception_block *)
 val caml_is_extension : 'a -> bool
+
+(* Used by take advantage of V8 API *)
+val stacktrace : 
+  Caml_obj_extern.t -> 
+  Caml_obj_extern.t

@@ -16,6 +16,7 @@ var Caml_int32 = require("../../lib/js/caml_int32.js");
 var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_string = require("../../lib/js/caml_string.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -43,14 +44,14 @@ function bufferize(f) {
             }),
           (function (x) {
               if (buf.contents !== undefined) {
-                throw [
-                      Caml_builtin_exceptions.assert_failure,
-                      /* tuple */[
-                        "qcc.ml",
-                        17,
-                        4
-                      ]
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.assert_failure,
+                          /* tuple */[
+                            "qcc.ml",
+                            17,
+                            4
+                          ]
+                        ]);
               }
               buf.contents = Caml_option.some(x);
               return /* () */0;
@@ -101,14 +102,14 @@ function addsym(s) {
 
 function symstr(n) {
   if (n >= syms.contents) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "qcc.ml",
-            40,
-            4
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "qcc.ml",
+                40,
+                4
+              ]
+            ]);
   }
   return Caml_array.caml_array_get(symtab, n);
 }
@@ -198,7 +199,7 @@ function next(param) {
     if (exn === Caml_builtin_exceptions.end_of_file) {
       match = undefined;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   if (match !== undefined) {
@@ -223,10 +224,10 @@ function next(param) {
         var ch = getq(/* () */0);
         var qt = Curry._1(getch, /* () */0);
         if (qt !== /* "'" */39) {
-          throw [
-                Caml_builtin_exceptions.failure,
-                "syntax error"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.failure,
+                    "syntax error"
+                  ]);
         }
         return /* ILit */Block.__(1, [ch]);
       }
@@ -364,14 +365,14 @@ function get32(l) {
 
 function patch(rel, loc, n) {
   if (n >= 0) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "qcc.ml",
-            157,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "qcc.ml",
+                157,
+                2
+              ]
+            ]);
   }
   if (loc !== 0) {
     var i = opos.contents;
@@ -872,10 +873,10 @@ function unary(stk) {
                   2
                 ];
               } else {
-                throw [
-                      Caml_builtin_exceptions.failure,
-                      "[cast] expected"
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.failure,
+                          "[cast] expected"
+                        ]);
               }
               for(var k = 1 ,k_finish = match$1[1]; k <= k_finish; ++k){
                 Curry._1(next$1, /* () */0);
@@ -920,10 +921,10 @@ function unary(stk) {
                           ]),
                         "unknown operator %s"
                       ]), o);
-              throw [
-                    Caml_builtin_exceptions.failure,
-                    s
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Caml_builtin_exceptions.failure,
+                        s
+                      ]);
             }
             out(List.assoc(o, unops));
             if (o === "!") {
@@ -942,14 +943,14 @@ function unary(stk) {
         if (List.mem_assoc(i, stk)) {
           var l = List.assoc(i, stk);
           if (l <= -256) {
-            throw [
-                  Caml_builtin_exceptions.assert_failure,
-                  /* tuple */[
-                    "qcc.ml",
-                    295,
-                    6
-                  ]
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.assert_failure,
+                      /* tuple */[
+                        "qcc.ml",
+                        295,
+                        6
+                      ]
+                    ]);
           }
           out(4754245);
           out(l & 255);
@@ -1139,10 +1140,10 @@ function decl(g, _n, _stk) {
               if (g) {
                 var glo = Caml_array.caml_array_get(globs, s);
                 if (glo.va >= 0) {
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "symbol defined twice"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "symbol defined twice"
+                          ]);
                 }
                 var va = (gpos.contents + 232 | 0) + 4194304 | 0;
                 Caml_array.caml_array_set(globs, s, {
@@ -1172,10 +1173,10 @@ function decl(g, _n, _stk) {
                       ];
               }
             } else {
-              throw [
-                    Caml_builtin_exceptions.failure,
-                    "[var] expected in [decl]"
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Caml_builtin_exceptions.failure,
+                        "[var] expected in [decl]"
+                      ]);
             }
           }
         };
@@ -1207,14 +1208,14 @@ function decl(g, _n, _stk) {
       Curry._1(unnext, t);
       if (!g && n !== 0) {
         if ((n << 3) >= 256) {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "qcc.ml",
-                  436,
-                  6
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "qcc.ml",
+                      436,
+                      6
+                    ]
+                  ]);
         }
         out(4752364);
         out((n << 3));
@@ -1324,14 +1325,14 @@ function stmt(brk, stk) {
     var brkl = brk[0];
     var n = align.contents - brk[1] | 0;
     if (n < 0) {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "qcc.ml",
-              515,
-              4
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "qcc.ml",
+                  515,
+                  4
+                ]
+              ]);
     }
     if (n !== 0) {
       out(4752324);
@@ -1390,10 +1391,10 @@ function top(_param) {
         var f = match[0];
         var g = Caml_array.caml_array_get(globs, f);
         if (g.va >= 0) {
-          throw [
-                Caml_builtin_exceptions.failure,
-                "symbol defined twice"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.failure,
+                    "symbol defined twice"
+                  ]);
         }
         Caml_array.caml_array_set(globs, f, {
               loc: g.loc,
@@ -1410,17 +1411,17 @@ function top(_param) {
                   if (match[0] === ")") {
                     return stk;
                   } else {
-                    throw [
-                          Caml_builtin_exceptions.failure,
-                          "[var] or ) expected"
-                        ];
+                    throw Caml_exceptions.stacktrace([
+                              Caml_builtin_exceptions.failure,
+                              "[var] or ) expected"
+                            ]);
                   }
               case /* ILit */1 :
               case /* SLit */2 :
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "[var] or ) expected"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "[var] or ) expected"
+                          ]);
               case /* Sym */3 :
                   var r = List.hd(regs);
                   push(r);
@@ -1496,10 +1497,10 @@ function top(_param) {
         _param = /* () */0;
         continue ;
       } else {
-        throw [
-              Caml_builtin_exceptions.failure,
-              "[decl] or [fun] expected"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.failure,
+                  "[decl] or [fun] expected"
+                ]);
       }
     }
   };
@@ -1729,14 +1730,14 @@ function elfgen(outf) {
   elfphdr(1, 0, tend + off | 0, 2097152);
   elfphdr(2, dyn + off | 0, tend - dyn | 0, 8);
   if (opos.contents !== 232) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "qcc.ml",
-            698,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "qcc.ml",
+                698,
+                2
+              ]
+            ]);
   }
   patch(false, 24, va(entry));
   return Pervasives.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));

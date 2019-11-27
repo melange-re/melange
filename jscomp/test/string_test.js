@@ -6,6 +6,7 @@ var Block = require("../../lib/js/block.js");
 var Bytes = require("../../lib/js/bytes.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -77,7 +78,7 @@ function rev_split_by_char(c, s) {
                 l
               ];
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
   };
@@ -104,7 +105,7 @@ function xsplit(delim, s) {
                     l
                   ];
           } else {
-            throw exn;
+            throw Caml_exceptions.stacktrace(exn);
           }
         }
         var l_000 = $$String.sub(s, i$prime + 1 | 0, (i - i$prime | 0) - 1 | 0);

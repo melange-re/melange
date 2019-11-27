@@ -41,14 +41,14 @@ function handler(e) {
     console.log("hi");
     return Promise.resolve(0);
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "promise_catch_test.ml",
-            22,
-            9
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "promise_catch_test.ml",
+                22,
+                9
+              ]
+            ]);
   }
 }
 
@@ -85,14 +85,14 @@ catch (raw_e){
 }
 
 if (exit === 1) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "promise_catch_test.ml",
-          39,
-          9
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "promise_catch_test.ml",
+              39,
+              9
+            ]
+          ]);
 }
 
 Mt.from_pair_suites("Promise_catch_test", suites.contents);

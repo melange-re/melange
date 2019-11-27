@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(x) {
@@ -23,14 +24,14 @@ function ff(x) {
     case "c" :
         return /* c */99;
     default:
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "bb.ml",
-              17,
-              9
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "bb.ml",
+                  17,
+                  9
+                ]
+              ]);
   }
 }
 
@@ -47,14 +48,14 @@ function test(x) {
         match = /* c */99;
         break;
     default:
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "bb.ml",
-              26,
-              13
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "bb.ml",
+                  26,
+                  13
+                ]
+              ]);
   }
   if (match !== 98) {
     if (match >= 99) {

@@ -7,25 +7,25 @@ var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(param) {
-  throw Caml_builtin_exceptions.not_found;
+  throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
 }
 
 function assert_f(x) {
   if (x <= 3) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "exception_value_test.ml",
-            9,
-            12
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "exception_value_test.ml",
+                9,
+                12
+              ]
+            ]);
   }
   return 3;
 }
 
 function hh(param) {
-  throw Caml_builtin_exceptions.not_found;
+  throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
 }
 
 var A = Caml_exceptions.create("Exception_value_test.A");
@@ -47,7 +47,7 @@ function test_not_found(f, param) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return 2;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -60,9 +60,9 @@ function test_js_error2(param) {
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e[0] === Js_exn.$$Error) {
       console.log(e[1].stack);
-      throw e;
+      throw Caml_exceptions.stacktrace(e);
     } else {
-      throw e;
+      throw Caml_exceptions.stacktrace(e);
     }
   }
 }

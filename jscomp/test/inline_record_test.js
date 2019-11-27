@@ -64,14 +64,14 @@ var tmp;
 if (A0 === A0) {
   tmp = 3;
 } else {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "inline_record_test.ml",
-          51,
-          52
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "inline_record_test.ml",
+              51,
+              52
+            ]
+          ]);
 }
 
 eq("File \"inline_record_test.ml\", line 51, characters 6-13", tmp, 3);
@@ -102,14 +102,14 @@ for(var i = 0; i <= 10; ++i){
 var tmp$1;
 
 if (v4.tag) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "inline_record_test.ml",
-          69,
-          48
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "inline_record_test.ml",
+              69,
+              48
+            ]
+          ]);
 } else {
   tmp$1 = v4[/* x */0];
 }
@@ -121,14 +121,14 @@ var tmp$2;
 if (v5.tag) {
   tmp$2 = v5[/* z */0];
 } else {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "inline_record_test.ml",
-          71,
-          48
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "inline_record_test.ml",
+              71,
+              48
+            ]
+          ]);
 }
 
 eq("File \"inline_record_test.ml\", line 71, characters 6-13", tmp$2, 22);
@@ -161,14 +161,14 @@ var tmp$3;
 if (v6[0] === A4) {
   tmp$3 = v6[/* x */1];
 } else {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "inline_record_test.ml",
-          87,
-          49
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "inline_record_test.ml",
+              87,
+              49
+            ]
+          ]);
 }
 
 eq("File \"inline_record_test.ml\", line 87, characters 6-13", tmp$3, 11);

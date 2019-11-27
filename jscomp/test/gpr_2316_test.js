@@ -2,6 +2,7 @@
 
 var Mt = require("./mt.js");
 var Block = require("../../lib/js/block.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -33,17 +34,17 @@ function eq(loc, x, y) {
 var y;
 
 try {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "boo"
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.failure,
+            "boo"
+          ]);
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
   if (exn[0] === Caml_builtin_exceptions.failure) {
     y = exn[1];
   } else {
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
 }
 
@@ -52,17 +53,17 @@ var x;
 var exit = 0;
 
 try {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "boo"
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.failure,
+            "boo"
+          ]);
 }
 catch (raw_exn$1){
   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
   if (exn$1[0] === Caml_builtin_exceptions.failure) {
     x = exn$1[1];
   } else {
-    throw exn$1;
+    throw Caml_exceptions.stacktrace(exn$1);
   }
 }
 

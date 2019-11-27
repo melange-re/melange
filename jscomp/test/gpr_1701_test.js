@@ -9,7 +9,7 @@ var Foo = Caml_exceptions.create("Gpr_1701_test.Foo");
 
 function test(n) {
   if (n === 0) {
-    throw Foo;
+    throw Caml_exceptions.stacktrace(Foo);
   }
   try {
     return test(n - 1 | 0);
@@ -18,7 +18,7 @@ function test(n) {
     if (exn === Foo) {
       return /* () */0;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -37,7 +37,7 @@ function read_lines(inc) {
       if (exn === Caml_builtin_exceptions.end_of_file) {
         match = undefined;
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
     if (match !== undefined) {
@@ -64,7 +64,7 @@ function read_lines2(inc) {
       if (exn === Caml_builtin_exceptions.end_of_file) {
         return List.rev(acc);
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
     _acc = /* :: */[
@@ -88,7 +88,7 @@ function read_lines3(inc) {
       if (exn === Caml_builtin_exceptions.end_of_file) {
         return List.rev(acc);
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
   };

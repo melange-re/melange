@@ -17,6 +17,7 @@ var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_string = require("../../lib/js/caml_string.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -706,14 +707,14 @@ function verify_read(c) {
             ]), id) === c) {
     return 0;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "tscanf_test.ml",
-            174,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "tscanf_test.ml",
+                174,
+                2
+              ]
+            ]);
   }
 }
 
@@ -1418,10 +1419,10 @@ function scan_elems$1(ib, accu) {
                 ]), (function (i, c) {
                 if (c !== 59) {
                   if (c !== 93) {
-                    throw [
-                          Caml_builtin_exceptions.failure,
-                          "scan_elems"
-                        ];
+                    throw Caml_exceptions.stacktrace([
+                              Caml_builtin_exceptions.failure,
+                              "scan_elems"
+                            ]);
                   }
                   return List.rev(/* :: */[
                               i,
@@ -1508,10 +1509,10 @@ function scan_elems$2(ib, accu) {
                               ]);
                   }
                   console.log(Caml_bytes.bytes_to_string(Bytes.make(1, c)));
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "scan_elems"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "scan_elems"
+                          ]);
                 }));
   }
   catch (raw_exn){
@@ -1528,7 +1529,7 @@ function scan_elems$2(ib, accu) {
     } else if (exn === Caml_builtin_exceptions.end_of_file) {
       return accu;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -1686,10 +1687,10 @@ function scan_rest(ib, accu) {
                 ]), (function (c) {
                 if (c !== 59) {
                   if (c !== 93) {
-                    throw [
-                          Caml_builtin_exceptions.failure,
-                          "scan_rest"
-                        ];
+                    throw Caml_exceptions.stacktrace([
+                              Caml_builtin_exceptions.failure,
+                              "scan_rest"
+                            ]);
                   }
                   return accu;
                 } else {
@@ -1742,10 +1743,10 @@ function scan_elems$4(ib, accu) {
                   " %c "
                 ]), (function (c) {
                 if (c !== 91) {
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "scan_elems"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "scan_elems"
+                          ]);
                 }
                 if (accu === /* [] */0) {
                   return Curry._1(Scanf.bscanf(ib, /* Format */[
@@ -1782,10 +1783,10 @@ function scan_elems$4(ib, accu) {
                                 }
                               }));
                 } else {
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "scan_elems"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "scan_elems"
+                          ]);
                 }
               }));
 }
@@ -1913,10 +1914,10 @@ function scan_rest$1(ib, accu) {
                                                           ]),
                                                         "scan_int_list"
                                                       ]);
-                                                  throw [
-                                                        Caml_builtin_exceptions.failure,
-                                                        s
-                                                      ];
+                                                  throw Caml_exceptions.stacktrace([
+                                                            Caml_builtin_exceptions.failure,
+                                                            s
+                                                          ]);
                                               }
                                             }));
                               }));
@@ -1991,7 +1992,7 @@ function scan_elems$5(ib, scan_elem, accu) {
     if (exn[0] === Scanf.Scan_failure) {
       return accu;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -3698,7 +3699,7 @@ function next_char(ob, param) {
   var s = $$Buffer.contents(ob);
   var len = s.length;
   if (len === 0) {
-    throw Caml_builtin_exceptions.end_of_file;
+    throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.end_of_file);
   }
   var c = Caml_string.get(s, 0);
   ob.position = 0;

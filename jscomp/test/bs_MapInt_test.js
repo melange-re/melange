@@ -1,12 +1,13 @@
 'use strict';
 
 var Belt_MapInt = require("../../lib/js/belt_MapInt.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 function should(b) {
   if (b) {
     return 0;
   } else {
-    throw new Error("IMPOSSIBLE");
+    throw Caml_exceptions.stacktrace(new Error("IMPOSSIBLE"));
   }
 }
 

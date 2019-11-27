@@ -86,16 +86,16 @@ function bal(l, x, d, r) {
       } else if (lr) {
         return create(create(ll, lv, ld, lr[/* l */0]), lr[/* v */1], lr[/* d */2], create(lr[/* r */3], x, d, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -108,16 +108,16 @@ function bal(l, x, d, r) {
       } else if (rl) {
         return create(create(l, x, d, rl[/* l */0]), rl[/* v */1], rl[/* d */2], create(rl[/* r */3], rv, rd, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -195,7 +195,7 @@ function find(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -237,7 +237,7 @@ function find_first(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -321,7 +321,7 @@ function find_last(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -417,7 +417,7 @@ function min_binding(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -457,7 +457,7 @@ function max_binding(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -491,10 +491,10 @@ function remove_min_binding(param) {
       return param[/* r */3];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Map.remove_min_elt"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Map.remove_min_elt"
+            ]);
   }
 }
 
@@ -801,14 +801,14 @@ function merge$1(f, s1, s2) {
     var match$1 = split(v2, s1);
     return concat_or_join(merge$1(f, match$1[0], s2[/* l */0]), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2[/* d */2])), merge$1(f, match$1[2], s2[/* r */3]));
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "map.ml",
-            393,
-            10
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "map.ml",
+                393,
+                10
+              ]
+            ]);
   }
 }
 
@@ -1087,16 +1087,16 @@ function bal$1(l, x, d, r) {
       } else if (lr) {
         return create$1(create$1(ll, lv, ld, lr[/* l */0]), lr[/* v */1], lr[/* d */2], create$1(lr[/* r */3], x, d, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -1109,16 +1109,16 @@ function bal$1(l, x, d, r) {
       } else if (rl) {
         return create$1(create$1(l, x, d, rl[/* l */0]), rl[/* v */1], rl[/* d */2], create$1(rl[/* r */3], rv, rd, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -1196,7 +1196,7 @@ function find$1(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -1238,7 +1238,7 @@ function find_first$1(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -1322,7 +1322,7 @@ function find_last$1(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -1418,7 +1418,7 @@ function min_binding$1(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -1458,7 +1458,7 @@ function max_binding$1(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -1492,10 +1492,10 @@ function remove_min_binding$1(param) {
       return param[/* r */3];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Map.remove_min_elt"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Map.remove_min_elt"
+            ]);
   }
 }
 
@@ -1802,14 +1802,14 @@ function merge$3(f, s1, s2) {
     var match$1 = split$1(v2, s1);
     return concat_or_join$1(merge$3(f, match$1[0], s2[/* l */0]), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2[/* d */2])), merge$3(f, match$1[2], s2[/* r */3]));
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "map.ml",
-            393,
-            10
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "map.ml",
+                393,
+                10
+              ]
+            ]);
   }
 }
 
@@ -2088,16 +2088,16 @@ function bal$2(l, x, d, r) {
       } else if (lr) {
         return create$2(create$2(ll, lv, ld, lr[/* l */0]), lr[/* v */1], lr[/* d */2], create$2(lr[/* r */3], x, d, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -2110,16 +2110,16 @@ function bal$2(l, x, d, r) {
       } else if (rl) {
         return create$2(create$2(l, x, d, rl[/* l */0]), rl[/* v */1], rl[/* d */2], create$2(rl[/* r */3], rv, rd, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -2197,7 +2197,7 @@ function find$2(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -2239,7 +2239,7 @@ function find_first$2(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -2323,7 +2323,7 @@ function find_last$2(f, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -2419,7 +2419,7 @@ function min_binding$2(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -2459,7 +2459,7 @@ function max_binding$2(_param) {
               ];
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -2493,10 +2493,10 @@ function remove_min_binding$2(param) {
       return param[/* r */3];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Map.remove_min_elt"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Map.remove_min_elt"
+            ]);
   }
 }
 
@@ -2803,14 +2803,14 @@ function merge$5(f, s1, s2) {
     var match$1 = split$2(v2, s1);
     return concat_or_join$2(merge$5(f, match$1[0], s2[/* l */0]), v2, Curry._3(f, v2, match$1[1], Caml_option.some(s2[/* d */2])), merge$5(f, match$1[2], s2[/* r */3]));
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "map.ml",
-            393,
-            10
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "map.ml",
+                393,
+                10
+              ]
+            ]);
   }
 }
 
@@ -3133,7 +3133,7 @@ function get_method_label(table, name) {
       table.methods_by_label = add$2(label, true, table.methods_by_label);
       return label;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -3168,7 +3168,7 @@ function get_method(table, label) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return Caml_array.caml_array_get(table.methods, label);
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -3225,7 +3225,7 @@ function narrow(table, vars, virt_meths, concr_meths) {
             if (exn === Caml_builtin_exceptions.not_found) {
               tmp = true;
             } else {
-              throw exn;
+              throw Caml_exceptions.stacktrace(exn);
             }
           }
           by_label.contents = add$2(label, tmp, by_label.contents);
@@ -3291,7 +3291,7 @@ function new_variable(table, name) {
       }
       return index;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -3324,16 +3324,16 @@ function get_variable(table, name) {
   }
   catch (exn){
     if (exn === Caml_builtin_exceptions.not_found) {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "test_internalOO.ml",
-              280,
-              50
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "test_internalOO.ml",
+                  280,
+                  50
+                ]
+              ]);
     }
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
 }
 
@@ -3417,10 +3417,10 @@ function make_class_store(pub_meths, class_init, init_table) {
 
 function dummy_class(loc) {
   var undef = function (param) {
-    throw [
-          Caml_builtin_exceptions.undefined_recursive_module,
-          loc
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.undefined_recursive_module,
+              loc
+            ]);
   };
   return /* tuple */[
           undef,

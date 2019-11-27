@@ -4,6 +4,7 @@ var Curry = require("../../lib/js/curry.js");
 var Caml_int32 = require("../../lib/js/caml_int32.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var shared = /* array */[
@@ -592,14 +593,14 @@ CamlinternalOO.init_class($$class);
 var raw_object = obj_init(0);
 
 if (Caml_oo_curry.js1(291536124, 1, raw_object) !== 34) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "large_obj_test.ml",
-          124,
-          10
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "large_obj_test.ml",
+              124,
+              10
+            ]
+          ]);
 }
 
 function raw_class_init($$class) {
@@ -919,14 +920,14 @@ var raw_class = CamlinternalOO.make_class(shared, raw_class_init);
 var v = Curry._2(raw_class[0], 0, 3);
 
 if (Caml_oo_curry.js1(291536121, 2, v) !== 56) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "large_obj_test.ml",
-          251,
-          2
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "large_obj_test.ml",
+              251,
+              2
+            ]
+          ]);
 }
 
 exports.raw_object = raw_object;

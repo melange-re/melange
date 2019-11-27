@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Block = require("../../lib/js/block.js");
 var Js_mapperRt = require("../../lib/js/js_mapperRt.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -32,7 +33,7 @@ function aToJs(param) {
 
 function aFromJs(param) {
   if (!(param <= 2 && 0 <= param)) {
-    throw new Error("ASSERT FAILURE");
+    throw Caml_exceptions.stacktrace(new Error("ASSERT FAILURE"));
   }
   return param - 0 | 0;
 }

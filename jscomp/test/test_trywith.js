@@ -1,6 +1,7 @@
 'use strict';
 
 var Curry = require("../../lib/js/curry.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -10,7 +11,7 @@ function ff(g, x) {
   }
   catch (exn){
     if (exn !== Caml_builtin_exceptions.not_found) {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
     
   }
@@ -19,7 +20,7 @@ function ff(g, x) {
   }
   catch (exn$1){
     if (exn$1 !== Caml_builtin_exceptions.out_of_memory) {
-      throw exn$1;
+      throw Caml_exceptions.stacktrace(exn$1);
     }
     
   }
@@ -29,7 +30,7 @@ function ff(g, x) {
   catch (raw_exn){
     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn$2[0] !== Caml_builtin_exceptions.sys_error) {
-      throw exn$2;
+      throw Caml_exceptions.stacktrace(exn$2);
     }
     
   }
@@ -39,7 +40,7 @@ function ff(g, x) {
   catch (raw_exn$1){
     var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
     if (exn$3[0] !== Caml_builtin_exceptions.invalid_argument) {
-      throw exn$3;
+      throw Caml_exceptions.stacktrace(exn$3);
     }
     
   }
@@ -48,7 +49,7 @@ function ff(g, x) {
   }
   catch (exn$4){
     if (exn$4 !== Caml_builtin_exceptions.end_of_file) {
-      throw exn$4;
+      throw Caml_exceptions.stacktrace(exn$4);
     }
     
   }
@@ -58,7 +59,7 @@ function ff(g, x) {
   catch (raw_exn$2){
     var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
     if (exn$5[0] !== Caml_builtin_exceptions.match_failure) {
-      throw exn$5;
+      throw Caml_exceptions.stacktrace(exn$5);
     }
     
   }
@@ -67,7 +68,7 @@ function ff(g, x) {
   }
   catch (exn$6){
     if (exn$6 !== Caml_builtin_exceptions.stack_overflow) {
-      throw exn$6;
+      throw Caml_exceptions.stacktrace(exn$6);
     }
     
   }
@@ -76,7 +77,7 @@ function ff(g, x) {
   }
   catch (exn$7){
     if (exn$7 !== Caml_builtin_exceptions.sys_blocked_io) {
-      throw exn$7;
+      throw Caml_exceptions.stacktrace(exn$7);
     }
     
   }
@@ -86,7 +87,7 @@ function ff(g, x) {
   catch (raw_exn$3){
     var exn$8 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
     if (exn$8[0] !== Caml_builtin_exceptions.assert_failure) {
-      throw exn$8;
+      throw Caml_exceptions.stacktrace(exn$8);
     }
     
   }
@@ -98,27 +99,27 @@ function ff(g, x) {
     if (exn$9[0] === Caml_builtin_exceptions.undefined_recursive_module) {
       return /* () */0;
     } else {
-      throw exn$9;
+      throw Caml_exceptions.stacktrace(exn$9);
     }
   }
 }
 
 function u(param) {
-  throw Caml_builtin_exceptions.not_found;
+  throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
 }
 
 function f(x) {
   if (typeof x === "number") {
     return 2;
   } else if (x.tag) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "test_trywith.ml",
-            51,
-            9
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "test_trywith.ml",
+                51,
+                9
+              ]
+            ]);
   } else {
     return 1;
   }

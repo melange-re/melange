@@ -1541,7 +1541,7 @@ function eat(f) {
             todo: match[1]
           };
   } else {
-    throw No_good;
+    throw Caml_exceptions.stacktrace(No_good);
   }
 }
 
@@ -1594,24 +1594,24 @@ function parse_hex_symbol(f) {
   var match = f.todo;
   if (match) {
     if (match[0] !== 48) {
-      throw No_good;
+      throw Caml_exceptions.stacktrace(No_good);
     }
     var match$1 = match[1];
     if (match$1) {
       var match$2 = match$1[0];
       if (match$2 !== 88) {
         if (match$2 !== 120) {
-          throw No_good;
+          throw Caml_exceptions.stacktrace(No_good);
         }
         return eat(eat(f));
       } else {
         return eat(eat(f));
       }
     } else {
-      throw No_good;
+      throw Caml_exceptions.stacktrace(No_good);
     }
   } else {
-    throw No_good;
+    throw Caml_exceptions.stacktrace(No_good);
   }
 }
 
@@ -1624,9 +1624,9 @@ function parse_exponent(f) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn[0] === Caml_builtin_exceptions.failure) {
-      throw No_good;
+      throw Caml_exceptions.stacktrace(No_good);
     }
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
   return {
           negative: f.negative,
@@ -1669,7 +1669,7 @@ function parse_body(_f) {
         };
         continue ;
       } else {
-        throw No_good;
+        throw Caml_exceptions.stacktrace(No_good);
       }
       var ref_char_code;
       if (c >= /* "0" */48 && c <= /* "9" */57) {
@@ -1679,7 +1679,7 @@ function parse_body(_f) {
       } else if (c >= /* "a" */97 && c <= /* "f" */102) {
         ref_char_code = 87;
       } else {
-        throw No_good;
+        throw Caml_exceptions.stacktrace(No_good);
       }
       var value = c - ref_char_code | 0;
       var match$1 = f.decimal_exponent;
@@ -1709,14 +1709,14 @@ function float_of_string(str) {
       try {
         var f = parse_body(parse_hex_symbol(parse_sign(start(str))));
         if (f.todo !== /* [] */0) {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "lexer_flow.mll",
-                  546,
-                  4
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "lexer_flow.mll",
+                      546,
+                      4
+                    ]
+                  ]);
         }
         var ret = f.mantissa;
         var match = f.decimal_exponent;
@@ -1730,12 +1730,12 @@ function float_of_string(str) {
       }
       catch (exn){
         if (exn === No_good) {
-          throw e;
+          throw Caml_exceptions.stacktrace(e);
         }
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     } else {
-      throw e;
+      throw Caml_exceptions.stacktrace(e);
     }
   }
 }
@@ -1796,14 +1796,14 @@ function unicode_fix_cols(lb) {
 
 function oct_to_int(x) {
   if (x > 55 || x < 48) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "lexer_flow.mll",
-            604,
-            11
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "lexer_flow.mll",
+                604,
+                11
+              ]
+            ]);
   }
   return x - /* "0" */48 | 0;
 }
@@ -1822,14 +1822,14 @@ function hexa_to_int(x) {
   } else if (!(x > 57 || x < 48)) {
     return x - /* "0" */48 | 0;
   }
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "lexer_flow.mll",
-          610,
-          11
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "lexer_flow.mll",
+              610,
+              11
+            ]
+          ]);
 }
 
 function utf16to8(code) {
@@ -2458,7 +2458,7 @@ function token(env, lexbuf) {
                       /* T_IDENTIFIER */0
                     ];
             } else {
-              throw exn;
+              throw Caml_exceptions.stacktrace(exn);
             }
           }
       case 23 :
@@ -3271,7 +3271,7 @@ function type_token(env, lexbuf) {
                   ])
               ];
             } else {
-              throw exn;
+              throw Caml_exceptions.stacktrace(exn);
             }
           }
           return illegal_number(match$4[0], lexbuf$1, w$3, match$4[1]);
@@ -3296,7 +3296,7 @@ function type_token(env, lexbuf) {
                         ])
                     ];
             } else {
-              throw exn$1;
+              throw Caml_exceptions.stacktrace(exn$1);
             }
           }
       case 15 :
@@ -3339,7 +3339,7 @@ function type_token(env, lexbuf) {
                       /* T_IDENTIFIER */0
                     ];
             } else {
-              throw exn$2;
+              throw Caml_exceptions.stacktrace(exn$2);
             }
           }
       case 22 :
@@ -4840,16 +4840,16 @@ function bal(l, v, r) {
       } else if (lr) {
         return create(create(ll, lv, lr[/* l */0]), lr[/* v */1], create(lr[/* r */2], v, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -4861,16 +4861,16 @@ function bal(l, v, r) {
       } else if (rl) {
         return create(create(l, v, rl[/* l */0]), rl[/* v */1], create(rl[/* r */2], rv, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -5167,14 +5167,14 @@ function record_export(env, param) {
 function lookahead($staropt$star, env) {
   var i = $staropt$star !== undefined ? $staropt$star : 0;
   if (i >= 2) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "parser_env.ml",
-            288,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "parser_env.ml",
+                288,
+                2
+              ]
+            ]);
   }
   var t = env.lookahead.contents;
   var i$1 = i;
@@ -5183,10 +5183,10 @@ function lookahead($staropt$star, env) {
   if (match !== undefined) {
     return match[1];
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Lookahead.peek failed"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Lookahead.peek failed"
+            ]);
   }
 }
 
@@ -5349,10 +5349,10 @@ function lex_env($staropt$star, env) {
   if (match !== undefined) {
     return match[0];
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Lookahead.peek failed"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Lookahead.peek failed"
+            ]);
   }
 }
 
@@ -5556,10 +5556,10 @@ function pop_lex_mode(env) {
   if (match) {
     new_stack = match[1];
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Popping lex mode from empty stack"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Popping lex mode from empty stack"
+            ]);
   }
   env.lex_mode_stack.contents = new_stack;
   env.lookahead.contents = create$1(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
@@ -5574,16 +5574,16 @@ function double_pop_lex_mode(env) {
     if (match$1) {
       new_stack = match$1[1];
     } else {
-      throw [
-            Caml_builtin_exceptions.failure,
-            "Popping lex mode from empty stack"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "Popping lex mode from empty stack"
+              ]);
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Popping lex mode from empty stack"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Popping lex mode from empty stack"
+            ]);
   }
   env.lex_mode_stack.contents = new_stack;
   env.lookahead.contents = create$1(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
@@ -5691,7 +5691,7 @@ function to_parse(env, parse) {
       env$2.lookahead.contents = create$1(env$2.lex_env.contents, List.hd(env$2.lex_mode_stack.contents));
       return /* FailedToParse */0;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -5747,16 +5747,16 @@ function bal$1(l, v, r) {
       } else if (lr) {
         return create$2(create$2(ll, lv, lr[/* l */0]), lr[/* v */1], create$2(lr[/* r */2], v, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -5768,16 +5768,16 @@ function bal$1(l, v, r) {
       } else if (rl) {
         return create$2(create$2(l, v, rl[/* l */0]), rl[/* v */1], create$2(rl[/* r */2], rv, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -5873,16 +5873,16 @@ function bal$2(l, x, d, r) {
       } else if (lr) {
         return create$3(create$3(ll, lv, ld, lr[/* l */0]), lr[/* v */1], lr[/* d */2], create$3(lr[/* r */3], x, d, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -5895,16 +5895,16 @@ function bal$2(l, x, d, r) {
       } else if (rl) {
         return create$3(create$3(l, x, d, rl[/* l */0]), rl[/* v */1], rl[/* d */2], create$3(rl[/* r */3], rv, rd, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -5974,7 +5974,7 @@ function find(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -6020,16 +6020,16 @@ function bal$3(l, v, r) {
       } else if (lr) {
         return create$4(create$4(ll, lv, lr[/* l */0]), lr[/* v */1], create$4(lr[/* r */2], v, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -6041,16 +6041,16 @@ function bal$3(l, v, r) {
       } else if (rl) {
         return create$4(create$4(l, v, rl[/* l */0]), rl[/* v */1], create$4(rl[/* r */2], rv, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -6492,28 +6492,28 @@ function rev_nonempty_acc(acc) {
   if (acc) {
     end_loc = acc[0][0];
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "parser_flow.ml",
-            127,
-            13
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "parser_flow.ml",
+                127,
+                13
+              ]
+            ]);
   }
   var acc$1 = List.rev(acc);
   var start_loc;
   if (acc$1) {
     start_loc = acc$1[0][0];
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "parser_flow.ml",
-            131,
-            13
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "parser_flow.ml",
+                131,
+                13
+              ]
+            ]);
   }
   return /* tuple */[
           btwn(start_loc, end_loc),
@@ -7230,14 +7230,14 @@ function annotation(env) {
   if (match !== undefined) {
     end_loc = match;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "parser_flow.ml",
-            121,
-            16
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "parser_flow.ml",
+                121,
+                16
+              ]
+            ]);
   }
   return /* tuple */[
           btwn(start_loc, end_loc),
@@ -8269,7 +8269,7 @@ function number(env, number_type) {
               error$1(env, /* WindowsFloatOfString */59);
               value$1 = 789.0;
             } else {
-              throw exn;
+              throw Caml_exceptions.stacktrace(exn);
             }
           }
           break;
@@ -8384,14 +8384,14 @@ function primary$1(env) {
           var match$4 = Curry._2(Parser_env_Peek.token, undefined, env$3);
           var match$5;
           if (typeof match$4 === "number") {
-            throw [
-                  Caml_builtin_exceptions.assert_failure,
-                  /* tuple */[
-                    "parser_flow.ml",
-                    1699,
-                    15
-                  ]
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.assert_failure,
+                      /* tuple */[
+                        "parser_flow.ml",
+                        1699,
+                        15
+                      ]
+                    ]);
           } else if (match$4.tag === /* T_REGEXP */3) {
             var match$6 = match$4[0];
             var raw$1 = Curry._2(Parser_env_Peek.value, undefined, env$3);
@@ -8402,14 +8402,14 @@ function primary$1(env) {
               match$6[2]
             ];
           } else {
-            throw [
-                  Caml_builtin_exceptions.assert_failure,
-                  /* tuple */[
-                    "parser_flow.ml",
-                    1699,
-                    15
-                  ]
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.assert_failure,
+                      /* tuple */[
+                        "parser_flow.ml",
+                        1699,
+                        15
+                      ]
+                    ]);
           }
           var raw_flags = match$5[2];
           pop_lex_mode(env$3);
@@ -8680,7 +8680,7 @@ function assignment_but_not_arrow_function(env) {
 }
 
 function error_callback(param, param$1) {
-  throw Parser_env_Try.Rollback;
+  throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
 }
 
 function try_assignment_but_not_arrow_function(env) {
@@ -8690,23 +8690,23 @@ function try_assignment_but_not_arrow_function(env) {
   if (typeof match === "number") {
     if (match !== 10) {
       if (match === 77) {
-        throw Parser_env_Try.Rollback;
+        throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
       }
       
     } else {
-      throw Parser_env_Try.Rollback;
+      throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
     }
   }
   if (Curry._2(Parser_env_Peek.is_identifier, undefined, env$1)) {
     if (Curry._2(Parser_env_Peek.value, undefined, env$1) === "checks") {
-      throw Parser_env_Try.Rollback;
+      throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
     }
     var match$1 = ret[1];
     if (typeof match$1 === "number" || !(match$1.tag === /* Identifier */18 && match$1[0][1].name === "async")) {
       return ret;
     } else {
       if (!Curry._1(Parser_env_Peek.is_line_terminator, env$1)) {
-        throw Parser_env_Try.Rollback;
+        throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
       }
       return ret;
     }
@@ -9170,14 +9170,14 @@ function template_parts(env, _quasis, _expressions) {
       var match$1 = Curry._2(Parser_env_Peek.token, undefined, env);
       var match$2;
       if (typeof match$1 === "number") {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "parser_flow.ml",
-                1602,
-                19
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "parser_flow.ml",
+                    1602,
+                    19
+                  ]
+                ]);
       } else if (match$1.tag === /* T_TEMPLATE_PART */2) {
         var match$3 = match$1[0];
         var tail = match$3[2];
@@ -9195,14 +9195,14 @@ function template_parts(env, _quasis, _expressions) {
           tail
         ];
       } else {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "parser_flow.ml",
-                1602,
-                19
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "parser_flow.ml",
+                    1602,
+                    19
+                  ]
+                ]);
       }
       var loc = match$2[0];
       pop_lex_mode(env);
@@ -9369,17 +9369,17 @@ function error_callback$1(param, param$1) {
     var switcher = param$1 - 28 | 0;
     if (switcher > 16 || switcher < 0) {
       if (switcher !== 19) {
-        throw Parser_env_Try.Rollback;
+        throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
       } else {
         return /* () */0;
       }
     } else if (switcher > 15 || switcher < 1) {
       return /* () */0;
     } else {
-      throw Parser_env_Try.Rollback;
+      throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
     }
   } else {
-    throw Parser_env_Try.Rollback;
+    throw Caml_exceptions.stacktrace(Parser_env_Try.Rollback);
   }
 }
 
@@ -9573,14 +9573,14 @@ function _method(env, kind) {
   var params;
   switch (kind) {
     case /* Init */0 :
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "parser_flow.ml",
-                1954,
-                16
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "parser_flow.ml",
+                    1954,
+                    16
+                  ]
+                ]);
     case /* Get */1 :
         params = /* [] */0;
         break;
@@ -9911,10 +9911,10 @@ function check_property(env, prop_map, prop) {
                     key = Pervasives.string_of_float(match$2[0]);
                     break;
                 case /* RegExp */3 :
-                    throw [
-                          Caml_builtin_exceptions.failure,
-                          "RegExp cannot be property key"
-                        ];
+                    throw Caml_exceptions.stacktrace([
+                              Caml_builtin_exceptions.failure,
+                              "RegExp cannot be property key"
+                            ]);
                 
               }
             }
@@ -9923,14 +9923,14 @@ function check_property(env, prop_map, prop) {
             key = match$1[0][1].name;
             break;
         case /* Computed */2 :
-            throw [
-                  Caml_builtin_exceptions.assert_failure,
-                  /* tuple */[
-                    "parser_flow.ml",
-                    2103,
-                    30
-                  ]
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.assert_failure,
+                      /* tuple */[
+                        "parser_flow.ml",
+                        2103,
+                        30
+                      ]
+                    ]);
         
       }
       var prev_kinds;
@@ -9941,7 +9941,7 @@ function check_property(env, prop_map, prop) {
         if (exn === Caml_builtin_exceptions.not_found) {
           prev_kinds = /* Empty */0;
         } else {
-          throw exn;
+          throw Caml_exceptions.stacktrace(exn);
         }
       }
       var match$3 = prop$1.kind;
@@ -10786,14 +10786,14 @@ function declare_export_declaration($staropt$star, env) {
         }
         switch (exit$2) {
           case 3 :
-              throw [
-                    Caml_builtin_exceptions.assert_failure,
-                    /* tuple */[
-                      "parser_flow.ml",
-                      3480,
-                      17
-                    ]
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Caml_builtin_exceptions.assert_failure,
+                        /* tuple */[
+                          "parser_flow.ml",
+                          3480,
+                          17
+                        ]
+                      ]);
           case 4 :
               if (typeof token$5 === "number") {
                 if (token$5 !== 25) {
@@ -11311,10 +11311,10 @@ function fold(acc, _param) {
                   acc
                 ];
       case /* Expression */4 :
-          throw [
-                Caml_builtin_exceptions.failure,
-                "Parser error: No such thing as an expression pattern!"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.failure,
+                    "Parser error: No such thing as an expression pattern!"
+                  ]);
       
     }
   };
@@ -12398,20 +12398,20 @@ function module_item(env) {
                         var $$interface$1 = $$interface(env$2);
                         var match$2 = $$interface$1[1];
                         if (typeof match$2 === "number") {
-                          throw [
-                                Caml_builtin_exceptions.failure,
-                                "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.failure,
+                                    "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
+                                  ]);
                         } else if (match$2.tag === /* InterfaceDeclaration */21) {
                           record_export(env$2, /* tuple */[
                                 $$interface$1[0],
                                 extract_ident_name(match$2[0].id)
                               ]);
                         } else {
-                          throw [
-                                Caml_builtin_exceptions.failure,
-                                "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
-                              ];
+                          throw Caml_exceptions.stacktrace([
+                                    Caml_builtin_exceptions.failure,
+                                    "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!"
+                                  ]);
                         }
                         var end_loc = $$interface$1[0];
                         return /* tuple */[
@@ -12432,20 +12432,20 @@ function module_item(env) {
                           var type_alias$1 = type_alias(env$2);
                           var match$3 = type_alias$1[1];
                           if (typeof match$3 === "number") {
-                            throw [
-                                  Caml_builtin_exceptions.failure,
-                                  "Internal Flow Error! Parsed `export type` into something other than a type alias!"
-                                ];
+                            throw Caml_exceptions.stacktrace([
+                                      Caml_builtin_exceptions.failure,
+                                      "Internal Flow Error! Parsed `export type` into something other than a type alias!"
+                                    ]);
                           } else if (match$3.tag === /* TypeAlias */7) {
                             record_export(env$2, /* tuple */[
                                   type_alias$1[0],
                                   extract_ident_name(match$3[0].id)
                                 ]);
                           } else {
-                            throw [
-                                  Caml_builtin_exceptions.failure,
-                                  "Internal Flow Error! Parsed `export type` into something other than a type alias!"
-                                ];
+                            throw Caml_exceptions.stacktrace([
+                                      Caml_builtin_exceptions.failure,
+                                      "Internal Flow Error! Parsed `export type` into something other than a type alias!"
+                                    ]);
                           }
                           var end_loc$1 = type_alias$1[0];
                           return /* tuple */[
@@ -12621,10 +12621,10 @@ function module_item(env) {
                 var loc$1 = stmt[0];
                 var names;
                 if (typeof match$11 === "number") {
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Internal Flow Error! Unexpected export statement declaration!"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Internal Flow Error! Unexpected export statement declaration!"
+                          ]);
                 } else {
                   switch (match$11.tag | 0) {
                     case /* FunctionDeclaration */18 :
@@ -12675,10 +12675,10 @@ function module_item(env) {
                         }
                         break;
                     default:
-                      throw [
-                            Caml_builtin_exceptions.failure,
-                            "Internal Flow Error! Unexpected export statement declaration!"
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.failure,
+                                "Internal Flow Error! Unexpected export statement declaration!"
+                              ]);
                   }
                 }
                 List.iter((function (param) {
@@ -13206,14 +13206,14 @@ function statement(env) {
                         var match$15 = init;
                         left = match$15.tag ? /* LeftExpression */Block.__(1, [match$15[0]]) : /* LeftDeclaration */Block.__(0, [match$15[0]]);
                       } else {
-                        throw [
-                              Caml_builtin_exceptions.assert_failure,
-                              /* tuple */[
-                                "parser_flow.ml",
-                                2573,
-                                22
-                              ]
-                            ];
+                        throw Caml_exceptions.stacktrace([
+                                  Caml_builtin_exceptions.assert_failure,
+                                  /* tuple */[
+                                    "parser_flow.ml",
+                                    2573,
+                                    22
+                                  ]
+                                ]);
                       }
                       token$4(env$12, /* T_OF */60);
                       var right = Curry._1(Parse.assignment, env$12);
@@ -13236,14 +13236,14 @@ function statement(env) {
                       var match$16 = init;
                       left$1 = match$16.tag ? /* LeftExpression */Block.__(1, [match$16[0]]) : /* LeftDeclaration */Block.__(0, [match$16[0]]);
                     } else {
-                      throw [
-                            Caml_builtin_exceptions.assert_failure,
-                            /* tuple */[
-                              "parser_flow.ml",
-                              2556,
-                              22
-                            ]
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.assert_failure,
+                                /* tuple */[
+                                  "parser_flow.ml",
+                                  2556,
+                                  22
+                                ]
+                              ]);
                     }
                     token$4(env$12, /* T_IN */15);
                     var right$1 = Curry._1(Parse.expression, env$12);
@@ -13673,10 +13673,10 @@ function directives(env, term_fn, item_fn) {
             }
           }
           var s = "Nooo: " + (token_to_string(token) + "\n");
-          throw [
-                Caml_builtin_exceptions.failure,
-                s
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.failure,
+                    s
+                  ]);
         }), List.rev(match[1]));
   return /* tuple */[
           env$1,
@@ -14049,10 +14049,10 @@ function program$1($staropt$star, $staropt$star$1, $staropt$star$2, content) {
   var ast = Curry._1(parser, env$1);
   var error_list = filter_duplicate_errors(env$1.errors.contents);
   if (fail$2 && error_list !== /* [] */0) {
-    throw [
-          $$Error,
-          error_list
-        ];
+    throw Caml_exceptions.stacktrace([
+              $$Error,
+              error_list
+            ]);
   }
   return /* tuple */[
           ast,
@@ -14522,10 +14522,10 @@ function parse(content, options) {
                       operator = "delete";
                       break;
                   case /* Await */7 :
-                      throw [
-                            Caml_builtin_exceptions.failure,
-                            "matched above"
-                          ];
+                      throw Caml_exceptions.stacktrace([
+                                Caml_builtin_exceptions.failure,
+                                "matched above"
+                              ]);
                   
                 }
                 return node("UnaryExpression", loc, /* array */[
@@ -16143,10 +16143,10 @@ function parse(content, options) {
             key = identifier(match[0]);
             break;
         case /* Computed */2 :
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "There should not be computed object type property keys"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "There should not be computed object type property keys"
+                    ]);
         
       }
       return node("ObjectTypeProperty", param[0], /* array */[
@@ -16492,7 +16492,7 @@ function parse(content, options) {
       throw(e);
       return ({});
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -16532,14 +16532,14 @@ if (match !== undefined) {
         2842
       ], v.range);
 } else {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "runParser.ml",
-          15,
-          12
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "runParser.ml",
+              15,
+              12
+            ]
+          ]);
 }
 
 Mt.from_pair_suites("Flow_parser_reg_test", suites.contents);

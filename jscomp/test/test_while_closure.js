@@ -3,6 +3,7 @@
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_array = require("../../lib/js/caml_array.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var v = {
@@ -37,14 +38,14 @@ $$Array.iter((function (x) {
 console.log(String(v.contents));
 
 if (v.contents !== 45) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "test_while_closure.ml",
-          63,
-          4
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "test_while_closure.ml",
+              63,
+              4
+            ]
+          ]);
 }
 
 var count = 10;

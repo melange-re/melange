@@ -10,6 +10,7 @@ var Caml_int32 = require("../../lib/js/caml_int32.js");
 var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var Actors = { };
@@ -1482,10 +1483,10 @@ function game_win(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("You win!", 180, 128);
-  throw [
-        Caml_builtin_exceptions.failure,
-        "Game over."
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.failure,
+            "Game over."
+          ]);
 }
 
 function game_loss(ctx) {
@@ -1495,10 +1496,10 @@ function game_loss(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("GAME OVER. You lose!", 60, 128);
-  throw [
-        Caml_builtin_exceptions.failure,
-        "Game over."
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.failure,
+            "Game over."
+          ]);
 }
 
 var Draw = {
@@ -2434,10 +2435,10 @@ function choose_enemy_typ(typ) {
     case 2 :
         return /* Goomba */0;
     default:
-      throw [
-            Caml_builtin_exceptions.failure,
-            "Shouldn't reach here"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "Shouldn't reach here"
+              ]);
   }
 }
 
@@ -2454,10 +2455,10 @@ function choose_sblock_typ(typ) {
     case 4 :
         return /* Ground */5;
     default:
-      throw [
-            Caml_builtin_exceptions.failure,
-            "Shouldn't reach here"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "Shouldn't reach here"
+              ]);
   }
 }
 
@@ -2983,10 +2984,10 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
                   /* [] */0
                 ];
       default:
-        throw [
-              Caml_builtin_exceptions.failure,
-              "Shouldn't reach here"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.failure,
+                  "Shouldn't reach here"
+                ]);
     }
   }
 }
@@ -3261,10 +3262,10 @@ function load(param) {
                 ]),
               "cant find canvas %s \n"
             ]), canvas_id);
-    throw [
-          Caml_builtin_exceptions.failure,
-          "fail"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "fail"
+            ]);
   }
   var context = canvas.getContext("2d");
   document.addEventListener("keydown", keydown, true);

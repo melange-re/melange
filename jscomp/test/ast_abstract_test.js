@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Block = require("../../lib/js/block.js");
 var Js_mapperRt = require("../../lib/js/js_mapperRt.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -128,7 +129,7 @@ function bToJs(param) {
 
 function bFromJs(param) {
   if (!(param <= 3 && 0 <= param)) {
-    throw new Error("ASSERT FAILURE");
+    throw Caml_exceptions.stacktrace(new Error("ASSERT FAILURE"));
   }
   return param - 0 | 0;
 }
@@ -155,7 +156,7 @@ function cToJs(param) {
 
 function cFromJs(param) {
   if (!(param <= 6 && 3 <= param)) {
-    throw new Error("ASSERT FAILURE");
+    throw Caml_exceptions.stacktrace(new Error("ASSERT FAILURE"));
   }
   return param - 3 | 0;
 }
@@ -180,7 +181,7 @@ function hToJs(param) {
 
 function hFromJs(param) {
   if (!(param <= 1 && 0 <= param)) {
-    throw new Error("ASSERT FAILURE");
+    throw Caml_exceptions.stacktrace(new Error("ASSERT FAILURE"));
   }
   return param - 0 | 0;
 }

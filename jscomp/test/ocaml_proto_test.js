@@ -195,7 +195,7 @@ function file_option(file_options, name) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return ;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   return x;
@@ -218,7 +218,7 @@ function rev_split_by_char(c, s) {
                 l
               ];
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
   };
@@ -237,10 +237,10 @@ function pop_last(param) {
       return /* [] */0;
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Invalid argument [] for pop_last"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Invalid argument [] for pop_last"
+            ]);
   }
 }
 
@@ -690,34 +690,34 @@ Printexc.register_printer((function (exn) {
       }));
 
 function invalid_default_value(field_name, info, param) {
-  throw [
-        Compilation_error,
-        /* Invalid_default_value */Block.__(2, [{
-              field_name: field_name,
-              info: info
-            }])
-      ];
+  throw Caml_exceptions.stacktrace([
+            Compilation_error,
+            /* Invalid_default_value */Block.__(2, [{
+                  field_name: field_name,
+                  info: info
+                }])
+          ]);
 }
 
 function unsupported_field_type(field_name, field_type, backend_name, param) {
-  throw [
-        Compilation_error,
-        /* Unsupported_field_type */Block.__(3, [{
-              field_name: field_name,
-              field_type: field_type,
-              backend_name: backend_name
-            }])
-      ];
+  throw Caml_exceptions.stacktrace([
+            Compilation_error,
+            /* Unsupported_field_type */Block.__(3, [{
+                  field_name: field_name,
+                  field_type: field_type,
+                  backend_name: backend_name
+                }])
+          ]);
 }
 
 function invalid_enum_specification(enum_name, loc) {
-  throw [
-        Compilation_error,
-        /* Invalid_enum_specification */Block.__(10, [
-            enum_name,
-            loc
-          ])
-      ];
+  throw Caml_exceptions.stacktrace([
+            Compilation_error,
+            /* Invalid_enum_specification */Block.__(10, [
+                enum_name,
+                loc
+              ])
+          ]);
 }
 
 var yytransl_const = /* array */[
@@ -762,10 +762,10 @@ var yytransl_block = /* array */[
 
 var yyact = /* array */[
   (function (param) {
-      throw [
-            Caml_builtin_exceptions.failure,
-            "parser"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "parser"
+              ]);
     }),
   (function (__caml_parser_env) {
       return Parsing.peek_val(__caml_parser_env, 1);
@@ -887,10 +887,10 @@ var yyact = /* array */[
       Parsing.peek_val(__caml_parser_env, 2);
       Parsing.peek_val(__caml_parser_env, 1);
       Parsing.peek_val(__caml_parser_env, 0);
-      throw [
-            Compilation_error,
-            /* Invalid_import_qualifier */Block.__(5, [_1])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Invalid_import_qualifier */Block.__(5, [_1])
+              ]);
     }),
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
@@ -942,10 +942,10 @@ var yyact = /* array */[
       return /* Message_extension */Block.__(5, [Parsing.peek_val(__caml_parser_env, 0)]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Compilation_error,
-            /* Syntax_error */0
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Syntax_error */0
+              ]);
     }),
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 3);
@@ -1022,10 +1022,10 @@ var yyact = /* array */[
       var _1 = Parsing.peek_val(__caml_parser_env, 3);
       Parsing.peek_val(__caml_parser_env, 1);
       Parsing.peek_val(__caml_parser_env, 0);
-      throw [
-            Compilation_error,
-            /* Missing_one_of_name */Block.__(12, [_1])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Missing_one_of_name */Block.__(12, [_1])
+              ]);
     }),
   (function (__caml_parser_env) {
       return /* [] */0;
@@ -1093,20 +1093,20 @@ var yyact = /* array */[
       Parsing.peek_val(__caml_parser_env, 2);
       Parsing.peek_val(__caml_parser_env, 1);
       Parsing.peek_val(__caml_parser_env, 0);
-      throw [
-            Compilation_error,
-            /* Missing_field_label */Block.__(14, [_1[0]])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Missing_field_label */Block.__(14, [_1[0]])
+              ]);
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 4);
       Parsing.peek_val(__caml_parser_env, 3);
       Parsing.peek_val(__caml_parser_env, 1);
       Parsing.peek_val(__caml_parser_env, 0);
-      throw [
-            Compilation_error,
-            /* Missing_field_label */Block.__(14, [_1[0]])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Missing_field_label */Block.__(14, [_1[0]])
+              ]);
     }),
   (function (__caml_parser_env) {
       return Parsing.peek_val(__caml_parser_env, 0)[1];
@@ -1172,10 +1172,10 @@ var yyact = /* array */[
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 0);
-      throw [
-            Compilation_error,
-            /* Invalid_field_label */Block.__(13, [_1[0]])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Invalid_field_label */Block.__(13, [_1[0]])
+              ]);
     }),
   (function (__caml_parser_env) {
       return Parsing.peek_val(__caml_parser_env, 1);
@@ -1300,13 +1300,13 @@ var yyact = /* array */[
       Parsing.peek_val(__caml_parser_env, 0);
       var enum_value = _1[1];
       var loc = _1[0];
-      throw [
-            Compilation_error,
-            /* Missing_semicolon_for_enum_value */Block.__(9, [
-                enum_value,
-                loc
-              ])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Missing_semicolon_for_enum_value */Block.__(9, [
+                    enum_value,
+                    loc
+                  ])
+              ]);
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 3);
@@ -1340,76 +1340,76 @@ var yyact = /* array */[
       return /* () */0;
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     }),
   (function (__caml_parser_env) {
-      throw [
-            Parsing.YYexit,
-            Parsing.peek_val(__caml_parser_env, 0)
-          ];
+      throw Caml_exceptions.stacktrace([
+                Parsing.YYexit,
+                Parsing.peek_val(__caml_parser_env, 0)
+              ]);
     })
 ];
 
@@ -1670,10 +1670,10 @@ function lexer(lexbuf) {
                       ]),
                     "Unknown character found %s"
                   ]), Lexing.lexeme(lexbuf$1));
-          throw [
-                Caml_builtin_exceptions.failure,
-                s
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.failure,
+                    s
+                  ]);
       default:
         Curry._1(lexbuf$1.refill_buff, lexbuf$1);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -1934,10 +1934,10 @@ function runtime_function(param) {
   var match = param[0];
   if (match !== 427938126) {
     if (match !== 779642422) {
-      throw [
-            Caml_builtin_exceptions.failure,
-            "Invalid encoding/OCaml type combination"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "Invalid encoding/OCaml type combination"
+              ]);
     }
     var match$1 = param[1];
     if (typeof match$1 === "number") {
@@ -1954,10 +1954,10 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Invalid encoding/OCaml type combination"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Invalid encoding/OCaml type combination"
+                          ]);
               
             }
         case /* Pk_bits64 */1 :
@@ -1972,20 +1972,20 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Invalid encoding/OCaml type combination"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Invalid encoding/OCaml type combination"
+                          ]);
               
             }
         case /* Pk_bytes */2 :
             var match$2 = param[2];
             if (match$2 !== 5) {
               if (match$2 !== 0) {
-                throw [
-                      Caml_builtin_exceptions.failure,
-                      "Invalid encoding/OCaml type combination"
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.failure,
+                          "Invalid encoding/OCaml type combination"
+                        ]);
               } else {
                 return "Pbrt.Encoder.string";
               }
@@ -2006,10 +2006,10 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "Invalid encoding/OCaml type combination"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "Invalid encoding/OCaml type combination"
+                    ]);
         
       }
     } else {
@@ -2023,10 +2023,10 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "Invalid encoding/OCaml type combination"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "Invalid encoding/OCaml type combination"
+                    ]);
         case /* Bt_bool */6 :
             return "Pbrt.Encoder.bool";
         
@@ -2048,10 +2048,10 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Invalid encoding/OCaml type combination"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Invalid encoding/OCaml type combination"
+                          ]);
               
             }
         case /* Pk_bits64 */1 :
@@ -2066,20 +2066,20 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw [
-                        Caml_builtin_exceptions.failure,
-                        "Invalid encoding/OCaml type combination"
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.failure,
+                            "Invalid encoding/OCaml type combination"
+                          ]);
               
             }
         case /* Pk_bytes */2 :
             var match$4 = param[2];
             if (match$4 !== 5) {
               if (match$4 !== 0) {
-                throw [
-                      Caml_builtin_exceptions.failure,
-                      "Invalid encoding/OCaml type combination"
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.failure,
+                          "Invalid encoding/OCaml type combination"
+                        ]);
               } else {
                 return "Pbrt.Decoder.string";
               }
@@ -2100,10 +2100,10 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "Invalid encoding/OCaml type combination"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "Invalid encoding/OCaml type combination"
+                    ]);
         
       }
     } else {
@@ -2117,10 +2117,10 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            throw [
-                  Caml_builtin_exceptions.failure,
-                  "Invalid encoding/OCaml type combination"
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.failure,
+                      "Invalid encoding/OCaml type combination"
+                    ]);
         case /* Bt_bool */6 :
             return "Pbrt.Decoder.bool";
         
@@ -3476,16 +3476,16 @@ function bal(l, x, d, r) {
       } else if (lr) {
         return create(create(ll, lv, ld, lr[/* l */0]), lr[/* v */1], lr[/* d */2], create(lr[/* r */3], x, d, r));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else if (hr > (hl + 2 | 0)) {
     if (r) {
@@ -3498,16 +3498,16 @@ function bal(l, x, d, r) {
       } else if (rl) {
         return create(create(l, x, d, rl[/* l */0]), rl[/* v */1], rl[/* d */2], create(rl[/* r */3], rv, rd, rr));
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Map.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Map.bal"
+                ]);
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Map.bal"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Map.bal"
+              ]);
     }
   } else {
     return /* Node */[
@@ -3577,7 +3577,7 @@ function find(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -3620,16 +3620,16 @@ function min_value(param) {
     if (match$1 !== undefined) {
       return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(match), Caml_option.valFromOption(match$1)));
     } else {
-      throw [
-            Caml_builtin_exceptions.failure,
-            "min_value error"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "min_value error"
+              ]);
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "min_value error"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "min_value error"
+            ]);
   }
 }
 
@@ -3640,16 +3640,16 @@ function eq_value(param) {
     if (match$1 !== undefined) {
       return Caml_obj.caml_equal(Caml_option.valFromOption(match), Caml_option.valFromOption(match$1));
     } else {
-      throw [
-            Caml_builtin_exceptions.failure,
-            "eq_value error"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.failure,
+                "eq_value error"
+              ]);
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "eq_value error"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "eq_value error"
+            ]);
   }
 }
 
@@ -3939,7 +3939,7 @@ function find_field_option(field_options, option_name) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return ;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   return Caml_option.some(x);
@@ -4010,10 +4010,10 @@ function unresolved_of_string(s) {
             from_root: Caml_string.get(s, 0) === /* "." */46
           };
   } else {
-    throw [
-          Compilation_error,
-          /* Programatic_error */Block.__(4, [/* Invalid_string_split */0])
-        ];
+    throw Caml_exceptions.stacktrace([
+              Compilation_error,
+              /* Programatic_error */Block.__(4, [/* Invalid_string_split */0])
+            ]);
   }
 }
 
@@ -4161,7 +4161,7 @@ function get_default(field_name, field_options, field_type) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return ;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
   return Caml_option.some(constant);
@@ -4205,7 +4205,7 @@ function not_found(f) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return true;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -4222,7 +4222,7 @@ function list_assoc2(x, _param) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }
@@ -4347,14 +4347,14 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
       var field_name$1 = name;
       var previous_field_name = "";
       var message_name$1 = message_name;
-      throw [
-            Compilation_error,
-            /* Duplicated_field_number */Block.__(1, [{
-                  field_name: field_name$1,
-                  previous_field_name: previous_field_name,
-                  message_name: message_name$1
-                }])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Duplicated_field_number */Block.__(1, [{
+                      field_name: field_name$1,
+                      previous_field_name: previous_field_name,
+                      message_name: message_name$1
+                    }])
+              ]);
     }
   };
   List.fold_left((function (number_index, param) {
@@ -4476,10 +4476,10 @@ function compile_message_p2(types, param, message) {
       if (typeof param === "number") {
         return param;
       } else {
-        throw [
-              Compilation_error,
-              /* Programatic_error */Block.__(4, [/* Unexpected_field_type */1])
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Compilation_error,
+                  /* Programatic_error */Block.__(4, [/* Unexpected_field_type */1])
+                ]);
       }
     } else {
       var unresolved = field_type[0];
@@ -4540,7 +4540,7 @@ function compile_message_p2(types, param, message) {
                 if (exn === Caml_builtin_exceptions.not_found) {
                   return ;
                 } else {
-                  throw exn;
+                  throw Caml_exceptions.stacktrace(exn);
                 }
               }
             }), search_scopes$1);
@@ -4550,14 +4550,14 @@ function compile_message_p2(types, param, message) {
         var field_name$1 = field_name;
         var type_ = type_name;
         var message_name$1 = message_name;
-        throw [
-              Compilation_error,
-              /* Unresolved_type */Block.__(0, [{
-                    field_name: field_name$1,
-                    type_: type_,
-                    message_name: message_name$1
-                  }])
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Compilation_error,
+                  /* Unresolved_type */Block.__(0, [{
+                        field_name: field_name$1,
+                        type_: type_,
+                        message_name: message_name$1
+                      }])
+                ]);
       }
     }
   };
@@ -5815,14 +5815,14 @@ function record_field_default_info(record_field) {
                       "%s (%s)"
                     ]), vc_constructor, dfvft(vc_field_type[0], undefined)) : vc_constructor;
         } else {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "codegen_default.ml",
-                  74,
-                  15
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "codegen_default.ml",
+                      74,
+                      15
+                    ]
+                  ]);
         }
         break;
     
@@ -6037,10 +6037,10 @@ function gen_default_variant(and_, param, sc) {
                         ]), decl, v_name, v_name, vc_constructor));
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "programmatic TODO error"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "programmatic TODO error"
+            ]);
   }
 }
 
@@ -6051,10 +6051,10 @@ function gen_default_const_variant(and_, param, sc) {
   if (cv_constructors) {
     first_constructor_name = cv_constructors[0][0];
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "programmatic TODO error"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "programmatic TODO error"
+            ]);
   }
   return line$1(sc, Curry._4(Printf.sprintf(/* Format */[
                       /* String */Block.__(2, [
@@ -6381,12 +6381,12 @@ function module_of_file_name(file_name) {
   }
   catch (exn){
     if (exn === Caml_builtin_exceptions.not_found) {
-      throw [
-            Compilation_error,
-            /* Invalid_file_name */Block.__(6, [file_name$1])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Invalid_file_name */Block.__(6, [file_name$1])
+              ]);
     }
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
   return constructor_name($$String.sub(file_name$1, 0, dot_index) + "_pb");
 }
@@ -6407,10 +6407,10 @@ function type_name(message_scope, name) {
       return fix_ocaml_keyword_conflict(all_names$2[0]);
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.failure,
-          "Programmatic error"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.failure,
+              "Programmatic error"
+            ]);
   }
 }
 
@@ -6458,10 +6458,10 @@ function encoding_of_field(all_types, field) {
       packed = match$1[0];
     } else {
       var field_name$1 = field_name(field);
-      throw [
-            Compilation_error,
-            /* Invalid_packed_option */Block.__(8, [field_name$1])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Invalid_packed_option */Block.__(8, [field_name$1])
+              ]);
     }
   } else {
     packed = false;
@@ -6546,12 +6546,12 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
     }
     catch (exn){
       if (exn === Caml_builtin_exceptions.not_found) {
-        throw [
-              Compilation_error,
-              /* Programatic_error */Block.__(4, [/* No_type_found_for_id */2])
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Compilation_error,
+                  /* Programatic_error */Block.__(4, [/* No_type_found_for_id */2])
+                ]);
       }
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
     if (is_empty_message(t)) {
       return /* Ft_unit */0;
@@ -6585,10 +6585,10 @@ function is_mutable(field_name, field_options) {
     if (match$1.tag === /* Constant_bool */1) {
       return match$1[0];
     } else {
-      throw [
-            Compilation_error,
-            /* Invalid_mutable_option */Block.__(11, [field_name])
-          ];
+      throw Caml_exceptions.stacktrace([
+                Compilation_error,
+                /* Invalid_mutable_option */Block.__(11, [field_name])
+              ]);
     }
   } else {
     return false;
@@ -6672,7 +6672,7 @@ function compile(proto_definition) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    throw add_loc(from_lexbuf(lexbuf), exn);
+    throw Caml_exceptions.stacktrace(add_loc(from_lexbuf(lexbuf), exn));
   }
   var all_pbtt_msgs = compile_proto_p1("tmp.proto", proto);
   var all_pbtt_msgs$1 = List.map((function (param) {
@@ -6777,10 +6777,10 @@ function compile(proto_definition) {
                                               if (match$2 === "repeated_field") {
                                                 repeated_type = /* Rt_repeated_field */1;
                                               } else {
-                                                throw [
-                                                      Caml_builtin_exceptions.failure,
-                                                      "Invalid ocaml_container attribute value"
-                                                    ];
+                                                throw Caml_exceptions.stacktrace([
+                                                          Caml_builtin_exceptions.failure,
+                                                          "Invalid ocaml_container attribute value"
+                                                        ]);
                                               }
                                             } else {
                                               repeated_type = /* Rt_list */0;
@@ -6863,15 +6863,15 @@ function compile(proto_definition) {
                                         var key_pk = encoding_info_of_field_type(all_types$1, map_key_type);
                                         var key_type$1;
                                         if (typeof key_type === "number") {
-                                          throw [
-                                                Caml_builtin_exceptions.failure,
-                                                "Only Basic Types are supported for map keys"
-                                              ];
+                                          throw Caml_exceptions.stacktrace([
+                                                    Caml_builtin_exceptions.failure,
+                                                    "Only Basic Types are supported for map keys"
+                                                  ]);
                                         } else if (key_type.tag) {
-                                          throw [
-                                                Caml_builtin_exceptions.failure,
-                                                "Only Basic Types are supported for map keys"
-                                              ];
+                                          throw Caml_exceptions.stacktrace([
+                                                    Caml_builtin_exceptions.failure,
+                                                    "Only Basic Types are supported for map keys"
+                                                  ]);
                                         } else {
                                           key_type$1 = key_type[0];
                                         }
@@ -6892,10 +6892,10 @@ function compile(proto_definition) {
                                           if (match$3 === "hashtbl") {
                                             associative_type = /* At_hashtable */1;
                                           } else {
-                                            throw [
-                                                  Caml_builtin_exceptions.failure,
-                                                  "Invalid ocaml_container attribute value for map"
-                                                ];
+                                            throw Caml_exceptions.stacktrace([
+                                                      Caml_builtin_exceptions.failure,
+                                                      "Invalid ocaml_container attribute value for map"
+                                                    ]);
                                           }
                                         } else {
                                           associative_type = /* At_list */0;

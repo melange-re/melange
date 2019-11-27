@@ -5,6 +5,7 @@ var List = require("../../lib/js/list.js");
 var Block = require("../../lib/js/block.js");
 var Genlex = require("../../lib/js/genlex.js");
 var Stream = require("../../lib/js/stream.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 var lexer = Genlex.make_lexer(/* :: */[
       "+",
@@ -44,7 +45,7 @@ function to_list(s) {
       if (exn === Stream.Failure) {
         return List.rev(acc);
       } else {
-        throw exn;
+        throw Caml_exceptions.stacktrace(exn);
       }
     }
     _acc = /* :: */[

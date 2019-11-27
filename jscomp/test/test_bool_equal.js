@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function bool_equal(x, y) {
@@ -18,44 +19,44 @@ function bool_equal(x, y) {
 
 function assertions(param) {
   if (!bool_equal(true, true)) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "test_bool_equal.ml",
-            21,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "test_bool_equal.ml",
+                21,
+                2
+              ]
+            ]);
   }
   if (!bool_equal(false, false)) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "test_bool_equal.ml",
-            22,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "test_bool_equal.ml",
+                22,
+                2
+              ]
+            ]);
   }
   if (bool_equal(true, false)) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "test_bool_equal.ml",
-            23,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "test_bool_equal.ml",
+                23,
+                2
+              ]
+            ]);
   }
   if (bool_equal(false, true)) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "test_bool_equal.ml",
-            24,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "test_bool_equal.ml",
+                24,
+                2
+              ]
+            ]);
   }
   return 0;
 }

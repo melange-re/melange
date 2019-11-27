@@ -110,4 +110,9 @@ let caml_is_extension e =
     not (Obj.magic slot = Js.undefined) &&
     (Caml_obj_extern.tag slot = object_tag)
 
-
+let stacktrace : Caml_obj_extern.t -> Caml_obj_extern.t = fun%raw exn -> {|
+  if(Error.captureStackTrace &&  !('stack' in exn)){
+    Error.captureStackTrace(exn,stacktrace)
+  }
+  return exn
+|}

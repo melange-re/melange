@@ -1,6 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var suites = {
@@ -18,14 +19,14 @@ function eq(loc, x, y) {
 var match = /* array */[1];
 
 if (match.length !== 1) {
-  throw [
-        Caml_builtin_exceptions.match_failure,
-        /* tuple */[
-          "gpr_3595_test.ml",
-          9,
-          4
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.match_failure,
+            /* tuple */[
+              "gpr_3595_test.ml",
+              9,
+              4
+            ]
+          ]);
 }
 
 var a = match[0];

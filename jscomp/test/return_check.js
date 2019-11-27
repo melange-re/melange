@@ -1,6 +1,7 @@
 'use strict';
 
 var Caml_option = require("../../lib/js/caml_option.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function test(dom) {
@@ -18,14 +19,14 @@ function f_undefined(xs, i) {
   if (match !== undefined) {
     return match;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "return_check.ml",
-            31,
-            14
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "return_check.ml",
+                31,
+                14
+              ]
+            ]);
   }
 }
 
@@ -60,28 +61,28 @@ function f_null(xs, i) {
   if (match !== null) {
     return match;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "return_check.ml",
-            59,
-            14
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "return_check.ml",
+                59,
+                14
+              ]
+            ]);
   }
 }
 
 function f_null_undefined(xs, i) {
   var match = xs[i];
   if (match == null) {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "return_check.ml",
-            68,
-            14
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "return_check.ml",
+                68,
+                14
+              ]
+            ]);
   } else {
     return match;
   }

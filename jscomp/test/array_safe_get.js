@@ -1,6 +1,7 @@
 'use strict';
 
 var Caml_array = require("../../lib/js/caml_array.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -20,7 +21,7 @@ catch (raw_exn){
     console.log(exn[1]);
     y = 0;
   } else {
-    throw exn;
+    throw Caml_exceptions.stacktrace(exn);
   }
 }
 

@@ -23,7 +23,7 @@ function $$finally(v, action, f) {
   }
   catch (e$1){
     Curry._1(action, v);
-    throw e$1;
+    throw Caml_exceptions.stacktrace(e$1);
   }
   Curry._1(action, v);
   return e;
@@ -59,7 +59,7 @@ function is_pos_pow(n) {
         _c = c + 1 | 0;
         continue ;
       } else {
-        throw E;
+        throw Caml_exceptions.stacktrace(E);
       }
     };
   }
@@ -67,7 +67,7 @@ function is_pos_pow(n) {
     if (exn === E) {
       return -1;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -75,10 +75,10 @@ function is_pos_pow(n) {
 function failwithf(loc, fmt) {
   return Format.ksprintf((function (s) {
                 var s$1 = loc + s;
-                throw [
-                      Caml_builtin_exceptions.failure,
-                      s$1
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Caml_builtin_exceptions.failure,
+                          s$1
+                        ]);
               }), fmt);
 }
 
@@ -88,10 +88,10 @@ function invalid_argf(fmt) {
 
 function bad_argf(fmt) {
   return Format.ksprintf((function (x) {
-                throw [
-                      Arg.Bad,
-                      x
-                    ];
+                throw Caml_exceptions.stacktrace([
+                          Arg.Bad,
+                          x
+                        ]);
               }), fmt);
 }
 
@@ -167,24 +167,24 @@ function dump(r) {
               match$1[1]
             ];
           } else {
-            throw [
-                  Caml_builtin_exceptions.assert_failure,
-                  /* tuple */[
-                    "ext_pervasives_test.ml",
-                    118,
-                    15
-                  ]
-                ];
+            throw Caml_exceptions.stacktrace([
+                      Caml_builtin_exceptions.assert_failure,
+                      /* tuple */[
+                        "ext_pervasives_test.ml",
+                        118,
+                        15
+                      ]
+                    ]);
           }
         } else {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "ext_pervasives_test.ml",
-                  118,
-                  15
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "ext_pervasives_test.ml",
+                      118,
+                      15
+                    ]
+                  ]);
         }
         return "Object #" + (dump(match[1]) + (" (" + ($$String.concat(", ", List.map(dump, match[2])) + ")")));
       } else if (t === Obj.infix_tag) {

@@ -2,6 +2,7 @@
 
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_string = require("../../lib/js/caml_string.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(param) {
@@ -11,14 +12,14 @@ function f(param) {
     case "bbbb" :
         return 1;
     default:
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "test_string.ml",
-              4,
-              18
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "test_string.ml",
+                  4,
+                  18
+                ]
+              ]);
   }
 }
 

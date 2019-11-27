@@ -6,6 +6,7 @@ var Path = require("path");
 var Block = require("../../lib/js/block.js");
 var Child_process = require("child_process");
 var App_root_finder = require("./app_root_finder.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var suites = {
@@ -47,14 +48,14 @@ if (match !== undefined) {
     exit = 1;
   }
   catch (e){
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "installation_test.ml",
-            33,
-            8
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "installation_test.ml",
+                33,
+                8
+              ]
+            ]);
   }
   if (exit === 1) {
     var dir = output.trim();
@@ -66,14 +67,14 @@ if (match !== undefined) {
   }
   
 } else {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "installation_test.ml",
-          35,
-          18
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "installation_test.ml",
+              35,
+              18
+            ]
+          ]);
 }
 
 Mt.from_pair_suites("Installation_test", suites.contents);

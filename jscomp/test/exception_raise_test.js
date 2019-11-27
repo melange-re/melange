@@ -100,14 +100,14 @@ catch (raw_exn$3){
   if (exn$3[0] === A || exn$3[0] === Js_exn.$$Error) {
     a0 = exn$3[1];
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "exception_raise_test.ml",
-            102,
-            9
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "exception_raise_test.ml",
+                102,
+                9
+              ]
+            ]);
   }
 }
 
@@ -160,14 +160,14 @@ var suites = {
                         2
                       ]);
             } else {
-              throw [
-                    Caml_builtin_exceptions.assert_failure,
-                    /* tuple */[
-                      "exception_raise_test.ml",
-                      119,
-                      15
-                    ]
-                  ];
+              throw Caml_exceptions.stacktrace([
+                        Caml_builtin_exceptions.assert_failure,
+                        /* tuple */[
+                          "exception_raise_test.ml",
+                          119,
+                          15
+                        ]
+                      ]);
             }
           })
       ],
@@ -193,7 +193,7 @@ catch (raw_e$2){
 }
 
 try {
-  throw Caml_builtin_exceptions.not_found;
+  throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
 }
 catch (raw_e$3){
   var e$1 = Caml_js_exceptions.internalToOCamlException(raw_e$3);

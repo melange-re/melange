@@ -4,6 +4,7 @@ var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_int32 = require("../../lib/js/caml_int32.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 var suites = {
@@ -68,14 +69,14 @@ function tl_exn(x) {
   if (x) {
     return x[/* next */1];
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "recursive_records_test.ml",
-            52,
-            11
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "recursive_records_test.ml",
+                52,
+                11
+              ]
+            ]);
   }
 }
 

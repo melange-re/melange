@@ -37,22 +37,22 @@ function assert_bool(b) {
   if (b) {
     return /* () */0;
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Assertion Failure."
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Assertion Failure."
+            ]);
   }
 }
 
 function fail(param) {
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "js_promise_basic_test.ml",
-          19,
-          2
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "js_promise_basic_test.ml",
+              19,
+              2
+            ]
+          ]);
 }
 
 function thenTest(param) {
@@ -78,14 +78,14 @@ function assertIsNotFound(x) {
   if (match !== undefined) {
     return h;
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "js_promise_basic_test.ml",
-            36,
-            9
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "js_promise_basic_test.ml",
+                36,
+                9
+              ]
+            ]);
   }
 }
 
@@ -139,14 +139,14 @@ function orElseRejectedRejectTest(param) {
                 if (match !== undefined) {
                   return h;
                 } else {
-                  throw [
-                        Caml_builtin_exceptions.assert_failure,
-                        /* tuple */[
-                          "js_promise_basic_test.ml",
-                          77,
-                          18
-                        ]
-                      ];
+                  throw Caml_exceptions.stacktrace([
+                            Caml_builtin_exceptions.assert_failure,
+                            /* tuple */[
+                              "js_promise_basic_test.ml",
+                              77,
+                              18
+                            ]
+                          ]);
                 }
               }));
 }

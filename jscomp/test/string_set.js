@@ -5,6 +5,7 @@ var $$Array = require("../../lib/js/array.js");
 var $$String = require("../../lib/js/string.js");
 var Set_gen = require("./set_gen.js");
 var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function split(x, tree) {
@@ -240,7 +241,7 @@ function find(x, _tree) {
         continue ;
       }
     } else {
-      throw Caml_builtin_exceptions.not_found;
+      throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
     }
   };
 }

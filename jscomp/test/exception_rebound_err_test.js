@@ -74,7 +74,7 @@ function f(g) {
     if (exn === Caml_builtin_exceptions.not_found) {
       return 1;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }

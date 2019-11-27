@@ -227,10 +227,10 @@ function unsafe_for_all_range(s, _start, finish, p) {
 function for_all_range(s, start, finish, p) {
   var len = s.length;
   if (start < 0 || finish >= len) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_string_test.for_all_range"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_string_test.for_all_range"
+            ]);
   }
   return unsafe_for_all_range(s, start, finish, p);
 }
@@ -281,7 +281,7 @@ function find($staropt$star, sub, s) {
   try {
     while((i + n | 0) <= s_len) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
-        throw Local_exit;
+        throw Caml_exceptions.stacktrace(Local_exit);
       }
       i = i + 1 | 0;
     };
@@ -291,7 +291,7 @@ function find($staropt$star, sub, s) {
     if (exn === Local_exit) {
       return i;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -303,10 +303,10 @@ function contain_substring(s, sub) {
 function non_overlap_count(sub, s) {
   var sub_len = sub.length;
   if (sub.length === 0) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_string_test.non_overlap_count"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_string_test.non_overlap_count"
+            ]);
   }
   var _acc = 0;
   var _off = 0;
@@ -330,7 +330,7 @@ function rfind(sub, s) {
   try {
     while(i >= 0) {
       if (unsafe_is_sub(sub, 0, s, i, n)) {
-        throw Local_exit;
+        throw Caml_exceptions.stacktrace(Local_exit);
       }
       i = i - 1 | 0;
     };
@@ -340,7 +340,7 @@ function rfind(sub, s) {
     if (exn === Local_exit) {
       return i;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -349,10 +349,10 @@ function tail_from(s, x) {
   var len = s.length;
   if (x > len) {
     var s$1 = "Ext_string_test.tail_from " + (s + (" : " + String(x)));
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          s$1
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              s$1
+            ]);
   } else {
     return $$String.sub(s, x, len - x | 0);
   }
@@ -574,10 +574,10 @@ function unsafe_no_char_idx(x, ch, _i, last_idx) {
 function no_char(x, ch, i, len) {
   var str_len = x.length;
   if (i < 0 || i >= str_len || len >= str_len) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_string_test.no_char"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_string_test.no_char"
+            ]);
   }
   return unsafe_no_char(x, ch, i, len);
 }

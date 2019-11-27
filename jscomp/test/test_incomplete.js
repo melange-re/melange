@@ -1,17 +1,18 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(x) {
   if (x > 3 || x < 1) {
-    throw [
-          Caml_builtin_exceptions.match_failure,
-          /* tuple */[
-            "test_incomplete.ml",
-            3,
-            2
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.match_failure,
+              /* tuple */[
+                "test_incomplete.ml",
+                3,
+                2
+              ]
+            ]);
   } else {
     return /* "a" */97;
   }

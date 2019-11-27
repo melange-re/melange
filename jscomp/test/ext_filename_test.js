@@ -13,6 +13,7 @@ var Filename = require("../../lib/js/filename.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Pervasives = require("../../lib/js/pervasives.js");
 var Test_literals = require("./test_literals.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Ext_string_test = require("./ext_string_test.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
@@ -89,7 +90,7 @@ function chop_extension($staropt$star, name) {
                       "Filename.chop_extension ( %s : %s )"
                     ]), loc, name);
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -103,7 +104,7 @@ function chop_extension_if_any(fname) {
     if (exn[0] === Caml_builtin_exceptions.invalid_argument) {
       return fname;
     } else {
-      throw exn;
+      throw Caml_exceptions.stacktrace(exn);
     }
   }
 }
@@ -389,10 +390,10 @@ if (Sys.unix) {
 } else if (Sys.win32 || Sys.cygwin) {
   simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
 } else {
-  throw [
-        Caml_builtin_exceptions.failure,
-        "Unknown OS : Unix"
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.failure,
+            "Unknown OS : Unix"
+          ]);
 }
 
 var $slash$slash = Filename.concat;

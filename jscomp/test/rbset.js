@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function blackify(s) {
@@ -255,14 +256,14 @@ function unbalanced_left(param) {
       
     }
   }
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "rbset.ml",
-          57,
-          9
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "rbset.ml",
+              57,
+              9
+            ]
+          ]);
 }
 
 function unbalanced_right(param) {
@@ -320,14 +321,14 @@ function unbalanced_right(param) {
       
     }
   }
-  throw [
-        Caml_builtin_exceptions.assert_failure,
-        /* tuple */[
-          "rbset.ml",
-          63,
-          9
-        ]
-      ];
+  throw Caml_exceptions.stacktrace([
+            Caml_builtin_exceptions.assert_failure,
+            /* tuple */[
+              "rbset.ml",
+              63,
+              9
+            ]
+          ]);
 }
 
 function lbalance(x1, x2, x3) {
@@ -535,14 +536,14 @@ function remove_min(param) {
                   false
                 ];
         } else {
-          throw [
-                Caml_builtin_exceptions.assert_failure,
-                /* tuple */[
-                  "rbset.ml",
-                  115,
-                  4
-                ]
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.assert_failure,
+                    /* tuple */[
+                      "rbset.ml",
+                      115,
+                      4
+                    ]
+                  ]);
         }
       } else {
         return /* tuple */[
@@ -578,14 +579,14 @@ function remove_min(param) {
             ];
     }
   } else {
-    throw [
-          Caml_builtin_exceptions.assert_failure,
-          /* tuple */[
-            "rbset.ml",
-            115,
-            4
-          ]
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.assert_failure,
+              /* tuple */[
+                "rbset.ml",
+                115,
+                4
+              ]
+            ]);
   }
 }
 

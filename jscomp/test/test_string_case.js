@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function f(param) {
@@ -9,14 +10,14 @@ function f(param) {
     case "bcde" :
         return 1;
     default:
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "test_string_case.ml",
-              4,
-              9
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "test_string_case.ml",
+                  4,
+                  9
+                ]
+              ]);
   }
 }
 

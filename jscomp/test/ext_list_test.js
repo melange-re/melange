@@ -4,6 +4,7 @@ var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_option = require("../../lib/js/caml_option.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
@@ -214,16 +215,16 @@ function filter_map2(f, _xs, _ys) {
           continue ;
         }
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Ext_list_test.filter_map2"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Ext_list_test.filter_map2"
+                ]);
       }
     } else if (ys) {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Ext_list_test.filter_map2"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Ext_list_test.filter_map2"
+              ]);
     } else {
       return /* [] */0;
     }
@@ -253,16 +254,16 @@ function filter_map2i(f, xs, ys) {
             continue ;
           }
         } else {
-          throw [
-                Caml_builtin_exceptions.invalid_argument,
-                "Ext_list_test.filter_map2i"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.invalid_argument,
+                    "Ext_list_test.filter_map2i"
+                  ]);
         }
       } else if (ys) {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Ext_list_test.filter_map2i"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Ext_list_test.filter_map2i"
+                ]);
       } else {
         return /* [] */0;
       }
@@ -303,17 +304,17 @@ function flat_map2(f, lx, ly) {
         _acc = List.rev_append(Curry._2(f, lx$1[0], ly$1[0]), acc);
         continue ;
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Ext_list_test.flat_map2"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Ext_list_test.flat_map2"
+                ]);
       }
     } else {
       if (ly$1) {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Ext_list_test.flat_map2"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Ext_list_test.flat_map2"
+                ]);
       }
       return List.rev(acc);
     }
@@ -356,10 +357,10 @@ function map2_last(f, l1, l2) {
         }
         
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "List.map2_last"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "List.map2_last"
+                ]);
       }
     }
     if (l2) {
@@ -369,16 +370,16 @@ function map2_last(f, l1, l2) {
               map2_last(f, l1$1, l2[1])
             ];
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "List.map2_last"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "List.map2_last"
+              ]);
     }
   } else if (l2) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "List.map2_last"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "List.map2_last"
+            ]);
   } else {
     return /* [] */0;
   }
@@ -416,26 +417,26 @@ function fold_right2_last(f, l1, l2, accu) {
         }
         
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "List.fold_right2"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "List.fold_right2"
+                ]);
       }
     }
     if (l2) {
       return Curry._4(f, false, last1, l2[0], fold_right2_last(f, l1$1, l2[1], accu));
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "List.fold_right2"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "List.fold_right2"
+              ]);
     }
   } else {
     if (l2) {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "List.fold_right2"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "List.fold_right2"
+              ]);
     }
     return accu;
   }
@@ -449,10 +450,10 @@ function take(n, l) {
   var arr = $$Array.of_list(l);
   var arr_length = arr.length;
   if (arr_length < n) {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_list_test.take"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_list_test.take"
+            ]);
   }
   return /* tuple */[
           $$Array.to_list($$Array.sub(arr, 0, n)),
@@ -537,10 +538,10 @@ function exclude_tail(x) {
               ];
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Ext_list_test.exclude_tail"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Ext_list_test.exclude_tail"
+              ]);
     }
   };
 }
@@ -591,19 +592,19 @@ function drop(_n, _h) {
     var h = _h;
     var n = _n;
     if (n < 0) {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Ext_list_test.drop"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Ext_list_test.drop"
+              ]);
     }
     if (n === 0) {
       return h;
     } else {
       if (h === /* [] */0) {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Ext_list_test.drop"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Ext_list_test.drop"
+                ]);
       }
       _h = List.tl(h);
       _n = n - 1 | 0;
@@ -781,10 +782,10 @@ function reduce_from_right(fn, lst) {
                   return Curry._2(fn, y, x);
                 }), match[0], match[1]);
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_list_test.reduce"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_list_test.reduce"
+            ]);
   }
 }
 
@@ -792,10 +793,10 @@ function reduce_from_left(fn, lst) {
   if (lst) {
     return List.fold_left(fn, lst[0], lst[1]);
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_list_test.reduce_from_left"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_list_test.reduce_from_left"
+            ]);
   }
 }
 
@@ -810,10 +811,10 @@ function ref_top(x) {
   if (match) {
     return match[0];
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_list_test.ref_top"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_list_test.ref_top"
+            ]);
   }
 }
 
@@ -840,10 +841,10 @@ function ref_pop(refs) {
     refs.contents = match[1];
     return match[0];
   } else {
-    throw [
-          Caml_builtin_exceptions.invalid_argument,
-          "Ext_list_test.ref_pop"
-        ];
+    throw Caml_exceptions.stacktrace([
+              Caml_builtin_exceptions.invalid_argument,
+              "Ext_list_test.ref_pop"
+            ]);
   }
 }
 
@@ -870,10 +871,10 @@ function rev_except_last(xs) {
               ];
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Ext_list_test.rev_except_last"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Ext_list_test.rev_except_last"
+              ]);
     }
   };
 }
@@ -896,10 +897,10 @@ function last(_xs) {
         return xs[0];
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Ext_list_test.last"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Ext_list_test.last"
+              ]);
     }
   };
 }
@@ -918,14 +919,14 @@ function assoc_by_string(def, k, _lst) {
     } else if (def !== undefined) {
       return Caml_option.valFromOption(def);
     } else {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "ext_list_test.ml",
-              399,
-              14
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "ext_list_test.ml",
+                  399,
+                  14
+                ]
+              ]);
     }
   };
 }
@@ -944,14 +945,14 @@ function assoc_by_int(def, k, _lst) {
     } else if (def !== undefined) {
       return Caml_option.valFromOption(def);
     } else {
-      throw [
-            Caml_builtin_exceptions.assert_failure,
-            /* tuple */[
-              "ext_list_test.ml",
-              409,
-              14
-            ]
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.assert_failure,
+                /* tuple */[
+                  "ext_list_test.ml",
+                  409,
+                  14
+                ]
+              ]);
     }
   };
 }

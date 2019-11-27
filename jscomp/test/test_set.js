@@ -2,6 +2,7 @@
 
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_builtin_exceptions = require("../../lib/js/caml_builtin_exceptions.js");
 
 function Make(Ord) {
@@ -35,16 +36,16 @@ function Make(Ord) {
         } else if (lr) {
           return create(create(ll, lv, lr[0]), lr[1], create(lr[2], v, r));
         } else {
-          throw [
-                Caml_builtin_exceptions.invalid_argument,
-                "Set.bal"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.invalid_argument,
+                    "Set.bal"
+                  ]);
         }
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else if (hr > (hl + 2 | 0)) {
       if (r) {
@@ -56,16 +57,16 @@ function Make(Ord) {
         } else if (rl) {
           return create(create(l, v, rl[0]), rl[1], create(rl[2], rv, rr));
         } else {
-          throw [
-                Caml_builtin_exceptions.invalid_argument,
-                "Set.bal"
-              ];
+          throw Caml_exceptions.stacktrace([
+                    Caml_builtin_exceptions.invalid_argument,
+                    "Set.bal"
+                  ]);
         }
       } else {
-        throw [
-              Caml_builtin_exceptions.invalid_argument,
-              "Set.bal"
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.invalid_argument,
+                  "Set.bal"
+                ]);
       }
     } else {
       return /* Node */[
@@ -151,7 +152,7 @@ function Make(Ord) {
           return param[1];
         }
       } else {
-        throw Caml_builtin_exceptions.not_found;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
       }
     };
   };
@@ -167,7 +168,7 @@ function Make(Ord) {
           return param[1];
         }
       } else {
-        throw Caml_builtin_exceptions.not_found;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
       }
     };
   };
@@ -180,10 +181,10 @@ function Make(Ord) {
         return param[2];
       }
     } else {
-      throw [
-            Caml_builtin_exceptions.invalid_argument,
-            "Set.remove_min_elt"
-          ];
+      throw Caml_exceptions.stacktrace([
+                Caml_builtin_exceptions.invalid_argument,
+                "Set.remove_min_elt"
+              ]);
     }
   };
   var merge = function (t1, t2) {
@@ -582,7 +583,7 @@ function Make(Ord) {
           continue ;
         }
       } else {
-        throw Caml_builtin_exceptions.not_found;
+        throw Caml_exceptions.stacktrace(Caml_builtin_exceptions.not_found);
       }
     };
   };
@@ -673,14 +674,14 @@ function Make(Ord) {
                 match$4[1]
               ];
       } else {
-        throw [
-              Caml_builtin_exceptions.assert_failure,
-              /* tuple */[
-                "test_set.ml",
-                372,
-                18
-              ]
-            ];
+        throw Caml_exceptions.stacktrace([
+                  Caml_builtin_exceptions.assert_failure,
+                  /* tuple */[
+                    "test_set.ml",
+                    372,
+                    18
+                  ]
+                ]);
       }
     };
     return sub(List.length(l), l)[0];
