@@ -1,11 +1,10 @@
 (library
-  (name common)
-  (wrapped false)
-  (libraries ext compiler-libs.common))
+ (name common)
+ (wrapped false)
+ (libraries ext compiler-libs.common))
 
 (rule
-  (targets bs_version.ml)
-  (deps ../build_version.js ../../package.json)
-  (action
-    (run %{bin:node} %{deps})))
-
+ (targets bs_version.ml)
+ (deps ../build_version.js ../../package.json)
+ (action
+  (run %{bin:node} %{deps})))

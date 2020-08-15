@@ -1,8 +1,6 @@
-
 (library
  (name bsb_helper)
-  (flags
-    (:standard -w -9))
-  (wrapped false)
- (libraries bs_hash_stubs ext common bsb   unix str))
-
+ (flags
+  (:standard -w -9))
+ (wrapped false)
+ (libraries bs_hash_stubs ext common bsb unix str))

@@ -1,2 +1,2 @@
-
-(dirs :standard \ docs jscomp/test ocaml native site vendor lib/4.06.1)
+(dirs :standard \ docs jscomp/test ocaml node_modules native site vendor
+  lib/4.06.1)
