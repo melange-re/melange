@@ -1,0 +1,12 @@
+
+
+
+
+
+;; rule bspack
+;;     command = ./bin/bspack.exe $flags -bs-main $main -o $out
+;;     depfile = $out.d
+;;     generator = true
+
+
+

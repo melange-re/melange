@@ -1,0 +1,7 @@
+
+(library
+  (name depends)
+  (wrapped false)
+  (flags
+    (:standard -w -9))
+  (libraries ext common compiler-libs.common))

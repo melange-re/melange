@@ -1,0 +1,54 @@
+(install
+ (section bin)
+ (files
+   (js_main.exe as bsc.exe)
+   (bsb_main.exe as bsb.exe)
+   (bspack_main.exe as bspack.exe)
+   (bsb_helper_main.exe as bsb_helper.exe)))
+
+
+(executable
+ (name js_main)
+  (flags
+    (:standard -w -9))
+ (libraries js_parser bs_hash_stubs ext common depends super_errors outcome_printer core napkin)
+ (modules_without_implementation jscmj_main)
+ (modules js_main jscmj_main)
+ )
+
+
+(executable
+ (name bspack_main)
+ (modules bspack_main)
+  (flags
+    (:standard -w -50))
+ (libraries bs_hash_stubs ext common  depends unix))
+
+(executable
+ (name bsb_main)
+ (modules bsb_main)
+  (flags
+    (:standard -w -50))
+ (libraries bs_hash_stubs ext common bsb))
+
+(executable
+ (name cmjdump_main)
+ (modules cmjdump_main)
+ (libraries bs_hash_stubs ext common  depends core))
+
+(executable
+ (name cmij_main)
+ (modules cmij_main)
+ (libraries bs_hash_stubs ext common  depends core))
+
+(executable
+ (name bsb_helper_main)
+ (modules bsb_helper_main)
+ (libraries bsb_helper bs_hash_stubs ext common depends core))
+
+
+(test
+ (name ounit_tests_main)
+ (modules ounit_tests_main)
+ (libraries ounit bs_hash_stubs ext common  depends bsb bsb_helper core ounit_tests))
+

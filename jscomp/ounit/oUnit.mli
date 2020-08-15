@@ -8,36 +8,36 @@
 (***********************************************************************)
 
 (** Unit test building blocks
- 
+
     @author Maas-Maarten Zeeman
     @author Sylvain Le Gall
   *)
 
-(** {2 Assertions} 
+(** {2 Assertions}
 
     Assertions are the basic building blocks of unittests. *)
 
 (** Signals a failure. This will raise an exception with the specified
-    string. 
+    string.
 
     @raise Failure signal a failure *)
 val assert_failure : string -> 'a
 
-(** Signals a failure when bool is false. The string identifies the 
+(** Signals a failure when bool is false. The string identifies the
     failure.
-    
+
     @raise Failure signal a failure *)
 val assert_bool : string -> bool -> unit
 
-(** Shorthand for assert_bool 
+(** Shorthand for assert_bool
 
     @raise Failure to signal a failure *)
 val ( @? ) : string -> bool -> unit
 
 (** Signals a failure when the string is non-empty. The string identifies the
-    failure. 
-    
-    @raise Failure signal a failure *) 
+    failure.
+
+    @raise Failure signal a failure *)
 val assert_string : string -> unit
 
 (** [assert_command prg args] Run the command provided.
@@ -52,7 +52,7 @@ val assert_string : string -> unit
 
     @since 1.1.0
   *)
-val assert_command : 
+val assert_command :
     ?exit_code:Unix.process_status ->
     ?sinput:char Stream.t ->
     ?foutput:(char Stream.t -> unit) ->
@@ -70,52 +70,52 @@ val assert_command :
                 using [diff fmt exp real] where [fmt] is the formatter to use
     @param msg custom message to identify the failure
 
-    @raise Failure signal a failure 
-    
+    @raise Failure signal a failure
+
     @version 1.1.0
   *)
-val assert_equal : 
+val assert_equal :
   ?cmp:('a -> 'a -> bool) ->
-  ?printer:('a -> string) -> 
+  ?printer:('a -> string) ->
   ?pp_diff:(Format.formatter -> ('a * 'a) -> unit) ->
   ?msg:string -> 'a -> 'a -> unit
 
-(** Asserts if the expected exception was raised. 
-   
+(** Asserts if the expected exception was raised.
+
     @param msg identify the failure
 
     @raise Failure description *)
-val assert_raises : ?msg:string -> exn -> (unit -> 'a) -> unit
+val assert_raises : ?msg:string -> exn -> (unit -> unit) -> unit
 
-val assert_raise_any : ?msg:string ->  (unit -> 'a) -> unit
+val assert_raise_any : ?msg:string ->  (unit -> unit) -> unit
 
-(** {2 Skipping tests } 
-  
+(** {2 Skipping tests }
+
    In certain condition test can be written but there is no point running it, because they
    are not significant (missing OS features for example). In this case this is not a failure
    nor a success. Following functions allow you to escape test, just as assertion but without
    the same error status.
-  
+
    A test skipped is counted as success. A test todo is counted as failure.
   *)
 
 (** [skip cond msg] If [cond] is true, skip the test for the reason explain in [msg].
     For example [skip_if (Sys.os_type = "Win32") "Test a doesn't run on windows"].
-    
+
     @since 1.0.3
   *)
 val skip_if : bool -> string -> unit
 
 (** The associated test is still to be done, for the reason given.
-    
+
     @since 1.0.3
   *)
 val todo : string -> unit
 
 (** {2 Compare Functions} *)
 
-(** Compare floats up to a given relative error. 
-    
+(** Compare floats up to a given relative error.
+
     @param epsilon if the difference is smaller [epsilon] values are equal
   *)
 val cmp_float : ?epsilon:float -> float -> float -> bool
@@ -125,12 +125,12 @@ val cmp_float : ?epsilon:float -> float -> float -> bool
     A bracket is a functional implementation of the commonly used
     setUp and tearDown feature in unittests. It can be used like this:
 
-    ["MyTestCase" >:: (bracket test_set_up test_fun test_tear_down)] 
-    
+    ["MyTestCase" >:: (bracket test_set_up test_fun test_tear_down)]
+
   *)
 
 (** [bracket set_up test tear_down] The [set_up] function runs first, then
-    the [test] function runs and at the end [tear_down] runs. The 
+    the [test] function runs and at the end [tear_down] runs. The
     [tear_down] function runs even if the [test] failed and help to clean
     the environment.
   *)
@@ -143,14 +143,14 @@ val bracket: (unit -> 'a) -> ('a -> unit) -> ('a -> unit) -> unit -> unit
     @param prefix see [Filename.open_temp_file]
     @param suffix see [Filename.open_temp_file]
     @param mode see [Filename.open_temp_file]
-    
+
     @since 1.1.0
   *)
-val bracket_tmpfile: 
-  ?prefix:string -> 
-  ?suffix:string -> 
+val bracket_tmpfile:
+  ?prefix:string ->
+  ?suffix:string ->
   ?mode:open_flag list ->
-  ((string * out_channel) -> unit) -> unit -> unit 
+  ((string * out_channel) -> unit) -> unit -> unit
 
 (** {2 Constructing Tests} *)
 
@@ -176,22 +176,22 @@ val (>:::) : string -> test list -> test
 
    Examples:
 
-   - ["test1" >: TestCase((fun _ -> ()))] =>  
+   - ["test1" >: TestCase((fun _ -> ()))] =>
    [TestLabel("test2", TestCase((fun _ -> ())))]
-   - ["test2" >:: (fun _ -> ())] => 
+   - ["test2" >:: (fun _ -> ())] =>
    [TestLabel("test2", TestCase((fun _ -> ())))]
    - ["test-suite" >::: ["test2" >:: (fun _ -> ());]] =>
    [TestLabel("test-suite", TestSuite([TestLabel("test2", TestCase((fun _ -> ())))]))]
 *)
 
 (** [test_decorate g tst] Apply [g] to test function contains in [tst] tree.
-    
+
     @since 1.0.3
   *)
 val test_decorate : (test_fun -> test_fun) -> test -> test
 
-(** [test_filter paths tst] Filter test based on their path string representation. 
-    
+(** [test_filter paths tst] Filter test based on their path string representation.
+
     @param skip] if set, just use [skip_if] for the matching tests.
     @since 1.0.3
   *)
@@ -209,7 +209,7 @@ type path = node list (** The path to the test (in reverse order). *)
 (** Make a string from a node *)
 val string_of_node : node -> string
 
-(** Make a string from a path. The path will be reversed before it is 
+(** Make a string from a path. The path will be reversed before it is
     tranlated into a string *)
 val string_of_path : path -> string
 
@@ -218,8 +218,8 @@ val test_case_paths : test -> path list
 
 (** {2 Performing Tests} *)
 
-(** Severity level for log. *) 
-type log_severity = 
+(** Severity level for log. *)
+type log_severity =
   | LError
   | LWarning
   | LInfo
@@ -241,25 +241,25 @@ type test_event =
   | ELogRaw of string             (** Print raw data in the log. *)
 
 (** Perform the test, allows you to build your own test runner *)
-val perform_test : (test_event -> 'a) -> test -> test_result list
+val perform_test : (test_event -> unit) -> test -> test_result list
 
 (** A simple text based test runner. It prints out information
-    during the test. 
+    during the test.
 
     @param verbose print verbose message
   *)
 val run_test_tt : ?verbose:bool -> test -> test_result list
 
-(** Main version of the text based test runner. It reads the supplied command 
-    line arguments to set the verbose level and limit the number of test to 
+(** Main version of the text based test runner. It reads the supplied command
+    line arguments to set the verbose level and limit the number of test to
     run.
-    
+
     @param arg_specs add extra command line arguments
     @param set_verbose call a function to set verbosity
 
     @version 1.1.0
   *)
-val run_test_tt_main : 
-    ?arg_specs:(Arg.key * Arg.spec * Arg.doc) list -> 
-    ?set_verbose:(bool -> unit) -> 
+val run_test_tt_main :
+    ?arg_specs:(Arg.key * Arg.spec * Arg.doc) list ->
+    ?set_verbose:(bool -> unit) ->
     test -> test_result list

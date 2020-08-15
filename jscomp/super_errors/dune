@@ -1,0 +1,7 @@
+
+(library
+  (name super_errors)
+  (flags
+    (:standard -w -9-50))
+  (wrapped false)
+  (libraries ext compiler-libs.common common core))

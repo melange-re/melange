@@ -1,0 +1,7 @@
+
+(library
+  (name ounit_tests)
+  (flags
+    (:standard -w -9-50))
+  (wrapped false)
+  (libraries ounit depends ext bsb bsb_helper core))

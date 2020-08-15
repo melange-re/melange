@@ -144,3 +144,5 @@ tracing*.json
 darwin/bsc
 .nyc_output
 themes
+
+.merlin

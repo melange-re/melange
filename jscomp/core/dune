@@ -1,0 +1,30 @@
+(library
+  (name core)
+  (wrapped false)
+  (flags
+    (:standard -w -9-30-50))
+  (modules_without_implementation lam_pass_unused_params lam_runtime)
+  (libraries ext common depends outcome_printer js_parser))
+
+ (rule
+  (targets js_fold.ml)
+  (deps js_fold.mlp)
+  (action
+   (run %{bin:camlp4of} -I core -filter map -filter trash -impl %{deps} -printer o -o %{targets})))
+
+
+ (rule
+  (targets js_map.ml)
+  (deps js_map.mlp)
+  (action
+   (run %{bin:camlp4of} -I core -filter Camlp4FoldGenerator -filter trash -impl %{deps} -printer o -o %{targets})))
+
+
+(rule
+  (targets reactjs_jsx_ppx_v3.ml)
+  (deps reactjs_jsx_ppx.cppo.ml)
+  (action
+   (run %{bin:cppo} -V OCAML:4.06.1+BS  %{deps} -o %{targets})))
+
+
+(copy_files ../syntax/*)

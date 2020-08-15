@@ -1,0 +1,2 @@
+
+(dirs :standard \ docs jscomp/test ocaml native site vendor lib/4.06.1)
