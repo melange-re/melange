@@ -214,7 +214,7 @@ function provideCompiler() {
 
 provideNinja();
 
-provideCompiler();
+// provideCompiler();
 
 var stdlib = "stdlib-406";
 

@@ -4,238 +4,340 @@
 (rule
   (targets belt_HashSetString.ml)
   (deps hashset.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetString.mli)
   (deps hashset.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetInt.ml)
   (deps hashset.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetInt.mli)
   (deps hashset.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapString.ml)
   (deps hashmap.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapString.mli)
   (deps hashmap.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapInt.ml)
   (deps hashmap.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapInt.mli)
   (deps hashmap.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapString.ml)
   (deps map.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapString.mli)
   (deps map.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapInt.ml)
   (deps map.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapInt.mli)
   (deps map.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetString.ml)
   (deps belt_Set.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetString.mli)
   (deps belt_Set.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetInt.ml)
   (deps belt_Set.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetInt.mli)
   (deps belt_Set.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapString.ml)
   (deps mapm.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapString.mli)
   (deps mapm.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapInt.ml)
   (deps mapm.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapInt.mli)
   (deps mapm.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetString.ml)
   (deps setm.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetString.mli)
   (deps setm.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetInt.ml)
   (deps setm.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetInt.mli)
   (deps setm.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayString.ml)
   (deps sort.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayString.mli)
   (deps sort.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayInt.ml)
   (deps sort.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayInt.mli)
   (deps sort.cppo.mli)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalMapString.ml)
   (deps internal_map.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalMapInt.ml)
   (deps internal_map.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalSetString.ml)
   (deps internal_set.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalSetInt.ml)
   (deps internal_set.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets js_typed_array.ml)
   (deps js_typed_array.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS  %{deps} -o %{targets})))
 
 (rule
   (targets js_typed_array2.ml)
   (deps js_typed_array2.cppo.ml)
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS  %{deps} -o %{targets})))
 
@@ -585,6 +687,34 @@
 
 
   (rule
+    (targets belt_HashMapInt.cmj)
+    (deps (:inputs belt_HashMapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashMapInt.cmi belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_HashMapInt.cmi)
+    (deps (:inputs belt_HashMapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_HashMapString.cmj)
+    (deps (:inputs belt_HashMapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashMapString.cmi belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_HashMapString.cmi)
+    (deps (:inputs belt_HashMapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
     (targets belt_HashSet.cmj)
     (deps (:inputs belt_HashSet.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_HashSet.cmi belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_Id.cmj belt_internalBucketsType.cmj belt_internalSetBuckets.cmj js_pkg)
     (action
@@ -599,8 +729,22 @@
 
 
   (rule
+    (targets belt_HashSetInt.cmj)
+    (deps (:inputs belt_HashSetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashSetInt.cmi belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_HashSetInt.cmi)
+    (deps (:inputs belt_HashSetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
     (targets belt_HashSetString.cmj)
-    (deps (:inputs belt_HashSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj js_pkg)
+    (deps (:inputs belt_HashSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashSetString.cmi belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj js_pkg)
     (action
      (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
@@ -683,6 +827,34 @@
 
 
   (rule
+    (targets belt_MapInt.cmj)
+    (deps (:inputs belt_MapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MapInt.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MapInt.cmi)
+    (deps (:inputs belt_MapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MapString.cmj)
+    (deps (:inputs belt_MapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MapString.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MapString.cmi)
+    (deps (:inputs belt_MapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
     (targets belt_MutableMap.cmj)
     (deps (:inputs belt_MutableMap.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_MutableMap.cmi belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj belt_internalAVLtree.cmj js_pkg)
     (action
@@ -692,6 +864,34 @@
   (rule
     (targets belt_MutableMap.cmi)
     (deps (:inputs belt_MutableMap.mli) ../runtime/runtime belt.cmi belt_Id.cmi belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableMapInt.cmj)
+    (deps (:inputs belt_MutableMapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableMapInt.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableMapInt.cmi)
+    (deps (:inputs belt_MutableMapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableMapString.cmj)
+    (deps (:inputs belt_MutableMapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableMapString.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableMapString.cmi)
+    (deps (:inputs belt_MutableMapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
     (action
      (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
@@ -720,6 +920,34 @@
   (rule
     (targets belt_MutableSet.cmi)
     (deps (:inputs belt_MutableSet.mli) ../runtime/runtime belt.cmi belt_Id.cmi belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableSetInt.cmj)
+    (deps (:inputs belt_MutableSetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableSetInt.cmi belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableSetInt.cmi)
+    (deps (:inputs belt_MutableSetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableSetString.cmj)
+    (deps (:inputs belt_MutableSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableSetString.cmi belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_MutableSetString.cmi)
+    (deps (:inputs belt_MutableSetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
     (action
      (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
@@ -809,6 +1037,34 @@
 
 
   (rule
+    (targets belt_SetInt.cmj)
+    (deps (:inputs belt_SetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SetInt.cmi belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SetInt.cmi)
+    (deps (:inputs belt_SetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SetString.cmj)
+    (deps (:inputs belt_SetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SetString.cmi belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SetString.cmi)
+    (deps (:inputs belt_SetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
     (targets belt_SortArray.cmj)
     (deps (:inputs belt_SortArray.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj js_pkg)
     (action
@@ -817,7 +1073,35 @@
 
   (rule
     (targets belt_SortArray.cmi)
-    (deps (:inputs belt_SortArray.mli) ../runtime/runtime belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj)
+    (deps (:inputs belt_SortArray.mli) ../runtime/runtime belt.cmi belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SortArrayInt.cmj)
+    (deps (:inputs belt_SortArrayInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SortArrayInt.cmi)
+    (deps (:inputs belt_SortArrayInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SortArrayString.cmj)
+    (deps (:inputs belt_SortArrayString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_SortArrayString.cmi)
+    (deps (:inputs belt_SortArrayString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
     (action
      (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
@@ -879,6 +1163,20 @@
 
 
   (rule
+    (targets belt_internalMapInt.cmi belt_internalMapInt.cmj)
+    (deps (:inputs belt_internalMapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_internalMapString.cmi belt_internalMapString.cmj)
+    (deps (:inputs belt_internalMapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
     (targets belt_internalSetBuckets.cmj)
     (deps (:inputs belt_internalSetBuckets.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_internalBucketsType.cmj belt_internalSetBuckets.cmi js_pkg)
     (action
@@ -888,6 +1186,20 @@
   (rule
     (targets belt_internalSetBuckets.cmi)
     (deps (:inputs belt_internalSetBuckets.mli) ../runtime/runtime belt.cmi belt_internalBucketsType.cmi js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_internalSetInt.cmi belt_internalSetInt.cmj)
+    (deps (:inputs belt_internalSetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_internalSetString.cmi belt_internalSetString.cmj)
+    (deps (:inputs belt_internalSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj js_pkg)
     (action
      (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
@@ -963,216 +1275,6 @@
 
 
   (rule
-    (targets belt_HashSetInt.cmj)
-    (deps (:inputs belt_HashSetInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_HashSetInt.cmi)
-    (deps (:inputs belt_HashSetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_HashMapString.cmj)
-    (deps (:inputs belt_HashMapString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_HashMapString.cmi)
-    (deps (:inputs belt_HashMapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_HashMapInt.cmj)
-    (deps (:inputs belt_HashMapInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_HashMapInt.cmi)
-    (deps (:inputs belt_HashMapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MapString.cmj)
-    (deps (:inputs belt_MapString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MapString.cmi)
-    (deps (:inputs belt_MapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MapInt.cmj)
-    (deps (:inputs belt_MapInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MapInt.cmi)
-    (deps (:inputs belt_MapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SetString.cmj)
-    (deps (:inputs belt_SetString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SetString.cmi)
-    (deps (:inputs belt_SetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SetInt.cmj)
-    (deps (:inputs belt_SetInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SetInt.cmi)
-    (deps (:inputs belt_SetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableMapString.cmj)
-    (deps (:inputs belt_MutableMapString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableMapString.cmi)
-    (deps (:inputs belt_MutableMapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableMapInt.cmj)
-    (deps (:inputs belt_MutableMapInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableMapInt.cmi)
-    (deps (:inputs belt_MutableMapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableSetString.cmj)
-    (deps (:inputs belt_MutableSetString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableSetString.cmi)
-    (deps (:inputs belt_MutableSetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableSetInt.cmj)
-    (deps (:inputs belt_MutableSetInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_MutableSetInt.cmi)
-    (deps (:inputs belt_MutableSetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SortArrayString.cmj)
-    (deps (:inputs belt_SortArrayString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SortArrayString.cmi)
-    (deps (:inputs belt_SortArrayString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SortArrayInt.cmj)
-    (deps (:inputs belt_SortArrayInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_SortArrayInt.cmi)
-    (deps (:inputs belt_SortArrayInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_internalMapString.cmi belt_internalMapString.cmj)
-    (deps (:inputs belt_internalMapString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_internalMapInt.cmi belt_internalMapInt.cmj)
-    (deps (:inputs belt_internalMapInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_internalSetString.cmi belt_internalSetString.cmj)
-    (deps (:inputs belt_internalSetString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_internalSetInt.cmi belt_internalSetInt.cmj)
-    (deps (:inputs belt_internalSetInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
     (targets js_typed_array.cmi js_typed_array.cmj)
     (deps (:inputs js_typed_array.ml) ../runtime/runtime js_typed_array2.cmi js_typed_array2.cmj)
     (action
@@ -1188,7 +1290,7 @@
 
     (rule
       (target others)
-      (deps belt_Array.cmi belt_Array.cmj belt_Float.cmi belt_Float.cmj belt_HashMap.cmi belt_HashMap.cmj belt_HashSet.cmi belt_HashSet.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_Id.cmi belt_Id.cmj belt_Int.cmi belt_Int.cmj belt_List.cmi belt_List.cmj belt_Map.cmi belt_Map.cmj belt_MapDict.cmi belt_MapDict.cmj belt_MutableMap.cmi belt_MutableMap.cmj belt_MutableQueue.cmi belt_MutableQueue.cmj belt_MutableSet.cmi belt_MutableSet.cmj belt_MutableStack.cmi belt_MutableStack.cmj belt_Option.cmi belt_Option.cmj belt_Range.cmi belt_Range.cmj belt_Result.cmi belt_Result.cmj belt_Set.cmi belt_Set.cmj belt_SetDict.cmi belt_SetDict.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj dom.cmi dom.cmj dom_storage.cmi dom_storage.cmj dom_storage2.cmi dom_storage2.cmj node_buffer.cmi node_buffer.cmj node_child_process.cmi node_child_process.cmj node_fs.cmi node_fs.cmj node_module.cmi node_module.cmj node_path.cmi node_path.cmj node_process.cmi node_process.cmj belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashMapString.cmi belt_HashMapString.cmj belt_HashMapInt.cmi belt_HashMapInt.cmj belt_MapString.cmi belt_MapString.cmj belt_MapInt.cmi belt_MapInt.cmj belt_SetString.cmi belt_SetString.cmj belt_SetInt.cmi belt_SetInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalMapString.cmi belt_internalMapString.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj belt_internalSetString.cmi belt_internalSetString.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_typed_array.cmi js_typed_array.cmj js_typed_array2.cmi js_typed_array2.cmj)
+      (deps belt_Array.cmi belt_Array.cmj belt_Float.cmi belt_Float.cmj belt_HashMap.cmi belt_HashMap.cmj belt_HashMapInt.cmi belt_HashMapInt.cmj belt_HashMapString.cmi belt_HashMapString.cmj belt_HashSet.cmi belt_HashSet.cmj belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_Id.cmi belt_Id.cmj belt_Int.cmi belt_Int.cmj belt_List.cmi belt_List.cmj belt_Map.cmi belt_Map.cmj belt_MapDict.cmi belt_MapDict.cmj belt_MapInt.cmi belt_MapInt.cmj belt_MapString.cmi belt_MapString.cmj belt_MutableMap.cmi belt_MutableMap.cmj belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj belt_MutableQueue.cmi belt_MutableQueue.cmj belt_MutableSet.cmi belt_MutableSet.cmj belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj belt_MutableStack.cmi belt_MutableStack.cmj belt_Option.cmi belt_Option.cmj belt_Range.cmi belt_Range.cmj belt_Result.cmi belt_Result.cmj belt_Set.cmi belt_Set.cmj belt_SetDict.cmi belt_SetDict.cmj belt_SetInt.cmi belt_SetInt.cmj belt_SetString.cmi belt_SetString.cmj belt_SortArray.cmi belt_SortArray.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj belt_internalMapString.cmi belt_internalMapString.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj belt_internalSetString.cmi belt_internalSetString.cmj dom.cmi dom.cmj dom_storage.cmi dom_storage.cmj dom_storage2.cmi dom_storage2.cmj node_buffer.cmi node_buffer.cmj node_child_process.cmi node_child_process.cmj node_fs.cmi node_fs.cmj node_module.cmi node_module.cmj node_path.cmi node_path.cmj node_process.cmi node_process.cmj js_typed_array.cmi js_typed_array.cmj js_typed_array2.cmi js_typed_array2.cmj)
       (action
         (run touch %{target})))
   

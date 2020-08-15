@@ -11,8 +11,19 @@ in
     overlays = [
       (import overlays)
       (self: super: {
-        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope'
-            (super.callPackage "${overlays}/ocaml" {});
+        ocamlPackages = (super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope'
+        (super.callPackage "${overlays}/ocaml" {})).overrideScope' (oself: osuper: {
+          ocaml = (osuper.ocaml.override { useX11 = false; ncurses = null; }).overrideAttrs (o: {
+            preConfigure = ''
+              configureFlagsArray+=(-no-ocamlbuild  -no-curses -no-graph -no-debugger)
+            '';
+            src = ../ocaml;
+            preBuild = ''
+              make clean
+            '';
+            buildFlags =  [ "-j9" "world.opt" ];
+          });
+        });
       })
     ];
   }

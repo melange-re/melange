@@ -577,7 +577,7 @@ function buildStmt(outputs, inputs, rule, depsMap, cwd, overrides, extraDeps) {
   return ninjaBuild(os, is, rule, deps.toSortedArray(), cwd, overrides);
 }
 
-function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps) {
+function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = []) {
   var deps = new TargetSet();
   for (var i = 0; i < outputs.length; ++i) {
     var curDeps = depsMap.get(outputs[i]);
@@ -995,7 +995,10 @@ var cppoRule = (src, target, flags = "") => `
 (rule
   (targets ${target})
   (deps ${src})
-  (mode promote-until-clean)
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
   (action
    (run %{bin:cppo} -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
 `;
@@ -1098,7 +1101,7 @@ ${ccRuleList([
       !x.includes("#") &&
       !x.includes(".cppo") // we have node ..
   );
-  var jsTargets = collectTarget(jsPrefixSourceFiles);
+  var jsTargets = collectTarget(jsPrefixSourceFiles.filter(x => !x.startsWith('js_typed_array')));
   var allJsTargets = scanFileTargets(jsTargets, []);
   let jsDepsMap = new Map();
   let depsMap = new Map();

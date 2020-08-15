@@ -68,3 +68,8 @@
  (modules ounit_tests_main)
  (libraries ounit bs_hash_stubs ext common depends bsb bsb_helper core
    ounit_tests))
+
+(library
+ (wrapped false)
+ (name builtin_datasets)
+ (modules builtin_cmi_datasets builtin_cmj_datasets))

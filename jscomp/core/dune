@@ -4,7 +4,8 @@
  (flags
   (:standard -w -9-30-50))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
- (libraries ext common depends outcome_printer js_parser reason))
+ (libraries ext common depends outcome_printer js_parser reason
+   builtin_datasets))
 
 (rule
  (targets js_fold.ml)
