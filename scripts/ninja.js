@@ -38,7 +38,7 @@ return `
   (deps ${src})
   (mode promote-until-clean)
   (action
-   (run %{bin:camlp4of} ${flags} -impl %{deps} -printer o -o %{targets})))
+   (run camlp4of ${flags} -impl %{deps} -printer o -o %{targets})))
 `
 }
 
@@ -143,7 +143,7 @@ function ruleCC(flags, src, target, deps = []) {
     (targets ${Array.isArray(target) ? target.join(' ') : target})
     (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
     (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -153,7 +153,7 @@ function ruleCC_cmi(flags, src, target, deps = []) {
     (targets ${Array.isArray(target) ? target.join(' ') : target})
     (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
     (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -806,7 +806,7 @@ function generateDune(depsMap, allTargets, bscFlags, deps = []) {
    */
   var build_stmts = [];
   allTargets.forEach((x, mod) => {
-    let ouptput_cmj = mod + ".cmj";
+    let output_cmj = mod + ".cmj";
     let output_cmi = mod + ".cmi";
     let input_ml = mod + ".ml";
     let input_mli = mod + ".mli";
@@ -828,18 +828,18 @@ function generateDune(depsMap, allTargets, bscFlags, deps = []) {
     };
     switch (x) {
       case "HAS_BOTH":
-        mk([ouptput_cmj], [input_ml], ruleCC_cmi);
+        mk([output_cmj], [input_ml], ruleCC_cmi);
         mk([output_cmi], [input_mli]);
         break;
       case "HAS_BOTH_RE":
-        mk([ouptput_cmj], [input_re], ruleCC_cmi);
+        mk([output_cmj], [input_re], ruleCC_cmi);
         mk([output_cmi], [input_rei], ruleCC);
         break;
       case "HAS_RE":
-        mk([output_cmi, ouptput_cmj], [input_re], ruleCC);
+        mk([output_cmi, output_cmj], [input_re], ruleCC);
         break;
       case "HAS_ML":
-        mk([output_cmi, ouptput_cmj], [input_ml]);
+        mk([output_cmi, output_cmj], [input_ml]);
         break;
       case "HAS_REI":
         mk([output_cmi], [input_rei], ruleCC);
@@ -865,7 +865,7 @@ function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
    */
   var build_stmts = [];
   allTargets.forEach((x, mod) => {
-    let ouptput_cmj = mod + ".cmj";
+    let output_cmj = mod + ".cmj";
     let output_cmi = mod + ".cmi";
     let input_ml = mod + ".ml";
     let input_mli = mod + ".mli";
@@ -892,18 +892,18 @@ function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
     };
     switch (x) {
       case "HAS_BOTH":
-        mk([ouptput_cmj], [input_ml], "cc_cmi");
+        mk([output_cmj], [input_ml], "cc_cmi");
         mk([output_cmi], [input_mli]);
         break;
       case "HAS_BOTH_RE":
-        mk([ouptput_cmj], [input_re], "cc_cmi");
+        mk([output_cmj], [input_re], "cc_cmi");
         mk([output_cmi], [input_rei], "cc");
         break;
       case "HAS_RE":
-        mk([output_cmi, ouptput_cmj], [input_re], "cc");
+        mk([output_cmi, output_cmj], [input_re], "cc");
         break;
       case "HAS_ML":
-        mk([output_cmi, ouptput_cmj], [input_ml]);
+        mk([output_cmi, output_cmj], [input_ml]);
         break;
       case "HAS_REI":
         mk([output_cmi], [input_rei], "cc");
@@ -1000,7 +1000,7 @@ var cppoRule = (src, target, flags = "") => `
     (until-clean)
     (only :standard)))
   (action
-   (run %{bin:cppo} -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
+   (run cppo -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
 `;
 
 async function othersNinja() {
@@ -1129,9 +1129,11 @@ ${ccRuleList([
 
   for (entry in belt_extraDeps) {
     const extra_deps = belt_extraDeps[entry]
-    var all_deps = extra_deps.map(x => x + '.cmi').concat(extra_deps.map(x => x + '.cmj'));
+    var all_deps = extra_deps.map(x => x + '.cmi')
+      .concat(extra_deps.map(x => x + '.cmj'));
+    var self_cmi = belt_cppo_targets.map(([x]) => x).includes(entry + '.mli') ? [ entry + ".cmi" ] : [];
     updateDepsKVsByFile(entry + '.cmi', all_deps, depsMap)
-    updateDepsKVsByFile(entry + '.cmj', all_deps, depsMap)
+    updateDepsKVsByFile(entry + '.cmj', all_deps.concat(self_cmi), depsMap)
   };
 
   var allOthersTarget = scanFileTargets(beltTargets, []);
