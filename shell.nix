@@ -1,5 +1,3 @@
-{ release-mode ? false }:
-
 let
   pkgs = import ./nix/sources.nix {};
   inherit (pkgs) stdenv lib;
@@ -16,7 +14,7 @@ in
       nodejs-14_x
       pkgs.git
       cppo
-      pkgs.ocaml-ng.ocamlPackages_4_11.dune
+      pkgs.ocaml-ng.ocamlPackages_4_11.dune_2
     ]);
 
     shellHook = ''
