@@ -78,7 +78,7 @@ let parenthesized_ident name =
 
 let value_ident ppf name =
   if parenthesized_ident name then
-    fprintf ppf "( %s )" (Reason_syntax_util.ml_to_reason_swap name)
+    fprintf ppf "( %s )" (Bs_reason_syntax_util.ml_to_reason_swap name)
   else
     pp_print_string ppf name
 
@@ -150,7 +150,7 @@ let print_out_value ppf tree =
     | Oval_float f -> pp_print_string ppf (float_repres f)
     | Oval_char c -> fprintf ppf "%C" c
     | Oval_string (s,_,_) ->
-        begin try fprintf ppf "\"%s\"" (Reason_syntax_util.escape_string s) with
+        begin try fprintf ppf "\"%s\"" (Bs_reason_syntax_util.escape_string s) with
           Invalid_argument s when s = "String.create" -> fprintf ppf "<huge string>"
         end
     | Oval_list tl ->

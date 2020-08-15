@@ -36,6 +36,7 @@ return `
  (rule
   (targets ${target})
   (deps ${src})
+  (mode promote-until-clean)
   (action
    (run %{bin:camlp4of} ${flags} -impl %{deps} -printer o -o %{targets})))
 `
@@ -706,9 +707,7 @@ function depModulesForBscAsync(files, dir, depsMap) {
 
     new Promise((resolve, reject) => {
       cp.exec(
-        `${getOcamldepFile()} -pp '../../${
-          process.platform
-        }/refmt.exe --print=binary' -modules -one-line -native -ml-synonym .re -mli-synonym .rei ${reFiles.join(
+        `${getOcamldepFile()} -pp 'refmt --print=binary' -modules -one-line -native -ml-synonym .re -mli-synonym .rei ${reFiles.join(
           " "
         )}`,
         config,
@@ -996,6 +995,7 @@ var cppoRule = (src, target, flags = "") => `
 (rule
   (targets ${target})
   (deps ${src})
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
 `;
@@ -1279,19 +1279,9 @@ function baseName(x) {
  * @returns {Promise<void>}
  */
 async function testNinja() {
-  var ninjaOutput = "build.ninja";
+  var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var templateTestRules = `
-bsc_flags = -absname -bs-no-version-header  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104  -warn-error A  -I runtime -I $stdlib -I others
-${ruleCC(ninjaCwd)}
-
-
-${mllList(ninjaCwd, [
-  "arith_lexer.mll",
-  "number_lexer.mll",
-  "simple_lexer_test.mll",
-])}
-`;
+  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A -I ../runtime -I ../stdlib-406 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
@@ -1304,10 +1294,10 @@ ${mllList(ninjaCwd, [
   let depsMap = createDepsMapWithTargets(sources);
   await Promise.all(depModulesForBscAsync(sources, testDir, depsMap));
   var targets = collectTarget(sources);
-  var output = generateNinja(depsMap, targets, ninjaCwd, [stdlibTarget]);
+  var output = generateDune(depsMap, targets, bsc_flags, [stdlibTarget].map(x => `../stdlib-406/${x.name}`));
   writeFileAscii(
     path.join(testDir, ninjaOutput),
-    templateTestRules + output.join("\n") + "\n"
+    output.join("\n") + "\n"
   );
 }
 

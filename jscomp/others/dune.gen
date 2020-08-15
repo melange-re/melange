@@ -4,204 +4,238 @@
 (rule
   (targets belt_HashSetString.ml)
   (deps hashset.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetString.mli)
   (deps hashset.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetInt.ml)
   (deps hashset.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetInt.mli)
   (deps hashset.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapString.ml)
   (deps hashmap.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapString.mli)
   (deps hashmap.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapInt.ml)
   (deps hashmap.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapInt.mli)
   (deps hashmap.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapString.ml)
   (deps map.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapString.mli)
   (deps map.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapInt.ml)
   (deps map.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapInt.mli)
   (deps map.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetString.ml)
   (deps belt_Set.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetString.mli)
   (deps belt_Set.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetInt.ml)
   (deps belt_Set.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetInt.mli)
   (deps belt_Set.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapString.ml)
   (deps mapm.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapString.mli)
   (deps mapm.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapInt.ml)
   (deps mapm.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapInt.mli)
   (deps mapm.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetString.ml)
   (deps setm.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetString.mli)
   (deps setm.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetInt.ml)
   (deps setm.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetInt.mli)
   (deps setm.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayString.ml)
   (deps sort.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayString.mli)
   (deps sort.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayInt.ml)
   (deps sort.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayInt.mli)
   (deps sort.cppo.mli)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalMapString.ml)
   (deps internal_map.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalMapInt.ml)
   (deps internal_map.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalSetString.ml)
   (deps internal_set.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalSetInt.ml)
   (deps internal_set.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets js_typed_array.ml)
   (deps js_typed_array.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS  %{deps} -o %{targets})))
 
 (rule
   (targets js_typed_array2.ml)
   (deps js_typed_array2.cppo.ml)
+  (mode promote-until-clean)
   (action
    (run %{bin:cppo} -V OCAML:4.06.1+BS  %{deps} -o %{targets})))
 
@@ -565,6 +599,20 @@
 
 
   (rule
+    (targets belt_HashSetString.cmj)
+    (deps (:inputs belt_HashSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj js_pkg)
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
+    (targets belt_HashSetString.cmi)
+    (deps (:inputs belt_HashSetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+
+
+  (rule
     (targets belt_Id.cmj)
     (deps (:inputs belt_Id.ml) ../runtime/runtime belt.cmi belt_Id.cmi js_pkg)
     (action
@@ -915,20 +963,6 @@
 
 
   (rule
-    (targets belt_HashSetString.cmj)
-    (deps (:inputs belt_HashSetString.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
-    (targets belt_HashSetString.cmi)
-    (deps (:inputs belt_HashSetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
-    (action
-     (run %{bin:bsc.exe} -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
-
-
-  (rule
     (targets belt_HashSetInt.cmj)
     (deps (:inputs belt_HashSetInt.ml) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
     (action
@@ -1154,7 +1188,7 @@
 
     (rule
       (target others)
-      (deps belt_Array.cmi belt_Array.cmj belt_Float.cmi belt_Float.cmj belt_HashMap.cmi belt_HashMap.cmj belt_HashSet.cmi belt_HashSet.cmj belt_Id.cmi belt_Id.cmj belt_Int.cmi belt_Int.cmj belt_List.cmi belt_List.cmj belt_Map.cmi belt_Map.cmj belt_MapDict.cmi belt_MapDict.cmj belt_MutableMap.cmi belt_MutableMap.cmj belt_MutableQueue.cmi belt_MutableQueue.cmj belt_MutableSet.cmi belt_MutableSet.cmj belt_MutableStack.cmi belt_MutableStack.cmj belt_Option.cmi belt_Option.cmj belt_Range.cmi belt_Range.cmj belt_Result.cmi belt_Result.cmj belt_Set.cmi belt_Set.cmj belt_SetDict.cmi belt_SetDict.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj dom.cmi dom.cmj dom_storage.cmi dom_storage.cmj dom_storage2.cmi dom_storage2.cmj node_buffer.cmi node_buffer.cmj node_child_process.cmi node_child_process.cmj node_fs.cmi node_fs.cmj node_module.cmi node_module.cmj node_path.cmi node_path.cmj node_process.cmi node_process.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashMapString.cmi belt_HashMapString.cmj belt_HashMapInt.cmi belt_HashMapInt.cmj belt_MapString.cmi belt_MapString.cmj belt_MapInt.cmi belt_MapInt.cmj belt_SetString.cmi belt_SetString.cmj belt_SetInt.cmi belt_SetInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalMapString.cmi belt_internalMapString.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj belt_internalSetString.cmi belt_internalSetString.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_typed_array.cmi js_typed_array.cmj js_typed_array2.cmi js_typed_array2.cmj)
+      (deps belt_Array.cmi belt_Array.cmj belt_Float.cmi belt_Float.cmj belt_HashMap.cmi belt_HashMap.cmj belt_HashSet.cmi belt_HashSet.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_Id.cmi belt_Id.cmj belt_Int.cmi belt_Int.cmj belt_List.cmi belt_List.cmj belt_Map.cmi belt_Map.cmj belt_MapDict.cmi belt_MapDict.cmj belt_MutableMap.cmi belt_MutableMap.cmj belt_MutableQueue.cmi belt_MutableQueue.cmj belt_MutableSet.cmi belt_MutableSet.cmj belt_MutableStack.cmi belt_MutableStack.cmj belt_Option.cmi belt_Option.cmj belt_Range.cmi belt_Range.cmj belt_Result.cmi belt_Result.cmj belt_Set.cmi belt_Set.cmj belt_SetDict.cmi belt_SetDict.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj dom.cmi dom.cmj dom_storage.cmi dom_storage.cmj dom_storage2.cmi dom_storage2.cmj node_buffer.cmi node_buffer.cmj node_child_process.cmi node_child_process.cmj node_fs.cmi node_fs.cmj node_module.cmi node_module.cmj node_path.cmi node_path.cmj node_process.cmi node_process.cmj belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashMapString.cmi belt_HashMapString.cmj belt_HashMapInt.cmi belt_HashMapInt.cmj belt_MapString.cmi belt_MapString.cmj belt_MapInt.cmi belt_MapInt.cmj belt_SetString.cmi belt_SetString.cmj belt_SetInt.cmi belt_SetInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalMapString.cmi belt_internalMapString.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj belt_internalSetString.cmi belt_internalSetString.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_typed_array.cmi js_typed_array.cmj js_typed_array2.cmi js_typed_array2.cmj)
       (action
         (run touch %{target})))
   

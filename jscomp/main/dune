@@ -8,10 +8,11 @@
 
 (executable
  (name js_main)
+ (modes native)
  (flags
   (:standard -w -9))
  (libraries js_parser bs_hash_stubs ext common depends super_errors
-   outcome_printer core napkin)
+   outcome_printer core napkin reason)
  (modules_without_implementation jscmj_main)
  (modules js_main jscmj_main))
 
@@ -29,6 +30,7 @@
 
 (executable
  (name bspack_main)
+ (modes native)
  (modules bspack_main)
  (flags
   (:standard -w -50))
@@ -36,6 +38,7 @@
 
 (executable
  (name bsb_main)
+ (modes native)
  (modules bsb_main)
  (flags
   (:standard -w -50))
@@ -43,21 +46,25 @@
 
 (executable
  (name cmjdump_main)
+ (modes native)
  (modules cmjdump_main)
  (libraries bs_hash_stubs ext common depends core))
 
 (executable
  (name cmij_main)
+ (modes native)
  (modules cmij_main)
  (libraries bs_hash_stubs ext common depends core))
 
 (executable
  (name bsb_helper_main)
+ (modes native)
  (modules bsb_helper_main)
  (libraries bsb_helper bs_hash_stubs ext common depends core))
 
 (test
  (name ounit_tests_main)
+ (modes native)
  (modules ounit_tests_main)
  (libraries ounit bs_hash_stubs ext common depends bsb bsb_helper core
    ounit_tests))

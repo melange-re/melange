@@ -5,14 +5,14 @@
   (run %{bin:cppo} -V OCAML:4.06.1+BS %{deps} -o %{targets})))
 
 (rule
- (targets reason_syntax_util.ml)
- (deps reason_syntax_util.cppo.ml)
+ (targets bs_reason_syntax_util.ml)
+ (deps bs_reason_syntax_util.cppo.ml)
  (action
   (run %{bin:cppo} -V OCAML:4.06.1+BS %{deps} -o %{targets})))
 
 (rule
- (targets reason_syntax_util.mli)
- (deps reason_syntax_util.cppo.mli)
+ (targets bs_reason_syntax_util.mli)
+ (deps bs_reason_syntax_util.cppo.mli)
  (action
   (run %{bin:cppo} -V OCAML:4.06.1+BS %{deps} -o %{targets})))
 
