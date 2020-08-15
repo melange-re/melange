@@ -20,6 +20,11 @@ in
     ]);
 
     shellHook = ''
+      if [[ ! -f ./native/4.06.1/bin/ocamldep.opt ]]; then
+        echo Building OCaml...
+        node scripts/buildocaml.js
+      fi
+
       PATH="$PATH:$PWD/native/4.06.1/bin"
     '';
   }
