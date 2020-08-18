@@ -1,0 +1,9 @@
+(rule
+ (target es6)
+ (action
+  (system "mkdir -p %{target}")))
+
+(rule
+ (target js)
+ (action
+  (system "mkdir -p %{target}")))

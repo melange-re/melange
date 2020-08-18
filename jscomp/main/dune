@@ -2,31 +2,30 @@
  (section bin)
  (files
   bsc.exe
+  bsb_helper.exe
   (bsb_main.exe as bsb.exe)
-  (bspack_main.exe as bspack.exe)
-  (bsb_helper_main.exe as bsb_helper.exe)))
+  (bspack_main.exe as bspack.exe)))
 
 (executable
- (name js_main)
+ (name bsc)
  (modes native)
  (flags
   (:standard -w -9))
  (libraries js_parser bs_hash_stubs ext common depends super_errors
    outcome_printer core napkin reason)
  (modules_without_implementation jscmj_main)
- (modules js_main jscmj_main))
+ (modules bsc jscmj_main))
 
 (rule
- (target bsc.exe)
+ (target bsc.ml)
  (deps
-  (:dep js_main.exe)
+  (:input js_main.ml)
+  ../../lib/es6
+  ../../lib/js
   ../../package.json
   ../../bsconfig.json)
  (action
-  (progn
-   ;; here for now because bsc doesn't seem to depend on Unix
-   (system "mkdir -p ../../lib/es6 ../../lib/js")
-   (copy %{dep} %{target}))))
+  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
 
 (executable
  (name bspack_main)
@@ -61,6 +60,12 @@
  (modes native)
  (modules bsb_helper_main)
  (libraries bsb_helper bs_hash_stubs ext common depends core))
+
+(rule
+ (target bsb_helper.exe)
+ (deps bsb_helper_main.exe)
+ (action
+  (copy %{deps} %{target})))
 
 (test
  (name ounit_tests_main)
