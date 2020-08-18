@@ -1,0 +1,10 @@
+(rule
+ (deps runtime/runtime others/others stdlib-406/$stdlib)
+ (target libocaml.tar.gz)
+ (action
+  (system
+    "tar -czf libocaml.tar.gz runtime/*.{ml,cm}* others/*.{ml,cm}* stdlib-406/*.{ml,cm}*")))
+
+(install
+ (files libocaml.tar.gz)
+ (section share))

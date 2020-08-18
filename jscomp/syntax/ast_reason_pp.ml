@@ -1,5 +1,5 @@
 (* Copyright (C) 2019- Authors of BuckleScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -26,39 +26,51 @@
 
 exception Pp_error
 
-let cmd_nix_quote cmd sourcefile tmpfile : string = 
-  Ext_filename.maybe_quote cmd ^ " --print=binary " ^
-  Ext_filename.maybe_quote sourcefile ^
-  " > " ^ Ext_filename.maybe_quote tmpfile 
+ module RE = Reason_toolchain.RE
 
-let cmd_windows_quote cmd sourcefile tmpfile : string= 
-  "cmd /S/C \"" ^
-  cmd_nix_quote cmd sourcefile tmpfile
-  ^ "\""
+ let setup_lexbuf ~parser filename =
+  try
+   let file_chan = open_in filename in
+   seek_in file_chan 0;
+   let lexbuf = Lexing.from_channel file_chan in
+   Location.init lexbuf filename;
+   parser lexbuf
+  with
+  | _ -> raise Pp_error
 
+ let parse_implementation filename =
+   let omp_ast = setup_lexbuf
+     ~parser:RE.implementation
+     filename
+   in
+   Reason_toolchain.To_current.copy_structure omp_ast
 
-let clean tmpfile =   
+ let parse_interface filename =
+   let omp_ast = setup_lexbuf
+     ~parser:RE.interface
+     filename
+   in
+   Reason_toolchain.To_current.copy_signature omp_ast
+
+ let format ~parser ~printer filename =
+   let parse_result = setup_lexbuf ~parser filename in
+   let buf = Buffer.create 0x1000 in
+   let fmt = Format.formatter_of_buffer buf in
+   printer fmt parse_result;
+   Buffer.contents buf
+
+ let format_implementation filename =
+   format
+     ~parser:RE.implementation_with_comments
+     ~printer:RE.print_implementation_with_comments
+     filename
+
+ let format_interface filename =
+   format
+     ~parser:RE.interface_with_comments
+     ~printer:RE.print_interface_with_comments
+     filename
+
+let clean tmpfile =
   (if not !Clflags.verbose then try Sys.remove tmpfile with _ -> () )
-
-(* Sync up with {!Pparse.preprocess} 
-  The generated file should not sit 
-  in the same directory as sourctree
-*)
-let pp (sourcefile : string) =    
-  let tmpfile = Filename.temp_file "bspp" "" in
-  let pp = (*TODO: check to avoid double quoting *)
-      (match !Js_config.refmt with 
-       | None ->
-         Filename.concat (Filename.dirname Sys.executable_name) "refmt.exe" 
-       | Some x -> x)
-  in 
-  let comm = 
-      if Sys.win32 then cmd_windows_quote pp sourcefile tmpfile 
-      else cmd_nix_quote pp sourcefile tmpfile
-  in  
-  if Ccomp.command comm <> 0 then begin
-    clean tmpfile;
-    raise Pp_error
-  end;
-  tmpfile  
 

@@ -31,36 +31,26 @@ var stdlibTarget = pseudoTarget("$stdlib");
 var vendorNinjaPath = path.join(__dirname, "..", process.platform, "ninja.exe");
 
 exports.vendorNinjaPath = vendorNinjaPath;
-var visitorPattern = `
-rule p4of
-    command = camlp4of $flags -impl $in -printer o -o $out
-    generator = true
-build core/js_fold.ml: p4of core/js_fold.mlp | core/j.ml
-    flags = -I core -filter map -filter trash
-build core/js_map.ml: p4of core/js_map.mlp | core/j.ml
-    flags = -I core -filter Camlp4FoldGenerator -filter trash
-`;
-/**
- * @returns {boolean}
- */
-function hasCamlp4() {
-  try {
-    console.log(cp.execSync(`camlp4of -v`, { encoding: "ascii" }));
-    return true;
-  } catch (e) {
-    return false;
-  }
+function genCamlp4(src, target, flags ="") {
+return `
+ (rule
+  (targets ${target})
+  (deps ${src})
+  (mode promote-until-clean)
+  (action
+   (run %{bin:camlp4of} ${flags} -impl %{deps} -printer o -o %{targets})))
+`
 }
+
+var visitorPattern = `
+${genCamlp4('core/js_fold.mlp', 'core/js_fold.ml', '-I core -filter map -filter trash')}
+${genCamlp4('core/js_map.mlp', 'core/js_map.ml', '-I core -filter Camlp4FoldGenerator -filter trash')}
+`;
 /**
  * @returns {string}
  */
 function generateVisitorPattern() {
-  if (hasCamlp4()) {
-    return visitorPattern;
-  } else {
-    console.warn(`camlp4of ignored`);
-    return ``;
-  }
+  return visitorPattern;
 }
 /**
  * By default we use vendored,
@@ -99,7 +89,6 @@ function generateVisitorPattern() {
  * need do test build in CI either
  *
  */
-var useEnv = false;
 
 /**
  * Note this file is not used in ninja file
@@ -108,18 +97,14 @@ var useEnv = false;
  * Note ocamldep.opt has built-in macro handling OCAML_VERSION
  */
 var getOcamldepFile = () => {
-  if (useEnv || process.env.ESY === "true") {
-    return `ocamldep.opt`;
-  } else {
-    return path.join(
-      __dirname,
-      "..",
-      "native",
-      require("./buildocaml.js").getVersionPrefix(),
-      "bin",
-      "ocamldep.opt"
-    );
-  }
+  return path.join(
+    __dirname,
+    "..",
+    "native",
+    require("./buildocaml.js").getVersionPrefix(),
+    "bin",
+    "ocamldep.opt"
+  );
 };
 
 /**
@@ -151,26 +136,27 @@ var getVersionString = () => {
   }
   return versionString;
 };
-/**
- * @returns {boolean}
- */
-var version6 = () => {
-  return !getVersionString().includes("4.02");
-};
-/**
- *
- * @param {string} ninjaCwd
- */
-function ruleCC(ninjaCwd) {
+
+function ruleCC(flags, src, target, deps = []) {
   return `
-rule cc
-    command = $bsc -bs-cmi -bs-cmj $bsc_flags   -I ${ninjaCwd}  $in
-    description = $in -> $out
-rule cc_cmi
-    command = $bsc -bs-read-cmi -bs-cmi -bs-cmj $bsc_flags  -I ${ninjaCwd}  $in
-    description = $in -> $out    
+  (rule
+    (targets ${Array.isArray(target) ? target.join(' ') : target})
+    (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
+    (action
+     (run %{bin:bsc.exe} -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
+
+function ruleCC_cmi(flags, src, target, deps = []) {
+  return `
+  (rule
+    (targets ${Array.isArray(target) ? target.join(' ') : target})
+    (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
+    (action
+     (run %{bin:bsc.exe} -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+`;
+}
+
 /**
  * Fixed since it is already vendored
  */
@@ -422,6 +408,16 @@ function ninjaBuild(outputs, inputs, rule, deps, cwd, overrides) {
   return stmt;
 }
 
+function dunePhony(outputs, inputs) {
+  return `
+    (rule
+      (target ${outputs.name})
+      (deps ${inputs.join(' ')})
+      (action
+        (run touch %{target})))
+  `
+}
+
 /**
  *
  * @param {Target} outputs
@@ -485,13 +481,19 @@ function ninjaQuickBuidList(xs) {
     .join("\n");
 }
 
+function ccRuleList(xs) {
+  return xs
+    .map(([rule, flags, src, target, externalDeps]) => rule(flags,src,target, externalDeps))
+    .join("\n");
+}
+
 /**
  * @typedef { [string,string,string?]} CppoInput
  * @param {CppoInput[]} xs
  * @param {string} cwd
  * @returns {string}
  */
-function cppoList(cwd, xs) {
+function cppoList(xs) {
   return xs
     .map((x) => {
       /**
@@ -499,22 +501,14 @@ function cppoList(cwd, xs) {
        */
       var variables;
       if (x[2]) {
-        variables = [["type", `-D ${x[2]}`]];
+        variables = `-D ${x[2]}`;
       } else {
-        variables = [];
+        variables = '';
       }
-      var extraDeps = pseudoTarget(cppoFile);
-      return ninjaQuickBuild(
-        x[0],
-        x[1],
-        cppoRuleName,
-        cwd,
-        variables,
-        [],
-        extraDeps
-      );
+      let [target, src] = x;
+      return cppoRule(src, target, variables)
     })
-    .join("\n");
+    .join("");
 }
 /**
  *
@@ -526,7 +520,9 @@ function mllList(cwd, xs) {
   return xs
     .map((x) => {
       var output = baseName(x) + ".ml";
-      return ninjaQuickBuild(output, x, mllRuleName, cwd, [], [], []);
+      return `
+      (ocamllex ${path.join(cwd, x)})
+      `
     })
     .join("\n");
 }
@@ -579,6 +575,17 @@ function buildStmt(outputs, inputs, rule, depsMap, cwd, overrides, extraDeps) {
   }
   extraDeps.forEach((x) => deps.add(x));
   return ninjaBuild(os, is, rule, deps.toSortedArray(), cwd, overrides);
+}
+
+function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = []) {
+  var deps = new TargetSet();
+  for (var i = 0; i < outputs.length; ++i) {
+    var curDeps = depsMap.get(outputs[i]);
+    if (curDeps !== undefined) {
+      curDeps.forEach((x) => deps.add(x));
+    }
+  }
+  return rule(flags, inputs, outputs, externalDeps.concat(deps.toSortedArray().map(x => x.name)));
 }
 
 /**
@@ -700,9 +707,7 @@ function depModulesForBscAsync(files, dir, depsMap) {
 
     new Promise((resolve, reject) => {
       cp.exec(
-        `${getOcamldepFile()} -pp '../../${
-          process.platform
-        }/refmt.exe --print=binary' -modules -one-line -native -ml-synonym .re -mli-synonym .rei ${reFiles.join(
+        `${getOcamldepFile()} -pp 'refmt --print=binary' -modules -one-line -native -ml-synonym .re -mli-synonym .rei ${reFiles.join(
           " "
         )}`,
         config,
@@ -795,6 +800,57 @@ function scanFileTargets(allTargets, collIn) {
   return coll;
 }
 
+function generateDune(depsMap, allTargets, bscFlags, deps = []) {
+  /**
+   * @type {string[]}
+   */
+  var build_stmts = [];
+  allTargets.forEach((x, mod) => {
+    let ouptput_cmj = mod + ".cmj";
+    let output_cmi = mod + ".cmi";
+    let input_ml = mod + ".ml";
+    let input_mli = mod + ".mli";
+    let input_re = mod + ".re";
+    let input_rei = mod + ".rei";
+
+    var flags = (mod.endsWith("Labels")) ? `${bscFlags} -nolabels` : bscFlags;
+
+    /**
+     *
+     * @param {string[]} outputs
+     * @param {string[]} inputs
+     *
+     */
+    let mk = (outputs, inputs, rule = ruleCC) => {
+      return build_stmts.push(
+        duneBuildStmt(outputs, inputs, rule, depsMap, flags, deps)
+      );
+    };
+    switch (x) {
+      case "HAS_BOTH":
+        mk([ouptput_cmj], [input_ml], ruleCC_cmi);
+        mk([output_cmi], [input_mli]);
+        break;
+      case "HAS_BOTH_RE":
+        mk([ouptput_cmj], [input_re], ruleCC_cmi);
+        mk([output_cmi], [input_rei], ruleCC);
+        break;
+      case "HAS_RE":
+        mk([output_cmi, ouptput_cmj], [input_re], ruleCC);
+        break;
+      case "HAS_ML":
+        mk([output_cmi, ouptput_cmj], [input_ml]);
+        break;
+      case "HAS_REI":
+        mk([output_cmi], [input_rei], ruleCC);
+      case "HAS_MLI":
+        mk([output_cmi], [input_mli]);
+        break;
+    }
+  });
+  return build_stmts;
+}
+
 /**
  *
  * @param {DepsMap} depsMap
@@ -863,36 +919,25 @@ var COMPILIER = `../${process.platform}/bsc`;
 var BSC_COMPILER = `bsc = ${COMPILIER}`;
 var compilerTarget = pseudoTarget(COMPILIER);
 
-async function runtimeNinja(devmode = true) {
+async function runtimeNinja() {
   var ninjaCwd = "runtime";
-  var externalDeps = devmode ? [compilerTarget] : [];
-  var ninjaOutput = devmode
-    ? useEnv
-      ? "env.ninja"
-      : "build.ninja"
-    : "release.ninja";
+  var ninjaOutput = "dune.gen";
+  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A`;
+  var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
   var templateRuntimeRules = `
-bsc_no_open_flags =  ${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A  
-bsc_flags = $bsc_no_open_flags -open Bs_stdlib_mini
-${ruleCC(ninjaCwd)}
-${ninjaQuickBuidList([
+
+${ccRuleList([
   [
-    "bs_stdlib_mini.cmi",
+    ruleCC,
+    "-nostdlib -nopervasives",
     "bs_stdlib_mini.mli",
-    "cc",
-    ninjaCwd,
-    [["bsc_flags", "-nostdlib -nopervasives"]],
-    [],
-    externalDeps,
+    "bs_stdlib_mini.cmi",
   ],
   [
-    ["js.cmj", "js.cmi"],
+    ruleCC,
+    bsc_no_open_flags,
     "js.ml",
-    "cc",
-    ninjaCwd,
-    [["bsc_flags", "$bsc_no_open_flags"]],
-    [],
-    externalDeps,
+    ["js.cmj", "js.cmi"],
   ],
 ])}
 `;
@@ -921,9 +966,9 @@ ${ninjaQuickBuidList([
       runJSCheckAsync(depsMap),
       ocamlDepForBscAsync(runtimeSourceFiles, runtimeDir, depsMap),
     ]);
-    var stmts = generateNinja(depsMap, allTargets, ninjaCwd, externalDeps);
+    var stmts = generateDune(depsMap, allTargets, bsc_flags);
     stmts.push(
-      phony(runtimeTarget, fileTargets(allFileTargetsInRuntime), ninjaCwd)
+      dunePhony(runtimeTarget, allFileTargetsInRuntime)
     );
     writeFileAscii(
       path.join(runtimeDir, ninjaOutput),
@@ -946,79 +991,97 @@ var dTypeIdent = "TYPE_IDENT";
 
 var dTypePoly = "TYPE_POLY";
 
-var cppoRuleName = `cppo`;
-var cppoFile = `./bin/cppo.exe`;
-
-var cppoRule = (flags = "") => `
-rule ${cppoRuleName}
-    command = ${cppoFile} -V OCAML:${getVersionString()} ${flags} $type $in -o $out
-    generator = true
+var cppoRule = (src, target, flags = "") => `
+(rule
+  (targets ${target})
+  (deps ${src})
+  (mode
+   (promote
+    (until-clean)
+    (only :standard)))
+  (action
+   (run %{bin:cppo} -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
 `;
 
-var mllRuleName = `mll`;
-var mllRule = `
-rule ${mllRuleName}
-    command = $ocamllex $in
-    generator = true
-`;
-async function othersNinja(devmode = true) {
-  var externalDeps = [runtimeTarget];
-  var ninjaOutput = devmode
-    ? useEnv
-      ? "env.ninja"
-      : "build.ninja"
-    : "release.ninja";
+async function othersNinja() {
+  var externalDeps = [runtimeTarget].map(x => `../runtime/${x.name}`);
+  var ninjaOutput = 'dune.gen';
   var ninjaCwd = "others";
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime`;
 
+  var belt_extraDeps = {
+    belt_HashSet: ['belt_HashSetString', 'belt_HashSetInt'],
+    belt_HashSetString: [ 'belt_internalSetBuckets', 'belt_internalBucketsType', 'belt_Array'],
+    belt_HashSetInt: [ 'belt_internalSetBuckets', 'belt_internalBucketsType', 'belt_Array'],
+    belt_HashMap: ['belt_HashMapString', 'belt_HashMapInt'],
+    belt_HashMapString: [ 'belt_internalBuckets', 'belt_internalBucketsType', 'belt_Array'],
+    belt_HashMapInt: [ 'belt_internalBuckets', 'belt_internalBucketsType', 'belt_Array'],
+    belt_Map: ['belt_MapString', 'belt_MapInt'],
+    belt_MapString: [ 'belt_internalAVLtree', 'belt_Array', 'belt_internalMapString' ],
+    belt_MapInt: [ 'belt_internalAVLtree', 'belt_Array', 'belt_internalMapInt' ],
+    belt_Set: ['belt_SetString', 'belt_SetInt'],
+    belt_SetString: [ 'belt_internalAVLset', 'belt_Array', 'belt_internalSetString' ],
+    belt_SetInt: [ 'belt_internalAVLset', 'belt_Array', 'belt_internalSetInt' ],
+    belt_MutableMap: ['belt_MutableMapString', 'belt_MutableMapInt'],
+    belt_MutableMapString: ['belt_internalMapString', 'belt_internalAVLtree', 'belt_Array' ],
+    belt_MutableMapInt: ['belt_internalMapInt', 'belt_internalAVLtree', 'belt_Array' ],
+    belt_MutableSet: ['belt_MutableSetString', 'belt_MutableSetInt'],
+    belt_MutableSetString: [ 'belt_internalSetString', 'belt_SortArrayString', 'belt_internalAVLset', 'belt_Array' ],
+    belt_MutableSetInt: [ 'belt_internalSetInt', 'belt_SortArrayInt', 'belt_internalAVLset', 'belt_Array' ],
+    belt_SortArray: ['belt_SortArrayString', 'belt_SortArrayInt'],
+    belt_SortArrayString: [ 'belt_Array' ],
+    belt_SortArrayInt: [ 'belt_Array' ],
+    belt_internalMapString: [ 'belt_internalAVLtree', 'belt_Array', 'belt_SortArray' ],
+    belt_internalMapInt: [ 'belt_internalAVLtree', 'belt_Array', 'belt_SortArray' ],
+    belt_internalSetString: ['belt_internalAVLset', 'belt_Array', 'belt_SortArrayString'],
+    belt_internalSetInt: ['belt_internalAVLset', 'belt_Array', 'belt_SortArrayInt'],
+    js_typed_array: ['js_typed_array2'],
+  }
+  var belt_cppo_targets = [
+    ["belt_HashSetString.ml", "hashset.cppo.ml", dTypeString],
+    ["belt_HashSetString.mli", "hashset.cppo.mli", dTypeString],
+    ["belt_HashSetInt.ml", "hashset.cppo.ml", dTypeInt],
+    ["belt_HashSetInt.mli", "hashset.cppo.mli", dTypeInt],
+    ["belt_HashMapString.ml", "hashmap.cppo.ml", dTypeString],
+    ["belt_HashMapString.mli", "hashmap.cppo.mli", dTypeString],
+    ["belt_HashMapInt.ml", "hashmap.cppo.ml", dTypeInt],
+    ["belt_HashMapInt.mli", "hashmap.cppo.mli", dTypeInt],
+    ["belt_MapString.ml", "map.cppo.ml", dTypeString],
+    ["belt_MapString.mli", "map.cppo.mli", dTypeString],
+    ["belt_MapInt.ml", "map.cppo.ml", dTypeInt],
+    ["belt_MapInt.mli", "map.cppo.mli", dTypeInt],
+    ["belt_SetString.ml", "belt_Set.cppo.ml", dTypeString],
+    ["belt_SetString.mli", "belt_Set.cppo.mli", dTypeString],
+    ["belt_SetInt.ml", "belt_Set.cppo.ml", dTypeInt],
+    ["belt_SetInt.mli", "belt_Set.cppo.mli", dTypeInt],
+    ["belt_MutableMapString.ml", "mapm.cppo.ml", dTypeString],
+    ["belt_MutableMapString.mli", "mapm.cppo.mli", dTypeString],
+    ["belt_MutableMapInt.ml", "mapm.cppo.ml", dTypeInt],
+    ["belt_MutableMapInt.mli", "mapm.cppo.mli", dTypeInt],
+    ["belt_MutableSetString.ml", "setm.cppo.ml", dTypeString],
+    ["belt_MutableSetString.mli", "setm.cppo.mli", dTypeString],
+    ["belt_MutableSetInt.ml", "setm.cppo.ml", dTypeInt],
+    ["belt_MutableSetInt.mli", "setm.cppo.mli", dTypeInt],
+    ["belt_SortArrayString.ml", "sort.cppo.ml", dTypeString],
+    ["belt_SortArrayString.mli", "sort.cppo.mli", dTypeString],
+    ["belt_SortArrayInt.ml", "sort.cppo.ml", dTypeInt],
+    ["belt_SortArrayInt.mli", "sort.cppo.mli", dTypeInt],
+    ["belt_internalMapString.ml", "internal_map.cppo.ml", dTypeString],
+    ["belt_internalMapInt.ml", "internal_map.cppo.ml", dTypeInt],
+    ["belt_internalSetString.ml", "internal_set.cppo.ml", dTypeString],
+    ["belt_internalSetInt.ml", "internal_set.cppo.ml", dTypeInt],
+    ["js_typed_array.ml", "js_typed_array.cppo.ml", ""],
+    ["js_typed_array2.ml", "js_typed_array2.cppo.ml", ""],
+  ];
   var templateOthersRules = `
-bsc_flags = ${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ./runtime
-${ruleCC(ninjaCwd)}
 ${
-  devmode
-    ? `${cppoRule()}
-${cppoList(ninjaCwd, [
-  ["belt_HashSetString.ml", "hashset.cppo.ml", dTypeString],
-  ["belt_HashSetString.mli", "hashset.cppo.mli", dTypeString],
-  ["belt_HashSetInt.ml", "hashset.cppo.ml", dTypeInt],
-  ["belt_HashSetInt.mli", "hashset.cppo.mli", dTypeInt],
-  ["belt_HashMapString.ml", "hashmap.cppo.ml", dTypeString],
-  ["belt_HashMapString.mli", "hashmap.cppo.mli", dTypeString],
-  ["belt_HashMapInt.ml", "hashmap.cppo.ml", dTypeInt],
-  ["belt_HashMapInt.mli", "hashmap.cppo.mli", dTypeInt],
-  ["belt_MapString.ml", "map.cppo.ml", dTypeString],
-  ["belt_MapString.mli", "map.cppo.mli", dTypeString],
-  ["belt_MapInt.ml", "map.cppo.ml", dTypeInt],
-  ["belt_MapInt.mli", "map.cppo.mli", dTypeInt],
-  ["belt_SetString.ml", "belt_Set.cppo.ml", dTypeString],
-  ["belt_SetString.mli", "belt_Set.cppo.mli", dTypeString],
-  ["belt_SetInt.ml", "belt_Set.cppo.ml", dTypeInt],
-  ["belt_SetInt.mli", "belt_Set.cppo.mli", dTypeInt],
-  ["belt_MutableMapString.ml", "mapm.cppo.ml", dTypeString],
-  ["belt_MutableMapString.mli", "mapm.cppo.mli", dTypeString],
-  ["belt_MutableMapInt.ml", "mapm.cppo.ml", dTypeInt],
-  ["belt_MutableMapInt.mli", "mapm.cppo.mli", dTypeInt],
-  ["belt_MutableSetString.ml", "setm.cppo.ml", dTypeString],
-  ["belt_MutableSetString.mli", "setm.cppo.mli", dTypeString],
-  ["belt_MutableSetInt.ml", "setm.cppo.ml", dTypeInt],
-  ["belt_MutableSetInt.mli", "setm.cppo.mli", dTypeInt],
-  ["belt_SortArrayString.ml", "sort.cppo.ml", dTypeString],
-  ["belt_SortArrayString.mli", "sort.cppo.mli", dTypeString],
-  ["belt_SortArrayInt.ml", "sort.cppo.ml", dTypeInt],
-  ["belt_SortArrayInt.mli", "sort.cppo.mli", dTypeInt],
-  ["belt_internalMapString.ml", "internal_map.cppo.ml", dTypeString],
-  ["belt_internalMapInt.ml", "internal_map.cppo.ml", dTypeInt],
-  ["belt_internalSetString.ml", "internal_set.cppo.ml", dTypeString],
-  ["belt_internalSetInt.ml", "internal_set.cppo.ml", dTypeInt],
-  ["js_typed_array.ml", "js_typed_array.cppo.ml", ""],
-  ["js_typed_array2.ml", "js_typed_array2.cppo.ml", ""],
-])}
-`
-    : `
+   `
+${cppoList(belt_cppo_targets)}
 `
 }
-${ninjaQuickBuidList([
-  [["belt.cmj", "belt.cmi"], "belt.ml", "cc", ninjaCwd, [], [], externalDeps],
-  [["node.cmj", "node.cmi"], "node.ml", "cc", ninjaCwd, [], [], externalDeps],
+${ccRuleList([
+  [ruleCC, bsc_flags, "belt.ml", ["belt.cmj", "belt.cmi"], externalDeps],
+  [ruleCC, bsc_flags, "node.ml", ["node.cmj", "node.cmi"], externalDeps],
 ])}
 `;
   var othersDirFiles = fs.readdirSync(othersDir, "ascii");
@@ -1038,7 +1101,7 @@ ${ninjaQuickBuidList([
       !x.includes("#") &&
       !x.includes(".cppo") // we have node ..
   );
-  var jsTargets = collectTarget(jsPrefixSourceFiles);
+  var jsTargets = collectTarget(jsPrefixSourceFiles.filter(x => !x.startsWith('js_typed_array')));
   var allJsTargets = scanFileTargets(jsTargets, []);
   let jsDepsMap = new Map();
   let depsMap = new Map();
@@ -1046,15 +1109,15 @@ ${ninjaQuickBuidList([
     ocamlDepForBscAsync(jsPrefixSourceFiles, othersDir, jsDepsMap),
     ocamlDepForBscAsync(othersFiles, othersDir, depsMap),
   ]);
-  var jsOutput = generateNinja(jsDepsMap, jsTargets, ninjaCwd, externalDeps);
-  jsOutput.push(phony(js_package, fileTargets(allJsTargets), ninjaCwd));
+  var jsOutput = generateDune(jsDepsMap, jsTargets, bsc_flags, externalDeps);
+  jsOutput.push(dunePhony(js_package, allJsTargets));
 
   // Note compiling belt.ml still try to read
   // belt_xx.cmi we need enforce the order to
   // avoid data race issues
   var beltPackage = fileTarget("belt.cmi");
   var nodePackage = fileTarget("node.cmi");
-  var beltTargets = collectTarget(othersFiles);
+  var beltTargets = collectTarget(othersFiles.concat(belt_cppo_targets.map(([x]) => x)));
   depsMap.forEach((s, k) => {
     if (k.startsWith("belt")) {
       s.add(beltPackage);
@@ -1063,9 +1126,17 @@ ${ninjaQuickBuidList([
     }
     s.add(js_package);
   });
+
+  for (entry in belt_extraDeps) {
+    const extra_deps = belt_extraDeps[entry]
+    var all_deps = extra_deps.map(x => x + '.cmi').concat(extra_deps.map(x => x + '.cmj'));
+    updateDepsKVsByFile(entry + '.cmi', all_deps, depsMap)
+    updateDepsKVsByFile(entry + '.cmj', all_deps, depsMap)
+  };
+
   var allOthersTarget = scanFileTargets(beltTargets, []);
-  var beltOutput = generateNinja(depsMap, beltTargets, ninjaCwd, externalDeps);
-  beltOutput.push(phony(othersTarget, fileTargets(allOthersTarget), ninjaCwd));
+  var beltOutput = generateDune(depsMap, beltTargets, bsc_flags, externalDeps);
+  beltOutput.push(dunePhony(othersTarget, allOthersTarget));
   // ninjaBuild([`belt_HashSetString.ml`,])
   writeFileAscii(
     path.join(othersDir, ninjaOutput),
@@ -1076,71 +1147,51 @@ ${ninjaQuickBuidList([
       "\n"
   );
 }
-/**
- *
- * @param {boolean} devmode
- * generate build.ninja/release.ninja for stdlib-402
- */
-async function stdlibNinja(devmode = true) {
-  var stdlibVersion = version6() ? "stdlib-406" : "stdlib-402";
-  var ninjaCwd = stdlibVersion;
+
+async function stdlibNinja() {
+  var stdlibVersion = "stdlib-406";
   var stdlibDir = path.join(jscompDir, stdlibVersion);
-  var externalDeps = [othersTarget];
-  var ninjaOutput = devmode
-    ? useEnv
-      ? "env.ninja"
-      : "build.ninja"
-    : "release.ninja";
-  var bsc_flags = "bsc_flags";
+  var externalDeps = [othersTarget].map(x => `../others/${x.name}`);
+  var ninjaOutput = 'dune.gen';
+  var warnings = "-w -9-3-106 -warn-error A";
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   ${warnings}  -I ../runtime  -I ../others`;
   /**
    * @type [string,string][]
    */
-  var bsc_builtin_overrides = [[bsc_flags, `$${bsc_flags} -nopervasives`]];
+  var bsc_builtin_flags = `${bsc_flags} -nopervasives`;
   // It is interesting `-w -a` would generate not great code sometimes
   // deprecations diabled due to string_of_float
-  var warnings = "-w -9-3-106 -warn-error A";
   var templateStdlibRules = `
-${bsc_flags} = ${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   ${warnings}  -I runtime  -I others
-${ruleCC(ninjaCwd)}
-${ninjaQuickBuidList([
+${ccRuleList([
   [
-    "camlinternalFormatBasics.cmi",
+    ruleCC,
+    bsc_builtin_flags,
     "camlinternalFormatBasics.mli",
-    "cc",
-    ninjaCwd,
-    bsc_builtin_overrides,
-    [],
+    "camlinternalFormatBasics.cmi",
     externalDeps,
   ],
   // we make it still depends on external
   // to enjoy free ride on dev config for compiler-deps
-
   [
-    "camlinternalFormatBasics.cmj",
+    ruleCC_cmi,
+    bsc_builtin_flags,
     "camlinternalFormatBasics.ml",
-    "cc_cmi",
-    ninjaCwd,
-    bsc_builtin_overrides,
-    "camlinternalFormatBasics.cmi",
-    externalDeps,
-  ],
-  [
-    "pervasives.cmj",
-    "pervasives.ml",
-    "cc_cmi",
-    ninjaCwd,
-    bsc_builtin_overrides,
-    "pervasives.cmi",
-    externalDeps,
-  ],
-  [
-    "pervasives.cmi",
-    "pervasives.mli",
-    "cc",
-    ninjaCwd,
-    bsc_builtin_overrides,
     "camlinternalFormatBasics.cmj",
-    externalDeps,
+    externalDeps.concat(["camlinternalFormatBasics.cmi"]),
+  ],
+  [
+    ruleCC_cmi,
+    bsc_builtin_flags,
+    "pervasives.ml",
+    "pervasives.cmj",
+    externalDeps.concat(["pervasives.cmi"]),
+  ],
+  [
+    ruleCC,
+    bsc_builtin_flags,
+    "pervasives.mli",
+    "pervasives.cmi",
+    externalDeps.concat(["camlinternalFormatBasics.cmj"]),
   ],
 ])}
 `;
@@ -1172,8 +1223,8 @@ ${ninjaQuickBuidList([
         break;
     }
   });
-  var output = generateNinja(depsMap, targets, ninjaCwd, externalDeps);
-  output.push(phony(stdlibTarget, fileTargets(allTargets), ninjaCwd));
+  var output = generateDune(depsMap, targets, bsc_flags, externalDeps);
+  output.push(dunePhony(stdlibTarget, allTargets));
 
   writeFileAscii(
     path.join(stdlibDir, ninjaOutput),
@@ -1231,20 +1282,9 @@ function baseName(x) {
  * @returns {Promise<void>}
  */
 async function testNinja() {
-  var ninjaOutput = useEnv ? "env.ninja" : "build.ninja";
+  var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var templateTestRules = `
-bsc_flags = -absname -bs-no-version-header  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104  -warn-error A  -I runtime -I $stdlib -I others
-${ruleCC(ninjaCwd)}
-
-
-${mllRule}
-${mllList(ninjaCwd, [
-  "arith_lexer.mll",
-  "number_lexer.mll",
-  "simple_lexer_test.mll",
-])}
-`;
+  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A -I ../runtime -I ../stdlib-406 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
@@ -1257,10 +1297,10 @@ ${mllList(ninjaCwd, [
   let depsMap = createDepsMapWithTargets(sources);
   await Promise.all(depModulesForBscAsync(sources, testDir, depsMap));
   var targets = collectTarget(sources);
-  var output = generateNinja(depsMap, targets, ninjaCwd, [stdlibTarget]);
+  var output = generateDune(depsMap, targets, bsc_flags, [stdlibTarget].map(x => `../stdlib-406/${x.name}`));
   writeFileAscii(
     path.join(testDir, ninjaOutput),
-    templateTestRules + output.join("\n") + "\n"
+    output.join("\n") + "\n"
   );
 }
 
@@ -1390,63 +1430,12 @@ function sortFilesByDeps(domain, dependency_graph) {
   return result;
 }
 
-function updateRelease() {
-  if (!useEnv) {
-    runtimeNinja(false);
-    stdlibNinja(false);
-    othersNinja(false);
-  }
-}
-
-function updateDev() {
-  if (useEnv) {
-    writeFileAscii(
-      path.join(jscompDir, "env.ninja"),
-      `
-${getEnnvConfigNinja()}
-stdlib = ${version6() ? `stdlib-406` : `stdlib-402`}
-subninja compilerEnv.ninja
-subninja runtime/env.ninja
-subninja others/env.ninja
-subninja $stdlib/env.ninja
-subninja test/env.ninja
-build all: phony runtime others $stdlib test
-`
-    );
-  } else {
-    writeFileAscii(
-      path.join(jscompDir, "build.ninja"),
-      `
-${getVendorConfigNinja()}
-stdlib = ${version6() ? `stdlib-406` : `stdlib-402`}
-${BSC_COMPILER}      
-subninja compiler.ninja
-subninja runtime/build.ninja
-subninja others/build.ninja
-subninja $stdlib/build.ninja
-subninja test/build.ninja
-build all: phony runtime others $stdlib test
-`
-    );
-    writeFileAscii(
-      path.join(jscompDir, "..", "lib", "build.ninja"),
-      `
-ocamlopt = ocamlopt.opt 
-ext = exe
-INCL= ${version6() ? "4.06.1+BS" : "4.02.3+BS"}
-include body.ninja               
-`
-    );
-  }
-  preprocessorNinjaSync();
-  nativeNinja();
+function genDuneFiles() {
   runtimeNinja();
-  stdlibNinja(true);
+  stdlibNinja();
   testNinja();
   othersNinja();
 }
-exports.updateDev = updateDev;
-exports.updateRelease = updateRelease;
 
 /**
  *
@@ -1497,290 +1486,17 @@ ocaml = ${prefix}/ocaml
 }
 function getEnnvConfigNinja() {
   return `
-ocamlopt = ocamlopt.opt    
+ocamlopt = ocamlopt.opt
 ocamllex = ocamllex.opt
 ocamlmklib = ocamlmklib
 ocaml = ocaml
 `;
 }
 
-/**
- * @returns {string}
- */
-function getPreprocessorFileName() {
-  return useEnv ? "cppoEnv.ninja" : "cppoVendor.ninja";
-}
-/**
- * Built cppo.exe refmt.exe etc for dev purpose
- */
-function preprocessorNinjaSync() {
-  var refmtMainPath = version6() ? "../lib/4.06.1" : "../lib/4.02.3";
-  var napkinFiles = fs
-    .readdirSync(path.join(jscompDir, "..", "syntax", "src"), "ascii")
-    .filter((x) => x.endsWith(".ml") || x.endsWith(".mli"));
-  var buildNapkinFiles = napkinFiles
-    .map((file) => `build napkin/${file} : copy ../syntax/src/${file}`)
-    .join("\n");
-  var cppoNative = `
-${useEnv ? getEnnvConfigNinja() : getVendorConfigNinja()}
-rule link
-    command =  $ocamlopt -g  -I +compiler-libs $flags $libs $in -o $out
-build ${cppoFile}: link ${cppoMonoFile}
-    libs = unix.cmxa str.cmxa
-    generator = true
-${cppoRule()}
-${cppoList("ext", [
-  ["hash_set_string.ml", "hash_set.cppo.ml", dTypeString],
-  ["hash_set_int.ml", "hash_set.cppo.ml", dTypeInt],
-  ["hash_set_ident.ml", "hash_set.cppo.ml", dTypeIdent],
-  ["hash_set.ml", "hash_set.cppo.ml", dTypeFunctor],
-  ["hash_set_poly.ml", "hash_set.cppo.ml", dTypePoly],
-  ["vec_int.ml", "vec.cppo.ml", dTypeInt],
-  ["vec.ml", "vec.cppo.ml", dTypeFunctor],
-  ["set_string.ml", "set.cppo.ml", dTypeString],
-  ["set_int.ml", "set.cppo.ml", dTypeInt],
-  ["set_ident.ml", "set.cppo.ml", dTypeIdent],
-  ["map_string.ml", "map.cppo.ml", dTypeString],
-  ["map_int.ml", "map.cppo.ml", dTypeInt],
-  ["map_ident.ml", "map.cppo.ml", dTypeIdent],
-  [
-    "ordered_hash_map_local_ident.ml",
-    "ordered_hash_map.cppo.ml",
-    dTypeLocalIdent,
-  ],
-  ["hash_string.ml", "hash.cppo.ml", dTypeString],
-  ["hash_int.ml", "hash.cppo.ml", dTypeInt],
-  ["hash_ident.ml", "hash.cppo.ml", dTypeIdent],
-  ["hash.ml", "hash.cppo.ml", dTypeFunctor],
-])}
-${cppoList("outcome_printer", [
-  ["tweaked_reason_oprint.ml", "tweaked_reason_oprint.cppo.ml", ""],
-  ["reason_syntax_util.ml", "reason_syntax_util.cppo.ml", ""],
-  ["reason_syntax_util.mli", "reason_syntax_util.cppo.mli", ""],
-])}
-${cppoList("syntax", [
-  ["reactjs_jsx_ppx_v3.ml", "reactjs_jsx_ppx.cppo.ml", ""],
-])}
-build ../${
-    process.platform
-  }/refmt.exe: link  ${refmtMainPath}/refmt_main3.mli ${refmtMainPath}/refmt_main3.ml
-    libs = ocamlcommon.cmxa
-    flags = -I ${refmtMainPath} -I +compiler-libs -w -40-30-3 -no-alias-deps
-    generator = true
-rule copy
-  command = cp $in $out
-  description = $in -> $out    
-${buildNapkinFiles}    
-`;
-  var cppoNinjaFile = getPreprocessorFileName();
-  writeFileSync(path.join(jscompDir, cppoNinjaFile), cppoNative);
-  cp.execFileSync(vendorNinjaPath, ["-f", cppoNinjaFile, "--verbose"], {
-    cwd: jscompDir,
-    stdio: [0, 1, 2],
-    encoding: "utf8",
-  });
-}
-/**
- * Note don't run `ninja -t clean -g`
- * Since it will remove generated ml file which has
- * an effect on depfile
- */
-function nativeNinja() {
-  var ninjaOutput = useEnv ? "compilerEnv.ninja" : "compiler.ninja";
-  var sourceDirs = [
-    "stubs",
-    "ext",
-    "common",
-    "js_parser",
-    "syntax",
-    "depends",
-    "core",
-    "super_errors",
-    "outcome_printer",
-    "bsb",
-    "bsb_helper",
-    "ounit",
-    "napkin",
-    "ounit_tests",
-    "main",
-  ];
-  var includes = sourceDirs.map((x) => `-I ${x}`).join(" ");
-
-  var templateNative = `
-subninja ${getPreprocessorFileName()}
-rule optc
-    command = BS_NATIVE=${!!process.env
-      .BS_NATIVE} $ocamlopt -safe-string -I +compiler-libs -opaque ${includes} -g -linscan -w A-4-9-40..42-30-48-50 -warn-error A -absname -c $in
-    description = $out : $in
-rule archive
-    command = $ocamlopt -a $in -o $out
-    description = arcive -> $out
-rule link
-    command =  $ocamlopt -g  -I +compiler-libs $flags $libs $in -o $out
-    description = linking -> $out
-rule mk_bsversion
-    command = node $in
-    generator = true
-rule gcc
-    command = $ocamlopt -ccopt -fPIC -ccopt -O2 -ccopt -o -ccopt $out -c $in
-build stubs/ext_basic_hash_stubs.o : gcc  stubs/ext_basic_hash_stubs.c
-rule ocamlmklib
-    command = $ocamlmklib -v $in -o $name && touch $out
-
-rule mk_keywords
-    command = $ocaml $in
-    generator = true
-build ext/js_reserved_map.ml: mk_keywords ../scripts/build_sorted.ml keywords.list
-
-build stubs/libbs_hash.a stubs/dllbs_hash.so: ocamlmklib stubs/ext_basic_hash_stubs.o
-    name = stubs/bs_hash
-rule stubslib
-    command = $ocamlopt -a $ml -o $out -cclib $clib
-build stubs/stubs.cmxa : stubslib stubs/bs_hash_stubs.cmx stubs/libbs_hash.a
-    ml = stubs/bs_hash_stubs.cmx
-    clib = stubs/libbs_hash.a
-
-${generateVisitorPattern()}
-
-build common/bs_version.ml : mk_bsversion build_version.js ../package.json
-
-build ../${
-    process.platform
-  }/bsc: link js_parser/js_parser.cmxa stubs/stubs.cmxa ext/ext.cmxa common/common.cmxa syntax/syntax.cmxa depends/depends.cmxa super_errors/super_errors.cmxa outcome_printer/outcome_printer.cmxa core/core.cmxa napkin/napkin.cmxa main/js_main.cmx
-    libs = ocamlcommon.cmxa
-build ../${
-    process.platform
-  }/bsb.exe: link stubs/stubs.cmxa ext/ext.cmxa common/common.cmxa bsb/bsb.cmxa main/bsb_main.cmx
-    libs = ocamlcommon.cmxa unix.cmxa str.cmxa
-build ../${
-    process.platform
-  }/bsb_helper.exe: link stubs/stubs.cmxa ext/ext.cmxa common/common.cmxa  bsb/bsb.cmxa bsb_helper/bsb_helper.cmxa main/bsb_helper_main.cmx
-    libs = ocamlcommon.cmxa unix.cmxa str.cmxa
-build ./bin/bspack.exe: link stubs/stubs.cmxa ext/ext.cmxa ./common/common.cmxa ./syntax/syntax.cmxa depends/depends.cmxa ./main/bspack_main.cmx
-    libs = unix.cmxa ocamlcommon.cmxa
-    flags = -I ./bin -w -40-30    
-build ./bin/cmjdump.exe: link ./stubs/stubs.cmxa ext/ext.cmxa common/common.cmxa syntax/syntax.cmxa depends/depends.cmxa core/core.cmxa main/cmjdump_main.cmx
-    libs = ocamlcommon.cmxa    
-build ./bin/cmij.exe: link ./stubs/stubs.cmxa ext/ext.cmxa  common/common.cmxa syntax/syntax.cmxa depends/depends.cmxa core/core.cmxa main/cmij_main.cmx
-    libs = ocamlcommon.cmxa
-
-rule bspack
-    command = ./bin/bspack.exe $flags -bs-main $main -o $out
-    depfile = $out.d
-    generator = true
-build ./bin/tests.exe: link ounit/ounit.cmxa stubs/stubs.cmxa ext/ext.cmxa common/common.cmxa syntax/syntax.cmxa depends/depends.cmxa bsb/bsb.cmxa bsb_helper/bsb_helper.cmxa core/core.cmxa ounit_tests/ounit_tests.cmxa main/ounit_tests_main.cmx
-    libs = str.cmxa unix.cmxa ocamlcommon.cmxa
-
-${mllRule}
-${mllList("ext", ["ext_json_parse.mll"])}
-
-
-rule mk_shared
-    command = $ocamlopt -I +compiler-libs -shared $flags -o $out $in
-build ../odoc_gen/generator.cmxs : mk_shared ../odoc_gen/generator.mli ../odoc_gen/generator.ml
-    flags = -I +ocamldoc -I ../odoc_gen -absname
-`;
-  /**
-   * @type { {name : string, libs: string[]}[]}
-   */
-  var libs = [];
-  sourceDirs.forEach((name) => {
-    if (name !== "main" && name !== "stubs") {
-      libs.push({ name, libs: [] });
-    }
-  });
-
-  /**
-   * @type{string[]}
-   */
-  var files = [];
-  for (let dir of sourceDirs) {
-    files = files.concat(test(dir));
-  }
-
-  cp.exec(
-    `${getOcamldepFile()} -allow-approx -one-line -native ${includes} ${files.join(
-      " "
-    )}`,
-    { cwd: jscompDir, encoding: "ascii" },
-    function (error, out) {
-      if (error !== null) {
-        throw error;
-      }
-      /**
-       * @type {Map<string,Set<string>>}
-       */
-      var map = new Map();
-
-      var pairs = out.split("\n").map((x) => x.split(":").map((x) => x.trim()));
-      pairs.forEach((pair) => {
-        /**
-         * @type {string[]|string}
-         */
-
-        var deps;
-        var key = pair[0];
-        if (pair[1] !== undefined && (deps = pair[1].trim())) {
-          // deps = deps.replace(/.cmx/g, ".cmi");
-          deps = deps.split(" ");
-          map.set(key, new Set(deps));
-        }
-        if (key.endsWith("cmx")) {
-          libs.forEach((x) => {
-            if (path.dirname(key) === x.name) {
-              x.libs.push(key);
-            }
-          });
-        }
-      });
-
-      // not ocamldep output
-      // when no mli exists no deps for cmi otherwise add cmi
-      var stmts = pairs.map((pair) => {
-        if (pair[0]) {
-          var target = pair[0];
-          var y = path.parse(target);
-          /**
-           * @type {Set<string>}
-           */
-          var deps = map.get(target) || new Set();
-          if (y.ext === ".cmx") {
-            var intf = path.join(y.dir, y.name + ".cmi");
-            var ml = path.join(y.dir, y.name + ".ml");
-            return `build ${
-              deps.has(intf) ? target : [target, intf].join(" ")
-            } : optc ${ml} | ${setSortedToStringAsNativeDeps(deps)}`;
-          } else {
-            // === 'cmi'
-            var mli = path.join(y.dir, y.name + ".mli");
-            return `build ${target} : optc ${mli} | ${setSortedToStringAsNativeDeps(
-              deps
-            )}`;
-          }
-        }
-      });
-      libs.forEach((x) => {
-        var output = sortFilesByDeps(x.libs, map);
-        var name = x.name;
-        stmts.push(`build ${name}/${name}.cmxa : archive ${output.join(" ")}`);
-      });
-
-      writeFileAscii(
-        path.join(jscompDir, ninjaOutput),
-        templateNative + stmts.join("\n") + "\n"
-      );
-    }
-  );
-}
-
 function main() {
   var emptyCount = 2;
   var isPlayground = false;
   if (require.main === module) {
-    if (process.argv.includes("-env")) {
-      useEnv = true;
-      emptyCount++;
-    }
     if (process.argv.includes("-check")) {
       checkEffect();
     }
@@ -1846,8 +1562,7 @@ function main() {
         break;
       case "config":
         console.log(`config for the first time may take a while`);
-        updateDev();
-        updateRelease();
+        genDuneFiles();
 
         break;
       case "cleanbuild":
@@ -1871,7 +1586,7 @@ function main() {
         break;
       case "help":
         console.log(`supported subcommands:
-[exe] config        
+[exe] config
 [exe] build
 [exe] cleanbuild
 [exe] docs
@@ -1881,20 +1596,12 @@ function main() {
         break;
       default:
         if (process.argv.length === emptyCount) {
-          updateDev();
-          updateRelease();
+          genDuneFiles();
         } else {
           var dev = process.argv.includes("-dev");
           var release = process.argv.includes("-release");
           var all = process.argv.includes("-all");
-          if (all) {
-            updateDev();
-            updateRelease();
-          } else if (dev) {
-            updateDev();
-          } else if (release) {
-            updateRelease();
-          }
+          genDuneFiles();
         }
         break;
     }
