@@ -30,29 +30,6 @@ let setup_napkin_error_printer () =
   Lazy.force Super_main.setup;  
   Lazy.force Napkin_outcome_printer.setup
 
-let handle_reason (type a) (kind : a Ml_binary.kind) sourcefile ppf opref = 
-  setup_reason_error_printer ();
-  let tmpfile =  Ast_reason_pp.pp sourcefile in   
-  (match kind with 
-   | Ml_binary.Ml -> 
-     Js_implementation.implementation
-       ~parser:(fun file_in -> 
-           let in_chan = open_in_bin file_in in 
-           let ast = Ml_binary.read_ast Ml in_chan in 
-           close_in in_chan; ast 
-         )
-       ppf  tmpfile opref    
-
-   | Ml_binary.Mli ->
-     Js_implementation.interface 
-       ~parser:(fun file_in -> 
-           let in_chan = open_in_bin file_in in 
-           let ast = Ml_binary.read_ast Mli in_chan in 
-           close_in in_chan; ast 
-         )
-       ppf  tmpfile opref ;    );
-  Ast_reason_pp.clean tmpfile 
-
   
 type valid_input = 
   | Ml 
@@ -109,25 +86,30 @@ let classify_input ext =
   | _ when ext = Literals.suffix_resiast -> Resiast
   | _ -> Unknown
 
-let process_file ppf sourcefile = 
-  (* This is a better default then "", it will be changed later 
-     The {!Location.input_name} relies on that we write the binary ast 
+let process_file ppf sourcefile =
+  (* This is a better default then "", it will be changed later
+     The {!Location.input_name} relies on that we write the binary ast
      properly
   *)
-  Location.set_input_name  sourcefile;  
-  let ext = Ext_filename.get_extension_maybe sourcefile in 
-  let input = classify_input ext in 
-  let opref = Compenv.output_prefix sourcefile in 
-  match input with 
-  | Re -> handle_reason Ml sourcefile ppf opref     
+  Location.set_input_name  sourcefile;
+  let ext = Ext_filename.get_extension_maybe sourcefile in
+  let input = classify_input ext in
+  let opref = Compenv.output_prefix sourcefile in
+  match input with
+  | Re ->
+    Js_implementation.implementation
+      ~parser:Ast_reason_pp.parse_implementation
+      ppf sourcefile opref
   | Rei ->
-    handle_reason Mli sourcefile ppf opref 
-  | Reiast 
-    -> 
+    Js_implementation.interface
+      ~parser:Ast_reason_pp.parse_interface
+      ppf sourcefile opref
+  | Reiast
+    ->
     setup_reason_error_printer ();
-    Js_implementation.interface_mliast ppf sourcefile opref   
-  | Reast 
-    -> 
+    Js_implementation.interface_mliast ppf sourcefile opref
+  | Reast
+    ->
     setup_reason_error_printer ();
     Js_implementation.implementation_mlast ppf sourcefile opref
   | Res -> 
@@ -185,96 +167,105 @@ let anonymous ~(rev_args : string list) =
         Ppx_entry.rewrite_implementation
         Ppx_entry.rewrite_signature
     | _ -> Bsc_args.bad_arg "Wrong format when use -as-ppx"
-  else 
-    begin 
-      match rev_args with 
-      | [filename] ->   
-        Compenv.readenv ppf 
-          (Before_compile filename); 
+  else
+    begin
+      match rev_args with
+      | [filename] ->
+        Compenv.readenv ppf
+          (Before_compile filename);
         process_file ppf filename
-      | [] -> ()  
-      | _ -> 
+      | [] -> ()
+      | _ ->
         Bsc_args.bad_arg "can not handle multiple files"
     end
 
 (** used by -impl -intf *)
 let impl filename =
-  Js_config.js_stdout := false;  
-  Compenv.readenv ppf 
+  Js_config.js_stdout := false;
+  Compenv.readenv ppf
     (Before_compile filename)
   ; process_implementation_file ppf filename;;
 let intf filename =
-  Js_config.js_stdout := false ;  
-  Compenv.readenv ppf 
+  Js_config.js_stdout := false ;
+  Compenv.readenv ppf
     (Before_compile filename)
   ; process_interface_file ppf filename;;
 
+let reason_fmt ~input =
+  let isInterface =
+    let len = String.length input in
+    len > 0 && String.unsafe_get input (len - 1) = 'i'
+  in
+  if isInterface then
+    Ast_reason_pp.format_interface input
+  else
+    Ast_reason_pp.format_implementation input
 
-let format_file input =  
-  let ext = classify_input (Ext_filename.get_extension_maybe input) in 
-  let syntax = 
-    match ext with 
-    | Ml | Mli -> `ml
-    | Res | Resi -> `res 
-    | Re | Rei -> `refmt (Filename.concat (Filename.dirname Sys.executable_name) "refmt.exe") 
-    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input) in   
-  output_string stdout (Napkin_multi_printer.print syntax ~input)
+let format_file input =
+  let ext = classify_input (Ext_filename.get_extension_maybe input) in
+  let format_fn =
+    match ext with
+    | Ml | Mli -> Napkin_multi_printer.print `ml
+    | Res | Resi -> Napkin_multi_printer.print `res
+    | Re | Rei -> reason_fmt
+    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input) in
+  output_string stdout (format_fn ~input)
 
-let set_color_option option = 
+let set_color_option option =
   match Clflags.parse_color_setting option with
   | None -> ()
   | Some setting -> Clflags.color := Some setting
 
 let eval (s : string) ~suffix =
-  let tmpfile = Filename.temp_file "eval" suffix in 
-  Ext_io.write_file tmpfile s;   
+  let tmpfile = Filename.temp_file "eval" suffix in
+  Ext_io.write_file tmpfile s;
   anonymous  ~rev_args:[tmpfile];
   Ast_reason_pp.clean tmpfile
-  
+
 
 (* let (//) = Filename.concat *)
 
 
 
 
-                       
+
 let define_variable s =
   match Ext_string.split ~keep_empty:true s '=' with
-  | [key; v] -> 
-    if not (Lexer.define_key_value key v)  then 
+  | [key; v] ->
+    if not (Lexer.define_key_value key v)  then
        Bsc_args.bad_arg ("illegal definition: " ^ s)
   | _ -> Bsc_args.bad_arg ("illegal definition: " ^ s)
 
-let print_standard_library () = 
-  let (//) = Filename.concat in   
-  let standard_library = 
+let print_standard_library () =
+  let (//) = Filename.concat in
+  let standard_library =
     Filename.dirname Sys.executable_name
-    // Filename.parent_dir_name // "lib"// "ocaml"  in 
-  print_string standard_library; print_newline(); 
-  exit 0  
+    // Filename.parent_dir_name // "lib"// "ocaml"  in
+  print_string standard_library; print_newline();
+  exit 0
 
-let bs_version_string = 
+let bs_version_string =
   "BuckleScript " ^ Bs_version.version ^
-  " ( Using OCaml:" ^ Config.version ^ " )" 
+  " ( Using OCaml:" ^ Config.version ^ " )"
 
-let print_version_string () = 
-#if undefined BS_RELEASE_BUILD then 
+let print_version_string () =
+#if undefined BS_RELEASE_BUILD then
     print_string "DEV VERSION: ";
-#end  
+#end
     print_endline bs_version_string;
-    exit 0 
-  
+    exit 0
+
 let [@inline] set s : Bsc_args.spec = Unit (Unit_set s)
 let [@inline] clear s : Bsc_args.spec = Unit (Unit_clear s)
 let [@inline] unit_lazy s : Bsc_args.spec = Unit(Unit_lazy s)
-let [@inline] string_call s : Bsc_args.spec = 
+let [@inline] string_call s : Bsc_args.spec =
     String (String_call s)
-let [@inline] string_optional_set s : Bsc_args.spec = 
+let [@inline] string_optional_set s : Bsc_args.spec =
   String (String_optional_set s)
 
-let [@inline] unit_call s : Bsc_args.spec =   
-    Unit (Unit_call s)   
-let [@inline] string_list_add s : Bsc_args.spec = 
+let [@inline] unit_call s : Bsc_args.spec =
+    Unit (Unit_call s)
+let [@inline] string_list_add s : Bsc_args.spec =
     String (String_list_add s)
 
 (* mostly common used to list in the beginning to make search fast

@@ -128,31 +128,31 @@
     "__dirname";
     "__filename";
     "__esModule"
-  |] 
+  |]
 
 
 module SSet = Set.Make(String)
-let get_predefined_words (fn : string) = 
-  let v = ref SSet.empty in 
-  let in_chan = open_in_bin fn in 
+let get_predefined_words (fn : string) =
+  let v = ref SSet.empty in
+  let in_chan = open_in_bin fn in
   (try
-     while true do 
-       let new_word = input_line in_chan in 
-       if String.length new_word <> 0 then 
+     while true do
+       let new_word = input_line in_chan in
+       if String.length new_word <> 0 then
          v := SSet.add new_word !v
-     done 
+     done
    with End_of_file -> ());
-  !v 
+  !v
 
-let fill_extra (ss : SSet.t) : SSet.t =   
-  let v = ref ss in 
-  for i  = 0 to Array.length reserved_words - 1 do 
+let fill_extra (ss : SSet.t) : SSet.t =
+  let v = ref ss in
+  for i  = 0 to Array.length reserved_words - 1 do
     v := SSet.add reserved_words.(i) !v
   done;
-  !v 
+  !v
 let license = {|
 (* Copyright (C) 2019-Present Authors of BuckleScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -170,7 +170,7 @@ let license = {|
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -178,55 +178,55 @@ let license = {|
 |}
 let binary_search = {|
 
-type element = string 
+type element = string
 
-let rec binarySearchAux (arr : element array) (lo : int) (hi : int) key : bool =   
-    let mid = (lo + hi)/2 in 
-    let midVal = Array.unsafe_get arr mid in 
+let rec binarySearchAux (arr : element array) (lo : int) (hi : int) key : bool =
+    let mid = (lo + hi)/2 in
+    let midVal = Array.unsafe_get arr mid in
     (* let c = cmp key midVal [@bs] in  *)
-    if key = midVal then true 
+    if key = midVal then true
     else if key < midVal then  (*  a[lo] =< key < a[mid] <= a[hi] *)
-      if hi = mid then  
-        (Array.unsafe_get arr lo) = key 
-      else binarySearchAux arr lo mid key 
+      if hi = mid then
+        (Array.unsafe_get arr lo) = key
+      else binarySearchAux arr lo mid key
     else  (*  a[lo] =< a[mid] < key <= a[hi] *)
-      if lo = mid then 
-        (Array.unsafe_get arr hi) = key 
-      else binarySearchAux arr mid hi key 
+      if lo = mid then
+        (Array.unsafe_get arr hi) = key
+      else binarySearchAux arr mid hi key
 
-let binarySearch (sorted : element array) (key : element)  : bool =  
-  let len = Array.length sorted in 
+let binarySearch (sorted : element array) (key : element)  : bool =
+  let len = Array.length sorted in
   if len = 0 then false
-  else 
-    let lo = Array.unsafe_get sorted 0 in 
+  else
+    let lo = Array.unsafe_get sorted 0 in
     (* let c = cmp key lo [@bs] in  *)
     if key < lo then false
     else
-    let hi = Array.unsafe_get sorted (len - 1) in 
+    let hi = Array.unsafe_get sorted (len - 1) in
     (* let c2 = cmp key hi [@bs]in  *)
     if key > hi then false
-    else binarySearchAux sorted 0 (len - 1) key 
+    else binarySearchAux sorted 0 (len - 1) key
 
-let is_reserved s = binarySearch sorted_keywords s     
+let is_reserved s = binarySearch sorted_keywords s
 |}
-let main keyword_file output_file =   
-  let ss = get_predefined_words keyword_file in 
-  let ss = fill_extra ss in 
-  let keywords_array = 
-    (SSet.fold 
+let main keyword_file output_file =
+  let ss = get_predefined_words keyword_file in
+  let ss = fill_extra ss in
+  let keywords_array =
+    (SSet.fold
       (fun s acc -> acc ^ "\"" ^ s ^ "\";\n  "
-      ) ss "let sorted_keywords = [|\n  ") ^ "|]\n" 
-  in 
-  let oc = open_out_bin output_file in 
-  output_string oc license ; 
+      ) ss "let sorted_keywords = [|\n  ") ^ "|]\n"
+  in
+  let oc = stdout in
+  output_string oc license ;
   output_string oc  keywords_array;
   output_string oc binary_search;
-  close_out oc 
-(*   
+  close_out oc
+(*
 ;;
-for i = 0 to Array.length Sys.argv - 1  do 
+for i = 0 to Array.length Sys.argv - 1  do
   print_endline ">"; print_string Sys.argv.(i)
-done 
+done
 ;; *)
 let () = main Sys.argv.(1) "ext/js_reserved_map.ml"
 
