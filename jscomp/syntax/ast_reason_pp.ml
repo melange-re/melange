@@ -43,6 +43,9 @@ exception Pp_error
      ~parser:RE.implementation
      filename
    in
+   let omp_ast =
+     Reason_syntax_util.(apply_mapper_to_structure omp_ast (backport_letopt_mapper remove_stylistic_attrs_mapper))
+   in
    Reason_toolchain.To_current.copy_structure omp_ast
 
  let parse_interface filename =
