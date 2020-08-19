@@ -1,13 +1,10 @@
 (install
  (section bin)
- (files
-  bsc.exe
-  bsb_helper.exe
-  (bsb_main.exe as bsb.exe)
-  (bspack_main.exe as bspack.exe)))
+ (files bsb_helper.exe))
 
 (executable
  (name bsc)
+ (public_name bsc.exe)
  (modes native)
  (flags
   (:standard -w -9))
@@ -20,25 +17,34 @@
  (target bsc.ml)
  (deps
   (:input js_main.ml)
-  ../../lib/es6
-  ../../lib/js
   ../../package.json
   ../../bsconfig.json)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
+  (progn
+   (system "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
+   (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target}))))
 
 (executable
  (name bspack_main)
+ (public_name bspack.exe)
  (modes native)
  (modules bspack_main)
  (flags
   (:standard -w -50))
  (libraries bs_hash_stubs ext common depends unix))
 
+(rule
+ (target bsb.ml)
+ (deps
+  (:input bsb_main.ml))
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
+
 (executable
- (name bsb_main)
+ (name bsb)
+ (public_name bsb.exe)
  (modes native)
- (modules bsb_main)
+ (modules bsb)
  (flags
   (:standard -w -50))
  (libraries bs_hash_stubs ext common bsb))
@@ -66,6 +72,13 @@
  (deps bsb_helper_main.exe)
  (action
   (copy %{deps} %{target})))
+
+(executable
+ (name bsb_parse_depend)
+ (public_name bsb_parse_depend.exe)
+ (modes native)
+ (modules bsb_parse_depend)
+ (libraries bsb ext))
 
 (test
  (name ounit_tests_main)

@@ -3,4 +3,5 @@
  (flags
   (:standard -w -9))
  (wrapped false)
- (libraries bs_hash_stubs ext common bsb unix str))
+ (modules bsb_db_decode bsb_helper_depfile_gen)
+ (libraries bs_hash_stubs ext common unix str))

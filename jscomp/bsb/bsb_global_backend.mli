@@ -32,14 +32,16 @@ val lib_artifacts_dir : string ref
 (* path to the compiled artifacts, would be lib/ocaml when compiling to JS *)
 val lib_ocaml_dir : string ref
 
+val dune_build_dir : string ref
+
 (* string representation of the target backend, would be "js" when compiling to js *)
 val backend_string: string ref
 
 
-#if BS_NATIVE then
+#ifdef BS_NATIVE
 (* Flag to track whether backend has been set to a value. *)
 val backend_is_set : bool ref
 
 (* convenience setter to update all the refs according to the given target backend *)
 val set_backend : Bsb_config_types.compilation_kind_t -> unit
-#end
+#endif

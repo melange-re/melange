@@ -62,20 +62,20 @@ type external_spec =
     splice : bool ;
     scopes : string list
   }
-  
+
   | Js_send of {
     name : string ;
     splice : bool ;
     pipe : pipe  ;
     js_send_scopes : string list;
   } (* we know it is a js send, but what will happen if you pass an ocaml objct *)
-  
+
   | Js_new of {
       name : string ;
       external_module_name : external_module_name option;
       scopes : string list;
     }
-  | Js_set of 
+  | Js_set of
       { js_set_name : string  ;
         js_set_scopes : string list
       }
@@ -119,9 +119,9 @@ type return_wrapper =
   | Return_null_undefined_to_opt
   | Return_replaced_with_unit
 
-type params = 
+type params =
   | Params of   External_arg_spec.params
-  | Param_number of int 
+  | Param_number of int
 
 type t  =
   | Ffi_bs of params  *
@@ -164,10 +164,10 @@ let valid_ident (s : string) =
      true
    with E.E -> false )
 
-let is_package_relative_path (x : string) = 
+let is_package_relative_path (x : string) =
      Ext_string.starts_with x "./" ||
      Ext_string.starts_with x "../"
-  
+
 let valid_global_name ?loc txt =
   if not (valid_ident txt) then
     let v = Ext_string.split_by ~keep_empty:true (fun x -> x = '.') txt in
@@ -175,7 +175,7 @@ let valid_global_name ?loc txt =
       (fun s ->
          if not (valid_ident s) then
            Location.raise_errorf ?loc "Not a valid global name %s"  txt
-      ) 
+      )
 
 (*
   We loose such check (see #2583),
@@ -198,14 +198,14 @@ let check_external_module_name ?loc x =
 
 
 
-let check_ffi ?loc ffi : bool =  
-  let xrelative = ref false in 
-  let upgrade bool =    
-    if not (!xrelative) then xrelative := bool in 
+let check_ffi ?loc ffi : bool =
+  let xrelative = ref false in
+  let upgrade bool =
+    if not (!xrelative) then xrelative := bool in
   begin match ffi with
-  | Js_var {name; external_module_name} ->     
+  | Js_var {name; external_module_name} ->
     upgrade (is_package_relative_path name);
-    Ext_option.iter external_module_name (fun name -> 
+    Ext_option.iter external_module_name (fun name ->
     upgrade (is_package_relative_path name.bundle));
     valid_global_name ?loc  name
   | Js_send {name }
@@ -219,7 +219,7 @@ let check_ffi ?loc ffi : bool =
   | Js_module_as_var external_module_name
   | Js_module_as_fn {external_module_name; splice = _}
   | Js_module_as_class external_module_name
-    -> 
+    ->
       upgrade (is_package_relative_path external_module_name.bundle);
       check_external_module_name external_module_name
   | Js_new {external_module_name ;  name}
@@ -231,8 +231,8 @@ let check_ffi ?loc ffi : bool =
         check_external_module_name ?loc name
       );
 
-    valid_global_name ?loc name 
-  end; 
+    valid_global_name ?loc name
+  end;
   !xrelative
 
 (* let bs_prefix = "BS:"
@@ -253,93 +253,93 @@ let bs_prefix_length = String.length bs_prefix
 let to_string  (t : t) =
   Marshal.to_string t []
 
-(* \132\149\166\190 
+(* \132\149\166\190
    0x84 95 A6 BE Intext_magic_small intext.h
    https://github.com/ocaml/merlin/commit/b094c937c3a360eb61054f7652081b88e4f3612f
 *)
-let is_bs_primitive s =  
+let is_bs_primitive s =
    String.length s >= 20 (* Marshal.header_size*) &&
      String.unsafe_get s 0 = '\132' &&
-     String.unsafe_get s 1 = '\149' 
-     
-let () = Oprint.map_primitive_name := 
-#if BS_RELEASE_BUILD then  
-  (fun s ->    
+     String.unsafe_get s 1 = '\149'
+
+let () = Oprint.map_primitive_name :=
+#ifdef BS_RELEASE_BUILD
+  (fun s ->
   if is_bs_primitive s then "BS:external"
   else s )
-#else  
+#else
   (fun s -> String.escaped s) (* For debugging*)
-#end
+#endif
 
 (* TODO:  better error message when version mismatch *)
 let from_string s : t =
-  if is_bs_primitive s  then   
+  if is_bs_primitive s  then
     Ext_marshal.from_string_uncheck s
   else Ffi_normal
 
 
-let inline_string_primitive (s : string) (op : string option) : string list = 
-  let lam : Lam_constant.t = 
-    match op with 
+let inline_string_primitive (s : string) (op : string option) : string list =
+  let lam : Lam_constant.t =
+    match op with
     | Some op
     when Ast_utf8_string_interp.is_unicode_string op ->
       Const_unicode s
     | _ ->
-      (Const_string s) in 
+      (Const_string s) in
   [""; to_string (Ffi_inline_const lam )]
 
 (* Let's only do it for string ATM
-    for boolean, and ints, a good optimizer should     
+    for boolean, and ints, a good optimizer should
     do it by default?
     But it may not work after layers of indirection
     e.g, submodule
 *)
-let inline_bool_primitive b : string list = 
-  let lam : Lam_constant.t = 
-    if  b then Lam_constant.Const_js_true 
+let inline_bool_primitive b : string list =
+  let lam : Lam_constant.t =
+    if  b then Lam_constant.Const_js_true
     else Lam_constant.Const_js_false
-  in 
+  in
   [""; to_string (Ffi_inline_const lam )]
 
 (* FIXME: check overflow ?*)
-let inline_int_primitive (i : int32) : string list =   
-  [""; 
-    to_string 
-    (Ffi_inline_const 
+let inline_int_primitive (i : int32) : string list =
+  ["";
+    to_string
+    (Ffi_inline_const
       (Const_int32 i))
   ]
 
-let inline_int64_primitive (i : int64) : string list =   
-  [""; 
-   to_string 
-     (Ffi_inline_const 
+let inline_int64_primitive (i : int64) : string list =
+  ["";
+   to_string
+     (Ffi_inline_const
         (Const_int64 i))
   ]
 
 let inline_float_primitive (i : string) : string list =
   ["";
-    to_string 
+    to_string
       (Ffi_inline_const (Const_float i))
-  ]    
-let rec ffi_bs_aux acc (params : External_arg_spec.params) = 
-  match params with 
-  | {arg_type = Nothing; arg_label = Arg_empty} 
+  ]
+let rec ffi_bs_aux acc (params : External_arg_spec.params) =
+  match params with
+  | {arg_type = Nothing; arg_label = Arg_empty}
   (* same as External_arg_spec.dummy*)
-    :: rest -> 
-      ffi_bs_aux (acc + 1) rest 
-  | _ :: _ -> -1    
-  | [] -> acc         
+    :: rest ->
+      ffi_bs_aux (acc + 1) rest
+  | _ :: _ -> -1
+  | [] -> acc
 
 let ffi_bs (params : External_arg_spec.params) return attr =
-  let n = ffi_bs_aux 0 params in 
-  if n < 0 then  Ffi_bs (Params params,return,attr)  
-  else Ffi_bs (Param_number n, return, attr) 
+  let n = ffi_bs_aux 0 params in
+  if n < 0 then  Ffi_bs (Params params,return,attr)
+  else Ffi_bs (Param_number n, return, attr)
 
-let ffi_bs_as_prims params return attr = 
+let ffi_bs_as_prims params return attr =
   [""; to_string (ffi_bs params return attr)]
 
 let ffi_obj_create obj_params =
    Ffi_obj_create obj_params
 
-let ffi_obj_as_prims obj_params = 
+let ffi_obj_as_prims obj_params =
   ["";to_string (Ffi_obj_create obj_params)]
