@@ -153,6 +153,7 @@ let output_ninja_and_namespace_map
       ~src_root_dir:per_proj_dir
       ~bsc:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc)
       ~bsdep:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsdep)
+      ~bs_dep_parse:(Ext_filename.maybe_quote Bsb_global_paths.bs_dep_parse)
       ~warnings:(Bsb_warning.to_bsb_string ~toplevel warning)
       ~bsc_flags:(get_bsc_flags bsc_flags)
       ~ppx_flags

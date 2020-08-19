@@ -35,10 +35,7 @@ let ppx_flags (xs : Bsb_config_types.ppx list) =
     (Ext_list.map xs
        (fun x ->
           if x.args = [] then Ext_filename.maybe_quote x.name else
-            let fmt : _ format =
-              if Ext_sys.is_windows_or_cygwin then "\"%s %s\""
-              else "'%s %s'" in
-            Printf.sprintf fmt x.name (String.concat " " x.args)
+            Printf.sprintf "\"%s %s\"" x.name (String.concat " " x.args)
        ))
 
 let pp_flag (xs : string) =

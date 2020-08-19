@@ -42,7 +42,7 @@ type shadow = { key : string ; op : override }
    however, for the command we don't need pass `-o`
 *)
 
-val output_dune_inc : Buffer.t -> deps:string list -> unit
+val output_dune_inc : Buffer.t -> bs_dep_parse:string -> deps:string list -> unit
 
 val output_alias :
   ?action:string -> ?locks:string -> Buffer.t -> name:string -> deps:string list -> unit

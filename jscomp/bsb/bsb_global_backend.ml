@@ -30,6 +30,7 @@ let lib_artifacts_dir = ref Bsb_config.lib_bs
 
 let lib_ocaml_dir = ref Bsb_config.lib_ocaml
 
+(* TODO: read current dune context *)
 let dune_build_dir = ref (Ext_path.combine "_build" "default")
 
 let backend_string = ref Literals.js

@@ -28,6 +28,7 @@ type t =
   src_root_dir: string;
   bsc: string;
   bsdep: string;
+  bs_dep_parse: string;
   warnings: string;
   bsc_flags: string;
   ppx_flags: string;
@@ -47,6 +48,7 @@ let make
   ~src_root_dir
   ~bsc
   ~bsdep
+  ~bs_dep_parse
   ~warnings
   ~bsc_flags
   ~ppx_flags
@@ -64,6 +66,7 @@ let make
   src_root_dir;
   bsc;
   bsdep;
+  bs_dep_parse;
   warnings;
   bsc_flags;
   ppx_flags;

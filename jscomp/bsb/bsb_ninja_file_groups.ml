@@ -259,9 +259,9 @@ let handle_files_per_dir
       (js_outputs :: acc_js, output_d :: acc_d)
   )
   in
-  Bsb_ninja_targets.output_dune_inc buf ~deps:d_targets ;
-  Bsb_ninja_targets.output_alias buf ~locks:"/bsb" ~name:Literals.bsb_world ~deps:(List.concat js_targets);
-  Bsb_ninja_targets.output_alias buf ~locks:"/bsb" ~name:Literals.bsb_depends ~deps:[dune_inc];
+  Bsb_ninja_targets.output_dune_inc buf ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
+  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
+  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[dune_inc];
   Bsb_ninja_targets.revise_dune dune buf
 
 
