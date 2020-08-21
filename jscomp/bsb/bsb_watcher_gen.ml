@@ -26,33 +26,44 @@
 
 let kvs = Ext_json_noloc.kvs
 let arr = Ext_json_noloc.arr
-let str = Ext_json_noloc.str 
+let str = Ext_json_noloc.str
 
-let generate_sourcedirs_meta 
-  ~name (res : Bsb_file_groups.t) = 
-  let v = 
+let generate_sourcedirs_meta
+  ~name (file_groups : (string * Bsb_file_groups.t) list) =
+  let pkgs = Hashtbl.create 10 in
+  let (dirs, generated) =
+    Ext_list.fold_left file_groups ([], []) (fun (dirs, generated) (proj_dir, { files }) ->
+      let dirs = Ext_list.append dirs (Ext_list.map files (fun x -> Ext_path.combine proj_dir x.dir)) in
+      let generated =
+        Ext_list.fold_left files [] (fun acc x ->
+          Ext_list.flat_map_append x.generators acc (fun x ->
+            Ext_list.map (x.input @ x.output) (fun x ->
+              Ext_path.combine proj_dir x)))
+      in
+      let _ : unit list = Bsb_pkg.to_list (fun pkg path ->
+        let pkg = (Bsb_pkg_types.to_string pkg) in
+        if not (Hashtbl.mem pkgs pkg) then
+          Hashtbl.add pkgs pkg path)
+      in
+      dirs, generated)
+  in
+  let v =
     kvs [
       "dirs" ,
-      arr (Ext_array.of_list_map res.files ( fun x -> 
-          str x.dir 
-        ) ) ;
+      arr (Ext_array.of_list_map dirs str) ;
       "generated" ,
-      arr ( Array.of_list @@ Ext_list.fold_left res.files []  (fun acc x -> 
-          Ext_list.flat_map_append x.generators acc
-            (fun x -> 
-               Ext_list.map x.output str)   
-        ));        
-        "pkgs", arr 
-          (Array.of_list
-            (Bsb_pkg.to_list (fun pkg path ->
-              arr [|
-                str (Bsb_pkg_types.to_string pkg);
-                str path
-                |]
-              ))
-          )
+      arr (Ext_array.of_list_map generated str);
+      "pkgs", arr
+        (Array.of_list
+          (Hashtbl.fold (fun pkg path acc ->
+            (arr [|
+              str pkg;
+              str path
+        |]) :: acc
+          ) pkgs [] )
+        )
     ]
-  in 
-  Ext_json_noloc.to_file 
+  in
+  Ext_json_noloc.to_file
   name v
-  
+
