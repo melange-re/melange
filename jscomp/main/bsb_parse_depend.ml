@@ -46,7 +46,7 @@ let parse_deps_exn ~file lines =
     | Some (basename, deps) ->
       extract_blank_separated_words deps
 
-let parse_depends files =
+let parse_depends ~hash files =
  let buf = Buffer.create 1024 in
  Ext_list.iter files (fun file ->
   let chan = open_in_bin file in
@@ -54,9 +54,9 @@ let parse_depends files =
   close_in chan;
   Buffer.add_string buf "\n(rule (targets ";
   Buffer.add_string buf (Ext_filename.new_extension file Literals.suffix_depends);
-  Buffer.add_string buf ")\n (action (copy ";
-  Buffer.add_string buf file;
-  Buffer.add_string buf " %{targets}))\n ";
+  Buffer.add_string buf ")\n (action (write-file %{targets} ";
+  Buffer.add_string buf hash;
+  Buffer.add_string buf "))\n ";
   if deps <> [] then begin
   Buffer.add_string buf "(deps";
     Ext_list.iter deps (fun dep ->
@@ -71,6 +71,7 @@ let () =
   let argv = Sys.argv in
   let l = Array.length argv in
   let current = ref 1 in
+  let hash = ref None in
   let rev_list = ref [] in
   while !current < l do
     let s = argv.(!current) in
@@ -80,6 +81,9 @@ let () =
       | "-help" ->
         prerr_endline ("usage: bsb_parse_depend.exe [-help] file1 file2 ...");
         exit 0
+      | "-hash" ->
+        hash := Some (argv.(!current));
+        incr current
       | s ->
         prerr_endline ("unknown option: " ^ s);
         prerr_endline ("usage: bsb_parse_depend.exe [-help] file1 file2 ...");
@@ -87,6 +91,11 @@ let () =
     end else
       rev_list := s :: !rev_list
   done;
-  parse_depends !rev_list
+  match !hash with
+  | None ->
+    prerr_endline "-hash is a required option";
+    exit 2
+  | Some hash ->
+    parse_depends ~hash !rev_list
 ;;
 

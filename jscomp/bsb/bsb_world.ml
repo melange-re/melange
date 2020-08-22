@@ -53,16 +53,20 @@ let install_targets cwd ({files_to_install; namespace; file_groups} as config : 
 
 let build_bs_deps cwd (deps : Bsb_package_specs.t) =
   let dep_dirs = ref [] in
+  let digest_buf = Ext_buffer.create 1024 in
   Bsb_build_util.walk_all_deps  cwd (fun {top; proj_dir} ->
       if not top then
         begin
           dep_dirs := proj_dir :: !dep_dirs;
-          let _config_opt =
+          match
             Bsb_ninja_regen.regenerate_ninja
+              ?deps_digest:None
               ~toplevel_package_specs:(Some deps)
               ~forced:true
-              ~per_proj_dir:proj_dir  in (* set true to force regenrate ninja file so we have [config_opt]*)
-          ()
+              ~per_proj_dir:proj_dir with (* set true to force regenrate ninja file so we have [config_opt]*)
+          | Some (_config, digest) ->
+            Ext_buffer.add_string digest_buf digest
+          | None -> ()
         end
   );
 
@@ -85,7 +89,8 @@ let build_bs_deps cwd (deps : Bsb_package_specs.t) =
      Buffer.add_string buf dir);
    Buffer.add_string buf ")\n";
    Bsb_ninja_targets.revise_dune (cwd // Literals.node_modules // Literals.dune) buf
-  end
+  end;
+  Digest.to_hex (Ext_buffer.digest digest_buf)
 
 
 

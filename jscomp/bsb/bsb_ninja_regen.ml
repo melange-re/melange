@@ -32,8 +32,9 @@ let (//) = Ext_path.combine
 *)
 let regenerate_ninja
     ~(toplevel_package_specs : Bsb_package_specs.t option)
+    ?deps_digest
     ~forced ~per_proj_dir
-  : Bsb_config_types.t option =
+  : (Bsb_config_types.t * string) option =
   let toplevel = toplevel_package_specs = None in
   let lib_artifacts_dir = !Bsb_global_backend.lib_artifacts_dir in
   let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
@@ -83,14 +84,15 @@ let regenerate_ninja
 #else
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
        config;
-    Bsb_ninja_gen.output_ninja_and_namespace_map
-      ~per_proj_dir  ~toplevel config ;
+    let digest = Bsb_ninja_gen.output_ninja_and_namespace_map
+      ?deps_digest ~per_proj_dir  ~toplevel config
+    in
 #endif
 
     (* PR2184: we still need record empty dir
         since it may add files in the future *)
     Bsb_ninja_check.record ~per_proj_dir ~file:output_deps
       (Literals.bsconfig_json::config.file_groups.globbed_dirs) ;
-    Some config
+    Some (config, digest)
 
 
