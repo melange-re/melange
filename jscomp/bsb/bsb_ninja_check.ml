@@ -24,10 +24,11 @@
 
 
 type t =
-  { 
+  {
+    digest : string;
     dir_or_files : string array ;
     st_mtimes : float array;
-    source_directory :  string ;    
+    source_directory :  string ;
   }
 
 
@@ -49,6 +50,7 @@ type check_result =
   | Good
   | Bsb_file_not_exist (** We assume that it is a clean repo *)
   | Bsb_source_directory_changed
+  | Bsb_dep_digest
   | Bsb_bsc_version_mismatch
   | Bsb_forced
   | Other of string
@@ -59,6 +61,8 @@ let pp_check_result fmt (check_resoult : check_result) =
       | Bsb_file_not_exist -> "Dependencies information missing"
       | Bsb_source_directory_changed ->
         "Bsb source directory changed"
+      | Bsb_dep_digest ->
+        "Bsb dependency digest changed"
       | Bsb_bsc_version_mismatch ->
         "Bsc or bsb version mismatch"
       | Bsb_forced ->
@@ -87,18 +91,19 @@ let read (fname : string) (cont : t -> check_result) =
       cont res
   | exception _ -> Bsb_file_not_exist
 
-let record ~per_proj_dir ~file  (file_or_dirs : string list) : unit =
-  let dir_or_files = Array.of_list file_or_dirs in 
-  let st_mtimes = 
+let record ~digest ~per_proj_dir ~file  (file_or_dirs : string list) : unit =
+  let dir_or_files = Array.of_list file_or_dirs in
+  let st_mtimes =
     Ext_array.map dir_or_files
-      (fun  x ->      
+      (fun  x ->
            (Unix.stat (Filename.concat per_proj_dir  x )).st_mtime
          )
-  in 
+  in
   write (Ext_string.concat3 file "_" !Bsb_global_backend.backend_string)
     { st_mtimes ;
       dir_or_files;
       source_directory = per_proj_dir ;
+      digest;
     }
 
 (** check time stamp for all files
@@ -107,12 +112,13 @@ let record ~per_proj_dir ~file  (file_or_dirs : string list) : unit =
     Even forced, we still need walk through a little
     bit in case we found a different version of compiler
 *)
-let check ~(per_proj_dir:string) ~forced ~file : check_result =
+let check ~digest ~(per_proj_dir:string) ~forced ~file : check_result =
   read (Ext_string.concat3 file "_" !Bsb_global_backend.backend_string)  (fun  {
-      dir_or_files ; source_directory; st_mtimes
+      dir_or_files ; source_directory; st_mtimes; digest = old_digest
     } ->
       if per_proj_dir <> source_directory then Bsb_source_directory_changed else
       if forced then Bsb_forced (* No need walk through *)
+      else if old_digest <> digest then Bsb_dep_digest
       else
         try
           check_aux per_proj_dir dir_or_files st_mtimes  0 (Array.length dir_or_files)
@@ -121,6 +127,6 @@ let check ~(per_proj_dir:string) ~forced ~file : check_result =
             Bsb_log.info
               "@{<info>Stat miss %s@}@."
               (Printexc.to_string e);
-            Bsb_file_not_exist        
+            Bsb_file_not_exist
           end)
 

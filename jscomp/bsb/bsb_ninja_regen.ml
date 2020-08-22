@@ -32,7 +32,7 @@ let (//) = Ext_path.combine
 *)
 let regenerate_ninja
     ~(toplevel_package_specs : Bsb_package_specs.t option)
-    ?deps_digest
+    ?(deps_digest="")
     ~forced ~per_proj_dir
   : (Bsb_config_types.t * string) option =
   let toplevel = toplevel_package_specs = None in
@@ -41,6 +41,7 @@ let regenerate_ninja
   let output_deps = lib_bs_dir // bsdeps in
   let check_result  =
     Bsb_ninja_check.check
+      ~digest:deps_digest
       ~per_proj_dir:per_proj_dir
       ~forced ~file:output_deps in
   Bsb_log.info
@@ -52,6 +53,7 @@ let regenerate_ninja
   | Bsb_bsc_version_mismatch
   | Bsb_file_not_exist
   | Bsb_source_directory_changed
+  | Bsb_dep_digest
   | Other _ ->
     if check_result = Bsb_bsc_version_mismatch then begin
       Bsb_log.warn "@{<info>Different compiler version@}: clean current repo@.";
@@ -85,13 +87,13 @@ let regenerate_ninja
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
        config;
     let digest = Bsb_ninja_gen.output_ninja_and_namespace_map
-      ?deps_digest ~per_proj_dir  ~toplevel config
+      ~deps_digest ~per_proj_dir  ~toplevel config
     in
 #endif
 
     (* PR2184: we still need record empty dir
         since it may add files in the future *)
-    Bsb_ninja_check.record ~per_proj_dir ~file:output_deps
+    Bsb_ninja_check.record ~digest:deps_digest ~per_proj_dir ~file:output_deps
       (Literals.bsconfig_json::config.file_groups.globbed_dirs) ;
     Some (config, digest)
 
