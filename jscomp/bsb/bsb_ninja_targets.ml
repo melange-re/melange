@@ -87,7 +87,7 @@ let revise_dune dune new_content =
     output_string ochan "\n";
     close_out ochan
 
-let output_dune_inc buf ~bs_dep_parse ~deps =
+let output_dune_inc buf ~digest ~bs_dep_parse ~deps =
  let deps = Ext_list.map deps Filename.basename in
  Buffer.add_string buf "(rule\n (targets ";
  Buffer.add_string buf Literals.dune_inc;
@@ -100,6 +100,8 @@ let output_dune_inc buf ~bs_dep_parse ~deps =
  Buffer.add_string buf "(mode promote)\n (action\n ";
  Buffer.add_string buf "(run ";
  Buffer.add_string buf bs_dep_parse;
+ Buffer.add_string buf " -hash ";
+ Buffer.add_string buf digest;
  Ext_list.iter deps (fun dep ->
    Buffer.add_string buf Ext_string.single_space;
    Buffer.add_string buf dep);

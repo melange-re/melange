@@ -34,17 +34,18 @@
 
 
 
-type check_result = 
+type check_result =
   | Good
-  | Bsb_file_not_exist (** We assume that it is a clean repo *)  
+  | Bsb_file_not_exist (** We assume that it is a clean repo *)
   | Bsb_source_directory_changed
-  | Bsb_bsc_version_mismatch  
+  | Bsb_dep_digest
+  | Bsb_bsc_version_mismatch
   | Bsb_forced
   | Other of string
 
-val pp_check_result : 
-  Format.formatter -> 
-  check_result -> 
+val pp_check_result :
+  Format.formatter ->
+  check_result ->
   unit
 
 
@@ -58,16 +59,18 @@ val pp_check_result :
     We serialize such data structure and call {!check} to decide
     [build.ninja] should be regenerated
 *)
-val record : 
-  per_proj_dir:string -> 
-  file:string -> 
-  string list -> 
-  unit
+val record :
+  deps_digest:string ->
+  per_proj_dir:string ->
+  file:string ->
+  string list ->
+  string
 
 
 (** check if [build.ninja] should be regenerated *)
 val check :
-  per_proj_dir:string ->  
-  forced:bool -> 
-  file:string -> 
+  deps_digest:string ->
+  per_proj_dir:string ->
+  forced:bool ->
+  file:string ->
   check_result

@@ -214,6 +214,7 @@ let emit_module_build
 let handle_files_per_dir
     ~(global_config: Bsb_ninja_global_vars.t)
     ~bs_suffix
+    ~digest
     ~(rules : Bsb_ninja_rule.builtin)
     ~package_specs
     ~js_post_build_cmd
@@ -244,7 +245,6 @@ let handle_files_per_dir
   Buffer.add_string buf Literals.dune_inc;
   Buffer.add_string buf ")\n";
   let js_targets, d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
-      assert (module_info.dir = group.dir);
       if installable module_name then
         Hash_set_string.add files_to_install
           module_info.name_sans_extension;
@@ -261,7 +261,7 @@ let handle_files_per_dir
       (js_outputs :: acc_js, output_d :: acc_d)
   )
   in
-  Bsb_ninja_targets.output_dune_inc buf ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
+  Bsb_ninja_targets.output_dune_inc buf ~digest ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
   Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
   Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[dune_inc];
   Bsb_ninja_targets.revise_dune dune buf

@@ -81,8 +81,9 @@ let output_static_resources
       ~inputs:[]
       ~output:Literals.build_ninja
 
-
+(* returns the digest of the relevant project files. *)
 let output_ninja_and_namespace_map
+    ~digest
     ~per_proj_dir
     ~toplevel
     ({
@@ -178,7 +179,7 @@ let output_ninja_and_namespace_map
        if Map_string.mem lib k  then
          raise (Bsb_db_util.conflict_module_info k a (Map_string.find_exn lib k))
     ) ;
-  let digest = Bsb_db_encode.write_build_cache ~dir:cwd_lib_bs bs_groups in
+  Bsb_db_encode.write_build_cache ~proj_dir:per_proj_dir bs_groups;
   let rules : Bsb_ninja_rule.builtin =
       Bsb_ninja_rule.make_custom_rules
       ~global_config
@@ -199,6 +200,7 @@ let output_ninja_and_namespace_map
     (fun files_per_dir ->
        Bsb_ninja_file_groups.handle_files_per_dir
          ~global_config
+         ~digest
          ~bs_suffix
          ~rules
          ~js_post_build_cmd

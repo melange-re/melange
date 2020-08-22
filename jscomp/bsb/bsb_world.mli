@@ -31,4 +31,4 @@ val install_targets:
 val make_world_deps:
   string ->
   Bsb_config_types.t option ->
-  unit
+  string

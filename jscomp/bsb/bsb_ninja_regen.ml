@@ -32,14 +32,16 @@ let (//) = Ext_path.combine
 *)
 let regenerate_ninja
     ~(toplevel_package_specs : Bsb_package_specs.t option)
+    ?(deps_digest="")
     ~forced ~per_proj_dir
-  : Bsb_config_types.t option =
+  : (Bsb_config_types.t * string) option =
   let toplevel = toplevel_package_specs = None in
   let lib_artifacts_dir = !Bsb_global_backend.lib_artifacts_dir in
   let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
   let output_deps = lib_bs_dir // bsdeps in
   let check_result  =
     Bsb_ninja_check.check
+      ~deps_digest
       ~per_proj_dir:per_proj_dir
       ~forced ~file:output_deps in
   Bsb_log.info
@@ -51,6 +53,7 @@ let regenerate_ninja
   | Bsb_bsc_version_mismatch
   | Bsb_file_not_exist
   | Bsb_source_directory_changed
+  | Bsb_dep_digest
   | Other _ ->
     if check_result = Bsb_bsc_version_mismatch then begin
       Bsb_log.warn "@{<info>Different compiler version@}: clean current repo@.";
@@ -67,6 +70,11 @@ let regenerate_ninja
       (fun x ->
         let dir = per_proj_dir // x in (*Unix.EEXIST error*)
         if not (Sys.file_exists dir) then  Unix.mkdir dir 0o777);
+    (* PR2184: we still need record empty dir
+        since it may add files in the future *)
+    let proj_digest = Bsb_ninja_check.record ~deps_digest ~per_proj_dir ~file:output_deps
+      (Literals.bsconfig_json::config.file_groups.globbed_dirs)
+    in
 #ifdef BS_NATIVE
     if !Bsb_global_backend.backend = Bsb_config_types.Js then begin
       Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
@@ -84,13 +92,8 @@ let regenerate_ninja
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
        config;
     Bsb_ninja_gen.output_ninja_and_namespace_map
-      ~per_proj_dir  ~toplevel config ;
+      ~digest:(deps_digest ^ proj_digest) ~per_proj_dir  ~toplevel config;
 #endif
 
-    (* PR2184: we still need record empty dir
-        since it may add files in the future *)
-    Bsb_ninja_check.record ~per_proj_dir ~file:output_deps
-      (Literals.bsconfig_json::config.file_groups.globbed_dirs) ;
-    Some config
-
+    Some (config, proj_digest)
 

@@ -197,23 +197,25 @@ let install_target config_opt =
                  begin Hash_set_string.add config.files_to_install module_info.name_sans_extension end
             )) in
       config
-    | Some config -> config in
+    | Some (config, _digest) -> config in
   Bsb_world.install_targets Bsb_global_paths.cwd config
 
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
   let argv = Sys.argv in
+  let deps_digest = ref None in
   try begin
     match argv with
     | [| _ |]
     | [| _; "-verbose" |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
       Bsb_log.verbose ();
       let config = Bsb_ninja_regen.regenerate_ninja
+        ?deps_digest:!deps_digest
         ~toplevel_package_specs:None
         ~forced:false
         ~per_proj_dir:Bsb_global_paths.cwd
       in
-      Ext_option.iter config (fun config ->
+      Ext_option.iter config (fun (config, _digest) ->
         ninja_command_exit ~dirs:config.file_groups.files [||])
     | argv ->
       begin
@@ -238,13 +240,18 @@ let () =
                 (if !watch_mode then
                     program_exit ()) (* bsb -verbose hit here *)
               else
-                (let config_opt =
-                   Bsb_ninja_regen.regenerate_ninja
-                     ~toplevel_package_specs:None
-                     ~forced:force_regenerate ~per_proj_dir:Bsb_global_paths.cwd   in
-                 if make_world then begin
-                   Bsb_world.make_world_deps Bsb_global_paths.cwd config_opt
+                (if make_world then begin
+                   let world_digest =
+                     Bsb_world.make_world_deps Bsb_global_paths.cwd None
+                   in
+                   deps_digest := Some world_digest;
                  end;
+                 let config_opt =
+                   Bsb_ninja_regen.regenerate_ninja
+                     ?deps_digest:!deps_digest
+                     ~toplevel_package_specs:None
+                     ~forced:force_regenerate ~per_proj_dir:Bsb_global_paths.cwd
+                 in
                  if !watch_mode then begin
                    program_exit ()
                    (* ninja is not triggered in this case
@@ -267,16 +274,21 @@ let () =
             ~finish:i
             bsb_main_flags handle_anonymous_arg  ;
             let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
+            (* [-make-world] should never be combined with [-package-specs] *)
+            if !make_world then begin
+             let world_digest =
+               Bsb_world.make_world_deps Bsb_global_paths.cwd None
+             in
+             deps_digest := Some world_digest
+            end;
             let config_opt =
               (Bsb_ninja_regen.regenerate_ninja
+                ?deps_digest:!deps_digest
                 ~toplevel_package_specs:None
                 ~per_proj_dir:Bsb_global_paths.cwd
                 ~forced:!force_regenerate) in
-            (* [-make-world] should never be combined with [-package-specs] *)
-            if !make_world then
-              Bsb_world.make_world_deps Bsb_global_paths.cwd  config_opt;
             if !do_install then
-              install_target ( config_opt);
+              install_target config_opt;
             if !watch_mode then program_exit ()
             else ninja_command_exit  ninja_args
           end
