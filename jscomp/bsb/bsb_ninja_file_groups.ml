@@ -245,7 +245,6 @@ let handle_files_per_dir
   Buffer.add_string buf Literals.dune_inc;
   Buffer.add_string buf ")\n";
   let js_targets, d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
-      assert (module_info.dir = group.dir);
       if installable module_name then
         Hash_set_string.add files_to_install
           module_info.name_sans_extension;

@@ -26,7 +26,7 @@
   generate ninja file based on [cwd]
 *)
 val output_ninja_and_namespace_map :
-  ?deps_digest:string ->
+  digest:string ->
   per_proj_dir:string ->
   toplevel:bool ->
-  Bsb_config_types.t -> string
+  Bsb_config_types.t -> unit

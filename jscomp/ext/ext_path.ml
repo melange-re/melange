@@ -323,3 +323,15 @@ let find_package_json_dir cwd  =
   find_root_filename ~cwd  Literals.bsconfig_json
 
 let package_dir = lazy (find_package_json_dir (Lazy.force cwd))
+
+let real_path link_path =
+  match Unix.lstat link_path with
+  | { st_kind = S_LNK; _ } ->
+    let realpath = Unix.readlink link_path in
+    if Filename.is_relative realpath then
+      (Filename.dirname link_path) // realpath
+    else
+      realpath
+  | _other ->
+    link_path
+

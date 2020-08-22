@@ -41,7 +41,7 @@ let regenerate_ninja
   let output_deps = lib_bs_dir // bsdeps in
   let check_result  =
     Bsb_ninja_check.check
-      ~digest:deps_digest
+      ~deps_digest
       ~per_proj_dir:per_proj_dir
       ~forced ~file:output_deps in
   Bsb_log.info
@@ -70,6 +70,11 @@ let regenerate_ninja
       (fun x ->
         let dir = per_proj_dir // x in (*Unix.EEXIST error*)
         if not (Sys.file_exists dir) then  Unix.mkdir dir 0o777);
+    (* PR2184: we still need record empty dir
+        since it may add files in the future *)
+    let proj_digest = Bsb_ninja_check.record ~deps_digest ~per_proj_dir ~file:output_deps
+      (Literals.bsconfig_json::config.file_groups.globbed_dirs)
+    in
 #ifdef BS_NATIVE
     if !Bsb_global_backend.backend = Bsb_config_types.Js then begin
       Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
@@ -86,15 +91,9 @@ let regenerate_ninja
 #else
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
        config;
-    let digest = Bsb_ninja_gen.output_ninja_and_namespace_map
-      ~deps_digest ~per_proj_dir  ~toplevel config
-    in
+    Bsb_ninja_gen.output_ninja_and_namespace_map
+      ~digest:(deps_digest ^ proj_digest) ~per_proj_dir  ~toplevel config;
 #endif
 
-    (* PR2184: we still need record empty dir
-        since it may add files in the future *)
-    Bsb_ninja_check.record ~digest:deps_digest ~per_proj_dir ~file:output_deps
-      (Literals.bsconfig_json::config.file_groups.globbed_dirs) ;
-    Some (config, digest)
-
+    Some (config, proj_digest)
 

@@ -60,16 +60,16 @@ val pp_check_result :
     [build.ninja] should be regenerated
 *)
 val record :
-  digest:string ->
+  deps_digest:string ->
   per_proj_dir:string ->
   file:string ->
   string list ->
-  unit
+  string
 
 
 (** check if [build.ninja] should be regenerated *)
 val check :
-  digest:string ->
+  deps_digest:string ->
   per_proj_dir:string ->
   forced:bool ->
   file:string ->

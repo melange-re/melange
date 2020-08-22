@@ -62,16 +62,13 @@ let make_encoding length buf : Ext_buffer.t -> int -> unit =
   they are only used to control the order.
   Strictly speaking, [tmp_buf1] is not needed
 *)
-let encode_single ~proj_dir (db : Bsb_db.map) (buf : Ext_buffer.t) (digest_buf : Ext_buffer.t) =
+let encode_single ~proj_dir (db : Bsb_db.map) (buf : Ext_buffer.t) =
   (* module name section *)
   let len = Map_string.cardinal db in
   Ext_buffer.add_string_char buf (string_of_int len) '\n';
   if len <> 0 then begin
     let mapping = Hash_string.create 50 in
-    Map_string.iter db (fun name ({dir} as module_info) ->
-        let file = Bsb_db_util.filename ~proj_dir module_info in
-        Ext_buffer.add_string digest_buf (Digest.file file);
-
+    Map_string.iter db (fun name {dir} ->
         Ext_buffer.add_string_char buf name '\n';
         if not (Hash_string.mem mapping dir) then
           Hash_string.add mapping dir (Hash_string.length mapping)
@@ -90,10 +87,8 @@ let encode_single ~proj_dir (db : Bsb_db.map) (buf : Ext_buffer.t) (digest_buf :
   end
 
 let encode ~proj_dir (dbs : Bsb_db.t) buf =
-  let digest_buf = Ext_buffer.create 1024 in
-  encode_single ~proj_dir dbs.lib buf digest_buf;
-  encode_single ~proj_dir dbs.dev buf digest_buf;
-  Digest.to_hex (Ext_buffer.digest digest_buf)
+  encode_single ~proj_dir dbs.lib buf;
+  encode_single ~proj_dir dbs.dev buf
 
 
 (*  shall we avoid writing such file (checking the digest)?
@@ -101,11 +96,10 @@ let encode ~proj_dir (dbs : Bsb_db.t) buf =
   we should we avoid it in the first place, if we do start scanning,
   this operation seems affordable
  *)
-let write_build_cache ~proj_dir (bs_files : Bsb_db.t)  : string =
+let write_build_cache ~proj_dir (bs_files : Bsb_db.t)  : unit =
   let lib_artifacts_dir = !Bsb_global_backend.lib_artifacts_dir in
   let oc = open_out_bin Ext_path.(proj_dir // lib_artifacts_dir // bsbuild_cache) in
   let buf = Ext_buffer.create 100_000 in
-  let project_digest = encode ~proj_dir bs_files buf in
+  encode ~proj_dir bs_files buf;
   Ext_buffer.output_buffer oc buf;
-  close_out oc;
-  project_digest
+  close_out oc

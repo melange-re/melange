@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+let (//) = Ext_path.combine
 
 type t =
   {
@@ -73,7 +74,7 @@ let rec check_aux cwd (xs : string array) (ys: float array) i finish =
   if i = finish then Good
   else
     let current_file = Array.unsafe_get  xs i  in
-    
+
     let stat = Unix.stat  (Filename.concat cwd  current_file) in
     if stat.st_mtime <= Array.unsafe_get ys i then
       check_aux cwd xs ys (i + 1 ) finish
@@ -91,7 +92,7 @@ let read (fname : string) (cont : t -> check_result) =
       cont res
   | exception _ -> Bsb_file_not_exist
 
-let record ~digest ~per_proj_dir ~file  (file_or_dirs : string list) : unit =
+let record ~deps_digest ~per_proj_dir ~file  (file_or_dirs : string list) : string =
   let dir_or_files = Array.of_list file_or_dirs in
   let st_mtimes =
     Ext_array.map dir_or_files
@@ -99,12 +100,16 @@ let record ~digest ~per_proj_dir ~file  (file_or_dirs : string list) : unit =
            (Unix.stat (Filename.concat per_proj_dir  x )).st_mtime
          )
   in
+  let sum = Ext_array.fold_left st_mtimes 0. (+.) in
+  let digest = Digest.to_hex (Digest.string (string_of_float sum)) in
+  let digest = deps_digest ^ digest in
   write (Ext_string.concat3 file "_" !Bsb_global_backend.backend_string)
     { st_mtimes ;
       dir_or_files;
       source_directory = per_proj_dir ;
-      digest;
-    }
+      digest = deps_digest;
+    };
+  digest
 
 (** check time stamp for all files
     TODO: those checks system call can be saved later
@@ -112,13 +117,13 @@ let record ~digest ~per_proj_dir ~file  (file_or_dirs : string list) : unit =
     Even forced, we still need walk through a little
     bit in case we found a different version of compiler
 *)
-let check ~digest ~(per_proj_dir:string) ~forced ~file : check_result =
+let check ~deps_digest ~(per_proj_dir:string) ~forced ~file : check_result =
   read (Ext_string.concat3 file "_" !Bsb_global_backend.backend_string)  (fun  {
       dir_or_files ; source_directory; st_mtimes; digest = old_digest
     } ->
       if per_proj_dir <> source_directory then Bsb_source_directory_changed else
       if forced then Bsb_forced (* No need walk through *)
-      else if old_digest <> digest then Bsb_dep_digest
+      else if old_digest <> deps_digest then Bsb_dep_digest
       else
         try
           check_aux per_proj_dir dir_or_files st_mtimes  0 (Array.length dir_or_files)

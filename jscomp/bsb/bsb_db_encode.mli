@@ -27,7 +27,7 @@ val encode :
   proj_dir:string ->
   Bsb_db.t ->
   Ext_buffer.t ->
-  string
+  unit
 
 val write_build_cache :
-  proj_dir:string -> Bsb_db.t -> string
+  proj_dir:string -> Bsb_db.t -> unit

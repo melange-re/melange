@@ -83,7 +83,7 @@ let output_static_resources
 
 (* returns the digest of the relevant project files. *)
 let output_ninja_and_namespace_map
-    ?(deps_digest="")
+    ~digest
     ~per_proj_dir
     ~toplevel
     ({
@@ -108,7 +108,7 @@ let output_ninja_and_namespace_map
       warning;
       gentype_config;
 
-    } : Bsb_config_types.t) : string
+    } : Bsb_config_types.t) : unit
   =
   let lib_artifacts_dir = !Bsb_global_backend.lib_artifacts_dir in
   let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in
@@ -179,8 +179,7 @@ let output_ninja_and_namespace_map
        if Map_string.mem lib k  then
          raise (Bsb_db_util.conflict_module_info k a (Map_string.find_exn lib k))
     ) ;
-  let digest = Bsb_db_encode.write_build_cache ~proj_dir:per_proj_dir bs_groups in
-  let digest = deps_digest ^ digest in
+  Bsb_db_encode.write_build_cache ~proj_dir:per_proj_dir bs_groups;
   let rules : Bsb_ninja_rule.builtin =
       Bsb_ninja_rule.make_custom_rules
       ~global_config
@@ -226,6 +225,4 @@ let output_ninja_and_namespace_map
         ~rule:rules.build_package
     );
   Buffer.add_char buf '\n';
-  Bsb_ninja_targets.revise_dune dune buf;
-
-  digest
+  Bsb_ninja_targets.revise_dune dune buf
