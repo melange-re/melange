@@ -232,9 +232,11 @@ let handle_files_per_dir
       Set_string.mem set module_name in
   let group_dir = global_config.src_root_dir // group.dir in
   let dune_inc = group_dir // Literals.dune_inc in
+  if not (Sys.file_exists dune_inc) then begin
   let buf = Buffer.create 128 in
-  (* Empty buffer, populated by dune. *)
-  Bsb_ninja_targets.revise_dune dune_inc buf;
+    (* Empty buffer, populated by dune. *)
+    Bsb_ninja_targets.revise_dune dune_inc buf;
+  end;
   let dune = group_dir // Literals.dune in
   let buf = Buffer.create 1024 in
   Buffer.add_char buf '\n';
