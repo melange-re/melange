@@ -26,7 +26,7 @@
 (* default to false -check later*)
 (* Clflags.keep_locs := false; *)
 let setup_env () =
-  Env.Persistent_signature.load := Bs_cmi_load.load_cmi;    
+  Env.Persistent_signature.load := Bs_cmi_load.load_cmi;
   Translcore.wrap_single_field_record := Transl_single_field_record.wrap_single_field_record;
   Translmod.eval_rec_bindings := Compile_rec_module.eval_rec_bindings;
   Typemod.should_hide := Typemod_hide.should_hide;
@@ -36,10 +36,10 @@ let setup_env () =
   Clflags.no_std_include := true;
   Warnings.parse_options false Bsc_warnings.defaults_w;
   Warnings.parse_options true Bsc_warnings.defaults_warn_error;
-  Clflags.dump_location := false;  
+  Clflags.dump_location := false;
   Clflags.compile_only := true;
-  Config.bs_only := true;  
-  Clflags.no_implicit_current_dir := true; 
+  Config.bs_only := true;
+  Clflags.no_implicit_current_dir := true;
   Clflags.color := Some Always;
   (* default true
      otherwise [bsc -I sc src/hello.ml ] will include current directory to search path
@@ -59,15 +59,15 @@ let setup_env () =
   Lambda.fld_record := Record_attributes_check.fld_record;
   Lambda.fld_record_set := Record_attributes_check.fld_record_set;
   Lambda.blk_record := Record_attributes_check.blk_record;
-  Matching.names_from_construct_pattern := 
+  Matching.names_from_construct_pattern :=
     Matching_polyfill.names_from_construct_pattern;
-#if undefined BS_RELEASE_BUILD then
+#ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
-#end
+#endif
   Lexer.replace_directive_bool "BS" true;
   Lexer.replace_directive_bool "JS" true;
   Lexer.replace_directive_string "BS_VERSION"  Bs_version.version
-#if false then
+#if false
   ; Switch.cut := 100 (* tweakable but not very useful *)
-#end  
+#endif
 

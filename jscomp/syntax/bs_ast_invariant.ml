@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,39 +17,39 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-let is_bs_attribute txt = 
+let is_bs_attribute txt =
   let len = String.length txt  in
   len >= 2 &&
   (*TODO: check the stringing padding rule, this preciate may not be needed *)
-  String.unsafe_get txt 0 = 'b'&& 
+  String.unsafe_get txt 0 = 'b'&&
   String.unsafe_get txt 1 = 's' &&
   (len = 2 ||
    String.unsafe_get txt 2 = '.'
   )
 
-let used_attributes : string Asttypes.loc Hash_set_poly.t = 
-    Hash_set_poly.create 16 
+let used_attributes : string Asttypes.loc Hash_set_poly.t =
+    Hash_set_poly.create 16
 
 
-#if false then
-let dump_attribute fmt = (fun ( (sloc : string Asttypes.loc),payload) -> 
+#if false
+let dump_attribute fmt = (fun ( (sloc : string Asttypes.loc),payload) ->
     Format.fprintf fmt "@[%s %a@]" sloc.txt (Printast.payload 0 ) payload
     )
 
-let dump_used_attributes fmt = 
+let dump_used_attributes fmt =
   Format.fprintf fmt "Used attributes Listing Start:@.";
   Hash_set_poly.iter  used_attributes (fun attr -> dump_attribute fmt attr) ;
   Format.fprintf fmt "Used attributes Listing End:@."
-#end
+#endif
 
 (* only mark non-ghost used bs attribute *)
-let mark_used_bs_attribute ((x,_) : Parsetree.attribute) = 
+let mark_used_bs_attribute ((x,_) : Parsetree.attribute) =
   if not x.loc.loc_ghost then
     Hash_set_poly.add used_attributes x
 
@@ -57,78 +57,79 @@ let dummy_unused_attribute : Warnings.t = (Bs_unused_attribute "")
 
 
 
-let warn_unused_attribute 
-  (({txt; loc} as sloc, _) : Parsetree.attribute) = 
-  if is_bs_attribute txt && 
+let warn_unused_attribute
+  (({txt; loc} as sloc, _) : Parsetree.attribute) =
+  if is_bs_attribute txt &&
      not loc.loc_ghost &&
-     not (Hash_set_poly.mem used_attributes sloc) then 
-    begin    
-#if false then (*COMMENT*)
-      dump_used_attributes Format.err_formatter; 
+     not (Hash_set_poly.mem used_attributes sloc) then
+    begin
+#if false
+   (*COMMENT*)
+      dump_used_attributes Format.err_formatter;
       dump_attribute Format.err_formatter attr ;
-#end
+#endif
       Location.prerr_warning loc (Bs_unused_attribute txt)
     end
 
-let warn_discarded_unused_attributes (attrs : Parsetree.attributes) = 
-  if attrs <> [] then 
+let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
+  if attrs <> [] then
     Ext_list.iter attrs warn_unused_attribute
-    
+
 
 type iterator = Ast_iterator.iterator
 let default_iterator = Ast_iterator.default_iterator
-(* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead of 
+(* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead of
    rolling our own*)
 let emit_external_warnings : iterator=
   {
     default_iterator with
     attribute = (fun _ attr -> warn_unused_attribute attr);
-    expr = (fun self a -> 
-        match a.pexp_desc with 
+    expr = (fun self a ->
+        match a.pexp_desc with
         | Pexp_constant (
           Pconst_string
-          (_, Some s)) 
-          when Ast_utf8_string_interp.is_unescaped s -> 
-          Bs_warnings.error_unescaped_delimiter a.pexp_loc s 
-        | Pexp_constant(Pconst_integer(s,None)) -> 
-          (* range check using int32 
+          (_, Some s))
+          when Ast_utf8_string_interp.is_unescaped s ->
+          Bs_warnings.error_unescaped_delimiter a.pexp_loc s
+        | Pexp_constant(Pconst_integer(s,None)) ->
+          (* range check using int32
             It is better to give a warning instead of error to avoid make people unhappy.
-            It also has restrictions in which platform bsc is running on since it will 
+            It also has restrictions in which platform bsc is running on since it will
             affect int ranges
           *)
           (
-            try 
+            try
               ignore (
-                if String.length s = 0 || s.[0] = '-' then 
-                  Int32.of_string s 
+                if String.length s = 0 || s.[0] = '-' then
+                  Int32.of_string s
                 else Int32.of_string ("-" ^ s))
-            with _ ->              
+            with _ ->
               Bs_warnings.warn_literal_overflow a.pexp_loc
           )
-        | _ -> default_iterator.expr self a 
+        | _ -> default_iterator.expr self a
       );
-    label_declaration = (fun self lbl ->     
-     
-      Ext_list.iter lbl.pld_attributes 
-        (fun attr -> 
-          match attr with 
+    label_declaration = (fun self lbl ->
+
+      Ext_list.iter lbl.pld_attributes
+        (fun attr ->
+          match attr with
           | {txt = "bs.as"}, _ -> mark_used_bs_attribute attr
           | _ -> ()
           );
-      default_iterator.label_declaration self lbl      
-    );  
-    constructor_declaration = (fun self ({pcd_name = {txt;loc}} as ctr) -> 
-      (match txt with  
+      default_iterator.label_declaration self lbl
+    );
+    constructor_declaration = (fun self ({pcd_name = {txt;loc}} as ctr) ->
+      (match txt with
       | "false"
-      | "true" 
-      | "()" -> 
+      | "true"
+      | "()" ->
         Location.raise_errorf ~loc:loc "%s can not be redefined " txt
       | _ -> ());
-      default_iterator.constructor_declaration self ctr  
+      default_iterator.constructor_declaration self ctr
     );
     value_description =
-      (fun self v -> 
-         match v with 
+      (fun self v ->
+         match v with
          | ( {
              pval_loc;
              pval_prim =
@@ -137,50 +138,50 @@ let emit_external_warnings : iterator=
            } : Parsetree.value_description)
            when not
                (Ast_core_type.is_arity_one pval_type)
-           -> 
+           ->
            Location.raise_errorf
              ~loc:pval_loc
              "%%identity expect its type to be of form 'a -> 'b (arity 1)"
          | _ ->
-           default_iterator.value_description self v 
+           default_iterator.value_description self v
       );
-      pat = begin fun self (pat : Parsetree.pattern) -> 
+      pat = begin fun self (pat : Parsetree.pattern) ->
                   match pat.ppat_desc with
                   |  Ppat_constant(
             Pconst_string
          (_, Some "j")) ->
-        Location.raise_errorf ~loc:pat.ppat_loc  "Unicode string is not allowed in pattern match" 
+        Location.raise_errorf ~loc:pat.ppat_loc  "Unicode string is not allowed in pattern match"
       | _ -> default_iterator.pat self pat
-      end 
+      end
   }
 
-let rec iter_warnings_on_stru (stru : Parsetree.structure) = 
-  match stru with 
-  | [] -> ()  
-  | head :: rest -> 
-    begin match head.pstr_desc with 
-      | Pstr_attribute attr -> 
+let rec iter_warnings_on_stru (stru : Parsetree.structure) =
+  match stru with
+  | [] -> ()
+  | head :: rest ->
+    begin match head.pstr_desc with
+      | Pstr_attribute attr ->
         Builtin_attributes.warning_attribute attr;
-        iter_warnings_on_stru rest 
+        iter_warnings_on_stru rest
       |  _ -> ()
     end
 
-let rec iter_warnings_on_sigi (stru : Parsetree.signature) = 
-  match stru with 
-  | [] -> ()  
-  | head :: rest -> 
-    begin match head.psig_desc with 
-      | Psig_attribute attr -> 
+let rec iter_warnings_on_sigi (stru : Parsetree.signature) =
+  match stru with
+  | [] -> ()
+  | head :: rest ->
+    begin match head.psig_desc with
+      | Psig_attribute attr ->
         Builtin_attributes.warning_attribute attr;
-        iter_warnings_on_sigi rest 
+        iter_warnings_on_sigi rest
       |  _ -> ()
     end
 
 
-let emit_external_warnings_on_structure  (stru : Parsetree.structure) =   
-  if Warnings.is_active dummy_unused_attribute then 
+let emit_external_warnings_on_structure  (stru : Parsetree.structure) =
+  if Warnings.is_active dummy_unused_attribute then
     emit_external_warnings.structure emit_external_warnings stru
 
-let emit_external_warnings_on_signature  (sigi : Parsetree.signature) = 
-  if Warnings.is_active dummy_unused_attribute then 
+let emit_external_warnings_on_signature  (sigi : Parsetree.signature) =
+  if Warnings.is_active dummy_unused_attribute then
     emit_external_warnings.signature emit_external_warnings sigi

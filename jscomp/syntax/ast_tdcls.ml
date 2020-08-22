@@ -42,9 +42,9 @@ let newTdcls
            { x with
              Parsetree.ptype_attributes = newAttrs}
          else x )
-      
 
-#if BS_NATIVE_PPX then
+
+#ifdef BS_NATIVE_PPX
 
 let turn_bs_optional_into_optional (tdcls : Parsetree.type_declaration list) =
    List.map (fun tdcl -> match tdcl.Parsetree.ptype_kind with
@@ -66,13 +66,13 @@ let turn_bs_optional_into_optional (tdcls : Parsetree.type_declaration list) =
          ) labels)}
    | _ -> tdcl) tdcls
 
-#end
+#endif
 
 
 let handleTdclsInSigi
     (self : Bs_ast_mapper.mapper)
     (sigi : Parsetree.signature_item)
-    rf 
+    rf
     (tdcls : Parsetree.type_declaration list)
   : Ast_signature.item =
   begin match Ast_attributes.process_derive_type
@@ -84,11 +84,11 @@ let handleTdclsInSigi
     let newTdclsNewAttrs = self.type_declaration_list self originalTdclsNewAttrs in
     let kind = Ast_derive_abstract.isAbstract actions in
     if kind <> Not_abstract then
-#if BS_NATIVE_PPX then
+#ifdef BS_NATIVE_PPX
       let  codes = Native_ast_derive_abstract.handleTdclsInSig ~light:(kind = Light_abstract) originalTdclsNewAttrs in
 #else
       let  codes = Ast_derive_abstract.handleTdclsInSig ~light:(kind = Light_abstract) rf originalTdclsNewAttrs in
-#end
+#endif
       Ast_signature.fuseAll ~loc
         (
           Sig.include_ ~loc
@@ -96,11 +96,11 @@ let handleTdclsInSigi
                (Mty.typeof_ ~loc
                   (Mod.constraint_ ~loc
                      (Mod.structure ~loc [
-#if BS_NATIVE_PPX then
+#ifdef BS_NATIVE_PPX
                          Ast_compatible.rec_type_str ~loc (turn_bs_optional_into_optional newTdclsNewAttrs)
 #else
                          Ast_compatible.rec_type_str ~loc rf newTdclsNewAttrs
-#end
+#endif
                          ] )
                      (Mty.signature ~loc [])) ) )
           :: (* include module type of struct [processed_code for checking like invariance ]end *)
@@ -108,7 +108,7 @@ let handleTdclsInSigi
         )
     else
       Ast_signature.fuseAll ~loc
-        ( 
+        (
           Ast_compatible.rec_type_sig ~loc rf newTdclsNewAttrs
         ::
          self.signature
@@ -136,9 +136,9 @@ let handleTdclsInStru
     let newStr : Parsetree.structure_item =
       Ast_compatible.rec_type_str ~loc rf (self.type_declaration_list self originalTdclsNewAttrs)
     in
-    let kind = Ast_derive_abstract.isAbstract actions in 
+    let kind = Ast_derive_abstract.isAbstract actions in
     if kind <> Not_abstract then
-#if BS_NATIVE_PPX then
+#ifdef BS_NATIVE_PPX
       let (codes, codes_sig) = Native_ast_derive_abstract.handleTdclsInStr ~light:(kind = Light_abstract) originalTdclsNewAttrs in
        (* the codes_sig will hide the implementation of the type that is a record. *)
        Ast_structure.constraint_ ~loc
@@ -153,7 +153,7 @@ let handleTdclsInStru
           Ast_structure.constraint_ ~loc [newStr] []
           :: (* [include struct end : sig end] for error checking *)
           self.structure self codes)
-#end
+#endif
 
     else
       Ast_structure.fuseAll ~loc

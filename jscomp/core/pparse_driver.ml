@@ -37,7 +37,8 @@ let parse (type a) (kind : a Ml_binary.kind) : _ -> a =
   | Ml_binary.Ml -> Parse.implementation 
   | Ml_binary.Mli -> Parse.interface 
 
-let file_aux  inputfile (type a) (parse_fun  : _ -> a)
+(* [filename] is the real file name, e.g. before pre-processing. *)
+let file_aux ~filename inputfile (type a) (parse_fun  : _ -> a)
              (kind : a Ml_binary.kind) : a  =
   let ast_magic = Ml_binary.magic_of_kind kind in
   let ic = open_in_bin inputfile in
@@ -57,7 +58,7 @@ let file_aux  inputfile (type a) (parse_fun  : _ -> a)
       end else begin
         seek_in ic 0;
         let lexbuf = Lexing.from_channel ic in
-        Location.init lexbuf inputfile;
+        Location.init lexbuf filename;
         parse_fun lexbuf
       end
     with x -> close_in ic; raise x
@@ -72,8 +73,8 @@ let parse_file (type a) (kind  : a Ml_binary.kind) (sourcefile : string) : a =
   Location.set_input_name  sourcefile;
   let inputfile = preprocess sourcefile in
   let ast =
-    try 
-      (file_aux   inputfile (parse kind)  kind)
+    try
+      (file_aux ~filename:sourcefile inputfile (parse kind) kind)
     with exn ->
       remove_preprocessed inputfile;
       raise exn

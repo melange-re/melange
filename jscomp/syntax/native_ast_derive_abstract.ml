@@ -2,15 +2,15 @@ module U = Ast_derive_util
 open Ast_helper
 type tdcls = Parsetree.type_declaration list
 
-module Ast_attributes = struct 
-  include Ast_attributes  
-  let deprecated s : Ast_attributes.attr =       
+module Ast_attributes = struct
+  include Ast_attributes
+  let deprecated s : Ast_attributes.attr =
     {txt = "ocaml.deprecated"; loc = Location.none },
     PStr
       [
         {pstr_desc =
            Pstr_eval (
-             Ast_compatible.const_exp_string ~loc:Location.none s, 
+             Ast_compatible.const_exp_string ~loc:Location.none s,
              [])
         ; pstr_loc = Location.none}]
   let is_optional (attr : attr) =
@@ -28,7 +28,7 @@ let deprecated name =
     ("use " ^ name ^ "Get instead or use {abstract = light} explicitly")
 
 let strip_option arg_name =
-   match arg_name with 
+   match arg_name with
    | Asttypes.Nolabel -> assert false
    | Optional s
    | Labelled s -> s
@@ -79,9 +79,9 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) =
               Parsetree.label_declaration) (acc, maker, labels) ->
            let is_optional = Ast_attributes.has_bs_optional pld_attributes in
 
-           let newLabel = 
+           let newLabel =
             if is_optional
-              then {pld_name with txt = Asttypes.Optional pld_name.Asttypes.txt} 
+              then {pld_name with txt = Asttypes.Optional pld_name.Asttypes.txt}
               else {pld_name with txt = Asttypes.Labelled pld_name.Asttypes.txt}
             in
 
@@ -169,7 +169,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) =
          else maker_body) in
 
         let myMaker =
-#if BS_NATIVE_PPX then          
+#ifdef BS_NATIVE_PPX
 
          Str.value Nonrecursive [
            Vb.mk
@@ -183,8 +183,9 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) =
                      (Pat.var ({arg_name with txt = strip_option arg_name.Asttypes.txt})) rest))
                  ) makeType)
          ]
-#else         assert false
-#end
+#else
+ assert false
+#endif
          in
         (myMaker :: setter_accessor))
 
@@ -203,11 +204,12 @@ let code_sig_transform sigi = match sigi with
       } as _makerVb) :: []))
     } ->
     Sig.value (Val.mk ~loc:pstr_loc name typ)
-  | _ -> 
-#if BS_NATIVE_PPX  then
+  | _ ->
+#ifdef BS_NATIVE_PPX
     Sig.type_ Nonrecursive []
-#else assert false    
-#end
+#else
+ assert false
+#endif
 
 let handleTdclsInStr ~light rf tdcls =
   let tdcls, tdcls_sig, code, code_sig =
