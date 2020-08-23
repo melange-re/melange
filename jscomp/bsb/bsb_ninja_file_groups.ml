@@ -232,17 +232,17 @@ let handle_files_per_dir
       fun module_name ->
       Set_string.mem set module_name in
   let group_dir = global_config.src_root_dir // group.dir in
-  let dune_inc = group_dir // Literals.dune_inc in
-  if not (Sys.file_exists dune_inc) then begin
-  let buf = Buffer.create 128 in
+  let dune_bsb_inc = group_dir // Literals.dune_bsb_inc in
+  if not (Sys.file_exists dune_bsb_inc) then begin
+    let buf = Buffer.create 128 in
     (* Empty buffer, populated by dune. *)
-    Bsb_ninja_targets.revise_dune dune_inc buf;
+    Bsb_ninja_targets.revise_dune dune_bsb_inc buf;
   end;
-  let dune = group_dir // Literals.dune in
+  let dune_bsb = group_dir // Literals.dune_bsb in
   let buf = Buffer.create 1024 in
   Buffer.add_char buf '\n';
   Buffer.add_string buf "(include ";
-  Buffer.add_string buf Literals.dune_inc;
+  Buffer.add_string buf Literals.dune_bsb_inc;
   Buffer.add_string buf ")\n";
   let js_targets, d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
       if installable module_name then
@@ -261,10 +261,16 @@ let handle_files_per_dir
       (js_outputs :: acc_js, output_d :: acc_d)
   )
   in
-  Bsb_ninja_targets.output_dune_inc buf ~digest ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
+  Bsb_ninja_targets.output_dune_bsb_inc buf ~digest ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
   Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
-  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[dune_inc];
-  Bsb_ninja_targets.revise_dune dune buf
+  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[dune_bsb_inc];
+  Bsb_ninja_targets.revise_dune dune_bsb buf;
+
+  let buf = Buffer.create 128 in
+  Buffer.add_string buf "\n(include ";
+  Buffer.add_string buf Literals.dune_bsb;
+  Buffer.add_string buf ")\n";
+  Bsb_ninja_targets.revise_dune (group_dir // Literals.dune) buf
 
 
     (* ;

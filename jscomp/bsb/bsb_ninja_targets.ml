@@ -87,10 +87,10 @@ let revise_dune dune new_content =
     output_string ochan "\n";
     close_out ochan
 
-let output_dune_inc buf ~digest ~bs_dep_parse ~deps =
+let output_dune_bsb_inc buf ~digest ~bs_dep_parse ~deps =
  let deps = Ext_list.map deps Filename.basename in
  Buffer.add_string buf "(rule\n (targets ";
- Buffer.add_string buf Literals.dune_inc;
+ Buffer.add_string buf Literals.dune_bsb_inc;
  Buffer.add_string buf ")\n (deps";
  Ext_list.iter deps (fun dep ->
    Buffer.add_string buf Ext_string.single_space;

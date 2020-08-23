@@ -457,7 +457,7 @@ and walk_source_dir_map (cxt : walk_cxt)  sub_dirs_field =
         || (is_typescript && Ext_string.ends_with file Literals.suffix_gen_tsx)
         then
          Sys.remove (Filename.concat working_dir file);
-        if file = Literals.dune_inc then begin
+        if file = Literals.dune_bsb_inc || file = Literals.dune_bsb then begin
           let buf = Buffer.create 0 in
           Bsb_ninja_targets.revise_dune (Filename.concat working_dir file) buf
         end
