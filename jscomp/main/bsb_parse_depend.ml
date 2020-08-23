@@ -65,7 +65,7 @@ let parse_depends ~hash files =
     Buffer.add_string buf ")"
   end;
   Buffer.add_string buf ")\n");
- Bsb_ninja_targets.revise_dune Literals.dune_inc buf
+ Bsb_ninja_targets.revise_dune Literals.dune_bsb_inc buf
 
 let () =
   let argv = Sys.argv in
