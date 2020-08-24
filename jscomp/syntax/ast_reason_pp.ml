@@ -36,7 +36,10 @@ exception Pp_error
    Location.init lexbuf filename;
    parser lexbuf
   with
-  | _ -> raise Pp_error
+  | Reason_errors.Reason_error _ as rexn ->
+    raise rexn
+  | _ ->
+      raise Pp_error
 
  let parse_implementation filename =
    let omp_ast = setup_lexbuf
