@@ -1,4 +1,4 @@
-(* Copyright (C) 2019 - Authors of BuckleScript
+(* Copyright (C) 2015-2020 Authors of BuckleScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,26 +22,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+let init_path () =
+  let dirs = !Clflags.include_dirs in
+  let exp_dirs =
+    List.map (Misc.expand_directory Config.standard_library) dirs in
+    Config.load_path :=
+         List.rev_append exp_dirs (Clflags.std_include_dir ());
+  Env.reset_cache ()
 
-(* Target backend *)
-val backend : Bsb_config_types.compilation_kind_t ref
+(* Return the initial environment in which compilation proceeds. *)
 
-(* path to all intermediate build artifacts, would be lib/bs when compiling to JS *)
-val lib_artifacts_dir : string ref
+(* Note: do not do init_path() in initial_env, this breaks
+   toplevel initialization (PR#1775) *)
 
-(* path to the compiled artifacts, would be lib/ocaml when compiling to JS *)
-val lib_ocaml_dir : string ref
+let open_implicit_module m env =
+  let lid = {Asttypes.loc = Location.in_file "command line";
+             txt = Longident.parse m } in
+  snd (Typemod.type_open_ Override env lid.loc lid)
 
-val dune_build_dir : string ref
+let initial_env () =
+  Ident.reinit();
+  let initial =
+    if Config.safe_string then Env.initial_safe_string
+    else if !Clflags.unsafe_string then Env.initial_unsafe_string
+    else Env.initial_safe_string
+  in
+  let env =
+    if !Clflags.nopervasives then initial else
+    open_implicit_module "Pervasives" initial
+  in
+  List.fold_left (fun env m ->
+    open_implicit_module m env
+  ) env (List.rev !Clflags.open_modules)
 
-(* string representation of the target backend, would be "js" when compiling to js *)
-val backend_string: string ref
-
-
-#ifdef BS_NATIVE
-(* Flag to track whether backend has been set to a value. *)
-val backend_is_set : bool ref
-
-(* convenience setter to update all the refs according to the given target backend *)
-val set_backend : Bsb_config_types.compilation_kind_t -> unit
-#endif

@@ -61,7 +61,7 @@ let sourcedir_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
  let dirs = if namespace = None then source_dirs
   (* TODO: add the lib/bs dir where the mlmap file is. *)
   else begin
-   relativize_single !Bsb_global_backend.lib_artifacts_dir :: source_dirs
+   relativize_single Bsb_config.lib_bs :: source_dirs
   end
   (*working dir is [lib/bs] we include this path to have namespace mapping*)
  in

@@ -29,8 +29,8 @@ let (//) = Ext_path.combine
     logging installed files
 *)
 let install_targets cwd ({files_to_install; namespace; file_groups} as config : Bsb_config_types.t ) =
-  let lib_artifacts_dir = !Bsb_global_backend.lib_artifacts_dir in
-  let destdir = cwd // !Bsb_global_backend.lib_ocaml_dir in (* lib is already there after building, so just mkdir [lib/ocaml] *)
+  let lib_artifacts_dir = Bsb_config.lib_bs in
+  let destdir = cwd // Bsb_config.lib_ocaml in (* lib is already there after building, so just mkdir [lib/ocaml] *)
   if not @@ Sys.file_exists destdir then begin Unix.mkdir destdir 0o777  end;
   begin
     Bsb_log.info "@{<info>Installing started@}@.";

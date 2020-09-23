@@ -94,7 +94,6 @@ let emit_module_build
     (package_specs : Bsb_package_specs.t)
     (is_dev : bool)
     buf
-    ~bs_suffix
     ~per_proj_dir
     ~bs_dependencies_deps
     js_post_build_cmd
@@ -122,7 +121,7 @@ let emit_module_build
   let output_cmi =  output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
   let output_js =
-    Bsb_package_specs.get_list_of_output_js package_specs bs_suffix output_filename_sans_extension in
+    Bsb_package_specs.get_list_of_output_js package_specs output_filename_sans_extension in
   let common_shadows =
     make_common_shadows package_specs
       (Filename.dirname output_cmi)
@@ -186,7 +185,7 @@ let emit_module_build
    | Some ns ->
      [ (Ext_path.rel_normalized_absolute_path
        ~from:(per_proj_dir // cur_dir)
-       (per_proj_dir // !Bsb_global_backend.lib_artifacts_dir)) //
+       (per_proj_dir // Bsb_config.lib_bs)) //
       (ns ^ Literals.suffix_cmi) ]
    | None -> []
    in
@@ -213,7 +212,6 @@ let emit_module_build
 
 let handle_files_per_dir
     ~(global_config: Bsb_ninja_global_vars.t)
-    ~bs_suffix
     ~digest
     ~(rules : Bsb_ninja_rule.builtin)
     ~package_specs
@@ -252,7 +250,6 @@ let handle_files_per_dir
         package_specs
         group.dev_index
         buf
-        ~bs_suffix
         ~per_proj_dir:global_config.src_root_dir
         ~bs_dependencies_deps
         js_post_build_cmd
@@ -271,7 +268,6 @@ let handle_files_per_dir
   Buffer.add_string buf Literals.dune_bsb;
   Buffer.add_string buf ")\n";
   Bsb_ninja_targets.revise_dune (group_dir // Literals.dune) buf
-
 
     (* ;
     Bsb_ninja_targets.phony

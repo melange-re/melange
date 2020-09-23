@@ -98,11 +98,11 @@ function generateVisitorPattern() {
  */
 var getOcamldepFile = () => {
   return path.join(
-    __dirname,
-    "..",
-    "native",
-    require("./buildocaml.js").getVersionPrefix(),
-    "bin",
+    // __dirname,
+    // "..",
+    // "native",
+    // require("./buildocaml.js").getVersionPrefix(),
+    // "bin",
     "ocamldep.opt"
   );
 };
@@ -922,7 +922,7 @@ var compilerTarget = pseudoTarget(COMPILIER);
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
-  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A`;
+  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50`;
   var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
   var templateRuntimeRules = `
 
@@ -1155,7 +1155,7 @@ async function stdlibNinja() {
   var stdlibDir = path.join(jscompDir, stdlibVersion);
   var externalDeps = [othersTarget].map(x => `../others/${x.name}`);
   var ninjaOutput = 'dune.gen';
-  var warnings = "-w -9-3-106 -warn-error A";
+  var warnings = "-w -9-3-106";
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   ${warnings}  -I ../runtime  -I ../others`;
   /**
    * @type [string,string][]
@@ -1286,7 +1286,7 @@ function baseName(x) {
 async function testNinja() {
   var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A -I ../runtime -I ../stdlib-406 -I ../others`
+  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -I ../runtime -I ../stdlib-406 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
@@ -1501,10 +1501,6 @@ function main() {
   if (require.main === module) {
     if (process.argv.includes("-check")) {
       checkEffect();
-    }
-    if (process.argv.includes("-native")) {
-      process.env.BS_NATIVE = "true";
-      emptyCount++;
     }
     if (process.argv.includes("-playground")) {
       isPlayground = true;

@@ -103,7 +103,7 @@ let record ~deps_digest ~per_proj_dir ~file  (file_or_dirs : string list) : stri
   let sum = Ext_array.fold_left st_mtimes 0. (+.) in
   let digest = Digest.to_hex (Digest.string (string_of_float sum)) in
   let digest = deps_digest ^ digest in
-  write (Ext_string.concat3 file "_" !Bsb_global_backend.backend_string)
+  write (file ^ "_js" )
     { st_mtimes ;
       dir_or_files;
       source_directory = per_proj_dir ;
@@ -118,7 +118,7 @@ let record ~deps_digest ~per_proj_dir ~file  (file_or_dirs : string list) : stri
     bit in case we found a different version of compiler
 *)
 let check ~deps_digest ~(per_proj_dir:string) ~forced ~file : check_result =
-  read (Ext_string.concat3 file "_" !Bsb_global_backend.backend_string)  (fun  {
+  read (file ^ "_js")  (fun  {
       dir_or_files ; source_directory; st_mtimes; digest = old_digest
     } ->
       if per_proj_dir <> source_directory then Bsb_source_directory_changed else

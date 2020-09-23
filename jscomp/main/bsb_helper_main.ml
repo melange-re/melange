@@ -66,15 +66,13 @@ let () =
       match !rev_list with
       | [x]
         ->  Bsb_helper_depfile_gen.emit_d
-              Js
-              cwd
+              ~cwd
               !dev_group
               !namespace x ""
       | [y; x] (* reverse order *)
         ->
         Bsb_helper_depfile_gen.emit_d
-          Js
-          cwd
+          ~cwd
           !dev_group
           !namespace x y
       | _ ->
