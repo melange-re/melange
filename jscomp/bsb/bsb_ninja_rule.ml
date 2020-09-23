@@ -39,7 +39,6 @@ let output_rule (x : t) ?target cur_dir oc =
 
 let get_name (x : t) ?target cur_dir buf = x.name ?target cur_dir buf
 let print_rule (buf : Buffer.t)
-  ~description
   ?(restat : unit option)
   ?dyndep
   ~command
@@ -51,13 +50,11 @@ let print_rule (buf : Buffer.t)
 
 
 
-
 (** allocate an unique name for such rule*)
 let define
     ~command
     ?dyndep
     ?restat
-    ?(description = "\027[34mBuilding\027[39m \027[2m${out}\027[22m") (* blue, dim *)
     rule_name : t
   =
 
@@ -67,7 +64,7 @@ let define
     name = fun ?target cur_dir buf ->
       if not self.used then
         begin
-          print_rule buf ~description  ?dyndep ?restat ~command:(command ?target cur_dir) rule_name;
+          print_rule buf  ?dyndep ?restat ~command:(command ?target cur_dir) rule_name;
           (* self.used <- true *)
         end ;
       rule_name
@@ -112,7 +109,6 @@ let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
   ~(has_postbuild : bool)
   ~(has_ppx : bool)
-  ~(bs_suffix : bool)
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
   ~(digest : string)
   ~(refmt : string option) (* set refmt path when needed *)
@@ -130,8 +126,6 @@ let make_custom_rules
     Ext_buffer.add_string buf global_config.bsc;
     Ext_buffer.add_ninja_prefix_var buf "-nostdlib";
     Ext_buffer.add_ninja_prefix_var buf global_config.g_pkg_flg;
-    if bs_suffix then
-      Ext_buffer.add_string buf " -bs-suffix";
     if read_cmi then
       Ext_buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin

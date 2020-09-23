@@ -1,4 +1,4 @@
-(* Copyright (C) 2019 - Authors of BuckleScript
+(* Copyright (C) 2015-2020 Authors of BuckleScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,37 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+val init_path : unit -> unit
 
-
-let backend = ref Bsb_config_types.Js
-
-let lib_artifacts_dir = ref Bsb_config.lib_bs
-
-let lib_ocaml_dir = ref Bsb_config.lib_ocaml
-
-(* TODO: read current dune context *)
-let dune_build_dir = ref (Ext_path.combine "_build" "default")
-
-let backend_string = ref Literals.js
-
-#ifdef BS_NATIVE
-let (//) = Ext_path.combine
-let backend_is_set = ref false
-let set_backend b =
-  backend_is_set := true;
-  backend := b;
-  match b with
-  | Bsb_config_types.Js       ->
-    lib_artifacts_dir := Bsb_config.lib_bs;
-    lib_ocaml_dir := Bsb_config.lib_ocaml;
-    backend_string := Literals.js;
-  | Bsb_config_types.Native   ->
-    lib_artifacts_dir := Bsb_config.lib_lit // "bs-native";
-    lib_ocaml_dir := Bsb_config.lib_lit // "ocaml-native";
-    backend_string := Literals.native;
-  | Bsb_config_types.Bytecode ->
-    lib_artifacts_dir := Bsb_config.lib_lit // "bs-bytecode";
-    lib_ocaml_dir := Bsb_config.lib_lit // "ocaml-bytecode";
-    backend_string := Literals.bytecode;
-
-#endif
+val initial_env : unit -> Env.t

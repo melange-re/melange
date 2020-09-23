@@ -91,7 +91,8 @@ let run_command_execvp =
 *)
 
 let rec remove_dir_recursive dir =
-  if Sys.is_directory dir then
+  match Sys.is_directory dir with
+  | true ->
     begin
       let files = Sys.readdir dir in
       for i = 0 to Array.length files - 1 do
@@ -99,4 +100,5 @@ let rec remove_dir_recursive dir =
       done ;
       Unix.rmdir dir
     end
-  else Sys.remove dir
+  | false ->  Sys.remove dir
+  | exception _ -> ()

@@ -10,25 +10,33 @@
 (*                                                                     *)
 (***********************************************************************)
 
+let output_prefix name =
+  let oname =
+    match !Clflags.output_name with
+    | None -> name
+    | Some n -> (Clflags.output_name := None; n) in
+  Filename.remove_extension oname
+
 
 let process_interface_file ppf name =
   Js_implementation.interface ppf name
   ~parser:Pparse_driver.parse_interface
-  (Compenv.output_prefix name)
+  (output_prefix name)
 let process_implementation_file ppf name =
   Js_implementation.implementation ppf name
   ~parser:Pparse_driver.parse_implementation
-  (Compenv.output_prefix name)
+  (output_prefix name)
 
 
 let setup_reason_error_printer () =
+  Config.syntax_kind := `reason ;
   Lazy.force Super_main.setup;
   Lazy.force Reason_outcome_printer_main.setup
 
 let setup_napkin_error_printer () =
-  Js_config.napkin := true;
+  Config.syntax_kind := `rescript ;
   Lazy.force Super_main.setup;
-  Lazy.force Napkin_outcome_printer.setup
+  Lazy.force Res_outcome_printer.setup
 
 
 type valid_input =
@@ -115,12 +123,12 @@ let process_file ppf sourcefile =
   | Res ->
     setup_napkin_error_printer ();
     Js_implementation.implementation
-      ~parser:Napkin_driver.parse_implementation
+      ~parser:Res_driver.parse_implementation
       ppf sourcefile opref
   | Resi ->
     setup_napkin_error_printer ();
     Js_implementation.interface
-      ~parser:Napkin_driver.parse_interface
+      ~parser:Res_driver.parse_interface
       ppf sourcefile opref
   | Ml ->
     Js_implementation.implementation
@@ -171,8 +179,6 @@ let anonymous ~(rev_args : string list) =
     begin
       match rev_args with
       | [filename] ->
-        Compenv.readenv ppf
-          (Before_compile filename);
         process_file ppf filename
       | [] -> ()
       | _ ->
@@ -182,14 +188,10 @@ let anonymous ~(rev_args : string list) =
 (** used by -impl -intf *)
 let impl filename =
   Js_config.js_stdout := false;
-  Compenv.readenv ppf
-    (Before_compile filename)
-  ; process_implementation_file ppf filename;;
+  process_implementation_file ppf filename;;
 let intf filename =
   Js_config.js_stdout := false ;
-  Compenv.readenv ppf
-    (Before_compile filename)
-  ; process_interface_file ppf filename;;
+  process_interface_file ppf filename;;
 
 let reason_fmt ~input =
   let isInterface =
@@ -205,8 +207,8 @@ let format_file input =
   let ext = classify_input (Ext_filename.get_extension_maybe input) in
   let format_fn =
     match ext with
-    | Ml | Mli -> Napkin_multi_printer.print `ml
-    | Res | Resi -> Napkin_multi_printer.print `res
+    | Ml | Mli -> Res_multi_printer.print `ml
+    | Res | Resi -> Res_multi_printer.print `res
     | Re | Rei -> reason_fmt
     | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input) in
   output_string stdout (format_fn ~input)
@@ -285,10 +287,6 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
           <num1>..<num2>    a range of consecutive warning numbers\n\
        default setting is " ^ Bsc_warnings.defaults_w;
 
-  "-warn-error", string_call (Warnings.parse_options true),
-  "<list>  Enable or disable error status for warnings according\n\
-       to <list>.  See option -w for the syntax of <list>.\n\
-       Default setting is " ^ Bsc_warnings.defaults_warn_error;
 
     "-o", string_optional_set Clflags.output_name,
     "<file>  set output file name to <file>";
@@ -296,7 +294,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
      "-bs-read-cmi",  unit_call (fun _ -> Clflags.assume_no_mli := Mli_exists),
      "*internal* Assume mli always exist ";
 
-    "-ppx", string_list_add Compenv.first_ppx,
+    "-ppx", string_list_add Clflags.all_ppx,
     "<command>  Pipe abstract syntax trees through preprocessor <command>";
 
     "-open", string_list_add Clflags.open_modules,
@@ -308,7 +306,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "*internal* Set jsx version";
 
     "-bs-package-output", string_call Js_packages_state.update_npm_package_path,
-    "Set npm-output-path: [opt_module]:path, for example: 'lib/cjs', 'amdjs:lib/amdjs', 'es6:lib/es6' ";
+    "*internal* Set npm-output-path: [opt_module]:path, for example: 'lib/cjs', 'amdjs:lib/amdjs', 'es6:lib/es6' ";
 
     "-bs-binary-ast", set Js_config.binary_ast,
     "*internal* Generate binary .mli_ast and ml_ast";
@@ -318,9 +316,6 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
 
     "-bs-g", unit_call (fun _ -> Js_config.debug := true; Lexer.replace_directive_bool "DEBUG" true),
     "Debug mode";
-
-    "-bs-suffix", set Js_config.bs_suffix,
-    "*internal* set suffix to .bs.js";
 
     "-bs-package-name", string_call Js_packages_state.set_package_name,
     "Set package name, useful when you want to produce npm packages";
@@ -377,9 +372,6 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
 
     "-bs-list-conditionals", unit_call (fun () -> Lexer.list_variables Format.err_formatter),
     "List existing conditional variables";
-
-    "-bs-simple-binary-ast",  set Js_config.simple_binary_ast,
-    "*internal* Generate binary .mliast_simple and mlast_simple";
 
     "-bs-eval", string_call (fun  s -> eval s ~suffix:Literals.suffix_ml),
     "*internal* (experimental) set the string to be evaluated in OCaml syntax";
@@ -495,7 +487,10 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bin-annot", Unit_dummy,
     "*internal* keep the compatibility with RLS";
     "-c", Unit_dummy,
-    "*internal* keep the compatibility with RLS"
+    "*internal* keep the compatibility with RLS";
+    "-warn-error", string_call (fun _ -> ()),
+    "Deprecated: warnings are errors";
+
   |]
 
 
@@ -524,7 +519,6 @@ let _ : unit =
   Ast_config.add_signature
     flags file_level_flags_handler;
   try
-    Compenv.readenv ppf Before_args;
     Bsc_args.parse_exn
       ~argv:Sys.argv
       buckle_script_flags anonymous ~usage;
@@ -534,7 +528,8 @@ let _ : unit =
     exit 2
   | x ->
     begin
-#ifndef BS_RELEASE_BUILD
+#if false
+(* undefined BS_RELEASE_BUILD *)
       Ext_obj.bt ();
 #endif
       Location.report_exception ppf x;

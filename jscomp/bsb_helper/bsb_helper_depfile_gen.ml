@@ -87,7 +87,7 @@ let deps_of_channel (ic : in_channel) : string list =
   v
  *)
 
-type kind = Js | Bytecode | Native
+
 
 let output_file (buf : Ext_buffer.t) source namespace =
   Ext_buffer.add_string buf
@@ -132,8 +132,6 @@ let oc_impl
     (namespace : string option)
     (buf : Ext_buffer.t)
     ~cwd
-    (lhs_suffix : string)
-    (rhs_suffix : string)
   =
   (* TODO: move namespace upper, it is better to resolve ealier *)
   let has_deps = ref false in
@@ -145,7 +143,7 @@ let oc_impl
   let at_most_once : unit lazy_t  = lazy (
     has_deps := true ;
     output_file buf (Ext_filename.chop_extension_maybe mlast) namespace ;
-    Ext_buffer.add_string buf lhs_suffix;
+    Ext_buffer.add_string buf Literals.suffix_cmj;
     Ext_buffer.add_string buf dep_lit ) in
   (match namespace with None -> () | Some ns ->
       Lazy.force at_most_once;
@@ -185,8 +183,7 @@ let oc_impl
         let source = Ext_path.concat rel_dir module_basename  in
         Ext_buffer.add_char buf ' ';
         output_file buf source namespace;
-        Ext_buffer.add_string buf rhs_suffix;
-
+        Ext_buffer.add_string buf Literals.suffix_cmj;
         (* #3260 cmj changes does not imply cmi change anymore *)
         oc_cmi buf namespace source
 
@@ -263,29 +260,23 @@ let oc_intf
 
 
 let emit_d
-  compilation_kind
   ~cwd
   (dev_group : bool)
   (namespace : string option) (mlast : string) (mliast : string) =
-  let data = Bsb_db_decode.read_build_cache ~dir:(Ext_path.combine cwd lib_bs) in
+  let data  =
+    Bsb_db_decode.read_build_cache ~dir:(Ext_path.combine cwd lib_bs)
+  in
   let buf = Ext_buffer.create 2048 in
   let filename =
       Ext_filename.new_extension mlast Literals.suffix_d in
-  let lhs_suffix, rhs_suffix =
-    match compilation_kind with
-    | Js       -> Literals.suffix_cmj, Literals.suffix_cmj
-    | Bytecode -> Literals.suffix_cmo, Literals.suffix_cmo
-    | Native   -> Literals.suffix_cmx, Literals.suffix_cmx
-  in
   oc_impl
     mlast
     dev_group
     data
     namespace
-    buf
     ~cwd
-    lhs_suffix
-    rhs_suffix ;
+    buf
+    ;
   if mliast <> "" then begin
     oc_intf
       mliast

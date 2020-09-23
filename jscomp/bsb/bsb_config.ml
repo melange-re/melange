@@ -37,15 +37,28 @@ let all_lib_artifacts =
     lib_bs ;
     lib_es6 ;
     lib_es6_global;
-#ifdef BS_NATIVE
-  (* Artifacts directories for other backends *)
-    lib_lit // "bs-native";
-    lib_lit // "bs-bytecode";
-    lib_lit // "ocaml-native";
-    lib_lit // "ocaml-bytecode";
-#endif
   ]
 let rev_lib_bs = ".."// ".."
+
+(* TODO: read current dune context *)
+let dune_build_dir = (Ext_path.combine "_build" "default")
+
+(* access the js directory from "lib/bs",
+  it would be '../js'
+*)
+let lib_bs_prefix_of_format (x : Ext_module_system.t) =
+  ".." // match x with
+  | NodeJS -> "js"
+  | Es6 -> "es6"
+  | Es6_global -> "es6_global"
+
+(* lib/js, lib/es6, lib/es6_global *)
+let top_prefix_of_format (x : Ext_module_system.t)  =
+  match x with
+  | NodeJS -> lib_js
+  | Es6 -> lib_es6
+  | Es6_global -> lib_es6_global
+
 
 
 let rev_lib_bs_prefix p = rev_lib_bs // p

@@ -30,7 +30,7 @@ let resolve_package cwd  package_name =
   let package_path =  Bsb_pkg.resolve_bs_package ~cwd package_name  in
   let rel = Ext_path.rel_normalized_absolute_path ~from:Bsb_global_paths.cwd package_path in
   let package_install_path =
-    Bsb_global_paths.cwd // !Bsb_global_backend.dune_build_dir // rel
+    Bsb_global_paths.cwd // Bsb_config.dune_build_dir // rel
   in
   {
     Bsb_config_types.package_name ;
@@ -46,66 +46,12 @@ let (|?)  m (key, cb) =
   m  |> Ext_json.test key cb
 
 
-#ifdef BS_NATIVE
-let extract_main_entries (map :json_map) =
-
-  let extract_entries (field : Ext_json_types.t array) =
-    Ext_array.to_list_map (function
-        | Ext_json_types.Obj {map} ->
-          (* kind defaults to bytecode *)
-          let kind = ref "js" in
-          let main = ref None in
-          let _ = map
-                  |? (Bsb_build_schemas.backend, `Str (fun x -> kind := x))
-                  |? (Bsb_build_schemas.main_module, `Str (fun x -> main := Some x))
-          in
-          let path = begin match !main with
-            (* This is technically optional when compiling to js *)
-            | None when !kind = Literals.js ->
-              "Index"
-            | None ->
-              failwith "Missing field 'main'. That field is required its value needs to be the main module for the target"
-            | Some path -> path
-          end in
-          if !kind = Literals.native then
-            Some (Bsb_config_types.NativeTarget path)
-          else if !kind = Literals.bytecode then
-            Some (Bsb_config_types.BytecodeTarget path)
-          else if !kind = Literals.js then
-            Some (Bsb_config_types.JsTarget path)
-          else
-            failwith "Missing field 'kind'. That field is required and its value be 'js', 'native' or 'bytecode'"
-        | _ -> failwith "Unrecognized object inside array 'entries' field.")
-      field in
-  let entries = ref Bsb_default.main_entries in
-  begin match Map_string.find_opt map Bsb_build_schemas.entries with
-    | Some (Arr {content = s}) -> entries := extract_entries s
-    | _ -> ()
-  end;
-  if not !Bsb_global_backend.backend_is_set then
-    begin match !entries with
-      | []
-      | (Bsb_config_types.JsTarget _) :: _       -> Bsb_global_backend.set_backend Bsb_config_types.Js
-      | (Bsb_config_types.NativeTarget _) :: _   -> Bsb_global_backend.set_backend Bsb_config_types.Native
-      | (Bsb_config_types.BytecodeTarget _) :: _ -> Bsb_global_backend.set_backend Bsb_config_types.Bytecode
-    end;
-  !entries
-#else
-let extract_main_entries (_ :json_map) = []
-#endif
-
 
 let package_specs_from_bsconfig () =
   let json = Ext_json_parse.parse_json_from_file Literals.bsconfig_json in
   begin match json with
     | Obj {map} ->
-      begin
-        match Map_string.find_opt map  Bsb_build_schemas.package_specs with
-        | Some x ->
-          Bsb_package_specs.from_json x
-        | None ->
-          Bsb_package_specs.default_package_specs
-      end
+      Bsb_package_specs.from_map map
     | _ -> assert false
   end
 
@@ -190,24 +136,13 @@ let check_stdlib (map : json_map) cwd (*built_in_package*) =
             Bsb_config_types.package_name = current_package;
             package_path = stdlib_path;
             package_install_path = stdlib_path;
-            package_dirs = [stdlib_path // !Bsb_global_backend.lib_ocaml_dir];
-            package_install_dirs = [stdlib_path // !Bsb_global_backend.lib_ocaml_dir]
+            package_dirs = [stdlib_path // Bsb_config.lib_ocaml];
+            package_install_dirs = [stdlib_path // Bsb_config.lib_ocaml]
           }
 
       | _ -> assert false
 
     end
-let extract_bs_suffix_exn (map : json_map) =
-  match Map_string.find_opt map Bsb_build_schemas.suffix with
-  | None -> false
-  | Some (Str {str} as config ) ->
-    if str = Literals.suffix_js then false
-    else if str = Literals.suffix_bs_js then true
-    else Bsb_exception.config_error config
-        "expect .bs.js or .js string here"
-  | Some config ->
-    Bsb_exception.config_error config
-      "expect .bs.js or .js string here"
 
 let extract_gentype_config (map : json_map) cwd
   : Bsb_config_types.gentype_config option =
@@ -408,17 +343,13 @@ let rec interpret_json
       extract_package_name_and_namespace  map in
     let refmt = extract_refmt map per_proj_dir in
     let gentype_config  = extract_gentype_config map per_proj_dir in
-    let bs_suffix = extract_bs_suffix_exn map in
     (* This line has to be before any calls to Bsb_global_backend.backend, because it'll read the entries
          array from the bsconfig and set the backend_ref to the first entry, if any. *)
-    let entries = extract_main_entries map in
+
     (* The default situation is empty *)
     let built_in_package = check_stdlib map per_proj_dir in
     let package_specs =
-      match Map_string.find_opt map Bsb_build_schemas.package_specs with
-      | Some x ->
-        Bsb_package_specs.from_json x
-      | None ->  Bsb_package_specs.default_package_specs
+      Bsb_package_specs.from_map map
     in
     let pp_flags : string option =
       extract_string map Bsb_build_schemas.pp_flags (fun p ->
@@ -444,12 +375,10 @@ let rec interpret_json
             ~toplevel
             ~root: per_proj_dir
             ~cut_generators
-            ~bs_suffix
             ~namespace
             sources in
         {
           gentype_config;
-          bs_suffix ;
           package_name ;
           namespace ;
           warning = extract_warning map;
@@ -480,7 +409,6 @@ let rec interpret_json
           generate_merlin =
             extract_boolean map Bsb_build_schemas.generate_merlin true;
           reason_react_jsx  ;
-          entries;
           generators = extract_generators map ;
           cut_generators ;
         }
@@ -502,7 +430,7 @@ and extract_dependencies ~toplevel_package_specs (map : json_map) cwd (field : s
        interpret_json ~toplevel_package_specs ~per_proj_dir:dep.package_path
      in
      let ns_incl = Ext_option.map namespace (fun _ns ->
-       dep.package_install_path // !Bsb_global_backend.lib_artifacts_dir)
+       dep.package_install_path // Bsb_config.lib_bs)
      in
      let dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; dev_index; _ } ->
         if not dev_index then Some (dep.package_path // dir) else None

@@ -27,7 +27,6 @@
 
 val handle_files_per_dir :
   global_config:Bsb_ninja_global_vars.t ->
-  bs_suffix:bool ->
   digest:string ->
   rules:Bsb_ninja_rule.builtin ->
   package_specs:Bsb_package_specs.t ->

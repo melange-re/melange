@@ -61,9 +61,8 @@ let fn_method = "fn_method"
 let fn_mk = "fn_mk"
 (*let js_fn_runmethod = "js_fn_runmethod"*)
 
-let bs_deriving = "bs.deriving"
-let bs_deriving_dot = "bs.deriving."
-let bs_type = "bs.type"
+
+
 
 
 (** nodejs *)
@@ -111,10 +110,10 @@ let suffix_d = ".d"
 let suffix_depends = ".depends"
 let suffix_js = ".js"
 let suffix_bs_js = ".bs.js"
-(* let suffix_re_js = ".re.js" *)
+let suffix_mjs = ".mjs"
+let suffix_cjs = ".cjs"
 let suffix_gen_js = ".gen.js"
 let suffix_gen_tsx = ".gen.tsx"
-let suffix_tsx = ".tsx"
 
 let commonjs = "commonjs"
 
@@ -122,14 +121,8 @@ let es6 = "es6"
 let es6_global = "es6-global"
 
 let unused_attribute = "Unused attribute "
-let dash_nostdlib = "-nostdlib"
 
-let reactjs_jsx_ppx_2_exe = "reactjs_jsx_ppx_2.exe"
-let reactjs_jsx_ppx_3_exe  = "reactjs_jsx_ppx_3.exe"
 
-let native = "native"
-let bytecode = "bytecode"
-let js = "js"
 
 
 

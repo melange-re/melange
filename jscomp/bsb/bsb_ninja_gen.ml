@@ -87,7 +87,6 @@ let output_ninja_and_namespace_map
     ~per_proj_dir
     ~toplevel
     ({
-      bs_suffix;
       package_name;
       external_includes;
       bsc_flags ;
@@ -110,7 +109,7 @@ let output_ninja_and_namespace_map
 
     } : Bsb_config_types.t) : unit
   =
-  let lib_artifacts_dir = !Bsb_global_backend.lib_artifacts_dir in
+  let lib_artifacts_dir = Bsb_config.lib_bs in
   let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in
   let ppx_flags = Bsb_build_util.ppx_flags ppx_files in
   let g_pkg_flg , g_ns_flg =
@@ -187,7 +186,6 @@ let output_ninja_and_namespace_map
       ~has_postbuild:(js_post_build_cmd <> None)
       ~has_ppx:(ppx_files <> [])
       ~reason_react_jsx
-      ~bs_suffix
       ~digest
       generators in
   let bs_dependencies_deps =
@@ -201,7 +199,6 @@ let output_ninja_and_namespace_map
        Bsb_ninja_file_groups.handle_files_per_dir
          ~global_config
          ~digest
-         ~bs_suffix
          ~rules
          ~js_post_build_cmd
          ~package_specs
