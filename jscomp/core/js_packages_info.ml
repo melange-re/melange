@@ -261,7 +261,6 @@ let add_npm_package_path (packages_info : t) (s : string)  : t =
          suffix =  Js
         }
       | [module_system ; path; suffix] ->
-          Format.eprintf "this one? %s@." (Ext_js_suffix.(to_string (of_string suffix)));
         { module_system = handle_module_system module_system;
           path;
           suffix = Ext_js_suffix.of_string suffix
