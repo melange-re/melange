@@ -10,148 +10,85 @@
 (*                                                                     *)
 (***********************************************************************)
 
-let output_prefix name =
-  let oname =
-    match !Clflags.output_name with
-    | None -> name
-    | Some n -> (Clflags.output_name := None; n) in
-  Filename.remove_extension oname
+let set_abs_input_name sourcefile =
+  let sourcefile =
+    if !Location.absname && Filename.is_relative  sourcefile then
+      Ext_path.absolute_cwd_path sourcefile
+    else sourcefile in
+  Location.set_input_name sourcefile;
+  sourcefile
 
 
-let process_interface_file ppf name =
-  Js_implementation.interface ppf name
-  ~parser:Pparse_driver.parse_interface
-  (output_prefix name)
-let process_implementation_file ppf name =
-  Js_implementation.implementation ppf name
-  ~parser:Pparse_driver.parse_implementation
-  (output_prefix name)
+let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
+  Config.syntax_kind := syntax_kind ;
+  if syntax_kind = `reason then begin
+    Lazy.force Super_main.setup;
+    Lazy.force Reason_outcome_printer_main.setup
+  end else if !Config.syntax_kind = `rescript then begin
+    Lazy.force Super_main.setup;
+    Lazy.force Res_outcome_printer.setup
+  end
 
-
-let setup_reason_error_printer () =
-  Config.syntax_kind := `reason ;
-  Lazy.force Super_main.setup;
-  Lazy.force Reason_outcome_printer_main.setup
-
-let setup_napkin_error_printer () =
-  Config.syntax_kind := `rescript ;
-  Lazy.force Super_main.setup;
-  Lazy.force Res_outcome_printer.setup
-
-
-type valid_input =
-  | Ml
-  | Mli
-  | Re
-  | Rei
-  | Res
-  | Resi
-  | Resast
-  | Resiast
-  | Mlast
-  | Mliast
-  | Reast
-  | Reiast
-  | Mlmap
-  | Cmi
-  | Unknown
-
-
-
-(** This is per-file based,
-    when [ocamlc] [-c -o another_dir/xx.cmi]
-    it will return (another_dir/xx)
-*)
-
-let classify_input ext =
-
-  match () with
-  | _ when ext = Literals.suffix_ml ->
-    Ml
-  | _ when ext = Literals.suffix_re ->
-    Re
-  | _ when ext = !Config.interface_suffix ->
-    Mli
-  | _ when ext = Literals.suffix_rei ->
-    Rei
-  | _ when ext =  Literals.suffix_mlast ->
-    Mlast
-  | _ when ext = Literals.suffix_mliast ->
-    Mliast
-  | _ when ext = Literals.suffix_reast ->
-    Reast
-  | _ when ext = Literals.suffix_reiast ->
-    Reiast
-  | _ when ext =  Literals.suffix_mlmap ->
-    Mlmap
-  | _ when ext =  Literals.suffix_cmi ->
-    Cmi
-  | _ when ext = Literals.suffix_res ->
-    Res
-  | _ when ext = Literals.suffix_resi ->
-    Resi
-  | _ when ext = Literals.suffix_resast -> Resast
-  | _ when ext = Literals.suffix_resiast -> Resiast
-  | _ -> Unknown
-
-let process_file ppf sourcefile =
+let process_file sourcefile
+  ?(kind ) ppf =
   (* This is a better default then "", it will be changed later
      The {!Location.input_name} relies on that we write the binary ast
      properly
   *)
-  Location.set_input_name  sourcefile;
-  let ext = Ext_filename.get_extension_maybe sourcefile in
-  let input = classify_input ext in
-  let opref = Compenv.output_prefix sourcefile in
-  match input with
+  let kind =
+    match kind with
+    | None -> Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe sourcefile)
+    | Some kind -> kind in
+  match kind with
   | Re ->
+    let sourcefile = set_abs_input_name  sourcefile in
+    let outputprefix = Config_util.output_prefix sourcefile in
+    setup_error_printer `reason;
     Js_implementation.implementation
       ~parser:Ast_reason_pp.parse_implementation
-      ppf sourcefile opref
+      ppf sourcefile ~outputprefix
   | Rei ->
+    let sourcefile = set_abs_input_name  sourcefile in
+    let outputprefix = Config_util.output_prefix sourcefile in
+    setup_error_printer `reason;
     Js_implementation.interface
       ~parser:Ast_reason_pp.parse_interface
-      ppf sourcefile opref
-  | Reiast
-    ->
-    setup_reason_error_printer ();
-    Js_implementation.interface_mliast ppf sourcefile opref
-  | Reast
-    ->
-    setup_reason_error_printer ();
-    Js_implementation.implementation_mlast ppf sourcefile opref
+      ppf sourcefile ~outputprefix
+  | Ml ->
+    let sourcefile = set_abs_input_name  sourcefile in
+    Js_implementation.implementation
+      ~parser:Pparse_driver.parse_implementation
+      ppf sourcefile
+  | Mli  ->
+    let sourcefile = set_abs_input_name  sourcefile in
+    Js_implementation.interface
+      ~parser:Pparse_driver.parse_interface
+      ppf sourcefile
   | Res ->
-    setup_napkin_error_printer ();
+    let sourcefile = set_abs_input_name  sourcefile in
+    setup_error_printer `rescript;
     Js_implementation.implementation
       ~parser:Res_driver.parse_implementation
-      ppf sourcefile opref
+      ppf sourcefile
   | Resi ->
-    setup_napkin_error_printer ();
+    let sourcefile = set_abs_input_name  sourcefile in
+    setup_error_printer `rescript;
     Js_implementation.interface
       ~parser:Res_driver.parse_interface
-      ppf sourcefile opref
-  | Ml ->
-    Js_implementation.implementation
-    ~parser:Pparse_driver.parse_implementation
-    ppf sourcefile opref
-  | Mli  ->
-    Js_implementation.interface
-    ~parser:Pparse_driver.parse_interface
-    ppf sourcefile opref
-  | Resiast
+      ppf sourcefile
+  | Intf_ast
     ->
-    setup_napkin_error_printer ();
-    Js_implementation.interface_mliast ppf sourcefile opref
-  | Mliast
-    -> Js_implementation.interface_mliast ppf sourcefile opref
-  | Resast
+    Js_implementation.interface_mliast ppf sourcefile
+    setup_error_printer ;
+  | Impl_ast
     ->
-    setup_napkin_error_printer ();
-    Js_implementation.implementation_mlast ppf sourcefile opref
-  | Mlast
-    -> Js_implementation.implementation_mlast ppf sourcefile opref
+    Js_implementation.implementation_mlast ppf sourcefile
+    setup_error_printer;
   | Mlmap
-    -> Js_implementation.implementation_map ppf sourcefile opref
+    ->
+    Location.set_input_name  sourcefile;
+    Js_implementation.implementation_map ppf sourcefile
+>>>>>>> bucklescript/master
   | Cmi
     ->
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
@@ -179,7 +116,7 @@ let anonymous ~(rev_args : string list) =
     begin
       match rev_args with
       | [filename] ->
-        process_file ppf filename
+        process_file filename ppf
       | [] -> ()
       | _ ->
         Bsc_args.bad_arg "can not handle multiple files"
@@ -308,8 +245,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bs-package-output", string_call Js_packages_state.update_npm_package_path,
     "*internal* Set npm-output-path: [opt_module]:path, for example: 'lib/cjs', 'amdjs:lib/amdjs', 'es6:lib/es6' ";
 
-    "-bs-binary-ast", set Js_config.binary_ast,
-    "*internal* Generate binary .mli_ast and ml_ast";
+    "-bs-ast", unit_call(fun _ ->  Js_config.binary_ast := true; Js_config.syntax_only := true),
+    "*internal* Generate binary .mli_ast and ml_ast and stop";
 
     "-bs-syntax-only", set Js_config.syntax_only,
     "Only check syntax";
@@ -317,6 +254,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bs-g", unit_call (fun _ -> Js_config.debug := true; Lexer.replace_directive_bool "DEBUG" true),
     "Debug mode";
 
+    "-bs-v", string_call ignore,
+    "*internal* version check to force a rebuild";
     "-bs-package-name", string_call Js_packages_state.set_package_name,
     "Set package name, useful when you want to produce npm packages";
 
@@ -324,10 +263,10 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "Set package map, not only set package name but also use it as a namespace" ;
 
     "-as-ppx", set Js_config.as_ppx,
-    "As ppx for editor integration";
+    "*internal*As ppx for editor integration";
 
     "-no-alias-deps", set Clflags.transparent_modules,
-    "Do not record dependencies for module aliases";
+    "*internal*Do not record dependencies for module aliases";
 
     "-bs-gentype", string_optional_set Clflags.bs_gentype ,
     "*internal* Pass gentype command";
@@ -389,19 +328,19 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "*internal*  Not using cached cmj, always generate cmj";
 
     "-bs-no-version-header", set Js_config.no_version_header,
-    "Don't print version header";
+    "*internal*Don't print version header";
 
     "-bs-no-builtin-ppx", set Js_config.no_builtin_ppx,
     "*internal* Disable built-in ppx";
 
     "-bs-cross-module-opt", set Js_config.cross_module_inline,
-    "Enable cross module inlining(experimental), default(false)";
+    "*internal* Enable cross module inlining(experimental), default(false)";
 
     "-bs-no-cross-module-opt", clear Js_config.cross_module_inline,
-    "Disable cross module inlining(experimental)";
+    "*internal* Disable cross module inlining(experimental)";
 
     "-bs-diagnose", set Js_config.diagnose,
-    "More verbose output";
+    "*internal* More verbose output";
 
     "-bs-no-check-div-by-zero", clear Js_config.check_div_by_zero,
     "*internal* unsafe mode, don't check div by zero and mod by zero";
@@ -473,11 +412,14 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-nolabels", set Clflags.classic,
     "Ignore non-optional labels in types";
 
+    "-nolabels", set Clflags.classic,
+    "*internal* Ignore non-optional labels in types";
+
     "-principal", set Clflags.principal,
-    "Check principality of type inference";
+    "*internal* Check principality of type inference";
 
     "-short-paths", clear Clflags.real_paths,
-    "Shorten paths in types";
+    "*internal* Shorten paths in types";
 
     "-unsafe", set Clflags.fast,
     "Do not compile bounds checking on array and string access";
@@ -488,8 +430,10 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "*internal* keep the compatibility with RLS";
     "-c", Unit_dummy,
     "*internal* keep the compatibility with RLS";
-    "-warn-error", string_call (fun _ -> ()),
-    "Deprecated: warnings are errors";
+    "-warn-error", string_call (Warnings.parse_options true),
+    "<list>  Enable or disable error status for warnings according\n\
+         to <list>.  See option -w for the syntax of <list>.\n\
+         Default setting is " ^ Bsc_warnings.defaults_warn_error;
 
   |]
 

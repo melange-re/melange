@@ -25,18 +25,6 @@
 
 
 
-type override =
-  | Append of string
-  | AppendList of string list
-  | AppendVar of string
-
-  | Overwrite of string
-
-  | OverwriteVar of string
-
-  | OverwriteVars of string list
-
-type shadow = { key : string ; op : override }
 (** output should always be marked explicitly,
    otherwise the build system can not figure out clearly
    however, for the command we don't need pass `-o`
@@ -59,7 +47,6 @@ val output_build :
   ?bs_dependencies_deps:string list ->
   ?implicit_outputs: string list ->
   ?js_outputs: string list ->
-  ?shadows:shadow list ->
   outputs:string list ->
   inputs:string list ->
   rule:Bsb_ninja_rule.t ->
@@ -72,10 +59,9 @@ val phony  :
   ?order_only_deps:string list ->
   inputs:string list ->
   output:string ->
-  Buffer.t ->
+  out_channel ->
   unit
 
-val output_kv : string ->  string -> Buffer.t -> unit
-val output_kvs : (string * string) array -> Buffer.t -> unit
-
 val revise_dune : string -> Buffer.t -> unit
+
+val output_finger : string ->  string -> out_channel -> unit

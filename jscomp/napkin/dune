@@ -8,3 +8,10 @@
 (copy_files ../../syntax/src/*.ml)
 
 (copy_files ../../syntax/src/*.mli)
+
+; (rule
+ ; (targets reactjs_jsx_ppx_v3.ml)
+ ; (deps reactjs_jsx_ppx.cppo.ml)
+ ; (action
+  ; (run cppo -V OCAML:4.06.1+BS %{deps} -o %{targets})))
+

@@ -30,7 +30,7 @@
     otherwise return Some info
 *)
 val regenerate_ninja :
-  toplevel_package_specs:Bsb_package_specs.t option ->
+  package_kind:Bsb_package_kind.t ->
   ?deps_digest:string ->
   forced: bool ->
   per_proj_dir:string ->

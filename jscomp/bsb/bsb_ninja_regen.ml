@@ -31,11 +31,10 @@ let (//) = Ext_path.combine
     otherwise return Some info
 *)
 let regenerate_ninja
-    ~(toplevel_package_specs : Bsb_package_specs.t option)
+    ~(package_kind : Bsb_package_kind.t)
     ?(deps_digest="")
     ~forced ~per_proj_dir
   : (Bsb_config_types.t * string) option =
-  let toplevel = toplevel_package_specs = None in
   let lib_artifacts_dir = Bsb_config.lib_bs in
   let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
   let output_deps = lib_bs_dir // bsdeps in
@@ -60,9 +59,9 @@ let regenerate_ninja
       Bsb_clean.clean_self  per_proj_dir;
     end ;
 
-    let config =
+    let config : Bsb_config_types.t =
       Bsb_config_parse.interpret_json
-        ~toplevel_package_specs
+        ~package_kind
         ~per_proj_dir in
     (* create directory, lib/bs, lib/js, lib/es6 etc *)
     Bsb_build_util.mkp lib_bs_dir;
@@ -78,7 +77,7 @@ let regenerate_ninja
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
        config;
     Bsb_ninja_gen.output_ninja_and_namespace_map
-      ~digest:(deps_digest ^ proj_digest) ~per_proj_dir  ~toplevel config;
+      ~digest:(deps_digest ^ proj_digest) ~per_proj_dir  ~package_kind config;
 
     Some (config, proj_digest)
 

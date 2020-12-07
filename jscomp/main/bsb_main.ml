@@ -192,16 +192,12 @@ let install_target config_opt =
 
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
-  let argv = Sys.argv in
-  let deps_digest = ref None in
   try begin
-    match argv with
-    | [| _ |]
-    | [| _; "-verbose" |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
-      Bsb_log.verbose ();
+    match Sys.argv with
+    | [| _ |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
       let config = Bsb_ninja_regen.regenerate_ninja
         ?deps_digest:!deps_digest
-        ~toplevel_package_specs:None
+        ~package_kind:Toplevel
         ~forced:false
         ~per_proj_dir:Bsb_global_paths.cwd
       in
@@ -239,7 +235,7 @@ let () =
                  let config_opt =
                    Bsb_ninja_regen.regenerate_ninja
                      ?deps_digest:!deps_digest
-                     ~toplevel_package_specs:None
+                     ~package_kind:Toplevel
                      ~forced:force_regenerate ~per_proj_dir:Bsb_global_paths.cwd
                  in
                  if !watch_mode then begin
@@ -274,7 +270,7 @@ let () =
             let config_opt =
               (Bsb_ninja_regen.regenerate_ninja
                 ?deps_digest:!deps_digest
-                ~toplevel_package_specs:None
+                ~package_kind:Toplevel
                 ~per_proj_dir:Bsb_global_paths.cwd
                 ~forced:!force_regenerate) in
             if !do_install then

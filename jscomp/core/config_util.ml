@@ -48,4 +48,12 @@ let find_opt file =
 
 
 
+let output_prefix name =
+  match !Clflags.output_name with
+  | None -> 
+    Ext_namespace_encode.make 
+      (Filename.remove_extension name) 
+      ?ns:!Clflags.dont_record_crc_unit
+  | Some oname -> 
+    Filename.remove_extension oname
 

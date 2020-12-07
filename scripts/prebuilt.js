@@ -43,6 +43,7 @@ function buildCompiler() {
 }
 if (!is_windows) {
   if (!process.argv.includes("-noclean")) {
+    require("./pack").updateThemes();
     rebuild();
   }
 
@@ -52,19 +53,19 @@ if (!is_windows) {
 function createOCamlTar() {
   if (process.platform === hostPlatform) {
     require("./installUtils.js").install();
-    console.log(`status in ocaml submodule:`)
+    console.log(`status in ocaml submodule:`);
     cp.execSync(`git -C ocaml status -uno`, { cwd: root, stdio: [0, 1, 2] });
     cp.execSync(
       `git  -C ocaml archive --format=tar.gz HEAD -o ../vendor/ocaml.tar.gz`,
       { cwd: root, stdio: [0, 1, 2] }
     );
+    console.log(`status in ninja submodule:`);
+    cp.execSync(`git -C ninja status -uno`, { cwd: root, stdio: [0, 1, 2] });
+    cp.execSync(
+      `git -C ninja archive --format=tar.gz HEAD -o ../vendor/ninja.tar.gz`,
+      { cwd: root, stdio: [0, 1, 2] }
+    );
   }
-  console.log(`status in ninja submodule:`)
-  cp.execSync(`git -C ninja status -uno`, { cwd: root, stdio: [0, 1, 2] });
-  cp.execSync(
-    `git -C ninja archive --format=tar.gz HEAD -o ../vendor/ninja.tar.gz`,
-    { cwd: root, stdio: [0, 1, 2] }
-  );
 }
 
 createOCamlTar();

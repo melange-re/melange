@@ -3374,6 +3374,7 @@ type t =
   | Bs_unimplemented_primitive of string    (* 106 *)
   | Bs_integer_literal_overflow              (* 107 *)
   | Bs_uninterpreted_delimiters of string   (* 108 *)
+  | Bs_toplevel_expression_unit             (* 109 *)
         
 ;;
 
@@ -3411,6 +3412,7 @@ val mk_lazy: (unit -> 'a) -> 'a Lazy.t
         the warning settings at the time [mk_lazy] is called. *)
 
 
+val has_warnings : bool ref
 val nerrors : int ref
 val message : t -> string 
 val number: t -> int
@@ -3525,6 +3527,7 @@ type t =
   | Bs_unimplemented_primitive of string    (* 106 *)
   | Bs_integer_literal_overflow              (* 107 *)
   | Bs_uninterpreted_delimiters of string   (* 108 *)
+  | Bs_toplevel_expression_unit             (* 109 *)
   
 ;;
 
@@ -3613,10 +3616,11 @@ let number = function
   | Bs_unimplemented_primitive _ -> 106
   | Bs_integer_literal_overflow -> 107
   | Bs_uninterpreted_delimiters _ -> 108
+  | Bs_toplevel_expression_unit -> 109
   
 ;;
 
-let last_warning_number = 108
+let last_warning_number = 109
 let letter_all = 
   let rec loop i = if i = 0 then [] else i :: loop (i - 1) in
   loop last_warning_number
@@ -3676,11 +3680,7 @@ let backup () = !current
 let restore x = current := x
 
 let is_active x = not !disabled && (!current).active.(number x);;
-
-let is_error = 
-  if !Config.bs_only then is_active else 
-    fun x -> not !disabled && (!current).error.(number x) 
-
+let is_error x = not !disabled && (!current).error.(number x);;
 
 let mk_lazy f =
   let state = backup () in
@@ -3755,7 +3755,7 @@ let parse_options errflag s =
   current := {error; active}
 
 (* If you change these, don't forget to change them in man/ocamlc.m *)
-let defaults_w = "+a-4-6-7-9-27-29-32..42-44-45-48-50-60-102";;
+let defaults_w = "+a-4-6-7-9-27-29-32..42-44-45-48-50-60-102-109";;
 let defaults_warn_error = "-a+31";;
 
 let () = 
@@ -4020,6 +4020,8 @@ let message = function
       "Integer literal exceeds the range of representable integers of type int"
   | Bs_uninterpreted_delimiters s -> 
       "Uninterpreted delimiters " ^ s  
+  | Bs_toplevel_expression_unit -> 
+      "Toplevel expression is expected to have unit type."    
       
 ;;
 
@@ -4031,6 +4033,7 @@ let sub_locs = function
       ]
   | _ -> []
 
+let has_warnings = ref false ;;  
 let nerrors = ref 0;;
 
 type reporting_information =
@@ -4050,6 +4053,7 @@ let report w =
   match is_active w with
   | false -> `Inactive
   | true ->
+     has_warnings := true; 
      if is_error w then incr nerrors;
      `Active { number = number w; message = message w; is_error = is_error w;
                sub_locs = sub_locs w;
@@ -4153,7 +4157,8 @@ let descriptions =
    105, "External name is inferred from val name is unsafe from refactoring when changing value name";
    106, "Unimplemented primitive used:";
    107, "Integer literal exceeds the range of representable integers of type int";
-   108, "Uninterpreted delimiters (for unicode)"  
+   108, "Uninterpreted delimiters (for unicode)" ;
+   109, "Toplevel expression has unit type"   
    
   ]
 ;;
@@ -4238,7 +4243,7 @@ val get_pos_info: Lexing.position -> string * int * int (* file, line, char *)
 val print_loc: formatter -> t -> unit
 val print_error: formatter -> t -> unit
 val print_error_cur_file: formatter -> unit -> unit
-
+ (* Not using below APIs in ReScript *)
 val print_warning: t -> formatter -> Warnings.t -> unit
 val formatter_for_warnings : formatter ref
 
@@ -4405,7 +4410,7 @@ let set_input_name name =
   if name <> "" then input_name := name
 (* Terminal info *)
 
-(* let status = ref Terminfo.Uninitialised *)
+
 
 let num_loc_lines = ref 0 (* number of lines already printed after input *)
 
@@ -4504,11 +4509,15 @@ let print_error_cur_file ppf () = print_error ppf (in_file !input_name);;
 let default_warning_printer loc ppf w =
   match Warnings.report w with
   | `Inactive -> ()
-  | `Active { Warnings. number; message;  sub_locs } ->
+  | `Active { Warnings. number; message; is_error; sub_locs } ->
     setup_colors ();
     fprintf ppf "@[<v>";
     print ppf loc;
-    fprintf ppf "@{<warning>%s@} %d: %s@," warning_prefix number message;
+    if is_error
+    then
+      fprintf ppf "%t (%s %d): %s@," print_error_prefix
+           (String.uncapitalize_ascii warning_prefix) number message
+    else fprintf ppf "@{<warning>%s@} %d: %s@," warning_prefix number message;
     List.iter
       (fun (loc, msg) ->
          if loc <> none then fprintf ppf "  %a  %s@," print loc msg
@@ -8303,6 +8312,9 @@ module Ml_binary : sig
 
 
 
+(* This file was used to read reason ast
+  and part of parsing binary ast
+ *)
 type _ kind = 
   | Ml : Parsetree.structure kind 
   | Mli : Parsetree.signature kind
@@ -8314,6 +8326,8 @@ val write_ast :
    'a kind -> string -> 'a -> out_channel -> unit
 
 val magic_of_kind : 'a kind -> string   
+
+
 end = struct
 #1 "ml_binary.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -8354,7 +8368,7 @@ let read_ast (type t ) (kind : t  kind) ic : t  =
     | Mli -> Config.ast_intf_magic_number in 
   let buffer = really_input_string ic (String.length magic) in
   assert(buffer = magic); (* already checked by apply_rewriter *)
-  Location.set_input_name @@ input_value ic;
+  Location.set_input_name (input_value ic);
   input_value ic 
 
 let write_ast (type t) (kind : t kind) 
@@ -8372,7 +8386,8 @@ let magic_of_kind : type a . a kind -> string = function
   | Ml -> Config.ast_impl_magic_number
   | Mli -> Config.ast_intf_magic_number
 
-  
+
+
 end
 module Ast_extract : sig 
 #1 "ast_extract.mli"
@@ -10861,18 +10876,12 @@ let suffix_re = ".re"
 let suffix_rei = ".rei"
 let suffix_res = ".res"
 let suffix_resi = ".resi"
-let suffix_resast = ".resast"
-let suffix_resiast = ".resiast"
 let suffix_mlmap = ".mlmap"
 
 let suffix_cmt = ".cmt"
 let suffix_cmti = ".cmti"
-let suffix_mlast = ".mlast"
-let suffix_mlast_simple = ".mlast_simple"
-let suffix_mliast = ".mliast"
-let suffix_reast = ".reast"
-let suffix_reiast = ".reiast"
-let suffix_mliast_simple = ".mliast_simple"
+let suffix_ast = ".ast"
+let suffix_iast = ".iast"
 let suffix_d = ".d"
 let suffix_js = ".js"
 let suffix_bs_js = ".bs.js"
@@ -11990,8 +11999,9 @@ let cross_module_inline = ref false
 
 
 let diagnose = ref false
-let get_diagnose () = !diagnose
-(* let set_diagnose b = diagnose := b *)
+let get_diagnose () = 
+    !diagnose
+
 
 (* let (//) = Filename.concat *)
 
@@ -33435,10 +33445,11 @@ let () =
                  L_string_set.fold
                    (fun dep acc  -> 
                       acc ^ 
-                      dep ^
-                      " "
+                      file ^ ": " ^ dep ^
+                      "\n"
                    ) sorted_dep_queue
-                   (file ^ ": " )
+                   ""
+                   (* (file ^ ": " ) *)
                    (* collection_modules *)
                )
        end

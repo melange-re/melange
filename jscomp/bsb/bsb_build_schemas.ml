@@ -36,6 +36,7 @@ let refmt = "refmt"
 let bs_external_includes = "bs-external-includes"
 let bs_lib_dir = "bs-lib-dir"
 let bs_dependencies = "bs-dependencies"
+let pinned_dependencies = "pinned-dependencies"
 let bs_dev_dependencies = "bs-dev-dependencies"
 
 
@@ -62,7 +63,7 @@ let export_all = "all"
 let export_none = "none"
 
 
-let g_lib_incls = "g_lib_incls"
+
 let use_stdlib = "use-stdlib"
 let reason = "reason"
 let react_jsx = "react-jsx"
