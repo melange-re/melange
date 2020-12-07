@@ -88,7 +88,6 @@ let process_file sourcefile
     ->
     Location.set_input_name  sourcefile;
     Js_implementation.implementation_map ppf sourcefile
->>>>>>> bucklescript/master
   | Cmi
     ->
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
@@ -119,16 +118,17 @@ let anonymous ~(rev_args : string list) =
         process_file filename ppf
       | [] -> ()
       | _ ->
+          Format.eprintf "args: %s@." (String.concat "; " rev_args);
         Bsc_args.bad_arg "can not handle multiple files"
     end
 
 (** used by -impl -intf *)
 let impl filename =
   Js_config.js_stdout := false;
-  process_implementation_file ppf filename;;
+  process_file filename ~kind:Ml ppf ;;
 let intf filename =
   Js_config.js_stdout := false ;
-  process_interface_file ppf filename;;
+  process_file filename ~kind:Mli ppf;;
 
 let reason_fmt ~input =
   let isInterface =
@@ -141,7 +141,7 @@ let reason_fmt ~input =
     Ast_reason_pp.format_implementation input
 
 let format_file input =
-  let ext = classify_input (Ext_filename.get_extension_maybe input) in
+  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
   let format_fn =
     match ext with
     | Ml | Mli -> Res_multi_printer.print `ml

@@ -172,7 +172,7 @@ let install_target config_opt =
     | None ->
       let config =
         Bsb_config_parse.interpret_json
-          ~toplevel_package_specs:None
+          ~package_kind:Toplevel
           ~per_proj_dir:Bsb_global_paths.cwd in
       let _ = Ext_list.iter config.file_groups.files (fun group ->
           let check_file = match group.public with
@@ -184,7 +184,7 @@ let install_target config_opt =
           Map_string.iter group.sources
             (fun  module_name module_info ->
                if check_file module_name then
-                 begin Hash_set_string.add config.files_to_install module_info.name_sans_extension end
+                 begin Queue.add module_info config.files_to_install end
             )) in
       config
     | Some (config, _digest) -> config in
@@ -192,6 +192,7 @@ let install_target config_opt =
 
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
+  let deps_digest = ref None in
   try begin
     match Sys.argv with
     | [| _ |] ->  (* specialize this path [bsb.exe] which is used in watcher *)

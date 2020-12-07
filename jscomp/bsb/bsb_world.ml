@@ -34,17 +34,19 @@ let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_confi
     Bsb_log.info "@{<info>Installing started@}@.";
     let file_groups = ref [] in
     let queue =
-      Bsb_build_util.walk_all_deps  cwd ~pinned_dependencies in
+      Bsb_build_util.walk_all_deps cwd ~pinned_dependencies in
     queue |> Queue.iter (fun ({ top; proj_dir} : Bsb_build_util.package_context) ->
-      match top with
-      | Expect_none -> ()
-      | Expect_name s ->
-        let is_pinned =  Set_string.mem pinned_dependencies s in
-        let dep_config =
-          Bsb_config_parse.interpret_json
-          ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
-          ~per_proj_dir:proj_dir in
-        file_groups := (proj_dir, dep_config.file_groups) :: !file_groups
+      let package_kind = match top with
+        | Expect_none -> Bsb_package_kind.Toplevel
+        | Expect_name s ->
+          let is_pinned =  Set_string.mem pinned_dependencies s in
+          if is_pinned then Pinned_dependency deps else Dependency deps
+      in
+      let dep_config =
+        Bsb_config_parse.interpret_json
+        ~package_kind
+        ~per_proj_dir:proj_dir in
+      file_groups := (proj_dir, dep_config.file_groups) :: !file_groups
     );
     let lib_bs_dir = cwd // lib_artifacts_dir in
     Bsb_build_util.mkp lib_bs_dir;
@@ -65,9 +67,9 @@ let build_bs_deps cwd ~pinned_dependencies (deps : Bsb_package_specs.t) =
       | Expect_none -> ()
       | Expect_name s ->
         let is_pinned =  Set_string.mem pinned_dependencies s in
-        (if is_pinned then
+        (* (if is_pinned then
           print_endline ("Dependency pinned on " ^ s )
-        else print_endline ("Dependency on " ^ s ));
+        else print_endline ("Dependency on " ^ s )); *)
         dep_dirs := proj_dir :: !dep_dirs;
         match
           Bsb_ninja_regen.regenerate_ninja

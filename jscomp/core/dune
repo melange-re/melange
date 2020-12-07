@@ -8,7 +8,7 @@
    (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file})))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
  (libraries ext common depends outcome_printer js_parser reason
-   builtin_datasets))
+   builtin_datasets napkin))
 
 (rule
  (targets js_fold.ml)

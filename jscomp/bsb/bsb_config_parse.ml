@@ -260,16 +260,6 @@ let extract_generators (map : json_map) =
   );
   !generators
 
-let extract_dependencies (map : json_map) cwd (field : string )
-  : Bsb_config_types.dependencies =
-  match map.?(field) with
-  | None -> []
-  | Some (Arr ({content = s})) ->
-    Ext_list.map (Bsb_build_util.get_list_string s) (fun s -> resolve_package cwd (Bsb_pkg_types.string_as_package s))
-  | Some config ->
-    Bsb_exception.config_error config
-      (field ^ " expect an array")
-
 (* return an empty array if not found *)
 let extract_string_list (map : json_map) (field : string) : string list =
   match map.?(field) with
@@ -330,7 +320,7 @@ let extract_js_post_build (map : json_map) cwd : string option =
 
 (** ATT: make sure such function is re-entrant.
     With a given [cwd] it works anywhere*)
-let interpret_json
+let rec interpret_json
     ~(package_kind : Bsb_package_kind.t)
     ~per_proj_dir:(per_proj_dir:string)
 
@@ -373,12 +363,27 @@ let interpret_json
           Some (Bsb_build_util.resolve_bsb_magic_file ~cwd:per_proj_dir ~desc:Bsb_build_schemas.pp_flags p).path
       ) in
     let reason_react_jsx = extract_reason_react_jsx map in
-    let bs_dependencies = extract_dependencies map per_proj_dir Bsb_build_schemas.bs_dependencies in
+    let package_specs = match package_kind with
+      | Toplevel ->  Bsb_package_specs.from_map map
+      | Pinned_dependency x
+      | Dependency x -> x
+    in
+    let bs_dependencies =
+      extract_dependencies
+        ~package_kind:(Bsb_package_kind.Dependency package_specs)
+        map
+        per_proj_dir
+        Bsb_build_schemas.bs_dependencies
+    in
     let bs_dev_dependencies =
       match package_kind with
       | Toplevel
       | Pinned_dependency _ ->
-        extract_dependencies map per_proj_dir Bsb_build_schemas.bs_dev_dependencies
+        extract_dependencies
+          ~package_kind:(Dependency package_specs)
+          map
+          per_proj_dir
+          Bsb_build_schemas.bs_dev_dependencies
       | Dependency _ -> [] in
     let pinned_dependencies =
       extract_pinned_dependencies map in
@@ -416,11 +421,7 @@ let interpret_json
           *)
           refmt;
           js_post_build_cmd = (extract_js_post_build map per_proj_dir);
-          package_specs =
-            (match package_kind with
-             | Toplevel ->  Bsb_package_specs.from_map map
-             | Pinned_dependency x
-             | Dependency x -> x);
+          package_specs;
           file_groups = groups;
           files_to_install = Queue.create ();
           built_in_dependency = built_in_package;
@@ -436,6 +437,35 @@ let interpret_json
     end
   | _ ->
     Bsb_exception.invalid_spec "bsconfig.json expect a json object {}"
+
+and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
+  : Bsb_config_types.dependencies =
+  match map.?(field) with
+  | None -> []
+  | Some (Arr ({content = s})) ->
+    Ext_list.map (Bsb_build_util.get_list_string s) (fun s ->
+     let dep = resolve_package cwd (Bsb_pkg_types.string_as_package s) in
+     let { Bsb_config_types.file_groups = { files; _ }; namespace; _ } =
+       interpret_json ~package_kind ~per_proj_dir:dep.package_path
+     in
+     let ns_incl = Ext_option.map namespace (fun _ns ->
+       dep.package_install_path // Bsb_config.lib_bs)
+     in
+     let dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; dev_index; _ } ->
+        if not dev_index then Some (dep.package_path // dir) else None
+     )
+     in
+     let install_dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; dev_index; _ } ->
+        if not dev_index then Some (dep.package_install_path // dir) else None
+     )
+     in
+     { dep with
+       package_install_dirs = (match ns_incl with Some ns_incl -> ns_incl :: install_dirs | None -> install_dirs);
+       package_dirs = dirs
+     })
+  | Some config ->
+    Bsb_exception.config_error config
+      (field ^ " expect an array")
 
 
 let package_specs_from_bsconfig () =

@@ -158,12 +158,11 @@ let emit_module_build
     Literals.bsconfig_json
   in
   Bsb_ninja_targets.output_build cur_dir buf
-    ~outputs:
-      (if has_intf_file then [output_cmj] else [output_cmj;output_cmi])
+    ~outputs:[output_cmj]
     ~implicit_outputs:
      (if has_intf_file then [] else [ output_cmi ])
     ~js_outputs:output_js
-    ~inputs:(if has_intf_file then [output_ast; output_cmi] else [output_ast])
+    ~inputs:[output_ast]
     ~implicit_deps:(if has_intf_file then [output_cmi] else [])
     ~bs_dependencies_deps
     ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)

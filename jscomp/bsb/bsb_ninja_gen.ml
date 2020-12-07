@@ -41,15 +41,12 @@ let get_bsc_flags
   String.concat Ext_string.single_space bsc_flags
 
 
-
 let bsc_lib_includes
     (bs_dependencies : Bsb_config_types.dependencies)
-  (source_dirs : string list)
-  (external_includes)
-  (namespace : _ option): string =
-  let all_includes source_dirs  =
-    source_dirs @
-    Ext_list.map bs_dependencies (fun x -> x.package_install_path) @
+  (external_includes) =
+  (* TODO: bsc_flags contain stdlib path which is in the latter position currently *)
+  let all_includes  =
+    (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs)) @
     (
       (* for external includes, if it is absolute path, leave it as is
          for relative path './xx', we need '../.././x' since we are in
@@ -61,14 +58,7 @@ let bsc_lib_includes
         (fun x -> if Filename.is_relative x then Bsb_config.rev_lib_bs_prefix  x else x)
     )
   in
-
-  (Bsb_build_util.include_dirs
-     (all_includes
-        (if namespace = None then source_dirs
-         else Filename.current_dir_name :: source_dirs
-         (*working dir is [lib/bs] we include this path to have namespace mapping*)
-        )))
-
+  Bsb_build_util.include_dirs all_includes
 
 (* let output_static_resources
     (static_resources : string list)
@@ -223,7 +213,7 @@ let output_ninja_and_namespace_map
       ~g_dev_incls:source_dirs.dev
       ~g_stdlib_incl
       ~g_sourcedirs_incls:source_dirs.lib
-      ~g_lib_incls:(bsc_lib_includes bs_dependencies source_dirs.lib external_includes namespace)
+      ~g_lib_incls:(bsc_lib_includes bs_dependencies external_includes)
       ~gentypeconfig:(Ext_option.map gentype_config (fun x ->
           ("-bs-gentype " ^ x.path)))
       ~pp_flags:(Ext_option.map pp_file Bsb_build_util.pp_flag)

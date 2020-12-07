@@ -922,7 +922,7 @@ var compilerTarget = pseudoTarget(COMPILIER);
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
-  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50  warn-error A`;
+  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A`;
   var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
   var templateRuntimeRules = `
 
