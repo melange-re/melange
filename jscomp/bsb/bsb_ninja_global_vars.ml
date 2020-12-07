@@ -24,36 +24,32 @@
 
 type t =
  {
-  g_pkg_flg : string;
+  package_name : string;
   src_root_dir: string;
   bsc: string;
   bsdep: string;
   bs_dep_parse: string;
   warnings: string;
   bsc_flags: string;
-  ppx_flags: string;
   g_dpkg_incls: string;
   g_dev_incls: string list;
   g_stdlib_incl: string list;
   g_lib_incls: string;
   g_sourcedirs_incls: string list;
-  g_ns : string ;
   gentypeconfig: string option;
   pp_flags: string option;
   namespace: string option
  }
 
 let make
-  ~g_pkg_flg
+  ~package_name
   ~src_root_dir
   ~bsc
   ~bsdep
   ~bs_dep_parse
   ~warnings
   ~bsc_flags
-  ~ppx_flags
   ~g_dpkg_incls
-  ~g_ns
   ~g_dev_incls
   ~g_stdlib_incl
   ~g_lib_incls
@@ -62,52 +58,30 @@ let make
   ~pp_flags
   ~namespace =
  {
-  g_pkg_flg;
+  package_name;
   src_root_dir;
   bsc;
   bsdep;
   bs_dep_parse;
   warnings;
   bsc_flags;
-  ppx_flags;
   g_dpkg_incls;
   g_dev_incls;
   g_stdlib_incl;
   g_lib_incls;
   g_sourcedirs_incls;
-  g_ns;
   gentypeconfig;
   pp_flags;
   namespace;
  }
 
-let g_pkg_flg = "g_pkg_flg"
+(* Invariant: the two string literal has
+  to be "a" and "$a"
+*)
 
-let bsc = "bsc"
+(* let src_root_dir = "g_root"
 
-let src_root_dir = "src_root_dir"
-let bsdep = "bsdep"
+let lazy_src_root_dir = "$g_root"  *)
+let g_finger = "g_finger"
 
-let bsc_flags = "bsc_flags"
-
-let ppx_flags = "ppx_flags"
-
-let pp_flags = "pp_flags"
-
-
-let g_dpkg_incls = "g_dpkg_incls"
-
-let refmt = "refmt"
-
-let refmt_flags = "refmt_flags"
-
-let postbuild = "postbuild"
-
-let g_ns = "g_ns"
-
-let warnings = "warnings"
-
-let gentypeconfig = "gentypeconfig"
-
-let g_dev_incls = "g_dev_incls"
 

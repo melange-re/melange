@@ -43,22 +43,34 @@ let write (fname : string)  (x : t) =
   output_value oc x ;
   close_out oc
 
+(* float_of_string_opt *)
+external hexstring_of_float : float -> int -> char -> string
+  = "caml_hexstring_of_float"
 
+let hex_of_float f = hexstring_of_float f (-1) '-'
+
+(* This should not lose any preicision *)
+(* let id (f : float) =
+    float_of_string (hex_of_float f) = f
+ *)
 
 
 
 type check_result =
   | Good
+  | Bsb_file_corrupted
   | Bsb_file_not_exist (** We assume that it is a clean repo *)
   | Bsb_source_directory_changed
   | Bsb_dep_digest
   | Bsb_bsc_version_mismatch
   | Bsb_forced
+  | Bsb_package_kind_inconsistent
   | Other of string
 
 let pp_check_result fmt (check_resoult : check_result) =
   Format.pp_print_string fmt (match check_resoult with
       | Good -> "OK"
+      | Bsb_file_corrupted -> "Stored data corrupted"
       | Bsb_file_not_exist -> "Dependencies information missing"
       | Bsb_source_directory_changed ->
         "Bsb source directory changed"
@@ -68,6 +80,8 @@ let pp_check_result fmt (check_resoult : check_result) =
         "Bsc or bsb version mismatch"
       | Bsb_forced ->
         "Bsb forced rebuild"
+      | Bsb_package_kind_inconsistent ->
+        "The package was built in different mode"
       | Other s -> s)
 
 let rec check_aux cwd (xs : string array) (ys: float array) i finish =
@@ -80,7 +94,6 @@ let rec check_aux cwd (xs : string array) (ys: float array) i finish =
       check_aux cwd xs ys (i + 1 ) finish
     else Other current_file
 
-
 let read (fname : string) (cont : t -> check_result) =
   match open_in_bin fname with   (* Windows binary mode*)
   | ic ->
@@ -91,6 +104,9 @@ let read (fname : string) (cont : t -> check_result) =
       close_in ic ;
       cont res
   | exception _ -> Bsb_file_not_exist
+
+(* TODO: for such small data structure, maybe text format is better *)
+
 
 let record ~deps_digest ~per_proj_dir ~file  (file_or_dirs : string list) : string =
   let dir_or_files = Array.of_list file_or_dirs in

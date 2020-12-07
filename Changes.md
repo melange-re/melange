@@ -1,5 +1,127 @@
 `*` means  potential break changes
 
+# 8.4.1
+
+- Syntax submodule upgrades from 7f5c968 to 7cc70c9
+- #4856 #4858
+  Improve code generation for pattern match:
+  Input:
+  ```res
+  type t =
+    | A 
+    | B
+    | C 
+    | D (int )
+    | E (int)
+
+  let f = x => {
+    switch x {
+        | A => 0
+        | B => 1
+        | C => 2
+        | D (x) => x 
+        | E (x) => x + 1
+    }
+  }    
+  ```
+  Output was:
+  ```js
+    function f(x) {
+      if (typeof x !== "number") {
+        if (x.TAG) {
+        return x._0 + 1 | 0;
+      } else {
+        return x._0;
+      }
+      
+      switch (x) {
+        case /* A */0 :
+          return 0;
+        case /* B */1 :
+          return 1;
+        case /* C */2 :
+          return 2;      
+    }
+  }
+  ```
+
+  Now:
+  ```js
+  function f(x) {
+    if (typeof x !== "number") {
+      if (x.TAG === /* D */0) {
+        return x._0;
+      } else {
+        return x._0 + 1 | 0;
+      }
+    }
+    switch (x) {
+      case /* A */0 :
+          return 0;
+      case /* B */1 :
+          return 1;
+      case /* C */2 :
+          return 2;
+      
+    }
+  }
+  ```
+
+
+
+- #4855 *internal changes*
+  changes to compiler-libs will trigger a rebuild of the compiler, this allows us to
+  see how changes of compiler-libs affect bsc.exe quickly
+
+- #4850 replace ocp-ocamlres with a lightweight nodejs script, get rid of such dev dependency
+
+- #4854 #4848 #4847 #4844 #4836 #4826 #4824
+  
+  Pinned packages support and `-make-world` respect changes of dependencies
+
+- #4840 #4841 more robust handling of removing stale output
+
+
+- #4831 use relative paths in the command line
+  It will be expanded to absolute path right after the compiler see the path,
+  such changes work better with the underlying ninja build engine, and should perform slightly better
+
+- #4828 no need pass -o for compiling, inferred directly (with namespace support too)
+
+- #4827 *internal* the dev version of bsc now behave roughly the same as the released version
+
+- #4825 fix a typo in the wanring `%@string` -> `@string`
+
+- #4823 introduce a new warning 109: toplevel expression is expected to have type unit
+  It is turned on as warn-error by default. This warning is introduced to avoid partial application errors in a curried language
+
+- #4822 more robust hanlding of : ignore warnings and warn-error when bsb is building dependencies
+
+
+
+# 8.3.3
+This is a bug release for 8.3.*
+- #4817 *internal* add an option RES_SKIP_STDLIB_CHECK so that 
+  for a true monorepo, it does not need follow `node_modules` layout
+- #4807 #4815 remove unused code in refmt parser *a lot* (around 50_000 loc)
+  on darwin, the binary size is dropped fom 9.69M to 8.48M
+- #4808 add back basic-reason theme to avoid breakage for existing docs  
+- #4806 Fix broken ocaml build with gcc 10
+- #4804 restore back-wards compatibility with `build statement` in generated ninja files
+- #4803 fix the bsb build schema location in the error message
+- #4802 proper error message when bsconfig.json is missing
+- #4801 add a sanity check for name field in bsconfig.json to match real package name
+- #4810 #4784 regressions for weird indentation in warning output
+
+
+# 8.3.1
+This is a minor bug fix release for 8.3.0
+- capture warnings when rebuild without enforce warn-as-error
+- #4716 internal, make ninja a submodule in dev process
+- #4722 better dataflow for cases like `let {a;b} as obj = ...`
+- no need call `caml_enter_blocking_section` for single threaded compiler
+- #4739 fix the interaction of exotic filenames like `[id]` with the build system.
+
 # 8.3
 
 - #4694, #4712 improving/customizing the underlying ninja build system, better performance  

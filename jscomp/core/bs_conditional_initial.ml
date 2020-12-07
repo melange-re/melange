@@ -35,8 +35,7 @@ let setup_env () =
   Matching.call_switcher_variant_constr := Polyvar_pattern_match.call_switcher_variant_constr;
   Clflags.no_std_include := true;
   Warnings.parse_options false Bsc_warnings.defaults_w;
-  (* TODO(anmonteiro): fix after merge? *)
-  (* Warnings.parse_options true Bsc_warnings.defaults_warn_error; *)
+  Warnings.parse_options true Bsc_warnings.defaults_warn_error;
   Clflags.dump_location := false;
   Clflags.compile_only := true;
   Config.bs_only := true;
@@ -64,6 +63,15 @@ let setup_env () =
     Matching_polyfill.names_from_construct_pattern;
 #ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
+    (let root_dir =
+        Filename.dirname
+          (Filename.dirname Sys.executable_name) in
+    let (//) = Filename.concat in
+    Clflags.include_dirs :=
+      (root_dir//"jscomp"//"others") ::
+      (root_dir//"jscomp"//"stdlib-406") ::
+      (root_dir//"jscomp"//"runtime") ::
+      !Clflags.include_dirs);
 #endif
   Lexer.replace_directive_bool "BS" true;
   Lexer.replace_directive_bool "JS" true;

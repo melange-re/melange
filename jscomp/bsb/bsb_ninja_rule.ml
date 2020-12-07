@@ -91,12 +91,12 @@ type builtin = {
   (** Rules below all need restat *)
   build_bin_deps : t ;
   build_bin_deps_dev : t;
-  ml_cmj_js : t;
-  ml_cmj_js_dev : t;
-  ml_cmj_cmi_js : t ;
-  ml_cmj_cmi_js_dev : t ;
-  ml_cmi : t;
-  ml_cmi_dev : t ;
+  mj : t;
+  mj_dev : t;
+  mij : t ;
+  mij_dev : t ;
+  mi : t;
+  mi_dev : t ;
 
   build_package : t ;
   customs : t Map_string.t
@@ -107,26 +107,30 @@ type builtin = {
 
 let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
-  ~(has_postbuild : bool)
-  ~(has_ppx : bool)
+  ~(has_postbuild : string option)
+  ~(pp_file: string option)
+  ~ppx_files
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
   ~(digest : string)
   ~(refmt : string option) (* set refmt path when needed *)
+  ~package_specs
   (custom_rules : command Map_string.t) :
   builtin =
   (** FIXME: We don't need set [-o ${out}] when building ast
       since the default is already good -- it does not*)
   (** NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
   let buf = Ext_buffer.create 100 in
+  let ns_flag =
+    match global_config.namespace with None -> ""
+    | Some n -> " -bs-ns " ^ n in
   let mk_ml_cmj_cmd
-      ~read_cmi
+      ~(read_cmi : [`yes | `is_cmi | `no])
       ~is_dev
       ~postbuild : ?target:string -> string -> string = fun ?(target="%{targets}") cur_dir ->
     Ext_buffer.clear buf;
     Ext_buffer.add_string buf global_config.bsc;
     Ext_buffer.add_ninja_prefix_var buf "-nostdlib";
-    Ext_buffer.add_ninja_prefix_var buf global_config.g_pkg_flg;
-    if read_cmi then
+    if read_cmi = `yes then
       Ext_buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin
        let dev_incls = Bsb_build_util.include_dirs global_config.g_dev_incls in
@@ -144,100 +148,125 @@ let make_custom_rules
     if global_config.g_stdlib_incl <> [] then
       Ext_buffer.add_ninja_prefix_var buf (Bsb_build_util.include_dirs global_config.g_stdlib_incl);
     Ext_buffer.add_ninja_prefix_var buf global_config.warnings;
-    Ext_buffer.add_ninja_prefix_var buf global_config.bsc_flags;
+    if read_cmi <> `is_cmi then begin
+      Ext_buffer.add_string buf " -bs-package-name ";
+      Ext_buffer.add_string buf global_config.package_name;
+      Ext_buffer.add_string buf (Bsb_package_specs.package_flag_of_package_specs package_specs cur_dir)
+    end;
+
+
     Ext_option.iter global_config.gentypeconfig (fun gentypeconfig ->
       Ext_buffer.add_ninja_prefix_var buf gentypeconfig);
     Ext_buffer.add_ninja_prefix_var buf "-o";
     Ext_buffer.add_ninja_prefix_var buf target;
     Ext_buffer.add_ninja_prefix_var buf "%{inputs}";
-    if postbuild then
-      Ext_buffer.add_string buf " $postbuild";
+    begin match postbuild with
+    | None -> ()
+    | Some cmd ->
+      Ext_buffer.add_string buf " && ";
+      Ext_buffer.add_string buf cmd ;
+      Ext_buffer.add_string buf " $out_last"
+    end ;
     Ext_buffer.contents buf
   in
-  let mk_ast ?pp_flags ~has_ppx ~has_reason_react_jsx ?target _cur_dir : string =
+  let mk_ast ~has_reason_react_jsx ?target _cur_dir : string =
     Ext_buffer.clear buf ;
     Ext_buffer.add_ninja_prefix_var buf global_config.bsc;
     Ext_buffer.add_ninja_prefix_var buf global_config.warnings;
+    Ext_buffer.add_string buf " -bs-v ";
+    Ext_buffer.add_string buf Bs_version.version;
+    (match ppx_files with
+     | [ ] -> ()
+     | _ ->
+       Ext_list.iter ppx_files (fun (x: Bsb_config_types.ppx) ->
+           match string_of_float (Unix.stat x.name).st_mtime with
+           | exception _ -> ()
+           | st -> Ext_buffer.add_char_string buf ',' st
+         );
+       Ext_buffer.add_char_string buf ' '
+         (Bsb_build_util.ppx_flags ppx_files));
     (match refmt with
     | None -> ()
     | Some x ->
       Ext_buffer.add_string buf " -bs-refmt ";
       Ext_buffer.add_string buf (Ext_filename.maybe_quote x);
     );
-    Ext_option.iter pp_flags (fun pp_flags ->
-      Ext_buffer.add_ninja_prefix_var buf pp_flags);
+    (match pp_file with
+     | None -> ()
+     | Some flag ->
+       Ext_buffer.add_char_string buf ' '
+         (Bsb_build_util.pp_flag flag)
+    );
     (match has_reason_react_jsx, reason_react_jsx with
      | false, _
      | _, None -> ()
      | _, Some Jsx_v3
        -> Ext_buffer.add_string buf " -bs-jsx 3"
     );
-    if has_ppx then
-      Ext_buffer.add_ninja_prefix_var buf global_config.ppx_flags;
-    Ext_buffer.add_ninja_prefix_var buf global_config.bsc_flags;
-    Ext_buffer.add_string buf " -o %{targets} -bs-syntax-only -bs-binary-ast %{inputs}";
+
+    Ext_buffer.add_char_string buf ' ' global_config.bsc_flags;
+    Ext_buffer.add_string buf " -absname -bs-ast -o %{targets} %{inputs}";
     Ext_buffer.contents buf
   in
   let build_ast =
     define
-      ~command:(mk_ast ?pp_flags:global_config.pp_flags ~has_ppx ~has_reason_react_jsx:false )
-      "build_ast" in
+      ~command:(mk_ast ~has_reason_react_jsx:false )
+      "ast" in
   let build_ast_from_re =
     define
-      ~command:(mk_ast ?pp_flags:global_config.pp_flags ~has_ppx ~has_reason_react_jsx:true)
-      "build_ast_from_re" in
+      ~command:(mk_ast  ~has_reason_react_jsx:true)
+      "astj" in
 
   let copy_resources =
     define
       ~command:(fun ?target _cur_dir ->
         if Ext_sys.is_windows_or_cygwin then
-          "cmd.exe /C copy /Y $in $out > null"
-        else "cp %{deps} %{targets}"
+          "cmd.exe /C copy /Y $i $out >NUL"
+        else "cp $i $out"
       )
       "copy_resource" in
+
   let build_bin_deps =
     define
       ~restat:()
       ~command:(fun ?target _cur_dir ->
         global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
-        " -hash " ^ digest ^ Ext_string.single_space ^
-        global_config.g_ns ^ " %{inputs}")
-      "mk_deps" in
+        " -hash " ^ digest ^ ns_flag ^ " %{inputs}")
+      "deps" in
   let build_bin_deps_dev =
     define
       ~restat:()
       ~command:(fun ?target _cur_dir ->
          global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
-         " -g -hash " ^ digest ^ Ext_string.single_space ^
-         global_config.g_ns ^ " %{inputs}")
-        "mk_deps_dev" in
+         " -g -hash " ^ digest ^ ns_flag ^ " %{inputs}")
+        "deps_dev" in
   let aux ~name ~read_cmi  ~postbuild =
-    let postbuild = has_postbuild && postbuild in
     define
       ~command:(mk_ml_cmj_cmd
                   ~read_cmi  ~is_dev:false
                   ~postbuild)
-      ~dyndep:"$in_e.d"
+      ~dyndep:()
       ~restat:() (* Always restat when having mli *)
       name,
     define
       ~command:(mk_ml_cmj_cmd
                   ~read_cmi  ~is_dev:true
                   ~postbuild)
-      ~dyndep:"$in_e.d"
+      ~dyndep:()
       ~restat:() (* Always restat when having mli *)
       (name ^ "_dev")
   in
-  let ml_cmj_js, ml_cmj_js_dev =
-    aux ~name:"ml_cmj_only" ~read_cmi:true ~postbuild:true in
-  let ml_cmj_cmi_js, ml_cmj_cmi_js_dev =
+
+  let mj, mj_dev =
+    aux ~name:"mj" ~read_cmi:`yes ~postbuild:has_postbuild in
+  let mij, mij_dev =
     aux
-      ~read_cmi:false
-      ~name:"ml_cmj_cmi" ~postbuild:true in
-  let ml_cmi, ml_cmi_dev =
+      ~read_cmi:`no
+      ~name:"mij" ~postbuild:has_postbuild in
+  let mi, mi_dev =
     aux
-       ~read_cmi:false  ~postbuild:false
-      ~name:"ml_cmi" in
+       ~read_cmi:`is_cmi  ~postbuild:None
+      ~name:"mi" in
   let build_package =
     define
       ~command:(fun ?target _cur_dir ->
@@ -259,13 +288,13 @@ let make_custom_rules
     (** Rules below all need restat *)
     build_bin_deps ;
     build_bin_deps_dev;
-    ml_cmj_js ;
-    ml_cmj_js_dev ;
-    ml_cmj_cmi_js ;
-    ml_cmi ;
+    mj  ;
+    mj_dev  ;
+    mij  ;
+    mi  ;
 
-    ml_cmj_cmi_js_dev;
-    ml_cmi_dev;
+    mij_dev;
+    mi_dev ;
 
     build_package ;
     customs =

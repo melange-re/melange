@@ -167,9 +167,13 @@ let get_list_string s = get_list_string_acc s []
 let (|?)  m (key, cb) =
   m  |> Ext_json.test key cb
 
+type top =
+  | Expect_none
+  | Expect_name of string
+
 type package_context = {
   proj_dir : string ;
-  top : bool ;
+  top : top ;
 }
 
 (**
@@ -189,26 +193,35 @@ let pp_packages_rev ppf lst =
 let rec walk_all_deps_aux
   (visited : string Hash_string.t)
   (paths : string list)
-  (top : bool)
+  ~(top : top)
   (dir : string)
-  (cb : package_context -> unit) =
+  (queue : _ Queue.t)
+  ~pinned_dependencies =
   let bsconfig_json =  dir // Literals.bsconfig_json in
   match Ext_json_parse.parse_json_from_file bsconfig_json with
   | Obj {map; loc} ->
     let cur_package_name =
       match Map_string.find_opt map Bsb_build_schemas.name with
-      | Some (Str {str }) -> str
+      | Some (Str {str ; loc }) ->
+        (match top with
+         | Expect_none -> ()
+         | Expect_name s ->
+          if s <> str then
+            Bsb_exception.errorf
+            ~loc "package name is expected to be %s but got %s" s str
+        );
+        str
       | Some _
       | None -> Bsb_exception.errorf ~loc "package name missing in %s/bsconfig.json" dir
     in
-    let package_stacks = cur_package_name :: paths in
-    Bsb_log.info "@{<info>Package stack:@} %a @." pp_packages_rev
-      package_stacks ;
     if Ext_list.mem_string paths cur_package_name  then
       begin
         Bsb_log.error "@{<error>Cyclic dependencies in package stack@}@.";
         exit 2
       end;
+    let package_stacks = cur_package_name :: paths in
+    Bsb_log.info "@{<info>Package stack:@} %a @." pp_packages_rev
+      package_stacks ;
     if Hash_string.mem visited cur_package_name then
       Bsb_log.info
         "@{<info>Visited before@} %s@." cur_package_name
@@ -224,7 +237,8 @@ let rec walk_all_deps_aux
                    let package_dir =
                      Bsb_pkg.resolve_bs_package ~cwd:dir
                        (Bsb_pkg_types.string_as_package   new_package) in
-                   walk_all_deps_aux visited package_stacks  false package_dir cb  ;
+                   walk_all_deps_aux visited package_stacks  ~top:(Expect_name new_package) package_dir queue
+                   ~pinned_dependencies ;
                  | _ ->
                    Bsb_exception.errorf ~loc
                      "%s expect an array"
@@ -233,15 +247,22 @@ let rec walk_all_deps_aux
         |> ignore in
       begin
         explore_deps Bsb_build_schemas.bs_dependencies;
-        if top then explore_deps Bsb_build_schemas.bs_dev_dependencies;
-        cb {top ; proj_dir = dir};
+        begin match top with
+          | Expect_none ->
+            explore_deps Bsb_build_schemas.bs_dev_dependencies
+          | Expect_name n when
+              Set_string.mem pinned_dependencies n ->
+            explore_deps Bsb_build_schemas.bs_dev_dependencies
+          | Expect_name _ -> ()
+        end;
+        Queue.add {top ; proj_dir = dir} queue;
         Hash_string.add visited cur_package_name dir;
       end
   | _ -> ()
-  | exception _ ->
-    Bsb_exception.invalid_json bsconfig_json
 
 
-let walk_all_deps dir cb =
+let walk_all_deps dir ~pinned_dependencies : package_context Queue.t =
   let visited = Hash_string.create 0 in
-  walk_all_deps_aux visited [] true dir cb
+  let cb = Queue.create () in
+  walk_all_deps_aux visited [] ~top:Expect_none dir cb ~pinned_dependencies;
+  cb

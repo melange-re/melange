@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -26,8 +26,8 @@ type tdcls = Parsetree.type_declaration list
 
 type gen = {
   structure_gen : tdcls -> Asttypes.rec_flag -> Ast_structure.t ;
-  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t ; 
-  expression_gen : (Parsetree.core_type -> Parsetree.expression) option ; 
+  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t ;
+  expression_gen : (Parsetree.core_type -> Parsetree.expression) option ;
 }
 
 (* the first argument is [config] payload
@@ -35,54 +35,56 @@ type gen = {
      { x = {uu} }
    ]}
 *)
-type derive_table  = 
+type derive_table  =
   (Parsetree.expression option -> gen) Map_string.t
 
 let derive_table : derive_table ref = ref Map_string.empty
 
-let register key value = 
-  derive_table := Map_string.add !derive_table key value 
+let register key value =
+  derive_table := Map_string.add !derive_table key value
 
 
 
-(* let gen_structure 
+(* let gen_structure
     (tdcls : tdcls)
-    (actions :  Ast_payload.action list ) 
+    (actions :  Ast_payload.action list )
     (explict_nonrec : bool )
-  : Ast_structure.t = 
+  : Ast_structure.t =
   Ext_list.flat_map
-    (fun action -> 
-       (Ast_payload.table_dispatch !derive_table action).structure_gen 
+    (fun action ->
+       (Ast_payload.table_dispatch !derive_table action).structure_gen
          tdcls explict_nonrec) actions *)
 
 let gen_signature
     tdcls
-    (actions :  Ast_payload.action list ) 
+    (actions :  Ast_payload.action list )
     (explict_nonrec : Asttypes.rec_flag )
-  : Ast_signature.t = 
+  : Ast_signature.t =
   Ext_list.flat_map actions
-    (fun action -> 
-       (Ast_payload.table_dispatch !derive_table action).signature_gen
-         tdcls explict_nonrec) 
+    (fun action ->
+      match (Ast_payload.table_dispatch !derive_table action) with
+      | Some {signature_gen} ->
+       signature_gen tdcls explict_nonrec
+      | None -> [])
 
 
 
-open Ast_helper  
-let gen_structure_signature 
+open Ast_helper
+let gen_structure_signature
     loc
-    (tdcls : tdcls)   
+    (tdcls : tdcls)
     (action : Ast_payload.action)
-    (explicit_nonrec : Asttypes.rec_flag) = 
-  let derive_table = !derive_table in  
-  let u = 
-    Ast_payload.table_dispatch derive_table action in  
-
-  let a = u.structure_gen tdcls explicit_nonrec in
-  let b = u.signature_gen tdcls explicit_nonrec in
-  Str.include_ ~loc  
-    (Incl.mk ~loc 
-       (Mod.constraint_ ~loc
-          (Mod.structure ~loc a)
-          (Mty.signature ~loc b )
-       )
-    )
+    (explicit_nonrec : Asttypes.rec_flag) =
+  let derive_table = !derive_table in
+  match Ast_payload.table_dispatch derive_table action with
+  | Some u ->
+    let a = u.structure_gen tdcls explicit_nonrec in
+    let b = u.signature_gen tdcls explicit_nonrec in
+    Some (Str.include_ ~loc
+      (Incl.mk ~loc
+         (Mod.constraint_ ~loc
+            (Mod.structure ~loc a)
+            (Mty.signature ~loc b )
+            )
+         ))
+  | None -> None

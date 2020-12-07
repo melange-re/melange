@@ -23,29 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-
-
-type override =
-  | Append of string
-  | AppendList of string list
-  (* Append s
-     s
-  *)
-  | AppendVar of string
-  (* AppendVar s
-     $s
-  *)
-  | Overwrite of string
-
-  | OverwriteVar of string
-    (*
-      OverwriteVar s
-      $s
-    *)
-  | OverwriteVars of string list
-
-type shadow =
-  { key : string ; op : override }
+let oc_list xs  oc =
+  Ext_list.iter xs (fun s -> output_string oc Ext_string.single_space ; output_string oc s)
 
 let dune_header = ";;;;{BSB GENERATED: NO EDIT"
 let dune_trailer = ";;;;BSB GENERATED: NO EDIT}"
@@ -138,7 +117,6 @@ let output_build
     ?(bs_dependencies_deps=[])
     ?(implicit_outputs=[])
     ?(js_outputs=[])
-    ?(shadows=([] : shadow list))
     ~outputs
     ~inputs
     ~rule
@@ -183,45 +161,27 @@ let output_build
     rule
     cur_dir
     buf;
-  if shadows <> [] then begin
-    Ext_list.iter shadows (fun {key=k; op= v} ->
-        match v with
-        | Overwrite _ (* TODO: postbuild is overwrite *)
-        | OverwriteVar _
-        | OverwriteVars _
-        | AppendList _ -> assert false
-        | Append s ->
-          Buffer.add_string buf Ext_string.single_space;
-          Buffer.add_string buf s
-        | AppendVar _ ->
-          assert false
-      )
-  end;
   Buffer.add_string buf " )))\n "
 
 
 
-let phony ?(order_only_deps=[]) ~inputs ~output buf =
-  Buffer.add_string buf "build ";
-  Buffer.add_string buf output ;
-  Buffer.add_string buf " : ";
-  Buffer.add_string buf "phony";
-  Buffer.add_string buf Ext_string.single_space;
-  Ext_list.iter inputs  (fun s ->   Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf s);
+let phony ?(order_only_deps=[]) ~inputs ~output oc =
+  output_string oc "o ";
+  output_string oc output ;
+  output_string oc " : ";
+  output_string oc "phony";
+  oc_list inputs oc;
   if order_only_deps <> [] then
     begin
-      Buffer.add_string buf " || ";
-      Ext_list.iter order_only_deps (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf s)
+      output_string oc " ||";
+      oc_list order_only_deps oc
     end;
-  Buffer.add_string buf "\n"
+  output_string oc "\n"
 
-let output_kv key value buf  =
-  Buffer.add_string buf key ;
-  Buffer.add_string buf " = ";
-  Buffer.add_string buf value ;
-  Buffer.add_string buf "\n"
-
-let output_kvs kvs oc =
-  Ext_array.iter kvs (fun (k,v) -> output_kv k v oc)
+let output_finger key value oc  =
+  output_string oc key ;
+  output_string oc " := ";
+  output_string oc value ;
+  output_string oc "\n"
 
 

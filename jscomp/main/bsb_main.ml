@@ -172,7 +172,7 @@ let install_target config_opt =
     | None ->
       let config =
         Bsb_config_parse.interpret_json
-          ~toplevel_package_specs:None
+          ~package_kind:Toplevel
           ~per_proj_dir:Bsb_global_paths.cwd in
       let _ = Ext_list.iter config.file_groups.files (fun group ->
           let check_file = match group.public with
@@ -184,7 +184,7 @@ let install_target config_opt =
           Map_string.iter group.sources
             (fun  module_name module_info ->
                if check_file module_name then
-                 begin Hash_set_string.add config.files_to_install module_info.name_sans_extension end
+                 begin Queue.add module_info config.files_to_install end
             )) in
       config
     | Some (config, _digest) -> config in
@@ -192,16 +192,13 @@ let install_target config_opt =
 
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
-  let argv = Sys.argv in
   let deps_digest = ref None in
   try begin
-    match argv with
-    | [| _ |]
-    | [| _; "-verbose" |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
-      Bsb_log.verbose ();
+    match Sys.argv with
+    | [| _ |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
       let config = Bsb_ninja_regen.regenerate_ninja
         ?deps_digest:!deps_digest
-        ~toplevel_package_specs:None
+        ~package_kind:Toplevel
         ~forced:false
         ~per_proj_dir:Bsb_global_paths.cwd
       in
@@ -239,7 +236,7 @@ let () =
                  let config_opt =
                    Bsb_ninja_regen.regenerate_ninja
                      ?deps_digest:!deps_digest
-                     ~toplevel_package_specs:None
+                     ~package_kind:Toplevel
                      ~forced:force_regenerate ~per_proj_dir:Bsb_global_paths.cwd
                  in
                  if !watch_mode then begin
@@ -274,7 +271,7 @@ let () =
             let config_opt =
               (Bsb_ninja_regen.regenerate_ninja
                 ?deps_digest:!deps_digest
-                ~toplevel_package_specs:None
+                ~package_kind:Toplevel
                 ~per_proj_dir:Bsb_global_paths.cwd
                 ~forced:!force_regenerate) in
             if !do_install then

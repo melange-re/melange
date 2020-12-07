@@ -24,9 +24,9 @@
 
 (**
    This module is used to check whether [build.ninja] needs
-   be regenerated. Everytime [bsb] run [regenerate_ninja], 
-   bsb will try to [check] if it is needed, 
-   if needed, bsb will regenerate ninja file and store the 
+   be regenerated. Everytime [bsb] run [regenerate_ninja],
+   bsb will try to [check] if it is needed,
+   if needed, bsb will regenerate ninja file and store the
    metadata again
 *)
 
@@ -36,11 +36,13 @@
 
 type check_result =
   | Good
+  | Bsb_file_corrupted
   | Bsb_file_not_exist (** We assume that it is a clean repo *)
   | Bsb_source_directory_changed
   | Bsb_dep_digest
   | Bsb_bsc_version_mismatch
   | Bsb_forced
+  | Bsb_package_kind_inconsistent
   | Other of string
 
 val pp_check_result :
@@ -50,10 +52,10 @@ val pp_check_result :
 
 
 (** [record cwd file relevant_file_or_dirs]
-    The data structure we decided to whether regenerate [build.ninja] 
-    or not. 
-    Note that if we don't record absolute path,  ninja will not notice  its build spec changed, 
-    it will not trigger  rebuild behavior, 
+    The data structure we decided to whether regenerate [build.ninja]
+    or not.
+    Note that if we don't record absolute path,  ninja will not notice  its build spec changed,
+    it will not trigger  rebuild behavior,
     It may not be desired behavior, since there is some subtlies here (__FILE__ or __dirname)
 
     We serialize such data structure and call {!check} to decide

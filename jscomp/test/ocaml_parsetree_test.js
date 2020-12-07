@@ -110,10 +110,10 @@ function ansi_of_color(param) {
 
 function code_of_style(c) {
   if (typeof c !== "number") {
-    if (c.TAG) {
-      return "4" + ansi_of_color(c._0);
-    } else {
+    if (c.TAG === /* FG */0) {
       return "3" + ansi_of_color(c._0);
+    } else {
+      return "4" + ansi_of_color(c._0);
     }
   }
   switch (c) {
@@ -4305,18 +4305,18 @@ function varify_constructors(var_names, t) {
           };
   };
   var loop_row_field = function (t) {
-    if (t.TAG) {
-      return {
-              TAG: /* Rinherit */1,
-              _0: loop(t._0)
-            };
-    } else {
+    if (t.TAG === /* Rtag */0) {
       return {
               TAG: /* Rtag */0,
               _0: t._0,
               _1: t._1,
               _2: t._2,
               _3: List.map(loop, t._3)
+            };
+    } else {
+      return {
+              TAG: /* Rinherit */1,
+              _0: loop(t._0)
             };
     }
   };
@@ -11263,24 +11263,6 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     
   };
-  var parse_and_aux = function (calc, v) {
-    var e = token(undefined);
-    if (typeof e === "number") {
-      if (e !== 0) {
-        push(e);
-        return v;
-      }
-      var calc$1 = calc && v;
-      var b = parse_and_aux(calc$1, parse_relation(calc$1));
-      if (v) {
-        return b;
-      } else {
-        return false;
-      }
-    }
-    push(e);
-    return v;
-  };
   var parse_or_aux = function (calc, v) {
     var e = token(undefined);
     if (typeof e === "number") {
@@ -11426,7 +11408,7 @@ function directive_parse(token_with_comments, lexbuf) {
             var value_v = query(curr_loc, curr_token._0);
             return token_op(calc, (function (e) {
                           push(e);
-                          if (typeof value_v !== "number" && !value_v.TAG) {
+                          if (typeof value_v !== "number" && value_v.TAG === /* Dir_bool */0) {
                             return value_v._0;
                           }
                           var ty = type_of_directive(value_v);
@@ -11450,6 +11432,24 @@ function directive_parse(token_with_comments, lexbuf) {
               };
       }
     }
+  };
+  var parse_and_aux = function (calc, v) {
+    var e = token(undefined);
+    if (typeof e === "number") {
+      if (e !== 0) {
+        push(e);
+        return v;
+      }
+      var calc$1 = calc && v;
+      var b = parse_and_aux(calc$1, parse_relation(calc$1));
+      if (v) {
+        return b;
+      } else {
+        return false;
+      }
+    }
+    push(e);
+    return v;
   };
   var v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   var match = token(undefined);
@@ -12811,45 +12811,17 @@ function token(lexbuf) {
   };
 }
 
-function string(lexbuf) {
-  lexbuf.lex_mem = Caml_array.caml_make_vect(2, -1);
-  var ___ocaml_lex_state = 164;
+function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          return ;
-      case 1 :
-          var space = Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-          update_loc(lexbuf, undefined, 1, false, space.length);
-          return string(lexbuf);
-      case 2 :
-          store_string_char(char_for_backslash(Lexing.lexeme_char(lexbuf, 1)));
-          return string(lexbuf);
-      case 3 :
-          store_string_char(char_for_decimal_code(lexbuf, 1));
-          return string(lexbuf);
-      case 4 :
-          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
-          return string(lexbuf);
-      case 5 :
-          if (comment_start_loc.contents !== /* [] */0) {
-            return string(lexbuf);
-          }
-          var loc = curr(lexbuf);
-          prerr_warning(loc, /* Illegal_backslash */7);
-          store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          store_string_char(Lexing.lexeme_char(lexbuf, 1));
-          return string(lexbuf);
-      case 6 :
-          if (comment_start_loc.contents === /* [] */0) {
-            prerr_warning(curr(lexbuf), /* Eol_in_string */14);
-          }
           update_loc(lexbuf, undefined, 1, false, 0);
           store_string(Lexing.lexeme(lexbuf));
-          return string(lexbuf);
-      case 7 :
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 1 :
           is_in_string.contents = false;
           throw {
                 RE_EXN_ID: $$Error$2,
@@ -12857,9 +12829,19 @@ function string(lexbuf) {
                 _2: string_start_loc.contents,
                 Error: new Error()
               };
-      case 8 :
+      case 2 :
+          var edelim = Lexing.lexeme(lexbuf);
+          var edelim$1 = $$String.sub(edelim, 1, edelim.length - 2 | 0);
+          if (delim === edelim$1) {
+            return ;
+          }
+          store_string(Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 3 :
           store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          return string(lexbuf);
+          ___ocaml_lex_state = 183;
+          continue ;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -13054,17 +13036,45 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
   };
 }
 
-function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
+function string(lexbuf) {
+  lexbuf.lex_mem = Caml_array.caml_make_vect(2, -1);
+  var ___ocaml_lex_state = 164;
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
+          return ;
+      case 1 :
+          var space = Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          update_loc(lexbuf, undefined, 1, false, space.length);
+          return string(lexbuf);
+      case 2 :
+          store_string_char(char_for_backslash(Lexing.lexeme_char(lexbuf, 1)));
+          return string(lexbuf);
+      case 3 :
+          store_string_char(char_for_decimal_code(lexbuf, 1));
+          return string(lexbuf);
+      case 4 :
+          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
+          return string(lexbuf);
+      case 5 :
+          if (comment_start_loc.contents !== /* [] */0) {
+            return string(lexbuf);
+          }
+          var loc = curr(lexbuf);
+          prerr_warning(loc, /* Illegal_backslash */7);
+          store_string_char(Lexing.lexeme_char(lexbuf, 0));
+          store_string_char(Lexing.lexeme_char(lexbuf, 1));
+          return string(lexbuf);
+      case 6 :
+          if (comment_start_loc.contents === /* [] */0) {
+            prerr_warning(curr(lexbuf), /* Eol_in_string */14);
+          }
           update_loc(lexbuf, undefined, 1, false, 0);
           store_string(Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 1 :
+          return string(lexbuf);
+      case 7 :
           is_in_string.contents = false;
           throw {
                 RE_EXN_ID: $$Error$2,
@@ -13072,19 +13082,9 @@ function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
                 _2: string_start_loc.contents,
                 Error: new Error()
               };
-      case 2 :
-          var edelim = Lexing.lexeme(lexbuf);
-          var edelim$1 = $$String.sub(edelim, 1, edelim.length - 2 | 0);
-          if (delim === edelim$1) {
-            return ;
-          }
-          store_string(Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 3 :
+      case 8 :
           store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          ___ocaml_lex_state = 183;
-          continue ;
+          return string(lexbuf);
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -13117,30 +13117,30 @@ function token$1(lexbuf) {
     if (typeof docs === "number") {
       return ;
     }
-    if (docs.TAG) {
-      var b = docs._2;
-      var f = docs._1;
+    if (docs.TAG === /* After */0) {
       var a = docs._0;
       if (lines >= 2) {
         set_post_docstrings(post_pos, List.rev(a));
-        set_post_extra_docstrings(post_pos, List.rev_append(f, List.rev(b)));
-        set_floating_docstrings(pre_pos, List.rev_append(f, List.rev(b)));
         return set_pre_extra_docstrings(pre_pos, List.rev(a));
       } else {
         set_post_docstrings(post_pos, List.rev(a));
-        set_post_extra_docstrings(post_pos, List.rev_append(f, List.rev(b)));
-        set_floating_docstrings(pre_pos, List.rev(f));
-        set_pre_extra_docstrings(pre_pos, List.rev(a));
-        return set_pre_docstrings(pre_pos, b);
+        return set_pre_docstrings(pre_pos, a);
       }
     }
+    var b = docs._2;
+    var f = docs._1;
     var a$1 = docs._0;
     if (lines >= 2) {
       set_post_docstrings(post_pos, List.rev(a$1));
+      set_post_extra_docstrings(post_pos, List.rev_append(f, List.rev(b)));
+      set_floating_docstrings(pre_pos, List.rev_append(f, List.rev(b)));
       return set_pre_extra_docstrings(pre_pos, List.rev(a$1));
     } else {
       set_post_docstrings(post_pos, List.rev(a$1));
-      return set_pre_docstrings(pre_pos, a$1);
+      set_post_extra_docstrings(post_pos, List.rev_append(f, List.rev(b)));
+      set_floating_docstrings(pre_pos, List.rev(f));
+      set_pre_extra_docstrings(pre_pos, List.rev(a$1));
+      return set_pre_docstrings(pre_pos, b);
     }
   };
   var loop = function (_lines, _docs, lexbuf) {
@@ -13361,32 +13361,11 @@ function token$1(lexbuf) {
                         tl: /* [] */0
                       }
                     });
-              } else if (docs.TAG) {
-                var b = docs._2;
-                var f = docs._1;
+              } else if (docs.TAG === /* After */0) {
                 var a = docs._0;
                 docs$prime = lines >= 2 ? ({
                       TAG: /* Before */1,
                       _0: a,
-                      _1: Pervasives.$at(b, f),
-                      _2: {
-                        hd: doc$1,
-                        tl: /* [] */0
-                      }
-                    }) : ({
-                      TAG: /* Before */1,
-                      _0: a,
-                      _1: f,
-                      _2: {
-                        hd: doc$1,
-                        tl: b
-                      }
-                    });
-              } else {
-                var a$1 = docs._0;
-                docs$prime = lines >= 2 ? ({
-                      TAG: /* Before */1,
-                      _0: a$1,
                       _1: /* [] */0,
                       _2: {
                         hd: doc$1,
@@ -13396,7 +13375,28 @@ function token$1(lexbuf) {
                       TAG: /* After */0,
                       _0: {
                         hd: doc$1,
-                        tl: a$1
+                        tl: a
+                      }
+                    });
+              } else {
+                var b = docs._2;
+                var f = docs._1;
+                var a$1 = docs._0;
+                docs$prime = lines >= 2 ? ({
+                      TAG: /* Before */1,
+                      _0: a$1,
+                      _1: Pervasives.$at(b, f),
+                      _2: {
+                        hd: doc$1,
+                        tl: /* [] */0
+                      }
+                    }) : ({
+                      TAG: /* Before */1,
+                      _0: a$1,
+                      _1: f,
+                      _2: {
+                        hd: doc$1,
+                        tl: b
                       }
                     });
               }
@@ -13493,11 +13493,11 @@ function wrap(parsing_fun, lexbuf) {
       if (typeof tmp === "number") {
         throw err;
       }
-      if (tmp.TAG) {
-        throw err;
-      }
-      if (input_name.contents === "//toplevel//") {
-        skip_phrase(lexbuf);
+      if (tmp.TAG === /* Illegal_character */0) {
+        if (input_name.contents === "//toplevel//") {
+          skip_phrase(lexbuf);
+          throw err;
+        }
         throw err;
       }
       throw err;
@@ -13565,7 +13565,7 @@ if (match) {
       var match$3 = match$2.hd;
       var match$4 = match$3.pvb_pat;
       var match$5 = match$4.ppat_desc;
-      if (typeof match$5 === "number" || match$5.TAG) {
+      if (typeof match$5 === "number" || match$5.TAG !== /* Ppat_var */0) {
         eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
       } else {
         var match$6 = match$5._0;
@@ -13585,7 +13585,7 @@ if (match) {
                   if (match$14.TAG === /* Pexp_fun */4 && match$14._0 === "" && match$14._1 === undefined) {
                     var match$15 = match$14._2;
                     var match$16 = match$15.ppat_desc;
-                    if (typeof match$16 === "number" || match$16.TAG) {
+                    if (typeof match$16 === "number" || match$16.TAG !== /* Ppat_var */0) {
                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                     } else {
                       var match$17 = match$16._0;
@@ -13605,9 +13605,7 @@ if (match) {
                                 if (match$25.TAG === /* Pexp_apply */5) {
                                   var match$26 = match$25._0;
                                   var match$27 = match$26.pexp_desc;
-                                  if (match$27.TAG) {
-                                    eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                  } else {
+                                  if (match$27.TAG === /* Pexp_ident */0) {
                                     var match$28 = match$27._0;
                                     var match$29 = match$28.txt;
                                     switch (match$29.TAG | 0) {
@@ -13632,9 +13630,7 @@ if (match) {
                                                         if (match$39.TAG === /* Pexp_apply */5) {
                                                           var match$40 = match$39._0;
                                                           var match$41 = match$40.pexp_desc;
-                                                          if (match$41.TAG) {
-                                                            eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                          } else {
+                                                          if (match$41.TAG === /* Pexp_ident */0) {
                                                             var match$42 = match$41._0;
                                                             var match$43 = match$42.txt;
                                                             switch (match$43.TAG | 0) {
@@ -13656,9 +13652,7 @@ if (match) {
                                                                               if (match$51[0] === "") {
                                                                                 var match$52 = match$51[1];
                                                                                 var match$53 = match$52.pexp_desc;
-                                                                                if (match$53.TAG) {
-                                                                                  eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                } else {
+                                                                                if (match$53.TAG === /* Pexp_ident */0) {
                                                                                   var match$54 = match$53._0;
                                                                                   var match$55 = match$54.txt;
                                                                                   switch (match$55.TAG | 0) {
@@ -13680,9 +13674,7 @@ if (match) {
                                                                                                     if (match$63[0] === "") {
                                                                                                       var match$64 = match$63[1];
                                                                                                       var match$65 = match$64.pexp_desc;
-                                                                                                      if (match$65.TAG) {
-                                                                                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                      } else {
+                                                                                                      if (match$65.TAG === /* Pexp_ident */0) {
                                                                                                         var match$66 = match$65._0;
                                                                                                         var match$67 = match$66.txt;
                                                                                                         switch (match$67.TAG | 0) {
@@ -13712,9 +13704,7 @@ if (match) {
                                                                                                                                     if (match$79[0] === "") {
                                                                                                                                       var match$80 = match$79[1];
                                                                                                                                       var match$81 = match$80.pexp_desc;
-                                                                                                                                      if (match$81.TAG) {
-                                                                                                                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
-                                                                                                                                      } else {
+                                                                                                                                      if (match$81.TAG === /* Pexp_ident */0) {
                                                                                                                                         var match$82 = match$81._0;
                                                                                                                                         var match$83 = match$82.txt;
                                                                                                                                         switch (match$83.TAG | 0) {
@@ -13796,6 +13786,8 @@ if (match) {
                                                                                                                                               break;
                                                                                                                                           
                                                                                                                                         }
+                                                                                                                                      } else {
+                                                                                                                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                                                       }
                                                                                                                                     } else {
                                                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13838,6 +13830,8 @@ if (match) {
                                                                                                               break;
                                                                                                           
                                                                                                         }
+                                                                                                      } else {
+                                                                                                        eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                                       }
                                                                                                     } else {
                                                                                                       eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13867,6 +13861,8 @@ if (match) {
                                                                                         break;
                                                                                     
                                                                                   }
+                                                                                } else {
+                                                                                  eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                                                 }
                                                                               } else {
                                                                                 eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13896,6 +13892,8 @@ if (match) {
                                                                   break;
                                                               
                                                             }
+                                                          } else {
+                                                            eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                                           }
                                                         } else {
                                                           eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
@@ -13928,6 +13926,8 @@ if (match) {
                                           break;
                                       
                                     }
+                                  } else {
+                                    eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);
                                   }
                                 } else {
                                   eq("File \"ocaml_parsetree_main_bspack.ml\", line 216, characters 12-19", true, false);

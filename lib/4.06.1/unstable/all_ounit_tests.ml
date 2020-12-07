@@ -6082,18 +6082,12 @@ let suffix_re = ".re"
 let suffix_rei = ".rei"
 let suffix_res = ".res"
 let suffix_resi = ".resi"
-let suffix_resast = ".resast"
-let suffix_resiast = ".resiast"
 let suffix_mlmap = ".mlmap"
 
 let suffix_cmt = ".cmt"
 let suffix_cmti = ".cmti"
-let suffix_mlast = ".mlast"
-let suffix_mlast_simple = ".mlast_simple"
-let suffix_mliast = ".mliast"
-let suffix_reast = ".reast"
-let suffix_reiast = ".reiast"
-let suffix_mliast_simple = ".mliast_simple"
+let suffix_ast = ".ast"
+let suffix_iast = ".iast"
 let suffix_d = ".d"
 let suffix_js = ".js"
 let suffix_bs_js = ".bs.js"
@@ -8526,6 +8520,9 @@ module Ml_binary : sig
 
 
 
+(* This file was used to read reason ast
+  and part of parsing binary ast
+ *)
 type _ kind = 
   | Ml : Parsetree.structure kind 
   | Mli : Parsetree.signature kind
@@ -8537,6 +8534,8 @@ val write_ast :
    'a kind -> string -> 'a -> out_channel -> unit
 
 val magic_of_kind : 'a kind -> string   
+
+
 end = struct
 #1 "ml_binary.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -8577,7 +8576,7 @@ let read_ast (type t ) (kind : t  kind) ic : t  =
     | Mli -> Config.ast_intf_magic_number in 
   let buffer = really_input_string ic (String.length magic) in
   assert(buffer = magic); (* already checked by apply_rewriter *)
-  Location.set_input_name @@ input_value ic;
+  Location.set_input_name (input_value ic);
   input_value ic 
 
 let write_ast (type t) (kind : t kind) 
@@ -8595,7 +8594,8 @@ let magic_of_kind : type a . a kind -> string = function
   | Ml -> Config.ast_impl_magic_number
   | Mli -> Config.ast_intf_magic_number
 
-  
+
+
 end
 module Ast_extract : sig 
 #1 "ast_extract.mli"

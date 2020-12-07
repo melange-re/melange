@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,45 +17,45 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type tdcls = Parsetree.type_declaration list 
+type tdcls = Parsetree.type_declaration list
 
 type gen = {
   structure_gen : tdcls -> Asttypes.rec_flag -> Ast_structure.t ;
-  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t ; 
-  expression_gen : (Parsetree.core_type -> Parsetree.expression) option ; 
+  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t ;
+  expression_gen : (Parsetree.core_type -> Parsetree.expression) option ;
 }
 
 (**
    [register name cb]
    example: [register "accessors" cb]
 *)
-val register : 
-  string -> 
-  (Parsetree.expression option -> gen) -> 
+val register :
+  string ->
+  (Parsetree.expression option -> gen) ->
   unit
 
-(* val gen_structure: 
+(* val gen_structure:
   tdcls  ->
   Ast_payload.action list ->
-  bool -> 
+  bool ->
   Ast_structure.t *)
 
-val gen_signature: 
+val gen_signature:
   tdcls ->
-  Ast_payload.action list -> 
-  Asttypes.rec_flag -> 
+  Ast_payload.action list ->
+  Asttypes.rec_flag ->
   Ast_signature.t
 
 
 
-val gen_structure_signature :  
-  Location.t -> 
+val gen_structure_signature :
+  Location.t ->
   Parsetree.type_declaration list ->
-  Ast_payload.action -> 
-  Asttypes.rec_flag -> 
-  Parsetree.structure_item
+  Ast_payload.action ->
+  Asttypes.rec_flag ->
+  Parsetree.structure_item option

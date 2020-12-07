@@ -41,7 +41,6 @@ let get_bsc_flags
   String.concat Ext_string.single_space bsc_flags
 
 
-
 let bsc_lib_includes
     (bs_dependencies : Bsb_config_types.dependencies)
   (external_includes) =
@@ -61,7 +60,7 @@ let bsc_lib_includes
   in
   Bsb_build_util.include_dirs all_includes
 
-let output_static_resources
+(* let output_static_resources
     (static_resources : string list)
     ~cur_dir
     copy_rule
@@ -79,13 +78,72 @@ let output_static_resources
       oc
       ~order_only_deps:static_resources
       ~inputs:[]
-      ~output:Literals.build_ninja
+      ~output:Literals.build_ninja *)
+(*
+  FIXME: check if the trick still works
+  phony build.ninja : | resources
+*)
+let mark_rescript oc =
+  output_string oc "rescript = 1\n"
+let output_installation_file cwd_lib_bs namespace files_to_install =
+  let install_oc = open_out_bin (cwd_lib_bs // "install.ninja") in
+  mark_rescript install_oc;
+  let o s = output_string install_oc s in
+  let[@inline] oo suffix ~dest ~src =
+    o  "o " ;
+    o dest ;
+    o suffix;
+    o " : cp ";
+    o src;
+    o suffix; o "\n" in
+  let bs = ".."//"bs" in
+  let sb = ".."//".." in
+  o (if Ext_sys.is_windows_or_cygwin then
+      "rule cp\n  command = cmd.exe /C copy /Y $i $out >NUL\n"
+    else
+      "rule cp\n  command = cp $i $out\n"
+    );
+  files_to_install
+  |> Queue.iter (fun ({name_sans_extension;syntax_kind; info} : Bsb_db.module_info) ->
+      let base = Filename.basename name_sans_extension in
+      let ns_base = Ext_namespace_encode.make ?ns:namespace base in
+      let ns_origin = Ext_namespace_encode.make ?ns:namespace name_sans_extension in
+      oo Literals.suffix_cmi ~dest:ns_base ~src:(bs//ns_origin);
+      oo Literals.suffix_cmj ~dest:ns_base ~src:(bs//ns_origin);
+      oo Literals.suffix_cmt ~dest:ns_base ~src:(bs//ns_origin);
+      let suffix =
+        match syntax_kind with
+        | Ml -> Literals.suffix_ml
+        | Reason -> Literals.suffix_re
+        | Res -> Literals.suffix_res
+      in  oo suffix ~dest:base ~src:(sb//name_sans_extension);
+      match info with
+      | Intf  -> assert false
+      | Impl ->  ()
+      | Impl_intf ->
+        let  suffix_b =
+          match syntax_kind with
+          | Ml ->  Literals.suffix_mli
+          | Reason ->  Literals.suffix_rei
+          | Res ->  Literals.suffix_resi in
+        oo suffix_b  ~dest:base ~src:(sb//name_sans_extension);
+        oo Literals.suffix_cmti ~dest:ns_base ~src:(bs//ns_origin)
+    );
+  begin match namespace with
+  | None -> ()
+  | Some x ->
+    let src = bs // x in
+    oo Literals.suffix_cmi ~dest:x ~src;
+    oo Literals.suffix_cmj ~dest:x ~src;
+    oo Literals.suffix_cmt ~dest:x ~src
+  end;
+  close_out install_oc
 
 (* returns the digest of the relevant project files. *)
 let output_ninja_and_namespace_map
     ~digest
     ~per_proj_dir
-    ~toplevel
+    ~package_kind
     ({
       package_name;
       external_includes;
@@ -111,17 +169,11 @@ let output_ninja_and_namespace_map
   =
   let lib_artifacts_dir = Bsb_config.lib_bs in
   let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in
-  let ppx_flags = Bsb_build_util.ppx_flags ppx_files in
-  let g_pkg_flg , g_ns_flg =
-    match namespace with
-    | None ->
-      Ext_string.inter2 "-bs-package-name" package_name, Ext_string.empty
-    | Some s ->
-      Ext_string.inter4
-        "-bs-package-name" package_name
-        "-bs-ns" s
-      ,
-      Ext_string.inter2 "-bs-ns" s in
+  let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
+  let bsc_flags = (get_bsc_flags bsc_flags) in
+  let dpkg_incls  =  (Bsb_build_util.include_dirs_by
+                        bs_dev_dependencies
+                        (fun x -> x.package_install_path)) in
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
   let source_dirs : string list Bsb_db.cat = {lib = []; dev = []} in
   let static_resources =
@@ -149,17 +201,15 @@ let output_ninja_and_namespace_map
   in
   let global_config =
     Bsb_ninja_global_vars.make
-      ~g_pkg_flg
+      ~package_name
       ~src_root_dir:per_proj_dir
       ~bsc:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc)
       ~bsdep:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsdep)
       ~bs_dep_parse:(Ext_filename.maybe_quote Bsb_global_paths.bs_dep_parse)
-      ~warnings:(Bsb_warning.to_bsb_string ~toplevel warning)
-      ~bsc_flags:(get_bsc_flags bsc_flags)
-      ~ppx_flags
+      ~warnings
+      ~bsc_flags
       ~g_dpkg_incls:(Bsb_build_util.include_dirs
          (Ext_list.flat_map bs_dev_dependencies (fun x -> x.package_install_dirs)))
-      ~g_ns:g_ns_flg
       ~g_dev_incls:source_dirs.dev
       ~g_stdlib_incl
       ~g_sourcedirs_incls:source_dirs.lib
@@ -183,9 +233,11 @@ let output_ninja_and_namespace_map
       Bsb_ninja_rule.make_custom_rules
       ~global_config
       ~refmt
-      ~has_postbuild:(js_post_build_cmd <> None)
-      ~has_ppx:(ppx_files <> [])
+      ~has_postbuild:js_post_build_cmd
+      ~pp_file
+      ~ppx_files
       ~reason_react_jsx
+      ~package_specs
       ~digest
       generators in
   let bs_dependencies_deps =
@@ -200,9 +252,9 @@ let output_ninja_and_namespace_map
          ~global_config
          ~digest
          ~rules
-         ~js_post_build_cmd
          ~package_specs
          ~files_to_install
+         ~js_post_build_cmd
          ~bs_dependencies_deps
          files_per_dir)
   ;
@@ -223,3 +275,4 @@ let output_ninja_and_namespace_map
     );
   Buffer.add_char buf '\n';
   Bsb_ninja_targets.revise_dune dune buf
+  (* output_installation_file cwd_lib_bs namespace files_to_install *)

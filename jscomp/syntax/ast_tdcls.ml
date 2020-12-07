@@ -118,12 +118,11 @@ let handleTdclsInStru
         (newStr ::
          self.structure self
            (
-             List.map
-               (fun action ->
+             Ext_list.filter_map actions (fun action ->
                   Ast_derive.gen_structure_signature
                     loc
                     tdcls action rf
-               )    actions
+               )
            ))
   | {bs_deriving = None }, _  ->
     Bs_ast_mapper.default_mapper.structure_item self str

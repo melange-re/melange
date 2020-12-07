@@ -8,7 +8,7 @@
    (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file})))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
  (libraries ext common depends outcome_printer js_parser reason
-   builtin_datasets))
+   builtin_datasets napkin))
 
 (rule
  (targets js_fold.ml)
@@ -23,11 +23,5 @@
  (action
   (run camlp4of -I core -filter Camlp4FoldGenerator -filter trash -impl
     %{deps} -printer o -o %{targets})))
-
-(rule
- (targets reactjs_jsx_ppx_v3.ml)
- (deps reactjs_jsx_ppx.cppo.ml)
- (action
-  (run cppo -V OCAML:4.06.1+BS %{deps} -o %{targets})))
 
 (copy_files# ../syntax/*)

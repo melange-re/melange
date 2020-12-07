@@ -4,644 +4,644 @@
     (targets camlinternalFormatBasics.cmi)
     (deps (:inputs camlinternalFormatBasics.mli) ../others/others)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
 
 
   (rule
     (targets camlinternalFormatBasics.cmj)
     (deps (:inputs camlinternalFormatBasics.ml) ../others/others camlinternalFormatBasics.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
 
 
   (rule
     (targets pervasives.cmj)
     (deps (:inputs pervasives.ml) ../others/others pervasives.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
 
 
   (rule
     (targets pervasives.cmi)
     (deps (:inputs pervasives.mli) ../others/others camlinternalFormatBasics.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nopervasives -I . %{inputs})))
 
 
   (rule
     (targets arg.cmj)
     (deps (:inputs arg.ml) ../others/others arg.cmi array.cmj buffer.cmj list.cmj printf.cmj string.cmj sys.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets arg.cmi)
     (deps (:inputs arg.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets array.cmj)
     (deps (:inputs array.ml) ../others/others array.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets array.cmi)
     (deps (:inputs array.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets arrayLabels.cmj)
     (deps (:inputs arrayLabels.ml) ../others/others array.cmj arrayLabels.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets arrayLabels.cmi)
     (deps (:inputs arrayLabels.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets buffer.cmj)
     (deps (:inputs buffer.ml) ../others/others buffer.cmi bytes.cmj char.cmj string.cmj sys.cmj uchar.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets buffer.cmi)
     (deps (:inputs buffer.mli) ../others/others pervasives.cmj uchar.cmi)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets bytes.cmj)
     (deps (:inputs bytes.ml) ../others/others bytes.cmi char.cmj pervasives.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets bytes.cmi)
     (deps (:inputs bytes.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets bytesLabels.cmj)
     (deps (:inputs bytesLabels.ml) ../others/others bytes.cmj bytesLabels.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets bytesLabels.cmi)
     (deps (:inputs bytesLabels.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets callback.cmj)
     (deps (:inputs callback.ml) ../others/others callback.cmi obj.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets callback.cmi)
     (deps (:inputs callback.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalBigarray.cmi camlinternalBigarray.cmj)
     (deps (:inputs camlinternalBigarray.ml) ../others/others complex.cmj pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalFormat.cmj)
     (deps (:inputs camlinternalFormat.ml) ../others/others buffer.cmj bytes.cmj camlinternalFormat.cmi camlinternalFormatBasics.cmj char.cmj string.cmj sys.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalFormat.cmi)
     (deps (:inputs camlinternalFormat.mli) ../others/others buffer.cmi camlinternalFormatBasics.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalLazy.cmj)
     (deps (:inputs camlinternalLazy.ml) ../others/others camlinternalLazy.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalLazy.cmi)
     (deps (:inputs camlinternalLazy.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalMod.cmj)
     (deps (:inputs camlinternalMod.ml) ../others/others camlinternalMod.cmi obj.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalMod.cmi)
     (deps (:inputs camlinternalMod.mli) ../others/others obj.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalOO.cmj)
     (deps (:inputs camlinternalOO.ml) ../others/others array.cmj camlinternalOO.cmi char.cmj list.cmj map.cmj obj.cmj string.cmj sys.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets camlinternalOO.cmi)
     (deps (:inputs camlinternalOO.mli) ../others/others obj.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets char.cmj)
     (deps (:inputs char.ml) ../others/others char.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets char.cmi)
     (deps (:inputs char.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets complex.cmj)
     (deps (:inputs complex.ml) ../others/others complex.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets complex.cmi)
     (deps (:inputs complex.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets digest.cmj)
     (deps (:inputs digest.ml) ../others/others bytes.cmj char.cmj digest.cmi string.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets digest.cmi)
     (deps (:inputs digest.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets filename.cmj)
     (deps (:inputs filename.ml) ../others/others buffer.cmj filename.cmi lazy.cmj printf.cmj random.cmj string.cmj sys.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets filename.cmi)
     (deps (:inputs filename.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets format.cmj)
     (deps (:inputs format.ml) ../others/others buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj format.cmi list.cmj pervasives.cmj string.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets format.cmi)
     (deps (:inputs format.mli) ../others/others buffer.cmi pervasives.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets genlex.cmj)
     (deps (:inputs genlex.ml) ../others/others bytes.cmj char.cmj genlex.cmi hashtbl.cmj list.cmj stream.cmj string.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets genlex.cmi)
     (deps (:inputs genlex.mli) ../others/others pervasives.cmj stream.cmi)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets hashtbl.cmj)
     (deps (:inputs hashtbl.ml) ../others/others array.cmj hashtbl.cmi lazy.cmj random.cmj string.cmj sys.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets hashtbl.cmi)
     (deps (:inputs hashtbl.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets int32.cmj)
     (deps (:inputs int32.ml) ../others/others int32.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets int32.cmi)
     (deps (:inputs int32.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets int64.cmj)
     (deps (:inputs int64.ml) ../others/others int64.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets int64.cmi)
     (deps (:inputs int64.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets lazy.cmj)
     (deps (:inputs lazy.ml) ../others/others camlinternalLazy.cmj lazy.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets lazy.cmi)
     (deps (:inputs lazy.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets lexing.cmj)
     (deps (:inputs lexing.ml) ../others/others array.cmj bytes.cmj lexing.cmi string.cmj sys.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets lexing.cmi)
     (deps (:inputs lexing.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets list.cmj)
     (deps (:inputs list.ml) ../others/others list.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets list.cmi)
     (deps (:inputs list.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets listLabels.cmj)
     (deps (:inputs listLabels.ml) ../others/others list.cmj listLabels.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets listLabels.cmi)
     (deps (:inputs listLabels.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets map.cmj)
     (deps (:inputs map.ml) ../others/others map.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets map.cmi)
     (deps (:inputs map.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets marshal.cmj)
     (deps (:inputs marshal.ml) ../others/others bytes.cmj marshal.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets marshal.cmi)
     (deps (:inputs marshal.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets moreLabels.cmj)
     (deps (:inputs moreLabels.ml) ../others/others hashtbl.cmj map.cmj moreLabels.cmi set.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets moreLabels.cmi)
     (deps (:inputs moreLabels.mli) ../others/others hashtbl.cmi map.cmi pervasives.cmj set.cmi)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets obj.cmj)
     (deps (:inputs obj.ml) ../others/others obj.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets obj.cmi)
     (deps (:inputs obj.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets parsing.cmj)
     (deps (:inputs parsing.ml) ../others/others array.cmj lexing.cmj obj.cmj parsing.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets parsing.cmi)
     (deps (:inputs parsing.mli) ../others/others lexing.cmi obj.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets printexc.cmj)
     (deps (:inputs printexc.ml) ../others/others array.cmj buffer.cmj obj.cmj pervasives.cmj printexc.cmi printf.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets printexc.cmi)
     (deps (:inputs printexc.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets printf.cmj)
     (deps (:inputs printf.ml) ../others/others buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj printf.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets printf.cmi)
     (deps (:inputs printf.mli) ../others/others buffer.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets queue.cmj)
     (deps (:inputs queue.ml) ../others/others queue.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets queue.cmi)
     (deps (:inputs queue.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets random.cmj)
     (deps (:inputs random.ml) ../others/others array.cmj char.cmj digest.cmj int32.cmj int64.cmj pervasives.cmj random.cmi string.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets random.cmi)
     (deps (:inputs random.mli) ../others/others int32.cmi int64.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets scanf.cmj)
     (deps (:inputs scanf.ml) ../others/others buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj list.cmj pervasives.cmj printf.cmj scanf.cmi string.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets scanf.cmi)
     (deps (:inputs scanf.mli) ../others/others pervasives.cmi pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets set.cmj)
     (deps (:inputs set.ml) ../others/others list.cmj set.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets set.cmi)
     (deps (:inputs set.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets sort.cmj)
     (deps (:inputs sort.ml) ../others/others array.cmj sort.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets sort.cmi)
     (deps (:inputs sort.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets stack.cmj)
     (deps (:inputs stack.ml) ../others/others list.cmj stack.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets stack.cmi)
     (deps (:inputs stack.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets stdLabels.cmj)
     (deps (:inputs stdLabels.ml) ../others/others arrayLabels.cmj bytesLabels.cmj listLabels.cmj stdLabels.cmi stringLabels.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets stdLabels.cmi)
     (deps (:inputs stdLabels.mli) ../others/others arrayLabels.cmi bytesLabels.cmi listLabels.cmi pervasives.cmj stringLabels.cmi)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets std_exit.cmi std_exit.cmj)
     (deps (:inputs std_exit.ml) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets stream.cmj)
     (deps (:inputs stream.ml) ../others/others bytes.cmj lazy.cmj list.cmj stream.cmi string.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets stream.cmi)
     (deps (:inputs stream.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets string.cmj)
     (deps (:inputs string.ml) ../others/others bytes.cmj pervasives.cmj string.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets string.cmi)
     (deps (:inputs string.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets stringLabels.cmj)
     (deps (:inputs stringLabels.ml) ../others/others string.cmj stringLabels.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets stringLabels.cmi)
     (deps (:inputs stringLabels.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -nolabels -I . %{inputs})))
 
 
   (rule
     (targets sys.cmj)
     (deps (:inputs sys.ml) ../others/others sys.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets sys.cmi)
     (deps (:inputs sys.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets uchar.cmj)
     (deps (:inputs uchar.ml) ../others/others char.cmj pervasives.cmj uchar.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
   (rule
     (targets uchar.cmi)
     (deps (:inputs uchar.mli) ../others/others pervasives.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106  -I ../runtime  -I ../others -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -w -9-3-106 -warn-error A  -I ../runtime  -I ../others -I . %{inputs})))
 
 
     (rule

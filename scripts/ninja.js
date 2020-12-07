@@ -22,7 +22,7 @@ var runtimeMliFiles = runtimeFiles.filter(
 var runtimeSourceFiles = runtimeMlFiles.concat(runtimeMliFiles);
 var runtimeJsFiles = [...new Set(runtimeSourceFiles.map(baseName))];
 
-var commonBsFlags = `-no-keep-locs -absname -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib `;
+var commonBsFlags = `-no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib `;
 var js_package = pseudoTarget("js_pkg");
 var runtimeTarget = pseudoTarget("runtime");
 var othersTarget = pseudoTarget("others");
@@ -390,7 +390,7 @@ function targetsToString(files, cwd) {
 function ninjaBuild(outputs, inputs, rule, deps, cwd, overrides) {
   var fileOutputs = targetsToString(outputs, cwd);
   var fileInputs = targetsToString(inputs, cwd);
-  var stmt = `build ${fileOutputs} : ${rule} ${fileInputs}`;
+  var stmt = `o ${fileOutputs} : ${rule} ${fileInputs}`;
   // deps.push(pseudoTarget('../lib/bsc'))
   if (deps.length > 0) {
     var fileDeps = targetsToString(deps, cwd);
@@ -915,14 +915,14 @@ function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
   return build_stmts;
 }
 
-var COMPILIER = `../${process.platform}/bsc`;
+var COMPILIER = `../${process.platform}/bsc.exe`;
 var BSC_COMPILER = `bsc = ${COMPILIER}`;
 var compilerTarget = pseudoTarget(COMPILIER);
 
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
-  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50`;
+  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A`;
   var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
   var templateRuntimeRules = `
 
@@ -1155,7 +1155,7 @@ async function stdlibNinja() {
   var stdlibDir = path.join(jscompDir, stdlibVersion);
   var externalDeps = [othersTarget].map(x => `../others/${x.name}`);
   var ninjaOutput = 'dune.gen';
-  var warnings = "-w -9-3-106";
+  var warnings = "-w -9-3-106 -warn-error A";
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   ${warnings}  -I ../runtime  -I ../others`;
   /**
    * @type [string,string][]
@@ -1286,7 +1286,7 @@ function baseName(x) {
 async function testNinja() {
   var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -I ../runtime -I ../stdlib-406 -I ../others`
+  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A -I ../runtime -I ../stdlib-406 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (

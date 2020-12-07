@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,28 +17,28 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
 
-(** A utility module used when destructuring parsetree attributes, used for 
+(** A utility module used when destructuring parsetree attributes, used for
     compiling FFI attributes and built-in ppx  *)
 
 type t = Parsetree.payload
 type lid = string Asttypes.loc
 type label_expr = lid  * Parsetree.expression
-type action = 
+type action =
    lid * Parsetree.expression option
 
 val is_single_string : t -> (string * string option) option
-val is_single_string_as_ast : 
-  t -> 
-  Parsetree.expression option 
+val is_single_string_as_ast :
+  t ->
+  Parsetree.expression option
 
-val is_single_int : t -> int option 
+val is_single_int : t -> int option
 
 
 
@@ -47,39 +47,39 @@ val raw_as_string_exp_exn :
   kind: Js_raw_info.raw_kind ->
   t ->
   Parsetree.expression option
-  
-val as_core_type : Location.t -> t -> Parsetree.core_type    
+
+val as_core_type : Location.t -> t -> Parsetree.core_type
 (* val as_empty_structure :  t -> bool  *)
 val as_ident : t -> Longident.t Asttypes.loc option
 (* val raw_string_payload : Location.t -> string -> t  *)
 val assert_strings :
-  Location.t -> t -> string list  
+  Location.t -> t -> string list
 
-(** as a record or empty 
-    it will accept 
+(** as a record or empty
+    it will accept
 
     {[ [@@@bs.config ]]}
-    or 
+    or
     {[ [@@@bs.config no_export ] ]}
-    or 
-    {[ [@@@bs.config { property  .. } ]]}    
-    Note that we only 
+    or
+    {[ [@@@bs.config { property  .. } ]]}
+    Note that we only
     {[
       { flat_property}
     ]}
-    below  is not allowed 
+    below  is not allowed
     {[
       {M.flat_property}
     ]}
 *)
 
-val ident_or_record_as_config : 
+val ident_or_record_as_config :
   Location.t ->
-  t -> action list 
+  t -> action list
 
 val assert_bool_lit : Parsetree.expression -> bool
 
-val empty : t 
+val empty : t
 
-val table_dispatch : 
-  (Parsetree.expression option  -> 'a) Map_string.t -> action -> 'a
+val table_dispatch :
+  (Parsetree.expression option  -> 'a) Map_string.t -> action -> 'a option

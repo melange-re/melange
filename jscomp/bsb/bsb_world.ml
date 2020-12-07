@@ -25,20 +25,26 @@
 
 let (//) = Ext_path.combine
 
-(** TODO: create the animation effect
-    logging installed files
-*)
-let install_targets cwd ({files_to_install; namespace; file_groups} as config : Bsb_config_types.t ) =
+let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_config_types.t ) =
+  let deps = config.package_specs in
   let lib_artifacts_dir = Bsb_config.lib_bs in
   let destdir = cwd // Bsb_config.lib_ocaml in (* lib is already there after building, so just mkdir [lib/ocaml] *)
   if not @@ Sys.file_exists destdir then begin Unix.mkdir destdir 0o777  end;
   begin
     Bsb_log.info "@{<info>Installing started@}@.";
     let file_groups = ref [] in
-    Bsb_build_util.walk_all_deps cwd (fun {proj_dir} ->
+    let queue =
+      Bsb_build_util.walk_all_deps cwd ~pinned_dependencies in
+    queue |> Queue.iter (fun ({ top; proj_dir} : Bsb_build_util.package_context) ->
+      let package_kind = match top with
+        | Expect_none -> Bsb_package_kind.Toplevel
+        | Expect_name s ->
+          let is_pinned =  Set_string.mem pinned_dependencies s in
+          if is_pinned then Pinned_dependency deps else Dependency deps
+      in
       let dep_config =
         Bsb_config_parse.interpret_json
-        ~toplevel_package_specs:(Some config.package_specs)
+        ~package_kind
         ~per_proj_dir:proj_dir in
       file_groups := (proj_dir, dep_config.file_groups) :: !file_groups
     );
@@ -51,23 +57,29 @@ let install_targets cwd ({files_to_install; namespace; file_groups} as config : 
   end
 
 
-let build_bs_deps cwd (deps : Bsb_package_specs.t) =
+let build_bs_deps cwd ~pinned_dependencies (deps : Bsb_package_specs.t) =
   let dep_dirs = ref [] in
   let digest_buf = Ext_buffer.create 1024 in
-  Bsb_build_util.walk_all_deps  cwd (fun {top; proj_dir} ->
-      if not top then
-        begin
-          dep_dirs := proj_dir :: !dep_dirs;
-          match
-            Bsb_ninja_regen.regenerate_ninja
-              ?deps_digest:None
-              ~toplevel_package_specs:(Some deps)
-              ~forced:true
-              ~per_proj_dir:proj_dir with (* set true to force regenrate ninja file so we have [config_opt]*)
-          | Some (_config, digest) ->
-            Ext_buffer.add_string digest_buf digest
-          | None -> ()
-        end
+  let queue =
+    Bsb_build_util.walk_all_deps  cwd ~pinned_dependencies in
+  queue |> Queue.iter (fun ({top; proj_dir} : Bsb_build_util.package_context) ->
+      match top with
+      | Expect_none -> ()
+      | Expect_name s ->
+        let is_pinned =  Set_string.mem pinned_dependencies s in
+        (* (if is_pinned then
+          print_endline ("Dependency pinned on " ^ s )
+        else print_endline ("Dependency on " ^ s )); *)
+        dep_dirs := proj_dir :: !dep_dirs;
+        match
+          Bsb_ninja_regen.regenerate_ninja
+            ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
+            ?deps_digest:None
+            ~forced:false
+            ~per_proj_dir:proj_dir with (* set true to force regenrate ninja file so we have [config_opt]*)
+        | Some (_config, digest) ->
+          Ext_buffer.add_string digest_buf digest
+        | None -> ()
   );
 
   if !dep_dirs <> [] && Sys.file_exists (cwd // Literals.node_modules) then begin
@@ -98,7 +110,7 @@ let build_bs_deps cwd (deps : Bsb_package_specs.t) =
 
 let make_world_deps cwd (config : Bsb_config_types.t option) =
   Bsb_log.info "Making the dependency world!@.";
-  let deps =
+  let deps, pinned_dependencies =
     match config with
     | None ->
       (* When this running bsb does not read bsconfig.json,
@@ -106,5 +118,6 @@ let make_world_deps cwd (config : Bsb_config_types.t option) =
          it wants
       *)
       Bsb_config_parse.package_specs_from_bsconfig ()
-    | Some config -> config.package_specs in
-  build_bs_deps cwd deps
+    | Some config -> config.package_specs, config.pinned_dependencies
+  in
+  build_bs_deps cwd deps ~pinned_dependencies

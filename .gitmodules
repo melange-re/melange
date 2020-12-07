@@ -1,6 +1,7 @@
 [submodule "ocaml"]
 	path = ocaml
 	url = https://github.com/rescript-lang/ocaml
+	ignore = untracked
 [submodule "syntax"]
 	path = syntax
 	url = https://github.com/rescript-lang/syntax
@@ -8,3 +9,4 @@
 [submodule "ninja"]
 	path = ninja
 	url = https://github.com/rescript-lang/ninja
+	ignore = untracked
