@@ -67,7 +67,7 @@ var color = {
   contents: undefined
 };
 
-var Fatal_error = Caml_exceptions.create("Ocaml_parsetree_test.Misc.Fatal_error");
+var Fatal_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Misc.Fatal_error");
 
 function fatal_error(msg) {
   Pervasives.prerr_string(">> Fatal error: ");
@@ -661,7 +661,7 @@ function parse_opt(error, active, flags, s) {
               ];
       }
       _i = i + 1 | 0;
-      _n = (Math.imul(10, n) + Caml_string.get(s, i) | 0) - /* "0" */48 | 0;
+      _n = (Math.imul(10, n) + Caml_string.get(s, i) | 0) - /* '0' */48 | 0;
       continue ;
     };
   };
@@ -669,7 +669,7 @@ function parse_opt(error, active, flags, s) {
     var match = get_num(0, i);
     var n1 = match[1];
     var i$1 = match[0];
-    if (!((i$1 + 2 | 0) < s.length && Caml_string.get(s, i$1) === /* "." */46 && Caml_string.get(s, i$1 + 1 | 0) === /* "." */46)) {
+    if (!((i$1 + 2 | 0) < s.length && Caml_string.get(s, i$1) === /* '.' */46 && Caml_string.get(s, i$1 + 1 | 0) === /* '.' */46)) {
       return [
               i$1,
               n1,
@@ -733,16 +733,16 @@ function parse_opt(error, active, flags, s) {
             };
       }
       if (c >= 43) {
-        switch (c - 43 | 0) {
-          case 0 :
+        switch (c) {
+          case 43 :
               return loop_letter_num(set, i + 1 | 0);
-          case 1 :
+          case 44 :
               throw {
                     RE_EXN_ID: Arg.Bad,
                     _1: "Ill-formed list of warnings",
                     Error: new Error()
                   };
-          case 2 :
+          case 45 :
               return loop_letter_num(clear, i + 1 | 0);
           
         }
@@ -959,7 +959,7 @@ function message(s) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* Char_literal */12,
-                                _0: /* " " */32,
+                                _0: /* ' ' */32,
                                 _1: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
@@ -977,7 +977,7 @@ function message(s) {
                                           _0: /* No_padding */0,
                                           _1: {
                                             TAG: /* Char_literal */12,
-                                            _0: /* "." */46,
+                                            _0: /* '.' */46,
                                             _1: /* End_of_format */0
                                           }
                                         }
@@ -1123,7 +1123,7 @@ function message(s) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* Char_literal */12,
-                                _0: /* " " */32,
+                                _0: /* ' ' */32,
                                 _1: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
@@ -1191,7 +1191,7 @@ function message(s) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* Char_literal */12,
-                                _0: /* " " */32,
+                                _0: /* ' ' */32,
                                 _1: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
@@ -1254,7 +1254,7 @@ function print(ppf, w) {
   
 }
 
-var Errors = Caml_exceptions.create("Ocaml_parsetree_test.Warnings.Errors");
+var Errors = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Warnings.Errors");
 
 var absname = {
   contents: false
@@ -1335,7 +1335,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   var lines = num_loc_lines.contents;
   for(var i = pos0 ,i_finish = lb.lex_buffer_len; i < i_finish; ++i){
-    if (Caml_bytes.get(lb.lex_buffer, i) === /* "\n" */10) {
+    if (Caml_bytes.get(lb.lex_buffer, i) === /* '\n' */10) {
       lines = lines + 1 | 0;
     }
     
@@ -1371,7 +1371,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
     }
     var c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
     Pervasives.print_char(c);
-    bol = c === /* "\n" */10;
+    bol = c === /* '\n' */10;
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
@@ -1390,7 +1390,7 @@ function highlight_dumb(ppf, lb, loc) {
   var line_start = 0;
   var line_end = 0;
   for(var pos = 0; pos <= end_pos; ++pos){
-    if (Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0) === /* "\n" */10) {
+    if (Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0) === /* '\n' */10) {
       if (loc.loc_start.pos_cnum > pos) {
         line_start = line_start + 1 | 0;
       }
@@ -1412,7 +1412,7 @@ function highlight_dumb(ppf, lb, loc) {
                 _2: /* No_precision */0,
                 _3: {
                   TAG: /* Char_literal */12,
-                  _0: /* "-" */45,
+                  _0: /* '-' */45,
                   _1: {
                     TAG: /* Int */4,
                     _0: /* Int_i */3,
@@ -1420,7 +1420,7 @@ function highlight_dumb(ppf, lb, loc) {
                     _2: /* No_precision */0,
                     _3: {
                       TAG: /* Char_literal */12,
-                      _0: /* ":" */58,
+                      _0: /* ':' */58,
                       _1: {
                         TAG: /* Formatting_lit */17,
                         _0: /* Flush_newline */4,
@@ -1444,7 +1444,7 @@ function highlight_dumb(ppf, lb, loc) {
           Format.pp_print_char(ppf, c);
         } else if (line === line_start) {
           if (pos$1 < loc.loc_start.pos_cnum) {
-            Format.pp_print_char(ppf, /* "." */46);
+            Format.pp_print_char(ppf, /* '.' */46);
           } else {
             Format.pp_print_char(ppf, c);
           }
@@ -1452,7 +1452,7 @@ function highlight_dumb(ppf, lb, loc) {
           if (pos$1 < loc.loc_end.pos_cnum) {
             Format.pp_print_char(ppf, c);
           } else {
-            Format.pp_print_char(ppf, /* "." */46);
+            Format.pp_print_char(ppf, /* '.' */46);
           }
         } else if (line > line_start && line < line_end) {
           Format.pp_print_char(ppf, c);
@@ -1475,10 +1475,10 @@ function highlight_dumb(ppf, lb, loc) {
               _1: "@.  "
             });
         for(var _i = pos_at_bol ,_i_finish = loc.loc_start.pos_cnum; _i < _i_finish; ++_i){
-          Format.pp_print_char(ppf, /* " " */32);
+          Format.pp_print_char(ppf, /* ' ' */32);
         }
         for(var _i$1 = loc.loc_start.pos_cnum ,_i_finish$1 = loc.loc_end.pos_cnum; _i$1 < _i_finish$1; ++_i$1){
-          Format.pp_print_char(ppf, /* "^" */94);
+          Format.pp_print_char(ppf, /* '^' */94);
         }
       }
       if (line >= line_start && line <= line_end) {
@@ -1634,7 +1634,7 @@ function print_loc(ppf, loc) {
                           _2: /* No_precision */0,
                           _3: {
                             TAG: /* Char_literal */12,
-                            _0: /* "-" */45,
+                            _0: /* '-' */45,
                             _1: {
                               TAG: /* Int */4,
                               _0: /* Int_i */3,
@@ -1792,7 +1792,7 @@ function print_error(ppf, loc) {
                   _0: /* Close_tag */1,
                   _1: {
                     TAG: /* Char_literal */12,
-                    _0: /* ":" */58,
+                    _0: /* ':' */58,
                     _1: /* End_of_format */0
                   }
                 }
@@ -1829,7 +1829,7 @@ function default_warning_printer(loc, ppf, w) {
                           _0: /* Close_tag */1,
                           _1: {
                             TAG: /* Char_literal */12,
-                            _0: /* " " */32,
+                            _0: /* ' ' */32,
                             _1: {
                               TAG: /* Alpha */15,
                               _0: {
@@ -1868,7 +1868,7 @@ function prerr_warning(loc, w) {
         if (i === (start + len | 0)) {
           return c;
         }
-        if (Caml_string.get(str, i) === /* "\n" */10) {
+        if (Caml_string.get(str, i) === /* '\n' */10) {
           _c = c + 1 | 0;
           _i = i + 1 | 0;
           continue ;
@@ -1985,7 +1985,7 @@ register_error_of_exn(function (msg) {
       }
     });
 
-var $$Error = Caml_exceptions.create("Ocaml_parsetree_test.Location.Error");
+var $$Error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Location.Error");
 
 register_error_of_exn(function (e) {
       if (e.RE_EXN_ID === $$Error) {
@@ -3539,9 +3539,9 @@ var Ast_helper_Cf = {
   concrete: concrete
 };
 
-var $$Error$1 = Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Error");
+var $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Error");
 
-var Escape_error = Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Escape_error");
+var Escape_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Syntaxerr.Escape_error");
 
 function prepare_error(loc) {
   switch (loc.TAG | 0) {
@@ -3665,7 +3665,7 @@ function prepare_error(loc) {
                                 _0: /* No_padding */0,
                                 _1: {
                                   TAG: /* Char_literal */12,
-                                  _0: /* "." */46,
+                                  _0: /* '.' */46,
                                   _1: /* End_of_format */0
                                 }
                               }
@@ -3853,7 +3853,7 @@ function mkinfix(arg1, name, arg2) {
 }
 
 function neg_float_string(f) {
-  if (f.length !== 0 && Caml_string.get(f, 0) === /* "-" */45) {
+  if (f.length !== 0 && Caml_string.get(f, 0) === /* '-' */45) {
     return $$String.sub(f, 1, f.length - 1 | 0);
   } else {
     return "-" + f;
@@ -6819,7 +6819,7 @@ var yyact = [
                                 TAG: /* Pexp_constant */1,
                                 _0: {
                                   TAG: /* Const_nativeint */6,
-                                  _0: -n._0
+                                  _0: Caml_external_polyfill.resolve("nativeint_neg")(n._0)
                                 }
                               });
                 default:
@@ -9826,7 +9826,7 @@ var yyact = [
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Const_nativeint */6,
-              _0: -_2
+              _0: Caml_external_polyfill.resolve("nativeint_neg")(_2)
             };
     }),
   (function (__caml_parser_env) {
@@ -10711,7 +10711,7 @@ function string_of_type_directive(x) {
   }
 }
 
-var $$Error$2 = Caml_exceptions.create("Ocaml_parsetree_test.Lexer.Error");
+var $$Error$2 = /* @__PURE__ */Caml_exceptions.create("Ocaml_parsetree_test.Lexer.Error");
 
 function assert_same_type(lexbuf, x, y) {
   var lhs = type_of_directive(x);
@@ -10745,7 +10745,7 @@ var exit = 0;
 var i;
 
 try {
-  i = $$String.rindex(Sys.ocaml_version, /* "+" */43);
+  i = $$String.rindex(Sys.ocaml_version, /* '+' */43);
   exit = 1;
 }
 catch (raw_exn$1){
@@ -10793,13 +10793,13 @@ function semantic_version_parse(str, start, last_index) {
               ];
       }
       var c = str.charCodeAt(start);
-      if (c === /* "." */46) {
+      if (c === /* '.' */46) {
         return [
                 acc,
                 start + 1 | 0
               ];
       }
-      var v = c - /* "0" */48 | 0;
+      var v = c - /* '0' */48 | 0;
       if (!(v >= 0 && v <= 9)) {
         return [
                 acc,
@@ -11083,8 +11083,8 @@ function directive_parse(token_with_comments, lexbuf) {
                         ];
                       }
                     } else if (v >= 60) {
-                      switch (v - 60 | 0) {
-                        case 0 :
+                      switch (v) {
+                        case 60 :
                             if (last_index === 0) {
                               throw {
                                     RE_EXN_ID: $$Error$2,
@@ -11104,10 +11104,10 @@ function directive_parse(token_with_comments, lexbuf) {
                                 semantic_version_parse(str, 1, last_index)
                               ];
                             break;
-                        case 1 :
+                        case 61 :
                             exit$3 = 1;
                             break;
-                        case 2 :
+                        case 62 :
                             if (last_index === 0) {
                               throw {
                                     RE_EXN_ID: $$Error$2,
@@ -11265,11 +11265,7 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   var parse_or_aux = function (calc, v) {
     var e = token(undefined);
-    if (typeof e === "number") {
-      if (e !== 8) {
-        push(e);
-        return v;
-      }
+    if (e === 8) {
       var calc$1 = calc && !v;
       var b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
       if (v) {
@@ -11291,15 +11287,7 @@ function directive_parse(token_with_comments, lexbuf) {
         case /* LPAREN */54 :
             var v = parse_or_aux(calc, parse_and_aux(calc, parse_relation(calc)));
             var match = token(undefined);
-            if (typeof match === "number") {
-              if (match !== 81) {
-                throw {
-                      RE_EXN_ID: $$Error$2,
-                      _1: /* Unterminated_paren_in_conditional */1,
-                      _2: curr(lexbuf),
-                      Error: new Error()
-                    };
-              }
+            if (match === 81) {
               return v;
             }
             throw {
@@ -11372,7 +11360,7 @@ function directive_parse(token_with_comments, lexbuf) {
             if (t.TAG === /* UIDENT */17) {
               var s = t._0;
               if (calc) {
-                if (Caml_string.get(r, 0) === /* "u" */117) {
+                if (Caml_string.get(r, 0) === /* 'u' */117) {
                   return !defined(s);
                 } else {
                   return defined(s);
@@ -11435,11 +11423,7 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   var parse_and_aux = function (calc, v) {
     var e = token(undefined);
-    if (typeof e === "number") {
-      if (e !== 0) {
-        push(e);
-        return v;
-      }
+    if (e === 0) {
       var calc$1 = calc && v;
       var b = parse_and_aux(calc$1, parse_relation(calc$1));
       if (v) {
@@ -11453,15 +11437,7 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   var v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   var match = token(undefined);
-  if (typeof match === "number") {
-    if (match !== 88) {
-      throw {
-            RE_EXN_ID: $$Error$2,
-            _1: /* Expect_hash_then_in_conditional */5,
-            _2: curr(lexbuf),
-            Error: new Error()
-          };
-    }
+  if (match === 88) {
     return v;
   }
   throw {
@@ -11932,24 +11908,24 @@ function char_for_backslash(c) {
     if (c !== 98) {
       return c;
     } else {
-      return /* "\b" */8;
+      return /* '\b' */8;
     }
   }
   if (c >= 117) {
     return c;
   }
-  switch (c - 110 | 0) {
-    case 0 :
-        return /* "\n" */10;
-    case 4 :
-        return /* "\r" */13;
-    case 1 :
-    case 2 :
-    case 3 :
-    case 5 :
+  switch (c) {
+    case 110 :
+        return /* '\n' */10;
+    case 114 :
+        return /* '\r' */13;
+    case 111 :
+    case 112 :
+    case 113 :
+    case 115 :
         return c;
-    case 6 :
-        return /* "\t" */9;
+    case 116 :
+        return /* '\t' */9;
     
   }
 }
@@ -11960,7 +11936,7 @@ function char_for_decimal_code(lexbuf, i) {
     return Char.chr(c);
   }
   if (comment_start_loc.contents !== /* [] */0) {
-    return /* "x" */120;
+    return /* 'x' */120;
   }
   throw {
         RE_EXN_ID: $$Error$2,
@@ -11998,7 +11974,15 @@ function cvt_int64_literal(s) {
 }
 
 function cvt_nativeint_literal(s) {
-  return -Caml_format.caml_nativeint_of_string("-" + $$String.sub(s, 0, s.length - 1 | 0));
+  throw {
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "lexer.mll",
+          622,
+          30
+        ],
+        Error: new Error()
+      };
 }
 
 function remove_underscores(s) {
@@ -12164,7 +12148,7 @@ function report_error(ppf, c) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* Char_literal */12,
-                                _0: /* ")" */41,
+                                _0: /* ')' */41,
                                 _1: /* End_of_format */0
                               }
                             }
@@ -12181,7 +12165,7 @@ function report_error(ppf, c) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* Char_literal */12,
-                                _0: /* ")" */41,
+                                _0: /* ')' */41,
                                 _1: /* End_of_format */0
                               }
                             }
@@ -12221,7 +12205,7 @@ function report_error(ppf, c) {
           return Curry._1(Format.fprintf(ppf, /* Format */{
                           _0: {
                             TAG: /* Char_literal */12,
-                            _0: /* "`" */96,
+                            _0: /* '`' */96,
                             _1: {
                               TAG: /* String */2,
                               _0: /* No_padding */0,
@@ -12270,13 +12254,13 @@ function report_error(ppf, c) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* Char_literal */12,
-                                _0: /* "," */44,
+                                _0: /* ',' */44,
                                 _1: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
                                   _1: {
                                     TAG: /* Char_literal */12,
-                                    _0: /* ")" */41,
+                                    _0: /* ')' */41,
                                     _1: /* End_of_format */0
                                   }
                                 }
@@ -12887,7 +12871,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
               };
       case 2 :
           string_start_loc.contents = curr(lexbuf);
-          store_string_char(/* "\"" */34);
+          store_string_char(/* '"' */34);
           is_in_string.contents = true;
           try {
             string(lexbuf);
@@ -12895,13 +12879,9 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.RE_EXN_ID === $$Error$2) {
-              var match$1 = exn._1;
-              if (typeof match$1 === "number") {
-                if (match$1 !== 0) {
-                  throw exn;
-                }
-                var match$2 = comment_start_loc.contents;
-                if (match$2) {
+              if (exn._1 === 0) {
+                var match$1 = comment_start_loc.contents;
+                if (match$1) {
                   var start = List.hd(List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw {
@@ -12911,7 +12891,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                           _0: start,
                           _1: exn._2
                         },
-                        _2: match$2.hd,
+                        _2: match$1.hd,
                         Error: new Error()
                       };
                 }
@@ -12930,7 +12910,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             throw exn;
           }
           is_in_string.contents = false;
-          store_string_char(/* "\"" */34);
+          store_string_char(/* '"' */34);
           ___ocaml_lex_state = 132;
           continue ;
       case 3 :
@@ -12945,13 +12925,9 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.RE_EXN_ID === $$Error$2) {
-              var match$3 = exn$1._1;
-              if (typeof match$3 === "number") {
-                if (match$3 !== 0) {
-                  throw exn$1;
-                }
-                var match$4 = comment_start_loc.contents;
-                if (match$4) {
+              if (exn$1._1 === 0) {
+                var match$2 = comment_start_loc.contents;
+                if (match$2) {
                   var start$1 = List.hd(List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw {
@@ -12961,7 +12937,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                           _0: start$1,
                           _1: exn$1._2
                         },
-                        _2: match$4.hd,
+                        _2: match$2.hd,
                         Error: new Error()
                       };
                 }
@@ -12980,9 +12956,9 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
             throw exn$1;
           }
           is_in_string.contents = false;
-          store_string_char(/* "|" */124);
+          store_string_char(/* '|' */124);
           store_string(delim$1);
-          store_string_char(/* "}" */125);
+          store_string_char(/* '}' */125);
           ___ocaml_lex_state = 132;
           continue ;
       case 5 :
@@ -12991,8 +12967,8 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 132;
           continue ;
       case 10 :
-          var match$5 = comment_start_loc.contents;
-          if (match$5) {
+          var match$3 = comment_start_loc.contents;
+          if (match$3) {
             var start$2 = List.hd(List.rev(comment_start_loc.contents));
             comment_start_loc.contents = /* [] */0;
             throw {
@@ -13001,7 +12977,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                     TAG: /* Unterminated_comment */2,
                     _0: start$2
                   },
-                  _2: match$5.hd,
+                  _2: match$3.hd,
                   Error: new Error()
                 };
           }
@@ -13206,9 +13182,8 @@ function token$1(lexbuf) {
                               if (token === /* SHARP */84 && at_bol(lexbuf)) {
                                 var token$1 = token_with_comments(lexbuf);
                                 if (typeof token$1 === "number") {
-                                  var switcher = token$1 - 23 | 0;
-                                  if (switcher === 0 || switcher === 1) {
-                                    if (switcher !== 0) {
+                                  if (token$1 === 24 || token$1 === 23) {
+                                    if (token$1 >= 24) {
                                       if_then_else.contents = /* Dir_out */2;
                                       return Curry._1(cont, lexbuf);
                                     } else {
@@ -13216,7 +13191,7 @@ function token$1(lexbuf) {
                                       return Curry._1(cont, lexbuf);
                                     }
                                   }
-                                  if (switcher === 14) {
+                                  if (token$1 === 37) {
                                     throw {
                                           RE_EXN_ID: $$Error$2,
                                           _1: /* Unexpected_directive */6,
@@ -13282,9 +13257,8 @@ function token$1(lexbuf) {
                   if (token$2 === /* SHARP */84 && at_bol(lexbuf)) {
                     var token$3 = token_with_comments(lexbuf);
                     if (typeof token$3 === "number") {
-                      var switcher$1 = token$3 - 23 | 0;
-                      if (switcher$1 === 0 || switcher$1 === 1) {
-                        if (switcher$1 !== 0) {
+                      if (token$3 === 24 || token$3 === 23) {
+                        if (token$3 >= 24) {
                           if_then_else.contents = /* Dir_out */2;
                           return Curry._1(cont, lexbuf);
                         }
@@ -13299,7 +13273,7 @@ function token$1(lexbuf) {
                         _else_seen = true;
                         continue ;
                       }
-                      if (switcher$1 === 14) {
+                      if (token$3 === 37) {
                         throw {
                               RE_EXN_ID: $$Error$2,
                               _1: /* Unexpected_directive */6,

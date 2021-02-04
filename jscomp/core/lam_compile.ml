@@ -490,7 +490,7 @@ and compile_general_cases
   Lam_compile_context.t ->
   (?default:J.block ->
    ?declaration:Lam_compat.let_kind * Ident.t  ->
-   _ -> 'a J.case_clause list ->  J.statement) ->
+   _ -> ('a * J.case_clause) list ->  J.statement) ->
   _ ->
   ('a * Lam.t) list -> default_case -> J.block
   = fun
@@ -501,7 +501,7 @@ and compile_general_cases
   (switch :
   ?default:J.block ->
    ?declaration:Lam_compat.let_kind * Ident.t  ->
-   _ -> _ J.case_clause list ->  J.statement
+   _ -> (_ * J.case_clause) list ->  J.statement
    )
    (switch_exp : J.expression)
    (cases : (_ * Lam.t) list)
@@ -571,13 +571,13 @@ and compile_general_cases
                               should_break
                             else
                               should_break && Lam_exit_code.has_exit lam in
-                        {J.switch_case ;
+                          switch_case , J.{
                             switch_body;
                             should_break;
                             comment = make_comment switch_case;
                         }
                       else
-                        { switch_case; switch_body = []; should_break = false; comment = make_comment switch_case; }
+                      switch_case, {switch_body = []; should_break = false; comment = make_comment switch_case; }
                     )                   
               
               (* TODO: we should also group default *)
@@ -1650,7 +1650,7 @@ and compile_lambda
     | Lfor (id,start,finish,direction,body) ->  
       begin match direction,finish with 
         | Upto, 
-          (Lprim {primitive = Psubint ; args = [ new_finish ; Lconst (Const_int {value = 1}) ]} |
+          (Lprim {primitive = Psubint ; args = [ new_finish ; Lconst (Const_int {i = 1l}) ]} |
           Lprim {primitive = Poffsetint (-1); args = [ new_finish ;  ]}
           ) ->
           compile_for id start new_finish Up body lambda_cxt

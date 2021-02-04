@@ -25,7 +25,7 @@
 
 (* let get_list_string = Bsb_build_util.get_list_string *)
 let (//) = Ext_path.combine
-let current_package : Bsb_pkg_types.t = Global Bs_version.package_name
+
 let resolve_package cwd  package_name =
   let package_path =  Bsb_pkg.resolve_bs_package ~cwd package_name  in
   let rel = Ext_path.rel_normalized_absolute_path ~from:Bsb_global_paths.cwd package_path in
@@ -97,52 +97,25 @@ let extract_package_name_and_namespace
     - the running bsb and vendoring bsb is the same
     - the running bsb need delete stale build artifacts
       (kinda check npm upgrade)
-*)
-let check_version_exit (map : json_map) stdlib_path =
-  match Map_string.find_exn map Bsb_build_schemas.version with
-  | Str {str } ->
-    if str <> Bs_version.version then
-      begin
-        Format.fprintf Format.err_formatter
-          "@{<error>bs-platform version mismatch@} Running bsb @{<info>%s@} (%s) vs vendored @{<info>%s@} (%s)@."
-          Bs_version.version
-          (Filename.dirname (Filename.dirname Sys.executable_name))
-          str
-          stdlib_path
-        ;
-        exit 2
-      end
-  | _ -> assert false
 
-let check_stdlib (map : json_map) cwd (*built_in_package*) =
+      Note if the setup is correct:
+      the running compiler and node_modules/bs-platform
+      should be the same version,
+      The exact check is that the running compiler should have a
+      compatible runtime version installed, the location of the
+      compiler is actually not relevant.
+      We disable the check temporarily
+      e.g,
+      ```
+      bsc -runtime runtime_dir@version
+      ```
+*)
+let check_stdlib (map : json_map) (*built_in_package*) : bool =
   match map.?( Bsb_build_schemas.use_stdlib) with
-  | Some (False _) -> None
+  | Some (False _) -> false
   | None
   | Some _ ->
-    begin
-      let stdlib_path =
-        Bsb_pkg.resolve_bs_package ~cwd current_package in
-      if Sys.getenv_opt "RES_SKIP_STDLIB_CHECK" = None then begin
-        let json_spec =
-          Ext_json_parse.parse_json_from_file
-            (* No exn raised: stdlib  has package.json *)
-            (Filename.concat stdlib_path Literals.package_json) in
-        match json_spec with
-        | Obj {map}  ->
-          check_version_exit map stdlib_path;
-
-        | _ -> assert false
-      end;
-      Some {
-        Bsb_config_types.package_name = current_package;
-        package_path = stdlib_path;
-        package_install_path = stdlib_path;
-        package_dirs = [stdlib_path // Bsb_config.lib_ocaml];
-        package_install_dirs = [stdlib_path // Bsb_config.lib_ocaml]
-      }
-    end
-
-
+    true
 
 let extract_gentype_config (map : json_map) cwd
   : Bsb_config_types.gentype_config option =
@@ -353,7 +326,7 @@ let rec interpret_json
          array from the bsconfig and set the backend_ref to the first entry, if any. *)
 
     (* The default situation is empty *)
-    let built_in_package = check_stdlib map per_proj_dir in
+    let built_in_package : bool = check_stdlib map  in
 
     let pp_flags : string option =
       extract_string map Bsb_build_schemas.pp_flags (fun p ->
@@ -363,8 +336,9 @@ let rec interpret_json
           Some (Bsb_build_util.resolve_bsb_magic_file ~cwd:per_proj_dir ~desc:Bsb_build_schemas.pp_flags p).path
       ) in
     let reason_react_jsx = extract_reason_react_jsx map in
+
     let package_specs = match package_kind with
-      | Toplevel ->  Bsb_package_specs.from_map map
+      | Toplevel ->  Bsb_package_specs.from_map ~cwd:per_proj_dir map
       | Pinned_dependency x
       | Dependency x -> x
     in
@@ -472,7 +446,7 @@ let package_specs_from_bsconfig () =
   let json = Ext_json_parse.parse_json_from_file Literals.bsconfig_json in
   begin match json with
     | Obj {map} ->
-      Bsb_package_specs.from_map map,
+      Bsb_package_specs.from_map ~cwd:Bsb_global_paths.cwd map,
       extract_pinned_dependencies map
     | _ -> assert false
   end

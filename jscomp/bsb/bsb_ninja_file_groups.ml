@@ -183,7 +183,7 @@ let handle_files_per_dir
     ~bs_dependencies_deps
     (group: Bsb_file_groups.file_group )
   : unit =
-
+  let is_dev = group.is_dev in
   (* handle_generators oc group rules.customs ; *)
   let installable =
     match group.public with
@@ -211,7 +211,7 @@ let handle_files_per_dir
           module_info files_to_install;
       let js_outputs, output_d = emit_module_build  rules
         package_specs
-        group.dev_index
+        is_dev
         buf
         ~per_proj_dir:global_config.src_root_dir
         ~bs_dependencies_deps

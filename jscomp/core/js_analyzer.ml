@@ -29,7 +29,13 @@
 
 
 
+type idents_stats = {
+  mutable used_idents : Set_ident.t ;
+  mutable defined_idents : Set_ident.t;
+} 
 
+let add_defined_idents (x : idents_stats) ident = 
+  x.defined_idents <- Set_ident.add x.defined_idents ident 
 
 (* Assume that functions already calculated closure correctly 
    Maybe in the future, we should add a dirty flag, to mark the calcuated 
@@ -38,48 +44,54 @@
    Note such shaking is done in the toplevel, so that it requires us to 
    flatten the statement first 
 *)
-let free_variables used_idents defined_idents = 
-  object (self)
-    inherit Js_fold.fold as super
-    val defined_idents = defined_idents
-    val used_idents = used_idents 
-    method! variable_declaration st = 
-      match st with 
-      | { ident; value = None}
-        -> 
-        {< defined_idents = Set_ident.add defined_idents ident >}
-      | { ident; value = Some v}
-        -> 
-        {< defined_idents = Set_ident.add defined_idents ident >} # expression v
-    method! ident id = 
-      if Set_ident.mem defined_idents id then self
-      else {<used_idents = Set_ident.add used_idents id>}
-    method! expression exp = 
+let super = Js_record_iter.super
+let free_variables (stats : idents_stats) = {
+  super with 
+  variable_declaration = begin fun self st ->   
+    add_defined_idents stats st.ident; 
+    match st.value with 
+    |  None
+      ->  ()
+    | Some v
+      -> 
+      self.expression self v
 
-      match exp.expression_desc with
-      | Fun(_, _,_, env)
-        (** a optimization to avoid walking into funciton again
-            if it's already comuted
-        *)
-        ->
-        {< used_idents = 
-             Set_ident.union (Js_fun_env.get_unbounded env) used_idents  >}
+  end;
+  ident = begin fun _ id -> 
+    if not (Set_ident.mem stats.defined_idents id )then 
+      stats.used_idents <- Set_ident.add stats.used_idents id
+  end;
+  expression = begin fun self exp -> 
+    match exp.expression_desc with
+    | Fun(_, _,_, env)
+      (** a optimization to avoid walking into funciton again
+          if it's already comuted
+      *)
+      ->
+      stats.used_idents <-
+        Set_ident.union (Js_fun_env.get_unbounded env) stats.used_idents
+    | _
+      ->
+      super.expression self exp
+  end
+}
 
-      | _
-        ->
-        super#expression exp
+let init = {used_idents = Set_ident.empty;  
+            defined_idents = Set_ident.empty} 
+let obj = free_variables init 
+let clean_up init = 
+  init.used_idents <- Set_ident.empty;
+  init.defined_idents <- Set_ident.empty
 
-    method get_depenencies = 
-      Set_ident.diff used_idents defined_idents
-    method get_used_idents = used_idents
-    method get_defined_idents = defined_idents 
-  end 
+let free_variables_of_statement  st = 
+  clean_up init;  
+  obj.statement obj st ;
+  Set_ident.diff init.used_idents init.defined_idents
 
-let free_variables_of_statement used_idents defined_idents st = 
-  ((free_variables used_idents defined_idents)#statement st) # get_depenencies
-
-let free_variables_of_expression used_idents defined_idents st = 
-  ((free_variables used_idents defined_idents)#expression st) # get_depenencies
+let free_variables_of_expression  st = 
+  clean_up init;  
+  obj.expression obj st ;
+  Set_ident.diff init.used_idents init.defined_idents
 
 let rec no_side_effect_expression_desc (x : J.expression_desc)  = 
   match x with 
@@ -133,33 +145,28 @@ and no_side_effect (x : J.expression)  =
 
 let no_side_effect_expression (x : J.expression) = no_side_effect x 
 
-let no_side_effect init = 
-  object (self)
-    inherit Js_fold.fold as super
-    val no_side_effect = init
-    method get_no_side_effect = no_side_effect
-
-    method! statement s = 
-      if not no_side_effect then self else 
+let super = Js_record_iter.super
+let no_side_effect_obj  = 
+  {super with 
+    statement = (fun self s -> 
         match s.statement_desc with 
         | Throw _ 
         | Debugger 
         | Break 
         | Variable _ 
         | Continue _ ->  
-          {< no_side_effect = false>}
-        | Exp e -> self#expression e 
+          raise_notrace Not_found
+        | Exp e -> self.expression self e 
         | Int_switch _ | String_switch _ | ForRange _ 
-        | If _ | While _   | Block _ | Return _ | Try _  -> super#statement s 
-    method! list f x = 
-      if not self#get_no_side_effect then self else super#list f x 
-    method! expression s = 
-      if not no_side_effect then self
-      else  {< no_side_effect = no_side_effect_expression s >}
+        | If _ | While _   | Block _ | Return _ | Try _  -> super.statement self s );
+    expression = begin fun _ s ->  
+      if not (no_side_effect_expression s) then raise_notrace Not_found
+  end}
+let no_side_effect_statement st = 
+  try 
+    no_side_effect_obj.statement no_side_effect_obj st; true
+  with _ -> false
 
-    (** only expression would cause side effec *)
-  end
-let no_side_effect_statement st = ((no_side_effect true)#statement st)#get_no_side_effect
 
 (* TODO: generate [fold2] 
    This make sense, for example:
@@ -178,9 +185,9 @@ let rec eq_expression
   begin match x0  with 
     | Null -> y0 = Null
     | Undefined -> y0 = Undefined
-    | Number (Int i) -> 
+    | Number (Int {i}) -> 
       begin match y0 with  
-        | Number (Int j)   -> i = j 
+        | Number (Int {i = j})   -> i = j 
         | _ -> false 
       end
     | Number (Float _) -> false
@@ -273,7 +280,7 @@ let rec eq_expression
     | Caml_block_tag _ 
     
     | Object _ 
-    | Number (Uint _ | Nint _)
+    | Number (Uint _ )
 
       ->  false 
   end

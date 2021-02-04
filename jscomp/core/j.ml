@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2015- Authors of ReScript
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -38,46 +38,42 @@
     not introduce new scope
 *)
 
-(* TODO: it seems that camlp4of supports very limited structures
-   it does not even support attributes like `[@@@warning "-30"]
-   we should get rid of such dependency ASAP
-*)
+
+type mutable_flag = Js_op.mutable_flag 
+
+type binop = Js_op.binop
+
+type int_op = Js_op.int_op
+
+type kind = Js_op.kind
+
+type property = Js_op.property
+
+type number = Js_op.number 
+
+type ident_info = Js_op.ident_info
+
+type exports = Js_op.exports
+
+type tag_info = Js_op.tag_info 
+
+type property_name =  Js_op.property_name
 
 type label = string
-
-and binop = Js_op.binop
-
-and int_op = Js_op.int_op
  
-and kind = Js_op.kind
 
-and property = Js_op.property
-
-and number = Js_op.number 
-
-and mutable_flag = Js_op.mutable_flag 
-
-and ident_info = Js_op.ident_info
-
-and exports = Js_op.exports
-
-and tag_info = Js_op.tag_info 
- 
-and required_modules = module_id list
-
-
-
+and ident = Ident.t (* we override `method ident` *)
 
 (** object literal, if key is ident, in this case, it might be renamed by 
     Google Closure  optimizer,
     currently we always use quote
  *)
-and property_name =  Js_op.property_name
-and jsint = Js_op.jsint
-and ident = Ident.t 
+
+
 and module_id = {
   id : ident; kind : Js_op.kind
 }
+and required_modules = module_id list
 and vident = 
   | Id of ident
   | Qualified of module_id * string option
@@ -277,7 +273,14 @@ and finish_ident_expression = expression (* pure *)
    }
    ]}
 *)
+and case_clause = {   
+  switch_body : block ;
+  should_break :  bool ;  (* true means break *)
+  comment : string option ;
+}
 
+and string_clause = string * case_clause
+and int_clause =  int * case_clause
 
 and statement_desc =
   | Block of block
@@ -305,8 +308,8 @@ and statement_desc =
     {[ goto : label option ; ]}
   *)
 
-  | Int_switch of expression * int case_clause list * block option 
-  | String_switch of expression * string case_clause list * block option 
+  | Int_switch of expression * int_clause list * block option 
+  | String_switch of expression * string_clause list * block option 
   | Throw of expression
   | Try of block * (exception_ident * block) option * block option
   | Debugger
@@ -330,13 +333,6 @@ and variable_declaration = {
   ident_info : ident_info;
 }
 
-and 'a case_clause = { 
-  switch_case : 'a ; 
-  switch_body : block ;
-  should_break :  bool ;  (* true means break *)
-  comment : string option ;
-}
-
 (* TODO: For efficency: block should not be a list, it should be able to 
    be concatenated in both ways 
  *)
@@ -354,3 +350,26 @@ and deps_program =
     modules : required_modules ;
     side_effect : string option (* None: no, Some reason  *)
   }
+[@@deriving {excludes =  [|
+    deps_program ; 
+    int_clause; 
+    string_clause ;
+    for_direction;
+    (* exception_ident; *)
+    for_direction;
+    expression_desc;
+    statement_desc;
+    for_ident_expression;
+    label;
+    finish_ident_expression;
+    property_map;
+    length_object;
+    (* for_ident; *)
+    required_modules;
+    case_clause
+    |] }]
+(*
+FIXME: customize for each code generator 
+for each code generator, we can provide a white-list
+so that we can achieve the optimal
+*)    

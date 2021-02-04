@@ -58,7 +58,7 @@ function trim(s) {
           var tmp = false;
           if (i < j) {
             var u = s.charCodeAt(i);
-            tmp = u === /* "\t" */9 || u === /* "\n" */10 || u === /* " " */32;
+            tmp = u === /* '\t' */9 || u === /* '\n' */10 || u === /* ' ' */32;
           }
           return tmp;
         })()) {
@@ -69,7 +69,7 @@ function trim(s) {
           var tmp = false;
           if (k >= i) {
             var u = s.charCodeAt(k);
-            tmp = u === /* "\t" */9 || u === /* "\n" */10 || u === /* " " */32;
+            tmp = u === /* '\t' */9 || u === /* '\n' */10 || u === /* ' ' */32;
           }
           return tmp;
         })()) {
@@ -90,10 +90,10 @@ function split(keep_empty, str, on) {
 
 function quick_split_by_ws(str) {
   return split_by(false, (function (x) {
-                if (x === /* "\t" */9 || x === /* "\n" */10) {
+                if (x === /* '\t' */9 || x === /* '\n' */10) {
                   return true;
                 } else {
-                  return x === /* " " */32;
+                  return x === /* ' ' */32;
                 }
               }), str);
 }
@@ -179,15 +179,14 @@ function escaped(s) {
       if (match < 32) {
         return true;
       }
-      var switcher = match - 34 | 0;
-      if (switcher > 58 || switcher < 0) {
-        if (switcher >= 93) {
+      if (match > 92 || match < 34) {
+        if (match >= 127) {
           return true;
         }
         _i = i + 1 | 0;
         continue ;
       }
-      if (switcher > 57 || switcher < 1) {
+      if (match > 91 || match < 35) {
         return true;
       }
       _i = i + 1 | 0;
@@ -263,7 +262,7 @@ function unsafe_is_sub(sub, i, s, j, len) {
   }
 }
 
-var Local_exit = Caml_exceptions.create("Ext_string_test.Local_exit");
+var Local_exit = /* @__PURE__ */Caml_exceptions.create("Ext_string_test.Local_exit");
 
 function find(startOpt, sub, s) {
   var start = startOpt !== undefined ? startOpt : 0;
@@ -467,18 +466,16 @@ function is_valid_module_file(s) {
     return false;
   }
   return unsafe_for_all_range(s, 1, len - 1 | 0, (function (x) {
-                if (x < 65) {
-                  if (x >= 48) {
-                    return x < 58;
+                if (x >= 65) {
+                  if (x > 96 || x < 91) {
+                    return x < 123;
                   } else {
-                    return x === 39;
+                    return x === 95;
                   }
-                }
-                var switcher = x - 91 | 0;
-                if (switcher > 5 || switcher < 0) {
-                  return switcher < 32;
+                } else if (x >= 48) {
+                  return x < 58;
                 } else {
-                  return switcher === 4;
+                  return x === 39;
                 }
               }));
 }
@@ -581,23 +578,23 @@ function no_char(x, ch, i, len) {
 }
 
 function no_slash(x) {
-  return unsafe_no_char(x, /* "/" */47, 0, x.length - 1 | 0);
+  return unsafe_no_char(x, /* '/' */47, 0, x.length - 1 | 0);
 }
 
 function no_slash_idx(x) {
-  return unsafe_no_char_idx(x, /* "/" */47, 0, x.length - 1 | 0);
+  return unsafe_no_char_idx(x, /* '/' */47, 0, x.length - 1 | 0);
 }
 
 function replace_slash_backward(x) {
   var len = x.length;
-  if (unsafe_no_char(x, /* "/" */47, 0, len - 1 | 0)) {
+  if (unsafe_no_char(x, /* '/' */47, 0, len - 1 | 0)) {
     return x;
   } else {
     return $$String.map((function (x) {
                   if (x !== 47) {
                     return x;
                   } else {
-                    return /* "\\" */92;
+                    return /* '\\' */92;
                   }
                 }), x);
   }
@@ -605,14 +602,14 @@ function replace_slash_backward(x) {
 
 function replace_backward_slash(x) {
   var len = x.length;
-  if (unsafe_no_char(x, /* "\\" */92, 0, len - 1 | 0)) {
+  if (unsafe_no_char(x, /* '\\' */92, 0, len - 1 | 0)) {
     return x;
   } else {
     return $$String.map((function (x) {
                   if (x !== 92) {
                     return x;
                   } else {
-                    return /* "/" */47;
+                    return /* '/' */47;
                   }
                 }), x);
   }

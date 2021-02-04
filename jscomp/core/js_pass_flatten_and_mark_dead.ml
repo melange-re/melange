@@ -32,70 +32,42 @@
 module E = Js_exp_make
 module S = Js_stmt_make
 
-(* class count  var = object (self : 'self)
-  val mutable appears = 0
-  inherit Js_fold.fold as super
-  method! ident  x =
-    (if Ident.same x var then
-      appears <- appears + 1); 
-    self
-  method get_appears = appears 
-end *)
 
-(* rewrite return for current block, but don't go into
-   inner function, mostly for inlinning
- *)
-(* class rewrite_return ?return_value ()=
-  let mk_return  = 
-    match return_value with 
-    | None -> fun e -> S.exp e 
-    | Some ident -> fun e -> 
-      S.define_variable ~kind:Variable ident e in
-  object (self : 'self)
-    inherit Js_map.map as super
-    method! statement x =
-      match x.statement_desc with 
-      | Return {return_value = e} -> 
-          mk_return e 
-      | _ -> super#statement x 
-    method! expression x = x (* don't go inside *)
-  end   *)
 
 type meta_info =   
   | Info of J.ident_info 
   | Recursive
 
 
+let super = Js_record_iter.super
 
 let mark_dead_code (js : J.program) : J.program = 
   let ident_use_stats : meta_info Hash_ident.t
     = Hash_ident.create 17 in 
-  let mark_dead = object (self)
-    inherit Js_fold.fold 
-    method! ident ident = 
+  let mark_dead  = { super with 
+    ident = (fun _ ident -> 
       (match Hash_ident.find_opt ident_use_stats ident with
        | None -> (* First time *)
          Hash_ident.add ident_use_stats ident Recursive 
        (* recursive identifiers *)
        | Some Recursive
          -> ()
-       | Some (Info x) ->  Js_op_util.update_used_stats x Used )
-    ; self 
-    method! variable_declaration vd = 
+       | Some (Info x) ->  Js_op_util.update_used_stats x Used ));
+     variable_declaration = fun self vd -> 
       match vd.ident_info.used_stats with 
       |  Dead_pure 
-        -> self
+        -> ()
       |  Dead_non_pure  -> 
         begin match vd.value with
-          | None -> self
-          | Some x -> self#expression x 
+          | None -> ()
+          | Some x -> self.expression self x 
         end
       |  _ -> 
         let ({ident; ident_info ; value ; _} : J.variable_declaration) = vd in 
         let pure = 
           match value with 
           | None  -> true
-          | Some x -> ignore (self#expression x); Js_analyzer.no_side_effect_expression x in
+          | Some x ->  self.expression self x; Js_analyzer.no_side_effect_expression x in
         (
          let () = 
            if Set_ident.mem js.export_set ident then 
@@ -114,9 +86,9 @@ let mark_dead_code (js : J.program) : J.program =
          | None ->  (* First time *)
            Hash_ident.add ident_use_stats ident (Info ident_info);
            Js_op_util.update_used_stats ident_info 
-             (if pure then Scanning_pure else Scanning_non_pure)); self
-  end  in 
-  let _ =  (mark_dead#program js) in 
+             (if pure then Scanning_pure else Scanning_non_pure))
+    }  in 
+  mark_dead.program mark_dead js;
   Hash_ident.iter ident_use_stats (fun _id (info : meta_info) ->
       match info  with 
       | Info ({used_stats = Scanning_pure} as info) -> 
@@ -180,17 +152,12 @@ let mark_dead_code (js : J.program) : J.program =
     ]}
 
 *) 
-let subst_map () = object (self)
-  inherit Js_map.map as super
 
-  val mutable substitution :  J.expression Hash_ident.t= Hash_ident.create 17 
-
-  method get_substitution = substitution
-
-  method add_substitue (ident : Ident.t) (e:J.expression) = 
+let super = Js_record_map.super
+let add_substitue substitution (ident : Ident.t) (e:J.expression) = 
     Hash_ident.replace  substitution ident e
-
-  method! statement v = 
+let subst_map (substitution : J.expression Hash_ident.t) = { super
+  with statement  =  (fun self v ->
     match v.statement_desc with 
     | Variable ({ident = _; ident_info = {used_stats = Dead_pure } ; _}) -> 
       {v with statement_desc = Block []}
@@ -221,7 +188,7 @@ let subst_map () = object (self)
                    bottomline, when the block size is one, no need to do 
                    this
                *)
-               let v' = self#expression x in 
+               let v' = self.expression self x in 
                let match_id =
                  Ext_ident.create
                    (ident.name ^ "_" ^
@@ -240,7 +207,7 @@ let subst_map () = object (self)
          expression_desc = 
            Caml_block(List.rev e, Immutable, tag, tag_info)
         } in
-      let () = self#add_substitue ident e in
+      let () = add_substitue substitution ident e in
       (* let bindings =  !bindings in *)
       let original_statement = 
         { v with 
@@ -256,15 +223,15 @@ let subst_map () = object (self)
             (fun (id,v) -> 
                S.define_variable ~kind:Strict id v)  )
       end
-    | _ -> super#statement v 
-
-  method! expression x =
+    | _ -> super.statement self v 
+  );
+  expression = fun self x -> 
     match x.expression_desc with 
     | Array_index ({expression_desc = Var (Id (id))}, 
               {expression_desc = Number (Int {i; _})})
     | Static_index ({expression_desc = Var (Id (id))}, _, Some i)          
      -> 
-      (match Hash_ident.find_opt self#get_substitution id with 
+      (match Hash_ident.find_opt substitution id with 
        | Some {expression_desc = Caml_block (ls, Immutable, _, _) } 
          -> 
          (* user program can be wrong, we should not 
@@ -274,11 +241,11 @@ let subst_map () = object (self)
           | Some ({expression_desc = J.Var _ | Number _ | Str _ | Undefined} as x)
             -> x 
           | None | Some _ -> 
-            super#expression x )          
-       | Some _ | None -> super#expression x )
+            super.expression self x )          
+       | Some _ | None -> super.expression self x )
       
-    | _ -> super#expression x
-end 
+    | _ -> super.expression self x
+}
 
 (* Top down or bottom up ?*)
 (* A pass to support nullary argument in JS 
@@ -287,9 +254,9 @@ end
  *)
 
 let program  (js : J.program) = 
-  js 
-  |> (subst_map () )#program
-  |> mark_dead_code
+  let obj = (subst_map (Hash_ident.create 32) )  in 
+  let js = obj.program obj js in 
+  mark_dead_code js
   (* |> mark_dead_code *)
   (* mark dead code twice does have effect in some cases, however, we disabled it 
     since the benefit is not obvious

@@ -40,26 +40,25 @@ function escaped(s) {
   for(var i$1 = 0 ,i_finish$1 = s.length; i$1 < i_finish$1; ++i$1){
     var c$1 = s[i$1];
     var exit$1 = 0;
-    var switcher = c$1 - 34 | 0;
-    if (switcher > 58 || switcher < 0) {
-      if (switcher >= -20) {
+    if (c$1 > 92 || c$1 < 34) {
+      if (c$1 >= 14) {
         exit$1 = 1;
       } else {
-        switch (switcher + 34 | 0) {
+        switch (c$1) {
           case 8 :
-              s$prime[n] = /* "\\" */92;
+              s$prime[n] = /* '\\' */92;
               n = n + 1 | 0;
-              s$prime[n] = /* "b" */98;
+              s$prime[n] = /* 'b' */98;
               break;
           case 9 :
-              s$prime[n] = /* "\\" */92;
+              s$prime[n] = /* '\\' */92;
               n = n + 1 | 0;
-              s$prime[n] = /* "t" */116;
+              s$prime[n] = /* 't' */116;
               break;
           case 10 :
-              s$prime[n] = /* "\\" */92;
+              s$prime[n] = /* '\\' */92;
               n = n + 1 | 0;
-              s$prime[n] = /* "n" */110;
+              s$prime[n] = /* 'n' */110;
               break;
           case 0 :
           case 1 :
@@ -74,15 +73,15 @@ function escaped(s) {
               exit$1 = 1;
               break;
           case 13 :
-              s$prime[n] = /* "\\" */92;
+              s$prime[n] = /* '\\' */92;
               n = n + 1 | 0;
-              s$prime[n] = /* "r" */114;
+              s$prime[n] = /* 'r' */114;
               break;
           
         }
       }
-    } else if (switcher > 57 || switcher < 1) {
-      s$prime[n] = /* "\\" */92;
+    } else if (c$1 > 91 || c$1 < 35) {
+      s$prime[n] = /* '\\' */92;
       n = n + 1 | 0;
       s$prime[n] = c$1;
     } else {
@@ -92,7 +91,7 @@ function escaped(s) {
       if (Test_char.caml_is_printable(c$1)) {
         s$prime[n] = c$1;
       } else {
-        s$prime[n] = /* "\\" */92;
+        s$prime[n] = /* '\\' */92;
         n = n + 1 | 0;
         s$prime[n] = 48 + (c$1 / 100 | 0) | 0;
         n = n + 1 | 0;

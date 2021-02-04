@@ -437,50 +437,44 @@ function $plus$plus(x, y) {
 function from_char(param) {
   if (param >= 170) {
     if (param >= 187) {
-      var switcher = param - 192 | 0;
-      if (switcher > 54 || switcher < 0) {
-        if (switcher >= 56) {
+      if (param > 246 || param < 192) {
+        if (param >= 248) {
           return 2;
         } else {
           return 4;
         }
-      } else if (switcher !== 23) {
+      } else if (param !== 215) {
         return 2;
       } else {
         return 4;
       }
-    }
-    var switcher$1 = param - 171 | 0;
-    if (!(switcher$1 > 14 || switcher$1 < 0) && switcher$1 !== 10) {
+    } else if (!(param > 185 || param < 171) && param !== 181) {
       return 4;
     } else {
       return 2;
     }
-  }
-  if (param < 65) {
-    if (param >= 48) {
-      if (param >= 58) {
+  } else if (param >= 65) {
+    if (param > 96 || param < 91) {
+      if (param >= 123) {
         return 4;
       } else {
         return 2;
       }
-    } else if (param !== 10) {
-      return 4;
-    } else {
-      return 12;
-    }
-  }
-  var switcher$2 = param - 91 | 0;
-  if (switcher$2 > 5 || switcher$2 < 0) {
-    if (switcher$2 >= 32) {
+    } else if (param !== 95) {
       return 4;
     } else {
       return 2;
     }
-  } else if (switcher$2 !== 4) {
+  } else if (param >= 48) {
+    if (param >= 58) {
+      return 4;
+    } else {
+      return 2;
+    }
+  } else if (param !== 10) {
     return 4;
   } else {
-    return 2;
+    return 12;
   }
 }
 
@@ -1626,7 +1620,7 @@ function get_color(re, s, pos) {
   var slen = s.length;
   if (pos >= slen) {
     return -1;
-  } else if (pos === (slen - 1 | 0) && re.lnl !== -1 && Caml_string.get(s, pos) === /* "\n" */10) {
+  } else if (pos === (slen - 1 | 0) && re.lnl !== -1 && Caml_string.get(s, pos) === /* '\n' */10) {
     return re.lnl;
   } else {
     return Caml_bytes.get(re.cols, Caml_string.get(s, pos));
@@ -1636,7 +1630,7 @@ function get_color(re, s, pos) {
 function scan_str(info, s, initial_state, groups) {
   var pos = info.pos;
   var last = info.last;
-  if (!(last === s.length && info.re.lnl !== -1 && last > pos && Caml_string.get(s, last - 1 | 0) === /* "\n" */10)) {
+  if (!(last === s.length && info.re.lnl !== -1 && last > pos && Caml_string.get(s, last - 1 | 0) === /* '\n' */10)) {
     if (groups) {
       return loop(info, s, pos, initial_state);
     } else {
@@ -1689,7 +1683,7 @@ function scan_str(info, s, initial_state, groups) {
         return st$prime$1;
       }
       var c = info$1.re.lnl;
-      var real_c = Caml_bytes.get(info$1.i_cols, /* "\n" */10);
+      var real_c = Caml_bytes.get(info$1.i_cols, /* '\n' */10);
       var cat = category(info$1.re, c);
       var desc$prime = delta$1(info$1, cat, real_c, st$1);
       var st$prime$2 = find_state(info$1.re, desc$prime);
@@ -1781,8 +1775,8 @@ function is_charset(_param) {
 function split(s, cm) {
   var _t = s;
   var f = function (i, j) {
-    Caml_bytes.set(cm, i, /* "\001" */1);
-    return Caml_bytes.set(cm, j + 1 | 0, /* "\001" */1);
+    Caml_bytes.set(cm, i, /* '\001' */1);
+    return Caml_bytes.set(cm, j + 1 | 0, /* '\001' */1);
   };
   while(true) {
     var t = _t;
@@ -1796,20 +1790,20 @@ function split(s, cm) {
   };
 }
 
-var cupper = union(seq(/* "A" */65, /* "Z" */90), union(seq(/* "\192" */192, /* "\214" */214), seq(/* "\216" */216, /* "\222" */222)));
+var cupper = union(seq(/* 'A' */65, /* 'Z' */90), union(seq(/* '\192' */192, /* '\214' */214), seq(/* '\216' */216, /* '\222' */222)));
 
 var clower = offset(32, cupper);
 
 var calpha = List.fold_right(cadd, {
-      hd: /* "\170" */170,
+      hd: /* '\170' */170,
       tl: {
-        hd: /* "\181" */181,
+        hd: /* '\181' */181,
         tl: {
-          hd: /* "\186" */186,
+          hd: /* '\186' */186,
           tl: {
-            hd: /* "\223" */223,
+            hd: /* '\223' */223,
             tl: {
-              hd: /* "\255" */255,
+              hd: /* '\255' */255,
               tl: /* [] */0
             }
           }
@@ -1817,14 +1811,14 @@ var calpha = List.fold_right(cadd, {
       }
     }, union(clower, cupper));
 
-var cdigit = seq(/* "0" */48, /* "9" */57);
+var cdigit = seq(/* '0' */48, /* '9' */57);
 
 var calnum = union(calpha, cdigit);
 
 var cword = union({
       hd: [
-        /* "_" */95,
-        /* "_" */95
+        /* '_' */95,
+        /* '_' */95
       ],
       tl: /* [] */0
     }, calnum);
@@ -1842,8 +1836,8 @@ function colorize(c, regexp) {
           case /* End_of_line */1 :
               return split({
                           hd: [
-                            /* "\n" */10,
-                            /* "\n" */10
+                            /* '\n' */10,
+                            /* '\n' */10
                           ],
                           tl: /* [] */0
                         }, c);
@@ -1901,10 +1895,10 @@ function flatten_cmap(cm) {
   var c = Caml_bytes.caml_create_bytes(256);
   var col_repr = Caml_bytes.caml_create_bytes(256);
   var v = 0;
-  Caml_bytes.set(c, 0, /* "\000" */0);
-  Caml_bytes.set(col_repr, 0, /* "\000" */0);
+  Caml_bytes.set(c, 0, /* '\000' */0);
+  Caml_bytes.set(col_repr, 0, /* '\000' */0);
   for(var i = 1; i <= 255; ++i){
-    if (Caml_bytes.get(cm, i) !== /* "\000" */0) {
+    if (Caml_bytes.get(cm, i) !== /* '\000' */0) {
       v = v + 1 | 0;
     }
     Caml_bytes.set(c, i, Char.chr(v));
@@ -1924,59 +1918,23 @@ function equal$2(_x1, _x2) {
     if (typeof x1 === "number") {
       switch (x1) {
         case /* Beg_of_line */0 :
-            if (typeof x2 === "number") {
-              return x2 === 0;
-            } else {
-              return false;
-            }
+            return x2 === 0;
         case /* End_of_line */1 :
-            if (typeof x2 === "number") {
-              return x2 === 1;
-            } else {
-              return false;
-            }
+            return x2 === 1;
         case /* Beg_of_word */2 :
-            if (typeof x2 === "number") {
-              return x2 === 2;
-            } else {
-              return false;
-            }
+            return x2 === 2;
         case /* End_of_word */3 :
-            if (typeof x2 === "number") {
-              return x2 === 3;
-            } else {
-              return false;
-            }
+            return x2 === 3;
         case /* Not_bound */4 :
-            if (typeof x2 === "number") {
-              return x2 === 4;
-            } else {
-              return false;
-            }
+            return x2 === 4;
         case /* Beg_of_str */5 :
-            if (typeof x2 === "number") {
-              return x2 === 5;
-            } else {
-              return false;
-            }
+            return x2 === 5;
         case /* End_of_str */6 :
-            if (typeof x2 === "number") {
-              return x2 === 6;
-            } else {
-              return false;
-            }
+            return x2 === 6;
         case /* Last_end_of_line */7 :
-            if (typeof x2 === "number") {
-              return x2 === 7;
-            } else {
-              return false;
-            }
+            return x2 === 7;
         case /* Start */8 :
-            if (typeof x2 === "number") {
-              return x2 === 8;
-            } else {
-              return false;
-            }
+            return x2 === 8;
         case /* Stop */9 :
             if (typeof x2 === "number") {
               return x2 >= 9;
@@ -2848,8 +2806,8 @@ var notnl = {
   TAG: /* Set */0,
   _0: diff(cany, {
         hd: [
-          /* "\n" */10,
-          /* "\n" */10
+          /* '\n' */10,
+          /* '\n' */10
         ],
         tl: /* [] */0
       })
@@ -2858,15 +2816,15 @@ var notnl = {
 var lower = alt$1({
       hd: {
         TAG: /* Set */0,
-        _0: seq(/* "a" */97, /* "z" */122)
+        _0: seq(/* 'a' */97, /* 'z' */122)
       },
       tl: {
         hd: {
           TAG: /* Set */0,
           _0: {
             hd: [
-              /* "\181" */181,
-              /* "\181" */181
+              /* '\181' */181,
+              /* '\181' */181
             ],
             tl: /* [] */0
           }
@@ -2874,12 +2832,12 @@ var lower = alt$1({
         tl: {
           hd: {
             TAG: /* Set */0,
-            _0: seq(/* "\223" */223, /* "\246" */246)
+            _0: seq(/* '\223' */223, /* '\246' */246)
           },
           tl: {
             hd: {
               TAG: /* Set */0,
-              _0: seq(/* "\248" */248, /* "\255" */255)
+              _0: seq(/* '\248' */248, /* '\255' */255)
             },
             tl: /* [] */0
           }
@@ -2890,17 +2848,17 @@ var lower = alt$1({
 var upper = alt$1({
       hd: {
         TAG: /* Set */0,
-        _0: seq(/* "A" */65, /* "Z" */90)
+        _0: seq(/* 'A' */65, /* 'Z' */90)
       },
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* "\192" */192, /* "\214" */214)
+          _0: seq(/* '\192' */192, /* '\214' */214)
         },
         tl: {
           hd: {
             TAG: /* Set */0,
-            _0: seq(/* "\216" */216, /* "\222" */222)
+            _0: seq(/* '\216' */216, /* '\222' */222)
           },
           tl: /* [] */0
         }
@@ -2916,8 +2874,8 @@ var alpha = alt$1({
             TAG: /* Set */0,
             _0: {
               hd: [
-                /* "\170" */170,
-                /* "\170" */170
+                /* '\170' */170,
+                /* '\170' */170
               ],
               tl: /* [] */0
             }
@@ -2927,8 +2885,8 @@ var alpha = alt$1({
               TAG: /* Set */0,
               _0: {
                 hd: [
-                  /* "\186" */186,
-                  /* "\186" */186
+                  /* '\186' */186,
+                  /* '\186' */186
                 ],
                 tl: /* [] */0
               }
@@ -2941,7 +2899,7 @@ var alpha = alt$1({
 
 var digit = {
   TAG: /* Set */0,
-  _0: seq(/* "0" */48, /* "9" */57)
+  _0: seq(/* '0' */48, /* '9' */57)
 };
 
 var alnum = alt$1({
@@ -2959,8 +2917,8 @@ var wordc = alt$1({
           TAG: /* Set */0,
           _0: {
             hd: [
-              /* "_" */95,
-              /* "_" */95
+              /* '_' */95,
+              /* '_' */95
             ],
             tl: /* [] */0
           }
@@ -2971,7 +2929,7 @@ var wordc = alt$1({
 
 var ascii = {
   TAG: /* Set */0,
-  _0: seq(/* "\000" */0, /* "\127" */127)
+  _0: seq(/* '\000' */0, /* '\127' */127)
 };
 
 var blank = set("\t ");
@@ -2979,12 +2937,12 @@ var blank = set("\t ");
 var cntrl = alt$1({
       hd: {
         TAG: /* Set */0,
-        _0: seq(/* "\000" */0, /* "\031" */31)
+        _0: seq(/* '\000' */0, /* '\031' */31)
       },
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* "\127" */127, /* "\159" */159)
+          _0: seq(/* '\127' */127, /* '\159' */159)
         },
         tl: /* [] */0
       }
@@ -2993,12 +2951,12 @@ var cntrl = alt$1({
 var graph = alt$1({
       hd: {
         TAG: /* Set */0,
-        _0: seq(/* "!" */33, /* "~" */126)
+        _0: seq(/* '!' */33, /* '~' */126)
       },
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* "\160" */160, /* "\255" */255)
+          _0: seq(/* '\160' */160, /* '\255' */255)
         },
         tl: /* [] */0
       }
@@ -3007,12 +2965,12 @@ var graph = alt$1({
 var print = alt$1({
       hd: {
         TAG: /* Set */0,
-        _0: seq(/* " " */32, /* "~" */126)
+        _0: seq(/* ' ' */32, /* '~' */126)
       },
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* "\160" */160, /* "\255" */255)
+          _0: seq(/* '\160' */160, /* '\255' */255)
         },
         tl: /* [] */0
       }
@@ -3021,50 +2979,50 @@ var print = alt$1({
 var punct = alt$1({
       hd: {
         TAG: /* Set */0,
-        _0: seq(/* "!" */33, /* "/" */47)
+        _0: seq(/* '!' */33, /* '/' */47)
       },
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* ":" */58, /* "@" */64)
+          _0: seq(/* ':' */58, /* '@' */64)
         },
         tl: {
           hd: {
             TAG: /* Set */0,
-            _0: seq(/* "[" */91, /* "`" */96)
+            _0: seq(/* '[' */91, /* '`' */96)
           },
           tl: {
             hd: {
               TAG: /* Set */0,
-              _0: seq(/* "{" */123, /* "~" */126)
+              _0: seq(/* '{' */123, /* '~' */126)
             },
             tl: {
               hd: {
                 TAG: /* Set */0,
-                _0: seq(/* "\160" */160, /* "\169" */169)
+                _0: seq(/* '\160' */160, /* '\169' */169)
               },
               tl: {
                 hd: {
                   TAG: /* Set */0,
-                  _0: seq(/* "\171" */171, /* "\180" */180)
+                  _0: seq(/* '\171' */171, /* '\180' */180)
                 },
                 tl: {
                   hd: {
                     TAG: /* Set */0,
-                    _0: seq(/* "\182" */182, /* "\185" */185)
+                    _0: seq(/* '\182' */182, /* '\185' */185)
                   },
                   tl: {
                     hd: {
                       TAG: /* Set */0,
-                      _0: seq(/* "\187" */187, /* "\191" */191)
+                      _0: seq(/* '\187' */187, /* '\191' */191)
                     },
                     tl: {
                       hd: {
                         TAG: /* Set */0,
                         _0: {
                           hd: [
-                            /* "\215" */215,
-                            /* "\215" */215
+                            /* '\215' */215,
+                            /* '\215' */215
                           ],
                           tl: /* [] */0
                         }
@@ -3074,8 +3032,8 @@ var punct = alt$1({
                           TAG: /* Set */0,
                           _0: {
                             hd: [
-                              /* "\247" */247,
-                              /* "\247" */247
+                              /* '\247' */247,
+                              /* '\247' */247
                             ],
                             tl: /* [] */0
                           }
@@ -3097,8 +3055,8 @@ var space = alt$1({
         TAG: /* Set */0,
         _0: {
           hd: [
-            /* " " */32,
-            /* " " */32
+            /* ' ' */32,
+            /* ' ' */32
           ],
           tl: /* [] */0
         }
@@ -3106,7 +3064,7 @@ var space = alt$1({
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* "\t" */9, /* "\r" */13)
+          _0: seq(/* '\t' */9, /* '\r' */13)
         },
         tl: /* [] */0
       }
@@ -3117,12 +3075,12 @@ var xdigit = alt$1({
       tl: {
         hd: {
           TAG: /* Set */0,
-          _0: seq(/* "a" */97, /* "f" */102)
+          _0: seq(/* 'a' */97, /* 'f' */102)
         },
         tl: {
           hd: {
             TAG: /* Set */0,
-            _0: seq(/* "A" */65, /* "F" */70)
+            _0: seq(/* 'A' */65, /* 'F' */70)
           },
           tl: /* [] */0
         }
@@ -3148,7 +3106,7 @@ function compile(r) {
           }
         });
   var regexp$1 = handle_case(false, regexp);
-  var c = Bytes.make(257, /* "\000" */0);
+  var c = Bytes.make(257, /* '\000' */0);
   var need_lnl = colorize(c, regexp$1);
   var match = flatten_cmap(c);
   var ncol = match[2];
@@ -3281,9 +3239,9 @@ function get(t, i) {
   return $$String.sub(t.s, p1, match[1] - p1 | 0);
 }
 
-var Parse_error = Caml_exceptions.create("Parse_error");
+var Parse_error = /* @__PURE__ */Caml_exceptions.create("Parse_error");
 
-var Not_supported = Caml_exceptions.create("Not_supported");
+var Not_supported = /* @__PURE__ */Caml_exceptions.create("Not_supported");
 
 function posix_class_of_string(class_) {
   switch (class_) {
@@ -3379,7 +3337,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     return r;
   };
   var greedy_mod = function (r) {
-    var gr = accept(/* "?" */63);
+    var gr = accept(/* '?' */63);
     var gr$1 = ungreedy ? !gr : gr;
     if (gr$1) {
       return {
@@ -3396,18 +3354,18 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     }
   };
   var atom = function (param) {
-    if (accept(/* "." */46)) {
+    if (accept(/* '.' */46)) {
       if (dotall) {
         return any;
       } else {
         return notnl;
       }
     }
-    if (accept(/* "(" */40)) {
-      if (accept(/* "?" */63)) {
-        if (accept(/* ":" */58)) {
+    if (accept(/* '(' */40)) {
+      if (accept(/* '?' */63)) {
+        if (accept(/* ':' */58)) {
           var r = regexp$prime(branch$prime(/* [] */0));
-          if (!accept(/* ")" */41)) {
+          if (!accept(/* ')' */41)) {
             throw {
                   RE_EXN_ID: Parse_error,
                   Error: new Error()
@@ -3415,10 +3373,10 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
           }
           return r;
         }
-        if (accept(/* "#" */35)) {
+        if (accept(/* '#' */35)) {
           var _param;
           while(true) {
-            if (accept(/* ")" */41)) {
+            if (accept(/* ')' */41)) {
               return epsilon;
             }
             i.contents = i.contents + 1 | 0;
@@ -3432,7 +3390,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
       }
       var r$1 = regexp$prime(branch$prime(/* [] */0));
-      if (!accept(/* ")" */41)) {
+      if (!accept(/* ')' */41)) {
         throw {
               RE_EXN_ID: Parse_error,
               Error: new Error()
@@ -3443,14 +3401,14 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               _0: r$1
             };
     }
-    if (accept(/* "^" */94)) {
+    if (accept(/* '^' */94)) {
       if (multiline) {
         return /* Beg_of_line */0;
       } else {
         return /* Beg_of_str */5;
       }
     }
-    if (accept(/* "$" */36)) {
+    if (accept(/* '$' */36)) {
       if (multiline) {
         return /* End_of_line */1;
       } else if (dollar_endonly) {
@@ -3459,14 +3417,14 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         return /* End_of_str */6;
       }
     }
-    if (accept(/* "[" */91)) {
-      if (accept(/* "^" */94)) {
+    if (accept(/* '[' */91)) {
+      if (accept(/* '^' */94)) {
         return compl(bracket(/* [] */0));
       } else {
         return alt$1(bracket(/* [] */0));
       }
     }
-    if (accept(/* "\\" */92)) {
+    if (accept(/* '\\' */92)) {
       if (i.contents === l) {
         throw {
               RE_EXN_ID: Parse_error,
@@ -3513,8 +3471,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                             TAG: /* Set */0,
                             _0: {
                               hd: [
-                                /* "_" */95,
-                                /* "_" */95
+                                /* '_' */95,
+                                /* '_' */95
                               ],
                               tl: /* [] */0
                             }
@@ -3561,8 +3519,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                             TAG: /* Set */0,
                             _0: {
                               hd: [
-                                /* "_" */95,
-                                /* "_" */95
+                                /* '_' */95,
+                                /* '_' */95
                               ],
                               tl: /* [] */0
                             }
@@ -3681,7 +3639,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       i.contents = i.contents - 1 | 0;
       return ;
     } else {
-      var _i = d - /* "0" */48 | 0;
+      var _i = d - /* '0' */48 | 0;
       while(true) {
         var i$1 = _i;
         if (i.contents === l) {
@@ -3692,7 +3650,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
           i.contents = i.contents - 1 | 0;
           return i$1;
         }
-        var i$prime = Math.imul(10, i$1) + (d$1 - /* "0" */48 | 0) | 0;
+        var i$prime = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
         if (i$prime < i$1) {
           throw {
                 RE_EXN_ID: Parse_error,
@@ -3707,7 +3665,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   var branch$prime = function (_left) {
     while(true) {
       var left = _left;
-      if (i.contents === l || test(/* "|" */124) || test(/* ")" */41)) {
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
         return seq$2(List.rev(left));
       }
       _left = {
@@ -3720,7 +3678,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   var regexp$prime = function (_left) {
     while(true) {
       var left = _left;
-      if (!accept(/* "|" */124)) {
+      if (!accept(/* '|' */124)) {
         return left;
       }
       _left = alt$1({
@@ -3736,14 +3694,14 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   var bracket = function (_s) {
     while(true) {
       var s = _s;
-      if (s !== /* [] */0 && accept(/* "]" */93)) {
+      if (s !== /* [] */0 && accept(/* ']' */93)) {
         return s;
       }
       var match = $$char(undefined);
       if (match.NAME === "Char") {
         var c = match.VAL;
-        if (accept(/* "-" */45)) {
-          if (accept(/* "]" */93)) {
+        if (accept(/* '-' */45)) {
+          if (accept(/* ']' */93)) {
             return {
                     hd: {
                       TAG: /* Set */0,
@@ -3754,8 +3712,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                         TAG: /* Set */0,
                         _0: {
                           hd: [
-                            /* "-" */45,
-                            /* "-" */45
+                            /* '-' */45,
+                            /* '-' */45
                           ],
                           tl: /* [] */0
                         }
@@ -3776,8 +3734,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                         TAG: /* Set */0,
                         _0: {
                           hd: [
-                            /* "-" */45,
-                            /* "-" */45
+                            /* '-' */45,
+                            /* '-' */45
                           ],
                           tl: /* [] */0
                         }
@@ -3822,15 +3780,15 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
           };
     }
     var c = get(undefined);
-    if (c === /* "[" */91) {
-      if (accept(/* "=" */61)) {
+    if (c === /* '[' */91) {
+      if (accept(/* '=' */61)) {
         throw {
               RE_EXN_ID: Not_supported,
               Error: new Error()
             };
       }
-      if (accept(/* ":" */58)) {
-        var compl$1 = accept(/* "^" */94);
+      if (accept(/* ':' */58)) {
+        var compl$1 = accept(/* '^' */94);
         var cls;
         try {
           cls = List.find(accept_s, {
@@ -3900,7 +3858,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                 VAL: re
               };
       }
-      if (!accept(/* "." */46)) {
+      if (!accept(/* '.' */46)) {
         return {
                 NAME: "Char",
                 VAL: c
@@ -3913,13 +3871,13 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
       }
       var c$1 = get(undefined);
-      if (!accept(/* "." */46)) {
+      if (!accept(/* '.' */46)) {
         throw {
               RE_EXN_ID: Not_supported,
               Error: new Error()
             };
       }
-      if (!accept(/* "]" */93)) {
+      if (!accept(/* ']' */93)) {
         throw {
               RE_EXN_ID: Parse_error,
               Error: new Error()
@@ -3930,7 +3888,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               VAL: c$1
             };
     }
-    if (c !== /* "\\" */92) {
+    if (c !== /* '\\' */92) {
       return {
               NAME: "Char",
               VAL: c
@@ -3944,8 +3902,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                 VAL: c$2
               };
       }
-      switch (c$2 - 58 | 0) {
-        case 10 :
+      switch (c$2) {
+        case 68 :
             return {
                     NAME: "Set",
                     VAL: compl({
@@ -3953,7 +3911,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                           tl: /* [] */0
                         })
                   };
-        case 25 :
+        case 83 :
             return {
                     NAME: "Set",
                     VAL: compl({
@@ -3961,7 +3919,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                           tl: /* [] */0
                         })
                   };
-        case 29 :
+        case 87 :
             return {
                     NAME: "Set",
                     VAL: compl({
@@ -3971,8 +3929,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                               TAG: /* Set */0,
                               _0: {
                                 hd: [
-                                  /* "_" */95,
-                                  /* "_" */95
+                                  /* '_' */95,
+                                  /* '_' */95
                                 ],
                                 tl: /* [] */0
                               }
@@ -3981,54 +3939,54 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                           }
                         })
                   };
-        case 0 :
-        case 1 :
-        case 2 :
-        case 3 :
-        case 4 :
-        case 5 :
-        case 6 :
-        case 33 :
-        case 34 :
-        case 35 :
-        case 36 :
-        case 37 :
-        case 38 :
+        case 58 :
+        case 59 :
+        case 60 :
+        case 61 :
+        case 62 :
+        case 63 :
+        case 64 :
+        case 91 :
+        case 92 :
+        case 93 :
+        case 94 :
+        case 95 :
+        case 96 :
             return {
                     NAME: "Char",
                     VAL: c$2
                   };
-        case 40 :
+        case 98 :
             return {
                     NAME: "Char",
-                    VAL: /* "\b" */8
+                    VAL: /* '\b' */8
                   };
-        case 42 :
+        case 100 :
             return {
                     NAME: "Set",
                     VAL: digit
                   };
-        case 52 :
+        case 110 :
             return {
                     NAME: "Char",
-                    VAL: /* "\n" */10
+                    VAL: /* '\n' */10
                   };
-        case 56 :
+        case 114 :
             return {
                     NAME: "Char",
-                    VAL: /* "\r" */13
+                    VAL: /* '\r' */13
                   };
-        case 57 :
+        case 115 :
             return {
                     NAME: "Set",
                     VAL: space
                   };
-        case 58 :
+        case 116 :
             return {
                     NAME: "Char",
-                    VAL: /* "\t" */9
+                    VAL: /* '\t' */9
                   };
-        case 61 :
+        case 119 :
             return {
                     NAME: "Set",
                     VAL: alt$1({
@@ -4038,8 +3996,8 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                               TAG: /* Set */0,
                               _0: {
                                 hd: [
-                                  /* "_" */95,
-                                  /* "_" */95
+                                  /* '_' */95,
+                                  /* '_' */95
                                 ],
                                 tl: /* [] */0
                               }
@@ -4048,48 +4006,48 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
                           }
                         })
                   };
-        case 7 :
-        case 8 :
-        case 9 :
-        case 11 :
-        case 12 :
-        case 13 :
-        case 14 :
-        case 15 :
-        case 16 :
-        case 17 :
-        case 18 :
-        case 19 :
-        case 20 :
-        case 21 :
-        case 22 :
-        case 23 :
-        case 24 :
-        case 26 :
-        case 27 :
-        case 28 :
-        case 30 :
-        case 31 :
-        case 32 :
-        case 39 :
-        case 41 :
-        case 43 :
-        case 44 :
-        case 45 :
-        case 46 :
-        case 47 :
-        case 48 :
-        case 49 :
-        case 50 :
-        case 51 :
-        case 53 :
-        case 54 :
-        case 55 :
-        case 59 :
-        case 60 :
-        case 62 :
-        case 63 :
-        case 64 :
+        case 65 :
+        case 66 :
+        case 67 :
+        case 69 :
+        case 70 :
+        case 71 :
+        case 72 :
+        case 73 :
+        case 74 :
+        case 75 :
+        case 76 :
+        case 77 :
+        case 78 :
+        case 79 :
+        case 80 :
+        case 81 :
+        case 82 :
+        case 84 :
+        case 85 :
+        case 86 :
+        case 88 :
+        case 89 :
+        case 90 :
+        case 97 :
+        case 99 :
+        case 101 :
+        case 102 :
+        case 103 :
+        case 104 :
+        case 105 :
+        case 106 :
+        case 107 :
+        case 108 :
+        case 109 :
+        case 111 :
+        case 112 :
+        case 113 :
+        case 117 :
+        case 118 :
+        case 120 :
+        case 121 :
+        case 122 :
             throw {
                   RE_EXN_ID: Parse_error,
                   Error: new Error()
@@ -4111,22 +4069,22 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
   };
   var piece = function (param) {
     var r = atom(undefined);
-    if (accept(/* "*" */42)) {
+    if (accept(/* '*' */42)) {
       return greedy_mod(repn(r, 0, undefined));
     }
-    if (accept(/* "+" */43)) {
+    if (accept(/* '+' */43)) {
       return greedy_mod(repn(r, 1, undefined));
     }
-    if (accept(/* "?" */63)) {
+    if (accept(/* '?' */63)) {
       return greedy_mod(repn(r, 0, 1));
     }
-    if (!accept(/* "{" */123)) {
+    if (!accept(/* '{' */123)) {
       return r;
     }
     var i$1 = integer(undefined);
     if (i$1 !== undefined) {
-      var j = accept(/* "," */44) ? integer(undefined) : i$1;
-      if (!accept(/* "}" */125)) {
+      var j = accept(/* ',' */44) ? integer(undefined) : i$1;
+      if (!accept(/* '}' */125)) {
         throw {
               RE_EXN_ID: Parse_error,
               Error: new Error()

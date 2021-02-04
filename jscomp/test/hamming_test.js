@@ -13,11 +13,11 @@ var n0 = Caml_int64.zero;
 
 var n1 = Caml_int64.one;
 
-var n2 = Caml_int64.mk(2, 0);
+var n2 = /* @__PURE__ */Caml_int64.mk(2, 0);
 
-var n3 = Caml_int64.mk(3, 0);
+var n3 = /* @__PURE__ */Caml_int64.mk(3, 0);
 
-var n5 = Caml_int64.mk(5, 0);
+var n5 = /* @__PURE__ */Caml_int64.mk(5, 0);
 
 var $percent = Caml_int64.mod_;
 
@@ -88,7 +88,7 @@ function pr(param) {
                       _2: /* No_precision */0,
                       _3: {
                         TAG: /* Char_literal */12,
-                        _0: /* "\n" */10,
+                        _0: /* '\n' */10,
                         _1: /* End_of_format */0
                       }
                     },
@@ -112,7 +112,7 @@ function pr(param) {
                         _2: /* No_precision */0,
                         _3: {
                           TAG: /* Char_literal */12,
-                          _0: /* "\n" */10,
+                          _0: /* '\n' */10,
                           _1: /* End_of_format */0
                         }
                       }

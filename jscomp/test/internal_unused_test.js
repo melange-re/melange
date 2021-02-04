@@ -4,7 +4,7 @@ var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 
 console.log(3);
 
-var A = Caml_exceptions.create("Internal_unused_test.P1.A");
+var A = /* @__PURE__ */Caml_exceptions.create("Internal_unused_test.P1.A");
 
 function f(param) {
   throw {
@@ -41,6 +41,11 @@ console.log(c);
 
 console.log(h(1, 2));
 
+function H($star) {
+  return {};
+}
+
 exports.f = f;
 exports.N = N;
+exports.H = H;
 /*  Not a pure module */

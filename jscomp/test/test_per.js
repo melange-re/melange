@@ -28,7 +28,7 @@ function invalid_arg(s) {
       };
 }
 
-var Exit = Caml_exceptions.create("Test_per.Exit");
+var Exit = /* @__PURE__ */Caml_exceptions.create("Test_per.Exit");
 
 function min(x, y) {
   if (Caml_obj.caml_lessequal(x, y)) {
@@ -60,17 +60,17 @@ function lnot(x) {
 
 var min_int = -2147483648;
 
-var infinity = Caml_int64.float_of_bits(Caml_int64.mk(0, 2146435072));
+var infinity = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 2146435072));
 
-var neg_infinity = Caml_int64.float_of_bits(Caml_int64.mk(0, -1048576));
+var neg_infinity = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, -1048576));
 
-var nan = Caml_int64.float_of_bits(Caml_int64.mk(1, 2146435072));
+var nan = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(1, 2146435072));
 
-var max_float = Caml_int64.float_of_bits(Caml_int64.mk(-1, 2146435071));
+var max_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(-1, 2146435071));
 
-var min_float = Caml_int64.float_of_bits(Caml_int64.mk(0, 1048576));
+var min_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 1048576));
 
-var epsilon_float = Caml_int64.float_of_bits(Caml_int64.mk(0, 1018167296));
+var epsilon_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 1018167296));
 
 function $caret(s1, s2) {
   var l1 = s1.length;
@@ -430,12 +430,12 @@ function print_float(f) {
 
 function print_endline(s) {
   output_string(stdout, s);
-  Caml_io.caml_ml_output_char(stdout, /* "\n" */10);
+  Caml_io.caml_ml_output_char(stdout, /* '\n' */10);
   return Caml_io.caml_ml_flush(stdout);
 }
 
 function print_newline(param) {
-  Caml_io.caml_ml_output_char(stdout, /* "\n" */10);
+  Caml_io.caml_ml_output_char(stdout, /* '\n' */10);
   return Caml_io.caml_ml_flush(stdout);
 }
 
@@ -461,12 +461,12 @@ function prerr_float(f) {
 
 function prerr_endline(s) {
   output_string(stderr, s);
-  Caml_io.caml_ml_output_char(stderr, /* "\n" */10);
+  Caml_io.caml_ml_output_char(stderr, /* '\n' */10);
   return Caml_io.caml_ml_flush(stderr);
 }
 
 function prerr_newline(param) {
-  Caml_io.caml_ml_output_char(stderr, /* "\n" */10);
+  Caml_io.caml_ml_output_char(stderr, /* '\n' */10);
   return Caml_io.caml_ml_flush(stderr);
 }
 

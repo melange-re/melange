@@ -99,18 +99,28 @@ let output_installation_file cwd_lib_bs namespace files_to_install =
   let bs = ".."//"bs" in
   let sb = ".."//".." in
   o (if Ext_sys.is_windows_or_cygwin then
-      "rule cp\n  command = cmd.exe /C copy /Y $i $out >NUL\n"
+      "rule cp\n  command = cmd.exe /C copy /Y $i $out >NUL\n\
+       rule touch\n command = cmd.exe /C type nul >>$out & copy $out+,, >NUL\n"
     else
-      "rule cp\n  command = cp $i $out\n"
+      "rule cp\n  command = cp $i $out\n\
+       rule touch\n command = touch $out\n"
     );
+  let essentials = Ext_buffer.create 1_000 in
   files_to_install
   |> Queue.iter (fun ({name_sans_extension;syntax_kind; info} : Bsb_db.module_info) ->
       let base = Filename.basename name_sans_extension in
-      let ns_base = Ext_namespace_encode.make ?ns:namespace base in
+      let dest = Ext_namespace_encode.make ?ns:namespace base in
       let ns_origin = Ext_namespace_encode.make ?ns:namespace name_sans_extension in
-      oo Literals.suffix_cmi ~dest:ns_base ~src:(bs//ns_origin);
-      oo Literals.suffix_cmj ~dest:ns_base ~src:(bs//ns_origin);
-      oo Literals.suffix_cmt ~dest:ns_base ~src:(bs//ns_origin);
+      let src = bs//ns_origin in
+      oo Literals.suffix_cmi ~dest ~src;
+      oo Literals.suffix_cmj ~dest ~src;
+      oo Literals.suffix_cmt ~dest ~src;
+
+      Ext_buffer.add_string essentials  dest ;
+      Ext_buffer.add_string_char essentials Literals.suffix_cmi ' ';
+      Ext_buffer.add_string essentials dest ;
+      Ext_buffer.add_string_char essentials Literals.suffix_cmj ' ';
+
       let suffix =
         match syntax_kind with
         | Ml -> Literals.suffix_ml
@@ -127,16 +137,23 @@ let output_installation_file cwd_lib_bs namespace files_to_install =
           | Reason ->  Literals.suffix_rei
           | Res ->  Literals.suffix_resi in
         oo suffix_b  ~dest:base ~src:(sb//name_sans_extension);
-        oo Literals.suffix_cmti ~dest:ns_base ~src:(bs//ns_origin)
+        oo Literals.suffix_cmti ~dest ~src
     );
   begin match namespace with
   | None -> ()
-  | Some x ->
-    let src = bs // x in
-    oo Literals.suffix_cmi ~dest:x ~src;
-    oo Literals.suffix_cmj ~dest:x ~src;
-    oo Literals.suffix_cmt ~dest:x ~src
+  | Some dest ->
+    let src = bs // dest in
+    oo Literals.suffix_cmi ~dest ~src;
+    oo Literals.suffix_cmj ~dest ~src;
+    oo Literals.suffix_cmt ~dest ~src;
+    Ext_buffer.add_string essentials dest ;
+    Ext_buffer.add_string_char essentials Literals.suffix_cmi ' ';
+    Ext_buffer.add_string essentials dest ;
+    Ext_buffer.add_string essentials Literals.suffix_cmj
   end;
+  Ext_buffer.add_char essentials '\n';
+  o "build install.stamp : touch ";
+  Ext_buffer.output_buffer install_oc essentials;
   close_out install_oc
 
 (* returns the digest of the relevant project files. *)
@@ -182,9 +199,9 @@ let output_ninja_and_namespace_map
       [] (
       fun
         (acc_resources : string list)
-        {sources; dir; resources; dev_index}
+        {sources; dir; resources; is_dev}
         ->
-          if dev_index then begin
+          if is_dev then begin
             bs_groups.dev <- Bsb_db_util.merge bs_groups.dev sources ;
             source_dirs.dev <- dir :: source_dirs.dev;
           end else begin
@@ -193,11 +210,12 @@ let output_ninja_and_namespace_map
           end;
           Ext_list.map_append resources  acc_resources (fun x -> dir//x)
     ) in
-  let g_stdlib_incl = match built_in_dependency with
-    | Some x ->
-      Ext_list.map x.package_install_dirs (fun dir ->
-       (Ext_filename.maybe_quote dir))
-    | None -> []
+  let g_stdlib_incl = if built_in_dependency then
+      let stdlib_path =
+        Bsb_pkg.resolve_bs_package ~cwd (Global Bs_version.package_name) in
+      let path = stdlib_path // Bsb_config.lib_ocaml in
+      [ Ext_filename.maybe_quote dir path ]
+    else []
   in
   let global_config =
     Bsb_ninja_global_vars.make
@@ -236,6 +254,7 @@ let output_ninja_and_namespace_map
       ~has_postbuild:js_post_build_cmd
       ~pp_file
       ~ppx_files
+      ~has_builtin:built_in_dependency
       ~reason_react_jsx
       ~package_specs
       ~digest
