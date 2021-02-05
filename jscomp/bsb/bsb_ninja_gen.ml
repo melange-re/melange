@@ -271,8 +271,6 @@ let output_ninja_and_namespace_map
   Ext_list.iter bs_file_groups
     (fun files_per_dir ->
       (* let group_dir = global_config.src_root_dir // files_per_dir.dir in *)
-      Buffer.add_string buf "(subdir ";
-      Buffer.add_string buf files_per_dir.dir;
        Bsb_ninja_file_groups.handle_files_per_dir buf
          ~global_config
          ~digest
@@ -282,7 +280,6 @@ let output_ninja_and_namespace_map
          ~js_post_build_cmd
          ~bs_dependencies_deps
          files_per_dir;
-      Buffer.add_string buf ")";
          )
   ;
 

@@ -184,6 +184,8 @@ let handle_files_per_dir
     ~bs_dependencies_deps
     (group: Bsb_file_groups.file_group )
   : unit =
+  Buffer.add_string buf "(subdir ";
+  Buffer.add_string buf group.dir;
   let per_proj_dir = global_config.src_root_dir in
   let is_dev = group.is_dev in
   (* handle_generators oc group rules.customs ; *)
@@ -212,25 +214,24 @@ let handle_files_per_dir
   )
   in
 
-  let dune_bsb_inc = group_dir // Literals.dune_bsb_inc in
-
   Bsb_ninja_targets.output_dune_bsb_inc buf
     ~digest ~cwd:per_proj_dir
     ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
   Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
-  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[dune_bsb_inc];
+  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[Literals.dune_bsb_inc];
 
-  if not (Sys.file_exists dune_bsb_inc) then begin
-    let buf = Buffer.create 128 in
-    (* Empty buffer, populated by dune. *)
-    Bsb_ninja_targets.revise_dune dune_bsb_inc buf;
-  end;
-  let buf = Buffer.create 1024 in
   Buffer.add_char buf '\n';
   Buffer.add_string buf "(include ";
   Buffer.add_string buf Literals.dune_bsb_inc;
   Buffer.add_string buf ")\n";
-  Bsb_ninja_targets.revise_dune (group_dir // Literals.dune) buf;
+  Buffer.add_string buf ")";
+
+  let dune_bsb_inc = group_dir // Literals.dune_bsb_inc in
+  if not (Sys.file_exists dune_bsb_inc) then begin
+    let buf = Buffer.create 128 in
+    (* Empty buffer, populated by dune. *)
+    Bsb_ninja_targets.revise_dune dune_bsb_inc buf;
+  end
 
 
     (* ;

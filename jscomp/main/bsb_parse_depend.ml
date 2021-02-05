@@ -1,3 +1,5 @@
+let (//) = Ext_path.combine
+
 let input_lines =
   let rec loop ic acc =
     match input_line ic with
