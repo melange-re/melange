@@ -15,9 +15,10 @@ stdenv.mkDerivation rec {
     runHook postBuild
   '';
 
+  # doCheck = true;
   # checkPhase = ''
   # runHook preCheck
-  # dune runtest -p ${name} ''${enableParallelBuilding:+-j $NIX_BUILD_CORES} --display=short
+  # dune runtest -p ${name} --display=short
   # runHook postCheck
   # '';
 
