@@ -5,6 +5,7 @@
 
 (rule
  (targets bs_version.ml)
+ (mode promote)
  (deps ../build_version.js ../../package.json)
  (action
   (run %{bin:node} %{deps})))

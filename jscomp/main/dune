@@ -84,6 +84,7 @@
  (name ounit_tests_main)
  (modes native)
  (modules ounit_tests_main)
+ (deps bsc.exe (alias ../runtime/all) (alias ../others/all) (alias ../stdlib-406/all))
  (libraries ounit bs_hash_stubs ext common depends bsb bsb_helper core
    ounit_tests))
 
