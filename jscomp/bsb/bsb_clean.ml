@@ -43,9 +43,18 @@ let clean_bs_garbage proj_dir =
     let x = proj_dir // x in
     if Sys.file_exists x then
       Bsb_unix.remove_dir_recursive x  in
+  let try_revise_dune dune_file =
+    if Sys.file_exists dune_file then begin
+      let buf = Buffer.create 0 in
+      Bsb_ninja_targets.revise_dune dune_file buf
+    end;
+  in
   try
     Bsb_parse_sources.clean_re_js proj_dir; (* clean re.js files*)
     Ext_list.iter Bsb_config.all_lib_artifacts try_remove ;
+
+    try_revise_dune (proj_dir // Literals.dune);
+    try_revise_dune (proj_dir // Literals.dune_bsb)
   with
     e ->
     Bsb_log.warn "@{<warning>Failed@} to clean due to %s" (Printexc.to_string e)
@@ -54,8 +63,7 @@ let clean_bs_garbage proj_dir =
 let clean_bs_deps  proj_dir =
   dune_clean  proj_dir ;
   let _, pinned_dependencies = Bsb_config_parse.package_specs_from_bsconfig () in
-  let queue =
-  Bsb_build_util.walk_all_deps  proj_dir ~pinned_dependencies in
+  let queue = Bsb_build_util.walk_all_deps  proj_dir ~pinned_dependencies in
   Queue.iter (fun (pkg_cxt : Bsb_build_util.package_context )->
       (* whether top or not always do the cleaning *)
       clean_bs_garbage  pkg_cxt.proj_dir

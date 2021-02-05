@@ -262,9 +262,6 @@ let output_ninja_and_namespace_map
   let buf = Buffer.create 1024 in
   let dune_bsb = per_proj_dir // Literals.dune_bsb in
   Buffer.add_char buf '\n';
-  Buffer.add_string buf "(include ";
-  Buffer.add_string buf Literals.dune_bsb_inc;
-  Buffer.add_string buf ")\n";
 
   (* output_static_resources static_resources rules.copy_resources oc ; *)
   (** Generate build statement for each file *)

@@ -143,7 +143,7 @@ let output_dune_bsb_inc buf ~cwd ~digest ~bs_dep_parse ~deps =
    Buffer.add_string buf dep;
  );
  Buffer.add_string buf ")\n ";
- Buffer.add_string buf "(mode promote)\n (action\n ";
+ Buffer.add_string buf "(mode (promote (until-clean)))\n (action\n ";
  Buffer.add_string buf "(run ";
  Buffer.add_string buf bs_dep_parse;
  Buffer.add_string buf " -cwd ";
