@@ -12,24 +12,29 @@
 
 (rule
  (targets js_fold.ml)
+ (mode promote)
  (deps j.ml (source_tree ../../ocaml-tree))
  (action
+   ;; requires `npm install` in the `ocaml-tree` directory... what a mess
   (run node ../../ocaml-tree/wasm.js -fold -i %{deps} -o %{targets})))
 
 (rule
  (targets js_record_iter.ml)
+ (mode promote)
  (deps j.ml (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-iter -i %{deps} -o %{targets})))
 
 (rule
  (targets js_record_map.ml)
+ (mode promote)
  (deps j.ml (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-map -i %{deps} -o %{targets})))
 
 (rule
  (targets js_record_fold.ml)
+ (mode promote)
  (deps j.ml (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-fold -i %{deps} -o %{targets})))

@@ -6,26 +6,19 @@ with ocamlPackages;
 
 stdenv.mkDerivation rec {
   name = "bucklescript";
-  version = "8.2.0-dev";
+  version = "9.0.0-dev";
 
-  postPatch = ''
-    cp ${./patches/0005-ninja-lexer.patch} ./ninja.patch
-
-    sed -i 's:./configure.py --bootstrap:python3 ./configure.py --bootstrap:' ./scripts/install.js
-    mkdir -p ./linux
-  '';
-
+  dontConfigure = true;
   buildPhase = ''
     runHook preBuild
-    node scripts/install.js
-
     dune build -p ${name} -j $NIX_BUILD_CORES --display=short
     runHook postBuild
   '';
 
+  # doCheck = true;
   # checkPhase = ''
   # runHook preCheck
-  # dune runtest -p ${name} ''${enableParallelBuilding:+-j $NIX_BUILD_CORES} --display=short
+  # dune runtest -p ${name} --display=short
   # runHook postCheck
   # '';
 
@@ -33,7 +26,6 @@ stdenv.mkDerivation rec {
     runHook preInstall
     ${opaline}/bin/opaline -prefix $out -libdir $OCAMLFIND_DESTDIR
 
-    mv ./linux/ninja.exe $out/bin
     cp package.json bsconfig.json $out
     cp -r ./_build/default/lib/es6 ./_build/default/lib/js $out/lib
 
@@ -58,7 +50,6 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [
     pkgs.gnutar
-    pkgs.nodejs-14_x
     pkgs.ocaml-ng.ocamlPackages_4_11.dune_2
     pkgs.ocamlPackages.ocaml
     findlib
