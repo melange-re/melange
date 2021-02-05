@@ -108,6 +108,7 @@ let rel_target_path ~cwd ~dependent_module_dir ~cur_module_dir =
   (* `cwd` is the project root. module dir groups are relative to it. *)
   let module_path = Ext_path.combine cwd dependent_module_dir in
   let cur_module_path = Ext_path.combine cwd cur_module_dir in
+  (* Ext_path.rel_normalized_absolute_path ~from:cwd module_path *)
   Ext_path.rel_normalized_absolute_path ~from:cur_module_path module_path
 
 

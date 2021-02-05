@@ -185,7 +185,7 @@ let output_ninja_and_namespace_map
     } : Bsb_config_types.t) : unit
   =
   let lib_artifacts_dir = Bsb_config.lib_bs in
-  let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in
+  (* let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in *)
   let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
   let bsc_flags = (get_bsc_flags bsc_flags) in
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
@@ -259,12 +259,21 @@ let output_ninja_and_namespace_map
   let bs_dependencies_deps =
    Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
   in
+  let buf = Buffer.create 1024 in
+  let dune_bsb = per_proj_dir // Literals.dune_bsb in
+  Buffer.add_char buf '\n';
+  Buffer.add_string buf "(include ";
+  Buffer.add_string buf Literals.dune_bsb_inc;
+  Buffer.add_string buf ")\n";
 
   (* output_static_resources static_resources rules.copy_resources oc ; *)
   (** Generate build statement for each file *)
   Ext_list.iter bs_file_groups
     (fun files_per_dir ->
-       Bsb_ninja_file_groups.handle_files_per_dir
+      (* let group_dir = global_config.src_root_dir // files_per_dir.dir in *)
+      Buffer.add_string buf "(subdir ";
+      Buffer.add_string buf files_per_dir.dir;
+       Bsb_ninja_file_groups.handle_files_per_dir buf
          ~global_config
          ~digest
          ~rules
@@ -272,11 +281,11 @@ let output_ninja_and_namespace_map
          ~files_to_install
          ~js_post_build_cmd
          ~bs_dependencies_deps
-         files_per_dir)
+         files_per_dir;
+      Buffer.add_string buf ")";
+         )
   ;
 
-  let dune = (cwd_lib_bs // Literals.dune) in
-  let buf = Buffer.create 1024 in
   Buffer.add_char buf '\n';
   Ext_option.iter  namespace (fun ns ->
       let namespace_dir =
@@ -284,11 +293,22 @@ let output_ninja_and_namespace_map
       Bsb_namespace_map_gen.output
         ~dir:namespace_dir ns
         bs_file_groups;
+      Buffer.add_string buf "(subdir ";
+      Buffer.add_string buf namespace_dir;
       Bsb_ninja_targets.output_build namespace_dir buf
         ~outputs:[ns ^ Literals.suffix_cmi]
         ~inputs:[ns ^ Literals.suffix_mlmap]
-        ~rule:rules.build_package
+        ~rule:rules.build_package;
+      Buffer.add_string buf ")";
     );
   Buffer.add_char buf '\n';
+
+  Bsb_ninja_targets.revise_dune dune_bsb buf;
+
+  let dune = per_proj_dir // Literals.dune in
+  let buf = Buffer.create 1024 in
+  Buffer.add_string buf "\n(include ";
+  Buffer.add_string buf Literals.dune_bsb;
+  Buffer.add_string buf ")\n";
   Bsb_ninja_targets.revise_dune dune buf
   (* output_installation_file cwd_lib_bs namespace files_to_install *)
