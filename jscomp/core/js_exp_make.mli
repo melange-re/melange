@@ -95,6 +95,12 @@ val runtime_call :
   t list -> (* args *)
   t
 
+val pure_runtime_call : 
+  string -> (* module_name *)
+  string -> (* fn_name *)
+  t list -> (* args *)
+  t
+
 val runtime_ref : 
   string -> 
   string -> 
@@ -123,7 +129,6 @@ val method_ : ?comment:string ->
 val econd : ?comment:string -> t -> t -> t -> t
 
 val int : ?comment:string -> ?c:char ->  int32 -> t 
-val nint : ?comment:string -> nativeint -> t 
 val small_int : int -> t
 val float : ?comment:string -> string -> t
 
@@ -248,7 +253,7 @@ val extension_assign :
 val assign_by_int : 
   ?comment:string -> 
   t -> 
-  Js_op.jsint -> 
+  int32 -> 
   t -> 
   t
 
@@ -281,6 +286,7 @@ val to_uint32 : ?comment:string -> t -> t
 
 val unchecked_int32_add : ?comment:string -> t -> t -> t 
 val int32_add : ?comment:string -> t -> t -> t 
+val offset : t -> int -> t 
 val unchecked_int32_minus : ?comment:string -> t -> t -> t 
 val int32_minus : ?comment:string -> t -> t -> t 
 val int32_mul : ?comment:string -> t -> t -> t 

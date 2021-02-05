@@ -12,385 +12,385 @@
     (targets js.cmj js.cmi)
     (deps (:inputs js.ml) )
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -I . %{inputs})))
 
 
   (rule
     (targets caml_array.cmj)
     (deps (:inputs caml_array.ml) caml_array.cmi caml_array_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_array.cmi)
     (deps (:inputs caml_array.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_bytes.cmj)
     (deps (:inputs caml_bytes.ml) caml_bytes.cmi caml_string_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_bytes.cmi)
     (deps (:inputs caml_bytes.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_float.cmj)
     (deps (:inputs caml_float.ml) caml_float.cmi caml_float_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_float.cmi)
     (deps (:inputs caml_float.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_format.cmj)
     (deps (:inputs caml_format.ml) caml_float.cmj caml_float_extern.cmj caml_format.cmi caml_int64.cmj caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_format.cmi)
     (deps (:inputs caml_format.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_gc.cmj)
     (deps (:inputs caml_gc.ml) caml_gc.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_gc.cmi)
     (deps (:inputs caml_gc.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_hash.cmj)
     (deps (:inputs caml_hash.ml) caml_hash.cmi caml_hash_primitive.cmj caml_nativeint_extern.cmj js.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_hash.cmi)
     (deps (:inputs caml_hash.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_hash_primitive.cmj)
-    (deps (:inputs caml_hash_primitive.ml) caml_hash_primitive.cmi caml_nativeint_extern.cmj caml_string_extern.cmj)
+    (deps (:inputs caml_hash_primitive.ml) caml_hash_primitive.cmi caml_string_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_hash_primitive.cmi)
     (deps (:inputs caml_hash_primitive.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_int32.cmj)
     (deps (:inputs caml_int32.ml) caml_int32.cmi caml_nativeint_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_int32.cmi)
     (deps (:inputs caml_int32.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_int64.cmj)
-    (deps (:inputs caml_int64.ml) caml_float.cmj caml_float_extern.cmj caml_int64.cmi caml_nativeint_extern.cmj caml_primitive.cmj caml_string_extern.cmj js.cmj)
+    (deps (:inputs caml_int64.ml) caml_float.cmj caml_float_extern.cmj caml_int64.cmi caml_nativeint_extern.cmj caml_string_extern.cmj js.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_int64.cmi)
     (deps (:inputs caml_int64.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_io.cmj)
     (deps (:inputs caml_io.ml) caml_io.cmi caml_string_extern.cmj caml_undefined_extern.cmj js.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_io.cmi)
     (deps (:inputs caml_io.mli) bs_stdlib_mini.cmi caml_undefined_extern.cmj js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_lexer.cmj)
     (deps (:inputs caml_lexer.ml) caml_lexer.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_lexer.cmi)
     (deps (:inputs caml_lexer.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_md5.cmj)
     (deps (:inputs caml_md5.ml) caml_array_extern.cmj caml_int32_extern.cmj caml_md5.cmi caml_string_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_md5.cmi)
     (deps (:inputs caml_md5.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_module.cmj)
     (deps (:inputs caml_module.ml) caml_array_extern.cmj caml_module.cmi caml_obj.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_module.cmi)
     (deps (:inputs caml_module.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_obj.cmj)
     (deps (:inputs caml_obj.ml) caml_array_extern.cmj caml_obj.cmi caml_option.cmj caml_primitive.cmj js.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_obj.cmi)
     (deps (:inputs caml_obj.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_oo.cmj)
     (deps (:inputs caml_oo.ml) caml_array.cmj caml_array_extern.cmj caml_exceptions.cmj caml_oo.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_oo.cmi)
     (deps (:inputs caml_oo.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_option.cmj)
     (deps (:inputs caml_option.ml) caml_option.cmi caml_undefined_extern.cmj js.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_option.cmi)
     (deps (:inputs caml_option.mli) bs_stdlib_mini.cmi caml_undefined_extern.cmj js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_parser.cmj)
     (deps (:inputs caml_parser.ml) caml_parser.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_parser.cmi)
     (deps (:inputs caml_parser.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_primitive.cmj)
     (deps (:inputs caml_primitive.ml) caml_primitive.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_primitive.cmi)
     (deps (:inputs caml_primitive.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_splice_call.cmj)
     (deps (:inputs caml_splice_call.ml) caml_splice_call.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_splice_call.cmi)
     (deps (:inputs caml_splice_call.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_string.cmj)
     (deps (:inputs caml_string.ml) caml_string.cmi caml_string_extern.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_string.cmi)
     (deps (:inputs caml_string.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_sys.cmj)
     (deps (:inputs caml_sys.ml) caml_array_extern.cmj caml_sys.cmi caml_undefined_extern.cmj js.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_sys.cmi)
     (deps (:inputs caml_sys.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_array_extern.cmi caml_array_extern.cmj)
     (deps (:inputs caml_array_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_exceptions.cmi caml_exceptions.cmj)
     (deps (:inputs caml_exceptions.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_external_polyfill.cmi caml_external_polyfill.cmj)
     (deps (:inputs caml_external_polyfill.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_float_extern.cmi caml_float_extern.cmj)
     (deps (:inputs caml_float_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_int32_extern.cmi caml_int32_extern.cmj)
     (deps (:inputs caml_int32_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_int64_extern.cmi caml_int64_extern.cmj)
     (deps (:inputs caml_int64_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_js_exceptions.cmi caml_js_exceptions.cmj)
     (deps (:inputs caml_js_exceptions.ml) bs_stdlib_mini.cmi caml_exceptions.cmj caml_option.cmj js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_nativeint_extern.cmi caml_nativeint_extern.cmj)
     (deps (:inputs caml_nativeint_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_oo_curry.cmi caml_oo_curry.cmj)
     (deps (:inputs caml_oo_curry.ml) bs_stdlib_mini.cmi caml_oo.cmj curry.cmj js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_string_extern.cmi caml_string_extern.cmj)
     (deps (:inputs caml_string_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets caml_undefined_extern.cmi caml_undefined_extern.cmj)
     (deps (:inputs caml_undefined_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
   (rule
     (targets curry.cmi curry.cmj)
     (deps (:inputs curry.ml) bs_stdlib_mini.cmi caml_array.cmj caml_array_extern.cmj js.cmi js.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
     (rule

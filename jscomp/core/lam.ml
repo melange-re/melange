@@ -418,9 +418,9 @@ and eq_approx_list ls ls1 =  Ext_list.for_all2_no_exn ls ls1 eq_approx
 
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
-  | Lconst ((Const_pointer (i,_) |  (Const_int {value = i})))
+  | Lconst (Const_int {i})
     ->
-    Ext_list.assoc_by_int   lam_switch.sw_consts i lam_switch.sw_failaction
+    Ext_list.assoc_by_int   lam_switch.sw_consts (Int32.to_int i) lam_switch.sw_failaction  
   | Lconst (Const_block (i,_,_)) ->
     Ext_list.assoc_by_int lam_switch.sw_blocks i lam_switch.sw_failaction 
   | _ ->
@@ -485,7 +485,7 @@ let staticraise a b : t = Lstaticraise(a,b)
 
 module Lift = struct
   let int i : t =
-    Lconst ((Const_int {value = i; comment = None}))
+    Lconst ((Const_int {i; comment = None}))
 
 
   (* let int32 i : t =
@@ -502,8 +502,7 @@ module Lift = struct
   (* let nativeint b : t =
     Lconst ((Const_nativeint b)) *)
 
-  let int32 b : t =
-    Lconst ((Const_int32 b))
+  
 
   let int64 b : t =
     Lconst ((Const_int64 b))
@@ -520,50 +519,47 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc  : t =
   match args with
   | [Lconst a] ->
     begin match prim, a  with
-      | Pnegint, Const_int {value = a}
-        -> Lift.int (- a)
+      | Pnegint, Const_int {i }
+        -> Lift.int (Int32.neg i)
       (* | Pfloatofint, ( (Const_int a)) *)
       (*   -> Lift.float (float_of_int a) *)
-      | Pintoffloat, ( (Const_float a))
+      | Pintoffloat, Const_float a
         ->
-        Lift.int (int_of_float (float_of_string a))
+        Lift.int (Int32.of_float (float_of_string a))
       (* | Pnegfloat -> Lift.float (-. a) *)
       (* | Pabsfloat -> Lift.float (abs_float a) *)
       | Pstringlength, Const_string a
         ->
-        Lift.int (String.length a)
+        Lift.int (Int32.of_int (String.length a))
       (* | Pnegbint Pnativeint, ( (Const_nativeint i)) *)
       (*   ->   *)
       (*   Lift.nativeint (Nativeint.neg i) *)
-      | Pnegbint Pint32, Const_int32 a
-        ->
-        Lift.int32 (Int32.neg a)
-      | Pnegbint Pint64, Const_int64 a
+      | Pnegint64, Const_int64 a
         ->
         Lift.int64 (Int64.neg a)
       | Pnot, Const_js_true -> false_
       | Pnot, Const_js_false -> true_
-      | Pnot , Const_pointer (a,_)
-        -> Lift.bool (a = 0 )
       | _ -> default ()
     end
 
 
   | [Lconst a ; Lconst b] ->
     begin match prim, a, b  with
-      | Pbintcomp(_, cmp),  (Const_int32 a),  (Const_int32 b)
-        -> Lift.bool (Lam_compat.cmp_int32 cmp a b)
-      | Pbintcomp(_, cmp),  (Const_int64 a),  (Const_int64 b)
+      | Pint64comp cmp,  (Const_int64 a),  (Const_int64 b)
         -> Lift.bool (Lam_compat.cmp_int64  cmp a b)
-      | Pbintcomp(_, cmp),  (Const_nativeint a),  (Const_nativeint b)
-        -> Lift.bool (Lam_compat.cmp_nativeint  cmp a b)
+      | Pintcomp cmp,  (Const_int a),  (Const_int b)
+        -> Lift.bool (Lam_compat.cmp_int32  cmp a.i b.i)
       | Pfloatcomp  cmp,  (Const_float a),  (Const_float b)
         -> (** FIXME: could raise? *)
           Lift.bool (Lam_compat.cmp_float  cmp (float_of_string a) (float_of_string b))
-      | Pintcomp cmp ,
-        ( (Const_int {value = a}) | Const_pointer (a,_)),
-        ( (Const_int {value = b}) | Const_pointer (b,_))
-        -> Lift.bool (Lam_compat.cmp_int cmp a b)
+      
+      | Pintcomp (Ceq | Cneq as op) ,
+         Const_pointer a,
+         Const_pointer b
+        -> Lift.bool (match op with
+        | Ceq ->  a  = (b : string)
+        | Cneq -> a <> b 
+        | _ -> assert false )
       | (Paddint
         | Psubint
         | Pmulint
@@ -574,11 +570,10 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc  : t =
         | Pxorint
         | Plslint
         | Plsrint
-        | Pasrint), (Const_int {value = a}),   (Const_int {value = b})
+        | Pasrint), (Const_int {i = aa}),   (Const_int {i = bb})
         ->
         (* WE SHOULD keep it as [int], to preserve types *)
-        let aa,bb = Int32.of_int a, Int32.of_int  b in
-        let int_ v = Lift.int (Int32.to_int v ) in
+        let int_  = Lift.int  in
         begin match prim with
           | Paddint -> int_ (Int32.add aa bb)
           | Psubint -> int_ (Int32.sub aa bb)
@@ -592,66 +587,39 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc  : t =
           | Pandint -> int_ (Int32.logand aa bb)
           | Porint -> int_ (Int32.logor aa bb)
           | Pxorint -> int_ (Int32.logxor aa bb)
-          | Plslint -> int_ (Int32.shift_left  aa b )
-          | Plsrint -> int_ (Int32.shift_right_logical aa  b)
-          | Pasrint -> int_ (Int32.shift_right aa b)
+          | Plslint -> int_ (Int32.shift_left  aa (Int32.to_int bb ))
+          | Plsrint -> int_ (Int32.shift_right_logical aa  (Int32.to_int bb))
+          | Pasrint -> int_ (Int32.shift_right aa (Int32.to_int bb))
           | _ -> default ()
-        end
-      | (Paddbint Pint32
-        | Psubbint Pint32
-        | Pmulbint Pint32
-        | Pdivbint Pint32
-        | Pmodbint Pint32
-        | Pandbint Pint32
-        | Porbint Pint32
-        | Pxorbint Pint32
-        ),  (Const_int32 aa),   (Const_int32 bb)
-        ->
-        begin match prim with
-          | Paddbint _  -> Lift.int32 (Int32.add aa bb)
-          | Psubbint _  -> Lift.int32 (Int32.sub aa bb)
-          | Pmulbint _ -> Lift.int32 (Int32.mul aa  bb)
-          | Pdivbint _ ->  (try Lift.int32 (Int32.div aa  bb) with _  -> default ())
-          | Pmodbint _ -> (try Lift.int32 (Int32.rem aa  bb) with _ -> default ())
-          | Pandbint _ -> Lift.int32 (Int32.logand aa bb)
-          | Porbint _ -> Lift.int32 (Int32.logor aa bb)
-          | Pxorbint _ -> Lift.int32 (Int32.logxor aa bb)
-          | _ -> default ()
-        end
-      | Plslbint Pint32,  (Const_int32 aa),  (Const_int {value = b})
-        -> Lift.int32 (Int32.shift_left  aa b )
-      | Plsrbint Pint32,  (Const_int32 aa),  (Const_int {value = b})
-        -> Lift.int32 (Int32.shift_right_logical  aa b )
-      | Pasrbint Pint32,  (Const_int32 aa),  (Const_int {value = b})
-        -> Lift.int32 (Int32.shift_right  aa b )
+        end            
 
-      | (Paddbint Pint64
-        | Psubbint Pint64
-        | Pmulbint Pint64
-        | Pdivbint Pint64
-        | Pmodbint Pint64
-        | Pandbint Pint64
-        | Porbint Pint64
-        | Pxorbint Pint64
+      | (Paddint64
+        | Psubint64
+        | Pmulint64
+        | Pdivint64
+        | Pmodint64
+        | Pandint64
+        | Porint64
+        | Pxorint64
         ),  (Const_int64 aa),   (Const_int64 bb)
         ->
         begin match prim with
-          | Paddbint _  -> Lift.int64 (Int64.add aa bb)
-          | Psubbint _  -> Lift.int64 (Int64.sub aa bb)
-          | Pmulbint _ -> Lift.int64 (Int64.mul aa  bb)
-          | Pdivbint _ -> (try Lift.int64 (Int64.div aa  bb) with _ -> default ())
-          | Pmodbint _ -> (try Lift.int64 (Int64.rem aa  bb) with _ -> default ())
-          | Pandbint _ -> Lift.int64 (Int64.logand aa bb)
-          | Porbint _ -> Lift.int64 (Int64.logor aa bb)
-          | Pxorbint _ -> Lift.int64 (Int64.logxor aa bb)
+          | Paddint64   -> Lift.int64 (Int64.add aa bb)
+          | Psubint64  -> Lift.int64 (Int64.sub aa bb)
+          | Pmulint64 -> Lift.int64 (Int64.mul aa  bb)
+          | Pdivint64 -> (try Lift.int64 (Int64.div aa  bb) with _ -> default ())
+          | Pmodint64 -> (try Lift.int64 (Int64.rem aa  bb) with _ -> default ())
+          | Pandint64 -> Lift.int64 (Int64.logand aa bb)
+          | Porint64 -> Lift.int64 (Int64.logor aa bb)
+          | Pxorint64 -> Lift.int64 (Int64.logxor aa bb)
           | _ -> default ()
         end
-      | Plslbint Pint64,  (Const_int64 aa),  (Const_int {value = b})
-        -> Lift.int64 (Int64.shift_left  aa b )
-      | Plsrbint Pint64,  (Const_int64 aa),  (Const_int {value = b})
-        -> Lift.int64 (Int64.shift_right_logical  aa b )
-      | Pasrbint Pint64,  (Const_int64 aa),  (Const_int {value = b})
-        -> Lift.int64 (Int64.shift_right  aa b )
+      | Plslint64,  (Const_int64 aa),  (Const_int {i = b})
+        -> Lift.int64 (Int64.shift_left  aa (Int32.to_int b ))
+      | Plsrint64,  (Const_int64 aa),  (Const_int {i = b})
+        -> Lift.int64 (Int64.shift_right_logical  aa (Int32.to_int b ))
+      | Pasrint64,  (Const_int64 aa),  (Const_int {i = b})
+        -> Lift.int64 (Int64.shift_right  aa (Int32.to_int b ))
 
       | Psequand, Const_js_false, 
         (Const_js_true | Const_js_false) ->
@@ -669,9 +637,9 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc  : t =
         ->
         Lift.string (a ^ b)
       | (Pstringrefs | Pstringrefu), (Const_string(a)),
-        ((Const_int {value = b})| Const_pointer (b,_))
+        ((Const_int {i =  b}) )
         ->
-        begin try Lift.char (String.get a b)
+        begin try Lift.char (String.get a (Int32.to_int b))
           with  _ -> default ()
         end
       | _ -> default ()
@@ -708,7 +676,11 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc  : t =
       default ()
 
 let not_ loc x  : t =
-  prim ~primitive:Pnot ~args:[x] loc
+  match x with 
+  | Lprim ({primitive = Pintcomp Cneq } as prim)-> 
+    Lprim {prim with primitive = Pintcomp Ceq}
+  | _   ->
+    prim ~primitive:Pnot ~args:[x] loc
 
 
 let has_boolean_type (x : t) = 
@@ -716,7 +688,7 @@ let has_boolean_type (x : t) =
   | Lprim {primitive =
     Pnot | Psequand |
     Psequor 
-    | Pisout 
+    | Pisout _
     | Pintcomp _ 
     | Pis_not_none
     | Pfloatcomp _
@@ -738,29 +710,24 @@ let rec complete_range  (sw_consts : (int * _) list) ~(start : int) ~finish=
       complete_range  rest ~start:(start + 1) ~finish
 
 let rec eval_const_as_bool (v : Lam_constant.t ) : bool = 
-  match v with
-  | Const_pointer (x, _)  | (Const_int {value = x})
-    ->
-    x <> 0 
+  match v with  
+  | (Const_int {i =  x}) -> x <> 0l
   | (Const_char x) ->
     Char.code x <> 0 
-  | (Const_int32 x) ->
-    x <> 0l 
   |  (Const_int64 x) ->
     x <> 0L 
-  | (Const_nativeint x) ->
-    x <> 0n 
   | Const_js_false 
   | Const_js_null
   | Const_module_alias
   | Const_js_undefined -> false
   | Const_js_true
   | Const_string _
+  | Const_pointer _  
   | Const_float _
   | Const_unicode _
   | Const_block _
   | Const_float_array _
-  | Const_immstring _ -> true
+    -> true
   | Const_some b -> eval_const_as_bool b
 
 
@@ -770,9 +737,9 @@ let if_ (a : t) (b : t) (c : t) : t =
     if eval_const_as_bool v then b else c
   | _ -> 
     match  b, c with 
-    | _, Lconst (Const_pointer (_, Pt_assertfalse))
+    | _, Lconst (Const_int {comment = Pt_assertfalse})
       -> seq a b (* TODO: we could customize more cases *)
-    | Lconst (Const_pointer (_, Pt_assertfalse)), _ 
+    | Lconst (Const_int {comment = Pt_assertfalse}), _ 
       -> seq a c
     | Lconst(Const_js_true), Lconst(Const_js_false)
       -> 
@@ -790,20 +757,40 @@ let if_ (a : t) (b : t) (c : t) : t =
       end 
     | _ -> 
       (match a with 
-       | Lprim {primitive = Pisout; args = [Lconst(Const_int {value = range}); Lvar xx] } 
+       | Lprim {primitive = Pisout off; args = [Lconst(Const_int {i =  range}); Lvar xx] } 
          -> 
+         let range = Int32.to_int range in 
          begin match c with 
            | Lswitch ( Lvar yy as switch_arg, 
                        ({sw_blocks = []; sw_blocks_full = true; sw_consts ;
                          sw_consts_full = _; sw_failaction = None} as body)
                      )
              when Ident.same xx yy 
-               && complete_range sw_consts ~start:0 ~finish:range
+               && complete_range sw_consts 
+                ~start:(-off) ~finish:(range - off)
              ->  
              Lswitch(switch_arg, 
                      { body with sw_failaction = Some b; sw_consts_full = false; })
            |  _ -> Lifthenelse(a,b,c)      
          end
+         | Lprim{primitive = Pisint; args = [Lvar i];_}
+         -> 
+         begin match b with 
+         | Lifthenelse(Lprim{primitive = Pintcomp Ceq ; args = [Lvar j; Lconst _]}  , _, b_f)
+          when Ident.same i j && eq_approx b_f c ->
+            b
+         | Lprim{primitive = Pintcomp Ceq ; args = [Lvar j; Lconst _]}  
+           when Ident.same i j && eq_approx false_ c -> b
+         | Lifthenelse(Lprim({primitive = Pintcomp Cneq ; args = [Lvar j; Lconst _]} as b_pred)  , b_t, b_f)
+           when Ident.same i j && eq_approx b_t c ->
+           Lifthenelse(Lprim{b_pred with primitive = Pintcomp Ceq}, b_f, b_t)      
+         | Lprim({primitive = Pintcomp Cneq ; args = [Lvar j; Lconst _] as args ; loc} )
+         | Lprim(
+            {primitive = Pnot ; args = [Lprim{primitive = Pintcomp Ceq ; args = [Lvar j; Lconst _] as args; loc}]})
+           when Ident.same i j && eq_approx true_ c
+           -> Lprim{primitive = Pintcomp Ceq; args; loc}
+         | _ -> Lifthenelse(a,b,c)
+         end 
        | _ ->  Lifthenelse (a,b,c))
 
 

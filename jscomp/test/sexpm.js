@@ -57,19 +57,19 @@ function _must_escape(s) {
         }
       } else if (c >= 11) {
         if (c >= 32) {
-          switch (c - 32 | 0) {
-            case 1 :
-            case 3 :
-            case 4 :
-            case 5 :
-            case 6 :
-            case 7 :
+          switch (c) {
+            case 33 :
+            case 35 :
+            case 36 :
+            case 37 :
+            case 38 :
+            case 39 :
                 exit = 1;
                 break;
-            case 0 :
-            case 2 :
-            case 8 :
-            case 9 :
+            case 32 :
+            case 34 :
+            case 40 :
+            case 41 :
                 throw {
                       RE_EXN_ID: Pervasives.Exit,
                       Error: new Error()
@@ -112,24 +112,24 @@ function to_buf(b, t) {
     var l = t.VAL;
     if (l) {
       if (l.tl) {
-        $$Buffer.add_char(b, /* "(" */40);
+        $$Buffer.add_char(b, /* '(' */40);
         List.iteri((function (i, t$prime) {
                 if (i > 0) {
-                  $$Buffer.add_char(b, /* " " */32);
+                  $$Buffer.add_char(b, /* ' ' */32);
                 }
                 return to_buf(b, t$prime);
               }), l);
-        return $$Buffer.add_char(b, /* ")" */41);
+        return $$Buffer.add_char(b, /* ')' */41);
       } else {
         return Curry._2(Printf.bprintf(b, /* Format */{
                         _0: {
                           TAG: /* Char_literal */12,
-                          _0: /* "(" */40,
+                          _0: /* '(' */40,
                           _1: {
                             TAG: /* Alpha */15,
                             _0: {
                               TAG: /* Char_literal */12,
-                              _0: /* ")" */41,
+                              _0: /* ')' */41,
                               _1: /* End_of_format */0
                             }
                           }
@@ -146,13 +146,13 @@ function to_buf(b, t) {
     return Curry._1(Printf.bprintf(b, /* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
-                      _0: /* "\"" */34,
+                      _0: /* '"' */34,
                       _1: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,
                         _1: {
                           TAG: /* Char_literal */12,
-                          _0: /* "\"" */34,
+                          _0: /* '"' */34,
                           _1: /* End_of_format */0
                         }
                       }
@@ -191,7 +191,7 @@ function print(fmt, t) {
                 },
                 _1: {
                   TAG: /* Char_literal */12,
-                  _0: /* "(" */40,
+                  _0: /* '(' */40,
                   _1: /* End_of_format */0
                 }
               },
@@ -218,7 +218,7 @@ function print(fmt, t) {
         return Format.fprintf(fmt, /* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
-                      _0: /* ")" */41,
+                      _0: /* ')' */41,
                       _1: {
                         TAG: /* Formatting_lit */17,
                         _0: /* Close_box */0,
@@ -244,12 +244,12 @@ function print(fmt, t) {
                           },
                           _1: {
                             TAG: /* Char_literal */12,
-                            _0: /* "(" */40,
+                            _0: /* '(' */40,
                             _1: {
                               TAG: /* Alpha */15,
                               _0: {
                                 TAG: /* Char_literal */12,
-                                _0: /* ")" */41,
+                                _0: /* ')' */41,
                                 _1: {
                                   TAG: /* Formatting_lit */17,
                                   _0: /* Close_box */0,
@@ -271,13 +271,13 @@ function print(fmt, t) {
     return Curry._1(Format.fprintf(fmt, /* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
-                      _0: /* "\"" */34,
+                      _0: /* '"' */34,
                       _1: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,
                         _1: {
                           TAG: /* Char_literal */12,
-                          _0: /* "\"" */34,
+                          _0: /* '"' */34,
                           _1: /* End_of_format */0
                         }
                       }
@@ -294,24 +294,24 @@ function print_noindent(fmt, t) {
     var l = t.VAL;
     if (l) {
       if (l.tl) {
-        Format.pp_print_char(fmt, /* "(" */40);
+        Format.pp_print_char(fmt, /* '(' */40);
         List.iteri((function (i, t$prime) {
                 if (i > 0) {
-                  Format.pp_print_char(fmt, /* " " */32);
+                  Format.pp_print_char(fmt, /* ' ' */32);
                 }
                 return print_noindent(fmt, t$prime);
               }), l);
-        return Format.pp_print_char(fmt, /* ")" */41);
+        return Format.pp_print_char(fmt, /* ')' */41);
       } else {
         return Curry._2(Format.fprintf(fmt, /* Format */{
                         _0: {
                           TAG: /* Char_literal */12,
-                          _0: /* "(" */40,
+                          _0: /* '(' */40,
                           _1: {
                             TAG: /* Alpha */15,
                             _0: {
                               TAG: /* Char_literal */12,
-                              _0: /* ")" */41,
+                              _0: /* ')' */41,
                               _1: /* End_of_format */0
                             }
                           }
@@ -328,13 +328,13 @@ function print_noindent(fmt, t) {
     return Curry._1(Format.fprintf(fmt, /* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
-                      _0: /* "\"" */34,
+                      _0: /* '"' */34,
                       _1: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,
                         _1: {
                           TAG: /* Char_literal */12,
-                          _0: /* "\"" */34,
+                          _0: /* '"' */34,
                           _1: /* End_of_format */0
                         }
                       }
@@ -356,7 +356,7 @@ function to_file_seq(filename, seq) {
   var f = function (oc) {
     return Curry._1(seq, (function (t) {
                   to_chan(oc, t);
-                  return Caml_io.caml_ml_output_char(oc, /* "\n" */10);
+                  return Caml_io.caml_ml_output_char(oc, /* '\n' */10);
                 }));
   };
   var oc = Pervasives.open_out(filename);
@@ -407,8 +407,8 @@ function make(bufsizeOpt, refill) {
 }
 
 function _is_digit(c) {
-  if (/* "0" */48 <= c) {
-    return c <= /* "9" */57;
+  if (/* '0' */48 <= c) {
+    return c <= /* '9' */57;
   } else {
     return false;
   }
@@ -439,7 +439,7 @@ function _get(t) {
   }
   var c = Caml_bytes.get(t.buf, t.i);
   t.i = t.i + 1 | 0;
-  if (c === /* "\n" */10) {
+  if (c === /* '\n' */10) {
     t.col = 1;
     t.line = t.line + 1 | 0;
   } else {
@@ -539,8 +539,8 @@ function expr_starting_with(c, k, t) {
     
   } else if (c >= 11) {
     if (c >= 32) {
-      switch (c - 32 | 0) {
-        case 0 :
+      switch (c) {
+        case 32 :
             throw {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
@@ -550,18 +550,18 @@ function expr_starting_with(c, k, t) {
                   ],
                   Error: new Error()
                 };
-        case 2 :
+        case 34 :
             return quoted(k, t);
-        case 1 :
-        case 3 :
-        case 4 :
-        case 5 :
-        case 6 :
-        case 7 :
+        case 33 :
+        case 35 :
+        case 36 :
+        case 37 :
+        case 38 :
+        case 39 :
             break;
-        case 8 :
+        case 40 :
             return expr_list(/* [] */0, k, t);
-        case 9 :
+        case 41 :
             return _error(t, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -597,16 +597,15 @@ function expr_list(acc, k, t) {
                   }), _error_eof);
     }
     var c = _get(t);
-    var switcher = c - 9 | 0;
-    if (switcher > 23 || switcher < 0) {
-      if (switcher === 32) {
+    if (c > 32 || c < 9) {
+      if (c === 41) {
         return Curry._2(k, undefined, {
                     NAME: "List",
                     VAL: List.rev(acc)
                   });
       }
       
-    } else if (switcher > 22 || switcher < 2) {
+    } else if (c > 31 || c < 11) {
       continue ;
     }
     return expr_starting_with(c, (function (last, e) {
@@ -682,14 +681,14 @@ function atom(k, t) {
       }
     } else if (c >= 11) {
       if (c >= 32) {
-        switch (c - 32 | 0) {
-          case 0 :
+        switch (c) {
+          case 32 :
               exit = 2;
               break;
-          case 1 :
+          case 33 :
               exit = 1;
               break;
-          case 2 :
+          case 34 :
               return _error(t, /* Format */{
                           _0: {
                             TAG: /* String_literal */11,
@@ -748,47 +747,47 @@ function escaped(k, t) {
   var c = _get(t);
   if (c >= 92) {
     if (c < 117) {
-      switch (c - 92 | 0) {
-        case 0 :
-            return Curry._1(k, /* "\\" */92);
-        case 6 :
-            return Curry._1(k, /* "\b" */8);
-        case 18 :
-            return Curry._1(k, /* "\n" */10);
-        case 22 :
-            return Curry._1(k, /* "\r" */13);
-        case 1 :
-        case 2 :
-        case 3 :
-        case 4 :
-        case 5 :
-        case 7 :
-        case 8 :
-        case 9 :
-        case 10 :
-        case 11 :
-        case 12 :
-        case 13 :
-        case 14 :
-        case 15 :
-        case 16 :
-        case 17 :
-        case 19 :
-        case 20 :
-        case 21 :
-        case 23 :
+      switch (c) {
+        case 92 :
+            return Curry._1(k, /* '\\' */92);
+        case 98 :
+            return Curry._1(k, /* '\b' */8);
+        case 110 :
+            return Curry._1(k, /* '\n' */10);
+        case 114 :
+            return Curry._1(k, /* '\r' */13);
+        case 93 :
+        case 94 :
+        case 95 :
+        case 96 :
+        case 97 :
+        case 99 :
+        case 100 :
+        case 101 :
+        case 102 :
+        case 103 :
+        case 104 :
+        case 105 :
+        case 106 :
+        case 107 :
+        case 108 :
+        case 109 :
+        case 111 :
+        case 112 :
+        case 113 :
+        case 115 :
             break;
-        case 24 :
-            return Curry._1(k, /* "\t" */9);
+        case 116 :
+            return Curry._1(k, /* '\t' */9);
         
       }
     }
     
   } else if (c === 34) {
-    return Curry._1(k, /* "\"" */34);
+    return Curry._1(k, /* '"' */34);
   }
   if (_is_digit(c)) {
-    return read2int(c - /* "0" */48 | 0, (function (n) {
+    return read2int(c - /* '0' */48 | 0, (function (n) {
                   return Curry._1(k, Char.chr(n));
                 }), t);
   } else {
@@ -800,7 +799,7 @@ function escaped(k, t) {
                         TAG: /* Char */0,
                         _0: {
                           TAG: /* Char_literal */12,
-                          _0: /* "'" */39,
+                          _0: /* '\'' */39,
                           _1: /* End_of_format */0
                         }
                       }
@@ -818,7 +817,7 @@ function read2int(i, k, t) {
   }
   var c = _get(t);
   if (_is_digit(c)) {
-    return read1int(Math.imul(10, i) + (c - /* "0" */48 | 0) | 0, k, t);
+    return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
   } else {
     return Curry._1(_error(t, /* Format */{
                     _0: {
@@ -846,7 +845,7 @@ function read1int(i, k, t) {
   }
   var c = _get(t);
   if (_is_digit(c)) {
-    return Curry._1(k, Math.imul(10, i) + (c - /* "0" */48 | 0) | 0);
+    return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
   } else {
     return Curry._1(_error(t, /* Format */{
                     _0: {
@@ -1021,8 +1020,8 @@ function MakeDecode(funarg) {
           };
   };
   var _is_digit = function (c) {
-    if (/* "0" */48 <= c) {
-      return c <= /* "9" */57;
+    if (/* '0' */48 <= c) {
+      return c <= /* '9' */57;
     } else {
       return false;
     }
@@ -1052,7 +1051,7 @@ function MakeDecode(funarg) {
     }
     var c = Caml_bytes.get(t.buf, t.i);
     t.i = t.i + 1 | 0;
-    if (c === /* "\n" */10) {
+    if (c === /* '\n' */10) {
       t.col = 1;
       t.line = t.line + 1 | 0;
     } else {
@@ -1148,8 +1147,8 @@ function MakeDecode(funarg) {
       
     } else if (c >= 11) {
       if (c >= 32) {
-        switch (c - 32 | 0) {
-          case 0 :
+        switch (c) {
+          case 32 :
               throw {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
@@ -1159,18 +1158,18 @@ function MakeDecode(funarg) {
                     ],
                     Error: new Error()
                   };
-          case 2 :
+          case 34 :
               return quoted(k, t);
-          case 1 :
-          case 3 :
-          case 4 :
-          case 5 :
-          case 6 :
-          case 7 :
+          case 33 :
+          case 35 :
+          case 36 :
+          case 37 :
+          case 38 :
+          case 39 :
               break;
-          case 8 :
+          case 40 :
               return expr_list(/* [] */0, k, t);
-          case 9 :
+          case 41 :
               return _error(t, /* Format */{
                           _0: {
                             TAG: /* String_literal */11,
@@ -1205,16 +1204,15 @@ function MakeDecode(funarg) {
                     }), _error_eof);
       }
       var c = _get(t);
-      var switcher = c - 9 | 0;
-      if (switcher > 23 || switcher < 0) {
-        if (switcher === 32) {
+      if (c > 32 || c < 9) {
+        if (c === 41) {
           return Curry._2(k, undefined, {
                       NAME: "List",
                       VAL: List.rev(acc)
                     });
         }
         
-      } else if (switcher > 22 || switcher < 2) {
+      } else if (c > 31 || c < 11) {
         continue ;
       }
       return expr_starting_with(c, (function (last, e) {
@@ -1288,14 +1286,14 @@ function MakeDecode(funarg) {
         }
       } else if (c >= 11) {
         if (c >= 32) {
-          switch (c - 32 | 0) {
-            case 0 :
+          switch (c) {
+            case 32 :
                 exit = 2;
                 break;
-            case 1 :
+            case 33 :
                 exit = 1;
                 break;
-            case 2 :
+            case 34 :
                 return _error(t, /* Format */{
                             _0: {
                               TAG: /* String_literal */11,
@@ -1352,47 +1350,47 @@ function MakeDecode(funarg) {
     var c = _get(t);
     if (c >= 92) {
       if (c < 117) {
-        switch (c - 92 | 0) {
-          case 0 :
-              return Curry._1(k, /* "\\" */92);
-          case 6 :
-              return Curry._1(k, /* "\b" */8);
-          case 18 :
-              return Curry._1(k, /* "\n" */10);
-          case 22 :
-              return Curry._1(k, /* "\r" */13);
-          case 1 :
-          case 2 :
-          case 3 :
-          case 4 :
-          case 5 :
-          case 7 :
-          case 8 :
-          case 9 :
-          case 10 :
-          case 11 :
-          case 12 :
-          case 13 :
-          case 14 :
-          case 15 :
-          case 16 :
-          case 17 :
-          case 19 :
-          case 20 :
-          case 21 :
-          case 23 :
+        switch (c) {
+          case 92 :
+              return Curry._1(k, /* '\\' */92);
+          case 98 :
+              return Curry._1(k, /* '\b' */8);
+          case 110 :
+              return Curry._1(k, /* '\n' */10);
+          case 114 :
+              return Curry._1(k, /* '\r' */13);
+          case 93 :
+          case 94 :
+          case 95 :
+          case 96 :
+          case 97 :
+          case 99 :
+          case 100 :
+          case 101 :
+          case 102 :
+          case 103 :
+          case 104 :
+          case 105 :
+          case 106 :
+          case 107 :
+          case 108 :
+          case 109 :
+          case 111 :
+          case 112 :
+          case 113 :
+          case 115 :
               break;
-          case 24 :
-              return Curry._1(k, /* "\t" */9);
+          case 116 :
+              return Curry._1(k, /* '\t' */9);
           
         }
       }
       
     } else if (c === 34) {
-      return Curry._1(k, /* "\"" */34);
+      return Curry._1(k, /* '"' */34);
     }
     if (_is_digit(c)) {
-      return read2int(c - /* "0" */48 | 0, (function (n) {
+      return read2int(c - /* '0' */48 | 0, (function (n) {
                     return Curry._1(k, Char.chr(n));
                   }), t);
     } else {
@@ -1404,7 +1402,7 @@ function MakeDecode(funarg) {
                           TAG: /* Char */0,
                           _0: {
                             TAG: /* Char_literal */12,
-                            _0: /* "'" */39,
+                            _0: /* '\'' */39,
                             _1: /* End_of_format */0
                           }
                         }
@@ -1421,7 +1419,7 @@ function MakeDecode(funarg) {
     }
     var c = _get(t);
     if (_is_digit(c)) {
-      return read1int(Math.imul(10, i) + (c - /* "0" */48 | 0) | 0, k, t);
+      return read1int(Math.imul(10, i) + (c - /* '0' */48 | 0) | 0, k, t);
     } else {
       return Curry._1(_error(t, /* Format */{
                       _0: {
@@ -1448,7 +1446,7 @@ function MakeDecode(funarg) {
     }
     var c = _get(t);
     if (_is_digit(c)) {
-      return Curry._1(k, Math.imul(10, i) + (c - /* "0" */48 | 0) | 0);
+      return Curry._1(k, Math.imul(10, i) + (c - /* '0' */48 | 0) | 0);
     } else {
       return Curry._1(_error(t, /* Format */{
                       _0: {

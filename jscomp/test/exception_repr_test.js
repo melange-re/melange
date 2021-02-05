@@ -33,11 +33,11 @@ function eq(loc, x, y) {
   
 }
 
-var Hi = Caml_exceptions.create("Exception_repr_test.Hi");
+var Hi = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hi");
 
-var Hello = Caml_exceptions.create("Exception_repr_test.Hello");
+var Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello");
 
-var A = Caml_exceptions.create("Exception_repr_test.A");
+var A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
 
 Printexc.register_printer(function (s) {
       if (s.RE_EXN_ID === Hi) {
@@ -54,7 +54,7 @@ Printexc.register_printer(function (s) {
                             _2: /* No_precision */0,
                             _3: {
                               TAG: /* Char_literal */12,
-                              _0: /* ")" */41,
+                              _0: /* ')' */41,
                               _1: /* End_of_format */0
                             }
                           }

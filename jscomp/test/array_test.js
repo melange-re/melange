@@ -11,7 +11,7 @@ var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 
 function starts_with(xs, prefix, p) {
-  var H = Caml_exceptions.create("H");
+  var H = /* @__PURE__ */Caml_exceptions.create("H");
   var len1 = xs.length;
   var len2 = prefix.length;
   if (len2 > len1) {
@@ -146,12 +146,12 @@ var array_suites_1 = {
             return {
                     TAG: /* Eq */0,
                     _0: [
-                      Caml_array.caml_make_vect(100, /* "a" */97),
+                      Caml_array.caml_make_vect(100, /* 'a' */97),
                       Caml_array.caml_make_float_vect(100)
                     ],
                     _1: [
                       $$Array.init(100, (function (param) {
-                              return /* "a" */97;
+                              return /* 'a' */97;
                             })),
                       $$Array.init(100, (function (param) {
                               return 0;

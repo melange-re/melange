@@ -888,7 +888,7 @@ let assert_command
 
 let raises f =
   try
-    f ();
+    ignore (f ());
     None
   with e -> 
     Some e
@@ -1088,7 +1088,7 @@ let maybe_backtrace = ""
 let perform_test report test =
   let run_test_case f path =
     try 
-      f ();
+      ignore(f ());
       RSuccess path
     with
       | Failure s -> 
@@ -1122,11 +1122,11 @@ let perform_test report test =
   let test_cases = List.rev (flatten_test [] [] test) in
   let runner (path, f) = 
     let result = 
-      report (EStart path);
+      ignore @@ report (EStart path);
       run_test_case f path 
     in
-      report (EResult result);
-      report (EEnd path);
+      ignore @@ report (EResult result);
+      ignore @@ report (EEnd path);
       result
   in
   let rec iter state = 
@@ -3030,6 +3030,11 @@ type t = int
 val compare : t -> t -> int 
 val equal : t -> t -> bool 
 
+(** 
+  works on 64 bit platform only
+  given input as an uint32 and convert it io int64
+*)
+val int32_unsigned_to_int : int32 -> int 
 end = struct
 #1 "ext_int.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -3063,6 +3068,11 @@ let compare (x : t) (y : t) = Pervasives.compare x y
 
 let equal (x : t) (y : t) = x = y
 
+let move = 0x1_0000_0000
+(* works only on 64 bit platform *)
+let int32_unsigned_to_int (n : int32) : int =
+     let i = Int32.to_int n in (if i < 0 then i + move else i)
+ 
 end
 module Set_int : sig 
 #1 "set_int.mli"
@@ -5631,7 +5641,7 @@ external reraise: exn -> 'a = "%reraise"
 
 val finally : 
   'a ->
-  clean:('a -> 'c) -> 
+  clean:('a -> unit) -> 
   ('a -> 'b) -> 'b
 
 (* val try_it : (unit -> 'a) ->  unit  *)
@@ -6137,6 +6147,7 @@ let tl = "tl"
 let lazy_done = "LAZY_DONE"
 let lazy_val = "VAL"
 
+let pure = "@__PURE__"
 end
 module Bsb_db_decode : sig 
 #1 "bsb_db_decode.mli"
@@ -7490,7 +7501,10 @@ let string_as_package (s : string) : t =
   if v = '@' then 
     let scope_id = 
         Ext_string.no_slash_idx s in 
-    assert (scope_id > 0);
+    assert (scope_id > 0); 
+    (* better-eror message for invalid scope package:
+      @rescript/std
+    *)
     Scope(
       String.sub s (scope_id + 1) (len - scope_id - 1),
       String.sub s 0 scope_id
@@ -17642,7 +17656,7 @@ let error ~loc error =
    visual input while es5 string 
    does not*)
 
-let rec check_and_transform (loc : int ) buf s byte_offset s_len =
+let rec check_and_transform (loc : int ) (buf : Buffer.t) (s : string) (byte_offset : int) (s_len : int) =
   if byte_offset = s_len then ()
   else 
     let current_char = s.[byte_offset] in 
@@ -17652,9 +17666,6 @@ let rec check_and_transform (loc : int ) buf s byte_offset s_len =
     | Single 34 ->
       Buffer.add_string buf "\\\"";
       check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
-    | Single 39 -> 
-      Buffer.add_string buf "\\'";
-      check_and_transform (loc + 1) buf s (byte_offset + 1) s_len 
     | Single 10 ->          
       Buffer.add_string buf "\\n";
       check_and_transform (loc + 1) buf s (byte_offset + 1) s_len 
@@ -18590,9 +18601,6 @@ let rec check_and_transform (loc : int )  s byte_offset ({s_len; buf} as cxt : c
       escape_code (loc + 1)  s (byte_offset+1) cxt
     | Single 34 ->
       Buffer.add_string buf "\\\"";
-      check_and_transform (loc + 1)  s (byte_offset + 1) cxt
-    | Single 39 ->
-      Buffer.add_string buf "\\'";
       check_and_transform (loc + 1)  s (byte_offset + 1) cxt
     | Single 10 ->
 

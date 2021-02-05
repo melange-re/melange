@@ -12,16 +12,26 @@
 
 (rule
  (targets js_fold.ml)
- (deps js_fold.mlp)
+ (deps j.ml (source_tree ../../ocaml-tree))
  (action
-  (run camlp4of -I core -filter map -filter trash -impl %{deps} -printer o -o
-    %{targets})))
+  (run node ../../ocaml-tree/wasm.js -fold -i %{deps} -o %{targets})))
 
 (rule
- (targets js_map.ml)
- (deps js_map.mlp)
+ (targets js_record_iter.ml)
+ (deps j.ml (source_tree ../../ocaml-tree))
  (action
-  (run camlp4of -I core -filter Camlp4FoldGenerator -filter trash -impl
-    %{deps} -printer o -o %{targets})))
+  (run node ../../ocaml-tree/wasm.js -record-iter -i %{deps} -o %{targets})))
 
-(copy_files# ../syntax/*)
+(rule
+ (targets js_record_map.ml)
+ (deps j.ml (source_tree ../../ocaml-tree))
+ (action
+  (run node ../../ocaml-tree/wasm.js -record-map -i %{deps} -o %{targets})))
+
+(rule
+ (targets js_record_fold.ml)
+ (deps j.ml (source_tree ../../ocaml-tree))
+ (action
+  (run node ../../ocaml-tree/wasm.js -record-fold -i %{deps} -o %{targets})))
+
+(copy_files# ../frontend/*)

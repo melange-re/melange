@@ -27,7 +27,7 @@ eq("File \"scanf_test.ml\", line 6, characters 5-12", [
                   _2: /* No_precision */0,
                   _3: {
                     TAG: /* Char_literal */12,
-                    _0: /* " " */32,
+                    _0: /* ' ' */32,
                     _1: {
                       TAG: /* Int */4,
                       _0: /* Int_d */0,
@@ -57,7 +57,7 @@ eq("File \"scanf_test.ml\", line 7, characters 5-12", [
               }), (function (i) {
               return i;
             })),
-      Caml_int64.mk(235324607, -1429646511)
+      /* @__PURE__ */Caml_int64.mk(235324607, -1429646511)
     ]);
 
 Mt.from_pair_suites("Scanf_test", suites.contents);

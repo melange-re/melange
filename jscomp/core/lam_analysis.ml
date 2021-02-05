@@ -26,10 +26,8 @@
 (**used in effect analysis, it is sound but not-complete *)
 let not_zero_constant ( x : Lam_constant.t) =  
   match x with 
-  | Const_int {value }  -> value <> 0
-  | Const_int32 i  -> i <> 0l
+  | Const_int {i }  -> i <> 0l
   | Const_int64 i  -> i <> 0L
-  | Const_nativeint i -> i <> 0n
   | _ -> false 
 
 
@@ -60,11 +58,18 @@ let rec no_side_effects (lam : Lam.t) : bool =
             | "caml_make_vect"
             | "caml_create_bytes"
             | "caml_obj_dup"
-            | "caml_array_dup"            
+            | "caml_array_dup" 
+
+            | "nativeint_add"         
+            | "nativeint_div"
+            | "nativeint_mod"
+            | "nativeint_lsr"  
+            | "nativeint_mul"
+
             ), _  -> true 
-          | "caml_ml_open_descriptor_in", [Lconst (  (Const_int {value = 0}))] -> true 
+          | "caml_ml_open_descriptor_in", [Lconst (  (Const_int {i = 0l}))] -> true 
           | "caml_ml_open_descriptor_out", 
-            [Lconst (  (Const_int {value = 1|2})) ]
+            [Lconst (  (Const_int {i = 1l|2l})) ]
             -> true
           (* we can not mark it pure
              only when we guarantee this exception is caught...
@@ -73,8 +78,8 @@ let rec no_side_effects (lam : Lam.t) : bool =
         end 
       | Pmodint
       | Pdivint 
-      | Pdivbint _
-      | Pmodbint _ 
+      | Pdivint64
+      | Pmodint64
         -> begin match args with 
           | [_ ; Lconst cst ] -> not_zero_constant cst 
           | _ -> false 
@@ -134,21 +139,20 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Pisint
       | Pis_poly_var_const
       (* Test if the (integer) argument is outside an interval *)
-      | Pisout
-      | Pbintofint _
-      | Pintofbint _
-      | Pcvtbint _
-      | Pnegbint _
-      | Paddbint _
-      | Psubbint _
-      | Pmulbint _
-      | Pandbint _
-      | Porbint _
-      | Pxorbint _
-      | Plslbint _
-      | Plsrbint _
-      | Pasrbint _
-      | Pbintcomp _
+      | Pisout _
+      | Pint64ofint 
+      | Pintofint64 
+      | Pnegint64
+      | Paddint64 
+      | Psubint64
+      | Pmulint64
+      | Pandint64 
+      | Porint64 
+      | Pxorint64
+      | Plslint64
+      | Plsrint64
+      | Pasrint64
+      | Pint64comp _
       (* Operations on big arrays: (unsafe, #dimensions, kind, layout) *)
 
       (* Compile time constants *)
@@ -275,9 +279,7 @@ and size_constant x =
   match x with 
   | Const_int _ | Const_char _ 
 
-  | Const_float _  | Const_int32 _ | Const_int64 _ 
-  | Const_nativeint _ 
-  | Const_immstring _
+  | Const_float _  | Const_int64 _ 
   | Const_pointer _ 
   | Const_js_null | Const_js_undefined | Const_module_alias
   | Const_js_true | Const_js_false
@@ -362,7 +364,7 @@ let safe_to_inline (lam : Lam.t) =
   | Lfunction _ ->  true
   | Lconst 
     (Const_pointer _  
-    | Const_immstring _ 
+    |Const_int {comment = Pt_constructor _}
     | Const_js_true 
     | Const_js_false
     | Const_js_undefined

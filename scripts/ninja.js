@@ -31,27 +31,6 @@ var stdlibTarget = pseudoTarget("$stdlib");
 var vendorNinjaPath = path.join(__dirname, "..", process.platform, "ninja.exe");
 
 exports.vendorNinjaPath = vendorNinjaPath;
-function genCamlp4(src, target, flags ="") {
-return `
- (rule
-  (targets ${target})
-  (deps ${src})
-  (mode promote-until-clean)
-  (action
-   (run camlp4of ${flags} -impl %{deps} -printer o -o %{targets})))
-`
-}
-
-var visitorPattern = `
-${genCamlp4('core/js_fold.mlp', 'core/js_fold.ml', '-I core -filter map -filter trash')}
-${genCamlp4('core/js_map.mlp', 'core/js_map.ml', '-I core -filter Camlp4FoldGenerator -filter trash')}
-`;
-/**
- * @returns {string}
- */
-function generateVisitorPattern() {
-  return visitorPattern;
-}
 /**
  * By default we use vendored,
  * we produce two ninja files which won't overlap
@@ -922,7 +901,7 @@ var compilerTarget = pseudoTarget(COMPILIER);
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
-  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6  -nopervasives  -unsafe -w +50 -warn-error A`;
+  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A`;
   var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
   var templateRuntimeRules = `
 
@@ -1007,7 +986,7 @@ async function othersNinja() {
   var externalDeps = [runtimeTarget].map(x => `../runtime/${x.name}`);
   var ninjaOutput = 'dune.gen';
   var ninjaCwd = "others";
-  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime`;
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime`;
 
   var belt_extraDeps = {
     belt_HashSet: ['belt_HashSetString', 'belt_HashSetInt'],
@@ -1156,7 +1135,7 @@ async function stdlibNinja() {
   var externalDeps = [othersTarget].map(x => `../others/${x.name}`);
   var ninjaOutput = 'dune.gen';
   var warnings = "-w -9-3-106 -warn-error A";
-  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   ${warnings}  -I ../runtime  -I ../others`;
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime    ${warnings}  -I ../runtime  -I ../others`
   /**
    * @type [string,string][]
    */
@@ -1164,8 +1143,7 @@ async function stdlibNinja() {
   // It is interesting `-w -a` would generate not great code sometimes
   // deprecations diabled due to string_of_float
   var templateStdlibRules = `
-${ccRuleList([
-  [
+  ${ccRuleList([[
     ruleCC,
     bsc_builtin_flags,
     "camlinternalFormatBasics.mli",
@@ -1286,7 +1264,7 @@ function baseName(x) {
 async function testNinja() {
   var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var bsc_flags = `-absname -bs-no-version-header -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:jscomp/test -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A -I ../runtime -I ../stdlib-406 -I ../others`
+  var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A  -I ../runtime -I ../stdlib-406 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
@@ -1383,6 +1361,7 @@ function checkEffect() {
   ]);
 
   var assert = require("assert");
+  // @ts-ignore
   assert(
     effect.length === black_list.size &&
       effect.every((x) => black_list.has(x.file))

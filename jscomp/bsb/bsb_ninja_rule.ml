@@ -109,6 +109,7 @@ let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
   ~(has_postbuild : string option)
   ~(pp_file: string option)
+  ~(has_builtin : bool)
   ~ppx_files
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
   ~(digest : string)
@@ -129,7 +130,8 @@ let make_custom_rules
       ~postbuild : ?target:string -> string -> string = fun ?(target="%{targets}") cur_dir ->
     Ext_buffer.clear buf;
     Ext_buffer.add_string buf global_config.bsc;
-    Ext_buffer.add_ninja_prefix_var buf "-nostdlib";
+    if not has_builtin then
+      Ext_buffer.add_ninja_prefix_var buf "-nostdlib";
     if read_cmi = `yes then
       Ext_buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin
@@ -151,7 +153,8 @@ let make_custom_rules
     if read_cmi <> `is_cmi then begin
       Ext_buffer.add_string buf " -bs-package-name ";
       Ext_buffer.add_string buf global_config.package_name;
-      Ext_buffer.add_string buf (Bsb_package_specs.package_flag_of_package_specs package_specs cur_dir)
+      Ext_buffer.add_string buf
+        (Bsb_package_specs.package_flag_of_package_specs package_specs ~dirname:cur_dir)
     end;
 
 

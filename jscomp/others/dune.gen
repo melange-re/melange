@@ -347,294 +347,294 @@
     (targets belt.cmj belt.cmi)
     (deps (:inputs belt.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node.cmj node.cmi)
     (deps (:inputs node.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_OO.cmi js_OO.cmj)
     (deps (:inputs js_OO.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_array.cmi js_array.cmj)
     (deps (:inputs js_array.ml) ../runtime/runtime js_array2.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_array2.cmi js_array2.cmj)
     (deps (:inputs js_array2.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_cast.cmj)
     (deps (:inputs js_cast.ml) ../runtime/runtime js_cast.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_cast.cmi)
     (deps (:inputs js_cast.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_console.cmi js_console.cmj)
     (deps (:inputs js_console.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_date.cmi js_date.cmj)
     (deps (:inputs js_date.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_dict.cmj)
     (deps (:inputs js_dict.ml) ../runtime/runtime js_array2.cmj js_dict.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_dict.cmi)
     (deps (:inputs js_dict.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_exn.cmj)
     (deps (:inputs js_exn.ml) ../runtime/runtime js_exn.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_exn.cmi)
     (deps (:inputs js_exn.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_float.cmi js_float.cmj)
     (deps (:inputs js_float.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_global.cmi js_global.cmj)
     (deps (:inputs js_global.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_int.cmi js_int.cmj)
     (deps (:inputs js_int.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_json.cmj)
     (deps (:inputs js_json.ml) ../runtime/runtime js_array2.cmj js_dict.cmj js_json.cmi js_string.cmj js_types.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_json.cmi)
     (deps (:inputs js_json.mli) ../runtime/runtime js_dict.cmi js_null.cmi js_string.cmj js_types.cmi)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_list.cmj)
     (deps (:inputs js_list.ml) ../runtime/runtime js_array2.cmj js_list.cmi js_vector.cmj)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_list.cmi)
     (deps (:inputs js_list.mli) ../runtime/runtime js_vector.cmi)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_mapperRt.cmj)
     (deps (:inputs js_mapperRt.ml) ../runtime/runtime js_mapperRt.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_mapperRt.cmi)
     (deps (:inputs js_mapperRt.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_math.cmi js_math.cmj)
     (deps (:inputs js_math.ml) ../runtime/runtime js_int.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_null.cmj)
     (deps (:inputs js_null.ml) ../runtime/runtime js_exn.cmj js_null.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_null.cmi)
     (deps (:inputs js_null.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_null_undefined.cmj)
     (deps (:inputs js_null_undefined.ml) ../runtime/runtime js_null_undefined.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_null_undefined.cmi)
     (deps (:inputs js_null_undefined.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_obj.cmi js_obj.cmj)
     (deps (:inputs js_obj.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_option.cmj)
     (deps (:inputs js_option.ml) ../runtime/runtime js_exn.cmj js_option.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_option.cmi)
     (deps (:inputs js_option.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_promise.cmi js_promise.cmj)
     (deps (:inputs js_promise.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_re.cmi js_re.cmj)
     (deps (:inputs js_re.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_result.cmj)
     (deps (:inputs js_result.ml) ../runtime/runtime js_result.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_result.cmi)
     (deps (:inputs js_result.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_string.cmi js_string.cmj)
     (deps (:inputs js_string.ml) ../runtime/runtime js_array2.cmj js_re.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_string2.cmi js_string2.cmj)
     (deps (:inputs js_string2.ml) ../runtime/runtime js_array2.cmj js_re.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_types.cmj)
     (deps (:inputs js_types.ml) ../runtime/runtime js_null.cmj js_types.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_types.cmi)
     (deps (:inputs js_types.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_undefined.cmj)
     (deps (:inputs js_undefined.ml) ../runtime/runtime js_exn.cmj js_undefined.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_undefined.cmi)
     (deps (:inputs js_undefined.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_vector.cmj)
     (deps (:inputs js_vector.ml) ../runtime/runtime js_array2.cmj js_vector.cmi)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_vector.cmi)
     (deps (:inputs js_vector.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
     (rule
@@ -648,644 +648,644 @@
     (targets belt_Array.cmj)
     (deps (:inputs belt_Array.ml) ../runtime/runtime belt.cmi belt_Array.cmi js_math.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Array.cmi)
     (deps (:inputs belt_Array.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Float.cmj)
     (deps (:inputs belt_Float.ml) ../runtime/runtime belt.cmi belt_Float.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Float.cmi)
     (deps (:inputs belt_Float.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashMap.cmj)
     (deps (:inputs belt_HashMap.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_HashMap.cmi belt_HashMapInt.cmi belt_HashMapInt.cmj belt_HashMapString.cmi belt_HashMapString.cmj belt_Id.cmj belt_internalBuckets.cmj belt_internalBucketsType.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashMap.cmi)
     (deps (:inputs belt_HashMap.mli) ../runtime/runtime belt.cmi belt_HashMapInt.cmi belt_HashMapInt.cmj belt_HashMapString.cmi belt_HashMapString.cmj belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashMapInt.cmj)
     (deps (:inputs belt_HashMapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashMapInt.cmi belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashMapInt.cmi)
     (deps (:inputs belt_HashMapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashMapString.cmj)
     (deps (:inputs belt_HashMapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashMapString.cmi belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashMapString.cmi)
     (deps (:inputs belt_HashMapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBuckets.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashSet.cmj)
     (deps (:inputs belt_HashSet.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_HashSet.cmi belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_Id.cmj belt_internalBucketsType.cmj belt_internalSetBuckets.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashSet.cmi)
     (deps (:inputs belt_HashSet.mli) ../runtime/runtime belt.cmi belt_HashSetInt.cmi belt_HashSetInt.cmj belt_HashSetString.cmi belt_HashSetString.cmj belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashSetInt.cmj)
     (deps (:inputs belt_HashSetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashSetInt.cmi belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashSetInt.cmi)
     (deps (:inputs belt_HashSetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashSetString.cmj)
     (deps (:inputs belt_HashSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_HashSetString.cmi belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_HashSetString.cmi)
     (deps (:inputs belt_HashSetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalBucketsType.cmi belt_internalBucketsType.cmj belt_internalSetBuckets.cmi belt_internalSetBuckets.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Id.cmj)
     (deps (:inputs belt_Id.ml) ../runtime/runtime belt.cmi belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Id.cmi)
     (deps (:inputs belt_Id.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Int.cmj)
     (deps (:inputs belt_Int.ml) ../runtime/runtime belt.cmi belt_Int.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Int.cmi)
     (deps (:inputs belt_Int.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_List.cmj)
     (deps (:inputs belt_List.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_List.cmi belt_SortArray.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_List.cmi)
     (deps (:inputs belt_List.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Map.cmj)
     (deps (:inputs belt_Map.ml) ../runtime/runtime belt.cmi belt_Id.cmj belt_Map.cmi belt_MapDict.cmj belt_MapInt.cmi belt_MapInt.cmj belt_MapString.cmi belt_MapString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Map.cmi)
     (deps (:inputs belt_Map.mli) ../runtime/runtime belt.cmi belt_Id.cmi belt_MapDict.cmi belt_MapInt.cmi belt_MapInt.cmj belt_MapString.cmi belt_MapString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MapDict.cmj)
     (deps (:inputs belt_MapDict.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_MapDict.cmi belt_internalAVLtree.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MapDict.cmi)
     (deps (:inputs belt_MapDict.mli) ../runtime/runtime belt.cmi belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MapInt.cmj)
     (deps (:inputs belt_MapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MapInt.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MapInt.cmi)
     (deps (:inputs belt_MapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MapString.cmj)
     (deps (:inputs belt_MapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MapString.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MapString.cmi)
     (deps (:inputs belt_MapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableMap.cmj)
     (deps (:inputs belt_MutableMap.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_MutableMap.cmi belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj belt_internalAVLtree.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableMap.cmi)
     (deps (:inputs belt_MutableMap.mli) ../runtime/runtime belt.cmi belt_Id.cmi belt_MutableMapInt.cmi belt_MutableMapInt.cmj belt_MutableMapString.cmi belt_MutableMapString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableMapInt.cmj)
     (deps (:inputs belt_MutableMapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableMapInt.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableMapInt.cmi)
     (deps (:inputs belt_MutableMapInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapInt.cmi belt_internalMapInt.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableMapString.cmj)
     (deps (:inputs belt_MutableMapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableMapString.cmi belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableMapString.cmi)
     (deps (:inputs belt_MutableMapString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj belt_internalMapString.cmi belt_internalMapString.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableQueue.cmj)
     (deps (:inputs belt_MutableQueue.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_MutableQueue.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableQueue.cmi)
     (deps (:inputs belt_MutableQueue.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableSet.cmj)
     (deps (:inputs belt_MutableSet.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_MutableSet.cmi belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj belt_SortArray.cmj belt_internalAVLset.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableSet.cmi)
     (deps (:inputs belt_MutableSet.mli) ../runtime/runtime belt.cmi belt_Id.cmi belt_MutableSetInt.cmi belt_MutableSetInt.cmj belt_MutableSetString.cmi belt_MutableSetString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableSetInt.cmj)
     (deps (:inputs belt_MutableSetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableSetInt.cmi belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableSetInt.cmi)
     (deps (:inputs belt_MutableSetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableSetString.cmj)
     (deps (:inputs belt_MutableSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_MutableSetString.cmi belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableSetString.cmi)
     (deps (:inputs belt_MutableSetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableStack.cmj)
     (deps (:inputs belt_MutableStack.ml) ../runtime/runtime belt.cmi belt_MutableStack.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_MutableStack.cmi)
     (deps (:inputs belt_MutableStack.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Option.cmj)
     (deps (:inputs belt_Option.ml) ../runtime/runtime belt.cmi belt_Option.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Option.cmi)
     (deps (:inputs belt_Option.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Range.cmj)
     (deps (:inputs belt_Range.ml) ../runtime/runtime belt.cmi belt_Range.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Range.cmi)
     (deps (:inputs belt_Range.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Result.cmj)
     (deps (:inputs belt_Result.ml) ../runtime/runtime belt.cmi belt_Result.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Result.cmi)
     (deps (:inputs belt_Result.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Set.cmj)
     (deps (:inputs belt_Set.ml) ../runtime/runtime belt.cmi belt_Id.cmj belt_Set.cmi belt_SetDict.cmj belt_SetInt.cmi belt_SetInt.cmj belt_SetString.cmi belt_SetString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_Set.cmi)
     (deps (:inputs belt_Set.mli) ../runtime/runtime belt.cmi belt_Id.cmi belt_SetDict.cmi belt_SetInt.cmi belt_SetInt.cmj belt_SetString.cmi belt_SetString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SetDict.cmj)
     (deps (:inputs belt_SetDict.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_SetDict.cmi belt_internalAVLset.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SetDict.cmi)
     (deps (:inputs belt_SetDict.mli) ../runtime/runtime belt.cmi belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SetInt.cmj)
     (deps (:inputs belt_SetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SetInt.cmi belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SetInt.cmi)
     (deps (:inputs belt_SetInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetInt.cmi belt_internalSetInt.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SetString.cmj)
     (deps (:inputs belt_SetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SetString.cmi belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SetString.cmi)
     (deps (:inputs belt_SetString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj belt_internalSetString.cmi belt_internalSetString.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SortArray.cmj)
     (deps (:inputs belt_SortArray.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SortArray.cmi)
     (deps (:inputs belt_SortArray.mli) ../runtime/runtime belt.cmi belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SortArrayInt.cmj)
     (deps (:inputs belt_SortArrayInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SortArrayInt.cmi)
     (deps (:inputs belt_SortArrayInt.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SortArrayString.cmj)
     (deps (:inputs belt_SortArrayString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_SortArrayString.cmi)
     (deps (:inputs belt_SortArrayString.mli) ../runtime/runtime belt_Array.cmi belt_Array.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalAVLset.cmj)
     (deps (:inputs belt_internalAVLset.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_SortArray.cmj belt_internalAVLset.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalAVLset.cmi)
     (deps (:inputs belt_internalAVLset.mli) ../runtime/runtime belt.cmi belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalAVLtree.cmj)
     (deps (:inputs belt_internalAVLtree.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_Id.cmj belt_SortArray.cmj belt_internalAVLtree.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalAVLtree.cmi)
     (deps (:inputs belt_internalAVLtree.mli) ../runtime/runtime belt.cmi belt_Id.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalBuckets.cmj)
     (deps (:inputs belt_internalBuckets.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_internalBuckets.cmi belt_internalBucketsType.cmj js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalBuckets.cmi)
     (deps (:inputs belt_internalBuckets.mli) ../runtime/runtime belt.cmi belt_internalBucketsType.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalBucketsType.cmj)
     (deps (:inputs belt_internalBucketsType.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_internalBucketsType.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalBucketsType.cmi)
     (deps (:inputs belt_internalBucketsType.mli) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalMapInt.cmi belt_internalMapInt.cmj)
     (deps (:inputs belt_internalMapInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalMapString.cmi belt_internalMapString.cmj)
     (deps (:inputs belt_internalMapString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArray.cmi belt_SortArray.cmj belt_internalAVLtree.cmi belt_internalAVLtree.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalSetBuckets.cmj)
     (deps (:inputs belt_internalSetBuckets.ml) ../runtime/runtime belt.cmi belt_Array.cmj belt_internalBucketsType.cmj belt_internalSetBuckets.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalSetBuckets.cmi)
     (deps (:inputs belt_internalSetBuckets.mli) ../runtime/runtime belt.cmi belt_internalBucketsType.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalSetInt.cmi belt_internalSetInt.cmj)
     (deps (:inputs belt_internalSetInt.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayInt.cmi belt_SortArrayInt.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets belt_internalSetString.cmi belt_internalSetString.cmj)
     (deps (:inputs belt_internalSetString.ml) ../runtime/runtime belt.cmi belt_Array.cmi belt_Array.cmj belt_SortArrayString.cmi belt_SortArrayString.cmj belt_internalAVLset.cmi belt_internalAVLset.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets dom.cmi dom.cmj)
     (deps (:inputs dom.ml) ../runtime/runtime dom_storage.cmj dom_storage2.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets dom_storage.cmi dom_storage.cmj)
     (deps (:inputs dom_storage.ml) ../runtime/runtime dom_storage2.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets dom_storage2.cmi dom_storage2.cmj)
     (deps (:inputs dom_storage2.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_buffer.cmi node_buffer.cmj)
     (deps (:inputs node_buffer.ml) ../runtime/runtime node.cmi node.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_child_process.cmi node_child_process.cmj)
     (deps (:inputs node_child_process.ml) ../runtime/runtime node.cmi node.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_fs.cmi node_fs.cmj)
     (deps (:inputs node_fs.ml) ../runtime/runtime js_string.cmj node.cmi node.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_module.cmi node_module.cmj)
     (deps (:inputs node_module.ml) ../runtime/runtime js_dict.cmj node.cmi node.cmj js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_path.cmi node_path.cmj)
     (deps (:inputs node_path.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_process.cmj)
     (deps (:inputs node_process.ml) ../runtime/runtime js_dict.cmj node.cmi node_process.cmi js_pkg)
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets node_process.cmi)
     (deps (:inputs node_process.mli) ../runtime/runtime js_dict.cmi node.cmi js_pkg)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_typed_array.cmi js_typed_array.cmj)
     (deps (:inputs js_typed_array.ml) ../runtime/runtime js_typed_array2.cmi js_typed_array2.cmj)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
   (rule
     (targets js_typed_array2.cmi js_typed_array2.cmj)
     (deps (:inputs js_typed_array2.ml) ../runtime/runtime)
     (action
-     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name bs-platform -bs-package-output commonjs:lib/js  -bs-package-output es6:lib/es6   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
+     (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime -I . %{inputs})))
 
 
     (rule

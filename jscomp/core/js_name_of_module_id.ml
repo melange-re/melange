@@ -34,6 +34,7 @@ let fix_path_for_windows : string -> string =
   else fun s -> s
 
 
+(* dependency is runtime module *)
 let get_runtime_module_path
     (dep_module_id : Lam_module_ident.t)
     (current_package_info : Js_packages_info.t)
@@ -43,7 +44,7 @@ let get_runtime_module_path
       module_system  in
   let js_file =
     Ext_namespace.js_name_of_modulename dep_module_id.id.name
-      Little Js in (* Js may be subject to the module system *)
+      Little (match module_system with NodeJS -> Js | Es6 | Es6_global -> Mjs) in
   match current_info_query with
   | Package_not_found -> assert false
   | Package_script ->
@@ -79,7 +80,12 @@ let get_runtime_module_path
           (*Invariant: the package path to bs-platform, it is used to
             calculate relative js path
           *)
-          ((Filename.dirname (Filename.dirname Sys.executable_name)) // dep_path // js_file)
+          (match !Js_config.customize_runtime with
+           | None ->
+             ((Filename.dirname (Filename.dirname Sys.executable_name)) // dep_path // js_file)
+           | Some path ->
+             path //dep_path // js_file
+          )
 
 
 
@@ -140,6 +146,9 @@ let string_of_module_id
               (** TODO: we assume that both [x] and [path] could only be relative path
                   which is guaranteed by [-bs-package-output]
               *)
+          else
+          if Js_packages_info.is_runtime_package dep_package_info then
+            get_runtime_module_path dep_module_id current_package_info module_system
           else
             begin match module_system with
               | NodeJS | Es6 ->

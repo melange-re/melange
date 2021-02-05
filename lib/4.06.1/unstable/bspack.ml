@@ -10553,7 +10553,7 @@ external reraise: exn -> 'a = "%reraise"
 
 val finally : 
   'a ->
-  clean:('a -> 'c) -> 
+  clean:('a -> unit) -> 
   ('a -> 'b) -> 'b
 
 (* val try_it : (unit -> 'a) ->  unit  *)
@@ -10931,6 +10931,7 @@ let tl = "tl"
 let lazy_done = "LAZY_DONE"
 let lazy_val = "VAL"
 
+let pure = "@__PURE__"
 end
 module Ext_path : sig 
 #1 "ext_path.mli"
@@ -11952,11 +11953,11 @@ val all_module_aliases : bool ref
 
 val no_stdlib: bool ref
 val no_export: bool ref
-val record_as_js_object : bool ref
+
 val as_ppx : bool ref 
 
 val mono_empty_array : bool ref
-
+val customize_runtime : string option ref 
 end = struct
 #1 "js_config.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -12045,13 +12046,13 @@ let no_stdlib = ref false
 
 let no_export = ref false
 
-let record_as_js_object = ref false (* otherwise has an attribute *)
+
 
 let as_ppx = ref false
 
 let mono_empty_array = ref true
 
-
+let customize_runtime = ref None 
 end
 module Map_gen : sig 
 #1 "map_gen.mli"
