@@ -131,8 +131,8 @@ let oc_deps
     (db : Bsb_db_decode.t)
     (namespace : string option)
     (buf : Ext_buffer.t)
-    (kind : [`impl | `intf ]) : unit
-    ~cwd
+    (kind : [`impl | `intf ])
+    ~cwd : unit
   =
   (* TODO: move namespace upper, it is better to resolve ealier *)
   let cur_module_name = Ext_filename.module_name ast_file  in

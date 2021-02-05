@@ -188,12 +188,9 @@ let output_ninja_and_namespace_map
   let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in
   let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
   let bsc_flags = (get_bsc_flags bsc_flags) in
-  let dpkg_incls  =  (Bsb_build_util.include_dirs_by
-                        bs_dev_dependencies
-                        (fun x -> x.package_install_path)) in
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
   let source_dirs : string list Bsb_db.cat = {lib = []; dev = []} in
-  let static_resources =
+  let _static_resources =
     Ext_list.fold_left
       bs_file_groups
       [] (
@@ -212,9 +209,9 @@ let output_ninja_and_namespace_map
     ) in
   let g_stdlib_incl = if built_in_dependency then
       let stdlib_path =
-        Bsb_pkg.resolve_bs_package ~cwd (Global Bs_version.package_name) in
+        Bsb_pkg.resolve_bs_package ~cwd:per_proj_dir (Global !Bs_version.package_name) in
       let path = stdlib_path // Bsb_config.lib_ocaml in
-      [ Ext_filename.maybe_quote dir path ]
+      [ Ext_filename.maybe_quote path ]
     else []
   in
   let global_config =

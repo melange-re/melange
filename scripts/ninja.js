@@ -1143,7 +1143,7 @@ async function stdlibNinja() {
   // It is interesting `-w -a` would generate not great code sometimes
   // deprecations diabled due to string_of_float
   var templateStdlibRules = `
-  [
+  ${ccRuleList([[
     ruleCC,
     bsc_builtin_flags,
     "camlinternalFormatBasics.mli",

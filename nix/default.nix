@@ -1,14 +1,11 @@
-{ pkgs ? import ./sources.nix {} }:
-
+{ pkgs ? import ./sources.nix { } }:
 let
   inherit (pkgs) stdenv ocamlPackages lib opaline;
 in
-
 with ocamlPackages;
 
 stdenv.mkDerivation rec {
   name = "bucklescript";
-  useDune2 = true;
   version = "8.2.0-dev";
 
   postPatch = ''
@@ -27,9 +24,9 @@ stdenv.mkDerivation rec {
   '';
 
   # checkPhase = ''
-    # runHook preCheck
-    # dune runtest -p ${name} ''${enableParallelBuilding:+-j $NIX_BUILD_CORES} --display=short
-    # runHook postCheck
+  # runHook preCheck
+  # dune runtest -p ${name} ''${enableParallelBuilding:+-j $NIX_BUILD_CORES} --display=short
+  # runHook postCheck
   # '';
 
   installPhase = ''
@@ -46,7 +43,7 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  src = lib.filterGitSource ({
+  src = lib.filterGitSource {
     src = ./..;
     dirs = [ "jscomp" "syntax" "scripts" ];
     files = [
@@ -55,25 +52,19 @@ stdenv.mkDerivation rec {
       "dune-workspace"
       "bucklescript.opam"
       "bsconfig.json"
-      "package.json"];
-  });
+      "package.json"
+    ];
+  };
 
   nativeBuildInputs = [
     pkgs.gnutar
     pkgs.nodejs-14_x
     pkgs.ocaml-ng.ocamlPackages_4_11.dune_2
-    ocaml
+    pkgs.ocamlPackages.ocaml
     findlib
   ];
 
-  buildInputs = [
-    cppo
-  ];
+  buildInputs = [ cppo ];
 
-  propagatedBuildInputs = [
-    reason
-    camlp4
-  ];
+  propagatedBuildInputs = [ reason ];
 }
-
-

@@ -45,8 +45,7 @@
  (public_name bsb.exe)
  (modes native)
  (modules bsb)
- (flags
-  (:standard -w -50))
+ (flags (:standard -w -9-50))
  (libraries bs_hash_stubs ext common bsb))
 
 (executable
@@ -59,6 +58,7 @@
  (name cmij_main)
  (modes native)
  (modules cmij_main)
+ (flags (:standard -w -9))
  (libraries bs_hash_stubs ext common depends core))
 
 (executable

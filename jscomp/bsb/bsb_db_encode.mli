@@ -24,7 +24,6 @@
 
 
 val encode :
-  proj_dir:string ->
   Bsb_db.t ->
   Ext_buffer.t ->
   unit

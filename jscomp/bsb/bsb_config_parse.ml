@@ -425,12 +425,12 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
      let ns_incl = Ext_option.map namespace (fun _ns ->
        dep.package_install_path // Bsb_config.lib_bs)
      in
-     let dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; dev_index; _ } ->
-        if not dev_index then Some (dep.package_path // dir) else None
+     let dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; is_dev; _ } ->
+        if not is_dev then Some (dep.package_path // dir) else None
      )
      in
-     let install_dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; dev_index; _ } ->
-        if not dev_index then Some (dep.package_install_path // dir) else None
+     let install_dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; is_dev; _ } ->
+        if not is_dev then Some (dep.package_install_path // dir) else None
      )
      in
      { dep with

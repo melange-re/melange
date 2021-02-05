@@ -5,5 +5,5 @@
   (action
    (run %{bin:cppo} -U BS_NATIVE %{input-file})))
  (flags
-  (:standard -w -9-50))
+  (:standard -w -9-27-32-50))
  (libraries bsb_helper bs_hash_stubs ext common str unix))

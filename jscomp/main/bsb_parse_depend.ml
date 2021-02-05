@@ -37,20 +37,20 @@ let extract_blank_separated_words s =
       false
     | _ -> true)
 
-let parse_deps_exn ~file lines =
+let parse_deps_exn lines =
   match lines with
   | [] -> []
   | line :: _ ->
     match split2 line ~sep:':' with
     | None -> assert false
-    | Some (basename, deps) ->
+    | Some (_basename, deps) ->
       extract_blank_separated_words deps
 
 let parse_depends ~hash files =
  let buf = Buffer.create 1024 in
  Ext_list.iter files (fun file ->
   let chan = open_in_bin file in
-  let deps = parse_deps_exn ~file (input_lines chan) in
+  let deps = parse_deps_exn (input_lines chan) in
   close_in chan;
   Buffer.add_string buf "\n(rule (targets ";
   Buffer.add_string buf (Ext_filename.new_extension file Literals.suffix_depends);

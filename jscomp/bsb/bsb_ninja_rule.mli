@@ -73,6 +73,7 @@ val make_custom_rules :
   global_config: Bsb_ninja_global_vars.t ->
   has_postbuild:string option ->
   pp_file:string option ->
+  has_builtin:bool ->
   ppx_files:Bsb_config_types.ppx list ->
   reason_react_jsx : Bsb_config_types.reason_react_jsx option ->
   digest:string ->
