@@ -32,6 +32,7 @@
 
 val output_dune_bsb_inc :
   Buffer.t ->
+  cwd:string ->
   digest:string ->
   bs_dep_parse:string ->
   deps:string list ->
@@ -63,5 +64,6 @@ val phony  :
   unit
 
 val revise_dune : string -> Buffer.t -> unit
+val revise_x_dune : string -> Buffer.t -> unit
 
 val output_finger : string ->  string -> out_channel -> unit

@@ -1,3 +1,5 @@
+let (//) = Ext_path.combine
+
 let input_lines =
   let rec loop ic acc =
     match input_line ic with
@@ -46,7 +48,7 @@ let parse_deps_exn lines =
     | Some (_basename, deps) ->
       extract_blank_separated_words deps
 
-let parse_depends ~hash files =
+let parse_depends ~cwd:_ ~hash files =
  let buf = Buffer.create 1024 in
  Ext_list.iter files (fun file ->
   let chan = open_in_bin file in
@@ -72,6 +74,7 @@ let () =
   let l = Array.length argv in
   let current = ref 1 in
   let hash = ref None in
+  let cwd = ref None in
   let rev_list = ref [] in
   while !current < l do
     let s = argv.(!current) in
@@ -83,6 +86,10 @@ let () =
         exit 0
       | "-hash" ->
         hash := Some (argv.(!current));
+        incr current
+      | "-cwd" ->
+        let cwd_arg = argv.(!current) in
+        cwd := Some cwd_arg;
         incr current
       | s ->
         prerr_endline ("unknown option: " ^ s);
@@ -96,6 +103,12 @@ let () =
     prerr_endline "-hash is a required option";
     exit 2
   | Some hash ->
-    parse_depends ~hash !rev_list
+    (match !cwd with
+    | None ->
+      prerr_endline "-cwd is a required option";
+      exit 2
+    | Some cwd ->
+      parse_depends ~hash ~cwd !rev_list)
+
 ;;
 

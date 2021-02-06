@@ -174,6 +174,7 @@ let emit_module_build
 
 
 let handle_files_per_dir
+    buf
     ~(global_config: Bsb_ninja_global_vars.t)
     ~digest
     ~(rules : Bsb_ninja_rule.builtin)
@@ -183,6 +184,9 @@ let handle_files_per_dir
     ~bs_dependencies_deps
     (group: Bsb_file_groups.file_group )
   : unit =
+  Buffer.add_string buf "(subdir ";
+  Buffer.add_string buf group.dir;
+  let per_proj_dir = global_config.src_root_dir in
   let is_dev = group.is_dev in
   (* handle_generators oc group rules.customs ; *)
   let installable =
@@ -192,19 +196,7 @@ let handle_files_per_dir
     | Export_set set ->
       fun module_name ->
       Set_string.mem set module_name in
-  let group_dir = global_config.src_root_dir // group.dir in
-  let dune_bsb_inc = group_dir // Literals.dune_bsb_inc in
-  if not (Sys.file_exists dune_bsb_inc) then begin
-    let buf = Buffer.create 128 in
-    (* Empty buffer, populated by dune. *)
-    Bsb_ninja_targets.revise_dune dune_bsb_inc buf;
-  end;
-  let dune_bsb = group_dir // Literals.dune_bsb in
-  let buf = Buffer.create 1024 in
-  Buffer.add_char buf '\n';
-  Buffer.add_string buf "(include ";
-  Buffer.add_string buf Literals.dune_bsb_inc;
-  Buffer.add_string buf ")\n";
+  let group_dir = per_proj_dir // group.dir in
   let js_targets, d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
       if installable module_name then
         Queue.add
@@ -213,7 +205,7 @@ let handle_files_per_dir
         package_specs
         is_dev
         buf
-        ~per_proj_dir:global_config.src_root_dir
+        ~per_proj_dir
         ~bs_dependencies_deps
         js_post_build_cmd
         global_config.namespace module_info
@@ -221,16 +213,26 @@ let handle_files_per_dir
       (js_outputs :: acc_js, output_d :: acc_d)
   )
   in
-  Bsb_ninja_targets.output_dune_bsb_inc buf ~digest ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
-  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
-  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[dune_bsb_inc];
-  Bsb_ninja_targets.revise_dune dune_bsb buf;
 
-  let buf = Buffer.create 128 in
-  Buffer.add_string buf "\n(include ";
-  Buffer.add_string buf Literals.dune_bsb;
+  Bsb_ninja_targets.output_dune_bsb_inc buf
+    ~digest ~cwd:per_proj_dir
+    ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
+  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
+  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[Literals.dune_bsb_inc];
+
+  Buffer.add_char buf '\n';
+  Buffer.add_string buf "(include ";
+  Buffer.add_string buf Literals.dune_bsb_inc;
   Buffer.add_string buf ")\n";
-  Bsb_ninja_targets.revise_dune (group_dir // Literals.dune) buf
+  Buffer.add_string buf ")";
+
+  let dune_bsb_inc = group_dir // Literals.dune_bsb_inc in
+  if not (Sys.file_exists dune_bsb_inc) then begin
+    let buf = Buffer.create 128 in
+    (* Empty buffer, populated by dune. *)
+    Bsb_ninja_targets.revise_dune dune_bsb_inc buf;
+  end
+
 
     (* ;
     Bsb_ninja_targets.phony
