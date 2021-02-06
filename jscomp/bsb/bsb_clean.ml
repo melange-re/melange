@@ -54,7 +54,7 @@ let clean_bs_garbage proj_dir =
     Ext_list.iter Bsb_config.all_lib_artifacts try_remove ;
 
     try_revise_dune (proj_dir // Literals.dune);
-    try_revise_dune (proj_dir // Literals.dune_bsb)
+    try_remove (proj_dir // Literals.dune_bsb)
   with
     e ->
     Bsb_log.warn "@{<warning>Failed@} to clean due to %s" (Printexc.to_string e)
