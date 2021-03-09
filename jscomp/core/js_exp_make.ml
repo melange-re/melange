@@ -1440,5 +1440,5 @@ let resolve_and_apply
        [str s ]
     ) args
 
-
-
+let make_exception (s : string) = 
+  pure_runtime_call Js_runtime_modules.exceptions Literals.create [str s]     
