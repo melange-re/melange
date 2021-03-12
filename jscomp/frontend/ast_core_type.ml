@@ -35,10 +35,11 @@ type t = Parsetree.core_type
 let lift_option_type ({ptyp_loc} as ty:t) : t =
   {ptyp_desc =
      Ptyp_constr(
-       {txt = Ast_literal.predef_option;
+       {txt = Lident"option"(* Ast_literal.predef_option *);
         loc = ptyp_loc}
         , [ty]);
-        ptyp_loc = ptyp_loc;
+      ptyp_loc = ptyp_loc;
+      ptyp_loc_stack = [ ptyp_loc ];
       ptyp_attributes = []
     }
 
@@ -103,13 +104,13 @@ let from_labels ~loc arity labels
   let result_type =
     Ast_comb.to_js_type loc
       (Typ.object_ ~loc
-         (Ext_list.map2 labels tyvars 
-          (fun x y -> Parsetree.Otag (x ,[], y))) Closed)
+         (Ext_list.map2 labels tyvars
+          (fun x y -> Ast_compatible.object_field x [] y)) Closed)
   in
   Ext_list.fold_right2 labels tyvars  result_type
     (fun label (* {loc ; txt = label }*)
-      tyvar acc -> 
-      Ast_compatible.label_arrow ~loc:label.loc label.txt tyvar acc) 
+      tyvar acc ->
+      Ast_compatible.label_arrow ~loc:label.loc label.txt tyvar acc)
 
 
 let make_obj ~loc xs =
@@ -141,11 +142,11 @@ let rec get_uncurry_arity_aux  (ty : t) acc =
 let get_uncurry_arity (ty : t ) =
   match ty.ptyp_desc  with
   | Ptyp_arrow(Nolabel, {ptyp_desc = (Ptyp_constr ({txt = Lident "unit"}, []))},
-     rest  )  -> 
-     begin match rest with 
-     | {ptyp_desc = Ptyp_arrow _ } ->  
+     rest  )  ->
+     begin match rest with
+     | {ptyp_desc = Ptyp_arrow _ } ->
       Some (get_uncurry_arity_aux rest 1 )
-    | _ -> Some 0 
+    | _ -> Some 0
     end
   | Ptyp_arrow(_,_,rest ) ->
     Some (get_uncurry_arity_aux rest 1)
@@ -157,16 +158,16 @@ let get_curry_arity  ty =
 let is_arity_one ty = get_curry_arity ty =  1
 
 
-let list_of_arrow 
-    (ty : t) : 
+let list_of_arrow
+    (ty : t) :
   t * Ast_compatible.param_type list
   =
   let rec aux (ty : t) acc =
     match ty.ptyp_desc with
     | Ptyp_arrow(label,t1,t2) ->
-      aux t2 
-        (({label; 
-          ty = t1; 
+      aux t2
+        (({label;
+          ty = t1;
           attr = ty.ptyp_attributes;
           loc = ty.ptyp_loc} : Ast_compatible.param_type) :: acc
         )

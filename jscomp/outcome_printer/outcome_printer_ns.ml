@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Authors of BuckleScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,19 +17,19 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let ps = Format.pp_print_string
 
-let out_ident ppf s =
+let print_ident ppf s =
   ps ppf (
-    match s with     
-    | "Js_null" 
+    match s with
+    | "Js_null"
       ->   "Js.Null"
-    | "Js_undefined" 
+    | "Js_undefined"
       ->  "Js.Undefined"
     | "Js_null_undefined"
       ->  "Js.Nullable"
@@ -39,7 +39,7 @@ let out_ident ppf s =
       -> "Js.Array"
     | "Js_string"
       -> "Js.String"
-    | "Js_re" 
+    | "Js_re"
       -> "Js.Re"
     | "Js_promise"
       -> "Js.Promise"
@@ -71,19 +71,19 @@ let out_ident ppf s =
       -> "Js.List"
     | "Js_vector"
       -> "Js.Vector"
-(* Belt_libs  *)        
+(* Belt_libs  *)
     | "Belt_Id" -> "Belt.Id"
     | "Belt_Array" -> "Belt.Array"
 
     | "Belt_SortArray" -> "Belt.SortArray"
     | "Belt_SortArrayInt" -> "Belt.SortArray.Int"
     | "Belt_SortArrayString" -> "Belt.SortArray.String"
-      
+
     | "Belt_MutableQueue" -> "Belt.MutableQueue"
-    | "Belt_MutableStack" -> "Belt.MutableStack"      
-    | "Belt_List" -> "Belt.List"        
+    | "Belt_MutableStack" -> "Belt.MutableStack"
+    | "Belt_List" -> "Belt.List"
     | "Belt_Range" -> "Belt.Range"
-      
+
     | "Belt_Set" -> "Belt.Set"
     | "Belt_SetInt" -> "Belt.Set.Int"
     | "Belt_SetString" -> "Belt.Set.String"
@@ -101,21 +101,30 @@ let out_ident ppf s =
     | "Belt_MutableMap" -> "Belt.MutableMap"
     | "Belt_MutableMapInt" -> "Belt.MutableMap.Int"
     | "Belt_MutableMapString" -> "Belt.MutableMap.String"
-      
+
     | "Belt_HashSet" -> "Belt.HashSet"
     | "Belt_HashSetInt" -> "Belt.HashSet.Int"
     | "Belt_HashSetString" -> "Belt.HashSet.String"
-      
+
     | "Belt_HashMap" -> "Belt.HashMap"
     | "Belt_HashMapString" -> "Belt.HashMap.String"
     | "Belt_HashMapInt" -> "Belt.HashMap.Int"
     | "Belt_Debug" -> "Belt.Debug"
-    | s -> 
-      (match Ext_namespace.try_split_module_name s with 
-       | None -> s 
+    | s ->
+      (match Ext_namespace.try_split_module_name s with
+       | None -> s
        | Some (ns,m)
          -> ns ^ "."^ m
       )
   )
+
+open Format
+let rec out_ident ppf =
+  function
+    Outcometree.Oide_ident s -> print_ident ppf s.printed_name
+  | Oide_dot (id, s) ->
+      out_ident ppf id; pp_print_char ppf '.'; print_ident ppf s
+  | Oide_apply (id1, id2) ->
+      fprintf ppf "%a(%a)" out_ident id1 out_ident id2
 
 

@@ -96,7 +96,7 @@ let handle_exports (meta : Lam_stats.t)
       lambda_exports
       {export_list = []; export_set = original_export_set; export_map = Map_ident.empty; groups = []}
       (fun  (original_export_id : Ident.t) (lam : Lam.t) (acc : t)  ->
-         let original_name = original_export_id.name in
+         let original_name = (Ident.name original_export_id) in
          if not @@ Hash_set_string.check_add tbl original_name then
            Bs_exception.error (Bs_duplicate_exports original_name);
          (match lam  with
@@ -106,7 +106,7 @@ let handle_exports (meta : Lam_stats.t)
             { acc with
               export_list = id :: acc.export_list ;
               export_set =
-                if id.stamp = original_export_id.stamp then acc.export_set
+                if (Ident.stamp id) = (Ident.stamp original_export_id) then acc.export_set
                 else (Set_ident.add (Set_ident.remove acc.export_set original_export_id) id )
             }
             else
@@ -138,12 +138,12 @@ let handle_exports (meta : Lam_stats.t)
               *)
              let newid = Ident.rename original_export_id in
              (
-                let arity = Lam_arity_analysis.get_arity meta lam in  
-                if not (Lam_arity.first_arity_na arity) then 
+                let arity = Lam_arity_analysis.get_arity meta lam in
+                if not (Lam_arity.first_arity_na arity) then
                 Hash_ident.add meta.ident_tbl newid
-                (FunctionId{arity ; lambda = 
-                match lam with 
-                | Lfunction _ -> 
+                (FunctionId{arity ; lambda =
+                match lam with
+                | Lfunction _ ->
                   Some (lam,  Lam_non_rec)
                 | _ -> None })
               );
@@ -153,7 +153,7 @@ let handle_exports (meta : Lam_stats.t)
               groups = Single(Strict, newid, lam) :: acc.groups
             })
       )
-      
+
 
   in
 
@@ -161,8 +161,8 @@ let handle_exports (meta : Lam_stats.t)
     Ext_list.fold_left reverse_input (result.export_map, result.groups)
       (fun (export_map, acc) x ->
          (match x with
-          | Single (_,id,lam) when Set_ident.mem export_set id 
-            -> Map_ident.add export_map id lam 
+          | Single (_,id,lam) when Set_ident.mem export_set id
+            -> Map_ident.add export_map id lam
               (** relies on the Invariant that [eoid] can not be bound before
                   FIX: such invariant may not hold
               *)
@@ -212,7 +212,7 @@ let coerce_and_group_big_lambda
         exports = coerced_input.export_list}
   | _ ->
     (* This could happen see #2474*)
-    (* #3595 
+    (* #3595
     TODO: FIXME later
     *)
     assert false

@@ -200,7 +200,7 @@ let () =
         ?deps_digest:!deps_digest
         ~package_kind:Toplevel
         ~forced:false
-        ~per_proj_dir:Bsb_global_paths.cwd
+        Bsb_global_paths.cwd
       in
       Ext_option.iter config (fun (config, _digest) ->
         ninja_command_exit ~dirs:config.file_groups.files [||])
@@ -237,7 +237,7 @@ let () =
                    Bsb_ninja_regen.regenerate_ninja
                      ?deps_digest:!deps_digest
                      ~package_kind:Toplevel
-                     ~forced:force_regenerate ~per_proj_dir:Bsb_global_paths.cwd
+                     ~forced:force_regenerate Bsb_global_paths.cwd
                  in
                  if !watch_mode then begin
                    program_exit ()
@@ -272,8 +272,8 @@ let () =
               (Bsb_ninja_regen.regenerate_ninja
                 ?deps_digest:!deps_digest
                 ~package_kind:Toplevel
-                ~per_proj_dir:Bsb_global_paths.cwd
-                ~forced:!force_regenerate) in
+                ~forced:!force_regenerate
+                Bsb_global_paths.cwd) in
             if !do_install then
               install_target config_opt;
             if !watch_mode then program_exit ()

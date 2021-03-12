@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -25,12 +25,12 @@
 open Caml_int32_extern.Ops
 
 let lognot n = n ^~ (-1l)
-let cmn q a b x s t = 
+let cmn q a b x s t =
     let a = a +~ q +~ x +~ t in
     ((a <<~ s) |~ (a >>>~ (32 - s))) +~  b
 
 
-let  f a b c d x s t = 
+let  f a b c d x s t =
   cmn ((b &~ c) |~ (lognot b &~ d)) a b x s t
 
 
@@ -38,20 +38,20 @@ let g a b c d x s t =
   cmn ((b &~ d) |~ (c &~ (lognot d))) a b x s t
 
 ;;
-let h a b c d x s t = 
+let h a b c d x s t =
   cmn (b ^~ c ^~ d) a b x s t
 ;;
 
-let i a b c d x s t = 
+let i a b c d x s t =
   cmn (c ^~ (b |~ (lognot d))) a b x s t
 
 
-let cycle (x : int32 array)  (k : int32 array) = 
+let cycle (x : int32 array)  (k : int32 array) =
     let module Array = Caml_array_extern (* reuse the sugar .. *)
-    in 
-    let a = ref x.(0) in 
-    let b = ref x.(1) in 
-    let c = ref x.(2) in 
+    in
+    let a = ref x.(0) in
+    let b = ref x.(1) in
+    let c = ref x.(2) in
     let d = ref x.(3) in
 
     a .contents<- f a.contents b.contents c.contents d.contents k.(0) 7 0xd76aa478l;
@@ -133,65 +133,64 @@ let cycle (x : int32 array)  (k : int32 array) =
 let seed_a = 0x67452301l
 let seed_b = 0xefcdab89l
 let seed_c = 0x98badcfel
-let seed_d = 0x10325476l 
+let seed_d = 0x10325476l
 
 let state = [| seed_a; seed_b ; seed_c; seed_d |]
 
 let md5blk = [|
     0l;0l;0l;0l;
     0l;0l;0l;0l;
-    0l;0l;0l;0l; 
+    0l;0l;0l;0l;
     0l;0l;0l;0l
-  |] 
+  |]
 external (.![]) : string -> int -> int32 = "charCodeAt" [@@bs.send]
 
-let caml_md5_string (s : string) start len = 
-  let module String = Caml_string_extern in 
+let caml_md5_string (s : string) start len =
   let module Array = Caml_array_extern (* reuse the sugar .. *)
-  in 
+  in
 
   let s = Caml_string_extern.slice   s start len in
   let n =Caml_string_extern.length s in
-  let () = 
-    state.(0) <- seed_a; 
-    state.(1) <- seed_b; 
+  let () =
+    state.(0) <- seed_a;
+    state.(1) <- seed_b;
     state.(2) <- seed_c;
     state.(3) <- seed_d ;
-    for i = 0 to 15 do 
+    for i = 0 to 15 do
       md5blk.(i) <- 0l
     done
-  in  
+  in
 
 
   let i_end = n / 64 in
-  for  i = 1 to  i_end do 
-    for j = 0 to 16 - 1 do 
-      let k = i * 64 - 64 + j * 4 in 
+  for  i = 1 to  i_end do
+    for j = 0 to 16 - 1 do
+      let k = i * 64 - 64 + j * 4 in
       md5blk.(j) <- s.![k] +~
-                   (s.![k+1] <<~ 8 ) +~        
-                   (s.![k+2] <<~ 16 ) +~        
+                   (s.![k+1] <<~ 8 ) +~
+                   (s.![k+2] <<~ 16 ) +~
                    (s.![k+3] <<~ 24 )
     done ;
     cycle state md5blk
   done ;
 
-  let s_tail  = Caml_string_extern.slice_rest s (i_end  * 64) in 
-  for kk = 0 to 15 do 
-    md5blk.(kk) <- 0l 
+  let s_tail  = Caml_string_extern.slice_rest s (i_end  * 64) in
+  for kk = 0 to 15 do
+    md5blk.(kk) <- 0l
   done ;
   let i_end =Caml_string_extern.length s_tail - 1 in
-  for i = 0 to  i_end do 
-    md5blk.(i / 4 ) <- 
+  for i = 0 to  i_end do
+    md5blk.(i / 4 ) <-
       md5blk.(i / 4) |~ ( s_tail.![i] <<~ ((i mod 4) lsl 3))
   done ;
   let i = i_end + 1 in
   md5blk.(i / 4 ) <-  md5blk.(i / 4 ) |~ (0x80l <<~ ((i mod 4) lsl 3)) ;
   if i > 55 then
-    begin 
+    begin
       cycle state md5blk;
-      for i = 0 to 15 do 
+      for i = 0 to 15 do
         md5blk.(i) <- 0l
-      done 
+      done
     end;
   md5blk.(14) <-  Caml_int32_extern.of_int n *~ 8l;
   cycle state md5blk;

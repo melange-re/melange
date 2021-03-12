@@ -12,7 +12,7 @@
 
 let set_abs_input_name sourcefile =
   let sourcefile =
-    if !Location.absname && Filename.is_relative  sourcefile then
+    if !Clflags.absname && Filename.is_relative  sourcefile then
       Ext_path.absolute_cwd_path sourcefile
     else sourcefile in
   Location.set_input_name sourcefile;
@@ -164,7 +164,7 @@ let format_file input =
   output_string stdout (format_fn ~input)
 
 let set_color_option option =
-  match Clflags.parse_color_setting option with
+  match Clflags.color_reader.parse option with
   | None -> ()
   | Some setting -> Clflags.color := Some setting
 
@@ -364,7 +364,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-noassert", set Clflags.noassert,
     "*internal* Do not compile assertion checks";
 
-    "-bs-loc", set Clflags.dump_location,
+    "-bs-loc", set Clflags.locations,
     "*internal*  dont display location with -dtypedtree, -dparsetree";
 
     "-impl",  string_call impl,
@@ -412,7 +412,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-pp", string_optional_set Clflags.preprocessor,
     "<command>  Pipe sources through preprocessor <command>";
 
-    "-absname", set Location.absname,
+    "-absname", set Clflags.absname,
     "Show absolute filenames in error messages";
     (* Not used, the build system did the expansion *)
 
@@ -434,7 +434,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-short-paths", clear Clflags.real_paths,
     "*internal* Shorten paths in types";
 
-    "-unsafe", set Clflags.fast,
+    "-unsafe", set Clflags.unsafe,
     "Do not compile bounds checking on array and string access";
 
     "-warn-help", unit_call Warnings.help_warnings,
@@ -466,7 +466,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     let args = Array.of_list
         ( Ext_list.map  args (fun e ->
              match e.pexp_desc with
-             | Pexp_constant (Pconst_string(name,_)) -> name
+             | Pexp_constant (Pconst_string(name,_,_)) -> name
              | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
     (try Bsc_args.parse_exn ~start:0
       ~argv:args buckle_script_flags (fun ~rev_args:_ -> ()) ~usage

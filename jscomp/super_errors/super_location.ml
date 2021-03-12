@@ -75,40 +75,65 @@ let print ~message_kind intro ppf (loc : Location.t) =
 
 (* taken from https://github.com/rescript-lang/ocaml/blob/d4144647d1bf9bc7dc3aadc24c25a7efa3a67915/parsing/location.ml#L380 *)
 (* This is the error report entry point. We'll replace the default reporter with this one. *)
-let rec super_error_reporter ppf ({loc; msg; sub} : Location.error) =
+let rec super_error_reporter self ppf ({main; sub} : Location.error) =
   setup_colors ();
   (* open a vertical box. Everything in our message is indented 2 spaces *)
-  Format.fprintf ppf "@[<v 2>@,%a@,%s@,@]" (print ~message_kind:`error "We've found a bug for you!") loc msg;
-  List.iter (Format.fprintf ppf "@,@[%a@]" super_error_reporter) sub
+  Format.fprintf ppf "@[<v 2>@,%a@,%t@,@]" (print ~message_kind:`error "We've found a bug for you!") main.loc main.txt ;
+  List.iter (fun sub ->
+    Format.fprintf ppf "@,@[%a@]" (super_error_reporter self) { main = sub; sub=[]; kind = Report_error }) sub
     (* no need to flush here; location's report_exception (which uses this ultimately) flushes *)
+
+let super_error_reporter =
+  { (Location.default_report_printer ())
+    with pp = super_error_reporter
+    }
+
 
 
 (* extracted from https://github.com/rescript-lang/ocaml/blob/d4144647d1bf9bc7dc3aadc24c25a7efa3a67915/parsing/location.ml#L299 *)
 (* This is the warning report entry point. We'll replace the default printer with this one *)
-let super_warning_printer loc ppf w =
+let super_warning_printer loc w =
   match Warnings.report w with
-  | `Inactive -> ()
-  | `Active { Warnings. number = _; message = _; is_error; sub_locs = _} ->
-    setup_colors ();
-    let message_kind = if is_error then `warning_as_error else `warning in
-    Format.fprintf ppf "@[<v 2>@,%a@,%s@,@]@."
-      (print ~message_kind ("Warning number " ^ (Warnings.number w |> string_of_int)))
-      loc
-      (Warnings.message w);
+  | `Inactive -> None
+  | `Active { Warnings.id; message; is_error; sub_locs } ->
+      setup_colors ();
+      let message_kind = if is_error then `warning_as_error else `warning in
+      let msg_of_str str = fun ppf ->
+        Format.fprintf ppf "@[<v 2>@,%a@,%s@,@]@."
+          (print ~message_kind ("Warning number " ^ (Warnings.number w |> string_of_int)))
+          loc
+          str;
+      in
+      let kind =
+       if is_error then Location.Report_warning_as_error id
+       else Report_warning id
+      in
+      let main = { Location.loc; txt = msg_of_str message } in
+      let sub = List.map (fun (loc, sub_message) ->
+        { Location.loc; txt = msg_of_str sub_message }
+      ) sub_locs in
+      Some { Location.kind; main; sub }
+
+
     (* at this point, you can display sub_locs too, from e.g. https://github.com/ocaml/ocaml/commit/f6d53cc38f87c67fbf49109f5fb79a0334bab17a
       but we won't bother for now *)
 ;;
 
 (* taken from https://github.com/rescript-lang/ocaml/blob/d4144647d1bf9bc7dc3aadc24c25a7efa3a67915/parsing/location.ml#L354 *)
-let print_phanton_error_prefix ppf =
+let _print_phanton_error_prefix ppf =
   (* modified from the original. We use only 2 indentations for error report
     (see super_error_reporter above) *)
   Format.pp_print_as ppf 2 ""
 
-let errorf ?(loc = Location.none) ?(sub = []) ?(if_highlight = "") fmt =
-  Location.pp_ksprintf
-    ~before:print_phanton_error_prefix
-    (fun msg -> Location.{loc; msg; sub; if_highlight})
+(* let errorf ?(loc = none) ?(sub = []) = *)
+  (* Format.kdprintf (mkerror loc sub) *)
+
+let mkerror loc sub txt =
+  { Location.kind = Report_error; main = { loc; txt }; sub }
+
+let errorf ?(loc = Location.none) ?(sub = []) fmt =
+  Format.kdprintf
+    (mkerror loc sub)
     fmt
 
 let error_of_printer loc print x =
@@ -119,5 +144,5 @@ let error_of_printer_file print x =
 
 (* This will be called in super_main. This is how you override the default error and warning printers *)
 let setup () =
-  Location.error_reporter := super_error_reporter;
-  Location.warning_printer := super_warning_printer;
+  Location.report_printer := (fun () -> super_error_reporter);
+  Location.warning_reporter := super_warning_printer;

@@ -14,7 +14,7 @@ let runtime_dir = jscomp // "runtime"
 let others_dir = jscomp // "others"
 
 
-let stdlib_dir = jscomp // "stdlib-406"
+let stdlib_dir = jscomp // "stdlib-412"
 
 (* let rec safe_dup fd =
   let new_fd = Unix.dup fd in

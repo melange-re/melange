@@ -14,12 +14,12 @@ let reset_and_mark_loops = Printtyp.reset_and_mark_loops
 let type_expr = Printtyp.type_expr
 
 let tagged tag fn ppf arg =
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     fn ppf arg;
-    Format.pp_close_tag ppf ()
+    Format.pp_close_stag ppf ()
 
 let rec bottom_aliases = function
-  | (_, one) :: (_, two) :: rest -> begin match bottom_aliases rest with
+  | (Unification_trace.Diff { got = { Unification_trace.t = one }; expected = { t = two }}) :: rest -> begin match bottom_aliases rest with
     | Some types -> Some types
     | None -> Some (one, two)
   end
@@ -49,7 +49,9 @@ let show_extra_help ppf _env trace = begin
   match bottom_aliases trace with
   | Some ({Types.desc = Tconstr (actualPath, actualArgs, _)}, {desc = Tconstr (expectedPath, expextedArgs, _)}) -> begin
     match (actualPath, actualArgs, expectedPath, expextedArgs) with
-    | (Pident {name = actualName}, [], Pident {name = expectedName}, []) -> begin
+    | (Pident actual_id, [], Pident expected_id, []) -> begin
+      let actualName = Ident.name actual_id
+      and expectedName = Ident.name expected_id in
       print_simple_conversion ppf (actualName, expectedName);
       print_simple_message ppf (actualName, expectedName);
     end
@@ -124,11 +126,6 @@ let print_expr_type_clash env trace ppf = begin
     show_extra_help ppf env trace;
   end
 
-(* Pasted from typecore.ml. Needed for some cases in report_error below *)
-(* Records *)
-let label_of_kind kind =
-  if kind = "record" then "field" else "constructor"
-
 let spellcheck ppf unbound_name valid_names =
   Misc.did_you_mean ppf (fun () ->
     Misc.spellcheck valid_names unbound_name
@@ -149,7 +146,7 @@ let report_error env ppf = function
                    longident lid)
         (function ppf ->
            fprintf ppf "but is mixed here with fields of type")
-  | Pattern_type_clash trace ->
+  | Pattern_type_clash (trace, _) ->
       (* modified *)
       super_report_unification_error ppf env trace
         (function ppf ->
@@ -164,22 +161,21 @@ let report_error env ppf = function
         (function ppf ->
           fprintf ppf "but on the right-hand side it has type")
   | Expr_type_clash (
-      (_, {desc = Tarrow _}) ::
-      (_, {desc = Tconstr (Pdot (Pdot(Pident {name = "Js"},"Fn",_),_,_),_,_)}) :: _
-    ) ->
+    (Diff { got = {t = { desc = Tarrow _ }}; expected = {t = { desc = Tconstr (Pdot (Pdot(Pident id,"Fn"),_),_,_) }}; }) :: _
+    ,_, _) when Ident.name id = "Js" ->
     fprintf ppf "This function is a curried function where an uncurried function is expected"
   | Expr_type_clash (
-      (_, {desc = Tconstr (Pdot (Pdot(Pident {name = "Js"},"Fn",_),a,_),_,_)}) ::
-      (_, {desc = Tconstr (Pdot (Pdot(Pident {name = "Js"},"Fn",_),b,_),_,_)}) :: _
-    ) when a <> b ->
+    (Diff { got = { t = {desc = Tconstr (Pdot (Pdot(Pident id1,"Fn"),a),_,_)}};
+     expected = { t = {desc = Tconstr (Pdot (Pdot(Pident id2,"Fn"),b),_,_)}} }) :: _
+    , _, _) when a <> b && Ident.name id1 = "Js" && Ident.name id2 = "Js" ->
     fprintf ppf "This function has %s but was expected %s" a b
   | Expr_type_clash (
-      (_, {desc = Tconstr (Pdot (Pdot(Pident {name = "Js_OO"},"Meth",_),a,_),_,_)}) ::
-      (_, {desc = Tconstr (Pdot (Pdot(Pident {name = "Js_OO"},"Meth",_),b,_),_,_)}) :: _
-    ) when a <> b ->
+    (Diff { got = { t = {desc = Tconstr (Pdot (Pdot(Pident id1,"Meth"),a),_,_)}};
+      expected = { t = {desc = Tconstr (Pdot (Pdot(Pident id2,"Meth"),b),_,_)}} }) :: _
+    , _, _) when a <> b && Ident.name id1 = "Js_OO" && Ident.name id2 = "Js_OO" ->
     fprintf ppf "This method has %s but was expected %s" a b
 
-  | Expr_type_clash trace ->
+  | Expr_type_clash (trace, _, _) ->
       (* modified *)
       fprintf ppf "@[<v>";
       print_expr_type_clash env trace ppf;
@@ -200,10 +196,10 @@ let report_error env ppf = function
           fprintf ppf "@ @[It only accepts %i %s; here, it's called with more.@]@]"
                       acceptsCount (if acceptsCount == 1 then "argument" else "arguments")
       | Tconstr (
-          (Path.Pdot (((Pdot (Path.Pident {name="Js"}, "Fn", _)) ), _, _)),
+          (Path.Pdot (((Pdot (Path.Pident id, "Fn")) ), _)),
           _,
           _
-        )
+        ) when Ident.name id = "Js"
         ->
           fprintf
             ppf
@@ -231,7 +227,7 @@ let report_error env ppf = function
         fprintf ppf ".@.@[<hov>%s@ %s@]"
           "This simple coercion was not fully general."
           "Consider using a double coercion."
-  | Too_many_arguments (in_function, ty) ->
+  | Too_many_arguments (in_function, ty, _) ->
       (* modified *)
       reset_and_mark_loops ty;
       if in_function then begin
@@ -240,7 +236,7 @@ let report_error env ppf = function
           type_expr ty
       end else begin
         match ty with
-        | {desc = Tconstr (Pdot (Pdot(Pident {name = "Js"},"Fn",_),_,_),_,_)} ->
+        | {desc = Tconstr (Pdot (Pdot(Pident id,"Fn"),_),_, _)} when Ident.name id = "Js" ->
           fprintf ppf "This expression is expected to have an uncurried function"
         | _ ->
         fprintf ppf "@[This expression should not be a function,@ ";
@@ -252,35 +248,29 @@ let report_error env ppf = function
       super_report_unification_error ppf env trace
         (fun ppf -> fprintf ppf "This %s has type" kind)
         (fun ppf -> fprintf ppf "which is less general than")
-  | Recursive_local_constraint trace ->
+  | Wrong_name (eorp, ty, { kind; type_path = p; name; valid_names }) ->
       (* modified *)
-      super_report_unification_error ppf env trace
-        (function ppf ->
-           fprintf ppf "Recursive local constraint when unifying")
-        (function ppf ->
-           fprintf ppf "with")
-  | Wrong_name (eorp, ty, kind, p, name, valid_names) ->
-      (* modified *)
-      reset_and_mark_loops ty;
+      reset_and_mark_loops ty.ty;
       if Path.is_constructor_typath p then begin
         fprintf ppf "@[The field %s is not part of the record \
                      argument for the %a constructor@]"
-          name
+          name.txt
           Printtyp.path p;
       end else begin
       fprintf ppf "@[@[<2>%s type@ @{<info>%a@}@]@ "
-        eorp type_expr ty;
+        eorp type_expr ty.ty;
 
       fprintf ppf "The %s @{<error>%s@} does not belong to type @{<info>%a@}@]"
-        (label_of_kind kind)
-        name (*kind*) Printtyp.path p;
+        (Typecore.Datatype_kind.label_name kind)
+        name.txt Printtyp.path p;
        end;
-      spellcheck ppf name valid_names;
+      spellcheck ppf name.txt valid_names;
   | anythingElse ->
-      Typecore.super_report_error_no_wrap_printing_env env ppf anythingElse
+      Location.print_report ppf
+      (Typecore.super_report_error_no_wrap_printing_env ~loc:Location.none env anythingElse)
 
 let report_error env ppf err =
-  Printtyp.wrap_printing_env env (fun () -> report_error env ppf err)
+  Printtyp.wrap_printing_env ~error:true env (fun () -> report_error env ppf err)
 
 (* This will be called in super_main. This is how you'd override the default error printer from the compiler & register new error_of_exn handlers *)
 let setup () =

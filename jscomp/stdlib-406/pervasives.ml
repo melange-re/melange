@@ -62,7 +62,7 @@ external ( <= ) : 'a -> 'a -> bool = "%lessequal"
 external ( >= ) : 'a -> 'a -> bool = "%greaterequal"
 external compare : 'a -> 'a -> int = "%compare"
 
-#if BS then 
+#if BS then
 external min : 'a -> 'a -> 'a = "%bs_min"
 external max : 'a -> 'a -> 'a = "%bs_max"
 #else
@@ -141,10 +141,10 @@ external atan : float -> float = "caml_atan_float" "atan"
   [@@unboxed] [@@noalloc]
 external atan2 : float -> float -> float = "caml_atan2_float" "atan2"
   [@@unboxed] [@@noalloc]
-#end  
+#end
 external hypot : float -> float -> float
                = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
-#if BS then                
+#if BS then
 external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
 external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
 external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
@@ -158,7 +158,7 @@ external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
 external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
 external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
 external abs_float : float -> float = "abs"[@@bs.val] [@@bs.scope "Math"]
-#else               
+#else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 external cosh : float -> float = "caml_cosh_float" "cosh"
   [@@unboxed] [@@noalloc]
@@ -201,7 +201,7 @@ external float_of_bits : int64 -> float
   = "caml_int64_float_of_bits" "caml_int64_float_of_bits_unboxed"
   [@@unboxed] [@@noalloc]
 #end
-#if BS then 
+#if BS then
 let infinity = 0x1p2047
 let neg_infinity = -0x1p2047
 external nan : float = "NaN"
@@ -209,7 +209,7 @@ external nan : float = "NaN"
 let max_float = 1.79769313486231571e+308 (*0x1.ffff_ffff_ffff_fp+1023*)
 let min_float = 2.22507385850720138e-308 (* 0x1p-1022 *)
 let epsilon_float = 2.22044604925031308e-16 (* 0x1p-52 *)
-#else  
+#else
 let infinity =
   float_of_bits 0x7F_F0_00_00_00_00_00_00L
 let neg_infinity =
@@ -230,8 +230,8 @@ type fpclass =
   | FP_zero
   | FP_infinite
   | FP_nan
-#if BS then  
-let classify_float (x : float) : fpclass =   
+#if BS then
+let classify_float (x : float) : fpclass =
   if ([%raw{|isFinite|}] : _ -> _ [@bs]) x [@bs] then
     if abs_float x >= (* 0x1p-1022 *) (* 2.22507385850720138e-308*) min_float  then
       FP_normal
@@ -240,8 +240,8 @@ let classify_float (x : float) : fpclass =
   else
   if ([%raw{|isNaN|}] : _ -> _ [@bs])  x [@bs] then
     FP_nan
-  else FP_infinite  
-#else  
+  else FP_infinite
+#else
 external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
 #end
@@ -254,12 +254,12 @@ external bytes_create : int -> bytes = "caml_create_bytes"
 #else
 external string_blit : string -> int -> bytes -> int -> int -> unit
                      = "caml_blit_string" [@@noalloc]
-#end                     
+#end
 external bytes_blit : bytes -> int -> bytes -> int -> int -> unit
                         = "caml_blit_bytes" [@@noalloc]
 external bytes_unsafe_to_string : bytes -> string = "%bytes_to_string"
 
-#if BS then 
+#if BS then
 external (^) : string -> string -> string = "#string_append"
 #else
 let ( ^ ) s1 s2 =
@@ -319,9 +319,9 @@ let bool_of_string_opt = function
   | "false" -> Some false
   | _ -> None
 
-#if BS then   
+#if BS then
 external string_of_int : int -> string = "String" [@@bs.val]
-#else  
+#else
 let string_of_int n =
   format_int "%d" n
 #end
@@ -547,12 +547,12 @@ let print_bytes s = output_bytes stdout s
 let print_int i = output_string stdout (string_of_int i)
 let print_float f = output_string stdout (string_of_float f)
 #if BS then
-external print_endline : string -> unit = "log" 
+external print_endline : string -> unit = "log"
 [@@bs.val] [@@bs.scope "console"]
-#else    
+#else
 let print_endline s =
   output_string stdout s; output_char stdout '\n'; flush stdout
-#end  
+#end
 let print_newline () = output_char stdout '\n'; flush stdout
 
 (* Output functions on standard error *)
@@ -563,12 +563,12 @@ let prerr_bytes s = output_bytes stderr s
 let prerr_int i = output_string stderr (string_of_int i)
 let prerr_float f = output_string stderr (string_of_float f)
 #if BS then
-external prerr_endline : string -> unit = "error" 
-[@@bs.val] [@@bs.scope "console"]    
-#else    
+external prerr_endline : string -> unit = "error"
+[@@bs.val] [@@bs.scope "console"]
+#else
 let prerr_endline s =
   output_string stderr s; output_char stderr '\n'; flush stderr
-#end  
+#end
 let prerr_newline () = output_char stderr '\n'; flush stderr
 
 (* Input functions on standard input *)
@@ -627,7 +627,7 @@ let exit retcode =
   do_at_exit ();
   sys_exit retcode
 
-#if BS then  
+#if BS then
 #else
 let _ = register_named_value "Pervasives.do_at_exit" do_at_exit
 #end

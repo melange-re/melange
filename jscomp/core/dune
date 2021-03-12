@@ -7,35 +7,52 @@
   (action
    (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file})))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
- (libraries ext common depends outcome_printer js_parser reason
-   builtin_datasets napkin))
+ (libraries
+  ext
+  common
+  depends
+  compiler-libs
+  compiler-libs.common
+  outcome_printer
+  js_parser
+  reason
+  builtin_datasets
+  napkin))
 
 (rule
  (targets js_fold.ml)
  (mode promote)
- (deps j.ml (source_tree ../../ocaml-tree))
+ (deps
+  j.ml
+  (source_tree ../../ocaml-tree))
  (action
-   ;; requires `npm install` in the `ocaml-tree` directory... what a mess
+  ;; requires `npm install` in the `ocaml-tree` directory... what a mess
   (run node ../../ocaml-tree/wasm.js -fold -i %{deps} -o %{targets})))
 
 (rule
  (targets js_record_iter.ml)
  (mode promote)
- (deps j.ml (source_tree ../../ocaml-tree))
+ (deps
+  j.ml
+  (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-iter -i %{deps} -o %{targets})))
 
 (rule
  (targets js_record_map.ml)
  (mode promote)
- (deps j.ml (source_tree ../../ocaml-tree))
+ (deps
+  j.ml
+  (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-map -i %{deps} -o %{targets})))
 
 (rule
  (targets js_record_fold.ml)
  (mode promote)
- (deps j.ml (source_tree ../../ocaml-tree))
+ (deps
+  j.ml
+  (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-fold -i %{deps} -o %{targets})))
 

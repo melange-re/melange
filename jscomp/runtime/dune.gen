@@ -59,7 +59,7 @@
 
   (rule
     (targets caml_format.cmj)
-    (deps (:inputs caml_format.ml) caml_float.cmj caml_float_extern.cmj caml_format.cmi caml_int64.cmj caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj)
+    (deps (:inputs caml_format.ml) caml_float.cmj caml_float_extern.cmj caml_format.cmi caml_int64.cmj caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj curry.cmj)
     (action
      (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
@@ -87,7 +87,7 @@
 
   (rule
     (targets caml_hash.cmj)
-    (deps (:inputs caml_hash.ml) caml_hash.cmi caml_hash_primitive.cmj caml_nativeint_extern.cmj js.cmj)
+    (deps (:inputs caml_hash.ml) caml_hash.cmi caml_hash_primitive.cmj caml_nativeint_extern.cmj caml_option.cmj curry.cmj js.cmj)
     (action
      (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
@@ -185,7 +185,7 @@
 
   (rule
     (targets caml_module.cmj)
-    (deps (:inputs caml_module.ml) caml_array_extern.cmj caml_module.cmi caml_obj.cmj)
+    (deps (:inputs caml_module.ml) caml_array_extern.cmj caml_module.cmi caml_obj.cmj curry.cmj)
     (action
      (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
@@ -199,7 +199,7 @@
 
   (rule
     (targets caml_obj.cmj)
-    (deps (:inputs caml_obj.ml) caml_array_extern.cmj caml_obj.cmi caml_option.cmj caml_primitive.cmj js.cmj)
+    (deps (:inputs caml_obj.ml) caml_array_extern.cmj caml_obj.cmi caml_option.cmj caml_primitive.cmj curry.cmj js.cmj)
     (action
      (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
@@ -297,7 +297,7 @@
 
   (rule
     (targets caml_sys.cmj)
-    (deps (:inputs caml_sys.ml) caml_array_extern.cmj caml_sys.cmi caml_undefined_extern.cmj js.cmj)
+    (deps (:inputs caml_sys.ml) caml_array_extern.cmj caml_option.cmj caml_sys.cmi caml_undefined_extern.cmj js.cmj)
     (action
      (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
@@ -353,7 +353,7 @@
 
   (rule
     (targets caml_js_exceptions.cmi caml_js_exceptions.cmj)
-    (deps (:inputs caml_js_exceptions.ml) bs_stdlib_mini.cmi caml_exceptions.cmj caml_option.cmj js.cmi js.cmj)
+    (deps (:inputs caml_js_exceptions.ml) bs_stdlib_mini.cmi caml_exceptions.cmj caml_option.cmj curry.cmj js.cmi js.cmj)
     (action
      (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
@@ -393,9 +393,7 @@
      (run bsc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives  -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
 
 
-    (rule
-      (target runtime)
-      (deps bs_stdlib_mini.cmi js.cmj js.cmi caml_array.cmi caml_array.cmj caml_bytes.cmi caml_bytes.cmj caml_float.cmi caml_float.cmj caml_format.cmi caml_format.cmj caml_gc.cmi caml_gc.cmj caml_hash.cmi caml_hash.cmj caml_hash_primitive.cmi caml_hash_primitive.cmj caml_int32.cmi caml_int32.cmj caml_int64.cmi caml_int64.cmj caml_io.cmi caml_io.cmj caml_lexer.cmi caml_lexer.cmj caml_md5.cmi caml_md5.cmj caml_module.cmi caml_module.cmj caml_obj.cmi caml_obj.cmj caml_oo.cmi caml_oo.cmj caml_option.cmi caml_option.cmj caml_parser.cmi caml_parser.cmj caml_primitive.cmi caml_primitive.cmj caml_splice_call.cmi caml_splice_call.cmj caml_string.cmi caml_string.cmj caml_sys.cmi caml_sys.cmj caml_array_extern.cmi caml_array_extern.cmj caml_exceptions.cmi caml_exceptions.cmj caml_external_polyfill.cmi caml_external_polyfill.cmj caml_float_extern.cmi caml_float_extern.cmj caml_int32_extern.cmi caml_int32_extern.cmj caml_int64_extern.cmi caml_int64_extern.cmj caml_js_exceptions.cmi caml_js_exceptions.cmj caml_nativeint_extern.cmi caml_nativeint_extern.cmj caml_oo_curry.cmi caml_oo_curry.cmj caml_string_extern.cmi caml_string_extern.cmj caml_undefined_extern.cmi caml_undefined_extern.cmj curry.cmi curry.cmj)
-      (action
-        (run touch %{target})))
+    (alias
+      (name runtime)
+      (deps bs_stdlib_mini.cmi js.cmj js.cmi caml_array.cmi caml_array.cmj caml_bytes.cmi caml_bytes.cmj caml_float.cmi caml_float.cmj caml_format.cmi caml_format.cmj caml_gc.cmi caml_gc.cmj caml_hash.cmi caml_hash.cmj caml_hash_primitive.cmi caml_hash_primitive.cmj caml_int32.cmi caml_int32.cmj caml_int64.cmi caml_int64.cmj caml_io.cmi caml_io.cmj caml_lexer.cmi caml_lexer.cmj caml_md5.cmi caml_md5.cmj caml_module.cmi caml_module.cmj caml_obj.cmi caml_obj.cmj caml_oo.cmi caml_oo.cmj caml_option.cmi caml_option.cmj caml_parser.cmi caml_parser.cmj caml_primitive.cmi caml_primitive.cmj caml_splice_call.cmi caml_splice_call.cmj caml_string.cmi caml_string.cmj caml_sys.cmi caml_sys.cmj caml_array_extern.cmi caml_array_extern.cmj caml_exceptions.cmi caml_exceptions.cmj caml_external_polyfill.cmi caml_external_polyfill.cmj caml_float_extern.cmi caml_float_extern.cmj caml_int32_extern.cmi caml_int32_extern.cmj caml_int64_extern.cmi caml_int64_extern.cmj caml_js_exceptions.cmi caml_js_exceptions.cmj caml_nativeint_extern.cmi caml_nativeint_extern.cmj caml_oo_curry.cmi caml_oo_curry.cmj caml_string_extern.cmi caml_string_extern.cmj caml_undefined_extern.cmi caml_undefined_extern.cmj curry.cmi curry.cmj))
   

@@ -372,7 +372,7 @@ open Ast_helper
 
 (** Longident.parse "Pervasives.^" *)
 let concat_ident  : Longident.t =
-  Ldot (Lident "Pervasives", "^") (* FIXME: remove deps on `Pervasives` *)
+  Ldot (Lident "Stdlib", "^") (* FIXME: remove deps on `Pervasives` *)
    (* JS string concatMany *)
     (* Ldot (Ldot (Lident "Js", "String2"), "concat") *)
 
@@ -413,7 +413,7 @@ let aux loc (segment : segment) ~to_string_ident : Parsetree.expression =
     end
 
 let concat_exp
-    a_loc x 
+    a_loc x
     ~lhs:(lhs : Parsetree.expression) : Parsetree.expression =
   let loc = Bs_loc.merge a_loc lhs.pexp_loc in
   Ast_compatible.apply_simple ~loc
@@ -423,16 +423,16 @@ let concat_exp
       aux loc x ~to_string_ident:(Longident.Ldot (Lident"Obj","magic")) ;]
 
 (* Invariant: the [lhs] is always of type string *)
-let rec handle_segments loc (rev_segments : segment list)=      
+let rec handle_segments loc (rev_segments : segment list)=
     match rev_segments with
     | [] ->
       Ast_compatible.const_exp_string ~loc ""  ?delimiter:escaped
     | [ segment] ->
       aux loc segment ~to_string_ident(* string literal *)
     | {content="";} :: rest ->
-      handle_segments loc rest  
+      handle_segments loc rest
     | a::rest ->
-      concat_exp loc a ~lhs:(handle_segments loc rest)  
+      concat_exp loc a ~lhs:(handle_segments loc rest)
 
 
 let transform_interp loc s =
@@ -459,13 +459,13 @@ let transform_interp loc s =
       "%a"  pp_error error
 
 
-let transform (e : Parsetree.expression) s delim : Parsetree.expression =
+let transform (e : Parsetree.expression) s loc delim : Parsetree.expression =
     if Ext_string.equal delim unescaped_js_delimiter then
         let js_str = Ast_utf8_string.transform e.pexp_loc s in
         { e with pexp_desc =
                        Pexp_constant (
             Pconst_string
-                         (js_str, escaped))}
+                         (js_str, loc, escaped))}
     else if Ext_string.equal delim unescaped_j_delimiter then
             transform_interp e.pexp_loc s
     else e

@@ -1,10 +1,4 @@
 (rule
- (targets tweaked_reason_oprint.ml)
- (deps tweaked_reason_oprint.cppo.ml)
- (action
-  (run %{bin:cppo} -V OCAML:4.06.1+BS %{deps} -o %{targets})))
-
-(rule
  (targets bs_reason_syntax_util.ml)
  (deps bs_reason_syntax_util.cppo.ml)
  (action
@@ -19,4 +13,4 @@
 (library
  (name outcome_printer)
  (wrapped false)
- (libraries ext compiler-libs.common))
+ (libraries ext compiler-libs.common reason))

@@ -36,7 +36,7 @@ let report_error ppf = function
       Typemod.super_report_error_no_wrap_printing_env ppf anythingElse
 
 let report_error env ppf err =
-  Printtyp.wrap_printing_env env (fun () -> report_error ppf err)
+  Printtyp.wrap_printing_env env ~error:true (fun () -> report_error ppf err)
 
 (* This will be called in super_main. This is how you'd override the default error printer from the compiler & register new error_of_exn handlers *)
 let setup () =

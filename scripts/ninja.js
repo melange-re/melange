@@ -26,7 +26,7 @@ var commonBsFlags = `-no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-c
 var js_package = pseudoTarget("js_pkg");
 var runtimeTarget = pseudoTarget("runtime");
 var othersTarget = pseudoTarget("others");
-var stdlibTarget = pseudoTarget("$stdlib");
+var stdlibTarget = pseudoTarget("stdlib");
 
 var vendorNinjaPath = path.join(__dirname, "..", process.platform, "ninja.exe");
 
@@ -389,11 +389,9 @@ function ninjaBuild(outputs, inputs, rule, deps, cwd, overrides) {
 
 function dunePhony(outputs, inputs) {
   return `
-    (rule
-      (target ${outputs.name})
-      (deps ${inputs.join(' ')})
-      (action
-        (run touch %{target})))
+    (alias
+      (name ${outputs.name})
+      (deps ${inputs.join(' ')}))
   `
 }
 
@@ -561,7 +559,11 @@ function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = [])
   for (var i = 0; i < outputs.length; ++i) {
     var curDeps = depsMap.get(outputs[i]);
     if (curDeps !== undefined) {
-      curDeps.forEach((x) => deps.add(x));
+      curDeps.forEach((x) => {
+        if (!outputs.includes (x.name)) {
+          deps.add(x)
+        }
+      });
     }
   }
   return rule(flags, inputs, outputs, externalDeps.concat(deps.toSortedArray().map(x => x.name)));
@@ -983,7 +985,7 @@ var cppoRule = (src, target, flags = "") => `
 `;
 
 async function othersNinja() {
-  var externalDeps = [runtimeTarget].map(x => `../runtime/${x.name}`);
+  var externalDeps = [runtimeTarget].map(x => `(alias ../runtime/${x.name})`);
   var ninjaOutput = 'dune.gen';
   var ninjaCwd = "others";
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50 -warn-error A  -open Bs_stdlib_mini -I ../runtime`;
@@ -1103,13 +1105,13 @@ ${ccRuleList([
     } else if (k.startsWith("node")) {
       s.add(nodePackage);
     }
-    s.add(js_package);
   });
 
   for (entry in belt_extraDeps) {
     const extra_deps = belt_extraDeps[entry]
     var all_deps = extra_deps.map(x => x + '.cmi')
-      .concat(extra_deps.map(x => x + '.cmj'));
+      .concat(extra_deps.map(x => x + '.cmj'))
+      .concat(`(alias ${js_package.name})`)
     var self_cmi = belt_cppo_targets.map(([x]) => x).includes(entry + '.mli') ? [ entry + ".cmi" ] : [];
     updateDepsKVsByFile(entry + '.cmi', all_deps, depsMap)
     updateDepsKVsByFile(entry + '.cmj', all_deps.concat(self_cmi), depsMap)
@@ -1130,12 +1132,13 @@ ${ccRuleList([
 }
 
 async function stdlibNinja() {
-  var stdlibVersion = "stdlib-406";
+  var stdlibVersion = "stdlib-412";
+  var stdlibModulesDir = path.join(jscompDir, stdlibVersion, "stdlib_modules");
   var stdlibDir = path.join(jscompDir, stdlibVersion);
-  var externalDeps = [othersTarget].map(x => `../others/${x.name}`);
+  var externalDeps = [othersTarget].map(x => `(alias ../../others/${x.name})`);
   var ninjaOutput = 'dune.gen';
   var warnings = "-w -9-3-106 -warn-error A";
-  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime    ${warnings}  -I ../runtime  -I ../others`
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime    ${warnings}  -I ../../runtime  -I ../../others `
   /**
    * @type [string,string][]
    */
@@ -1160,55 +1163,86 @@ async function stdlibNinja() {
     externalDeps.concat(["camlinternalFormatBasics.cmi"]),
   ],
   [
-    ruleCC_cmi,
+    ruleCC,
     bsc_builtin_flags,
-    "pervasives.ml",
-    "pervasives.cmj",
-    externalDeps.concat(["pervasives.cmi"]),
+    "camlinternalAtomic.mli",
+    "camlinternalAtomic.cmi",
+    externalDeps,
   ],
   [
     ruleCC,
     bsc_builtin_flags,
-    "pervasives.mli",
-    "pervasives.cmi",
-    externalDeps.concat(["camlinternalFormatBasics.cmj"]),
+    "camlinternalAtomic.ml",
+    "camlinternalAtomic.cmj",
+    externalDeps,
+  ],
+  [
+    ruleCC,
+    bsc_builtin_flags,
+    "stdlib__no_aliases.ml",
+    [ "stdlib__no_aliases.cmj", "stdlib__no_aliases.cmi" ],
+    externalDeps.concat(["camlinternalFormatBasics.cmj", "camlinternalAtomic.cmj"]),
   ],
 ])}
 `;
-  var stdlibDirFiles = fs.readdirSync(stdlibDir, "ascii");
+  var stdlibDirFiles = fs.readdirSync(stdlibModulesDir, "ascii");
   var sources = stdlibDirFiles.filter((x) => {
     return (
       !x.startsWith("camlinternalFormatBasics") &&
-      !x.startsWith("pervasives") &&
+      !x.startsWith("camlinternalAtomic") &&
+      // !x.startsWith("pervasives") &&
+      !x.startsWith("stdlib__no_aliases") &&
       (x.endsWith(".ml") || x.endsWith(".mli"))
     );
   });
   let depsMap = new Map();
-  await ocamlDepForBscAsync(sources, stdlibDir, depsMap);
+  await ocamlDepForBscAsync(sources, stdlibModulesDir, depsMap);
   var targets = collectTarget(sources);
   var allTargets = scanFileTargets(targets, [
     "camlinternalFormatBasics.cmi",
     "camlinternalFormatBasics.cmj",
-    "pervasives.cmi",
-    "pervasives.cmj",
+    "stdlib__no_aliases.cmi",
   ]);
   targets.forEach((ext, mod) => {
     switch (ext) {
       case "HAS_MLI":
       case "HAS_BOTH":
-        updateDepsKVByFile(mod + ".cmi", "pervasives.cmj", depsMap);
+        updateDepsKVByFile(mod + ".cmi", "stdlib__no_aliases.cmj", depsMap);
         break;
       case "HAS_ML":
-        updateDepsKVByFile(mod + ".cmj", "pervasives.cmj", depsMap);
+        updateDepsKVByFile(mod + ".cmj", "stdlib__no_aliases.cmj", depsMap);
         break;
     }
   });
-  var output = generateDune(depsMap, targets, bsc_flags, externalDeps);
+  var output = generateDune(depsMap, targets, `${bsc_builtin_flags} -open Stdlib__no_aliases `, externalDeps);
   output.push(dunePhony(stdlibTarget, allTargets));
 
   writeFileAscii(
-    path.join(stdlibDir, ninjaOutput),
+    path.join(stdlibModulesDir, ninjaOutput),
     templateStdlibRules + output.join("\n") + "\n"
+  );
+
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime ${warnings}  -I ../runtime  -I ../others  -I ./stdlib_modules -nopervasives `
+  writeFileAscii(
+    path.join(stdlibDir, ninjaOutput),
+    `
+    ${ccRuleList([
+      [
+        ruleCC,
+        bsc_flags,
+        "stdlib.mli",
+        "stdlib.cmi" ,
+        ["(alias ./stdlib_modules/stdlib)"],
+      ],
+      [
+        ruleCC_cmi,
+        bsc_flags,
+        "stdlib.ml",
+        "stdlib.cmj" ,
+        ["stdlib.cmi"],
+      ]
+    ])}
+    `
   );
 }
 

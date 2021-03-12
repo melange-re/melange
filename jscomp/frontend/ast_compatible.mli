@@ -1,5 +1,5 @@
 (* Copyright (C) 2018 Authors of BuckleScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -31,83 +31,83 @@
 
 
 
-type loc = Location.t 
-type attrs = Parsetree.attribute list 
+type loc = Location.t
+type attrs = Parsetree.attribute list
 
 open Parsetree
 
 
 val const_exp_string:
-  ?loc:Location.t -> 
-  ?attrs:attrs ->    
-  ?delimiter:string -> 
-  string -> 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  ?delimiter:string ->
+  string ->
   expression
 
 val const_exp_int:
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  int -> 
-  expression 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  int ->
+  expression
 
 
 
-val const_exp_int_list_as_array:  
-  int list -> 
-  expression 
+val const_exp_int_list_as_array:
+  int list ->
+  expression
 
 
 
-  
+
 val apply_simple:
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  expression ->   
-  expression list -> 
-  expression 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  expression ->
+  expression list ->
+  expression
 
 val app1:
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  expression ->   
-  expression -> 
-  expression 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  expression ->
+  expression ->
+  expression
 
 val app2:
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  expression ->   
-  expression -> 
-  expression -> 
-  expression 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  expression ->
+  expression ->
+  expression ->
+  expression
 
 val app3:
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  expression ->   
-  expression -> 
-  expression -> 
-  expression ->   
-  expression 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  expression ->
+  expression ->
+  expression ->
+  expression ->
+  expression
 
-(** Note this function would slightly 
+(** Note this function would slightly
   change its semantics depending on compiler versions
   for newer version: it means always label
   for older version: it could be optional (which we should avoid)
-*)  
-val apply_labels:  
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  expression ->   
-  (string * expression) list -> 
+*)
+val apply_labels:
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  expression ->
+  (string * expression) list ->
   (* [(label,e)] [label] is strictly interpreted as label *)
-  expression 
+  expression
 
-val fun_ :  
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  pattern -> 
-  expression -> 
+val fun_ :
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  pattern ->
+  expression ->
   expression
 
 (* val opt_label : string -> Asttypes.arg_label *)
@@ -121,69 +121,68 @@ val fun_ :
   expression *)
 
 val arrow :
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  core_type -> 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  core_type ->
   core_type ->
   core_type
 
 val label_arrow :
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  string -> 
-  core_type -> 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  string ->
+  core_type ->
   core_type ->
   core_type
 
 val opt_arrow:
-  ?loc:Location.t -> 
-  ?attrs:attrs -> 
-  string -> 
-  core_type -> 
+  ?loc:Location.t ->
+  ?attrs:attrs ->
+  string ->
+  core_type ->
   core_type ->
   core_type
 
 
 
-(* val nonrec_type_str:  
-  ?loc:loc -> 
-  type_declaration list -> 
+(* val nonrec_type_str:
+  ?loc:loc ->
+  type_declaration list ->
   structure_item *)
 
-val rec_type_str:  
-  ?loc:loc -> 
-  Asttypes.rec_flag -> 
-  type_declaration list -> 
+val rec_type_str:
+  ?loc:loc ->
+  Asttypes.rec_flag ->
+  type_declaration list ->
   structure_item
 
-(* val nonrec_type_sig:  
-  ?loc:loc -> 
-  type_declaration list -> 
+(* val nonrec_type_sig:
+  ?loc:loc ->
+  type_declaration list ->
   signature_item  *)
 
-val rec_type_sig:  
-  ?loc:loc -> 
-  Asttypes.rec_flag -> 
-  type_declaration list -> 
+val rec_type_sig:
+  ?loc:loc ->
+  Asttypes.rec_flag ->
+  type_declaration list ->
   signature_item
 
-type param_type = 
+type param_type =
   {label : Asttypes.arg_label ;
-   ty :  Parsetree.core_type ; 
+   ty :  Parsetree.core_type ;
    attr :Parsetree.attributes;
    loc : loc
   }
 
-val mk_fn_type:  
-  param_type list -> 
-  core_type -> 
+val mk_fn_type:
+  param_type list ->
+  core_type ->
   core_type
 
-type object_field = 
-  Parsetree.object_field 
-val object_field : Asttypes.label Asttypes.loc ->  attributes -> core_type -> object_field
+
+type object_field = Parsetree.object_field
+val object_field : Asttypes.label Asttypes.loc -> attributes -> core_type -> object_field
 
 
-
-type args  = 
-  (Asttypes.arg_label * Parsetree.expression) list 
+type args  =
+  (Asttypes.arg_label * Parsetree.expression) list

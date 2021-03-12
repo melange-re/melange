@@ -8,8 +8,17 @@
  (modes native)
  (flags
   (:standard -w -9))
- (libraries js_parser bs_hash_stubs ext common depends super_errors
-   outcome_printer core napkin reason)
+ (libraries
+  js_parser
+  bs_hash_stubs
+  ext
+  common
+  depends
+  super_errors
+  outcome_printer
+  core
+  napkin
+  reason)
  (modules_without_implementation jscmj_main)
  (modules bsc jscmj_main))
 
@@ -45,7 +54,8 @@
  (public_name bsb.exe)
  (modes native)
  (modules bsb)
- (flags (:standard -w -9-50))
+ (flags
+  (:standard -w -9-50))
  (libraries bs_hash_stubs ext common bsb))
 
 (executable
@@ -58,7 +68,8 @@
  (name cmij_main)
  (modes native)
  (modules cmij_main)
- (flags (:standard -w -9))
+ (flags
+  (:standard -w -9))
  (libraries bs_hash_stubs ext common depends core))
 
 (executable
@@ -84,9 +95,21 @@
  (name ounit_tests_main)
  (modes native)
  (modules ounit_tests_main)
- (deps bsc.exe (alias ../runtime/all) (alias ../others/all) (alias ../stdlib-406/all))
- (libraries ounit bs_hash_stubs ext common depends bsb bsb_helper core
-   ounit_tests))
+ (deps
+  bsc.exe
+  (alias ../runtime/all)
+  (alias ../others/all)
+  (alias ../stdlib-406/all))
+ (libraries
+  ounit
+  bs_hash_stubs
+  ext
+  common
+  depends
+  bsb
+  bsb_helper
+  core
+  ounit_tests))
 
 (library
  (wrapped false)

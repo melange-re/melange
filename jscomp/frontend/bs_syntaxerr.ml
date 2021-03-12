@@ -61,10 +61,10 @@ let pp_error fmt err =
   | Misplaced_label_syntax
     -> "Label syntax is not support in this position"
     (*
-    let fn x = ((##) x ~hi)  ~lo:1 ~hi:2 
+    let fn x = ((##) x ~hi)  ~lo:1 ~hi:2
     *)
   | Optional_in_uncurried_bs_attribute
-    -> "Uncurried function doesn't support optional arguments yet"  
+    -> "Uncurried function doesn't support optional arguments yet"
   | Expect_opt_in_bs_return_to_opt
       ->
         "%@return directive *_to_opt expect return type to be \n\
@@ -134,21 +134,21 @@ type exn +=  Error of Location.t * error
 let () =
   Location.register_error_of_exn (function
     | Error(loc,err) ->
-      Some (Location.error_of_printer loc pp_error err)
+      Some (Location.error_of_printer ~loc pp_error err)
     | _ -> None
     )
 
 let err loc error = raise (Error(loc, error))
 
-let optional_err loc (lbl : Asttypes.arg_label) = 
-  match lbl with 
+let optional_err loc (lbl : Asttypes.arg_label) =
+  match lbl with
   | Optional _ -> raise (Error(loc, Optional_in_uncurried_bs_attribute))
-  | _ -> ()  
+  | _ -> ()
 
-let err_if_label loc (lbl : Asttypes.arg_label) =  
-  if lbl <> Nolabel then 
+let err_if_label loc (lbl : Asttypes.arg_label) =
+  if lbl <> Nolabel then
     raise (Error (loc, Misplaced_label_syntax))
 
-let err_large_arity loc arity = 
-  if arity > 22 then 
-    raise (Error(loc, Bs_uncurried_arity_too_large))    
+let err_large_arity loc arity =
+  if arity > 22 then
+    raise (Error(loc, Bs_uncurried_arity_too_large))

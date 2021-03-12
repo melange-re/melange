@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,34 +17,34 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (* type module_name = private string *)
 
-module Set_string = Depend.StringSet
+module Set_string = Depend.String.Set
 
 (* FIXME: [Clflags.open_modules] seems not to be properly used *)
-module SMap = Depend.StringMap
-let bound_vars = SMap.empty 
+module SMap = Depend.String.Map
+let bound_vars = SMap.empty
 
 
-type 'a kind = 'a Ml_binary.kind 
+type 'a kind = 'a Ml_binary.kind
 
 
 let read_parse_and_extract (type t) (k : t kind) (ast : t) : Set_string.t =
   Depend.free_structure_names := Set_string.empty;
-  Ext_ref.protect Clflags.transparent_modules false begin fun _ -> 
+  Ext_ref.protect Clflags.transparent_modules false begin fun _ ->
   List.iter (* check *)
     (fun modname  ->
-       ignore @@ 
+       ignore @@
        Depend.open_module bound_vars (Longident.Lident modname))
     (!Clflags.open_modules);
   (match k with
    | Ml_binary.Ml  -> Depend.add_implementation bound_vars ast
-   | Ml_binary.Mli  -> Depend.add_signature bound_vars ast  ); 
+   | Ml_binary.Mli  -> Depend.add_signature bound_vars ast  );
   !Depend.free_structure_names
   end
 

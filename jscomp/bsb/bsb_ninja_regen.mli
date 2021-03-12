@@ -33,5 +33,5 @@ val regenerate_ninja :
   package_kind:Bsb_package_kind.t ->
   ?deps_digest:string ->
   forced: bool ->
-  per_proj_dir:string ->
+  string ->
   (Bsb_config_types.t * string) option

@@ -1,12 +1,12 @@
 (**
   Since [others] depend on this file, its public mli files **should not
-  export types** introduced here, otherwise it would cause 
+  export types** introduced here, otherwise it would cause
   conflicts here.
 
   If the type exported here is also exported in modules from others,
   you will get a type not equivalent.
 
-  
+
   Types defined here but should not export:
   - ref (make sure not exported in public others/*.mli)
 *)
@@ -54,26 +54,24 @@ external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
 module Obj : sig
-  type t 
-  external field : t -> int -> t = "%obj_field" 
+  type t
+  external field : t -> int -> t = "%obj_field"
   external set_field : t -> int -> t -> unit = "%obj_set_field"
-  external tag : t -> int = "caml_obj_tag" 
+  external tag : t -> int = "caml_obj_tag"
   (* The compiler ensures (|0) operation *)
-  external set_tag : t -> int -> unit = "TAG" [@@bs.set]  
+  external set_tag : t -> int -> unit = "TAG" [@@bs.set]
   external repr : 'a -> t = "%identity"
   external obj : t -> 'a = "%identity"
-  external magic : 'a -> 'b = "%identity"  
+  external magic : 'a -> 'b = "%identity"
   external size : t -> int = "#obj_length"
-end 
+end
 
 
-
-module Pervasives : sig 
+module Pervasives : sig
   external compare : 'a -> 'a -> int = "%compare"
   external not : bool -> bool = "%boolnot"
   external min : 'a -> 'a -> 'a = "%bs_min"
   external max : 'a -> 'a -> 'a = "%bs_max"
   external ( = ) : 'a -> 'a -> bool = "%equal"
 end
-
 

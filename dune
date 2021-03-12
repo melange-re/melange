@@ -1,4 +1,16 @@
-(dirs :standard \ docs ocaml node_modules native ninja nix site vendor lib/4.06.1)
+(dirs
+ :standard
+ \
+ docs
+ ocaml
+ node_modules
+ native
+ ninja
+ nix
+ site
+ vendor
+ lib/4.06.1
+ syntax)
 
 (env
  (dev
@@ -12,3 +24,10 @@
 
 (data_only_dirs lib syntax)
 
+; (subdir lib
+; (data_only_dirs es6)
+; (rule (targets es6)
+; (deps (alias ../jscomp/stdlib-406/all))
+; (action (progn
+; (bash  "echo $PWD")
+; ))))

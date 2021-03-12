@@ -24,7 +24,7 @@
 
 #ifdef BS_RELEASE_BUILD
 
-let load_cmi ~unit_name : Env.Persistent_signature.t option =
+let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
   match Config_util.find_opt (unit_name ^".cmi") with
   | Some filename -> Some {filename; cmi = Cmi_format.read_cmi filename}
   | None ->
@@ -67,7 +67,7 @@ let load_cmi ~unit_name : Env.Persistent_signature.t option =
 #else
 
 let check () = ()
-let load_cmi ~unit_name : Env.Persistent_signature.t option =
+let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
   match Config_util.find_opt (unit_name ^".cmi") with
   | Some filename -> Some {filename; cmi = Cmi_format.read_cmi filename}
   | None -> None

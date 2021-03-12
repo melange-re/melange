@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type loc = Location.t 
+type loc = Location.t
 
 type whole =
   | Let_open of
@@ -35,7 +35,7 @@ type exp = Parsetree.expression
 
 type destruct_output =
   exp list
-  
+
 (**
    destruct such pattern
    {[ A.B.let open C in (a,b)]}
@@ -45,7 +45,7 @@ let rec destruct_open_tuple
     (acc : t)
   : (t * destruct_output * _) option =
   match e.pexp_desc with
-  | Pexp_open (flag, lid, cont)
+  | Pexp_open ({ popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid;_ } }, cont)
     ->
     destruct_open_tuple
       cont
@@ -55,27 +55,32 @@ let rec destruct_open_tuple
 
 let rec destruct
     (e : Parsetree.expression)
-    (acc : t) 
+    (acc : t)
   =
   match e.pexp_desc with
-  | Pexp_open (flag, lid, cont)
+  | Pexp_open ({ popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid;_ } }, cont)
     ->
     destruct
       cont
       (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
   | _ -> e, acc
-  
 
 
-let restore_exp 
-    (xs : Parsetree.expression) 
-    (qualifiers : t) : Parsetree.expression = 
+(* ?loc:Warnings.loc -> *)
+(* ?attrs:Ast_helper.attrs -> *)
+(* ?docs:Docstrings.docs -> *)
+(* ?override:Asttypes.override_flag -> 'a -> 'a Parsetree.open_infos *)
+
+let restore_exp
+    (xs : Parsetree.expression)
+    (qualifiers : t) : Parsetree.expression =
   Ext_list.fold_left qualifiers xs (fun x hole  ->
       match hole with
       | Let_open (flag, lid,loc,attrs) ->
         ({
-          pexp_desc = Pexp_open (flag,lid,x);
+          pexp_desc = Pexp_open (Ast_helper.Opn.mk ~override:flag (Ast_helper.Mod.ident lid), x);
           pexp_attributes = attrs;
-          pexp_loc = loc
+          pexp_loc = loc;
+          pexp_loc_stack = [ loc ]
         } : Parsetree.expression)
-    ) 
+    )

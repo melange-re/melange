@@ -43,7 +43,7 @@ let get_runtime_module_path
     Js_packages_info.query_package_infos current_package_info
       module_system  in
   let js_file =
-    Ext_namespace.js_name_of_modulename dep_module_id.id.name
+    Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id)
       Little (match module_system with NodeJS -> Js | Es6 | Es6_global -> Mjs) in
   match current_info_query with
   | Package_not_found -> assert false
@@ -123,20 +123,20 @@ let string_of_module_id
         in
         match dep_info_query, current_info_query with
         | Package_not_found , _  ->
-          Bs_exception.error (Missing_ml_dependency dep_module_id.id.name)
+            Bs_exception.error (Missing_ml_dependency (Ident.name dep_module_id.id))
         | Package_script , Package_found _  ->
-          Bs_exception.error (Dependency_script_module_dependent_not dep_module_id.id.name)
+          Bs_exception.error (Dependency_script_module_dependent_not (Ident.name dep_module_id.id))
         | (Package_script  | Package_found _ ), Package_not_found -> assert false
 
         | Package_found ({suffix} as pkg), Package_script
           ->
           let js_file =
-              Ext_namespace.js_name_of_modulename dep_module_id.id.name case suffix in
+              Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id) case suffix in
           pkg.pkg_rel_path // js_file
         | Package_found ({suffix } as dep_pkg),
           Package_found cur_pkg ->
           let js_file =
-            Ext_namespace.js_name_of_modulename dep_module_id.id.name case suffix in
+            Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id) case suffix in
 
           if  Js_packages_info.same_package_by_name current_package_info  dep_package_info then
             Ext_path.node_rebase_file
@@ -170,7 +170,7 @@ let string_of_module_id
         | Package_script, Package_script
           ->
           let js_file =
-            Ext_namespace.js_name_of_modulename dep_module_id.id.name case Js in
+            Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id) case Js in
           match Config_util.find_opt js_file with
           | Some file ->
             let basename = Filename.basename file in

@@ -76,7 +76,7 @@ let build_bs_deps cwd ~pinned_dependencies (deps : Bsb_package_specs.t) =
             ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
             ?deps_digest:None
             ~forced:false
-            ~per_proj_dir:proj_dir with (* set true to force regenrate ninja file so we have [config_opt]*)
+            proj_dir with (* set true to force regenrate ninja file so we have [config_opt]*)
         | Some (_config, digest) ->
           Ext_buffer.add_string digest_buf digest
         | None -> ()

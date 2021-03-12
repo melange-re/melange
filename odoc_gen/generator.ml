@@ -19,10 +19,10 @@ let bufferize f t =
   f b t;
   Buffer.contents b
 
-let opt_iter opt f = 
-  match opt with 
+let opt_iter opt f =
+  match opt with
   | None -> ()
-  | Some x -> f x 
+  | Some x -> f x
 let (|?) = opt_iter
 let print_concat b sep f =
   let rec iter = function
@@ -57,7 +57,7 @@ let encoding = 	 {|<meta charset="utf8">|}
 module Generator (G : Odoc_html.Html_generator) =
 struct
   let html_of_example b (g : G.html) t  =
-    bp b {|<pre class="example"> %a  </pre>|} (fun a b -> g#html_of_text a b) t 
+    bp b {|<pre class="example"> %a  </pre>|} (fun a b -> g#html_of_text a b) t
 
   class html =
     object(self)
@@ -67,9 +67,9 @@ struct
 #if OCAML_VERSION =~ ">4.03" then
 #else
       method! character_encoding _ = encoding
-#end      
+#end
 
-   
+
       method! html_of_author_list = wrap_tag_list super#html_of_author_list
       method! html_of_version_opt = wrap_tag_opt super#html_of_version_opt
       method! html_of_before = wrap_tag_list super#html_of_before
@@ -79,11 +79,11 @@ struct
       method! html_of_sees = wrap_tag_list super#html_of_sees
 
       method! html_of_info_first_sentence b info_opt =
-        bp b {| <div class="info">                     
+        bp b {| <div class="info">
                 <div class="not-examples">
-                    %a 
+                    %a
                 </div>
-                </div> |} (fun b () -> 
+                </div> |} (fun b () ->
         info_opt |? fun ({i_deprecated;i_desc} : Odoc_info.info ) ->
           i_deprecated
           |? (fun d ->
@@ -91,33 +91,33 @@ struct
                      <span class="label">%s</span>
                      %a
                      </div>
-                   |} 
+                   |}
                 Odoc_messages.deprecated (fun a b -> self#html_of_text a b) d );
           i_desc |?
-          (function 
+          (function
             | [Odoc_info.Raw ""] -> ()
             |  d -> self#html_of_text b d; bs b "<br>\n"
           )) ();
 
 
-      method! html_of_info ?(cls="") ?(indent=true) b 
+      method! html_of_info ?(cls="") ?(indent=true) b
           (info_opt : Odoc_info.info option) =
         opt_iter info_opt
           (fun ({
-               i_authors ; i_version; i_before ; i_since ; i_raised_exceptions ; 
-               i_return_value ; 
+               i_authors ; i_version; i_before ; i_since ; i_raised_exceptions ;
+               i_return_value ;
                i_sees;
-               i_deprecated; 
+               i_deprecated;
                i_desc;
                i_custom
              } ) ->
              bp b {|%a
                     <div class="not-examples">
-                    %a 
+                    %a
                     </div>
                     %a
                     %a
-                  |} 
+                  |}
                (fun b indent -> if indent then bp b {|<div class="info %s">|} cls)
                indent
                (fun  b () ->
@@ -127,10 +127,10 @@ struct
                               <span class="label">%s</span>
                               %a
                               </div>
-                            |} 
+                            |}
                          Odoc_messages.deprecated (fun a b -> self#html_of_text a b)  d );
                   i_desc |?
-                    (function 
+                    (function
                       | [Odoc_info.Raw ""] -> ()
                       |  d -> self#html_of_text b d; bs b "<br>\n"
                     );
@@ -142,8 +142,8 @@ struct
                   self#html_of_return_opt b i_return_value;
                   self#html_of_sees b i_sees)
                ()
-               (fun b () ->  
-                  if i_custom <> [] then 
+               (fun b () ->
+                  if i_custom <> [] then
                     bp b {| <div class="examples">
                     %a
                     </div>|}
@@ -174,11 +174,11 @@ struct
         let father = Name.father t.ty_name in
         let print_field_prefix () =
           bp b {|<tr>
-                 
+
                  <td align="left" valign="top" >
                  <code>&nbsp;&nbsp;</code>
-                 </td> 
-                 
+                 </td>
+
                  <td align="left" valign="top" >
                  <code>
                |}
@@ -193,7 +193,7 @@ struct
             (*
             </code>
             </td>
-            
+
             <td class="typefieldcomment" align="left" valign="top" >
             %a
             </td>
@@ -217,7 +217,7 @@ struct
           | Some _, Type_record _ -> "\n<pre>"
           );
 
-        bp b 
+        bp b
           {|<span id="%s">|}
           (Naming.type_target t);
 
@@ -364,7 +364,7 @@ struct
 #end
       val mutable navbar_module_index = ""
 
-      method private print_module_index b = 
+      method private print_module_index b =
         bs b "<nav class=\"module-index\">";
         bs b navbar_module_index;
         bs b "</nav>\n";
@@ -405,7 +405,7 @@ struct
       method private prepare_navbar_module_index module_list =
         let print_one b m =
           let html_file = fst (Naming.html_files m.m_name) in
-          bp b "<li><a href=\"%s\">%s</a></li>" html_file m.m_name 
+          bp b "<li><a href=\"%s\">%s</a></li>" html_file m.m_name
         in
         navbar_module_index <- bufferize (fun b () ->
           bs b "<ul>";
@@ -422,14 +422,14 @@ struct
                  <link rel="stylesheet" href="../api_static/style.css" type="text/css">
                  <script src="../api_static//highlight.pack.js"></script>
                  <script src="../api_static//script.js"></script>
-                 <script>hljs.initHighlightingOnLoad();</script> 
+                 <script>hljs.initHighlightingOnLoad();</script>
                  %s
                  %a
-                 <title> %s </title></head> 
-               |} 
+                 <title> %s </title></head>
+               |}
             encoding
 
-          (fun b nav -> 
+          (fun b nav ->
             nav |?
             (fun (pre_opt, post_opt, _name) ->
                pre_opt |?
@@ -446,7 +446,7 @@ struct
           nav
           t
         in
-        self#prepare_navbar_module_index module_list; 
+        self#prepare_navbar_module_index module_list;
         (* not really the appopriate place to do this, but it's easy. Easy is good *)
         header <- f
 
@@ -488,12 +488,13 @@ struct
 
       (** A method to create index files. *)
       method! generate_elements_index :
-          'a.
+        'a.
+        ?strip_libname:bool ->
           'a list ->
             ('a -> Odoc_info.Name.t) ->
               ('a -> Odoc_info.info option) ->
                 ('a -> string) -> string -> string -> unit =
-      fun elements name info target title simple_file ->
+      fun ?strip_libname:_ elements name info target title simple_file ->
         try
           let chanout = open_out (Filename.concat !Global.target_dir simple_file) in
           let b = new_buf () in
@@ -545,7 +546,7 @@ struct
             raise (Failure s)
 
       initializer
-        tag_functions <- ("example", 
+        tag_functions <- ("example",
                           bufferize (fun b text -> html_of_example b (self :> G.html) text))
                          :: tag_functions
   end

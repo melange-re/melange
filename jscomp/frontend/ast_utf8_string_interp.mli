@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -36,7 +36,7 @@ type error = private
   | Invalid_unicode_escape
   | Unterminated_variable
   | Unmatched_paren
-  | Invalid_syntax_of_var of string 
+  | Invalid_syntax_of_var of string
 
 (** Note the position is about code point *)
 type pos = { lnum : int ; offset : int ; byte_bol : int }
@@ -46,9 +46,9 @@ type segment = {
   finish : pos ;
   kind : kind;
   content : string ;
-} 
+}
 
-type segments = segment list  
+type segments = segment list
 
 type cxt = {
   mutable segment_start : pos ;
@@ -56,11 +56,11 @@ type cxt = {
   s_len : int ;
   mutable segments : segments;
   mutable pos_bol : int; (* record the abs position of current beginning line *)
-  mutable byte_bol : int ; 
+  mutable byte_bol : int ;
   mutable pos_lnum : int ; (* record the line number *)
 }
 
-type exn += Error of pos *  pos * error 
+type exn += Error of pos *  pos * error
 
 val empty_segment : segment -> bool
 
@@ -68,16 +68,17 @@ val transform_test : string -> segment list
 
 
 
-val transform : 
-  Parsetree.expression -> 
-  string -> 
-  string -> 
+val transform :
+  Parsetree.expression ->
+  string ->
+  Location.t ->
+  string ->
   Parsetree.expression
 
-val is_unicode_string :   
-  string -> 
+val is_unicode_string :
+  string ->
   bool
 
-val is_unescaped :   
-  string -> 
+val is_unescaped :
+  string ->
   bool

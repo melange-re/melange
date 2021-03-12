@@ -33,7 +33,7 @@ let (//) = Ext_path.combine
 let regenerate_ninja
     ~(package_kind : Bsb_package_kind.t)
     ?(deps_digest="")
-    ~forced ~per_proj_dir
+    ~forced per_proj_dir
   : (Bsb_config_types.t * string) option =
   let lib_artifacts_dir = Bsb_config.lib_bs in
   let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in

@@ -25,5 +25,5 @@
 
 
  val names_from_construct_pattern:
-  Typedtree.pattern -> 
+  Patterns.Head.desc Typedtree.pattern_data ->
   Lambda.switch_names option

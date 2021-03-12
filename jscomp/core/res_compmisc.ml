@@ -26,8 +26,8 @@ let init_path () =
   let dirs = !Clflags.include_dirs in
   let exp_dirs =
     List.map (Misc.expand_directory Config.standard_library) dirs in
-    Config.load_path :=
-         List.rev_append exp_dirs (Clflags.std_include_dir ());
+    Load_path.reset ();
+    List.iter Load_path.add_dir (List.rev_append exp_dirs (Clflags.std_include_dir ()));
   Env.reset_cache ()
 
 (* Return the initial environment in which compilation proceeds. *)
@@ -35,10 +35,16 @@ let init_path () =
 (* Note: do not do init_path() in initial_env, this breaks
    toplevel initialization (PR#1775) *)
 
-let open_implicit_module m env =
+let[@ocaml.warning "-3"] open_implicit_module m env =
   let lid = {Asttypes.loc = Location.in_file "command line";
              txt = Longident.parse m } in
-  snd (Typemod.type_open_ Override env lid.loc lid)
+  snd (!Typeclass.type_open_descr env {
+     popen_expr = lid;
+     popen_override = Override;
+     popen_loc = lid.loc;
+     popen_attributes = [];
+    })
+
 
 let initial_env () =
   Ident.reinit();
@@ -49,7 +55,7 @@ let initial_env () =
   in
   let env =
     if !Clflags.nopervasives then initial else
-    open_implicit_module "Pervasives" initial
+    open_implicit_module "Stdlib" initial
   in
   List.fold_left (fun env m ->
     open_implicit_module m env

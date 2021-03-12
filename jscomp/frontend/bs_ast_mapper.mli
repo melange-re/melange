@@ -51,10 +51,11 @@ let () =
   open! Parsetree
 
   (** {1 A generic Parsetree mapper} *)
-  
+
   type mapper = {
     attribute: mapper -> attribute -> attribute;
     attributes: mapper -> attribute list -> attribute list;
+    binding_op: mapper -> binding_op -> binding_op;
     case: mapper -> case -> case;
     cases: mapper -> case list -> case list;
     class_declaration: mapper -> class_declaration -> class_declaration;
@@ -79,10 +80,12 @@ let () =
     location: mapper -> Location.t -> Location.t;
     module_binding: mapper -> module_binding -> module_binding;
     module_declaration: mapper -> module_declaration -> module_declaration;
+    module_substitution: mapper -> module_substitution -> module_substitution;
     module_expr: mapper -> module_expr -> module_expr;
     module_type: mapper -> module_type -> module_type;
     module_type_declaration: mapper -> module_type_declaration
                              -> module_type_declaration;
+    open_declaration: mapper -> open_declaration -> open_declaration;
     open_description: mapper -> open_description -> open_description;
     pat: mapper -> pattern -> pattern;
     payload: mapper -> payload -> payload;
@@ -92,23 +95,24 @@ let () =
     structure_item: mapper -> structure_item -> structure_item;
     typ: mapper -> core_type -> core_type;
     type_declaration: mapper -> type_declaration -> type_declaration;
-(* #if true then    *)
+  (* #if true then    *)
     type_declaration_list: mapper -> type_declaration list -> type_declaration list;
-(* #end *)
+  (* #end *)
     type_extension: mapper -> type_extension -> type_extension;
     type_kind: mapper -> type_kind -> type_kind;
     value_binding: mapper -> value_binding -> value_binding;
-(* #if true then    *)
-    value_bindings_rec: mapper -> value_binding list -> value_binding list;  
+  (* #if true then    *)
+    value_bindings_rec: mapper -> value_binding list -> value_binding list;
     value_bindings: mapper -> value_binding list -> value_binding list;
-(* #end *)
+  (* #end *)
     value_description: mapper -> value_description -> value_description;
     with_constraint: mapper -> with_constraint -> with_constraint;
   }
+
   (** A mapper record implements one "method" per syntactic category,
       using an open recursion style: each method takes as its first
       argument the mapper to be applied to children in the syntax
       tree. *)
-  
+
 val default_mapper: mapper
 (** A default mapper, which implements a "deep identity" mapping. *)

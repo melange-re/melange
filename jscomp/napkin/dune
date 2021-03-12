@@ -3,9 +3,8 @@
  (wrapped false)
  (flags
   (:standard -w -9-50))
- (libraries compiler-libs.common))
+ (libraries reason.ocaml-migrate-parsetree compiler-libs.common))
 
-(copy_files ../../syntax/src/*.ml)
+; (copy_files ../../syntax/src/*.ml)
 
-(copy_files ../../syntax/src/*.mli)
-
+; (copy_files ../../syntax/src/*.mli)

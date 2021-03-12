@@ -6,14 +6,12 @@ with pkgs;
 
 mkShell {
   buildInputs = [
-    python3
-    gnutar
     nodejs-14_x
     pkgs.git
   ] ++ (with ocamlPackages; [
     merlin
     cppo
-    dune_2
+    dune
     reason
     findlib
     ocaml

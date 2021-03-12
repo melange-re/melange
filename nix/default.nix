@@ -30,7 +30,12 @@ stdenv.mkDerivation rec {
     cp -r ./_build/default/lib/es6 ./_build/default/lib/js $out/lib
 
     mkdir -p $out/lib/ocaml
-    tar -C $out/lib/ocaml -xzf $out/share/bucklescript/libocaml.tar.gz --strip-components=1
+
+    cd $out/lib/ocaml
+    pax -rz -v -s '!^runtime/!!' -s '!^others/!!' -s '!^stdlib-412/stdlib_modules/!!' -s '!^stdlib-412/!!'  < $out/share/bucklescript/libocaml.tar.gz
+
+
+    # tar -C $out/lib/ocaml -xzf $out/share/bucklescript/libocaml.tar.gz --strip-components=1
 
     runHook postInstall
   '';

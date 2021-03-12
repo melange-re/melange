@@ -53,13 +53,13 @@ let dump_used_attributes fmt =
 #endif
 
 (* only mark non-ghost used bs attribute *)
-let mark_used_bs_attribute ((x,_) : Parsetree.attribute) =
+let mark_used_bs_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
   if not x.loc.loc_ghost then
     Hash_set_poly.add used_attributes x
 
 
 let warn_unused_attribute
-  (({txt; loc} as sloc, _) : Parsetree.attribute) =
+  ({ attr_name = {txt; loc} as sloc; _} : Parsetree.attribute) =
   if is_bs_attribute txt &&
      not loc.loc_ghost &&
      not (Hash_set_poly.mem used_attributes sloc) then
@@ -83,7 +83,7 @@ let default_iterator = Ast_iterator.default_iterator
 let check_constant loc kind (const : Parsetree.constant) =
   match const with
   | Pconst_string
-    (_, Some s) ->
+    (_, _, Some s) ->
     begin match kind with
       | `expr ->
           (if Ast_utf8_string_interp.is_unescaped s  then
@@ -135,20 +135,20 @@ let emit_external_warnings : iterator=
       Ext_list.iter lbl.pld_attributes
         (fun attr ->
           match attr with
-          | {txt = "bs.as" | "as"}, _ -> mark_used_bs_attribute attr
+          | { attr_name = {txt = "bs.as" | "as"}; _ } -> mark_used_bs_attribute attr
           | _ -> ()
           );
       default_iterator.label_declaration self lbl
     );
-    constructor_declaration = (fun self ({pcd_name = {txt;loc}} as ctr) ->
-      (match txt with
-      | "false"
-      | "true"
-      | "()" ->
-        Location.raise_errorf ~loc:loc "%s can not be redefined " txt
-      | _ -> ());
-      default_iterator.constructor_declaration self ctr
-    );
+    (* constructor_declaration = (fun self ({pcd_name = {txt;loc}} as ctr) -> *)
+      (* (match txt with *)
+      (* | "false" *)
+      (* | "true" *)
+      (* | "()" -> *)
+        (* Location.raise_errorf ~loc:loc "%s can not be redefined " txt *)
+      (* | _ -> ()); *)
+      (* default_iterator.constructor_declaration self ctr *)
+    (* ); *)
     value_description =
       (fun self v ->
          match v with

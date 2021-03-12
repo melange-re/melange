@@ -89,14 +89,14 @@ let no_side_effects (rest : Lam_group.t list) : string option =
           match kind with
           | Strict | Variable ->
             if not @@ Lam_analysis.no_side_effects body
-            then Some  (Printf.sprintf "%s" id.name)
+            then Some  (Printf.sprintf "%s" (Ident.name id))
             else None
           | _ -> None
         end
       | Recursive bindings ->
         Ext_list.find_opt  bindings (fun (id,lam) ->
             if not @@ Lam_analysis.no_side_effects lam
-            then Some (Printf.sprintf "%s" id.Ident.name )
+            then Some (Printf.sprintf "%s" (Ident.name id) )
             else None
           )
       | Nop lam ->
@@ -130,7 +130,7 @@ let compile
   let () =
 #ifndef BS_RELEASE_BUILD
     Ext_list.iter export_idents
-      (fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  id.name id.stamp) ;
+      (fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)) ;
 #endif
     Lam_compile_env.reset () ;
   in

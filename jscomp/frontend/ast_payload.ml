@@ -31,7 +31,7 @@ let is_single_string (x : t ) =
         Pstr_eval (
           {pexp_desc =
              Pexp_constant
-                (Pconst_string(name,dec))
+                (Pconst_string(name,_,dec))
               ;
            _},_);
       _}] -> Some (name,dec)
@@ -45,7 +45,7 @@ let is_single_string_as_ast (x : t )
         Pstr_eval (
           {pexp_desc =
              Pexp_constant
-                (Pconst_string(_,_))
+                (Pconst_string(_,_,_))
               ;
            _} as e ,_);
       _}] -> Some e
@@ -78,7 +78,7 @@ let raw_as_string_exp_exn
         Pstr_eval (
           {pexp_desc =
              Pexp_constant
-               (Pconst_string (str,deli))
+               (Pconst_string (str,_,deli))
                ;
            pexp_loc = loc} as e ,_);
       _}] ->
@@ -95,7 +95,7 @@ let raw_as_string_exp_exn
         | Raw_program ->
           snd (Parser_flow.parse_program false None str)
       );
-    Some {e with pexp_desc = Pexp_constant (Pconst_string (str,None))}
+    Some {e with pexp_desc = Pexp_constant (Pconst_string (str,Location.none, None))}
   | _  -> None
 
 let as_core_type loc (x : t) =
@@ -199,7 +199,7 @@ let assert_strings loc (x : t) : string list
            match (e : Parsetree.expression) with
            | {pexp_desc = Pexp_constant (
               Pconst_string
-               (name,_)); _} ->
+               (name,_,_)); _} ->
              name
            | _ -> raise Not_str)
      with Not_str ->
@@ -210,7 +210,7 @@ let assert_strings loc (x : t) : string list
         Pstr_eval (
           {pexp_desc =
              Pexp_constant
-               (Pconst_string(name,_));
+               (Pconst_string(name,_,_));
            _},_);
       _}] ->  [name]
   | PStr [] ->  []

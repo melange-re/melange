@@ -42,25 +42,27 @@ let js_flag = 0b1_000 (* check with ocaml compiler *)
 let js_object_flag = 0b100_000 (* javascript object flags *)
 
 let is_js (i : Ident.t) =
-  i.flags land js_flag <> 0
+  (Ident.scope i) land js_flag <> 0
 
 let is_js_or_global (i : Ident.t) =
-  i.flags land (8 lor 1) <> 0
+  Ident.global i || Ident.scope i = js_flag
 
 
 let is_js_object (i : Ident.t) =
-  i.flags land js_object_flag <> 0
+  (Ident.scope i) land js_object_flag <> 0
 
-let make_js_object (i : Ident.t) =
-  i.flags <- i.flags lor js_object_flag
+let make_js_object (_i : Ident.t) =
+  (* FIXME(anmonteiro): fix for 4.12 *)
+  (* i.flags <- i.flags lor js_object_flag *)
+  ()
 
 (* It's a js function hard coded by js api, so when printing,
    it should preserve the name
 *)
 let create_js (name : string) : Ident.t  =
-  { name = name; flags = js_flag ; stamp = 0}
+  Ident.create_scoped ~scope:js_flag name
 
-let create = Ident.create
+let create = Ident.create_local
 
 (* FIXME: no need for `$' operator *)
 let create_tmp ?(name=Literals.tmp) () = create name
@@ -220,11 +222,12 @@ let reset () =
    flags are not relevant here
 *)
 let compare (x : Ident.t ) ( y : Ident.t) =
-  let u = x.stamp - y.stamp in
+  let u = Ident.stamp x - Ident.stamp y in
   if u = 0 then
-    Ext_string.compare x.name y.name
+    Ext_string.compare (Ident.name x) (Ident.name y)
   else u
 
 let equal ( x : Ident.t) ( y : Ident.t) =
-  if x.stamp <> 0 then x.stamp = y.stamp
-  else y.stamp = 0 && x.name = y.name
+  if Ident.stamp x <> 0 then Ident.stamp x = Ident.stamp y
+  else Ident.stamp y = 0 && Ident.name x = Ident.name y
+
