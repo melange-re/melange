@@ -28,8 +28,7 @@
 
 
 
-
-let js_flag = 0b1_000 (* check with ocaml compiler *)
+let js_flag = 100000008
 
 (* let js_module_flag = 0b10_000 (\* javascript external modules *\) *)
 (* TODO:
@@ -39,22 +38,32 @@ let js_flag = 0b1_000 (* check with ocaml compiler *)
      - : string = "$caret"
    ]}
 *)
-let js_object_flag = 0b100_000 (* javascript object flags *)
+let js_object_flag = 100000032
+  (* javascript object flags *)
 
 let is_js (i : Ident.t) =
-  (Ident.scope i) land js_flag <> 0
+  (Ident.scope i) = js_flag
 
 let is_js_or_global (i : Ident.t) =
-  Ident.global i || Ident.scope i = js_flag
+  Ident.global i || is_js i
 
 
 let is_js_object (i : Ident.t) =
   (Ident.scope i) land js_object_flag <> 0
 
-let make_js_object (_i : Ident.t) =
+
+type[@ocaml.warning "-unused-constructor"] t =
+  | Local of { name: string; stamp: int }
+  | Scoped of { name: string; stamp: int; scope: int }
+  | Global of string
+  | Predef of { name: string; stamp: int }
+
+let make_js_object (i : Ident.t) =
   (* FIXME(anmonteiro): fix for 4.12 *)
   (* i.flags <- i.flags lor js_object_flag *)
-  ()
+  (Obj.magic (Scoped { name = Ident.name i; stamp = Ident.stamp i; scope = js_object_flag }) : Ident.t)
+
+  (* Ident.create_scoped ~scope:js_flag name *)
 
 (* It's a js function hard coded by js api, so when printing,
    it should preserve the name

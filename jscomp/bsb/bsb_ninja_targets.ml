@@ -68,7 +68,6 @@ let revise_dune dune new_content =
     close_out ochan
 
 let revise_x_dune dune new_content =
-  Format.eprintf "HEH: %s@." dune;
   if Sys.file_exists dune then
     let s = Ext_io.load_file dune in
     let header =  Ext_string.find s ~sub:dune_header  in

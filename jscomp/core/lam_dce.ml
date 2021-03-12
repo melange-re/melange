@@ -38,7 +38,6 @@ let transitive_closure
   =
   let visited  = Hash_set_ident.create 31 in
   let rec dfs (id : Ident.t) : unit =
-    Format.eprintf "broke: %B %B %a@." (Ident.global id) (Ext_ident.is_js_or_global id) Ident.print id;
     if not (Hash_set_ident.mem visited id || Ext_ident.is_js_or_global id ) then
       begin
         Hash_set_ident.add visited id;

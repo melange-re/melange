@@ -40,7 +40,7 @@ val create_js : string -> Ident.t
 
 val create : string -> Ident.t
 
- val make_js_object : Ident.t -> unit
+ val make_js_object : Ident.t -> Ident.t
 
 val reset : unit -> unit
 

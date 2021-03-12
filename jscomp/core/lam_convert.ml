@@ -260,7 +260,6 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
       (
         match args with
         | [ Lconst (Const_string name)] ->
-        Format.eprintf "OK %S@." name;
           prim ~primitive:(Pcreate_extension name) ~args:[] loc
         | _ ->
           assert false
