@@ -47,7 +47,7 @@ val output_build :
   ?rel_deps:string list ->
   ?bs_dependencies_deps:string list ->
   ?implicit_outputs: string list ->
-  ?js_outputs: string list ->
+  ?js_outputs: (string * bool) list ->
   outputs:string list ->
   inputs:string list ->
   rule:Bsb_ninja_rule.t ->

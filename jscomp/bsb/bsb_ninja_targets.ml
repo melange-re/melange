@@ -190,15 +190,21 @@ let output_build
     ~rule
     cur_dir
     buf =
+  let just_js_outputs = List.map fst js_outputs in
   Buffer.add_string buf "(rule\n(targets ";
   Ext_list.iter outputs (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s)  );
   if implicit_outputs <> [] || js_outputs <> [] then begin
-    Ext_list.iter (implicit_outputs @ js_outputs) (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s))
+    Ext_list.iter (implicit_outputs @ just_js_outputs) (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s))
   end;
   Buffer.add_string buf ")\n ";
-  if js_outputs <> [] then begin
+  let in_source_outputs =
+    List.filter_map (fun (js, in_source) ->
+      if in_source then Some js else None)
+      js_outputs
+  in
+  if in_source_outputs <> [] then begin
    Buffer.add_string buf "(mode (promote (until-clean) (only";
-   Ext_list.iter js_outputs  (fun s ->
+   Ext_list.iter in_source_outputs  (fun s ->
      Buffer.add_string buf Ext_string.single_space;
      Buffer.add_string buf (Filename.basename s));
    Buffer.add_string buf ")))";

@@ -67,10 +67,6 @@ let regenerate_ninja
         ~per_proj_dir in
     (* create directory, lib/bs, lib/js, lib/es6 etc *)
     Bsb_build_util.mkp lib_bs_dir;
-    Bsb_package_specs.list_dirs_by config.package_specs
-      (fun x ->
-        let dir = per_proj_dir // x in (*Unix.EEXIST error*)
-        if not (Sys.file_exists dir) then  Unix.mkdir dir 0o777);
     (* PR2184: we still need record empty dir
         since it may add files in the future *)
     let proj_digest = Bsb_ninja_check.record ~deps_digest ~per_proj_dir ~file:output_deps

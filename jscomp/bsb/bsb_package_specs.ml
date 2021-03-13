@@ -141,9 +141,7 @@ let package_flag ({format; in_source; suffix } : spec) dir =
     bs_package_output
     (Ext_string.concat5
        (string_of_format format)
-       Ext_string.single_colon
-       (if in_source then dir else
-        Bsb_config.top_prefix_of_format format // dir)
+       Ext_string.single_colon dir
       Ext_string.single_colon
       (Ext_js_suffix.to_string suffix)
     )
@@ -179,20 +177,10 @@ let get_list_of_output_js
              output_file_sans_extension
              (Ext_js_suffix.to_string spec.suffix)
         in
-        (if spec.in_source then Bsb_config.rev_lib_bs_prefix basename
-        else Bsb_config.lib_bs_prefix_of_format spec.format // basename)
+        (Bsb_config.rev_lib_bs_prefix basename, spec.in_source)
        :: acc
     ) package_specs.modules []
 
-
-let list_dirs_by
-  (package_specs : t)
-  (f : string -> unit)
-  =
-  Spec_set.iter (fun (spec : spec)  ->
-    if not spec.in_source then
-      f (Bsb_config.top_prefix_of_format spec.format)
-  ) package_specs.modules
 
 type json_map = Ext_json_types.t Map_string.t
 

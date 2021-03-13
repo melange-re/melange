@@ -29,23 +29,18 @@ type t
 
 val from_map:
   cwd:string ->
-  Ext_json_types.t Map_string.t -> t 
+  Ext_json_types.t Map_string.t -> t
 
-val get_list_of_output_js : 
-  t -> 
-  string -> 
-  string list
+val get_list_of_output_js :
+  t ->
+  string ->
+  (string * bool) list (* in-source *)
 
 (**
   Sample output: {[ -bs-package-output commonjs:lib/js/jscomp/test]}
 *)
-val package_flag_of_package_specs : 
-  t -> 
-  dirname:string -> 
+val package_flag_of_package_specs :
+  t ->
+  dirname:string ->
   string
 
-(* used to ensure each dir does exist *)
-val list_dirs_by :   
-  t -> 
-  (string -> unit) -> 
-  unit

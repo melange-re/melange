@@ -210,7 +210,7 @@ let handle_files_per_dir
         js_post_build_cmd
         global_config.namespace module_info
       in
-      (js_outputs :: acc_js, output_d :: acc_d)
+      (List.map fst js_outputs :: acc_js, output_d :: acc_d)
   )
   in
 
