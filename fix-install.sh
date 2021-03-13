@@ -10,6 +10,10 @@ mv runtime/* .
 mv stdlib-412/stdlib_modules/* .
 mv stdlib-412/* .
 
+cd $cur__lib
+ln -s $cur__target_dir/default/lib/js .
+ln -s $cur__target_dir/default/lib/es6 .
+
 ## wrap bsc to add BSLIB
 mv $cur__bin/bsc.exe $cur__bin/bsc_.exe
 cat > $cur__bin/bsc.exe <<EOF
