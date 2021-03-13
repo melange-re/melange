@@ -20,14 +20,6 @@
       ["$cur__root/fix-install.sh"]
     ],
     "exportedEnv": {
-      "bs_custom_resolution": {
-        "val": "true",
-        "scope": "global"
-      },
-      "bs_platform__install": {
-        "val": "#{self.install}",
-        "scope": "global"
-      },
       "BSLIB": {
         "val": "#{self.lib / 'bucklescript'}",
         "scope": "global"
