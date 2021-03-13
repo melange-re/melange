@@ -95,7 +95,6 @@ let make_custom_rules
   ~(has_builtin : bool)
   ~ppx_files
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
-  ~(refmt : string option) (* set refmt path when needed *)
   ~package_specs
   (custom_rules : command Map_string.t) :
   builtin =
@@ -185,12 +184,6 @@ let make_custom_rules
          );
        Buffer.add_char buf ' ';
        Buffer.add_string buf (Bsb_build_util.ppx_flags ppx_files));
-    (match refmt with
-    | None -> ()
-    | Some x ->
-      Buffer.add_string buf " -bs-refmt ";
-      Buffer.add_string buf (Ext_filename.maybe_quote x);
-    );
     (match pp_file with
      | None -> ()
      | Some flag ->

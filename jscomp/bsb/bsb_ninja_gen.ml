@@ -170,7 +170,6 @@ let output_ninja_and_namespace_map
 
       bs_dependencies;
       bs_dev_dependencies;
-      refmt;
       js_post_build_cmd;
       package_specs;
       file_groups = { files = bs_file_groups};
@@ -245,7 +244,6 @@ let output_ninja_and_namespace_map
   let rules : Bsb_ninja_rule.builtin =
       Bsb_ninja_rule.make_custom_rules
       ~global_config
-      ~refmt
       ~has_postbuild:js_post_build_cmd
       ~pp_file
       ~ppx_files
