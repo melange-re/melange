@@ -55,11 +55,10 @@
       "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
       "overrides": [],
       "dependencies": [
-        "web-tree-sitter@0.18.0@d41d8cd9",
         "ocaml@github:EduardoRFS/ocaml#73143a0348dfec8c5fb382ffbc10e0cb242fbdb3@d41d8cd9",
         "@opam/dune@opam:2.8.4@ee414d6c", "@esy-ocaml/reason@3.7.0@d41d8cd9"
       ],
-      "devDependencies": []
+      "devDependencies": [ "web-tree-sitter@0.18.0@d41d8cd9" ]
     },
     "@opam/result@opam:1.5@6b753c82": {
       "id": "@opam/result@opam:1.5@6b753c82",
