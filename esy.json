@@ -8,10 +8,11 @@
     "@opam/dune-action-plugin": "*"
   },
   "devDependencies": {
-    "web-tree-sitter": "0.18.0"
+    "web-tree-sitter": "0.18.0",
+    "@opam/merlin": "*"
   },
   "resolutions": {
-    "ocaml": "EduardoRFS/ocaml#73143a0348dfec8c5fb382ffbc10e0cb242fbdb3"
+    "ocaml": "anmonteiro/ocaml#72babec0e1796ce322464afc8ef2a0d7125d60cb"
   },
   "scripts": {
     "clean": "node ./scripts/ninja.js clean"
