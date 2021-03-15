@@ -12,4 +12,4 @@
 
 (install
  (files libocaml.tar.gz)
- (section share))
+ (section lib))

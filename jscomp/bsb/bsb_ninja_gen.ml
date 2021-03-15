@@ -208,9 +208,7 @@ let output_ninja_and_namespace_map
           Ext_list.map_append resources  acc_resources (fun x -> dir//x)
     ) in
   let g_stdlib_incl = if built_in_dependency then
-      let stdlib_path =
-        Bsb_pkg.resolve_bs_package ~cwd:per_proj_dir (Global !Bs_version.package_name) in
-      let path = stdlib_path // Bsb_config.lib_ocaml in
+      let path = Bsb_config.stdlib_path ~cwd:per_proj_dir in
       [ Ext_filename.maybe_quote path ]
     else []
   in

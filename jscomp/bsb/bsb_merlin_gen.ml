@@ -166,9 +166,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
         Buffer.add_string buffer path ;
       );
     if built_in_dependency then (
-      let stdlib_path =
-        Bsb_pkg.resolve_bs_package ~cwd:per_proj_dir (Global !Bs_version.package_name) in
-      let path = stdlib_path // Bsb_config.lib_ocaml in
+      let path = Bsb_config.stdlib_path ~cwd:per_proj_dir in
       Buffer.add_string buffer (merlin_s ^ path );
       Buffer.add_string buffer (merlin_b ^ path)
     );

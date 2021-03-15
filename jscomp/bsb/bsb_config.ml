@@ -78,3 +78,12 @@ let proj_rel path = rev_lib_bs // path
 
 (* let cmd_package_specs = ref None  *)
 
+let stdlib_path ~cwd =
+  match Sys.getenv_opt "BSLIB" with
+  | Some value -> value
+  | None -> 
+    let stdlib_path =
+      Bsb_pkg.resolve_bs_package
+        ~cwd
+        (Global !Bs_version.package_name) in
+    stdlib_path // lib_ocaml
