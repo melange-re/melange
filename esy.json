@@ -3,8 +3,9 @@
   "version": "7.2.0",
   "dependencies": {
     "ocaml": "4.12.0+BS",
-    "@esy-ocaml/reason": "*",
-    "@opam/dune": "*"
+    "@esy-ocaml/reason": "^3.7.0",
+    "@opam/dune": "*",
+    "@opam/dune-action-plugin": "*"
   },
   "devDependencies": {
     "web-tree-sitter": "0.18.0"
@@ -47,5 +48,8 @@
   "bugs": {
     "url": "https://github.com/rescript-lang/rescript-compiler/issues"
   },
-  "homepage": "https://github.com/rescript-lang/rescript-compiler#readme"
+  "homepage": "https://github.com/rescript-lang/rescript-compiler#readme",
+  "installConfig": {
+    "pnp": false
+  }
 }
