@@ -132,30 +132,7 @@ let revise_append_dune dune new_content =
     output_string ochan "\n";
     close_out ochan
 
-let output_dune_bsb_inc buf ~cwd ~digest ~bs_dep_parse ~deps =
- let deps = Ext_list.map deps Filename.basename in
- Buffer.add_string buf "(rule\n (targets ";
- Buffer.add_string buf Literals.dune_bsb_inc;
- Buffer.add_string buf ")\n (deps";
- Ext_list.iter deps (fun dep ->
-   Buffer.add_string buf Ext_string.single_space;
-   Buffer.add_string buf dep;
- );
- Buffer.add_string buf ")\n ";
- Buffer.add_string buf "(mode (promote (until-clean)))\n (action\n ";
- Buffer.add_string buf "(run ";
- Buffer.add_string buf bs_dep_parse;
- Buffer.add_string buf " -cwd ";
- Buffer.add_string buf cwd;
- Buffer.add_string buf " -hash ";
- Buffer.add_string buf digest;
- Ext_list.iter deps (fun dep ->
-   Buffer.add_string buf Ext_string.single_space;
-   Buffer.add_string buf dep);
- Buffer.add_string buf ")))"
-
-
-let output_alias ?action ?locks buf ~name ~deps =
+let output_alias ?action buf ~name ~deps =
  begin match action with
  | Some action ->
    Buffer.add_string buf "\n(rule (alias ";
@@ -167,19 +144,16 @@ let output_alias ?action ?locks buf ~name ~deps =
   Buffer.add_string buf name
   end;
   Buffer.add_string buf ")";
-  Ext_option.iter locks (fun locks ->
-    Buffer.add_string buf "(locks ";
-    Buffer.add_string buf locks;
-    Buffer.add_string buf ")"
-  );
+  if deps <> [] then begin
   Buffer.add_string buf "(deps ";
   Ext_list.iter deps (fun x ->
        Buffer.add_string buf Ext_string.single_space;
        Buffer.add_string buf (Filename.basename x));
-   Buffer.add_string buf "))"
+   Buffer.add_string buf ")"
+  end;
+ Buffer.add_string buf ")"
 
 let output_build
-    ?(order_only_deps=[])
     ?(implicit_deps=[])
     ?(rel_deps=[])
     ?(bs_dependencies_deps=[])
@@ -194,7 +168,9 @@ let output_build
   Buffer.add_string buf "(rule\n(targets ";
   Ext_list.iter outputs (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s)  );
   if implicit_outputs <> [] || js_outputs <> [] then begin
-    Ext_list.iter (implicit_outputs @ just_js_outputs) (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s))
+    Ext_list.iter (implicit_outputs @ just_js_outputs) (fun s ->
+      Buffer.add_string buf Ext_string.single_space;
+      Buffer.add_string buf (Filename.basename s))
   end;
   Buffer.add_string buf ")\n ";
   let in_source_outputs =
@@ -210,18 +186,15 @@ let output_build
    Buffer.add_string buf ")))";
   end;
   Buffer.add_string buf "(deps (:inputs ";
-  Ext_list.iter inputs (fun s ->   Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s));
+  Ext_list.iter inputs (fun s ->
+    Buffer.add_string buf Ext_string.single_space;
+    Buffer.add_string buf (Filename.basename s));
   Buffer.add_string buf ") ";
-  if implicit_deps <> [] then
-    begin
-      Ext_list.iter implicit_deps (fun s -> Buffer.add_string buf Ext_string.single_space; Buffer.add_string buf (Filename.basename s))
-    end
-  ;
-  if order_only_deps <> [] then
-    begin
-      Ext_list.iter order_only_deps (fun s ->
-       Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s))
-    end;
+  if implicit_deps <> [] then begin
+      Ext_list.iter implicit_deps (fun s ->
+        Buffer.add_string buf Ext_string.single_space;
+        Buffer.add_string buf (Filename.basename s))
+  end;
   Ext_list.iter rel_deps (fun s -> Buffer.add_string buf Ext_string.single_space; Buffer.add_string buf s);
   if bs_dependencies_deps <> [] then
     Ext_list.iter bs_dependencies_deps (fun dir ->
@@ -229,27 +202,21 @@ let output_build
     );
   Buffer.add_string buf ")";
   Buffer.add_string buf "\n";
-  Buffer.add_string buf "(action\n (run ";
   Bsb_ninja_rule.output_rule
     ~target:(String.concat Ext_string.single_space (Ext_list.map outputs Filename.basename))
     rule
-    cur_dir
-    buf;
-  Buffer.add_string buf " )))\n "
+    buf
+    cur_dir;
+  Buffer.add_string buf " )\n "
 
 
 
-let phony ?(order_only_deps=[]) ~inputs ~output oc =
+let phony ~inputs ~output oc =
   output_string oc "o ";
   output_string oc output ;
   output_string oc " : ";
   output_string oc "phony";
   oc_list inputs oc;
-  if order_only_deps <> [] then
-    begin
-      output_string oc " ||";
-      oc_list order_only_deps oc
-    end;
   output_string oc "\n"
 
 let output_finger key value oc  =

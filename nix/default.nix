@@ -53,10 +53,11 @@ stdenv.mkDerivation rec {
     ];
   };
 
-  nativeBuildInputs = [
+  nativeBuildInputs = with ocamlPackages; [
     pkgs.gnutar
-    pkgs.ocaml-ng.ocamlPackages_4_11.dune_2
-    pkgs.ocamlPackages.ocaml
+    dune
+    dune-action-plugin
+    ocaml
     findlib
   ];
 

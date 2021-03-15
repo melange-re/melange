@@ -42,8 +42,6 @@ let () =
         let cwd_arg = argv.(!current) in
         cwd := Some cwd_arg;
         incr current
-      | "-hash" ->
-        incr current
       | "-bs-ns" ->
         let ns = argv.(!current) in
         namespace := Some ns;
@@ -52,7 +50,7 @@ let () =
         dev_group := true
       | s ->
         prerr_endline ("unknown options: " ^ s);
-        prerr_endline ("available options: -hash [hash]; -bs-ns [ns]; -g; -cwd");
+        prerr_endline ("available options: -bs-ns [ns]; -g; -cwd");
         exit 2
     end else
       rev_list := s :: !rev_list

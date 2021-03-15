@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let bsdeps = ".bsdeps"
-
 let (//) = Ext_path.combine
 
 (** Regenerate ninja file by need based on [.bsdeps]
@@ -32,50 +30,24 @@ let (//) = Ext_path.combine
 *)
 let regenerate_ninja
     ~(package_kind : Bsb_package_kind.t)
-    ?(deps_digest="")
-    ~forced per_proj_dir
-  : (Bsb_config_types.t * string) option =
+    ~buf
+    ~root_dir
+    per_proj_dir
+  : Bsb_config_types.t =
   let lib_artifacts_dir = Bsb_config.lib_bs in
   let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
-  let output_deps = lib_bs_dir // bsdeps in
-  let check_result  =
-    Bsb_ninja_check.check
-      ~deps_digest
-      ~per_proj_dir:per_proj_dir
-      ~forced ~file:output_deps in
-  Bsb_log.info
-    "@{<info>BSB check@} build spec : %a @." Bsb_ninja_check.pp_check_result check_result ;
-  match check_result  with
-  | Good ->
-    None  (* Fast path, no need regenerate ninja *)
-  | Bsb_forced
-  | Bsb_bsc_version_mismatch
-  | Bsb_file_corrupted
-  | Bsb_package_kind_inconsistent
-  | Bsb_file_not_exist
-  | Bsb_source_directory_changed
-  | Bsb_dep_digest
-  | Other _ ->
-    if check_result = Bsb_bsc_version_mismatch then begin
-      Bsb_log.warn "@{<info>Different compiler version@}: clean current repo@.";
-      Bsb_clean.clean_self  per_proj_dir;
-    end ;
+  let config : Bsb_config_types.t =
+    Bsb_config_parse.interpret_json
+      ~package_kind
+      ~per_proj_dir
+  in
+  (* create directory, lib/bs, lib/js, lib/es6 etc *)
+  Bsb_build_util.mkp lib_bs_dir;
+  (* PR2184: we still need record empty dir
+      since it may add files in the future *)
+  Bsb_merlin_gen.merlin_file_gen ~per_proj_dir config;
+  Bsb_ninja_gen.output_ninja_and_namespace_map
+    ~buf ~per_proj_dir ~root_dir ~package_kind config;
 
-    let config : Bsb_config_types.t =
-      Bsb_config_parse.interpret_json
-        ~package_kind
-        ~per_proj_dir in
-    (* create directory, lib/bs, lib/js, lib/es6 etc *)
-    Bsb_build_util.mkp lib_bs_dir;
-    (* PR2184: we still need record empty dir
-        since it may add files in the future *)
-    let proj_digest = Bsb_ninja_check.record ~deps_digest ~per_proj_dir ~file:output_deps
-      (Literals.bsconfig_json::config.file_groups.globbed_dirs)
-    in
-    Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
-       config;
-    Bsb_ninja_gen.output_ninja_and_namespace_map
-      ~digest:(deps_digest ^ proj_digest) ~per_proj_dir  ~package_kind config;
-
-    Some (config, proj_digest)
+  config
 

@@ -30,19 +30,10 @@
    however, for the command we don't need pass `-o`
 *)
 
-val output_dune_bsb_inc :
-  Buffer.t ->
-  cwd:string ->
-  digest:string ->
-  bs_dep_parse:string ->
-  deps:string list ->
-  unit
-
 val output_alias :
-  ?action:string -> ?locks:string -> Buffer.t -> name:string -> deps:string list -> unit
+  ?action:string -> Buffer.t -> name:string -> deps:string list -> unit
 
 val output_build :
-  ?order_only_deps:string list ->
   ?implicit_deps:string list ->
   ?rel_deps:string list ->
   ?bs_dependencies_deps:string list ->
@@ -57,7 +48,6 @@ val output_build :
 
 
 val phony  :
-  ?order_only_deps:string list ->
   inputs:string list ->
   output:string ->
   out_channel ->

@@ -29,9 +29,9 @@
 *)
 type t
 
+val output_rule : t -> Buffer.t -> ?target:string -> string -> unit
 
-val output_rule : t -> ?target:string -> string -> Buffer.t -> unit
-val get_name : t -> ?target:string -> string  -> Buffer.t -> string
+val get_name : t -> ?target:string -> string  -> Buffer.t -> unit
 
 (***********************************************************)
 (** A list of existing rules *)
@@ -76,7 +76,6 @@ val make_custom_rules :
   has_builtin:bool ->
   ppx_files:Bsb_config_types.ppx list ->
   reason_react_jsx : Bsb_config_types.reason_react_jsx option ->
-  digest:string ->
   refmt:string option ->
   package_specs:Bsb_package_specs.t ->
   command Map_string.t ->

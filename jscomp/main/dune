@@ -42,18 +42,11 @@
   (:standard -w -50))
  (libraries bs_hash_stubs ext common depends unix))
 
-(rule
- (target bsb.ml)
- (deps
-  (:input bsb_main.ml))
- (action
-  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
-
 (executable
- (name bsb)
+ (name bsb_main)
  (public_name bsb.exe)
  (modes native)
- (modules bsb)
+ (modules bsb_main)
  (flags
   (:standard -w -9-50))
  (libraries bs_hash_stubs ext common bsb))
@@ -89,7 +82,7 @@
  (public_name bsb_parse_depend.exe)
  (modes native)
  (modules bsb_parse_depend)
- (libraries bsb ext))
+ (libraries bsb ext dune-action-plugin))
 
 (test
  (name ounit_tests_main)
