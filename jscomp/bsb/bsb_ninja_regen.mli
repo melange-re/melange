@@ -31,9 +31,7 @@
 *)
 val regenerate_ninja :
   package_kind:Bsb_package_kind.t ->
-  ?deps_digest:string ->
-  forced: bool ->
   buf: Buffer.t ->
   root_dir: string ->
   string ->
-  (Bsb_config_types.t * string) option
+  Bsb_config_types.t

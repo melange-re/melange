@@ -59,7 +59,6 @@ let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_confi
 
 let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
   let dep_dirs = ref [] in
-  let digest_buf = Ext_buffer.create 1024 in
   let queue =
     Bsb_build_util.walk_all_deps  cwd ~pinned_dependencies in
   queue |> Queue.iter (fun ({top; proj_dir} : Bsb_build_util.package_context) ->
@@ -68,40 +67,13 @@ let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
       | Expect_name s ->
         let is_pinned =  Set_string.mem pinned_dependencies s in
         dep_dirs := proj_dir :: !dep_dirs;
-        match
-          Bsb_ninja_regen.regenerate_ninja
-            ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
-            ?deps_digest:None
-            ~forced:false
-            ~buf
-            ~root_dir:cwd
-            proj_dir with
-        | Some (_config, digest) ->
-          Ext_buffer.add_string digest_buf digest
-        | None -> ()
-  );
-
-  if !dep_dirs <> [] && Sys.file_exists (cwd // Literals.node_modules) then begin
-   let dirs = Ext_list.map !dep_dirs (fun dir ->
-     let rel_dir =
-       Ext_path.rel_normalized_absolute_path
-         ~from:(cwd // Literals.node_modules)
-         dir
-     in
-     let rel_dir = Ext_path.split_by_sep_per_os rel_dir in
-     match rel_dir with
-     | "." :: x :: _ -> x
-     | _ -> List.hd rel_dir)
-   in
-   let buf = Buffer.create 1024 in
-   Buffer.add_string buf "\n(dirs";
-   Ext_list.iter dirs (fun dir ->
-     Buffer.add_string buf Ext_string.single_space;
-     Buffer.add_string buf dir);
-   Buffer.add_string buf ")\n";
-   Bsb_ninja_targets.revise_dune (cwd // Literals.node_modules // Literals.dune) buf
-  end;
-  Digest.to_hex (Ext_buffer.digest digest_buf)
+        let _config: Bsb_config_types.t =  Bsb_ninja_regen.regenerate_ninja
+          ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
+          ~buf
+          ~root_dir:cwd
+          proj_dir
+        in ()
+  )
 
 
 

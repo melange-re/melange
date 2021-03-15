@@ -29,4 +29,4 @@ val make_world_deps:
   string ->
   buf: Buffer.t ->
   Bsb_config_types.t option ->
-  string
+  unit

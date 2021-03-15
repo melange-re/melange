@@ -174,7 +174,6 @@ let handle_files_per_dir
     buf
     ~(global_config: Bsb_ninja_global_vars.t)
     ~root_dir
-    ~digest
     ~(rules : Bsb_ninja_rule.builtin)
     ~package_specs
     ~js_post_build_cmd

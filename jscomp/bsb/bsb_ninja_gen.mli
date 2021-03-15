@@ -26,7 +26,6 @@
   generate ninja file based on [cwd]
 *)
 val output_ninja_and_namespace_map :
-  digest:string ->
   buf:Buffer.t ->
   per_proj_dir:string ->
   root_dir:string ->

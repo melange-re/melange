@@ -76,7 +76,6 @@ val make_custom_rules :
   has_builtin:bool ->
   ppx_files:Bsb_config_types.ppx list ->
   reason_react_jsx : Bsb_config_types.reason_react_jsx option ->
-  digest:string ->
   refmt:string option ->
   package_specs:Bsb_package_specs.t ->
   command Map_string.t ->

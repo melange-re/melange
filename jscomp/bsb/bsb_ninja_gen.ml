@@ -156,9 +156,7 @@ let output_installation_file cwd_lib_bs namespace files_to_install =
   Ext_buffer.output_buffer install_oc essentials;
   close_out install_oc
 
-(* returns the digest of the relevant project files. *)
 let output_ninja_and_namespace_map
-    ~digest
     ~buf
     ~per_proj_dir
     ~root_dir
@@ -256,7 +254,6 @@ let output_ninja_and_namespace_map
       ~has_builtin:built_in_dependency
       ~reason_react_jsx
       ~package_specs
-      ~digest
       generators in
   let bs_dependencies_deps =
    Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
@@ -270,7 +267,6 @@ let output_ninja_and_namespace_map
       (* let group_dir = global_config.src_root_dir // files_per_dir.dir in *)
        Bsb_ninja_file_groups.handle_files_per_dir buf
          ~global_config
-         ~digest
          ~rules
          ~package_specs
          ~files_to_install

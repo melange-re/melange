@@ -95,7 +95,6 @@ let make_custom_rules
   ~(has_builtin : bool)
   ~ppx_files
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
-  ~(digest : string)
   ~(refmt : string option) (* set refmt path when needed *)
   ~package_specs
   (custom_rules : command Map_string.t) :
@@ -103,7 +102,7 @@ let make_custom_rules
   (** FIXME: We don't need set [-o ${out}] when building ast
       since the default is already good -- it does not*)
   (** NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
-  let ns_flag =
+  let _ns_flag =
     match global_config.namespace with None -> ""
     | Some n -> " -bs-ns " ^ n in
   let mk_ml_cmj_cmd
@@ -233,10 +232,9 @@ let make_custom_rules
     define
       ~restat:()
       ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s -hash %s %%{inputs}))"
+        let s = Format.asprintf "(action (run %s -cwd %s %%{inputs}))"
           global_config.bsdep
           global_config.src_root_dir
-          (digest ^ ns_flag)
         in
         Buffer.add_string buf s)
       "deps" in
@@ -245,7 +243,7 @@ let make_custom_rules
       ~restat:()
       ~command:(fun buf ?target _cur_dir ->
         let s = global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
-         " -g -hash " ^ digest ^ ns_flag ^ " %{inputs}"
+         " -g " ^ " %{inputs}"
         in
         Buffer.add_string buf s)
       "deps_dev"

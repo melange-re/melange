@@ -29,7 +29,6 @@ val handle_files_per_dir :
   Buffer.t ->
   global_config:Bsb_ninja_global_vars.t ->
   root_dir:string ->
-  digest:string ->
   rules:Bsb_ninja_rule.builtin ->
   package_specs:Bsb_package_specs.t ->
   js_post_build_cmd:string option ->

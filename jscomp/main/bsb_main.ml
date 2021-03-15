@@ -40,7 +40,6 @@ let call_spec f : spec = Unit (Unit_call f )
 let  unit_set_spec b : spec = Unit (Unit_set b)
 
 
-let force_regenerate = ref false
 let bsb_main_flags : (string * spec * string) array =
   [|
     "-v", call_spec print_version_string,
@@ -70,9 +69,6 @@ let bsb_main_flags : (string * spec * string) array =
     default is basic:\n\
     https://github.com/rescript-lang/rescript-compiler/tree/master/jscomp/bsb/templates";
 
-    "-regen", unit_set_spec force_regenerate,
-    "*internal* \n\
-    Always regenerate build.ninja no matter bsconfig.json is changed or not";
     "-themes", call_spec Bsb_theme_init.list_themes,
     "List all available themes";
     "-where",
@@ -94,6 +90,7 @@ let (//) = Ext_path.combine
 let output_dune_file buf =
   let proj_dir =  Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
+  Buffer.add_string buf "\n(data_only_dirs node_modules)";
   Bsb_ninja_targets.revise_dune dune_bsb buf;
   let dune = proj_dir // Literals.dune in
 
@@ -159,34 +156,12 @@ let handle_anonymous_arg ~rev_args =
 let program_exit () =
   exit 0
 
-let install_target config_opt =
-  let config =
-    match config_opt with
-    | None ->
-      let config =
-        Bsb_config_parse.interpret_json
-          ~package_kind:Toplevel
-          ~per_proj_dir:Bsb_global_paths.cwd in
-      let _ = Ext_list.iter config.file_groups.files (fun group ->
-          let check_file = match group.public with
-            | Export_all -> fun _ -> true
-            | Export_none -> fun _ -> false
-            | Export_set set ->
-              fun module_name ->
-                Set_string.mem set module_name in
-          Map_string.iter group.sources
-            (fun  module_name module_info ->
-               if check_file module_name then
-                 begin Queue.add module_info config.files_to_install end
-            )) in
-      config
-    | Some (config, _digest) -> config in
+let install_target config =
   Bsb_world.install_targets Bsb_global_paths.cwd config
 
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
   let argv = Sys.argv in
-  let deps_digest = ref None in
   let buf = Buffer.create 0x1000 in
   try begin
     let i =  Ext_array.rfind_with_index argv Ext_string.equal separator in
@@ -199,9 +174,8 @@ let () =
         | None ->
           (* [-make-world] should never be combined with [-package-specs] *)
           let make_world = !make_world in
-          let force_regenerate = !force_regenerate in
           let do_install = !do_install in
-          if not make_world && not force_regenerate && not do_install then
+          if not make_world && not do_install then
             (* [regenerate_ninja] is not triggered in this case
                There are several cases we wish ninja will not be triggered.
                [bsb -clean-world]
@@ -209,18 +183,12 @@ let () =
             *)
             (if !watch_mode then
                 program_exit ()) (* bsb -verbose hit here *)
-          else
-            (if make_world then begin
-               let world_digest =
-                 Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None
-               in
-               deps_digest := Some world_digest;
-             end;
-             let config_opt =
+          else begin
+            (if make_world then
+              Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None);
+             let config =
                Bsb_ninja_regen.regenerate_ninja
-                 ?deps_digest:!deps_digest
                  ~package_kind:Toplevel
-                 ~forced:force_regenerate
                  ~buf
                  ~root_dir:Bsb_global_paths.cwd
                  Bsb_global_paths.cwd
@@ -235,8 +203,9 @@ let () =
              end else if make_world then begin
                ninja_command_exit ~buf [||]
              end else if do_install then begin
-               install_target config_opt
-             end)
+               install_target config
+             end
+          end
       end
     else
        (* -make-world all dependencies fall into this category *)
@@ -249,18 +218,13 @@ let () =
         let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
         (* [-make-world] should never be combined with [-package-specs] *)
         if !make_world then begin
-         let world_digest =
-           Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None
-         in
-         deps_digest := Some world_digest
+          Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None
         end;
         let config_opt =
           (Bsb_ninja_regen.regenerate_ninja
-            ?deps_digest:!deps_digest
             ~package_kind:Toplevel
             ~root_dir:Bsb_global_paths.cwd
             ~buf
-            ~forced:!force_regenerate
             Bsb_global_paths.cwd) in
         if !do_install then
           install_target config_opt;
