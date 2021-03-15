@@ -89,11 +89,26 @@ let bsb_main_flags : (string * spec * string) array =
     For tools that listen on build completion." ;
   |]
 
+let (//) = Ext_path.combine
+
+let output_dune_file buf =
+  let proj_dir =  Bsb_global_paths.cwd in
+  let dune_bsb = proj_dir // Literals.dune_bsb in
+  Bsb_ninja_targets.revise_dune dune_bsb buf;
+  let dune = proj_dir // Literals.dune in
+
+  let buf = Buffer.create 256 in
+  Buffer.add_string buf "\n(include ";
+  Buffer.add_string buf Literals.dune_bsb;
+  Buffer.add_string buf ")\n";
+  Bsb_ninja_targets.revise_dune dune buf
+
 
 (*Note that [keepdepfile] only makes sense when combined with [deps] for optimization*)
 
 (* Execute the underlying ninja build call, then exit (as opposed to keep watching) *)
-let ninja_command_exit ?(dirs: Bsb_file_groups.file_groups option) ninja_args  =
+let ninja_command_exit ?(dirs: Bsb_file_groups.file_groups option) ~buf ninja_args  =
+  output_dune_file buf;
   let mk_args targets =
     let ninja_common_args = Array.append [|Literals.dune; "build"|] targets in
     let ninja_args_len = Array.length ninja_args in
@@ -106,39 +121,17 @@ let ninja_command_exit ?(dirs: Bsb_file_groups.file_groups option) ninja_args  =
   (* [dirs] = [None]: -make_world
    * [dirs] = [Some dirs]: just the current project (don't build node_modules)
    *)
-  let depends_args, world_args = match dirs with
-  | None ->
-    [| ("@" ^ Literals.bsb_depends) |], [| ("@" ^ Literals.bsb_world) |]
+  let args = match dirs with
+  | None -> [| ("@" ^ Literals.bsb_world) |]
   | Some dirs ->
     (* TODO(anmonteiro): this doesn't work if the directory starts with `@`.
      * See: https://github.com/ocaml/dune/issues/3716 *)
-    let depends_args = (Ext_array.of_list_map dirs (fun {dir} ->
-      Ext_path.(("@@" ^ dir) // Literals.bsb_depends)))
-    in
-    let world_args = (Ext_array.of_list_map dirs (fun {dir} ->
-      Ext_path.(("@@" ^ dir) // Literals.bsb_world)))
-    in
-    depends_args, world_args
+    Ext_array.of_list_map dirs (fun {dir} ->
+      Ext_path.(("@@" ^ dir) // Literals.bsb_world))
   in
-  let depends_args, world_args = mk_args depends_args, mk_args world_args in
-  let depends_command = {
-      Bsb_unix.cmd = Literals.dune;
-      cwd = Bsb_global_paths.cwd;
-      args = depends_args
-    }
-  in
-  let eid = match dirs with
-    | None ->
-      Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list depends_args));
-      Bsb_unix.run_command_execvp depends_command
-    | Some _ -> 0
-  in
-  if eid <> 0 then
-    Bsb_unix.command_fatal_error depends_command eid
-  else begin
-   Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list world_args));
-   Unix.execvp Literals.dune world_args
-  end
+  let args = mk_args args in
+  Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list args));
+  Unix.execvp Literals.dune args
 
 
 
@@ -192,93 +185,87 @@ let install_target config_opt =
 
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
+  let argv = Sys.argv in
   let deps_digest = ref None in
+  let buf = Buffer.create 0x1000 in
   try begin
-    match Sys.argv with
-    | [| _ |] ->  (* specialize this path [bsb.exe] which is used in watcher *)
-      let config = Bsb_ninja_regen.regenerate_ninja
-        ?deps_digest:!deps_digest
-        ~package_kind:Toplevel
-        ~forced:false
-        Bsb_global_paths.cwd
-      in
-      Ext_option.iter config (fun (config, _digest) ->
-        ninja_command_exit ~dirs:config.file_groups.files [||])
-    | argv ->
+    let i =  Ext_array.rfind_with_index argv Ext_string.equal separator in
+    if i < 0 then
       begin
-        let i =  Ext_array.rfind_with_index argv Ext_string.equal separator in
-        if i < 0 then
-          begin
-            Bsb_arg.parse_exn ~usage ~argv bsb_main_flags handle_anonymous_arg;
-            (* first, check whether we're in boilerplate generation mode, aka -init foo -theme bar *)
-            match !generate_theme_with_path with
-            | Some path -> Bsb_theme_init.init_sample_project ~cwd:Bsb_global_paths.cwd ~theme:!current_theme  path
-            | None ->
-              (* [-make-world] should never be combined with [-package-specs] *)
-              let make_world = !make_world in
-              let force_regenerate = !force_regenerate in
-              let do_install = !do_install in
-              if not make_world && not force_regenerate && not do_install then
-                (* [regenerate_ninja] is not triggered in this case
-                   There are several cases we wish ninja will not be triggered.
-                   [bsb -clean-world]
-                   [bsb -regen ]
-                *)
-                (if !watch_mode then
-                    program_exit ()) (* bsb -verbose hit here *)
-              else
-                (if make_world then begin
-                   let world_digest =
-                     Bsb_world.make_world_deps Bsb_global_paths.cwd None
-                   in
-                   deps_digest := Some world_digest;
-                 end;
-                 let config_opt =
-                   Bsb_ninja_regen.regenerate_ninja
-                     ?deps_digest:!deps_digest
-                     ~package_kind:Toplevel
-                     ~forced:force_regenerate Bsb_global_paths.cwd
-                 in
-                 if !watch_mode then begin
-                   program_exit ()
-                   (* ninja is not triggered in this case
-                      There are several cases we wish ninja will not be triggered.
-                      [bsb -clean-world]
-                      [bsb -regen ]
-                   *)
-                 end else if make_world then begin
-                   ninja_command_exit [||]
-                 end else if do_install then begin
-                   install_target config_opt
-                 end)
-          end
-        else
-           (* -make-world all dependencies fall into this category *)
-          begin
-            Bsb_arg.parse_exn
-            ~usage
-            ~argv:argv
-            ~finish:i
-            bsb_main_flags handle_anonymous_arg  ;
-            let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
-            (* [-make-world] should never be combined with [-package-specs] *)
-            if !make_world then begin
-             let world_digest =
-               Bsb_world.make_world_deps Bsb_global_paths.cwd None
+        Bsb_arg.parse_exn ~usage ~argv bsb_main_flags handle_anonymous_arg;
+        (* first, check whether we're in boilerplate generation mode, aka -init foo -theme bar *)
+        match !generate_theme_with_path with
+        | Some path -> Bsb_theme_init.init_sample_project ~cwd:Bsb_global_paths.cwd ~theme:!current_theme  path
+        | None ->
+          (* [-make-world] should never be combined with [-package-specs] *)
+          let make_world = !make_world in
+          let force_regenerate = !force_regenerate in
+          let do_install = !do_install in
+          if not make_world && not force_regenerate && not do_install then
+            (* [regenerate_ninja] is not triggered in this case
+               There are several cases we wish ninja will not be triggered.
+               [bsb -clean-world]
+               [bsb -regen ]
+            *)
+            (if !watch_mode then
+                program_exit ()) (* bsb -verbose hit here *)
+          else
+            (if make_world then begin
+               let world_digest =
+                 Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None
+               in
+               deps_digest := Some world_digest;
+             end;
+             let config_opt =
+               Bsb_ninja_regen.regenerate_ninja
+                 ?deps_digest:!deps_digest
+                 ~package_kind:Toplevel
+                 ~forced:force_regenerate
+                 ~buf
+                 ~root_dir:Bsb_global_paths.cwd
+                 Bsb_global_paths.cwd
              in
-             deps_digest := Some world_digest
-            end;
-            let config_opt =
-              (Bsb_ninja_regen.regenerate_ninja
-                ?deps_digest:!deps_digest
-                ~package_kind:Toplevel
-                ~forced:!force_regenerate
-                Bsb_global_paths.cwd) in
-            if !do_install then
-              install_target config_opt;
-            if !watch_mode then program_exit ()
-            else ninja_command_exit  ninja_args
-          end
+             if !watch_mode then begin
+               program_exit ()
+               (* ninja is not triggered in this case
+                  There are several cases we wish ninja will not be triggered.
+                  [bsb -clean-world]
+                  [bsb -regen ]
+               *)
+             end else if make_world then begin
+               ninja_command_exit ~buf [||]
+             end else if do_install then begin
+               install_target config_opt
+             end)
+      end
+    else
+       (* -make-world all dependencies fall into this category *)
+      begin
+        Bsb_arg.parse_exn
+        ~usage
+        ~argv:argv
+        ~finish:i
+        bsb_main_flags handle_anonymous_arg  ;
+        let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
+        (* [-make-world] should never be combined with [-package-specs] *)
+        if !make_world then begin
+         let world_digest =
+           Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None
+         in
+         deps_digest := Some world_digest
+        end;
+        let config_opt =
+          (Bsb_ninja_regen.regenerate_ninja
+            ?deps_digest:!deps_digest
+            ~package_kind:Toplevel
+            ~root_dir:Bsb_global_paths.cwd
+            ~buf
+            ~forced:!force_regenerate
+            Bsb_global_paths.cwd) in
+        if !do_install then
+          install_target config_opt;
+        if !watch_mode then program_exit ()
+        else ninja_command_exit ~buf ninja_args
       end
   end
   with

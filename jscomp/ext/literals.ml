@@ -73,7 +73,6 @@ let bsconfig_json = "bsconfig.json"
 let build_ninja = "build.ninja"
 let dune = "dune"
 let dune_bsb = "dune.bsb"
-let dune_bsb_inc = "dune.bsb.inc"
 let bsb_depends = "bsb_depends"
 let bsb_world = "bsb_world"
 

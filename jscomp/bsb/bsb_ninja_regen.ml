@@ -33,7 +33,10 @@ let (//) = Ext_path.combine
 let regenerate_ninja
     ~(package_kind : Bsb_package_kind.t)
     ?(deps_digest="")
-    ~forced per_proj_dir
+    ~forced
+    ~buf
+    ~root_dir
+    per_proj_dir
   : (Bsb_config_types.t * string) option =
   let lib_artifacts_dir = Bsb_config.lib_bs in
   let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
@@ -72,10 +75,11 @@ let regenerate_ninja
     let proj_digest = Bsb_ninja_check.record ~deps_digest ~per_proj_dir ~file:output_deps
       (Literals.bsconfig_json::config.file_groups.globbed_dirs)
     in
-    Bsb_merlin_gen.merlin_file_gen ~per_proj_dir
-       config;
-    Bsb_ninja_gen.output_ninja_and_namespace_map
-      ~digest:(deps_digest ^ proj_digest) ~per_proj_dir  ~package_kind config;
+    Bsb_merlin_gen.merlin_file_gen ~per_proj_dir config;
+      Bsb_ninja_gen.output_ninja_and_namespace_map
+    ~buf
+      ~per_proj_dir
+      ~digest:(deps_digest ^ proj_digest) ~root_dir ~package_kind config;
 
     Some (config, proj_digest)
 

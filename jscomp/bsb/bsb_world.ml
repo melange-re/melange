@@ -57,7 +57,7 @@ let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_confi
   end
 
 
-let build_bs_deps cwd ~pinned_dependencies (deps : Bsb_package_specs.t) =
+let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
   let dep_dirs = ref [] in
   let digest_buf = Ext_buffer.create 1024 in
   let queue =
@@ -67,16 +67,15 @@ let build_bs_deps cwd ~pinned_dependencies (deps : Bsb_package_specs.t) =
       | Expect_none -> ()
       | Expect_name s ->
         let is_pinned =  Set_string.mem pinned_dependencies s in
-        (* (if is_pinned then
-          print_endline ("Dependency pinned on " ^ s )
-        else print_endline ("Dependency on " ^ s )); *)
         dep_dirs := proj_dir :: !dep_dirs;
         match
           Bsb_ninja_regen.regenerate_ninja
             ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
             ?deps_digest:None
             ~forced:false
-            proj_dir with (* set true to force regenrate ninja file so we have [config_opt]*)
+            ~buf
+            ~root_dir:cwd
+            proj_dir with
         | Some (_config, digest) ->
           Ext_buffer.add_string digest_buf digest
         | None -> ()
@@ -108,7 +107,7 @@ let build_bs_deps cwd ~pinned_dependencies (deps : Bsb_package_specs.t) =
 
 
 
-let make_world_deps cwd (config : Bsb_config_types.t option) =
+let make_world_deps cwd ~buf (config : Bsb_config_types.t option) =
   Bsb_log.info "Making the dependency world!@.";
   let deps, pinned_dependencies =
     match config with
@@ -120,4 +119,4 @@ let make_world_deps cwd (config : Bsb_config_types.t option) =
       Bsb_config_parse.package_specs_from_bsconfig ()
     | Some config -> config.package_specs, config.pinned_dependencies
   in
-  build_bs_deps cwd deps ~pinned_dependencies
+  build_bs_deps cwd ~buf deps ~pinned_dependencies

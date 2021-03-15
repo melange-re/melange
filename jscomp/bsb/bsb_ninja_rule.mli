@@ -29,9 +29,9 @@
 *)
 type t
 
+val output_rule : t -> Buffer.t -> ?target:string -> string -> unit
 
-val output_rule : t -> ?target:string -> string -> Buffer.t -> unit
-val get_name : t -> ?target:string -> string  -> Buffer.t -> string
+val get_name : t -> ?target:string -> string  -> Buffer.t -> unit
 
 (***********************************************************)
 (** A list of existing rules *)

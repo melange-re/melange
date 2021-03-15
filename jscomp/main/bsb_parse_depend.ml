@@ -1,3 +1,10 @@
+module D = Dune_action_plugin.V1
+module P = D.Path
+
+open D.O
+
+let (let*) p f = D.stage ~f p
+
 let (//) = Ext_path.combine
 
 let input_lines =
@@ -48,33 +55,32 @@ let parse_deps_exn lines =
     | Some (_basename, deps) ->
       extract_blank_separated_words deps
 
-let parse_depends ~cwd:_ ~hash files =
- let buf = Buffer.create 1024 in
- Ext_list.iter files (fun file ->
+let single_file file =
   let chan = open_in_bin file in
   let deps = parse_deps_exn (input_lines chan) in
   close_in chan;
-  Buffer.add_string buf "\n(rule (targets ";
-  Buffer.add_string buf (Ext_filename.new_extension file Literals.suffix_depends);
-  Buffer.add_string buf ")\n (action (write-file %{targets} ";
-  Buffer.add_string buf hash;
-  Buffer.add_string buf "))\n ";
-  if deps <> [] then begin
-  Buffer.add_string buf "(deps";
-    Ext_list.iter deps (fun dep ->
-      Buffer.add_string buf Ext_string.single_space;
-      Buffer.add_string buf dep);
-    Buffer.add_string buf ")"
-  end;
-  Buffer.add_string buf ")\n");
- Bsb_ninja_targets.revise_dune Literals.dune_bsb_inc buf
+  let rules = List.map (fun file -> D.read_file ~path:(P.of_string file))
+  deps
+  in
+  List.fold_left (fun acc item ->
+    let+ _ = D.both acc item in ())
+    (D.return ())
+    rules
+
+let parse_depends files =
+  let rules = List.map single_file files in
+  let rule = List.fold_left (fun acc item ->
+    let+ _ = D.both acc item in ())
+    (D.return ())
+    rules
+  in
+  D.run rule
+
 
 let () =
   let argv = Sys.argv in
   let l = Array.length argv in
   let current = ref 1 in
-  let hash = ref None in
-  let cwd = ref None in
   let rev_list = ref [] in
   while !current < l do
     let s = argv.(!current) in
@@ -84,13 +90,6 @@ let () =
       | "-help" ->
         prerr_endline ("usage: bsb_parse_depend.exe [-help] file1 file2 ...");
         exit 0
-      | "-hash" ->
-        hash := Some (argv.(!current));
-        incr current
-      | "-cwd" ->
-        let cwd_arg = argv.(!current) in
-        cwd := Some cwd_arg;
-        incr current
       | s ->
         prerr_endline ("unknown option: " ^ s);
         prerr_endline ("usage: bsb_parse_depend.exe [-help] file1 file2 ...");
@@ -98,17 +97,6 @@ let () =
     end else
       rev_list := s :: !rev_list
   done;
-  match !hash with
-  | None ->
-    prerr_endline "-hash is a required option";
-    exit 2
-  | Some hash ->
-    (match !cwd with
-    | None ->
-      prerr_endline "-cwd is a required option";
-      exit 2
-    | Some cwd ->
-      parse_depends ~hash ~cwd !rev_list)
-
+  parse_depends !rev_list
 ;;
 

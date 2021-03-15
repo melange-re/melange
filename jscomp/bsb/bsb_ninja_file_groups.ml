@@ -92,7 +92,7 @@ let emit_module_build
   let output_ast = filename_sans_extension  ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension  ^ Literals.suffix_iast in
   let output_d = filename_sans_extension ^ Literals.suffix_d in
-  let output_depends = filename_sans_extension ^ Literals.suffix_depends in
+  let output_d_as_dep = Format.asprintf "(:dep_file %s)" (Filename.basename output_d) in
   let output_filename_sans_extension =
       Ext_namespace_encode.make ?ns:namespace filename_sans_extension
   in
@@ -121,8 +121,8 @@ let emit_module_build
       ~rule:ast_rule
     ;
     Bsb_ninja_targets.output_build cur_dir buf
+      ~implicit_deps:[output_d_as_dep]
       ~outputs:[output_cmi]
-      ~order_only_deps:[output_depends]
       ~inputs:[output_iast]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
     ;
@@ -163,19 +163,17 @@ let emit_module_build
      (if has_intf_file then [] else [ output_cmi ])
     ~js_outputs:output_js
     ~inputs:[output_ast]
-    ~implicit_deps:(if has_intf_file then [output_cmi] else [])
+    ~implicit_deps:(if has_intf_file then [output_cmi; output_d_as_dep] else [output_d_as_dep])
     ~bs_dependencies_deps
     ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-    ~order_only_deps:[output_depends]
     ~rule;
   output_js, output_d
-  (* ;
-  {output_cmj; output_cmi} *)
 
 
 let handle_files_per_dir
     buf
     ~(global_config: Bsb_ninja_global_vars.t)
+    ~root_dir
     ~digest
     ~(rules : Bsb_ninja_rule.builtin)
     ~package_specs
@@ -184,9 +182,13 @@ let handle_files_per_dir
     ~bs_dependencies_deps
     (group: Bsb_file_groups.file_group )
   : unit =
-  Buffer.add_string buf "(subdir ";
-  Buffer.add_string buf group.dir;
   let per_proj_dir = global_config.src_root_dir in
+  let rel_group_dir =
+    Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // group.dir)
+  in
+  Buffer.add_string buf "(subdir ";
+  Buffer.add_string buf rel_group_dir;
+  Buffer.add_char buf '\n';
   let is_dev = group.is_dev in
   (* handle_generators oc group rules.customs ; *)
   let installable =
@@ -196,7 +198,6 @@ let handle_files_per_dir
     | Export_set set ->
       fun module_name ->
       Set_string.mem set module_name in
-  let group_dir = per_proj_dir // group.dir in
   let js_targets, d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
       if installable module_name then
         Queue.add
@@ -214,24 +215,9 @@ let handle_files_per_dir
   )
   in
 
-  Bsb_ninja_targets.output_dune_bsb_inc buf
-    ~digest ~cwd:per_proj_dir
-    ~bs_dep_parse:global_config.bs_dep_parse ~deps:d_targets;
   Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
-  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_depends ~deps:[Literals.dune_bsb_inc];
-
-  Buffer.add_char buf '\n';
-  Buffer.add_string buf "(include ";
-  Buffer.add_string buf Literals.dune_bsb_inc;
-  Buffer.add_string buf ")\n";
   Buffer.add_string buf ")";
-
-  let dune_bsb_inc = group_dir // Literals.dune_bsb_inc in
-  if not (Sys.file_exists dune_bsb_inc) then begin
-    let buf = Buffer.create 128 in
-    (* Empty buffer, populated by dune. *)
-    Bsb_ninja_targets.revise_dune dune_bsb_inc buf;
-  end
+  Buffer.add_string buf "\n"
 
 
     (* ;

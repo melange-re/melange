@@ -27,6 +27,8 @@
 *)
 val output_ninja_and_namespace_map :
   digest:string ->
+  buf:Buffer.t ->
   per_proj_dir:string ->
+  root_dir:string ->
   package_kind:Bsb_package_kind.t ->
   Bsb_config_types.t -> unit

@@ -159,7 +159,9 @@ let output_installation_file cwd_lib_bs namespace files_to_install =
 (* returns the digest of the relevant project files. *)
 let output_ninja_and_namespace_map
     ~digest
+    ~buf
     ~per_proj_dir
+    ~root_dir
     ~package_kind
     ({
       package_name;
@@ -259,8 +261,6 @@ let output_ninja_and_namespace_map
   let bs_dependencies_deps =
    Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
   in
-  let buf = Buffer.create 1024 in
-  let dune_bsb = per_proj_dir // Literals.dune_bsb in
   Buffer.add_char buf '\n';
 
   (* output_static_resources static_resources rules.copy_resources oc ; *)
@@ -276,6 +276,7 @@ let output_ninja_and_namespace_map
          ~files_to_install
          ~js_post_build_cmd
          ~bs_dependencies_deps
+         ~root_dir
          files_per_dir;
          )
   ;
@@ -295,14 +296,6 @@ let output_ninja_and_namespace_map
         ~rule:rules.build_package;
       Buffer.add_string buf ")";
     );
-  Buffer.add_char buf '\n';
+  Buffer.add_char buf '\n'
 
-  Bsb_ninja_targets.revise_dune dune_bsb buf;
-
-  let dune = per_proj_dir // Literals.dune in
-  let buf = Buffer.create 1024 in
-  Buffer.add_string buf "\n(include ";
-  Buffer.add_string buf Literals.dune_bsb;
-  Buffer.add_string buf ")\n";
-  Bsb_ninja_targets.revise_dune dune buf
   (* output_installation_file cwd_lib_bs namespace files_to_install *)

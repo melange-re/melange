@@ -28,26 +28,15 @@
 
 
 type t = {
-  mutable used : bool;
   rule_name : string;
-  name : ?target:string -> string -> Buffer.t -> string
+  name : Buffer.t -> ?target:string -> string -> unit
 }
 
-let output_rule (x : t) ?target cur_dir oc =
- let _name = x.name ?target cur_dir oc in
+let output_rule (x : t) buf ?target cur_dir =
+ let _name = x.name buf ?target cur_dir in
  ()
 
-let get_name (x : t) ?target cur_dir buf = x.name ?target cur_dir buf
-let print_rule (buf : Buffer.t)
-  ?(restat : unit option)
-  ?dyndep
-  ~command
-  name  =
-  Buffer.add_string buf command
-  (* Ext_option.iter dyndep (fun f -> *)
-      (* Buffer.add_string buf "  dyndep = "; Buffer.add_string buf f; Buffer.add_string buf  "\n" *)
-    (* ); *)
-
+let get_name (x : t) ?target cur_dir buf = x.name buf ?target cur_dir
 
 
 (** allocate an unique name for such rule*)
@@ -58,16 +47,10 @@ let define
     rule_name : t
   =
 
-  let rec self = {
-    used  = false;
+  let self = {
     rule_name ;
-    name = fun ?target cur_dir buf ->
-      if not self.used then
-        begin
-          print_rule buf  ?dyndep ?restat ~command:(command ?target cur_dir) rule_name;
-          (* self.used <- true *)
-        end ;
-      rule_name
+    name = fun buf ?target cur_dir ->
+         command buf ?target cur_dir
   } in
 
   self
@@ -120,96 +103,111 @@ let make_custom_rules
   (** FIXME: We don't need set [-o ${out}] when building ast
       since the default is already good -- it does not*)
   (** NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
-  let buf = Ext_buffer.create 100 in
   let ns_flag =
     match global_config.namespace with None -> ""
     | Some n -> " -bs-ns " ^ n in
   let mk_ml_cmj_cmd
       ~(read_cmi : [`yes | `is_cmi | `no])
       ~is_dev
-      ~postbuild : ?target:string -> string -> string = fun ?(target="%{targets}") cur_dir ->
-    Ext_buffer.clear buf;
-    Ext_buffer.add_string buf global_config.bsc;
+      ~postbuild : Buffer.t -> ?target:string -> string -> unit = fun buf ?(target="%{targets}") cur_dir ->
+    Buffer.add_string buf "(action\n (progn ";
+    Buffer.add_string buf "(dynamic-run ";
+    Buffer.add_string buf global_config.bs_dep_parse;
+    Buffer.add_string buf " %{dep_file}) (run ";
+    Buffer.add_string buf global_config.bsc;
     if not has_builtin then
-      Ext_buffer.add_ninja_prefix_var buf "-nostdlib";
+      Buffer.add_string buf " -nostdlib";
     if read_cmi = `yes then
-      Ext_buffer.add_string buf " -bs-read-cmi";
+      Buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin
        let dev_incls = Bsb_build_util.include_dirs global_config.g_dev_incls in
-        Ext_buffer.add_ninja_prefix_var buf dev_incls;
+        Buffer.add_string buf " ";
+        Buffer.add_string buf dev_incls;
     end;
-    Ext_buffer.add_ninja_prefix_var buf
+    Buffer.add_string buf " ";
+    Buffer.add_string buf
       (Bsb_build_util.sourcedir_include_dirs
         ~per_proj_dir:global_config.src_root_dir
         ~cur_dir
         ?namespace:global_config.namespace
         global_config.g_sourcedirs_incls);
-    Ext_buffer.add_ninja_prefix_var buf global_config.g_lib_incls;
-    if is_dev then
-      Ext_buffer.add_ninja_prefix_var buf global_config.g_dpkg_incls;
-    if global_config.g_stdlib_incl <> [] then
-      Ext_buffer.add_ninja_prefix_var buf (Bsb_build_util.include_dirs global_config.g_stdlib_incl);
-    Ext_buffer.add_ninja_prefix_var buf global_config.warnings;
+    Buffer.add_string buf " ";
+    Buffer.add_string buf global_config.g_lib_incls;
+    if is_dev then begin
+      Buffer.add_string buf " ";
+      Buffer.add_string buf global_config.g_dpkg_incls;
+    end;
+    if global_config.g_stdlib_incl <> [] then begin
+      Buffer.add_string buf " ";
+      Buffer.add_string buf (Bsb_build_util.include_dirs global_config.g_stdlib_incl)
+    end;
+    Buffer.add_string buf " ";
+    Buffer.add_string buf global_config.warnings;
     if read_cmi <> `is_cmi then begin
-      Ext_buffer.add_string buf " -bs-package-name ";
-      Ext_buffer.add_string buf global_config.package_name;
-      Ext_buffer.add_string buf
+      Buffer.add_string buf " -bs-package-name ";
+      Buffer.add_string buf global_config.package_name;
+      Buffer.add_string buf
         (Bsb_package_specs.package_flag_of_package_specs package_specs ~dirname:cur_dir)
     end;
 
 
     Ext_option.iter global_config.gentypeconfig (fun gentypeconfig ->
-      Ext_buffer.add_ninja_prefix_var buf gentypeconfig);
-    Ext_buffer.add_ninja_prefix_var buf "-o";
-    Ext_buffer.add_ninja_prefix_var buf target;
-    Ext_buffer.add_ninja_prefix_var buf "%{inputs}";
+      Buffer.add_string buf " ";
+      Buffer.add_string buf gentypeconfig);
+    Buffer.add_string buf " -o ";
+    Buffer.add_string buf target;
+    Buffer.add_string buf " %{inputs}";
+    Buffer.add_string buf ")))";
     begin match postbuild with
     | None -> ()
     | Some cmd ->
-      Ext_buffer.add_string buf " && ";
-      Ext_buffer.add_string buf cmd ;
-      Ext_buffer.add_string buf " $out_last"
+      Buffer.add_string buf " && ";
+      Buffer.add_string buf cmd ;
+      Buffer.add_string buf " $out_last"
     end ;
-    Ext_buffer.contents buf
   in
-  let mk_ast ~has_reason_react_jsx ?target _cur_dir : string =
-    Ext_buffer.clear buf ;
-    Ext_buffer.add_ninja_prefix_var buf global_config.bsc;
-    Ext_buffer.add_ninja_prefix_var buf global_config.warnings;
-    Ext_buffer.add_string buf " -bs-v ";
-    Ext_buffer.add_string buf Bs_version.version;
+  let mk_ast ~has_reason_react_jsx buf ?target _cur_dir : unit =
+    Buffer.add_string buf "(action\n (run ";
+    Buffer.add_string buf global_config.bsc;
+    Buffer.add_string buf " ";
+    Buffer.add_string buf global_config.warnings;
+    Buffer.add_string buf " -bs-v ";
+    Buffer.add_string buf Bs_version.version;
     (match ppx_files with
      | [ ] -> ()
      | _ ->
        Ext_list.iter ppx_files (fun (x: Bsb_config_types.ppx) ->
            match string_of_float (Unix.stat x.name).st_mtime with
            | exception _ -> ()
-           | st -> Ext_buffer.add_char_string buf ',' st
+           | st ->
+             Buffer.add_char buf ',';
+             Buffer.add_string buf st;
          );
-       Ext_buffer.add_char_string buf ' '
-         (Bsb_build_util.ppx_flags ppx_files));
+       Buffer.add_char buf ' ';
+       Buffer.add_string buf (Bsb_build_util.ppx_flags ppx_files));
     (match refmt with
     | None -> ()
     | Some x ->
-      Ext_buffer.add_string buf " -bs-refmt ";
-      Ext_buffer.add_string buf (Ext_filename.maybe_quote x);
+      Buffer.add_string buf " -bs-refmt ";
+      Buffer.add_string buf (Ext_filename.maybe_quote x);
     );
     (match pp_file with
      | None -> ()
      | Some flag ->
-       Ext_buffer.add_char_string buf ' '
-         (Bsb_build_util.pp_flag flag)
+       Buffer.add_char buf ' ';
+       Buffer.add_string buf (Bsb_build_util.pp_flag flag)
     );
     (match has_reason_react_jsx, reason_react_jsx with
      | false, _
      | _, None -> ()
      | _, Some Jsx_v3
-       -> Ext_buffer.add_string buf " -bs-jsx 3"
+       -> Buffer.add_string buf " -bs-jsx 3"
     );
 
-    Ext_buffer.add_char_string buf ' ' global_config.bsc_flags;
-    Ext_buffer.add_string buf " -absname -bs-ast -o %{targets} %{inputs}";
-    Ext_buffer.contents buf
+    Buffer.add_char buf ' ';
+    Buffer.add_string buf global_config.bsc_flags;
+    Buffer.add_string buf " -absname -bs-ast -o %{targets} %{inputs}";
+    Buffer.add_string buf "))"
   in
   let build_ast =
     define
@@ -222,27 +220,36 @@ let make_custom_rules
 
   let copy_resources =
     define
-      ~command:(fun ?target _cur_dir ->
-        if Ext_sys.is_windows_or_cygwin then
+      ~command:(fun buf ?target _cur_dir ->
+        let s = if Ext_sys.is_windows_or_cygwin then
           "cmd.exe /C copy /Y $i $out >NUL"
         else "cp $i $out"
+        in
+        Buffer.add_string buf s
       )
       "copy_resource" in
 
   let build_bin_deps =
     define
       ~restat:()
-      ~command:(fun ?target _cur_dir ->
-        global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
-        " -hash " ^ digest ^ ns_flag ^ " %{inputs}")
+      ~command:(fun buf ?target _cur_dir ->
+        let s = Format.asprintf "(action (run %s -cwd %s -hash %s %%{inputs}))"
+          global_config.bsdep
+          global_config.src_root_dir
+          (digest ^ ns_flag)
+        in
+        Buffer.add_string buf s)
       "deps" in
   let build_bin_deps_dev =
     define
       ~restat:()
-      ~command:(fun ?target _cur_dir ->
-         global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
-         " -g -hash " ^ digest ^ ns_flag ^ " %{inputs}")
-        "deps_dev" in
+      ~command:(fun buf ?target _cur_dir ->
+        let s = global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
+         " -g -hash " ^ digest ^ ns_flag ^ " %{inputs}"
+        in
+        Buffer.add_string buf s)
+      "deps_dev"
+  in
   let aux ~name ~read_cmi  ~postbuild =
     define
       ~command:(mk_ml_cmj_cmd
@@ -272,12 +279,14 @@ let make_custom_rules
       ~name:"mi" in
   let build_package =
     define
-      ~command:(fun ?target _cur_dir ->
+      ~command:(fun buf ?target _cur_dir ->
          let stdlib_incl =
            Bsb_build_util.include_dirs global_config.g_stdlib_incl
          in
-         global_config.bsc ^ Ext_string.single_space ^ stdlib_incl ^
-         " -w -49 -color always -no-alias-deps %{inputs}")
+         let s = global_config.bsc ^ Ext_string.single_space ^ stdlib_incl ^
+         " -w -49 -color always -no-alias-deps %{inputs}"
+         in
+        Buffer.add_string buf s)
       ~restat:()
       "build_package"
   in
@@ -302,7 +311,7 @@ let make_custom_rules
     build_package ;
     customs =
       Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun ?target _cur_dir -> command) ("custom_" ^ name)
+        define ~command:(fun buf ?target _cur_dir -> Buffer.add_string buf command) ("custom_" ^ name)
       end
   }
 
