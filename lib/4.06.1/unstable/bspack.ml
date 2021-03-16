@@ -962,7 +962,6 @@ end = struct
 
 exception Fatal_error
 
-
 let array_of_list_rev = function
     [] -> [||]
   | hd::tl ->
@@ -3254,7 +3253,6 @@ let parse_arguments f msg =
   with
   | Arg.Bad msg -> Printf.eprintf "%s" msg; exit 2
   | Arg.Help msg -> Printf.printf "%s" msg; exit 0
-
 
 
 type mli_status = Mli_na | Mli_exists | Mli_non_exists
@@ -6618,9 +6616,9 @@ val filter :
   'a array
 
 val filter_map : 
-'a array -> 
-('a -> 'b option) -> 
-'b array
+  'a array -> 
+  ('a -> 'b option) -> 
+  'b array
 
 val range : int -> int -> int array
 
@@ -6632,7 +6630,7 @@ val to_list_f :
   'b list 
 
 val to_list_map : 
-'a array -> ('a -> 'b option) -> 'b list 
+  'a array -> ('a -> 'b option) -> 'b list 
 
 val to_list_map_acc : 
   'a array -> 
@@ -6674,7 +6672,7 @@ val for_alli :
   'a array -> 
   (int -> 'a -> bool) -> 
   bool 
-    
+
 val map :   
   'a array -> 
   ('a -> 'b) -> 
@@ -6801,7 +6799,7 @@ let rec tolist_f_aux a f  i res =
     let v = Array.unsafe_get a i in
     tolist_f_aux a f  (i - 1)
       (f v :: res)
-       
+
 let to_list_f a f = tolist_f_aux a f (Array.length a  - 1) []
 
 let rec tolist_aux a f  i res =
@@ -6959,14 +6957,14 @@ let iter a f =
   for i = 0 to length a - 1 do f(unsafe_get a i) done
 
 
-  let fold_left a x f =
-    let open Array in 
-    let r = ref x in    
-    for i = 0 to length a - 1 do
-      r := f !r (unsafe_get a i)
-    done;
-    !r
-  
+let fold_left a x f =
+  let open Array in 
+  let r = ref x in    
+  for i = 0 to length a - 1 do
+    r := f !r (unsafe_get a i)
+  done;
+  !r
+
 let get_or arr i cb =     
   if i >=0 && i < Array.length arr then 
     Array.unsafe_get arr i 
@@ -7022,7 +7020,7 @@ val combine_array_append:
   ('c * 'b) list -> 
   ('a -> 'c) ->
   ('c * 'b) list   
-  
+
 val has_string :   
   string list ->
   string -> 
@@ -7053,8 +7051,8 @@ val map_snd : ('a * 'b) list -> ('b -> 'c) -> ('a * 'c) list
     For empty list, it returns empty
 *)
 val map_last : 
-    'a list -> 
-    (bool -> 'a -> 'b) -> 'b list
+  'a list -> 
+  (bool -> 'a -> 'b) -> 'b list
 
 (** [last l]
     return the last element
@@ -7097,8 +7095,8 @@ val fold_right3 :
   'd -> 
   ('a -> 'b -> 'c -> 'd -> 'd) -> 
   'd
-  
-  
+
+
 val map2 : 
   'a list ->
   'b list ->
@@ -7182,8 +7180,8 @@ val length_ge : 'a list -> int -> bool
 val length_larger_than_n : 
   'a list -> 
   'a list -> 
-   int -> 
-   bool
+  int -> 
+  bool
 
 
 (**
@@ -7240,10 +7238,10 @@ val drop :
   'a list 
 
 val find_first :   
-    'a list ->
-    ('a -> bool) ->
-    'a option 
-    
+  'a list ->
+  ('a -> bool) ->
+  'a option 
+
 (** [find_first_not p lst ]
     if all elements in [lst] pass, return [None] 
     otherwise return the first element [e] as [Some e] which
@@ -7264,30 +7262,30 @@ val find_opt :
   'b option 
 
 val find_def : 
-    'a list -> 
-    ('a -> 'b option) ->
-    'b ->
-    'b 
+  'a list -> 
+  ('a -> 'b option) ->
+  'b ->
+  'b 
 
-    
+
 val rev_iter : 
   'a list -> 
   ('a -> unit) -> 
   unit 
 
 val iter:   
-   'a list ->  
-   ('a -> unit) -> 
-   unit
-   
+  'a list ->  
+  ('a -> unit) -> 
+  unit
+
 val for_all:  
-    'a list -> 
-    ('a -> bool) -> 
-    bool
+  'a list -> 
+  ('a -> bool) -> 
+  bool
 val for_all_snd:    
-    ('a * 'b) list -> 
-    ('b -> bool) -> 
-    bool
+  ('a * 'b) list -> 
+  ('b -> bool) -> 
+  bool
 
 (** [for_all2_no_exn p xs ys]
     return [true] if all satisfied,
@@ -7322,7 +7320,7 @@ val sort_via_arrayf:
   'a list -> 
   ('a -> 'a -> int) ->
   ('a -> 'b ) -> 
-   'b list  
+  'b list  
 
 
 
@@ -7363,30 +7361,30 @@ val exists_snd :
   bool
 
 val concat_append:
-    'a list list -> 
-    'a list -> 
-    'a list
+  'a list list -> 
+  'a list -> 
+  'a list
 
 val fold_left2:
-    'a list -> 
-    'b list -> 
-    'c -> 
-    ('a -> 'b -> 'c -> 'c)
-    -> 'c 
+  'a list -> 
+  'b list -> 
+  'c -> 
+  ('a -> 'b -> 'c -> 'c)
+  -> 'c 
 
 val fold_left:    
-    'a list -> 
-    'b -> 
-    ('b -> 'a -> 'b) -> 
-    'b
+  'a list -> 
+  'b -> 
+  ('b -> 'a -> 'b) -> 
+  'b
 
 val singleton_exn:     
-    'a list -> 'a
+  'a list -> 'a
 
 val mem_string :     
-    string list -> 
-    string -> 
-    bool
+  string list -> 
+  string -> 
+  bool
 end = struct
 #1 "ext_list.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -7458,7 +7456,7 @@ let rec has_string l f =
     x1 = f || x2 = f || x3 = f
   | x1 :: x2 :: x3 :: x4 ->
     x1 = f || x2 = f || x3 = f || has_string x4 f 
-  
+
 let rec map_combine l1 l2 f =
   match (l1, l2) with
     ([], []) -> []
@@ -7485,7 +7483,7 @@ let combine_array arr l f =
   combine_array_unsafe arr l 0 len [] f 
 
 let rec map_split_opt 
-  (xs : 'a list)  (f : 'a -> 'b option * 'c option) 
+    (xs : 'a list)  (f : 'a -> 'b option * 'c option) 
   : 'b list * 'c list = 
   match xs with 
   | [] -> [], []
@@ -7706,10 +7704,10 @@ let rec fold_left_with_offset l accu i f =
   | [] -> accu
   | a::l -> 
     fold_left_with_offset 
-    l     
-    (f  a accu  i)  
-    (i + 1)
-    f  
+      l     
+      (f  a accu  i)  
+      (i + 1)
+      f  
 
 
 let rec filter_map xs (f: 'a -> 'b option)= 
@@ -7900,7 +7898,7 @@ let rec length_ge l n =
     | _ :: tl -> length_ge tl (n - 1)
     | [] -> false
   else true
-  
+
 (**
    {[length xs = length ys + n ]}
 *)
@@ -8107,7 +8105,7 @@ let rec iter_snd lst f =
   | (_,x)::xs -> 
     f x ; 
     iter_snd xs f 
-    
+
 let rec iter_fst lst f =     
   match lst with
   | [] -> ()
@@ -8131,8 +8129,8 @@ let rec exists_snd l p =
   | (_, a)::l -> p a || exists_snd l p 
 
 let rec concat_append 
-  (xss : 'a list list)  
-  (xs : 'a list) : 'a list = 
+    (xss : 'a list list)  
+    (xs : 'a list) : 'a list = 
   match xss with 
   | [] -> xs 
   | l::r -> append l (concat_append r xs)
@@ -8141,7 +8139,7 @@ let rec fold_left l accu f =
   match l with
     [] -> accu
   | a::l -> fold_left l (f accu a) f 
-  
+
 let reduce_from_left lst fn = 
   match lst with 
   | first :: rest ->  fold_left rest first fn 
@@ -8313,8 +8311,8 @@ module Ml_binary : sig
 
 
 (* This file was used to read reason ast
-  and part of parsing binary ast
- *)
+   and part of parsing binary ast
+*)
 type _ kind = 
   | Ml : Parsetree.structure kind 
   | Mli : Parsetree.signature kind
@@ -8323,7 +8321,7 @@ type _ kind =
 val read_ast : 'a kind -> in_channel -> 'a 
 
 val write_ast :
-   'a kind -> string -> 'a -> out_channel -> unit
+  'a kind -> string -> 'a -> out_channel -> unit
 
 val magic_of_kind : 'a kind -> string   
 
@@ -8469,15 +8467,15 @@ type 'a kind = 'a Ml_binary.kind
 let read_parse_and_extract (type t) (k : t kind) (ast : t) : Set_string.t =
   Depend.free_structure_names := Set_string.empty;
   Ext_ref.protect Clflags.transparent_modules false begin fun _ -> 
-  List.iter (* check *)
-    (fun modname  ->
-       ignore @@ 
-       Depend.open_module bound_vars (Longident.Lident modname))
-    (!Clflags.open_modules);
-  (match k with
-   | Ml_binary.Ml  -> Depend.add_implementation bound_vars ast
-   | Ml_binary.Mli  -> Depend.add_signature bound_vars ast  ); 
-  !Depend.free_structure_names
+    List.iter (* check *)
+      (fun modname  ->
+         ignore @@ 
+         Depend.open_module bound_vars (Longident.Lident modname))
+      (!Clflags.open_modules);
+    (match k with
+     | Ml_binary.Ml  -> Depend.add_implementation bound_vars ast
+     | Ml_binary.Mli  -> Depend.add_signature bound_vars ast  ); 
+    !Depend.free_structure_names
   end
 
 
@@ -8652,9 +8650,9 @@ module Ext_bytes : sig
 
 
 external unsafe_blit_string : string -> int -> bytes -> int -> int -> unit
-                     = "caml_blit_string" 
+  = "caml_blit_string" 
 [@@noalloc]
-    
+
 
 
 
@@ -8691,7 +8689,7 @@ end = struct
 
 
 external unsafe_blit_string : string -> int -> bytes -> int -> int -> unit
-                     = "caml_blit_string" 
+  = "caml_blit_string" 
 [@@noalloc]                     
 
 
@@ -8713,10 +8711,10 @@ module Ext_buffer : sig
 
 (** Extensible buffers.
 
-   This module implements buffers that automatically expand
-   as necessary.  It provides accumulative concatenation of strings
-   in quasi-linear time (instead of quadratic time when strings are
-   concatenated pairwise).
+    This module implements buffers that automatically expand
+    as necessary.  It provides accumulative concatenation of strings
+    in quasi-linear time (instead of quadratic time when strings are
+    concatenated pairwise).
 *)
 
 (* ReScript customization: customized for efficient digest *)
@@ -8726,17 +8724,17 @@ type t
 
 val create : int -> t
 (** [create n] returns a fresh buffer, initially empty.
-   The [n] parameter is the initial size of the internal byte sequence
-   that holds the buffer contents. That byte sequence is automatically
-   reallocated when more than [n] characters are stored in the buffer,
-   but shrinks back to [n] characters when [reset] is called.
-   For best performance, [n] should be of the same order of magnitude
-   as the number of characters that are expected to be stored in
-   the buffer (for instance, 80 for a buffer that holds one output
-   line).  Nothing bad will happen if the buffer grows beyond that
-   limit, however. In doubt, take [n = 16] for instance.
-   If [n] is not between 1 and {!Sys.max_string_length}, it will
-   be clipped to that interval. *)
+    The [n] parameter is the initial size of the internal byte sequence
+    that holds the buffer contents. That byte sequence is automatically
+    reallocated when more than [n] characters are stored in the buffer,
+    but shrinks back to [n] characters when [reset] is called.
+    For best performance, [n] should be of the same order of magnitude
+    as the number of characters that are expected to be stored in
+    the buffer (for instance, 80 for a buffer that holds one output
+    line).  Nothing bad will happen if the buffer grows beyond that
+    limit, however. In doubt, take [n = 16] for instance.
+    If [n] is not between 1 and {!Sys.max_string_length}, it will
+    be clipped to that interval. *)
 
 val contents : t -> string
 (** Return a copy of the current contents of the buffer.
@@ -8763,7 +8761,7 @@ val add_string : t -> string -> unit
 
 (* val add_substring : t -> string -> int -> int -> unit *)
 (** [add_substring b s ofs len] takes [len] characters from offset
-   [ofs] in string [s] and appends them at the end of the buffer [b]. *)
+    [ofs] in string [s] and appends them at the end of the buffer [b]. *)
 
 (* val add_subbytes : t -> bytes -> int -> int -> unit *)
 (** [add_substring b s ofs len] takes [len] characters from offset
@@ -8772,17 +8770,17 @@ val add_string : t -> string -> unit
 
 (* val add_buffer : t -> t -> unit *)
 (** [add_buffer b1 b2] appends the current contents of buffer [b2]
-   at the end of buffer [b1].  [b2] is not modified. *)    
+    at the end of buffer [b1].  [b2] is not modified. *)    
 
 (* val add_channel : t -> in_channel -> int -> unit *)
 (** [add_channel b ic n] reads exactly [n] character from the
-   input channel [ic] and stores them at the end of buffer [b].
-   Raise [End_of_file] if the channel contains fewer than [n]
-   characters. *)
+    input channel [ic] and stores them at the end of buffer [b].
+    Raise [End_of_file] if the channel contains fewer than [n]
+    characters. *)
 
 val output_buffer : out_channel -> t -> unit
 (** [output_buffer oc b] writes the current contents of buffer [b]
-   on the output channel [oc]. *)   
+    on the output channel [oc]. *)   
 
 val digest : t -> Digest.t   
 
@@ -8792,34 +8790,34 @@ val not_equal :
   bool 
 
 val add_int_1 :    
-   t -> int -> unit 
+  t -> int -> unit 
 
 val add_int_2 :    
-   t -> int -> unit 
+  t -> int -> unit 
 
 val add_int_3 :    
-   t -> int -> unit 
+  t -> int -> unit 
 
 val add_int_4 :    
-   t -> int -> unit 
+  t -> int -> unit 
 
 val add_string_char :    
-   t -> 
-   string ->
-   char -> 
-   unit
-   
+  t -> 
+  string ->
+  char -> 
+  unit
+
 val add_ninja_prefix_var : 
-   t -> 
-   string -> 
-   unit 
-   
-   
+  t -> 
+  string -> 
+  unit 
+
+
 val add_char_string :    
-   t -> 
-   char -> 
-   string -> 
-   unit
+  t -> 
+  char -> 
+  string -> 
+  unit
 end = struct
 #1 "ext_buffer.ml"
 (**************************************************************************)
@@ -8840,30 +8838,30 @@ end = struct
 (* Extensible buffers *)
 
 type t =
- {mutable buffer : bytes;
-  mutable position : int;
-  mutable length : int;
-  initial_buffer : bytes}
+  {mutable buffer : bytes;
+   mutable position : int;
+   mutable length : int;
+   initial_buffer : bytes}
 
 let create n =
- let n = if n < 1 then 1 else n in
- let s = Bytes.create n in
- {buffer = s; position = 0; length = n; initial_buffer = s}
+  let n = if n < 1 then 1 else n in
+  let s = Bytes.create n in
+  {buffer = s; position = 0; length = n; initial_buffer = s}
 
 let contents b = Bytes.sub_string b.buffer 0 b.position
 (* let to_bytes b = Bytes.sub b.buffer 0 b.position  *)
 
 (* let sub b ofs len =
-  if ofs < 0 || len < 0 || ofs > b.position - len
-  then invalid_arg "Ext_buffer.sub"
-  else Bytes.sub_string b.buffer ofs len *)
+   if ofs < 0 || len < 0 || ofs > b.position - len
+   then invalid_arg "Ext_buffer.sub"
+   else Bytes.sub_string b.buffer ofs len *)
 
 
 (* let blit src srcoff dst dstoff len =
-  if len < 0 || srcoff < 0 || srcoff > src.position - len
+   if len < 0 || srcoff < 0 || srcoff > src.position - len
              || dstoff < 0 || dstoff > (Bytes.length dst) - len
-  then invalid_arg "Ext_buffer.blit"
-  else
+   then invalid_arg "Ext_buffer.blit"
+   else
     Bytes.unsafe_blit src.buffer srcoff dst dstoff len *)
 
 let length b = b.position
@@ -8871,8 +8869,8 @@ let is_empty b = b.position = 0
 let clear b = b.position <- 0
 
 (* let reset b =
-  b.position <- 0; b.buffer <- b.initial_buffer;
-  b.length <- Bytes.length b.buffer *)
+   b.position <- 0; b.buffer <- b.initial_buffer;
+   b.length <- Bytes.length b.buffer *)
 
 let resize b more =
   let len = b.length in
@@ -8893,16 +8891,16 @@ let [@inline] add_char b c =
   b.position <- pos + 1  
 
 (* let add_substring b s offset len =
-  if offset < 0 || len < 0 || offset > String.length s - len
-  then invalid_arg "Ext_buffer.add_substring/add_subbytes";
-  let new_position = b.position + len in
-  if new_position > b.length then resize b len;
-  Ext_bytes.unsafe_blit_string s offset b.buffer b.position len;
-  b.position <- new_position   *)
+   if offset < 0 || len < 0 || offset > String.length s - len
+   then invalid_arg "Ext_buffer.add_substring/add_subbytes";
+   let new_position = b.position + len in
+   if new_position > b.length then resize b len;
+   Ext_bytes.unsafe_blit_string s offset b.buffer b.position len;
+   b.position <- new_position   *)
 
 
 (* let add_subbytes b s offset len =
-  add_substring b (Bytes.unsafe_to_string s) offset len *)
+   add_substring b (Bytes.unsafe_to_string s) offset len *)
 
 let add_string b s =
   let len = String.length s in
@@ -8949,17 +8947,17 @@ let add_ninja_prefix_var b s =
 
 (* let add_bytes b s = add_string b (Bytes.unsafe_to_string s)
 
-let add_buffer b bs =
-  add_subbytes b bs.buffer 0 bs.position *)
+   let add_buffer b bs =
+   add_subbytes b bs.buffer 0 bs.position *)
 
 (* let add_channel b ic len =
-  if len < 0 
+   if len < 0 
     || len > Sys.max_string_length 
     then   (* PR#5004 *)
     invalid_arg "Ext_buffer.add_channel";
-  if b.position + len > b.length then resize b len;
-  really_input ic b.buffer b.position len;
-  b.position <- b.position + len *)
+   if b.position + len > b.length then resize b len;
+   really_input ic b.buffer b.position len;
+   b.position <- b.position + len *)
 
 let output_buffer oc b =
   output oc b.buffer 0 b.position  
@@ -8968,15 +8966,15 @@ external unsafe_string: bytes -> int -> int -> Digest.t = "caml_md5_string"
 
 let digest b = 
   unsafe_string 
-  b.buffer 0 b.position    
+    b.buffer 0 b.position    
 
 let rec not_equal_aux (b : bytes) (s : string) i len = 
-    if i >= len then false
-    else 
-      (Bytes.unsafe_get b i 
-      <>
-      String.unsafe_get s i )
-      || not_equal_aux b s (i + 1) len 
+  if i >= len then false
+  else 
+    (Bytes.unsafe_get b i 
+     <>
+     String.unsafe_get s i )
+    || not_equal_aux b s (i + 1) len 
 
 (** avoid a large copy *)
 let not_equal  (b : t) (s : string) = 
@@ -8987,8 +8985,8 @@ let not_equal  (b : t) (s : string) =
 
 
 (**
-  It could be one byte, two bytes, three bytes and four bytes 
-  TODO: inline for better performance
+   It could be one byte, two bytes, three bytes and four bytes 
+   TODO: inline for better performance
 *)
 let add_int_1 (b : t ) (x : int ) = 
   let c = (Char.unsafe_chr (x land 0xff)) in 
@@ -8996,7 +8994,7 @@ let add_int_1 (b : t ) (x : int ) =
   if pos >= b.length then resize b 1;
   Bytes.unsafe_set b.buffer pos c;
   b.position <- pos + 1  
-  
+
 let add_int_2 (b : t ) (x : int ) = 
   let c1 = (Char.unsafe_chr (x land 0xff)) in 
   let c2 = (Char.unsafe_chr (x lsr 8 land 0xff)) in   
@@ -9094,19 +9092,18 @@ module Bs_hash_stubs
 
 
 
-
 let hash_string : string -> int = Hashtbl.hash
 let hash_string_int s i = Hashtbl.hash (s,i)
 let hash_string_small_int :  string -> int  -> int = hash_string_int
 let hash_stamp_and_name (i:int) (s:string) = Hashtbl.hash(i,s)
 let hash_int (i:int) = Hashtbl.hash i 
 let string_length_based_compare (x : string ) (y : string) = 
-    let len1 = String.length x in 
-    let len2 = String.length y in 
-    if len1 = len2 then String.compare x y 
-    else compare (len1:int) len2
+  let len1 = String.length x in 
+  let len2 = String.length y in 
+  if len1 = len2 then String.compare x y 
+  else compare (len1:int) len2
 let int_unsafe_blit: int array -> int -> int array -> int -> int -> unit = 
-    Array.blit
+  Array.blit
 
 
 
@@ -9176,11 +9173,11 @@ val ends_with_index : string -> string -> int
 val ends_with : string -> string -> bool
 
 (**
-  [ends_with_then_chop name ext]
-  @example:
+   [ends_with_then_chop name ext]
+   @example:
    {[
      ends_with_then_chop "a.cmj" ".cmj"
-     "a"
+       "a"
    ]}
    This is useful in controlled or file case sensitve system
 *)
@@ -9190,9 +9187,9 @@ val ends_with_then_chop : string -> string -> string option
 
 
 (**
-  [for_all_from  s start p]
-  if [start] is negative, it raises,
-  if [start] is too large, it returns true
+   [for_all_from  s start p]
+   if [start] is negative, it raises,
+   if [start] is too large, it returns true
 *)
 val for_all_from:
   string -> 
@@ -9212,7 +9209,7 @@ val repeat : int -> string -> string
 val equal : string -> string -> bool
 
 (**
-  [extract_until s cursor sep]
+   [extract_until s cursor sep]
    When [sep] not found, the cursor is updated to -1,
    otherwise cursor is increased to 1 + [sep_position]
    User can not determine whether it is found or not by
@@ -9220,10 +9217,10 @@ val equal : string -> string -> bool
    "\n\n" would result in an empty string too.
 *)
 (* val extract_until:
-  string -> 
-  int ref -> (* cursor to be updated *)
-  char -> 
-  string *)
+   string -> 
+   int ref -> (* cursor to be updated *)
+   char -> 
+   string *)
 
 val index_count:  
   string -> 
@@ -9233,15 +9230,15 @@ val index_count:
   int 
 
 (* val index_next :
-  string -> 
-  int ->
-  char -> 
-  int  *)
+   string -> 
+   int ->
+   char -> 
+   int  *)
 
-  
+
 (**
-  [find ~start ~sub s]
-  returns [-1] if not found
+   [find ~start ~sub s]
+   returns [-1] if not found
 *)
 val find : ?start:int -> sub:string -> string -> int
 
@@ -9252,7 +9249,7 @@ val non_overlap_count : sub:string -> string -> int
 val rfind : sub:string -> string -> int
 
 (** [tail_from s 1]
-  return a substring from offset 1 (inclusive)
+    return a substring from offset 1 (inclusive)
 *)
 val tail_from : string -> int -> string
 
@@ -9305,7 +9302,7 @@ val capitalize_sub:
   string -> 
   int -> 
   string
-  
+
 val uncapitalize_ascii : string -> string
 
 val lowercase_ascii : string -> string 
@@ -9447,17 +9444,17 @@ let ends_with_then_chop s beg =
 (* let check_suffix_case_then_chop = ends_with_then_chop *)
 
 (* let check_any_suffix_case s suffixes = 
-  Ext_list.exists suffixes (fun x -> check_suffix_case s x)  *)
+   Ext_list.exists suffixes (fun x -> check_suffix_case s x)  *)
 
 (* let check_any_suffix_case_then_chop s suffixes = 
-  let rec aux suffixes = 
+   let rec aux suffixes = 
     match suffixes with 
     | [] -> None 
     | x::xs -> 
       let id = ends_with_index s x in 
       if id >= 0 then Some (String.sub s 0 id)
       else aux xs in 
-  aux suffixes     *)
+   aux suffixes     *)
 
 
 
@@ -9559,9 +9556,9 @@ let tail_from s x =
 let equal (x : string) y  = x = y
 
 (* let rec index_rec s lim i c =
-  if i >= lim then -1 else
-  if String.unsafe_get s i = c then i 
-  else index_rec s lim (i + 1) c *)
+   if i >= lim then -1 else
+   if String.unsafe_get s i = c then i 
+   else index_rec s lim (i + 1) c *)
 
 
 
@@ -9579,16 +9576,16 @@ let index_count s i c count =
   index_rec_count s lim i c count 
 
 (* let index_next s i c =   
-  index_count s i c 1  *)
+   index_count s i c 1  *)
 
 (* let extract_until s cursor c =       
-  let len = String.length s in   
-  let start = !cursor in 
-  if start < 0 || start >= len then (
+   let len = String.length s in   
+   let start = !cursor in 
+   if start < 0 || start >= len then (
     cursor := -1;
     ""
     )
-  else 
+   else 
     let i = index_rec s len start c in   
     let finish = 
       if i < 0 then (      
@@ -9600,7 +9597,7 @@ let index_count s i c count =
         i 
       ) in 
     String.sub s start (finish - start) *)
-  
+
 let rec rindex_rec s i c =
   if i < 0 then i else
   if String.unsafe_get s i = c then i else rindex_rec s (i - 1) c;;
@@ -9662,7 +9659,6 @@ let replace_backward_slash (x : string)=
         | x -> x) x
 
 let empty = ""
-
 
 let compare = Bs_hash_stubs.string_length_based_compare
 
@@ -9796,10 +9792,10 @@ let capitalize_sub (s : string) len : string =
     done ;
     Bytes.unsafe_to_string bytes 
 
-    
+
 
 let uncapitalize_ascii =
-    String.uncapitalize_ascii
+  String.uncapitalize_ascii
 
 let lowercase_ascii = String.lowercase_ascii
 
@@ -9811,7 +9807,7 @@ let get_int_1 (x : string) off : int =
 let get_int_2 (x : string) off : int = 
   Char.code x.[off] lor   
   Char.code x.[off+1] lsl 8
-  
+
 let get_int_3 (x : string) off : int = 
   Char.code x.[off] lor   
   Char.code x.[off+1] lsl 8  lor 
@@ -9924,38 +9920,38 @@ end = struct
 
 
 
- 
- type anon_fun = rev_args:string list -> unit
- 
- type string_action = 
-   | String_call of (string -> unit)  
-   | String_set of string ref
-   | String_optional_set of string option ref 
-   | String_list_add of string list ref 
 
- type unit_action = 
-    | Unit_call of (unit -> unit) 
-    | Unit_lazy of unit lazy_t
-    | Unit_set of bool ref
-    | Unit_clear of bool ref 
+type anon_fun = rev_args:string list -> unit
 
- type spec =
-   | Unit_dummy  
-   | Unit of unit_action
-   | String of string_action 
- 
- 
- exception Bad = Arg.Bad
- 
- let bad_arg s = raise_notrace (Bad s)
+type string_action = 
+  | String_call of (string -> unit)  
+  | String_set of string ref
+  | String_optional_set of string option ref 
+  | String_list_add of string list ref 
 
- type error =
-   | Unknown of string
-   | Missing of string
- 
+type unit_action = 
+  | Unit_call of (unit -> unit) 
+  | Unit_lazy of unit lazy_t
+  | Unit_set of bool ref
+  | Unit_clear of bool ref 
+
+type spec =
+  | Unit_dummy  
+  | Unit of unit_action
+  | String of string_action 
+
+
+exception Bad = Arg.Bad
+
+let bad_arg s = raise_notrace (Bad s)
+
+type error =
+  | Unknown of string
+  | Missing of string
+
 type t = spec Ext_spec.t 
 
- 
+
 let (+>) = Ext_buffer.add_string
 
 let usage_b (buf : Ext_buffer.t) ~usage (speclist : t) =
@@ -10106,7 +10102,7 @@ module Ext_filename : sig
 
 val is_dir_sep : 
   char -> bool 
-  
+
 val maybe_quote:
   string -> 
   string
@@ -10221,8 +10217,8 @@ let chop_all_extensions_maybe name =
   let rec search_dot i last =
     if i < 0 || is_dir_sep (String.unsafe_get name i) then 
       (match last with 
-      | None -> name
-      | Some i -> String.sub name 0 i)  
+       | None -> name
+       | Some i -> String.sub name 0 i)  
     else if String.unsafe_get name i = '.' then 
       search_dot (i - 1) (Some i)
     else search_dot (i - 1) last in
@@ -10245,11 +10241,11 @@ let new_extension name (ext : string) =
 
 
 (** TODO: improve efficiency
-   given a path, calcuate its module name 
-   Note that `ocamlc.opt -c aa.xx.mli` gives `aa.xx.cmi`
-   we can not strip all extensions, otherwise
-   we can not tell the difference between "x.cpp.ml" 
-   and "x.ml"
+    given a path, calcuate its module name 
+    Note that `ocamlc.opt -c aa.xx.mli` gives `aa.xx.cmi`
+    we can not strip all extensions, otherwise
+    we can not tell the difference between "x.cpp.ml" 
+    and "x.ml"
 *)
 let module_name name = 
   let rec search_dot i  name =
@@ -10328,7 +10324,7 @@ let as_module ~basename =
       search_dot (i - 1) name name_len in  
   let name_len = String.length basename in       
   search_dot (name_len - 1)  basename name_len
-    
+
 end
 module Ext_format : sig 
 #1 "ext_format.mli"
@@ -10364,40 +10360,40 @@ module Ext_format : sig
 
 
 (** Simplified wrapper module for the standard library [Format] module. 
-  *) 
+*) 
 
 type t = private Format.formatter
 
 (* val string : t -> string -> unit
 
-val break : t -> unit
+   val break : t -> unit
 
-val break1 : t -> unit
+   val break1 : t -> unit
 
-val space :  t -> unit
+   val space :  t -> unit
 
-val group : t -> int -> (unit -> 'a) -> 'a
-(** [group] will record current indentation 
+   val group : t -> int -> (unit -> 'a) -> 'a
+   (** [group] will record current indentation 
     and indent futher
  *)
 
-val vgroup : t -> int -> (unit -> 'a) -> 'a
+   val vgroup : t -> int -> (unit -> 'a) -> 'a
 
-val paren : t -> (unit -> 'a) -> 'a
+   val paren : t -> (unit -> 'a) -> 'a
 
-val paren_group : t -> int -> (unit -> 'a) -> 'a
+   val paren_group : t -> int -> (unit -> 'a) -> 'a
 
-val brace_group : t -> int -> (unit -> 'a) -> 'a
+   val brace_group : t -> int -> (unit -> 'a) -> 'a
 
-val brace_vgroup : t -> int -> (unit -> 'a) -> 'a
+   val brace_vgroup : t -> int -> (unit -> 'a) -> 'a
 
-val bracket_group : t -> int -> (unit -> 'a) -> 'a
+   val bracket_group : t -> int -> (unit -> 'a) -> 'a
 
-val newline : t -> unit
+   val newline : t -> unit
 
-val to_out_channel : out_channel -> t
+   val to_out_channel : out_channel -> t
 
-val flush : t -> unit -> unit *)
+   val flush : t -> unit -> unit *)
 
 val pp_print_queue :
   ?pp_sep:(Format.formatter -> unit -> unit) ->
@@ -10444,51 +10440,51 @@ type t = formatter
 
 (* let break = fun fmt -> pp_print_break fmt 0 0
 
-let break1 =
-  fun fmt -> pp_print_break fmt 0 1 
+   let break1 =
+   fun fmt -> pp_print_break fmt 0 1 
 
-let space  fmt  = 
-  pp_print_break fmt 1 0
- *)
+   let space  fmt  = 
+   pp_print_break fmt 1 0
+*)
 (* let vgroup fmt indent u = 
-  pp_open_vbox fmt indent; 
-  let v = u () in
-  pp_close_box fmt ();
-  v
+   pp_open_vbox fmt indent; 
+   let v = u () in
+   pp_close_box fmt ();
+   v
 
-let group fmt indent u = 
-  pp_open_hovbox fmt indent; 
-  let v = u () in
-  pp_close_box fmt ();
-  v
-  
-let paren fmt u = 
-  string fmt "(";
-  let v = u () in
-  string fmt ")";
-  v
+   let group fmt indent u = 
+   pp_open_hovbox fmt indent; 
+   let v = u () in
+   pp_close_box fmt ();
+   v
 
-let brace fmt u = 
-  string fmt "{";
-  (* break1 fmt ; *)
-  let v = u () in
-  string fmt "}";
-  v 
+   let paren fmt u = 
+   string fmt "(";
+   let v = u () in
+   string fmt ")";
+   v
 
-let bracket fmt u = 
-  string fmt "[";
-  let v = u () in
-  string fmt "]";
-  v  *)
+   let brace fmt u = 
+   string fmt "{";
+   (* break1 fmt ; *)
+   let v = u () in
+   string fmt "}";
+   v 
+
+   let bracket fmt u = 
+   string fmt "[";
+   let v = u () in
+   string fmt "]";
+   v  *)
 
 (* let paren_group st n action = 
-  group st n (fun _ -> paren st action)
+   group st n (fun _ -> paren st action)
 
-let brace_group st n action = 
-  group st n (fun _ -> brace st action )
+   let brace_group st n action = 
+   group st n (fun _ -> brace st action )
 
-let brace_vgroup st n action = 
-  vgroup st n (fun _ -> 
+   let brace_vgroup st n action = 
+   vgroup st n (fun _ -> 
     string st "{";
     pp_print_break st 0 2;
     let v = vgroup st 0 action in
@@ -10496,17 +10492,17 @@ let brace_vgroup st n action =
     string st "}";
     v
               )
-let bracket_group st n action = 
-  group st n (fun _ -> bracket st action)
+   let bracket_group st n action = 
+   group st n (fun _ -> bracket st action)
 
-let newline fmt = pp_print_newline fmt ()
+   let newline fmt = pp_print_newline fmt ()
 
-let to_out_channel = formatter_of_out_channel
+   let to_out_channel = formatter_of_out_channel
 
-(* let non_breaking_space  fmt = string fmt " " *)
-(* let set_needed_space_function _ _ = () *)
-let flush = pp_print_flush
- *)
+   (* let non_breaking_space  fmt = string fmt " " *)
+   (* let set_needed_space_function _ _ = () *)
+   let flush = pp_print_flush
+*)
 (* let list = pp_print_list *)
 
 let pp_print_queue ?(pp_sep = pp_print_cut) pp_v ppf q =
@@ -10547,7 +10543,7 @@ module Ext_pervasives : sig
 
 
 (** Extension to standard library [Pervavives] module, safe to open 
-  *)
+*)
 
 external reraise: exn -> 'a = "%reraise"
 
@@ -10576,7 +10572,7 @@ val with_file_as_chan : string -> (out_channel -> 'a) -> 'a
 
 (** Copied from {!Btype.hash_variant}:
     need sync up and add test case
- *)
+*)
 (* val hash_variant : string -> int *)
 
 (* val todo : string -> 'a *)
@@ -10623,12 +10619,12 @@ external reraise: exn -> 'a = "%reraise"
 let finally v ~clean:action f   = 
   match f v with
   | exception e -> 
-      action v ;
-      reraise e 
+    action v ;
+    reraise e 
   | e ->  action v ; e 
 
 (* let try_it f  =   
-  try ignore (f ()) with _ -> () *)
+   try ignore (f ()) with _ -> () *)
 
 let with_file_as_chan filename f = 
   finally (open_out_bin filename) ~clean:close_out f 
@@ -10652,8 +10648,8 @@ let hash_variant s =
   if !accu > 0x3FFFFFFF then !accu - (1 lsl 31) else !accu *)
 
 (* let todo loc = 
-  failwith (loc ^ " Not supported yet")
- *)
+   failwith (loc ^ " Not supported yet")
+*)
 
 
 
@@ -10697,17 +10693,17 @@ module Ext_fmt
 let with_file_as_pp filename f = 
   Ext_pervasives.finally (open_out_bin filename) ~clean:close_out
     (fun chan -> 
-      let fmt = Format.formatter_of_out_channel chan in
-      let v = f  fmt in
-      Format.pp_print_flush fmt ();
-      v
+       let fmt = Format.formatter_of_out_channel chan in
+       let v = f  fmt in
+       Format.pp_print_flush fmt ();
+       v
     ) 
 
 
 
 let failwithf ~loc fmt = Format.ksprintf (fun s -> failwith (loc ^ s))
     fmt
-    
+
 let invalid_argf fmt = Format.ksprintf invalid_arg fmt
 
 
@@ -10840,7 +10836,7 @@ let setter_suffix = "#="
 let setter_suffix_len = String.length setter_suffix
 
 let debugger = "debugger"
-let unsafe_downgrade = "unsafe_downgrade"
+
 let fn_run = "fn_run"
 let method_run = "method_run"
 
@@ -11079,12 +11075,12 @@ let cwd = lazy (Sys.getcwd())
 
 let split_by_sep_per_os : string -> string list = 
   if Ext_sys.is_windows_or_cygwin then 
-  fun x -> 
-    (* on Windows, we can still accept -bs-package-output lib/js *)
-    Ext_string.split_by 
-      (fun x -> match x with |'/' |'\\' -> true | _ -> false) x
+    fun x -> 
+      (* on Windows, we can still accept -bs-package-output lib/js *)
+      Ext_string.split_by 
+        (fun x -> match x with |'/' |'\\' -> true | _ -> false) x
   else 
-  fun x -> Ext_string.split x '/'
+    fun x -> Ext_string.split x '/'
 
 (** example
     {[
@@ -11141,14 +11137,14 @@ let node_concat ~dir base =
   dir ^ Literals.node_sep ^ base 
 
 let node_rebase_file ~from ~to_ file = 
-  
+
   node_concat
     ~dir:(
       if from = to_ then Literals.node_current
       else node_relative_path ~from:(Dir from) (Dir to_)) 
     file
-    
-    
+
+
 (***
    {[
      Filename.concat "." "";;
@@ -11251,7 +11247,7 @@ let rel_normalized_absolute_path ~from to_ =
       | [], y::ys -> Ext_list.fold_left ys y (fun acc x -> acc // x) 
       | _::xs, [] ->
         Ext_list.fold_left xs Ext_string.parent_dir_lit (fun acc _ -> acc // Ext_string.parent_dir_lit )
-     in
+    in
     let v =  go paths1 paths2  in 
 
     if Ext_string.is_empty v then  Literals.node_current
@@ -11333,15 +11329,15 @@ let absolute_cwd_path s =
   absolute_path cwd  s 
 
 (* let absolute cwd s =   
-  match s with 
-  | File x -> File (absolute_path cwd x )
-  | Dir x -> Dir (absolute_path cwd x) *)
+   match s with 
+   | File x -> File (absolute_path cwd x )
+   | Dir x -> Dir (absolute_path cwd x) *)
 
 let concat dirname filename =
   if filename = Filename.current_dir_name then dirname
   else if dirname = Filename.current_dir_name then filename
   else Filename.concat dirname filename
-  
+
 
 let check_suffix_case =
   Ext_string.ends_with
@@ -11392,7 +11388,7 @@ module Ext_util : sig
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
- 
+
 val power_2_above : int -> int -> int
 
 
@@ -11514,10 +11510,10 @@ let resize indexfun h =
       | Cons {key; next} as cell ->
         let nidx = indexfun h key in
         begin match Array.unsafe_get ndata_tail nidx with 
-        | Empty -> 
-          Array.unsafe_set ndata nidx cell
-        | Cons tail ->
-          tail.next <- cell  
+          | Empty -> 
+            Array.unsafe_set ndata nidx cell
+          | Cons tail ->
+            tail.next <- cell  
         end;
         Array.unsafe_set ndata_tail nidx cell;
         insert_bucket next
@@ -11741,115 +11737,116 @@ let key_index (h : _ t ) (key : key) =
   (Bs_hash_stubs.hash_string  key ) land (Array.length h.data - 1)
 let eq_key = Ext_string.equal 
 
-# 33 "ext/hash.cppo.ml"
-type ('a, 'b) bucket = ('a,'b) Hash_gen.bucket
-let create = Hash_gen.create
-let clear = Hash_gen.clear
-let reset = Hash_gen.reset
-let iter = Hash_gen.iter
-let to_list = Hash_gen.to_list
-let fold = Hash_gen.fold
-let length = Hash_gen.length
-(* let stats = Hash_gen.stats *)
-
-
-
-let add (h : _ t) key data =
-  let i = key_index h key in
-  let h_data = h.data in   
-  Array.unsafe_set h_data i (Cons{key; data; next=Array.unsafe_get h_data i});
-  h.size <- h.size + 1;
-  if h.size > Array.length h_data lsl 1 then Hash_gen.resize key_index h
-
-(* after upgrade to 4.04 we should provide an efficient [replace_or_init] *)
-let add_or_update 
-  (h : 'a t) 
-  (key : key) 
-  ~update:(modf : 'a -> 'a) 
-  (default :  'a) : unit =
-  let rec find_bucket (bucketlist : _ bucket) : bool =
-    match bucketlist with
-    | Cons rhs  ->
-      if eq_key rhs.key key then begin rhs.data <- modf rhs.data; false end
-      else find_bucket rhs.next
-    | Empty -> true in
-  let i = key_index h key in 
-  let h_data = h.data in 
-  if find_bucket (Array.unsafe_get h_data i) then
-    begin 
-      Array.unsafe_set h_data i  (Cons{key; data=default; next = Array.unsafe_get h_data i});
-      h.size <- h.size + 1 ;
-      if h.size > Array.length h_data lsl 1 then Hash_gen.resize key_index h 
-    end
-
-let remove (h : _ t ) key =
-  let i = key_index h key in
-  let h_data = h.data in 
-  Hash_gen.remove_bucket h i key ~prec:Empty (Array.unsafe_get h_data i) eq_key
-
-(* for short bucket list, [find_rec is not called ] *)
-let rec find_rec key (bucketlist : _ bucket) = match bucketlist with  
-  | Empty ->
-    raise Not_found
-  | Cons rhs  ->
-    if eq_key key rhs.key then rhs.data else find_rec key rhs.next
-
-let find_exn (h : _ t) key =
-  match Array.unsafe_get h.data (key_index h key) with
-  | Empty -> raise Not_found
-  | Cons rhs  ->
-    if eq_key key rhs.key then rhs.data else
-      match rhs.next with
-      | Empty -> raise Not_found
-      | Cons rhs  ->
-        if eq_key key rhs.key then rhs.data else
-          match rhs.next with
-          | Empty -> raise Not_found
-          | Cons rhs ->
-            if eq_key key rhs.key  then rhs.data else find_rec key rhs.next
-
-let find_opt (h : _ t) key =
-  Hash_gen.small_bucket_opt eq_key key (Array.unsafe_get h.data (key_index h key))
-
-let find_key_opt (h : _ t) key =
-  Hash_gen.small_bucket_key_opt eq_key key (Array.unsafe_get h.data (key_index h key))
   
-let find_default (h : _ t) key default = 
-  Hash_gen.small_bucket_default eq_key key default (Array.unsafe_get h.data (key_index h key))
+# 33 "ext/hash.cppo.ml"
+  type ('a, 'b) bucket = ('a,'b) Hash_gen.bucket
+  let create = Hash_gen.create
+  let clear = Hash_gen.clear
+  let reset = Hash_gen.reset
+  let iter = Hash_gen.iter
+  let to_list = Hash_gen.to_list
+  let fold = Hash_gen.fold
+  let length = Hash_gen.length
+  (* let stats = Hash_gen.stats *)
 
-let find_all (h : _ t) key =
-  let rec find_in_bucket (bucketlist : _ bucket) = match bucketlist with 
+
+
+  let add (h : _ t) key data =
+    let i = key_index h key in
+    let h_data = h.data in   
+    Array.unsafe_set h_data i (Cons{key; data; next=Array.unsafe_get h_data i});
+    h.size <- h.size + 1;
+    if h.size > Array.length h_data lsl 1 then Hash_gen.resize key_index h
+
+  (* after upgrade to 4.04 we should provide an efficient [replace_or_init] *)
+  let add_or_update 
+      (h : 'a t) 
+      (key : key) 
+      ~update:(modf : 'a -> 'a) 
+      (default :  'a) : unit =
+    let rec find_bucket (bucketlist : _ bucket) : bool =
+      match bucketlist with
+      | Cons rhs  ->
+        if eq_key rhs.key key then begin rhs.data <- modf rhs.data; false end
+        else find_bucket rhs.next
+      | Empty -> true in
+    let i = key_index h key in 
+    let h_data = h.data in 
+    if find_bucket (Array.unsafe_get h_data i) then
+      begin 
+        Array.unsafe_set h_data i  (Cons{key; data=default; next = Array.unsafe_get h_data i});
+        h.size <- h.size + 1 ;
+        if h.size > Array.length h_data lsl 1 then Hash_gen.resize key_index h 
+      end
+
+  let remove (h : _ t ) key =
+    let i = key_index h key in
+    let h_data = h.data in 
+    Hash_gen.remove_bucket h i key ~prec:Empty (Array.unsafe_get h_data i) eq_key
+
+  (* for short bucket list, [find_rec is not called ] *)
+  let rec find_rec key (bucketlist : _ bucket) = match bucketlist with  
     | Empty ->
-      []
+      raise Not_found
     | Cons rhs  ->
-      if eq_key key rhs.key
-      then rhs.data :: find_in_bucket rhs.next
-      else find_in_bucket rhs.next in
-  find_in_bucket (Array.unsafe_get h.data (key_index h key))
+      if eq_key key rhs.key then rhs.data else find_rec key rhs.next
+
+  let find_exn (h : _ t) key =
+    match Array.unsafe_get h.data (key_index h key) with
+    | Empty -> raise Not_found
+    | Cons rhs  ->
+      if eq_key key rhs.key then rhs.data else
+        match rhs.next with
+        | Empty -> raise Not_found
+        | Cons rhs  ->
+          if eq_key key rhs.key then rhs.data else
+            match rhs.next with
+            | Empty -> raise Not_found
+            | Cons rhs ->
+              if eq_key key rhs.key  then rhs.data else find_rec key rhs.next
+
+  let find_opt (h : _ t) key =
+    Hash_gen.small_bucket_opt eq_key key (Array.unsafe_get h.data (key_index h key))
+
+  let find_key_opt (h : _ t) key =
+    Hash_gen.small_bucket_key_opt eq_key key (Array.unsafe_get h.data (key_index h key))
+
+  let find_default (h : _ t) key default = 
+    Hash_gen.small_bucket_default eq_key key default (Array.unsafe_get h.data (key_index h key))
+
+  let find_all (h : _ t) key =
+    let rec find_in_bucket (bucketlist : _ bucket) = match bucketlist with 
+      | Empty ->
+        []
+      | Cons rhs  ->
+        if eq_key key rhs.key
+        then rhs.data :: find_in_bucket rhs.next
+        else find_in_bucket rhs.next in
+    find_in_bucket (Array.unsafe_get h.data (key_index h key))
 
 
-let replace h key data =
-  let i = key_index h key in
-  let h_data = h.data in 
-  let l = Array.unsafe_get h_data i in
-  if Hash_gen.replace_bucket key data l eq_key then 
-    begin 
-      Array.unsafe_set h_data i (Cons{key; data; next=l});
-      h.size <- h.size + 1;
-      if h.size > Array.length h_data lsl 1 then Hash_gen.resize key_index h;
-    end 
+  let replace h key data =
+    let i = key_index h key in
+    let h_data = h.data in 
+    let l = Array.unsafe_get h_data i in
+    if Hash_gen.replace_bucket key data l eq_key then 
+      begin 
+        Array.unsafe_set h_data i (Cons{key; data; next=l});
+        h.size <- h.size + 1;
+        if h.size > Array.length h_data lsl 1 then Hash_gen.resize key_index h;
+      end 
 
-let mem (h : _ t) key = 
-  Hash_gen.small_bucket_mem 
-    (Array.unsafe_get h.data (key_index h key))
-    eq_key key 
+  let mem (h : _ t) key = 
+    Hash_gen.small_bucket_mem 
+      (Array.unsafe_get h.data (key_index h key))
+      eq_key key 
 
 
-let of_list2 ks vs = 
-  let len = List.length ks in 
-  let map = create len in 
-  List.iter2 (fun k v -> add map k v) ks vs ; 
-  map
+  let of_list2 ks vs = 
+    let len = List.length ks in 
+    let map = create len in 
+    List.iter2 (fun k v -> add map k v) ks vs ; 
+    map
 
 
 end
@@ -11896,16 +11893,16 @@ val no_version_header : bool ref
 *)
 
 (* val get_current_package_name_and_path : 
-  Js_packages_info.module_system -> 
-  Js_packages_info.info_query *)
+   Js_packages_info.module_system -> 
+   Js_packages_info.info_query *)
 
 
 (* val set_package_name : string -> unit  
-val get_package_name : unit -> string option *)
+   val get_package_name : unit -> string option *)
 
 (** cross module inline option *)
 val cross_module_inline : bool ref
-  
+
 (** diagnose option *)
 val diagnose : bool ref 
 val get_diagnose : unit -> bool 
@@ -11958,6 +11955,7 @@ val as_ppx : bool ref
 
 val mono_empty_array : bool ref
 val customize_runtime : string option ref 
+val as_pp: bool ref
 end = struct
 #1 "js_config.ml"
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
@@ -12001,7 +11999,7 @@ let cross_module_inline = ref false
 
 let diagnose = ref false
 let get_diagnose () = 
-    !diagnose
+  !diagnose
 
 
 (* let (//) = Filename.concat *)
@@ -12053,6 +12051,8 @@ let as_ppx = ref false
 let mono_empty_array = ref true
 
 let customize_runtime = ref None 
+
+let as_pp = ref false
 end
 module Map_gen : sig 
 #1 "map_gen.mli"
@@ -12125,47 +12125,47 @@ val concat_or_join :
   ('a, 'b) t -> 'a -> 'b option -> ('a, 'b) t -> ('a, 'b) t
 
 module type S =
-  sig
-    type key
-    type +'a t
-    val empty : 'a t
-    val compare_key : key -> key -> int
-    val is_empty : 'a t -> bool
-    val mem : 'a t -> key -> bool
-    val to_sorted_array : 'a t -> (key * 'a) array
-    val to_sorted_array_with_f : 'a t -> (key -> 'a -> 'b) -> 'b array
-    val add : 'a t -> key -> 'a -> 'a t
-    val adjust : 'a t -> key -> ('a option -> 'a) -> 'a t
-    val singleton : key -> 'a -> 'a t
-    val remove : 'a t -> key -> 'a t
-    (* val merge :
-      'a t -> 'b t -> (key -> 'a option -> 'b option -> 'c option) -> 'c t *)
-    val disjoint_merge_exn : 
+sig
+  type key
+  type +'a t
+  val empty : 'a t
+  val compare_key : key -> key -> int
+  val is_empty : 'a t -> bool
+  val mem : 'a t -> key -> bool
+  val to_sorted_array : 'a t -> (key * 'a) array
+  val to_sorted_array_with_f : 'a t -> (key -> 'a -> 'b) -> 'b array
+  val add : 'a t -> key -> 'a -> 'a t
+  val adjust : 'a t -> key -> ('a option -> 'a) -> 'a t
+  val singleton : key -> 'a -> 'a t
+  val remove : 'a t -> key -> 'a t
+  (* val merge :
+     'a t -> 'b t -> (key -> 'a option -> 'b option -> 'c option) -> 'c t *)
+  val disjoint_merge_exn : 
     'a t -> 
     'a t -> 
     (key -> 'a -> 'a -> exn) -> 
     'a t
-    
-    val iter : 'a t -> (key -> 'a -> unit) -> unit
-    val fold : 'a t -> 'b -> (key -> 'a -> 'b -> 'b) -> 'b
-    val for_all : 'a t -> (key -> 'a -> bool) -> bool
-    val exists : 'a t -> (key -> 'a -> bool) -> bool
-    (* val filter : 'a t -> (key -> 'a -> bool) -> 'a t *)
-    (* val partition : 'a t -> (key -> 'a -> bool) -> 'a t * 'a t *)
-    val cardinal : 'a t -> int
-    val bindings : 'a t -> (key * 'a) list
-    val keys : 'a t -> key list
-    (* val choose : 'a t -> key * 'a *)
 
-    val find_exn : 'a t -> key -> 'a
-    val find_opt : 'a t -> key -> 'a option
-    val find_default : 'a t -> key -> 'a -> 'a
-    val map : 'a t -> ('a -> 'b) -> 'b t
-    val mapi : 'a t -> (key -> 'a -> 'b) -> 'b t
-    val of_list : (key * 'a) list -> 'a t
-    val of_array : (key * 'a) array -> 'a t
-    val add_list : (key * 'b) list -> 'b t -> 'b t
-  end
+  val iter : 'a t -> (key -> 'a -> unit) -> unit
+  val fold : 'a t -> 'b -> (key -> 'a -> 'b -> 'b) -> 'b
+  val for_all : 'a t -> (key -> 'a -> bool) -> bool
+  val exists : 'a t -> (key -> 'a -> bool) -> bool
+  (* val filter : 'a t -> (key -> 'a -> bool) -> 'a t *)
+  (* val partition : 'a t -> (key -> 'a -> bool) -> 'a t * 'a t *)
+  val cardinal : 'a t -> int
+  val bindings : 'a t -> (key * 'a) list
+  val keys : 'a t -> key list
+  (* val choose : 'a t -> key * 'a *)
+
+  val find_exn : 'a t -> key -> 'a
+  val find_opt : 'a t -> key -> 'a option
+  val find_default : 'a t -> key -> 'a -> 'a
+  val map : 'a t -> ('a -> 'b) -> 'b t
+  val mapi : 'a t -> (key -> 'a -> 'b) -> 'b t
+  val of_list : (key * 'a) list -> 'a t
+  val of_array : (key * 'a) array -> 'a t
+  val add_list : (key * 'b) list -> 'b t -> 'b t
+end
 
 end = struct
 #1 "map_gen.ml"
@@ -12189,12 +12189,12 @@ type ('key,'a) t0 =
   | Empty
   | Leaf of {k : 'key ; v : 'a}
   | Node of {
-    l : ('key,'a) t0 ;
-    k : 'key ;
-    v : 'a ;
-    r : ('key,'a) t0 ;
-    h : int
-  }
+      l : ('key,'a) t0 ;
+      k : 'key ;
+      v : 'a ;
+      r : ('key,'a) t0 ;
+      h : int
+    }
 
 let  empty = Empty
 let rec map x f = match x with
@@ -12231,13 +12231,13 @@ let [@inline] unsafe_node_maybe_leaf k v l r h =
   else Node{l;k;v;r; h }           
 
 
-  type ('key, + 'a) t = ('key,'a) t0 = private
-    | Empty
-    | Leaf of {
+type ('key, + 'a) t = ('key,'a) t0 = private
+  | Empty
+  | Leaf of {
       k : 'key ;
       v : 'a
     }
-    | Node of {
+  | Node of {
       l : ('key,'a) t ;
       k : 'key ;
       v : 'a ;
@@ -12445,7 +12445,7 @@ let rec join l v d r =
   match l with
   | Empty -> add_min v d r
   | Leaf leaf ->
-      add_min leaf.k leaf.v (add_min v d r)
+    add_min leaf.k leaf.v (add_min v d r)
   | Node xl ->
     match r with  
     | Empty -> add_max v d l
@@ -12475,129 +12475,129 @@ let concat_or_join t1 v d t2 =
   | Some d -> join t1 v d t2
   | None -> concat t1 t2
 
-    
+
 module type S =
-  sig
-    type key
-    type +'a t
-    val empty: 'a t
-    val compare_key: key -> key -> int 
-    val is_empty: 'a t -> bool
-    val mem: 'a t -> key -> bool
-    val to_sorted_array : 
-      'a t -> (key * 'a ) array
-    val to_sorted_array_with_f : 
-      'a t -> (key -> 'a -> 'b) -> 'b array  
-    val add: 'a t -> key -> 'a -> 'a t
-    (** [add x y m] 
-        If [x] was already bound in [m], its previous binding disappears. *)
+sig
+  type key
+  type +'a t
+  val empty: 'a t
+  val compare_key: key -> key -> int 
+  val is_empty: 'a t -> bool
+  val mem: 'a t -> key -> bool
+  val to_sorted_array : 
+    'a t -> (key * 'a ) array
+  val to_sorted_array_with_f : 
+    'a t -> (key -> 'a -> 'b) -> 'b array  
+  val add: 'a t -> key -> 'a -> 'a t
+  (** [add x y m] 
+      If [x] was already bound in [m], its previous binding disappears. *)
 
-    val adjust: 'a t -> key -> ('a option->  'a) ->  'a t 
-    (** [adjust acc k replace ] if not exist [add (replace None ], otherwise 
-        [add k v (replace (Some old))]
-    *)
-    
-    val singleton: key -> 'a -> 'a t
+  val adjust: 'a t -> key -> ('a option->  'a) ->  'a t 
+  (** [adjust acc k replace ] if not exist [add (replace None ], otherwise 
+      [add k v (replace (Some old))]
+  *)
 
-    val remove: 'a t -> key -> 'a t
-    (** [remove x m] returns a map containing the same bindings as
-       [m], except for [x] which is unbound in the returned map. *)
+  val singleton: key -> 'a -> 'a t
 
-    (* val merge:
-         'a t -> 'b t ->
-         (key -> 'a option -> 'b option -> 'c option) ->  'c t *)
-    (** [merge f m1 m2] computes a map whose keys is a subset of keys of [m1]
-        and of [m2]. The presence of each such binding, and the corresponding
-        value, is determined with the function [f].
-        @since 3.12.0
-     *)
+  val remove: 'a t -> key -> 'a t
+  (** [remove x m] returns a map containing the same bindings as
+      [m], except for [x] which is unbound in the returned map. *)
 
-    val disjoint_merge_exn : 
-      'a t 
-      -> 'a t 
-      -> (key -> 'a -> 'a -> exn)
-      -> 'a t
-     (* merge two maps, will raise if they have the same key *)
+  (* val merge:
+       'a t -> 'b t ->
+       (key -> 'a option -> 'b option -> 'c option) ->  'c t *)
+  (** [merge f m1 m2] computes a map whose keys is a subset of keys of [m1]
+      and of [m2]. The presence of each such binding, and the corresponding
+      value, is determined with the function [f].
+      @since 3.12.0
+  *)
 
-
-
-    val iter: 'a t -> (key -> 'a -> unit) ->  unit
-    (** [iter f m] applies [f] to all bindings in map [m].
-        The bindings are passed to [f] in increasing order. *)
-
-    val fold: 'a t -> 'b -> (key -> 'a -> 'b -> 'b) -> 'b
-    (** [fold f m a] computes [(f kN dN ... (f k1 d1 a)...)],
-       where [k1 ... kN] are the keys of all bindings in [m]
-       (in increasing order) *)
-
-    val for_all: 'a t -> (key -> 'a -> bool) -> bool
-    (** [for_all p m] checks if all the bindings of the map.
-        order unspecified
-     *)
-
-    val exists: 'a t -> (key -> 'a -> bool) -> bool
-    (** [exists p m] checks if at least one binding of the map
-        satisfy the predicate [p]. 
-        order unspecified
-     *)
-
-    (* val filter: 'a t -> (key -> 'a -> bool) -> 'a t *)
-    (** [filter p m] returns the map with all the bindings in [m]
-        that satisfy predicate [p].
-        order unspecified
-     *)
-
-    (* val partition: 'a t -> (key -> 'a -> bool) ->  'a t * 'a t *)
-    (** [partition p m] returns a pair of maps [(m1, m2)], where
-        [m1] contains all the bindings of [s] that satisfy the
-        predicate [p], and [m2] is the map with all the bindings of
-        [s] that do not satisfy [p].
-     *)
-
-    val cardinal: 'a t -> int
-    (** Return the number of bindings of a map. *)
-
-    val bindings: 'a t -> (key * 'a) list
-    (** Return the list of all bindings of the given map.
-       The returned list is sorted in increasing order with respect
-       to the ordering *)
-    val keys : 'a t -> key list 
-    (* Increasing order *)
+  val disjoint_merge_exn : 
+    'a t 
+    -> 'a t 
+    -> (key -> 'a -> 'a -> exn)
+    -> 'a t
+  (* merge two maps, will raise if they have the same key *)
 
 
 
-    (* val split: 'a t -> key -> 'a t * 'a option * 'a t *)
-    (** [split x m] returns a triple [(l, data, r)], where
-          [l] is the map with all the bindings of [m] whose key
-        is strictly less than [x];
-          [r] is the map with all the bindings of [m] whose key
-        is strictly greater than [x];
-          [data] is [None] if [m] contains no binding for [x],
-          or [Some v] if [m] binds [v] to [x].
-        @since 3.12.0
-     *)
+  val iter: 'a t -> (key -> 'a -> unit) ->  unit
+  (** [iter f m] applies [f] to all bindings in map [m].
+      The bindings are passed to [f] in increasing order. *)
 
-    val find_exn: 'a t -> key ->  'a
-    (** [find x m] returns the current binding of [x] in [m],
-       or raises [Not_found] if no such binding exists. *)
-    val find_opt:  'a t ->  key ->'a option
-    val find_default: 'a t -> key  ->  'a  -> 'a 
-    val map: 'a t -> ('a -> 'b) -> 'b t
-    (** [map f m] returns a map with same domain as [m], where the
-       associated value [a] of all bindings of [m] has been
-       replaced by the result of the application of [f] to [a].
-       The bindings are passed to [f] in increasing order
-       with respect to the ordering over the type of the keys. *)
+  val fold: 'a t -> 'b -> (key -> 'a -> 'b -> 'b) -> 'b
+  (** [fold f m a] computes [(f kN dN ... (f k1 d1 a)...)],
+      where [k1 ... kN] are the keys of all bindings in [m]
+      (in increasing order) *)
 
-    val mapi: 'a t ->  (key -> 'a -> 'b) -> 'b t
-    (** Same as {!Map.S.map}, but the function receives as arguments both the
-       key and the associated value for each binding of the map. *)
+  val for_all: 'a t -> (key -> 'a -> bool) -> bool
+  (** [for_all p m] checks if all the bindings of the map.
+      order unspecified
+  *)
 
-    val of_list : (key * 'a) list -> 'a t 
-    val of_array : (key * 'a ) array -> 'a t 
-    val add_list : (key * 'b) list -> 'b t -> 'b t
+  val exists: 'a t -> (key -> 'a -> bool) -> bool
+  (** [exists p m] checks if at least one binding of the map
+      satisfy the predicate [p]. 
+      order unspecified
+  *)
 
-  end
+  (* val filter: 'a t -> (key -> 'a -> bool) -> 'a t *)
+  (** [filter p m] returns the map with all the bindings in [m]
+      that satisfy predicate [p].
+      order unspecified
+  *)
+
+  (* val partition: 'a t -> (key -> 'a -> bool) ->  'a t * 'a t *)
+  (** [partition p m] returns a pair of maps [(m1, m2)], where
+      [m1] contains all the bindings of [s] that satisfy the
+      predicate [p], and [m2] is the map with all the bindings of
+      [s] that do not satisfy [p].
+  *)
+
+  val cardinal: 'a t -> int
+  (** Return the number of bindings of a map. *)
+
+  val bindings: 'a t -> (key * 'a) list
+  (** Return the list of all bindings of the given map.
+      The returned list is sorted in increasing order with respect
+      to the ordering *)
+  val keys : 'a t -> key list 
+  (* Increasing order *)
+
+
+
+  (* val split: 'a t -> key -> 'a t * 'a option * 'a t *)
+  (** [split x m] returns a triple [(l, data, r)], where
+        [l] is the map with all the bindings of [m] whose key
+      is strictly less than [x];
+        [r] is the map with all the bindings of [m] whose key
+      is strictly greater than [x];
+        [data] is [None] if [m] contains no binding for [x],
+        or [Some v] if [m] binds [v] to [x].
+      @since 3.12.0
+  *)
+
+  val find_exn: 'a t -> key ->  'a
+  (** [find x m] returns the current binding of [x] in [m],
+      or raises [Not_found] if no such binding exists. *)
+  val find_opt:  'a t ->  key ->'a option
+  val find_default: 'a t -> key  ->  'a  -> 'a 
+  val map: 'a t -> ('a -> 'b) -> 'b t
+  (** [map f m] returns a map with same domain as [m], where the
+      associated value [a] of all bindings of [m] has been
+      replaced by the result of the application of [f] to [a].
+      The bindings are passed to [f] in increasing order
+      with respect to the ordering over the type of the keys. *)
+
+  val mapi: 'a t ->  (key -> 'a -> 'b) -> 'b t
+  (** Same as {!Map.S.map}, but the function receives as arguments both the
+      key and the associated value for each binding of the map. *)
+
+  val of_list : (key * 'a) list -> 'a t 
+  val of_array : (key * 'a ) array -> 'a t 
+  val add_list : (key * 'b) list -> 'b t -> 'b t
+
+end
 
 end
 module Map_string : sig 
@@ -12635,13 +12635,13 @@ end = struct
 # 2 "ext/map.cppo.ml"
 (* we don't create [map_poly], since some operations require raise an exception which carries [key] *)
 
-  
 # 5 "ext/map.cppo.ml"
-  type key = string 
-  let compare_key = Ext_string.compare
-  let [@inline] eq_key (x : key) y = x = y
+type key = string 
+let compare_key = Ext_string.compare
+let [@inline] eq_key (x : key) y = x = y
+    
 # 19 "ext/map.cppo.ml"
-(* let [@inline] (=) (a : int) b = a = b *)
+    (* let [@inline] (=) (a : int) b = a = b *)
 type + 'a t = (key,'a) Map_gen.t
 
 let empty = Map_gen.empty 
@@ -12757,8 +12757,8 @@ let rec remove (tree : _ Map_gen.t as 'a) x : 'a = match tree with
       bal l k v (remove r x )
 
 type 'a split = 
-    | Yes of {l : (key,'a) Map_gen.t; r : (key,'a)Map_gen.t ; v : 'a}
-    | No of {l : (key,'a) Map_gen.t; r : (key,'a)Map_gen.t }
+  | Yes of {l : (key,'a) Map_gen.t; r : (key,'a)Map_gen.t ; v : 'a}
+  | No of {l : (key,'a) Map_gen.t; r : (key,'a)Map_gen.t }
 
 
 let rec split  (tree : (key,'a) Map_gen.t) x : 'a split  = 
@@ -12801,10 +12801,10 @@ let rec disjoint_merge_exn
         else Map_gen.unsafe_two_elements l2.k l2.v k l1.v
       | Node _ -> 
         adjust s2 k (fun data -> 
-          match data with 
-          |  None -> l1.v
-          | Some s2v  -> raise_notrace (fail k l1.v s2v)
-        )        
+            match data with 
+            |  None -> l1.v
+            | Some s2v  -> raise_notrace (fail k l1.v s2v)
+          )        
     end
   | Node ({k} as xs1) -> 
     if  xs1.h >= height s2 then
@@ -12876,30 +12876,30 @@ val is_ordered : cmp:('a -> 'a -> int) -> 'a t-> bool
 val invariant : cmp:('a -> 'a -> int) -> 'a t-> bool
 
 module type S =
-  sig
-    type elt
-    type t
-    val empty : t
-    val is_empty : t -> bool
-    val iter : t -> (elt -> unit) -> unit
-    val fold : t -> 'a -> (elt -> 'a -> 'a) -> 'a
-    val for_all : t -> (elt -> bool) -> bool
-    val exists : t -> (elt -> bool) -> bool
-    val singleton : elt -> t
-    val cardinal : t -> int
-    val elements : t -> elt list
-    val choose : t -> elt
-    val mem : t -> elt -> bool
-    val add : t -> elt -> t
-    val remove : t -> elt -> t
-    val union : t -> t -> t
-    val inter : t -> t -> t
-    val diff : t -> t -> t    
-    val of_list : elt list -> t
-    val of_sorted_array : elt array -> t
-    val invariant : t -> bool
-    val print : Format.formatter -> t -> unit
-  end
+sig
+  type elt
+  type t
+  val empty : t
+  val is_empty : t -> bool
+  val iter : t -> (elt -> unit) -> unit
+  val fold : t -> 'a -> (elt -> 'a -> 'a) -> 'a
+  val for_all : t -> (elt -> bool) -> bool
+  val exists : t -> (elt -> bool) -> bool
+  val singleton : elt -> t
+  val cardinal : t -> int
+  val elements : t -> elt list
+  val choose : t -> elt
+  val mem : t -> elt -> bool
+  val add : t -> elt -> t
+  val remove : t -> elt -> t
+  val union : t -> t -> t
+  val inter : t -> t -> t
+  val diff : t -> t -> t    
+  val of_list : elt list -> t
+  val of_sorted_array : elt array -> t
+  val invariant : t -> bool
+  val print : Format.formatter -> t -> unit
+end
 
 end = struct
 #1 "set_gen.ml"
@@ -12949,7 +12949,7 @@ let [@inline] singleton x = Leaf x
 
 let [@inline] unsafe_two_elements x v = 
   unsafe_node v (singleton x) empty 2 
-  
+
 type 'a t = 'a t0 = private
   | Empty 
   | Leaf of 'a
@@ -13620,7 +13620,7 @@ val build_queue :
   ('b, 'c) t Map_string.t ->
   (Format.formatter -> string -> string -> 'b -> unit) ->
   (Format.formatter -> string -> string -> 'c -> unit) -> unit
-  
+
 val handle_queue :
   string Queue.t ->
   ('a, 'b) t Map_string.t ->
@@ -13666,7 +13666,7 @@ end = struct
 
 open Ast_extract
 
- type ('a,'b) ast_info =
+type ('a,'b) ast_info =
   | Ml of
       string * (* sourcefile *)
       'a *
@@ -13765,61 +13765,61 @@ let check_suffix  name  =
 let collect_ast_map ppf files parse_implementation parse_interface  =
   Ext_list.fold_left files Map_string.empty
     (fun acc source_file ->
-      match check_suffix source_file with
-      | `Ml, opref ->
-        let module_name = Ext_filename.module_name source_file in
-        begin match Map_string.find_exn acc module_name with
-          | exception Not_found ->
-            Map_string.add acc module_name
-              {ast_info =
-                 (Ml (source_file, parse_implementation
-                        ppf source_file, opref));
-               module_name ;
-              } 
-          | {ast_info = (Ml (source_file2, _, _)
-                        | Ml_mli(source_file2, _, _,_,_,_))} ->
-            Bs_exception.error
-              (Bs_duplicated_module (source_file, source_file2))
-          | {ast_info =  Mli (source_file2, intf, opref2)}
-            ->
-            Map_string.add acc module_name
-              {ast_info =
-                 Ml_mli (source_file,
-                         parse_implementation ppf source_file,
-                         opref,
-                         source_file2,
-                         intf,
-                         opref2
-                        );
-               module_name} 
-        end
-      | `Mli, opref ->
-        let module_name = Ext_filename.module_name source_file in
-        begin match Map_string.find_exn acc module_name with
-          | exception Not_found ->
-            Map_string.add acc module_name
-              {ast_info = (Mli (source_file, parse_interface
-                                  ppf source_file, opref));
-               module_name } 
-          | {ast_info =
-               (Mli (source_file2, _, _) |
-                Ml_mli(_,_,_,source_file2,_,_)) } ->
-            Bs_exception.error
-              (Bs_duplicated_module (source_file, source_file2))
-          | {ast_info = Ml (source_file2, impl, opref2)}
-            ->
-            Map_string.add acc module_name
-              {ast_info =
-                 Ml_mli
-                   (source_file2,
-                    impl,
-                    opref2,
-                    source_file,
-                    parse_interface ppf source_file,
-                    opref
-                   );
-               module_name} 
-        end
+       match check_suffix source_file with
+       | `Ml, opref ->
+         let module_name = Ext_filename.module_name source_file in
+         begin match Map_string.find_exn acc module_name with
+           | exception Not_found ->
+             Map_string.add acc module_name
+               {ast_info =
+                  (Ml (source_file, parse_implementation
+                         ppf source_file, opref));
+                module_name ;
+               } 
+           | {ast_info = (Ml (source_file2, _, _)
+                         | Ml_mli(source_file2, _, _,_,_,_))} ->
+             Bs_exception.error
+               (Bs_duplicated_module (source_file, source_file2))
+           | {ast_info =  Mli (source_file2, intf, opref2)}
+             ->
+             Map_string.add acc module_name
+               {ast_info =
+                  Ml_mli (source_file,
+                          parse_implementation ppf source_file,
+                          opref,
+                          source_file2,
+                          intf,
+                          opref2
+                         );
+                module_name} 
+         end
+       | `Mli, opref ->
+         let module_name = Ext_filename.module_name source_file in
+         begin match Map_string.find_exn acc module_name with
+           | exception Not_found ->
+             Map_string.add acc module_name
+               {ast_info = (Mli (source_file, parse_interface
+                                   ppf source_file, opref));
+                module_name } 
+           | {ast_info =
+                (Mli (source_file2, _, _) |
+                 Ml_mli(_,_,_,source_file2,_,_)) } ->
+             Bs_exception.error
+               (Bs_duplicated_module (source_file, source_file2))
+           | {ast_info = Ml (source_file2, impl, opref2)}
+             ->
+             Map_string.add acc module_name
+               {ast_info =
+                  Ml_mli
+                    (source_file2,
+                     impl,
+                     opref2,
+                     source_file,
+                     parse_interface ppf source_file,
+                     opref
+                    );
+                module_name} 
+         end
     ) 
 ;;
 type dir_spec = 
@@ -13845,10 +13845,10 @@ let collect_from_main
             (*   dirname, excludes *)
             (* | `Dir_with_excludes (dirname, dir_excludes) -> *)
             dirname,
-             (Ext_list.flat_map_append 
-              dir_excludes  excludes
-              (fun x -> [x ^ ".ml" ; x ^ ".mli" ])
-              ) 
+            (Ext_list.flat_map_append 
+               dir_excludes  excludes
+               (fun x -> [x ^ ".ml" ; x ^ ".mli" ])
+            ) 
         in 
         Ext_array.fold_left (Sys.readdir dirname) acc (fun acc source_file -> 
             if (Ext_string.ends_with source_file ".ml" ||
@@ -13944,26 +13944,26 @@ let handle_queue
 
     )
 
-  
-  
-  let build_lazy_queue ppf queue (ast_table : _ t Map_string.t)
-      after_parsing_impl
-      after_parsing_sig    
-    =
-    queue |> Queue.iter (fun modname -> 
-        match Map_string.find_exn ast_table modname  with
-        | {ast_info = Ml(source_file,lazy ast, opref)}
-          -> 
-          after_parsing_impl ppf source_file opref ast 
-        | {ast_info = Mli (source_file,lazy ast,opref) ; }  
-          ->
-          after_parsing_sig ppf source_file opref ast 
-        | {ast_info = Ml_mli(source_file1,lazy impl,opref1,source_file2,lazy intf,opref2)}
-          -> 
-          after_parsing_sig ppf source_file1 opref1 intf ;
-          after_parsing_impl ppf source_file2 opref2 impl
-        | exception Not_found -> assert false 
-      )
+
+
+let build_lazy_queue ppf queue (ast_table : _ t Map_string.t)
+    after_parsing_impl
+    after_parsing_sig    
+  =
+  queue |> Queue.iter (fun modname -> 
+      match Map_string.find_exn ast_table modname  with
+      | {ast_info = Ml(source_file,lazy ast, opref)}
+        -> 
+        after_parsing_impl ppf source_file opref ast 
+      | {ast_info = Mli (source_file,lazy ast,opref) ; }  
+        ->
+        after_parsing_sig ppf source_file opref ast 
+      | {ast_info = Ml_mli(source_file1,lazy impl,opref1,source_file2,lazy intf,opref2)}
+        -> 
+        after_parsing_sig ppf source_file1 opref1 intf ;
+        after_parsing_impl ppf source_file2 opref2 impl
+      | exception Not_found -> assert false 
+    )
 end
 module Ext_io : sig 
 #1 "ext_io.mli"
@@ -14037,11 +14037,11 @@ let load_file f =
 
 
 let  rev_lines_of_chann chan = 
-    let rec loop acc chan = 
-      match input_line chan with
-      | line -> loop (line :: acc) chan
-      | exception End_of_file -> close_in chan ; acc in
-    loop [] chan
+  let rec loop acc chan = 
+    match input_line chan with
+    | line -> loop (line :: acc) chan
+    | exception End_of_file -> close_in chan ; acc in
+  loop [] chan
 
 
 let rev_lines_of_file file = 
@@ -29603,8 +29603,7 @@ let directive_parse token_with_comments lexbuf =
        let rec skip () = 
         match token_with_comments lexbuf  with
         | COMMENT _ 
-        | DOCSTRING _ 
-        | EOL -> skip ()
+        | DOCSTRING _ -> skip ()
         | EOF -> raise (Error (Unterminated_if, Location.curr lexbuf)) 
         | t -> t 
         in  skip ()
@@ -29738,7 +29737,7 @@ let directive_parse token_with_comments lexbuf =
   in
   let v = parse_or true in
   begin match token () with
-  | THEN ->  v 
+  | THEN | EOL ->  v 
   | _ -> raise (Error (Expect_hash_then_in_conditional, Location.curr lexbuf))
   end
 
@@ -30029,7 +30028,7 @@ let () =
     )
 
 
-# 717 "parsing/lexer.ml"
+# 716 "parsing/lexer.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base =
    "\000\000\162\255\163\255\224\000\003\001\038\001\073\001\108\001\
@@ -31663,131 +31662,131 @@ let rec token lexbuf =
 and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =
   match Lexing.new_engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 770 "parsing/lexer.mll"
+# 769 "parsing/lexer.mll"
                  (
       if not !escaped_newlines then
         raise (Error(Illegal_character (Lexing.lexeme_char lexbuf 0),
                      Location.curr lexbuf));
       update_loc lexbuf None 1 false 0;
       token lexbuf )
-# 2358 "parsing/lexer.ml"
+# 2357 "parsing/lexer.ml"
 
   | 1 ->
-# 777 "parsing/lexer.mll"
+# 776 "parsing/lexer.mll"
       ( update_loc lexbuf None 1 false 0;
         EOL )
-# 2364 "parsing/lexer.ml"
+# 2363 "parsing/lexer.ml"
 
   | 2 ->
-# 780 "parsing/lexer.mll"
+# 779 "parsing/lexer.mll"
       ( token lexbuf )
-# 2369 "parsing/lexer.ml"
+# 2368 "parsing/lexer.ml"
 
   | 3 ->
-# 782 "parsing/lexer.mll"
+# 781 "parsing/lexer.mll"
       ( UNDERSCORE )
-# 2374 "parsing/lexer.ml"
+# 2373 "parsing/lexer.ml"
 
   | 4 ->
-# 784 "parsing/lexer.mll"
+# 783 "parsing/lexer.mll"
       ( TILDE )
-# 2379 "parsing/lexer.ml"
+# 2378 "parsing/lexer.ml"
 
   | 5 ->
-# 786 "parsing/lexer.mll"
+# 785 "parsing/lexer.mll"
       ( LABEL (get_label_name lexbuf) )
-# 2384 "parsing/lexer.ml"
+# 2383 "parsing/lexer.ml"
 
   | 6 ->
-# 788 "parsing/lexer.mll"
+# 787 "parsing/lexer.mll"
       ( warn_latin1 lexbuf; LABEL (get_label_name lexbuf) )
-# 2389 "parsing/lexer.ml"
+# 2388 "parsing/lexer.ml"
 
   | 7 ->
-# 790 "parsing/lexer.mll"
+# 789 "parsing/lexer.mll"
       ( QUESTION )
-# 2394 "parsing/lexer.ml"
+# 2393 "parsing/lexer.ml"
 
   | 8 ->
-# 792 "parsing/lexer.mll"
+# 791 "parsing/lexer.mll"
       ( OPTLABEL (get_label_name lexbuf) )
-# 2399 "parsing/lexer.ml"
+# 2398 "parsing/lexer.ml"
 
   | 9 ->
-# 794 "parsing/lexer.mll"
+# 793 "parsing/lexer.mll"
       ( warn_latin1 lexbuf; OPTLABEL (get_label_name lexbuf) )
-# 2404 "parsing/lexer.ml"
+# 2403 "parsing/lexer.ml"
 
   | 10 ->
-# 796 "parsing/lexer.mll"
+# 795 "parsing/lexer.mll"
       ( let s = Lexing.lexeme lexbuf in
         try Hashtbl.find keyword_table s
         with Not_found -> LIDENT s )
-# 2411 "parsing/lexer.ml"
+# 2410 "parsing/lexer.ml"
 
   | 11 ->
-# 800 "parsing/lexer.mll"
+# 799 "parsing/lexer.mll"
       ( warn_latin1 lexbuf; LIDENT (Lexing.lexeme lexbuf) )
-# 2416 "parsing/lexer.ml"
+# 2415 "parsing/lexer.ml"
 
   | 12 ->
-# 802 "parsing/lexer.mll"
+# 801 "parsing/lexer.mll"
       ( UIDENT(Lexing.lexeme lexbuf) )
-# 2421 "parsing/lexer.ml"
+# 2420 "parsing/lexer.ml"
 
   | 13 ->
-# 804 "parsing/lexer.mll"
+# 803 "parsing/lexer.mll"
       ( warn_latin1 lexbuf; UIDENT(Lexing.lexeme lexbuf) )
-# 2426 "parsing/lexer.ml"
+# 2425 "parsing/lexer.ml"
 
   | 14 ->
-# 805 "parsing/lexer.mll"
+# 804 "parsing/lexer.mll"
                 ( INT (Lexing.lexeme lexbuf, None) )
-# 2431 "parsing/lexer.ml"
+# 2430 "parsing/lexer.ml"
 
   | 15 ->
 let
-# 806 "parsing/lexer.mll"
+# 805 "parsing/lexer.mll"
                     lit
-# 2437 "parsing/lexer.ml"
+# 2436 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_curr_pos + -1)
 and
-# 806 "parsing/lexer.mll"
+# 805 "parsing/lexer.mll"
                                               modif
-# 2442 "parsing/lexer.ml"
+# 2441 "parsing/lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_curr_pos + -1) in
-# 807 "parsing/lexer.mll"
+# 806 "parsing/lexer.mll"
       ( INT (lit, Some modif) )
-# 2446 "parsing/lexer.ml"
+# 2445 "parsing/lexer.ml"
 
   | 16 ->
-# 809 "parsing/lexer.mll"
+# 808 "parsing/lexer.mll"
       ( FLOAT (Lexing.lexeme lexbuf, None) )
-# 2451 "parsing/lexer.ml"
+# 2450 "parsing/lexer.ml"
 
   | 17 ->
 let
-# 810 "parsing/lexer.mll"
+# 809 "parsing/lexer.mll"
                                             lit
-# 2457 "parsing/lexer.ml"
+# 2456 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_curr_pos + -1)
 and
-# 810 "parsing/lexer.mll"
+# 809 "parsing/lexer.mll"
                                                                       modif
-# 2462 "parsing/lexer.ml"
+# 2461 "parsing/lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_curr_pos + -1) in
-# 811 "parsing/lexer.mll"
+# 810 "parsing/lexer.mll"
       ( FLOAT (lit, Some modif) )
-# 2466 "parsing/lexer.ml"
+# 2465 "parsing/lexer.ml"
 
   | 18 ->
-# 813 "parsing/lexer.mll"
+# 812 "parsing/lexer.mll"
       ( raise (Error(Invalid_literal (Lexing.lexeme lexbuf),
                      Location.curr lexbuf)) )
-# 2472 "parsing/lexer.ml"
+# 2471 "parsing/lexer.ml"
 
   | 19 ->
-# 816 "parsing/lexer.mll"
+# 815 "parsing/lexer.mll"
       ( reset_string_buffer();
         is_in_string := true;
         let string_start = lexbuf.lex_start_p in
@@ -31796,10 +31795,10 @@ and
         is_in_string := false;
         lexbuf.lex_start_p <- string_start;
         STRING (get_stored_string(), None) )
-# 2484 "parsing/lexer.ml"
+# 2483 "parsing/lexer.ml"
 
   | 20 ->
-# 825 "parsing/lexer.mll"
+# 824 "parsing/lexer.mll"
       ( reset_string_buffer();
         let delim = Lexing.lexeme lexbuf in
         let delim = String.sub delim 1 (String.length delim - 2) in
@@ -31810,70 +31809,70 @@ and
         is_in_string := false;
         lexbuf.lex_start_p <- string_start;
         STRING (get_stored_string(), Some delim) )
-# 2498 "parsing/lexer.ml"
+# 2497 "parsing/lexer.ml"
 
   | 21 ->
-# 836 "parsing/lexer.mll"
+# 835 "parsing/lexer.mll"
       ( update_loc lexbuf None 1 false 1;
         CHAR (Lexing.lexeme_char lexbuf 1) )
-# 2504 "parsing/lexer.ml"
+# 2503 "parsing/lexer.ml"
 
   | 22 ->
-# 839 "parsing/lexer.mll"
+# 838 "parsing/lexer.mll"
       ( CHAR(Lexing.lexeme_char lexbuf 1) )
-# 2509 "parsing/lexer.ml"
+# 2508 "parsing/lexer.ml"
 
   | 23 ->
-# 841 "parsing/lexer.mll"
+# 840 "parsing/lexer.mll"
       ( CHAR(char_for_backslash (Lexing.lexeme_char lexbuf 2)) )
-# 2514 "parsing/lexer.ml"
+# 2513 "parsing/lexer.ml"
 
   | 24 ->
-# 843 "parsing/lexer.mll"
+# 842 "parsing/lexer.mll"
       ( CHAR(char_for_decimal_code lexbuf 2) )
-# 2519 "parsing/lexer.ml"
+# 2518 "parsing/lexer.ml"
 
   | 25 ->
-# 845 "parsing/lexer.mll"
+# 844 "parsing/lexer.mll"
       ( CHAR(char_for_octal_code lexbuf 3) )
-# 2524 "parsing/lexer.ml"
+# 2523 "parsing/lexer.ml"
 
   | 26 ->
-# 847 "parsing/lexer.mll"
+# 846 "parsing/lexer.mll"
       ( CHAR(char_for_hexadecimal_code lexbuf 3) )
-# 2529 "parsing/lexer.ml"
+# 2528 "parsing/lexer.ml"
 
   | 27 ->
-# 849 "parsing/lexer.mll"
+# 848 "parsing/lexer.mll"
       ( let l = Lexing.lexeme lexbuf in
         let esc = String.sub l 1 (String.length l - 1) in
         raise (Error(Illegal_escape esc, Location.curr lexbuf))
       )
-# 2537 "parsing/lexer.ml"
+# 2536 "parsing/lexer.ml"
 
   | 28 ->
-# 854 "parsing/lexer.mll"
+# 853 "parsing/lexer.mll"
       ( let s, loc = with_comment_buffer comment lexbuf in
         COMMENT (s, loc) )
-# 2543 "parsing/lexer.ml"
+# 2542 "parsing/lexer.ml"
 
   | 29 ->
-# 857 "parsing/lexer.mll"
+# 856 "parsing/lexer.mll"
       ( let s, loc = with_comment_buffer comment lexbuf in
         if !handle_docstrings then
           DOCSTRING (Docstrings.docstring s loc)
         else
           COMMENT ("*" ^ s, loc)
       )
-# 2553 "parsing/lexer.ml"
+# 2552 "parsing/lexer.ml"
 
   | 30 ->
 let
-# 863 "parsing/lexer.mll"
+# 862 "parsing/lexer.mll"
                      stars
-# 2559 "parsing/lexer.ml"
+# 2558 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 3) lexbuf.Lexing.lex_curr_pos in
-# 864 "parsing/lexer.mll"
+# 863 "parsing/lexer.mll"
       ( let s, loc =
           with_comment_buffer
             (fun lexbuf ->
@@ -31882,32 +31881,32 @@ let
             lexbuf
         in
         COMMENT (s, loc) )
-# 2570 "parsing/lexer.ml"
+# 2569 "parsing/lexer.ml"
 
   | 31 ->
-# 873 "parsing/lexer.mll"
+# 872 "parsing/lexer.mll"
       ( if !print_warnings then
           Location.prerr_warning (Location.curr lexbuf) Warnings.Comment_start;
         let s, loc = with_comment_buffer comment lexbuf in
         COMMENT (s, loc) )
-# 2578 "parsing/lexer.ml"
+# 2577 "parsing/lexer.ml"
 
   | 32 ->
 let
-# 877 "parsing/lexer.mll"
+# 876 "parsing/lexer.mll"
                     stars
-# 2584 "parsing/lexer.ml"
+# 2583 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 2) (lexbuf.Lexing.lex_curr_pos + -2) in
-# 878 "parsing/lexer.mll"
+# 877 "parsing/lexer.mll"
       ( if !handle_docstrings && stars="" then
          (* (**) is an empty docstring *)
           DOCSTRING(Docstrings.docstring "" (Location.curr lexbuf))
         else
           COMMENT (stars, Location.curr lexbuf) )
-# 2592 "parsing/lexer.ml"
+# 2591 "parsing/lexer.ml"
 
   | 33 ->
-# 884 "parsing/lexer.mll"
+# 883 "parsing/lexer.mll"
       ( let loc = Location.curr lexbuf in
         Location.prerr_warning loc Warnings.Comment_not_end;
         lexbuf.Lexing.lex_curr_pos <- lexbuf.Lexing.lex_curr_pos - 1;
@@ -31915,25 +31914,25 @@ let
         lexbuf.lex_curr_p <- { curpos with pos_cnum = curpos.pos_cnum - 1 };
         STAR
       )
-# 2603 "parsing/lexer.ml"
+# 2602 "parsing/lexer.ml"
 
   | 34 ->
 let
-# 891 "parsing/lexer.mll"
+# 890 "parsing/lexer.mll"
                                     num
-# 2609 "parsing/lexer.ml"
+# 2608 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_mem.(0) lexbuf.Lexing.lex_mem.(1)
 and
-# 892 "parsing/lexer.mll"
+# 891 "parsing/lexer.mll"
                                             name
-# 2614 "parsing/lexer.ml"
+# 2613 "parsing/lexer.ml"
 = Lexing.sub_lexeme_opt lexbuf lexbuf.Lexing.lex_mem.(4) lexbuf.Lexing.lex_mem.(3)
 and
-# 892 "parsing/lexer.mll"
+# 891 "parsing/lexer.mll"
                                                              directive
-# 2619 "parsing/lexer.ml"
+# 2618 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_mem.(2) in
-# 894 "parsing/lexer.mll"
+# 893 "parsing/lexer.mll"
       (
         match int_of_string num with
         | exception _ ->
@@ -31949,300 +31948,300 @@ and
             update_loc lexbuf name line_num true 0;
             token lexbuf
       )
-# 2637 "parsing/lexer.ml"
+# 2636 "parsing/lexer.ml"
 
   | 35 ->
-# 909 "parsing/lexer.mll"
+# 908 "parsing/lexer.mll"
          ( HASH )
-# 2642 "parsing/lexer.ml"
+# 2641 "parsing/lexer.ml"
 
   | 36 ->
-# 910 "parsing/lexer.mll"
+# 909 "parsing/lexer.mll"
          ( AMPERSAND )
-# 2647 "parsing/lexer.ml"
+# 2646 "parsing/lexer.ml"
 
   | 37 ->
-# 911 "parsing/lexer.mll"
+# 910 "parsing/lexer.mll"
          ( AMPERAMPER )
-# 2652 "parsing/lexer.ml"
+# 2651 "parsing/lexer.ml"
 
   | 38 ->
-# 912 "parsing/lexer.mll"
+# 911 "parsing/lexer.mll"
          ( BACKQUOTE )
-# 2657 "parsing/lexer.ml"
+# 2656 "parsing/lexer.ml"
 
   | 39 ->
-# 913 "parsing/lexer.mll"
+# 912 "parsing/lexer.mll"
          ( QUOTE )
-# 2662 "parsing/lexer.ml"
+# 2661 "parsing/lexer.ml"
 
   | 40 ->
-# 914 "parsing/lexer.mll"
+# 913 "parsing/lexer.mll"
          ( LPAREN )
-# 2667 "parsing/lexer.ml"
+# 2666 "parsing/lexer.ml"
 
   | 41 ->
-# 915 "parsing/lexer.mll"
+# 914 "parsing/lexer.mll"
          ( RPAREN )
-# 2672 "parsing/lexer.ml"
+# 2671 "parsing/lexer.ml"
 
   | 42 ->
-# 916 "parsing/lexer.mll"
+# 915 "parsing/lexer.mll"
          ( STAR )
-# 2677 "parsing/lexer.ml"
+# 2676 "parsing/lexer.ml"
 
   | 43 ->
-# 917 "parsing/lexer.mll"
+# 916 "parsing/lexer.mll"
          ( COMMA )
-# 2682 "parsing/lexer.ml"
+# 2681 "parsing/lexer.ml"
 
   | 44 ->
-# 918 "parsing/lexer.mll"
+# 917 "parsing/lexer.mll"
          ( MINUSGREATER )
-# 2687 "parsing/lexer.ml"
+# 2686 "parsing/lexer.ml"
 
   | 45 ->
-# 919 "parsing/lexer.mll"
+# 918 "parsing/lexer.mll"
          ( DOT )
-# 2692 "parsing/lexer.ml"
+# 2691 "parsing/lexer.ml"
 
   | 46 ->
-# 920 "parsing/lexer.mll"
+# 919 "parsing/lexer.mll"
          ( DOTDOT )
-# 2697 "parsing/lexer.ml"
+# 2696 "parsing/lexer.ml"
 
   | 47 ->
 let
-# 921 "parsing/lexer.mll"
+# 920 "parsing/lexer.mll"
                                       s
-# 2703 "parsing/lexer.ml"
+# 2702 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 1) lexbuf.Lexing.lex_curr_pos in
-# 921 "parsing/lexer.mll"
+# 920 "parsing/lexer.mll"
                                          ( DOTOP s )
-# 2707 "parsing/lexer.ml"
+# 2706 "parsing/lexer.ml"
 
   | 48 ->
-# 922 "parsing/lexer.mll"
+# 921 "parsing/lexer.mll"
          ( COLON )
-# 2712 "parsing/lexer.ml"
+# 2711 "parsing/lexer.ml"
 
   | 49 ->
-# 923 "parsing/lexer.mll"
+# 922 "parsing/lexer.mll"
          ( COLONCOLON )
-# 2717 "parsing/lexer.ml"
+# 2716 "parsing/lexer.ml"
 
   | 50 ->
-# 924 "parsing/lexer.mll"
+# 923 "parsing/lexer.mll"
          ( COLONEQUAL )
-# 2722 "parsing/lexer.ml"
+# 2721 "parsing/lexer.ml"
 
   | 51 ->
-# 925 "parsing/lexer.mll"
+# 924 "parsing/lexer.mll"
          ( COLONGREATER )
-# 2727 "parsing/lexer.ml"
+# 2726 "parsing/lexer.ml"
 
   | 52 ->
-# 926 "parsing/lexer.mll"
+# 925 "parsing/lexer.mll"
          ( SEMI )
-# 2732 "parsing/lexer.ml"
+# 2731 "parsing/lexer.ml"
 
   | 53 ->
-# 927 "parsing/lexer.mll"
+# 926 "parsing/lexer.mll"
          ( SEMISEMI )
-# 2737 "parsing/lexer.ml"
+# 2736 "parsing/lexer.ml"
 
   | 54 ->
-# 928 "parsing/lexer.mll"
+# 927 "parsing/lexer.mll"
          ( LESS )
-# 2742 "parsing/lexer.ml"
+# 2741 "parsing/lexer.ml"
 
   | 55 ->
-# 929 "parsing/lexer.mll"
+# 928 "parsing/lexer.mll"
          ( LESSMINUS )
-# 2747 "parsing/lexer.ml"
+# 2746 "parsing/lexer.ml"
 
   | 56 ->
-# 930 "parsing/lexer.mll"
+# 929 "parsing/lexer.mll"
          ( EQUAL )
-# 2752 "parsing/lexer.ml"
+# 2751 "parsing/lexer.ml"
 
   | 57 ->
-# 931 "parsing/lexer.mll"
+# 930 "parsing/lexer.mll"
          ( LBRACKET )
-# 2757 "parsing/lexer.ml"
+# 2756 "parsing/lexer.ml"
 
   | 58 ->
-# 932 "parsing/lexer.mll"
+# 931 "parsing/lexer.mll"
          ( LBRACKETBAR )
-# 2762 "parsing/lexer.ml"
+# 2761 "parsing/lexer.ml"
 
   | 59 ->
-# 933 "parsing/lexer.mll"
+# 932 "parsing/lexer.mll"
          ( LBRACKETLESS )
-# 2767 "parsing/lexer.ml"
+# 2766 "parsing/lexer.ml"
 
   | 60 ->
-# 934 "parsing/lexer.mll"
+# 933 "parsing/lexer.mll"
          ( LBRACKETGREATER )
-# 2772 "parsing/lexer.ml"
+# 2771 "parsing/lexer.ml"
 
   | 61 ->
-# 935 "parsing/lexer.mll"
+# 934 "parsing/lexer.mll"
          ( RBRACKET )
-# 2777 "parsing/lexer.ml"
+# 2776 "parsing/lexer.ml"
 
   | 62 ->
-# 936 "parsing/lexer.mll"
+# 935 "parsing/lexer.mll"
          ( LBRACE )
-# 2782 "parsing/lexer.ml"
+# 2781 "parsing/lexer.ml"
 
   | 63 ->
-# 937 "parsing/lexer.mll"
+# 936 "parsing/lexer.mll"
          ( LBRACELESS )
-# 2787 "parsing/lexer.ml"
+# 2786 "parsing/lexer.ml"
 
   | 64 ->
-# 938 "parsing/lexer.mll"
+# 937 "parsing/lexer.mll"
          ( BAR )
-# 2792 "parsing/lexer.ml"
+# 2791 "parsing/lexer.ml"
 
   | 65 ->
-# 939 "parsing/lexer.mll"
+# 938 "parsing/lexer.mll"
          ( BARBAR )
-# 2797 "parsing/lexer.ml"
+# 2796 "parsing/lexer.ml"
 
   | 66 ->
-# 940 "parsing/lexer.mll"
+# 939 "parsing/lexer.mll"
          ( BARRBRACKET )
-# 2802 "parsing/lexer.ml"
+# 2801 "parsing/lexer.ml"
 
   | 67 ->
-# 941 "parsing/lexer.mll"
+# 940 "parsing/lexer.mll"
          ( GREATER )
-# 2807 "parsing/lexer.ml"
+# 2806 "parsing/lexer.ml"
 
   | 68 ->
-# 942 "parsing/lexer.mll"
+# 941 "parsing/lexer.mll"
          ( GREATERRBRACKET )
-# 2812 "parsing/lexer.ml"
+# 2811 "parsing/lexer.ml"
 
   | 69 ->
-# 943 "parsing/lexer.mll"
+# 942 "parsing/lexer.mll"
          ( RBRACE )
-# 2817 "parsing/lexer.ml"
+# 2816 "parsing/lexer.ml"
 
   | 70 ->
-# 944 "parsing/lexer.mll"
+# 943 "parsing/lexer.mll"
          ( GREATERRBRACE )
-# 2822 "parsing/lexer.ml"
+# 2821 "parsing/lexer.ml"
 
   | 71 ->
-# 945 "parsing/lexer.mll"
+# 944 "parsing/lexer.mll"
          ( LBRACKETAT )
-# 2827 "parsing/lexer.ml"
+# 2826 "parsing/lexer.ml"
 
   | 72 ->
-# 946 "parsing/lexer.mll"
+# 945 "parsing/lexer.mll"
            ( LBRACKETATAT )
-# 2832 "parsing/lexer.ml"
+# 2831 "parsing/lexer.ml"
 
   | 73 ->
-# 947 "parsing/lexer.mll"
+# 946 "parsing/lexer.mll"
            ( LBRACKETATATAT )
-# 2837 "parsing/lexer.ml"
+# 2836 "parsing/lexer.ml"
 
   | 74 ->
-# 948 "parsing/lexer.mll"
+# 947 "parsing/lexer.mll"
            ( LBRACKETPERCENT )
-# 2842 "parsing/lexer.ml"
+# 2841 "parsing/lexer.ml"
 
   | 75 ->
-# 949 "parsing/lexer.mll"
+# 948 "parsing/lexer.mll"
            ( LBRACKETPERCENTPERCENT )
-# 2847 "parsing/lexer.ml"
+# 2846 "parsing/lexer.ml"
 
   | 76 ->
-# 950 "parsing/lexer.mll"
+# 949 "parsing/lexer.mll"
          ( BANG )
-# 2852 "parsing/lexer.ml"
+# 2851 "parsing/lexer.ml"
 
   | 77 ->
-# 951 "parsing/lexer.mll"
+# 950 "parsing/lexer.mll"
          ( INFIXOP0 "!=" )
-# 2857 "parsing/lexer.ml"
+# 2856 "parsing/lexer.ml"
 
   | 78 ->
-# 952 "parsing/lexer.mll"
+# 951 "parsing/lexer.mll"
          ( PLUS )
-# 2862 "parsing/lexer.ml"
+# 2861 "parsing/lexer.ml"
 
   | 79 ->
-# 953 "parsing/lexer.mll"
+# 952 "parsing/lexer.mll"
          ( PLUSDOT )
-# 2867 "parsing/lexer.ml"
+# 2866 "parsing/lexer.ml"
 
   | 80 ->
-# 954 "parsing/lexer.mll"
+# 953 "parsing/lexer.mll"
          ( PLUSEQ )
-# 2872 "parsing/lexer.ml"
+# 2871 "parsing/lexer.ml"
 
   | 81 ->
-# 955 "parsing/lexer.mll"
+# 954 "parsing/lexer.mll"
          ( MINUS )
-# 2877 "parsing/lexer.ml"
+# 2876 "parsing/lexer.ml"
 
   | 82 ->
-# 956 "parsing/lexer.mll"
+# 955 "parsing/lexer.mll"
          ( MINUSDOT )
-# 2882 "parsing/lexer.ml"
+# 2881 "parsing/lexer.ml"
 
   | 83 ->
-# 959 "parsing/lexer.mll"
+# 958 "parsing/lexer.mll"
             ( PREFIXOP(Lexing.lexeme lexbuf) )
-# 2887 "parsing/lexer.ml"
+# 2886 "parsing/lexer.ml"
 
   | 84 ->
-# 961 "parsing/lexer.mll"
+# 960 "parsing/lexer.mll"
             ( PREFIXOP(Lexing.lexeme lexbuf) )
-# 2892 "parsing/lexer.ml"
+# 2891 "parsing/lexer.ml"
 
   | 85 ->
-# 963 "parsing/lexer.mll"
+# 962 "parsing/lexer.mll"
             ( INFIXOP0(Lexing.lexeme lexbuf) )
-# 2897 "parsing/lexer.ml"
+# 2896 "parsing/lexer.ml"
 
   | 86 ->
-# 965 "parsing/lexer.mll"
+# 964 "parsing/lexer.mll"
             ( INFIXOP1(Lexing.lexeme lexbuf) )
-# 2902 "parsing/lexer.ml"
+# 2901 "parsing/lexer.ml"
 
   | 87 ->
-# 967 "parsing/lexer.mll"
+# 966 "parsing/lexer.mll"
             ( INFIXOP2(Lexing.lexeme lexbuf) )
-# 2907 "parsing/lexer.ml"
+# 2906 "parsing/lexer.ml"
 
   | 88 ->
-# 969 "parsing/lexer.mll"
+# 968 "parsing/lexer.mll"
             ( INFIXOP4(Lexing.lexeme lexbuf) )
-# 2912 "parsing/lexer.ml"
+# 2911 "parsing/lexer.ml"
 
   | 89 ->
-# 970 "parsing/lexer.mll"
+# 969 "parsing/lexer.mll"
             ( PERCENT )
-# 2917 "parsing/lexer.ml"
+# 2916 "parsing/lexer.ml"
 
   | 90 ->
-# 972 "parsing/lexer.mll"
+# 971 "parsing/lexer.mll"
             ( INFIXOP3(Lexing.lexeme lexbuf) )
-# 2922 "parsing/lexer.ml"
+# 2921 "parsing/lexer.ml"
 
   | 91 ->
-# 974 "parsing/lexer.mll"
+# 973 "parsing/lexer.mll"
             ( HASHOP(Lexing.lexeme lexbuf) )
-# 2927 "parsing/lexer.ml"
+# 2926 "parsing/lexer.ml"
 
   | 92 ->
-# 975 "parsing/lexer.mll"
+# 974 "parsing/lexer.mll"
         (
     if !if_then_else <> Dir_out then
       if !if_then_else = Dir_if_true then
@@ -32252,14 +32251,14 @@ let
       EOF
 
   )
-# 2940 "parsing/lexer.ml"
+# 2939 "parsing/lexer.ml"
 
   | 93 ->
-# 985 "parsing/lexer.mll"
+# 984 "parsing/lexer.mll"
       ( raise (Error(Illegal_character (Lexing.lexeme_char lexbuf 0),
                      Location.curr lexbuf))
       )
-# 2947 "parsing/lexer.ml"
+# 2946 "parsing/lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_token_rec lexbuf __ocaml_lex_state
@@ -32269,15 +32268,15 @@ and comment lexbuf =
 and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 991 "parsing/lexer.mll"
+# 990 "parsing/lexer.mll"
       ( comment_start_loc := (Location.curr lexbuf) :: !comment_start_loc;
         store_lexeme lexbuf;
         comment lexbuf
       )
-# 2962 "parsing/lexer.ml"
+# 2961 "parsing/lexer.ml"
 
   | 1 ->
-# 996 "parsing/lexer.mll"
+# 995 "parsing/lexer.mll"
       ( match !comment_start_loc with
         | [] -> assert false
         | [_] -> comment_start_loc := []; Location.curr lexbuf
@@ -32285,10 +32284,10 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
                   store_lexeme lexbuf;
                   comment lexbuf
        )
-# 2973 "parsing/lexer.ml"
+# 2972 "parsing/lexer.ml"
 
   | 2 ->
-# 1004 "parsing/lexer.mll"
+# 1003 "parsing/lexer.mll"
       (
         string_start_loc := Location.curr lexbuf;
         store_string_char '\"';
@@ -32306,10 +32305,10 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
         is_in_string := false;
         store_string_char '\"';
         comment lexbuf )
-# 2994 "parsing/lexer.ml"
+# 2993 "parsing/lexer.ml"
 
   | 3 ->
-# 1022 "parsing/lexer.mll"
+# 1021 "parsing/lexer.mll"
       (
         let delim = Lexing.lexeme lexbuf in
         let delim = String.sub delim 1 (String.length delim - 2) in
@@ -32331,43 +32330,43 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
         store_string delim;
         store_string_char '}';
         comment lexbuf )
-# 3019 "parsing/lexer.ml"
+# 3018 "parsing/lexer.ml"
 
   | 4 ->
-# 1045 "parsing/lexer.mll"
+# 1044 "parsing/lexer.mll"
       ( store_lexeme lexbuf; comment lexbuf )
-# 3024 "parsing/lexer.ml"
+# 3023 "parsing/lexer.ml"
 
   | 5 ->
-# 1047 "parsing/lexer.mll"
+# 1046 "parsing/lexer.mll"
       ( update_loc lexbuf None 1 false 1;
         store_lexeme lexbuf;
         comment lexbuf
       )
-# 3032 "parsing/lexer.ml"
+# 3031 "parsing/lexer.ml"
 
   | 6 ->
-# 1052 "parsing/lexer.mll"
+# 1051 "parsing/lexer.mll"
       ( store_lexeme lexbuf; comment lexbuf )
-# 3037 "parsing/lexer.ml"
+# 3036 "parsing/lexer.ml"
 
   | 7 ->
-# 1054 "parsing/lexer.mll"
+# 1053 "parsing/lexer.mll"
       ( store_lexeme lexbuf; comment lexbuf )
-# 3042 "parsing/lexer.ml"
+# 3041 "parsing/lexer.ml"
 
   | 8 ->
-# 1056 "parsing/lexer.mll"
+# 1055 "parsing/lexer.mll"
       ( store_lexeme lexbuf; comment lexbuf )
-# 3047 "parsing/lexer.ml"
+# 3046 "parsing/lexer.ml"
 
   | 9 ->
-# 1058 "parsing/lexer.mll"
+# 1057 "parsing/lexer.mll"
       ( store_lexeme lexbuf; comment lexbuf )
-# 3052 "parsing/lexer.ml"
+# 3051 "parsing/lexer.ml"
 
   | 10 ->
-# 1060 "parsing/lexer.mll"
+# 1059 "parsing/lexer.mll"
       ( match !comment_start_loc with
         | [] -> assert false
         | loc :: _ ->
@@ -32375,20 +32374,20 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
           comment_start_loc := [];
           raise (Error (Unterminated_comment start, loc))
       )
-# 3063 "parsing/lexer.ml"
+# 3062 "parsing/lexer.ml"
 
   | 11 ->
-# 1068 "parsing/lexer.mll"
+# 1067 "parsing/lexer.mll"
       ( update_loc lexbuf None 1 false 0;
         store_lexeme lexbuf;
         comment lexbuf
       )
-# 3071 "parsing/lexer.ml"
+# 3070 "parsing/lexer.ml"
 
   | 12 ->
-# 1073 "parsing/lexer.mll"
+# 1072 "parsing/lexer.mll"
       ( store_lexeme lexbuf; comment lexbuf )
-# 3076 "parsing/lexer.ml"
+# 3075 "parsing/lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_comment_rec lexbuf __ocaml_lex_state
@@ -32398,56 +32397,56 @@ and string lexbuf =
 and __ocaml_lex_string_rec lexbuf __ocaml_lex_state =
   match Lexing.new_engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 1077 "parsing/lexer.mll"
+# 1076 "parsing/lexer.mll"
       ( () )
-# 3088 "parsing/lexer.ml"
+# 3087 "parsing/lexer.ml"
 
   | 1 ->
 let
-# 1078 "parsing/lexer.mll"
+# 1077 "parsing/lexer.mll"
                                   space
-# 3094 "parsing/lexer.ml"
+# 3093 "parsing/lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_mem.(0) lexbuf.Lexing.lex_curr_pos in
-# 1079 "parsing/lexer.mll"
+# 1078 "parsing/lexer.mll"
       ( update_loc lexbuf None 1 false (String.length space);
         if in_comment () then store_lexeme lexbuf;
         string lexbuf
       )
-# 3101 "parsing/lexer.ml"
+# 3100 "parsing/lexer.ml"
 
   | 2 ->
-# 1084 "parsing/lexer.mll"
+# 1083 "parsing/lexer.mll"
       ( store_escaped_char lexbuf
                            (char_for_backslash(Lexing.lexeme_char lexbuf 1));
         string lexbuf )
-# 3108 "parsing/lexer.ml"
+# 3107 "parsing/lexer.ml"
 
   | 3 ->
-# 1088 "parsing/lexer.mll"
+# 1087 "parsing/lexer.mll"
       ( store_escaped_char lexbuf (char_for_decimal_code lexbuf 1);
          string lexbuf )
-# 3114 "parsing/lexer.ml"
+# 3113 "parsing/lexer.ml"
 
   | 4 ->
-# 1091 "parsing/lexer.mll"
+# 1090 "parsing/lexer.mll"
       ( store_escaped_char lexbuf (char_for_octal_code lexbuf 2);
          string lexbuf )
-# 3120 "parsing/lexer.ml"
+# 3119 "parsing/lexer.ml"
 
   | 5 ->
-# 1094 "parsing/lexer.mll"
+# 1093 "parsing/lexer.mll"
       ( store_escaped_char lexbuf (char_for_hexadecimal_code lexbuf 2);
          string lexbuf )
-# 3126 "parsing/lexer.ml"
+# 3125 "parsing/lexer.ml"
 
   | 6 ->
-# 1097 "parsing/lexer.mll"
+# 1096 "parsing/lexer.mll"
         ( store_escaped_uchar lexbuf (uchar_for_uchar_escape lexbuf);
           string lexbuf )
-# 3132 "parsing/lexer.ml"
+# 3131 "parsing/lexer.ml"
 
   | 7 ->
-# 1100 "parsing/lexer.mll"
+# 1099 "parsing/lexer.mll"
       ( if not (in_comment ()) then begin
 (*  Should be an error, but we are very lax.
           raise (Error (Illegal_escape (Lexing.lexeme lexbuf),
@@ -32459,29 +32458,29 @@ let
         store_lexeme lexbuf;
         string lexbuf
       )
-# 3147 "parsing/lexer.ml"
+# 3146 "parsing/lexer.ml"
 
   | 8 ->
-# 1112 "parsing/lexer.mll"
+# 1111 "parsing/lexer.mll"
       ( if not (in_comment ()) then
           Location.prerr_warning (Location.curr lexbuf) Warnings.Eol_in_string;
         update_loc lexbuf None 1 false 0;
         store_lexeme lexbuf;
         string lexbuf
       )
-# 3157 "parsing/lexer.ml"
+# 3156 "parsing/lexer.ml"
 
   | 9 ->
-# 1119 "parsing/lexer.mll"
+# 1118 "parsing/lexer.mll"
       ( is_in_string := false;
         raise (Error (Unterminated_string, !string_start_loc)) )
-# 3163 "parsing/lexer.ml"
+# 3162 "parsing/lexer.ml"
 
   | 10 ->
-# 1122 "parsing/lexer.mll"
+# 1121 "parsing/lexer.mll"
       ( store_string_char(Lexing.lexeme_char lexbuf 0);
         string lexbuf )
-# 3169 "parsing/lexer.ml"
+# 3168 "parsing/lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_string_rec lexbuf __ocaml_lex_state
@@ -32491,34 +32490,34 @@ and quoted_string delim lexbuf =
 and __ocaml_lex_quoted_string_rec delim lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 1127 "parsing/lexer.mll"
+# 1126 "parsing/lexer.mll"
       ( update_loc lexbuf None 1 false 0;
         store_lexeme lexbuf;
         quoted_string delim lexbuf
       )
-# 3184 "parsing/lexer.ml"
+# 3183 "parsing/lexer.ml"
 
   | 1 ->
-# 1132 "parsing/lexer.mll"
+# 1131 "parsing/lexer.mll"
       ( is_in_string := false;
         raise (Error (Unterminated_string, !string_start_loc)) )
-# 3190 "parsing/lexer.ml"
+# 3189 "parsing/lexer.ml"
 
   | 2 ->
-# 1135 "parsing/lexer.mll"
+# 1134 "parsing/lexer.mll"
       (
         let edelim = Lexing.lexeme lexbuf in
         let edelim = String.sub edelim 1 (String.length edelim - 2) in
         if delim = edelim then ()
         else (store_lexeme lexbuf; quoted_string delim lexbuf)
       )
-# 3200 "parsing/lexer.ml"
+# 3199 "parsing/lexer.ml"
 
   | 3 ->
-# 1142 "parsing/lexer.mll"
+# 1141 "parsing/lexer.mll"
       ( store_string_char(Lexing.lexeme_char lexbuf 0);
         quoted_string delim lexbuf )
-# 3206 "parsing/lexer.ml"
+# 3205 "parsing/lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_quoted_string_rec delim lexbuf __ocaml_lex_state
@@ -32528,26 +32527,26 @@ and skip_hash_bang lexbuf =
 and __ocaml_lex_skip_hash_bang_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 1147 "parsing/lexer.mll"
+# 1146 "parsing/lexer.mll"
        ( update_loc lexbuf None 3 false 0 )
-# 3218 "parsing/lexer.ml"
+# 3217 "parsing/lexer.ml"
 
   | 1 ->
-# 1149 "parsing/lexer.mll"
+# 1148 "parsing/lexer.mll"
        ( update_loc lexbuf None 1 false 0 )
-# 3223 "parsing/lexer.ml"
+# 3222 "parsing/lexer.ml"
 
   | 2 ->
-# 1150 "parsing/lexer.mll"
+# 1149 "parsing/lexer.mll"
        ( () )
-# 3228 "parsing/lexer.ml"
+# 3227 "parsing/lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_skip_hash_bang_rec lexbuf __ocaml_lex_state
 
 ;;
 
-# 1152 "parsing/lexer.mll"
+# 1151 "parsing/lexer.mll"
  
   let at_bol lexbuf = 
     let pos = Lexing.lexeme_start_p lexbuf in 
@@ -32779,7 +32778,7 @@ and __ocaml_lex_skip_hash_bang_rec lexbuf __ocaml_lex_state =
     preprocessor := Some (init, preprocess)
 
 
-# 3467 "parsing/lexer.ml"
+# 3466 "parsing/lexer.ml"
 
 end
 module Parse : sig 
@@ -32918,7 +32917,7 @@ val read_lines : string -> string  -> string list
      Filename.concat "/bb/x/" "/bb/x/";;
    ]}
 *)
-  
+
 
 end = struct
 #1 "bspack_main.ml"
@@ -33273,7 +33272,7 @@ let specs : (string * Arg.spec * string) list =
     " with header of time stamp" ; 
     "-bs-exclude-I", (Arg.String add_exclude),
     " don't read and pack such modules from -I (in the future, we should detect conflicts in mllib or commandline) "
-    ;
+  ;
     "-bs-main", (Arg.String set_main_module),
     " set the main entry module";
     "-main-export", (Arg.String set_main_export),
@@ -33324,9 +33323,9 @@ let () =
        (if  out_chan != stdout then close_out out_chan) in
      let files =
        Ext_list.append (match mllib with
-        | Some s
-          -> read_lines (Sys.getcwd ()) s
-        | None -> []) command_files in
+           | Some s
+             -> read_lines (Sys.getcwd ()) s
+           | None -> []) command_files in
 
      match !main_module, files with
      | Some _ , _ :: _
@@ -33423,23 +33422,23 @@ let () =
              let output = file ^ ".d" in
              let sorted_dep_queue = 
                Queue.fold 
-               (fun acc collection_module -> 
-                  L_string_set.add 
-                  (
+                 (fun acc collection_module -> 
+                    L_string_set.add 
+                      (
                         (*FIXME: now we normalized path,
-                        we need a beautiful output too for relative path
-                        The relative path should be also be normalized..
-                      *)
-                      Filename.concat 
-                        (Ext_path.rel_normalized_absolute_path
-                           ~from:cwd                             
-                           (Filename.dirname collection_module)
-                        ) (Filename.basename collection_module)
+                          we need a beautiful output too for relative path
+                          The relative path should be also be normalized..
+                        *)
+                        Filename.concat 
+                          (Ext_path.rel_normalized_absolute_path
+                             ~from:cwd                             
+                             (Filename.dirname collection_module)
+                          ) (Filename.basename collection_module)
 
-                  )
-                  (* collection_module  *)
-                  acc
-                ) L_string_set.empty  collection_modules in 
+                      )
+                      (* collection_module  *)
+                      acc
+                 ) L_string_set.empty  collection_modules in 
              Ext_io.write_file 
                output
                (                 

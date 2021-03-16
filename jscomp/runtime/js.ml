@@ -24,41 +24,37 @@
 
 [@@@bs.config {flags = [|"-unboxed-types";"-w" ;"-49"|]}]
 (* DESIGN:
-    - It does not have any code, all its code will be inlined so that
+   - It does not have any code, all its code will be inlined so that
        there will never be
-       {[ require('js')]}
-    - Its interface should be minimal
+   {[ require('js')]}
+   - Its interface should be minimal
 *)
 
 (** This library provides bindings and necessary support for JS FFI.
     It contains all bindings into [Js] namespace.
 
     @example {[
-        [| 1;2;3;4|]
-        |. Js.Array2.map (fun x -> x + 1 )
-        |. Js.Array2.reduce (+) 0
-        |. Js.log
+      [| 1;2;3;4|]
+      |. Js.Array2.map (fun x -> x + 1 )
+      |. Js.Array2.reduce (+) 0
+      |. Js.log
     ]}
 *)
 
 (** Types for JS objects *)
 
-type +'a t
-(** Js object type.
-
-    @example {[
-        let x : < x : int ; y : int > Js.t =
-            [%obj{ x = 1 ; y = 2}]
-    ]}
- *)
+type 'a t = 'a
+(** This used to be mark a Js object type.
+    It is not needed any more, it is kept here for compatibility reasons
+*)
 
 
-(* internal types for FFI, these types are not used by normal users 
+(* internal types for FFI, these types are not used by normal users
     Absent cmi file when looking up module alias.
 *)
 module Fn = struct
   type 'a arity0 = {
-    i0 : unit -> 'a [@internal]  
+    i0 : unit -> 'a [@internal]
   }
   type 'a arity1 = {
     i1 : 'a [@internal]
@@ -130,15 +126,15 @@ end
 
 (**/**)
 module MapperRt = Js_mapperRt
-module Internal = struct 
-  open Fn    
+module Internal = struct
+  open Fn
   external opaqueFullApply : 'a -> 'a = "#full_apply"
 
   (* Use opaque instead of [._n] to prevent some optimizations happening *)
-  external run : 'a arity0 -> 'a = "#run" 
+  external run : 'a arity0 -> 'a = "#run"
   external opaque : 'a -> 'a = "%opaque"
 
-end    
+end
 (**/**)
 
 
@@ -210,12 +206,12 @@ external unsafe_lt : 'a -> 'a -> bool = "#unsafe_lt"
 (** [unsafe_lt a b] will be compiled as [a < b].
     It is marked as unsafe, since it is impossible
     to give a proper semantics for comparision which applies to any type
- *)
+*)
 
 
 external unsafe_le : 'a -> 'a -> bool = "#unsafe_le"
 (**  [unsafe_le a b] will be compiled as [a <= b].
-    See also {!unsafe_lt}
+     See also {!unsafe_lt}
 *)
 
 
@@ -226,7 +222,7 @@ external unsafe_gt : 'a -> 'a -> bool = "#unsafe_gt"
 
 external unsafe_ge : 'a -> 'a -> bool = "#unsafe_ge"
 (**  [unsafe_ge a b] will be compiled as [a >= b].
-    See also {!unsafe_lt}
+     See also {!unsafe_lt}
 *)
 
 

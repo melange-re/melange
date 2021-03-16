@@ -35,7 +35,7 @@ let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
         if Js_config.get_diagnose () then
           Format.fprintf Format.err_formatter ">Cmi: %s@." unit_name;
         let cmi : Cmi_format.cmi_infos =
-            Ext_marshal.from_string_uncheck
+          Ext_marshal.from_string_uncheck
             Builtin_cmi_datasets.module_data.(cmi)  in
         if Js_config.get_diagnose () then
           Format.fprintf Format.err_formatter "<Cmi: %s@." unit_name;
@@ -43,7 +43,7 @@ let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
               cmi }
       | None -> None
 
- let check () = ()
+let check () = ()
 (*
   Ext_array.iter
     Builtin_cmi_datasets.module_sets_cmi

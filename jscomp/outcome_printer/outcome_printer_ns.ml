@@ -71,7 +71,7 @@ let print_ident ppf s =
       -> "Js.List"
     | "Js_vector"
       -> "Js.Vector"
-(* Belt_libs  *)
+    (* Belt_libs  *)
     | "Belt_Id" -> "Belt.Id"
     | "Belt_Array" -> "Belt.Array"
 

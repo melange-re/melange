@@ -62,8 +62,8 @@ let bsb_main_flags : (string * spec * string) array =
     "Install public interface files into lib/ocaml";
     "-init", String (String_call (fun path -> generate_theme_with_path := Some path)),
     "Init sample project to get started. \n\
-    Note (`bsb -init sample` will create a sample project while \n\
-    `bsb -init .` will reuse current directory)";
+     Note (`bsb -init sample` will create a sample project while \n\
+     `bsb -init .` will reuse current directory)";
     "-theme", String (String_set current_theme),
     "The theme for project initialization. \n\
     default is basic:\n\
@@ -75,14 +75,15 @@ let bsb_main_flags : (string * spec * string) array =
     call_spec (fun _ ->
         print_endline (Filename.dirname Sys.executable_name)),
     "Show where bsb.exe is located";
-(** Below flags are only for bsb script, it is not available for bsb.exe
-  we make it at this time to make `bsb -help` easier
-*)
+    (** Below flags are only for bsb script, it is not available for bsb.exe
+        we make it at this time to make `bsb -help` easier
+    *)
     "-ws", call_spec ignore,
     "[host:]port \n\
-    specify a websocket number (and optionally, a host). \n\
-    When a build finishes, we send a message to that port. \n\
-    For tools that listen on build completion." ;
+     specify a websocket number (and optionally, a host). \n\
+     When a build finishes, we send a message to that port. \n\
+     For tools that listen on build completion." ;
+
   |]
 
 let (//) = Ext_path.combine

@@ -24,8 +24,8 @@
 
 
 (** Warning unused bs attributes
-  Note if we warn `deriving` too,
-  it may fail third party ppxes
+    Note if we warn `deriving` too,
+    it may fail third party ppxes
 *)
 let is_bs_attribute txt =
   let len = String.length txt  in
@@ -38,12 +38,12 @@ let is_bs_attribute txt =
   )
 
 let used_attributes : string Asttypes.loc Hash_set_poly.t =
-    Hash_set_poly.create 16
+  Hash_set_poly.create 16
 
 
 #if false
-let dump_attribute fmt = (fun ( (sloc : string Asttypes.loc),payload) ->
-    Format.fprintf fmt "@[%s %a@]" sloc.txt (Printast.payload 0 ) payload
+  let dump_attribute fmt = (fun ( (sloc : string Asttypes.loc),payload) ->
+      Format.fprintf fmt "@[%s %a@]" sloc.txt (Printast.payload 0 ) payload
     )
 
 let dump_used_attributes fmt =
@@ -59,17 +59,17 @@ let mark_used_bs_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
 
 
 let warn_unused_attribute
-  ({ attr_name = {txt; loc} as sloc; _} : Parsetree.attribute) =
+    ({ attr_name = ({txt; loc} as sloc)} : Parsetree.attribute) =
   if is_bs_attribute txt &&
      not loc.loc_ghost &&
      not (Hash_set_poly.mem used_attributes sloc) then
     begin
 #if false
-   (*COMMENT*)
-      dump_used_attributes Format.err_formatter;
-      dump_attribute Format.err_formatter attr ;
+(*COMMENT*)
+  dump_used_attributes Format.err_formatter;
+dump_attribute Format.err_formatter attr ;
 #endif
-      Location.prerr_warning loc (Bs_unused_attribute txt)
+    Location.prerr_warning loc (Bs_unused_attribute txt)
     end
 
 let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =

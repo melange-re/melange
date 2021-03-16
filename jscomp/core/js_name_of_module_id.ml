@@ -118,6 +118,7 @@ let string_of_module_id
       | (package_path, dep_package_info, case) ->
 
 
+
         let dep_info_query =
           Js_packages_info.query_package_infos dep_package_info module_system
         in
@@ -131,7 +132,7 @@ let string_of_module_id
         | Package_found ({suffix} as pkg), Package_script
           ->
           let js_file =
-              Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id) case suffix in
+            Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id) case suffix in
           pkg.pkg_rel_path // js_file
         | Package_found ({suffix } as dep_pkg),
           Package_found cur_pkg ->
@@ -155,7 +156,7 @@ let string_of_module_id
                 dep_pkg.pkg_rel_path // js_file
               (** Note we did a post-processing when working on Windows *)
               | Es6_global
-              ->
+                ->
                 begin
                   Ext_path.rel_normalized_absolute_path
                     ~from:(
@@ -178,7 +179,7 @@ let string_of_module_id
             Ext_path.node_rebase_file
               ~from:(
                 Ext_path.absolute_cwd_path
-                output_dir)
+                  output_dir)
               ~to_:(
                 Ext_path.absolute_cwd_path
 
