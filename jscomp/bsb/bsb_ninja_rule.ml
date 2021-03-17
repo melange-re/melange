@@ -284,7 +284,9 @@ let make_custom_rules
          let s = global_config.bsc ^ Ext_string.single_space ^ stdlib_incl ^
          " -w -49 -color always -no-alias-deps %{inputs}"
          in
-        Buffer.add_string buf s)
+        Buffer.add_string buf "(action (run ";
+        Buffer.add_string buf s;
+        Buffer.add_string buf "))")
       ~restat:()
       "build_package"
   in
