@@ -12,7 +12,7 @@
     "@opam/merlin": "*"
   },
   "resolutions": {
-    "ocaml": "anmonteiro/ocaml#72babec0e1796ce322464afc8ef2a0d7125d60cb"
+    "ocaml": "link:./ocaml/package.json"
   },
   "scripts": {
     "clean": "node ./scripts/ninja.js clean"
