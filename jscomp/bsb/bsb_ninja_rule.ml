@@ -102,7 +102,7 @@ let make_custom_rules
   (** FIXME: We don't need set [-o ${out}] when building ast
       since the default is already good -- it does not*)
   (** NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
-  let _ns_flag =
+  let ns_flag =
     match global_config.namespace with None -> ""
     | Some n -> " -bs-ns " ^ n in
   let mk_ml_cmj_cmd
@@ -114,6 +114,7 @@ let make_custom_rules
     Buffer.add_string buf global_config.bs_dep_parse;
     Buffer.add_string buf " %{dep_file}) (run ";
     Buffer.add_string buf global_config.bsc;
+    Buffer.add_string buf ns_flag;
     if not has_builtin then
       Buffer.add_string buf " -nostdlib";
     if read_cmi = `yes then
@@ -232,9 +233,10 @@ let make_custom_rules
     define
       ~restat:()
       ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s %%{inputs}))"
+        let s = Format.asprintf "(action (run %s -cwd %s %s %%{inputs}))"
           global_config.bsdep
           global_config.src_root_dir
+          ns_flag
         in
         Buffer.add_string buf s)
       "deps" in
@@ -242,8 +244,10 @@ let make_custom_rules
     define
       ~restat:()
       ~command:(fun buf ?target _cur_dir ->
-        let s = global_config.bsdep ^ " -cwd " ^ global_config.src_root_dir ^
-         " -g " ^ " %{inputs}"
+        let s = Format.asprintf "(action (run %s -g -cwd %s %s %%{inputs}))"
+          global_config.bsdep
+          global_config.src_root_dir
+          ns_flag
         in
         Buffer.add_string buf s)
       "deps_dev"

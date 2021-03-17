@@ -146,10 +146,16 @@ let oc_deps
     Ext_buffer.add_string buf (if kind = `impl then Literals.suffix_cmj else Literals.suffix_cmi);
     (* print the source *)
     Ext_buffer.add_string buf dep_lit ) in
-  (match namespace with None -> () | Some ns ->
+  Ext_option.iter namespace (fun ns ->
+        let rel =
+          rel_target_path
+            ~cwd
+            ~dependent_module_dir:(Ext_path.combine cwd lib_bs)
+            ~cur_module_dir
+        in
       Lazy.force at_most_once;
       Ext_buffer.add_char buf ' ';
-      Ext_buffer.add_string buf ns;
+      Ext_buffer.add_string buf (Ext_path.combine rel ns);
       Ext_buffer.add_string buf Literals.suffix_cmi; (* always cmi *)
   ) ; (* TODO: moved into static files*)
   let s = extract_dep_raw_string ast_file in
