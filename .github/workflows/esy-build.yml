@@ -1,0 +1,26 @@
+name: Build using esy
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build
+
+    strategy:
+      matrix:
+        system: [windows-latest, ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.system }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install esy
+        run: npm install -g esy
+
+      - uses: esy/github-action@master
+        with:
+          cache-key: ${{ hashFiles('esy.lock/index.json') }}

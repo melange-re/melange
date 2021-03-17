@@ -7,7 +7,7 @@
   stdlib-412/stdlib.cmj)
  (target libocaml.tar.gz)
  (action
-  (system
+  (bash
    "tar -czf libocaml.tar.gz runtime/*.{ml,cm}* others/*.{ml,cm}* stdlib-412/*.{ml,cm}* stdlib-412/stdlib_modules/*.{ml,cm}*")))
 
 (install
