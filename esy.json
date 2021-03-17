@@ -5,7 +5,8 @@
     "ocaml": "4.12.0+BS",
     "@esy-ocaml/reason": "^3.7.0",
     "@opam/dune": "*",
-    "@opam/dune-action-plugin": "*"
+    "@opam/dune-action-plugin": "*",
+    "@opam/ocamlfind": "1.8.1"
   },
   "devDependencies": {
     "web-tree-sitter": "0.18.0",
