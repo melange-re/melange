@@ -23,8 +23,9 @@
  (modules bsc jscmj_main))
 
 (install
-  (files (bsc.exe as bsc))
-  (section bin))
+ (files
+  (bsc.exe as bsc))
+ (section bin))
 
 (rule
  (target bsc.ml)
@@ -56,8 +57,9 @@
  (libraries bs_hash_stubs ext common bsb))
 
 (install
-  (files (bsb_main.exe as bsb))
-  (section bin))
+ (files
+  (bsb_main.exe as bsb))
+ (section bin))
 
 (executable
  (name cmjdump_main)
@@ -100,7 +102,7 @@
   bsc.exe
   (alias ../runtime/all)
   (alias ../others/all)
-  (alias ../stdlib-406/all))
+  (alias ../stdlib-412/all))
  (libraries
   ounit
   bs_hash_stubs

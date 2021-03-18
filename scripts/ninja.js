@@ -1298,7 +1298,7 @@ function baseName(x) {
 async function testNinja() {
   var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A  -I ../runtime -I ../stdlib-406 -I ../others`
+  var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A  -I ../runtime -I ../stdlib-412 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
@@ -1311,7 +1311,7 @@ async function testNinja() {
   let depsMap = createDepsMapWithTargets(sources);
   await Promise.all(depModulesForBscAsync(sources, testDir, depsMap));
   var targets = collectTarget(sources);
-  var output = generateDune(depsMap, targets, bsc_flags, [stdlibTarget].map(x => `../stdlib-406/${x.name}`));
+  var output = generateDune(depsMap, targets, bsc_flags, [stdlibTarget].map(x => `../stdlib-412/${x.name}`));
   writeFileAscii(
     path.join(testDir, ninjaOutput),
     output.join("\n") + "\n"

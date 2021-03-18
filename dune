@@ -1,16 +1,4 @@
-(dirs
- :standard
- \
- docs
- ocaml
- node_modules
- native
- ninja
- nix
- site
- vendor
- lib/4.06.1
- syntax)
+(dirs :standard \ docs node_modules native nix site vendor lib/4.06.1)
 
 (env
  (dev
@@ -21,13 +9,3 @@
    (CPPO_FLAGS -D=BS_RELEASE_BUILD))
   (ocamlopt_flags
    (:standard -O3 -unbox-closures))))
-
-(data_only_dirs lib syntax)
-
-; (subdir lib
-; (data_only_dirs es6)
-; (rule (targets es6)
-; (deps (alias ../jscomp/stdlib-406/all))
-; (action (progn
-; (bash  "echo $PWD")
-; ))))
