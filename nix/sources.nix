@@ -1,9 +1,8 @@
 { ocamlVersion ? "4_12" }:
 let
   overlays =
-    /Users/anmonteiro/projects/nix-overlays;
-  # builtins.fetchTarball
-  # https://github.com/anmonteiro/nix-overlays/archive/c584ee4.tar.gz;
+    builtins.fetchTarball
+      https://github.com/anmonteiro/nix-overlays/archive/fe9462a.tar.gz;
 
 in
 import "${overlays}/sources.nix" {
@@ -15,7 +14,10 @@ import "${overlays}/sources.nix" {
           preConfigure = ''
             configureFlagsArray+=(--disable-debugger)
           '';
-          src = self.lib.gitignoreSource ../../ocaml;
+          src = builtins.fetchurl {
+            url = https://github.com/anmonteiro/ocaml/archive/72babec0e1796ce322464afc8ef2a0d7125d60cb.tar.gz;
+            sha256 = "1yp0ifwhsaf3zkqj2nnvbcj0dfmrvbifkiwybh2xda6y7ca84z5j";
+          };
           preBuild = ''
             make clean
           '';
