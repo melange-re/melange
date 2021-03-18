@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -44,7 +44,7 @@ let get_runtime_module_path
       module_system  in
   let js_file =
     Ext_namespace.js_name_of_modulename (Ident.name dep_module_id.id)
-      Little (match module_system with NodeJS -> Js | Es6 | Es6_global -> Mjs) in
+      Little Js in
   match current_info_query with
   | Package_not_found -> assert false
   | Package_script ->

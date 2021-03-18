@@ -222,7 +222,8 @@
     "string.js",
     "stringLabels.js",
     "sys.js",
-    "uchar.js"
+    "uchar.js",
+    "package.json"
   ],
   "lib/js": [
     "arg.js",
@@ -991,6 +992,9 @@
     "bsc.exe",
     "ninja.exe",
     "refmt.exe"
+  ],
+  "openbsd": [
+    ".keep"
   ],
   "scripts": [
     "dbg",

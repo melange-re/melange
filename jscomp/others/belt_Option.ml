@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +21,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+
+let keepU opt p = match opt with
+  | Some x as some when (p x [@bs]) -> some
+  | _ -> None
+
+let keep opt p = keepU opt (fun[@bs] x -> p x)
 
 let forEachU opt f = match opt with
   | Some x -> (f x [@bs])

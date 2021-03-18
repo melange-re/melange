@@ -30,7 +30,10 @@ function approx(loc) {
   };
 }
 
-var epsilon_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 1018167296));
+var epsilon_float = Caml_int64.float_of_bits([
+      1018167296,
+      0
+    ]);
 
 var match = Caml_float.caml_frexp_float(12.0);
 
@@ -160,8 +163,8 @@ Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 48, characte
 var match$3 = Caml_float.caml_modf_float(Number.NaN);
 
 Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 49, characters 5-12", [
-      isNaN(match$3[0]),
-      isNaN(match$3[1])
+      Number.isNaN(match$3[0]),
+      Number.isNaN(match$3[1])
     ], [
       true,
       true
