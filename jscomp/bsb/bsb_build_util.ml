@@ -29,26 +29,44 @@ let flag_concat flag xs =
 let (//) = Ext_path.combine
 
 
+let maybe_quote_for_dune ( s : string) =
+  let noneed_quote =
+    Ext_string.for_all s (function
+        | '0' .. '9'
+        | 'a' .. 'z'
+        | 'A' .. 'Z'
+        | '_' | '+'
+        | '-' | '.'
+        | '/'
+        | '@' -> true
+        | _ -> false
+      )  in
+  if noneed_quote then
+    s
+  else
+    (* Dune allows `'` characters to be part of a segment, so 'foo' gets
+       interpreted as foo', or something. For dune files, we quote with `""`
+       instead. *)
+    Format.asprintf "%S" s
 
 let ppx_flags (xs : Bsb_config_types.ppx list) =
   flag_concat "-ppx"
     (Ext_list.map xs
        (fun x ->
-          if x.args = [] then Ext_filename.maybe_quote x.name else
-            Printf.sprintf "\"%s %s\"" x.name (String.concat " " x.args)
-       ))
+          if x.args = [] then maybe_quote_for_dune x.name else
+            Printf.sprintf "\"%s %s\"" x.name (String.concat " " x.args)))
 
 let pp_flag (xs : string) =
-   "-pp " ^ Ext_filename.maybe_quote xs
+   "-pp " ^ maybe_quote_for_dune xs
 
 let include_dirs dirs =
   String.concat Ext_string.single_space
-    (Ext_list.flat_map dirs (fun x -> ["-I"; Ext_filename.maybe_quote x]))
+    (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune x]))
 
 
 let include_dirs_by dirs fn =
   String.concat Ext_string.single_space
-    (Ext_list.flat_map dirs (fun x -> ["-I"; Ext_filename.maybe_quote (fn x)]))
+    (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune (fn x)]))
 
 
 let sourcedir_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
