@@ -30,18 +30,7 @@ let (//) = Ext_path.combine
 
 
 let maybe_quote_for_dune ( s : string) =
-  let noneed_quote =
-    Ext_string.for_all s (function
-        | '0' .. '9'
-        | 'a' .. 'z'
-        | 'A' .. 'Z'
-        | '_' | '+'
-        | '-' | '.'
-        | '/'
-        | '@' -> true
-        | _ -> false
-      )  in
-  if noneed_quote then
+  if Ext_string.for_all s Ext_filename.shell_safe_character then
     s
   else
     (* Dune allows `'` characters to be part of a segment, so 'foo' gets
