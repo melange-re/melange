@@ -1,6 +1,17 @@
 `*` means  potential break changes
 
+# 9.0.2
 
+- #4990 Fix an optimization bug introduced in 9.0
+
+- #4982 pattern match over modules
+
+Provide user with a sugar to pattern match over modules:
+
+```res
+let {length, cons} = module(List)
+```
+More discussions can be found [here](https://forum.rescript-lang.org/t/introducing-an-extension-to-make-pattern-match-works-on-modules/1196)
 # 9.0
 
 - #4933 update syntax bf6561bb5d84

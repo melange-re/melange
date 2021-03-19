@@ -1,4 +1,4 @@
-(* Copyright (C) 2018 - Authors of ReScript
+(* Copyright (C) 2018 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -798,7 +798,7 @@ let if_ (a : t) (b : t) (c : t) : t =
          | Lprim(
             {primitive = Pnot ; args = [Lprim{primitive = Pintcomp Ceq ; args = [Lvar j; Lconst _] as args; loc}]})
            when Ident.same i j && eq_approx true_ c
-           -> Lprim{primitive = Pintcomp Ceq; args; loc}
+           -> Lprim{primitive = Pintcomp Cne; args; loc}
          | _ -> Lifthenelse(a,b,c)
          end
        | _ ->  Lifthenelse (a,b,c))

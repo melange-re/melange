@@ -8,14 +8,10 @@
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/switch.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translattribute.ml
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translattribute.mli
-../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translclass.ml
-../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translclass.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translcore.ml
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translcore.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translmod.ml
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translmod.mli
-../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translobj.ml
-../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/bytecomp/translobj.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/parsing/ast_helper.ml
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/parsing/ast_helper.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ../ocaml/parsing/ast_iterator.ml
@@ -189,8 +185,6 @@
 ../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_array.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_block.ml
 ../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_block.mli
-../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_exception.ml
-../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_exception.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_option.ml
 ../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_option.mli
 ../lib/4.06.1/unstable/js_compiler.ml: ./core/js_of_lam_string.ml
