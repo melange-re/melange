@@ -36,7 +36,7 @@ val output_alias :
 val output_build :
   ?implicit_deps:string list ->
   ?rel_deps:string list ->
-  ?bs_dependencies_deps:string list ->
+  ?bs_dependencies:string list ->
   ?implicit_outputs: string list ->
   ?js_outputs: (string * bool) list ->
   outputs:string list ->

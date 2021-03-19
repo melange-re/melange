@@ -73,7 +73,8 @@ let emit_module_build
     (is_dev : bool)
     buf
     ~per_proj_dir
-    ~bs_dependencies_deps
+    ~bs_dependencies
+    ~bs_dev_dependencies
     js_post_build_cmd
     namespace
     (module_info : Bsb_db.module_info)
@@ -146,9 +147,18 @@ let emit_module_build
       (ns ^ Literals.suffix_cmi) ]
    | None -> []
    in
-  let bs_dependencies_deps = Ext_list.map bs_dependencies_deps (fun dir ->
+  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
   )
+  in
+  let bs_dependencies = if is_dev then
+    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
+      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
+      )
+    in
+    dev_dependencies @ bs_dependencies
+  else
+    bs_dependencies
   in
   let rel_bs_config_json =
    Ext_path.combine
@@ -164,7 +174,7 @@ let emit_module_build
     ~js_outputs:output_js
     ~inputs:[output_ast]
     ~implicit_deps:(if has_intf_file then [output_cmi; output_d_as_dep] else [output_d_as_dep])
-    ~bs_dependencies_deps
+    ~bs_dependencies
     ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
     ~rule;
   output_js, output_d
@@ -178,7 +188,8 @@ let handle_files_per_dir
     ~package_specs
     ~js_post_build_cmd
     ~files_to_install
-    ~bs_dependencies_deps
+    ~bs_dependencies
+    ~bs_dev_dependencies
     (group: Bsb_file_groups.file_group )
   : unit =
   let per_proj_dir = global_config.src_root_dir in
@@ -206,7 +217,8 @@ let handle_files_per_dir
         is_dev
         buf
         ~per_proj_dir
-        ~bs_dependencies_deps
+        ~bs_dependencies
+        ~bs_dev_dependencies
         js_post_build_cmd
         global_config.namespace module_info
       in

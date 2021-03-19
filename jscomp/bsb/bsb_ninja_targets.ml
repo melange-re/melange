@@ -156,7 +156,7 @@ let output_alias ?action buf ~name ~deps =
 let output_build
     ?(implicit_deps=[])
     ?(rel_deps=[])
-    ?(bs_dependencies_deps=[])
+    ?(bs_dependencies=[])
     ?(implicit_outputs=[])
     ?(js_outputs=[])
     ~outputs
@@ -196,8 +196,8 @@ let output_build
         Buffer.add_string buf (Filename.basename s))
   end;
   Ext_list.iter rel_deps (fun s -> Buffer.add_string buf Ext_string.single_space; Buffer.add_string buf s);
-  if bs_dependencies_deps <> [] then
-    Ext_list.iter bs_dependencies_deps (fun dir ->
+  if bs_dependencies <> [] then
+    Ext_list.iter bs_dependencies (fun dir ->
       Buffer.add_string buf "(alias "; Buffer.add_string buf dir; Buffer.add_string buf ")";
     );
   Buffer.add_string buf ")";
