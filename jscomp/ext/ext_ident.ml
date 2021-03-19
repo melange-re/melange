@@ -58,18 +58,28 @@ type[@ocaml.warning "-unused-constructor"] t =
   | Global of string
   | Predef of { name: string; stamp: int }
 
-let make_js_object (i : Ident.t) =
-  (* FIXME(anmonteiro): fix for 4.12 *)
-  (* i.flags <- i.flags lor js_object_flag *)
-  (Obj.magic (Scoped { name = Ident.name i; stamp = Ident.stamp i; scope = js_object_flag }) : Ident.t)
+(* XXX(anmonteiro): This is an artifact of the 4.12 upgrade that we need to fix
+   at some point. This project (as well as the OCaml compiler, previously)
+   abuses the `Ident.t` type in order to know whether some identifier comes
+   from the JS side or not, with the objective of dealing with shadowing
+   accordingly (semantics of OCaml and JS are different, e.g. with regards to
+   recursion).
 
-  (* Ident.create_scoped ~scope:js_flag name *)
+   An interesting read: https://github.com/ocaml/ocaml/pull/1980 *)
+let create_unsafe_dont_use_or_bad_things_will_happen ~scope ~stamp name =
+  (Obj.magic (Scoped { name; stamp; scope }) : Ident.t)
+
+let make_js_object (i : Ident.t) =
+  create_unsafe_dont_use_or_bad_things_will_happen
+   ~stamp:(Ident.stamp i)
+   ~scope:(Ident.scope i lor js_object_flag)
+   (Ident.name i)
 
 (* It's a js function hard coded by js api, so when printing,
    it should preserve the name
 *)
 let create_js (name : string) : Ident.t  =
-  Ident.create_scoped ~scope:js_flag name
+  create_unsafe_dont_use_or_bad_things_will_happen ~stamp:0 ~scope:js_flag name
 
 let create = Ident.create_local
 
