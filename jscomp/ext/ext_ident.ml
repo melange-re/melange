@@ -75,7 +75,7 @@ let make_js_object (i : Ident.t) =
    ~scope:(Ident.scope i lor js_object_flag)
    (Ident.name i)
 
-(* `create_js` creates an ident that has been described to as by the JS FFI. In
+(* `create_js` creates an ident that has been described to us by the JS FFI. In
    OCaml 4.06 and below, the `Ident.t` type abused `flags` and `stamp` to mark
    it as such ("global" values had a stamp of 0). After PR#1980 to OCaml, not
    only has the `Ident.t` type been made abstract, but also the `Global of
