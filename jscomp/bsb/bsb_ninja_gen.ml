@@ -251,8 +251,11 @@ let output_ninja_and_namespace_map
       ~reason_react_jsx
       ~package_specs
       generators in
-  let bs_dependencies_deps =
+  let bs_dependencies =
    Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
+  in
+  let bs_dev_dependencies =
+   Ext_list.flat_map bs_dev_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
   in
   Buffer.add_char buf '\n';
 
@@ -267,7 +270,8 @@ let output_ninja_and_namespace_map
          ~package_specs
          ~files_to_install
          ~js_post_build_cmd
-         ~bs_dependencies_deps
+         ~bs_dev_dependencies
+         ~bs_dependencies
          ~root_dir
          files_per_dir;
          )
