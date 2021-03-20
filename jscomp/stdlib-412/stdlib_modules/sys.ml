@@ -25,10 +25,7 @@ type backend_type =
 (* System interface *)
 
 (* external get_config: unit -> string * int * bool = "caml_sys_get_config" *)
-#if BS then
-#else
 external get_executable_name : unit -> string = "caml_sys_executable_name"
-#end
 external argv : string array = "%sys_argv"
 external big_endian : unit -> bool = "%big_endian"
 external word_size : unit -> int = "%word_size"
@@ -39,10 +36,7 @@ external win32 : unit -> bool = "%ostype_win32"
 external cygwin : unit -> bool = "%ostype_cygwin"
 external get_backend_type : unit -> backend_type = "%backend_type"
 
-#if BS then
-#else
 let executable_name = get_executable_name()
-#end
 
 #if BS then
 external get_os_type : unit -> string = "#os_type"
