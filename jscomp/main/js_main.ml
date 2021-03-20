@@ -310,7 +310,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-nostdlib",  set Js_config.no_stdlib,
     "*internal* Don't use stdlib";
 
-    "-bs-internal-check",  unit_call Bs_cmi_load.check,
+    "-bs-internal-check",  unit_call ignore,
     "*internal* Built in check corrupted data";
 
     "-color", string_call set_color_option,
