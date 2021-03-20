@@ -1,15 +1,19 @@
 
     
   (rule
-    (targets stdlib.cmi)
+    (targets stdlib.cmi
+             )
     (deps (:inputs stdlib.mli) (alias ./stdlib_modules/stdlib))
+    
     (action
      (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-3-106 -warn-error A  -I ../runtime  -I ../others  -I ./stdlib_modules -nopervasives  -I . %{inputs})))
 
 
   (rule
-    (targets stdlib.cmj)
+    (targets stdlib.cmj
+             )
     (deps (:inputs stdlib.ml) stdlib.cmi)
+    
     (action
      (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-3-106 -warn-error A  -I ../runtime  -I ../others  -I ./stdlib_modules -nopervasives  -I . %{inputs})))
 

@@ -3,9 +3,10 @@ on:
   pull_request:
   push:
    branches:
-     - master
+     - fork
 jobs:
   tests:
+    name: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
