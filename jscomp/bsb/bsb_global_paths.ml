@@ -50,7 +50,7 @@ let bsc_dir  =
     (Ext_path.normalize_absolute_path
        (Ext_path.combine cwd  Sys.executable_name))
 
-let vendor_bsc = "bsc.exe"
+let vendor_bsc = "bsc"
 
 let vendor_ninja = "ninja.exe"
 

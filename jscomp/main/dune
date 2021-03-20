@@ -4,7 +4,7 @@
 
 (executable
  (name bsc)
- (public_name bsc.exe)
+ (public_name bsc)
  (modes native)
  (flags
   (:standard -w -9))
@@ -21,11 +21,6 @@
   reason)
  (modules_without_implementation jscmj_main)
  (modules bsc jscmj_main))
-
-(install
- (files
-  (bsc.exe as bsc))
- (section bin))
 
 (rule
  (target bsc.ml)
