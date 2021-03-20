@@ -163,37 +163,40 @@ let to_lam x =
        the j is not very indicative                
 *)             
 
-let subst_helper (subst : subst_tbl) (query : int -> int) (lam : Lam.t) : Lam.t = 
-  let rec simplif (lam : Lam.t) = 
-    match lam with 
-    | Lstaticcatch (l1,(i,xs),l2) ->      
-        let i_occur = query i in 
-        (match i_occur , l2 with
+let subst_helper ~try_depth (subst : subst_tbl) (query : int -> Lam_exit_count.exit) (lam : Lam.t) : Lam.t =
+  let rec simplif (lam : Lam.t) =
+    match lam with
+    | Lstaticcatch (l1,(i,xs),l2) ->
+        (* This section is a port of https://github.com/ocaml/ocaml/pull/1497 *)
+        let {Lam_exit_count.count; max_depth} = query i in
+        (match count , l2 with
         | 0,_ -> simplif l1
         | ( _ , Lvar _
-          | _, Lconst _) (* when i >= 0  # 2316 *) ->  
+          | _, Lconst _) (* when i >= 0  # 2316 *) ->
           Hash_int.add subst i (xs, Id (simplif l2)) ;
           simplif l1 (** l1 will inline *)
-        | 1,_ when i >= 0 -> (** Ask: Note that we have predicate i >=0 *)
+        | 1, _ when max_depth <= !try_depth ->
+          assert(max_depth = !try_depth);
           Hash_int.add subst i (xs, Id (simplif l2)) ;
           simplif l1 (** l1 will inline *)
         |  _ ->
-          let l2 = simplif l2 in 
+          let l2 = simplif l2 in
           (* we only inline when [l2] does not contain bound variables
              no need to refresh
           *)
-          let ok_to_inline = 
-            i >=0 && 
+          let ok_to_inline =
+            max_depth <= !try_depth &&
+            i >=0 &&
             (no_bounded_variables l2) &&
             (let lam_size = Lam_analysis.size l2 in
-             (i_occur <= 2 && lam_size < Lam_analysis.exit_inline_size   )
+             (count <= 2 && lam_size < Lam_analysis.exit_inline_size   )
              || (lam_size < 5 ))
-          in 
-          if ok_to_inline 
-          then 
-            begin            
+          in
+          if ok_to_inline
+          then
+            begin
               Hash_int.add subst i (xs,  Id l2) ;
-              simplif l1 
+              simplif l1
             end
           else Lam.staticcatch (simplif l1) (i,xs) l2)
     | Lstaticraise (i,[])  ->
@@ -245,9 +248,12 @@ let subst_helper (subst : subst_tbl) (query : int -> int) (lam : Lam.t) : Lam.t 
       Lam.stringswitch
         (simplif l) (Ext_list.map_snd  sw simplif)
         (Ext_option.map d simplif)
-    | Ltrywith (l1, v, l2) -> 
-      Lam.try_ (simplif l1) v (simplif l2)
-    | Lifthenelse (l1, l2, l3) -> 
+    | Ltrywith (l1, v, l2) ->
+      incr try_depth;
+      let l1 = simplif l1 in
+      decr try_depth;
+      Lam.try_ l1 v (simplif l2)
+    | Lifthenelse (l1, l2, l3) ->
       Lam.if_ (simplif l1) (simplif l2) (simplif l3)
     | Lsequence (l1, l2) -> Lam.seq (simplif l1) (simplif l2)
     | Lwhile (l1, l2) -> Lam.while_ (simplif l1) (simplif l2)
@@ -261,8 +267,9 @@ let subst_helper (subst : subst_tbl) (query : int -> int) (lam : Lam.t) : Lam.t 
   simplif lam 
 
 let simplify_exits (lam : Lam.t) =
-  let exits = Lam_exit_count.count_helper lam in
-  subst_helper (Hash_int.create 17 ) (Lam_exit_count.count_exit exits) lam
+  let try_depth = ref 0 in
+  let exits = Lam_exit_count.count_helper ~try_depth lam in
+  subst_helper ~try_depth (Hash_int.create 17 ) (Lam_exit_count.get_exit exits) lam
 
 (* Compile-time beta-reduction of functions immediately applied:
       Lapply(Lfunction(Curried, params, body), args, loc) ->

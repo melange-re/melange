@@ -22,44 +22,56 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type exit = {
+  mutable count: int;
+  mutable max_depth: int;
+}
 
-type collection = int  Hash_int.t
+type collection = (int, exit) Hashtbl.t
 
+let get_exit exits i =
+  try Hashtbl.find exits i
+  with Not_found -> {count = 0; max_depth = 0}
 
-(* Count occurrences of (exit n ...) statements *)
-let count_exit (exits : collection) i =
-  Hash_int.find_default exits i 0
+let incr_exit exits i nb d =
+  match Hashtbl.find_opt exits i with
+  | Some r ->
+      r.count <- r.count + nb;
+      r.max_depth <- max r.max_depth d
+  | None ->
+      let r = {count = nb; max_depth = d} in
+      Hashtbl.add exits i r
 
-let incr_exit (exits : collection) i =
-  Hash_int.add_or_update exits i 1 ~update:succ 
-
-
-(** 
+(**
   This funcition counts how each [exit] is used, it will affect how the following optimizations performed.
-  
-  Some smart cases (this requires the following optimizations follow it): 
-  
+
+  Some smart cases (this requires the following optimizations follow it):
+
   {[
-    Lstaticcatch(l1, (i,_), l2) 
+    Lstaticcatch(l1, (i,_), l2)
   ]}
   If [l1] does not contain [(exit i)],
   [l2] will be removed, so don't count it.
-  
+
   About Switch default branch handling, it maybe backend-specific
-  See https://github.com/ocaml/ocaml/commit/fcf3571123e2c914768e34f1bd17e4cbaaa7d212#diff-704f66c0fa0fc9339230b39ce7d90919 
+  See https://github.com/ocaml/ocaml/commit/fcf3571123e2c914768e34f1bd17e4cbaaa7d212#diff-704f66c0fa0fc9339230b39ce7d90919
   For Lstringswitch ^
-  
+
   For Lswitch, if it is not exhuastive pattern match, default will be counted twice.
   Since for pattern match,  we will  test whether it is  an integer or block, both have default cases predicate: [sw_consts_full] vs nconsts
 *)
-let count_helper  (lam : Lam.t) : collection = 
-  let exits : collection = Hash_int.create 17 in
-  let rec count (lam : Lam.t) = 
-    match lam with 
-    | Lstaticraise (i,ls) -> incr_exit exits i ; Ext_list.iter ls count
+let count_helper ~try_depth (lam : Lam.t) : collection =
+  let exits : collection = Hashtbl.create 17 in
+  let rec count (lam : Lam.t) =
+    match lam with
+    | Lstaticraise (i,ls) -> incr_exit exits i 1 !try_depth; Ext_list.iter ls count
+    | Lstaticcatch (l1,(i,[]),Lstaticraise (j,[])) ->
+      count l1 ;
+      let ic = get_exit exits i in
+      incr_exit exits j ic.count (max !try_depth ic.max_depth)
     | Lstaticcatch(l1, (i,_), l2) ->
       count l1;
-      if count_exit exits i > 0 then count l2
+      if (get_exit exits i).count > 0 then count l2
     | Lstringswitch(l, sw, d) ->
       count l;
       Ext_list.iter_snd sw count;
@@ -72,14 +84,14 @@ let count_helper  (lam : Lam.t) : collection =
       count l2; count l1
     | Lletrec(bindings, body) ->
       Ext_list.iter_snd bindings count;
-      count body    
+      count body
     | Lprim {args;  _} -> List.iter count args
     | Lswitch(l, sw) ->
       count_default sw ;
       count l;
       Ext_list.iter_snd sw.sw_consts count;
       Ext_list.iter_snd sw.sw_blocks count
-    | Ltrywith(l1, _v, l2) -> count l1; count l2
+    | Ltrywith(l1, _v, l2) -> incr try_depth; count l1; decr try_depth; count l2
     | Lifthenelse(l1, l2, l3) -> count l1; count l2; count l3
     | Lsequence(l1, l2) -> count l1; count l2
     | Lwhile(l1, l2) -> count l1; count l2
@@ -91,10 +103,11 @@ let count_helper  (lam : Lam.t) : collection =
     | None -> ()
     | Some al ->
       if not sw.sw_consts_full && not sw.sw_blocks_full
-      then 
-          (count al ; count al)    
-      else 
-          count al in 
-  count lam ; 
+      then
+          (count al ; count al)
+      else
+          count al in
+  count lam ;
+  assert(!try_depth = 0);
   exits
 ;;

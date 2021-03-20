@@ -23,11 +23,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
- type collection 
+type exit = {
+  mutable count: int;
+  mutable max_depth: int;
+}
 
- 
- val count_helper : Lam.t -> collection
+type collection = (int, exit) Hashtbl.t
 
- val count_exit : collection -> int -> int 
+val count_helper : try_depth:int ref -> Lam.t -> collection
+
+val get_exit : collection -> int -> exit
+
 
 
