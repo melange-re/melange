@@ -79,7 +79,7 @@
 
 (executable
  (name bsb_parse_depend)
- (public_name bsb_parse_depend.exe)
+ (public_name bsb_parse_depend)
  (modes native)
  (modules bsb_parse_depend)
  (libraries bsb ext dune-action-plugin))

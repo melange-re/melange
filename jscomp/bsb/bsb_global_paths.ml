@@ -56,7 +56,7 @@ let vendor_ninja = "ninja.exe"
 
 let vendor_bsdep = "bsb_helper.exe"
 
-let bs_dep_parse = "bsb_parse_depend.exe"
+let bs_dep_parse = "bsb_parse_depend"
 
 
 ;; assert (Sys.file_exists bsc_dir)
