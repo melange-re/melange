@@ -122,7 +122,7 @@ function ruleCC(flags, src, target, deps = []) {
     (targets ${Array.isArray(target) ? target.join(' ') : target})
     (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
     (action
-     (run bsc.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -132,7 +132,7 @@ function ruleCC_cmi(flags, src, target, deps = []) {
     (targets ${Array.isArray(target) ? target.join(' ') : target})
     (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
