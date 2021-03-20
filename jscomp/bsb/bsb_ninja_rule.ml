@@ -24,7 +24,14 @@
 
 
 
+module Generators = struct
+  let regexp = Str.regexp "\\(\\$in\\)\\|\\(\\$out\\)"
 
+  let maybe_match ~group s =
+    match Str.matched_group group s with
+    | matched -> Some matched
+    | exception Not_found -> None
+end
 
 
 type t = {
@@ -85,8 +92,6 @@ type builtin = {
   customs : t Map_string.t
 }
 
-
-;;
 
 let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
@@ -308,7 +313,18 @@ let make_custom_rules
     build_package ;
     customs =
       Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun buf ?target _cur_dir -> Buffer.add_string buf command) ("custom_" ^ name)
+        define ~command:(fun buf ?target _cur_dir ->
+          let actual_command =
+            Str.global_substitute Generators.regexp (fun match_ ->
+              match Generators.(maybe_match ~group:1 match_, maybe_match ~group:2 match_) with
+              | Some _, None -> "%{inputs}"
+              | None, Some _ -> "%{targets}"
+              | _ -> assert false)
+            command
+          in
+          let s = Format.asprintf "(action (system %S))" actual_command in
+          Buffer.add_string buf s)
+        ("custom_" ^ name)
       end
   }
 

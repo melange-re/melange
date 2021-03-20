@@ -29,7 +29,7 @@ let (//) = Ext_path.combine
 
 
 
-let handle_generators oc
+let handle_generators buf
     (group : Bsb_file_groups.file_group)
     custom_rules =
   let map_to_source_dir =
@@ -39,7 +39,7 @@ let handle_generators oc
       match Map_string.find_opt custom_rules command with
       | None -> Ext_fmt.failwithf ~loc:__LOC__ "custom rule %s used but  not defined" command
       | Some rule ->
-        Bsb_ninja_targets.output_build group.dir oc
+        Bsb_ninja_targets.output_build group.dir buf
           ~outputs:(Ext_list.map  output  map_to_source_dir)
           ~inputs:(Ext_list.map input map_to_source_dir)
           ~rule
@@ -200,7 +200,7 @@ let handle_files_per_dir
   Buffer.add_string buf rel_group_dir;
   Buffer.add_char buf '\n';
   let is_dev = group.is_dev in
-  (* handle_generators oc group rules.customs ; *)
+  handle_generators buf group rules.customs ;
   let installable =
     match group.public with
     | Export_all -> fun _ -> true
