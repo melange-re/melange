@@ -1,7 +1,3 @@
-(install
- (section bin)
- (files bsb_helper.exe))
-
 (executable
  (name bsc)
  (public_name bsc)
@@ -67,15 +63,10 @@
 
 (executable
  (name bsb_helper_main)
+ (public_name bsb_helper)
  (modes native)
  (modules bsb_helper_main)
  (libraries bsb_helper bs_hash_stubs ext common depends core))
-
-(rule
- (target bsb_helper.exe)
- (deps bsb_helper_main.exe)
- (action
-  (copy %{deps} %{target})))
 
 (executable
  (name bsb_parse_depend)

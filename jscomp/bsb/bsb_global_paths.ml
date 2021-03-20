@@ -54,7 +54,7 @@ let vendor_bsc = "bsc"
 
 let vendor_ninja = "ninja.exe"
 
-let vendor_bsdep = "bsb_helper.exe"
+let vendor_bsdep = "bsb_helper"
 
 let bs_dep_parse = "bsb_parse_depend"
 
