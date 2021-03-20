@@ -35,7 +35,7 @@
 
 (executable
  (name bspack_main)
- (public_name bspack.exe)
+ (public_name bspack)
  (modes native)
  (modules bspack_main)
  (flags
