@@ -208,7 +208,7 @@ let output_ninja_and_namespace_map
     ) in
   let g_stdlib_incl = if built_in_dependency then
       let path = Bsb_config.stdlib_path ~cwd:per_proj_dir in
-      [ Ext_filename.maybe_quote path ]
+      [ path ]
     else []
   in
   let global_config =
