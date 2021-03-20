@@ -44,17 +44,12 @@
 
 (executable
  (name bsb_main)
- (public_name bsb.exe)
+ (public_name bsb)
  (modes native)
  (modules bsb_main)
  (flags
   (:standard -w -9-50))
  (libraries bs_hash_stubs ext common bsb))
-
-(install
- (files
-  (bsb_main.exe as bsb))
- (section bin))
 
 (executable
  (name cmjdump_main)
