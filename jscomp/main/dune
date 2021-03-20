@@ -1,10 +1,6 @@
-(install
- (section bin)
- (files bsb_helper.exe))
-
 (executable
  (name bsc)
- (public_name bsc.exe)
+ (public_name bsc)
  (modes native)
  (flags
   (:standard -w -9))
@@ -22,11 +18,6 @@
  (modules_without_implementation jscmj_main)
  (modules bsc jscmj_main))
 
-(install
- (files
-  (bsc.exe as bsc))
- (section bin))
-
 (rule
  (target bsc.ml)
  (deps
@@ -35,12 +26,12 @@
   ../../bsconfig.json)
  (action
   (progn
-   (system "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
+   (bash "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
    (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target}))))
 
 (executable
  (name bspack_main)
- (public_name bspack.exe)
+ (public_name bspack)
  (modes native)
  (modules bspack_main)
  (flags
@@ -49,17 +40,12 @@
 
 (executable
  (name bsb_main)
- (public_name bsb.exe)
+ (public_name bsb)
  (modes native)
  (modules bsb_main)
  (flags
   (:standard -w -9-50))
  (libraries bs_hash_stubs ext common bsb))
-
-(install
- (files
-  (bsb_main.exe as bsb))
- (section bin))
 
 (executable
  (name cmjdump_main)
@@ -77,19 +63,14 @@
 
 (executable
  (name bsb_helper_main)
+ (public_name bsb_helper)
  (modes native)
  (modules bsb_helper_main)
  (libraries bsb_helper bs_hash_stubs ext common depends core))
 
-(rule
- (target bsb_helper.exe)
- (deps bsb_helper_main.exe)
- (action
-  (copy %{deps} %{target})))
-
 (executable
  (name bsb_parse_depend)
- (public_name bsb_parse_depend.exe)
+ (public_name bsb_parse_depend)
  (modes native)
  (modules bsb_parse_depend)
  (libraries bsb ext dune-action-plugin))

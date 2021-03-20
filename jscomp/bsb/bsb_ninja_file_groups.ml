@@ -173,7 +173,7 @@ let emit_module_build
      (if has_intf_file then [] else [ output_cmi ])
     ~js_outputs:output_js
     ~inputs:[output_ast]
-    ~implicit_deps:(if has_intf_file then [output_cmi; output_d_as_dep] else [output_d_as_dep])
+    ~implicit_deps:(if has_intf_file then [(Filename.basename output_cmi); output_d_as_dep] else [output_d_as_dep])
     ~bs_dependencies
     ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
     ~rule;

@@ -193,7 +193,7 @@ let output_build
   if implicit_deps <> [] then begin
       Ext_list.iter implicit_deps (fun s ->
         Buffer.add_string buf Ext_string.single_space;
-        Buffer.add_string buf (Filename.basename s))
+        Buffer.add_string buf s)
   end;
   Ext_list.iter rel_deps (fun s -> Buffer.add_string buf Ext_string.single_space; Buffer.add_string buf s);
   if bs_dependencies <> [] then

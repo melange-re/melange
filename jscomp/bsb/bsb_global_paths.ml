@@ -50,13 +50,13 @@ let bsc_dir  =
     (Ext_path.normalize_absolute_path
        (Ext_path.combine cwd  Sys.executable_name))
 
-let vendor_bsc = "bsc.exe"
+let vendor_bsc = "bsc"
 
 let vendor_ninja = "ninja.exe"
 
-let vendor_bsdep = "bsb_helper.exe"
+let vendor_bsdep = "bsb_helper"
 
-let bs_dep_parse = "bsb_parse_depend.exe"
+let bs_dep_parse = "bsb_parse_depend"
 
 
 ;; assert (Sys.file_exists bsc_dir)
