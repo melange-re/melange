@@ -21,27 +21,23 @@ let printers = Atomic.make []
 
 let locfmt = format_of_string "File \"%s\", line %d, characters %d-%d: %s"
 
-let field x i =
-  let f = Obj.field x i in
-  if not (Obj.is_block f) then
-    sprintf "%d" (Obj.magic f : int)           (* can also be a char *)
-  else if Obj.tag f = Obj.string_tag then
-    sprintf "%S" (Obj.magic f : string)
-  else if Obj.tag f = Obj.double_tag then
-    string_of_float (Obj.magic f : float)
-  else
-    "_"
+let fields : exn -> string = [%raw{|function(x){
+  var s = ""
+  var index = 1
+  while ("_"+index in x){
+    s += x ["_" + index];
+    ++ index
+  }
+  if(index === 1){
+    return s
+  }
+  return "(" + s + ")"
+}
+|}]
 
-let rec other_fields x i =
-  if i >= Obj.size x then ""
-  else sprintf ", %s%s" (field x i) (other_fields x (i+1))
+external exn_slot_id :  exn -> int  = "caml_exn_slot_id"
 
-let fields x =
-  match Obj.size x with
-  | 0 -> ""
-  | 1 -> ""
-  | 2 -> sprintf "(%s)" (field x 1)
-  | _ -> sprintf "(%s%s)" (field x 1) (other_fields x 2)
+external exn_slot_name : exn -> string = "caml_exn_slot_name"
 
 let use_printers x =
   let rec conv = function
@@ -62,13 +58,8 @@ let to_string_default = function
   | Undefined_recursive_module(file, line, char) ->
       sprintf locfmt file line char (char+6) "Undefined recursive module"
   | x ->
-      let x = Obj.repr x in
-      if Obj.tag x <> 0 then
-        (Obj.magic (Obj.field x 0) : string)
-      else
-        let constructor =
-          (Obj.magic (Obj.field (Obj.field x 0) 0) : string) in
-        constructor ^ (fields x)
+      let constructor = exn_slot_name x in
+      constructor ^ fields  x
 
 let to_string e =
   match use_printers e with
@@ -278,18 +269,6 @@ let rec register_printer fn =
   if not success then register_printer fn
 
 external get_callstack: int -> raw_backtrace = "caml_get_current_callstack"
-
-let exn_slot x =
-  let x = Obj.repr x in
-  if Obj.tag x = 0 then Obj.field x 0 else x
-
-let exn_slot_id x =
-  let slot = exn_slot x in
-  (Obj.obj (Obj.field slot 1) : int)
-
-let exn_slot_name x =
-  let slot = exn_slot x in
-  (Obj.obj (Obj.field slot 0) : string)
 
 external get_debug_info_status : unit -> int = "caml_ml_debug_info_status"
 
