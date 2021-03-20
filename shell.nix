@@ -17,5 +17,6 @@ mkShell {
     reason
     findlib
     ocaml
+    utop
   ]);
 }
