@@ -35,7 +35,7 @@
   ../../bsconfig.json)
  (action
   (progn
-   (system "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
+   (bash "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
    (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target}))))
 
 (executable
