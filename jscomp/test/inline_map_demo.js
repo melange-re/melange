@@ -4,9 +4,9 @@ var Mt = require("./mt.js");
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 
-function height(param) {
-  if (param) {
-    return param._4;
+function height(x) {
+  if (x) {
+    return x._4;
   } else {
     return 0;
   }
@@ -40,14 +40,22 @@ function bal(l, x, d, r) {
         return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
       }
       throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
+            RE_EXN_ID: "Assert_failure",
+            _1: [
+              "inline_map_demo.res",
+              48,
+              19
+            ],
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "inline_map_demo.res",
+            42,
+            15
+          ],
           Error: new Error()
         };
   }
@@ -72,20 +80,28 @@ function bal(l, x, d, r) {
       return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
     }
     throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "inline_map_demo.res",
+            62,
+            19
+          ],
           Error: new Error()
         };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "inline_map_demo.res",
+          56,
+          15
+        ],
         Error: new Error()
       };
 }
 
-function add(x, data, param) {
-  if (!param) {
+function add(x, data, tree) {
+  if (!tree) {
     return /* Node */{
             _0: /* Empty */0,
             _1: x,
@@ -94,10 +110,10 @@ function add(x, data, param) {
             _4: 1
           };
   }
-  var r = param._3;
-  var d = param._2;
-  var v = param._1;
-  var l = param._0;
+  var r = tree._3;
+  var d = tree._2;
+  var v = tree._1;
+  var l = tree._0;
   var c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return /* Node */{
@@ -105,31 +121,13 @@ function add(x, data, param) {
             _1: x,
             _2: data,
             _3: r,
-            _4: param._4
+            _4: tree._4
           };
   } else if (c < 0) {
     return bal(add(x, data, l), v, d, r);
   } else {
     return bal(l, v, d, add(x, data, r));
   }
-}
-
-function find(x, _param) {
-  while(true) {
-    var param = _param;
-    if (param) {
-      var c = Caml.caml_int_compare(x, param._1);
-      if (c === 0) {
-        return param._2;
-      }
-      _param = c < 0 ? param._0 : param._3;
-      continue ;
-    }
-    throw {
-          RE_EXN_ID: "Not_found",
-          Error: new Error()
-        };
-  };
 }
 
 var m = List.fold_left((function (acc, param) {
@@ -160,7 +158,25 @@ var m = List.fold_left((function (acc, param) {
       }
     });
 
-Mt.from_pair_suites("Inline_map_test", {
+function find(px, _x) {
+  while(true) {
+    var x = _x;
+    if (x) {
+      var c = Caml.caml_int_compare(px, x._1);
+      if (c === 0) {
+        return x._2;
+      }
+      _x = c < 0 ? x._0 : x._3;
+      continue ;
+    }
+    throw {
+          RE_EXN_ID: "Not_found",
+          Error: new Error()
+        };
+  };
+}
+
+Mt.from_pair_suites("Inline_map_demo", {
       hd: [
         "find",
         (function (param) {

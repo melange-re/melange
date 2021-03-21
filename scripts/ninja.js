@@ -896,9 +896,9 @@ function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
   return build_stmts;
 }
 
-var COMPILIER = `../${process.platform}/bsc.exe`;
-var BSC_COMPILER = `bsc = ${COMPILIER}`;
-var compilerTarget = pseudoTarget(COMPILIER);
+var COMPILER = `../${process.platform}/bsc.exe`;
+var BSC_COMPILER = `bsc = ${COMPILER}`;
+var compilerTarget = pseudoTarget(COMPILER);
 
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
