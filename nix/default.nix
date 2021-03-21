@@ -15,13 +15,6 @@ stdenv.mkDerivation rec {
     runHook postBuild
   '';
 
-  doCheck = true;
-  checkPhase = ''
-    runHook preCheck
-    dune runtest -p ${name} --display=short
-    runHook postCheck
-  '';
-
   installPhase = ''
     runHook preInstall
     ${opaline}/bin/opaline -prefix $out -libdir $OCAMLFIND_DESTDIR
