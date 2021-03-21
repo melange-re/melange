@@ -417,7 +417,8 @@ let translate loc (prim_name : string)
       ->
       call Js_runtime_modules.oo
 
-    | "caml_sys_get_argv"
+    | "caml_sys_executable_name"
+    | "caml_sys_argv"
     (** TODO: refine
         Inlined here is helpful for DCE
         {[ external get_argv: unit -> string * string array = "caml_sys_get_argv" ]}

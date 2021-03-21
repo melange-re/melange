@@ -38,8 +38,7 @@ and ('a, 'b) bucketlist =
 *)
 
 let ongoing_traversal h =
-  Obj.size (Obj.repr h) < 4 (* compatibility with old hash tables *)
-  || h.initial_size < 0
+  h.initial_size < 0
 
 let flip_ongoing_traversal h =
   h.initial_size <- - h.initial_size
@@ -90,8 +89,7 @@ let clear h =
 
 let reset h =
   let len = Array.length h.data in
-  if Obj.size (Obj.repr h) < 4 (* compatibility with old hash tables *)
-    || len = abs h.initial_size then
+  if len = abs h.initial_size then
     clear h
   else begin
     h.size <- 0;
@@ -511,9 +509,7 @@ let hash_param n1 n2 x = seeded_hash_param n1 n2 0 x
 let seeded_hash seed x = seeded_hash_param 10 100 seed x
 
 let key_index h key =
-  if Obj.size (Obj.repr h) >= 4
-  then (seeded_hash_param 10 100 h.seed key) land (Array.length h.data - 1)
-  else invalid_arg "Hashtbl: unsupported hash table format"
+  (seeded_hash_param 10 100 h.seed key) land (Array.length h.data - 1)
 
 let add h key data =
   let i = key_index h key in
@@ -629,13 +625,13 @@ let rebuild ?(random = !randomized) h =
   let s = power_2_above 16 (Array.length h.data) in
   let seed =
     if random then Random.State.bits (Lazy.force prng)
-    else if Obj.size (Obj.repr h) >= 4 then h.seed
-    else 0 in
+    else h.seed
+  in
   let h' = {
     size = h.size;
     data = Array.make s Empty;
     seed = seed;
-    initial_size = if Obj.size (Obj.repr h) >= 4 then h.initial_size else s
+    initial_size = h.initial_size
   } in
   insert_all_buckets (key_index h') false h.data h'.data;
   h'

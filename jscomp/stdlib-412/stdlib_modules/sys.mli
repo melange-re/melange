@@ -26,14 +26,11 @@ external argv : string array = "%sys_argv"
    The following elements are the command-line arguments
    given to the program. *)
 
-#if BS then
-#else
 val executable_name : string
 (** The name of the file containing the executable currently running.
     This name may be absolute or relative to the current directory, depending
     on the platform and whether the program was compiled to bytecode or a native
     executable. *)
-#end
 
 external file_exists : string -> bool = "caml_sys_file_exists"
 (** Test if a file with the given name exists. *)
