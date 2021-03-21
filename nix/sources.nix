@@ -2,7 +2,7 @@
 let
   overlays =
     builtins.fetchTarball
-      https://github.com/anmonteiro/nix-overlays/archive/fe9462a.tar.gz;
+      https://github.com/anmonteiro/nix-overlays/archive/dec2cdc.tar.gz;
 
 in
 import "${overlays}/sources.nix" {
@@ -15,12 +15,9 @@ import "${overlays}/sources.nix" {
             configureFlagsArray+=(--disable-debugger)
           '';
           src = builtins.fetchurl {
-            url = https://github.com/anmonteiro/ocaml/archive/72babec0e1796ce322464afc8ef2a0d7125d60cb.tar.gz;
-            sha256 = "1yp0ifwhsaf3zkqj2nnvbcj0dfmrvbifkiwybh2xda6y7ca84z5j";
+            url = https://github.com/anmonteiro/ocaml/archive/75f22c872451c66a4c4aadc43abee55697268a57.tar.gz;
+            sha256 = "1j3ydjpd7wrwl55mgcc30wrvj2vmppas067c90wkqnmy8wmv5isi";
           };
-          preBuild = ''
-            make clean
-          '';
           buildFlags = [ "-j64" "world.opt" ];
         });
       });
