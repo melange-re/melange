@@ -163,3 +163,9 @@ let transfer q1 q2 =
     end;
     q2.length <- q2.length + length1;
     q2.tail <- tail1
+
+let of_seq _ = assert false
+let add_seq _ _ = assert false
+let to_seq _ = assert false
+let peek_opt _ =  None
+let take_opt _ = None
