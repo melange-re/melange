@@ -42,16 +42,26 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  src = ./..;
-
-  nativeBuildInputs = with ocamlPackages;
-    [
-      pkgs.gnutar
-      dune
-      dune-action-plugin
-      ocaml
-      findlib
+  src = lib.filterGitSource {
+    src = ./..;
+    dirs = [ "jscomp" "scripts" ];
+    files = [
+      "dune-project"
+      "dune"
+      "dune-workspace"
+      "bucklescript.opam"
+      "bsconfig.json"
+      "package.json"
     ];
+  };
+
+  nativeBuildInputs = with ocamlPackages; [
+    pkgs.gnutar
+    dune
+    dune-action-plugin
+    ocaml
+    findlib
+  ];
 
   buildInputs = [ cppo ];
 
