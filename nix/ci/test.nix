@@ -7,6 +7,7 @@ in
 
 stdenv.mkDerivation rec {
   name = "bucklescript-tests";
+  inherit (thisPackage) src nativeBuildInputs propagatedBuildInputs;
 
   inputString = builtins.unsafeDiscardStringContext thisPackage.outPath;
 
@@ -18,10 +19,8 @@ stdenv.mkDerivation rec {
     echo -n $inputString > $out
   '';
 
-  dontBuild = true;
+  phases = [ "unpackPhase" "checkPhase" "installPhase" ];
   doCheck = true;
-
-  inherit (thisPackage) src nativeBuildInputs propagatedBuildInputs;
 
   buildInputs = thisPackage.buildInputs ++ [
     yarn
@@ -30,8 +29,6 @@ stdenv.mkDerivation rec {
   ];
 
   checkPhase = ''
-    shopt -s dotglob
-
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
