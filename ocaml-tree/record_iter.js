@@ -193,26 +193,26 @@ function make(type) {
   var customNames = setDiff(names.all, names.excludes);
   var output = typedefs.map((x) => mkMethod(x, names));
   var o = `
-open J  
+open J
 let unknown _ _ = ()
-let [@inline] option sub self = fun v -> 
-  match v with 
+let [@inline] option sub self = fun v ->
+  match v with
   | None -> ()
   | Some v -> sub self v
-let rec list sub self = fun x  -> 
-  match x with 
+let rec list sub self = fun x  ->
+  match x with
   | [] -> ()
-  | x::xs -> 
+  | x::xs ->
     sub self x ;
     list sub self xs
 
 type iter = {
 ${customNames.map((x) => `${x} : ${x} fn`).join(";\n")}
-}  
+}
 and 'a fn = iter -> 'a -> unit
 ${output.join("\n")}
 let super : iter = {
-${customNames.join(";\n")}    
+${customNames.join(";\n")}
     }
     `;
   return o;
