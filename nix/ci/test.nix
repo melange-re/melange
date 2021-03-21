@@ -1,13 +1,26 @@
 let
   pkgs = import ../sources.nix { };
-  inherit (pkgs) stdenv nodejs-14_x yarn;
+  inherit (pkgs) stdenv nodejs-14_x yarn lib;
   thisPackage = import ./.. { inherit pkgs; };
 
 in
 
 stdenv.mkDerivation rec {
   name = "bucklescript-tests";
-  inherit (thisPackage) src nativeBuildInputs propagatedBuildInputs;
+  inherit (thisPackage) nativeBuildInputs propagatedBuildInputs;
+
+  src = lib.filterGitSource {
+    src = ./../..;
+    dirs = [ "jscomp" "scripts" "lib" ];
+    files = [
+      "dune-project"
+      "dune"
+      "dune-workspace"
+      "bucklescript.opam"
+      "bsconfig.json"
+      "package.json"
+    ];
+  };
 
   inputString = builtins.unsafeDiscardStringContext thisPackage.outPath;
 
@@ -29,13 +42,13 @@ stdenv.mkDerivation rec {
   ];
 
   checkPhase = ''
+    dune runtest -p ${thisPackage.name} -j $NIX_BUILD_CORES --display=short
+
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
-    dune runtest -p ${thisPackage.name}
-
     # `--release` to avoid promotion
-    dune build --release @jscomp/test/all
+    dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
 
     node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
   '';
