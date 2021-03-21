@@ -115,7 +115,7 @@ function bFromJs(param) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "_none_",
-            1,
+            0,
             -1
           ],
           Error: new Error()
@@ -146,7 +146,7 @@ function cFromJs(param) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "_none_",
-            1,
+            0,
             -1
           ],
           Error: new Error()
@@ -177,7 +177,7 @@ function hFromJs(param) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "_none_",
-            1,
+            0,
             -1
           ],
           Error: new Error()

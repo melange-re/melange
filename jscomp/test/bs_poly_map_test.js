@@ -301,23 +301,11 @@ b("File \"bs_poly_map_test.ml\", line 139, characters 4-11", Belt_Array.eq(Belt_
 
 Mt.from_pair_suites("Bs_poly_map_test", suites.contents);
 
-var M;
-
-var N;
-
-var A;
-
-var I;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.Icmp = Icmp;
-exports.M = M;
-exports.N = N;
-exports.A = A;
-exports.I = I;
 exports.mapOfArray = mapOfArray;
 exports.setOfArray = setOfArray;
 exports.emptyMap = emptyMap;

@@ -9,8 +9,5 @@ function v(x) {
         ];
 }
 
-var L;
-
-exports.L = L;
 exports.v = v;
 /* No side effect */

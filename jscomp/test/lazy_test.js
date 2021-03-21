@@ -4,6 +4,7 @@ var Mt = require("./mt.js");
 var Lazy = require("../../lib/js/lazy.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var u = {
   contents: 3
@@ -80,7 +81,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === "Match_failure") {
+  if (exn.RE_EXN_ID === Stdlib__no_aliases.Match_failure) {
     h = 2;
   } else {
     throw exn;
@@ -137,7 +138,7 @@ var f007 = {
   LAZY_DONE: false,
   VAL: (function () {
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     })
@@ -148,7 +149,7 @@ var f008 = {
   VAL: (function () {
       console.log("hi");
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     })
@@ -334,7 +335,7 @@ Mt.from_pair_suites("Lazy_test", {
                                                 LAZY_DONE: false,
                                                 VAL: (function () {
                                                     throw {
-                                                          RE_EXN_ID: "Not_found",
+                                                          RE_EXN_ID: Stdlib__no_aliases.Not_found,
                                                           Error: new Error()
                                                         };
                                                   })

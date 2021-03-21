@@ -35,10 +35,7 @@ eq("File \"floatarray_test.ml\", line 17, characters 5-12", [
 
 Mt.from_pair_suites("Floatarray_test", suites.contents);
 
-var K;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
-exports.K = K;
 /* v Not a pure module */

@@ -1,6 +1,7 @@
 'use strict';
 
 var Curry = require("../../lib/js/curry.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f0(x) {
   var tmp;
@@ -10,7 +11,7 @@ function f0(x) {
       });
   } else {
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   }
@@ -19,7 +20,7 @@ function f0(x) {
 
 function f1(x) {
   throw {
-        RE_EXN_ID: "Not_found",
+        RE_EXN_ID: Stdlib__no_aliases.Not_found,
         Error: new Error()
       };
   return Curry._1(undefined, x);
@@ -50,7 +51,7 @@ function f3(x) {
         break;
     default:
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
   }

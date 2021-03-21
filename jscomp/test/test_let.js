@@ -1,8 +1,8 @@
 'use strict';
 
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
-Pervasives.print_int(3);
+Stdlib__no_aliases.print_int(3);
 
 var b = 3;
 

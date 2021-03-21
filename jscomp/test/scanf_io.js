@@ -10,8 +10,8 @@ var Printf = require("../../lib/js/printf.js");
 var Caml_io = require("../../lib/js/caml_io.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 var tscanf_data_file = "tscanf_data";
@@ -49,7 +49,7 @@ function create_tscanf_data(ob, lines) {
 }
 
 function write_tscanf_data_file(fname, lines) {
-  var oc = Pervasives.open_out(fname);
+  var oc = Stdlib__no_aliases.open_out(fname);
   var ob = $$Buffer.create(42);
   create_tscanf_data(ob, lines);
   $$Buffer.output_buffer(oc, ob);
@@ -129,7 +129,7 @@ function get_lines(fname) {
             Error: new Error()
           };
     }
-    if (s.RE_EXN_ID === "End_of_file") {
+    if (s.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
       var s$2 = Curry._1(Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -187,7 +187,7 @@ function add_digest_ib(ob, ib) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "End_of_file") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
       return ;
     }
     throw exn;

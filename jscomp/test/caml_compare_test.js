@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var function_equal_test;
 
@@ -15,7 +16,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  function_equal_test = exn.RE_EXN_ID === "Invalid_argument" && exn._1 === "equal: functional value" ? true : false;
+  function_equal_test = exn.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument && exn._1 === "equal: functional value" ? true : false;
 }
 
 var suites = {
@@ -418,7 +419,10 @@ var suites = {
                                         return {
                                                 TAG: /* Eq */0,
                                                 _0: false,
-                                                _1: false
+                                                _1: undefined === [
+                                                  1,
+                                                  30
+                                                ]
                                               };
                                       })
                                   ],
@@ -429,7 +433,10 @@ var suites = {
                                           return {
                                                   TAG: /* Eq */0,
                                                   _0: false,
-                                                  _1: false
+                                                  _1: [
+                                                    1,
+                                                    30
+                                                  ] === undefined
                                                 };
                                         })
                                     ],

@@ -11,7 +11,7 @@ var id = {
 };
 
 function u(b) {
-  if (b === 0) {
+  if (typeof b === "number" && !b) {
     return 0;
   } else {
     return 1;
@@ -19,11 +19,19 @@ function u(b) {
 }
 
 function u1(b) {
-  return b === 0;
+  if (typeof b === "number" && !b) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function u2(b) {
-  return b !== 0;
+  if (typeof b === "number" && !b) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 Mt.eq_suites(id, suites, "File \"gpr_4924_test.ml\", line 25, characters 23-30", u2(/* A */0), false);
@@ -35,7 +43,7 @@ Mt.eq_suites(id, suites, "File \"gpr_4924_test.ml\", line 27, characters 23-30",
         }), true);
 
 function u3(b) {
-  if (b === 0) {
+  if (typeof b === "number" && !b) {
     return 3;
   } else {
     return 4;
@@ -43,7 +51,7 @@ function u3(b) {
 }
 
 function u4(b) {
-  if (b === 0) {
+  if (typeof b === "number" && !b) {
     return 3;
   } else {
     return 4;
@@ -51,11 +59,19 @@ function u4(b) {
 }
 
 function u5(b) {
-  return b !== 0;
+  if (typeof b === "number" && !b) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function u6(b) {
-  return b === 0;
+  if (typeof b === "number" && !b) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 Mt.from_pair_suites("File \"gpr_4924_test.ml\", line 49, characters 20-27", suites.contents);

@@ -14,8 +14,5 @@ var b = Belt_Array.eq([
         return prim === prim$1;
       }));
 
-var A;
-
-exports.A = A;
 exports.b = b;
 /* b Not a pure module */

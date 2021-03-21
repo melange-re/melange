@@ -3,6 +3,7 @@
 var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
+var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Ext_string_test = require("./ext_string_test.js");
 
@@ -378,9 +379,8 @@ function map_last(f, l1) {
   if (!l1) {
     return /* [] */0;
   }
-  var l1$1 = l1.tl;
   var u = l1.hd;
-  if (!l1$1) {
+  if (!l1.tl) {
     return {
             hd: Curry._2(f, true, u),
             tl: /* [] */0
@@ -389,7 +389,7 @@ function map_last(f, l1) {
   var r = Curry._2(f, false, u);
   return {
           hd: r,
-          tl: map_last(f, l1$1)
+          tl: map_last(f, l1.tl)
         };
 }
 
@@ -493,7 +493,7 @@ function length_larger_than_n(n, _xs, _ys) {
     var ys = _ys;
     var xs = _xs;
     if (!ys) {
-      return length_compare(xs, n) === "Eq";
+      return Caml_obj.caml_equal(length_compare(xs, n), "Eq");
     }
     if (!xs) {
       return false;
@@ -511,15 +511,14 @@ function exclude_tail(x) {
     var x$1 = _x;
     var acc = _acc;
     if (x$1) {
-      var ys = x$1.tl;
       var x$2 = x$1.hd;
-      if (!ys) {
+      if (!x$1.tl) {
         return [
                 x$2,
                 List.rev(acc)
               ];
       }
-      _x = ys;
+      _x = x$1.tl;
       _acc = {
         hd: x$2,
         tl: acc
@@ -588,7 +587,7 @@ function drop(_n, _h) {
     if (n === 0) {
       return h;
     }
-    if (h === /* [] */0) {
+    if (Caml_obj.caml_equal(h, /* [] */0)) {
       throw {
             RE_EXN_ID: "Invalid_argument",
             _1: "Ext_list_test.drop",
@@ -835,15 +834,14 @@ function rev_except_last(xs) {
     var xs$1 = _xs;
     var acc = _acc;
     if (xs$1) {
-      var xs$2 = xs$1.tl;
       var x = xs$1.hd;
-      if (!xs$2) {
+      if (!xs$1.tl) {
         return [
                 acc,
                 x
               ];
       }
-      _xs = xs$2;
+      _xs = xs$1.tl;
       _acc = {
         hd: x,
         tl: acc
@@ -868,11 +866,10 @@ function last(_xs) {
   while(true) {
     var xs = _xs;
     if (xs) {
-      var tl = xs.tl;
-      if (!tl) {
+      if (!xs.tl) {
         return xs.hd;
       }
-      _xs = tl;
+      _xs = xs.tl;
       continue ;
     }
     throw {

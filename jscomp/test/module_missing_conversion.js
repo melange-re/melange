@@ -32,11 +32,16 @@ var XX = {
   map2: $$Array.map2,
   for_all: $$Array.for_all,
   exists: $$Array.exists,
+  for_all2: $$Array.for_all2,
+  exists2: $$Array.exists2,
   mem: $$Array.mem,
   memq: $$Array.memq,
   sort: $$Array.sort,
   stable_sort: $$Array.stable_sort,
   fast_sort: $$Array.fast_sort,
+  to_seq: $$Array.to_seq,
+  to_seqi: $$Array.to_seqi,
+  of_seq: $$Array.of_seq,
   Floatarray: $$Array.Floatarray,
   f: f
 };

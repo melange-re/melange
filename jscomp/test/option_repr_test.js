@@ -58,18 +58,18 @@ function f3(x) {
 
 function f4(x) {
   if (x !== undefined) {
-    return x + 1 | 0;
+    return Caml_option.valFromOption(x) + 1 | 0;
   } else {
     return 0;
   }
 }
 
 function f5(a) {
-  return false;
+  return Caml_option.some(a) === undefined;
 }
 
 function f6(a) {
-  return true;
+  return Caml_option.some(a) !== undefined;
 }
 
 var f10 = Caml_option.some(Caml_option.some(Caml_option.some(Caml_option.some(undefined))));
@@ -276,8 +276,6 @@ var f8 = Caml_option.some(undefined);
 
 var f9 = Caml_option.some(Caml_option.some(undefined));
 
-var N;
-
 var none_arg;
 
 exports.suites = suites;
@@ -301,7 +299,6 @@ exports.create = create;
 exports.ff = ff;
 exports.a = a;
 exports.f12 = f12;
-exports.N = N;
 exports.length_8_id = length_8_id;
 exports.length_10_id = length_10_id;
 exports.f13 = f13$1;

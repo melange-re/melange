@@ -3,9 +3,10 @@
 var Mt = require("./mt.js");
 var Char = require("../../lib/js/char.js");
 var $$Array = require("../../lib/js/array.js");
+var Bytes = require("../../lib/js/bytes.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Mt_global = require("./mt_global.js");
-var Caml_string = require("../../lib/js/caml_string.js");
+var Caml_bytes = require("../../lib/js/caml_bytes.js");
 
 var suites = {
   contents: /* [] */0
@@ -22,7 +23,8 @@ function eq(f) {
 }
 
 var test_strings = $$Array.init(32, (function (i) {
-        return Caml_string.make(i, Char.chr(i));
+        var c = Char.chr(i);
+        return Caml_bytes.bytes_to_string(Bytes.make(i, c));
       }));
 
 var test_strings_hash_results = [

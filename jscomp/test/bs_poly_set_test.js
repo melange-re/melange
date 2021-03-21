@@ -396,30 +396,12 @@ b("File \"bs_poly_set_test.ml\", line 159, characters 4-11", !match$5[1]);
 
 Mt.from_pair_suites("Bs_poly_set_test", suites.contents);
 
-var N;
-
-var D;
-
-var I;
-
-var A;
-
-var S;
-
-var L;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.t = t;
-exports.N = N;
-exports.D = D;
-exports.I = I;
-exports.A = A;
-exports.S = S;
 exports.IntCmp = IntCmp;
-exports.L = L;
 exports.testIterToList = testIterToList;
 exports.testIterToList2 = testIterToList2;
 /* IntCmp Not a pure module */

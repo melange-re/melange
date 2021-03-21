@@ -5,6 +5,7 @@ var Sys = require("../../lib/js/sys.js");
 var Caml_sys = require("../../lib/js/caml_sys.js");
 var Node_process = require("../../lib/js/node_process.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -53,7 +54,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === "Not_found") {
+  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
     tmp = "Z";
   } else {
     throw exn;
@@ -65,7 +66,7 @@ eq("File \"caml_sys_poly_fill_test.ml\", line 23, characters 5-12", "Z", tmp);
 console.log([
       Caml_sys.caml_sys_getcwd(undefined),
       Caml_sys.caml_sys_time(undefined),
-      Sys.argv,
+      Caml_sys.caml_sys_argv(0),
       Sys.executable_name
     ]);
 

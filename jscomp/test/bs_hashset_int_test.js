@@ -105,28 +105,13 @@ b("File \"bs_hashset_int_test.ml\", line 62, characters 4-11", histo.length <= 1
 
 Mt.from_pair_suites("Bs_hashset_int_test", suites.contents);
 
-var N;
-
-var S;
-
-var I;
-
 var $plus$plus = Belt_Array.concat;
-
-var A;
-
-var SI;
 
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.N = N;
-exports.S = S;
-exports.I = I;
 exports.$plus$plus = $plus$plus;
 exports.add = add;
 exports.sum2 = sum2;
-exports.A = A;
-exports.SI = SI;
 /* u Not a pure module */

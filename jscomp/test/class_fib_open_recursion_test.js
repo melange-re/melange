@@ -6,8 +6,14 @@ var Hashtbl = require("../../lib/js/hashtbl.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
-var shared = ["calc"];
+var shared = [
+  "calc",
+  "*dummy method*"
+];
+
+var shared$1 = ["calc"];
 
 var suites = {
   contents: /* [] */0
@@ -36,12 +42,13 @@ function eq(loc, x, y) {
 }
 
 function fib_init($$class) {
-  var calc = CamlinternalOO.get_method_label($$class, "calc");
-  CamlinternalOO.set_method($$class, calc, (function (self$1, x) {
+  var ids = CamlinternalOO.get_method_labels($$class, shared);
+  var calc = ids[0];
+  CamlinternalOO.set_method($$class, calc, (function (self$neg1, x) {
           if (x === 0 || x === 1) {
             return 1;
           } else {
-            return Curry._2(self$1[0][calc], self$1, x - 1 | 0) + Curry._2(self$1[0][calc], self$1, x - 2 | 0) | 0;
+            return Curry._2(self$neg1[0][calc], self$neg1, x - 1 | 0) + Curry._2(self$neg1[0][calc], self$neg1, x - 2 | 0) | 0;
           }
         }));
   return function (env, self) {
@@ -49,24 +56,24 @@ function fib_init($$class) {
   };
 }
 
-var fib = CamlinternalOO.make_class(shared, fib_init);
+var fib = CamlinternalOO.make_class(shared$1, fib_init);
 
 function memo_fib_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, shared, ["cache"]);
   var calc = ids[0];
-  var cache = ids[1];
-  var inh = CamlinternalOO.inherits($$class, 0, 0, shared, fib, true);
+  var cache = ids[2];
+  var inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, fib, true);
   var obj_init = inh[0];
   var calc$1 = inh[1];
-  CamlinternalOO.set_method($$class, calc, (function (self$2, x) {
+  CamlinternalOO.set_method($$class, calc, (function (self$neg2, x) {
           try {
-            return Hashtbl.find(self$2[cache], x);
+            return Hashtbl.find(self$neg2[cache], x);
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === "Not_found") {
-              var v = Curry._2(calc$1, self$2, x);
-              Hashtbl.add(self$2[cache], x, v);
+            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              var v = Curry._2(calc$1, self$neg2, x);
+              Hashtbl.add(self$neg2[cache], x, v);
               return v;
             }
             throw exn;
@@ -80,7 +87,7 @@ function memo_fib_init($$class) {
   };
 }
 
-var memo_fib = CamlinternalOO.make_class(shared, memo_fib_init);
+var memo_fib = CamlinternalOO.make_class(shared$1, memo_fib_init);
 
 var tmp = Curry._1(memo_fib[0], undefined);
 

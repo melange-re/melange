@@ -31,14 +31,14 @@ function eq(loc, x, y) {
   
 }
 
-var class_tables = /* Cons */{
+var object_tables = /* Cons */{
   key: undefined,
   data: undefined,
   next: undefined
 };
 
 function create(param) {
-  if (!class_tables.key) {
+  if (!object_tables.key) {
     var $$class = CamlinternalOO.create_table([
           "add",
           "get"
@@ -53,13 +53,13 @@ function create(param) {
     var data = ids[2];
     CamlinternalOO.set_methods($$class, [
           add,
-          (function (self$1, param) {
-              self$1[data] = self$1[data] + 1 | 0;
-              return self$1;
+          (function (self$neg1, param) {
+              self$neg1[data] = self$neg1[data] + 1 | 0;
+              return self$neg1;
             }),
           get,
-          (function (self$1, param) {
-              return self$1[data];
+          (function (self$neg1, param) {
+              return self$neg1[data];
             })
         ]);
     var env_init = function (env$1) {
@@ -69,9 +69,9 @@ function create(param) {
       return self;
     };
     CamlinternalOO.init_class($$class);
-    class_tables.key = env_init;
+    object_tables.key = env_init;
   }
-  return Curry._1(class_tables.key, undefined);
+  return Curry._1(object_tables.key, undefined);
 }
 
 var cxt1 = create(undefined);

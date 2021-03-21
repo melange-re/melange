@@ -112,9 +112,13 @@ function xx(param) {
 
 eq("File \"global_module_alias_test.ml\", line 86, characters 5-12", g(undefined), 4);
 
-var V = xx(undefined);
+v.contents = v.contents + 1 | 0;
 
-eq("File \"global_module_alias_test.ml\", line 92, characters 5-12", Curry._1(V.length, {
+v.contents = v.contents + 1 | 0;
+
+v.contents = v.contents + 1 | 0;
+
+eq("File \"global_module_alias_test.ml\", line 92, characters 5-12", List.length({
           hd: 1,
           tl: {
             hd: 2,
@@ -141,27 +145,9 @@ eq("File \"global_module_alias_test.ml\", line 96, characters 5-12", v.contents,
 
 Mt.from_pair_suites("Global_module_alias_test", suites.contents);
 
-var A;
-
-var B;
-
-var C;
-
-var D;
-
-var E;
-
-var F;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
-exports.A = A;
-exports.B = B;
-exports.C = C;
-exports.D = D;
-exports.E = E;
-exports.F = F;
 exports.v = v;
 exports.Make = Make;
 exports.f = f;

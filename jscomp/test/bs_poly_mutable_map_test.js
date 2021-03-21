@@ -102,23 +102,11 @@ eq("File \"bs_poly_mutable_map_test.ml\", line 41, characters 6-13", Belt_intern
 
 Mt.from_pair_suites("Bs_poly_mutable_map_test", suites.contents);
 
-var M;
-
-var N;
-
-var A;
-
-var I;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.Icmp = Icmp;
-exports.M = M;
-exports.N = N;
-exports.A = A;
-exports.I = I;
 exports.f = f;
 exports.ff = ff;
 exports.randomRange = randomRange;

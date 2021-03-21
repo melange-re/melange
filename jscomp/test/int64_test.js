@@ -8,8 +8,9 @@ var Int64 = require("../../lib/js/int64.js");
 var Format = require("../../lib/js/format.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Caml_format = require("../../lib/js/caml_format.js");
 var Ext_array_test = require("./ext_array_test.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(u, v) {
   return u > v;
@@ -854,7 +855,7 @@ function fac(_n, _acc) {
   };
 }
 
-var suites = Pervasives.$at({
+var suites = Stdlib__no_aliases.$at({
       hd: [
         "add_one",
         (function (param) {
@@ -2103,7 +2104,7 @@ var suites = Pervasives.$at({
           }
         }
       }
-    }, Pervasives.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+    }, Stdlib__no_aliases.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                     return [
                             Curry._1(Format.asprintf(/* Format */{
                                       _0: {
@@ -2127,7 +2128,7 @@ var suites = Pervasives.$at({
                                       };
                               })
                           ];
-                  }), shift_left_tests_0, shift_left_tests_1)), Pervasives.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                  }), shift_left_tests_0, shift_left_tests_1)), Stdlib__no_aliases.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                         return [
                                 Curry._1(Format.asprintf(/* Format */{
                                           _0: {
@@ -2191,7 +2192,7 @@ function eq(loc, x, y) {
 
 function id(loc, x) {
   var float_value = Caml_int64.float_of_bits(x);
-  var match = Pervasives.classify_float(float_value);
+  var match = Stdlib__no_aliases.classify_float(float_value);
   if (match >= 4) {
     return ;
   } else {
@@ -2239,7 +2240,7 @@ eq("File \"int64_test.ml\", line 209, characters 5-12", Caml_int64.div(Int64.min
       858993460
     ]);
 
-eq("File \"int64_test.ml\", line 210, characters 5-12", Caml_int64.to_string(Caml_int64.div(Int64.min_int, [
+eq("File \"int64_test.ml\", line 210, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.div(Int64.min_int, [
               0,
               10
             ])), "-922337203685477580");
@@ -2264,17 +2265,17 @@ eq("File \"int64_test.ml\", line 214, characters 5-12", Caml_int64.mul(Int64.max
       4294967286
     ]);
 
-eq("File \"int64_test.ml\", line 215, characters 5-12", Caml_int64.succ(Int64.max_int), Int64.min_int);
+eq("File \"int64_test.ml\", line 215, characters 5-12", Caml_int64.add(Int64.max_int, Caml_int64.one), Int64.min_int);
 
-eq("File \"int64_test.ml\", line 216, characters 5-12", Caml_int64.succ(Int64.min_int), [
+eq("File \"int64_test.ml\", line 216, characters 5-12", Caml_int64.add(Int64.min_int, Caml_int64.one), [
       -2147483648,
       1
     ]);
 
-eq("File \"int64_test.ml\", line 217, characters 5-12", Caml_int64.succ([
-          0,
-          4294967295
-        ]), [
+eq("File \"int64_test.ml\", line 217, characters 5-12", [
+      1,
+      0
+    ], [
       1,
       0
     ]);

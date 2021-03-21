@@ -2,9 +2,9 @@
 
 var Curry = require("../../lib/js/curry.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Bad = /* @__PURE__ */Caml_exceptions.create("Test_seq.Bad");
 
@@ -24,7 +24,7 @@ function assoc3(x, _l) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -58,7 +58,7 @@ function add_help(speclist) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       add1 = {
         hd: [
           "-help",
@@ -81,7 +81,7 @@ function add_help(speclist) {
   }
   catch (raw_exn$1){
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.RE_EXN_ID === "Not_found") {
+    if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       add2 = {
         hd: [
           "--help",
@@ -97,7 +97,7 @@ function add_help(speclist) {
       throw exn$1;
     }
   }
-  return Pervasives.$at(speclist, Pervasives.$at(add1, add2));
+  return Stdlib__no_aliases.$at(speclist, Stdlib__no_aliases.$at(add1, add2));
 }
 
 exports.Bad = Bad;

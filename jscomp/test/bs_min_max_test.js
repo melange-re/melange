@@ -76,9 +76,9 @@ b("File \"bs_min_max_test.ml\", line 35, characters 4-11", Caml_obj.caml_greater
 
 b("File \"bs_min_max_test.ml\", line 36, characters 4-11", Caml_obj.caml_lessequal(undefined, 5));
 
-b("File \"bs_min_max_test.ml\", line 37, characters 4-11", true);
+b("File \"bs_min_max_test.ml\", line 37, characters 4-11", undefined !== 5);
 
-b("File \"bs_min_max_test.ml\", line 38, characters 4-11", true);
+b("File \"bs_min_max_test.ml\", line 38, characters 4-11", undefined !== 5);
 
 Mt.from_pair_suites("Bs_min_max_test", suites.contents);
 

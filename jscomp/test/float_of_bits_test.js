@@ -7,7 +7,7 @@ var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
 var Caml_float = require("../../lib/js/caml_float.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var one_float = [
   1072693248,
@@ -83,7 +83,7 @@ function from_pairs(pair) {
                       }), int32_pairs)));
 }
 
-var suites = Pervasives.$at({
+var suites = Stdlib__no_aliases.$at({
       hd: [
         "one",
         (function (param) {

@@ -297,25 +297,9 @@ bench7(undefined);
 
 console.timeEnd("bs_hashtbl_string_test.ml 203");
 
-var N;
-
 var count = 1000000;
 
 var initial_size = 1000000;
-
-var M;
-
-var Md;
-
-var Md0;
-
-var H;
-
-var H0;
-
-var HI;
-
-var S;
 
 exports.hash_string = hash_string;
 exports.hashString = hashString;
@@ -323,23 +307,15 @@ exports.$$String = $$String;
 exports.String1 = String1;
 exports.String2 = String2;
 exports.Int = Int;
-exports.N = N;
 exports.empty = empty;
 exports.bench = bench;
 exports.count = count;
 exports.initial_size = initial_size;
-exports.M = M;
 exports.bench2 = bench2;
-exports.Md = Md;
-exports.Md0 = Md0;
 exports.bench3 = bench3;
 exports.Sx = Sx;
-exports.H = H;
 exports.bench4 = bench4;
-exports.H0 = H0;
 exports.bench5 = bench5;
-exports.HI = HI;
 exports.bench6 = bench6;
-exports.S = S;
 exports.bench7 = bench7;
 /* String Not a pure module */

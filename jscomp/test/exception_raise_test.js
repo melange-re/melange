@@ -4,9 +4,9 @@ var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Js_exn = require("../../lib/js/js_exn.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.Local");
 
@@ -26,7 +26,7 @@ function appf(g, x) {
     if (exn.RE_EXN_ID === Local) {
       return 3;
     }
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return 2;
     }
     if (exn.RE_EXN_ID === A) {
@@ -197,7 +197,7 @@ catch (raw_e$2){
 
 try {
   throw {
-        RE_EXN_ID: "Not_found",
+        RE_EXN_ID: Stdlib__no_aliases.Not_found,
         Error: new Error()
       };
 }
@@ -222,7 +222,7 @@ function input_lines(ic, _acc) {
     var acc = _acc;
     var line;
     try {
-      line = Pervasives.input_line(ic);
+      line = Stdlib__no_aliases.input_line(ic);
     }
     catch (exn){
       return List.rev(acc);

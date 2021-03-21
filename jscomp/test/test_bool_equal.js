@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml_obj = require("../../lib/js/caml_obj.js");
 
 function bool_equal(x, y) {
   if (x) {
@@ -60,7 +61,51 @@ function assertions(param) {
           Error: new Error()
         };
   }
-  
+  if (true !== true) {
+    throw {
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "test_bool_equal.ml",
+            25,
+            2
+          ],
+          Error: new Error()
+        };
+  }
+  if (false !== false) {
+    throw {
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "test_bool_equal.ml",
+            26,
+            2
+          ],
+          Error: new Error()
+        };
+  }
+  if (true === false) {
+    throw {
+          RE_EXN_ID: "Assert_failure",
+          _1: [
+            "test_bool_equal.ml",
+            27,
+            2
+          ],
+          Error: new Error()
+        };
+  }
+  if (false !== true) {
+    return ;
+  }
+  throw {
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "test_bool_equal.ml",
+          28,
+          2
+        ],
+        Error: new Error()
+      };
 }
 
 function f0(x) {
@@ -112,7 +157,7 @@ function f5(x) {
 }
 
 function f6(x) {
-  if (x === /* [] */0) {
+  if (Caml_obj.caml_equal(x, /* [] */0)) {
     return 1;
   } else {
     return 2;
