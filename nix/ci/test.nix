@@ -5,11 +5,20 @@ let
 
 in
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   name = "bucklescript-tests";
 
+  inputString = builtins.unsafeDiscardStringContext thisPackage.outPath;
+
+  # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
+  outputHashMode = "flat";
+  outputHashAlgo = "sha256";
+  outputHash = builtins.hashString "sha256" inputString;
+  installPhase = ''
+    echo -n $inputString > $out
+  '';
+
   dontBuild = true;
-  dontInstall = true;
   doCheck = true;
 
   inherit (thisPackage) src nativeBuildInputs propagatedBuildInputs;
