@@ -29,27 +29,13 @@
 
 
 let js_flag = 100000008
-
-(* let js_module_flag = 0b10_000 (\* javascript external modules *\) *)
-(* TODO:
-    check name conflicts with javascript conventions
-   {[
-     Ext_ident.convert "^";;
-     - : string = "$caret"
-   ]}
-*)
 let js_object_flag = 100000032
-  (* javascript object flags *)
 
 let is_js (i : Ident.t) =
   (Ident.scope i) = js_flag
 
 let is_js_or_global (i : Ident.t) =
   Ident.global i || is_js i
-
-
-let is_js_object (i : Ident.t) =
-  (Ident.scope i) land js_object_flag <> 0
 
 
 type[@ocaml.warning "-unused-constructor"] t =
