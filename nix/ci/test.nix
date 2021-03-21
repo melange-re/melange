@@ -32,9 +32,6 @@ stdenv.mkDerivation rec {
   checkPhase = ''
     shopt -s dotglob
 
-    unset NODE_PATH
-    export NODE_PATH=.
-    env
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
@@ -43,7 +40,6 @@ stdenv.mkDerivation rec {
     # `--release` to avoid promotion
     dune build --release @jscomp/test/all
 
-    ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
-
+    node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
   '';
 }
