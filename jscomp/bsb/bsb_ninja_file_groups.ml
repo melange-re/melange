@@ -112,6 +112,35 @@ let emit_module_build
     ~inputs:(if has_intf_file then [output_ast;output_iast] else [output_ast] )
     ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps)
   ;
+  let relative_ns_cmi =
+   match namespace with
+   | Some ns ->
+     [ (Ext_path.rel_normalized_absolute_path
+       ~from:(per_proj_dir // cur_dir)
+       (per_proj_dir // Bsb_config.lib_bs)) //
+      (ns ^ Literals.suffix_cmi) ]
+   | None -> []
+   in
+  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
+     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
+  )
+  in
+  let rel_bs_config_json =
+   Ext_path.combine
+    (Ext_path.rel_normalized_absolute_path
+       ~from:(Ext_path.combine per_proj_dir module_info.dir)
+       per_proj_dir)
+    Literals.bsconfig_json
+  in
+  let bs_dependencies = if is_dev then
+    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
+      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
+      )
+    in
+    dev_dependencies @ bs_dependencies
+  else
+    bs_dependencies
+  in
   if has_intf_file then begin
     Bsb_ninja_targets.output_build cur_dir buf
       ~outputs:[output_iast]
@@ -126,6 +155,8 @@ let emit_module_build
       ~outputs:[output_cmi]
       ~inputs:[output_iast]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
+      ~bs_dependencies
+      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
     ;
   end;
 
@@ -137,35 +168,6 @@ let emit_module_build
       (if is_dev then rules.mij_dev
        else rules.mij
       )
-  in
-  let relative_ns_cmi =
-   match namespace with
-   | Some ns ->
-     [ (Ext_path.rel_normalized_absolute_path
-       ~from:(per_proj_dir // cur_dir)
-       (per_proj_dir // Bsb_config.lib_bs)) //
-      (ns ^ Literals.suffix_cmi) ]
-   | None -> []
-   in
-  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
-     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
-  )
-  in
-  let bs_dependencies = if is_dev then
-    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
-      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
-      )
-    in
-    dev_dependencies @ bs_dependencies
-  else
-    bs_dependencies
-  in
-  let rel_bs_config_json =
-   Ext_path.combine
-    (Ext_path.rel_normalized_absolute_path
-       ~from:(Ext_path.combine per_proj_dir module_info.dir)
-       per_proj_dir)
-    Literals.bsconfig_json
   in
   Bsb_ninja_targets.output_build cur_dir buf
     ~outputs:[output_cmj]
