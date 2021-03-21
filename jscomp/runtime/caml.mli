@@ -54,3 +54,13 @@ val caml_float_max : float selector
 val caml_string_max : string selector  
 
 val caml_int32_max : int32 selector 
+
+val i64_eq : Caml_int64_extern.t -> Caml_int64_extern.t -> bool
+val i64_neq : Caml_int64_extern.t -> Caml_int64_extern.t -> bool
+val i64_lt : Caml_int64_extern.t -> Caml_int64_extern.t -> bool
+val i64_gt : Caml_int64_extern.t -> Caml_int64_extern.t -> bool
+val i64_le : Caml_int64_extern.t -> Caml_int64_extern.t -> bool
+val i64_ge : Caml_int64_extern.t -> Caml_int64_extern.t -> bool
+
+val i64_min : Caml_int64_extern.t -> Caml_int64_extern.t -> Caml_int64_extern.t
+val i64_max : Caml_int64_extern.t -> Caml_int64_extern.t -> Caml_int64_extern.t

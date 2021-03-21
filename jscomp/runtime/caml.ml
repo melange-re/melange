@@ -72,7 +72,27 @@ let caml_string_max (x : string) y =
   if x > y then x else y 
 let caml_int32_max (x : int32) y   = 
   if x > y then x else y 
+type i64 = Caml_int64_extern.t
+let i64_eq ( x : i64) (y : i64) = 
+  x.lo = y.lo && x.hi = y.hi
+
+let  i64_ge ( {hi; lo } : i64)  ( {hi = other_hi; lo = other_lo}: i64) : bool =
+  if hi > other_hi then true
+  else if hi < other_hi then false
+  else  lo  >=  other_lo
+
+let i64_neq x y = Pervasives.not (i64_eq x y)
+let i64_lt x y  = Pervasives.not (i64_ge x y)
+let i64_gt ( x : i64) ( y : i64) =
+  if x.hi > y.hi then
+    true
+  else if x.hi < y.hi  then
+    false
+  else
+    x.lo >  y.lo
 
 
+let i64_le x y = Pervasives.not (i64_gt x y)
 
-
+let i64_min x y = if i64_lt x  y then x else y 
+let i64_max x y = if i64_gt x y then x else y 
