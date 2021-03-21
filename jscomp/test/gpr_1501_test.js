@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Printexc = require("../../lib/js/printexc.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -35,7 +36,7 @@ var A = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.A");
 var B = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.B");
 
 eq("File \"gpr_1501_test.ml\", line 15, characters 7-14", "Not_found", Printexc.to_string({
-          RE_EXN_ID: "Not_found"
+          RE_EXN_ID: Stdlib__no_aliases.Not_found
         }));
 
 eq("File \"gpr_1501_test.ml\", line 16, characters 7-14", /Gpr_1501_test.A\/[0-9]+/.test(Printexc.to_string({

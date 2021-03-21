@@ -327,14 +327,6 @@ Belt_List.forEach({
 
 Mt.from_pair_suites("Bs_poly_mutable_set_test", suites.contents);
 
-var N;
-
-var I;
-
-var A;
-
-var L;
-
 var $plus$plus = Belt_MutableSet.union;
 
 var f = fromArray;
@@ -345,11 +337,7 @@ exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.N = N;
-exports.I = I;
-exports.A = A;
 exports.IntCmp = IntCmp;
-exports.L = L;
 exports.fromArray = fromArray;
 exports.empty = empty;
 exports.$plus$plus = $plus$plus;

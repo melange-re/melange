@@ -2,10 +2,11 @@
 
 var React = require("react");
 var ReactDom = require("react-dom");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function renderToElementWithClassName(reactElement, className) {
   var elements = document.getElementsByClassName(className);
-  if (elements.length !== 0) {
+  if (elements.length) {
     ReactDom.render(reactElement, elements[0]);
   } else {
     console.error("ReactDOMRe.renderToElementWithClassName: no element of class " + (className + " found in the HTML."));
@@ -25,7 +26,7 @@ function renderToElementWithId(reactElement, id) {
 
 function createRootWithClassName(className) {
   var elements = document.getElementsByClassName(className);
-  if (elements.length !== 0) {
+  if (elements.length) {
     return {
             TAG: /* Ok */0,
             _0: ReactDom.createRoot(elements[0])
@@ -60,7 +61,7 @@ var Experimental = {
 
 function hydrateToElementWithClassName(reactElement, className) {
   var elements = document.getElementsByClassName(className);
-  if (elements.length !== 0) {
+  if (elements.length) {
     ReactDom.hydrate(reactElement, elements[0]);
   } else {
     console.error("ReactDOMRe.hydrateToElementWithClassName: no element of class " + (className + " found in the HTML."));
@@ -72,7 +73,7 @@ function hydrateToElementWithId(reactElement, id) {
   var element = document.getElementById(id);
   if (element == null) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML."),
           Error: new Error()
         };

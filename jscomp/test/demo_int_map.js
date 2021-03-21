@@ -1,5 +1,6 @@
 'use strict';
 
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function height(param) {
   if (param) {
@@ -137,7 +138,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };

@@ -5,6 +5,7 @@ var Curry = require("../../lib/js/curry.js");
 var Format = require("../../lib/js/format.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_array = require("../../lib/js/caml_array.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function sub(_tr, _k) {
   while(true) {
@@ -24,7 +25,7 @@ function sub(_tr, _k) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -64,7 +65,7 @@ function update(tr, k, w) {
           };
   }
   throw {
-        RE_EXN_ID: "Not_found",
+        RE_EXN_ID: Stdlib__no_aliases.Not_found,
         Error: new Error()
       };
 }
@@ -92,7 +93,7 @@ function $$delete(tr, n) {
     }
   }
   throw {
-        RE_EXN_ID: "Not_found",
+        RE_EXN_ID: Stdlib__no_aliases.Not_found,
         Error: new Error()
       };
 }
@@ -137,7 +138,7 @@ function lorem(tr) {
         };
   }
   throw {
-        RE_EXN_ID: "Not_found",
+        RE_EXN_ID: Stdlib__no_aliases.Not_found,
         Error: new Error()
       };
 }
@@ -228,7 +229,7 @@ function pp(fmt, s) {
     v = v + (", " + String(get(s, i)));
   }
   v = v + "]";
-  return Curry._1(Format.fprintf(fmt, /* Format */{
+  return Curry._1(Format.fprintf(fmt)(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,

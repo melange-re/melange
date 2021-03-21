@@ -1,6 +1,5 @@
 'use strict';
 
-var Sys = require("../../lib/js/sys.js");
 var Char = require("../../lib/js/char.js");
 var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
@@ -9,12 +8,13 @@ var Printf = require("../../lib/js/printf.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_io = require("../../lib/js/caml_io.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_sys = require("../../lib/js/caml_sys.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 var dbg = {
@@ -22,7 +22,7 @@ var dbg = {
 };
 
 var inch = {
-  contents: Pervasives.stdin
+  contents: Stdlib__no_aliases.stdin
 };
 
 function bufferize(f) {
@@ -194,7 +194,7 @@ function next(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "End_of_file") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
       c = undefined;
     } else {
       throw exn;
@@ -312,7 +312,7 @@ function next(param) {
       if (!param$1) {
         return {
                 TAG: /* Op */0,
-                _0: Caml_string.make(1, c)
+                _0: Caml_bytes.bytes_to_string(Bytes.make(1, c))
               };
       }
       var lop = param$1.hd;
@@ -1889,7 +1889,7 @@ function elfgen(outf) {
         };
   }
   patch(false, 24, va(entry));
-  return Pervasives.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));
+  return Stdlib__no_aliases.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));
 }
 
 function main(param) {
@@ -1979,7 +1979,7 @@ function main(param) {
       
     }
   };
-  var f = Sys.argv.length < 2 ? "-blk" : Caml_array.get(Sys.argv, 1);
+  var f = Caml_sys.caml_sys_argv(0).length < 2 ? "-blk" : Caml_array.get(Caml_sys.caml_sys_argv(0), 1);
   switch (f) {
     case "-blk" :
         var partial_arg_0 = {
@@ -1995,7 +1995,7 @@ function main(param) {
         var stk = /* [] */0;
         opos.contents = 0;
         Curry._1(c, stk);
-        return Pervasives.print_bytes(Bytes.sub(obuf, 0, opos.contents));
+        return Stdlib__no_aliases.print_bytes(Bytes.sub(obuf, 0, opos.contents));
     case "-lex" :
         var _param;
         while(true) {
@@ -2020,8 +2020,8 @@ function main(param) {
           continue ;
         };
     default:
-      var oc = Pervasives.open_out("a.out");
-      inch.contents = Pervasives.open_in_bin(f);
+      var oc = Stdlib__no_aliases.open_out("a.out");
+      inch.contents = Stdlib__no_aliases.open_in_bin(f);
       top(undefined);
       elfgen(oc);
       Caml_io.caml_ml_flush(oc);

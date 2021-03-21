@@ -822,16 +822,6 @@ b("File \"bs_mutable_set_test.ml\", line 317, characters 4-11", Belt_MutableSetI
 
 Mt.from_pair_suites("Bs_mutable_set_test", suites.contents);
 
-var N;
-
-var I;
-
-var R;
-
-var A;
-
-var L;
-
 var empty = Belt_MutableSetInt.make;
 
 var fromArray = Belt_MutableSetInt.fromArray;
@@ -846,11 +836,6 @@ exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.N = N;
-exports.I = I;
-exports.R = R;
-exports.A = A;
-exports.L = L;
 exports.empty = empty;
 exports.fromArray = fromArray;
 exports.$plus$plus = $plus$plus;

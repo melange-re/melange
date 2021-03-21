@@ -22,23 +22,7 @@ var U = {
   v: Test_order.compare
 };
 
-var N;
-
 var v = List.length;
-
-var N0;
-
-var N1;
-
-var N2;
-
-var N3;
-
-var N4;
-
-var N5;
-
-var N6;
 
 var length = List.length;
 
@@ -68,6 +52,10 @@ var concat = List.concat;
 
 var flatten = List.flatten;
 
+var equal = List.equal;
+
+var compare = List.compare;
+
 var iter = List.iter;
 
 var iteri = List.iteri;
@@ -77,6 +65,12 @@ var map = List.map;
 var mapi = List.mapi;
 
 var rev_map = List.rev_map;
+
+var filter_map = List.filter_map;
+
+var concat_map = List.concat_map;
+
+var fold_left_map = List.fold_left_map;
 
 var fold_left = List.fold_left;
 
@@ -108,11 +102,17 @@ var find = List.find;
 
 var find_opt = List.find_opt;
 
+var find_map = List.find_map;
+
 var filter = List.filter;
 
 var find_all = List.find_all;
 
+var filteri = List.filteri;
+
 var partition = List.partition;
+
+var partition_map = List.partition_map;
 
 var assoc = List.assoc;
 
@@ -144,18 +144,14 @@ var sort_uniq = List.sort_uniq;
 
 var merge = List.merge;
 
-exports.N = N;
+var to_seq = List.to_seq;
+
+var of_seq = List.of_seq;
+
 exports.v = v;
 exports.Make = Make;
 exports.X = X;
 exports.U = U;
-exports.N0 = N0;
-exports.N1 = N1;
-exports.N2 = N2;
-exports.N3 = N3;
-exports.N4 = N4;
-exports.N5 = N5;
-exports.N6 = N6;
 exports.length = length;
 exports.compare_lengths = compare_lengths;
 exports.compare_length_with = compare_length_with;
@@ -170,11 +166,16 @@ exports.append = append;
 exports.rev_append = rev_append;
 exports.concat = concat;
 exports.flatten = flatten;
+exports.equal = equal;
+exports.compare = compare;
 exports.iter = iter;
 exports.iteri = iteri;
 exports.map = map;
 exports.mapi = mapi;
 exports.rev_map = rev_map;
+exports.filter_map = filter_map;
+exports.concat_map = concat_map;
+exports.fold_left_map = fold_left_map;
 exports.fold_left = fold_left;
 exports.fold_right = fold_right;
 exports.iter2 = iter2;
@@ -190,9 +191,12 @@ exports.mem = mem;
 exports.memq = memq;
 exports.find = find;
 exports.find_opt = find_opt;
+exports.find_map = find_map;
 exports.filter = filter;
 exports.find_all = find_all;
+exports.filteri = filteri;
 exports.partition = partition;
+exports.partition_map = partition_map;
 exports.assoc = assoc;
 exports.assoc_opt = assoc_opt;
 exports.assq = assq;
@@ -208,4 +212,6 @@ exports.stable_sort = stable_sort;
 exports.fast_sort = fast_sort;
 exports.sort_uniq = sort_uniq;
 exports.merge = merge;
+exports.to_seq = to_seq;
+exports.of_seq = of_seq;
 /* No side effect */

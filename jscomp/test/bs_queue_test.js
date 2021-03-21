@@ -1282,13 +1282,10 @@ b("File \"bs_queue_test.ml\", line 156, characters 4-11", q$8.length === 0);
 
 Mt.from_pair_suites("Bs_queue_test", suites.contents);
 
-var Q;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.Q = Q;
 exports.does_raise = does_raise;
 exports.$plus$plus = $plus$plus;
 /*  Not a pure module */

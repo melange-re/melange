@@ -7,8 +7,8 @@ var Printf = require("../../lib/js/printf.js");
 var Random = require("../../lib/js/random.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_int32 = require("../../lib/js/caml_int32.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_option = require("../../lib/js/caml_option.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Actors = {};
 
@@ -790,7 +790,7 @@ var Particle = {
 };
 
 var id_counter = {
-  contents: Pervasives.min_int
+  contents: Stdlib__no_aliases.min_int
 };
 
 function setup_obj(has_gravityOpt, speedOpt, param) {
@@ -1096,7 +1096,7 @@ function normalize_origin(pos, spr) {
 function collide_block(check_xOpt, dir, obj) {
   var check_x = check_xOpt !== undefined ? check_xOpt : true;
   if (dir !== 1) {
-    if (dir !== 0) {
+    if (dir) {
       if (check_x) {
         obj.vel.x = 0;
         return ;
@@ -1332,14 +1332,14 @@ function kill(collid, ctx) {
               hd: make_score(o.score, pos, ctx),
               tl: /* [] */0
             }) : /* [] */0;
-        var remains = collid._0 !== 0 ? /* [] */0 : ({
+        var remains = collid._0 ? /* [] */0 : ({
               hd: make$1(undefined, undefined, /* GoombaSquish */0, pos, ctx),
               tl: /* [] */0
             });
-        return Pervasives.$at(score, remains);
+        return Stdlib__no_aliases.$at(score, remains);
     case /* Item */2 :
         var o$1 = collid._2;
-        if (collid._0 !== 0) {
+        if (collid._0) {
           return /* [] */0;
         } else {
           return {
@@ -1651,22 +1651,20 @@ function process_collision(dir, c1, c2, state) {
                       undefined
                     ];
           case /* Enemy */1 :
-              var o2$3 = c2._2;
-              var s2$2 = c2._1;
               var typ$1 = c2._0;
               if (dir !== 1) {
                 s1$1 = s1$2;
                 o1$1 = o1$3;
                 t2 = typ$1;
-                s2$1 = s2$2;
-                o2$1 = o2$3;
+                s2$1 = c2._1;
+                o2$1 = c2._2;
                 exit = 2;
               } else {
                 s1 = s1$2;
                 o1 = o1$3;
                 typ = typ$1;
-                s2 = s2$2;
-                o2 = o2$3;
+                s2 = c2._1;
+                o2 = c2._2;
                 exit = 1;
               }
               break;
@@ -1677,9 +1675,8 @@ function process_collision(dir, c1, c2, state) {
               exit = 3;
               break;
           case /* Block */3 :
-              var o2$4 = c2._2;
               var t = c2._0;
-              if (dir !== 0) {
+              if (dir) {
                 if (t === 4) {
                   game_win(state.ctx);
                   return [
@@ -1701,6 +1698,7 @@ function process_collision(dir, c1, c2, state) {
                         ];
                 }
               }
+              var o2$3 = c2._2;
               if (typeof t === "number") {
                 if (t !== 1) {
                   if (t !== 4) {
@@ -1718,7 +1716,7 @@ function process_collision(dir, c1, c2, state) {
                   }
                 } else if (c1._0 === /* BigM */0) {
                   collide_block(undefined, dir, o1$3);
-                  dec_health(o2$4);
+                  dec_health(o2$3);
                   return [
                           undefined,
                           undefined
@@ -1731,8 +1729,8 @@ function process_collision(dir, c1, c2, state) {
                         ];
                 }
               }
-              var updated_block = evolve_block(o2$4, context);
-              var spawned_item = spawn_above(o1$3.dir, o2$4, t._0, context);
+              var updated_block = evolve_block(o2$3, context);
+              var spawned_item = spawn_above(o1$3.dir, o2$3, t._0, context);
               collide_block(undefined, dir, o1$3);
               return [
                       spawned_item,
@@ -1747,18 +1745,16 @@ function process_collision(dir, c1, c2, state) {
         var t1 = c1._0;
         switch (c2.TAG | 0) {
           case /* Player */0 :
-              var o1$5 = c2._2;
-              var s1$4 = c2._1;
-              if (dir !== 0) {
-                s1$1 = s1$4;
-                o1$1 = o1$5;
+              if (dir) {
+                s1$1 = c2._1;
+                o1$1 = c2._2;
                 t2 = t1;
                 s2$1 = s1$3;
                 o2$1 = o1$4;
                 exit = 2;
               } else {
-                s1 = s1$4;
-                o1 = o1$5;
+                s1 = c2._1;
+                o1 = c2._2;
                 typ = t1;
                 s2 = s1$3;
                 o2 = o1$4;
@@ -1767,12 +1763,12 @@ function process_collision(dir, c1, c2, state) {
               break;
           case /* Enemy */1 :
               var t2$2 = c2._0;
-              var s2$3 = c2._1;
-              var o2$5 = c2._2;
+              var s2$2 = c2._1;
+              var o2$4 = c2._2;
               if (t1 !== 3) {
                 if (t1 < 4) {
                   if (t2$2 >= 3) {
-                    if (o2$5.vel.x === 0) {
+                    if (o2$4.vel.x === 0) {
                       rev_dir(o1$4, t1, s1$3);
                       return [
                               undefined,
@@ -1787,7 +1783,7 @@ function process_collision(dir, c1, c2, state) {
                     }
                   } else if (dir >= 2) {
                     rev_dir(o1$4, t1, s1$3);
-                    rev_dir(o2$5, t2$2, s2$3);
+                    rev_dir(o2$4, t2$2, s2$2);
                     return [
                             undefined,
                             undefined
@@ -1801,7 +1797,7 @@ function process_collision(dir, c1, c2, state) {
                 }
                 if (t2$2 >= 3) {
                   dec_health(o1$4);
-                  dec_health(o2$5);
+                  dec_health(o2$4);
                   return [
                           undefined,
                           undefined
@@ -1810,20 +1806,20 @@ function process_collision(dir, c1, c2, state) {
                 
               } else if (t2$2 >= 3) {
                 dec_health(o1$4);
-                dec_health(o2$5);
+                dec_health(o2$4);
                 return [
                         undefined,
                         undefined
                       ];
               }
               if (o1$4.vel.x === 0) {
-                rev_dir(o2$5, t2$2, s2$3);
+                rev_dir(o2$4, t2$2, s2$2);
                 return [
                         undefined,
                         undefined
                       ];
               } else {
-                dec_health(o2$5);
+                dec_health(o2$4);
                 return [
                         undefined,
                         undefined
@@ -1835,8 +1831,8 @@ function process_collision(dir, c1, c2, state) {
                       undefined
                     ];
           case /* Block */3 :
-              var o2$6 = c2._2;
               var t2$3 = c2._0;
+              var o2$5 = c2._2;
               if (dir >= 2) {
                 if (t1 >= 3) {
                   if (typeof t2$3 === "number") {
@@ -1847,7 +1843,7 @@ function process_collision(dir, c1, c2, state) {
                               undefined
                             ];
                     } else {
-                      dec_health(o2$6);
+                      dec_health(o2$5);
                       reverse_left_right(o1$4);
                       return [
                               undefined,
@@ -1855,8 +1851,8 @@ function process_collision(dir, c1, c2, state) {
                             ];
                     }
                   }
-                  var updated_block$1 = evolve_block(o2$6, context);
-                  var spawned_item$1 = spawn_above(o1$4.dir, o2$6, t2$3._0, context);
+                  var updated_block$1 = evolve_block(o2$5, context);
+                  var spawned_item$1 = spawn_above(o1$4.dir, o2$5, t2$3._0, context);
                   rev_dir(o1$4, t1, s1$3);
                   return [
                           updated_block$1,
@@ -1878,12 +1874,12 @@ function process_collision(dir, c1, c2, state) {
         }
         break;
     case /* Item */2 :
-        var o2$7 = c1._2;
+        var o2$6 = c1._2;
         switch (c2.TAG | 0) {
           case /* Player */0 :
               o1$2 = c2._2;
               t2$1 = c1._0;
-              o2$2 = o2$7;
+              o2$2 = o2$6;
               exit = 3;
               break;
           case /* Enemy */1 :
@@ -1894,13 +1890,13 @@ function process_collision(dir, c1, c2, state) {
                     ];
           case /* Block */3 :
               if (dir >= 2) {
-                reverse_left_right(o2$7);
+                reverse_left_right(o2$6);
                 return [
                         undefined,
                         undefined
                       ];
               } else {
-                collide_block(undefined, dir, o2$7);
+                collide_block(undefined, dir, o2$6);
                 return [
                         undefined,
                         undefined
@@ -1963,7 +1959,7 @@ function process_collision(dir, c1, c2, state) {
                 undefined
               ];
     case 3 :
-        if (t2$1 !== 0) {
+        if (t2$1) {
           if (t2$1 >= 3) {
             state.coins = state.coins + 1 | 0;
             dec_health(o2$2);
@@ -2154,7 +2150,7 @@ function run_update_collid(state, collid, all_collids) {
       player = collid;
     }
     var evolved = update_collidable(state, player, all_collids);
-    collid_objs.contents = Pervasives.$at(collid_objs.contents, evolved);
+    collid_objs.contents = Stdlib__no_aliases.$at(collid_objs.contents, evolved);
     return player;
   }
   var obj = collid._2;
@@ -2162,11 +2158,11 @@ function run_update_collid(state, collid, all_collids) {
   if (!obj.kill) {
     collid_objs.contents = {
       hd: collid,
-      tl: Pervasives.$at(collid_objs.contents, evolved$1)
+      tl: Stdlib__no_aliases.$at(collid_objs.contents, evolved$1)
     };
   }
   var new_parts = obj.kill ? kill(collid, state.ctx) : /* [] */0;
-  particles.contents = Pervasives.$at(particles.contents, new_parts);
+  particles.contents = Stdlib__no_aliases.$at(particles.contents, new_parts);
   return collid;
 }
 
@@ -2387,7 +2383,7 @@ function convert_list(lst) {
     return /* [] */0;
   }
   var h = lst.hd;
-  return Pervasives.$at({
+  return Stdlib__no_aliases.$at({
               hd: [
                 h[0],
                 [
@@ -2448,7 +2444,7 @@ function avoid_overlap(_lst, currentLst) {
     var t = lst.tl;
     var h = lst.hd;
     if (!mem_loc(h[1], currentLst)) {
-      return Pervasives.$at({
+      return Stdlib__no_aliases.$at({
                   hd: h,
                   tl: /* [] */0
                 }, avoid_overlap(t, currentLst));
@@ -2471,7 +2467,7 @@ function trim_edges(_lst, blockw, blockh) {
     var pixx = blockw * 16;
     var pixy = blockh * 16;
     if (!(cx < 128 || pixx - cx < 528 || cy === 0 || pixy - cy < 48)) {
-      return Pervasives.$at({
+      return Stdlib__no_aliases.$at({
                   hd: h,
                   tl: /* [] */0
                 }, trim_edges(t, blockw, blockh));
@@ -2485,7 +2481,7 @@ function generate_clouds(cbx, cby, typ, num) {
   if (num === 0) {
     return /* [] */0;
   } else {
-    return Pervasives.$at({
+    return Stdlib__no_aliases.$at({
                 hd: [
                   typ,
                   [
@@ -2510,7 +2506,7 @@ function generate_coins(_block_coord) {
     if (place_coin === 0) {
       var xc = h[1][0];
       var yc = h[1][1];
-      return Pervasives.$at({
+      return Stdlib__no_aliases.$at({
                   hd: [
                     0,
                     [
@@ -2707,7 +2703,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
             hd: one_0,
             tl: /* [] */0
           };
-          return Pervasives.$at(four, Pervasives.$at(three, Pervasives.$at(two, one)));
+          return Stdlib__no_aliases.$at(four, Stdlib__no_aliases.$at(three, Stdlib__no_aliases.$at(two, one)));
         } else {
           return /* [] */0;
         }
@@ -2785,7 +2781,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
             hd: one_0$1,
             tl: one_1
           };
-          return Pervasives.$at(three$1, Pervasives.$at(two$1, one$1));
+          return Stdlib__no_aliases.$at(three$1, Stdlib__no_aliases.$at(two$1, one$1));
         } else if (blockh - cby > 2) {
           var one_0$2 = [
             stair_typ,
@@ -2859,7 +2855,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
             hd: three_0$2,
             tl: three_1$2
           };
-          return Pervasives.$at(one$2, Pervasives.$at(two$2, three$2));
+          return Stdlib__no_aliases.$at(one$2, Stdlib__no_aliases.$at(two$2, three$2));
         } else {
           return {
                   hd: [
@@ -2986,7 +2982,7 @@ function generate_enemies(blockw, blockh, _cbx, _cby, acc) {
         hd: enemy_0,
         tl: /* [] */0
       };
-      return Pervasives.$at(enemy, generate_enemies(blockw, blockh, cbx, cby + 1, acc));
+      return Stdlib__no_aliases.$at(enemy, generate_enemies(blockw, blockh, cbx, cby + 1, acc));
     }
     _cby = cby + 1;
     continue ;
@@ -3006,7 +3002,7 @@ function generate_block_enemies(_block_coord) {
     if (place_enemy === 0) {
       var xc = h[1][0];
       var yc = h[1][1];
-      return Pervasives.$at({
+      return Stdlib__no_aliases.$at({
                   hd: [
                     enemy_typ,
                     [
@@ -3046,7 +3042,7 @@ function generate_block_locs(blockw, blockh, _cbx, _cby, _acc) {
     if (prob < 5) {
       var newacc = choose_block_pattern(blockw, blockh, cbx, cby, prob);
       var undup_lst = avoid_overlap(newacc, acc);
-      var called_acc = Pervasives.$at(acc, undup_lst);
+      var called_acc = Stdlib__no_aliases.$at(acc, undup_lst);
       _acc = called_acc;
       _cby = cby + 1;
       continue ;
@@ -3075,7 +3071,7 @@ function generate_ground(blockw, blockh, _inc, _acc) {
     }
     if (inc > 10) {
       var skip = Random.$$int(10);
-      var newacc = Pervasives.$at(acc, {
+      var newacc = Stdlib__no_aliases.$at(acc, {
             hd: [
               4,
               [
@@ -3093,7 +3089,7 @@ function generate_ground(blockw, blockh, _inc, _acc) {
       _inc = inc + 1;
       continue ;
     }
-    var newacc$1 = Pervasives.$at(acc, {
+    var newacc$1 = Stdlib__no_aliases.$at(acc, {
           hd: [
             4,
             [
@@ -3119,7 +3115,7 @@ function convert_to_block_obj(lst, context) {
         TAG: /* SBlock */3,
         _0: sblock_typ
       }, context, h[1]);
-  return Pervasives.$at({
+  return Stdlib__no_aliases.$at({
               hd: ob,
               tl: /* [] */0
             }, convert_to_block_obj(lst.tl, context));
@@ -3135,7 +3131,7 @@ function convert_to_enemy_obj(lst, context) {
         TAG: /* SEnemy */1,
         _0: senemy_typ
       }, context, h[1]);
-  return Pervasives.$at({
+  return Stdlib__no_aliases.$at({
               hd: ob,
               tl: /* [] */0
             }, convert_to_enemy_obj(lst.tl, context));
@@ -3149,7 +3145,7 @@ function convert_to_coin_obj(lst, context) {
         TAG: /* SItem */2,
         _0: /* Coin */3
       }, context, lst.hd[1]);
-  return Pervasives.$at({
+  return Stdlib__no_aliases.$at({
               hd: ob,
               tl: /* [] */0
             }, convert_to_coin_obj(lst.tl, context));
@@ -3161,19 +3157,19 @@ function generate_helper(blockw, blockh, cx, cy, context) {
   var obj_converted_block_locs = convert_to_block_obj(converted_block_locs, context);
   var ground_blocks = generate_ground(blockw, blockh, 0, /* [] */0);
   var obj_converted_ground_blocks = convert_to_block_obj(ground_blocks, context);
-  var block_locations = Pervasives.$at(block_locs, ground_blocks);
-  var all_blocks = Pervasives.$at(obj_converted_block_locs, obj_converted_ground_blocks);
+  var block_locations = Stdlib__no_aliases.$at(block_locs, ground_blocks);
+  var all_blocks = Stdlib__no_aliases.$at(obj_converted_block_locs, obj_converted_ground_blocks);
   var enemy_locs = generate_enemies(blockw, blockh, 0, 0, block_locations);
   var obj_converted_enemies = convert_to_enemy_obj(enemy_locs, context);
   var coin_locs = generate_coins(converted_block_locs);
   var undup_coin_locs = trim_edges(avoid_overlap(coin_locs, converted_block_locs), blockw, blockh);
-  var converted_block_coin_locs = Pervasives.$at(converted_block_locs, coin_locs);
+  var converted_block_coin_locs = Stdlib__no_aliases.$at(converted_block_locs, coin_locs);
   var enemy_block_locs = generate_block_enemies(converted_block_locs);
   var undup_enemy_block_locs = avoid_overlap(enemy_block_locs, converted_block_coin_locs);
   var obj_enemy_blocks = convert_to_enemy_obj(undup_enemy_block_locs, context);
   var coin_objects = convert_to_coin_obj(undup_coin_locs, context);
   var obj_panel = generate_panel(context, blockw, blockh);
-  return Pervasives.$at(all_blocks, Pervasives.$at(obj_converted_enemies, Pervasives.$at(coin_objects, Pervasives.$at(obj_enemy_blocks, {
+  return Stdlib__no_aliases.$at(all_blocks, Stdlib__no_aliases.$at(obj_converted_enemies, Stdlib__no_aliases.$at(coin_objects, Stdlib__no_aliases.$at(obj_enemy_blocks, {
                           hd: obj_panel,
                           tl: /* [] */0
                         }))));
@@ -3291,8 +3287,6 @@ window.onload = (function (param) {
   });
 
 var Main = {
-  Html: undefined,
-  Pg: undefined,
   loadCount: loadCount,
   imgsToLoad: 4,
   level_width: 2400,

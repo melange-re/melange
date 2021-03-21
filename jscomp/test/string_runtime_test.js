@@ -69,11 +69,5 @@ var suites = {
 
 Mt.from_pair_suites("String_runtime_test", suites);
 
-var S;
-
-var B;
-
-exports.S = S;
-exports.B = B;
 exports.suites = suites;
 /*  Not a pure module */

@@ -6,14 +6,26 @@ var Caml_oo = require("../../lib/js/caml_oo.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
-var shared = ["x"];
+var shared = [
+  "move",
+  "get_x",
+  "*dummy method*"
+];
 
-var shared$1 = ["m"];
-
-var shared$2 = [
+var shared$1 = [
   "move",
   "get_x"
+];
+
+var shared$2 = ["m"];
+
+var shared$3 = ["x"];
+
+var shared$4 = [
+  "m",
+  "*dummy method*"
 ];
 
 var suites = {
@@ -44,18 +56,18 @@ function eq(loc, x, y) {
 
 function point_init($$class) {
   var x_init = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, shared$2, shared);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$3);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[2];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$1) {
-            return self$1[x];
+        (function (self$neg1) {
+            return self$neg1[x];
           }),
         move,
-        (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
+        (function (self$neg1, d) {
+            self$neg1[x] = self$neg1[x] + d | 0;
             
           })
       ]);
@@ -67,21 +79,26 @@ function point_init($$class) {
   };
 }
 
-var point = CamlinternalOO.make_class(shared$2, point_init);
+var point = CamlinternalOO.make_class(shared$1, point_init);
 
 function colored_point_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
   var c = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, ["color"], ["c"]);
-  var color = ids[0];
-  var c$1 = ids[1];
-  var inh = CamlinternalOO.inherits($$class, shared, 0, [
+  var ids = CamlinternalOO.new_methods_variables($$class, [
+        "move",
+        "get_x",
+        "color",
+        "*dummy method*"
+      ], ["c"]);
+  var color = ids[2];
+  var c$1 = ids[4];
+  var inh = CamlinternalOO.inherits($$class, shared$3, 0, [
         "get_x",
         "move"
       ], point, true);
   var obj_init = inh[0];
-  CamlinternalOO.set_method($$class, color, (function (self$2) {
-          return self$2[c$1];
+  CamlinternalOO.set_method($$class, color, (function (self$neg2) {
+          return self$neg2[c$1];
         }));
   return function (env, self, x$1, c$2) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -111,23 +128,24 @@ function lookup_obj(obj, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var obj$prime = param.hd;
-      if (Caml_obj.caml_equal(obj, obj$prime)) {
-        return obj$prime;
+      var obj$p = param.hd;
+      if (Caml_obj.caml_equal(obj, obj$p)) {
+        return obj$p;
       }
       _param = param.tl;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
 }
 
 function c_init($$class) {
-  var m = CamlinternalOO.get_method_label($$class, "m");
-  CamlinternalOO.set_method($$class, m, (function (self$3) {
+  var ids = CamlinternalOO.get_method_labels($$class, shared$4);
+  var m = ids[0];
+  CamlinternalOO.set_method($$class, m, (function (self$neg3) {
           return 1;
         }));
   return function (env, self) {
@@ -135,25 +153,27 @@ function c_init($$class) {
   };
 }
 
-var c = CamlinternalOO.make_class(shared$1, c_init);
+var c = CamlinternalOO.make_class(shared$2, c_init);
 
 function d_init($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, [
         "n",
-        "as_c"
+        "m",
+        "as_c",
+        "*dummy method*"
       ]);
   var n = ids[0];
-  var as_c = ids[1];
-  var inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, c, true);
+  var as_c = ids[2];
+  var inh = CamlinternalOO.inherits($$class, 0, 0, shared$2, c, true);
   var obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
         n,
-        (function (self$4) {
+        (function (self$neg4) {
             return 2;
           }),
         as_c,
-        (function (self$4) {
-            return self$4;
+        (function (self$neg4) {
+            return self$neg4;
           })
       ]);
   return function (env, self) {
@@ -182,35 +202,35 @@ var d = [
   undefined
 ];
 
-function c2$prime_1($$class) {
-  CamlinternalOO.get_method_label($$class, "m");
+function c2$p_1($$class) {
+  CamlinternalOO.get_method_labels($$class, shared$4);
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
 }
 
-var c2$prime = [
+var c2$p = [
   undefined,
-  c2$prime_1,
+  c2$p_1,
   undefined,
   undefined
 ];
 
 function functional_point_init($$class) {
   var y = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, shared$2, shared);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$3);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[2];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$6) {
-            return self$6[x];
+        (function (self$neg6) {
+            return self$neg6[x];
           }),
         move,
-        (function (self$6, d) {
-            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$6));
-            copy[x] = self$6[x] + d | 0;
+        (function (self$neg6, d) {
+            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$neg6));
+            copy[x] = self$neg6[x] + d | 0;
             return copy;
           })
       ]);
@@ -222,7 +242,7 @@ function functional_point_init($$class) {
   };
 }
 
-var functional_point = CamlinternalOO.make_class(shared$2, functional_point_init);
+var functional_point = CamlinternalOO.make_class(shared$1, functional_point_init);
 
 var p$1 = Curry._2(functional_point[0], undefined, 7);
 
@@ -240,18 +260,18 @@ eq("File \"class6_test.ml\", line 60, characters 5-12", [
 
 function bad_functional_point_init($$class) {
   var y = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, shared$2, shared);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$3);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[2];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$7) {
-            return self$7[x];
+        (function (self$neg7) {
+            return self$neg7[x];
           }),
         move,
-        (function (self$7, d) {
-            return Curry._2(bad_functional_point[0], undefined, self$7[x] + d | 0);
+        (function (self$neg7, d) {
+            return Curry._2(bad_functional_point[0], undefined, self$neg7[x] + d | 0);
           })
       ]);
   return function (env, self, y$1) {
@@ -262,7 +282,7 @@ function bad_functional_point_init($$class) {
   };
 }
 
-var table$1 = CamlinternalOO.create_table(shared$2);
+var table$1 = CamlinternalOO.create_table(shared$1);
 
 var env_init$1 = bad_functional_point_init(table$1);
 
@@ -304,7 +324,7 @@ exports.q = q;
 exports.lookup_obj = lookup_obj;
 exports.c = c;
 exports.d = d;
-exports.c2$prime = c2$prime;
+exports.c2$p = c2$p;
 exports.functional_point = functional_point;
 exports.bad_functional_point = bad_functional_point;
 /* point Not a pure module */

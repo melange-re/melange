@@ -24,14 +24,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-# 27
+(* # 27 *)
 type elt = string
 let compare_elt = String.compare
 type  t = elt Set_gen.t 
 
 
-# 57
-let empty = Set_gen.empty 
+(* # 57 *)
+let empty = Set_gen.empty
 let is_empty = Set_gen.is_empty
 let iter = Set_gen.iter
 let fold = Set_gen.fold

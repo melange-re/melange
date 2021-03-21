@@ -1,8 +1,9 @@
 'use strict';
 
+var Caml_obj = require("../../lib/js/caml_obj.js");
 
 function v(x) {
-  return x.c === /* [] */0;
+  return Caml_obj.caml_equal(x.c, /* [] */0);
 }
 
 exports.v = v;

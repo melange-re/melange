@@ -8,17 +8,18 @@ var Curry = require("../../lib/js/curry.js");
 var Lexing = require("../../lib/js/lexing.js");
 var Printf = require("../../lib/js/printf.js");
 var $$String = require("../../lib/js/string.js");
+var Hashtbl = require("../../lib/js/hashtbl.js");
 var Parsing = require("../../lib/js/parsing.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Filename = require("../../lib/js/filename.js");
 var Printexc = require("../../lib/js/printexc.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function field(optionsOpt, label, number, type_, name) {
   var options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
@@ -194,7 +195,7 @@ function file_option(file_options, name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -214,7 +215,7 @@ function rev_split_by_char(c, s) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         return {
                 hd: $$String.sub(s, i, s.length - i | 0),
                 tl: l
@@ -228,11 +229,10 @@ function rev_split_by_char(c, s) {
 
 function pop_last(param) {
   if (param) {
-    var tl = param.tl;
-    if (tl) {
+    if (param.tl) {
       return {
               hd: param.hd,
-              tl: pop_last(tl)
+              tl: pop_last(param.tl)
             };
     } else {
       return /* [] */0;
@@ -1598,6 +1598,38 @@ var __ocaml_lex_tables = {
   lex_code: ""
 };
 
+function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var l = _l;
+    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          update_loc(lexbuf);
+          ___ocaml_lex_state = 47;
+          continue ;
+      case 1 :
+          Lexing.lexeme(lexbuf);
+          return /* Comment_value */{
+                  _0: $$String.concat("", List.rev(l))
+                };
+      case 2 :
+          ___ocaml_lex_state = 47;
+          _l = {
+            hd: Lexing.lexeme(lexbuf),
+            tl: l
+          };
+          continue ;
+      case 3 :
+          return /* Comment_eof */0;
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
 function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
@@ -1652,38 +1684,6 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
           };
           continue ;
       case 2 :
-          return /* Comment_eof */0;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
-function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var l = _l;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          update_loc(lexbuf);
-          ___ocaml_lex_state = 47;
-          continue ;
-      case 1 :
-          Lexing.lexeme(lexbuf);
-          return /* Comment_value */{
-                  _0: $$String.concat("", List.rev(l))
-                };
-      case 2 :
-          ___ocaml_lex_state = 47;
-          _l = {
-            hd: Lexing.lexeme(lexbuf),
-            tl: l
-          };
-          continue ;
-      case 3 :
           return /* Comment_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -2087,7 +2087,7 @@ function indentation_prefix(n) {
     case 8 :
         return "                ";
     default:
-      return " ".repeat(n);
+      return Caml_bytes.bytes_to_string(Bytes.make(n, /* ' ' */32));
   }
 }
 
@@ -2111,7 +2111,7 @@ function print(scope) {
       var items = s._0.items;
       var sub = loop(/* [] */0, i + 1 | 0, items);
       _param = param.tl;
-      _acc = Pervasives.$at(sub, acc);
+      _acc = Stdlib__no_aliases.$at(sub, acc);
       continue ;
     };
   };
@@ -2167,7 +2167,7 @@ function runtime_function(param) {
             if (match$2 === 5) {
               return "Pbrt.Decoder.bytes";
             }
-            if (match$2 === 0) {
+            if (!match$2) {
               return "Pbrt.Decoder.string";
             }
             throw {
@@ -2264,7 +2264,7 @@ function runtime_function(param) {
             if (match$4 === 5) {
               return "Pbrt.Encoder.bytes";
             }
-            if (match$4 === 0) {
+            if (!match$4) {
               return "Pbrt.Encoder.string";
             }
             throw {
@@ -3255,7 +3255,7 @@ function log(x) {
   if (oc !== undefined) {
     return Printf.fprintf(Caml_option.valFromOption(oc), x);
   } else {
-    return Printf.ifprintf(Pervasives.stdout, x);
+    return Printf.ifprintf(Stdlib__no_aliases.stdout, x);
   }
 }
 
@@ -4002,7 +4002,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -4382,7 +4382,7 @@ function find_field_option(field_options, option_name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4618,7 +4618,7 @@ function get_default(field_name, field_options, field_type) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4662,7 +4662,7 @@ function not_found(f) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return true;
     }
     throw exn;
@@ -4681,7 +4681,7 @@ function list_assoc2(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -4716,7 +4716,7 @@ function compile_enum_p1(file_name, file_options, scope, param) {
 function compile_message_p1(file_name, file_options, message_scope, param) {
   var message_name = param.message_name;
   var sub_scope_packages = message_scope.packages;
-  var sub_scope_message_names = Pervasives.$at(message_scope.message_names, {
+  var sub_scope_message_names = Stdlib__no_aliases.$at(message_scope.message_names, {
         hd: message_name,
         tl: /* [] */0
       });
@@ -4773,13 +4773,13 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
                 return [
                         message_body,
                         extensions,
-                        Pervasives.$at(all_types, all_sub_types)
+                        Stdlib__no_aliases.$at(all_types, all_sub_types)
                       ];
             case /* Message_enum */4 :
                 return [
                         message_body,
                         extensions,
-                        Pervasives.$at(all_types, {
+                        Stdlib__no_aliases.$at(all_types, {
                               hd: compile_enum_p1(file_name, file_options, sub_scope, f._0),
                               tl: /* [] */0
                             })
@@ -4787,7 +4787,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             case /* Message_extension */5 :
                 return [
                         message_body,
-                        Pervasives.$at(extensions, f._0),
+                        Stdlib__no_aliases.$at(extensions, f._0),
                         all_types
                       ];
             
@@ -4842,7 +4842,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
             
           }
         }), /* [] */0, message_body);
-  return Pervasives.$at(match[2], {
+  return Stdlib__no_aliases.$at(match[2], {
               hd: type_of_spec(file_name, file_options, param.id, message_scope, {
                     TAG: /* Message */1,
                     _0: {
@@ -4865,7 +4865,7 @@ function compile_proto_p1(file_name, param) {
                 };
         }), param.enums, /* [] */0);
   return List.fold_left((function (pbtt_msgs, pbpt_msg) {
-                return Pervasives.$at(pbtt_msgs, compile_message_p1(file_name, file_options, scope, pbpt_msg));
+                return Stdlib__no_aliases.$at(pbtt_msgs, compile_message_p1(file_name, file_options, scope, pbpt_msg));
               }), pbtt_msgs, param.messages);
 }
 
@@ -4894,14 +4894,14 @@ function type_name_of_type(param) {
 function find_all_types_in_field_scope(all_types, scope) {
   return List.filter(function (t) {
                 var match = type_scope_of_type(t);
-                var dec_scope = Pervasives.$at(match.packages, match.message_names);
+                var dec_scope = Stdlib__no_aliases.$at(match.packages, match.message_names);
                 return Caml_obj.caml_equal(dec_scope, scope);
               })(all_types);
 }
 
 function compile_message_p2(types, param, message) {
   var message_name = message.message_name;
-  var message_scope = Pervasives.$at(param.packages, Pervasives.$at(param.message_names, {
+  var message_scope = Stdlib__no_aliases.$at(param.packages, Stdlib__no_aliases.$at(param.message_names, {
             hd: message_name,
             tl: /* [] */0
           }));
@@ -4924,7 +4924,7 @@ function compile_message_p2(types, param, message) {
         }
         _l = pop_last(l);
         _scopes = {
-          hd: Pervasives.$at(l, field_scope),
+          hd: Stdlib__no_aliases.$at(l, field_scope),
           tl: scopes
         };
         continue ;
@@ -5024,7 +5024,7 @@ function compile_message_p2(types, param, message) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === "Not_found") {
+              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
                 return ;
               }
               throw exn;
@@ -6249,7 +6249,7 @@ function default_value_of_field_type(field_name, field_type, field_default) {
       case /* Bt_float */1 :
           if (field_default !== undefined) {
             if (field_default.TAG === /* Constant_float */3) {
-              return Pervasives.string_of_float(field_default._0);
+              return Stdlib__no_aliases.string_of_float(field_default._0);
             } else {
               return invalid_default_value(field_name, "invalid default type", undefined);
             }
@@ -7081,7 +7081,7 @@ function module_of_file_name(file_name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       throw {
             RE_EXN_ID: Compilation_error,
             _1: {
@@ -7097,7 +7097,7 @@ function module_of_file_name(file_name) {
 }
 
 function type_name(message_scope, name) {
-  var all_names = Pervasives.$at(message_scope, {
+  var all_names = Stdlib__no_aliases.$at(message_scope, {
         hd: name,
         tl: /* [] */0
       });
@@ -7217,7 +7217,7 @@ function compile_field_type(field_name, all_types, file_options, field_options, 
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         throw {
               RE_EXN_ID: Compilation_error,
               _1: {
@@ -7399,7 +7399,7 @@ var all_code_gen = {
 };
 
 function compile(proto_definition) {
-  var lexbuf = Lexing.from_string(proto_definition);
+  var lexbuf = Lexing.from_string(undefined, proto_definition);
   var proto;
   try {
     proto = proto_(lexer, lexbuf);
@@ -7461,7 +7461,7 @@ function compile(proto_definition) {
                           switch (f.TAG | 0) {
                             case /* Message_oneof_field */1 :
                                 if (!message_body.tl) {
-                                  var outer_message_names = Pervasives.$at(message_names, {
+                                  var outer_message_names = Stdlib__no_aliases.$at(message_names, {
                                         hd: message_name,
                                         tl: /* [] */0
                                       });
@@ -7561,7 +7561,7 @@ function compile(proto_definition) {
                                               ];
                                     case /* Message_oneof_field */1 :
                                         var field$2 = field._0;
-                                        var outer_message_names = Pervasives.$at(message_names, {
+                                        var outer_message_names = Stdlib__no_aliases.$at(message_names, {
                                               hd: message_name,
                                               tl: /* [] */0
                                             });

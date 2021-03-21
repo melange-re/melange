@@ -31,29 +31,29 @@ function eq(loc, x, y) {
   
 }
 
-var class_tables = /* Cons */{
+var object_tables = /* Cons */{
   key: undefined,
   data: undefined,
   next: undefined
 };
 
-var class_tables$1 = /* Cons */{
+var object_tables$1 = /* Cons */{
   key: undefined,
   data: undefined,
   next: undefined
 };
 
 function step1(param) {
-  if (!class_tables.key) {
+  if (!object_tables.key) {
     var $$class = CamlinternalOO.create_table(["step2"]);
     var env = CamlinternalOO.new_variable($$class, "");
     var step2 = CamlinternalOO.get_method_label($$class, "step2");
-    CamlinternalOO.set_method($$class, step2, (function (self$1) {
-            if (!class_tables$1.key) {
+    CamlinternalOO.set_method($$class, step2, (function (self$neg1) {
+            if (!object_tables$1.key) {
               var $$class = CamlinternalOO.create_table(["step3"]);
               var env = CamlinternalOO.new_variable($$class, "");
               var step3 = CamlinternalOO.get_method_label($$class, "step3");
-              CamlinternalOO.set_method($$class, step3, (function (self$2) {
+              CamlinternalOO.set_method($$class, step3, (function (self$neg2) {
                       return 33;
                     }));
               var env_init = function (env$1) {
@@ -62,9 +62,9 @@ function step1(param) {
                 return self;
               };
               CamlinternalOO.init_class($$class);
-              class_tables$1.key = env_init;
+              object_tables$1.key = env_init;
             }
-            return Curry._1(class_tables$1.key, undefined);
+            return Curry._1(object_tables$1.key, undefined);
           }));
     var env_init = function (env$1) {
       var self = CamlinternalOO.create_object_opt(undefined, $$class);
@@ -72,9 +72,9 @@ function step1(param) {
       return self;
     };
     CamlinternalOO.init_class($$class);
-    class_tables.key = env_init;
+    object_tables.key = env_init;
   }
-  return Curry._1(class_tables.key, undefined);
+  return Curry._1(object_tables.key, undefined);
 }
 
 var tmp = step1(undefined);

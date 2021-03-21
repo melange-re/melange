@@ -2,6 +2,8 @@
 
 var Curry = require("../../lib/js/curry.js");
 var React = require("react");
+var Caml_option = require("../../lib/js/caml_option.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var ReasonReactOptimizedCreateClass = require("./reasonReactOptimizedCreateClass.js");
 
 function createDomElement(s, props, children) {
@@ -47,7 +49,7 @@ function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
           };
   }
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
         _1: "A JS component called the Reason component " + (debugName + " which didn't implement the JS->Reason React props conversion."),
         Error: new Error()
       };
@@ -341,7 +343,7 @@ function element(keyOpt, refOpt, component) {
   };
   var jsElementWrapped = component.jsElementWrapped;
   if (jsElementWrapped !== undefined) {
-    return Curry._2(jsElementWrapped, key, ref);
+    return Curry._2(Caml_option.valFromOption(jsElementWrapped), key, ref);
   } else {
     return React.createElement(component.reactClassInternal, {
                 key: key,
@@ -389,8 +391,6 @@ function wrapJsForReason(reactClass, props, children) {
         };
 }
 
-var Router;
-
 exports.statelessComponent = statelessComponent;
 exports.statelessComponentWithRetainedProps = statelessComponentWithRetainedProps;
 exports.reducerComponent = reducerComponent;
@@ -399,5 +399,4 @@ exports.element = element;
 exports.wrapReasonForJs = wrapReasonForJs;
 exports.createDomElement = createDomElement;
 exports.wrapJsForReason = wrapJsForReason;
-exports.Router = Router;
 /* dummyInteropComponent Not a pure module */

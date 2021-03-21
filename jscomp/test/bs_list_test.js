@@ -2495,41 +2495,32 @@ b("File \"bs_list_test.ml\", line 345, characters 4-11", Caml_obj.caml_equal(Bel
           }
         }));
 
-b("File \"bs_list_test.ml\", line 349, characters 4-11", Belt_List.keepMap({
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
+b("File \"bs_list_test.ml\", line 349, characters 4-11", Caml_obj.caml_equal(Belt_List.keepMap({
+              hd: 1,
               tl: {
-                hd: 4,
-                tl: /* [] */0
+                hd: 2,
+                tl: {
+                  hd: 3,
+                  tl: {
+                    hd: 4,
+                    tl: /* [] */0
+                  }
+                }
               }
-            }
-          }
-        }, (function (x) {
-            if (x % 5 === 0) {
-              return x;
-            }
-            
-          })) === /* [] */0);
+            }, (function (x) {
+                if (x % 5 === 0) {
+                  return x;
+                }
+                
+              })), /* [] */0));
 
 Mt.from_pair_suites("Bs_list_test", suites.contents);
-
-var N;
-
-var A;
-
-var J;
 
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.$$throw = $$throw;
-exports.N = N;
-exports.A = A;
-exports.J = J;
 exports.sum = sum;
 exports.sum2 = sum2;
 exports.mod2 = mod2;

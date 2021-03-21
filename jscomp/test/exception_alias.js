@@ -1,9 +1,10 @@
 'use strict';
 
 var List = require("../../lib/js/list.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var a0 = {
-  RE_EXN_ID: "Not_found"
+  RE_EXN_ID: Stdlib__no_aliases.Not_found
 };
 
 var b = List.length({
@@ -28,11 +29,16 @@ var List$1 = {
   rev_append: List.rev_append,
   concat: List.concat,
   flatten: List.flatten,
+  equal: List.equal,
+  compare: List.compare,
   iter: List.iter,
   iteri: List.iteri,
   map: List.map,
   mapi: List.mapi,
   rev_map: List.rev_map,
+  filter_map: List.filter_map,
+  concat_map: List.concat_map,
+  fold_left_map: List.fold_left_map,
   fold_left: List.fold_left,
   fold_right: List.fold_right,
   iter2: List.iter2,
@@ -48,9 +54,12 @@ var List$1 = {
   memq: List.memq,
   find: List.find,
   find_opt: List.find_opt,
+  find_map: List.find_map,
   filter: List.filter,
   find_all: List.find_all,
+  filteri: List.filteri,
   partition: List.partition,
+  partition_map: List.partition_map,
   assoc: List.assoc,
   assoc_opt: List.assoc_opt,
   assq: List.assq,
@@ -66,6 +75,8 @@ var List$1 = {
   fast_sort: List.fast_sort,
   sort_uniq: List.sort_uniq,
   merge: List.merge,
+  to_seq: List.to_seq,
+  of_seq: List.of_seq,
   b: b,
   length: 3
 };

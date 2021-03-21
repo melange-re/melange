@@ -66,6 +66,10 @@ var for_all = $$Array.for_all;
 
 var exists = $$Array.exists;
 
+var for_all2 = $$Array.for_all2;
+
+var exists2 = $$Array.exists2;
+
 var mem = $$Array.mem;
 
 var memq = $$Array.memq;
@@ -75,6 +79,12 @@ var sort = $$Array.sort;
 var stable_sort = $$Array.stable_sort;
 
 var fast_sort = $$Array.fast_sort;
+
+var to_seq = $$Array.to_seq;
+
+var to_seqi = $$Array.to_seqi;
+
+var of_seq = $$Array.of_seq;
 
 var Floatarray = $$Array.Floatarray;
 
@@ -102,11 +112,16 @@ exports.iter2 = iter2;
 exports.map2 = map2;
 exports.for_all = for_all;
 exports.exists = exists;
+exports.for_all2 = for_all2;
+exports.exists2 = exists2;
 exports.mem = mem;
 exports.memq = memq;
 exports.sort = sort;
 exports.stable_sort = stable_sort;
 exports.fast_sort = fast_sort;
+exports.to_seq = to_seq;
+exports.to_seqi = to_seqi;
+exports.of_seq = of_seq;
 exports.Floatarray = Floatarray;
 exports.N = N;
 exports.NN = NN;

@@ -101,32 +101,17 @@ b("File \"bs_hashmap_test.ml\", line 57, characters 4-11", Belt_Array.every(Arra
 
 Mt.from_pair_suites("Bs_hashmap_test", suites.contents);
 
-var N;
-
-var S;
-
-var I;
-
 var $plus$plus = Belt_Array.concat;
-
-var A;
-
-var So;
 
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eqx = eqx;
 exports.b = b;
-exports.N = N;
-exports.S = S;
 exports.eq = eq;
 exports.hash = hash;
 exports.cmp = cmp;
 exports.Y = Y;
 exports.empty = empty;
-exports.I = I;
 exports.$plus$plus = $plus$plus;
 exports.add = add;
-exports.A = A;
-exports.So = So;
 /* Y Not a pure module */

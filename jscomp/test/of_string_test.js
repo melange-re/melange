@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites_0 = [
   "string_of_float_1",
@@ -9,7 +9,7 @@ var suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: "10.",
-              _1: Pervasives.string_of_float(10)
+              _1: Stdlib__no_aliases.string_of_float(10)
             };
     })
 ];
@@ -32,7 +32,7 @@ var suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: "10.",
-                  _1: Pervasives.valid_float_lexem("10")
+                  _1: Stdlib__no_aliases.valid_float_lexem("10")
                 };
         })
     ],

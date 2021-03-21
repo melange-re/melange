@@ -4,8 +4,10 @@ var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
 var $$String = require("../../lib/js/string.js");
+var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function ff(x) {
   var a;
@@ -70,7 +72,7 @@ function rev_split_by_char(c, s) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         return {
                 hd: $$String.sub(s, i, s.length - i | 0),
                 tl: l
@@ -99,7 +101,7 @@ function xsplit(delim, s) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === "Not_found") {
+        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
           return {
                   hd: $$String.sub(s, 0, i),
                   tl: l
@@ -338,7 +340,7 @@ Mt.from_pair_suites("String_test", {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: String.fromCharCode(/* '0' */48),
-                                                    _1: "0"
+                                                    _1: Caml_bytes.bytes_to_string(Bytes.make(1, /* '0' */48))
                                                   };
                                           })
                                       ],

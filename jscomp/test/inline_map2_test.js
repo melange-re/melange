@@ -5,6 +5,7 @@ var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_option = require("../../lib/js/caml_option.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function Make(Ord) {
   var height = function (param) {
@@ -141,7 +142,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -175,7 +176,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -184,18 +185,17 @@ function Make(Ord) {
     while(true) {
       var param = _param;
       if (param) {
-        var r = param._3;
-        if (!r) {
+        if (!param._3) {
           return [
                   param._1,
                   param._2
                 ];
         }
-        _param = r;
+        _param = param._3;
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -758,7 +758,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -794,7 +794,7 @@ function min_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -804,18 +804,17 @@ function max_binding(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param._3;
-      if (!r) {
+      if (!param._3) {
         return [
                 param._1,
                 param._2
               ];
       }
-      _param = r;
+      _param = param._3;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1429,7 +1428,7 @@ function find$1(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1465,7 +1464,7 @@ function min_binding$1(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1475,18 +1474,17 @@ function max_binding$1(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param._3;
-      if (!r) {
+      if (!param._3) {
         return [
                 param._1,
                 param._2
               ];
       }
-      _param = r;
+      _param = param._3;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };

@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites_0 = [
   "_NaN <> _NaN",
@@ -43,7 +43,7 @@ var suites_1 = {
             return {
                     TAG: /* Eq */0,
                     _0: false,
-                    _1: Number.isFinite(Pervasives.infinity)
+                    _1: Number.isFinite(Stdlib__no_aliases.infinity)
                   };
           })
       ],
@@ -54,7 +54,7 @@ var suites_1 = {
               return {
                       TAG: /* Eq */0,
                       _0: false,
-                      _1: Number.isFinite(Pervasives.neg_infinity)
+                      _1: Number.isFinite(Stdlib__no_aliases.neg_infinity)
                     };
             })
         ],

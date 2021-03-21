@@ -145,15 +145,9 @@ eq("File \"bs_stack_test.ml\", line 140, characters 6-13", inOrder3(test1), [
 
 Mt.from_pair_suites("bs_stack_test.ml", suites.contents);
 
-var S;
-
-var Q;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
-exports.S = S;
-exports.Q = Q;
 exports.inOrder = inOrder;
 exports.inOrder3 = inOrder3;
 exports.inOrder2 = inOrder2;

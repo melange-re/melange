@@ -16,9 +16,6 @@ function randomRange(i, j) {
   return v;
 }
 
-var A;
-
-exports.A = A;
 exports.range = range;
 exports.randomRange = randomRange;
 /* No side effect */

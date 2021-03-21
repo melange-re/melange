@@ -13,7 +13,7 @@ function f_js(u) {
   return u.say(32);
 }
 
-var class_tables = /* Cons */{
+var object_tables = /* Cons */{
   key: undefined,
   data: undefined,
   next: undefined
@@ -22,11 +22,11 @@ var class_tables = /* Cons */{
 var suites_0 = [
   "caml_obj",
   (function (param) {
-      if (!class_tables.key) {
+      if (!object_tables.key) {
         var $$class = CamlinternalOO.create_table(["say"]);
         var env = CamlinternalOO.new_variable($$class, "");
         var say = CamlinternalOO.get_method_label($$class, "say");
-        CamlinternalOO.set_method($$class, say, (function (self$1, x) {
+        CamlinternalOO.set_method($$class, say, (function (self$neg1, x) {
                 return 1 + x | 0;
               }));
         var env_init = function (env$1) {
@@ -35,12 +35,12 @@ var suites_0 = [
           return self;
         };
         CamlinternalOO.init_class($$class);
-        class_tables.key = env_init;
+        object_tables.key = env_init;
       }
       return {
               TAG: /* Eq */0,
               _0: 33,
-              _1: f(Curry._1(class_tables.key, undefined))
+              _1: f(Curry._1(object_tables.key, undefined))
             };
     })
 ];

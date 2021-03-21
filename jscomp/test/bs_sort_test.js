@@ -411,28 +411,13 @@ eq("File \"bs_sort_test.ml\", line 143, characters 5-12", Belt_SortArray.strictl
 
 Mt.from_pair_suites("Bs_sort_test", suites.contents);
 
-var I;
-
-var S;
-
-var R;
-
-var A;
-
-var SI;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.I = I;
-exports.S = S;
-exports.R = R;
 exports.cmp = cmp;
-exports.A = A;
 exports.unions = unions;
 exports.inters = inters;
 exports.diffs = diffs;
-exports.SI = SI;
 exports.lt = lt;
 /*  Not a pure module */

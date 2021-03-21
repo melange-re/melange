@@ -163,28 +163,6 @@ function l_parse(token) {
             };
     }
   };
-  var parse_f_aux = function (_a) {
-    while(true) {
-      var a = _a;
-      var t = token$1(undefined);
-      if (t.TAG === /* Kwd */0) {
-        switch (t._0) {
-          case "*" :
-              _a = Math.imul(a, parse_f(undefined));
-              continue ;
-          case "/" :
-              _a = Caml_int32.div(a, parse_f(undefined));
-              continue ;
-          default:
-            Queue.push(t, look_ahead);
-            return a;
-        }
-      } else {
-        Queue.push(t, look_ahead);
-        return a;
-      }
-    };
-  };
   var parse_f = function (param) {
     var i = token$1(undefined);
     switch (i.TAG | 0) {
@@ -222,6 +200,28 @@ function l_parse(token) {
               Error: new Error()
             };
     }
+  };
+  var parse_f_aux = function (_a) {
+    while(true) {
+      var a = _a;
+      var t = token$1(undefined);
+      if (t.TAG === /* Kwd */0) {
+        switch (t._0) {
+          case "*" :
+              _a = Math.imul(a, parse_f(undefined));
+              continue ;
+          case "/" :
+              _a = Caml_int32.div(a, parse_f(undefined));
+              continue ;
+          default:
+            Queue.push(t, look_ahead);
+            return a;
+        }
+      } else {
+        Queue.push(t, look_ahead);
+        return a;
+      }
+    };
   };
   var parse_t_aux = function (_a) {
     while(true) {

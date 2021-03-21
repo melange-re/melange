@@ -1,6 +1,7 @@
 'use strict';
 
 var Curry = require("../../lib/js/curry.js");
+var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 
 function h1(u) {
   return u.p;
@@ -25,20 +26,22 @@ function h5(u) {
 }
 
 function h6(u) {
-  return u.p;
+  return Caml_oo_curry.js1(112, 1, u);
 }
 
 function h7(u) {
-  return u.m(1, 2);
+  return Caml_oo_curry.js1(109, 2, u)(1, 2);
 }
 
 function h8(u) {
-  var f = u.hi;
+  var f = Caml_oo_curry.js1(23297, 3, u);
   return Curry._2(f, 1, 2);
 }
 
 function chain_g(h) {
-  return h.x.y.z;
+  var tmp = Caml_oo_curry.js1(120, 4, h);
+  var tmp$1 = Caml_oo_curry.js1(121, 5, tmp);
+  return Caml_oo_curry.js1(122, 6, tmp$1);
 }
 
 exports.h1 = h1;

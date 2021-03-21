@@ -775,10 +775,7 @@ idtest(Belt_Array.makeBy(500, (function (i) {
 
 Mt.from_pair_suites("Js_json_test", suites.contents);
 
-var J;
-
 exports.suites = suites;
-exports.J = J;
 exports.add_test = add_test;
 exports.eq = eq;
 exports.false_ = false_;

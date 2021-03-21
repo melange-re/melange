@@ -6,7 +6,11 @@ function $$eval(_bdd, vars) {
   while(true) {
     var bdd = _bdd;
     if (typeof bdd === "number") {
-      return bdd === 0;
+      if (bdd) {
+        return false;
+      } else {
+        return true;
+      }
     }
     if (Caml_array.get(vars, bdd._1)) {
       _bdd = bdd._3;
@@ -19,7 +23,7 @@ function $$eval(_bdd, vars) {
 
 function getId(bdd) {
   if (typeof bdd === "number") {
-    if (bdd !== 0) {
+    if (bdd) {
       return 0;
     } else {
       return 1;
@@ -191,7 +195,7 @@ function hash(x, y) {
 
 function not(n) {
   if (typeof n === "number") {
-    if (n !== 0) {
+    if (n) {
       return /* One */0;
     } else {
       return /* Zero */1;
@@ -210,7 +214,7 @@ function not(n) {
 
 function and2(n1, n2) {
   if (typeof n1 === "number") {
-    if (n1 !== 0) {
+    if (n1) {
       return /* Zero */1;
     } else {
       return n2;
@@ -221,7 +225,7 @@ function and2(n1, n2) {
   var v1 = n1._1;
   var l1 = n1._0;
   if (typeof n2 === "number") {
-    if (n2 !== 0) {
+    if (n2) {
       return /* Zero */1;
     } else {
       return n1;
@@ -257,7 +261,7 @@ function and2(n1, n2) {
 
 function xor(n1, n2) {
   if (typeof n1 === "number") {
-    if (n1 !== 0) {
+    if (n1) {
       return n2;
     } else {
       return not(n2);
@@ -268,7 +272,7 @@ function xor(n1, n2) {
   var v1 = n1._1;
   var l1 = n1._0;
   if (typeof n2 === "number") {
-    if (n2 !== 0) {
+    if (n2) {
       return n1;
     } else {
       return not(n1);

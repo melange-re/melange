@@ -6,26 +6,26 @@ var Curry = require("../../lib/js/curry.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Format = require("../../lib/js/format.js");
 var Mt_global = require("./mt_global.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Float_array = require("./float_array.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var buf = $$Buffer.create(50);
 
 var fmt = Format.formatter_of_buffer(buf);
 
 function print_float(f) {
-  return Curry._1(Format.fprintf(fmt, /* Format */{
+  return Curry._1(Format.fprintf(fmt)(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,
                     _1: /* End_of_format */0
                   },
                   _1: "%s"
-                }), Pervasives.string_of_float(f));
+                }), Stdlib__no_aliases.string_of_float(f));
 }
 
 function print_newline(param) {
-  return Format.fprintf(fmt, /* Format */{
+  return Format.fprintf(fmt)(/* Format */{
               _0: {
                 TAG: /* Char_literal */12,
                 _0: /* '\n' */10,

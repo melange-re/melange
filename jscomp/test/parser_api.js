@@ -23,13 +23,13 @@ var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_int32 = require("../../lib/js/caml_int32.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 var standard_library_default = "/Users/chenglou/Github/bucklescript/vendor/ocaml/lib/ocaml";
@@ -41,7 +41,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === "Not_found") {
+  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
     standard_library = standard_library_default;
   } else {
     throw exn;
@@ -774,7 +774,7 @@ var Clflags = {
 var Fatal_error = /* @__PURE__ */Caml_exceptions.create("Parser_api.Misc.Fatal_error");
 
 function fatal_error(msg) {
-  Pervasives.prerr_string(">> Fatal error: ");
+  Stdlib__no_aliases.prerr_string(">> Fatal error: ");
   console.error(msg);
   throw {
         RE_EXN_ID: Fatal_error,
@@ -869,15 +869,14 @@ function list_remove(x, param) {
 
 function split_last(param) {
   if (param) {
-    var tl = param.tl;
     var x = param.hd;
-    if (!tl) {
+    if (!param.tl) {
       return [
               /* [] */0,
               x
             ];
     }
-    var match = split_last(tl);
+    var match = split_last(param.tl);
     return [
             {
               hd: x,
@@ -948,7 +947,7 @@ function find_in_path(path, name) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -957,7 +956,7 @@ function find_in_path(path, name) {
     return name;
   }
   throw {
-        RE_EXN_ID: "Not_found",
+        RE_EXN_ID: Stdlib__no_aliases.Not_found,
         Error: new Error()
       };
 }
@@ -990,7 +989,7 @@ function find_in_path_rel(path, name) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1015,7 +1014,7 @@ function find_in_path_uncap(path, name) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1027,7 +1026,7 @@ function remove_file(filename) {
   }
   catch (raw_msg){
     var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-    if (msg.RE_EXN_ID === "Sys_error") {
+    if (msg.RE_EXN_ID === Stdlib__no_aliases.Sys_error) {
       return ;
     }
     throw msg;
@@ -1054,11 +1053,11 @@ function copy_file(ic, oc) {
   var buff = Caml_bytes.caml_create_bytes(4096);
   var _param;
   while(true) {
-    var n = Pervasives.input(ic, buff, 0, 4096);
+    var n = Stdlib__no_aliases.input(ic, buff, 0, 4096);
     if (n === 0) {
       return ;
     }
-    Pervasives.output(oc, buff, 0, n);
+    Stdlib__no_aliases.output(oc, buff, 0, n);
     _param = undefined;
     continue ;
   };
@@ -1072,14 +1071,14 @@ function copy_file_chunk(ic, oc, len) {
     if (n <= 0) {
       return ;
     }
-    var r = Pervasives.input(ic, buff, 0, n < 4096 ? n : 4096);
+    var r = Stdlib__no_aliases.input(ic, buff, 0, n < 4096 ? n : 4096);
     if (r === 0) {
       throw {
-            RE_EXN_ID: "End_of_file",
+            RE_EXN_ID: Stdlib__no_aliases.End_of_file,
             Error: new Error()
           };
     }
-    Pervasives.output(oc, buff, 0, r);
+    Stdlib__no_aliases.output(oc, buff, 0, r);
     _n = n - r | 0;
     continue ;
   };
@@ -1090,7 +1089,7 @@ function string_of_file(ic) {
   var buff = Caml_bytes.caml_create_bytes(4096);
   var _param;
   while(true) {
-    var n = Pervasives.input(ic, buff, 0, 4096);
+    var n = Stdlib__no_aliases.input(ic, buff, 0, 4096);
     if (n === 0) {
       return $$Buffer.contents(b);
     }
@@ -1125,8 +1124,8 @@ function no_overflow_sub(a, b) {
 }
 
 function no_overflow_lsl(a) {
-  if ((Pervasives.min_int >> 1) <= a) {
-    return a <= (Pervasives.max_int >> 1);
+  if ((Stdlib__no_aliases.min_int >> 1) <= a) {
+    return a <= (Stdlib__no_aliases.max_int >> 1);
   } else {
     return false;
   }
@@ -1138,7 +1137,7 @@ function chop_extension_if_any(fname) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Invalid_argument") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
       return fname;
     }
     throw exn;
@@ -1159,7 +1158,7 @@ function chop_extensions(file) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return file;
     }
     throw exn;
@@ -1177,7 +1176,7 @@ function search_substring(pat, str, start) {
     }
     if ((i + j | 0) >= str.length) {
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     }
@@ -1202,7 +1201,7 @@ function replace_substring(before, after, str) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === "Not_found") {
+        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
           var suffix = $$String.sub(str, curr, str.length - curr | 0);
           return List.rev({
                       hd: suffix,
@@ -1355,7 +1354,7 @@ function unsafe_blit_to_bytes(src, srcoff, dst, dstoff, len) {
 function input_bytes(ic, len) {
   var tbl = create(len);
   $$Array.iter((function (str) {
-          return Pervasives.really_input(ic, str, 0, str.length);
+          return Stdlib__no_aliases.really_input(ic, str, 0, str.length);
         }), tbl);
   return tbl;
 }
@@ -1375,7 +1374,7 @@ function edit_distance(a, b, cutoff) {
   var la = a.length;
   var lb = b.length;
   var cutoff$1 = Caml.caml_int_min(la > lb ? la : lb, cutoff);
-  if (Pervasives.abs(la - lb | 0) > cutoff$1) {
+  if (Stdlib__no_aliases.abs(la - lb | 0) > cutoff$1) {
     return ;
   }
   var m = $$Array.make_matrix(la + 1 | 0, lb + 1 | 0, cutoff$1 + 1 | 0);
@@ -1421,7 +1420,7 @@ function split(s, c) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         pos2 = undefined;
       } else {
         throw exn;
@@ -1580,7 +1579,7 @@ function style_of_tag(s) {
         return cur_styles.contents.warning;
     default:
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
   }
@@ -1605,7 +1604,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         return Curry._1(partial_arg, param);
       }
       throw exn;
@@ -1625,7 +1624,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         return Curry._1(partial_arg$1, param);
       }
       throw exn;
@@ -2308,16 +2307,15 @@ function message(s) {
       case /* Method_override */2 :
           var match = s._0;
           if (match) {
-            var slist = match.tl;
             var lab = match.hd;
-            if (slist) {
+            if (match.tl) {
               return $$String.concat(" ", {
                           hd: "the following methods are overridden by the class",
                           tl: {
                             hd: lab,
                             tl: {
                               hd: ":\n ",
-                              tl: slist
+                              tl: match.tl
                             }
                           }
                         });
@@ -2346,16 +2344,15 @@ function message(s) {
       case /* Instance_variable_override */5 :
           var match$1 = s._0;
           if (match$1) {
-            var slist$1 = match$1.tl;
             var lab$1 = match$1.hd;
-            if (slist$1) {
+            if (match$1.tl) {
               return $$String.concat(" ", {
                           hd: "the following instance variables are overridden by the class",
                           tl: {
                             hd: lab$1,
                             tl: {
                               hd: ":\n ",
-                              tl: slist$1
+                              tl: match$1.tl
                             }
                           }
                         }) + "\nThe behaviour changed in ocaml 3.10 (previous behaviour was hiding.)";
@@ -2486,13 +2483,13 @@ function message(s) {
             return "unused extension constructor " + (s$4 + ".");
           }
       case /* Name_out_of_scope */23 :
-          var slist$2 = s._1;
+          var slist = s._1;
           var ty = s._0;
-          if (slist$2 && !slist$2.tl && !s._2) {
-            return slist$2.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
+          if (slist && !slist.tl && !s._2) {
+            return slist.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
           }
           if (s._2) {
-            return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + ($$String.concat(" ", slist$2) + ".\nThey will not be selected if the type becomes unknown.")));
+            return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + ($$String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
           }
           throw {
                 RE_EXN_ID: "Assert_failure",
@@ -2505,9 +2502,9 @@ function message(s) {
               };
           break;
       case /* Ambiguous_name */24 :
-          var slist$3 = s._0;
-          if (slist$3 && !slist$3.tl && !s._2) {
-            return slist$3.hd + (" belongs to several types: " + ($$String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
+          var slist$1 = s._0;
+          if (slist$1 && !slist$1.tl && !s._2) {
+            return slist$1.hd + (" belongs to several types: " + ($$String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
           }
           if (s._2) {
             return "these field labels belong to several types: " + ($$String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
@@ -2666,7 +2663,7 @@ var nerrors = {
 function print(ppf, w) {
   var msg = message(w);
   var num = number(w);
-  Curry._2(Format.fprintf(ppf, /* Format */{
+  Curry._2(Format.fprintf(ppf)(/* Format */{
             _0: {
               TAG: /* Int */4,
               _0: /* Int_d */0,
@@ -2695,7 +2692,7 @@ function print(ppf, w) {
 function super_print(message, ppf, w) {
   var msg = Curry._1(message, w);
   var num = number(w);
-  Curry._1(Format.fprintf(ppf, /* Format */{
+  Curry._1(Format.fprintf(ppf)(/* Format */{
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
@@ -3122,7 +3119,7 @@ function help_warnings(param) {
     }
     
   }
-  return Pervasives.exit(0);
+  return Stdlib__no_aliases.exit(0);
 }
 
 var Warnings = {
@@ -3259,7 +3256,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw {
-          RE_EXN_ID: Pervasives.Exit,
+          RE_EXN_ID: Stdlib__no_aliases.Exit,
           Error: new Error()
         };
   }
@@ -3272,17 +3269,17 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   if (lines >= (num_lines - 2 | 0)) {
     throw {
-          RE_EXN_ID: Pervasives.Exit,
+          RE_EXN_ID: Stdlib__no_aliases.Exit,
           Error: new Error()
         };
   }
-  Caml_io.caml_ml_flush(Pervasives.stdout);
+  Caml_io.caml_ml_flush(Stdlib__no_aliases.stdout);
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   var bol = false;
-  Pervasives.print_string("# ");
+  Stdlib__no_aliases.print_string("# ");
   for(var pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos){
     if (bol) {
-      Pervasives.print_string("  ");
+      Stdlib__no_aliases.print_string("  ");
       bol = false;
     }
     if (List.exists((function(pos){
@@ -3300,19 +3297,19 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
     }
     var c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
-    Pervasives.print_char(c);
+    Stdlib__no_aliases.print_char(c);
     bol = c === /* '\n' */10;
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  return Caml_io.caml_ml_flush(Pervasives.stdout);
+  return Caml_io.caml_ml_flush(Stdlib__no_aliases.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw {
-          RE_EXN_ID: Pervasives.Exit,
+          RE_EXN_ID: Stdlib__no_aliases.Exit,
           Error: new Error()
         };
   }
@@ -3331,7 +3328,7 @@ function highlight_dumb(ppf, lb, loc) {
     }
     
   }
-  Curry._2(Format.fprintf(ppf, /* Format */{
+  Curry._2(Format.fprintf(ppf)(/* Format */{
             _0: {
               TAG: /* String_literal */11,
               _0: "Characters ",
@@ -3392,7 +3389,7 @@ function highlight_dumb(ppf, lb, loc) {
       
     } else {
       if (line === line_start && line === line_end) {
-        Format.fprintf(ppf, /* Format */{
+        Format.fprintf(ppf)(/* Format */{
               _0: {
                 TAG: /* Formatting_lit */17,
                 _0: /* Flush_newline */4,
@@ -3412,7 +3409,7 @@ function highlight_dumb(ppf, lb, loc) {
         }
       }
       if (line >= line_start && line <= line_end) {
-        Format.fprintf(ppf, /* Format */{
+        Format.fprintf(ppf)(/* Format */{
               _0: {
                 TAG: /* Formatting_lit */17,
                 _0: /* Flush_newline */4,
@@ -3436,7 +3433,7 @@ function highlight_locations(ppf, locs) {
   while(true) {
     var num_lines = status.contents;
     if (typeof num_lines === "number") {
-      if (num_lines !== 0) {
+      if (num_lines) {
         var lb = input_lexbuf.contents;
         if (lb === undefined) {
           return false;
@@ -3447,7 +3444,7 @@ function highlight_locations(ppf, locs) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === "Not_found") {
+          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
             norepeat = false;
           } else {
             throw exn;
@@ -3463,13 +3460,13 @@ function highlight_locations(ppf, locs) {
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Pervasives.Exit) {
+          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Exit) {
             return false;
           }
           throw exn$1;
         }
       } else {
-        status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Pervasives.stdout);
+        status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib__no_aliases.stdout);
         continue ;
       }
     } else {
@@ -3483,7 +3480,7 @@ function highlight_locations(ppf, locs) {
       }
       catch (raw_exn$2){
         var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-        if (exn$2.RE_EXN_ID === Pervasives.Exit) {
+        if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Exit) {
           return false;
         }
         throw exn$2;
@@ -3525,7 +3522,7 @@ function show_filename(file) {
 }
 
 function print_filename(ppf, file) {
-  return Curry._1(Format.fprintf(ppf, /* Format */{
+  return Curry._1(Format.fprintf(ppf)(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,
@@ -3562,7 +3559,7 @@ function print_loc(ppf, loc) {
           })) {
       return ;
     } else {
-      return Curry._2(Format.fprintf(ppf, /* Format */{
+      return Curry._2(Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Characters ",
@@ -3588,7 +3585,7 @@ function print_loc(ppf, loc) {
                     }), loc.loc_start.pos_cnum, loc.loc_end.pos_cnum);
     }
   } else {
-    Curry._5(Format.fprintf(ppf, /* Format */{
+    Curry._5(Format.fprintf(ppf)(/* Format */{
               _0: {
                 TAG: /* String */2,
                 _0: /* No_padding */0,
@@ -3624,7 +3621,7 @@ function print_loc(ppf, loc) {
               _1: "%s@{<loc>%a%s%i"
             }), "File \"", print_filename, file, "\", line ", match[1]);
     if (startchar$1 >= 0) {
-      Curry._4(Format.fprintf(ppf, /* Format */{
+      Curry._4(Format.fprintf(ppf)(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -3649,7 +3646,7 @@ function print_loc(ppf, loc) {
                 _1: "%s%i%s%i"
               }), ", characters ", startchar$1, "-", endchar);
     }
-    return Format.fprintf(ppf, /* Format */{
+    return Format.fprintf(ppf)(/* Format */{
                 _0: {
                   TAG: /* Formatting_lit */17,
                   _0: /* Close_tag */1,
@@ -3668,7 +3665,7 @@ function print$1(ppf, loc) {
         })) {
     return ;
   } else {
-    return Curry._3(Format.fprintf(ppf, /* Format */{
+    return Curry._3(Format.fprintf(ppf)(/* Format */{
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
@@ -3708,7 +3705,7 @@ var error_prefix = "Error";
 
 function print_error_prefix(ppf, param) {
   Curry._1(Misc_Color.setup, color.contents);
-  Curry._1(Format.fprintf(ppf, /* Format */{
+  Curry._1(Format.fprintf(ppf)(/* Format */{
             _0: {
               TAG: /* Formatting_gen */18,
               _0: {
@@ -3754,7 +3751,7 @@ function default_warning_printer(loc, ppf, w) {
   if (is_active(w)) {
     Curry._1(Misc_Color.setup, color.contents);
     print$1(ppf, loc);
-    return Curry._3(Format.fprintf(ppf, /* Format */{
+    return Curry._3(Format.fprintf(ppf)(/* Format */{
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
@@ -3920,7 +3917,7 @@ function default_error_reporter(ppf, err) {
   if (highlighted) {
     return Format.pp_print_string(ppf, if_highlight);
   } else {
-    Curry._5(Format.fprintf(ppf, /* Format */{
+    Curry._5(Format.fprintf(ppf)(/* Format */{
               _0: {
                 TAG: /* Alpha */15,
                 _0: {
@@ -3938,7 +3935,7 @@ function default_error_reporter(ppf, err) {
               },
               _1: "%a%a %s"
             }), print$1, err.loc, print_error_prefix, undefined, err.msg);
-    return List.iter(Curry._1(Format.fprintf(ppf, /* Format */{
+    return List.iter(Curry._1(Format.fprintf(ppf)(/* Format */{
                         _0: {
                           TAG: /* Formatting_lit */17,
                           _0: /* Force_newline */3,
@@ -3997,7 +3994,7 @@ function error_of_printer_file(print, x) {
 }
 
 register_error_of_exn(function (msg) {
-      if (msg.RE_EXN_ID === "Sys_error") {
+      if (msg.RE_EXN_ID === Stdlib__no_aliases.Sys_error) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -4043,7 +4040,7 @@ function report_exception(ppf, exn) {
     try {
       var err = error_of_exn$1(exn$1);
       if (err !== undefined) {
-        return Curry._2(Format.fprintf(ppf, /* Format */{
+        return Curry._2(Format.fprintf(ppf)(/* Format */{
                         _0: {
                           TAG: /* Formatting_gen */18,
                           _0: {
@@ -4208,7 +4205,7 @@ function split_at_dots(s, pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return {
               hd: $$String.sub(s, pos, s.length - pos | 0),
               tl: /* [] */0
@@ -4360,7 +4357,7 @@ function add_docs_attrs(docs, attrs) {
       }) : attrs;
   var ds$1 = docs.docs_post;
   if (ds$1 !== undefined) {
-    return Pervasives.$at(attrs$1, {
+    return Stdlib__no_aliases.$at(attrs$1, {
                 hd: docs_attr(ds$1),
                 tl: /* [] */0
               });
@@ -4371,7 +4368,7 @@ function add_docs_attrs(docs, attrs) {
 
 function add_info_attrs(info, attrs) {
   if (info !== undefined) {
-    return Pervasives.$at(attrs, {
+    return Stdlib__no_aliases.$at(attrs, {
                 hd: docs_attr(info),
                 tl: /* [] */0
               });
@@ -4423,7 +4420,7 @@ function text_attr(ds) {
 }
 
 function add_text_attrs(dsl, attrs) {
-  return Pervasives.$at(List.map(text_attr, dsl), attrs);
+  return Stdlib__no_aliases.$at(List.map(text_attr, dsl), attrs);
 }
 
 function get_docstring(info, dsl) {
@@ -4472,7 +4469,7 @@ function get_docstrings(dsl) {
 function associate_docstrings(dsl) {
   return List.iter((function (ds) {
                 var match = ds.ds_associated;
-                if (match !== 0) {
+                if (match) {
                   ds.ds_associated = /* Many */2;
                 } else {
                   ds.ds_associated = /* One */1;
@@ -4484,7 +4481,7 @@ function associate_docstrings(dsl) {
 var pre_table = Hashtbl.create(undefined, 50);
 
 function set_pre_docstrings(pos, dsl) {
-  if (dsl !== /* [] */0) {
+  if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
     return Hashtbl.add(pre_table, pos, dsl);
   }
   
@@ -4498,7 +4495,7 @@ function get_pre_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4511,7 +4508,7 @@ function mark_pre_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4521,7 +4518,7 @@ function mark_pre_docs(pos) {
 var post_table = Hashtbl.create(undefined, 50);
 
 function set_post_docstrings(pos, dsl) {
-  if (dsl !== /* [] */0) {
+  if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
     return Hashtbl.add(post_table, pos, dsl);
   }
   
@@ -4535,7 +4532,7 @@ function get_post_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4548,7 +4545,7 @@ function mark_post_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4562,7 +4559,7 @@ function get_info(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return ;
     }
     throw exn;
@@ -4572,7 +4569,7 @@ function get_info(pos) {
 var floating_table = Hashtbl.create(undefined, 50);
 
 function set_floating_docstrings(pos, dsl) {
-  if (dsl !== /* [] */0) {
+  if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
     return Hashtbl.add(floating_table, pos, dsl);
   }
   
@@ -4584,7 +4581,7 @@ function get_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -4594,7 +4591,7 @@ function get_text(pos) {
 var pre_extra_table = Hashtbl.create(undefined, 50);
 
 function set_pre_extra_docstrings(pos, dsl) {
-  if (dsl !== /* [] */0) {
+  if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
     return Hashtbl.add(pre_extra_table, pos, dsl);
   }
   
@@ -4606,7 +4603,7 @@ function get_pre_extra_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -4616,7 +4613,7 @@ function get_pre_extra_text(pos) {
 var post_extra_table = Hashtbl.create(undefined, 50);
 
 function set_post_extra_docstrings(pos, dsl) {
-  if (dsl !== /* [] */0) {
+  if (Caml_obj.caml_notequal(dsl, /* [] */0)) {
     return Hashtbl.add(post_extra_table, pos, dsl);
   }
   
@@ -4628,7 +4625,7 @@ function get_post_extra_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -4818,7 +4815,7 @@ function attr(d, a) {
   return {
           ptyp_desc: d.ptyp_desc,
           ptyp_loc: d.ptyp_loc,
-          ptyp_attributes: Pervasives.$at(d.ptyp_attributes, {
+          ptyp_attributes: Stdlib__no_aliases.$at(d.ptyp_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -4958,7 +4955,7 @@ function attr$1(d, a) {
   return {
           ppat_desc: d.ppat_desc,
           ppat_loc: d.ppat_loc,
-          ppat_attributes: Pervasives.$at(d.ppat_attributes, {
+          ppat_attributes: Stdlib__no_aliases.$at(d.ppat_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -5124,7 +5121,7 @@ function attr$2(d, a) {
   return {
           pexp_desc: d.pexp_desc,
           pexp_loc: d.pexp_loc,
-          pexp_attributes: Pervasives.$at(d.pexp_attributes, {
+          pexp_attributes: Stdlib__no_aliases.$at(d.pexp_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -5424,7 +5421,7 @@ function attr$3(d, a) {
   return {
           pmty_desc: d.pmty_desc,
           pmty_loc: d.pmty_loc,
-          pmty_attributes: Pervasives.$at(d.pmty_attributes, {
+          pmty_attributes: Stdlib__no_aliases.$at(d.pmty_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -5509,7 +5506,7 @@ function attr$4(d, a) {
   return {
           pmod_desc: d.pmod_desc,
           pmod_loc: d.pmod_loc,
-          pmod_attributes: Pervasives.$at(d.pmod_attributes, {
+          pmod_attributes: Stdlib__no_aliases.$at(d.pmod_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -5874,7 +5871,7 @@ function attr$5(d, a) {
   return {
           pcl_desc: d.pcl_desc,
           pcl_loc: d.pcl_loc,
-          pcl_attributes: Pervasives.$at(d.pcl_attributes, {
+          pcl_attributes: Stdlib__no_aliases.$at(d.pcl_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -5964,7 +5961,7 @@ function attr$6(d, a) {
   return {
           pcty_desc: d.pcty_desc,
           pcty_loc: d.pcty_loc,
-          pcty_attributes: Pervasives.$at(d.pcty_attributes, {
+          pcty_attributes: Stdlib__no_aliases.$at(d.pcty_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -6087,7 +6084,7 @@ function attr$7(d, a) {
   return {
           pctf_desc: d.pctf_desc,
           pctf_loc: d.pctf_loc,
-          pctf_attributes: Pervasives.$at(d.pctf_attributes, {
+          pctf_attributes: Stdlib__no_aliases.$at(d.pctf_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -6192,7 +6189,7 @@ function attr$8(d, a) {
   return {
           pcf_desc: d.pcf_desc,
           pcf_loc: d.pcf_loc,
-          pcf_attributes: Pervasives.$at(d.pcf_attributes, {
+          pcf_attributes: Stdlib__no_aliases.$at(d.pcf_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -7079,7 +7076,7 @@ function mkexp_constraint(e, param) {
       return ghexp({
                   TAG: /* Pexp_constraint */19,
                   _0: e,
-                  _1: t1
+                  _1: Caml_option.valFromOption(t1)
                 });
     }
   }
@@ -7256,8 +7253,8 @@ function varify_constructors(var_names, t) {
             break;
         case /* Ptyp_constr */3 :
             var longident = x._0;
-            var s = longident.txt;
             var exit = 0;
+            var s = longident.txt;
             switch (s.TAG | 0) {
               case /* Lident */0 :
                   if (x._1) {
@@ -7417,7 +7414,7 @@ function wrap_exp_attrs(body, param) {
   var ext = param[0];
   var body_pexp_desc = body.pexp_desc;
   var body_pexp_loc = body.pexp_loc;
-  var body_pexp_attributes = Pervasives.$at(param[1], body.pexp_attributes);
+  var body_pexp_attributes = Stdlib__no_aliases.$at(param[1], body.pexp_attributes);
   var body$1 = {
     pexp_desc: body_pexp_desc,
     pexp_loc: body_pexp_loc,
@@ -7455,7 +7452,7 @@ function text_def(pos) {
 function extra_text(text, pos, items) {
   var pre_extras = get_pre_extra_text(Parsing.rhs_start_pos(pos));
   var post_extras = get_post_extra_text(Parsing.rhs_end_pos(pos));
-  return Pervasives.$at(Curry._1(text, pre_extras), Pervasives.$at(items, Curry._1(text, post_extras)));
+  return Stdlib__no_aliases.$at(Curry._1(text, pre_extras), Stdlib__no_aliases.$at(items, Curry._1(text, post_extras)));
 }
 
 function extra_cstr(pos, items) {
@@ -7655,14 +7652,14 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: "End_of_file",
+            RE_EXN_ID: Stdlib__no_aliases.End_of_file,
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: mkstrexp(_1, _2),
                   tl: /* [] */0
                 });
@@ -7676,7 +7673,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
@@ -7701,7 +7698,7 @@ var yyact = [
       var _1 = Parsing.peek_val(__caml_parser_env, 2);
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text_def(1), {
+      return Stdlib__no_aliases.$at(text_def(1), {
                   hd: {
                     TAG: /* Ptop_def */0,
                     _0: {
@@ -7723,7 +7720,7 @@ var yyact = [
       var _3 = Parsing.peek_val(__caml_parser_env, 1);
       var _4 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(2, 3);
-      return Pervasives.$at(text_def(1), Pervasives.$at(text_def(2), {
+      return Stdlib__no_aliases.$at(text_def(1), Stdlib__no_aliases.$at(text_def(2), {
                       hd: {
                         TAG: /* Ptop_def */0,
                         _0: {
@@ -7737,7 +7734,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text_def(1), Pervasives.$at(text_def(2), {
+      return Stdlib__no_aliases.$at(text_def(1), Stdlib__no_aliases.$at(text_def(2), {
                       hd: {
                         TAG: /* Ptop_def */0,
                         _0: {
@@ -7752,7 +7749,7 @@ var yyact = [
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(2, 3);
-      return Pervasives.$at(text_def(1), Pervasives.$at(text_def(2), {
+      return Stdlib__no_aliases.$at(text_def(1), Stdlib__no_aliases.$at(text_def(2), {
                       hd: _2,
                       tl: _3
                     }));
@@ -7760,7 +7757,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text_def(1), {
+      return Stdlib__no_aliases.$at(text_def(1), {
                   hd: {
                     TAG: /* Ptop_def */0,
                     _0: {
@@ -7775,7 +7772,7 @@ var yyact = [
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(1, 1);
-      return Pervasives.$at(text_def(1), {
+      return Stdlib__no_aliases.$at(text_def(1), {
                   hd: _1,
                   tl: _2
                 });
@@ -7996,7 +7993,7 @@ var yyact = [
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(1, 2);
-      return Pervasives.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: mkstrexp(_1, _2),
                   tl: _3
                 });
@@ -8009,12 +8006,12 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text$1(get_text(Parsing.rhs_start_pos(1))), _2);
+      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), _2);
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
@@ -8043,7 +8040,7 @@ var yyact = [
         exit = 1;
       }
       if (exit === 1) {
-        if (lbs.lbs_attributes !== /* [] */0) {
+        if (Caml_obj.caml_notequal(lbs.lbs_attributes, /* [] */0)) {
           throw {
                 RE_EXN_ID: $$Error$1,
                 _1: {
@@ -8320,12 +8317,12 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text(get_text(Parsing.rhs_start_pos(1))), _2);
+      return Stdlib__no_aliases.$at(text(get_text(Parsing.rhs_start_pos(1))), _2);
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at(text(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib__no_aliases.$at(text(get_text(Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
@@ -8657,7 +8654,7 @@ var yyact = [
       var _1 = Parsing.peek_val(__caml_parser_env, 2);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
       var bindings = List.map((function (lb) {
-              if (lb.lb_attributes !== /* [] */0) {
+              if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
                 throw {
                       RE_EXN_ID: $$Error$1,
                       _1: {
@@ -8681,7 +8678,7 @@ var yyact = [
               Error: new Error()
             };
       }
-      if (_1.lbs_attributes !== /* [] */0) {
+      if (Caml_obj.caml_notequal(_1.lbs_attributes, /* [] */0)) {
         throw {
               RE_EXN_ID: $$Error$1,
               _1: {
@@ -8795,7 +8792,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at({
+      return Stdlib__no_aliases.$at({
                   hd: _2,
                   tl: Curry._1(Ast_helper_Cf.text, get_text(Parsing.rhs_start_pos(2)))
                 }, _1);
@@ -9169,7 +9166,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Pervasives.$at({
+      return Stdlib__no_aliases.$at({
                   hd: _2,
                   tl: Curry._1(Ast_helper_Ctf.text, get_text(Parsing.rhs_start_pos(2)))
                 }, _1);
@@ -9511,7 +9508,7 @@ var yyact = [
       var _1 = Parsing.peek_val(__caml_parser_env, 2);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
       var bindings = List.map((function (lb) {
-              if (lb.lb_attributes !== /* [] */0) {
+              if (Caml_obj.caml_notequal(lb.lb_attributes, /* [] */0)) {
                 throw {
                       RE_EXN_ID: $$Error$1,
                       _1: {
@@ -11920,7 +11917,7 @@ var yyact = [
       var _4 = Parsing.peek_val(__caml_parser_env, 2);
       var _5 = Parsing.peek_val(__caml_parser_env, 1);
       var _6 = Parsing.peek_val(__caml_parser_env, 0);
-      return rebind(symbol_rloc(undefined), Pervasives.$at(_5, _6), symbol_docs(undefined), undefined, {
+      return rebind(symbol_rloc(undefined), Stdlib__no_aliases.$at(_5, _6), symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, {
@@ -11933,7 +11930,7 @@ var yyact = [
       var _3 = Parsing.peek_val(__caml_parser_env, 2);
       var _4 = Parsing.peek_val(__caml_parser_env, 1);
       var _5 = Parsing.peek_val(__caml_parser_env, 0);
-      return decl(symbol_rloc(undefined), Pervasives.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
+      return decl(symbol_rloc(undefined), Stdlib__no_aliases.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
                   txt: _2,
                   loc: rhs_loc(2)
                 });
@@ -12006,7 +12003,7 @@ var yyact = [
       var _7 = Parsing.peek_val(__caml_parser_env, 0);
       var info_before_semi = get_info(Parsing.rhs_end_pos(5));
       var info = info_before_semi !== undefined ? info_before_semi : get_info(Parsing.symbol_end_pos(undefined));
-      return field$1(symbol_rloc(undefined), Pervasives.$at(_5, _7), Caml_option.some(info), _1, {
+      return field$1(symbol_rloc(undefined), Stdlib__no_aliases.$at(_5, _7), Caml_option.some(info), _1, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _4);
@@ -13876,7 +13873,7 @@ try {
 }
 catch (raw_exn$1){
   var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$2.RE_EXN_ID === "Not_found") {
+  if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
     tmp = "";
   } else {
     throw exn$2;
@@ -14082,7 +14079,7 @@ function pp_directive_value(fmt, x) {
     case /* Dir_int */2 :
         return Format.pp_print_int(fmt, x._0);
     case /* Dir_string */3 :
-        return Curry._1(Format.fprintf(fmt, /* Format */{
+        return Curry._1(Format.fprintf(fmt)(/* Format */{
                         _0: {
                           TAG: /* Caml_string */3,
                           _0: /* No_padding */0,
@@ -14096,7 +14093,7 @@ function pp_directive_value(fmt, x) {
 
 function list_variables(fmt) {
   return Hashtbl.iter((function (s, dir_value) {
-                return Curry._3(Format.fprintf(fmt, /* Format */{
+                return Curry._3(Format.fprintf(fmt)(/* Format */{
                                 _0: {
                                   TAG: /* Formatting_gen */18,
                                   _0: {
@@ -14165,7 +14162,7 @@ function query(loc, str) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === "Not_found") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       var exit = 0;
       var v$1;
       try {
@@ -14174,7 +14171,7 @@ function query(loc, str) {
       }
       catch (raw_exn$1){
         var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-        if (exn$1.RE_EXN_ID === "Not_found") {
+        if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
           return {
                   TAG: /* Dir_bool */0,
                   _0: false
@@ -14186,7 +14183,7 @@ function query(loc, str) {
         try {
           return {
                   TAG: /* Dir_bool */0,
-                  _0: Pervasives.bool_of_string(v$1)
+                  _0: Stdlib__no_aliases.bool_of_string(v$1)
                 };
         }
         catch (exn$2){
@@ -14235,7 +14232,7 @@ function define_key_value(key, v) {
   try {
     tmp = {
       TAG: /* Dir_bool */0,
-      _0: Pervasives.bool_of_string(v)
+      _0: Stdlib__no_aliases.bool_of_string(v)
     };
   }
   catch (exn){
@@ -14497,7 +14494,11 @@ function directive_parse(token_with_comments, lexbuf) {
   };
   var parse_and_aux = function (calc, v) {
     var e = token(undefined);
-    if (e === 0) {
+    if (typeof e === "number") {
+      if (e) {
+        push(e);
+        return v;
+      }
       var calc$1 = calc && v;
       var b = parse_and_aux(calc$1, parse_relation(calc$1));
       if (v) {
@@ -15096,7 +15097,7 @@ var comment_start_loc = {
 };
 
 function in_comment(param) {
-  return comment_start_loc.contents !== /* [] */0;
+  return Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0);
 }
 
 var is_in_string = {
@@ -15175,7 +15176,7 @@ function char_for_decimal_code(lexbuf, i) {
   if (!(c < 0 || c > 255)) {
     return Char.chr(c);
   }
-  if (comment_start_loc.contents !== /* [] */0) {
+  if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
     return /* 'x' */120;
   }
   throw {
@@ -15316,7 +15317,7 @@ function report_error$2(ppf, c) {
   if (typeof c === "number") {
     switch (c) {
       case /* Unterminated_string */0 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "String literal not terminated",
@@ -15325,7 +15326,7 @@ function report_error$2(ppf, c) {
                       _1: "String literal not terminated"
                     });
       case /* Unterminated_paren_in_conditional */1 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Unterminated parens in conditional predicate",
@@ -15334,7 +15335,7 @@ function report_error$2(ppf, c) {
                       _1: "Unterminated parens in conditional predicate"
                     });
       case /* Unterminated_if */2 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "#if not terminated",
@@ -15343,7 +15344,7 @@ function report_error$2(ppf, c) {
                       _1: "#if not terminated"
                     });
       case /* Unterminated_else */3 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "#else not terminated",
@@ -15352,7 +15353,7 @@ function report_error$2(ppf, c) {
                       _1: "#else not terminated"
                     });
       case /* Unexpected_token_in_conditional */4 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Unexpected token in conditional predicate",
@@ -15361,7 +15362,7 @@ function report_error$2(ppf, c) {
                       _1: "Unexpected token in conditional predicate"
                     });
       case /* Expect_hash_then_in_conditional */5 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Expect `then` after conditional predicate",
@@ -15370,7 +15371,7 @@ function report_error$2(ppf, c) {
                       _1: "Expect `then` after conditional predicate"
                     });
       case /* Unexpected_directive */6 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Unexpected directive",
@@ -15383,7 +15384,7 @@ function report_error$2(ppf, c) {
   } else {
     switch (c.TAG | 0) {
       case /* Illegal_character */0 :
-          return Curry._1(Format.fprintf(ppf, /* Format */{
+          return Curry._1(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Illegal character (",
@@ -15400,7 +15401,7 @@ function report_error$2(ppf, c) {
                           _1: "Illegal character (%s)"
                         }), Char.escaped(c._0));
       case /* Illegal_escape */1 :
-          return Curry._1(Format.fprintf(ppf, /* Format */{
+          return Curry._1(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Illegal backslash escape in string or character (",
@@ -15417,7 +15418,7 @@ function report_error$2(ppf, c) {
                           _1: "Illegal backslash escape in string or character (%s)"
                         }), c._0);
       case /* Unterminated_comment */2 :
-          return Format.fprintf(ppf, /* Format */{
+          return Format.fprintf(ppf)(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Comment not terminated",
@@ -15426,7 +15427,7 @@ function report_error$2(ppf, c) {
                       _1: "Comment not terminated"
                     });
       case /* Unterminated_string_in_comment */3 :
-          return Curry._2(Format.fprintf(ppf, /* Format */{
+          return Curry._2(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "This comment contains an unterminated string literal",
@@ -15446,7 +15447,7 @@ function report_error$2(ppf, c) {
                           _1: "This comment contains an unterminated string literal@.%aString literal begins here"
                         }), print_error, c._1);
       case /* Keyword_as_label */4 :
-          return Curry._1(Format.fprintf(ppf, /* Format */{
+          return Curry._1(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* Char_literal */12,
                             _0: /* '`' */96,
@@ -15463,7 +15464,7 @@ function report_error$2(ppf, c) {
                           _1: "`%s' is a keyword, it cannot be used as label name"
                         }), c._0);
       case /* Literal_overflow */5 :
-          return Curry._1(Format.fprintf(ppf, /* Format */{
+          return Curry._1(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Integer literal exceeds the range of representable integers of type ",
@@ -15476,7 +15477,7 @@ function report_error$2(ppf, c) {
                           _1: "Integer literal exceeds the range of representable integers of type %s"
                         }), c._0);
       case /* Illegal_semver */6 :
-          return Curry._1(Format.fprintf(ppf, /* Format */{
+          return Curry._1(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Illegal semantic version string ",
@@ -15489,7 +15490,7 @@ function report_error$2(ppf, c) {
                           _1: "Illegal semantic version string %s"
                         }), c._0);
       case /* Conditional_expr_expected_type */7 :
-          return Curry._2(Format.fprintf(ppf, /* Format */{
+          return Curry._2(Format.fprintf(ppf)(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Conditional expression type mismatch (",
@@ -15606,7 +15607,7 @@ function token(lexbuf) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === "Not_found") {
+            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
               return {
                       TAG: /* LIDENT */11,
                       _0: s
@@ -15646,7 +15647,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.RE_EXN_ID === "Failure") {
+            if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Failure) {
               throw {
                     RE_EXN_ID: $$Error$2,
                     _1: {
@@ -15673,7 +15674,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$2){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-            if (exn$2.RE_EXN_ID === "Failure") {
+            if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Failure) {
               throw {
                     RE_EXN_ID: $$Error$2,
                     _1: {
@@ -15695,7 +15696,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$3){
             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-            if (exn$3.RE_EXN_ID === "Failure") {
+            if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Failure) {
               throw {
                     RE_EXN_ID: $$Error$2,
                     _1: {
@@ -15717,7 +15718,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$4){
             var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-            if (exn$4.RE_EXN_ID === "Failure") {
+            if (exn$4.RE_EXN_ID === Stdlib__no_aliases.Failure) {
               throw {
                     RE_EXN_ID: $$Error$2,
                     _1: {
@@ -16039,6 +16040,63 @@ function token(lexbuf) {
   };
 }
 
+function string(lexbuf) {
+  lexbuf.lex_mem = Caml_array.make(2, -1);
+  var ___ocaml_lex_state = 164;
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var __ocaml_lex_state$1 = Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          return ;
+      case 1 :
+          var space = Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          update_loc(lexbuf, undefined, 1, false, space.length);
+          return string(lexbuf);
+      case 2 :
+          store_string_char(char_for_backslash(Lexing.lexeme_char(lexbuf, 1)));
+          return string(lexbuf);
+      case 3 :
+          store_string_char(char_for_decimal_code(lexbuf, 1));
+          return string(lexbuf);
+      case 4 :
+          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
+          return string(lexbuf);
+      case 5 :
+          if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
+            return string(lexbuf);
+          }
+          var loc = curr(lexbuf);
+          prerr_warning(loc, /* Illegal_backslash */7);
+          store_string_char(Lexing.lexeme_char(lexbuf, 0));
+          store_string_char(Lexing.lexeme_char(lexbuf, 1));
+          return string(lexbuf);
+      case 6 :
+          if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
+            prerr_warning(curr(lexbuf), /* Eol_in_string */14);
+          }
+          update_loc(lexbuf, undefined, 1, false, 0);
+          store_string(Lexing.lexeme(lexbuf));
+          return string(lexbuf);
+      case 7 :
+          is_in_string.contents = false;
+          throw {
+                RE_EXN_ID: $$Error$2,
+                _1: /* Unterminated_string */0,
+                _2: string_start_loc.contents,
+                Error: new Error()
+              };
+      case 8 :
+          store_string_char(Lexing.lexeme_char(lexbuf, 0));
+          return string(lexbuf);
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
@@ -16055,9 +16113,8 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
       case 1 :
           var match = comment_start_loc.contents;
           if (match) {
-            var l = match.tl;
-            if (l) {
-              comment_start_loc.contents = l;
+            if (match.tl) {
+              comment_start_loc.contents = match.tl;
               store_string(Lexing.lexeme(lexbuf));
               ___ocaml_lex_state = 132;
               continue ;
@@ -16084,9 +16141,13 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.RE_EXN_ID === $$Error$2) {
-              if (exn._1 === 0) {
-                var match$1 = comment_start_loc.contents;
+              var match$1 = exn._1;
+              if (typeof match$1 === "number") {
                 if (match$1) {
+                  throw exn;
+                }
+                var match$2 = comment_start_loc.contents;
+                if (match$2) {
                   var start = List.hd(List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw {
@@ -16096,7 +16157,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                           _0: start,
                           _1: exn._2
                         },
-                        _2: match$1.hd,
+                        _2: match$2.hd,
                         Error: new Error()
                       };
                 }
@@ -16130,9 +16191,13 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
             if (exn$1.RE_EXN_ID === $$Error$2) {
-              if (exn$1._1 === 0) {
-                var match$2 = comment_start_loc.contents;
-                if (match$2) {
+              var match$3 = exn$1._1;
+              if (typeof match$3 === "number") {
+                if (match$3) {
+                  throw exn$1;
+                }
+                var match$4 = comment_start_loc.contents;
+                if (match$4) {
                   var start$1 = List.hd(List.rev(comment_start_loc.contents));
                   comment_start_loc.contents = /* [] */0;
                   throw {
@@ -16142,7 +16207,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                           _0: start$1,
                           _1: exn$1._2
                         },
-                        _2: match$2.hd,
+                        _2: match$4.hd,
                         Error: new Error()
                       };
                 }
@@ -16172,8 +16237,8 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           ___ocaml_lex_state = 132;
           continue ;
       case 10 :
-          var match$3 = comment_start_loc.contents;
-          if (match$3) {
+          var match$5 = comment_start_loc.contents;
+          if (match$5) {
             var start$2 = List.hd(List.rev(comment_start_loc.contents));
             comment_start_loc.contents = /* [] */0;
             throw {
@@ -16182,7 +16247,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                     TAG: /* Unterminated_comment */2,
                     _0: start$2
                   },
-                  _2: match$3.hd,
+                  _2: match$5.hd,
                   Error: new Error()
                 };
           }
@@ -16209,63 +16274,6 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           store_string(Lexing.lexeme(lexbuf));
           ___ocaml_lex_state = 132;
           continue ;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
-function string(lexbuf) {
-  lexbuf.lex_mem = Caml_array.make(2, -1);
-  var ___ocaml_lex_state = 164;
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          return ;
-      case 1 :
-          var space = Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-          update_loc(lexbuf, undefined, 1, false, space.length);
-          return string(lexbuf);
-      case 2 :
-          store_string_char(char_for_backslash(Lexing.lexeme_char(lexbuf, 1)));
-          return string(lexbuf);
-      case 3 :
-          store_string_char(char_for_decimal_code(lexbuf, 1));
-          return string(lexbuf);
-      case 4 :
-          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
-          return string(lexbuf);
-      case 5 :
-          if (comment_start_loc.contents !== /* [] */0) {
-            return string(lexbuf);
-          }
-          var loc = curr(lexbuf);
-          prerr_warning(loc, /* Illegal_backslash */7);
-          store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          store_string_char(Lexing.lexeme_char(lexbuf, 1));
-          return string(lexbuf);
-      case 6 :
-          if (comment_start_loc.contents === /* [] */0) {
-            prerr_warning(curr(lexbuf), /* Eol_in_string */14);
-          }
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Lexing.lexeme(lexbuf));
-          return string(lexbuf);
-      case 7 :
-          is_in_string.contents = false;
-          throw {
-                RE_EXN_ID: $$Error$2,
-                _1: /* Unterminated_string */0,
-                _2: string_start_loc.contents,
-                Error: new Error()
-              };
-      case 8 :
-          store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          return string(lexbuf);
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -16357,7 +16365,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
   if (typeof match === "number") {
     switch (match) {
       case /* ELSE */23 :
-          if (if_then_else$1 !== 0) {
+          if (if_then_else$1) {
             throw {
                   RE_EXN_ID: $$Error$2,
                   _1: /* Unexpected_directive */6,
@@ -16386,7 +16394,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
               var _param;
               while(true) {
                 var token = token_with_comments(lexbuf);
-                if (token === /* EOF */25) {
+                if (Caml_obj.caml_equal(token, /* EOF */25)) {
                   throw {
                         RE_EXN_ID: $$Error$2,
                         _1: /* Unterminated_if */2,
@@ -16394,7 +16402,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
                         Error: new Error()
                       };
                 }
-                if (token === /* SHARP */84 && at_bol(lexbuf)) {
+                if (Caml_obj.caml_equal(token, /* SHARP */84) && at_bol(lexbuf)) {
                   var token$1 = token_with_comments(lexbuf);
                   if (typeof token$1 === "number") {
                     if (token$1 === 24 || token$1 === 23) {
@@ -16444,7 +16452,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
     if (match._0 !== "elif") {
       return Curry._1(look_ahead, match);
     }
-    if (if_then_else$1 !== 0) {
+    if (if_then_else$1) {
       throw {
             RE_EXN_ID: $$Error$2,
             _1: /* Unexpected_directive */6,
@@ -16454,14 +16462,14 @@ function interpret_directive(lexbuf, cont, look_ahead) {
     }
     
   }
-  if (if_then_else$1 !== 0) {
+  if (if_then_else$1) {
     return Curry._1(look_ahead, match);
   }
-  var _else_seen = match === /* ELSE */23;
+  var _else_seen = Caml_obj.caml_equal(match, /* ELSE */23);
   while(true) {
     var else_seen = _else_seen;
     var token$2 = token_with_comments(lexbuf);
-    if (token$2 === /* EOF */25) {
+    if (Caml_obj.caml_equal(token$2, /* EOF */25)) {
       throw {
             RE_EXN_ID: $$Error$2,
             _1: /* Unterminated_else */3,
@@ -16469,7 +16477,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
             Error: new Error()
           };
     }
-    if (token$2 === /* SHARP */84 && at_bol(lexbuf)) {
+    if (Caml_obj.caml_equal(token$2, /* SHARP */84) && at_bol(lexbuf)) {
       var token$3 = token_with_comments(lexbuf);
       if (typeof token$3 === "number") {
         if (token$3 === 24 || token$3 === 23) {
@@ -16564,7 +16572,7 @@ function token$1(lexbuf) {
               }
               break;
           case /* EOL */100 :
-              var lines$p = lines !== 0 ? /* BlankLine */2 : /* NewLine */1;
+              var lines$p = lines ? /* BlankLine */2 : /* NewLine */1;
               _lines = lines$p;
               continue ;
           default:
@@ -16625,7 +16633,7 @@ function token$1(lexbuf) {
                 docs$p = lines >= 2 ? ({
                       TAG: /* Before */1,
                       _0: a$1,
-                      _1: Pervasives.$at(b, f),
+                      _1: Stdlib__no_aliases.$at(b, f),
                       _2: {
                         hd: doc$1,
                         tl: /* [] */0
@@ -16880,7 +16888,9 @@ var Parse = {
   pattern: pattern
 };
 
-var from_string = Lexing.from_string;
+function from_string(eta) {
+  return Lexing.from_string(undefined, eta);
+}
 
 exports.Config = Config;
 exports.Clflags = Clflags;

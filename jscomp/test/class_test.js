@@ -5,26 +5,32 @@ var Curry = require("../../lib/js/curry.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 
-var shared = ["x"];
+var shared = [
+  "move",
+  "get_x",
+  "*dummy method*"
+];
 
 var shared$1 = [
   "move",
   "get_x"
 ];
 
+var shared$2 = ["x"];
+
 function point_init($$class) {
-  var ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[2];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$1) {
-            return self$1[x];
+        (function (self$neg1) {
+            return self$neg1[x];
           }),
         move,
-        (function (self$1, d) {
-            self$1[x] = self$1[x] + d | 0;
+        (function (self$neg1, d) {
+            self$neg1[x] = self$neg1[x] + d | 0;
             
           })
       ]);
@@ -50,18 +56,18 @@ var x0 = {
 };
 
 function point2_init($$class) {
-  var ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[2];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$2) {
-            return self$2[x];
+        (function (self$neg2) {
+            return self$neg2[x];
           }),
         move,
-        (function (self$2, d) {
-            self$2[x] = self$2[x] + d | 0;
+        (function (self$neg2, d) {
+            self$neg2[x] = self$neg2[x] + d | 0;
             
           })
       ]);

@@ -103,13 +103,13 @@ function ss(x) {
 function bb(x) {
   return [
           true > x,
-          false,
-          true,
+          true < x,
+          true >= x,
           true <= x,
-          false,
+          false > x,
           false < x,
           false >= x,
-          true
+          false <= x
         ];
 }
 

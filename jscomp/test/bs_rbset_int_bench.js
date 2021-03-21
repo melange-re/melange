@@ -52,9 +52,6 @@ console.timeEnd("bs_rbset_int_bench.ml 21");
 
 var count = 1000000;
 
-var V;
-
 exports.count = count;
-exports.V = V;
 exports.bench = bench;
 /*  Not a pure module */

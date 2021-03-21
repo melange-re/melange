@@ -1595,18 +1595,12 @@ eq("File \"bs_array_test.ml\", line 339, characters 5-12", Belt_Array.getIndexBy
 
 Mt.from_pair_suites("File \"bs_array_test.ml\", line 341, characters 23-30", suites.contents);
 
-var A;
-
-var L;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.$$throw = $$throw;
 exports.neq = neq;
-exports.A = A;
-exports.L = L;
 exports.add = add;
 exports.addone = addone;
 exports.makeMatrixExn = makeMatrixExn;

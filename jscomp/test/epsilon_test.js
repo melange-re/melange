@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var v = (Number.EPSILON?Number.EPSILON:2.220446049250313e-16);
 
@@ -10,7 +10,7 @@ var suites_0 = [
   (function (param) {
       return {
               TAG: /* Eq */0,
-              _0: Pervasives.epsilon_float,
+              _0: Stdlib__no_aliases.epsilon_float,
               _1: v
             };
     })

@@ -1,14 +1,15 @@
 'use strict';
 
+var Seq = require("../../lib/js/seq.js");
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var graph = {
   hd: [
@@ -91,7 +92,7 @@ function dfs1(_nodes, graph, _visited) {
       hd: x,
       tl: visited
     };
-    _nodes = Pervasives.$at(nexts(x, graph), xs);
+    _nodes = Stdlib__no_aliases.$at(nexts(x, graph), xs);
     continue ;
   };
 }
@@ -132,7 +133,7 @@ if (!Caml_obj.caml_equal(dfs1({
       };
 }
 
-Pervasives.print_newline(undefined);
+Stdlib__no_aliases.print_newline(undefined);
 
 if (!Caml_obj.caml_equal(dfs1({
             hd: "b",
@@ -614,7 +615,7 @@ function min_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -639,15 +640,14 @@ function max_elt(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param.r;
-      if (!r) {
+      if (!param.r) {
         return param.v;
       }
-      _param = r;
+      _param = param.r;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -659,11 +659,10 @@ function max_elt_opt(_param) {
     if (!param) {
       return ;
     }
-    var r = param.r;
-    if (!r) {
+    if (!param.r) {
       return Caml_option.some(param.v);
     }
-    _param = r;
+    _param = param.r;
     continue ;
   };
 }
@@ -831,6 +830,72 @@ function inter(s1, s2) {
   } else {
     return concat(inter(l1, l2), inter(r1, match[2]));
   }
+}
+
+function split_bis(x, param) {
+  if (!param) {
+    return /* NotFound */{
+            _0: /* Empty */0,
+            _1: (function (param) {
+                return /* Empty */0;
+              })
+          };
+  }
+  var r = param.r;
+  var v = param.v;
+  var l = param.l;
+  var c = Caml.caml_string_compare(x, v);
+  if (c === 0) {
+    return /* Found */0;
+  }
+  if (c < 0) {
+    var match = split_bis(x, l);
+    if (!match) {
+      return /* Found */0;
+    }
+    var rl = match._1;
+    return /* NotFound */{
+            _0: match._0,
+            _1: (function (param) {
+                return join(Curry._1(rl, undefined), v, r);
+              })
+          };
+  }
+  var match$1 = split_bis(x, r);
+  if (match$1) {
+    return /* NotFound */{
+            _0: join(l, v, match$1._0),
+            _1: match$1._1
+          };
+  } else {
+    return /* Found */0;
+  }
+}
+
+function disjoint(_s1, _s2) {
+  while(true) {
+    var s2 = _s2;
+    var s1 = _s1;
+    if (!s1) {
+      return true;
+    }
+    if (!s2) {
+      return true;
+    }
+    if (s1 === s2) {
+      return false;
+    }
+    var match = split_bis(s1.v, s2);
+    if (!match) {
+      return false;
+    }
+    if (!disjoint(s1.l, match._0)) {
+      return false;
+    }
+    _s2 = Curry._1(match._1, undefined);
+    _s1 = s1.r;
+    continue ;
+  };
 }
 
 function diff(s1, s2) {
@@ -1098,7 +1163,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1132,7 +1197,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1197,7 +1262,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1250,6 +1315,14 @@ function find_opt(x, _param) {
   };
 }
 
+function try_join(l, v, r) {
+  if ((Caml_obj.caml_equal(l, /* Empty */0) || Caml.caml_string_compare(max_elt(l), v) < 0) && (Caml_obj.caml_equal(r, /* Empty */0) || Caml.caml_string_compare(v, min_elt(r)) < 0)) {
+    return join(l, v, r);
+  } else {
+    return union(l, add(v, r));
+  }
+}
+
 function map(f, t) {
   if (!t) {
     return /* Empty */0;
@@ -1262,10 +1335,37 @@ function map(f, t) {
   var r$p = map(f, r);
   if (l === l$p && v === v$p && r === r$p) {
     return t;
-  } else if ((l$p === /* Empty */0 || Caml.caml_string_compare(max_elt(l$p), v$p) < 0) && (r$p === /* Empty */0 || Caml.caml_string_compare(v$p, min_elt(r$p)) < 0)) {
-    return join(l$p, v$p, r$p);
   } else {
-    return union(l$p, add(v$p, r$p));
+    return try_join(l$p, v$p, r$p);
+  }
+}
+
+function filter_map(f, t) {
+  if (!t) {
+    return /* Empty */0;
+  }
+  var r = t.r;
+  var v = t.v;
+  var l = t.l;
+  var l$p = filter_map(f, l);
+  var v$p = Curry._1(f, v);
+  var r$p = filter_map(f, r);
+  if (v$p === undefined) {
+    if (l$p) {
+      if (r$p) {
+        return try_join(l$p, min_elt(r$p), remove_min_elt(r$p));
+      } else {
+        return l$p;
+      }
+    } else {
+      return r$p;
+    }
+  }
+  var v$p$1 = Caml_option.valFromOption(v$p);
+  if (l === l$p && v === v$p$1 && r === r$p) {
+    return t;
+  } else {
+    return try_join(l$p, v$p$1, r$p);
   }
 }
 
@@ -1383,7 +1483,7 @@ function of_list(l) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "set.ml",
-                510,
+                570,
                 18
               ],
               Error: new Error()
@@ -1398,6 +1498,110 @@ function of_list(l) {
   }
 }
 
+function add_seq(i, m) {
+  return Seq.fold_left((function (s, x) {
+                return add(x, s);
+              }), m, i);
+}
+
+function of_seq(i) {
+  return add_seq(i, /* Empty */0);
+}
+
+function seq_of_enum_(c, param) {
+  if (!c) {
+    return /* Nil */0;
+  }
+  var partial_arg = cons_enum(c._1, c._2);
+  return /* Cons */{
+          _0: c._0,
+          _1: (function (param) {
+              return seq_of_enum_(partial_arg, param);
+            })
+        };
+}
+
+function to_seq(c) {
+  var partial_arg = cons_enum(c, /* End */0);
+  return function (param) {
+    return seq_of_enum_(partial_arg, param);
+  };
+}
+
+function snoc_enum(_s, _e) {
+  while(true) {
+    var e = _e;
+    var s = _s;
+    if (!s) {
+      return e;
+    }
+    _e = /* More */{
+      _0: s.v,
+      _1: s.l,
+      _2: e
+    };
+    _s = s.r;
+    continue ;
+  };
+}
+
+function rev_seq_of_enum_(c, param) {
+  if (!c) {
+    return /* Nil */0;
+  }
+  var partial_arg = snoc_enum(c._1, c._2);
+  return /* Cons */{
+          _0: c._0,
+          _1: (function (param) {
+              return rev_seq_of_enum_(partial_arg, param);
+            })
+        };
+}
+
+function to_rev_seq(c) {
+  var partial_arg = snoc_enum(c, /* End */0);
+  return function (param) {
+    return rev_seq_of_enum_(partial_arg, param);
+  };
+}
+
+function to_seq_from(low, s) {
+  var aux = function (low, _s, _c) {
+    while(true) {
+      var c = _c;
+      var s = _s;
+      if (!s) {
+        return c;
+      }
+      var r = s.r;
+      var v = s.v;
+      var n = Caml.caml_string_compare(v, low);
+      if (n === 0) {
+        return /* More */{
+                _0: v,
+                _1: r,
+                _2: c
+              };
+      }
+      if (n < 0) {
+        _s = r;
+        continue ;
+      }
+      _c = /* More */{
+        _0: v,
+        _1: r,
+        _2: c
+      };
+      _s = s.l;
+      continue ;
+    };
+  };
+  var partial_arg = aux(low, s, /* End */0);
+  return function (param) {
+    return seq_of_enum_(partial_arg, param);
+  };
+}
+
 var String_set = {
   empty: /* Empty */0,
   is_empty: is_empty,
@@ -1407,6 +1611,7 @@ var String_set = {
   remove: remove,
   union: union,
   inter: inter,
+  disjoint: disjoint,
   diff: diff,
   compare: compare,
   equal: equal,
@@ -1417,6 +1622,7 @@ var String_set = {
   for_all: for_all,
   exists: exists,
   filter: filter,
+  filter_map: filter_map,
   partition: partition,
   cardinal: cardinal,
   elements: elements,
@@ -1433,7 +1639,12 @@ var String_set = {
   find_first_opt: find_first_opt,
   find_last: find_last,
   find_last_opt: find_last_opt,
-  of_list: of_list
+  of_list: of_list,
+  to_seq_from: to_seq_from,
+  to_seq: to_seq,
+  to_rev_seq: to_rev_seq,
+  add_seq: add_seq,
+  of_seq: of_seq
 };
 
 var Cycle = /* @__PURE__ */Caml_exceptions.create("Topsort_test.Cycle");
