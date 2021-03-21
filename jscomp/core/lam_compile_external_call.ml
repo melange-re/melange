@@ -322,14 +322,12 @@ let translate_ffi
     let fn =  translate_scoped_module_val module_name fn scopes in
     add_eff eff
       begin
-        (match cxt.continuation with
-         | Declare (let_kind, id) ->
-           cxt.continuation <- Declare (let_kind, Ext_ident.make_js_object id)
-         | Assign id  ->
-           (* Format.fprintf Format.err_formatter "%a@."Ident.print  id; *)
-           cxt.continuation <- Assign (Ext_ident.make_js_object id)
-         | EffectCall _ | NeedValue _ -> ())
-        ;
+        (* (match cxt.continuation with *)
+         (* | Declare (let_kind, id) -> *)
+           (* cxt.continuation <- Declare (let_kind, Ext_ident.make_js_object id) *)
+         (* | Assign id  -> *)
+           (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
+         (* | EffectCall _ | NeedValue _ -> ()); *)
         E.new_ fn args
       end
 
