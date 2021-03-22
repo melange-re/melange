@@ -43,6 +43,11 @@ let newTdcls
              Parsetree.ptype_attributes = newAttrs}
          else x )
 
+let disable_unused_type: Parsetree.attribute =
+  { attr_name = Location.mknoloc "ocaml.warning";
+    attr_payload = PStr [ Str.eval (Exp.constant (Pconst_string ("-unused-type-declaration", Location.none, None))) ];
+    attr_loc = Location.none
+  }
 
 let handleTdclsInSigi
     (self : Bs_ast_mapper.mapper)
@@ -55,7 +60,7 @@ let handleTdclsInSigi
   | {bs_deriving = Some actions}, newAttrs
     ->
     let loc = sigi.psig_loc in
-    let originalTdclsNewAttrs = newTdcls tdcls newAttrs in (* remove the processed attr*)
+    let originalTdclsNewAttrs = newTdcls tdcls (disable_unused_type :: newAttrs) in (* remove the processed attr*)
     let newTdclsNewAttrs = self.type_declaration_list self originalTdclsNewAttrs in
     let kind = Ast_derive_abstract.isAbstract actions in
     if kind <> Not_abstract then
@@ -86,7 +91,6 @@ let handleTdclsInSigi
 
   end
 
-
 let handleTdclsInStru
     (self : Bs_ast_mapper.mapper)
     (str : Parsetree.structure_item)
@@ -99,7 +103,7 @@ let handleTdclsInStru
   | {bs_deriving = Some actions;
     }, newAttrs ->
     let loc = str.pstr_loc in
-    let originalTdclsNewAttrs = newTdcls tdcls newAttrs in
+    let originalTdclsNewAttrs = newTdcls tdcls (disable_unused_type :: newAttrs) in
     let newStr : Parsetree.structure_item =
       Ast_compatible.rec_type_str ~loc rf (self.type_declaration_list self originalTdclsNewAttrs)
     in
@@ -127,5 +131,4 @@ let handleTdclsInStru
   | {bs_deriving = None }, _  ->
     Bs_ast_mapper.default_mapper.structure_item self str
   end
-
 
