@@ -30,20 +30,15 @@ let (//) = Ext_path.combine
 let handle_generators buf
     (group : Bsb_file_groups.file_group)
     custom_rules =
-  let map_to_source_dir =
-    (fun x -> Bsb_config.proj_rel (group.dir //x )) in
   Ext_list.iter group.generators (fun {output; input; command} ->
-      (*TODO: add a loc for better error message *)
+      (* TODO: add a loc for better error message *)
       match Map_string.find_opt custom_rules command with
       | None -> Ext_fmt.failwithf ~loc:__LOC__ "custom rule %s used but  not defined" command
       | Some rule ->
         Bsb_ninja_targets.output_build group.dir buf
-          ~outputs:(Ext_list.map  output  map_to_source_dir)
-          ~inputs:(Ext_list.map input map_to_source_dir)
-          ~rule
-    )
-
-
+          ~outputs:output
+          ~inputs:input
+          ~rule)
 
 
 type suffixes = {
