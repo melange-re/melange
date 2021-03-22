@@ -7,20 +7,7 @@ in
 
 stdenv.mkDerivation rec {
   name = "bucklescript-tests";
-  inherit (thisPackage) nativeBuildInputs propagatedBuildInputs;
-
-  src = lib.filterGitSource {
-    src = ./../..;
-    dirs = [ "jscomp" "scripts" "lib" ];
-    files = [
-      "dune-project"
-      "dune"
-      "dune-workspace"
-      "bucklescript.opam"
-      "bsconfig.json"
-      "package.json"
-    ];
-  };
+  inherit (thisPackage) src nativeBuildInputs propagatedBuildInputs;
 
   inputString = builtins.unsafeDiscardStringContext thisPackage.outPath;
 
