@@ -509,7 +509,62 @@ let translate  loc
      )
   | Pduprecord (Record_regular| Record_extension| Record_inlined _ ) ->
       Lam_dispatch_primitive.translate loc "caml_obj_dup" args
+  | Pbigarrayref (unsafe, dimension, kind, layout)
+    -> 
+    (* can be refined to 
+        [caml_bigarray_float32_c_get_1]
+        note that kind can be [generic]
+        and layout can be [unknown],
+        dimension is always available
+    *)
+    begin match dimension, kind, layout, unsafe with 
+      | 1,  ( Pbigarray_float32 | Pbigarray_float64
+            | Pbigarray_sint8 | Pbigarray_uint8
+            | Pbigarray_sint16 | Pbigarray_uint16
+            | Pbigarray_int32 | Pbigarray_int64
+            | Pbigarray_caml_int | Pbigarray_native_int
+            | Pbigarray_complex32 | Pbigarray_complex64), Pbigarray_c_layout, _
+        -> 
+        begin match args with
+          | [x;indx] -> Js_of_lam_array.ref_array x indx
+          | _ -> assert false
+        end
+      | _, _, _ ,_ -> 
+        E.resolve_and_apply
+          ("caml_ba_get_" ^ string_of_int dimension ) args
+        (* E.runtime_call Js_config.bigarray  *)
+        (*   ("caml_ba_get_" ^ string_of_int dimension ) args  *)
+    end
+  | Pbigarrayset (unsafe, dimension, kind, layout)
+    -> 
+    begin match dimension, kind, layout, unsafe with 
+      | 1,  ( Pbigarray_float32 | Pbigarray_float64
+            | Pbigarray_sint8 | Pbigarray_uint8
+            | Pbigarray_sint16 | Pbigarray_uint16
+            | Pbigarray_int32 | Pbigarray_int64
+            | Pbigarray_caml_int | Pbigarray_native_int
+            | Pbigarray_complex32 | Pbigarray_complex64), Pbigarray_c_layout, _
+        -> 
+        begin match args with 
+          | [x; index; value] -> 
+            Js_of_lam_array.set_array x index value          
+          | _ -> assert false
+        end
 
+      | _ , _, _,_ 
+        -> 
+        E.resolve_and_apply
+          ("caml_ba_set_" ^ string_of_int dimension) args
+          (* E.runtime_call Js_config.bigarray  *)
+          (*   ("caml_ba_set_" ^ string_of_int dimension ) args  *)
+    end
+
+  | Pbigarraydim i
+    -> 
+    E.resolve_and_apply 
+      ("caml_ba_dim_" ^ string_of_int i) args
+      (* E.runtime_call Js_config.bigarray *)
+      (*   ("caml_ba_dim_" ^ string_of_int i) args        *)
   | Plazyforce
     (* FIXME: we don't inline lazy force or at least
       let buckle handle it
