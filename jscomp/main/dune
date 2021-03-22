@@ -23,11 +23,11 @@
  (deps
   (:input js_main.ml)
   ../../package.json
-  ../../bsconfig.json)
+  ../../bsconfig.json
+  ../../lib/js/.gitkeep
+  ../../lib/es6/.gitkeep)
  (action
-  (progn
-   (bash "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
-   (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target}))))
+  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
 
 (executable
  (name bspack_main)
