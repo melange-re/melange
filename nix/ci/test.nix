@@ -29,14 +29,13 @@ stdenv.mkDerivation rec {
   ];
 
   checkPhase = ''
-    dune runtest -p ${thisPackage.name} -j $NIX_BUILD_CORES --display=short
-
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
     # `--release` to avoid promotion
     dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
-
     node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
+
+    dune runtest -p ${thisPackage.name} -j $NIX_BUILD_CORES --display=short
   '';
 }
