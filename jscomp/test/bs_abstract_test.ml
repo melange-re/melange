@@ -1,4 +1,4 @@
-[@@@config {flags = [|"-w";"+34";"-warn-error"; "A"|]}]
+[@@@config {flags = [|"-w";"+unused-type-declaration";"-warn-error"; "A"|]}]
 
 type 'a linked_list =
   {
@@ -13,7 +13,7 @@ let v = linked_list ~hd:3 ~tl:Js.null
 
 ;; tlSet v (Js.Null.return v)
 
-type[@warning "-34"] t = int -> int -> bool [@bs]
+type[@warning "-unused-type-declaration"] t = int -> int -> bool [@bs]
 and x = {
   k : t;
   y : string
