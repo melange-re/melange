@@ -45,7 +45,7 @@ let newTdcls
 
 let disable_unused_type: Parsetree.attribute =
   { attr_name = Location.mknoloc "ocaml.warning";
-    attr_payload = PStr [ Str.eval (Exp.constant (Pconst_string ("-34", Location.none, None))) ];
+    attr_payload = PStr [ Str.eval (Exp.constant (Pconst_string ("-unused-type-declaration", Location.none, None))) ];
     attr_loc = Location.none
   }
 
@@ -131,5 +131,4 @@ let handleTdclsInStru
   | {bs_deriving = None }, _  ->
     Bs_ast_mapper.default_mapper.structure_item self str
   end
-
 
