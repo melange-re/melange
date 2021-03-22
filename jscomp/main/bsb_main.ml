@@ -102,35 +102,17 @@ let output_dune_file buf =
   Bsb_ninja_targets.revise_dune dune buf
 
 
-(*Note that [keepdepfile] only makes sense when combined with [deps] for optimization*)
-
-(* Execute the underlying ninja build call, then exit (as opposed to keep watching) *)
-let ninja_command_exit ?(dirs: Bsb_file_groups.file_groups option) ~buf ninja_args  =
+let ninja_command_exit ~buf dune_args  =
   output_dune_file buf;
-  let mk_args targets =
-    let ninja_common_args = Array.append [|Literals.dune; "build"|] targets in
-    let ninja_args_len = Array.length ninja_args in
-     let args =
-       if ninja_args_len = 0 then ninja_common_args else
-         Array.append ninja_common_args ninja_args
-     in
-     args
+  let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
+  let args =
+    if Array.length dune_args = 0 then
+      common_args
+    else
+      Array.append common_args dune_args
   in
-  (* [dirs] = [None]: -make_world
-   * [dirs] = [Some dirs]: just the current project (don't build node_modules)
-   *)
-  let args = match dirs with
-  | None -> [| ("@" ^ Literals.bsb_world) |]
-  | Some dirs ->
-    (* TODO(anmonteiro): this doesn't work if the directory starts with `@`.
-     * See: https://github.com/ocaml/dune/issues/3716 *)
-    Ext_array.of_list_map dirs (fun {dir} ->
-      Ext_path.(("@@" ^ dir) // Literals.bsb_world))
-  in
-  let args = mk_args args in
   Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list args));
   Unix.execvp Literals.dune args
-
 
 
 (**
@@ -160,8 +142,25 @@ let program_exit () =
 let install_target config =
   Bsb_world.install_targets Bsb_global_paths.cwd config
 
+let build_whole_project ~buf =
+  let root_dir = Bsb_global_paths.cwd in
+  Bsb_world.make_world_deps ~buf ~cwd:root_dir None;
+  Bsb_ninja_regen.regenerate_ninja
+    ~package_kind:Toplevel
+    ~buf
+    ~root_dir
+    root_dir
+
+let maybe_generate_config = function
+  | None ->
+    Bsb_config_parse.interpret_json
+      ~package_kind:Toplevel
+      ~per_proj_dir:Bsb_global_paths.cwd
+  | Some config -> config
+
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
+  let config = ref None in
   let argv = Sys.argv in
   let buf = Buffer.create 0x1000 in
   try begin
@@ -186,14 +185,7 @@ let () =
                 program_exit ()) (* bsb -verbose hit here *)
           else begin
             (if make_world then
-              Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None);
-             let config =
-               Bsb_ninja_regen.regenerate_ninja
-                 ~package_kind:Toplevel
-                 ~buf
-                 ~root_dir:Bsb_global_paths.cwd
-                 Bsb_global_paths.cwd
-             in
+              config := Some (build_whole_project ~buf));
              if !watch_mode then begin
                program_exit ()
                (* ninja is not triggered in this case
@@ -204,7 +196,7 @@ let () =
              end else if make_world then begin
                ninja_command_exit ~buf [||]
              end else if do_install then begin
-               install_target config
+               install_target (maybe_generate_config !config)
              end
           end
       end
@@ -215,20 +207,13 @@ let () =
         ~usage
         ~argv:argv
         ~finish:i
-        bsb_main_flags handle_anonymous_arg  ;
+        bsb_main_flags handle_anonymous_arg;
         let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
         (* [-make-world] should never be combined with [-package-specs] *)
-        if !make_world then begin
-          Bsb_world.make_world_deps ~buf Bsb_global_paths.cwd None
-        end;
-        let config_opt =
-          (Bsb_ninja_regen.regenerate_ninja
-            ~package_kind:Toplevel
-            ~root_dir:Bsb_global_paths.cwd
-            ~buf
-            Bsb_global_paths.cwd) in
+        (if !make_world then
+          config := Some (build_whole_project ~buf));
         if !do_install then
-          install_target config_opt;
+          install_target (maybe_generate_config !config);
         if !watch_mode then program_exit ()
         else ninja_command_exit ~buf ninja_args
       end

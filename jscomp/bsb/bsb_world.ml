@@ -79,7 +79,7 @@ let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
 
 
 
-let make_world_deps cwd ~buf (config : Bsb_config_types.t option) =
+let make_world_deps ~cwd ~buf (config : Bsb_config_types.t option) =
   Bsb_log.info "Making the dependency world!@.";
   let deps, pinned_dependencies =
     match config with
