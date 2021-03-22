@@ -1,14 +1,14 @@
 
-open J  
+open J
 let [@inline] unknown _ st _ = st
-let [@inline] option sub self st = fun v -> 
-  match v with 
+let [@inline] option sub self st = fun v ->
+  match v with
   | None -> st
   | Some v -> sub self st v
-let rec list sub self st = fun x  -> 
-  match x with 
+let rec list sub self st = fun x  ->
+  match x with
   | [] -> st
-  | x::xs -> 
+  | x::xs ->
     let st = sub self st x in
     list sub self st xs
 
@@ -23,7 +23,7 @@ type 'state iter = {
   variable_declaration : ('state,variable_declaration) fn;
   block : ('state,block) fn;
   program : ('state,program) fn
-}  
+}
 and ('state,'a) fn = 'state iter -> 'state ->  'a -> 'state
 let  label : 'a . ('a,label) fn  =  unknown   
 let  ident : 'a . ('a,ident) fn  =  unknown   
@@ -141,6 +141,6 @@ let super : 'state iter = {
   statement;
   variable_declaration;
   block;
-  program    
+  program
 }
     

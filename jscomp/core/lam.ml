@@ -1,4 +1,4 @@
-(* Copyright (C) 2018 - Authors of BuckleScript
+(* Copyright (C) 2018 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -400,7 +400,14 @@ let rec
     Lam_primitive.eq_primitive_approx info1.primitive info2.primitive &&
     eq_approx_list info1.args info2.args
     | _ -> false)
-  | Lstringswitch _ -> false
+  | Lstringswitch (arg, patterns, default) ->
+    begin match l2 with
+    |Lstringswitch(arg2,patterns2, default2) ->
+      eq_approx arg arg2 &&
+      eq_option default default2 &&
+      Ext_list.for_all2_no_exn patterns patterns2 (fun ((k:string),v) (k2,v2) -> k = k2 && eq_approx v v2)
+    | _ -> false
+    end
   | Lfunction _
   | Llet (_,_,_,_)
   | Lletrec _
@@ -410,7 +417,10 @@ let rec
   | Lfor (_,_,_,_,_)
   | Lsend _
     -> false
-
+and eq_option l1 l2 =
+    match l1 with
+    | None -> l2 = None
+    | Some l1 -> (match l2 with Some l2 -> eq_approx l1 l2 | None -> false)
 and eq_approx_list ls ls1 =  Ext_list.for_all2_no_exn ls ls1 eq_approx
 
 
@@ -788,7 +798,7 @@ let if_ (a : t) (b : t) (c : t) : t =
          | Lprim(
             {primitive = Pnot ; args = [Lprim{primitive = Pintcomp Ceq ; args = [Lvar j; Lconst _] as args; loc}]})
            when Ident.same i j && eq_approx true_ c
-           -> Lprim{primitive = Pintcomp Ceq; args; loc}
+           -> Lprim{primitive = Pintcomp Cne; args; loc}
          | _ -> Lifthenelse(a,b,c)
          end
        | _ ->  Lifthenelse (a,b,c))

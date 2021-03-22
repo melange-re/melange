@@ -1,9 +1,9 @@
 'use strict';
 
 var List = require("../../lib/js/list.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Foo = /* @__PURE__ */Caml_exceptions.create("Gpr_1701_test.Foo");
 
@@ -34,11 +34,11 @@ function read_lines(inc) {
     var acc = _acc;
     var l;
     try {
-      l = Pervasives.input_line(inc);
+      l = Stdlib__no_aliases.input_line(inc);
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "End_of_file") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
         l = undefined;
       } else {
         throw exn;
@@ -61,11 +61,11 @@ function read_lines2(inc) {
     var acc = _acc;
     var l;
     try {
-      l = Pervasives.input_line(inc);
+      l = Stdlib__no_aliases.input_line(inc);
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "End_of_file") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
         return List.rev(acc);
       }
       throw exn;
@@ -81,7 +81,7 @@ function read_lines2(inc) {
 function read_lines3(inc) {
   var loop = function (acc) {
     try {
-      var l = Pervasives.input_line(inc);
+      var l = Stdlib__no_aliases.input_line(inc);
       return loop({
                   hd: l,
                   tl: acc
@@ -89,7 +89,7 @@ function read_lines3(inc) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "End_of_file") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
         return List.rev(acc);
       }
       throw exn;

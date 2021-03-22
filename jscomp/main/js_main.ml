@@ -29,6 +29,8 @@ let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
     Lazy.force Res_outcome_printer.setup
   end
 
+
+
 let setup_runtime_path path =
   let u0 = Filename.dirname path in
   let std = Filename.basename path in
@@ -197,7 +199,7 @@ let print_standard_library () =
   exit 0
 
 let bs_version_string =
-  "BuckleScript " ^ Bs_version.version ^
+  "ReScript " ^ Bs_version.version ^
   " ( Using OCaml:" ^ Config.version ^ " )"
 
 let print_version_string () =
@@ -211,14 +213,14 @@ let [@inline] set s : Bsc_args.spec = Unit (Unit_set s)
 let [@inline] clear s : Bsc_args.spec = Unit (Unit_clear s)
 let [@inline] unit_lazy s : Bsc_args.spec = Unit(Unit_lazy s)
 let [@inline] string_call s : Bsc_args.spec =
-    String (String_call s)
+  String (String_call s)
 let [@inline] string_optional_set s : Bsc_args.spec =
   String (String_optional_set s)
 
 let [@inline] unit_call s : Bsc_args.spec =
-    Unit (Unit_call s)
+  Unit (Unit_call s)
 let [@inline] string_list_add s : Bsc_args.spec =
-    String (String_list_add s)
+  String (String_list_add s)
 
 (* mostly common used to list in the beginning to make search fast
 *)
@@ -228,21 +230,21 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "<dir>  Add <dir> to the list of include directories" ;
 
     "-w", string_call (Warnings.parse_options false),
-  "<list>  Enable or disable warnings according to <list>:\n\
-          +<spec>   enable warnings in <spec>\n\
-          -<spec>   disable warnings in <spec>\n\
-          @<spec>   enable warnings in <spec> and treat them as errors\n\
-       <spec> can be:\n\
-          <num>             a single warning number\n\
-          <num1>..<num2>    a range of consecutive warning numbers\n\
-       default setting is " ^ Bsc_warnings.defaults_w;
+    "<list>  Enable or disable warnings according to <list>:\n\
+     +<spec>   enable warnings in <spec>\n\
+     -<spec>   disable warnings in <spec>\n\
+     @<spec>   enable warnings in <spec> and treat them as errors\n\
+     <spec> can be:\n\
+     <num>             a single warning number\n\
+     <num1>..<num2>    a range of consecutive warning numbers\n\
+     default setting is " ^ Bsc_warnings.defaults_w;
 
 
     "-o", string_optional_set Clflags.output_name,
     "<file>  set output file name to <file>";
 
-     "-bs-read-cmi",  unit_call (fun _ -> Clflags.assume_no_mli := Mli_exists),
-     "*internal* Assume mli always exist ";
+    "-bs-read-cmi",  unit_call (fun _ -> Clflags.assume_no_mli := Mli_exists),
+    "*internal* Assume mli always exist ";
 
     "-ppx", string_list_add Clflags.all_ppx,
     "<command>  Pipe abstract syntax trees through preprocessor <command>";
@@ -308,7 +310,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-nostdlib",  set Js_config.no_stdlib,
     "*internal* Don't use stdlib";
 
-    "-bs-internal-check",  unit_call Bs_cmi_load.check,
+    "-bs-internal-check",  unit_call ignore,
     "*internal* Built in check corrupted data";
 
     "-color", string_call set_color_option,
@@ -445,8 +447,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "*internal* keep the compatibility with RLS";
     "-warn-error", string_call (Warnings.parse_options true),
     "<list>  Enable or disable error status for warnings according\n\
-         to <list>.  See option -w for the syntax of <list>.\n\
-         Default setting is " ^ Bsc_warnings.defaults_warn_error;
+     to <list>.  See option -w for the syntax of <list>.\n\
+     Default setting is " ^ Bsc_warnings.defaults_warn_error;
     "-runtime",string_call setup_runtime_path,
     "*internal* Set the runtime directory";
     "-make-runtime", unit_call Js_packages_state.make_runtime,
@@ -465,12 +467,12 @@ let file_level_flags_handler (e : Parsetree.expression option) =
   | Some {pexp_desc = Pexp_array args ; pexp_loc} ->
     let args = Array.of_list
         ( Ext_list.map  args (fun e ->
-             match e.pexp_desc with
-             | Pexp_constant (Pconst_string(name,_,_)) -> name
-             | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
+              match e.pexp_desc with
+              | Pexp_constant (Pconst_string(name,_,_)) -> name
+              | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
     (try Bsc_args.parse_exn ~start:0
-      ~argv:args buckle_script_flags (fun ~rev_args:_ -> ()) ~usage
-    with _ -> Location.prerr_warning pexp_loc (Preprocessor "invalid flags for bsc"))
+           ~argv:args buckle_script_flags (fun ~rev_args:_ -> ()) ~usage
+     with _ -> Location.prerr_warning pexp_loc (Preprocessor "invalid flags for bsc"))
   | Some e ->
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
@@ -493,7 +495,7 @@ let _ : unit =
     begin
 #if false
 (* undefined BS_RELEASE_BUILD *)
-      Ext_obj.bt ();
+        Ext_obj.bt ();
 #endif
       Location.report_exception ppf x;
       exit 2

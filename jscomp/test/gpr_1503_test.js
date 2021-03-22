@@ -2,7 +2,6 @@
 
 var Mt = require("./mt.js");
 var Int64 = require("../../lib/js/int64.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 
 var suites = {
@@ -32,20 +31,23 @@ function eq(loc, x, y) {
 }
 
 function id(x) {
-  return Caml_format.caml_int64_of_string(Caml_int64.to_string(x));
+  return Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", x));
 }
 
-var i = /* @__PURE__ */Caml_int64.mk(-1414812757, 2074848171);
+var i = [
+  2074848171,
+  2880154539
+];
 
-var s = Caml_int64.to_string(i);
+var s = Caml_format.caml_int64_format("%d", i);
 
-var i$prime = Caml_format.caml_int64_of_string(s);
+var i$p = Caml_format.caml_int64_of_string(s);
 
-eq("File \"gpr_1503_test.ml\", line 18, characters 5-12", i, i$prime);
+eq("File \"gpr_1503_test.ml\", line 18, characters 5-12", i, i$p);
 
-eq("File \"gpr_1503_test.ml\", line 21, characters 7-14", Int64.max_int, Caml_format.caml_int64_of_string(Caml_int64.to_string(Int64.max_int)));
+eq("File \"gpr_1503_test.ml\", line 21, characters 7-14", Int64.max_int, Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", Int64.max_int)));
 
-eq("File \"gpr_1503_test.ml\", line 22, characters 7-14", Int64.min_int, Caml_format.caml_int64_of_string(Caml_int64.to_string(Int64.min_int)));
+eq("File \"gpr_1503_test.ml\", line 22, characters 7-14", Int64.min_int, Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", Int64.min_int)));
 
 Mt.from_pair_suites("Gpr_1503_test", suites.contents);
 

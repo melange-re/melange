@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,6 +25,23 @@
 (** {!Belt.Option}
 
     Utilities for option data type
+*)
+
+
+val keepU : 'a option -> ('a -> bool [@bs]) -> 'a option
+(** Uncurried version of [keep] *)
+
+val keep : 'a option -> ('a -> bool) -> 'a option
+(**
+  [keep optionValue p]
+  
+  If [optionValue] is [Some value] and [p value = true], it returns [Some value]; otherwise returns [None]
+  
+  @example {[
+    keep (Some 10)(fun x -> x > 5);; (* returns [Some 10] *)
+    keep (Some 4)(fun x -> x > 5);; (* returns [None] *)
+    keep None (fun x -> x > 5);; (* returns [None] *)
+  ]}
 *)
 
 val forEachU : 'a option -> ('a -> unit [@bs]) -> unit

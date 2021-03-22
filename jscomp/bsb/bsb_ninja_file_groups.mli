@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -33,5 +33,6 @@ val handle_files_per_dir :
   package_specs:Bsb_package_specs.t ->
   js_post_build_cmd:string option ->
   files_to_install:Bsb_db.module_info Queue.t ->
-  bs_dependencies_deps:string list ->
+  bs_dependencies:string list ->
+  bs_dev_dependencies:string list ->
   Bsb_file_groups.file_group -> unit

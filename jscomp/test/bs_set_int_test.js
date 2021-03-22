@@ -372,21 +372,12 @@ eq("File \"bs_set_int_test.ml\", line 176, characters 5-12", Belt_SetInt.get(v$1
 
 Mt.from_pair_suites("Bs_set_int_test", suites.contents);
 
-var N;
-
-var I;
-
-var A;
-
 var ofA = Belt_SetInt.fromArray;
 
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.N = N;
-exports.I = I;
-exports.A = A;
 exports.$eq$tilde = $eq$tilde;
 exports.$eq$star = $eq$star;
 exports.ofA = ofA;

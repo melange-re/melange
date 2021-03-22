@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var Char = require("../../lib/js/char.js");
 var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 
@@ -44,7 +44,7 @@ function escaped(s) {
   if (n === s.length) {
     return Bytes.copy(s);
   }
-  var s$prime = Caml_bytes.caml_create_bytes(n);
+  var s$p = Caml_bytes.caml_create_bytes(n);
   n = 0;
   for(var i$1 = 0 ,i_finish$1 = s.length; i$1 < i_finish$1; ++i$1){
     var c = s[i$1];
@@ -54,7 +54,7 @@ function escaped(s) {
         if (c >= 127) {
           exit = 1;
         } else {
-          s$prime[n] = c;
+          s$p[n] = c;
         }
       } else {
         exit = 2;
@@ -63,26 +63,26 @@ function escaped(s) {
       if (c >= 34) {
         exit = 2;
       } else {
-        s$prime[n] = c;
+        s$p[n] = c;
       }
     } else if (c >= 14) {
       exit = 1;
     } else {
       switch (c) {
         case 8 :
-            s$prime[n] = /* '\\' */92;
+            s$p[n] = /* '\\' */92;
             n = n + 1 | 0;
-            s$prime[n] = /* 'b' */98;
+            s$p[n] = /* 'b' */98;
             break;
         case 9 :
-            s$prime[n] = /* '\\' */92;
+            s$p[n] = /* '\\' */92;
             n = n + 1 | 0;
-            s$prime[n] = /* 't' */116;
+            s$p[n] = /* 't' */116;
             break;
         case 10 :
-            s$prime[n] = /* '\\' */92;
+            s$p[n] = /* '\\' */92;
             n = n + 1 | 0;
-            s$prime[n] = /* 'n' */110;
+            s$p[n] = /* 'n' */110;
             break;
         case 0 :
         case 1 :
@@ -97,33 +97,33 @@ function escaped(s) {
             exit = 1;
             break;
         case 13 :
-            s$prime[n] = /* '\\' */92;
+            s$p[n] = /* '\\' */92;
             n = n + 1 | 0;
-            s$prime[n] = /* 'r' */114;
+            s$p[n] = /* 'r' */114;
             break;
         
       }
     }
     switch (exit) {
       case 1 :
-          s$prime[n] = /* '\\' */92;
+          s$p[n] = /* '\\' */92;
           n = n + 1 | 0;
-          s$prime[n] = 48 + (c / 100 | 0) | 0;
+          s$p[n] = 48 + (c / 100 | 0) | 0;
           n = n + 1 | 0;
-          s$prime[n] = 48 + (c / 10 | 0) % 10 | 0;
+          s$p[n] = 48 + (c / 10 | 0) % 10 | 0;
           n = n + 1 | 0;
-          s$prime[n] = 48 + c % 10 | 0;
+          s$p[n] = 48 + c % 10 | 0;
           break;
       case 2 :
-          s$prime[n] = /* '\\' */92;
+          s$p[n] = /* '\\' */92;
           n = n + 1 | 0;
-          s$prime[n] = c;
+          s$p[n] = c;
           break;
       
     }
     n = n + 1 | 0;
   }
-  return s$prime;
+  return s$p;
 }
 
 function starts_with(xs, prefix, p) {
@@ -200,11 +200,11 @@ function f$1(a, b) {
 
 function f_0(a, b) {
   return [
-          Caml_int64.gt(a, b),
-          Caml_int64.ge(a, b),
-          Caml_int64.lt(a, b),
-          Caml_int64.le(a, b),
-          Caml_int64.eq(a, b)
+          Caml.i64_gt(a, b),
+          Caml.i64_ge(a, b),
+          Caml.i64_lt(a, b),
+          Caml.i64_le(a, b),
+          Caml.i64_eq(a, b)
         ];
 }
 

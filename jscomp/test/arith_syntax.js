@@ -1,11 +1,11 @@
 'use strict';
 
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function str(e) {
   switch (e.TAG | 0) {
     case /* Numeral */0 :
-        return Pervasives.string_of_float(e._0);
+        return Stdlib__no_aliases.string_of_float(e._0);
     case /* Plus */1 :
         return str(e._0) + ("+" + str(e._1));
     case /* Minus */2 :

@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -82,7 +82,7 @@ type t =
 let runtime_package_specs : t = {
   name = Pkg_runtime;
   module_systems =[
-    {module_system = Es6; path = "lib/es6"; suffix = Mjs};
+    {module_system = Es6; path = "lib/es6"; suffix = Js};
     {module_system = NodeJS; path = "lib/js"; suffix = Js};
   ]
 }

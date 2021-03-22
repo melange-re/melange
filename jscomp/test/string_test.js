@@ -4,8 +4,10 @@ var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
 var $$String = require("../../lib/js/string.js");
+var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function ff(x) {
   var a;
@@ -61,16 +63,16 @@ function gg(x) {
 function rev_split_by_char(c, s) {
   var loop = function (i, l) {
     try {
-      var i$prime = $$String.index_from(s, i, c);
-      var s$prime = $$String.sub(s, i, i$prime - i | 0);
-      return loop(i$prime + 1 | 0, s$prime === "" ? l : ({
-                      hd: s$prime,
+      var i$p = $$String.index_from(s, i, c);
+      var s$p = $$String.sub(s, i, i$p - i | 0);
+      return loop(i$p + 1 | 0, s$p === "" ? l : ({
+                      hd: s$p,
                       tl: l
                     }));
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         return {
                 hd: $$String.sub(s, i, s.length - i | 0),
                 tl: l
@@ -93,13 +95,13 @@ function xsplit(delim, s) {
       if (i === 0) {
         return l;
       }
-      var i$prime;
+      var i$p;
       try {
-        i$prime = $$String.rindex_from(s, i - 1 | 0, delim);
+        i$p = $$String.rindex_from(s, i - 1 | 0, delim);
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === "Not_found") {
+        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
           return {
                   hd: $$String.sub(s, 0, i),
                   tl: l
@@ -107,16 +109,16 @@ function xsplit(delim, s) {
         }
         throw exn;
       }
-      var l_0 = $$String.sub(s, i$prime + 1 | 0, (i - i$prime | 0) - 1 | 0);
+      var l_0 = $$String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
       var l$1 = {
         hd: l_0,
         tl: l
       };
-      var l$2 = i$prime === 0 ? ({
+      var l$2 = i$p === 0 ? ({
             hd: "",
             tl: l$1
           }) : l$1;
-      _i = i$prime;
+      _i = i$p;
       _l = l$2;
       continue ;
     };
@@ -338,7 +340,7 @@ Mt.from_pair_suites("String_test", {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: String.fromCharCode(/* '0' */48),
-                                                    _1: "0"
+                                                    _1: Caml_bytes.bytes_to_string(Bytes.make(1, /* '0' */48))
                                                   };
                                           })
                                       ],

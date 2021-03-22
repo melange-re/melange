@@ -170,7 +170,6 @@ let output_ninja_and_namespace_map
 
       bs_dependencies;
       bs_dev_dependencies;
-      refmt;
       js_post_build_cmd;
       package_specs;
       file_groups = { files = bs_file_groups};
@@ -209,7 +208,7 @@ let output_ninja_and_namespace_map
     ) in
   let g_stdlib_incl = if built_in_dependency then
       let path = Bsb_config.stdlib_path ~cwd:per_proj_dir in
-      [ Ext_filename.maybe_quote path ]
+      [ path ]
     else []
   in
   let global_config =
@@ -245,7 +244,6 @@ let output_ninja_and_namespace_map
   let rules : Bsb_ninja_rule.builtin =
       Bsb_ninja_rule.make_custom_rules
       ~global_config
-      ~refmt
       ~has_postbuild:js_post_build_cmd
       ~pp_file
       ~ppx_files
@@ -253,8 +251,11 @@ let output_ninja_and_namespace_map
       ~reason_react_jsx
       ~package_specs
       generators in
-  let bs_dependencies_deps =
+  let bs_dependencies =
    Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
+  in
+  let bs_dev_dependencies =
+   Ext_list.flat_map bs_dev_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
   in
   Buffer.add_char buf '\n';
 
@@ -269,7 +270,8 @@ let output_ninja_and_namespace_map
          ~package_specs
          ~files_to_install
          ~js_post_build_cmd
-         ~bs_dependencies_deps
+         ~bs_dev_dependencies
+         ~bs_dependencies
          ~root_dir
          files_per_dir;
          )

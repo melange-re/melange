@@ -9,12 +9,13 @@ var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
 
 function failwith(s) {
   throw {
-        RE_EXN_ID: "Failure",
+        RE_EXN_ID: Stdlib__no_aliases.Failure,
         _1: s,
         Error: new Error()
       };
@@ -22,7 +23,7 @@ function failwith(s) {
 
 function invalid_arg(s) {
   throw {
-        RE_EXN_ID: "Invalid_argument",
+        RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
         _1: s,
         Error: new Error()
       };
@@ -60,17 +61,35 @@ function lnot(x) {
 
 var min_int = -2147483648;
 
-var infinity = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 2146435072));
+var infinity = Caml_int64.float_of_bits([
+      2146435072,
+      0
+    ]);
 
-var neg_infinity = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, -1048576));
+var neg_infinity = Caml_int64.float_of_bits([
+      -1048576,
+      0
+    ]);
 
-var nan = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(1, 2146435072));
+var nan = Caml_int64.float_of_bits([
+      2146435072,
+      1
+    ]);
 
-var max_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(-1, 2146435071));
+var max_float = Caml_int64.float_of_bits([
+      2146435071,
+      4294967295
+    ]);
 
-var min_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 1048576));
+var min_float = Caml_int64.float_of_bits([
+      1048576,
+      0
+    ]);
 
-var epsilon_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 1018167296));
+var epsilon_float = Caml_int64.float_of_bits([
+      1018167296,
+      0
+    ]);
 
 function $caret(s1, s2) {
   var l1 = s1.length;
@@ -84,7 +103,7 @@ function $caret(s1, s2) {
 function char_of_int(n) {
   if (n < 0 || n > 255) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: "char_of_int",
           Error: new Error()
         };
@@ -108,7 +127,7 @@ function bool_of_string(param) {
         return true;
     default:
       throw {
-            RE_EXN_ID: "Invalid_argument",
+            RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
             _1: "bool_of_string",
             Error: new Error()
           };
@@ -229,7 +248,7 @@ function output_string(oc, s) {
 function output(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: "output",
           Error: new Error()
         };
@@ -240,7 +259,7 @@ function output(oc, s, ofs, len) {
 function output_substring(oc, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: "output_substring",
           Error: new Error()
         };
@@ -299,7 +318,7 @@ function open_in_bin(name) {
 function input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: "input",
           Error: new Error()
         };
@@ -317,7 +336,7 @@ function unsafe_really_input(ic, s, _ofs, _len) {
     var r = Caml_external_polyfill.resolve("caml_ml_input")(ic, s, ofs, len);
     if (r === 0) {
       throw {
-            RE_EXN_ID: "End_of_file",
+            RE_EXN_ID: Stdlib__no_aliases.End_of_file,
             Error: new Error()
           };
     }
@@ -330,7 +349,7 @@ function unsafe_really_input(ic, s, _ofs, _len) {
 function really_input(ic, s, ofs, len) {
   if (ofs < 0 || len < 0 || ofs > (s.length - len | 0)) {
     throw {
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: "really_input",
           Error: new Error()
         };
@@ -371,7 +390,7 @@ function input_line(chan) {
         return build_result(Caml_bytes.caml_create_bytes(len), len, accu);
       }
       throw {
-            RE_EXN_ID: "End_of_file",
+            RE_EXN_ID: Stdlib__no_aliases.End_of_file,
             Error: new Error()
           };
     }

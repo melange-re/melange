@@ -3,10 +3,11 @@
 var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Stack = require("../../lib/js/stack.js");
+var Caml_obj = require("../../lib/js/caml_obj.js");
 
 function to_list(v) {
   var acc = /* [] */0;
-  while(v.c !== /* [] */0) {
+  while(!Caml_obj.caml_equal(v.c, /* [] */0)) {
     acc = {
       hd: Stack.pop(v),
       tl: acc

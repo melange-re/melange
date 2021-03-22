@@ -3,7 +3,7 @@
 var Curry = require("../../lib/js/curry.js");
 var Format = require("../../lib/js/format.js");
 
-Curry._1(Format.fprintf(Format.std_formatter, /* Format */{
+Curry._1(Format.fprintf(Format.std_formatter)(/* Format */{
           _0: {
             TAG: /* Int */4,
             _0: /* Int_d */0,

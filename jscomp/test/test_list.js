@@ -3,7 +3,7 @@
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function length_aux(_len, _param) {
   while(true) {
@@ -95,7 +95,7 @@ function rev(l) {
 
 function flatten(param) {
   if (param) {
-    return Pervasives.$at(param.hd, flatten(param.tl));
+    return Stdlib__no_aliases.$at(param.hd, flatten(param.tl));
   } else {
     return /* [] */0;
   }
@@ -460,7 +460,7 @@ function assoc(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -478,7 +478,7 @@ function assq(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -556,7 +556,7 @@ function find(p, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1489,7 +1489,7 @@ function sort_uniq(cmp, l) {
 
 var u = List.length;
 
-var append = Pervasives.$at;
+var append = Stdlib__no_aliases.$at;
 
 var concat = flatten;
 

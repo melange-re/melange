@@ -4,18 +4,20 @@ var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Lexing = require("../../lib/js/lexing.js");
+var Caml_obj = require("../../lib/js/caml_obj.js");
 var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");
 var Number_lexer = require("./number_lexer.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function get_tokens(lex, str) {
-  var buf = Lexing.from_string(str);
+  var buf = Lexing.from_string(undefined, str);
   var _acc = /* [] */0;
   while(true) {
     var acc = _acc;
     var v = Curry._1(lex, buf);
-    if (v === /* EOF */7) {
+    if (Caml_obj.caml_equal(v, /* EOF */7)) {
       return List.rev(acc);
     }
     _acc = {
@@ -41,7 +43,7 @@ function from_tokens(lst) {
       return match.hd;
     }
     throw {
-          RE_EXN_ID: "End_of_file",
+          RE_EXN_ID: Stdlib__no_aliases.End_of_file,
           Error: new Error()
         };
   };
@@ -97,7 +99,7 @@ var lexer_suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: Arith_lexer.lexeme(Lexing.from_string("10")),
+                _0: Arith_lexer.lexeme(Lexing.from_string(undefined, "10")),
                 _1: {
                   TAG: /* NUMERAL */0,
                   _0: 10
@@ -119,7 +121,7 @@ var lexer_suites_1 = {
             };
             
           };
-          Number_lexer.token(add, Lexing.from_string("32 + 32 ( ) * / "));
+          Number_lexer.token(add, Lexing.from_string(undefined, "32 + 32 ( ) * / "));
           return {
                   TAG: /* Eq */0,
                   _0: List.rev(v.contents),
@@ -184,7 +186,7 @@ var lexer_suites_1 = {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Lexing.from_string("10"))),
+                    _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Lexing.from_string(undefined, "10"))),
                     _1: "10."
                   };
           })
@@ -195,7 +197,7 @@ var lexer_suites_1 = {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Lexing.from_string("x + 3 + 4 + y"))),
+                      _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Lexing.from_string(undefined, "x + 3 + 4 + y"))),
                       _1: "x+3.+4.+y"
                     };
             })

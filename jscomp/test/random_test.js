@@ -7,7 +7,6 @@ var Printf = require("../../lib/js/printf.js");
 var Random = require("../../lib/js/random.js");
 var Mt_global = require("./mt_global.js");
 var Caml_array = require("../../lib/js/caml_array.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
 
 var id = {
   contents: 0
@@ -39,7 +38,7 @@ Mt_global.collect_neq(id, suites, "File \"random_test.ml\", line 12, characters 
 
 Random.init(0);
 
-var v = Caml_array.caml_make_vect(10, false);
+var v = Caml_array.make(10, false);
 
 for(var i = 0; i <= 9; ++i){
   Caml_array.set(v, i, Random.bool(undefined));
@@ -60,7 +59,10 @@ Mt_global.collect_eq(id, suites, "File \"random_test.ml\", line 26, characters 5
 
 var f = Random.int64(Int64.max_int);
 
-var h = Random.int64(/* @__PURE__ */Caml_int64.mk(3, 0));
+var h = Random.int64([
+      0,
+      3
+    ]);
 
 var vv = Random.bits(undefined);
 
@@ -95,7 +97,10 @@ Curry._5(Printf.printf(/* Format */{
                       _0: /* ' ' */32,
                       _1: {
                         TAG: /* Float */8,
-                        _0: /* Float_f */0,
+                        _0: [
+                          /* Float_flag_ */0,
+                          /* Float_f */0
+                        ],
                         _1: /* No_padding */0,
                         _2: /* No_precision */0,
                         _3: {

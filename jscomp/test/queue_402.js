@@ -76,10 +76,10 @@ function copy(q) {
           };
   }
   var tail = q.tail;
-  var tail$prime = {};
-  Caml_obj.update_dummy(tail$prime, {
+  var tail$p = {};
+  Caml_obj.update_dummy(tail$p, {
         content: tail.content,
-        next: tail$prime
+        next: tail$p
       });
   var copy$1 = function (_prev, _cell) {
     while(true) {
@@ -90,7 +90,7 @@ function copy(q) {
       }
       var res = {
         content: cell.content,
-        next: tail$prime
+        next: tail$p
       };
       prev.next = res;
       _cell = cell.next;
@@ -98,10 +98,10 @@ function copy(q) {
       continue ;
     };
   };
-  copy$1(tail$prime, tail.next);
+  copy$1(tail$p, tail.next);
   return {
           length: q.length,
-          tail: tail$prime
+          tail: tail$p
         };
 }
 
@@ -169,6 +169,50 @@ function transfer(q1, q2) {
   
 }
 
+function of_seq(param) {
+  throw {
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "queue_402.ml",
+          167,
+          15
+        ],
+        Error: new Error()
+      };
+}
+
+function add_seq(param, param$1) {
+  throw {
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "queue_402.ml",
+          168,
+          18
+        ],
+        Error: new Error()
+      };
+}
+
+function to_seq(param) {
+  throw {
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "queue_402.ml",
+          169,
+          15
+        ],
+        Error: new Error()
+      };
+}
+
+function peek_opt(param) {
+  
+}
+
+function take_opt(param) {
+  
+}
+
 var push = add;
 
 var top = peek;
@@ -190,4 +234,9 @@ exports.length = length;
 exports.iter = iter;
 exports.fold = fold;
 exports.transfer = transfer;
+exports.of_seq = of_seq;
+exports.add_seq = add_seq;
+exports.to_seq = to_seq;
+exports.peek_opt = peek_opt;
+exports.take_opt = take_opt;
 /* No side effect */

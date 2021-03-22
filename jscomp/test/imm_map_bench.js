@@ -57,19 +57,13 @@ test2(undefined);
 
 console.timeEnd("imm_map_bench.ml 45");
 
-var A;
-
 var count = 1000000;
 
-var M;
-
-exports.A = A;
 exports.empty = empty;
 exports.fromArray = fromArray;
 exports.should = should;
 exports.count = count;
 exports.shuffledDataAdd = shuffledDataAdd;
 exports.test = test;
-exports.M = M;
 exports.test2 = test2;
 /* empty Not a pure module */

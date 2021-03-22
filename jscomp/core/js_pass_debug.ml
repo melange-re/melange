@@ -42,7 +42,7 @@ let dump name (prog : J.program) =
           Ext_log.dwarn ~__POS__ "\n@[[TIME:]%s: %f@]@." name (Sys.time () *. 1000.);
           Ext_pervasives.with_file_as_chan
             (Ext_filename.new_extension !Location.input_name
-             (Printf.sprintf ".%02d.%s.jsx"  !log_counter name)
+               (Printf.sprintf ".%02d.%s.jsx"  !log_counter name)
             ) (fun chan -> Js_dump_program.dump_program prog chan )
         end in
     prog

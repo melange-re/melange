@@ -2,6 +2,7 @@
 
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function Make(Ord) {
   var height = function (param) {
@@ -149,7 +150,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -158,15 +159,14 @@ function Make(Ord) {
     while(true) {
       var param = _param;
       if (param) {
-        var r = param._2;
-        if (!r) {
+        if (!param._2) {
           return param._1;
         }
-        _param = r;
+        _param = param._2;
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -493,13 +493,13 @@ function Make(Ord) {
       return /* Empty */0;
     }
     var v = param._1;
-    var l$prime = filter(p, param._0);
+    var l$p = filter(p, param._0);
     var pv = Curry._1(p, v);
-    var r$prime = filter(p, param._2);
+    var r$p = filter(p, param._2);
     if (pv) {
-      return join(l$prime, v, r$prime);
+      return join(l$p, v, r$p);
     } else {
-      return concat(l$prime, r$prime);
+      return concat(l$p, r$p);
     }
   };
   var partition = function (p, param) {
@@ -567,7 +567,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };

@@ -6,7 +6,11 @@ function $$eval(_bdd, vars) {
   while(true) {
     var bdd = _bdd;
     if (typeof bdd === "number") {
-      return bdd === 0;
+      if (bdd) {
+        return false;
+      } else {
+        return true;
+      }
     }
     if (Caml_array.get(vars, bdd._1)) {
       _bdd = bdd._3;
@@ -19,7 +23,7 @@ function $$eval(_bdd, vars) {
 
 function getId(bdd) {
   if (typeof bdd === "number") {
-    if (bdd !== 0) {
+    if (bdd) {
       return 0;
     } else {
       return 1;
@@ -38,7 +42,7 @@ var sz_1 = {
 };
 
 var htab = {
-  contents: Caml_array.caml_make_vect(sz_1.contents + 1 | 0, /* [] */0)
+  contents: Caml_array.make(sz_1.contents + 1 | 0, /* [] */0)
 };
 
 var n_items = {
@@ -52,7 +56,7 @@ function hashVal(x, y, v) {
 function resize(newSize) {
   var arr = htab.contents;
   var newSz_1 = newSize - 1 | 0;
-  var newArr = Caml_array.caml_make_vect(newSize, /* [] */0);
+  var newArr = Caml_array.make(newSize, /* [] */0);
   var copyBucket = function (_bucket) {
     while(true) {
       var bucket = _bucket;
@@ -107,7 +111,7 @@ function insert(idl, idh, v, ind, bucket, newNode) {
 
 function resetUnique(param) {
   sz_1.contents = 8191;
-  htab.contents = Caml_array.caml_make_vect(sz_1.contents + 1 | 0, /* [] */0);
+  htab.contents = Caml_array.make(sz_1.contents + 1 | 0, /* [] */0);
   n_items.contents = 0;
   nodeC.contents = 1;
   
@@ -169,21 +173,21 @@ function mkVar(x) {
   return mkNode(/* Zero */1, x, /* One */0);
 }
 
-var andslot1 = Caml_array.caml_make_vect(1999, 0);
+var andslot1 = Caml_array.make(1999, 0);
 
-var andslot2 = Caml_array.caml_make_vect(1999, 0);
+var andslot2 = Caml_array.make(1999, 0);
 
-var andslot3 = Caml_array.caml_make_vect(1999, /* Zero */1);
+var andslot3 = Caml_array.make(1999, /* Zero */1);
 
-var xorslot1 = Caml_array.caml_make_vect(1999, 0);
+var xorslot1 = Caml_array.make(1999, 0);
 
-var xorslot2 = Caml_array.caml_make_vect(1999, 0);
+var xorslot2 = Caml_array.make(1999, 0);
 
-var xorslot3 = Caml_array.caml_make_vect(1999, /* Zero */1);
+var xorslot3 = Caml_array.make(1999, /* Zero */1);
 
-var notslot1 = Caml_array.caml_make_vect(1999, 0);
+var notslot1 = Caml_array.make(1999, 0);
 
-var notslot2 = Caml_array.caml_make_vect(1999, /* One */0);
+var notslot2 = Caml_array.make(1999, /* One */0);
 
 function hash(x, y) {
   return ((x << 1) + y | 0) % 1999;
@@ -191,7 +195,7 @@ function hash(x, y) {
 
 function not(n) {
   if (typeof n === "number") {
-    if (n !== 0) {
+    if (n) {
       return /* One */0;
     } else {
       return /* Zero */1;
@@ -210,7 +214,7 @@ function not(n) {
 
 function and2(n1, n2) {
   if (typeof n1 === "number") {
-    if (n1 !== 0) {
+    if (n1) {
       return /* Zero */1;
     } else {
       return n2;
@@ -221,7 +225,7 @@ function and2(n1, n2) {
   var v1 = n1._1;
   var l1 = n1._0;
   if (typeof n2 === "number") {
-    if (n2 !== 0) {
+    if (n2) {
       return /* Zero */1;
     } else {
       return n1;
@@ -257,7 +261,7 @@ function and2(n1, n2) {
 
 function xor(n1, n2) {
   if (typeof n1 === "number") {
-    if (n1 !== 0) {
+    if (n1) {
       return n2;
     } else {
       return not(n2);
@@ -268,7 +272,7 @@ function xor(n1, n2) {
   var v1 = n1._1;
   var l1 = n1._0;
   if (typeof n2 === "number") {
-    if (n2 !== 0) {
+    if (n2) {
       return n1;
     } else {
       return not(n1);
@@ -330,7 +334,7 @@ function random(param) {
 }
 
 function random_vars(n) {
-  var vars = Caml_array.caml_make_vect(n, false);
+  var vars = Caml_array.make(n, false);
   for(var i = 0; i < n; ++i){
     Caml_array.set(vars, i, random(undefined));
   }

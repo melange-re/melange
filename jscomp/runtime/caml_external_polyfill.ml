@@ -37,11 +37,11 @@ type dyn
 let resolve : string -> dyn [@bs] = [%raw {|function(s){
   var myGlobal = getGlobalThis();
   if (myGlobal[s] === undefined){
-    throw new Error(s + " not polyfilled by BuckleScript yet\n")
+    throw new Error(s + " not polyfilled by ReScript yet\n")
   }
   return myGlobal[s]
 }|}]
-  
+
 (* FIXME: it does not have to global states *)
 type fn 
 

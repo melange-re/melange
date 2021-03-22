@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -34,12 +34,12 @@ let format = "Caml_format"
 let string = "Caml_string"
 let bytes = "Caml_bytes"
 let float = "Caml_float"
-let hash_primitive = "Caml_hash_primitive" 
+let hash_primitive = "Caml_hash_primitive"
 let hash = "Caml_hash"
 let oo = "Caml_oo"
 let curry = "Curry"
 let caml_oo_curry = "Caml_oo_curry"
-let caml_primitive = "Caml_primitive"
+let caml_primitive = "Caml"
 let int64 = "Caml_int64"
 let md5 = "Caml_md5"
 let int32 = "Caml_int32"

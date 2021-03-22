@@ -137,18 +137,18 @@ function make(type) {
   var { types: typedefs, names } = type;
   var output = typedefs.map((x) => mkMethod(x, names));
   var o = `
-    open J  
+    open J
     let [@inline] unknown _self _ = _self
-    let [@inline] option sub  self = fun v -> 
-      match v with 
-      | None -> self 
-      | Some x -> sub self x 
+    let [@inline] option sub  self = fun v ->
+      match v with
+      | None -> self
+      | Some x -> sub self x
     let rec list (sub : 'self_type -> 'a -> 'self_type) self = fun v ->
-      match  v with 
-      | [] -> self 
-      | x::xs -> 
-        let self = sub self x in 
-        list sub self xs 
+      match  v with
+      | [] -> self
+      | x::xs ->
+        let self = sub self x in
+        list sub self xs
     class  fold =
       object ((_self : 'self_type))
         method list :
@@ -157,7 +157,7 @@ function make(type) {
             function
             | [] -> _self
             | _x :: _x_i1 -> let _self = _f_a _self _x in let _self = _self#list _f_a _x_i1 in _self
-    ${output.join("\n")}    
+    ${output.join("\n")}
     end
     `;
   return o;

@@ -1,13 +1,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var Belt_Id = require("../../lib/js/belt_Id.js");
 var Belt_Map = require("../../lib/js/belt_Map.js");
 var Belt_List = require("../../lib/js/belt_List.js");
 var Belt_Array = require("../../lib/js/belt_Array.js");
 var Belt_MapDict = require("../../lib/js/belt_MapDict.js");
 var Belt_SetDict = require("../../lib/js/belt_SetDict.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {
@@ -26,11 +26,11 @@ function b(loc, v) {
   return Mt.bool_suites(test_id, suites, loc, v);
 }
 
-var Icmp = Belt_Id.comparable(Caml_primitive.caml_int_compare);
+var Icmp = Belt_Id.comparable(Caml.caml_int_compare);
 
-var Icmp2 = Belt_Id.comparable(Caml_primitive.caml_int_compare);
+var Icmp2 = Belt_Id.comparable(Caml.caml_int_compare);
 
-var Ic3 = Belt_Id.comparable(Caml_primitive.caml_int_compare);
+var Ic3 = Belt_Id.comparable(Caml.caml_int_compare);
 
 var m0_cmp = Icmp.cmp;
 
@@ -47,7 +47,7 @@ var m00 = {
 };
 
 var I2 = Belt_Id.comparable(function (x, y) {
-      return Caml_primitive.caml_int_compare(y, x);
+      return Caml.caml_int_compare(y, x);
     });
 
 var m_cmp = Icmp2.cmp;
@@ -166,25 +166,9 @@ eq("File \"bs_map_set_dict_test.ml\", line 97, characters 4-11", Belt_Array.make
 
 Mt.from_pair_suites("Bs_map_set_dict_test", suites.contents);
 
-var M;
-
-var MI;
-
-var I;
-
-var A;
-
-var L;
-
 var vv;
 
 var vv2;
-
-var Md0;
-
-var ISet;
-
-var S0;
 
 exports.suites = suites;
 exports.test_id = test_id;
@@ -193,11 +177,6 @@ exports.b = b;
 exports.Icmp = Icmp;
 exports.Icmp2 = Icmp2;
 exports.Ic3 = Ic3;
-exports.M = M;
-exports.MI = MI;
-exports.I = I;
-exports.A = A;
-exports.L = L;
 exports.m0 = m0;
 exports.m00 = m00;
 exports.I2 = I2;
@@ -205,9 +184,6 @@ exports.m = m;
 exports.m2 = m2;
 exports.vv = vv;
 exports.vv2 = vv2;
-exports.Md0 = Md0;
-exports.ISet = ISet;
-exports.S0 = S0;
 exports.f = f;
 exports.$eq$tilde = $eq$tilde;
 /* Icmp Not a pure module */

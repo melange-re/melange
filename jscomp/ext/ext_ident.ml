@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+ * 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -29,17 +29,7 @@
 
 
 let js_flag = 100000008
-
-(* let js_module_flag = 0b10_000 (\* javascript external modules *\) *)
-(* TODO:
-    check name conflicts with javascript conventions
-   {[
-     Ext_ident.convert "^";;
-     - : string = "$caret"
-   ]}
-*)
 let js_object_flag = 100000032
-  (* javascript object flags *)
 
 let is_js (i : Ident.t) =
   (Ident.scope i) = js_flag
@@ -48,28 +38,37 @@ let is_js_or_global (i : Ident.t) =
   Ident.global i || is_js i
 
 
-let is_js_object (i : Ident.t) =
-  (Ident.scope i) land js_object_flag <> 0
-
-
 type[@ocaml.warning "-unused-constructor"] t =
   | Local of { name: string; stamp: int }
   | Scoped of { name: string; stamp: int; scope: int }
   | Global of string
   | Predef of { name: string; stamp: int }
 
+(* XXX(anmonteiro): This is an artifact of the 4.12 upgrade that we need to fix
+   at some point. This project (as well as the OCaml compiler, previously)
+   abuses the `Ident.t` type in order to know whether some identifier comes
+   from the JS side or not, with the objective of dealing with shadowing
+   accordingly (semantics of OCaml and JS are different, e.g. with regards to
+   recursion).
+
+   An interesting read: https://github.com/ocaml/ocaml/pull/1980 *)
+let create_unsafe_dont_use_or_bad_things_will_happen ~scope ~stamp name =
+  (Obj.magic (Scoped { name; stamp; scope }) : Ident.t)
+
 let make_js_object (i : Ident.t) =
-  (* FIXME(anmonteiro): fix for 4.12 *)
-  (* i.flags <- i.flags lor js_object_flag *)
-  (Obj.magic (Scoped { name = Ident.name i; stamp = Ident.stamp i; scope = js_object_flag }) : Ident.t)
+  create_unsafe_dont_use_or_bad_things_will_happen
+   ~stamp:(Ident.stamp i)
+   ~scope:(Ident.scope i lor js_object_flag)
+   (Ident.name i)
 
-  (* Ident.create_scoped ~scope:js_flag name *)
-
-(* It's a js function hard coded by js api, so when printing,
-   it should preserve the name
-*)
+(* `create_js` creates an ident that has been described to us by the JS FFI. In
+   OCaml 4.06 and below, the `Ident.t` type abused `flags` and `stamp` to mark
+   it as such ("global" values had a stamp of 0). After PR#1980 to OCaml, not
+   only has the `Ident.t` type been made abstract, but also the `Global of
+   string` constructor stopped taking "flags" (which we need to mark the value
+   as coming from the JS FFI). *)
 let create_js (name : string) : Ident.t  =
-  Ident.create_scoped ~scope:js_flag name
+  create_unsafe_dont_use_or_bad_things_will_happen ~stamp:0 ~scope:js_flag name
 
 let create = Ident.create_local
 
@@ -108,95 +107,59 @@ let js_module_table : Ident.t Hash_string.t = Hash_string.create 31
 
  *)
 
+let [@inline] convert (c : char) : string =
+  (match c with
+   | '*' ->   "$star"
+   | '\'' ->   "$p"
+   | '!' ->   "$bang"
+   | '>' ->   "$great"
+   | '<' ->   "$less"
+   | '=' ->   "$eq"
+   | '+' ->   "$plus"
+   | '-' ->   "$neg"
+   | '@' ->   "$at"
+   | '^' ->   "$caret"
+   | '/' ->   "$slash"
+   | '|' ->   "$pipe"
+   | '.' ->   "$dot"
+   | '%' ->   "$percent"
+   | '~' ->   "$tilde"
+   | '#' ->   "$hash"
+   | ':' ->   "$colon"
+   | '?' ->   "$question"
+   | '&' ->   "$amp"
+   | '(' ->   "$lpar"
+   | ')' ->   "$rpar"
+   | '{' ->   "$lbrace"
+   | '}' ->   "$lbrace"
+   | '[' ->   "$lbrack"
+   | ']' ->   "$rbrack"
 
-
-exception Not_normal_letter of int
+   | _ ->   "$unknown")
+let [@inline] no_escape (c : char) =
+  match c with
+  | 'a' .. 'z' | 'A' .. 'Z'
+  | '0' .. '9' | '_' | '$' -> true
+  | _ -> false
+exception Not_normal_letter
 let name_mangle name =
-
   let len = String.length name  in
   try
     for i  = 0 to len - 1 do
-      match String.unsafe_get name i with
-      | 'a' .. 'z' | 'A' .. 'Z'
-      | '0' .. '9' | '_' | '$'
-        -> ()
-      | _ -> raise (Not_normal_letter i)
+      if not (no_escape (String.unsafe_get name i)) then
+        raise_notrace (Not_normal_letter )
     done;
     name (* Normal letter *)
   with
-  | Not_normal_letter 0 ->
-
-    let buffer = Buffer.create len in
+  | Not_normal_letter ->
+    let buffer = Ext_buffer.create len in
     for j = 0 to  len - 1 do
       let c = String.unsafe_get name j in
-      match c with
-      | '*' -> Buffer.add_string buffer "$star"
-      | '\'' -> Buffer.add_string buffer "$prime"
-      | '!' -> Buffer.add_string buffer "$bang"
-      | '>' -> Buffer.add_string buffer "$great"
-      | '<' -> Buffer.add_string buffer "$less"
-      | '=' -> Buffer.add_string buffer "$eq"
-      | '+' -> Buffer.add_string buffer "$plus"
-      | '-' -> Buffer.add_string buffer "$neg"
-      | '@' -> Buffer.add_string buffer "$at"
-      | '^' -> Buffer.add_string buffer "$caret"
-      | '/' -> Buffer.add_string buffer "$slash"
-      | '|' -> Buffer.add_string buffer "$pipe"
-      | '.' -> Buffer.add_string buffer "$dot"
-      | '%' -> Buffer.add_string buffer "$percent"
-      | '~' -> Buffer.add_string buffer "$tilde"
-      | '#' -> Buffer.add_string buffer "$hash"
-      | ':' -> Buffer.add_string buffer "$colon"
-      | '?' -> Buffer.add_string buffer "$question"
-      | '&' -> Buffer.add_string buffer "$amp"
-      | '(' -> Buffer.add_string buffer "$lpar"
-      | ')' -> Buffer.add_string buffer "$rpar"
-      | '{' -> Buffer.add_string buffer "$lbrace"
-      | '}' -> Buffer.add_string buffer "$lbrace"
-      | '[' -> Buffer.add_string buffer "$lbrack"
-      | ']' -> Buffer.add_string buffer "$rbrack"
-      | 'a'..'z' | 'A'..'Z'| '_'
-      | '$'
-      | '0'..'9'-> Buffer.add_char buffer  c
-      | _ -> Buffer.add_string buffer "$unknown"
-    done; Buffer.contents buffer
-  | Not_normal_letter i ->
-    String.sub name 0 i ^
-    (let buffer = Buffer.create len in
-     for j = i to  len - 1 do
-       let c = String.unsafe_get name j in
-       match c with
-       | '*' -> Buffer.add_string buffer "$star"
-       | '\'' -> Buffer.add_string buffer "$prime"
-       | '!' -> Buffer.add_string buffer "$bang"
-       | '>' -> Buffer.add_string buffer "$great"
-       | '<' -> Buffer.add_string buffer "$less"
-       | '=' -> Buffer.add_string buffer "$eq"
-       | '+' -> Buffer.add_string buffer "$plus"
-       | '-' -> Buffer.add_string buffer "$"
-        (* Note ocaml compiler also has [self-] *)
-       | '@' -> Buffer.add_string buffer "$at"
-       | '^' -> Buffer.add_string buffer "$caret"
-       | '/' -> Buffer.add_string buffer "$slash"
-       | '|' -> Buffer.add_string buffer "$pipe"
-       | '.' -> Buffer.add_string buffer "$dot"
-       | '%' -> Buffer.add_string buffer "$percent"
-       | '~' -> Buffer.add_string buffer "$tilde"
-       | '#' -> Buffer.add_string buffer "$hash"
-       | ':' -> Buffer.add_string buffer "$colon"
-       | '?' -> Buffer.add_string buffer "$question"
-       | '&' -> Buffer.add_string buffer "$amp"
-       | '$' -> Buffer.add_string buffer "$dollar"
-       | '(' -> Buffer.add_string buffer "$lpar"
-       | ')' -> Buffer.add_string buffer "$rpar"
-       | '{' -> Buffer.add_string buffer "$lbrace"
-       | '}' -> Buffer.add_string buffer "$lbrace"
-       | '[' -> Buffer.add_string buffer "$lbrack"
-       | ']' -> Buffer.add_string buffer "$rbrack"
-       | 'a'..'z' | 'A'..'Z'| '_'
-       | '0'..'9'-> Buffer.add_char buffer  c
-       | _ -> Buffer.add_string buffer "$unknown"
-     done; Buffer.contents buffer)
+      if no_escape c then Ext_buffer.add_char buffer c
+      else
+        Ext_buffer.add_string buffer (convert c)
+    done; Ext_buffer.contents buffer
+
 (* TODO:
     check name conflicts with javascript conventions
    {[

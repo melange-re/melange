@@ -3,7 +3,7 @@
 var Mt = require("./mt.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_array = require("../../lib/js/caml_array.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function map(f, a) {
   var f$1 = Curry.__1(f);
@@ -11,7 +11,7 @@ function map(f, a) {
   if (l === 0) {
     return [];
   }
-  var r = Caml_array.caml_make_vect(l, f$1(a[0]));
+  var r = Caml_array.make(l, f$1(a[0]));
   for(var i = 1; i < l; ++i){
     r[i] = f$1(a[i]);
   }
@@ -30,7 +30,7 @@ function init(l, f) {
           Error: new Error()
         };
   }
-  var res = Caml_array.caml_make_vect(l, f$1(0));
+  var res = Caml_array.make(l, f$1(0));
   for(var i = 1; i < l; ++i){
     res[i] = f$1(i);
   }
@@ -56,7 +56,7 @@ function f2(param) {
   var v = fold_left((function (prim, prim$1) {
           return prim + prim$1;
         }), 0, b);
-  console.log(Pervasives.string_of_float(v));
+  console.log(Stdlib__no_aliases.string_of_float(v));
   
 }
 

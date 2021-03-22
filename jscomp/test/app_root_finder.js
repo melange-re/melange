@@ -2,6 +2,7 @@
 
 var Fs = require("fs");
 var Path = require("path");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var package_json = "package.json";
 
@@ -14,7 +15,7 @@ function find_package_json(_dir) {
     var new_dir = Path.dirname(dir);
     if (new_dir === dir) {
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     }

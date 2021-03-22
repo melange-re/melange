@@ -89,7 +89,6 @@ val ml_module_as_var :
   t
 
 val runtime_call :
-  ?comment:string ->
   string -> (* module_name *)
   string -> (* fn_name *)
   t list -> (* args *)
@@ -129,6 +128,7 @@ val method_ : ?comment:string ->
 val econd : ?comment:string -> t -> t -> t -> t
 
 val int : ?comment:string -> ?c:char ->  int32 -> t
+val uint32: ?comment:string -> int32 -> t
 val small_int : int -> t
 val float : ?comment:string -> string -> t
 
@@ -409,3 +409,7 @@ val resolve_and_apply :
   string ->
   t list ->
   t
+  
+val make_exception :
+  string -> 
+  t 

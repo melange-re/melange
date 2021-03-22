@@ -79,19 +79,10 @@ Belt_MapInt.checkInvariantInternal(xx);
 
 Mt.from_pair_suites("Bs_map_test", suites.contents);
 
-var M;
-
-var N;
-
-var A;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.M = M;
-exports.N = N;
-exports.A = A;
 exports.mapOfArray = mapOfArray;
 exports.setOfArray = setOfArray;
 exports.emptyMap = emptyMap;

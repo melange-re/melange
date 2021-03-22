@@ -2,8 +2,9 @@
 
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function cons_enum(_s, _e) {
   while(true) {
@@ -42,7 +43,7 @@ function min_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -52,15 +53,14 @@ function max_elt(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param._2;
-      if (!r) {
+      if (!param._2) {
         return param._1;
       }
-      _param = r;
+      _param = param._2;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -210,7 +210,7 @@ function check_height_and_diff(param) {
           Error: new Error()
         };
   }
-  var diff = Pervasives.abs(hl - hr | 0);
+  var diff = Stdlib__no_aliases.abs(hl - hr | 0);
   if (diff > 2) {
     throw {
           RE_EXN_ID: Height_diff_borken,
@@ -397,13 +397,13 @@ function filter(p, param) {
     return /* Empty */0;
   }
   var v = param._1;
-  var l$prime = filter(p, param._0);
+  var l$p = filter(p, param._0);
   var pv = Curry._1(p, v);
-  var r$prime = filter(p, param._2);
+  var r$p = filter(p, param._2);
   if (pv) {
-    return internal_join(l$prime, v, r$prime);
+    return internal_join(l$p, v, r$p);
   } else {
-    return internal_concat(l$prime, r$prime);
+    return internal_concat(l$p, r$p);
   }
 }
 
@@ -664,7 +664,7 @@ function is_ordered(cmp, tree) {
       return "No";
     }
   };
-  return is_ordered_min_max(tree) !== "No";
+  return Caml_obj.caml_notequal(is_ordered_min_max(tree), "No");
 }
 
 function invariant(cmp, t) {

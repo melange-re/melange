@@ -2,7 +2,7 @@
 
 var Mt = require("./mt.js");
 var Int32 = require("../../lib/js/int32.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -30,9 +30,9 @@ function eq(loc, x, y) {
   
 }
 
-eq("File \"limits_test.ml\", line 10, characters 5-12", Pervasives.max_int, 2147483647);
+eq("File \"limits_test.ml\", line 10, characters 5-12", Stdlib__no_aliases.max_int, 2147483647);
 
-eq("File \"limits_test.ml\", line 11, characters 5-12", Pervasives.min_int, -2147483648);
+eq("File \"limits_test.ml\", line 11, characters 5-12", Stdlib__no_aliases.min_int, -2147483648);
 
 eq("File \"limits_test.ml\", line 12, characters 5-12", Int32.max_int, 2147483647);
 

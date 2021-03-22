@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of BuckleScript
+(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -29,7 +29,7 @@ let (//) = Ext_path.combine
 
 
 
-let handle_generators oc
+let handle_generators buf
     (group : Bsb_file_groups.file_group)
     custom_rules =
   let map_to_source_dir =
@@ -39,7 +39,7 @@ let handle_generators oc
       match Map_string.find_opt custom_rules command with
       | None -> Ext_fmt.failwithf ~loc:__LOC__ "custom rule %s used but  not defined" command
       | Some rule ->
-        Bsb_ninja_targets.output_build group.dir oc
+        Bsb_ninja_targets.output_build group.dir buf
           ~outputs:(Ext_list.map  output  map_to_source_dir)
           ~inputs:(Ext_list.map input map_to_source_dir)
           ~rule
@@ -73,7 +73,8 @@ let emit_module_build
     (is_dev : bool)
     buf
     ~per_proj_dir
-    ~bs_dependencies_deps
+    ~bs_dependencies
+    ~bs_dev_dependencies
     js_post_build_cmd
     namespace
     (module_info : Bsb_db.module_info)
@@ -111,6 +112,35 @@ let emit_module_build
     ~inputs:(if has_intf_file then [output_ast;output_iast] else [output_ast] )
     ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps)
   ;
+  let relative_ns_cmi =
+   match namespace with
+   | Some ns ->
+     [ (Ext_path.rel_normalized_absolute_path
+       ~from:(per_proj_dir // cur_dir)
+       (per_proj_dir // Bsb_config.lib_bs)) //
+      (ns ^ Literals.suffix_cmi) ]
+   | None -> []
+   in
+  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
+     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
+  )
+  in
+  let rel_bs_config_json =
+   Ext_path.combine
+    (Ext_path.rel_normalized_absolute_path
+       ~from:(Ext_path.combine per_proj_dir module_info.dir)
+       per_proj_dir)
+    Literals.bsconfig_json
+  in
+  let bs_dependencies = if is_dev then
+    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
+      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
+      )
+    in
+    dev_dependencies @ bs_dependencies
+  else
+    bs_dependencies
+  in
   if has_intf_file then begin
     Bsb_ninja_targets.output_build cur_dir buf
       ~outputs:[output_iast]
@@ -125,6 +155,8 @@ let emit_module_build
       ~outputs:[output_cmi]
       ~inputs:[output_iast]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
+      ~bs_dependencies
+      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
     ;
   end;
 
@@ -137,34 +169,14 @@ let emit_module_build
        else rules.mij
       )
   in
-  let relative_ns_cmi =
-   match namespace with
-   | Some ns ->
-     [ (Ext_path.rel_normalized_absolute_path
-       ~from:(per_proj_dir // cur_dir)
-       (per_proj_dir // Bsb_config.lib_bs)) //
-      (ns ^ Literals.suffix_cmi) ]
-   | None -> []
-   in
-  let bs_dependencies_deps = Ext_list.map bs_dependencies_deps (fun dir ->
-     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
-  )
-  in
-  let rel_bs_config_json =
-   Ext_path.combine
-    (Ext_path.rel_normalized_absolute_path
-       ~from:(Ext_path.combine per_proj_dir module_info.dir)
-       per_proj_dir)
-    Literals.bsconfig_json
-  in
   Bsb_ninja_targets.output_build cur_dir buf
     ~outputs:[output_cmj]
     ~implicit_outputs:
      (if has_intf_file then [] else [ output_cmi ])
     ~js_outputs:output_js
     ~inputs:[output_ast]
-    ~implicit_deps:(if has_intf_file then [output_cmi; output_d_as_dep] else [output_d_as_dep])
-    ~bs_dependencies_deps
+    ~implicit_deps:(if has_intf_file then [(Filename.basename output_cmi); output_d_as_dep] else [output_d_as_dep])
+    ~bs_dependencies
     ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
     ~rule;
   output_js, output_d
@@ -178,7 +190,8 @@ let handle_files_per_dir
     ~package_specs
     ~js_post_build_cmd
     ~files_to_install
-    ~bs_dependencies_deps
+    ~bs_dependencies
+    ~bs_dev_dependencies
     (group: Bsb_file_groups.file_group )
   : unit =
   let per_proj_dir = global_config.src_root_dir in
@@ -189,7 +202,7 @@ let handle_files_per_dir
   Buffer.add_string buf rel_group_dir;
   Buffer.add_char buf '\n';
   let is_dev = group.is_dev in
-  (* handle_generators oc group rules.customs ; *)
+  handle_generators buf group rules.customs ;
   let installable =
     match group.public with
     | Export_all -> fun _ -> true
@@ -206,7 +219,8 @@ let handle_files_per_dir
         is_dev
         buf
         ~per_proj_dir
-        ~bs_dependencies_deps
+        ~bs_dependencies
+        ~bs_dev_dependencies
         js_post_build_cmd
         global_config.namespace module_info
       in

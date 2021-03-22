@@ -16,7 +16,6 @@
 docs/*
 docs/docson/*
 !docs/docson/build-schema.json
-site/
 .vscode/
 .github/
 odoc_gen
@@ -41,3 +40,4 @@ vendor/js_of_ocaml.bc
 syntax/
 *.log
 ninja
+ocaml-tree

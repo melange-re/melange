@@ -70,7 +70,6 @@ external set_raw_field : t -> int -> raw_data -> unit
                                           = "caml_obj_set_raw_field"
   (* @since 4.12 *)
 
-external new_block : int -> int -> t = "caml_obj_block"
 external dup : t -> t = "caml_obj_dup"
 external truncate : t -> int -> unit = "caml_obj_truncate"
   [@@ocaml.deprecated]

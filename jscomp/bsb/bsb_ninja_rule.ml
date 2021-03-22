@@ -24,7 +24,14 @@
 
 
 
+module Generators = struct
+  let regexp = Str.regexp "\\(\\$in\\)\\|\\(\\$out\\)"
 
+  let maybe_match ~group s =
+    match Str.matched_group group s with
+    | matched -> Some matched
+    | exception Not_found -> None
+end
 
 
 type t = {
@@ -86,8 +93,6 @@ type builtin = {
 }
 
 
-;;
-
 let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
   ~(has_postbuild : string option)
@@ -95,7 +100,6 @@ let make_custom_rules
   ~(has_builtin : bool)
   ~ppx_files
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
-  ~(refmt : string option) (* set refmt path when needed *)
   ~package_specs
   (custom_rules : command Map_string.t) :
   builtin =
@@ -185,12 +189,6 @@ let make_custom_rules
          );
        Buffer.add_char buf ' ';
        Buffer.add_string buf (Bsb_build_util.ppx_flags ppx_files));
-    (match refmt with
-    | None -> ()
-    | Some x ->
-      Buffer.add_string buf " -bs-refmt ";
-      Buffer.add_string buf (Ext_filename.maybe_quote x);
-    );
     (match pp_file with
      | None -> ()
      | Some flag ->
@@ -315,7 +313,18 @@ let make_custom_rules
     build_package ;
     customs =
       Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun buf ?target _cur_dir -> Buffer.add_string buf command) ("custom_" ^ name)
+        define ~command:(fun buf ?target _cur_dir ->
+          let actual_command =
+            Str.global_substitute Generators.regexp (fun match_ ->
+              match Generators.(maybe_match ~group:1 match_, maybe_match ~group:2 match_) with
+              | Some _, None -> "%{inputs}"
+              | None, Some _ -> "%{targets}"
+              | _ -> assert false)
+            command
+          in
+          let s = Format.asprintf "(action (system %S))" actual_command in
+          Buffer.add_string buf s)
+        ("custom_" ^ name)
       end
   }
 

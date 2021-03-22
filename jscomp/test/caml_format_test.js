@@ -8,8 +8,8 @@ var $$Buffer = require("../../lib/js/buffer.js");
 var Format = require("../../lib/js/format.js");
 var Printf = require("../../lib/js/printf.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
 
 var of_string = [
@@ -85,7 +85,7 @@ var of_string = [
 
 function from_float_of_string(xs) {
   return $$Array.mapi((function (i, param) {
-                return Pervasives.string_of_float;
+                return Stdlib__no_aliases.string_of_float;
               }), xs);
 }
 
@@ -189,19 +189,19 @@ var pairs$1 = [
   ]
 ];
 
-var suites = Pervasives.$at(from_of_string(of_string), Pervasives.$at({
+var suites = Stdlib__no_aliases.$at(from_of_string(of_string), Stdlib__no_aliases.$at({
           hd: [
             "isnan_of_string",
             (function (param) {
                 return {
                         TAG: /* Eq */0,
                         _0: true,
-                        _1: Pervasives.classify_float(Caml_format.caml_float_of_string("nan")) === /* FP_nan */4
+                        _1: Stdlib__no_aliases.classify_float(Caml_format.caml_float_of_string("nan")) === /* FP_nan */4
                       };
               })
           ],
           tl: /* [] */0
-        }, Pervasives.$at($$Array.to_list($$Array.mapi((function (i, param) {
+        }, Stdlib__no_aliases.$at($$Array.to_list($$Array.mapi((function (i, param) {
                         var b = param[1];
                         var a = param[0];
                         return [
@@ -223,11 +223,11 @@ var suites = Pervasives.$at(from_of_string(of_string), Pervasives.$at({
                                     return {
                                             TAG: /* Eq */0,
                                             _0: a,
-                                            _1: Pervasives.classify_float(Caml_format.caml_float_of_string(b))
+                                            _1: Stdlib__no_aliases.classify_float(Caml_format.caml_float_of_string(b))
                                           };
                                   })
                               ];
-                      }), pairs)), Pervasives.$at({
+                      }), pairs)), Stdlib__no_aliases.$at({
                   hd: [
                     "throw",
                     (function (param) {
@@ -551,7 +551,10 @@ var formatter_suites_1 = {
                                                                                     _0: /* ' ' */32,
                                                                                     _1: {
                                                                                       TAG: /* Float */8,
-                                                                                      _0: /* Float_f */0,
+                                                                                      _0: [
+                                                                                        /* Float_flag_ */0,
+                                                                                        /* Float_f */0
+                                                                                      ],
                                                                                       _1: /* No_padding */0,
                                                                                       _2: /* No_precision */0,
                                                                                       _3: {
@@ -559,7 +562,10 @@ var formatter_suites_1 = {
                                                                                         _0: /* ' ' */32,
                                                                                         _1: {
                                                                                           TAG: /* Float */8,
-                                                                                          _0: /* Float_F */15,
+                                                                                          _0: [
+                                                                                            /* Float_flag_ */0,
+                                                                                            /* Float_F */5
+                                                                                          ],
                                                                                           _1: /* No_padding */0,
                                                                                           _2: /* No_precision */0,
                                                                                           _3: {
@@ -567,7 +573,10 @@ var formatter_suites_1 = {
                                                                                             _0: /* ' ' */32,
                                                                                             _1: {
                                                                                               TAG: /* Float */8,
-                                                                                              _0: /* Float_e */3,
+                                                                                              _0: [
+                                                                                                /* Float_flag_ */0,
+                                                                                                /* Float_e */1
+                                                                                              ],
                                                                                               _1: /* No_padding */0,
                                                                                               _2: /* No_precision */0,
                                                                                               _3: {
@@ -575,7 +584,10 @@ var formatter_suites_1 = {
                                                                                                 _0: /* ' ' */32,
                                                                                                 _1: {
                                                                                                   TAG: /* Float */8,
-                                                                                                  _0: /* Float_E */6,
+                                                                                                  _0: [
+                                                                                                    /* Float_flag_ */0,
+                                                                                                    /* Float_E */2
+                                                                                                  ],
                                                                                                   _1: /* No_padding */0,
                                                                                                   _2: /* No_precision */0,
                                                                                                   _3: {
@@ -583,7 +595,10 @@ var formatter_suites_1 = {
                                                                                                     _0: /* ' ' */32,
                                                                                                     _1: {
                                                                                                       TAG: /* Float */8,
-                                                                                                      _0: /* Float_g */9,
+                                                                                                      _0: [
+                                                                                                        /* Float_flag_ */0,
+                                                                                                        /* Float_g */3
+                                                                                                      ],
                                                                                                       _1: /* No_padding */0,
                                                                                                       _2: /* No_precision */0,
                                                                                                       _3: {
@@ -591,7 +606,10 @@ var formatter_suites_1 = {
                                                                                                         _0: /* ' ' */32,
                                                                                                         _1: {
                                                                                                           TAG: /* Float */8,
-                                                                                                          _0: /* Float_G */12,
+                                                                                                          _0: [
+                                                                                                            /* Float_flag_ */0,
+                                                                                                            /* Float_G */4
+                                                                                                          ],
                                                                                                           _1: /* No_padding */0,
                                                                                                           _2: /* No_precision */0,
                                                                                                           _3: {
@@ -955,7 +973,10 @@ var formatter_suites_1 = {
                                                                                         _0: /* ' ' */32,
                                                                                         _1: {
                                                                                           TAG: /* Float */8,
-                                                                                          _0: /* Float_f */0,
+                                                                                          _0: [
+                                                                                            /* Float_flag_ */0,
+                                                                                            /* Float_f */0
+                                                                                          ],
                                                                                           _1: {
                                                                                             TAG: /* Lit_padding */0,
                                                                                             _0: /* Right */1,
@@ -967,7 +988,10 @@ var formatter_suites_1 = {
                                                                                             _0: /* ' ' */32,
                                                                                             _1: {
                                                                                               TAG: /* Float */8,
-                                                                                              _0: /* Float_F */15,
+                                                                                              _0: [
+                                                                                                /* Float_flag_ */0,
+                                                                                                /* Float_F */5
+                                                                                              ],
                                                                                               _1: {
                                                                                                 TAG: /* Lit_padding */0,
                                                                                                 _0: /* Right */1,
@@ -979,7 +1003,10 @@ var formatter_suites_1 = {
                                                                                                 _0: /* ' ' */32,
                                                                                                 _1: {
                                                                                                   TAG: /* Float */8,
-                                                                                                  _0: /* Float_e */3,
+                                                                                                  _0: [
+                                                                                                    /* Float_flag_ */0,
+                                                                                                    /* Float_e */1
+                                                                                                  ],
                                                                                                   _1: {
                                                                                                     TAG: /* Lit_padding */0,
                                                                                                     _0: /* Right */1,
@@ -991,7 +1018,10 @@ var formatter_suites_1 = {
                                                                                                     _0: /* ' ' */32,
                                                                                                     _1: {
                                                                                                       TAG: /* Float */8,
-                                                                                                      _0: /* Float_E */6,
+                                                                                                      _0: [
+                                                                                                        /* Float_flag_ */0,
+                                                                                                        /* Float_E */2
+                                                                                                      ],
                                                                                                       _1: /* No_padding */0,
                                                                                                       _2: /* No_precision */0,
                                                                                                       _3: {
@@ -999,7 +1029,10 @@ var formatter_suites_1 = {
                                                                                                         _0: /* ' ' */32,
                                                                                                         _1: {
                                                                                                           TAG: /* Float */8,
-                                                                                                          _0: /* Float_g */9,
+                                                                                                          _0: [
+                                                                                                            /* Float_flag_ */0,
+                                                                                                            /* Float_g */3
+                                                                                                          ],
                                                                                                           _1: /* No_padding */0,
                                                                                                           _2: /* No_precision */0,
                                                                                                           _3: {
@@ -1007,7 +1040,10 @@ var formatter_suites_1 = {
                                                                                                             _0: /* ' ' */32,
                                                                                                             _1: {
                                                                                                               TAG: /* Float */8,
-                                                                                                              _0: /* Float_G */12,
+                                                                                                              _0: [
+                                                                                                                /* Float_flag_ */0,
+                                                                                                                /* Float_G */4
+                                                                                                              ],
                                                                                                               _1: /* No_padding */0,
                                                                                                               _2: /* No_precision */0,
                                                                                                               _3: {
@@ -1269,7 +1305,10 @@ var formatter_suites_1 = {
                         _0: Curry._1(Format.asprintf(/* Format */{
                                   _0: {
                                     TAG: /* Float */8,
-                                    _0: /* Float_f */0,
+                                    _0: [
+                                      /* Float_flag_ */0,
+                                      /* Float_f */0
+                                    ],
                                     _1: {
                                       TAG: /* Lit_padding */0,
                                       _0: /* Right */1,
@@ -1572,12 +1611,12 @@ var float_data = [
   ],
   [
     "%f",
-    Pervasives.infinity,
+    Stdlib__no_aliases.infinity,
     "inf"
   ],
   [
     "%f",
-    Pervasives.neg_infinity,
+    Stdlib__no_aliases.neg_infinity,
     "-inf"
   ],
   [
@@ -1668,7 +1707,7 @@ var float_data = [
 ];
 
 function ident(ppf, s) {
-  return Curry._1(Format.fprintf(ppf, /* Format */{
+  return Curry._1(Format.fprintf(ppf)(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,
@@ -1679,7 +1718,7 @@ function ident(ppf, s) {
 }
 
 function kwd(ppf, s) {
-  return Curry._1(Format.fprintf(ppf, /* Format */{
+  return Curry._1(Format.fprintf(ppf)(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,
@@ -1692,7 +1731,7 @@ function kwd(ppf, s) {
 function pr_exp0(ppf, s) {
   switch (s.TAG | 0) {
     case /* Var */1 :
-        return Curry._2(Format.fprintf(ppf, /* Format */{
+        return Curry._2(Format.fprintf(ppf)(/* Format */{
                         _0: {
                           TAG: /* Alpha */15,
                           _0: /* End_of_format */0
@@ -1704,7 +1743,7 @@ function pr_exp0(ppf, s) {
         break;
     
   }
-  return Curry._2(Format.fprintf(ppf, /* Format */{
+  return Curry._2(Format.fprintf(ppf)(/* Format */{
                   _0: {
                     TAG: /* Formatting_gen */18,
                     _0: {
@@ -1740,7 +1779,7 @@ function pr_exp0(ppf, s) {
 }
 
 function pr_app(ppf, e) {
-  return Curry._2(Format.fprintf(ppf, /* Format */{
+  return Curry._2(Format.fprintf(ppf)(/* Format */{
                   _0: {
                     TAG: /* Formatting_gen */18,
                     _0: {
@@ -1773,7 +1812,7 @@ function pr_other_applications(ppf, f) {
     case /* Var */1 :
         return pr_exp0(ppf, f);
     case /* Apply */2 :
-        return Curry._4(Format.fprintf(ppf, /* Format */{
+        return Curry._4(Format.fprintf(ppf)(/* Format */{
                         _0: {
                           TAG: /* Alpha */15,
                           _0: {
@@ -1799,7 +1838,7 @@ function pr_other_applications(ppf, f) {
 function pr_lambda(ppf, e) {
   switch (e.TAG | 0) {
     case /* Lambda */0 :
-        return Curry._8(Format.fprintf(ppf, /* Format */{
+        return Curry._8(Format.fprintf(ppf)(/* Format */{
                         _0: {
                           TAG: /* Formatting_gen */18,
                           _0: {
@@ -2085,7 +2124,10 @@ var int64_suites_1 = {
                               _3: /* End_of_format */0
                             },
                             _1: "%Ld"
-                          }), /* @__PURE__ */Caml_int64.mk(3, 0)),
+                          }), [
+                        0,
+                        3
+                      ]),
                   _1: "3"
                 };
         })
@@ -2105,7 +2147,10 @@ var int64_suites_1 = {
                                 _3: /* End_of_format */0
                               },
                               _1: "%Lx"
-                            }), /* @__PURE__ */Caml_int64.mk(33, 0)),
+                            }), [
+                          0,
+                          33
+                        ]),
                     _1: "21"
                   };
           })
@@ -2125,7 +2170,10 @@ var int64_suites_1 = {
                                   _3: /* End_of_format */0
                                 },
                                 _1: "%Li"
-                              }), /* @__PURE__ */Caml_int64.mk(33, 0)),
+                              }), [
+                            0,
+                            33
+                          ]),
                       _1: "33"
                     };
             })
@@ -2145,7 +2193,10 @@ var int64_suites_1 = {
                                     _3: /* End_of_format */0
                                   },
                                   _1: "%LX"
-                                }), /* @__PURE__ */Caml_int64.mk(44, 0)),
+                                }), [
+                              0,
+                              44
+                            ]),
                         _1: "2C"
                       };
               })
@@ -2165,7 +2216,10 @@ var int64_suites_1 = {
                                       _3: /* End_of_format */0
                                     },
                                     _1: "%Lx"
-                                  }), /* @__PURE__ */Caml_int64.mk(44, 0)),
+                                  }), [
+                                0,
+                                44
+                              ]),
                           _1: "2c"
                         };
                 })
@@ -2188,7 +2242,10 @@ var int64_suites_1 = {
                                         _3: /* End_of_format */0
                                       },
                                       _1: "%*Lx"
-                                    }), 5, /* @__PURE__ */Caml_int64.mk(44, 0)),
+                                    }), 5, [
+                                  0,
+                                  44
+                                ]),
                             _1: "   2c"
                           };
                   })
@@ -2199,7 +2256,10 @@ var int64_suites_1 = {
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
-                              _0: Caml_int64.to_string(/* @__PURE__ */Caml_int64.mk(3333, 0)),
+                              _0: Caml_format.caml_int64_format("%d", [
+                                    0,
+                                    3333
+                                  ]),
                               _1: "3333"
                             };
                     })
@@ -2229,7 +2289,13 @@ var int64_suites_1 = {
                                             }
                                           },
                                           _1: "%Ld%018Ld"
-                                        }), /* @__PURE__ */Caml_int64.mk(3, 0), /* @__PURE__ */Caml_int64.mk(3, 0)),
+                                        }), [
+                                      0,
+                                      3
+                                    ], [
+                                      0,
+                                      3
+                                    ]),
                                 _1: "3000000000000000003"
                               };
                       })
@@ -2259,7 +2325,10 @@ var int64_suites_1 = {
                                               }
                                             },
                                             _1: "%Ld%018Ld"
-                                          }), /* @__PURE__ */Caml_int64.mk(1548746752, 107288), Caml_int64.zero),
+                                          }), [
+                                        107288,
+                                        1548746752
+                                      ], Caml_int64.zero),
                                   _1: "460800000000000000000000000000000"
                                 };
                         })
@@ -2319,7 +2388,10 @@ var int64_suites_1 = {
                                                     _3: /* End_of_format */0
                                                   },
                                                   _1: "%Ld"
-                                                }), /* @__PURE__ */Caml_int64.mk(-11111, -1)),
+                                                }), [
+                                              -1,
+                                              4294956185
+                                            ]),
                                         _1: "-11111"
                                       };
                               })
@@ -2439,7 +2511,10 @@ var int64_suites_1 = {
                                                                 _3: /* End_of_format */0
                                                               },
                                                               _1: "%Lu"
-                                                            }), /* @__PURE__ */Caml_int64.mk(-100, -1)),
+                                                            }), [
+                                                          -1,
+                                                          4294967196
+                                                        ]),
                                                     _1: "18446744073709551516"
                                                   };
                                           })
@@ -2479,7 +2554,10 @@ var int64_suites_1 = {
                                                                     _3: /* End_of_format */0
                                                                   },
                                                                   _1: "%Lu"
-                                                                }), /* @__PURE__ */Caml_int64.mk(-10000, -1)),
+                                                                }), [
+                                                              -1,
+                                                              4294957296
+                                                            ]),
                                                         _1: "18446744073709541616"
                                                       };
                                               })
@@ -2543,7 +2621,10 @@ var int64_suites_1 = {
                                                                           _3: /* End_of_format */0
                                                                         },
                                                                         _1: "%12Lx"
-                                                                      }), /* @__PURE__ */Caml_int64.mk(3, 0)),
+                                                                      }), [
+                                                                    0,
+                                                                    3
+                                                                  ]),
                                                               _1: "           3"
                                                             };
                                                     })
@@ -2563,7 +2644,10 @@ var int64_suites_1 = {
                                                                             _3: /* End_of_format */0
                                                                           },
                                                                           _1: "%LX"
-                                                                        }), /* @__PURE__ */Caml_int64.mk(1163551168, 1859194407)),
+                                                                        }), [
+                                                                      1859194407,
+                                                                      1163551168
+                                                                    ]),
                                                                 _1: "6ED10E27455A61C0"
                                                               };
                                                       })
@@ -2587,7 +2671,10 @@ var int64_suites_1 = {
                                                                               }
                                                                             },
                                                                             _1: "%Ld\n"
-                                                                          }), /* @__PURE__ */Caml_int64.mk(32, 0)),
+                                                                          }), [
+                                                                        0,
+                                                                        32
+                                                                      ]),
                                                                   _1: "32\n"
                                                                 };
                                                         })
@@ -2612,7 +2699,10 @@ var int64_suites_1 = {
                                                                                   }
                                                                                 },
                                                                                 _1: "%Ld\n"
-                                                                              }), /* @__PURE__ */Caml_int64.mk(32, 0)), $$Buffer.contents(buf)),
+                                                                              }), [
+                                                                            0,
+                                                                            32
+                                                                          ]), $$Buffer.contents(buf)),
                                                                     _1: "32\n"
                                                                   };
                                                           })
@@ -2657,23 +2747,38 @@ var of_string_data = [
     "0"
   ],
   [
-    /* @__PURE__ */Caml_int64.mk(3, 0),
+    [
+      0,
+      3
+    ],
     "3"
   ],
   [
-    /* @__PURE__ */Caml_int64.mk(33, 0),
+    [
+      0,
+      33
+    ],
     "33"
   ],
   [
-    /* @__PURE__ */Caml_int64.mk(333, 0),
+    [
+      0,
+      333
+    ],
     "33_3"
   ],
   [
-    /* @__PURE__ */Caml_int64.mk(33333, 0),
+    [
+      0,
+      33333
+    ],
     "33_33_3"
   ],
   [
-    /* @__PURE__ */Caml_int64.mk(-1674115755, 77),
+    [
+      77,
+      2620851541
+    ],
     "333333333333"
   ],
   [
@@ -2681,7 +2786,10 @@ var of_string_data = [
     "0xffff_ffff_ffff_ffff"
   ],
   [
-    /* @__PURE__ */Caml_int64.mk(113, 0),
+    [
+      0,
+      113
+    ],
     "0b01110001"
   ],
   [
@@ -2690,7 +2798,7 @@ var of_string_data = [
   ]
 ];
 
-Mt.from_pair_suites("Caml_format_test", Pervasives.$at(suites, Pervasives.$at(formatter_suites, Pervasives.$at(from_lambda_pairs(lambda_suites), Pervasives.$at(ksprintf_suites, Pervasives.$at($$Array.to_list($$Array.mapi((function (i, param) {
+Mt.from_pair_suites("Caml_format_test", Stdlib__no_aliases.$at(suites, Stdlib__no_aliases.$at(formatter_suites, Stdlib__no_aliases.$at(from_lambda_pairs(lambda_suites), Stdlib__no_aliases.$at(ksprintf_suites, Stdlib__no_aliases.$at($$Array.to_list($$Array.mapi((function (i, param) {
                                     var str_result = param[2];
                                     var f = param[1];
                                     var fmt = param[0];
@@ -2717,7 +2825,7 @@ Mt.from_pair_suites("Caml_format_test", Pervasives.$at(suites, Pervasives.$at(fo
                                                       };
                                               })
                                           ];
-                                  }), float_data)), Pervasives.$at(int64_suites, $$Array.to_list($$Array.mapi((function (i, param) {
+                                  }), float_data)), Stdlib__no_aliases.$at(int64_suites, $$Array.to_list($$Array.mapi((function (i, param) {
                                         var b = param[1];
                                         var a = param[0];
                                         return [
@@ -2756,9 +2864,15 @@ var float_suites = {
   tl: /* [] */0
 };
 
-var hh = /* @__PURE__ */Caml_int64.mk(-858993460, 214748364);
+var hh = [
+  214748364,
+  3435973836
+];
 
-var hhh = /* @__PURE__ */Caml_int64.mk(0, 268435456);
+var hhh = [
+  268435456,
+  0
+];
 
 exports.of_string = of_string;
 exports.from_float_of_string = from_float_of_string;

@@ -116,23 +116,45 @@ var getVersionString = () => {
   return versionString;
 };
 
-function ruleCC(flags, src, target, deps = []) {
+function ruleCC(flags, src, target, deps = [], promoteExts) {
+  var promoteTarget = promoteExts != null
+    ? (target.filter(x => x.endsWith("cmj")).flatMap(x =>
+      promoteExts.map(promoteExt => `${path.parse(x).name}${promoteExt}`)
+    ))
+    : null;
   return `
   (rule
-    (targets ${Array.isArray(target) ? target.join(' ') : target})
+    (targets ${Array.isArray(target) ? target.join(' ') : target} ${promoteTarget != null ? promoteTarget.join(' ') : ""})
     (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
+${promoteTarget ? `
+  (mode
+   (promote
+    (until-clean)
+    (only ${promoteTarget.join(' ')})))
+` : ""}
     (action
-     (run bsc.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
-function ruleCC_cmi(flags, src, target, deps = []) {
+function ruleCC_cmi(flags, src, target, deps = [], promoteExts) {
+  var promoteTarget = promoteExts != null
+    ? (target.filter(x => x.endsWith("cmj")).flatMap(x =>
+      promoteExts.map(promoteExt => `${path.parse(x).name}${promoteExt}`)
+    ))
+    : null;
   return `
   (rule
-    (targets ${Array.isArray(target) ? target.join(' ') : target})
+    (targets ${Array.isArray(target) ? target.join(' ') : target} ${promoteTarget ? promoteTarget.join(' ') : ""})
     (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
+${promoteTarget ? `
+  (mode
+   (promote
+    (until-clean)
+    (only ${promoteTarget.join(' ')})))
+` : ""}
     (action
-     (run bsc.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -554,7 +576,7 @@ function buildStmt(outputs, inputs, rule, depsMap, cwd, overrides, extraDeps) {
   return ninjaBuild(os, is, rule, deps.toSortedArray(), cwd, overrides);
 }
 
-function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = []) {
+function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = [], promoteExt) {
   var deps = new TargetSet();
   for (var i = 0; i < outputs.length; ++i) {
     var curDeps = depsMap.get(outputs[i]);
@@ -566,7 +588,7 @@ function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = [])
       });
     }
   }
-  return rule(flags, inputs, outputs, externalDeps.concat(deps.toSortedArray().map(x => x.name)));
+  return rule(flags, inputs, outputs, externalDeps.concat(deps.toSortedArray().map(x => x.name)), promoteExt);
 }
 
 /**
@@ -781,7 +803,7 @@ function scanFileTargets(allTargets, collIn) {
   return coll;
 }
 
-function generateDune(depsMap, allTargets, bscFlags, deps = []) {
+function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = null) {
   /**
    * @type {string[]}
    */
@@ -804,7 +826,7 @@ function generateDune(depsMap, allTargets, bscFlags, deps = []) {
      */
     let mk = (outputs, inputs, rule = ruleCC) => {
       return build_stmts.push(
-        duneBuildStmt(outputs, inputs, rule, depsMap, flags, deps)
+        duneBuildStmt(outputs, inputs, rule, depsMap, flags, deps, promoteExt)
       );
     };
     switch (x) {
@@ -896,9 +918,9 @@ function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
   return build_stmts;
 }
 
-var COMPILIER = `../${process.platform}/bsc.exe`;
-var BSC_COMPILER = `bsc = ${COMPILIER}`;
-var compilerTarget = pseudoTarget(COMPILIER);
+var COMPILER = `../${process.platform}/bsc.exe`;
+var BSC_COMPILER = `bsc = ${COMPILER}`;
+var compilerTarget = pseudoTarget(COMPILER);
 
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
@@ -1298,20 +1320,32 @@ function baseName(x) {
 async function testNinja() {
   var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-9-106+104 -warn-error A  -I ../runtime -I ../stdlib-412 -I ../others`
+  var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-52-60-67-68-9-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
       x.endsWith(".re") ||
       x.endsWith(".rei") ||
-      ((x.endsWith(".ml") || x.endsWith(".mli")) && !x.endsWith("bspack.ml"))
+      ((x.endsWith(".ml") || x.endsWith(".mli")) &&
+        !x.endsWith("bspack.ml") &&
+        x !== "es6_import.ml" &&
+        x !== "es6_export.ml")
     );
   });
 
   let depsMap = createDepsMapWithTargets(sources);
   await Promise.all(depModulesForBscAsync(sources, testDir, depsMap));
   var targets = collectTarget(sources);
-  var output = generateDune(depsMap, targets, bsc_flags, [stdlibTarget].map(x => `../stdlib-412/${x.name}`));
+  var output = generateDune(depsMap, targets, bsc_flags, ['../stdlib-412/stdlib.cmj'], [".js"]);
+  var output = output.concat(
+    generateDune(
+      depsMap,
+      collectTarget(['es6_import.ml', 'es6_export.ml']),
+      bsc_flags,
+      ['../stdlib-412/stdlib.cmj'],
+      [ ".js", ".mjs" ]
+    )
+  );
   writeFileAscii(
     path.join(testDir, ninjaOutput),
     output.join("\n") + "\n"
@@ -1490,21 +1524,12 @@ function setSortedToStringAsNativeDeps(xs) {
  * @returns {string}
  */
 function getVendorConfigNinja() {
-  if (process.env.ESY === "true") return getEnnvConfigNinja();
   var prefix = `../native/${require("./buildocaml.js").getVersionPrefix()}/bin`;
   return `
 ocamlopt = ${prefix}/ocamlopt.opt
 ocamllex = ${prefix}/ocamllex.opt
 ocamlmklib = ${prefix}/ocamlmklib
 ocaml = ${prefix}/ocaml
-`;
-}
-function getEnnvConfigNinja() {
-  return `
-ocamlopt = ocamlopt.opt
-ocamllex = ocamllex.opt
-ocamlmklib = ocamlmklib
-ocaml = ocaml
 `;
 }
 

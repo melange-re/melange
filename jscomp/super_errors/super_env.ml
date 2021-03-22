@@ -10,14 +10,14 @@ let report_error ppf = function
           Is the name's casing right?@]"
         name modname
   | Inconsistent_import(name, source1, source2) ->
-      (* modified *)
-     fprintf ppf "@[<v>\
-        @[@{<info>It's possible that your build is stale.@}@ Try to clean the artifacts and build again?@]@,@,\
-        @[@{<info>Here's the original error message@}@]@,\
-      @]";
-      fprintf ppf
-        "@[<hov>The files %a@ and %a@ \
-              make inconsistent assumptions@ over interface %s@]"
+    (* modified *)
+    fprintf ppf "@[<v>\
+                 @[@{<info>It's possible that your build is stale.@}@ Try to clean the artifacts and build again?@]@,@,\
+                 @[@{<info>Here's the original error message@}@]@,\
+                 @]";
+    fprintf ppf
+      "@[<hov>The files %a@ and %a@ \
+       make inconsistent assumptions@ over interface %s@]"
       Location.print_filename source1 Location.print_filename source2 name
   | Need_recursive_types(modname) ->
       fprintf ppf

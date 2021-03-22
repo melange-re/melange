@@ -1,9 +1,10 @@
 'use strict';
 
+var Caml = require("../../lib/js/caml.js");
 var Curry = require("../../lib/js/curry.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function Make(funarg) {
   var $$let = funarg.V;
@@ -17,7 +18,7 @@ function Make(funarg) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === "Not_found") {
+      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
         return false;
       }
       throw exn;
@@ -81,7 +82,7 @@ function Make(funarg) {
                       });
           }
           var x = find_default(on_the_stack, successor) ? Curry._2(H.find, n_labels, successor) : Curry._2(H.find, l_labels, successor);
-          Curry._3(H.add, l_labels, top$1, Caml_primitive.caml_int_max(Curry._2(H.find, l_labels, top$1), x));
+          Curry._3(H.add, l_labels, top$1, Caml.caml_int_max(Curry._2(H.find, l_labels, top$1), x));
           _successors = successors.tl;
           continue ;
         }
@@ -94,7 +95,7 @@ function Make(funarg) {
         }
         if (Curry._2(H.find, l_labels, top$1) > Curry._2(H.find, n_labels, top$1)) {
           throw {
-                RE_EXN_ID: "Invalid_argument",
+                RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
                 _1: "Graph.Mincut: graph not reducible",
                 Error: new Error()
               };
@@ -105,7 +106,7 @@ function Make(funarg) {
         var match = rest_of_stack$1.hd;
         var new_top = match[0];
         Curry._3(H.add, on_the_stack, top$1, false);
-        Curry._3(H.add, l_labels, new_top, Caml_primitive.caml_int_max(Curry._2(H.find, l_labels, top$1), Curry._2(H.find, l_labels, new_top)));
+        Curry._3(H.add, l_labels, new_top, Caml.caml_int_max(Curry._2(H.find, l_labels, top$1), Curry._2(H.find, l_labels, new_top)));
         _rest_of_stack = rest_of_stack$1.tl;
         _top = new_top;
         _successors = match[1];
@@ -120,4 +121,4 @@ function Make(funarg) {
 }
 
 exports.Make = Make;
-/* No side effect */
+/* Hashtbl Not a pure module */

@@ -1,16 +1,16 @@
 
-    open J  
+    open J
     let [@inline] unknown _self _ = _self
-    let [@inline] option sub  self = fun v -> 
-      match v with 
-      | None -> self 
-      | Some x -> sub self x 
+    let [@inline] option sub  self = fun v ->
+      match v with
+      | None -> self
+      | Some x -> sub self x
     let rec list (sub : 'self_type -> 'a -> 'self_type) self = fun v ->
-      match  v with 
-      | [] -> self 
-      | x::xs -> 
-        let self = sub self x in 
-        list sub self xs 
+      match  v with
+      | [] -> self
+      | x::xs ->
+        let self = sub self x in
+        list sub self xs
     class  fold =
       object ((_self : 'self_type))
         method list :
@@ -190,6 +190,6 @@ let _self = option (fun _self -> _self#expression) _self _x1 in _self
 method block : block -> 'self_type = list (fun _self -> _self#statement) _self  
 method program : program -> 'self_type = fun { block = _x0;exports = _x1;export_set = _x2} -> let _self = _self#block _x0 in _self  
 method deps_program : deps_program -> 'self_type = fun { program = _x0;modules = _x1;side_effect = _x2} -> let _self = _self#program _x0 in
-let _self = _self#required_modules _x1 in _self      
+let _self = _self#required_modules _x1 in _self  
     end
     

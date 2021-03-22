@@ -21,8 +21,10 @@ var Q = {
   add: Queue.add,
   push: Queue.push,
   take: Queue.take,
+  take_opt: Queue.take_opt,
   pop: Queue.pop,
   peek: Queue.peek,
+  peek_opt: Queue.peek_opt,
   top: Queue.top,
   clear: Queue.clear,
   copy: Queue.copy,
@@ -31,6 +33,9 @@ var Q = {
   iter: Queue.iter,
   fold: Queue.fold,
   transfer: Queue.transfer,
+  to_seq: Queue.to_seq,
+  add_seq: Queue.add_seq,
+  of_seq: Queue.of_seq,
   to_list: to_list
 };
 
@@ -54,7 +59,7 @@ var q = {
   last: /* Nil */0
 };
 
-if (!(to_list(q) === /* [] */0 && q.length === 0)) {
+if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -254,7 +259,7 @@ if (Queue.take(q) !== 4) {
       };
 }
 
-if (!(to_list(q) === /* [] */0 && q.length === 0)) {
+if (!(Caml_obj.caml_equal(to_list(q), /* [] */0) && q.length === 0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -857,7 +862,7 @@ if (q1$1.length !== 0) {
       };
 }
 
-if (to_list(q1$1) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -881,7 +886,7 @@ if (q2$1.length !== 0) {
       };
 }
 
-if (to_list(q2$1) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -907,7 +912,7 @@ if (q1$1.length !== 0) {
       };
 }
 
-if (to_list(q1$1) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q1$1), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -931,7 +936,7 @@ if (q2$1.length !== 0) {
       };
 }
 
-if (to_list(q2$1) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q2$1), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1007,7 +1012,7 @@ if (q2$2.length !== 0) {
       };
 }
 
-if (to_list(q2$2) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q2$2), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1033,7 +1038,7 @@ if (q1$2.length !== 0) {
       };
 }
 
-if (to_list(q1$2) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q1$2), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1109,7 +1114,7 @@ if (q1$3.length !== 0) {
       };
 }
 
-if (to_list(q1$3) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1171,7 +1176,7 @@ if (q1$3.length !== 0) {
       };
 }
 
-if (to_list(q1$3) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q1$3), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1325,7 +1330,7 @@ if (q1$4.length !== 0) {
       };
 }
 
-if (to_list(q1$4) !== /* [] */0) {
+if (!Caml_obj.caml_equal(to_list(q1$4), /* [] */0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [

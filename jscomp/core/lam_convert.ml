@@ -1,4 +1,4 @@
-(* Copyright (C) 2018 - Authors of BuckleScript
+(* Copyright (C) 2018 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -997,49 +997,49 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
             aux (Lprim(prim,args,inner_loc))
           else
 
-           {[
-             (fun x y -> f x y) (computation;e) -->
-             (fun y -> f (computation;e) y)
-           ]}
-              is wrong
+   {[
+     (fun x y -> f x y) (computation;e) -->
+     (fun y -> f (computation;e) y)
+   ]}
+   is wrong
 
-              or
-           {[
-             (fun x y -> f x y ) ([|1;2;3|]) -->
-             (fun y -> f [|1;2;3|] y)
-           ]}
-              is also wrong.
+   or
+   {[
+     (fun x y -> f x y ) ([|1;2;3|]) -->
+     (fun y -> f [|1;2;3|] y)
+   ]}
+   is also wrong.
 
-              It seems, we need handle [@variadic] earlier
+   It seems, we need handle [@variadic] earlier
 
-              or
-           {[
-             (fun x y -> f x y) ([|1;2;3|]) -->
-             let x0, x1, x2 =1,2,3 in
-             (fun y -> f [|x0;x1;x2|] y)
-           ]}
-              But this still need us to know [@variadic] in advance
+   or
+   {[
+     (fun x y -> f x y) ([|1;2;3|]) -->
+     let x0, x1, x2 =1,2,3 in
+     (fun y -> f [|x0;x1;x2|] y)
+   ]}
+   But this still need us to know [@variadic] in advance
 
 
-           we should not remove it immediately, since we have to be careful
-                  where it is used, it can be [exported], [Lvar] or [Lassign] etc
-                  The other common mistake is that
-           {[
-             let x = y (* elimiated x/y*)
-             let u = x  (* eliminated u/x *)
-           ]}
+   we should not remove it immediately, since we have to be careful
+      where it is used, it can be [exported], [Lvar] or [Lassign] etc
+      The other common mistake is that
+   {[
+     let x = y (* elimiated x/y*)
+     let u = x  (* eliminated u/x *)
+   ]}
 
-            however, [x] is already eliminated
-           To improve the algorithm
-           {[
-             let x = y (* x/y *)
-             let u = x (* u/y *)
-           ]}
-                  This looks more correct, but lets be conservative here
+   however, [x] is already eliminated
+   To improve the algorithm
+   {[
+     let x = y (* x/y *)
+     let u = x (* u/y *)
+   ]}
+      This looks more correct, but lets be conservative here
 
-                  global module inclusion {[ include List ]}
-                  will cause code like {[ let include =a Lglobal_module (list)]}
+      global module inclusion {[ include List ]}
+      will cause code like {[ let include =a Lglobal_module (list)]}
 
-                  when [u] is global, it can not be bound again,
-                  it should always be the leaf
-        *)
+      when [u] is global, it can not be bound again,
+      it should always be the leaf
+*)

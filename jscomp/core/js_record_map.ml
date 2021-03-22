@@ -1,15 +1,15 @@
 
-open J  
+open J
 let [@inline] unknown _ x = x
-let [@inline] option sub self = fun v -> 
-  match v with 
+let [@inline] option sub self = fun v ->
+  match v with
   | None -> None
   | Some v -> Some (sub self v)
-let rec list sub self = fun x  -> 
-  match x with 
+let rec list sub self = fun x  ->
+  match x with
   | [] -> []
-  | x::xs -> 
-    let v = sub self x in 
+  | x::xs ->
+    let v = sub self x in
     v :: list sub self xs
 
 type iter = {
@@ -23,7 +23,7 @@ statement : statement fn;
 variable_declaration : variable_declaration fn;
 block : block fn;
 program : program fn
-}  
+}
 and 'a fn = iter -> 'a -> 'a
  let label : label fn  = unknown 
  let ident : ident fn  = unknown 

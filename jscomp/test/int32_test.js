@@ -6,8 +6,8 @@ var Curry = require("../../lib/js/curry.js");
 var Int32 = require("../../lib/js/int32.js");
 var Format = require("../../lib/js/format.js");
 var Caml_float = require("../../lib/js/caml_float.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Ext_array_test = require("./ext_array_test.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(x) {
   return [
@@ -154,7 +154,7 @@ function $star$tilde(prim, prim$1) {
 }
 
 var suites = {
-  contents: Pervasives.$at({
+  contents: Stdlib__no_aliases.$at({
         hd: [
           "File \"int32_test.ml\", line 31, characters 2-9",
           (function (param) {
@@ -178,7 +178,7 @@ var suites = {
           ],
           tl: /* [] */0
         }
-      }, Pervasives.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+      }, Stdlib__no_aliases.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                       return [
                               Curry._1(Format.asprintf(/* Format */{
                                         _0: {
@@ -202,7 +202,7 @@ var suites = {
                                         };
                                 })
                             ];
-                    }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Pervasives.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                    }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Stdlib__no_aliases.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                           return [
                                   Curry._1(Format.asprintf(/* Format */{
                                             _0: {

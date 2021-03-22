@@ -114,8 +114,8 @@ let ml_module_as_var ?comment (id : Ident.t) : t  =
   {expression_desc = Var (Qualified ({id; kind = Ml}, None)); comment}
 
 (* Static_index .....................**)
-let runtime_call ?comment module_name fn_name args =
-  call ?comment
+let runtime_call module_name fn_name args =
+  call
     ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot  module_name fn_name) args
 
@@ -996,7 +996,7 @@ let rec int_comp (cmp : Lam_compat.integer_comparison) ?comment  (e0 : t) (e1 : 
       expression_desc =
         Var (Qualified
                ({kind = Runtime},
-                Some ("caml_int_compare" | "caml_int32_compare"))); _},
+                Some ("caml_int_compare"))); _},
       [l;r], _),
     Number (Int {i = 0l})
     -> int_comp cmp l r (* = 0 > 0 < 0 *)
@@ -1440,5 +1440,5 @@ let resolve_and_apply
        [str s ]
     ) args
 
-
-
+let make_exception (s : string) = 
+  pure_runtime_call Js_runtime_modules.exceptions Literals.create [str s]     

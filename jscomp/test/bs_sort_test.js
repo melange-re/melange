@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var Belt_Array = require("../../lib/js/belt_Array.js");
 var Belt_Range = require("../../lib/js/belt_Range.js");
 var Belt_SortArray = require("../../lib/js/belt_SortArray.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Array_data_util = require("./array_data_util.js");
 var Belt_SortArrayInt = require("../../lib/js/belt_SortArrayInt.js");
 
@@ -280,7 +280,7 @@ eq("File \"bs_sort_test.ml\", line 111, characters 5-12", Belt_SortArray.binaryS
           3,
           5,
           7
-        ], 4, Caml_primitive.caml_int_compare) ^ -1, 2);
+        ], 4, Caml.caml_int_compare) ^ -1, 2);
 
 eq("File \"bs_sort_test.ml\", line 112, characters 5-12", Belt_SortArray.binarySearchBy([
           1,
@@ -411,28 +411,13 @@ eq("File \"bs_sort_test.ml\", line 143, characters 5-12", Belt_SortArray.strictl
 
 Mt.from_pair_suites("Bs_sort_test", suites.contents);
 
-var I;
-
-var S;
-
-var R;
-
-var A;
-
-var SI;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.I = I;
-exports.S = S;
-exports.R = R;
 exports.cmp = cmp;
-exports.A = A;
 exports.unions = unions;
 exports.inters = inters;
 exports.diffs = diffs;
-exports.SI = SI;
 exports.lt = lt;
 /*  Not a pure module */

@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
-var ff = Pervasives.string_of_float;
+var ff = Stdlib__no_aliases.string_of_float;
 
 function f(v) {
   return String(v);
@@ -15,7 +15,7 @@ Mt.from_pair_suites("To_string_test", {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: Pervasives.string_of_float(Pervasives.infinity),
+                    _0: Stdlib__no_aliases.string_of_float(Stdlib__no_aliases.infinity),
                     _1: "inf"
                   };
           })
@@ -26,7 +26,7 @@ Mt.from_pair_suites("To_string_test", {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: Pervasives.string_of_float(Pervasives.neg_infinity),
+                      _0: Stdlib__no_aliases.string_of_float(Stdlib__no_aliases.neg_infinity),
                       _1: "-inf"
                     };
             })

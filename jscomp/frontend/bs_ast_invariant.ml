@@ -24,8 +24,8 @@
 
 
 (** Warning unused bs attributes
-  Note if we warn `deriving` too,
-  it may fail third party ppxes
+    Note if we warn `deriving` too,
+    it may fail third party ppxes
 *)
 let is_bs_attribute txt =
   let len = String.length txt  in
@@ -38,12 +38,12 @@ let is_bs_attribute txt =
   )
 
 let used_attributes : string Asttypes.loc Hash_set_poly.t =
-    Hash_set_poly.create 16
+  Hash_set_poly.create 16
 
 
 #if false
-let dump_attribute fmt = (fun ( (sloc : string Asttypes.loc),payload) ->
-    Format.fprintf fmt "@[%s %a@]" sloc.txt (Printast.payload 0 ) payload
+  let dump_attribute fmt = (fun ( (sloc : string Asttypes.loc),payload) ->
+      Format.fprintf fmt "@[%s %a@]" sloc.txt (Printast.payload 0 ) payload
     )
 
 let dump_used_attributes fmt =
@@ -59,17 +59,17 @@ let mark_used_bs_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
 
 
 let warn_unused_attribute
-  ({ attr_name = {txt; loc} as sloc; _} : Parsetree.attribute) =
+    ({ attr_name = ({txt; loc} as sloc)} : Parsetree.attribute) =
   if is_bs_attribute txt &&
      not loc.loc_ghost &&
      not (Hash_set_poly.mem used_attributes sloc) then
     begin
 #if false
-   (*COMMENT*)
-      dump_used_attributes Format.err_formatter;
-      dump_attribute Format.err_formatter attr ;
+(*COMMENT*)
+  dump_used_attributes Format.err_formatter;
+dump_attribute Format.err_formatter attr ;
 #endif
-      Location.prerr_warning loc (Bs_unused_attribute txt)
+    Location.prerr_warning loc (Bs_unused_attribute txt)
     end
 
 let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
@@ -78,7 +78,7 @@ let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
 
 
 type iterator = Ast_iterator.iterator
-let default_iterator = Ast_iterator.default_iterator
+let super = Ast_iterator.default_iterator
 
 let check_constant loc kind (const : Parsetree.constant) =
   match const with
@@ -115,7 +115,15 @@ let check_constant loc kind (const : Parsetree.constant) =
    rolling our own*)
 let emit_external_warnings : iterator=
   {
-    default_iterator with
+    super with
+    type_declaration = (fun self ptyp ->
+        let txt = ptyp.ptype_name.txt in
+        if Ast_core_type.is_builtin_rank0_type txt then
+          Location.raise_errorf ~loc:ptyp.ptype_loc
+            "built-in type `%s` can not be redefined " txt
+        ;
+        super.type_declaration self ptyp
+      );
     attribute = (fun _ attr -> warn_unused_attribute attr);
     structure_item = (fun self str_item ->
       match str_item.pstr_desc with
@@ -123,12 +131,12 @@ let emit_external_warnings : iterator=
         when !Config.syntax_kind = `rescript ->
           Location.raise_errorf ~loc:str_item.pstr_loc
           "GADT has to be recursive types, please try `type rec'"
-      | _ -> default_iterator.structure_item self str_item
+      | _ -> super.structure_item self str_item
     );
     expr = (fun self a ->
         match a.pexp_desc with
         | Pexp_constant(const) -> check_constant a.pexp_loc `expr const
-        | _ -> default_iterator.expr self a
+        | _ -> super.expr self a
       );
     label_declaration = (fun self lbl ->
 
@@ -138,7 +146,7 @@ let emit_external_warnings : iterator=
           | { attr_name = {txt = "bs.as" | "as"}; _ } -> mark_used_bs_attribute attr
           | _ -> ()
           );
-      default_iterator.label_declaration self lbl
+      super.label_declaration self lbl
     );
     (* constructor_declaration = (fun self ({pcd_name = {txt;loc}} as ctr) -> *)
       (* (match txt with *)
@@ -165,13 +173,13 @@ let emit_external_warnings : iterator=
              ~loc:pval_loc
              "%%identity expect its type to be of form 'a -> 'b (arity 1)"
          | _ ->
-           default_iterator.value_description self v
+           super.value_description self v
       );
     pat = begin fun self (pat : Parsetree.pattern) ->
       match pat.ppat_desc with
       |  Ppat_constant(constant) ->
         check_constant pat.ppat_loc `pat constant
-      | _ -> default_iterator.pat self pat
+      | _ -> super.pat self pat
     end
   }
 

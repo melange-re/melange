@@ -12,7 +12,7 @@ function $caret$caret(param, param$1) {
 }
 
 function err(str, f) {
-  return Curry._1(Format.fprintf(Format.err_formatter, $caret$caret(/* Format */{
+  return Curry._1(Format.fprintf(Format.err_formatter)($caret$caret(/* Format */{
                       _0: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,
@@ -35,7 +35,7 @@ function err(str, f) {
 
 function ierr(b, str, f) {
   if (b) {
-    return Curry._1(Format.fprintf(Format.err_formatter, $caret$caret(/* Format */{
+    return Curry._1(Format.fprintf(Format.err_formatter)($caret$caret(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -64,7 +64,7 @@ function ierr(b, str, f) {
 }
 
 function warn(str, f) {
-  return Curry._1(Format.fprintf(Format.err_formatter, $caret$caret(/* Format */{
+  return Curry._1(Format.fprintf(Format.err_formatter)($caret$caret(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "WARN: ",
@@ -91,7 +91,7 @@ function warn(str, f) {
 
 function iwarn(b, str, f) {
   if (b) {
-    return Curry._1(Format.fprintf(Format.err_formatter, $caret$caret(/* Format */{
+    return Curry._1(Format.fprintf(Format.err_formatter)($caret$caret(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "WARN: ",
@@ -128,7 +128,7 @@ function iwarn(b, str, f) {
 }
 
 function info(str, f) {
-  return Curry._1(Format.fprintf(Format.err_formatter, $caret$caret(/* Format */{
+  return Curry._1(Format.fprintf(Format.err_formatter)($caret$caret(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "INFO: ",
@@ -147,7 +147,7 @@ function info(str, f) {
 }
 
 function iinfo(b, str, f) {
-  return Curry._1(Format.fprintf(Format.err_formatter, $caret$caret(/* Format */{
+  return Curry._1(Format.fprintf(Format.err_formatter)($caret$caret(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "INFO: ",

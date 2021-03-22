@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -33,7 +34,7 @@ function f_small(u) {
           };
   } else {
     return {
-            RE_EXN_ID: "Not_found"
+            RE_EXN_ID: Stdlib__no_aliases.Not_found
           };
   }
 }
@@ -195,7 +196,7 @@ eq("File \"large_record_duplication_test.ml\", line 271, characters 6-13", get_x
 eq("File \"large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2(v3), 9);
 
 eq("File \"large_record_duplication_test.ml\", line 273, characters 6-13", get_x0$2({
-          RE_EXN_ID: "Not_found"
+          RE_EXN_ID: Stdlib__no_aliases.Not_found
         }), undefined);
 
 Mt.from_pair_suites("Large_record_duplication_test", suites.contents);

@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Belt_List = require("../../lib/js/belt_List.js");
 var Belt_Array = require("../../lib/js/belt_Array.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 
 var suites = {
   contents: /* [] */0
@@ -2134,7 +2134,7 @@ b("File \"bs_list_test.ml\", line 310, characters 4-11", Belt_List.cmp({
               }
             }
           }
-        }, Caml_primitive.caml_int_compare) > 0);
+        }, Caml.caml_int_compare) > 0);
 
 b("File \"bs_list_test.ml\", line 311, characters 4-11", Belt_List.cmp({
           hd: 1,
@@ -2157,7 +2157,7 @@ b("File \"bs_list_test.ml\", line 311, characters 4-11", Belt_List.cmp({
               tl: /* [] */0
             }
           }
-        }, Caml_primitive.caml_int_compare) > 0);
+        }, Caml.caml_int_compare) > 0);
 
 b("File \"bs_list_test.ml\", line 312, characters 4-11", Belt_List.cmp({
           hd: 1,
@@ -2180,7 +2180,7 @@ b("File \"bs_list_test.ml\", line 312, characters 4-11", Belt_List.cmp({
               }
             }
           }
-        }, Caml_primitive.caml_int_compare) < 0);
+        }, Caml.caml_int_compare) < 0);
 
 b("File \"bs_list_test.ml\", line 313, characters 4-11", Belt_List.cmp({
           hd: 1,
@@ -2200,7 +2200,7 @@ b("File \"bs_list_test.ml\", line 313, characters 4-11", Belt_List.cmp({
               tl: /* [] */0
             }
           }
-        }, Caml_primitive.caml_int_compare) > 0);
+        }, Caml.caml_int_compare) > 0);
 
 b("File \"bs_list_test.ml\", line 314, characters 4-11", Belt_List.cmp({
           hd: 1,
@@ -2220,7 +2220,7 @@ b("File \"bs_list_test.ml\", line 314, characters 4-11", Belt_List.cmp({
               tl: /* [] */0
             }
           }
-        }, Caml_primitive.caml_int_compare) === 0);
+        }, Caml.caml_int_compare) === 0);
 
 b("File \"bs_list_test.ml\", line 315, characters 4-11", Belt_List.cmp({
           hd: 1,
@@ -2240,7 +2240,7 @@ b("File \"bs_list_test.ml\", line 315, characters 4-11", Belt_List.cmp({
               tl: /* [] */0
             }
           }
-        }, Caml_primitive.caml_int_compare) > 0);
+        }, Caml.caml_int_compare) > 0);
 
 b("File \"bs_list_test.ml\", line 316, characters 4-11", Belt_List.cmpByLength(/* [] */0, /* [] */0) === 0);
 
@@ -2495,41 +2495,32 @@ b("File \"bs_list_test.ml\", line 345, characters 4-11", Caml_obj.caml_equal(Bel
           }
         }));
 
-b("File \"bs_list_test.ml\", line 349, characters 4-11", Belt_List.keepMap({
-          hd: 1,
-          tl: {
-            hd: 2,
-            tl: {
-              hd: 3,
+b("File \"bs_list_test.ml\", line 349, characters 4-11", Caml_obj.caml_equal(Belt_List.keepMap({
+              hd: 1,
               tl: {
-                hd: 4,
-                tl: /* [] */0
+                hd: 2,
+                tl: {
+                  hd: 3,
+                  tl: {
+                    hd: 4,
+                    tl: /* [] */0
+                  }
+                }
               }
-            }
-          }
-        }, (function (x) {
-            if (x % 5 === 0) {
-              return x;
-            }
-            
-          })) === /* [] */0);
+            }, (function (x) {
+                if (x % 5 === 0) {
+                  return x;
+                }
+                
+              })), /* [] */0));
 
 Mt.from_pair_suites("Bs_list_test", suites.contents);
-
-var N;
-
-var A;
-
-var J;
 
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.$$throw = $$throw;
-exports.N = N;
-exports.A = A;
-exports.J = J;
 exports.sum = sum;
 exports.sum2 = sum2;
 exports.mod2 = mod2;

@@ -1,14 +1,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
 var Mt_global = require("./mt_global.js");
 var Caml_float = require("../../lib/js/caml_float.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Pervasives = require("../../lib/js/pervasives.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var test_id = {
   contents: 0
@@ -30,7 +30,10 @@ function approx(loc) {
   };
 }
 
-var epsilon_float = Caml_int64.float_of_bits(/* @__PURE__ */Caml_int64.mk(0, 1018167296));
+var epsilon_float = Caml_int64.float_of_bits([
+      1018167296,
+      0
+    ]);
 
 var match = Caml_float.caml_frexp_float(12.0);
 
@@ -148,9 +151,9 @@ function from_pairs(ps) {
                   }), ps));
 }
 
-var float_compare = Caml_primitive.caml_float_compare;
+var float_compare = Caml.caml_float_compare;
 
-Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 47, characters 5-12", Pervasives.classify_float(3), /* FP_normal */0);
+Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 47, characters 5-12", Stdlib__no_aliases.classify_float(3), /* FP_normal */0);
 
 Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 48, characters 5-12", Caml_float.caml_modf_float(-3.125), [
       -0.125,
@@ -160,8 +163,8 @@ Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 48, characte
 var match$3 = Caml_float.caml_modf_float(Number.NaN);
 
 Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 49, characters 5-12", [
-      isNaN(match$3[0]),
-      isNaN(match$3[1])
+      Number.isNaN(match$3[0]),
+      Number.isNaN(match$3[1])
     ], [
       true,
       true
@@ -176,7 +179,7 @@ Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 52, characte
               return 0;
             }
           }), $$Array.map((function (param) {
-                return Caml_primitive.caml_float_compare(param[0], param[1]);
+                return Caml.caml_float_compare(param[0], param[1]);
               }), [
               [
                 1,
@@ -214,7 +217,7 @@ var b = match$4[1];
 
 var a = match$4[0];
 
-Mt.from_pair_suites("Float_test", Pervasives.$at({
+Mt.from_pair_suites("Float_test", Stdlib__no_aliases.$at({
           hd: [
             "mod_float",
             (function (param) {
@@ -262,7 +265,7 @@ Mt.from_pair_suites("Float_test", Pervasives.$at({
               }
             }
           }
-        }, Pervasives.$at(from_pairs(results), suites.contents)));
+        }, Stdlib__no_aliases.$at(from_pairs(results), suites.contents)));
 
 exports.test_id = test_id;
 exports.suites = suites;

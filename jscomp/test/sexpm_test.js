@@ -35,7 +35,7 @@ function eq(loc, param) {
 
 function print_or_error(fmt, x) {
   if (x.NAME === "Error") {
-    return Curry._1(Format.fprintf(fmt, /* Format */{
+    return Curry._1(Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
@@ -66,7 +66,7 @@ function print_or_error(fmt, x) {
                     _1: "@[Error:%s@]@."
                   }), x.VAL);
   } else {
-    return Curry._2(Format.fprintf(fmt, /* Format */{
+    return Curry._2(Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {

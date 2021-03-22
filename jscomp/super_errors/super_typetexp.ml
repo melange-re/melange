@@ -19,11 +19,11 @@ let spellcheck ppf fold env lid =
     let env : string list = fold (fun x  _ _ xs -> x ::xs ) path env []   in
     Misc.spellcheck env name in
   match lid with
-    | Longident.Lapply _ -> false
-    | Longident.Lident s ->
-      did_you_mean ppf (fun _ -> choices None s)
-    | Longident.Ldot (r, s) ->
-      did_you_mean ppf (fun _ -> choices (Some r) s)
+  | Longident.Lapply _ -> false
+  | Longident.Lident s ->
+    did_you_mean ppf (fun _ -> choices None s)
+  | Longident.Ldot (r, s) ->
+    did_you_mean ppf (fun _ -> choices (Some r) s)
 
 
 let fold_descr fold get_name f = fold (fun descr acc -> f (get_name descr) acc)
