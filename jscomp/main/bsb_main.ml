@@ -51,11 +51,17 @@ let bsb_main_flags : (string * spec * string) array =
     "Set the output(from bsb) to be verbose";
     "-w", unit_set_spec watch_mode,
     "Watch mode" ;
-    "-clean-world",call_spec (fun _ ->
-        Bsb_clean.clean_bs_deps  Bsb_global_paths.cwd),
+    (* XXX(anmonteiro): the two commands below do the same, and are kept for
+       CLI compatibility. *)
+    (* TODO(anmonteiro): They should probably call `dune clean`. It could get
+       confusing why running `bsb -clean-world -make-world` doesn't rebuild
+       anything after a project is built (`Bsb_clean.clean` only removes the
+       files `bsb` wrote, it doesn't call `dune clean`). *)
+    "-clean-world", call_spec (fun _ ->
+        Bsb_clean.clean  Bsb_global_paths.cwd),
     "Clean all bs dependencies";
     "-clean", call_spec (fun _ ->
-        Bsb_clean.clean_self  Bsb_global_paths.cwd),
+        Bsb_clean.clean  Bsb_global_paths.cwd),
     "Clean only current project";
     "-make-world", unit_set_spec make_world,
     "Build all dependencies and itself ";

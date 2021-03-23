@@ -72,3 +72,7 @@ let clean_bs_deps  proj_dir =
 let clean_self  proj_dir =
     dune_clean  proj_dir ;
     clean_bs_garbage  proj_dir
+
+let clean proj_dir =
+  clean_bs_deps proj_dir;
+  clean_self proj_dir;
