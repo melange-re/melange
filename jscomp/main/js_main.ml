@@ -464,7 +464,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
-  | Some {pexp_desc = Pexp_array args ; pexp_loc} ->
+  | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args = Array.of_list
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with
