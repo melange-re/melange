@@ -188,7 +188,7 @@ let output_build
   Buffer.add_string buf "(deps (:inputs ";
   Ext_list.iter inputs (fun s ->
     Buffer.add_string buf Ext_string.single_space;
-    Buffer.add_string buf (Filename.basename s));
+    Buffer.add_string buf s);
   Buffer.add_string buf ") ";
   if implicit_deps <> [] then begin
       Ext_list.iter implicit_deps (fun s ->
