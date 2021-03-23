@@ -13,7 +13,7 @@
     "@opam/merlin": "*"
   },
   "resolutions": {
-    "ocaml": "anmonteiro/ocaml#72babec0e1796ce322464afc8ef2a0d7125d60cb"
+    "ocaml": "anmonteiro/ocaml#75f22c872451c66a4c4aadc43abee55697268a57"
   },
   "scripts": {
     "clean": "node ./scripts/ninja.js clean"
