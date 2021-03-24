@@ -45,12 +45,12 @@ to use it is via [Esy](https://esy.sh).
 
 - Can I use ReScript syntax?
 
-Yep! ReScript syntax is supported, but beware that it's stuck on an ancient
-OCaml version (4.06, released in 2018), and it won't have all available
-features that OCaml or Reason syntax have
+Yes! ReScript syntax is supported, but beware that it's stuck on an ancient
+OCaml version (4.06, released in 2018), and it won't have as many features as
+the OCaml or Reason syntaxes
 (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
-[generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147)),
-or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122).
+[generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
+or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
 
 - Where has the `refmt` flag gone?
 
