@@ -191,40 +191,43 @@ let handle_files_per_dir
   let rel_group_dir =
     Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // group.dir)
   in
-  Buffer.add_string buf "(subdir ";
-  Buffer.add_string buf rel_group_dir;
-  Buffer.add_char buf '\n';
-  let is_dev = group.is_dev in
-  handle_generators buf group rules.customs ;
-  let installable =
-    match group.public with
-    | Export_all -> fun _ -> true
-    | Export_none -> fun _ -> false
-    | Export_set set ->
-      fun module_name ->
-      Set_string.mem set module_name in
-  let js_targets, _d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
-      if installable module_name then
-        Queue.add
-          module_info files_to_install;
-      let js_outputs, output_d = emit_module_build  rules
-        package_specs
-        is_dev
-        buf
-        ~per_proj_dir
-        ~bs_dependencies
-        ~bs_dev_dependencies
-        js_post_build_cmd
-        global_config.namespace module_info
-      in
-      (List.map fst js_outputs :: acc_js, output_d :: acc_d)
-  )
-  in
 
-  Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
-  Buffer.add_string buf ")";
-  Buffer.add_string buf "\n"
+  if not (Bsb_file_groups.is_empty group) then begin
+    Buffer.add_string buf "(subdir ";
+    Buffer.add_string buf rel_group_dir;
+    Buffer.add_char buf '\n';
+    let is_dev = group.is_dev in
+    handle_generators buf group rules.customs ;
+    let installable =
+      match group.public with
+      | Export_all -> fun _ -> true
+      | Export_none -> fun _ -> false
+      | Export_set set ->
+        fun module_name ->
+        Set_string.mem set module_name in
+    let js_targets, _d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
+        if installable module_name then
+          Queue.add
+            module_info files_to_install;
+        let js_outputs, output_d = emit_module_build  rules
+          package_specs
+          is_dev
+          buf
+          ~per_proj_dir
+          ~bs_dependencies
+          ~bs_dev_dependencies
+          js_post_build_cmd
+          global_config.namespace module_info
+        in
+        (List.map fst js_outputs :: acc_js, output_d :: acc_d)
+    )
+    in
 
+    Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
+    Buffer.add_string buf ")";
+    Buffer.add_string buf "\n"
+
+  end
 
     (* ;
     Bsb_ninja_targets.phony
