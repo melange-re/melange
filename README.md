@@ -23,7 +23,7 @@ to use it is via [Esy](https://esy.sh).
     "bs-platform": "*"
   },
   "resolutions": {
-    "bs-platform": "anmonteiro/bucklescript#2d3d464", <- or grab the latest commit in this repo
+    "bs-platform": "anmonteiro/bucklescript#HASH_HERE", <- or grab the latest commit in this repo
     "ocaml": "anmonteiro/ocaml#75f22c8"
   },
   "esy": {

@@ -203,7 +203,7 @@ let handle_files_per_dir
     | Export_set set ->
       fun module_name ->
       Set_string.mem set module_name in
-  let js_targets, d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
+  let js_targets, _d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
       if installable module_name then
         Queue.add
           module_info files_to_install;

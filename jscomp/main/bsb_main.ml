@@ -28,6 +28,7 @@ let generate_theme_with_path = ref None
 let separator = "--"
 let watch_mode = ref false
 let make_world = ref false
+let generate_dune_bsb = ref false
 let do_install = ref false
 let bs_version_string = Bs_version.version
 let print_version_string () =
@@ -50,16 +51,22 @@ let bsb_main_flags : (string * spec * string) array =
     "Set the output(from bsb) to be verbose";
     "-w", unit_set_spec watch_mode,
     "Watch mode" ;
-    "-clean-world",call_spec (fun _ ->
-        Bsb_clean.clean_bs_deps  Bsb_global_paths.cwd),
+    (* XXX(anmonteiro): the two commands below do the same, and are kept for
+       CLI compatibility. *)
+    (* TODO(anmonteiro): They should probably call `dune clean`. It could get
+       confusing why running `bsb -clean-world -make-world` doesn't rebuild
+       anything after a project is built (`Bsb_clean.clean` only removes the
+       files `bsb` wrote, it doesn't call `dune clean`). *)
+    "-clean-world", call_spec (fun _ ->
+        Bsb_clean.clean  Bsb_global_paths.cwd),
     "Clean all bs dependencies";
     "-clean", call_spec (fun _ ->
-        Bsb_clean.clean_self  Bsb_global_paths.cwd),
+        Bsb_clean.clean  Bsb_global_paths.cwd),
     "Clean only current project";
     "-make-world", unit_set_spec make_world,
     "Build all dependencies and itself ";
     "-install", unit_set_spec do_install,
-    "Install public interface files into lib/ocaml";
+    "Generate the (dune) rules for building the project";
     "-init", String (String_call (fun path -> generate_theme_with_path := Some path)),
     "Init sample project to get started. \n\
      Note (`bsb -init sample` will create a sample project while \n\
@@ -75,9 +82,8 @@ let bsb_main_flags : (string * spec * string) array =
     call_spec (fun _ ->
         print_endline (Filename.dirname Sys.executable_name)),
     "Show where bsb.exe is located";
-    (** Below flags are only for bsb script, it is not available for bsb.exe
-        we make it at this time to make `bsb -help` easier
-    *)
+    (* Below flags are only for bsb script, it is not available for bsb.exe
+        we make it at this time to make `bsb -help` easier *)
     "-ws", call_spec ignore,
     "[host:]port \n\
      specify a websocket number (and optionally, a host). \n\
@@ -102,8 +108,7 @@ let output_dune_file buf =
   Bsb_ninja_targets.revise_dune dune buf
 
 
-let ninja_command_exit ~buf dune_args  =
-  output_dune_file buf;
+let ninja_command_exit dune_args  =
   let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
   let args =
     if Array.length dune_args = 0 then
@@ -145,11 +150,14 @@ let install_target config =
 let build_whole_project ~buf =
   let root_dir = Bsb_global_paths.cwd in
   Bsb_world.make_world_deps ~buf ~cwd:root_dir None;
-  Bsb_ninja_regen.regenerate_ninja
+  let config = Bsb_ninja_regen.regenerate_ninja
     ~package_kind:Toplevel
     ~buf
     ~root_dir
     root_dir
+  in
+  output_dune_file buf;
+  config
 
 let maybe_generate_config = function
   | None ->
@@ -175,6 +183,7 @@ let () =
           (* [-make-world] should never be combined with [-package-specs] *)
           let make_world = !make_world in
           let do_install = !do_install in
+          generate_dune_bsb := make_world || do_install;
           if not make_world && not do_install then
             (* [regenerate_ninja] is not triggered in this case
                There are several cases we wish ninja will not be triggered.
@@ -194,7 +203,7 @@ let () =
                   [bsb -regen ]
                *)
              end else if make_world then begin
-               ninja_command_exit ~buf [||]
+               ninja_command_exit [||]
              end else if do_install then begin
                install_target (maybe_generate_config !config)
              end
@@ -210,12 +219,15 @@ let () =
         bsb_main_flags handle_anonymous_arg;
         let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
         (* [-make-world] should never be combined with [-package-specs] *)
-        (if !make_world then
+        generate_dune_bsb := !make_world || !do_install;
+        (if !generate_dune_bsb then
           config := Some (build_whole_project ~buf));
         if !do_install then
           install_target (maybe_generate_config !config);
         if !watch_mode then program_exit ()
-        else ninja_command_exit ~buf ninja_args
+        else if !make_world then begin
+          ninja_command_exit ninja_args
+        end
       end
   end
   with

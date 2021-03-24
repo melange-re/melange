@@ -11,7 +11,7 @@
  (action
   (with-stdout-to
    %{targets}
-   (run %{bin:ocaml} %{deps}))))
+   (run ocaml %{deps}))))
 
 (rule
  (targets hash_set_string.ml)
