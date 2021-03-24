@@ -45,9 +45,9 @@ to use it is via [Esy](https://esy.sh).
 
 - Can I use ReScript syntax?
 
-Yep! ReScript syntax is support, but beware that it's stuck on an ancient OCaml
-version, and it won't have all available features that OCaml or Reason syntax
-have (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
+Yep! ReScript syntax is supported, but beware that it's stuck on an ancient
+OCaml version, and it won't have all available features that OCaml or Reason
+syntax have (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
 [generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147)),
 or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122).
 
