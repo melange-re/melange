@@ -41,6 +41,25 @@ to use it is via [Esy](https://esy.sh).
 3. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
    can't figure it out!
 
+## FAQ
+
+- Can I use ReScript syntax?
+
+Yep! ReScript syntax is support, but beware that it's stuck on an ancient OCaml
+version, and it won't have all available features that OCaml or Reason syntax
+have (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
+[generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147)),
+or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122).
+
+- Where has the `refmt` flag gone?
+
+Upstream [removed the `refmt`](https://github.com/rescript-lang/rescript-compiler/pull/4998/commits/be9b1add647859d595dc2e2cbd5552ca246d1df9)
+flag, which used to allow configuring the path to a custom Reason binary. This
+was a welcome change for this repo too, so we cherry-picked it. The rationale:
+this project uses [Reason](https://github.com/reasonml/reason) as a library,
+so you can simply depend on the Reason version that you'd like in the usual way,
+via your preferred package manager.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
