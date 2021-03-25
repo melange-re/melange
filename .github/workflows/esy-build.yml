@@ -3,8 +3,8 @@ name: Build using esy
 on:
   pull_request:
   push:
-   branches:
-     - fork
+    branches:
+      - fork
 
 jobs:
   build:
@@ -12,17 +12,19 @@ jobs:
 
     strategy:
       matrix:
-        system: [windows-latest, ubuntu-latest, macos-latest]
+        system: [windows, ubuntu, macos, macos-arm64]
 
-    runs-on: ${{ matrix.system }}
+    runs-on: ${{ matrix.system }}-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
+        if: ${{ matrix.system != 'macos-arm64' }}
         with:
           node-version: 14
 
       - name: Install esy
+        if: ${{ matrix.system != 'macos-arm64' }}
         run: npm install -g esy
 
       - uses: esy/github-action@master
