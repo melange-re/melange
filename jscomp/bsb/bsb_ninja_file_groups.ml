@@ -65,6 +65,7 @@ let emit_module_build
     (package_specs : Bsb_package_specs.t)
     (is_dev : bool)
     buf
+    ?gentype_config
     ~per_proj_dir
     ~bs_dependencies
     ~bs_dev_dependencies
@@ -92,9 +93,16 @@ let emit_module_build
   in
   let output_cmi =  output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
+  let maybe_gentype_deps = Option.map (fun _ ->
+    let rel_sourcedirs_dir = Ext_path.rel_normalized_absolute_path
+         ~from:(per_proj_dir // module_info.dir)
+         (per_proj_dir // Bsb_config.lib_bs // Literals.sourcedirs_meta) in
+    [rel_sourcedirs_dir]) gentype_config
+  in
   let output_js =
     Bsb_package_specs.get_list_of_output_js package_specs output_filename_sans_extension in
   Bsb_ninja_targets.output_build cur_dir buf
+    ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
     ~outputs:[output_ast]
     ~inputs:[basename input_impl]
     ~rule:ast_rule;
@@ -216,6 +224,7 @@ let handle_files_per_dir
           ~per_proj_dir
           ~bs_dependencies
           ~bs_dev_dependencies
+          ?gentype_config:global_config.gentypeconfig
           js_post_build_cmd
           global_config.namespace module_info
         in

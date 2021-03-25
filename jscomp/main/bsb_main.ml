@@ -193,7 +193,7 @@ let () =
             (if !watch_mode then
                 program_exit ()) (* bsb -verbose hit here *)
           else begin
-            (if make_world then
+            (if !generate_dune_bsb then
               config := Some (build_whole_project ~buf));
              if !watch_mode then begin
                program_exit ()
@@ -202,10 +202,12 @@ let () =
                   [bsb -clean-world]
                   [bsb -regen ]
                *)
-             end else if make_world then begin
-               ninja_command_exit [||]
-             end else if do_install then begin
-               install_target (maybe_generate_config !config)
+             end else begin
+               if do_install then
+                 install_target (maybe_generate_config !config);
+               if make_world then begin
+                 ninja_command_exit [||]
+               end
              end
           end
       end
