@@ -2262,6 +2262,32 @@
 
 
   (rule
+    (targets external_intf_impl.cmj external_intf_impl.js)
+    (deps (:inputs external_intf_impl.ml) ../stdlib-412/stdlib.cmj external_intf_impl.cmi)
+
+  (mode
+   (promote
+    (until-clean)
+    (only external_intf_impl.js)))
+
+    (action
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets external_intf_impl.cmi )
+    (deps (:inputs external_intf_impl.mli) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only )))
+
+    (action
+     (run bsc -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets external_polyfill_test.cmi external_polyfill_test.cmj external_polyfill_test.js)
     (deps (:inputs external_polyfill_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
