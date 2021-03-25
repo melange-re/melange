@@ -29,10 +29,10 @@ let (//) = Ext_path.combine
 *)
 
 
-
-
 (* let dash_i = "-I" *)
 
+let dependencies_directories ~file_groups deps =
+  Ext_list.flat_map deps (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
 
 
 let get_bsc_flags
@@ -252,10 +252,10 @@ let output_ninja_and_namespace_map
       ~package_specs
       generators in
   let bs_dependencies =
-   Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
+    dependencies_directories ~file_groups:bs_file_groups bs_dependencies
   in
   let bs_dev_dependencies =
-   Ext_list.flat_map bs_dev_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
+    dependencies_directories ~file_groups:bs_file_groups bs_dev_dependencies
   in
   Buffer.add_char buf '\n';
 
