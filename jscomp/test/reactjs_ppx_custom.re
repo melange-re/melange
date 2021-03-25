@@ -1,18 +1,8 @@
-[@bs.config
-  {
-    flags: [|
-      "-bs-jsx",
-      "3",
-      "-dsource",
-      // "-w","A",
-      // "-warn-error", "a"
-    |],
-  }
-];
+[@bs.config {flags: [|"-bs-jsx", "3"|]}];
 
 module Internal = {
   [@react.component]
-  let header = () => <div />;
+  let header = () => assert(false);
 };
 
 [@react.component]
