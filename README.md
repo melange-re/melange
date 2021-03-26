@@ -43,7 +43,17 @@ to use it is via [Esy](https://esy.sh).
 
 ## FAQ
 
-- Can I use ReScript syntax?
+### How does this project relate to other tools?
+
+| Name  | Purpose  | Dependencies  |  Notes |
+|---|---|---|---|
+| [Esy](https://esy.sh)  | Package manager |  Installed with NPM |  Obtaining dependencies (e.g. `dune` or `reason`)  |
+| [Dune](https://dune.build/)  | Build tool  | Installed with `esy` | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_ |
+|  [Reason](https://reasonml.github.io/) | Syntax  |  Installed with `esy` | a library that implements an alternative syntax to OCaml  |
+|  This project (name pending) | Compiler that emits JavaScript  |  Esy (to install), Dune (to build), Reason (used as a library) |  Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+|  [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript  | None | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
+
+### Can I use ReScript syntax?
 
 Yes! ReScript syntax is supported, but beware that it's stuck on an ancient
 OCaml version (4.06, released in 2018), and it won't have as many features as
@@ -52,7 +62,7 @@ the OCaml or Reason syntaxes
 [generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
 or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
 
-- Where has the `refmt` flag gone?
+### Where has the `refmt` flag gone?
 
 Upstream [removed the `refmt`](https://github.com/rescript-lang/rescript-compiler/pull/4998/commits/be9b1add647859d595dc2e2cbd5552ca246d1df9)
 flag, which used to allow configuring the path to a custom Reason binary. This
@@ -74,11 +84,5 @@ See [Credits.md](./Credits.md).
 ## Licensing
 
 See [COPYING](./COPYING) and [COPYING.LESSER](./COPYING.LESSER)
-
-The [`ocaml`](ocaml) directory contains the official [OCaml](https://ocaml.org) compiler (version 4.06.1).
-Refer to its copyright and license notices for information about its licensing.
-
-The `vendor/ninja.tar.gz` contains the vendored [ninja](https://github.com/ninja-build/ninja).
-Refer to its copyright and license notices for information about its licensing.
 
 See [Credits](./Credits.md) for more details.
