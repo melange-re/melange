@@ -182,6 +182,37 @@ let extract_predicate (m : json_map)  : string -> bool =
 *)
 
 
+let single_source_subdir_names ({package_kind; is_dev ; cwd}) (x : Ext_json_types.t )
+  : string list  =
+  match x with
+  | Str  { str = dir }  -> [dir]
+  | Obj {map} ->
+    let current_dir_index =
+      match map.?(Bsb_build_schemas.type_) with
+      | Some (Str {str="dev"}) ->
+        true
+      | Some _ -> Bsb_exception.config_error x {|type field expect "dev" literal |}
+      | None -> is_dev in
+    begin match package_kind, current_dir_index with
+    | Dependency _ , true -> []
+    | Dependency _, false
+    | (Toplevel | Pinned_dependency _), _ ->
+      let dir =
+        match map.?(Bsb_build_schemas.dir) with
+        | Some (Str{str}) -> str
+        | Some x -> Bsb_exception.config_error x "dir expected to be a string"
+        | None ->
+          Bsb_exception.config_error x
+            (
+              "required field :" ^ Bsb_build_schemas.dir ^ " missing" )
+      in
+      [ dir ]
+      end
+  | _ -> []
+
+let arr_subdir_names cxt arr =
+  List.concat (Array.to_list (Ext_array.map arr (single_source_subdir_names cxt)))
+
 (********************************************************************)
 (* starts parsing *)
 let rec
@@ -234,14 +265,15 @@ let rec
     let resources = extract_resources input in
     let public = extract_pub input sources in
     (** Doing recursive stuff *)
-    let children =
+    let children, subdirs =
       match sub_dirs_field,
             cxt.traverse with
       | None , true
       | Some (True _), _ ->
         let root = cxt.root in
         let parent = Filename.concat root dir in
-        Ext_array.fold_left (Lazy.force base_name_array) Bsb_file_groups.empty (fun origin x ->
+        let subdirs = (Lazy.force base_name_array) in
+        let children = Ext_array.fold_left subdirs Bsb_file_groups.empty (fun origin x ->
             if  not (Set_string.mem cxt.ignored_dirs x) &&
                 Ext_sys.is_directory_no_exn (Filename.concat parent x) then
               Bsb_file_groups.merge
@@ -254,15 +286,27 @@ let rec
                     } Map_string.empty)  origin
             else origin
           )
+        in
+        let subdirs = List.filter (fun x ->
+          Ext_sys.is_directory_no_exn (Filename.concat parent x))
+          (Array.to_list subdirs)
+        in
+        children, subdirs
       (* readdir parent avoiding scanning twice *)
       | None, false
-      | Some (False _), _  -> Bsb_file_groups.empty
-      | Some s, _  -> parse_sources cxt s
+      | Some (False _), _  -> Bsb_file_groups.empty, []
+      | Some s, _  ->
+        let subdirs = match s with
+          | Arr s -> arr_subdir_names cxt s.content
+          | _ -> single_source_subdir_names cxt s
+        in
+        parse_sources cxt s, subdirs
     in
     (** Do some clean up *)
     (* prune_staled_bs_js_files cxt sources ; *)
     Bsb_file_groups.cons
       ~file_group:{ dir ;
+                    subdirs;
                     sources = sources;
                     resources ;
                     public ;

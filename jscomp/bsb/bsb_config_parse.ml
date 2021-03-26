@@ -344,7 +344,7 @@ let rec interpret_json
         let groups = Bsb_parse_sources.scan
             ~ignored_dirs:(extract_ignored_dirs map)
             ~package_kind
-            ~root: per_proj_dir
+            ~root:per_proj_dir
             ~cut_generators
             ~namespace
             sources in
