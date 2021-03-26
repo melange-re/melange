@@ -27,15 +27,9 @@
 let (//) = Ext_path.combine
 
 let resolve_package cwd  package_name =
-  let package_path =  Bsb_pkg.resolve_bs_package ~cwd package_name  in
-  let rel = Ext_path.rel_normalized_absolute_path ~from:Bsb_global_paths.cwd package_path in
-  let package_install_path =
-    Bsb_global_paths.cwd // Bsb_config.dune_build_dir // rel
-  in
   {
     Bsb_config_types.package_name ;
-    package_path;
-    package_install_path;
+    package_path = Bsb_pkg.resolve_bs_package ~cwd package_name;
     package_dirs = [];
     package_install_dirs = [];
   }
@@ -403,8 +397,8 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
      let { Bsb_config_types.file_groups = { files; _ }; namespace; _ } =
        interpret_json ~package_kind ~per_proj_dir:dep.package_path
      in
-     let ns_incl = Ext_option.map namespace (fun _ns ->
-       dep.package_install_path // Bsb_config.lib_bs)
+     let ns_incl =
+       Ext_option.map namespace (fun _ -> dep.package_path // Bsb_config.lib_bs)
      in
      let dirs = Ext_list.filter_map files (fun ({ Bsb_file_groups.dir; is_dev; _ } as group) ->
         if not is_dev && not (Bsb_file_groups.is_empty group) then
@@ -413,7 +407,7 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
           None)
      in
      let install_dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; is_dev; _ } ->
-        if not is_dev then Some (dep.package_install_path // dir) else None)
+        if not is_dev then Some (dep.package_path // dir) else None)
      in
      { dep with
        package_install_dirs = (match ns_incl with Some ns_incl -> ns_incl :: install_dirs | None -> install_dirs);

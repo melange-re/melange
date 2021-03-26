@@ -40,25 +40,8 @@ let get_bsc_flags
   : string =
   String.concat Ext_string.single_space bsc_flags
 
-
-let bsc_lib_includes
-    (bs_dependencies : Bsb_config_types.dependencies)
-  (external_includes) =
-  (* TODO: bsc_flags contain stdlib path which is in the latter position currently *)
-  let all_includes  =
-    (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs)) @
-    (
-      (* for external includes, if it is absolute path, leave it as is
-         for relative path './xx', we need '../.././x' since we are in
-         [lib/bs], [build] is different from merlin though
-      *)
-      Ext_list.map
-        external_includes
-
-        (fun x -> if Filename.is_relative x then Bsb_config.rev_lib_bs_prefix  x else x)
-    )
-  in
-  Bsb_build_util.include_dirs all_includes
+let bsc_lib_includes (bs_dependencies : Bsb_config_types.dependencies) =
+  (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs))
 
 (* let output_static_resources
     (static_resources : string list)
@@ -220,12 +203,12 @@ let output_ninja_and_namespace_map
       ~bs_dep_parse:(Ext_filename.maybe_quote Bsb_global_paths.bs_dep_parse)
       ~warnings
       ~bsc_flags
-      ~g_dpkg_incls:(Bsb_build_util.include_dirs
-         (Ext_list.flat_map bs_dev_dependencies (fun x -> x.package_install_dirs)))
+      ~g_dpkg_incls:(bsc_lib_includes bs_dev_dependencies)
       ~g_dev_incls:source_dirs.dev
       ~g_stdlib_incl
       ~g_sourcedirs_incls:source_dirs.lib
-      ~g_lib_incls:(bsc_lib_includes bs_dependencies external_includes)
+      ~g_lib_incls:(bsc_lib_includes bs_dependencies)
+      ~external_incls:external_includes
       ~gentypeconfig:(Ext_option.map gentype_config (fun x ->
           ("-bs-gentype " ^ x.path)))
       ~pp_flags:(Ext_option.map pp_file Bsb_build_util.pp_flag)

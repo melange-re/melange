@@ -57,7 +57,7 @@ val include_dirs_by :
   ('a -> string ) ->
   string
 
-val sourcedir_include_dirs :
+val rel_include_dirs :
   per_proj_dir:string ->
   cur_dir:string ->
   ?namespace:string ->
