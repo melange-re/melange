@@ -40,6 +40,12 @@ let all_lib_artifacts =
   ]
 let rev_lib_bs = ".."// ".."
 
+let dune_build_dir = lazy (
+  match Sys.getenv_opt "DUNE_BUILD_DIR" with
+  | Some value -> value // "default"
+  | None -> "_build" // "default"
+)
+
 (* access the js directory from "lib/bs",
   it would be '../js'
 *)

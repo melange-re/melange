@@ -39,4 +39,5 @@ val lib_bs_prefix_of_format : Ext_module_system.t -> string
 val top_prefix_of_format : Ext_module_system.t -> string
 (** default not install, only when -make-world, its dependencies will be installed  *)
 
+val dune_build_dir : string Lazy.t
 val stdlib_path : cwd:string -> string

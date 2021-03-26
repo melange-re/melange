@@ -106,6 +106,21 @@ let bsc_flg_to_merlin_ocamlc_flg bsc_flags  =
 let warning_to_merlin_flg (warning: Bsb_warning.t ) : string=
   merlin_flg ^ Bsb_warning.to_merlin_string warning
 
+let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency) =
+  Ext_list.iter package.package_install_dirs (fun dir ->
+    let rel =
+      Ext_path.rel_normalized_absolute_path
+        ~from:Bsb_global_paths.cwd
+        dir
+    in
+    let path = Bsb_global_paths.cwd // rel in
+    let package_install_path =
+      Bsb_global_paths.cwd // dune_build_dir // rel
+    in
+    Buffer.add_string buffer merlin_s ;
+    Buffer.add_string buffer path ;
+    Buffer.add_string buffer merlin_b;
+    Buffer.add_string buffer package_install_path)
 
 let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     ({file_groups = res_files ;
@@ -173,33 +188,22 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     let bsc_string_flag = bsc_flg_to_merlin_ocamlc_flg bsc_flags in
     Buffer.add_string buffer bsc_string_flag ;
     Buffer.add_string buffer (warning_to_merlin_flg  warning);
-    Ext_list.iter bs_dependencies (fun package ->
-        Ext_list.iter package.package_install_dirs (fun path ->
-        Buffer.add_string buffer merlin_s ;
-        Buffer.add_string buffer path ;
-        Buffer.add_string buffer merlin_b;
-        Buffer.add_string buffer path ;
-    ));
-    Ext_list.iter bs_dev_dependencies (**TODO: shall we generate .merlin for dev packages ?*)
-    (fun package ->
-        let path = package.package_install_path in
-        Buffer.add_string buffer merlin_s ;
-        Buffer.add_string buffer path ;
-        Buffer.add_string buffer merlin_b;
-        Buffer.add_string buffer path ;
-      );
+    let dune_build_dir = Lazy.force Bsb_config.dune_build_dir in
+    Ext_list.iter bs_dependencies (package_merlin buffer ~dune_build_dir);
+    (**TODO: shall we generate .merlin for dev packages ?*)
+    Ext_list.iter bs_dev_dependencies (package_merlin buffer ~dune_build_dir);
     let lib_artifacts_dir = Bsb_config.lib_bs in
     Ext_list.iter res_files.files (fun x ->
         if not (Bsb_file_groups.is_empty x) then
           begin
             Buffer.add_string buffer merlin_s;
-            Buffer.add_string buffer (per_proj_dir // Bsb_config.dune_build_dir // x.dir) ;
+            Buffer.add_string buffer (per_proj_dir // x.dir) ;
             Buffer.add_string buffer merlin_b;
-            Buffer.add_string buffer (per_proj_dir // Bsb_config.dune_build_dir // x.dir) ;
+            Buffer.add_string buffer (per_proj_dir // dune_build_dir // x.dir) ;
           end;
       ) ;
     Buffer.add_string buffer merlin_b;
-    Buffer.add_string buffer (per_proj_dir // Bsb_config.dune_build_dir // lib_artifacts_dir) ;
+    Buffer.add_string buffer (per_proj_dir // dune_build_dir // lib_artifacts_dir) ;
     Buffer.add_string buffer "\n";
     revise_merlin (per_proj_dir // merlin) buffer
   end
