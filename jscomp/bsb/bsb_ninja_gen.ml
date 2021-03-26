@@ -246,7 +246,6 @@ let output_ninja_and_namespace_map
   (** Generate build statement for each file *)
   Ext_list.iter bs_file_groups
     (fun files_per_dir ->
-      (* let group_dir = global_config.src_root_dir // files_per_dir.dir in *)
        Bsb_ninja_file_groups.handle_files_per_dir buf
          ~global_config
          ~rules
@@ -256,8 +255,7 @@ let output_ninja_and_namespace_map
          ~bs_dev_dependencies
          ~bs_dependencies
          ~root_dir
-         files_per_dir;
-         )
+         files_per_dir)
   ;
 
   Buffer.add_char buf '\n';

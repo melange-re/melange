@@ -196,6 +196,13 @@ let handle_files_per_dir
     Buffer.add_string buf "(subdir ";
     Buffer.add_string buf rel_group_dir;
     Buffer.add_char buf '\n';
+    if group.subdirs <> [] then begin
+      Buffer.add_string buf "(dirs :standard";
+      Ext_list.iter group.subdirs (fun subdir ->
+        Buffer.add_char buf ' ';
+        Buffer.add_string buf subdir);
+      Buffer.add_string buf ")\n"
+    end;
     let is_dev = group.is_dev in
     handle_generators buf group rules.customs ;
     let installable =
