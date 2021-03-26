@@ -428,6 +428,15 @@ let makeListPattern loc seq ext_opt =
       Ast_helper.Pat.mk ~loc (Ppat_construct(Location.mkloc (Longident.Lident "::") loc, Some arg))
   in
   handle_seq seq
+(* {"foo": bar} -> Js.t({. foo: bar})
+ * {.. "foo": bar} -> Js.t({.. foo: bar})
+ * {..} -> Js.t({..}) *)
+let makeBsObjType ~attrs ~loc ~closed rows =
+  let obj = Ast_helper.Typ.object_ ~loc rows closed in
+  let jsDotTCtor =
+    Location.mkloc (Longident.Ldot (Longident.Lident "Js", "t")) loc
+  in
+  Ast_helper.Typ.constr ~loc ~attrs jsDotTCtor [obj]
 
 (* TODO: diagnostic reporting *)
 let lidentOfPath longident =
@@ -3902,7 +3911,7 @@ and parseRecordOrObjectType ~attrs p =
   in
   Parser.expect Rbrace p;
   let loc = mkLoc startPos p.prevEndPos in
-  Ast_helper.Typ.object_ ~loc ~attrs fields closedFlag
+  makeBsObjType ~attrs ~loc ~closed:closedFlag fields
 
 (* TODO: check associativity in combination with attributes *)
 and parseTypeAlias p typ =
@@ -4308,7 +4317,7 @@ and parseConstrDeclArgs p =
         in
         Parser.expect Rbrace p;
         let loc = mkLoc startPos p.prevEndPos in
-        let typ = Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag in
+        let typ = makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields in
         Parser.optional p Comma |> ignore;
         let moreArgs =
           parseCommaDelimitedRegion
@@ -4404,7 +4413,7 @@ and parseConstrDeclArgs p =
             Parser.expect Rbrace p;
             let loc = mkLoc startPos p.prevEndPos in
             let typ =
-              Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag
+              makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields
               |> parseTypeAlias p
             in
             let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
@@ -4739,7 +4748,7 @@ and parseRecordOrObjectDecl p =
     Parser.expect Rbrace p;
     let loc = mkLoc startPos p.prevEndPos in
     let typ =
-      Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag
+      makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields
       |> parseTypeAlias p
     in
     let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
@@ -4822,7 +4831,7 @@ and parseRecordOrObjectDecl p =
         Parser.expect Rbrace p;
         let loc = mkLoc startPos p.prevEndPos in
         let typ =
-          Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag |> parseTypeAlias p
+          makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields |> parseTypeAlias p
         in
         let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
         (Some typ, Asttypes.Public, Parsetree.Ptype_abstract)
