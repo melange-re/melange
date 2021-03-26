@@ -51,7 +51,7 @@ to use it is via [Esy](https://esy.sh).
 | [Dune](https://dune.build/)  | Build tool  | Installed with `esy` | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_ |
 |  [Reason](https://reasonml.github.io/) | Syntax  |  Installed with `esy` | a library that implements an alternative syntax to OCaml  |
 |  This project (name pending) | Compiler that emits JavaScript  |  Esy (to install), Dune (to build), Reason (used as a library) |  Supports OCaml, Reason and ReScript syntaxes; derived from (an earlier version of) ReScript |
-|  [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript  | None | Distributed via NPM as prebuilt binaries |
+|  [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript  | None | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
 
 ### Can I use ReScript syntax?
 
