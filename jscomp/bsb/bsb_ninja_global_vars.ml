@@ -31,10 +31,11 @@ type t =
   bs_dep_parse: string;
   warnings: string;
   bsc_flags: string;
-  g_dpkg_incls: string;
+  g_dpkg_incls: string list;
   g_dev_incls: string list;
   g_stdlib_incl: string list;
-  g_lib_incls: string;
+  g_lib_incls: string list;
+  external_incls: string list;
   g_sourcedirs_incls: string list;
   gentypeconfig: string option;
   pp_flags: string option;
@@ -53,6 +54,7 @@ let make
   ~g_dev_incls
   ~g_stdlib_incl
   ~g_lib_incls
+  ~external_incls
   ~g_sourcedirs_incls
   ~gentypeconfig
   ~pp_flags
@@ -69,6 +71,7 @@ let make
   g_dev_incls;
   g_stdlib_incl;
   g_lib_incls;
+  external_incls;
   g_sourcedirs_incls;
   gentypeconfig;
   pp_flags;

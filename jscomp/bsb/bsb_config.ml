@@ -40,9 +40,6 @@ let all_lib_artifacts =
   ]
 let rev_lib_bs = ".."// ".."
 
-(* TODO: read current dune context *)
-let dune_build_dir = (Ext_path.combine "_build" "default")
-
 (* access the js directory from "lib/bs",
   it would be '../js'
 *)
@@ -81,7 +78,7 @@ let proj_rel path = rev_lib_bs // path
 let stdlib_path ~cwd =
   match Sys.getenv_opt "BSLIB" with
   | Some value -> value
-  | None -> 
+  | None ->
     let stdlib_path =
       Bsb_pkg.resolve_bs_package
         ~cwd

@@ -53,10 +53,8 @@ let bsb_main_flags : (string * spec * string) array =
     "Watch mode" ;
     (* XXX(anmonteiro): the two commands below do the same, and are kept for
        CLI compatibility. *)
-    (* TODO(anmonteiro): They should probably call `dune clean`. It could get
-       confusing why running `bsb -clean-world -make-world` doesn't rebuild
-       anything after a project is built (`Bsb_clean.clean` only removes the
-       files `bsb` wrote, it doesn't call `dune clean`). *)
+    (* TODO(anmonteiro): They call `dune clean` but they can't currently accept
+       dune flags (e.g. --root=.) *)
     "-clean-world", call_spec (fun _ ->
         Bsb_clean.clean  Bsb_global_paths.cwd),
     "Clean all bs dependencies";
