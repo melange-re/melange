@@ -93,11 +93,12 @@ let emit_module_build
   in
   let output_cmi =  output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
+  let rel_proj_dir = Ext_path.rel_normalized_absolute_path
+     ~from:(Ext_path.combine per_proj_dir module_info.dir)
+     per_proj_dir
+  in
   let maybe_gentype_deps = Option.map (fun _ ->
-    let rel_sourcedirs_dir = Ext_path.rel_normalized_absolute_path
-         ~from:(per_proj_dir // module_info.dir)
-         (per_proj_dir // Bsb_config.lib_bs // Literals.sourcedirs_meta) in
-    [rel_sourcedirs_dir]) gentype_config
+    [rel_proj_dir // Bsb_config.lib_bs // Literals.sourcedirs_meta ]) gentype_config
   in
   let output_js =
     Bsb_package_specs.get_list_of_output_js package_specs output_filename_sans_extension in
@@ -126,13 +127,7 @@ let emit_module_build
      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
   )
   in
-  let rel_bs_config_json =
-   Ext_path.combine
-    (Ext_path.rel_normalized_absolute_path
-       ~from:(Ext_path.combine per_proj_dir module_info.dir)
-       per_proj_dir)
-    Literals.bsconfig_json
-  in
+  let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
   let bs_dependencies = if is_dev then
     let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
       (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
