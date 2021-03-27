@@ -22,10 +22,8 @@ let set_abs_input_name sourcefile =
 let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
   Config.syntax_kind := syntax_kind ;
   if syntax_kind = `reason then begin
-    Lazy.force Super_main.setup;
     Lazy.force Reason_outcome_printer_main.setup
   end else if !Config.syntax_kind = `rescript then begin
-    Lazy.force Super_main.setup;
     Lazy.force Res_outcome_printer.setup
   end
 
@@ -289,7 +287,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     (******************************************************************************)
 
 
-    "-bs-super-errors", unit_lazy Super_main.setup,
+    "-bs-super-errors", unit_call ignore,
     "Better error message combined with other tools ";
 
     "-unboxed-types", set Clflags.unboxed_types,

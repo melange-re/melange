@@ -10,7 +10,6 @@
   ext
   common
   depends
-  super_errors
   outcome_printer
   core
   napkin
