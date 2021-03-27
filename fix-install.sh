@@ -3,7 +3,7 @@
 set -e
 set -u
 
-cd $cur__lib/bucklescript
+cd $cur__lib/melange
 tar xvf libocaml.tar.gz
 mv others/* .
 mv runtime/* .

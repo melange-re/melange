@@ -1,15 +1,15 @@
 let
   pkgs = import ../sources.nix { };
   inherit (pkgs) stdenv nodejs-14_x yarn lib;
-  thisPackage = import ./.. { inherit pkgs; };
+  melange = import ./.. { inherit pkgs; };
 
 in
 
 stdenv.mkDerivation rec {
-  name = "bucklescript-tests";
-  inherit (thisPackage) src nativeBuildInputs propagatedBuildInputs;
+  name = "melange-tests";
+  inherit (melange) src nativeBuildInputs propagatedBuildInputs;
 
-  inputString = builtins.unsafeDiscardStringContext thisPackage.outPath;
+  inputString = builtins.unsafeDiscardStringContext melange.outPath;
 
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
   outputHashMode = "flat";
@@ -22,10 +22,10 @@ stdenv.mkDerivation rec {
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
   doCheck = true;
 
-  buildInputs = thisPackage.buildInputs ++ [
+  buildInputs = melange.buildInputs ++ [
     yarn
     nodejs-14_x
-    thisPackage
+    melange
   ];
 
   checkPhase = ''
@@ -36,6 +36,6 @@ stdenv.mkDerivation rec {
     dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
     node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
 
-    dune runtest -p ${thisPackage.name} -j $NIX_BUILD_CORES --display=short
+    dune runtest -p ${melange.name} -j $NIX_BUILD_CORES --display=short
   '';
 }

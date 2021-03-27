@@ -495,7 +495,7 @@ let process_obj
                    (* XXX(anmonteiro): it's unsafe to just read the type of the
                       labelled argument declaration, since it could be `'a` in
                       the implementation, and e.g. `bool` in the interface. See
-                      https://github.com/anmonteiro/bucklescript/pull/58 for
+                      https://github.com/melange-re/melange/pull/58 for
                       a test case. *)
                    {obj_arg_label = External_arg_spec.optional false s; obj_arg_type},
                    param_type :: arg_types,

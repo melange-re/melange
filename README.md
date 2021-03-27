@@ -1,6 +1,6 @@
-# ~~BuckleScript~~
+# Melange
 
-OCaml -> JS compiler.
+A _mixture_ of tooling combined to produce JS from OCaml / Reason.
 
 This project is a fork of the
 [ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) with
@@ -23,8 +23,8 @@ to use it is via [Esy](https://esy.sh).
     "bs-platform": "*"
   },
   "resolutions": {
-    "bs-platform": "anmonteiro/bucklescript#HASH_HERE", <- or grab the latest commit in this repo
-    "ocaml": "anmonteiro/ocaml#75f22c8"
+    "bs-platform": "melange-re/melange#HASH_HERE", <- or grab the latest commit in this repo
+    "ocaml": "melange-re/ocaml#75f22c8"
   },
   "esy": {
     "buildsInSource": "unsafe",
@@ -50,7 +50,7 @@ to use it is via [Esy](https://esy.sh).
 | [Esy](https://esy.sh)  | Package manager |  Installed with NPM |  Obtaining dependencies (e.g. `dune` or `reason`)  |
 | [Dune](https://dune.build/)  | Build tool  | Installed with `esy` | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_ |
 |  [Reason](https://reasonml.github.io/) | Syntax  |  Installed with `esy` | a library that implements an alternative syntax to OCaml  |
-|  This project (name pending) | Compiler that emits JavaScript  |  Esy (to install), Dune (to build), Reason (used as a library) |  Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+|  [Melange](https://melange.re) | Compiler that emits JavaScript  |  Esy (to install), Dune (to build), Reason (used as a library) |  Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
 |  [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript  | None | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
 
 ### Can I use ReScript syntax?
