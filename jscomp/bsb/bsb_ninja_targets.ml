@@ -151,6 +151,7 @@ let output_alias ?action buf ~name ~deps =
        Buffer.add_string buf (Filename.basename x));
    Buffer.add_string buf ")"
   end;
+ Buffer.add_string buf (Format.asprintf "\n(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version) ;
  Buffer.add_string buf ")"
 
 let output_build
@@ -207,6 +208,7 @@ let output_build
     rule
     buf
     cur_dir;
+  Buffer.add_string buf (Format.asprintf "\n(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version) ;
   Buffer.add_string buf " )\n "
 
 
