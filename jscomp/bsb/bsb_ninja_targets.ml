@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+let enabled_if =
+  Format.asprintf "(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version
 
 let oc_list xs  oc =
   Ext_list.iter xs (fun s -> output_string oc Ext_string.single_space ; output_string oc s)
@@ -117,6 +119,8 @@ let output_alias ?action buf ~name ~deps =
        Buffer.add_string buf (Filename.basename x));
    Buffer.add_string buf ")"
   end;
+ Buffer.add_char buf '\n';
+ Buffer.add_string buf enabled_if ;
  Buffer.add_string buf ")"
 
 let output_build
@@ -173,5 +177,7 @@ let output_build
     rule
     buf
     cur_dir;
+  Buffer.add_char buf '\n';
+  Buffer.add_string buf enabled_if;
   Buffer.add_string buf " )\n "
 
