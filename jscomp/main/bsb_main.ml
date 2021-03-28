@@ -156,16 +156,8 @@ let build_whole_project ~buf =
   output_dune_file buf;
   config
 
-let maybe_generate_config = function
-  | None ->
-    Bsb_config_parse.interpret_json
-      ~package_kind:Toplevel
-      ~per_proj_dir:Bsb_global_paths.cwd
-  | Some config -> config
-
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
-  let config = ref None in
   let argv = Sys.argv in
   let buf = Buffer.create 0x1000 in
   try begin
@@ -220,9 +212,8 @@ let () =
         (* [-make-world] should never be combined with [-package-specs] *)
         let generate_dune_bsb = !make_world || !do_install in
         if generate_dune_bsb then begin
-          let cfg = build_whole_project ~buf in
-          config := Some cfg;
-          install_target (maybe_generate_config !config);
+          let config = build_whole_project ~buf in
+          install_target config;
         end;
         if !watch_mode then program_exit ()
         else if !make_world then begin
