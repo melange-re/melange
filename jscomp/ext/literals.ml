@@ -108,6 +108,9 @@ let suffix_cjs = ".cjs"
 let suffix_gen_js = ".gen.js"
 let suffix_gen_tsx = ".gen.tsx"
 
+let suffix_impl = ".impl"
+let suffix_intf = ".intf"
+
 let commonjs = "commonjs"
 
 let es6 = "es6"

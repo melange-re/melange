@@ -131,6 +131,8 @@ let make_custom_rules
     Buffer.add_string buf "(action\n (progn ";
     Buffer.add_string buf "(dynamic-run ";
     Buffer.add_string buf global_config.bs_dep_parse;
+    Buffer.add_string buf " -cwd ";
+    Buffer.add_string buf global_config.src_root_dir;
     Buffer.add_string buf " %{dep_file}) (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf ns_flag;

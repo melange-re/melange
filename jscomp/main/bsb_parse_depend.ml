@@ -52,23 +52,29 @@ let parse_deps_exn lines =
   | line :: _ ->
     match split2 line ~sep:':' with
     | None -> assert false
-    | Some (_basename, deps) ->
-      extract_blank_separated_words deps
+    | Some (fname, deps) ->
+      List.map (fun x -> fname, x) (extract_blank_separated_words deps)
 
-let single_file file =
+let single_file ~cwd file =
+  let project_root = cwd in
   let chan = open_in_bin file in
   let deps = parse_deps_exn (input_lines chan) in
   close_in chan;
-  let rules = List.map (fun file -> D.read_file ~path:(P.of_string file))
-  deps
+  let rules =
+    List.map (fun (fname, file) ->
+      let dirname = Filename.dirname fname in
+      let file' =
+        (Ext_path.rel_normalized_absolute_path ~from:(project_root // dirname) project_root) // file
+      in
+      D.read_file ~path:(P.of_string file')) deps
   in
   List.fold_left (fun acc item ->
     let+ _ = D.both acc item in ())
     (D.return ())
     rules
 
-let parse_depends files =
-  let rules = List.map single_file files in
+let parse_depends ~cwd files =
+  let rules = List.map (single_file ~cwd) files in
   let rule = List.fold_left (fun acc item ->
     let+ _ = D.both acc item in ())
     (D.return ())
@@ -81,12 +87,17 @@ let () =
   let argv = Sys.argv in
   let l = Array.length argv in
   let current = ref 1 in
+  let cwd = ref None in
   let rev_list = ref [] in
   while !current < l do
     let s = argv.(!current) in
     incr current;
     if s <> "" && s.[0] = '-' then begin
       match s with
+      | "-cwd" ->
+        let cwd_arg = argv.(!current) in
+        cwd := Some cwd_arg;
+        incr current
       | "-help" ->
         prerr_endline ("usage: bsb_parse_depend.exe [-help] file1 file2 ...");
         exit 0
@@ -97,6 +108,11 @@ let () =
     end else
       rev_list := s :: !rev_list
   done;
-  parse_depends !rev_list
+  match !cwd with
+  | None ->
+    prerr_endline "-cwd is a required option";
+    exit 2
+  | Some cwd ->
+    parse_depends ~cwd !rev_list
 ;;
 
