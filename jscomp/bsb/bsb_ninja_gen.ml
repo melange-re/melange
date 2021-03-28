@@ -259,7 +259,7 @@ let output_ninja_and_namespace_map
   ;
 
   Buffer.add_char buf '\n';
-  Ext_option.iter  namespace (fun ns ->
+  Ext_option.iter namespace (fun ns ->
       let namespace_dir =
         Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // lib_artifacts_dir)
       in

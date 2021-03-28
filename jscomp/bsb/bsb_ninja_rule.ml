@@ -139,7 +139,7 @@ let make_custom_rules
     if read_cmi = `yes then
       Buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin
-       let dev_incls = Bsb_build_util.include_dirs global_config.g_dev_incls in
+       let dev_incls = rel_incls global_config.g_dev_incls in
         Buffer.add_string buf " ";
         Buffer.add_string buf dev_incls;
     end;
