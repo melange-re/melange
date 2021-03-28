@@ -56,13 +56,9 @@ let fix_conflict modname (a : module_info) (b : module_info) =
   match a.info, b.info with
   | Intf, Impl -> merge_dirs ~impl:b ~intf:a
   | Impl, Intf -> merge_dirs ~impl:a ~intf:b
-  | Intf, Intf
-  | Impl, Impl
-  | Impl, Impl_intf
-  | Intf, Impl_intf
-  | Impl_intf, Impl
-  | Impl_intf, Intf
-  | Impl_intf, Impl_intf -> raise_notrace (conflict_module_info modname a b)
+  | Intf, Intf | Impl, Impl | Impl, Impl_intf | Intf, Impl_intf
+  | Impl_intf, Impl | Impl_intf, Intf | Impl_intf, Impl_intf ->
+    raise_notrace (conflict_module_info modname a b)
 
 (* merge data info from two directories*)
 let merge (acc : t) (sources : t) : t =
