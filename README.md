@@ -79,8 +79,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 See [Credits.md](./Credits.md).
 
-## [Roadmap](https://github.com/rescript-lang/rescript-compiler/wiki)
-
 ## Licensing
 
 See [COPYING](./COPYING) and [COPYING.LESSER](./COPYING.LESSER)
