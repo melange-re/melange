@@ -182,10 +182,10 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Pbytessetu
       | Pbytessets
       (* Operations on boxed integers (Nativeint.t, Int32.t, Int64.t) *)
-      | Parraysets
       | Pbigarrayset _
       (* size of the nth dimension of a big array *)
       | Pbigarraydim _ 
+      | Parraysets
       (* byte swap *)
       | Parraysetu
       | Poffsetref _

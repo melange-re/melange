@@ -1,3 +1,7 @@
+(executable
+ (name build_version)
+ (libraries ext))
+
 (rule
  (deps
   (alias runtime/runtime)

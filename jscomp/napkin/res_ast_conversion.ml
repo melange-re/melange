@@ -359,14 +359,6 @@ let normalize =
       | _ ->
         default_mapper.pat mapper p
     end;
-    typ = (fun mapper typ ->
-      match typ.ptyp_desc with
-      | Ptyp_constr({txt = Longident.Ldot(Longident.Lident "Js", "t")}, [arg]) ->
-        (* Js.t({"a": b}) -> {"a": b}
-          Since compiler >9.0.1 objects don't need Js.t wrapping anymore *)
-         mapper.typ mapper arg
-      | _ -> default_mapper.typ mapper typ
-    );
     expr = (fun mapper expr ->
       match expr.pexp_desc with
       | Pexp_constant (Pconst_string (txt, None)) ->

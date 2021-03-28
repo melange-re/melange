@@ -2,8 +2,6 @@
  (name bsc)
  (public_name bsc)
  (modes native)
- (flags
-  (:standard -w -9))
  (libraries
   js_parser
   bs_hash_stubs
@@ -42,8 +40,6 @@
  (public_name bsb)
  (modes native)
  (modules bsb_main)
- (flags
-  (:standard -w -9-50))
  (libraries bs_hash_stubs ext common bsb))
 
 (executable

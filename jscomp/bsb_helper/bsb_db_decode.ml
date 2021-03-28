@@ -104,12 +104,12 @@ type module_info =  {
 
 
 let find_opt
-  ({content = whole} as db : t )
+  ({content = whole; _ } as db : t )
     lib (key : string)
     : module_info option =
   match if lib then db.lib else db.dev with
   | Dummy -> None
-  | Group ({modules ;} as group) ->
+  | Group ({ modules; _ } as group) ->
   let i = Ext_string_array.find_sorted  modules key in
   match i with
   | None -> None

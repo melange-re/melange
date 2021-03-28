@@ -29,10 +29,10 @@ let (//) = Ext_path.combine
 *)
 
 
-
-
 (* let dash_i = "-I" *)
 
+let dependencies_directories ~file_groups deps =
+  Ext_list.flat_map deps (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
 
 
 let get_bsc_flags
@@ -40,25 +40,8 @@ let get_bsc_flags
   : string =
   String.concat Ext_string.single_space bsc_flags
 
-
-let bsc_lib_includes
-    (bs_dependencies : Bsb_config_types.dependencies)
-  (external_includes) =
-  (* TODO: bsc_flags contain stdlib path which is in the latter position currently *)
-  let all_includes  =
-    (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs)) @
-    (
-      (* for external includes, if it is absolute path, leave it as is
-         for relative path './xx', we need '../.././x' since we are in
-         [lib/bs], [build] is different from merlin though
-      *)
-      Ext_list.map
-        external_includes
-
-        (fun x -> if Filename.is_relative x then Bsb_config.rev_lib_bs_prefix  x else x)
-    )
-  in
-  Bsb_build_util.include_dirs all_includes
+let bsc_lib_includes (bs_dependencies : Bsb_config_types.dependencies) =
+  (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs))
 
 (* let output_static_resources
     (static_resources : string list)
@@ -220,12 +203,12 @@ let output_ninja_and_namespace_map
       ~bs_dep_parse:(Ext_filename.maybe_quote Bsb_global_paths.bs_dep_parse)
       ~warnings
       ~bsc_flags
-      ~g_dpkg_incls:(Bsb_build_util.include_dirs
-         (Ext_list.flat_map bs_dev_dependencies (fun x -> x.package_install_dirs)))
+      ~g_dpkg_incls:(bsc_lib_includes bs_dev_dependencies)
       ~g_dev_incls:source_dirs.dev
       ~g_stdlib_incl
       ~g_sourcedirs_incls:source_dirs.lib
-      ~g_lib_incls:(bsc_lib_includes bs_dependencies external_includes)
+      ~g_lib_incls:(bsc_lib_includes bs_dependencies)
+      ~external_incls:external_includes
       ~gentypeconfig:(Ext_option.map gentype_config (fun x ->
           ("-bs-gentype " ^ x.path)))
       ~pp_flags:(Ext_option.map pp_file Bsb_build_util.pp_flag)
@@ -252,10 +235,10 @@ let output_ninja_and_namespace_map
       ~package_specs
       generators in
   let bs_dependencies =
-   Ext_list.flat_map bs_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
+    dependencies_directories ~file_groups:bs_file_groups bs_dependencies
   in
   let bs_dev_dependencies =
-   Ext_list.flat_map bs_dev_dependencies (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
+    dependencies_directories ~file_groups:bs_file_groups bs_dev_dependencies
   in
   Buffer.add_char buf '\n';
 
@@ -263,7 +246,6 @@ let output_ninja_and_namespace_map
   (** Generate build statement for each file *)
   Ext_list.iter bs_file_groups
     (fun files_per_dir ->
-      (* let group_dir = global_config.src_root_dir // files_per_dir.dir in *)
        Bsb_ninja_file_groups.handle_files_per_dir buf
          ~global_config
          ~rules
@@ -273,8 +255,7 @@ let output_ninja_and_namespace_map
          ~bs_dev_dependencies
          ~bs_dependencies
          ~root_dir
-         files_per_dir;
-         )
+         files_per_dir)
   ;
 
   Buffer.add_char buf '\n';

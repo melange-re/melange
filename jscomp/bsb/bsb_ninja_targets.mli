@@ -47,13 +47,5 @@ val output_build :
   unit
 
 
-val phony  :
-  inputs:string list ->
-  output:string ->
-  out_channel ->
-  unit
-
 val revise_dune : string -> Buffer.t -> unit
-val revise_x_dune : string -> Buffer.t -> unit
 
-val output_finger : string ->  string -> out_channel -> unit

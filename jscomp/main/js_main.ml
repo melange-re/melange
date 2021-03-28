@@ -287,6 +287,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     (******************************************************************************)
 
 
+    (* XXX(anmonteiro): flag kept for compatibility. *)
     "-bs-super-errors", unit_call ignore,
     "Better error message combined with other tools ";
 
@@ -308,6 +309,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-nostdlib",  set Js_config.no_stdlib,
     "*internal* Don't use stdlib";
 
+    (* XXX(anmonteiro): flag kept for compatibility. *)
     "-bs-internal-check",  unit_call ignore,
     "*internal* Built in check corrupted data";
 
@@ -462,7 +464,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
-  | Some {pexp_desc = Pexp_array args ; pexp_loc} ->
+  | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args = Array.of_list
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with

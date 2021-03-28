@@ -58,15 +58,14 @@ let include_dirs_by dirs fn =
     (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune (fn x)]))
 
 
-let sourcedir_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
+let rel_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
  let relativize_single dir =
-  Ext_path.rel_normalized_absolute_path
-        ~from:(Ext_path.combine per_proj_dir cur_dir)
-        (Ext_path.combine per_proj_dir dir)
+   Ext_path.rel_normalized_absolute_path
+     ~from:(per_proj_dir // cur_dir)
+     (per_proj_dir // dir)
  in
  let source_dirs = Ext_list.map source_dirs relativize_single in
  let dirs = if namespace = None then source_dirs
-  (* TODO: add the lib/bs dir where the mlmap file is. *)
   else begin
    relativize_single Bsb_config.lib_bs :: source_dirs
   end

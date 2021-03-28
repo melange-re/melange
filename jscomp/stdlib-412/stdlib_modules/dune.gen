@@ -5,7 +5,7 @@
     (deps (:inputs camlinternalFormatBasics.mli) (alias ../../others/others))
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
@@ -13,7 +13,7 @@
     (deps (:inputs camlinternalFormatBasics.ml) (alias ../../others/others) camlinternalFormatBasics.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
@@ -21,7 +21,7 @@
     (deps (:inputs camlinternalAtomic.mli) (alias ../../others/others))
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
@@ -29,7 +29,7 @@
     (deps (:inputs camlinternalAtomic.ml) (alias ../../others/others))
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
   (rule
     (targets camlinternalBigarray.cmi)
@@ -50,7 +50,7 @@
     (deps (:inputs stdlib__no_aliases.ml) (alias ../../others/others) camlinternalFormatBasics.cmj camlinternalAtomic.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
@@ -58,7 +58,7 @@
     (deps (:inputs arg.ml) (alias ../../others/others) arg.cmi array.cmj buffer.cmj list.cmj printf.cmj string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -66,7 +66,7 @@
     (deps (:inputs arg.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -74,7 +74,7 @@
     (deps (:inputs array.ml) (alias ../../others/others) array.cmi seq.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -82,7 +82,7 @@
     (deps (:inputs array.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
  (rule
     (targets bigarray.cmj)
@@ -103,7 +103,7 @@
     (deps (:inputs arrayLabels.ml) (alias ../../others/others) array.cmj arrayLabels.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -111,7 +111,7 @@
     (deps (:inputs arrayLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -119,7 +119,7 @@
     (deps (:inputs atomic.ml) (alias ../../others/others) atomic.cmi camlinternalAtomic.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -127,7 +127,7 @@
     (deps (:inputs atomic.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -135,7 +135,7 @@
     (deps (:inputs bool.ml) (alias ../../others/others) bool.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -143,7 +143,7 @@
     (deps (:inputs bool.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -151,7 +151,7 @@
     (deps (:inputs buffer.ml) (alias ../../others/others) buffer.cmi bytes.cmj char.cmj seq.cmj string.cmj sys.cmj uchar.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -159,7 +159,7 @@
     (deps (:inputs buffer.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -167,7 +167,7 @@
     (deps (:inputs bytes.ml) (alias ../../others/others) bytes.cmi char.cmj seq.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -175,7 +175,7 @@
     (deps (:inputs bytes.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -183,7 +183,7 @@
     (deps (:inputs bytesLabels.ml) (alias ../../others/others) bytes.cmj bytesLabels.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -191,7 +191,7 @@
     (deps (:inputs bytesLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -199,7 +199,7 @@
     (deps (:inputs callback.ml) (alias ../../others/others) callback.cmi obj.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -207,7 +207,7 @@
     (deps (:inputs callback.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -215,7 +215,7 @@
     (deps (:inputs camlinternalFormat.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmi camlinternalFormatBasics.cmj char.cmj int.cmj string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -223,7 +223,7 @@
     (deps (:inputs camlinternalFormat.mli) (alias ../../others/others) buffer.cmi camlinternalFormatBasics.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -231,7 +231,7 @@
     (deps (:inputs camlinternalLazy.ml) (alias ../../others/others) camlinternalLazy.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -239,7 +239,7 @@
     (deps (:inputs camlinternalLazy.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -247,7 +247,7 @@
     (deps (:inputs camlinternalMod.ml) (alias ../../others/others) array.cmj camlinternalMod.cmi camlinternalOO.cmj obj.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -255,7 +255,7 @@
     (deps (:inputs camlinternalMod.mli) (alias ../../others/others) obj.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -263,7 +263,7 @@
     (deps (:inputs camlinternalOO.ml) (alias ../../others/others) array.cmj camlinternalOO.cmi char.cmj list.cmj map.cmj obj.cmj string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -271,7 +271,7 @@
     (deps (:inputs camlinternalOO.mli) (alias ../../others/others) obj.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -279,7 +279,7 @@
     (deps (:inputs char.ml) (alias ../../others/others) char.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -287,7 +287,7 @@
     (deps (:inputs char.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -295,7 +295,7 @@
     (deps (:inputs complex.ml) (alias ../../others/others) complex.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -303,7 +303,7 @@
     (deps (:inputs complex.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -311,7 +311,7 @@
     (deps (:inputs digest.ml) (alias ../../others/others) bytes.cmj char.cmj digest.cmi string.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -319,7 +319,7 @@
     (deps (:inputs digest.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -327,7 +327,7 @@
     (deps (:inputs either.ml) (alias ../../others/others) either.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -335,7 +335,7 @@
     (deps (:inputs either.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -343,7 +343,7 @@
     (deps (:inputs ephemeron.ml) (alias ../../others/others) array.cmj ephemeron.cmi hashtbl.cmj lazy.cmj obj.cmj random.cmj seq.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -351,7 +351,7 @@
     (deps (:inputs ephemeron.mli) (alias ../../others/others) hashtbl.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -359,7 +359,7 @@
     (deps (:inputs filename.ml) (alias ../../others/others) buffer.cmj filename.cmi lazy.cmj list.cmj printf.cmj random.cmj string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -367,7 +367,7 @@
     (deps (:inputs filename.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -375,7 +375,7 @@
     (deps (:inputs float.ml) (alias ../../others/others) array.cmj float.cmi list.cmj seq.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -383,7 +383,7 @@
     (deps (:inputs float.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -391,7 +391,7 @@
     (deps (:inputs format.ml) (alias ../../others/others) buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj format.cmi int.cmj list.cmj queue.cmj seq.cmj stack.cmj string.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -399,7 +399,7 @@
     (deps (:inputs format.mli) (alias ../../others/others) buffer.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -407,7 +407,7 @@
     (deps (:inputs fun.ml) (alias ../../others/others) fun.cmi printexc.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -415,7 +415,7 @@
     (deps (:inputs fun.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -423,7 +423,7 @@
     (deps (:inputs gc.ml) (alias ../../others/others) gc.cmi printexc.cmj printf.cmj string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -431,7 +431,7 @@
     (deps (:inputs gc.mli) (alias ../../others/others) printexc.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -439,7 +439,7 @@
     (deps (:inputs genlex.ml) (alias ../../others/others) bytes.cmj char.cmj genlex.cmi hashtbl.cmj list.cmj stream.cmj string.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -447,7 +447,7 @@
     (deps (:inputs genlex.mli) (alias ../../others/others) stdlib__no_aliases.cmj stream.cmi)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -455,7 +455,7 @@
     (deps (:inputs hashtbl.ml) (alias ../../others/others) array.cmj hashtbl.cmi lazy.cmj random.cmj seq.cmj string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -463,7 +463,7 @@
     (deps (:inputs hashtbl.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -471,7 +471,7 @@
     (deps (:inputs int.ml) (alias ../../others/others) int.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -479,7 +479,7 @@
     (deps (:inputs int.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -487,7 +487,7 @@
     (deps (:inputs int32.ml) (alias ../../others/others) int32.cmi sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -495,7 +495,7 @@
     (deps (:inputs int32.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -503,7 +503,7 @@
     (deps (:inputs int64.ml) (alias ../../others/others) int64.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -511,7 +511,7 @@
     (deps (:inputs int64.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -519,7 +519,7 @@
     (deps (:inputs lazy.ml) (alias ../../others/others) camlinternalLazy.cmj lazy.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -527,7 +527,7 @@
     (deps (:inputs lazy.mli) (alias ../../others/others) camlinternalLazy.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -535,7 +535,7 @@
     (deps (:inputs lexing.ml) (alias ../../others/others) array.cmj bytes.cmj lexing.cmi string.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -543,7 +543,7 @@
     (deps (:inputs lexing.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -551,7 +551,7 @@
     (deps (:inputs list.ml) (alias ../../others/others) either.cmj list.cmi seq.cmj sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -559,7 +559,7 @@
     (deps (:inputs list.mli) (alias ../../others/others) either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -567,7 +567,7 @@
     (deps (:inputs listLabels.ml) (alias ../../others/others) list.cmj listLabels.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -575,7 +575,7 @@
     (deps (:inputs listLabels.mli) (alias ../../others/others) either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -583,7 +583,7 @@
     (deps (:inputs map.ml) (alias ../../others/others) map.cmi seq.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -591,7 +591,7 @@
     (deps (:inputs map.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -599,7 +599,7 @@
     (deps (:inputs marshal.ml) (alias ../../others/others) bytes.cmj marshal.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -607,7 +607,7 @@
     (deps (:inputs marshal.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -615,7 +615,7 @@
     (deps (:inputs moreLabels.ml) (alias ../../others/others) hashtbl.cmj map.cmj moreLabels.cmi set.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -623,7 +623,7 @@
     (deps (:inputs moreLabels.mli) (alias ../../others/others) hashtbl.cmi map.cmi seq.cmi set.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -631,7 +631,7 @@
     (deps (:inputs obj.ml) (alias ../../others/others) int32.cmj marshal.cmj obj.cmi sys.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -639,7 +639,7 @@
     (deps (:inputs obj.mli) (alias ../../others/others) int32.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -647,7 +647,7 @@
     (deps (:inputs oo.ml) (alias ../../others/others) camlinternalOO.cmj oo.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -655,7 +655,7 @@
     (deps (:inputs oo.mli) (alias ../../others/others) camlinternalOO.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -663,7 +663,7 @@
     (deps (:inputs option.ml) (alias ../../others/others) option.cmi seq.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -671,7 +671,7 @@
     (deps (:inputs option.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -679,7 +679,7 @@
     (deps (:inputs parsing.ml) (alias ../../others/others) array.cmj lexing.cmj obj.cmj parsing.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -687,7 +687,7 @@
     (deps (:inputs parsing.mli) (alias ../../others/others) lexing.cmi obj.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -695,7 +695,7 @@
     (deps (:inputs pervasives.ml) (alias ../../others/others) camlinternalFormatBasics.cmj stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -703,7 +703,7 @@
     (deps (:inputs printexc.ml) (alias ../../others/others) array.cmj atomic.cmj buffer.cmj printexc.cmi printf.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -711,7 +711,7 @@
     (deps (:inputs printexc.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -719,7 +719,7 @@
     (deps (:inputs printf.ml) (alias ../../others/others) buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj printf.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -727,7 +727,7 @@
     (deps (:inputs printf.mli) (alias ../../others/others) buffer.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -735,7 +735,7 @@
     (deps (:inputs queue.ml) (alias ../../others/others) queue.cmi seq.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -743,7 +743,7 @@
     (deps (:inputs queue.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -751,7 +751,7 @@
     (deps (:inputs random.ml) (alias ../../others/others) array.cmj char.cmj digest.cmj int.cmj int32.cmj int64.cmj random.cmi string.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -759,7 +759,7 @@
     (deps (:inputs random.mli) (alias ../../others/others) int32.cmi int64.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -767,7 +767,7 @@
     (deps (:inputs result.ml) (alias ../../others/others) result.cmi seq.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -775,7 +775,7 @@
     (deps (:inputs result.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -783,7 +783,7 @@
     (deps (:inputs scanf.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj list.cmj printf.cmj scanf.cmi string.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -791,7 +791,7 @@
     (deps (:inputs scanf.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -799,7 +799,7 @@
     (deps (:inputs seq.ml) (alias ../../others/others) seq.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -807,7 +807,7 @@
     (deps (:inputs seq.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -815,7 +815,7 @@
     (deps (:inputs set.ml) (alias ../../others/others) list.cmj seq.cmj set.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -823,7 +823,7 @@
     (deps (:inputs set.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -831,7 +831,7 @@
     (deps (:inputs stack.ml) (alias ../../others/others) list.cmj seq.cmj stack.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -839,7 +839,7 @@
     (deps (:inputs stack.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -847,7 +847,7 @@
     (deps (:inputs stdLabels.ml) (alias ../../others/others) arrayLabels.cmj bytesLabels.cmj listLabels.cmj stdLabels.cmi stringLabels.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -855,7 +855,7 @@
     (deps (:inputs stdLabels.mli) (alias ../../others/others) arrayLabels.cmi bytesLabels.cmi listLabels.cmi stdlib__no_aliases.cmj stringLabels.cmi)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -863,7 +863,7 @@
     (deps (:inputs std_exit.ml) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -871,7 +871,7 @@
     (deps (:inputs stream.ml) (alias ../../others/others) bytes.cmj lazy.cmj list.cmj stream.cmi string.cmj)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -879,7 +879,7 @@
     (deps (:inputs stream.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -887,7 +887,7 @@
     (deps (:inputs string.ml) (alias ../../others/others) bytes.cmj string.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -895,7 +895,7 @@
     (deps (:inputs string.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -903,7 +903,7 @@
     (deps (:inputs stringLabels.ml) (alias ../../others/others) string.cmj stringLabels.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -911,7 +911,7 @@
     (deps (:inputs stringLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
@@ -919,7 +919,7 @@
     (deps (:inputs sys.ml) (alias ../../others/others) sys.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -927,7 +927,7 @@
     (deps (:inputs sys.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -935,7 +935,7 @@
     (deps (:inputs uchar.ml) (alias ../../others/others) char.cmj uchar.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -943,7 +943,7 @@
     (deps (:inputs uchar.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -951,7 +951,7 @@
     (deps (:inputs unit.ml) (alias ../../others/others) unit.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -959,7 +959,7 @@
     (deps (:inputs unit.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -967,7 +967,7 @@
     (deps (:inputs weak.ml) (alias ../../others/others) array.cmj hashtbl.cmj obj.cmj sys.cmj weak.cmi)
 
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
@@ -975,7 +975,7 @@
     (deps (:inputs weak.mli) (alias ../../others/others) hashtbl.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime    -w -9-3-106 -warn-error A  -I ../../runtime  -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run bsc -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
     (alias

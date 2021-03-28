@@ -492,12 +492,12 @@ let process_obj
                    param_type::arg_types, result_types
                  | Nothing ->
                    let s = (Lam_methname.translate  name) in
-                   let for_sure_not_nested =
-                     match ty.ptyp_desc with
-                     | Ptyp_constr({txt = Lident txt;_}, []) ->
-                       Ast_core_type.is_builtin_rank0_type txt
-                     | _ -> false in
-                   {obj_arg_label = External_arg_spec.optional for_sure_not_nested s; obj_arg_type},
+                   (* XXX(anmonteiro): it's unsafe to just read the type of the
+                      labelled argument declaration, since it could be `'a` in
+                      the implementation, and e.g. `bool` in the interface. See
+                      https://github.com/melange-re/melange/pull/58 for
+                      a test case. *)
+                   {obj_arg_label = External_arg_spec.optional false s; obj_arg_type},
                    param_type :: arg_types,
                    Ast_compatible.object_field {Asttypes.txt = name; loc} [] (Ast_comb.to_undefined_type loc ty) ::  result_types
                  | Int _  ->

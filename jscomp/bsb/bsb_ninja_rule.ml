@@ -92,6 +92,14 @@ type builtin = {
   customs : t Map_string.t
 }
 
+let external_includes (global_config : Bsb_ninja_global_vars.t) =
+  (* for external includes, if it is absolute path, leave it as is
+     for relative path './xx', we need '../.././x' since we are in
+     [lib/bs], [build] is different from merlin though
+  *)
+  Ext_list.map
+    global_config.external_incls
+    (fun x -> if Filename.is_relative x then Bsb_config.rev_lib_bs_prefix x else x)
 
 let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
@@ -113,6 +121,13 @@ let make_custom_rules
       ~(read_cmi : [`yes | `is_cmi | `no])
       ~is_dev
       ~postbuild : Buffer.t -> ?target:string -> string -> unit = fun buf ?(target="%{targets}") cur_dir ->
+    let rel_incls ?namespace dirs =
+      Bsb_build_util.rel_include_dirs
+        ~per_proj_dir:global_config.src_root_dir
+        ~cur_dir
+        ?namespace
+        dirs
+    in
     Buffer.add_string buf "(action\n (progn ";
     Buffer.add_string buf "(dynamic-run ";
     Buffer.add_string buf global_config.bs_dep_parse;
@@ -129,17 +144,14 @@ let make_custom_rules
         Buffer.add_string buf dev_incls;
     end;
     Buffer.add_string buf " ";
-    Buffer.add_string buf
-      (Bsb_build_util.sourcedir_include_dirs
-        ~per_proj_dir:global_config.src_root_dir
-        ~cur_dir
-        ?namespace:global_config.namespace
-        global_config.g_sourcedirs_incls);
+    Buffer.add_string buf (rel_incls global_config.g_sourcedirs_incls);
     Buffer.add_string buf " ";
-    Buffer.add_string buf global_config.g_lib_incls;
+    Buffer.add_string buf (rel_incls ?namespace:global_config.namespace global_config.g_lib_incls);
+    Buffer.add_string buf " ";
+    Buffer.add_string buf (rel_incls (external_includes global_config));
     if is_dev then begin
       Buffer.add_string buf " ";
-      Buffer.add_string buf global_config.g_dpkg_incls;
+      Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);
     end;
     if global_config.g_stdlib_incl <> [] then begin
       Buffer.add_string buf " ";

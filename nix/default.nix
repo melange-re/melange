@@ -5,7 +5,7 @@ in
 with ocamlPackages;
 
 stdenv.mkDerivation rec {
-  name = "bucklescript";
+  name = "melange";
   version = "9.0.0-dev";
 
   dontConfigure = true;
@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
     mkdir -p $out/lib/ocaml
     cd $out/lib/ocaml
 
-    tar xvf $OCAMLFIND_DESTDIR/bucklescript/libocaml.tar.gz
+    tar xvf $OCAMLFIND_DESTDIR/melange/libocaml.tar.gz
     mv others/* .
     mv runtime/* .
     mv stdlib-412/stdlib_modules/* .
@@ -42,7 +42,8 @@ stdenv.mkDerivation rec {
       "dune-project"
       "dune"
       "dune-workspace"
-      "bucklescript.opam"
+      "melange.opam"
+      "melange.opam.template"
       "bsconfig.json"
       "package.json"
     ];

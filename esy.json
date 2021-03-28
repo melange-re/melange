@@ -1,5 +1,5 @@
 {
-  "name": "bs-platform",
+  "name": "melange",
   "version": "7.2.0",
   "dependencies": {
     "ocaml": "4.12.0+BS",
@@ -13,20 +13,25 @@
     "@opam/merlin": "*"
   },
   "resolutions": {
-    "ocaml": "anmonteiro/ocaml#72babec0e1796ce322464afc8ef2a0d7125d60cb"
+    "ocaml": "melange-re/ocaml#75f22c872451c66a4c4aadc43abee55697268a57"
   },
   "scripts": {
     "clean": "node ./scripts/ninja.js clean"
   },
   "esy": {
-    "build": "dune build -p bucklescript",
+    "build": "dune build -p #{self.name}",
     "install": [
-      ["esy-installer", "$cur__target_dir/default/bucklescript.install"],
-      ["$cur__root/fix-install.sh"]
+      [
+        "esy-installer",
+        "$cur__target_dir/default/melange.install"
+      ],
+      [
+        "$cur__root/fix-install.sh"
+      ]
     ],
     "exportedEnv": {
       "BSLIB": {
-        "val": "#{self.lib / 'bucklescript'}",
+        "val": "#{self.lib / 'melange'}",
         "scope": "global"
       }
     }
@@ -34,9 +39,14 @@
   "description": "ReScript compiler for use in esy, ocaml standard libary by ReScript and its required runtime support",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rescript-lang/rescript-compiler.git"
+    "url": "git+https://github.com/melange-re/melange.git"
   },
-  "keywords": ["ocaml", "rescript", "stdlib", "functional programming"],
+  "keywords": [
+    "ocaml",
+    "rescript",
+    "stdlib",
+    "functional programming"
+  ],
   "author": {
     "name": "Hongbo Zhang"
   },
