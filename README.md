@@ -38,7 +38,9 @@ to use it is via [Esy](https://esy.sh).
 }
 ```
 
-3. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
+3. Run `npm install` (or `yarn`) followed by just `esy` and after they finish installing and building, you should be able to use `bsb` commands via esy `esy bsb -make-world`
+
+4. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
    can't figure it out!
 
 ## FAQ
