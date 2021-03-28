@@ -67,40 +67,6 @@ let revise_dune dune new_content =
     output_string ochan "\n";
     close_out ochan
 
-let revise_x_dune dune new_content =
-  if Sys.file_exists dune then
-    let s = Ext_io.load_file dune in
-    let header =  Ext_string.find s ~sub:dune_header  in
-    let tail = Ext_string.find s ~sub:dune_trailer in
-    if header < 0  && tail < 0 then (* locked region not added yet *)
-      let ochan = open_out_bin dune in
-      output_string ochan s ;
-      output_string ochan "\n";
-      output_string ochan dune_header;
-      Buffer.output_buffer ochan new_content;
-      output_string ochan dune_trailer ;
-      output_string ochan "\n";
-      close_out ochan
-    else if header >=0 && tail >= 0  then
-      (* there is one, hit it everytime,
-         should be fixed point
-      *)
-      let ochan = open_out_bin dune in
-      output_string ochan (String.sub s 0 header) ;
-      output_string ochan dune_header;
-      Buffer.output_buffer ochan new_content;
-      output_string ochan dune_trailer ;
-      output_string ochan (Ext_string.tail_from s (tail +  dune_trailer_length));
-      close_out ochan
-    else failwith ("the dune file is corrupted, locked region by bsb is not consistent ")
-  else
-    let ochan = open_out_bin dune in
-    output_string ochan dune_header ;
-    Buffer.output_buffer ochan new_content;
-    output_string ochan dune_trailer ;
-    output_string ochan "\n";
-    close_out ochan
-
 let revise_append_dune dune new_content =
   if Sys.file_exists dune then
     let s = Ext_io.load_file dune in
@@ -208,21 +174,4 @@ let output_build
     buf
     cur_dir;
   Buffer.add_string buf " )\n "
-
-
-
-let phony ~inputs ~output oc =
-  output_string oc "o ";
-  output_string oc output ;
-  output_string oc " : ";
-  output_string oc "phony";
-  oc_list inputs oc;
-  output_string oc "\n"
-
-let output_finger key value oc  =
-  output_string oc key ;
-  output_string oc " := ";
-  output_string oc value ;
-  output_string oc "\n"
-
 
