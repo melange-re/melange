@@ -28,7 +28,6 @@ let generate_theme_with_path = ref None
 let separator = "--"
 let watch_mode = ref false
 let make_world = ref false
-let generate_dune_bsb = ref false
 let do_install = ref false
 let bs_version_string = Bs_version.version
 let print_version_string () =
@@ -157,16 +156,8 @@ let build_whole_project ~buf =
   output_dune_file buf;
   config
 
-let maybe_generate_config = function
-  | None ->
-    Bsb_config_parse.interpret_json
-      ~package_kind:Toplevel
-      ~per_proj_dir:Bsb_global_paths.cwd
-  | Some config -> config
-
 (* see discussion #929, if we catch the exception, we don't have stacktrace... *)
 let () =
-  let config = ref None in
   let argv = Sys.argv in
   let buf = Buffer.create 0x1000 in
   try begin
@@ -181,7 +172,7 @@ let () =
           (* [-make-world] should never be combined with [-package-specs] *)
           let make_world = !make_world in
           let do_install = !do_install in
-          generate_dune_bsb := make_world || do_install;
+          let generate_dune_bsb = make_world || do_install in
           if not make_world && not do_install then
             (* [regenerate_ninja] is not triggered in this case
                There are several cases we wish ninja will not be triggered.
@@ -191,22 +182,22 @@ let () =
             (if !watch_mode then
                 program_exit ()) (* bsb -verbose hit here *)
           else begin
-            (if !generate_dune_bsb then
-              config := Some (build_whole_project ~buf));
-             if !watch_mode then begin
-               program_exit ()
-               (* ninja is not triggered in this case
-                  There are several cases we wish ninja will not be triggered.
-                  [bsb -clean-world]
-                  [bsb -regen ]
-               *)
-             end else begin
-               if do_install then
-                 install_target (maybe_generate_config !config);
-               if make_world then begin
-                 ninja_command_exit [||]
-               end
-             end
+            if generate_dune_bsb then begin
+              let cfg = build_whole_project ~buf in
+              install_target cfg;
+            end;
+            if !watch_mode then begin
+              program_exit ()
+              (* ninja is not triggered in this case
+                 There are several cases we wish ninja will not be triggered.
+                 [bsb -clean-world]
+                 [bsb -regen ]
+              *)
+            end else begin
+              if make_world then begin
+                ninja_command_exit [||]
+              end
+            end
           end
       end
     else
@@ -219,11 +210,11 @@ let () =
         bsb_main_flags handle_anonymous_arg;
         let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
         (* [-make-world] should never be combined with [-package-specs] *)
-        generate_dune_bsb := !make_world || !do_install;
-        (if !generate_dune_bsb then
-          config := Some (build_whole_project ~buf));
-        if !do_install then
-          install_target (maybe_generate_config !config);
+        let generate_dune_bsb = !make_world || !do_install in
+        if generate_dune_bsb then begin
+          let config = build_whole_project ~buf in
+          install_target config;
+        end;
         if !watch_mode then program_exit ()
         else if !make_world then begin
           ninja_command_exit ninja_args
