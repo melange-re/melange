@@ -387,7 +387,17 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-dsource", set Clflags.dump_source,
     "*internal* print source";
 
-    "-format", string_call format_file,
+    "-format", string_call (fun ext ->
+      let syntax: Ext_file_extensions.syntax_kind = match Ext_string.trim ext with
+      | "re" -> Reason
+      | "res" -> Res
+      | "ml" -> Ml
+      | x ->
+        Location.raise_errorf
+          "invalid option `%s` passed to -format, expected `re`, `res` or `ml`"
+          x
+      in
+      Js_config.format := Some syntax),
     "Format as Res syntax";
 
     "-where", unit_call print_standard_library,
