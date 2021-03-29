@@ -25,10 +25,27 @@
 
 exception Pp_error
 
-val parse_implementation : string -> Parsetree.structure
-val parse_interface : string -> Parsetree.signature
-val format_implementation : string -> string
-val format_interface : string -> string
+module ML : sig
+  val parse_implementation : string -> Parsetree.structure
+  val parse_interface : string -> Parsetree.signature
+  val parse_implementation_with_comments : string -> Parsetree.structure * Reason_comment.t list
+  val parse_interface_with_comments : string -> Parsetree.signature * Reason_comment.t list
+  val format_implementation_with_comments : comments:Reason_comment.t list -> Parsetree.structure -> string
+  val format_interface_with_comments : comments:Reason_comment.t list -> Parsetree.signature -> string
+  val format_implementation : string -> string
+  val format_interface : string -> string
+end
+
+module RE : sig
+  val parse_implementation : string -> Parsetree.structure
+  val parse_interface : string -> Parsetree.signature
+  val parse_implementation_with_comments : string -> Parsetree.structure * Reason_comment.t list
+  val parse_interface_with_comments : string -> Parsetree.signature * Reason_comment.t list
+  val format_implementation_with_comments : comments:Reason_comment.t list -> Parsetree.structure -> string
+  val format_interface_with_comments : comments:Reason_comment.t list -> Parsetree.signature -> string
+  val format_implementation : string -> string
+  val format_interface : string -> string
+end
 
 val clean:
   string ->

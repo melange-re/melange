@@ -26,8 +26,7 @@
 
 exception Pp_error
 
- module RE = Reason_toolchain.RE
-
+module Make(T: Reason_toolchain_conf.Toolchain) = struct
  let setup_lexbuf ~parser filename =
   try
    let file_chan = open_in filename in
@@ -38,12 +37,14 @@ exception Pp_error
   with
   | Reason_errors.Reason_error _ as rexn ->
     raise rexn
-  | _ ->
-      raise Pp_error
+  | Sys_error _ as exn ->
+    (* file doesn't exist *)
+    raise exn
+  | _ -> raise Pp_error
 
  let parse_implementation filename =
    let omp_ast = setup_lexbuf
-     ~parser:RE.implementation
+     ~parser:T.implementation
      filename
    in
    let omp_ast =
@@ -53,10 +54,41 @@ exception Pp_error
 
  let parse_interface filename =
    let omp_ast = setup_lexbuf
-     ~parser:RE.interface
+     ~parser:T.interface
      filename
    in
    Reason_toolchain.To_current.copy_signature omp_ast
+
+ let parse_implementation_with_comments filename =
+   let omp_ast, comments = setup_lexbuf
+     ~parser:T.implementation_with_comments
+     filename
+   in
+   let omp_ast =
+     Reason_syntax_util.(apply_mapper_to_structure omp_ast (backport_letopt_mapper remove_stylistic_attrs_mapper))
+   in
+   Reason_toolchain.To_current.copy_structure omp_ast, comments
+
+ let parse_interface_with_comments filename =
+   let omp_ast, comments = setup_lexbuf
+     ~parser:T.interface_with_comments
+     filename
+   in
+   Reason_toolchain.To_current.copy_signature omp_ast, comments
+
+ let format_implementation_with_comments ~comments ast =
+  let buf = Buffer.create 0x1000 in
+  let fmt = Format.formatter_of_buffer buf in
+  let ast = Reason_toolchain.From_current.copy_structure ast in
+  T.print_implementation_with_comments fmt (ast, comments);
+  Buffer.contents buf
+
+ let format_interface_with_comments ~comments ast =
+  let buf = Buffer.create 0x1000 in
+  let fmt = Format.formatter_of_buffer buf in
+  let ast = Reason_toolchain.From_current.copy_signature ast in
+  T.print_interface_with_comments fmt (ast, comments);
+  Buffer.contents buf
 
  let format ~parser ~printer filename =
    let parse_result = setup_lexbuf ~parser filename in
@@ -67,15 +99,19 @@ exception Pp_error
 
  let format_implementation filename =
    format
-     ~parser:RE.implementation_with_comments
-     ~printer:RE.print_implementation_with_comments
+     ~parser:T.implementation_with_comments
+     ~printer:T.print_implementation_with_comments
      filename
 
  let format_interface filename =
    format
-     ~parser:RE.interface_with_comments
-     ~printer:RE.print_interface_with_comments
+     ~parser:T.interface_with_comments
+     ~printer:T.print_interface_with_comments
      filename
+end
+
+ module RE = Make(Reason_toolchain.RE)
+ module ML = Make(Reason_toolchain.ML)
 
 let clean tmpfile =
   (if not !Clflags.verbose then try Sys.remove tmpfile with _ -> () )
