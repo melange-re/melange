@@ -135,79 +135,75 @@ let print_res_implementation ~comments ast =
 let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
   let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
   let impl_format_fn ~comments ast =
+    let std = Format.std_formatter in
     match kind, comments with
     | Ml, `Re comments ->
-      Ast_reason_pp.ML.format_implementation_with_comments ~comments ast
+      Ast_reason_pp.ML.format_implementation_with_comments std ~comments ast
     | Ml, `Res _ ->
-      Ast_reason_pp.ML.format_implementation_with_comments ~comments:[] ast
+      Ast_reason_pp.ML.format_implementation_with_comments std ~comments:[] ast
     | Res, `Res comments ->
       let ast = From_current.copy_structure ast in
-      print_res_implementation ~comments ast
+      output_string stdout (print_res_implementation ~comments ast)
     | Res, `Re _ ->
       let ast = From_current.copy_structure ast in
-      print_res_implementation ~comments:[] ast
+      output_string stdout (print_res_implementation ~comments:[] ast)
     | Reason, `Re comments ->
-      Ast_reason_pp.RE.format_implementation_with_comments ~comments ast
+      Ast_reason_pp.RE.format_implementation_with_comments std ~comments ast
     | Reason, `Res _ ->
-      Ast_reason_pp.RE.format_implementation_with_comments ~comments:[] ast
+      Ast_reason_pp.RE.format_implementation_with_comments std ~comments:[] ast
     | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
   in
   let intf_format_fn ~comments ast =
+    let std = Format.std_formatter in
     match kind, comments with
     | Ml, `Re comments ->
-      Ast_reason_pp.ML.format_interface_with_comments ~comments ast
+      Ast_reason_pp.ML.format_interface_with_comments std ~comments ast
     | Ml, `Res _ ->
-      Ast_reason_pp.ML.format_interface_with_comments ~comments:[] ast
+      Ast_reason_pp.ML.format_interface_with_comments std ~comments:[] ast
     | Res, `Res comments ->
       let ast = From_current.copy_signature ast in
-      print_res_interface ~comments ast
+      output_string stdout (print_res_interface ~comments ast)
     | Res, `Re _ ->
       let ast = From_current.copy_signature ast in
-      print_res_interface ~comments:[] ast
+      output_string stdout (print_res_interface ~comments:[] ast)
     | Reason, `Re comments ->
-      Ast_reason_pp.RE.format_interface_with_comments ~comments ast
+      Ast_reason_pp.RE.format_interface_with_comments std ~comments ast
     | Reason, `Res _ ->
-      Ast_reason_pp.RE.format_interface_with_comments ~comments:[] ast
+      Ast_reason_pp.RE.format_interface_with_comments std ~comments:[] ast
     | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
   in
-  match ext with
+  begin match ext with
   | Ml ->
     let ast, comments =
       Ast_reason_pp.ML.parse_implementation_with_comments input
     in
-    output_string stdout (impl_format_fn ~comments:(`Re comments) ast)
+    impl_format_fn ~comments:(`Re comments) ast
   | Mli ->
     let ast, comments = Ast_reason_pp.ML.parse_interface_with_comments input in
-    output_string stdout (intf_format_fn ~comments:(`Re comments) ast)
+    intf_format_fn ~comments:(`Re comments) ast
   | Res ->
     let parse_result =
       Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
     in
     handle_res_parse_result parse_result;
-    let s =
-      impl_format_fn
-        ~comments:(`Res parse_result.comments)
-        parse_result.parsetree
-    in
-    output_string stdout s
+    impl_format_fn
+      ~comments:(`Res parse_result.comments)
+      parse_result.parsetree
   | Resi ->
     let parse_result =
       Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
     in
-    handle_res_parse_result parse_result;
-    let s =
-      intf_format_fn
-        ~comments:(`Res parse_result.comments)
-         parse_result.parsetree
-    in
-    output_string stdout s
+    intf_format_fn
+      ~comments:(`Res parse_result.comments)
+       parse_result.parsetree
   | Re ->
     let ast, comments = Ast_reason_pp.RE.parse_implementation_with_comments input in
-    output_string stdout (impl_format_fn ~comments:(`Re comments) ast)
+    impl_format_fn ~comments:(`Re comments) ast
   | Rei ->
     let ast, comments = Ast_reason_pp.RE.parse_interface_with_comments input in
-    output_string stdout (intf_format_fn ~comments:(`Re comments) ast)
+    intf_format_fn ~comments:(`Re comments) ast
   | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  end
 
 let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then

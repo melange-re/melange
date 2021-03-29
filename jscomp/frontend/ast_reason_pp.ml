@@ -76,19 +76,13 @@ module Make(T: Reason_toolchain_conf.Toolchain) = struct
    in
    Reason_toolchain.To_current.copy_signature omp_ast, comments
 
- let format_implementation_with_comments ~comments ast =
-  let buf = Buffer.create 0x1000 in
-  let fmt = Format.formatter_of_buffer buf in
+ let format_implementation_with_comments fmt ~comments ast =
   let ast = Reason_toolchain.From_current.copy_structure ast in
-  T.print_implementation_with_comments fmt (ast, comments);
-  Buffer.contents buf
+  T.print_implementation_with_comments fmt (ast, comments)
 
- let format_interface_with_comments ~comments ast =
-  let buf = Buffer.create 0x1000 in
-  let fmt = Format.formatter_of_buffer buf in
+ let format_interface_with_comments fmt ~comments ast =
   let ast = Reason_toolchain.From_current.copy_signature ast in
-  T.print_interface_with_comments fmt (ast, comments);
-  Buffer.contents buf
+  T.print_interface_with_comments fmt (ast, comments)
 
  let format ~parser ~printer filename =
    let parse_result = setup_lexbuf ~parser filename in
