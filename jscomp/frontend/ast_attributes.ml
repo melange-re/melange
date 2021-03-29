@@ -170,7 +170,7 @@ let process_derive_type (attrs : t) : derive_attr * t =
   Ext_list.fold_left attrs ({bs_deriving = None }, [])
     (fun (st, acc) ({ attr_name = {txt ; loc}; attr_payload = payload}  as attr)  ->
        match   txt  with
-       |  "bs.deriving" | "deriving"
+       |  "bs.deriving"
          ->
          begin match st.bs_deriving with
            |  None ->
