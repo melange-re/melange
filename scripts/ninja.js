@@ -133,7 +133,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run bsc -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{bin:bsc} -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -154,7 +154,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{bin:bsc} -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
