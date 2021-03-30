@@ -52,20 +52,22 @@ let parse_deps_exn lines =
   | line :: _ ->
     match split2 line ~sep:':' with
     | None -> assert false
-    | Some (fname, deps) ->
-      List.map (fun x -> fname, x) (extract_blank_separated_words deps)
+    | Some (_fname, deps) -> extract_blank_separated_words deps
 
 let single_file ~cwd file =
-  let project_root = cwd in
   let chan = open_in_bin file in
   let deps = parse_deps_exn (input_lines chan) in
   close_in chan;
+  let cwd_segments = Ext_string.split ~keep_empty:false cwd Filename.dir_sep.[0] in
+  let rel_project_root =
+    let arr =
+      Array.init (List.length cwd_segments) (fun _ -> Filename.parent_dir_name)
+    in
+    String.concat Filename.dir_sep (Array.to_list arr)
+  in
   let rules =
-    List.map (fun (fname, file) ->
-      let dirname = Filename.dirname fname in
-      let file' =
-        (Ext_path.rel_normalized_absolute_path ~from:(project_root // dirname) project_root) // file
-      in
+    List.map (fun file ->
+      let file' = rel_project_root // file in
       D.read_file ~path:(P.of_string file')) deps
   in
   List.fold_left (fun acc item ->
@@ -81,7 +83,6 @@ let parse_depends ~cwd files =
     rules
   in
   D.run rule
-
 
 let () =
   let argv = Sys.argv in
@@ -112,7 +113,6 @@ let () =
   | None ->
     prerr_endline "-cwd is a required option";
     exit 2
-  | Some cwd ->
-    parse_depends ~cwd !rev_list
+  | Some cwd -> parse_depends ~cwd !rev_list
 ;;
 
