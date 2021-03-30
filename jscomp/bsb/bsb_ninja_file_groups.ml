@@ -246,7 +246,7 @@ let handle_files_per_dir
     Buffer.add_string buf rel_group_dir;
     Buffer.add_char buf '\n';
     if group.subdirs <> [] then begin
-      Buffer.add_string buf "(dirs :standard";
+      Buffer.add_string buf "(dirs";
       Ext_list.iter group.subdirs (fun subdir ->
         Buffer.add_char buf ' ';
         Buffer.add_string buf subdir);
@@ -286,11 +286,5 @@ let handle_files_per_dir
     Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
     Buffer.add_string buf ")";
     Buffer.add_string buf "\n"
-
   end
 
-    (* ;
-    Bsb_ninja_targets.phony
-    oc ~order_only_deps:[] ~inputs:[] ~output:group.dir *)
-
-    (* pseuduo targets per directory *)

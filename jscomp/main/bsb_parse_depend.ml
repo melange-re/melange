@@ -1,9 +1,8 @@
 module D = Dune_action_plugin.V1
 module P = D.Path
+module Glob = Dune_glob.V1
 
 open D.O
-
-let (let*) p f = D.stage ~f p
 
 let (//) = Ext_path.combine
 
@@ -54,6 +53,12 @@ let parse_deps_exn lines =
     | None -> assert false
     | Some (_fname, deps) -> extract_blank_separated_words deps
 
+let ignore_both a b =
+  D.map ~f:(fun (_, _) -> ()) (D.both a b)
+
+let realize ~rules =
+  List.fold_left ignore_both (D.return ()) rules
+
 let single_file ~cwd file =
   let chan = open_in_bin file in
   let deps = parse_deps_exn (input_lines chan) in
@@ -67,21 +72,22 @@ let single_file ~cwd file =
   in
   let rules =
     List.map (fun file ->
-      let file' = rel_project_root // file in
-      D.read_file ~path:(P.of_string file')) deps
+      let dirname, basename =
+        let path = rel_project_root // file in
+        Filename.dirname path, Filename.basename path
+      in
+      let+ (_: string list) =
+        D.read_directory_with_glob
+          ~path:(P.of_string dirname)
+          ~glob:(Glob.of_string basename)
+      in
+      ()) deps
   in
-  List.fold_left (fun acc item ->
-    let+ _ = D.both acc item in ())
-    (D.return ())
-    rules
+  rules
 
 let parse_depends ~cwd files =
-  let rules = List.map (single_file ~cwd) files in
-  let rule = List.fold_left (fun acc item ->
-    let+ _ = D.both acc item in ())
-    (D.return ())
-    rules
-  in
+  let rules = List.concat_map (single_file ~cwd) files in
+  let rule = realize ~rules  in
   D.run rule
 
 let () =
