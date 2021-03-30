@@ -28,15 +28,41 @@ type t = Bsb_db.map
 
 
 
-let conflict_module_info modname (a : module_info) (b : module_info) =
-  Bsb_exception.conflict_module
-    modname
-    a.dir
-    b.dir
+let conflict_module_info modname (a: module_info) (b: module_info) =
+  match a.dir, b.dir with
+  | Same adir, Same bdir
+  | Same adir, Different { impl = bdir }
+  | Different { impl = adir }, Same bdir
+  | Different { impl = adir }, Different { impl = bdir } ->
+    Bsb_exception.conflict_module modname adir bdir
+
+let merge_dirs ~(impl: module_info) ~(intf: module_info) =
+  match impl.dir, intf.dir with
+  | Same impl_dir, Same intf_dir ->
+    { impl with
+      syntax_kind = (match impl.syntax_kind, intf.syntax_kind with
+      | Same a, Same b ->
+        if a = b then
+          Same a
+        else
+          Different { impl = a; intf = b  }
+      | _ -> assert false);
+      dir = Different { impl = impl_dir; intf = intf_dir };
+      info = Impl_intf
+    }
+  | _ -> assert false
+
+let fix_conflict modname (a : module_info) (b : module_info) =
+  match a.info, b.info with
+  | Intf, Impl -> merge_dirs ~impl:b ~intf:a
+  | Impl, Intf -> merge_dirs ~impl:a ~intf:b
+  | Intf, Intf | Impl, Impl | Impl, Impl_intf | Intf, Impl_intf
+  | Impl_intf, Impl | Impl_intf, Intf | Impl_intf, Impl_intf ->
+    raise_notrace (conflict_module_info modname a b)
 
 (* merge data info from two directories*)
 let merge (acc : t) (sources : t) : t =
-  Map_string.disjoint_merge_exn acc sources conflict_module_info
+  Map_string.disjoint_merge acc sources fix_conflict
 
 let sanity_check (map : t) =
   Map_string.iter map (fun m module_info ->
@@ -134,24 +160,8 @@ let add_basename
         (fun  opt_module_info ->
            match opt_module_info with
            | None ->
-             {dir ; name_sans_extension ; info ; syntax_kind ; case }
+             {dir = Same dir ; name_sans_extension ; info ; syntax_kind = Same syntax_kind ; case }
            | Some x ->
-             check x name_sans_extension case syntax_kind info
+             check x name_sans_extension case (Same syntax_kind) info
         )
-
-let (//) = Ext_path.combine
-let filename ~proj_dir ({ syntax_kind; info; name_sans_extension } : Bsb_db.module_info) =
-  match syntax_kind, info with
-  | Ml, (Intf | Impl_intf) ->
-    proj_dir // (name_sans_extension ^ Literals.suffix_mli)
-  | Ml, Impl ->
-    proj_dir // (name_sans_extension ^ Literals.suffix_ml)
-  | Reason, (Intf | Impl_intf) ->
-    proj_dir // (name_sans_extension ^ Literals.suffix_rei)
-  | Reason, Impl ->
-    proj_dir // (name_sans_extension ^ Literals.suffix_re)
-  | Res, (Intf | Impl_intf) ->
-    proj_dir // (name_sans_extension ^ Literals.suffix_resi)
-  | Res, Impl ->
-    proj_dir // (name_sans_extension ^ Literals.suffix_res)
 

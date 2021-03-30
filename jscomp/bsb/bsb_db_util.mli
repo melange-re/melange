@@ -49,4 +49,3 @@ val add_basename:
   Bsb_db.map
 
 
-val filename : proj_dir:string -> Bsb_db.module_info -> string

@@ -24,6 +24,7 @@
 
 type t =
  {
+  db : Bsb_db.t;
   package_name : string;
   src_root_dir: string;
   bsc: string;
@@ -43,6 +44,7 @@ type t =
  }
 
 let make
+  ~db
   ~package_name
   ~src_root_dir
   ~bsc
@@ -60,6 +62,7 @@ let make
   ~pp_flags
   ~namespace =
  {
+  db;
   package_name;
   src_root_dir;
   bsc;
