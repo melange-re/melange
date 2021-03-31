@@ -44,9 +44,6 @@ type builtin = {
       invoking cmd.exe
   *)
   copy_resources : t;
-  (** Rules below all need restat *)
-  build_bin_deps : t ;
-  build_bin_deps_dev : t ;
   mj : t;
   mj_dev : t;
   mij : t ;

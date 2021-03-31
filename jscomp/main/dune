@@ -61,14 +61,7 @@
  (public_name bsb_helper)
  (modes native)
  (modules bsb_helper_main)
- (libraries bsb_helper bs_hash_stubs ext common depends core))
-
-(executable
- (name bsb_parse_depend)
- (public_name bsb_parse_depend)
- (modes native)
- (modules bsb_parse_depend)
- (libraries bsb ext dune-action-plugin))
+ (libraries bsb_helper ext common depends core))
 
 (test
  (name ounit_tests_main)

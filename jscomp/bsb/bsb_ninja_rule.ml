@@ -78,9 +78,6 @@ type builtin = {
       invoking cmd.exe
   *)
   copy_resources : t;
-  (** Rules below all need restat *)
-  build_bin_deps : t ;
-  build_bin_deps_dev : t;
   mj : t;
   mj_dev : t;
   mij : t ;
@@ -130,10 +127,14 @@ let make_custom_rules
     in
     Buffer.add_string buf "(action\n (progn ";
     Buffer.add_string buf "(dynamic-run ";
-    Buffer.add_string buf global_config.bs_dep_parse;
+    Buffer.add_string buf global_config.bsdep;
+    if is_dev then Buffer.add_string buf " -g";
+    Buffer.add_string buf ns_flag;
+    Buffer.add_string buf " -root ";
+    Buffer.add_string buf global_config.src_root_dir;
     Buffer.add_string buf " -cwd ";
     Buffer.add_string buf cur_dir;
-    Buffer.add_string buf " %{dep_file}) (run ";
+    Buffer.add_string buf " %{ast_deps}) (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf ns_flag;
     if not has_builtin then
@@ -241,29 +242,6 @@ let make_custom_rules
       )
       "copy_resource" in
 
-  let build_bin_deps =
-    define
-      ~restat:()
-      ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s %s %%{inputs}))"
-          global_config.bsdep
-          global_config.src_root_dir
-          ns_flag
-        in
-        Buffer.add_string buf s)
-      "deps" in
-  let build_bin_deps_dev =
-    define
-      ~restat:()
-      ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -g -cwd %s %s %%{inputs}))"
-          global_config.bsdep
-          global_config.src_root_dir
-          ns_flag
-        in
-        Buffer.add_string buf s)
-      "deps_dev"
-  in
   let aux ~name ~read_cmi  ~postbuild =
     define
       ~command:(mk_ml_cmj_cmd
@@ -313,9 +291,6 @@ let make_custom_rules
         invoking cmd.exe
     *)
     copy_resources;
-    (** Rules below all need restat *)
-    build_bin_deps ;
-    build_bin_deps_dev;
     mj  ;
     mj_dev  ;
     mij  ;
