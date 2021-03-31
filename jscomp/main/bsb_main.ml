@@ -91,6 +91,15 @@ let bsb_main_flags : (string * spec * string) array =
 
 let (//) = Ext_path.combine
 
+let output_dune_project_if_does_not_exist proj_dir =
+  let dune_project = proj_dir // Literals.dune_project in
+  if Sys.file_exists dune_project then ()
+  else
+    let ochan = open_out_bin dune_project in
+    output_string ochan "(lang dune 2.8)\n";
+    output_string ochan "(using action-plugin 0.1)\n";
+    close_out ochan
+
 let output_dune_file buf =
   let proj_dir =  Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
@@ -102,8 +111,9 @@ let output_dune_file buf =
   Buffer.add_string buf "\n(include ";
   Buffer.add_string buf Literals.dune_bsb;
   Buffer.add_string buf ")\n";
-  Bsb_ninja_targets.revise_dune dune buf
+  Bsb_ninja_targets.revise_dune dune buf;
 
+  output_dune_project_if_does_not_exist proj_dir
 
 let ninja_command_exit dune_args  =
   let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
