@@ -91,36 +91,14 @@ let bsb_main_flags : (string * spec * string) array =
 
 let (//) = Ext_path.combine
 
-let get_version version_string =
-  let components = Str.split (Str.regexp "\\.") version_string in
-  match components with
-  | (major :: minor :: _) -> Some (major ^ "." ^ minor)  
-  | _ -> None
-
-let get_dune_version () =
-  try
-    let prog = Literals.dune ^ " --version" in
-    let inp = Unix.open_process_in prog in
-    let line = input_line inp in
-    close_in inp;
-    get_version line
-  with
-  | Unix.Unix_error(_, _, _) -> None
-
-let make_dune_project_if_does_not_exist proj_dir =
+let output_dune_project_if_does_not_exist proj_dir =
   let dune_project = proj_dir // Literals.dune_project in
   if Sys.file_exists dune_project then ()
   else
-    let dune_version = get_dune_version () in
-    match dune_version with
-    | None -> () (* Maybe we should warn here? *)
-    | Some version ->
-      let ochan = open_out_bin dune_project in
-      output_string ochan "(lang dune ";
-      output_string ochan version;
-      output_string ochan ")\n";
-      output_string ochan "(using action-plugin 0.1)\n";
-      close_out ochan
+    let ochan = open_out_bin dune_project in
+    output_string ochan "(lang dune 2.8)\n";
+    output_string ochan "(using action-plugin 0.1)\n";
+    close_out ochan
 
 let output_dune_file buf =
   let proj_dir =  Bsb_global_paths.cwd in
@@ -135,7 +113,7 @@ let output_dune_file buf =
   Buffer.add_string buf ")\n";
   Bsb_ninja_targets.revise_dune dune buf;
 
-  make_dune_project_if_does_not_exist proj_dir
+  output_dune_project_if_does_not_exist proj_dir
 
 let ninja_command_exit dune_args  =
   let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
