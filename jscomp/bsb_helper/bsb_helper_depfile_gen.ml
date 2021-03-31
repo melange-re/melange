@@ -124,7 +124,6 @@ let process_deps ~root ~cwd ~deps =
         let path = Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // file) in
         Filename.dirname path, Filename.basename path
       in
-      (* Format.eprintf "RELY: %s %s@." dirname basename; *)
       let+ (_: string list) =
         D.read_directory_with_glob
           ~path:(P.of_string dirname)
