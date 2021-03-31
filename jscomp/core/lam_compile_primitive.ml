@@ -526,11 +526,12 @@ let translate  loc
             | Pbigarray_complex32 | Pbigarray_complex64), Pbigarray_c_layout, _
         -> 
         begin match args with
-          | [x;indx] -> Js_of_lam_array.ref_array x indx
+          | [x;indx] -> E.runtime_call Js_runtime_modules.bigarray
+              ("caml_ba_get_" ^ string_of_int dimension ) args
           | _ -> assert false
         end
       | _, _, _ ,_ -> 
-        E.resolve_and_apply
+        E.runtime_call Js_runtime_modules.bigarray
           ("caml_ba_get_" ^ string_of_int dimension ) args
         (* E.runtime_call Js_config.bigarray  *)
         (*   ("caml_ba_get_" ^ string_of_int dimension ) args  *)
@@ -547,24 +548,23 @@ let translate  loc
         -> 
         begin match args with 
           | [x; index; value] -> 
-            Js_of_lam_array.set_array x index value          
+            E.runtime_call Js_runtime_modules.bigarray 
+              ("caml_ba_set_" ^ string_of_int dimension) args          
           | _ -> assert false
         end
 
       | _ , _, _,_ 
         -> 
-        E.resolve_and_apply
-          ("caml_ba_set_" ^ string_of_int dimension) args
+          E.runtime_call Js_runtime_modules.bigarray 
+            ("caml_ba_set_" ^ string_of_int dimension) args
           (* E.runtime_call Js_config.bigarray  *)
           (*   ("caml_ba_set_" ^ string_of_int dimension ) args  *)
     end
 
   | Pbigarraydim i
     -> 
-    E.resolve_and_apply 
-      ("caml_ba_dim_" ^ string_of_int i) args
-      (* E.runtime_call Js_config.bigarray *)
-      (*   ("caml_ba_dim_" ^ string_of_int i) args        *)
+      E.runtime_call Js_runtime_modules.bigarray 
+        ("caml_ba_dim_" ^ string_of_int i) args     
   | Plazyforce
     (* FIXME: we don't inline lazy force or at least
       let buckle handle it

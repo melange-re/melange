@@ -1,12 +1,13 @@
+module Array = Caml_array_extern
 let caml_ba_get_size dims =
   let n_dims = Array.length dims in
-  let size = ref 1 in
+  let size = {contents =  1} in
   for i = 0 to n_dims - 1 do
     if Array.unsafe_get dims i < 0 then
       raise (Invalid_argument "Bigarray.create: negative dimension");
-    size := !size * Array.unsafe_get dims i
+    size.contents <- size.contents * Array.unsafe_get dims i
   done;
-  !size
+  size.contents
 
 let caml_invalid_argument err = raise (Invalid_argument err)
 
@@ -314,7 +315,7 @@ let caml_ba_change_layout ba layout =
   if caml_ba_layout ba == layout then
     ba
   else
-    let new_dims = Array.make 0 0 in
+    let new_dims = Array.new_uninitialized 0 in
     for i = 0 to caml_ba_num_dims ba - 1 do
       Array.unsafe_set new_dims i (get_dim ba (caml_ba_num_dims ba - i - 1))
     done;
