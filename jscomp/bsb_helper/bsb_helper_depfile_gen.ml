@@ -172,6 +172,5 @@ let compute_dependency_info
       `intf
   end;
   let deps = Set_string.elements !deps in
-  Format.eprintf "FDS %s %s@." mlast (String.concat "; " deps);
   run_dependency_rules ~root ~cwd ~deps
 

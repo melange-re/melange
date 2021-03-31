@@ -116,22 +116,19 @@ let emit_module_build
   let input_intf = Bsb_config.proj_rel (filename_sans_extension ^ config.intf) in
   let output_ast = filename_sans_extension  ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension  ^ Literals.suffix_iast in
-  let ast_deps =
-    let output_ast =
-      (Ext_path.rel_normalized_absolute_path
-        ~from:(per_proj_dir // cur_dir)
-        (per_proj_dir // impl_dir)) // (basename output_ast)
-    in
-    let output_iast = if has_intf_file then
-        Some ((Ext_path.rel_normalized_absolute_path
+  let output_ast =
+    (Ext_path.rel_normalized_absolute_path
+      ~from:(per_proj_dir // cur_dir)
+      (per_proj_dir // impl_dir)) // (basename output_ast)
+  in
+  let output_iast = (Ext_path.rel_normalized_absolute_path
                 ~from:(per_proj_dir // cur_dir)
-                (per_proj_dir // intf_dir)) // basename output_iast)
-      else
-        None
-    in
-    Format.asprintf "(:ast_deps %s %a)"
+                (per_proj_dir // intf_dir)) // basename output_iast
+  in
+  let ast_deps =
+    Format.asprintf "(:ast_deps %s %s)"
       output_ast
-      Format.(pp_print_option pp_print_string) output_iast
+      (if has_intf_file then output_iast else "")
     in
   let output_filename_sans_extension =
       Ext_namespace_encode.make ?ns:namespace filename_sans_extension
