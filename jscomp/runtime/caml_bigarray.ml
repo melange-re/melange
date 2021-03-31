@@ -436,3 +436,28 @@ function (ba, vind) {
   return caml_ba_create_unsafe(ba.kind, ba.layout, sub_dims, new_data);
 }
 |}]
+
+let caml_ba_reshape: Obj.t -> int array -> Obj.t = 
+  [%raw
+  {|function (ba, vind) {
+  var new_dim = [];
+  var num_dims = vind.length;
+
+  if (num_dims < 0 || num_dims > 16){
+    caml_invalid_argument("Bigarray.reshape: bad number of dimensions");
+  }
+  var num_elts = 1;
+  for (var i = 0; i < num_dims; i++) {
+    new_dim[i] = vind[i];
+    if (new_dim[i] < 0)
+      caml_invalid_argument("Bigarray.reshape: negative dimension");
+    num_elts = num_elts * new_dim[i];
+  }
+
+  var size = caml_ba_get_size(ba.dims);
+  // Check that sizes agree
+  if (num_elts != size)
+    caml_invalid_argument("Bigarray.reshape: size mismatch");
+  return caml_ba_create_unsafe(ba.kind, ba.layout, new_dim, ba.data);
+}|}
+]
