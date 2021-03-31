@@ -62,7 +62,7 @@ let caml_ba_custom_name = "_bigarr02"
       // Complex32, Complex64
       var r = this.data[ofs * 2 + 0];
       var i = this.data[ofs * 2 + 1];
-      return [254, r, i];
+      return {re: r, im: i};
     default:
       return this.data[ofs]
     }
@@ -72,8 +72,8 @@ let caml_ba_custom_name = "_bigarr02"
     switch(this.kind){
     case 7:
       // Int64
-      this.data[ofs * 2 + 0] = v[1];
-      this.data[ofs * 2 + 1] = v[0];
+      this.data[ofs * 2 + 0] = v.im;
+      this.data[ofs * 2 + 1] = v.re;
       break;
     case 10: case 11:
       // Complex32, Complex64
@@ -104,8 +104,8 @@ let caml_ba_custom_name = "_bigarr02"
       break;
     case 10: case 11:
       // Complex32, Complex64
-      var im = v[1];
-      var re = v[2];
+      var im = v.im;
+      var re = v.re;
       if(im == re){
         this.data.fill(im);
       }
