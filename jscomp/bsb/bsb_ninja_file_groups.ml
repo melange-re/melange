@@ -135,6 +135,8 @@ let emit_module_build
   in
   let output_cmi =  output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
+  let output_cmt =  output_filename_sans_extension ^ Literals.suffix_cmt in
+  let output_cmti =  output_filename_sans_extension ^ Literals.suffix_cmti in
   let rel_proj_dir = Ext_path.rel_normalized_absolute_path
      ~from:(per_proj_dir // cur_dir)
      per_proj_dir
@@ -183,8 +185,9 @@ let emit_module_build
 
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:[ast_deps]
-      ~outputs:[output_cmi]
       ~inputs:[basename output_iast]
+      ~outputs:[output_cmi]
+      ~implicit_outputs:[output_cmti]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
@@ -197,8 +200,7 @@ let emit_module_build
        else rules.mj)
     else
       (if is_dev then rules.mij_dev
-       else rules.mij
-      )
+       else rules.mij)
   in
   if which <> `intf then begin
     let output_cmi =
@@ -208,7 +210,7 @@ let emit_module_build
     in
     Bsb_ninja_targets.output_build cur_dir buf
       ~outputs:[output_cmj]
-      ~implicit_outputs:(if has_intf_file then [] else [ output_cmi ])
+      ~implicit_outputs:(if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
       ~js_outputs:output_js
       ~inputs:[basename output_ast]
       ~implicit_deps:(if has_intf_file then [output_cmi; ast_deps] else [ast_deps])
@@ -216,7 +218,7 @@ let emit_module_build
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
       ~rule;
   end;
-  if which <> `intf then Some output_js else None
+  if which <> `intf then output_js else []
 
 let handle_files_per_dir
     buf
@@ -273,9 +275,7 @@ let handle_files_per_dir
         js_post_build_cmd
         global_config.namespace module_info
       in
-      match js_outputs with
-      | None -> acc_js
-      | Some js -> (List.map fst js) :: acc_js)
+      (List.map fst js_outputs) :: acc_js)
     in
     Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
     Buffer.add_string buf ")";
