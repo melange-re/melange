@@ -116,21 +116,30 @@ let emit_module_build
   let input_intf = Bsb_config.proj_rel (filename_sans_extension ^ config.intf) in
   let output_ast = filename_sans_extension  ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension  ^ Literals.suffix_iast in
-  let output_d = filename_sans_extension ^ Literals.suffix_d in
-  let output_d_as_dep =
-    let output_d =
+  let ast_deps =
+    let output_ast =
       (Ext_path.rel_normalized_absolute_path
         ~from:(per_proj_dir // cur_dir)
-        (per_proj_dir // impl_dir)) // basename output_d
+        (per_proj_dir // impl_dir)) // (basename output_ast)
     in
-    Format.asprintf "(:dep_file %s)" output_d in
+    let output_iast = if has_intf_file then
+        Some ((Ext_path.rel_normalized_absolute_path
+                ~from:(per_proj_dir // cur_dir)
+                (per_proj_dir // intf_dir)) // basename output_iast)
+      else
+        None
+    in
+    Format.asprintf "(:ast_deps %s %a)"
+      output_ast
+      Format.(pp_print_option pp_print_string) output_iast
+    in
   let output_filename_sans_extension =
       Ext_namespace_encode.make ?ns:namespace filename_sans_extension
   in
   let output_cmi =  output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
   let rel_proj_dir = Ext_path.rel_normalized_absolute_path
-     ~from:(Ext_path.combine per_proj_dir cur_dir)
+     ~from:(per_proj_dir // cur_dir)
      per_proj_dir
   in
   let maybe_gentype_deps = Option.map (fun _ ->
@@ -144,18 +153,6 @@ let emit_module_build
       ~outputs:[output_ast]
       ~inputs:[basename input_impl]
       ~rule:(syntax_kind_to_rule ~rules impl_kind);
-
-    let output_iast =
-      (Ext_path.rel_normalized_absolute_path
-        ~from:(per_proj_dir // cur_dir)
-        (per_proj_dir // intf_dir)) // basename output_iast
-    in
-    Bsb_ninja_targets.output_build
-      cur_dir
-      buf
-      ~outputs:[output_d]
-      ~inputs:(if has_intf_file then [basename output_ast; output_iast] else [basename output_ast] )
-      ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps);
   end;
   let relative_ns_cmi =
    match namespace with
@@ -188,7 +185,7 @@ let emit_module_build
       ~rule:(syntax_kind_to_rule ~rules intf_kind);
 
     Bsb_ninja_targets.output_build cur_dir buf
-      ~implicit_deps:[output_d_as_dep]
+      ~implicit_deps:[ast_deps]
       ~outputs:[output_cmi]
       ~inputs:[basename output_iast]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
@@ -217,7 +214,7 @@ let emit_module_build
       ~implicit_outputs:(if has_intf_file then [] else [ output_cmi ])
       ~js_outputs:output_js
       ~inputs:[basename output_ast]
-      ~implicit_deps:(if has_intf_file then [output_cmi; output_d_as_dep] else [output_d_as_dep])
+      ~implicit_deps:(if has_intf_file then [output_cmi; ast_deps] else [ast_deps])
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
       ~rule;

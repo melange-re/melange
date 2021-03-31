@@ -22,32 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module D = Dune_action_plugin.V1
+module P = D.Path
+module Glob = Dune_glob.V1
+
+open D.O
+
 let (//) = Ext_path.combine
 
 let lib_bs = "lib" // "bs"
-let dep_lit = " : "
-let write_buf name buf  =
-  let oc = open_out_bin name in
-  Ext_buffer.output_buffer oc buf ;
-  close_out oc
-
-(* should be good for small file *)
-let load_file name (buf : Ext_buffer.t): unit  =
-  let len = Ext_buffer.length buf in
-  let ic = open_in_bin name in
-  let n = in_channel_length ic in
-  if n <> len then begin close_in ic ; write_buf name buf  end
-  else
-    let holder = really_input_string ic  n in
-    close_in ic ;
-    if Ext_buffer.not_equal buf holder then
-      write_buf name buf
-;;
-let write_file name  (buf : Ext_buffer.t) =
-  if Sys.file_exists name then
-    load_file name buf
-  else
-    write_buf name buf
 
 (* return an non-decoded string *)
 let extract_dep_raw_string (fn : string) : string =
@@ -60,51 +43,8 @@ let extract_dep_raw_string (fn : string) : string =
 (* Make sure it is the same as {!Binary_ast.magic_sep_char}*)
 let magic_sep_char = '\n'
 
-let deps_of_channel (ic : in_channel) : string list =
-  let size = input_binary_int ic in
-  let s = really_input_string ic size in
-  let rec aux (s : string) acc (offset : int) size : string list =
-    if offset < size then
-      let next_tab = String.index_from s offset magic_sep_char in
-      aux s
-        (String.sub s offset (next_tab - offset)::acc) (next_tab + 1)
-        size
-    else acc
-  in
-  aux s [] 1 size
-
-
-
-
-
-(** Please refer to {!Binary_ast} for encoding format, we move it here
-    mostly for cutting the dependency so that [bsb_helper.exe] does
-    not depend on compler-libs
-*)
-(* let read_deps (fn : string) : string list =
-  let ic = open_in_bin fn in
-  let v = deps_of_channel ic in
-  close_in ic;
-  v
- *)
-
-
-
-let output_file (buf : Ext_buffer.t) source namespace =
-  Ext_buffer.add_string buf
-    (Ext_namespace_encode.make ?ns:namespace source)
-
-(** for rescript artifacts
-    [lhs_suffix] is [.cmj]
-    [rhs_suffix]
-    is [.cmj] if it has [ml] (in this case does not care about mli or not)
-    is [.cmi] if it has [mli]
-*)
-let oc_cmi buf namespace source =
-  Ext_buffer.add_char buf ' ';
-  output_file buf source namespace;
-  Ext_buffer.add_string buf Literals.suffix_cmi
-
+let encode_cm_file ~ext ?namespace source =
+  (Ext_namespace_encode.make ?ns:namespace source) ^ ext
 
 (* For cases with self cycle
     e.g, in b.ml
@@ -121,36 +61,18 @@ let oc_cmi buf namespace source =
     it can be errored out earlier
 *)
 let oc_deps
+    ~deps
     (ast_file : string)
     (is_dev : bool)
     (db : Bsb_db_decode.t)
     (namespace : string option)
-    (buf : Ext_buffer.t)
     (kind : [`impl | `intf ])
     : unit
   =
-  (* TODO: move namespace upper, it is better to resolve ealier *)
   let cur_module_name = Ext_filename.module_name ast_file  in
-  let cur_module_impl_dir = match Bsb_db_decode.find db ~kind:`impl cur_module_name is_dev with
-  | Some { dir_name; _ } -> dir_name
-  | None -> assert false
-  in
-  let cur_module_intf_dir = match Bsb_db_decode.find db ~kind:`intf cur_module_name is_dev with
-  | Some { dir_name; _ } -> dir_name
-  | None -> assert false
-  in
-  let at_most_once : unit lazy_t  = lazy (
-    let dir = if kind = `impl then cur_module_impl_dir else cur_module_intf_dir in
-    output_file buf (dir // (Ext_filename.chop_extension_maybe (Filename.basename ast_file))) namespace ;
-    Ext_buffer.add_string buf (if kind = `impl then Literals.suffix_cmj else Literals.suffix_cmi);
-    (* print the source *)
-    Ext_buffer.add_string buf dep_lit ) in
   Ext_option.iter namespace (fun ns ->
-      Lazy.force at_most_once;
-      Ext_buffer.add_char buf ' ';
-      Ext_buffer.add_string buf (lib_bs // ns);
-      Ext_buffer.add_string buf Literals.suffix_cmi; (* always cmi *)
-  ) ; (* TODO: moved into static files*)
+    (* always cmi *)
+    deps := Set_string.add !deps (lib_bs // (ns ^ Literals.suffix_cmi)));
   let s = extract_dep_raw_string ast_file in
   let offset = ref 1 in
   let size = String.length s in
@@ -171,49 +93,85 @@ let oc_deps
     | Some _ , None | None, Some _ -> assert false
     | Some ({dir_name = impl_dir_name; case }), Some ({ dir_name = intf_dir_name; _ }) ->
       begin
-        Lazy.force at_most_once;
         let module_basename =
           if case
           then dependent_module
           else Ext_string.uncapitalize_ascii dependent_module
         in
-        Ext_buffer.add_char buf ' ';
         if kind = `impl then begin
-          output_file buf (impl_dir_name // module_basename) namespace;
-          Ext_buffer.add_string buf Literals.suffix_cmj;
+          deps :=
+            Set_string.add !deps
+              (encode_cm_file
+                ?namespace
+                ~ext:Literals.suffix_cmj
+                (impl_dir_name // module_basename));
         end;
         (* #3260 cmj changes does not imply cmi change anymore *)
-        oc_cmi buf namespace (intf_dir_name // module_basename)
-
+        deps :=
+          Set_string.add !deps
+            (encode_cm_file
+              ?namespace
+              ~ext:Literals.suffix_cmi
+              (intf_dir_name // (module_basename )));
       end);
     offset := next_tab + 1
-  done ;
-  if Lazy.is_val at_most_once then
-    Ext_buffer.add_char buf '\n'
+  done
 
-let emit_d
+let process_deps ~root ~cwd ~deps =
+  let rules =
+    List.map (fun file ->
+      let dirname, basename =
+        let path = Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // file) in
+        Filename.dirname path, Filename.basename path
+      in
+      (* Format.eprintf "RELY: %s %s@." dirname basename; *)
+      let+ (_: string list) =
+        D.read_directory_with_glob
+          ~path:(P.of_string dirname)
+          ~glob:(Glob.of_string basename)
+      in
+      ()) deps
+  in
+  rules
+
+let ignore_both a b =
+  D.map ~f:(fun (_, _) -> ()) (D.both a b)
+
+let realize ~rules =
+  List.fold_left ignore_both (D.return ()) rules
+
+let run_dependency_rules ~root ~cwd ~deps =
+  let rules = process_deps ~root ~cwd ~deps in
+  let rule = realize ~rules  in
+  D.run rule
+
+let compute_dependency_info
+  ~root
   ~cwd
   (is_dev : bool)
   (namespace : string option) (mlast : string) (mliast : string) =
   let data  =
-    Bsb_db_decode.read_build_cache ~dir:(cwd // lib_bs)
+    Bsb_db_decode.read_build_cache ~dir:(root // lib_bs)
   in
-  let buf = Ext_buffer.create 2048 in
-  let filename =
-      Ext_filename.new_extension mlast Literals.suffix_d in
+  let deps = ref Set_string.empty in
   oc_deps
+    ~deps
     mlast
     is_dev
     data
     namespace
-    buf `impl
+    `impl
     ;
   if mliast <> "" then begin
     oc_deps
+      ~deps
       mliast
       is_dev
       data
       namespace
-      buf `intf
+      `intf
   end;
-  write_file filename buf
+  let deps = Set_string.elements !deps in
+  Format.eprintf "FDS %s %s@." mlast (String.concat "; " deps);
+  run_dependency_rules ~root ~cwd ~deps
+

@@ -27,6 +27,7 @@
 
 let () =
   let namespace = ref None in
+  let root = ref None in
   let cwd = ref None in
   let dev_group = ref false in
   let argv = Sys.argv in
@@ -38,43 +39,52 @@ let () =
     incr current;
     if s <> "" && s.[0] = '-' then begin
       match s with
+      | "-root" ->
+        let root_arg = argv.(!current) in
+        root := Some root_arg;
+        incr current
       | "-cwd" ->
         let cwd_arg = argv.(!current) in
         cwd := Some cwd_arg;
         incr current
       | "-bs-ns" ->
         let ns = argv.(!current) in
+        Format.eprintf "NAMESPACE: %s@." ns;
         namespace := Some ns;
         incr current
       | "-g"  ->
         dev_group := true
       | s ->
         prerr_endline ("unknown options: " ^ s);
-        prerr_endline ("available options: -bs-ns [ns]; -g; -cwd");
+        prerr_endline ("available options: -bs-ns [ns]; -g; -cwd; -root");
         exit 2
     end else
       rev_list := s :: !rev_list
   done;
-  match !cwd with
-  | None ->
-    prerr_endline "-cwd is a required option";
-    exit 2
-  | Some cwd ->
+  match !cwd, !root with
+  | Some cwd, Some root ->
     (
       match !rev_list with
       | [x]
-        ->  Bsb_helper_depfile_gen.emit_d
+        ->  Bsb_helper_depfile_gen.compute_dependency_info
+              ~root
               ~cwd
               !dev_group
               !namespace x ""
       | [y; x] (* reverse order *)
         ->
-        Bsb_helper_depfile_gen.emit_d
+        Bsb_helper_depfile_gen.compute_dependency_info
+          ~root
           ~cwd
           !dev_group
           !namespace x y
       | _ ->
-        ()
+        prerr_endline "too many arguments to bsb_helper";
+        exit 2
     )
+  | _ ->
+    prerr_endline "-cwd is a required option";
+    exit 2
+
 ;;
 
