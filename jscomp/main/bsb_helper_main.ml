@@ -49,7 +49,6 @@ let () =
         incr current
       | "-bs-ns" ->
         let ns = argv.(!current) in
-        Format.eprintf "NAMESPACE: %s@." ns;
         namespace := Some ns;
         incr current
       | "-g"  ->
