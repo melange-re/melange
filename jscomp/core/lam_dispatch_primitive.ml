@@ -633,6 +633,8 @@ let translate loc (prim_name : string)
     | "caml_ba_unsafe_get_3" -> call Js_runtime_modules.bigarray
     | "caml_ba_unsafe_set_3" -> call Js_runtime_modules.bigarray
     | "caml_ba_dim_3" -> call Js_runtime_modules.bigarray
+    | "caml_ba_slice" -> call Js_runtime_modules.bigarray
+    | "caml_ba_reshape" -> call Js_runtime_modules.bigarray
     | _ ->
       Bs_warnings.warn_missing_primitive loc prim_name  ;
       E.resolve_and_apply prim_name args
