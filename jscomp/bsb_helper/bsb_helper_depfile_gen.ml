@@ -26,6 +26,8 @@ module D = Dune_action_plugin.V1
 module P = D.Path
 module Glob = Dune_glob.V1
 
+open D.O
+
 let (//) = Ext_path.combine
 
 let lib_bs = "lib" // "bs"
@@ -115,11 +117,12 @@ let oc_deps
     offset := next_tab + 1
   done
 
-let group_by ~f xs =
+let group_by_map ~fk ~fv xs =
   let tbl = Hash_string.create 64 in
   Ext_list.iter xs (fun element ->
-      let key = f element in
-      Hash_string.add_or_update tbl key ~update:(fun x -> element :: x) [element]);
+      let key = fk element in
+      let value = fv element in
+      Hash_string.add_or_update tbl key ~update:(fun x -> value :: x) [value]);
   tbl
 
 let multi_file_glob files =
@@ -129,18 +132,21 @@ let multi_file_glob files =
   Glob.of_string (Format.asprintf "{%a}" pp_list files)
 
 let process_deps ~root ~cwd ~deps =
-  let rules = group_by ~f:(fun x -> Filename.dirname x) deps in
-  Hash_string.fold rules [] (fun dir files acc ->
+  let rules =
+    group_by_map ~fk:(fun x -> Filename.dirname x) ~fv:Filename.basename deps
+  in
+  Hash_string.fold rules [] (fun dir basenames acc ->
     let dirname =
       Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // dir)
     in
-    let basenames = List.map Filename.basename files in
-    let p: string list D.t =
-      D.read_directory_with_glob
+    let p: unit D.t =
+      let+ (_: string list) = D.read_directory_with_glob
         ~path:(P.of_string dirname)
         ~glob:(multi_file_glob basenames)
+      in
+      ()
     in
-    (D.map ~f:ignore p) :: acc)
+    p :: acc)
 
 let ignore_both a b =
   D.map ~f:(fun (_, _) -> ()) (D.both a b)
