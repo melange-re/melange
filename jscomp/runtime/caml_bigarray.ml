@@ -72,13 +72,13 @@ let caml_ba_custom_name = "_bigarr02"
     switch(this.kind){
     case 7:
       // Int64
-      this.data[ofs * 2 + 0] = v.im;
-      this.data[ofs * 2 + 1] = v.re;
+      this.data[ofs * 2 + 0] = v[1];
+      this.data[ofs * 2 + 1] = v[0];
       break;
     case 10: case 11:
       // Complex32, Complex64
-      this.data[ofs * 2 + 0] = v[1];
-      this.data[ofs * 2 + 1] = v[2];
+      this.data[ofs * 2 + 0] = v.im;
+      this.data[ofs * 2 + 1] = v.re;
       break;
     default:
       this.data[ofs] = v;
