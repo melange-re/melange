@@ -38,7 +38,7 @@ let cross_module_inline = ref false
 
 
 let diagnose = ref false
-let get_diagnose () = 
+let get_diagnose () =
     !diagnose
 #if undefined BS_RELEASE_BUILD then
   || Sys.getenv_opt "RES_DEBUG_FILE" <> None
@@ -67,7 +67,7 @@ let binary_ast = ref false
 
 let debug = ref false
 
-let cmi_only = ref false  
+let cmi_only = ref false
 let cmj_only = ref false
 
 let force_cmi = ref false
@@ -86,10 +86,10 @@ let no_stdlib = ref false
 
 let no_export = ref false
 
-
+let format = ref None
 
 let as_ppx = ref false
 
 let mono_empty_array = ref true
 
-let customize_runtime = ref None 
+let customize_runtime = ref None

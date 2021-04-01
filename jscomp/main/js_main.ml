@@ -58,14 +58,14 @@ let process_file sourcefile
     let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.implementation
-      ~parser:Ast_reason_pp.parse_implementation
+      ~parser:Ast_reason_pp.RE.parse_implementation
       ppf sourcefile ~outputprefix
   | Rei ->
     let sourcefile = set_abs_input_name  sourcefile in
     let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.interface
-      ~parser:Ast_reason_pp.parse_interface
+      ~parser:Ast_reason_pp.RE.parse_interface
       ppf sourcefile ~outputprefix
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
@@ -113,6 +113,97 @@ let usage = "Usage: bsc <options> <files>\nOptions are:"
 let ppf = Format.err_formatter
 
 (* Error messages to standard error formatter *)
+open struct
+  open Reason_migrate_parsetree
+  module To_current = Convert(OCaml_406)(OCaml_current)
+  module From_current = Convert(OCaml_current)(OCaml_406)
+
+  let handle_res_parse_result (parse_result : _ Res_driver.parseResult) =
+    if parse_result.invalid then begin
+        Res_diagnostics.printReport parse_result.diagnostics parse_result.source;
+        exit 1
+    end
+end
+
+let print_res_interface ~comments ast =
+  Res_printer.printInterface ~width:100 ~comments ast
+
+let print_res_implementation ~comments ast =
+  Res_printer.printImplementation ~width:100 ~comments ast
+
+(* TODO: support printing from AST too. *)
+let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
+  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
+  let impl_format_fn ~comments ast =
+    let std = Format.std_formatter in
+    match kind, comments with
+    | Ml, `Re comments ->
+      Ast_reason_pp.ML.format_implementation_with_comments std ~comments ast
+    | Ml, `Res _ ->
+      Ast_reason_pp.ML.format_implementation_with_comments std ~comments:[] ast
+    | Res, `Res comments ->
+      let ast = From_current.copy_structure ast in
+      output_string stdout (print_res_implementation ~comments ast)
+    | Res, `Re _ ->
+      let ast = From_current.copy_structure ast in
+      output_string stdout (print_res_implementation ~comments:[] ast)
+    | Reason, `Re comments ->
+      Ast_reason_pp.RE.format_implementation_with_comments std ~comments ast
+    | Reason, `Res _ ->
+      Ast_reason_pp.RE.format_implementation_with_comments std ~comments:[] ast
+    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  in
+  let intf_format_fn ~comments ast =
+    let std = Format.std_formatter in
+    match kind, comments with
+    | Ml, `Re comments ->
+      Ast_reason_pp.ML.format_interface_with_comments std ~comments ast
+    | Ml, `Res _ ->
+      Ast_reason_pp.ML.format_interface_with_comments std ~comments:[] ast
+    | Res, `Res comments ->
+      let ast = From_current.copy_signature ast in
+      output_string stdout (print_res_interface ~comments ast)
+    | Res, `Re _ ->
+      let ast = From_current.copy_signature ast in
+      output_string stdout (print_res_interface ~comments:[] ast)
+    | Reason, `Re comments ->
+      Ast_reason_pp.RE.format_interface_with_comments std ~comments ast
+    | Reason, `Res _ ->
+      Ast_reason_pp.RE.format_interface_with_comments std ~comments:[] ast
+    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  in
+  begin match ext with
+  | Ml ->
+    let ast, comments =
+      Ast_reason_pp.ML.parse_implementation_with_comments input
+    in
+    impl_format_fn ~comments:(`Re comments) ast
+  | Mli ->
+    let ast, comments = Ast_reason_pp.ML.parse_interface_with_comments input in
+    intf_format_fn ~comments:(`Re comments) ast
+  | Res ->
+    let parse_result =
+      Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
+    in
+    handle_res_parse_result parse_result;
+    impl_format_fn
+      ~comments:(`Res parse_result.comments)
+      parse_result.parsetree
+  | Resi ->
+    let parse_result =
+      Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
+    in
+    intf_format_fn
+      ~comments:(`Res parse_result.comments)
+       parse_result.parsetree
+  | Re ->
+    let ast, comments = Ast_reason_pp.RE.parse_implementation_with_comments input in
+    impl_format_fn ~comments:(`Re comments) ast
+  | Rei ->
+    let ast, comments = Ast_reason_pp.RE.parse_interface_with_comments input in
+    intf_format_fn ~comments:(`Re comments) ast
+  | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  end
 
 let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then
@@ -128,7 +219,10 @@ let anonymous ~(rev_args : string list) =
     begin
       match rev_args with
       | [filename] ->
-        process_file filename ppf
+        begin match !Js_config.format with
+        | Some syntax_kind -> format_file ~kind:syntax_kind filename
+        | None -> process_file filename ppf
+        end
       | [] -> ()
       | _ ->
           Format.eprintf "args: %s@." (String.concat "; " rev_args);
@@ -142,26 +236,6 @@ let impl filename =
 let intf filename =
   Js_config.js_stdout := false ;
   process_file filename ~kind:Mli ppf;;
-
-let reason_fmt ~input =
-  let isInterface =
-    let len = String.length input in
-    len > 0 && String.unsafe_get input (len - 1) = 'i'
-  in
-  if isInterface then
-    Ast_reason_pp.format_interface input
-  else
-    Ast_reason_pp.format_implementation input
-
-let format_file input =
-  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
-  let format_fn =
-    match ext with
-    | Ml | Mli -> Res_multi_printer.print `ml
-    | Res | Resi -> Res_multi_printer.print `res
-    | Re | Rei -> reason_fmt
-    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input) in
-  output_string stdout (format_fn ~input)
 
 let set_color_option option =
   match Clflags.color_reader.parse option with
@@ -387,7 +461,17 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-dsource", set Clflags.dump_source,
     "*internal* print source";
 
-    "-format", string_call format_file,
+    "-format", string_call (fun ext ->
+      let syntax: Ext_file_extensions.syntax_kind = match Ext_string.trim ext with
+      | "re" -> Reason
+      | "res" -> Res
+      | "ml" -> Ml
+      | x ->
+        Location.raise_errorf
+          "invalid option `%s` passed to -format, expected `re`, `res` or `ml`"
+          x
+      in
+      Js_config.format := Some syntax),
     "Format as Res syntax";
 
     "-where", unit_call print_standard_library,
