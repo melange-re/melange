@@ -44,7 +44,7 @@ type t = {
 
 
 let key_index_by_ident (h : t) (key : Ident.t) =
-  (Bs_hash_stubs.hash_string_int  (Ident.name key) (Ident.stamp key)) land (Array.length h.data - 1)
+  (Bs_hash_stubs.hash_string_int  (Ident.name key) (Ext_ident.stamp key)) land (Array.length h.data - 1)
 
 
 

@@ -46,6 +46,7 @@ val create_tmp :  ?name:string -> unit -> Ident.t
 
 val make_unused : unit -> Ident.t
 
+val stamp : Ident.t -> int
 
 
 (**

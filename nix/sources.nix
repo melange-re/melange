@@ -16,8 +16,8 @@ import "${overlays}/sources.nix" {
             version = "0.0.0";
             nativeBuildInputs = [ self.git ];
             src = builtins.fetchurl {
-              url = https://github.com/melange-re/melange-compiler-libs/archive/ac4946e/3c3348c.tar.gz;
-              sha256 = "077yfznnm8jriwfi1xr3nrsl1ahlihhr8nr16vyxva6qklff8xmw";
+              url = https://github.com/melange-re/melange-compiler-libs/archive/eefcbe8882.tar.gz;
+              sha256 = "18w7w7kgpky0662g9q7bsdw06rnddpynmlsp6n7cfdccw37y7sxd";
             };
             useDune2 = true;
             propagatedBuildInputs = with oself; [ menhir ];

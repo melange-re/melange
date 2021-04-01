@@ -31,7 +31,7 @@ let print_elt = Format.pp_print_string
 #elif defined TYPE_IDENT
 type elt = Ident.t
 let compare_elt (x : elt) (y : elt) =
-  let a =  Int.compare (Ident.stamp x) (Ident.stamp y) in
+  let a =  Int.compare (Ext_ident.stamp x) (Ext_ident.stamp y) in
   if a <> 0 then a
   else
     let b = String.compare (Ident.name x) (Ident.name y) in

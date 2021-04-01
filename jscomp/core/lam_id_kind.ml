@@ -93,7 +93,7 @@ let print fmt (kind : t) =
   | Constant _  ->
     pp fmt "Constant"
   | Module id ->
-    pp fmt "%s/%d" (Ident.name id) (Ident.stamp id)
+    pp fmt "%s/%d" (Ident.name id) (Ext_ident.stamp id)
   | FunctionId _ ->
     pp fmt "FunctionID"
   | Exception ->
