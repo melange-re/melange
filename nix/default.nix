@@ -52,12 +52,15 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = with ocamlPackages; [
     pkgs.gnutar
     dune
-    dune-action-plugin
     ocaml
     findlib
+    cppo
   ];
 
-  buildInputs = [ cppo ];
-
-  propagatedBuildInputs = [ reason cmdliner ];
+  propagatedBuildInputs = [
+    dune-action-plugin
+    melange-compiler-libs
+    reason
+    cmdliner
+  ];
 }

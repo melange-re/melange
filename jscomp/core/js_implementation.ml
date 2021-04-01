@@ -37,7 +37,7 @@ let print_if ppf flag printer arg =
 
 
 let process_with_gentype filename =
-  match !Clflags.bs_gentype with
+  match !Bs_clflags.bs_gentype with
   | None -> ()
   | Some cmd ->
     let comm = (cmd ^
@@ -157,7 +157,7 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
 
 let after_parsing_impl ppf  outputprefix (ast : Parsetree.structure) =
   Js_config.all_module_aliases :=
-    !Clflags.assume_no_mli =  Mli_non_exists &&
+    !Bs_clflags.assume_no_mli =  Mli_non_exists &&
     all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
   let ast =

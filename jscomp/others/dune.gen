@@ -9,7 +9,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetString.mli)
@@ -19,7 +19,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetInt.ml)
@@ -29,7 +29,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashSetInt.mli)
@@ -39,7 +39,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapString.ml)
@@ -49,7 +49,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapString.mli)
@@ -59,7 +59,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapInt.ml)
@@ -69,7 +69,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_HashMapInt.mli)
@@ -79,7 +79,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapString.ml)
@@ -89,7 +89,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapString.mli)
@@ -99,7 +99,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapInt.ml)
@@ -109,7 +109,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MapInt.mli)
@@ -119,7 +119,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetString.ml)
@@ -129,7 +129,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetString.mli)
@@ -139,7 +139,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetInt.ml)
@@ -149,7 +149,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SetInt.mli)
@@ -159,7 +159,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapString.ml)
@@ -169,7 +169,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapString.mli)
@@ -179,7 +179,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapInt.ml)
@@ -189,7 +189,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableMapInt.mli)
@@ -199,7 +199,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetString.ml)
@@ -209,7 +209,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetString.mli)
@@ -219,7 +219,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetInt.ml)
@@ -229,7 +229,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_MutableSetInt.mli)
@@ -239,7 +239,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayString.ml)
@@ -249,7 +249,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayString.mli)
@@ -259,7 +259,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayInt.ml)
@@ -269,7 +269,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_SortArrayInt.mli)
@@ -279,7 +279,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalMapString.ml)
@@ -289,7 +289,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalMapInt.ml)
@@ -299,7 +299,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalSetString.ml)
@@ -309,7 +309,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_STRING %{deps} -o %{targets})))
+   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
 
 (rule
   (targets belt_internalSetInt.ml)
@@ -319,7 +319,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS -D TYPE_INT %{deps} -o %{targets})))
+   (run cppo -D TYPE_INT %{deps} -o %{targets})))
 
 (rule
   (targets js_typed_array.ml)
@@ -329,7 +329,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS  %{deps} -o %{targets})))
+   (run cppo  %{deps} -o %{targets})))
 
 (rule
   (targets js_typed_array2.ml)
@@ -339,7 +339,7 @@
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:4.12.0+BS  %{deps} -o %{targets})))
+   (run cppo  %{deps} -o %{targets})))
 
 
 

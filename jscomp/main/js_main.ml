@@ -315,7 +315,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-o", string_optional_set Clflags.output_name,
     "<file>  set output file name to <file>";
 
-    "-bs-read-cmi",  unit_call (fun _ -> Clflags.assume_no_mli := Mli_exists),
+    "-bs-read-cmi",  unit_call (fun _ -> Bs_clflags.assume_no_mli := Mli_exists),
     "*internal* Assume mli always exist ";
 
     "-ppx", string_list_add Clflags.all_ppx,
@@ -355,7 +355,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-no-alias-deps", set Clflags.transparent_modules,
     "*internal*Do not record dependencies for module aliases";
 
-    "-bs-gentype", string_optional_set Clflags.bs_gentype ,
+    "-bs-gentype", string_optional_set Bs_clflags.bs_gentype ,
     "*internal* Pass gentype command";
 
     (******************************************************************************)
@@ -434,7 +434,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bs-no-check-div-by-zero", clear Js_config.check_div_by_zero,
     "*internal* unsafe mode, don't check div by zero and mod by zero";
 
-    "-bs-noassertfalse", set Clflags.no_assert_false,
+    "-bs-noassertfalse", set Bs_clflags.no_assert_false,
     "*internal*  no code for assert false";
 
     "-noassert", set Clflags.noassert,

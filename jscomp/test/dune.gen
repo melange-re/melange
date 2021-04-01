@@ -1,7 +1,7 @@
 
   (rule
     (targets 406_primitive_test.cmi 406_primitive_test.cmj 406_primitive_test.js)
-    (deps (:inputs 406_primitive_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
+    (deps (:inputs 406_primitive_test.ml) ../stdlib-412/stdlib.cmj a.cmj mt.cmj)
 
   (mode
    (promote
@@ -1769,7 +1769,7 @@
 
   (rule
     (targets derive_dyntype.cmi derive_dyntype.cmj derive_dyntype.js)
-    (deps (:inputs derive_dyntype.ml) ../stdlib-412/stdlib.cmj)
+    (deps (:inputs derive_dyntype.ml) ../stdlib-412/stdlib.cmj a.cmj b.cmj)
 
   (mode
    (promote
@@ -1808,7 +1808,7 @@
 
   (rule
     (targets derive_type_test.cmi derive_type_test.cmj derive_type_test.js)
-    (deps (:inputs derive_type_test.ml) ../stdlib-412/stdlib.cmj)
+    (deps (:inputs derive_type_test.ml) ../stdlib-412/stdlib.cmj a.cmj b.cmj)
 
   (mode
    (promote
@@ -2042,7 +2042,7 @@
 
   (rule
     (targets exception_rebind_test.cmi exception_rebind_test.cmj exception_rebind_test.js)
-    (deps (:inputs exception_rebind_test.ml) ../stdlib-412/stdlib.cmj exception_def.cmj)
+    (deps (:inputs exception_rebind_test.ml) ../stdlib-412/stdlib.cmj a.cmj b.cmj exception_def.cmj)
 
   (mode
    (promote
@@ -4668,7 +4668,7 @@
 
   (rule
     (targets installation_test.cmi installation_test.cmj installation_test.js)
-    (deps (:inputs installation_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
+    (deps (:inputs installation_test.ml) ../stdlib-412/stdlib.cmj app_root_finder.cmj mt.cmj)
 
   (mode
    (promote
@@ -5370,7 +5370,7 @@
 
   (rule
     (targets local_exception_test.cmi local_exception_test.cmj local_exception_test.js)
-    (deps (:inputs local_exception_test.ml) ../stdlib-412/stdlib.cmj)
+    (deps (:inputs local_exception_test.ml) ../stdlib-412/stdlib.cmj a.cmj b.cmj)
 
   (mode
    (promote
@@ -6059,7 +6059,7 @@
 
   (rule
     (targets ocaml_typedtree_test.cmj ocaml_typedtree_test.js)
-    (deps (:inputs ocaml_typedtree_test.ml) ../stdlib-412/stdlib.cmj nativeint.cmj ocaml_typedtree_test.cmi)
+    (deps (:inputs ocaml_typedtree_test.ml) ../stdlib-412/stdlib.cmj arity.cmj mt.cmj nativeint.cmj ocaml_typedtree_test.cmi)
 
   (mode
    (promote
@@ -6917,7 +6917,7 @@
 
   (rule
     (targets rec_value_test.cmi rec_value_test.cmj rec_value_test.js)
-    (deps (:inputs rec_value_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
+    (deps (:inputs rec_value_test.ml) ../stdlib-412/stdlib.cmj a.cmj b.cmj mt.cmj)
 
   (mode
    (promote
@@ -7255,7 +7255,7 @@
 
   (rule
     (targets simple_derive_test.cmj simple_derive_test.js)
-    (deps (:inputs simple_derive_test.ml) ../stdlib-412/stdlib.cmj simple_derive_test.cmi)
+    (deps (:inputs simple_derive_test.ml) ../stdlib-412/stdlib.cmj a.cmj b.cmj simple_derive_test.cmi)
 
   (mode
    (promote
@@ -7268,7 +7268,7 @@
 
   (rule
     (targets simple_derive_test.cmi )
-    (deps (:inputs simple_derive_test.mli) ../stdlib-412/stdlib.cmj)
+    (deps (:inputs simple_derive_test.mli) ../stdlib-412/stdlib.cmj a.cmi b.cmi)
 
   (mode
    (promote
@@ -7281,7 +7281,7 @@
 
   (rule
     (targets simple_derive_use.cmj simple_derive_use.js)
-    (deps (:inputs simple_derive_use.ml) ../stdlib-412/stdlib.cmj simple_derive_use.cmi)
+    (deps (:inputs simple_derive_use.ml) ../stdlib-412/stdlib.cmj simple_derive_test.cmj simple_derive_use.cmi)
 
   (mode
    (promote
@@ -7593,7 +7593,7 @@
 
   (rule
     (targets swap_test.cmi swap_test.cmj swap_test.js)
-    (deps (:inputs swap_test.ml) ../stdlib-412/stdlib.cmj)
+    (deps (:inputs swap_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
   (mode
    (promote

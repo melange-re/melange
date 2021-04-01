@@ -59,7 +59,6 @@ let build_version () =
   in
   let target = Sys.argv.(1) in
   let content = file_contents ~version ~name in
-  Format.eprintf "HEH: %s@." target;
   let f = open_out_bin target in
   output_string f content;
   close_out f

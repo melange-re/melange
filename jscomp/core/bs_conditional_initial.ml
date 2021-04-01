@@ -39,15 +39,15 @@ let setup_env () =
   Clflags.locations := false;
   Clflags.compile_only := true;
   Config.bs_only := true;
-  Clflags.no_implicit_current_dir := true;
+  Bs_clflags.no_implicit_current_dir := true;
   Clflags.color := Some Always;
   (* default true
      otherwise [bsc -I sc src/hello.ml ] will include current directory to search path
   *)
-  Clflags.assume_no_mli := Clflags.Mli_non_exists;
+  Bs_clflags.assume_no_mli := Bs_clflags.Mli_non_exists;
   Clflags.unsafe_string := false;
   Clflags.debug := true;
-  Clflags.record_event_when_debug := false;
+  Bs_clflags.record_event_when_debug := false;
   Clflags.binary_annotations := true;
   Clflags.strict_sequence := true;
   Clflags.strict_formats := true;
@@ -79,6 +79,8 @@ let setup_env () =
 #if false
   ; Switch.cut := 100 (* tweakable but not very useful *)
 #endif
+;;
 
 let () =
     at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
+

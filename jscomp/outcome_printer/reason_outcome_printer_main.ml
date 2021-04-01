@@ -7,7 +7,7 @@ module From_current = Convert(OCaml_current)(OCaml_408)
 let wrap f g fmt x = g fmt (f x)
 
 let setup  = lazy begin
-    let open From_current in
+  let open From_current in
   Oprint.out_value := wrap copy_out_value Reason_oprint.print_out_value;
   Oprint.out_type := wrap copy_out_type Reason_oprint.print_out_type;
   Oprint.out_class_type := wrap copy_out_class_type Reason_oprint.print_out_class_type;
