@@ -2,11 +2,12 @@
   "name": "melange",
   "version": "7.2.0",
   "dependencies": {
-    "ocaml": "4.12.0+BS",
-    "@opam/reason": "^3.7.0",
+    "@opam/cmdliner": "1.0.4",
     "@opam/dune": "*",
     "@opam/dune-action-plugin": "*",
-    "@opam/ocamlfind": "1.8.1"
+    "@opam/ocamlfind": "1.8.1",
+    "@opam/reason": "^3.7.0",
+    "ocaml": "4.12.0+BS"
   },
   "devDependencies": {
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
@@ -16,53 +17,32 @@
   "resolutions": {
     "ocaml": "melange-re/ocaml#75f22c872451c66a4c4aadc43abee55697268a57"
   },
-  "scripts": {
-    "clean": "node ./scripts/ninja.js clean"
-  },
+  "scripts": { "clean": "node ./scripts/ninja.js clean" },
   "esy": {
     "build": "dune build -p #{self.name}",
     "install": [
-      [
-        "esy-installer",
-        "$cur__target_dir/default/melange.install"
-      ],
-      [
-        "$cur__root/fix-install.sh"
-      ]
+      [ "esy-installer", "$cur__target_dir/default/melange.install" ],
+      [ "$cur__root/fix-install.sh" ]
     ],
     "exportedEnv": {
-      "BSLIB": {
-        "val": "#{self.lib / 'melange'}",
-        "scope": "global"
-      }
+      "BSLIB": { "val": "#{self.lib / 'melange'}", "scope": "global" }
     }
   },
-  "description": "ReScript compiler for use in esy, ocaml standard libary by ReScript and its required runtime support",
+  "description":
+    "ReScript compiler for use in esy, ocaml standard libary by ReScript and its required runtime support",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/melange-re/melange.git"
   },
-  "keywords": [
-    "ocaml",
-    "rescript",
-    "stdlib",
-    "functional programming"
-  ],
-  "author": {
-    "name": "Hongbo Zhang"
-  },
+  "keywords": [ "ocaml", "rescript", "stdlib", "functional programming" ],
+  "author": { "name": "Hongbo Zhang" },
   "maintainers": [
-    {
-      "name": "hongbo_zhang",
-      "email": "bobzhang1988@gmail.com"
-    }
+    { "name": "hongbo_zhang", "email": "bobzhang1988@gmail.com" }
   ],
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/rescript-lang/rescript-compiler/issues"
   },
   "homepage": "https://github.com/rescript-lang/rescript-compiler#readme",
-  "installConfig": {
-    "pnp": false
-  }
+  "installConfig": { "pnp": false }
 }

@@ -8,4 +8,5 @@
   (ocaml-variants
    (= "4.12.0+BS"))
   dune-action-plugin
-  reason))
+  reason
+  cmdliner))
