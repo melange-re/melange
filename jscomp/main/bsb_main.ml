@@ -248,8 +248,8 @@ let split_argv_at_separator argv =
   if i < 0 then
     argv, [||]
   else
-    Array.sub argv 0 (i + 1),
-    Array.sub argv (i + 1) len
+    Array.sub argv 0 i,
+    Array.sub argv (i + 1) (len - i - 1)
 
 let () =
   let bsb_args, dune_args = split_argv_at_separator Sys.argv in
