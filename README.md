@@ -21,10 +21,8 @@ to use it is via [Esy](https://esy.sh).
 {
   "dependencies": {
     "ocaml": "4.12.x",
-    "melange": "*"
-  },
-  "resolutions": {
-    "melange": "melange-re/melange#HASH_HERE", <- or grab the latest commit in this repo
+    "melange": "melange-re/melange",
+    "@opam/ocaml-lsp-server": "*"
   },
   "esy": {
     "buildsInSource": "unsafe",
