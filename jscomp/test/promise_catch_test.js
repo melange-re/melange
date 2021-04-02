@@ -5,6 +5,7 @@ var Js_exn = require("../../lib/js/js_exn.js");
 var Js_option = require("../../lib/js/js_option.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -37,7 +38,7 @@ function handler(e) {
     console.log("js error");
     return Promise.resolve(0);
   }
-  if (e.RE_EXN_ID === "Not_found") {
+  if (e.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
     console.log("hi");
     return Promise.resolve(0);
   }
@@ -54,7 +55,7 @@ function handler(e) {
 
 function myHandler(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.RE_EXN_ID === "Not_found") {
+    if (match.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return 1;
     } else if (match.RE_EXN_ID === Js_exn.$$Error) {
       return 2;

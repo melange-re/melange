@@ -1,6 +1,7 @@
 'use strict';
 
 var Sys = require("../../lib/js/sys.js");
+var Caml = require("../../lib/js/caml.js");
 var Char = require("../../lib/js/char.js");
 var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
@@ -12,13 +13,12 @@ var $$String = require("../../lib/js/string.js");
 var Caml_io = require("../../lib/js/caml_io.js");
 var Printexc = require("../../lib/js/printexc.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Pervasives = require("../../lib/js/pervasives.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 function _with_in(filename, f) {
-  var ic = Pervasives.open_in_bin(filename);
+  var ic = Stdlib__no_aliases.open_in_bin(filename);
   try {
     var x = Curry._1(f, ic);
     Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
@@ -45,13 +45,13 @@ function _must_escape(s) {
             exit = 1;
           } else {
             throw {
-                  RE_EXN_ID: Pervasives.Exit,
+                  RE_EXN_ID: Stdlib__no_aliases.Exit,
                   Error: new Error()
                 };
           }
         } else {
           throw {
-                RE_EXN_ID: Pervasives.Exit,
+                RE_EXN_ID: Stdlib__no_aliases.Exit,
                 Error: new Error()
               };
         }
@@ -71,7 +71,7 @@ function _must_escape(s) {
             case 40 :
             case 41 :
                 throw {
-                      RE_EXN_ID: Pervasives.Exit,
+                      RE_EXN_ID: Stdlib__no_aliases.Exit,
                       Error: new Error()
                     };
             
@@ -82,7 +82,7 @@ function _must_escape(s) {
       } else {
         if (c >= 9) {
           throw {
-                RE_EXN_ID: Pervasives.Exit,
+                RE_EXN_ID: Stdlib__no_aliases.Exit,
                 Error: new Error()
               };
         }
@@ -90,7 +90,7 @@ function _must_escape(s) {
       }
       if (exit === 1 && c > 127) {
         throw {
-              RE_EXN_ID: Pervasives.Exit,
+              RE_EXN_ID: Stdlib__no_aliases.Exit,
               Error: new Error()
             };
       }
@@ -100,7 +100,7 @@ function _must_escape(s) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Pervasives.Exit) {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
       return true;
     }
     throw exn;
@@ -175,7 +175,7 @@ function print(fmt, t) {
     var l = t.VAL;
     if (l) {
       if (l.tl) {
-        Format.fprintf(fmt, /* Format */{
+        Format.fprintf(fmt)(/* Format */{
               _0: {
                 TAG: /* Formatting_gen */18,
                 _0: {
@@ -199,7 +199,7 @@ function print(fmt, t) {
             });
         List.iteri((function (i, t$p) {
                 if (i > 0) {
-                  Format.fprintf(fmt, /* Format */{
+                  Format.fprintf(fmt)(/* Format */{
                         _0: {
                           TAG: /* Formatting_lit */17,
                           _0: {
@@ -215,7 +215,7 @@ function print(fmt, t) {
                 }
                 return print(fmt, t$p);
               }), l);
-        return Format.fprintf(fmt, /* Format */{
+        return Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
                       _0: /* ')' */41,
@@ -228,7 +228,7 @@ function print(fmt, t) {
                     _1: ")@]"
                   });
       } else {
-        return Curry._2(Format.fprintf(fmt, /* Format */{
+        return Curry._2(Format.fprintf(fmt)(/* Format */{
                         _0: {
                           TAG: /* Formatting_gen */18,
                           _0: {
@@ -268,7 +268,7 @@ function print(fmt, t) {
   }
   var s = t.VAL;
   if (_must_escape(s)) {
-    return Curry._1(Format.fprintf(fmt, /* Format */{
+    return Curry._1(Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
                       _0: /* '"' */34,
@@ -303,7 +303,7 @@ function print_noindent(fmt, t) {
               }), l);
         return Format.pp_print_char(fmt, /* ')' */41);
       } else {
-        return Curry._2(Format.fprintf(fmt, /* Format */{
+        return Curry._2(Format.fprintf(fmt)(/* Format */{
                         _0: {
                           TAG: /* Char_literal */12,
                           _0: /* '(' */40,
@@ -325,7 +325,7 @@ function print_noindent(fmt, t) {
   }
   var s = t.VAL;
   if (_must_escape(s)) {
-    return Curry._1(Format.fprintf(fmt, /* Format */{
+    return Curry._1(Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Char_literal */12,
                       _0: /* '"' */34,
@@ -359,7 +359,7 @@ function to_file_seq(filename, seq) {
                   return Caml_io.caml_ml_output_char(oc, /* '\n' */10);
                 }));
   };
-  var oc = Pervasives.open_out(filename);
+  var oc = Stdlib__no_aliases.open_out(filename);
   try {
     var x = Curry._1(f, oc);
     Caml_io.caml_ml_flush(oc);
@@ -394,7 +394,7 @@ var ID_MONAD = {
 
 function make(bufsizeOpt, refill) {
   var bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
-  var bufsize$1 = Caml_primitive.caml_int_min(bufsize > 16 ? bufsize : 16, Sys.max_string_length);
+  var bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Sys.max_string_length);
   return {
           buf: Caml_bytes.caml_create_bytes(bufsize$1),
           refill: refill,
@@ -940,7 +940,7 @@ function parse_string(s) {
 
 function parse_chan(bufsize, ic) {
   var d = make(bufsize, (function (param, param$1, param$2) {
-          return Pervasives.input(ic, param, param$1, param$2);
+          return Stdlib__no_aliases.input(ic, param, param$1, param$2);
         }));
   var res = next(d);
   if (typeof res === "string") {
@@ -955,7 +955,7 @@ function parse_chan(bufsize, ic) {
 
 function parse_chan_gen(bufsize, ic) {
   var d = make(bufsize, (function (param, param$1, param$2) {
-          return Pervasives.input(ic, param, param$1, param$2);
+          return Stdlib__no_aliases.input(ic, param, param$1, param$2);
         }));
   return function (param) {
     var e = next(d);
@@ -969,7 +969,7 @@ function parse_chan_gen(bufsize, ic) {
 
 function parse_chan_list(bufsize, ic) {
   var d = make(bufsize, (function (param, param$1, param$2) {
-          return Pervasives.input(ic, param, param$1, param$2);
+          return Stdlib__no_aliases.input(ic, param, param$1, param$2);
         }));
   var _acc = /* [] */0;
   while(true) {
@@ -1008,7 +1008,7 @@ function MakeDecode(funarg) {
   var $great$great$eq = funarg.$great$great$eq;
   var make = function (bufsizeOpt, refill) {
     var bufsize = bufsizeOpt !== undefined ? bufsizeOpt : 1024;
-    var bufsize$1 = Caml_primitive.caml_int_min(bufsize > 16 ? bufsize : 16, Sys.max_string_length);
+    var bufsize$1 = Caml.caml_int_min(bufsize > 16 ? bufsize : 16, Sys.max_string_length);
     return {
             buf: Caml_bytes.caml_create_bytes(bufsize$1),
             refill: refill,

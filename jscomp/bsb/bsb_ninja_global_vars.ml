@@ -24,6 +24,7 @@
 
 type t =
  {
+  db : Bsb_db.t;
   package_name : string;
   src_root_dir: string;
   bsc: string;
@@ -31,10 +32,11 @@ type t =
   bs_dep_parse: string;
   warnings: string;
   bsc_flags: string;
-  g_dpkg_incls: string;
+  g_dpkg_incls: string list;
   g_dev_incls: string list;
   g_stdlib_incl: string list;
-  g_lib_incls: string;
+  g_lib_incls: string list;
+  external_incls: string list;
   g_sourcedirs_incls: string list;
   gentypeconfig: string option;
   pp_flags: string option;
@@ -42,6 +44,7 @@ type t =
  }
 
 let make
+  ~db
   ~package_name
   ~src_root_dir
   ~bsc
@@ -53,11 +56,13 @@ let make
   ~g_dev_incls
   ~g_stdlib_incl
   ~g_lib_incls
+  ~external_incls
   ~g_sourcedirs_incls
   ~gentypeconfig
   ~pp_flags
   ~namespace =
  {
+  db;
   package_name;
   src_root_dir;
   bsc;
@@ -69,6 +74,7 @@ let make
   g_dev_incls;
   g_stdlib_incl;
   g_lib_incls;
+  external_incls;
   g_sourcedirs_incls;
   gentypeconfig;
   pp_flags;

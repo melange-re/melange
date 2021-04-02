@@ -1,5 +1,5 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+(* Copyright (C) 2015 - 2016 Bloomberg Finance L.P.
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -78,9 +78,6 @@ type builtin = {
       invoking cmd.exe
   *)
   copy_resources : t;
-  (** Rules below all need restat *)
-  build_bin_deps : t ;
-  build_bin_deps_dev : t;
   mj : t;
   mj_dev : t;
   mij : t ;
@@ -92,6 +89,14 @@ type builtin = {
   customs : t Map_string.t
 }
 
+let external_includes (global_config : Bsb_ninja_global_vars.t) =
+  (* for external includes, if it is absolute path, leave it as is
+     for relative path './xx', we need '../.././x' since we are in
+     [lib/bs], [build] is different from merlin though
+  *)
+  Ext_list.map
+    global_config.external_incls
+    (fun x -> if Filename.is_relative x then Bsb_config.rev_lib_bs_prefix x else x)
 
 let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
@@ -113,10 +118,23 @@ let make_custom_rules
       ~(read_cmi : [`yes | `is_cmi | `no])
       ~is_dev
       ~postbuild : Buffer.t -> ?target:string -> string -> unit = fun buf ?(target="%{targets}") cur_dir ->
+    let rel_incls ?namespace dirs =
+      Bsb_build_util.rel_include_dirs
+        ~per_proj_dir:global_config.src_root_dir
+        ~cur_dir
+        ?namespace
+        dirs
+    in
     Buffer.add_string buf "(action\n (progn ";
     Buffer.add_string buf "(dynamic-run ";
-    Buffer.add_string buf global_config.bs_dep_parse;
-    Buffer.add_string buf " %{dep_file}) (run ";
+    Buffer.add_string buf global_config.bsdep;
+    if is_dev then Buffer.add_string buf " -g";
+    Buffer.add_string buf ns_flag;
+    Buffer.add_string buf " -root ";
+    Buffer.add_string buf global_config.src_root_dir;
+    Buffer.add_string buf " -cwd ";
+    Buffer.add_string buf cur_dir;
+    Buffer.add_string buf " %{ast_deps}) (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf ns_flag;
     if not has_builtin then
@@ -124,22 +142,19 @@ let make_custom_rules
     if read_cmi = `yes then
       Buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin
-       let dev_incls = Bsb_build_util.include_dirs global_config.g_dev_incls in
+       let dev_incls = rel_incls global_config.g_dev_incls in
         Buffer.add_string buf " ";
         Buffer.add_string buf dev_incls;
     end;
     Buffer.add_string buf " ";
-    Buffer.add_string buf
-      (Bsb_build_util.sourcedir_include_dirs
-        ~per_proj_dir:global_config.src_root_dir
-        ~cur_dir
-        ?namespace:global_config.namespace
-        global_config.g_sourcedirs_incls);
+    Buffer.add_string buf (rel_incls global_config.g_sourcedirs_incls);
     Buffer.add_string buf " ";
-    Buffer.add_string buf global_config.g_lib_incls;
+    Buffer.add_string buf (rel_incls ?namespace:global_config.namespace global_config.g_lib_incls);
+    Buffer.add_string buf " ";
+    Buffer.add_string buf (rel_incls (external_includes global_config));
     if is_dev then begin
       Buffer.add_string buf " ";
-      Buffer.add_string buf global_config.g_dpkg_incls;
+      Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);
     end;
     if global_config.g_stdlib_incl <> [] then begin
       Buffer.add_string buf " ";
@@ -227,29 +242,6 @@ let make_custom_rules
       )
       "copy_resource" in
 
-  let build_bin_deps =
-    define
-      ~restat:()
-      ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s %s %%{inputs}))"
-          global_config.bsdep
-          global_config.src_root_dir
-          ns_flag
-        in
-        Buffer.add_string buf s)
-      "deps" in
-  let build_bin_deps_dev =
-    define
-      ~restat:()
-      ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -g -cwd %s %s %%{inputs}))"
-          global_config.bsdep
-          global_config.src_root_dir
-          ns_flag
-        in
-        Buffer.add_string buf s)
-      "deps_dev"
-  in
   let aux ~name ~read_cmi  ~postbuild =
     define
       ~command:(mk_ml_cmj_cmd
@@ -299,9 +291,6 @@ let make_custom_rules
         invoking cmd.exe
     *)
     copy_resources;
-    (** Rules below all need restat *)
-    build_bin_deps ;
-    build_bin_deps_dev;
     mj  ;
     mj_dev  ;
     mij  ;

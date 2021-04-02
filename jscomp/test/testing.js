@@ -5,8 +5,8 @@ var Scanf = require("../../lib/js/scanf.js");
 var Printf = require("../../lib/js/printf.js");
 var Caml_io = require("../../lib/js/caml_io.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var all_tests_ok = {
   contents: true
@@ -22,21 +22,21 @@ function finish(param) {
   
 }
 
-Pervasives.at_exit(finish);
+Stdlib__no_aliases.at_exit(finish);
 
 var test_num = {
   contents: -1
 };
 
 function print_test_number(param) {
-  Pervasives.print_string(" ");
-  Pervasives.print_int(test_num.contents);
-  return Caml_io.caml_ml_flush(Pervasives.stdout);
+  Stdlib__no_aliases.print_string(" ");
+  Stdlib__no_aliases.print_int(test_num.contents);
+  return Caml_io.caml_ml_flush(Stdlib__no_aliases.stdout);
 }
 
 function print_failure_test_fail(param) {
   all_tests_ok.contents = false;
-  return Pervasives.print_string(Curry._1(Printf.sprintf(/* Format */{
+  return Stdlib__no_aliases.print_string(Curry._1(Printf.sprintf(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "\n********* Failure Test number ",
@@ -58,7 +58,7 @@ function print_failure_test_fail(param) {
 
 function print_failure_test_succeed(param) {
   all_tests_ok.contents = false;
-  return Pervasives.print_string(Curry._1(Printf.sprintf(/* Format */{
+  return Stdlib__no_aliases.print_string(Curry._1(Printf.sprintf(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "\n********* Failure Test number ",
@@ -83,7 +83,7 @@ function test(b) {
   print_test_number(undefined);
   if (!b) {
     all_tests_ok.contents = false;
-    return Pervasives.print_string(Curry._1(Printf.sprintf(/* Format */{
+    return Stdlib__no_aliases.print_string(Curry._1(Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "\n********* Test number ",
@@ -143,7 +143,7 @@ function test_raises_this_exc(exc) {
 function failure_test(f, x, s) {
   return test_raises_exc_p((function (x) {
                 return Caml_obj.caml_equal(x, {
-                            RE_EXN_ID: "Failure",
+                            RE_EXN_ID: Stdlib__no_aliases.Failure,
                             _1: s
                           });
               }), f, x);

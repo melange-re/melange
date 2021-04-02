@@ -40,11 +40,8 @@ eq("File \"gpr_3154_test.ml\", line 18, characters 5-12", Js_dict.get(d0, "foo")
 
 Mt.from_pair_suites("Gpr_3154_test", suites.contents);
 
-var J;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
-exports.J = J;
 /*  Not a pure module */

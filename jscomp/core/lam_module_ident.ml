@@ -81,7 +81,7 @@ module Cmp = struct
     | Ml
     | Runtime ->
       let x_id = x.id in
-      Bs_hash_stubs.hash_stamp_and_name (Ident.stamp x_id) (Ident.name x_id)
+      Bs_hash_stubs.hash_stamp_and_name (Ext_ident.stamp x_id) (Ident.name x_id)
 end
 
 module Hash = Hash.Make (Cmp)

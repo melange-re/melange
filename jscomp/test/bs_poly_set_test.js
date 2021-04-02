@@ -1,6 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var Belt_Id = require("../../lib/js/belt_Id.js");
 var Belt_Set = require("../../lib/js/belt_Set.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
@@ -8,7 +9,6 @@ var Belt_List = require("../../lib/js/belt_List.js");
 var Belt_Array = require("../../lib/js/belt_Array.js");
 var Belt_SetDict = require("../../lib/js/belt_SetDict.js");
 var Belt_SortArray = require("../../lib/js/belt_SortArray.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {
@@ -31,7 +31,7 @@ function t(loc, x) {
   return Mt.throw_suites(test_id, suites, loc, x);
 }
 
-var IntCmp = Belt_Id.comparable(Caml_primitive.caml_int_compare);
+var IntCmp = Belt_Id.comparable(Caml.caml_int_compare);
 
 var u0 = Belt_Set.fromArray(Array_data_util.range(0, 30), IntCmp);
 
@@ -156,7 +156,7 @@ var u29 = Belt_Set.union(u26, u27);
 
 b("File \"bs_poly_set_test.ml\", line 72, characters 4-11", Belt_Set.eq(u28, u29));
 
-b("File \"bs_poly_set_test.ml\", line 73, characters 4-11", Caml_obj.caml_equal(Belt_SetDict.toArray(u29.data), Belt_SortArray.stableSortBy(Belt_Array.concat(ss, [3]), Caml_primitive.caml_int_compare)));
+b("File \"bs_poly_set_test.ml\", line 73, characters 4-11", Caml_obj.caml_equal(Belt_SetDict.toArray(u29.data), Belt_SortArray.stableSortBy(Belt_Array.concat(ss, [3]), Caml.caml_int_compare)));
 
 b("File \"bs_poly_set_test.ml\", line 74, characters 4-11", Belt_Set.eq(u19, u20));
 
@@ -396,30 +396,12 @@ b("File \"bs_poly_set_test.ml\", line 159, characters 4-11", !match$5[1]);
 
 Mt.from_pair_suites("Bs_poly_set_test", suites.contents);
 
-var N;
-
-var D;
-
-var I;
-
-var A;
-
-var S;
-
-var L;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
 exports.b = b;
 exports.t = t;
-exports.N = N;
-exports.D = D;
-exports.I = I;
-exports.A = A;
-exports.S = S;
 exports.IntCmp = IntCmp;
-exports.L = L;
 exports.testIterToList = testIterToList;
 exports.testIterToList2 = testIterToList2;
 /* IntCmp Not a pure module */

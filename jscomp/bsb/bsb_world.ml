@@ -28,8 +28,6 @@ let (//) = Ext_path.combine
 let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_config_types.t ) =
   let deps = config.package_specs in
   let lib_artifacts_dir = Bsb_config.lib_bs in
-  let destdir = cwd // Bsb_config.lib_ocaml in (* lib is already there after building, so just mkdir [lib/ocaml] *)
-  if not @@ Sys.file_exists destdir then begin Unix.mkdir destdir 0o777  end;
   begin
     Bsb_log.info "@{<info>Installing started@}@.";
     let file_groups = ref [] in
@@ -79,7 +77,7 @@ let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
 
 
 
-let make_world_deps cwd ~buf (config : Bsb_config_types.t option) =
+let make_world_deps ~cwd ~buf (config : Bsb_config_types.t option) =
   Bsb_log.info "Making the dependency world!@.";
   let deps, pinned_dependencies =
     match config with

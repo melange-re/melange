@@ -53,7 +53,7 @@ let output_prefix name =
   | None ->
     Ext_namespace_encode.make
       (Filename.remove_extension name)
-      ?ns:!Clflags.dont_record_crc_unit
+      ?ns:!Bs_clflags.dont_record_crc_unit
   | Some oname ->
     Filename.remove_extension oname
 

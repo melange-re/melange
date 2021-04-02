@@ -5,6 +5,7 @@ var Curry = require("../../lib/js/curry.js");
 var Js_exn = require("../../lib/js/js_exn.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -99,9 +100,9 @@ function test(f) {
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.RE_EXN_ID === "Not_found") {
+    if (e.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
       return "Not_found";
-    } else if (e.RE_EXN_ID === "Invalid_argument") {
+    } else if (e.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
       if (e._1 === "x") {
         return "Invalid_argument";
       } else {
@@ -135,7 +136,7 @@ eq("File \"js_exception_catch_test.ml\", line 43, characters 5-12", test(functio
 
 eq("File \"js_exception_catch_test.ml\", line 44, characters 5-12", test(function (param) {
           throw {
-                RE_EXN_ID: "Not_found",
+                RE_EXN_ID: Stdlib__no_aliases.Not_found,
                 Error: new Error()
               };
         }), "Not_found");

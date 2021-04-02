@@ -11,7 +11,11 @@ var id = {
 };
 
 function showToJs(x) {
-  return x !== 0;
+  if (typeof x === "number" && !x) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 Mt.eq_suites(id, suites, "File \"gpr_4900_test.ml\", line 15, characters 23-30", showToJs(/* Yes */1), true);

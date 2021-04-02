@@ -1,8 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
+var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
+var Int32 = require("../../lib/js/int32.js");
 var Scanf = require("../../lib/js/scanf.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Printf = require("../../lib/js/printf.js");
@@ -10,11 +13,12 @@ var $$String = require("../../lib/js/string.js");
 var Testing = require("./testing.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Mt_global = require("./mt_global.js");
+var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -279,7 +283,10 @@ function test4(param) {
   if (Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -290,7 +297,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("-1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -301,7 +311,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("+1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -312,7 +325,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("1."), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -323,7 +339,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string(".1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -334,7 +353,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("-.1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -345,7 +367,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("+.1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -356,7 +381,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("+1."), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -367,7 +395,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("-1."), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -378,7 +409,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("0 1. 1.3"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: {
@@ -386,7 +420,10 @@ function test4(param) {
                   _0: /* ' ' */32,
                   _1: {
                     TAG: /* Float */8,
-                    _0: /* Float_f */0,
+                    _0: [
+                      /* Float_flag_ */0,
+                      /* Float_f */0
+                    ],
                     _1: /* No_padding */0,
                     _2: /* No_precision */0,
                     _3: {
@@ -394,7 +431,10 @@ function test4(param) {
                       _0: /* ' ' */32,
                       _1: {
                         TAG: /* Float */8,
-                        _0: /* Float_f */0,
+                        _0: [
+                          /* Float_flag_ */0,
+                          /* Float_f */0
+                        ],
                         _1: /* No_padding */0,
                         _2: /* No_precision */0,
                         _3: /* End_of_format */0
@@ -409,7 +449,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("0.113"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: {
                   TAG: /* Lit_padding */0,
                   _0: /* Right */1,
@@ -424,7 +467,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("0.113"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: {
                   TAG: /* Lit_padding */0,
                   _0: /* Right */1,
@@ -439,7 +485,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("000.113"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: {
                   TAG: /* Lit_padding */0,
                   _0: /* Right */1,
@@ -454,7 +503,10 @@ function test4(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("+000.113"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: {
                   TAG: /* Lit_padding */0,
                   _0: /* Right */1,
@@ -470,7 +522,10 @@ function test4(param) {
     return Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("-000.113"), /* Format */{
                     _0: {
                       TAG: /* Float */8,
-                      _0: /* Float_f */0,
+                      _0: [
+                        /* Float_flag_ */0,
+                        /* Float_f */0
+                      ],
                       _1: {
                         TAG: /* Lit_padding */0,
                         _0: /* Right */1,
@@ -494,7 +549,10 @@ function test5(param) {
   if (Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("1e1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_e */3,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_e */1
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -505,7 +563,10 @@ function test5(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("1e+1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_e */3,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_e */1
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -516,7 +577,10 @@ function test5(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("10e-1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_e */3,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_e */1
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -527,7 +591,10 @@ function test5(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("10.e-1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_e */3,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_e */1
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -538,7 +605,10 @@ function test5(param) {
           })) && Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("1e1 1.e+1 1.3e-1"), /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_e */3,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_e */1
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: {
@@ -546,7 +616,10 @@ function test5(param) {
                   _0: /* ' ' */32,
                   _1: {
                     TAG: /* Float */8,
-                    _0: /* Float_e */3,
+                    _0: [
+                      /* Float_flag_ */0,
+                      /* Float_e */1
+                    ],
                     _1: /* No_padding */0,
                     _2: /* No_precision */0,
                     _3: {
@@ -554,7 +627,10 @@ function test5(param) {
                       _0: /* ' ' */32,
                       _1: {
                         TAG: /* Float */8,
-                        _0: /* Float_e */3,
+                        _0: [
+                          /* Float_flag_ */0,
+                          /* Float_e */1
+                        ],
                         _1: /* No_padding */0,
                         _2: /* No_precision */0,
                         _3: /* End_of_format */0
@@ -570,7 +646,10 @@ function test5(param) {
     return Curry._1(Scanf.bscanf(Scanf.Scanning.from_string("1 1.1 0e+1 1.3e-1"), /* Format */{
                     _0: {
                       TAG: /* Float */8,
-                      _0: /* Float_g */9,
+                      _0: [
+                        /* Float_flag_ */0,
+                        /* Float_g */3
+                      ],
                       _1: /* No_padding */0,
                       _2: /* No_precision */0,
                       _3: {
@@ -578,7 +657,10 @@ function test5(param) {
                         _0: /* ' ' */32,
                         _1: {
                           TAG: /* Float */8,
-                          _0: /* Float_g */9,
+                          _0: [
+                            /* Float_flag_ */0,
+                            /* Float_g */3
+                          ],
                           _1: /* No_padding */0,
                           _2: /* No_precision */0,
                           _3: {
@@ -586,7 +668,10 @@ function test5(param) {
                             _0: /* ' ' */32,
                             _1: {
                               TAG: /* Float */8,
-                              _0: /* Float_g */9,
+                              _0: [
+                                /* Float_flag_ */0,
+                                /* Float_g */3
+                              ],
                               _1: /* No_padding */0,
                               _2: /* No_precision */0,
                               _3: {
@@ -594,7 +679,10 @@ function test5(param) {
                                 _0: /* ' ' */32,
                                 _1: {
                                   TAG: /* Float */8,
-                                  _0: /* Float_g */9,
+                                  _0: [
+                                    /* Float_flag_ */0,
+                                    /* Float_g */3
+                                  ],
                                   _1: /* No_padding */0,
                                   _2: /* No_precision */0,
                                   _3: /* End_of_format */0
@@ -836,7 +924,7 @@ function verify_read(c) {
 
 function verify_scan_Chars(param) {
   for(var i = 0; i <= 255; ++i){
-    verify_read(Pervasives.char_of_int(i));
+    verify_read(Stdlib__no_aliases.char_of_int(i));
   }
   
 }
@@ -1717,7 +1805,7 @@ function scan_elems$2(ib, accu) {
                     if (c < 94) {
                       switch (c) {
                         case 91 :
-                            if (accu === /* [] */0) {
+                            if (Caml_obj.caml_equal(accu, /* [] */0)) {
                               return scan_elems$2(ib, {
                                           hd: i,
                                           tl: accu
@@ -1741,7 +1829,7 @@ function scan_elems$2(ib, accu) {
                                 tl: accu
                               });
                   }
-                  console.log(Caml_string.make(1, c));
+                  console.log(Caml_bytes.bytes_to_string(Bytes.make(1, c)));
                   throw {
                         RE_EXN_ID: "Failure",
                         _1: "scan_elems",
@@ -1762,7 +1850,7 @@ function scan_elems$2(ib, accu) {
               }), undefined);
       return accu;
     }
-    if (exn.RE_EXN_ID === "End_of_file") {
+    if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
       return accu;
     }
     throw exn;
@@ -2002,7 +2090,7 @@ function scan_elems$4(ib, accu) {
                         Error: new Error()
                       };
                 }
-                if (accu === /* [] */0) {
+                if (Caml_obj.caml_equal(accu, /* [] */0)) {
                   return Curry._1(Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2055,11 +2143,11 @@ function scan_int_list$3(ib) {
 
 function test18(param) {
   var ib = Scanf.Scanning.from_string("[]");
-  if (List.rev(scan_elems$4(ib, /* [] */0)) !== /* [] */0) {
+  if (!Caml_obj.caml_equal(List.rev(scan_elems$4(ib, /* [] */0)), /* [] */0)) {
     return false;
   }
   var ib$1 = Scanf.Scanning.from_string("[ ]");
-  if (List.rev(scan_elems$4(ib$1, /* [] */0)) !== /* [] */0) {
+  if (!Caml_obj.caml_equal(List.rev(scan_elems$4(ib$1, /* [] */0)), /* [] */0)) {
     return false;
   }
   var ib$2 = Scanf.Scanning.from_string("[1;2;3;4]");
@@ -2197,7 +2285,7 @@ function scan_int_list$4(ib) {
 }
 
 function test22(param) {
-  if (scan_int_list$4(Scanf.Scanning.from_string("[]")) === /* [] */0 && scan_int_list$4(Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(scan_int_list$4(Scanf.Scanning.from_string("[1]")), {
+  if (Caml_obj.caml_equal(scan_int_list$4(Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(scan_int_list$4(Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(scan_int_list$4(Scanf.Scanning.from_string("[1]")), {
           hd: 1,
           tl: /* [] */0
         }) && Caml_obj.caml_equal(scan_int_list$4(Scanf.Scanning.from_string("[1;2;3;4]")), {
@@ -2308,7 +2396,7 @@ function scan_int_list$5(param) {
 }
 
 function test23(param) {
-  if (scan_list(scan_int_elem, Scanf.Scanning.from_string("[]")) === /* [] */0 && scan_list(scan_int_elem, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(scan_list(scan_int_elem, Scanf.Scanning.from_string("[1]")), {
+  if (Caml_obj.caml_equal(scan_list(scan_int_elem, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(scan_list(scan_int_elem, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(scan_list(scan_int_elem, Scanf.Scanning.from_string("[1]")), {
           hd: 1,
           tl: /* [] */0
         }) && Caml_obj.caml_equal(scan_list(scan_int_elem, Scanf.Scanning.from_string("[1;2;3;4]")), {
@@ -2422,7 +2510,7 @@ function scan_String_list(param) {
 }
 
 function test28(param) {
-  if (scan_list(scan_string_elem, Scanf.Scanning.from_string("[]")) === /* [] */0 && Caml_obj.caml_equal(scan_list(scan_string_elem, Scanf.Scanning.from_string("[\"Le\"]")), {
+  if (Caml_obj.caml_equal(scan_list(scan_string_elem, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(scan_list(scan_string_elem, Scanf.Scanning.from_string("[\"Le\"]")), {
           hd: "Le",
           tl: /* [] */0
         }) && Caml_obj.caml_equal(scan_list(scan_string_elem, Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"]")), {
@@ -2449,7 +2537,7 @@ function test28(param) {
               }
             }
           }
-        }) && scan_String_list(Scanf.Scanning.from_string("[]")) === /* [] */0 && Caml_obj.caml_equal(scan_String_list(Scanf.Scanning.from_string("[\"Le\"]")), {
+        }) && Caml_obj.caml_equal(scan_String_list(Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(scan_String_list(Scanf.Scanning.from_string("[\"Le\"]")), {
           hd: "Le",
           tl: /* [] */0
         }) && Caml_obj.caml_equal(scan_String_list(Scanf.Scanning.from_string("[\"Le\";\"langage\";\"Objective\";\"Caml\"]")), {
@@ -2549,7 +2637,7 @@ function scan_int_elem$1(ib, f, ek) {
 }
 
 function test29(param) {
-  if (scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[]")) === /* [] */0 && scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[1]")), {
+  if (Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[1]")), {
           hd: 1,
           tl: /* [] */0
         }) && Caml_obj.caml_equal(scan_list$1(scan_int_elem$1, Scanf.Scanning.from_string("[1;2;3;4]")), {
@@ -2610,7 +2698,7 @@ function scan_string_elem$1(ib, f, ek) {
 }
 
 function test30(param) {
-  if (scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[]")) === /* [] */0 && scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[ \"1\" ]")), {
           hd: "1",
           tl: /* [] */0
         }) && Caml_obj.caml_equal(scan_list$1(scan_string_elem$1, Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
@@ -2748,7 +2836,7 @@ function scan_string_list(param) {
 }
 
 function test31(param) {
-  if (Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[]")) === /* [] */0 && Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[1]")), {
+  if (Caml_obj.caml_equal(Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[1]")), {
           hd: 1,
           tl: /* [] */0
         }) && Caml_obj.caml_equal(Curry._1(scan_int_list$6, Scanf.Scanning.from_string("[1;2;3;4]")), {
@@ -2785,7 +2873,7 @@ function test31(param) {
 test("File \"tscanf_test.ml\", line 714, characters 5-12", test31(undefined));
 
 function test32(param) {
-  if (Curry._1(scan_string_list, Scanf.Scanning.from_string("[]")) === /* [] */0 && Curry._1(scan_string_list, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(Curry._1(scan_string_list, Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(Curry._1(scan_string_list, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Scanf.Scanning.from_string("[ \"1\" ]")), {
           hd: "1",
           tl: /* [] */0
         }) && Caml_obj.caml_equal(Curry._1(scan_string_list, Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
@@ -2905,7 +2993,7 @@ function scan_string_list$1(param) {
 }
 
 function test33(param) {
-  if (Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[]")) === /* [] */0 && Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[ 1 ]")), {
+  if (Caml_obj.caml_equal(Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[ 1 ]")), {
           hd: 1,
           tl: /* [] */0
         }) && Caml_obj.caml_equal(Curry._1(scan_int_list$7, Scanf.Scanning.from_string("[ 1; 2; 3; 4 ]")), {
@@ -2942,7 +3030,7 @@ function test33(param) {
 test("File \"tscanf_test.ml\", line 773, characters 5-12", test33(undefined));
 
 function test34(param) {
-  if (Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[]")) === /* [] */0 && Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[ ]")) === /* [] */0 && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[ \"1\" ]")), {
+  if (Caml_obj.caml_equal(Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[ \"1\" ]")), {
           hd: "1",
           tl: /* [] */0
         }) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Scanf.Scanning.from_string("[\"1\"; \"2\"; \"3\"; \"4\"]")), {
@@ -3047,7 +3135,10 @@ function scan_float(ib) {
   return Scanf.bscanf(ib, /* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_f */0,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_f */0
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -3662,9 +3753,9 @@ function test44(param) {
 }
 
 Testing.test_raises_this_exc({
-        RE_EXN_ID: "End_of_file"
+        RE_EXN_ID: Stdlib__no_aliases.End_of_file
       })(test43, undefined) && Testing.test_raises_this_exc({
-        RE_EXN_ID: "End_of_file"
+        RE_EXN_ID: Stdlib__no_aliases.End_of_file
       })(test44, undefined);
 
 function test45(param) {
@@ -4250,7 +4341,7 @@ function next_char(ob, param) {
   var len = s.length;
   if (len === 0) {
     throw {
-          RE_EXN_ID: "End_of_file",
+          RE_EXN_ID: Stdlib__no_aliases.End_of_file,
           Error: new Error()
         };
   }
@@ -4813,7 +4904,7 @@ function test53(param) {
               _1: "%ld"
             }), (function (i) {
             return (i + 1 | 0) === 125;
-          })) && Caml_int64.eq(Curry._1(Scanf.sscanf("123", /* Format */{
+          })) && Caml.i64_eq(Curry._1(Scanf.sscanf("123", /* Format */{
                   _0: {
                     TAG: /* Int64 */7,
                     _0: /* Int_d */0,
@@ -4836,7 +4927,7 @@ function test53(param) {
                     },
                     _1: "%Ld"
                   }), (function (i) {
-                  return Caml_int64.eq(Caml_int64.sub(i, Caml_int64.one), [
+                  return Caml.i64_eq(Caml_int64.sub(i, Caml_int64.one), [
                               0,
                               123
                             ]);

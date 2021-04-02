@@ -4,9 +4,9 @@ var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var equal = Caml_obj.caml_equal;
 
@@ -24,7 +24,7 @@ function of_int(x) {
 function of_float(x) {
   return {
           NAME: "Atom",
-          VAL: Pervasives.string_of_float(x)
+          VAL: Stdlib__no_aliases.string_of_float(x)
         };
 }
 
@@ -246,7 +246,7 @@ function to_int(e) {
 }
 
 function to_bool(e) {
-  return _try_atom(e, Pervasives.bool_of_string);
+  return _try_atom(e, Stdlib__no_aliases.bool_of_string);
 }
 
 function to_float(e) {
@@ -538,4 +538,4 @@ exports.of_variant = of_variant;
 exports.of_field = of_field;
 exports.of_record = of_record;
 exports.Traverse = Traverse;
-/* No side effect */
+/* Hashtbl Not a pure module */

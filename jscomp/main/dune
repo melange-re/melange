@@ -2,16 +2,15 @@
  (name bsc)
  (public_name bsc)
  (modes native)
- (flags
-  (:standard -w -9))
+ (flags :standard -open Melange_compiler_libs)
  (libraries
   js_parser
   bs_hash_stubs
   ext
   common
   depends
-  super_errors
   outcome_printer
+  melange-compiler-libs
   core
   napkin
   reason)
@@ -23,11 +22,11 @@
  (deps
   (:input js_main.ml)
   ../../package.json
-  ../../bsconfig.json)
+  ../../bsconfig.json
+  ../../lib/js/.gitkeep
+  ../../lib/es6/.gitkeep)
  (action
-  (progn
-   (bash "mkdir -p %{workspace_root}/lib/es6 %{workspace_root}/lib/js")
-   (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target}))))
+  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
 
 (executable
  (name bspack_main)
@@ -35,7 +34,7 @@
  (modes native)
  (modules bspack_main)
  (flags
-  (:standard -w -50))
+  (:standard -w -50 -open Melange_compiler_libs))
  (libraries bs_hash_stubs ext common depends unix))
 
 (executable
@@ -43,9 +42,7 @@
  (public_name bsb)
  (modes native)
  (modules bsb_main)
- (flags
-  (:standard -w -9-50))
- (libraries bs_hash_stubs ext common bsb))
+ (libraries bs_hash_stubs ext common bsb cmdliner))
 
 (executable
  (name cmjdump_main)
@@ -66,14 +63,7 @@
  (public_name bsb_helper)
  (modes native)
  (modules bsb_helper_main)
- (libraries bsb_helper bs_hash_stubs ext common depends core))
-
-(executable
- (name bsb_parse_depend)
- (public_name bsb_parse_depend)
- (modes native)
- (modules bsb_parse_depend)
- (libraries bsb ext dune-action-plugin))
+ (libraries bsb_helper ext common depends core))
 
 (test
  (name ounit_tests_main)

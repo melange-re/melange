@@ -53,18 +53,9 @@ eq("File \"module_alias_test.ml\", line 30, characters 6-13", a, 3);
 
 Mt.from_pair_suites("Module_alias_test", suites.contents);
 
-var N;
-
-var V;
-
-var J;
-
 exports.suites = suites;
 exports.test_id = test_id;
 exports.eq = eq;
-exports.N = N;
-exports.V = V;
-exports.J = J;
 exports.f = f;
 exports.a = a;
 /* h Not a pure module */

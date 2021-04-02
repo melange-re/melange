@@ -209,8 +209,13 @@ let rel_normalized_absolute_path ~from to_ =
           Ext_list.fold_left yss start (fun acc v -> acc // v)
       | [], [] -> Ext_string.empty
       | [], y::ys -> Ext_list.fold_left ys y (fun acc x -> acc // x)
-      | _::xs, [] ->
-        Ext_list.fold_left xs Ext_string.parent_dir_lit (fun acc _ -> acc // Ext_string.parent_dir_lit )
+      | x::xs, [] ->
+        let start = if x = Filename.current_dir_name then "" else Ext_string.parent_dir_lit in
+        Ext_list.fold_left xs start (fun acc segment ->
+          if segment = Filename.current_dir_name then
+            acc
+          else
+            acc // Ext_string.parent_dir_lit )
      in
     let v =  go paths1 paths2  in
 

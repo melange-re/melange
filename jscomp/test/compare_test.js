@@ -16,7 +16,11 @@ function compare(x, y) {
 function compare2(x, y) {
   switch (x) {
     case /* A */0 :
-        return y === 0;
+        if (y) {
+          return false;
+        } else {
+          return true;
+        }
     case /* B */1 :
         return y === 1;
     case /* C */2 :

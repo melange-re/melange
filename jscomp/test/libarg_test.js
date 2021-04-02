@@ -118,7 +118,10 @@ function f_float(f) {
                     _0: "float(",
                     _1: {
                       TAG: /* Float */8,
-                      _0: /* Float_g */9,
+                      _0: [
+                        /* Float_flag_ */0,
+                        /* Float_g */3
+                      ],
                       _1: /* No_padding */0,
                       _2: /* No_precision */0,
                       _3: {

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,31 +17,31 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
 
-external getEnv : 'a -> string -> string option = "" [@@bs.get_index] 
+external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
 let caml_sys_getenv s =
   if Js.typeof [%raw{|process|}] = "undefined"
-  || [%raw{|process.env|}] = Caml_undefined_extern.empty 
+  || [%raw{|process.env|}] = Caml_undefined_extern.empty
   then raise Not_found
-  else  
-    match getEnv [%raw{|process.env|}] s with 
+  else
+    match getEnv [%raw{|process.env|}] s with
     | None -> raise Not_found
-    | Some x -> x 
+    | Some x -> x
 
-(* https://nodejs.org/dist/latest-v12.x/docs/api/os.html#os_os_platform 
+(* https://nodejs.org/dist/latest-v12.x/docs/api/os.html#os_os_platform
    The value is set at compile time. Possible values are 'aix', 'darwin','freebsd', 'linux', 'openbsd', 'sunos', and 'win32'.
-   The return value is equivalent to process.platform. 
+   The return value is equivalent to process.platform.
    NodeJS does not support Cygwin very well
 *)
 let os_type : unit -> string = [%raw{|function(_){
   if(typeof process !== 'undefined' && process.platform === 'win32'){
-        return "Win32"    
+        return "Win32"
   }
   else {
     return "Unix"
@@ -58,7 +58,7 @@ external uptime : process -> unit -> float = "uptime" [@@bs.send]
 external exit : process -> int -> 'a =  "exit"  [@@bs.send]
 
 let caml_sys_time () =
-  if Js.typeof [%raw{|process|}] = "undefined" 
+  if Js.typeof [%raw{|process|}] = "undefined"
   || [%raw{|process.uptime|}] = Caml_undefined_extern.empty
   then -1.
   else uptime [%raw{|process|}] ()
@@ -70,10 +70,10 @@ let caml_sys_time () =
 type spawnResult
 external spawnSync : string -> spawnResult = "spawnSync" [@@bs.module "child_process"]
 
-external readAs : spawnResult -> 
-  < 
+external readAs : spawnResult ->
+  <
     status : int Js.null;
-  > Js.t = 
+  > Js.t =
   "%identity"
 *)
 
@@ -82,33 +82,40 @@ let caml_sys_system_command _cmd = 127
 
 let caml_sys_getcwd : unit -> string = [%raw{|function(param){
     if (typeof process === "undefined" || process.cwd === undefined){
-      return "/"  
+      return "/"
     }
     return process.cwd()
   }|}]
 
 
+let caml_sys_executable_name () : string =
+  if Js.typeof [%raw{|process|}] = "undefined" then ""
+  else
+    let argv = [%raw{|process.argv|}] in
+    if Js.testAny argv then ""
+    else Caml_array_extern.unsafe_get argv 0
+
 (* Called by {!Sys} in the toplevel, should never fail*)
-let caml_sys_get_argv () : string * string array = 
-  if Js.typeof [%raw{|process|}] = "undefined" then "",[|""|] 
-  else 
-    let argv = [%raw{|process.argv|}] in 
+let caml_sys_argv () : string * string array =
+  if Js.typeof [%raw{|process|}] = "undefined" then "",[|""|]
+  else
+    let argv = [%raw{|process.argv|}] in
     if Js.testAny argv then ("",[|""|])
     else Caml_array_extern.unsafe_get argv 0, argv
 
 (** {!Pervasives.sys_exit} *)
-let caml_sys_exit :int -> 'a = fun exit_code -> 
-  if Js.typeof [%raw{|process|}] <> "undefined"  then 
-    exit [%raw{|process|}] exit_code 
+let caml_sys_exit :int -> 'a = fun exit_code ->
+  if Js.typeof [%raw{|process|}] <> "undefined"  then
+    exit [%raw{|process|}] exit_code
 
 
 
-let caml_sys_is_directory _s = 
+let caml_sys_is_directory _s =
   raise (Failure "caml_sys_is_directory not implemented")
 
-(** Need polyfill to make cmdliner work 
-    {!Sys.is_directory} or {!Sys.file_exists} {!Sys.command} 
+(** Need polyfill to make cmdliner work
+    {!Sys.is_directory} or {!Sys.file_exists} {!Sys.command}
 *)
-let caml_sys_file_exists _s = 
+let caml_sys_file_exists _s =
   raise ( Failure "caml_sys_file_exists not implemented")
 

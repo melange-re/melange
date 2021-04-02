@@ -29,17 +29,7 @@
 
 
 let js_flag = 100000008
-
-(* let js_module_flag = 0b10_000 (\* javascript external modules *\) *)
-(* TODO:
-    check name conflicts with javascript conventions
-   {[
-     Ext_ident.convert "^";;
-     - : string = "$caret"
-   ]}
-*)
 let js_object_flag = 100000032
-  (* javascript object flags *)
 
 let is_js (i : Ident.t) =
   (Ident.scope i) = js_flag
@@ -48,15 +38,19 @@ let is_js_or_global (i : Ident.t) =
   Ident.global i || is_js i
 
 
-let is_js_object (i : Ident.t) =
-  (Ident.scope i) land js_object_flag <> 0
-
-
 type[@ocaml.warning "-unused-constructor"] t =
   | Local of { name: string; stamp: int }
   | Scoped of { name: string; stamp: int; scope: int }
   | Global of string
   | Predef of { name: string; stamp: int }
+
+let stamp (id: Ident.t) =
+  let stamp = match (Obj.magic id : t) with
+    | Local { stamp; _ }
+    | Scoped { stamp; _ } -> stamp
+    | _ -> 0
+  in
+  stamp
 
 (* XXX(anmonteiro): This is an artifact of the 4.12 upgrade that we need to fix
    at some point. This project (as well as the OCaml compiler, previously)
@@ -71,7 +65,7 @@ let create_unsafe_dont_use_or_bad_things_will_happen ~scope ~stamp name =
 
 let make_js_object (i : Ident.t) =
   create_unsafe_dont_use_or_bad_things_will_happen
-   ~stamp:(Ident.stamp i)
+   ~stamp:(stamp i)
    ~scope:(Ident.scope i lor js_object_flag)
    (Ident.name i)
 
@@ -208,12 +202,12 @@ let reset () =
    flags are not relevant here
 *)
 let compare (x : Ident.t ) ( y : Ident.t) =
-  let u = Ident.stamp x - Ident.stamp y in
+  let u = stamp x - stamp y in
   if u = 0 then
     Ext_string.compare (Ident.name x) (Ident.name y)
   else u
 
 let equal ( x : Ident.t) ( y : Ident.t) =
-  if Ident.stamp x <> 0 then Ident.stamp x = Ident.stamp y
-  else Ident.stamp y = 0 && Ident.name x = Ident.name y
+  if stamp x <> 0 then stamp x = stamp y
+  else stamp y = 0 && Ident.name x = Ident.name y
 

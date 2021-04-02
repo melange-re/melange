@@ -2,12 +2,14 @@
 
 var Mt = require("./mt.js");
 var $$Array = require("../../lib/js/array.js");
+var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
 var Digest = require("../../lib/js/digest.js");
 var Printf = require("../../lib/js/printf.js");
 var Caml_array = require("../../lib/js/caml_array.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Ext_array_test = require("./ext_array_test.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(x) {
   return Digest.to_hex(Digest.string(x));
@@ -146,7 +148,7 @@ var ref = [
   "b325dc1c6f5e7a2b7cf465b9feab7948"
 ];
 
-Mt.from_pair_suites("Digest_test", Pervasives.$at({
+Mt.from_pair_suites("Digest_test", Stdlib__no_aliases.$at({
           hd: [
             "File \"digest_test.ml\", line 6, characters 4-11",
             (function (param) {
@@ -233,7 +235,7 @@ Mt.from_pair_suites("Digest_test", Pervasives.$at({
                             (function (param) {
                                 return {
                                         TAG: /* Eq */0,
-                                        _0: Digest.to_hex(Digest.string("a".repeat(i))),
+                                        _0: Digest.to_hex(Digest.string(Caml_bytes.bytes_to_string(Bytes.make(i, /* 'a' */97)))),
                                         _1: Caml_array.get(ref, i)
                                       };
                               })

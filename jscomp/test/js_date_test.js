@@ -1101,9 +1101,6 @@ var suites = {
 
 Mt.from_pair_suites("Js_date_test", suites);
 
-var N;
-
-exports.N = N;
 exports.date = date;
 exports.suites = suites;
 /*  Not a pure module */

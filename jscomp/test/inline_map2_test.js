@@ -1,10 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function Make(Ord) {
   var height = function (param) {
@@ -141,7 +142,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -175,7 +176,7 @@ function Make(Ord) {
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -184,18 +185,17 @@ function Make(Ord) {
     while(true) {
       var param = _param;
       if (param) {
-        var r = param._3;
-        if (!r) {
+        if (!param._3) {
           return [
                   param._1,
                   param._2
                 ];
         }
-        _param = r;
+        _param = param._3;
         continue ;
       }
       throw {
-            RE_EXN_ID: "Not_found",
+            RE_EXN_ID: Stdlib__no_aliases.Not_found,
             Error: new Error()
           };
     };
@@ -730,7 +730,7 @@ function add(x, data, param) {
   var d = param._2;
   var v = param._1;
   var l = param._0;
-  var c = Caml_primitive.caml_int_compare(x, v);
+  var c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return /* Node */{
             _0: l,
@@ -750,7 +750,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml_primitive.caml_int_compare(x, param._1);
+      var c = Caml.caml_int_compare(x, param._1);
       if (c === 0) {
         return param._2;
       }
@@ -758,7 +758,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -770,7 +770,7 @@ function mem(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml_primitive.caml_int_compare(x, param._1);
+    var c = Caml.caml_int_compare(x, param._1);
     if (c === 0) {
       return true;
     }
@@ -794,7 +794,7 @@ function min_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -804,18 +804,17 @@ function max_binding(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param._3;
-      if (!r) {
+      if (!param._3) {
         return [
                 param._1,
                 param._2
               ];
       }
-      _param = r;
+      _param = param._3;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -845,7 +844,7 @@ function remove(x, param) {
   var d = param._2;
   var v = param._1;
   var l = param._0;
-  var c = Caml_primitive.caml_int_compare(x, v);
+  var c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     if (!l) {
       return r;
@@ -1020,7 +1019,7 @@ function split(x, param) {
   var d = param._2;
   var v = param._1;
   var l = param._0;
-  var c = Caml_primitive.caml_int_compare(x, v);
+  var c = Caml.caml_int_compare(x, v);
   if (c === 0) {
     return [
             l,
@@ -1150,7 +1149,7 @@ function compare(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml_primitive.caml_int_compare(e1._0, e2._0);
+    var c = Caml.caml_int_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -1401,7 +1400,7 @@ function add$1(x, data, param) {
   var d = param._2;
   var v = param._1;
   var l = param._0;
-  var c = Caml_primitive.caml_string_compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return /* Node */{
             _0: l,
@@ -1421,7 +1420,7 @@ function find$1(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml_primitive.caml_string_compare(x, param._1);
+      var c = Caml.caml_string_compare(x, param._1);
       if (c === 0) {
         return param._2;
       }
@@ -1429,7 +1428,7 @@ function find$1(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1441,7 +1440,7 @@ function mem$1(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml_primitive.caml_string_compare(x, param._1);
+    var c = Caml.caml_string_compare(x, param._1);
     if (c === 0) {
       return true;
     }
@@ -1465,7 +1464,7 @@ function min_binding$1(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1475,18 +1474,17 @@ function max_binding$1(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param._3;
-      if (!r) {
+      if (!param._3) {
         return [
                 param._1,
                 param._2
               ];
       }
-      _param = r;
+      _param = param._3;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -1516,7 +1514,7 @@ function remove$1(x, param) {
   var d = param._2;
   var v = param._1;
   var l = param._0;
-  var c = Caml_primitive.caml_string_compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     if (!l) {
       return r;
@@ -1691,7 +1689,7 @@ function split$1(x, param) {
   var d = param._2;
   var v = param._1;
   var l = param._0;
-  var c = Caml_primitive.caml_string_compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
             l,
@@ -1821,7 +1819,7 @@ function compare$1(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml_primitive.caml_string_compare(e1._0, e2._0);
+    var c = Caml.caml_string_compare(e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -1851,7 +1849,7 @@ function equal$1(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (Caml_primitive.caml_string_compare(e1._0, e2._0) !== 0) {
+    if (Caml.caml_string_compare(e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {

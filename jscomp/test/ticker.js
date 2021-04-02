@@ -1,15 +1,16 @@
 'use strict';
 
+var Seq = require("../../lib/js/seq.js");
+var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function split(delim, s) {
   var len = s.length;
@@ -28,7 +29,7 @@ function split(delim, s) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === "Not_found") {
+        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
           return {
                   hd: $$String.sub(s, 0, i),
                   tl: l
@@ -56,7 +57,7 @@ function split(delim, s) {
 
 function string_of_float_option(x) {
   if (x !== undefined) {
-    return Pervasives.string_of_float(x);
+    return Stdlib__no_aliases.string_of_float(x);
   } else {
     return "nan";
   }
@@ -69,7 +70,7 @@ var Util = {
 
 function string_of_rank(i) {
   if (typeof i === "number") {
-    if (i !== 0) {
+    if (i) {
       return "Visited";
     } else {
       return "Uninitialized";
@@ -266,7 +267,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -306,7 +307,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -383,7 +384,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -471,7 +472,7 @@ function min_binding(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -499,18 +500,17 @@ function max_binding(_param) {
   while(true) {
     var param = _param;
     if (param) {
-      var r = param.r;
-      if (!r) {
+      if (!param.r) {
         return [
                 param.v,
                 param.d
               ];
       }
-      _param = r;
+      _param = param.r;
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };
@@ -522,14 +522,13 @@ function max_binding_opt(_param) {
     if (!param) {
       return ;
     }
-    var r = param.r;
-    if (!r) {
+    if (!param.r) {
       return [
               param.v,
               param.d
             ];
     }
-    _param = r;
+    _param = param.r;
     continue ;
   };
 }
@@ -845,7 +844,7 @@ function merge$1(f, s1, s2) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "map.ml",
-          393,
+          400,
           10
         ],
         Error: new Error()
@@ -902,6 +901,21 @@ function filter(p, m) {
     } else {
       return join(l$p, v, d, r$p);
     }
+  } else {
+    return concat(l$p, r$p);
+  }
+}
+
+function filter_map(f, param) {
+  if (!param) {
+    return /* Empty */0;
+  }
+  var v = param.v;
+  var l$p = filter_map(f, param.l);
+  var fvd = Curry._2(f, v, param.d);
+  var r$p = filter_map(f, param.r);
+  if (fvd !== undefined) {
+    return join(l$p, v, Caml_option.valFromOption(fvd), r$p);
   } else {
     return concat(l$p, r$p);
   }
@@ -1043,6 +1057,120 @@ function bindings(s) {
   return bindings_aux(/* [] */0, s);
 }
 
+function add_seq(i, m) {
+  return Seq.fold_left((function (m, param) {
+                return add(param[0], param[1], m);
+              }), m, i);
+}
+
+function of_seq(i) {
+  return add_seq(i, /* Empty */0);
+}
+
+function seq_of_enum_(c, param) {
+  if (!c) {
+    return /* Nil */0;
+  }
+  var partial_arg = cons_enum(c._2, c._3);
+  return /* Cons */{
+          _0: [
+            c._0,
+            c._1
+          ],
+          _1: (function (param) {
+              return seq_of_enum_(partial_arg, param);
+            })
+        };
+}
+
+function to_seq(m) {
+  var partial_arg = cons_enum(m, /* End */0);
+  return function (param) {
+    return seq_of_enum_(partial_arg, param);
+  };
+}
+
+function snoc_enum(_s, _e) {
+  while(true) {
+    var e = _e;
+    var s = _s;
+    if (!s) {
+      return e;
+    }
+    _e = /* More */{
+      _0: s.v,
+      _1: s.d,
+      _2: s.l,
+      _3: e
+    };
+    _s = s.r;
+    continue ;
+  };
+}
+
+function rev_seq_of_enum_(c, param) {
+  if (!c) {
+    return /* Nil */0;
+  }
+  var partial_arg = snoc_enum(c._2, c._3);
+  return /* Cons */{
+          _0: [
+            c._0,
+            c._1
+          ],
+          _1: (function (param) {
+              return rev_seq_of_enum_(partial_arg, param);
+            })
+        };
+}
+
+function to_rev_seq(c) {
+  var partial_arg = snoc_enum(c, /* End */0);
+  return function (param) {
+    return rev_seq_of_enum_(partial_arg, param);
+  };
+}
+
+function to_seq_from(low, m) {
+  var aux = function (low, _m, _c) {
+    while(true) {
+      var c = _c;
+      var m = _m;
+      if (!m) {
+        return c;
+      }
+      var r = m.r;
+      var d = m.d;
+      var v = m.v;
+      var n = Caml_obj.caml_compare(v, low);
+      if (n === 0) {
+        return /* More */{
+                _0: v,
+                _1: d,
+                _2: r,
+                _3: c
+              };
+      }
+      if (n < 0) {
+        _m = r;
+        continue ;
+      }
+      _c = /* More */{
+        _0: v,
+        _1: d,
+        _2: r,
+        _3: c
+      };
+      _m = m.l;
+      continue ;
+    };
+  };
+  var partial_arg = aux(low, m, /* End */0);
+  return function (param) {
+    return seq_of_enum_(partial_arg, param);
+  };
+}
+
 var Ticker_map = {
   empty: /* Empty */0,
   is_empty: is_empty,
@@ -1060,6 +1188,7 @@ var Ticker_map = {
   for_all: for_all,
   exists: exists,
   filter: filter,
+  filter_map: filter_map,
   partition: partition,
   cardinal: cardinal,
   bindings: bindings,
@@ -1077,14 +1206,22 @@ var Ticker_map = {
   find_last: find_last,
   find_last_opt: find_last_opt,
   map: map,
-  mapi: mapi
+  mapi: mapi,
+  to_seq: to_seq,
+  to_rev_seq: to_rev_seq,
+  to_seq_from: to_seq_from,
+  add_seq: add_seq,
+  of_seq: of_seq
 };
 
 function compute_update_sequences(all_tickers) {
   List.fold_left((function (counter, ticker) {
           var loop = function (counter, ticker) {
             var rank = ticker.rank;
-            if (rank !== 0) {
+            if (typeof rank !== "number") {
+              return counter;
+            }
+            if (rank) {
               return counter;
             }
             ticker.rank = /* Visited */1;
@@ -1136,7 +1273,7 @@ function compute_update_sequences(all_tickers) {
                 continue ;
               }
               var l = find(ticker_name, map);
-              return add(ticker_name, Pervasives.$at(up, l), map);
+              return add(ticker_name, Stdlib__no_aliases.$at(up, l), map);
             };
           };
           return loop(/* [] */0, map, ticker);
@@ -1159,7 +1296,7 @@ function compute_update_sequences(all_tickers) {
                                 Error: new Error()
                               };
                         }
-                        return Caml_primitive.caml_int_compare(x._0, y._0);
+                        return Caml.caml_int_compare(x._0, y._0);
                       }), l);
                 return add(k, l$1, map);
               }), map, map);

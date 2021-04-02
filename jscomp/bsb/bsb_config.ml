@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -40,8 +40,11 @@ let all_lib_artifacts =
   ]
 let rev_lib_bs = ".."// ".."
 
-(* TODO: read current dune context *)
-let dune_build_dir = (Ext_path.combine "_build" "default")
+let dune_build_dir = lazy (
+  match Sys.getenv_opt "DUNE_BUILD_DIR" with
+  | Some value -> value // "default"
+  | None -> "_build" // "default"
+)
 
 (* access the js directory from "lib/bs",
   it would be '../js'
@@ -81,7 +84,7 @@ let proj_rel path = rev_lib_bs // path
 let stdlib_path ~cwd =
   match Sys.getenv_opt "BSLIB" with
   | Some value -> value
-  | None -> 
+  | None ->
     let stdlib_path =
       Bsb_pkg.resolve_bs_package
         ~cwd

@@ -2,6 +2,7 @@
 
 var Mt = require("./mt.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -40,7 +41,7 @@ try {
 }
 catch (raw_msg){
   var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-  if (msg.RE_EXN_ID === "Failure") {
+  if (msg.RE_EXN_ID === Stdlib__no_aliases.Failure) {
     y = msg._1;
   } else {
     throw msg;
@@ -60,7 +61,7 @@ try {
 }
 catch (raw_msg$1){
   var msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);
-  if (msg$1.RE_EXN_ID === "Failure") {
+  if (msg$1.RE_EXN_ID === Stdlib__no_aliases.Failure) {
     x = msg$1._1;
   } else {
     throw msg$1;

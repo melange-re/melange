@@ -13,19 +13,15 @@ var ExtUnixAll = {
   BigEndian: BigEndian
 };
 
-var ExtUnix = {
-  All: undefined
-};
+var ExtUnix = {};
 
 function test_endian_string(x) {
   return 33;
 }
 
-var v = 33;
-
 var Test = {
   test_endian_string: test_endian_string,
-  v: v
+  v: 33
 };
 
 exports.ExtUnixAll = ExtUnixAll;

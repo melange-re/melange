@@ -52,9 +52,6 @@ console.timeEnd("bs_set_bench.ml 21");
 
 var count = 1000000;
 
-var N;
-
 exports.count = count;
-exports.N = N;
 exports.bench = bench;
 /*  Not a pure module */

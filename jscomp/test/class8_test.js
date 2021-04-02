@@ -7,12 +7,12 @@ var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 
-var shared = [
+var shared = ["repr"];
+
+var shared$1 = [
   "leq",
   "value"
 ];
-
-var shared$1 = ["repr"];
 
 var suites = {
   contents: /* [] */0
@@ -27,7 +27,10 @@ function eq(loc, x, y) {
 }
 
 function comparable_1($$class) {
-  CamlinternalOO.get_method_label($$class, "leq");
+  CamlinternalOO.get_method_labels($$class, [
+        "leq",
+        "*dummy method*"
+      ]);
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -44,21 +47,22 @@ function money_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
   var ids = CamlinternalOO.new_methods_variables($$class, [
         "value",
-        "leq"
-      ], shared$1);
+        "leq",
+        "*dummy method*"
+      ], shared);
   var value = ids[0];
   var leq = ids[1];
-  var repr = ids[2];
+  var repr = ids[3];
   var inh = CamlinternalOO.inherits($$class, 0, ["leq"], 0, comparable, true);
   var obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
         value,
-        (function (self$2) {
-            return self$2[repr];
+        (function (self$neg2) {
+            return self$neg2[repr];
           }),
         leq,
-        (function (self$2, p) {
-            return self$2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
+        (function (self$neg2, p) {
+            return self$neg2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
           })
       ]);
   return function (env, self, x$1) {
@@ -70,17 +74,23 @@ function money_init($$class) {
   };
 }
 
-var money = CamlinternalOO.make_class(shared, money_init);
+var money = CamlinternalOO.make_class(shared$1, money_init);
 
 function money2_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
-  var times = CamlinternalOO.get_method_label($$class, "times");
-  var inh = CamlinternalOO.inherits($$class, shared$1, 0, shared, money, true);
+  var ids = CamlinternalOO.get_method_labels($$class, [
+        "value",
+        "times",
+        "leq",
+        "*dummy method*"
+      ]);
+  var times = ids[1];
+  var inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);
   var obj_init = inh[0];
   var repr = inh[1];
-  CamlinternalOO.set_method($$class, times, (function (self$3, k) {
-          var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
-          copy[repr] = k * self$3[repr];
+  CamlinternalOO.set_method($$class, times, (function (self$neg3, k) {
+          var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$neg3));
+          copy[repr] = k * self$neg3[repr];
           return copy;
         }));
   return function (env, self, x$1) {

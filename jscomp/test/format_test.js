@@ -6,8 +6,8 @@ var Curry = require("../../lib/js/curry.js");
 var Scanf = require("../../lib/js/scanf.js");
 var Format = require("../../lib/js/format.js");
 var Printf = require("../../lib/js/printf.js");
-var Pervasives = require("../../lib/js/pervasives.js");
 var Caml_format = require("../../lib/js/caml_format.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
 
 var suites = {
@@ -101,27 +101,27 @@ eq("File \"format_test.ml\", line 38, characters 5-12", 7.875, 7.875);
 
 eq("File \"format_test.ml\", line 41, characters 5-12", -7.875, -7.875);
 
-eq3("File \"format_test.ml\", line 45, characters 6-13", Infinity, Number.POSITIVE_INFINITY, Pervasives.infinity);
+eq3("File \"format_test.ml\", line 45, characters 6-13", Infinity, Number.POSITIVE_INFINITY, Stdlib__no_aliases.infinity);
 
-eq3("File \"format_test.ml\", line 46, characters 6-13", -Infinity, Number.NEGATIVE_INFINITY, Pervasives.neg_infinity);
+eq3("File \"format_test.ml\", line 46, characters 6-13", -Infinity, Number.NEGATIVE_INFINITY, Stdlib__no_aliases.neg_infinity);
 
-eq3("File \"format_test.ml\", line 47, characters 6-13", Pervasives.max_float, 1.79769313486231571e+308, Number.MAX_VALUE);
+eq3("File \"format_test.ml\", line 47, characters 6-13", Stdlib__no_aliases.max_float, 1.79769313486231571e+308, Number.MAX_VALUE);
 
-eq("File \"format_test.ml\", line 48, characters 5-12", Pervasives.classify_float(Infinity), /* FP_infinite */3);
+eq("File \"format_test.ml\", line 48, characters 5-12", Stdlib__no_aliases.classify_float(Infinity), /* FP_infinite */3);
 
-eq("File \"format_test.ml\", line 49, characters 5-12", Pervasives.classify_float(Infinity), /* FP_infinite */3);
+eq("File \"format_test.ml\", line 49, characters 5-12", Stdlib__no_aliases.classify_float(Infinity), /* FP_infinite */3);
 
-eq("File \"format_test.ml\", line 52, characters 5-12", Pervasives.min_float, 2.22507385850720138e-308);
+eq("File \"format_test.ml\", line 52, characters 5-12", Stdlib__no_aliases.min_float, 2.22507385850720138e-308);
 
-eq("File \"format_test.ml\", line 53, characters 5-12", Pervasives.epsilon_float, 2.22044604925031308e-16);
+eq("File \"format_test.ml\", line 53, characters 5-12", Stdlib__no_aliases.epsilon_float, 2.22044604925031308e-16);
 
 eq("File \"format_test.ml\", line 54, characters 5-12", 4.94065645841e-324, 5e-324);
 
-eq("File \"format_test.ml\", line 55, characters 5-12", 1.00000000000000022 - 1, Pervasives.epsilon_float);
+eq("File \"format_test.ml\", line 55, characters 5-12", 1.00000000000000022 - 1, Stdlib__no_aliases.epsilon_float);
 
 eq("File \"format_test.ml\", line 57, characters 5-12", 1.11253692925360069e-308 / 2.22507385850720138e-308, 0.5);
 
-eq("File \"format_test.ml\", line 59, characters 5-12", Pervasives.classify_float(1.11253692925360069e-308), /* FP_subnormal */1);
+eq("File \"format_test.ml\", line 59, characters 5-12", Stdlib__no_aliases.classify_float(1.11253692925360069e-308), /* FP_subnormal */1);
 
 eq("File \"format_test.ml\", line 60, characters 5-12", 1.11253692925360069e-308, 1.11253692925360069e-308);
 
@@ -163,7 +163,10 @@ function sl(f) {
   return Curry._1(Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* Float */8,
-                    _0: /* Float_h */16,
+                    _0: [
+                      /* Float_flag_ */0,
+                      /* Float_h */6
+                    ],
                     _1: /* No_padding */0,
                     _2: /* No_precision */0,
                     _3: /* End_of_format */0
@@ -190,7 +193,7 @@ var literals_1 = {
   ],
   tl: {
     hd: [
-      Pervasives.infinity,
+      Stdlib__no_aliases.infinity,
       "infinity"
     ],
     tl: {
@@ -243,7 +246,10 @@ aux_list("File \"format_test.ml\", line 117, characters 11-18", literals);
 eq("File \"format_test.ml\", line 120, characters 5-12", Curry._1(Printf.sprintf(/* Format */{
               _0: {
                 TAG: /* Float */8,
-                _0: /* Float_H */19,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_H */7
+                ],
                 _1: /* No_padding */0,
                 _2: /* No_precision */0,
                 _3: /* End_of_format */0
@@ -255,7 +261,10 @@ function scan_float(loc, s, expect) {
   return Curry._1(Scanf.sscanf(s, /* Format */{
                   _0: {
                     TAG: /* Float */8,
-                    _0: /* Float_h */16,
+                    _0: [
+                      /* Float_flag_ */0,
+                      /* Float_h */6
+                    ],
                     _1: /* No_padding */0,
                     _2: /* No_precision */0,
                     _3: /* End_of_format */0

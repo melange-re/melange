@@ -73,6 +73,7 @@ let bsconfig_json = "bsconfig.json"
 let build_ninja = "build.ninja"
 let dune = "dune"
 let dune_bsb = "dune.bsb"
+let dune_project = "dune-project"
 let bsb_depends = "bsb_depends"
 let bsb_world = "bsb_world"
 
@@ -107,6 +108,9 @@ let suffix_mjs = ".mjs"
 let suffix_cjs = ".cjs"
 let suffix_gen_js = ".gen.js"
 let suffix_gen_tsx = ".gen.tsx"
+
+let suffix_impl = ".impl"
+let suffix_intf = ".intf"
 
 let commonjs = "commonjs"
 

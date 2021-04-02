@@ -5,7 +5,7 @@ in
 with ocamlPackages;
 
 stdenv.mkDerivation rec {
-  name = "bucklescript";
+  name = "melange";
   version = "9.0.0-dev";
 
   dontConfigure = true;
@@ -13,13 +13,6 @@ stdenv.mkDerivation rec {
     runHook preBuild
     dune build -p ${name} -j $NIX_BUILD_CORES --display=short
     runHook postBuild
-  '';
-
-  doCheck = true;
-  checkPhase = ''
-    runHook preCheck
-    dune runtest -p ${name} --display=short
-    runHook postCheck
   '';
 
   installPhase = ''
@@ -32,7 +25,7 @@ stdenv.mkDerivation rec {
     mkdir -p $out/lib/ocaml
     cd $out/lib/ocaml
 
-    tar xvf $OCAMLFIND_DESTDIR/bucklescript/libocaml.tar.gz
+    tar xvf $OCAMLFIND_DESTDIR/melange/libocaml.tar.gz
     mv others/* .
     mv runtime/* .
     mv stdlib-412/stdlib_modules/* .
@@ -42,18 +35,32 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  src = ./..;
-
-  nativeBuildInputs = with ocamlPackages;
-    [
-      pkgs.gnutar
-      dune
-      dune-action-plugin
-      ocaml
-      findlib
+  src = lib.filterGitSource {
+    src = ./..;
+    dirs = [ "jscomp" "lib" "scripts" ];
+    files = [
+      "dune-project"
+      "dune"
+      "dune-workspace"
+      "melange.opam"
+      "melange.opam.template"
+      "bsconfig.json"
+      "package.json"
     ];
+  };
 
-  buildInputs = [ cppo ];
+  nativeBuildInputs = with ocamlPackages; [
+    pkgs.gnutar
+    dune
+    ocaml
+    findlib
+    cppo
+  ];
 
-  propagatedBuildInputs = [ reason ];
+  propagatedBuildInputs = [
+    dune-action-plugin
+    melange-compiler-libs
+    reason
+    cmdliner
+  ];
 }

@@ -160,10 +160,10 @@ let rec split  (tree : (key,'a) Map_gen.t) x : 'a split  =
         No {result with l = Map_gen.join l k v result.l}
 
 
-let rec disjoint_merge_exn
+let rec disjoint_merge
     (s1 : _ Map_gen.t)
     (s2  : _ Map_gen.t)
-    fail : _ Map_gen.t =
+    fix_conflict : _ Map_gen.t =
   match s1 with
   | Empty -> s2
   | Leaf ({k } as l1)  ->
@@ -171,14 +171,14 @@ let rec disjoint_merge_exn
       | Empty -> s1
       | Leaf l2 ->
         let c = compare_key k l2.k in
-        if c = 0 then raise_notrace (fail k l1.v l2.v)
+        if c = 0 then Map_gen.singleton k (fix_conflict k l1.v l2.v)
         else if c < 0 then Map_gen.unsafe_two_elements l1.k l1.v l2.k l2.v
         else Map_gen.unsafe_two_elements l2.k l2.v k l1.v
       | Node _ ->
         adjust s2 k (fun data ->
           match data with
           |  None -> l1.v
-          | Some s2v  -> raise_notrace (fail k l1.v s2v)
+          | Some s2v  -> (fix_conflict k l1.v s2v)
         )
     end
   | Node ({k} as xs1) ->
@@ -186,26 +186,35 @@ let rec disjoint_merge_exn
       begin match split s2 k with
         | No {l; r} ->
           Map_gen.join
-            (disjoint_merge_exn  xs1.l l fail)
+            (disjoint_merge  xs1.l l fix_conflict)
             k
             xs1.v
-            (disjoint_merge_exn xs1.r r fail)
-        | Yes { v =  s2v} ->
-          raise_notrace (fail k xs1.v s2v)
+            (disjoint_merge xs1.r r fix_conflict)
+        | Yes { l; v =  s2v; r} ->
+          let fixed = fix_conflict k xs1.v s2v in
+          Map_gen.join
+            (disjoint_merge  xs1.l l fix_conflict)
+            k
+            fixed
+            (disjoint_merge xs1.r r fix_conflict)
       end
     else let [@warning "-8"] (Node ({k} as s2) : _ Map_gen.t)  = s2 in
-      begin match  split s1 k with
+      begin match split s1 k with
         | No {l;  r} ->
           Map_gen.join
-            (disjoint_merge_exn  l s2.l fail) k s2.v
-            (disjoint_merge_exn  r s2.r fail)
-        | Yes { v = s1v} ->
-          raise_notrace (fail k s1v s2.v)
+            (disjoint_merge  l s2.l fix_conflict) k s2.v
+            (disjoint_merge  r s2.r fix_conflict)
+        | Yes { l; v = s1v; r} ->
+          let fixed = fix_conflict k s1v s2.v in
+          Map_gen.join
+            (disjoint_merge  l s2.l fix_conflict)
+            k
+            fixed
+            (disjoint_merge  r s2.r fix_conflict)
       end
 
-
-
-
+let disjoint_merge_exn s1 s2 fail =
+  disjoint_merge s1 s2 (fun k s1v s2v -> raise_notrace (fail k s1v s2v))
 
 
 let add_list (xs : _ list ) init =

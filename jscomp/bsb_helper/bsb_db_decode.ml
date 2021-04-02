@@ -43,32 +43,7 @@ type t = {
 
 type cursor = int ref
 
-
-(*TODO: special case when module_count is zero *)
-let rec decode (x : string) : t =
-  let (offset : cursor)  = ref 0 in
-  let lib = decode_single x offset in
-  let dev = decode_single x offset in
-  {lib; dev; content = x}
-
-and decode_single (x : string) (offset : cursor) : group =
-  let module_number = Ext_pervasives.parse_nat_of_string x offset in
-  incr offset;
-  if module_number <> 0 then begin
-    let modules = decode_modules x offset module_number in
-    let dir_info_offset = !offset in
-    let module_info_offset =
-      String.index_from x dir_info_offset '\n'  + 1 in
-    let dir_length = Char.code x.[module_info_offset] - 48 (* Char.code '0'*) in
-    offset :=
-      module_info_offset +
-      1 +
-      dir_length * module_number +
-      1
-    ;
-    Group { modules ; dir_info_offset; module_info_offset ; dir_length}
-  end else Dummy
-and decode_modules (x : string) (offset : cursor) module_number : string array =
+let decode_modules (x : string) (offset : cursor) module_number : string array =
   let result = Array.make module_number "" in
   let last = ref !offset in
   let cur = ref !offset in
@@ -88,6 +63,30 @@ and decode_modules (x : string) (offset : cursor) module_number : string array =
   offset := !cur;
   result
 
+let decode_single (x : string) (offset : cursor) : group =
+  let module_number = Ext_pervasives.parse_nat_of_string x offset in
+  incr offset;
+  if module_number <> 0 then begin
+    let modules = decode_modules x offset module_number in
+    let dir_info_offset = !offset in
+    let module_info_offset =
+      String.index_from x dir_info_offset '\n'  + 1 in
+    let dir_length = Char.code x.[module_info_offset] - 48 (* Char.code '0'*) in
+    offset :=
+      module_info_offset +
+      1 +
+      dir_length * module_number +
+      1
+    ;
+    Group { modules ; dir_info_offset; module_info_offset ; dir_length}
+  end else Dummy
+
+(*TODO: special case when module_count is zero *)
+let decode (x : string) : t =
+  let (offset : cursor)  = ref 0 in
+  let lib = decode_single x offset in
+  let dev = decode_single x offset in
+  {lib; dev; content = x}
 
 (* TODO: shall we check the consistency of digest *)
 let read_build_cache ~dir  : t =
@@ -104,13 +103,23 @@ type module_info =  {
 
 
 let find_opt
-  ({content = whole} as db : t )
+  ({content = whole; _ } as db : t )
+  ~(kind: [`impl | `intf])
     lib (key : string)
     : module_info option =
   match if lib then db.lib else db.dev with
   | Dummy -> None
-  | Group ({modules ;} as group) ->
+  | Group ({ modules; _ } as group) ->
   let i = Ext_string_array.find_sorted  modules key in
+  let i = match i with
+  | Some _ -> i
+  | None ->
+    let suffix = match kind with
+    | `impl -> Literals.suffix_impl
+    | `intf -> Literals.suffix_intf
+    in
+    Ext_string_array.find_sorted  modules (key ^ suffix)
+  in
   match i with
   | None -> None
   | Some count ->
@@ -135,11 +144,11 @@ let find_opt
     in
     Some {case ; dir_name = String.sub whole dir_name_start (dir_name_finish - dir_name_start)}
 
-let find db dependent_module is_not_lib_dir =
-  let opt = find_opt db true dependent_module in
+let find db ~(kind: [`impl | `intf]) dependent_module is_not_lib_dir =
+  let opt = find_opt db ~kind true dependent_module in
   match opt with
   | Some _ -> opt
   | None ->
     if is_not_lib_dir then
-      find_opt db false dependent_module
+      find_opt ~kind db false dependent_module
     else None

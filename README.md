@@ -1,12 +1,74 @@
-# [ReScript](https://rescript-lang.org)
+# Melange
 
-The compiler for ReScript.
+A _mixture_ of tooling combined to produce JS from OCaml / Reason.
 
-[![npm version](https://badge.fury.io/js/bs-platform.svg)](https://badge.fury.io/js/bs-platform) ![Build Status](https://circleci.com/gh/rescript-lang/rescript-compiler.svg?style=svg)
+This project is a fork of the
+[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) with
+a focus on compatibility with the wider OCaml ecosystem. A small write-up with
+more details on the motivation behind this project can be found in this
+[blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
-## Documentation
+## Installation
 
-Please see the [documentation site](https://rescript-lang.org).
+This project is currently unreleased. Currently, the most straightforward way
+to use it is via [Esy](https://esy.sh).
+
+1. Make sure you have Esy installed (`npm install -g esy` should cover most
+   workflows)
+2. Use an `esy.json` file like the following:
+
+```json
+{
+  "name": "melange-project",
+  "dependencies": {
+    "ocaml": "4.12.x",
+    "melange": "melange-re/melange",
+    "@opam/ocaml-lsp-server": "*"
+  },
+  "esy": {
+    "buildsInSource": "unsafe",
+    "build": ["ln -sfn #{melange.install} node_modules/bs-platform"]
+  },
+  "installConfig": {
+    "pnp": false
+  }
+}
+```
+
+3. Run `npm install` (or `yarn`) followed by just `esy` and after they finish installing and building, you should be able to use `bsb` commands via esy `esy bsb -make-world`
+
+4. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
+   can't figure it out!
+
+## FAQ
+
+### How does this project relate to other tools?
+
+| Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
+| -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
+| [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy`                                          | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
+| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy`                                          | a library that implements an alternative syntax to OCaml                                                                     |
+| [Melange](https://melange.re)          | Compiler that emits JavaScript                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+| [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                                     |
+
+### Can I use ReScript syntax?
+
+Yes! ReScript syntax is supported, but beware that it's stuck on an ancient
+OCaml version (4.06, released in 2018), and it won't have as many features as
+the OCaml or Reason syntaxes
+(e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
+[generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
+or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
+
+### Where has the `refmt` flag gone?
+
+Upstream [removed the `refmt`](https://github.com/rescript-lang/rescript-compiler/pull/4998/commits/be9b1add647859d595dc2e2cbd5552ca246d1df9)
+flag, which used to allow configuring the path to a custom Reason binary. This
+was a welcome change for this repo too, so we cherry-picked it. The rationale:
+this project uses [Reason](https://github.com/reasonml/reason) as a library,
+so you can simply depend on the Reason version that you'd like in the usual way,
+via your preferred package manager.
 
 ## Contributing
 
@@ -14,20 +76,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Acknowledgments
 
-* Thanks to the [OCaml](https://ocaml.org) team, obviously, without such a beautiful yet practical language, this backend would not exist
-* Thanks to [ninja-build](https://ninja-build.org), ReScript also comes with a blazing fast build tool on top of it, `ninja` is a truly [well engineered](http://aosabook.org/en/posa/ninja.html) scalable build tool
-* Thanks to [Bloomberg](https://www.techatbloomberg.com) and [Facebook](https://github.com/facebook/). This project began at Bloomberg and was published in 2016; without the support of Bloomberg, it would not have happened. This project's funded by Facebook since July/2017
-
-## [Roadmap](https://github.com/rescript-lang/rescript-compiler/wiki)
+See [Credits.md](./Credits.md).
 
 ## Licensing
 
 See [COPYING](./COPYING) and [COPYING.LESSER](./COPYING.LESSER)
-
-The [`ocaml`](ocaml) directory contains the official [OCaml](https://ocaml.org) compiler (version 4.06.1).
-Refer to its copyright and license notices for information about its licensing.
-
-The `vendor/ninja.tar.gz` contains the vendored [ninja](https://github.com/ninja-build/ninja).
-Refer to its copyright and license notices for information about its licensing.
 
 See [Credits](./Credits.md) for more details.

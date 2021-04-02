@@ -22,11 +22,11 @@ function length(_acc, _x) {
     if (!x) {
       return acc;
     }
-    var tl = x.tl;
-    if (tl) {
-      return 1 + length(acc + 1 | 0, tl.tl) | 0;
+    var match = x.tl;
+    if (match) {
+      return 1 + length(acc + 1 | 0, match.tl) | 0;
     }
-    _x = tl;
+    _x = x.tl;
     _acc = acc + 1 | 0;
     continue ;
   };

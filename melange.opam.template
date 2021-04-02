@@ -1,0 +1,3 @@
+pin-depends: [
+  [ "melange-compiler-libs.dev" "git+https://github.com/melange-re/melange-compiler-libs.git"]
+]

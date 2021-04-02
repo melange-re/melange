@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -57,7 +57,7 @@ val include_dirs_by :
   ('a -> string ) ->
   string
 
-val sourcedir_include_dirs :
+val rel_include_dirs :
   per_proj_dir:string ->
   cur_dir:string ->
   ?namespace:string ->

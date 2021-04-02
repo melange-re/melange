@@ -1,4 +1,4 @@
-(dirs :standard \ docs node_modules native nix site vendor lib/4.06.1)
+(dirs :standard \ docs node_modules odoc_gen nix)
 
 (env
  (dev

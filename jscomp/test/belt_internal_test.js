@@ -1,9 +1,10 @@
 'use strict';
 
+var Caml_option = require("../../lib/js/caml_option.js");
 
 function treeHeight(n) {
   if (n !== undefined) {
-    return n.height;
+    return Caml_option.valFromOption(n).height;
   } else {
     return 0;
   }
@@ -13,10 +14,11 @@ function copy(n) {
   if (n === undefined) {
     return n;
   }
-  var v = n.value;
-  var h = n.height;
-  var l = n.left;
-  var r = n.right;
+  var match = Caml_option.valFromOption(n);
+  var v = match.value;
+  var h = match.height;
+  var l = match.left;
+  var r = match.right;
   return {
           value: v,
           height: h,

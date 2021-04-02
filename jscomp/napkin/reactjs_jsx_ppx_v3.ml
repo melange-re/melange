@@ -275,7 +275,7 @@ let makeExternalDecl fnName loc namedArgListWithKeyAndRef namedTypeList =
 let jsxMapper () =
   let jsxVersion = ref None in
 
-  let transformUppercaseCall3 modulePath mapper loc attrs _ callArguments =
+  let transformUppercaseCall3 ~caller modulePath mapper loc attrs _ callArguments =
     let children, argsWithLabels = extractChildren ~loc ~removeLastPositionUnit:true callArguments in
     let argsForMake = argsWithLabels in
     let childrenExpr = transformChildrenIfListUpper ~loc ~mapper children in
@@ -302,8 +302,8 @@ let jsxMapper () =
     in
     let ident =
       match modulePath with
-      | Lident _ -> Ldot (modulePath, "make")
-      | Ldot (_modulePath, value) as fullPath when isCap value -> Ldot (fullPath, "make")
+      | Lident _ -> Ldot (modulePath, caller)
+      | Ldot (_modulePath, value) as fullPath when isCap value -> Ldot (fullPath, caller)
       | modulePath -> modulePath
     in
     let propsIdent =
@@ -834,7 +834,7 @@ let jsxMapper () =
         (* Foo.createElement(~prop1=foo, ~prop2=bar, ~children=[], ()) *)
         | { loc; txt = Ldot (modulePath, ("createElement" | "make")) } -> (
             match !jsxVersion with
-            | None | Some 3 -> transformUppercaseCall3 modulePath mapper loc attrs callExpression callArguments
+            | None | Some 3 -> transformUppercaseCall3 ~caller:"make" modulePath mapper loc attrs callExpression callArguments
             | Some _ -> raise (Invalid_argument "JSX: the JSX version must be  3") )
         (* div(~prop1=foo, ~prop2=bar, ~children=[bla], ()) *)
         (* turn that into
@@ -843,11 +843,13 @@ let jsxMapper () =
             match !jsxVersion with
             | None | Some 3 -> transformLowercaseCall3 mapper loc attrs callArguments id
             | Some _ -> raise (Invalid_argument "JSX: the JSX version must be 3") )
-        | { txt = Ldot (_, anythingNotCreateElementOrMake) } ->
-            raise
-              (Invalid_argument
-                 ( "JSX: the JSX attribute should be attached to a `YourModuleName.createElement` or \
-                    `YourModuleName.make` call. We saw `" ^ anythingNotCreateElementOrMake ^ "` instead" ))
+        (* Foo.bar(~prop1=foo, ~prop2=bar, ~children=[], ()) *)
+        (* Not only "createElement" or "make". See
+           https://github.com/reasonml/reason/pull/2541 *)
+        | { loc; txt = Ldot (modulePath, anythingNotCreateElementOrMake) } -> (
+            match !jsxVersion with
+            | None | Some 3 -> transformUppercaseCall3 ~caller:anythingNotCreateElementOrMake modulePath mapper loc attrs callExpression callArguments
+            | Some _ -> raise (Invalid_argument "JSX: the JSX version must be  3") )
         | { txt = Lapply _ } ->
             (* don't think there's ever a case where this is reached *)
             raise (Invalid_argument "JSX: encountered a weird case while processing the code. Please report this!") )

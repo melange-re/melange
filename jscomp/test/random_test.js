@@ -97,7 +97,10 @@ Curry._5(Printf.printf(/* Format */{
                       _0: /* ' ' */32,
                       _1: {
                         TAG: /* Float */8,
-                        _0: /* Float_f */0,
+                        _0: [
+                          /* Float_flag_ */0,
+                          /* Float_f */0
+                        ],
                         _1: /* No_padding */0,
                         _2: /* No_precision */0,
                         _3: {

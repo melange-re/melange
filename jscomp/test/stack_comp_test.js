@@ -46,13 +46,18 @@ var S = {
   create: Stack.create,
   push: Stack.push,
   pop: Stack.pop,
+  pop_opt: Stack.pop_opt,
   top: Stack.top,
+  top_opt: Stack.top_opt,
   clear: Stack.clear,
   copy: Stack.copy,
   is_empty: Stack.is_empty,
   length: Stack.length,
   iter: Stack.iter,
   fold: Stack.fold,
+  to_seq: Stack.to_seq,
+  add_seq: Stack.add_seq,
+  of_seq: Stack.of_seq,
   to_list: to_list
 };
 
@@ -75,7 +80,7 @@ var s = {
   len: 0
 };
 
-assert_("File \"stack_comp_test.ml\", line 33, characters 32-39", to_list(s) === /* [] */0 && s.len === 0);
+assert_("File \"stack_comp_test.ml\", line 33, characters 32-39", Caml_obj.caml_equal(to_list(s), /* [] */0) && s.len === 0);
 
 Stack.push(1, s);
 
@@ -155,7 +160,7 @@ assert_("File \"stack_comp_test.ml\", line 40, characters 41-48", Caml_obj.caml_
 
 assert_("File \"stack_comp_test.ml\", line 41, characters 10-17", Stack.pop(s) === 1);
 
-assert_("File \"stack_comp_test.ml\", line 41, characters 41-48", to_list(s) === /* [] */0 && s.len === 0);
+assert_("File \"stack_comp_test.ml\", line 41, characters 41-48", Caml_obj.caml_equal(to_list(s), /* [] */0) && s.len === 0);
 
 assert_("File \"stack_comp_test.ml\", line 42, characters 10-17", does_raise(Stack.pop, s));
 
@@ -327,23 +332,23 @@ var s$4 = {
   len: 0
 };
 
-assert_("File \"stack_comp_test.ml\", line 93, characters 10-17", s$4.c === /* [] */0);
+assert_("File \"stack_comp_test.ml\", line 93, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
 
 for(var i$4 = 1; i$4 <= 10; ++i$4){
   Stack.push(i$4, s$4);
   assert_("File \"stack_comp_test.ml\", line 96, characters 12-19", s$4.len === i$4);
-  assert_("File \"stack_comp_test.ml\", line 97, characters 12-19", s$4.c !== /* [] */0);
+  assert_("File \"stack_comp_test.ml\", line 97, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
 }
 
 for(var i$5 = 10; i$5 >= 1; --i$5){
   assert_("File \"stack_comp_test.ml\", line 100, characters 12-19", s$4.len === i$5);
-  assert_("File \"stack_comp_test.ml\", line 101, characters 12-19", s$4.c !== /* [] */0);
+  assert_("File \"stack_comp_test.ml\", line 101, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
   Stack.pop(s$4);
 }
 
 assert_("File \"stack_comp_test.ml\", line 104, characters 10-17", s$4.len === 0);
 
-assert_("File \"stack_comp_test.ml\", line 105, characters 10-17", s$4.c === /* [] */0);
+assert_("File \"stack_comp_test.ml\", line 105, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
 
 var s$5 = {
   c: /* [] */0,
@@ -371,17 +376,17 @@ var s1$1 = {
 
 assert_("File \"stack_comp_test.ml\", line 117, characters 10-17", s1$1.len === 0);
 
-assert_("File \"stack_comp_test.ml\", line 117, characters 45-52", to_list(s1$1) === /* [] */0);
+assert_("File \"stack_comp_test.ml\", line 117, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */0));
 
 var s2$1 = Stack.copy(s1$1);
 
 assert_("File \"stack_comp_test.ml\", line 119, characters 10-17", s1$1.len === 0);
 
-assert_("File \"stack_comp_test.ml\", line 119, characters 45-52", to_list(s1$1) === /* [] */0);
+assert_("File \"stack_comp_test.ml\", line 119, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */0));
 
 assert_("File \"stack_comp_test.ml\", line 120, characters 10-17", s2$1.len === 0);
 
-assert_("File \"stack_comp_test.ml\", line 120, characters 45-52", to_list(s2$1) === /* [] */0);
+assert_("File \"stack_comp_test.ml\", line 120, characters 45-52", Caml_obj.caml_equal(to_list(s2$1), /* [] */0));
 
 var s1$2 = {
   c: /* [] */0,

@@ -1,10 +1,11 @@
 'use strict';
 
+var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
 var $$String = require("../../lib/js/string.js");
 var Set_gen = require("./set_gen.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function split(x, tree) {
   if (!tree) {
@@ -17,7 +18,7 @@ function split(x, tree) {
   var r = tree._2;
   var v = tree._1;
   var l = tree._0;
-  var c = Caml_primitive.caml_string_compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
             l,
@@ -53,7 +54,7 @@ function add(x, tree) {
   var r = tree._2;
   var v = tree._1;
   var l = tree._0;
-  var c = Caml_primitive.caml_string_compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return tree;
   } else if (c < 0) {
@@ -132,7 +133,7 @@ function mem(x, _tree) {
     if (!tree) {
       return false;
     }
-    var c = Caml_primitive.caml_string_compare(x, tree._1);
+    var c = Caml.caml_string_compare(x, tree._1);
     if (c === 0) {
       return true;
     }
@@ -148,7 +149,7 @@ function remove(x, tree) {
   var r = tree._2;
   var v = tree._1;
   var l = tree._0;
-  var c = Caml_primitive.caml_string_compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return Set_gen.internal_merge(l, r);
   } else if (c < 0) {
@@ -181,7 +182,7 @@ function subset(_s1, _s2) {
     var r1 = s1._2;
     var v1 = s1._1;
     var l1 = s1._0;
-    var c = Caml_primitive.caml_string_compare(v1, s2._1);
+    var c = Caml.caml_string_compare(v1, s2._1);
     if (c === 0) {
       if (!subset(l1, l2)) {
         return false;
@@ -220,7 +221,7 @@ function find(x, _tree) {
     var tree = _tree;
     if (tree) {
       var v = tree._1;
-      var c = Caml_primitive.caml_string_compare(x, v);
+      var c = Caml.caml_string_compare(x, v);
       if (c === 0) {
         return v;
       }
@@ -228,7 +229,7 @@ function find(x, _tree) {
       continue ;
     }
     throw {
-          RE_EXN_ID: "Not_found",
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
           Error: new Error()
         };
   };

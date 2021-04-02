@@ -3,7 +3,7 @@
 var Mt = require("./mt.js");
 var Curry = require("../../lib/js/curry.js");
 var Caml_array = require("../../lib/js/caml_array.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function map(f, a) {
   var f$1 = Curry.__1(f);
@@ -56,7 +56,7 @@ function f2(param) {
   var v = fold_left((function (prim, prim$1) {
           return prim + prim$1;
         }), 0, b);
-  console.log(Pervasives.string_of_float(v));
+  console.log(Stdlib__no_aliases.string_of_float(v));
   
 }
 

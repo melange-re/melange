@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Printexc = require("../../lib/js/printexc.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -36,8 +37,6 @@ var Ax = /* @__PURE__ */Caml_exceptions.create("Exception_def.Ax");
 
 var XXX = /* @__PURE__ */Caml_exceptions.create("Exception_def.XXX");
 
-var Aa = "Match_failure";
-
 var v_1 = [
   "",
   0,
@@ -45,11 +44,9 @@ var v_1 = [
 ];
 
 var v = {
-  RE_EXN_ID: Aa,
+  RE_EXN_ID: Stdlib__no_aliases.Match_failure,
   _1: v_1
 };
-
-var H0 = "Not_found";
 
 var H1 = /* @__PURE__ */Caml_exceptions.create("Exception_def.H1");
 
@@ -64,13 +61,11 @@ var h3 = {
 };
 
 var h4 = {
-  RE_EXN_ID: H0
+  RE_EXN_ID: Stdlib__no_aliases.Not_found
 };
 
-var H4 = "Invalid_argument";
-
 var h5 = {
-  RE_EXN_ID: H4,
+  RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
   _1: "xx"
 };
 
@@ -82,15 +77,15 @@ Printexc.register_printer(function (s) {
     });
 
 function p(e) {
-  if (e.RE_EXN_ID === H4) {
+  if (e.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
     return 0;
   } else if (e.RE_EXN_ID === H2) {
     return 1;
   } else if (e.RE_EXN_ID === H2) {
     return 2;
-  } else if (e.RE_EXN_ID === H0) {
+  } else if (e.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
     return 4;
-  } else if (e.RE_EXN_ID === "Not_found") {
+  } else if (e.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
     return 3;
   } else {
     return -1;
@@ -100,11 +95,11 @@ function p(e) {
 eq("File \"exception_def.ml\", line 54, characters 6-13", p(h5), 0);
 
 eq("File \"exception_def.ml\", line 55, characters 6-13", p({
-          RE_EXN_ID: "Not_found"
+          RE_EXN_ID: Stdlib__no_aliases.Not_found
         }), 4);
 
 eq("File \"exception_def.ml\", line 56, characters 6-13", p({
-          RE_EXN_ID: H0
+          RE_EXN_ID: Stdlib__no_aliases.Not_found
         }), 4);
 
 eq("File \"exception_def.ml\", line 57, characters 6-13", p({
@@ -116,7 +111,7 @@ eq("File \"exception_def.ml\", line 58, characters 6-13", p({
         }), 1);
 
 eq("File \"exception_def.ml\", line 59, characters 6-13", p({
-          RE_EXN_ID: "Invalid_argument",
+          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
           _1: ""
         }), 0);
 
@@ -124,7 +119,13 @@ Mt.from_pair_suites("exception_def.ml", suites.contents);
 
 var a = 3;
 
+var Aa = Stdlib__no_aliases.Match_failure;
+
+var H0 = Stdlib__no_aliases.Not_found;
+
 var H3 = H2;
+
+var H4 = Stdlib__no_aliases.Invalid_argument;
 
 exports.suites = suites;
 exports.test_id = test_id;

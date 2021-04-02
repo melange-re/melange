@@ -1,11 +1,20 @@
 (library
  (name common)
  (wrapped false)
- (libraries ext compiler-libs.common))
+ (flags :standard -open Melange_compiler_libs)
+ (libraries ext melange-compiler-libs))
+
+(rule
+ (target js_config.ml)
+ (deps js_config.cppo.ml)
+ (action
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
  (targets bs_version.ml)
  (mode promote)
- (deps ../build_version.js ../../package.json)
+ (deps
+  (:ml-file ../build_version.ml)
+  ../../package.json)
  (action
-  (run %{bin:node} %{deps})))
+  (run ../build_version.exe %{targets})))

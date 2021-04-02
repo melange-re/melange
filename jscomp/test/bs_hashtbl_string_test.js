@@ -1,10 +1,10 @@
 'use strict';
 
+var Caml = require("../../lib/js/caml.js");
 var Belt_Id = require("../../lib/js/belt_Id.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Belt_HashMap = require("../../lib/js/belt_HashMap.js");
 var Belt_MapDict = require("../../lib/js/belt_MapDict.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 var Belt_HashMapInt = require("../../lib/js/belt_HashMapInt.js");
 var Belt_HashSetInt = require("../../lib/js/belt_HashSetInt.js");
 var Belt_HashMapString = require("../../lib/js/belt_HashMapString.js");
@@ -139,7 +139,7 @@ function bench3(m) {
       };
 }
 
-var Sx = Belt_Id.comparable(Caml_primitive.caml_string_compare);
+var Sx = Belt_Id.comparable(Caml.caml_string_compare);
 
 function bench4(param) {
   var table = Belt_internalBucketsType.make(undefined, undefined, 1000000);
@@ -297,25 +297,9 @@ bench7(undefined);
 
 console.timeEnd("bs_hashtbl_string_test.ml 203");
 
-var N;
-
 var count = 1000000;
 
 var initial_size = 1000000;
-
-var M;
-
-var Md;
-
-var Md0;
-
-var H;
-
-var H0;
-
-var HI;
-
-var S;
 
 exports.hash_string = hash_string;
 exports.hashString = hashString;
@@ -323,23 +307,15 @@ exports.$$String = $$String;
 exports.String1 = String1;
 exports.String2 = String2;
 exports.Int = Int;
-exports.N = N;
 exports.empty = empty;
 exports.bench = bench;
 exports.count = count;
 exports.initial_size = initial_size;
-exports.M = M;
 exports.bench2 = bench2;
-exports.Md = Md;
-exports.Md0 = Md0;
 exports.bench3 = bench3;
 exports.Sx = Sx;
-exports.H = H;
 exports.bench4 = bench4;
-exports.H0 = H0;
 exports.bench5 = bench5;
-exports.HI = HI;
 exports.bench6 = bench6;
-exports.S = S;
 exports.bench7 = bench7;
 /* String Not a pure module */

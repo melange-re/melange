@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Caml = require("../../lib/js/caml.js");
 var Curry = require("../../lib/js/curry.js");
-var Caml_primitive = require("../../lib/js/caml_primitive.js");
 
 var suites = {
   contents: /* [] */0
@@ -30,15 +30,31 @@ function eq(loc, x, y) {
   
 }
 
+var expected_0 = true === false;
+
+var expected_1 = false === true;
+
+var expected_2 = false === false;
+
+var expected_3 = true === true;
+
+var expected_4 = Caml.caml_int_compare(false, true);
+
+var expected_5 = Caml.caml_int_compare(true, false);
+
+var expected_6 = Caml.caml_int_compare(false, false);
+
+var expected_7 = Caml.caml_int_compare(true, true);
+
 var expected = [
-  false,
-  false,
-  true,
-  true,
-  -1,
-  1,
-  0,
-  0
+  expected_0,
+  expected_1,
+  expected_2,
+  expected_3,
+  expected_4,
+  expected_5,
+  expected_6,
+  expected_7
 ];
 
 var expected2 = [
@@ -52,15 +68,31 @@ var expected2 = [
   0
 ];
 
+var u_0 = true === false;
+
+var u_1 = false === true;
+
+var u_2 = false === false;
+
+var u_3 = true === true;
+
+var u_4 = Caml.caml_int_compare(false, true);
+
+var u_5 = Caml.caml_int_compare(true, false);
+
+var u_6 = Caml.caml_int_compare(false, false);
+
+var u_7 = Caml.caml_int_compare(true, true);
+
 var u = [
-  false,
-  false,
-  true,
-  true,
-  -1,
-  1,
-  0,
-  0
+  u_0,
+  u_1,
+  u_2,
+  u_3,
+  u_4,
+  u_5,
+  u_6,
+  u_7
 ];
 
 eq("File \"gpr496_test.ml\", line 42, characters 12-19", expected, u);
@@ -68,7 +100,7 @@ eq("File \"gpr496_test.ml\", line 42, characters 12-19", expected, u);
 eq("File \"gpr496_test.ml\", line 44, characters 12-19", expected, expected2);
 
 function ff(x, y) {
-  return Caml_primitive.caml_bool_min(x, Curry._1(y, undefined));
+  return Caml.caml_int_min(x, Curry._1(y, undefined));
 }
 
 eq("File \"gpr496_test.ml\", line 48, characters 5-12", true < false ? true : false, false);

@@ -13,6 +13,12 @@
 (*                                                                        *)
 (**************************************************************************)
 
+let new_object_tag_block  : int -> Obj.t = [%raw{|function(size){
+  var v = new Array(size)
+  v.TAG = 248 // tag
+  return v
+}|}]
+
 open Obj
 
 (**** Object representation ****)
@@ -27,6 +33,13 @@ let copy o =
 
 (**** Compression options ****)
 (* Parameters *)
+#if BS then(* {!Translobj.oo_prim : string -> lambda} not by slot *)
+module Sys = struct
+  external word_size : unit -> int = "%word_size"
+  let word_size = word_size ()
+end
+#end
+
 type params = {
     mutable compact_table : bool;
     mutable copy_parent : bool;
@@ -130,9 +143,11 @@ let dummy_table =
 let table_count = ref 0
 
 (* dummy_met should be a pointer, so use an atom *)
-let dummy_met : item = obj (Obj.new_block 0 0)
+(* let dummy_met : item = obj (Obj.new_block 0 0) *)
 (* if debugging is needed, this could be a good idea: *)
 (* let dummy_met () = failwith "Undefined method" *)
+let dummy_met : item = DummyA
+(* In Bs context, dummy_met does not need to be a pointer *)
 
 let rec fit_size n =
   if n <= 2 then n else
@@ -427,7 +442,7 @@ let dummy_class loc =
 
 let create_object table =
   (* XXX Appel de [obj_block] | Call to [obj_block]  *)
-  let obj = Obj.new_block Obj.object_tag table.size in
+  let obj = new_object_tag_block table.size in
   (* XXX Appel de [caml_modify] | Call to [caml_modify] *)
   Obj.set_field obj 0 (Obj.repr table.methods);
   Obj.obj (set_id obj)
@@ -435,7 +450,7 @@ let create_object table =
 let create_object_opt obj_0 table =
   if (Obj.magic obj_0 : bool) then obj_0 else begin
     (* XXX Appel de [obj_block] | Call to [obj_block]  *)
-    let obj = Obj.new_block Obj.object_tag table.size in
+    let obj = new_object_tag_block table.size in
     (* XXX Appel de [caml_modify] | Call to [caml_modify] *)
     Obj.set_field obj 0 (Obj.repr table.methods);
     Obj.obj (set_id obj)

@@ -1,7 +1,5 @@
 (library
  (name bsb_helper)
- (flags
-  (:standard -w -9))
  (wrapped false)
  (modules bsb_db_decode bsb_helper_depfile_gen)
- (libraries bs_hash_stubs ext common unix str))
+ (libraries dune-action-plugin ext common unix str))

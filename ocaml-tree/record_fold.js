@@ -134,7 +134,7 @@ function mkStructuralTy(def, allNames) {
         eta: `(fun _self st ${snippet})`,
         beta(x) {
           // This code path seems to be not hit
-          return `let st = (fun ${snippet}) ${x} in `; 
+          return `let st = (fun ${snippet}) ${x} in `;
         },
       };
     default:
@@ -194,26 +194,26 @@ function make(type) {
   var customNames = setDiff(names.all, names.excludes);
   var output = typedefs.map((x) => mkMethod(x, names));
   var o = `
-open J  
+open J
 let [@inline] unknown _ st _ = st
-let [@inline] option sub self st = fun v -> 
-  match v with 
+let [@inline] option sub self st = fun v ->
+  match v with
   | None -> st
   | Some v -> sub self st v
-let rec list sub self st = fun x  -> 
-  match x with 
+let rec list sub self st = fun x  ->
+  match x with
   | [] -> st
-  | x::xs -> 
+  | x::xs ->
     let st = sub self st x in
     list sub self st xs
 
 type 'state iter = {
 ${customNames.map((x) => `  ${x} : ('state,${x}) fn`).join(";\n")}
-}  
+}
 and ('state,'a) fn = 'state iter -> 'state ->  'a -> 'state
 ${output.join("\n")}
 let super : 'state iter = {
-${customNames.map((x) => `  ${x}`).join(";\n")}    
+${customNames.map((x) => `  ${x}`).join(";\n")}
 }
     `;
   return o;
