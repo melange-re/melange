@@ -67,21 +67,7 @@ let type_declaration_mapper (_self : mapper) (tdcl : Parsetree.type_declaration)
 let  mapper : mapper =
   { default_mapper with type_declaration = type_declaration_mapper; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+let structure ast =
+  mapper.structure mapper ast
+let signature ast =
+  mapper.signature mapper ast

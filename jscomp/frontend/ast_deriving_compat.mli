@@ -24,4 +24,6 @@
 
 
 
-val mapper: Bs_ast_mapper.mapper
+val structure: Parsetree.structure -> Parsetree.structure
+val signature: Parsetree.signature -> Parsetree.signature
+
