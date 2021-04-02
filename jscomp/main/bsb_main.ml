@@ -169,16 +169,19 @@ module CLI = struct
 
   let init_arg =
     let docv = "init path" in
-    let doc = "Currently does nothing. Enabled for compatibility." in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
     Arg.(value & opt (some string) None & info ["init"] ~doc ~docv)
 
   let theme_arg =
     let docv = "theme" in
-    let doc = "Currently does nothing. Enabled for compatibility." in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
     Arg.(value & opt string "basic" & info ["theme"] ~doc ~docv)
 
   let themes_flag =
-    let doc = "Currently does nothing. Enabled for compatibility." in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
     Arg.(value & flag & info ["themes"] ~doc)
 
   let where_flag =
