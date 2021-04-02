@@ -9,6 +9,7 @@ depends: [
   "cmdliner"
 ]
 build: [
+  ["dune" "subst"] {pinned}
   [
     "dune"
     "build"
