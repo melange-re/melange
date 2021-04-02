@@ -47,6 +47,7 @@ let type_declaration_mapper (_self : mapper) (tdcl : Parsetree.type_declaration)
                  )
              | Some _ -> []
            end
+         (* [@@deriving abstract] *)
          | PStr [ {pstr_desc = Pstr_eval ({
                     pexp_desc =
                       Pexp_ident ({txt = Lident txt; _});
