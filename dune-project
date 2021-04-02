@@ -5,8 +5,9 @@
 (package
  (name melange)
  (depends
-  (ocaml-variants
-   (= "4.12.0+BS"))
+  (ocaml
+   (= "4.12"))
   dune-action-plugin
+  melange-compiler-libs
   reason
   cmdliner))

@@ -20,16 +20,16 @@ to use it is via [Esy](https://esy.sh).
 ```json
 {
   "dependencies": {
-    "bs-platform": "*"
+    "ocaml": "4.12.x",
+    "melange": "*"
   },
   "resolutions": {
-    "bs-platform": "melange-re/melange#HASH_HERE", <- or grab the latest commit in this repo
-    "ocaml": "melange-re/ocaml#75f22c8"
+    "melange": "melange-re/melange#HASH_HERE", <- or grab the latest commit in this repo
   },
   "esy": {
     "buildsInSource": "unsafe",
     "build": [
-      "ln -sfn #{bs-platform.install} node_modules/bs-platform"
+      "ln -sfn #{melange.install} node_modules/bs-platform"
     ]
   },
   "installConfig": {
