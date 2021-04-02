@@ -33,6 +33,7 @@ let type_declaration_mapper (_self : mapper) (tdcl : Parsetree.type_declaration)
        let txt' = match txt with
        | "deriving" ->
          let deriver = begin match payload with
+         (* [@@deriving {abstract = light}] *)
          | PStr [ {pstr_desc = Pstr_eval ({pexp_desc = Pexp_record (label_exprs, with_obj)}, _); _ }] ->
            begin match with_obj with
              | None ->
