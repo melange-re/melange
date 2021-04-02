@@ -40,7 +40,7 @@
  (public_name bsb)
  (modes native)
  (modules bsb_main)
- (libraries bs_hash_stubs ext common bsb))
+ (libraries bs_hash_stubs ext common bsb cmdliner))
 
 (executable
  (name cmjdump_main)

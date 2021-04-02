@@ -19,5 +19,6 @@ mkShell {
     findlib
     ocaml
     utop
+    cmdliner
   ]);
 }
