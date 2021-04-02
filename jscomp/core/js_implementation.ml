@@ -108,6 +108,7 @@ let interface ~parser ppf ?outputprefix fname  =
     | Some x -> x in
   Res_compmisc.init_path ();
   parser fname
+  |> Ast_deriving_compat.mapper.signature Ast_deriving_compat.mapper
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name Mli
   |> Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
@@ -206,6 +207,7 @@ let implementation ~parser ppf ?outputprefix fname   =
       | Some x -> x in
   Res_compmisc.init_path ();
   parser fname
+  |> Ast_deriving_compat.mapper.structure Ast_deriving_compat.mapper
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name Ml
   |> Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
