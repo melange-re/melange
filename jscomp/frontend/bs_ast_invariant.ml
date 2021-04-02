@@ -116,14 +116,6 @@ let check_constant loc kind (const : Parsetree.constant) =
 let emit_external_warnings : iterator=
   {
     super with
-    type_declaration = (fun self ptyp ->
-        let txt = ptyp.ptype_name.txt in
-        if Ast_core_type.is_builtin_rank0_type txt then
-          Location.raise_errorf ~loc:ptyp.ptype_loc
-            "built-in type `%s` can not be redefined " txt
-        ;
-        super.type_declaration self ptyp
-      );
     attribute = (fun _ attr -> warn_unused_attribute attr);
     structure_item = (fun self str_item ->
       match str_item.pstr_desc with
@@ -148,15 +140,6 @@ let emit_external_warnings : iterator=
           );
       super.label_declaration self lbl
     );
-    (* constructor_declaration = (fun self ({pcd_name = {txt;loc}} as ctr) -> *)
-      (* (match txt with *)
-      (* | "false" *)
-      (* | "true" *)
-      (* | "()" -> *)
-        (* Location.raise_errorf ~loc:loc "%s can not be redefined " txt *)
-      (* | _ -> ()); *)
-      (* default_iterator.constructor_declaration self ctr *)
-    (* ); *)
     value_description =
       (fun self v ->
          match v with
