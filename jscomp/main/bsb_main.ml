@@ -240,5 +240,5 @@ module CLI = struct
 end
 
 let () =
-  let bsb_args, dune_args = Cli_args.split_argv_at_separator Sys.argv in
-  Term.(exit @@ eval ~argv:(Cli_args.normalize_argv bsb_args) (CLI.run dune_args))
+  let bsb_args, dune_args = Ext_cli_args.split_argv_at_separator Sys.argv in
+  Term.(exit @@ eval ~argv:(Ext_cli_args.normalize_argv bsb_args) (CLI.run dune_args))
