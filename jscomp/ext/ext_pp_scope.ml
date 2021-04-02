@@ -104,7 +104,7 @@ let str_of_ident (cxt : t) (id : Ident.t)  : string * t  =
   else
     let id_name = Ident.name id in
     let name = Ext_ident.convert id_name in
-    let i,new_cxt = add_ident  ~mangled:name (Ident.stamp id) cxt in
+    let i,new_cxt = add_ident  ~mangled:name (Ext_ident.stamp id) cxt in
     (if i == 0 then
        name
      else
@@ -118,7 +118,7 @@ let ident (cxt : t) f (id : Ident.t) : t  =
 
 let merge (cxt : t) (set : Set_ident.t) =
   Set_ident.fold set cxt (fun ident acc ->
-      snd (add_ident ~mangled:(Ext_ident.convert (Ident.name ident)) (Ident.stamp ident) acc))
+      snd (add_ident ~mangled:(Ext_ident.convert (Ident.name ident)) (Ext_ident.stamp ident) acc))
 
 (* Assume that all idents are already in [scope]
    so both [param/0] and [param/1] are in idents, we don't need

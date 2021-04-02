@@ -1003,7 +1003,7 @@ var cppoRule = (src, target, flags = "") => `
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
+   (run cppo ${flags} %{deps} -o %{targets})))
 `;
 
 async function othersNinja() {

@@ -44,6 +44,14 @@ type[@ocaml.warning "-unused-constructor"] t =
   | Global of string
   | Predef of { name: string; stamp: int }
 
+let stamp (id: Ident.t) =
+  let stamp = match (Obj.magic id : t) with
+    | Local { stamp; _ }
+    | Scoped { stamp; _ } -> stamp
+    | _ -> 0
+  in
+  stamp
+
 (* XXX(anmonteiro): This is an artifact of the 4.12 upgrade that we need to fix
    at some point. This project (as well as the OCaml compiler, previously)
    abuses the `Ident.t` type in order to know whether some identifier comes
@@ -57,7 +65,7 @@ let create_unsafe_dont_use_or_bad_things_will_happen ~scope ~stamp name =
 
 let make_js_object (i : Ident.t) =
   create_unsafe_dont_use_or_bad_things_will_happen
-   ~stamp:(Ident.stamp i)
+   ~stamp:(stamp i)
    ~scope:(Ident.scope i lor js_object_flag)
    (Ident.name i)
 
@@ -194,12 +202,12 @@ let reset () =
    flags are not relevant here
 *)
 let compare (x : Ident.t ) ( y : Ident.t) =
-  let u = Ident.stamp x - Ident.stamp y in
+  let u = stamp x - stamp y in
   if u = 0 then
     Ext_string.compare (Ident.name x) (Ident.name y)
   else u
 
 let equal ( x : Ident.t) ( y : Ident.t) =
-  if Ident.stamp x <> 0 then Ident.stamp x = Ident.stamp y
-  else Ident.stamp y = 0 && Ident.name x = Ident.name y
+  if stamp x <> 0 then stamp x = stamp y
+  else stamp y = 0 && Ident.name x = Ident.name y
 
