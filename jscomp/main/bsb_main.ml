@@ -34,9 +34,6 @@ type cli_options =
   ; clean : bool
   ; make_world : bool
   ; install : bool
-  ; init_path : string option
-  ; theme : string
-  ; list_themes : bool
   ; print_bsb_location : bool
   ; websocket : bool
   ; dune_args : string array
@@ -97,29 +94,25 @@ let build_whole_project ~buf =
   output_dune_file buf;
   config
 
-let run_bsb ({theme; make_world; install; watch_mode; _} as options) =
+let run_bsb ({make_world; install; watch_mode; _} as options) =
   let cwd = Bsb_global_paths.cwd in
   try begin
     if options.print_version then print_version_string ();
     if options.verbose then Bsb_log.verbose ();
     if options.clean then Bsb_clean.clean cwd;
-    if options.list_themes then Bsb_theme_init.list_themes ();
     if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
-    match options.init_path with
-    | Some path -> Bsb_theme_init.init_sample_project ~cwd ~theme path
-    | None ->
-      let generate_dune_bsb = make_world || install in
-      if not make_world && not install then
-        (if watch_mode then exit 0)
-      else begin
-        if generate_dune_bsb then begin
-          let buf = Buffer.create 0x1000 in
-          let cfg = build_whole_project ~buf in
-          install_target cfg;
-        end;
-        if watch_mode then exit 0
-        else if make_world then dune_command_exit options.dune_args
-      end
+    let generate_dune_bsb = make_world || install in
+    if not make_world && not install then
+      (if watch_mode then exit 0)
+    else begin
+      if generate_dune_bsb then begin
+        let buf = Buffer.create 0x1000 in
+        let cfg = build_whole_project ~buf in
+        install_target cfg;
+      end;
+      if watch_mode then exit 0
+      else if make_world then dune_command_exit options.dune_args
+    end
   end
   with
   | Bsb_exception.Error e ->
@@ -165,26 +158,6 @@ module CLI = struct
     let doc = "Generate the (dune) rules for building the project" in
     Arg.(value & flag & info ["install"] ~doc)
 
-  let init_arg =
-    let docv = "init path" in
-    let doc =
-      "Init sample project to get started. \n\
-       Note: (`bsb -init sample` will create a sample project while \n\
-       `bsb -init .` will reuse current directory)" in
-    Arg.(value & opt (some string) None & info ["init"] ~doc ~docv)
-
-  let theme_arg =
-    let docv = "theme" in
-    let doc =
-      "The theme for project initialization. \n\
-       default is basic: \n\
-       https://github.com/melange-re/melange/tree/master/jscomp/bsb/templates" in
-    Arg.(value & opt string "basic" & info ["theme"] ~doc ~docv)
-
-  let themes_flag =
-    let doc = "List all available themes" in
-    Arg.(value & flag & info ["themes"] ~doc)
-
   let where_flag =
     let doc = "Show where bsb is located" in
     Arg.(value & flag & info ["where"] ~doc)
@@ -200,9 +173,6 @@ module CLI = struct
       clean
       make_world
       install
-      init_path
-      theme
-      list_themes
       print_bsb_location
       websocket
       dune_args =
@@ -212,9 +182,6 @@ module CLI = struct
     ; clean
     ; make_world
     ; install
-    ; init_path
-    ; theme
-    ; list_themes
     ; print_bsb_location
     ; websocket
     ; dune_args
@@ -229,9 +196,6 @@ module CLI = struct
             $ clean_flag
             $ make_world_flag
             $ install_flag
-            $ init_arg
-            $ theme_arg
-            $ themes_flag
             $ where_flag
             $ ws_flag
             $ const dune_args)
