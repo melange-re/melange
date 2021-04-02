@@ -59,5 +59,5 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ cppo ];
 
-  propagatedBuildInputs = [ reason ];
+  propagatedBuildInputs = [ reason cmdliner ];
 }
