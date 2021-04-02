@@ -223,12 +223,7 @@ let rec
   if Set_string.mem cxt.ignored_dirs dir then Bsb_file_groups.empty
   else
     let cur_globbed_dirs = ref false in
-    let has_generators =
-      match cxt with
-      | {cut_generators = false; package_kind = Toplevel | Pinned_dependency _ } -> true
-      | {cut_generators = false; package_kind = Dependency _}
-      | {cut_generators = true ; _ } -> false
-    in
+    let has_generators = not cxt.cut_generators in
     let scanned_generators = extract_generators input in
     let sub_dirs_field = input.?(Bsb_build_schemas.subdirs) in
     let base_name_array =
