@@ -40,6 +40,11 @@ type derive_table  =
 
 let derive_table : derive_table ref = ref Map_string.empty
 
+let is_builtin_deriver key =
+  Map_string.mem !derive_table key ||
+  (* abstract is treated specially *)
+  key = "abstract"
+
 let register key value =
   derive_table := Map_string.add !derive_table key value
 
