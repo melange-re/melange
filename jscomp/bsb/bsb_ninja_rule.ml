@@ -70,8 +70,6 @@ type command = string
 type builtin = {
   build_ast : t;
   (** TODO: Implement it on top of pp_flags *)
-  build_ast_from_re : t ;
-  (* build_ast_from_rei : t ; *)
 
 
   (** platform dependent, on Win32,
@@ -181,7 +179,7 @@ let make_custom_rules
       Buffer.add_string buf " $out_last"
     end ;
   in
-  let mk_ast ~has_reason_react_jsx buf ?target _cur_dir : unit =
+  let mk_ast buf ?target _cur_dir : unit =
     Buffer.add_string buf "(action\n (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf " ";
@@ -206,11 +204,9 @@ let make_custom_rules
        Buffer.add_char buf ' ';
        Buffer.add_string buf (Bsb_build_util.pp_flag flag)
     );
-    (match has_reason_react_jsx, reason_react_jsx with
-     | false, _
-     | _, None -> ()
-     | _, Some Jsx_v3
-       -> Buffer.add_string buf " -bs-jsx 3"
+    (match reason_react_jsx with
+     | None -> ()
+     | Some Jsx_v3 -> Buffer.add_string buf " -bs-jsx 3"
     );
 
     Buffer.add_char buf ' ';
@@ -220,12 +216,8 @@ let make_custom_rules
   in
   let build_ast =
     define
-      ~command:(mk_ast ~has_reason_react_jsx:false )
+      ~command:mk_ast
       "ast" in
-  let build_ast_from_re =
-    define
-      ~command:(mk_ast  ~has_reason_react_jsx:true)
-      "astj" in
 
   let copy_resources =
     define
@@ -277,7 +269,6 @@ let make_custom_rules
   in
   {
     build_ast ;
-    build_ast_from_re  ;
     (** platform dependent, on Win32,
         invoking cmd.exe
     *)
