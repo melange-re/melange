@@ -1,5 +1,5 @@
 {
-  "checksum": "49364fd31b55520e48419a3fb2ef7d54",
+  "checksum": "99123a4b39c8e6be1d9e796b9fab7fb3",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -38,7 +38,7 @@
       "overrides": [],
       "dependencies": [
         "ocaml@4.12.0@d41d8cd9", "@opam/reason@opam:3.7.0@191be014",
-        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#94eaf476@d41d8cd9",
+        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9@d41d8cd9",
         "@opam/dune-action-plugin@opam:2.8.5@7512542d",
         "@opam/dune@opam:2.8.5@83fb0224",
         "@opam/cmdliner@opam:1.0.4@93208aac"
@@ -382,16 +382,16 @@
         "@opam/dune@opam:2.8.5@83fb0224"
       ]
     },
-    "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#94eaf476@d41d8cd9": {
+    "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9@d41d8cd9": {
       "id":
-        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#94eaf476@d41d8cd9",
+        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9@d41d8cd9",
       "name": "@opam/melange-compiler-libs",
       "version":
-        "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#94eaf476",
+        "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9",
       "source": {
         "type": "install",
         "source": [
-          "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#94eaf476"
+          "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9"
         ]
       },
       "overrides": [],
