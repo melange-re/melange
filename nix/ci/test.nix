@@ -22,6 +22,8 @@ stdenv.mkDerivation rec {
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
   doCheck = true;
 
+  checkInputs = [ ounit2 ];
+
   buildInputs = melange.buildInputs ++ [
     yarn
     nodejs-14_x
