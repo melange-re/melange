@@ -81,7 +81,3 @@ let proj_rel path = rev_lib_bs // path
 
 (* let cmd_package_specs = ref None  *)
 
-let stdlib_path =
-  let install_dir = Filename.dirname (Filename.dirname Sys.executable_name) in
-  install_dir // lib_ocaml
-

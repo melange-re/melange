@@ -24,9 +24,22 @@
 
 
 
+let (//) = Ext_path.combine
 
+let install_dir =
+#ifdef BS_RELEASE_BUILD
+  (* we start in `<install-dir>/bin/bsc.exe`.
+     (dirname (dirname executable)) == <install-dir> *)
+  Filename.(dirname (dirname Sys.executable_name))
+#else
+  (* <root>/jscomp/main/bsc.exe -> <root> *)
+  Filename.(dirname (dirname (Ext_path.normalize_absolute_path Sys.executable_name)))
+#endif
 
-
+let stdlib_path =
+  lazy (match Sys.getenv "BSLIB" with
+  | value -> value
+  | exception _ -> install_dir // "lib" // "ocaml" )
 
 (** Browser is not set via command line only for internal use *)
 

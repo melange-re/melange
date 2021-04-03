@@ -79,10 +79,7 @@ let setup_env () =
 #endif
 
 #ifdef BS_RELEASE_BUILD
-    (* we start in `<install-dir>/bin/bsc.exe`.
-       (dirname (dirname executable)) == <install-dir> *)
-    (let install_dir = Filename.dirname (Filename.dirname Sys.executable_name )in
-    Clflags.include_dirs := (install_dir // "lib" // "ocaml") :: !Clflags.include_dirs);
+    Clflags.include_dirs := (Js_config.install_dir // "lib" // "ocaml") :: !Clflags.include_dirs;
 #endif
 
   Lexer.replace_directive_bool "BS" true;
