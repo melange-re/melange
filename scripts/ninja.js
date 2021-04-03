@@ -1003,7 +1003,7 @@ var cppoRule = (src, target, flags = "") => `
     (until-clean)
     (only :standard)))
   (action
-   (run cppo ${flags} %{deps} -o %{targets})))
+   (run cppo ${flags} %{deps} %{env:CPPO_FLAGS=} -o %{targets})))
 `;
 
 async function othersNinja() {
