@@ -18,7 +18,6 @@
     "clean": "node ./scripts/ninja.js clean"
   },
   "esy": {
-    "buildDev": "dune build",
     "build": "dune build -p #{self.name}",
     "install": [
       [
