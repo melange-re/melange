@@ -1,6 +1,6 @@
 let
   pkgs = import ../sources.nix { };
-  inherit (pkgs) stdenv nodejs-14_x yarn lib;
+  inherit (pkgs) stdenv nodejs-14_x yarn lib ocamlPackages;
   melange = import ./.. { inherit pkgs; };
 
 in
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
   doCheck = true;
 
-  checkInputs = [ ounit2 ];
+  checkInputs = with ocamlPackages; [ ounit2 ];
 
   buildInputs = melange.buildInputs ++ [
     yarn
