@@ -3,8 +3,6 @@
 set -e
 set -u
 
-set -x
-
 lib_dir="$1"
 build_dir="$2"
 

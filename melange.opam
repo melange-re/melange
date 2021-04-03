@@ -30,3 +30,5 @@ install: [
   [ "dune" "install" "-p" "%{name}%" ]
   [ "./fix-install-opam.sh" "%{_:lib}%" "%{_:build}%" ]
 ]
+
+setenv: [ BSLIB = "%{_:lib}%/melange" ]
