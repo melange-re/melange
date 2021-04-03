@@ -34,7 +34,6 @@ type t =
   bsc_flags: string;
   g_dpkg_incls: string list;
   g_dev_incls: string list;
-  g_stdlib_incl: string list;
   g_lib_incls: string list;
   external_incls: string list;
   g_sourcedirs_incls: string list;
@@ -54,7 +53,6 @@ let make
   ~bsc_flags
   ~g_dpkg_incls
   ~g_dev_incls
-  ~g_stdlib_incl
   ~g_lib_incls
   ~external_incls
   ~g_sourcedirs_incls
@@ -72,7 +70,6 @@ let make
   bsc_flags;
   g_dpkg_incls;
   g_dev_incls;
-  g_stdlib_incl;
   g_lib_incls;
   external_incls;
   g_sourcedirs_incls;

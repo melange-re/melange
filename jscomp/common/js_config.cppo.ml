@@ -53,7 +53,7 @@ let no_builtin_ppx = ref false
 
 
 
-let tool_name = "ReScript"
+let tool_name = "Melange"
 
 let check_div_by_zero = ref true
 let get_check_div_by_zero () = !check_div_by_zero

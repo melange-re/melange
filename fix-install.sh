@@ -3,8 +3,9 @@
 set -e
 set -u
 
-cd $cur__lib/melange
-tar xvf libocaml.tar.gz
+mkdir -p $cur__lib/ocaml
+cd $cur__lib/ocaml
+tar xvf ../melange/libocaml.tar.gz
 mv others/* .
 mv runtime/* .
 mv stdlib-412/stdlib_modules/* .
