@@ -70,7 +70,7 @@ let runtime_dir_of_module_system (ms : module_system ) =
 let runtime_package_path
     (ms : module_system)
     js_file =
-  Js_config.install_dir // "lib" // runtime_dir_of_module_system ms // js_file
+  !Bs_version.package_name // "lib" // runtime_dir_of_module_system ms // js_file
 
 
 type t =
