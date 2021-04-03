@@ -156,10 +156,6 @@ let make_custom_rules
       Buffer.add_string buf " ";
       Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);
     end;
-    if global_config.g_stdlib_incl <> [] then begin
-      Buffer.add_string buf " ";
-      Buffer.add_string buf (Bsb_build_util.include_dirs global_config.g_stdlib_incl)
-    end;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
     if read_cmi <> `is_cmi then begin
@@ -272,12 +268,7 @@ let make_custom_rules
   let build_package =
     define
       ~command:(fun buf ?target _cur_dir ->
-         let stdlib_incl =
-           Bsb_build_util.include_dirs global_config.g_stdlib_incl
-         in
-         let s = global_config.bsc ^ Ext_string.single_space ^ stdlib_incl ^
-         " -w -49 -color always -no-alias-deps %{inputs}"
-         in
+         let s = global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}" in
         Buffer.add_string buf "(action (run ";
         Buffer.add_string buf s;
         Buffer.add_string buf "))")

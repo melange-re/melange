@@ -102,7 +102,7 @@ let print_init_theme_notice () =
     "The subcommands -init, -theme and -themes are deprecated now. Use the template at \
      https://github.com/melange-re/melange-basic-template to start a new project."
 
-let run_bsb ({theme; make_world; install; watch_mode; _} as options) =
+let run_bsb ({ make_world; install; watch_mode; _ } as options) =
   let cwd = Bsb_global_paths.cwd in
   try begin
     if options.print_version then print_version_string ();

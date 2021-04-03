@@ -24,7 +24,8 @@
 
 
 
-
+val install_dir: string
+val stdlib_path: string lazy_t
 
 (* val get_packages_info :
    unit -> Js_packages_info.t *)

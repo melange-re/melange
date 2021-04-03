@@ -85,11 +85,6 @@ let output_ninja_and_namespace_map
       bs_groups.lib <- Bsb_db_util.merge bs_groups.lib sources ;
       source_dirs.lib <- dir :: source_dirs.lib
     end);
-  let g_stdlib_incl = if built_in_dependency then
-      let path = Bsb_config.stdlib_path ~cwd:per_proj_dir in
-      [ path ]
-    else []
-  in
   let global_config =
     Bsb_ninja_global_vars.make
       ~package_name
@@ -102,7 +97,6 @@ let output_ninja_and_namespace_map
       ~bsc_flags
       ~g_dpkg_incls:(bsc_lib_includes bs_dev_dependencies)
       ~g_dev_incls:source_dirs.dev
-      ~g_stdlib_incl
       ~g_sourcedirs_incls:source_dirs.lib
       ~g_lib_incls:(bsc_lib_includes bs_dependencies)
       ~external_incls:external_includes
