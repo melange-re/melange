@@ -25,6 +25,12 @@
 let basename = Filename.basename
 let (//) = Ext_path.combine
 
+let rel_dependencies_alias ~proj_dir ~cur_dir deps =
+  Ext_list.map deps (fun dir ->
+   let rel_dir =
+     Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) dir
+   in
+   rel_dir // Literals.bsb_world)
 
 
 let handle_generators buf
@@ -152,13 +158,11 @@ let emit_module_build
       (ns ^ Literals.suffix_cmi) ]
    | None -> []
    in
-  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
-     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world)
-  in
   let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
+  let bs_dependencies = rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dependencies in
   let bs_dependencies = if is_dev then
-    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
-      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world)
+    let dev_dependencies =
+      rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dev_dependencies
     in
     dev_dependencies @ bs_dependencies
   else
