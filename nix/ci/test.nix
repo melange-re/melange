@@ -1,13 +1,15 @@
 let
   pkgs = import ../sources.nix { };
-  inherit (pkgs) stdenv nodejs-14_x yarn lib ocamlPackages;
+  inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
   melange = import ./.. { inherit pkgs; };
 
 in
 
 stdenv.mkDerivation rec {
   name = "melange-tests";
-  inherit (melange) src nativeBuildInputs propagatedBuildInputs;
+  inherit (melange) nativeBuildInputs propagatedBuildInputs;
+
+  src = ../..;
 
   inputString = builtins.unsafeDiscardStringContext melange.outPath;
 
@@ -25,12 +27,17 @@ stdenv.mkDerivation rec {
   checkInputs = with ocamlPackages; [ ounit2 ];
 
   buildInputs = melange.buildInputs ++ [
+    git
     yarn
     nodejs-14_x
     melange
   ];
 
   checkPhase = ''
+    # check that running `node scripts/ninja.js config` produces an empty diff.
+    node scripts/ninja.js config
+    git diff --exit-code
+
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 

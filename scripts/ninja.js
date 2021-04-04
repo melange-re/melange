@@ -76,14 +76,7 @@ exports.vendorNinjaPath = vendorNinjaPath;
  * Note ocamldep.opt has built-in macro handling OCAML_VERSION
  */
 var getOcamldepFile = () => {
-  return path.join(
-    // __dirname,
-    // "..",
-    // "native",
-    // require("./buildocaml.js").getVersionPrefix(),
-    // "bin",
-    "ocamldep.opt"
-  );
+  return "ocamldep.opt";
 };
 
 /**
@@ -254,6 +247,12 @@ class TargetSet {
    */
   forEach(callback) {
     this.data.forEach(callback);
+  }
+
+  removeByName(x) {
+    this.data = this.data.filter(cur => cur.name !== x)
+
+    return this;
   }
 }
 
@@ -1226,6 +1225,24 @@ async function stdlibNinja() {
     "stdlib__no_aliases.cmi",
   ]);
   targets.forEach((ext, mod) => {
+    switch (mod) {
+      /* Some exceptions caused by `-allow-approx`, where ocamldep can't parse
+       * files with `#if` conditionals */
+      case 'obj':
+        var target = mod + ".cmj";
+        if (depsMap.has(target)) {
+          var tgt = depsMap.get(target);
+          tgt.removeByName('ephemeron.cmj');
+        }
+        break;
+      case 'camlinternalFormat':
+        var target = mod + ".cmj";
+        if (depsMap.has(target)) {
+          var tgt = depsMap.get(target);
+          tgt.removeByName('format.cmj');
+        }
+        break;
+    };
     switch (ext) {
       case "HAS_MLI":
       case "HAS_BOTH":
