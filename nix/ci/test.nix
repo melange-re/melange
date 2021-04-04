@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
   checkPhase = ''
     # check that running `node scripts/ninja.js config` produces an empty diff.
     node scripts/ninja.js config
-    git diff --exit-code --quiet
+    git diff --exit-code
 
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
