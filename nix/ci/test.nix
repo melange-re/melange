@@ -35,6 +35,7 @@ stdenv.mkDerivation rec {
 
   checkPhase = ''
     # check that running `node scripts/ninja.js config` produces an empty diff.
+    node scripts/ninja.js config
     git diff --exit-code --quiet
 
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
