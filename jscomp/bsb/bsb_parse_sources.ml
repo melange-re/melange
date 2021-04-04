@@ -275,8 +275,8 @@ let rec
                 (
                   parsing_source_dir_map
                     {cxt with
-                     cwd = Ext_path.concat cxt.cwd
-                         (Ext_path.simple_convert_node_path_to_os_path x);
+                     cwd = Ext_path.(normalize_absolute_path
+                             (concat cxt.cwd (simple_convert_node_path_to_os_path x)));
                      traverse = true
                     } Map_string.empty)  origin
             else origin
@@ -323,7 +323,8 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
     | (Toplevel), _ ->
       parsing_source_dir_map
         {cxt with
-         cwd = Ext_path.concat cwd (Ext_path.simple_convert_node_path_to_os_path dir)}
+         cwd = Ext_path.(normalize_absolute_path
+                 (concat cwd (simple_convert_node_path_to_os_path dir)))}
         Map_string.empty
      end
   | Obj {map} ->
@@ -351,7 +352,7 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
       in
       parsing_source_dir_map
         {cxt with is_dev = current_dir_index;
-                  cwd= Ext_path.concat cwd dir} map
+                  cwd= Ext_path.(normalize_absolute_path (concat cwd dir))} map
       end
   | _ -> Bsb_file_groups.empty
 and  parsing_arr_sources cxt (file_groups : Ext_json_types.t array)  =
@@ -406,13 +407,13 @@ and walk_single_source cxt (x : Ext_json_types.t) =
     ->
     let dir = Ext_path.simple_convert_node_path_to_os_path dir in
     walk_source_dir_map
-    {cxt with cwd = Ext_path.concat cxt.cwd dir } None
+    {cxt with cwd = Ext_path.(normalize_absolute_path (concat cxt.cwd dir)) } None
   | Obj {map} ->
     begin match map.?(Bsb_build_schemas.dir) with
     | Some (Str{str}) ->
       let dir = Ext_path.simple_convert_node_path_to_os_path str  in
       walk_source_dir_map
-      {cxt with cwd = Ext_path.concat cxt.cwd dir} map.?(Bsb_build_schemas.subdirs)
+      {cxt with cwd = Ext_path.(normalize_absolute_path (concat cxt.cwd dir))} map.?(Bsb_build_schemas.subdirs)
     | _ -> ()
     end
   | _ -> ()
@@ -438,8 +439,7 @@ and walk_source_dir_map (cxt : walk_cxt)  sub_dirs_field =
             walk_source_dir_map
               {cxt with
                cwd =
-                 Ext_path.concat cxt.cwd
-                   (Ext_path.simple_convert_node_path_to_os_path f);
+                 Ext_path.(normalize_absolute_path (concat cxt.cwd (simple_convert_node_path_to_os_path f)));
                traverse = true
               } None
         end

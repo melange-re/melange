@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+let (//) = Ext_path.combine
+
 (* Clflags.keep_docs := false; *)
 (* default to false -check later*)
 (* Clflags.keep_locs := false; *)
@@ -64,16 +66,23 @@ let setup_env () =
     Matching_polyfill.names_from_construct_pattern;
 #ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
-    (* (let root_dir = *)
-        (* Filename.dirname *)
-          (* (Filename.dirname Sys.executable_name) in *)
-    (* let (//) = Filename.concat in *)
-    (* Clflags.include_dirs := *)
-      (* (root_dir//"jscomp"//"others") :: *)
-      (* (root_dir//"jscomp"//"stdlib-412") :: *)
-      (* (root_dir//"jscomp"//"runtime") :: *)
-      (* !Clflags.include_dirs); *)
+    (let jscomp =
+        (* jscomp/main/bsc.exe -> jscomp *)
+        Filename.dirname
+          (Filename.dirname Sys.executable_name) in
+    Clflags.include_dirs :=
+      (jscomp//"others") ::
+      (jscomp//"stdlib-412/stdlib_modules") ::
+      (jscomp//"stdlib-412") ::
+      (jscomp//"runtime") ::
+      (Lazy.force Js_config.stdlib_path) ::
+      !Clflags.include_dirs);
 #endif
+
+#ifdef BS_RELEASE_BUILD
+    Clflags.include_dirs := (Lazy.force Js_config.stdlib_path) :: !Clflags.include_dirs;
+#endif
+
   Lexer.replace_directive_bool "BS" true;
   Lexer.replace_directive_bool "JS" true;
   Lexer.replace_directive_string "BS_VERSION"  Bs_version.version

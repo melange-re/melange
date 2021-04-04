@@ -6,5 +6,5 @@ _opam
 .DS_Store
 
 node_modules
-lib/ocaml
+lib/melange
 .vscode/settings.json

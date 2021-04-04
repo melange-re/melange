@@ -48,15 +48,12 @@ let ppx_flags (xs : Bsb_config_types.ppx list) =
 let pp_flag (xs : string) =
    "-pp " ^ maybe_quote_for_dune xs
 
-let include_dirs dirs =
-  String.concat Ext_string.single_space
-    (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune x]))
-
-
 let include_dirs_by dirs fn =
   String.concat Ext_string.single_space
     (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune (fn x)]))
 
+let include_dirs dirs =
+  include_dirs_by dirs Fun.id
 
 let rel_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
  let relativize_single dir =

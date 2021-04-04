@@ -38,7 +38,6 @@ val get_name : t -> ?target:string -> string  -> Buffer.t -> unit
 type builtin = {
 
   build_ast : t;
-  build_ast_from_re : t ;
 
   (** platform dependent, on Win32,
       invoking cmd.exe

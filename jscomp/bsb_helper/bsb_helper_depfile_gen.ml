@@ -117,14 +117,6 @@ let oc_deps
     offset := next_tab + 1
   done
 
-let group_by_map ~fk ~fv xs =
-  let tbl = Hash_string.create 64 in
-  Ext_list.iter xs (fun element ->
-      let key = fk element in
-      let value = fv element in
-      Hash_string.add_or_update tbl key ~update:(fun x -> value :: x) [value]);
-  tbl
-
 let multi_file_glob files =
   let pp_list =
     Format.(pp_print_list ~pp_sep:(fun fmt () -> fprintf fmt ",") pp_print_string)
@@ -133,7 +125,7 @@ let multi_file_glob files =
 
 let process_deps ~root ~cwd ~deps =
   let rules =
-    group_by_map ~fk:(fun x -> Filename.dirname x) ~fv:Filename.basename deps
+    Ext_list.group_by ~fk:(fun x -> Filename.dirname x) ~fv:Filename.basename deps
   in
   Hash_string.fold rules [] (fun dir basenames acc ->
     let dirname =

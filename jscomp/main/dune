@@ -75,7 +75,7 @@
   (alias ../others/all)
   (alias ../stdlib-412/all))
  (libraries
-  ounit
+  ounit2
   bs_hash_stubs
   ext
   common

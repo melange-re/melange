@@ -25,6 +25,12 @@
 let basename = Filename.basename
 let (//) = Ext_path.combine
 
+let rel_dependencies_alias ~proj_dir ~cur_dir deps =
+  Ext_list.map deps (fun dir ->
+   let rel_dir =
+     Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) dir
+   in
+   rel_dir // Literals.bsb_world)
 
 
 let handle_generators buf
@@ -60,12 +66,6 @@ let res_suffixes = {
   intf = Literals.suffix_resi;
 }
 
-let syntax_kind_to_rule ~(rules : Bsb_ninja_rule.builtin) (syntax_kind : Bsb_db.syntax_kind) =
-  match syntax_kind with
-  | Ml -> rules.build_ast
-  | Reason
-  | Res -> rules.build_ast_from_re
-
 let emit_module_build
     (rules : Bsb_ninja_rule.builtin)
     (package_specs : Bsb_package_specs.t)
@@ -91,10 +91,6 @@ let emit_module_build
   | false, false -> assert false
   in
   let has_intf_file = module_info.info = Impl_intf in
-  let impl_kind, intf_kind = match module_info.syntax_kind with
-  | Same kind -> kind, kind
-  | Different { impl; intf } -> impl, intf
-  in
   let config  =
     match module_info.syntax_kind with
     | Same Reason -> re_suffixes
@@ -151,7 +147,7 @@ let emit_module_build
       ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
       ~outputs:[output_ast]
       ~inputs:[basename input_impl]
-      ~rule:(syntax_kind_to_rule ~rules impl_kind);
+      ~rule:rules.build_ast;
   end;
   let relative_ns_cmi =
    match namespace with
@@ -162,13 +158,11 @@ let emit_module_build
       (ns ^ Literals.suffix_cmi) ]
    | None -> []
    in
-  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
-     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world)
-  in
   let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
+  let bs_dependencies = rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dependencies in
   let bs_dependencies = if is_dev then
-    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
-      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world)
+    let dev_dependencies =
+      rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dev_dependencies
     in
     dev_dependencies @ bs_dependencies
   else
@@ -181,7 +175,7 @@ let emit_module_build
           [lib/bs], better for testing?
       *)
       ~inputs:[basename input_intf]
-      ~rule:(syntax_kind_to_rule ~rules intf_kind);
+      ~rule:rules.build_ast;
 
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:[ast_deps]
@@ -242,7 +236,7 @@ let handle_files_per_dir
     Buffer.add_string buf rel_group_dir;
     Buffer.add_char buf '\n';
     if group.subdirs <> [] then begin
-      Buffer.add_string buf "(dirs";
+      Buffer.add_string buf "(dirs :standard";
       Ext_list.iter group.subdirs (fun subdir ->
         Buffer.add_char buf ' ';
         Buffer.add_string buf subdir);

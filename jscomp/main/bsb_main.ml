@@ -61,7 +61,11 @@ let output_dune_project_if_does_not_exist proj_dir =
 let output_dune_file buf =
   let proj_dir =  Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
-  Buffer.add_string buf "\n(data_only_dirs node_modules)";
+  Buffer.add_string buf "\n(data_only_dirs node_modules)\n";
+  (* for the edge case of empty sources (either in user config or because a
+     source dir is empty), we emit an empty `bsb_world` alias. This avoids
+     showing the user an error when they haven't done anything. *)
+  Buffer.add_string buf "\n(alias (name bsb_world))\n";
   Bsb_ninja_targets.revise_dune dune_bsb buf;
   let dune = proj_dir // Literals.dune in
   let buf = Buffer.create 256 in
@@ -97,28 +101,30 @@ let build_whole_project ~buf =
   output_dune_file buf;
   config
 
-let run_bsb ({theme; make_world; install; watch_mode; _} as options) =
+let print_init_theme_notice () =
+  print_endline
+    "The subcommands -init, -theme and -themes are deprecated now. Use the template at \
+     https://github.com/melange-re/melange-basic-template to start a new project."
+
+let run_bsb ({ make_world; install; watch_mode; _ } as options) =
   let cwd = Bsb_global_paths.cwd in
   try begin
     if options.print_version then print_version_string ();
     if options.verbose then Bsb_log.verbose ();
-    if options.clean then Bsb_clean.clean cwd;
-    if options.list_themes then Bsb_theme_init.list_themes ();
+    if options.clean then Bsb_clean.clean cwd; (* TODO: take dune args *)
     if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
-    match options.init_path with
-    | Some path -> Bsb_theme_init.init_sample_project ~cwd ~theme path
-    | None ->
+    match options.init_path, options.list_themes with
+    | Some _, _ | _, true -> print_init_theme_notice ()
+    | None, false ->
       let generate_dune_bsb = make_world || install in
-      if not make_world && not install then
-        (if watch_mode then exit 0)
+      if (not make_world) && not install then (if watch_mode then exit 0)
       else begin
         if generate_dune_bsb then begin
           let buf = Buffer.create 0x1000 in
           let cfg = build_whole_project ~buf in
-          install_target cfg;
+          install_target cfg
         end;
-        if watch_mode then exit 0
-        else if make_world then dune_command_exit options.dune_args
+        if watch_mode then exit 0 else if make_world then dune_command_exit options.dune_args
       end
   end
   with
@@ -167,22 +173,19 @@ module CLI = struct
 
   let init_arg =
     let docv = "init path" in
-    let doc =
-      "Init sample project to get started. \n\
-       Note: (`bsb -init sample` will create a sample project while \n\
-       `bsb -init .` will reuse current directory)" in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
     Arg.(value & opt (some string) None & info ["init"] ~doc ~docv)
 
   let theme_arg =
     let docv = "theme" in
-    let doc =
-      "The theme for project initialization. \n\
-       default is basic: \n\
-       https://github.com/melange-re/melange/tree/master/jscomp/bsb/templates" in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
     Arg.(value & opt string "basic" & info ["theme"] ~doc ~docv)
 
   let themes_flag =
-    let doc = "List all available themes" in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
     Arg.(value & flag & info ["themes"] ~doc)
 
   let where_flag =

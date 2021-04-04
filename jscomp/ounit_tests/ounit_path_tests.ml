@@ -3,17 +3,17 @@ let ((>::),
 
 
 let normalize = Ext_path.normalize_absolute_path
-let (=~) x y = 
-  OUnit.assert_equal 
+let (=~) x y =
+  OUnit.assert_equal
   ~printer:(fun x -> x)
   ~cmp:(fun x y ->   Ext_string.equal x y ) x y
 
-let suites = 
-  __FILE__ 
+let suites =
+  __FILE__
   >:::
   [
-    "linux path tests" >:: begin fun _ -> 
-      let norm = 
+    "linux path tests" >:: begin fun _ ->
+      let norm =
         Array.map normalize
           [|
             "/gsho/./..";
@@ -26,8 +26,8 @@ let suites =
             "/a";
             "/a.txt/";
             "/a.txt"
-          |] in 
-      OUnit.assert_equal norm 
+          |] in
+      OUnit.assert_equal norm
         [|
           "/";
           "/a/c../d/e/f";
@@ -44,18 +44,18 @@ let suites =
     __LOC__ >:: begin fun _ ->
       normalize "/./a/.////////j/k//../////..///././b/./c/d/./." =~ "/a/b/c/d"
     end;
-    __LOC__ >:: begin fun _ -> 
+    __LOC__ >:: begin fun _ ->
       normalize "/./a/.////////j/k//../////..///././b/./c/d/././../" =~ "/a/b/c"
     end;
 
-    __LOC__ >:: begin fun _ -> 
-      let aux a b result = 
+    __LOC__ >:: begin fun _ ->
+      let aux a b result =
 
         Ext_path.rel_normalized_absolute_path
-          ~from:a b =~ result ; 
+          ~from:a b =~ result ;
 
         Ext_path.rel_normalized_absolute_path
-          ~from:(String.sub a 0 (String.length a - 1)) 
+          ~from:(String.sub a 0 (String.length a - 1))
           b  =~ result ;
 
         Ext_path.rel_normalized_absolute_path
@@ -67,8 +67,8 @@ let suites =
         Ext_path.rel_normalized_absolute_path
           ~from:(String.sub a 0 (String.length a - 1 ))
           (String.sub b 0 (String.length b - 1))
-        =~ result  
-      in   
+        =~ result
+      in
       aux
         "/a/b/c/"
         "/a/b/c/d/"  "./d";
@@ -80,27 +80,35 @@ let suites =
         "/a/b/c/"  ".."  ;
       aux
         "/a/b/c/d/"
-        "/a/b/"  "../.."  ;  
+        "/a/b/"  "../.."  ;
       aux
         "/a/b/c/d/"
-        "/a/"  "../../.."  ;  
+        "/a/"  "../../.."  ;
       aux
         "/a/b/c/d/"
-        "//"  "../../../.."  ;  
-
+        "//"  "../../../.."  ;
 
     end;
-    (* This is still correct just not optimal depends 
+    (* This is still correct just not optimal depends
        on user's perspective *)
-    __LOC__ >:: begin fun _ -> 
-      Ext_path.rel_normalized_absolute_path 
+    __LOC__ >:: begin fun _ ->
+      Ext_path.rel_normalized_absolute_path
         ~from:"/a/b/c/d"
-        "/x/y" =~ "../../../../x/y"  
+        "/x/y" =~ "../../../../x/y";
 
+      Ext_path.rel_normalized_absolute_path
+             ~from:"/a/b/c/d/e/./src/bindings/Navigation"
+             "/a/b/c/d/e" =~ "../../..";
+
+      Ext_path.rel_normalized_absolute_path
+        ~from:"/a/b/c/./d" "/a/b/c" =~ ".." ;
+
+      Ext_path.rel_normalized_absolute_path
+        ~from:"/a/b/c/./src" "/a/b/d/./src" =~ "../../d/src" ;
     end;
 
-    (* used in module system: [es6-global] and [amdjs-global] *)    
-    __LOC__ >:: begin fun _ -> 
+    (* used in module system: [es6-global] and [amdjs-global] *)
+    __LOC__ >:: begin fun _ ->
       Ext_path.rel_normalized_absolute_path
         ~from:"/usr/local/lib/node_modules/"
         "//" =~ "../../../..";
@@ -112,16 +120,16 @@ let suites =
         "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js";
       Ext_path.rel_normalized_absolute_path
         ~from:"././"
-        "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js"        
+        "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js"
     end;
 
-     __LOC__ >:: begin fun _ -> 
+     __LOC__ >:: begin fun _ ->
       Ext_path.node_rebase_file
         ~to_:( "lib/js/src/a")
         ~from:( "lib/js/src") "b" =~ "./a/b" ;
       Ext_path.node_rebase_file
         ~to_:( "lib/js/src/")
-        ~from:( "lib/js/src") "b" =~ "./b" ;          
+        ~from:( "lib/js/src") "b" =~ "./b" ;
       Ext_path.node_rebase_file
         ~to_:( "lib/js/src")
         ~from:("lib/js/src/a") "b" =~ "../b";
@@ -129,7 +137,7 @@ let suites =
         ~to_:( "lib/js/src/a")
         ~from:("lib/js/") "b" =~ "./src/a/b" ;
       Ext_path.node_rebase_file
-        ~to_:("lib/js/./src/a") 
+        ~to_:("lib/js/./src/a")
         ~from:("lib/js/src/a/") "b"
         =~ "./b";
 
@@ -141,5 +149,5 @@ let suites =
         ~to_:"lib/js/src/a/"
         ~from:"lib/js/src/a/" "b"
       =~ "./b"
-    end     
+    end
   ]
