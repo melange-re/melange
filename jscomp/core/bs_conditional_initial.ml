@@ -75,11 +75,12 @@ let setup_env () =
       (jscomp//"stdlib-412/stdlib_modules") ::
       (jscomp//"stdlib-412") ::
       (jscomp//"runtime") ::
+      (Lazy.force Js_config.stdlib_path) ::
       !Clflags.include_dirs);
 #endif
 
 #ifdef BS_RELEASE_BUILD
-    Clflags.include_dirs := (Js_config.install_dir // "lib" // "melange") :: !Clflags.include_dirs;
+    Clflags.include_dirs := (Lazy.force Js_config.stdlib_path) :: !Clflags.include_dirs;
 #endif
 
   Lexer.replace_directive_bool "BS" true;

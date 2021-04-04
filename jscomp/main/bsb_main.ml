@@ -61,7 +61,11 @@ let output_dune_project_if_does_not_exist proj_dir =
 let output_dune_file buf =
   let proj_dir =  Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
-  Buffer.add_string buf "\n(data_only_dirs node_modules)";
+  Buffer.add_string buf "\n(data_only_dirs node_modules)\n";
+  (* for the edge case of empty sources (either in user config or because a
+     source dir is empty), we emit an empty `bsb_world` alias. This avoids
+     showing the user an error when they haven't done anything. *)
+  Buffer.add_string buf "\n(alias (name bsb_world))\n";
   Bsb_ninja_targets.revise_dune dune_bsb buf;
   let dune = proj_dir // Literals.dune in
   let buf = Buffer.create 256 in
@@ -107,7 +111,7 @@ let run_bsb ({ make_world; install; watch_mode; _ } as options) =
   try begin
     if options.print_version then print_version_string ();
     if options.verbose then Bsb_log.verbose ();
-    if options.clean then Bsb_clean.clean cwd;
+    if options.clean then Bsb_clean.clean cwd; (* TODO: take dune args *)
     if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
     match options.init_path, options.list_themes with
     | Some _, _ | _, true -> print_init_theme_notice ()

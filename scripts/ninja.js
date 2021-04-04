@@ -1192,11 +1192,11 @@ async function stdlibNinja() {
     externalDeps,
   ],
   [
-    ruleCC,
+    ruleCC_cmi,
     bsc_builtin_flags,
     "camlinternalAtomic.ml",
     "camlinternalAtomic.cmj",
-    externalDeps,
+    externalDeps.concat(["camlinternalAtomic.cmi"]),
   ],
   [
     ruleCC,

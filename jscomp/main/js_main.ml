@@ -263,11 +263,7 @@ let define_variable s =
   | _ -> Bsc_args.bad_arg ("illegal definition: " ^ s)
 
 let print_standard_library () =
-  let (//) = Filename.concat in
-  let standard_library =
-    Filename.dirname Sys.executable_name
-    // Filename.parent_dir_name // "lib"// "ocaml"  in
-  print_string standard_library; print_newline();
+  print_endline (Lazy.force Js_config.stdlib_path);
   exit 0
 
 let bs_version_string =
