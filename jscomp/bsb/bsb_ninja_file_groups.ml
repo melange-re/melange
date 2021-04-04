@@ -60,12 +60,6 @@ let res_suffixes = {
   intf = Literals.suffix_resi;
 }
 
-let syntax_kind_to_rule ~(rules : Bsb_ninja_rule.builtin) (syntax_kind : Bsb_db.syntax_kind) =
-  match syntax_kind with
-  | Ml -> rules.build_ast
-  | Reason
-  | Res -> rules.build_ast_from_re
-
 let emit_module_build
     (rules : Bsb_ninja_rule.builtin)
     (package_specs : Bsb_package_specs.t)
@@ -91,10 +85,6 @@ let emit_module_build
   | false, false -> assert false
   in
   let has_intf_file = module_info.info = Impl_intf in
-  let impl_kind, intf_kind = match module_info.syntax_kind with
-  | Same kind -> kind, kind
-  | Different { impl; intf } -> impl, intf
-  in
   let config  =
     match module_info.syntax_kind with
     | Same Reason -> re_suffixes
@@ -151,7 +141,7 @@ let emit_module_build
       ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
       ~outputs:[output_ast]
       ~inputs:[basename input_impl]
-      ~rule:(syntax_kind_to_rule ~rules impl_kind);
+      ~rule:rules.build_ast;
   end;
   let relative_ns_cmi =
    match namespace with
@@ -181,7 +171,7 @@ let emit_module_build
           [lib/bs], better for testing?
       *)
       ~inputs:[basename input_intf]
-      ~rule:(syntax_kind_to_rule ~rules intf_kind);
+      ~rule:rules.build_ast;
 
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:[ast_deps]
