@@ -39,7 +39,7 @@ let install_dir =
 let stdlib_path =
   lazy (match Sys.getenv "BSLIB" with
   | value -> value
-  | exception _ -> install_dir // "lib" // "ocaml" )
+  | exception _ -> install_dir // "lib" // "melange" )
 
 (** Browser is not set via command line only for internal use *)
 
