@@ -95,25 +95,6 @@ let from_map (m : Ext_json_types.t Map_string.t) =
 
 let to_bsb_string ~(package_kind: Bsb_package_kind.t) warning =
   match package_kind with 
-  | Toplevel 
-  | Pinned_dependency _ -> 
-    (match warning with
-    | None -> Ext_string.empty
-    | Some warning ->     
-      (match warning.number with
-       | None ->
-         Ext_string.empty
-       | Some x ->
-         prepare_warning_concat ~beg:true x  
-      ) ^
-      (
-        match warning.error with
-        | Warn_error_true ->
-          " -warn-error A"
-        | Warn_error_number y ->
-          " -warn-error " ^ y
-        | Warn_error_false ->
-          Ext_string.empty
-      ))
-  | Dependency _ ->  " -w a" 
+    | Toplevel 
+    | Dependency _ ->  " -w a" 
   (* TODO: this is the current default behavior *)

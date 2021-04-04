@@ -196,7 +196,7 @@ let single_source_subdir_names ({package_kind; is_dev ; cwd}) (x : Ext_json_type
     begin match package_kind, current_dir_index with
     | Dependency _ , true -> []
     | Dependency _, false
-    | (Toplevel | Pinned_dependency _), _ ->
+    | (Toplevel), _ ->
       let dir =
         match map.?(Bsb_build_schemas.dir) with
         | Some (Str{str}) -> str
@@ -320,7 +320,7 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
     | Dependency _ , true ->
       Bsb_file_groups.empty
     | Dependency _, false
-    | (Toplevel | Pinned_dependency _), _ ->
+    | (Toplevel), _ ->
       parsing_source_dir_map
         {cxt with
          cwd = Ext_path.(normalize_absolute_path
@@ -338,7 +338,7 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
     | Dependency _ , true ->
       Bsb_file_groups.empty
     | Dependency _, false
-    | (Toplevel | Pinned_dependency _), _ ->
+    | (Toplevel), _ ->
       let dir =
         match map.?(Bsb_build_schemas.dir) with
         | Some (Str{str}) ->

@@ -25,7 +25,6 @@
 type t = 
     | Toplevel
     | Dependency of Bsb_package_specs.t 
-    | Pinned_dependency of Bsb_package_specs.t 
         (*  This package specs comes from the toplevel to 
             override the current settings
         *)
