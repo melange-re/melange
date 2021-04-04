@@ -1344,7 +1344,6 @@ async function testNinja() {
       x.endsWith(".re") ||
       x.endsWith(".rei") ||
       ((x.endsWith(".ml") || x.endsWith(".mli")) &&
-        !x.endsWith("bspack.ml") &&
         x !== "es6_import.ml" &&
         x !== "es6_export.ml")
     );
