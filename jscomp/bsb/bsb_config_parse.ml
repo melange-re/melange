@@ -180,13 +180,6 @@ let extract_ignored_dirs (map : json_map) : Set_string .t =
     Set_string.of_list (Bsb_build_util.get_list_string content)
   | Some config ->
     Bsb_exception.config_error config "expect an array of string"
-let extract_pinned_dependencies (map : json_map) : Set_string.t =
-  match map.?(Bsb_build_schemas.pinned_dependencies) with
-  | None -> Set_string.empty
-  | Some (Arr {content}) ->
-    Set_string.of_list (Bsb_build_util.get_list_string content)
-  | Some config ->
-    Bsb_exception.config_error config "expect an array of string"
 
 let extract_generators (map : json_map) =
   let generators = ref Map_string.empty in
@@ -315,7 +308,6 @@ let rec interpret_json
 
     let package_specs = match package_kind with
       | Toplevel ->  Bsb_package_specs.from_map ~cwd:per_proj_dir map
-      | Pinned_dependency x
       | Dependency x -> x
     in
     let bs_dependencies =
@@ -328,15 +320,8 @@ let rec interpret_json
     let bs_dev_dependencies =
       match package_kind with
       | Toplevel
-      | Pinned_dependency _ ->
-        extract_dependencies
-          ~package_kind:(Dependency package_specs)
-          map
-          per_proj_dir
-          Bsb_build_schemas.bs_dev_dependencies
       | Dependency _ -> [] in
-    let pinned_dependencies =
-      extract_pinned_dependencies map in
+    
     begin match map.?(Bsb_build_schemas.sources) with
       | Some sources ->
         let cut_generators =
@@ -349,7 +334,6 @@ let rec interpret_json
             ~namespace
             sources in
         {
-          pinned_dependencies;
           gentype_config;
           package_name ;
           namespace ;
@@ -421,8 +405,6 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
 let package_specs_from_bsconfig () =
   let json = Ext_json_parse.parse_json_from_file Literals.bsconfig_json in
   begin match json with
-    | Obj {map} ->
-      Bsb_package_specs.from_map ~cwd:Bsb_global_paths.cwd map,
-      extract_pinned_dependencies map
+    | Obj {map} -> Bsb_package_specs.from_map ~cwd:Bsb_global_paths.cwd map
     | _ -> assert false
   end

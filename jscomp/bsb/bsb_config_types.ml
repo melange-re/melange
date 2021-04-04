@@ -62,7 +62,6 @@ type t =
     pp_file : string option;
     bs_dependencies : dependencies;
     bs_dev_dependencies : dependencies;
-    pinned_dependencies : Set_string.t;
     built_in_dependency : bool;
     warning : Bsb_warning.t;
     (*TODO: maybe we should always resolve bs-platform
