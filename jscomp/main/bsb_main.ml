@@ -111,7 +111,7 @@ let run_bsb ({ make_world; install; watch_mode; _ } as options) =
   try begin
     if options.print_version then print_version_string ();
     if options.verbose then Bsb_log.verbose ();
-    if options.clean then Bsb_clean.clean cwd;
+    if options.clean then Bsb_clean.clean cwd; (* TODO: take dune args *)
     if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
     match options.init_path, options.list_themes with
     | Some _, _ | _, true -> print_init_theme_notice ()
