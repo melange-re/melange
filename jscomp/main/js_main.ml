@@ -263,7 +263,7 @@ let define_variable s =
   | _ -> Bsc_args.bad_arg ("illegal definition: " ^ s)
 
 let print_standard_library () =
-  print_string (Lazy.force Js_config.stdlib_path); print_newline();
+  print_endline (Lazy.force Js_config.stdlib_path);
   exit 0
 
 let bs_version_string =
