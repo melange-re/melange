@@ -1235,13 +1235,13 @@ async function stdlibNinja() {
           tgt.removeByName('ephemeron.cmj');
         }
         break;
-      case 'camlinternalFormat':
-        var target = mod + ".cmj";
-        if (depsMap.has(target)) {
-          var tgt = depsMap.get(target);
-          tgt.removeByName('format.cmj');
-        }
-        break;
+      // case 'camlinternalFormat':
+        // var target = mod + ".cmj";
+        // if (depsMap.has(target)) {
+          // var tgt = depsMap.get(target);
+          // tgt.removeByName('format.cmj');
+        // }
+        // break;
     };
     switch (ext) {
       case "HAS_MLI":
