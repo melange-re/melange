@@ -1,4 +1,5 @@
 open! Ext
+open! Common
 
 module Js = struct
   module Unsafe = struct

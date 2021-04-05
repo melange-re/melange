@@ -24,6 +24,7 @@
 
 
 open! Ext
+open! Common
 
 type error =
   | Package_not_found of Bsb_pkg_types.t * string option (* json file *)

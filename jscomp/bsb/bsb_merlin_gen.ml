@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open! Ext
+open! Common
 
 let merlin = ".merlin"
 let merlin_header = "####{BSB GENERATED: NO EDIT"
@@ -208,4 +209,3 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     Buffer.add_string buffer "\n";
     revise_merlin (per_proj_dir // merlin) buffer
   end
-

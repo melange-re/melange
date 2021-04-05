@@ -1,4 +1,5 @@
 open! Ext
+open! Common
 
 (**
 This module is shared between different JSOO / Playground based modules

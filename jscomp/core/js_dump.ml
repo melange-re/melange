@@ -1,4 +1,5 @@
 open! Ext
+open! Common
 
 (* ReScript compiler
  * Copyright (C) 2015-2016 Bloomberg Finance L.P.

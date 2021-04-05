@@ -1,4 +1,5 @@
 open! Ext
+open! Common
 
 (* Copyright (C) 2017 Authors of ReScript
  *
