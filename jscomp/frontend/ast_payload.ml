@@ -22,6 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module Parser_flow = Js_parser.Parser_flow
+module Parser_env = Js_parser.Parser_env
+
 type t = Parsetree.payload
 
 let is_single_string (x : t ) =

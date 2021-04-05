@@ -1,4 +1,4 @@
-(* Copyright (C) 2020 - Authors of ReScript 
+(* Copyright (C) 2020 - Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,11 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val flow_deli_offset:
-  string option -> 
+  string option ->
   int
 
 val check_flow_errors:
-  loc:Location.t -> 
-  offset:int -> 
-  (Loc.t * Parse_error.t) list ->    
+  loc:Location.t ->
+  offset:int ->
+  (Js_parser.Loc.t * Js_parser.Parse_error.t) list ->
   unit
