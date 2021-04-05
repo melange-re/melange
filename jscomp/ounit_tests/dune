@@ -2,7 +2,6 @@
  (name ounit_tests)
  (flags
   (:standard -w -9-50 -open Melange_compiler_libs))
- (wrapped false)
  (libraries ounit2 ext bsb bsb_helper core melange-compiler-libs))
 
 (rule
