@@ -24,7 +24,7 @@
 
 val package_specs_from_bsconfig : 
     unit -> 
-    Bsb_package_specs.t * Set_string.t
+    Bsb_package_specs.t
 
 
 

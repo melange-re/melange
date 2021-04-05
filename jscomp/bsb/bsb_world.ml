@@ -25,20 +25,18 @@
 
 let (//) = Ext_path.combine
 
-let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_config_types.t ) =
+let install_targets cwd ({ namespace } as config : Bsb_config_types.t ) =
   let deps = config.package_specs in
   let lib_artifacts_dir = Bsb_config.lib_bs in
   begin
     Bsb_log.info "@{<info>Installing started@}@.";
     let file_groups = ref [] in
     let queue =
-      Bsb_build_util.walk_all_deps cwd ~pinned_dependencies in
+      Bsb_build_util.walk_all_deps cwd  in
     queue |> Queue.iter (fun ({ top; proj_dir} : Bsb_build_util.package_context) ->
       let package_kind = match top with
         | Expect_none -> Bsb_package_kind.Toplevel
-        | Expect_name s ->
-          let is_pinned =  Set_string.mem pinned_dependencies s in
-          if is_pinned then Pinned_dependency deps else Dependency deps
+        | Expect_name s -> Dependency deps
       in
       let dep_config =
         Bsb_config_parse.interpret_json
@@ -55,23 +53,22 @@ let install_targets cwd ({ namespace; pinned_dependencies} as config : Bsb_confi
   end
 
 
-let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
-  let dep_dirs = ref [] in
-  let queue =
-    Bsb_build_util.walk_all_deps  cwd ~pinned_dependencies in
-  queue |> Queue.iter (fun ({top; proj_dir} : Bsb_build_util.package_context) ->
-      match top with
-      | Expect_none -> ()
-      | Expect_name s ->
-        let is_pinned =  Set_string.mem pinned_dependencies s in
-        dep_dirs := proj_dir :: !dep_dirs;
-        let _config: Bsb_config_types.t =  Bsb_ninja_regen.regenerate_ninja
-          ~package_kind:(if is_pinned then Pinned_dependency deps else Dependency deps)
-          ~buf
-          ~root_dir:cwd
-          proj_dir
-        in ()
-  )
+let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
+   let queue =
+      Bsb_build_util.walk_all_deps  cwd  in
+      queue |> Queue.iter (fun ({top; proj_dir} : Bsb_build_util.package_context) ->
+        match top with
+        | Expect_none -> ()
+        | Expect_name _ ->
+          let _config: Bsb_config_types.t =  Bsb_ninja_regen.regenerate_ninja
+            ~package_kind:(Dependency deps)
+            ~buf
+            ~root_dir:cwd
+            proj_dir
+          in ()
+    )
+  
+  
 
 
 
@@ -79,7 +76,7 @@ let build_bs_deps cwd ~buf ~pinned_dependencies (deps : Bsb_package_specs.t) =
 
 let make_world_deps ~cwd ~buf (config : Bsb_config_types.t option) =
   Bsb_log.info "Making the dependency world!@.";
-  let deps, pinned_dependencies =
+  let deps  =
     match config with
     | None ->
       (* When this running bsb does not read bsconfig.json,
@@ -87,6 +84,6 @@ let make_world_deps ~cwd ~buf (config : Bsb_config_types.t option) =
          it wants
       *)
       Bsb_config_parse.package_specs_from_bsconfig ()
-    | Some config -> config.package_specs, config.pinned_dependencies
+    | Some config -> config.package_specs
   in
-  build_bs_deps cwd ~buf deps ~pinned_dependencies
+  build_bs_deps cwd ~buf deps

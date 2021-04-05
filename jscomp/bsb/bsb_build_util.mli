@@ -115,6 +115,5 @@ type package_context = {
 
 val walk_all_deps :
   string ->
-  pinned_dependencies:Set_string.t ->
   package_context Queue.t
 

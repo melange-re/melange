@@ -1,5 +1,5 @@
 
-
+  
   (rule
     (targets camlinternalFormatBasics.cmi )
     (deps (:inputs camlinternalFormatBasics.mli) (alias ../../others/others))
@@ -955,4 +955,4 @@
     (alias
       (name stdlib)
       (deps camlinternalFormatBasics.cmi camlinternalFormatBasics.cmj stdlib__no_aliases.cmi arg.cmi arg.cmj array.cmi array.cmj arrayLabels.cmi arrayLabels.cmj atomic.cmi atomic.cmj bool.cmi bool.cmj buffer.cmi buffer.cmj bytes.cmi bytes.cmj bytesLabels.cmi bytesLabels.cmj callback.cmi callback.cmj camlinternalFormat.cmi camlinternalFormat.cmj camlinternalLazy.cmi camlinternalLazy.cmj camlinternalMod.cmi camlinternalMod.cmj camlinternalOO.cmi camlinternalOO.cmj char.cmi char.cmj complex.cmi complex.cmj digest.cmi digest.cmj either.cmi either.cmj ephemeron.cmi ephemeron.cmj filename.cmi filename.cmj float.cmi float.cmj format.cmi format.cmj fun.cmi fun.cmj gc.cmi gc.cmj genlex.cmi genlex.cmj hashtbl.cmi hashtbl.cmj int.cmi int.cmj int32.cmi int32.cmj int64.cmi int64.cmj lazy.cmi lazy.cmj lexing.cmi lexing.cmj list.cmi list.cmj listLabels.cmi listLabels.cmj map.cmi map.cmj marshal.cmi marshal.cmj moreLabels.cmi moreLabels.cmj obj.cmi obj.cmj oo.cmi oo.cmj option.cmi option.cmj parsing.cmi parsing.cmj pervasives.cmi pervasives.cmj printexc.cmi printexc.cmj printf.cmi printf.cmj queue.cmi queue.cmj random.cmi random.cmj result.cmi result.cmj scanf.cmi scanf.cmj seq.cmi seq.cmj set.cmi set.cmj stack.cmi stack.cmj stdLabels.cmi stdLabels.cmj std_exit.cmi std_exit.cmj stream.cmi stream.cmj string.cmi string.cmj stringLabels.cmi stringLabels.cmj sys.cmi sys.cmj uchar.cmi uchar.cmj unit.cmi unit.cmj weak.cmi weak.cmj))
-
+  

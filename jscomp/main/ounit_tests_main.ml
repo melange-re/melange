@@ -1,4 +1,5 @@
 
+open Ounit_tests
 
 [@@@warning "-32"]
 
