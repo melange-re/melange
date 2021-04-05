@@ -1,5 +1,5 @@
 (executable
- (name bsc)
+ (name js_main)
  (public_name bsc)
  (modes native)
  (flags :standard -open Melange_compiler_libs)
@@ -14,18 +14,16 @@
   napkin
   reason)
  (modules_without_implementation jscmj_main)
- (modules bsc jscmj_main))
-
-(rule
- (target bsc.ml)
- (deps
-  (:input js_main.ml)
+ (modules js_main jscmj_main)
+ (preprocessor_deps
+  js_main.ml
   ../../package.json
   ../../bsconfig.json
   ../../lib/js/.gitkeep
   ../../lib/es6/.gitkeep)
- (action
-  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
+ (preprocess
+  (action
+   (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file}))))
 
 (executable
  (name bsb_main)
