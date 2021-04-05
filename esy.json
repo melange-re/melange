@@ -12,7 +12,8 @@
   "devDependencies": {
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
     "web-tree-sitter": "0.18.0",
-    "@opam/merlin": "*"
+    "@opam/merlin": "*",
+    "@opam/ounit2": "*"
   },
   "scripts": {
     "clean": "node ./scripts/ninja.js clean"

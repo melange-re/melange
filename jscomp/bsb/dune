@@ -2,7 +2,7 @@
  (name bsb)
  (preprocess
   (action
-   (run %{bin:cppo} -U BS_NATIVE %{env:CPPO_FLAGS=} %{input-file})))
+   (run %{bin:cppo} %{env:CPPO_FLAGS=} %{input-file})))
  (flags
   (:standard -w -9-27-32-50))
  (libraries bsb_helper bs_hash_stubs ext common str unix))
