@@ -24,7 +24,7 @@ let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
   if syntax_kind = `reason then begin
     Lazy.force Outcome_printer.Reason_outcome_printer_main.setup
   end else if !Config.syntax_kind = `rescript then begin
-    Lazy.force Res_outcome_printer.setup
+    Lazy.force Napkin.Res_outcome_printer.setup
   end
 
 
@@ -81,13 +81,13 @@ let process_file sourcefile
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `rescript;
     Js_implementation.implementation
-      ~parser:Res_driver.parse_implementation
+      ~parser:Napkin.Res_driver.parse_implementation
       ppf sourcefile
   | Resi ->
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `rescript;
     Js_implementation.interface
-      ~parser:Res_driver.parse_interface
+      ~parser:Napkin.Res_driver.parse_interface
       ppf sourcefile
   | Intf_ast
     ->
@@ -118,18 +118,18 @@ open struct
   module To_current = Convert(OCaml_406)(OCaml_current)
   module From_current = Convert(OCaml_current)(OCaml_406)
 
-  let handle_res_parse_result (parse_result : _ Res_driver.parseResult) =
+  let handle_res_parse_result (parse_result : _ Napkin.Res_driver.parseResult) =
     if parse_result.invalid then begin
-        Res_diagnostics.printReport parse_result.diagnostics parse_result.source;
+        Napkin.Res_diagnostics.printReport parse_result.diagnostics parse_result.source;
         exit 1
     end
 end
 
 let print_res_interface ~comments ast =
-  Res_printer.printInterface ~width:100 ~comments ast
+  Napkin.Res_printer.printInterface ~width:100 ~comments ast
 
 let print_res_implementation ~comments ast =
-  Res_printer.printImplementation ~width:100 ~comments ast
+  Napkin.Res_printer.printImplementation ~width:100 ~comments ast
 
 (* TODO: support printing from AST too. *)
 let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
@@ -183,7 +183,7 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
     intf_format_fn ~comments:(`Re comments) ast
   | Res ->
     let parse_result =
-      Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
+      Napkin.Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
     in
     handle_res_parse_result parse_result;
     impl_format_fn
@@ -191,7 +191,7 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
       parse_result.parsetree
   | Resi ->
     let parse_result =
-      Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
+      Napkin.Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
     in
     intf_format_fn
       ~comments:(`Res parse_result.comments)
