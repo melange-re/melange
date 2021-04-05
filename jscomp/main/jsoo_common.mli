@@ -1,6 +1,7 @@
 open! Ext
 open! Common
 open! Core
+open! Frontend
 
 (**
 This module is shared between different JSOO / Playground based modules

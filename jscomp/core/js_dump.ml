@@ -1,6 +1,7 @@
 open! Ext
 open! Common
 
+open! Frontend
 (* ReScript compiler
  * Copyright (C) 2015-2016 Bloomberg Finance L.P.
  * http://www.ocsigen.org/js_of_ocaml/

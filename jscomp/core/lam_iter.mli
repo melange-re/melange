@@ -1,6 +1,7 @@
 open! Ext
 open! Common
 
+open! Frontend
 (* Copyright (C) 2018 - Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify

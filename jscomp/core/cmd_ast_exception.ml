@@ -1,6 +1,7 @@
 open! Ext
 open! Common
 
+open! Frontend
 type error =
   | CannotRun of string
   | WrongMagic of string

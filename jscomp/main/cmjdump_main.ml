@@ -1,6 +1,7 @@
 open! Ext
 open! Common
 open! Core
+open! Frontend
 
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  * 

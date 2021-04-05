@@ -1,6 +1,7 @@
 open J
 open! Common
 let unknown _ _ = ()
+open! Frontend
 let [@inline] option sub self = fun v ->
   match v with
   | None -> ()
