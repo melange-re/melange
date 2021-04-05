@@ -22,7 +22,7 @@ let set_abs_input_name sourcefile =
 let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
   Config.syntax_kind := syntax_kind ;
   if syntax_kind = `reason then begin
-    Lazy.force Reason_outcome_printer_main.setup
+    Lazy.force Outcome_printer.Reason_outcome_printer_main.setup
   end else if !Config.syntax_kind = `rescript then begin
     Lazy.force Res_outcome_printer.setup
   end
@@ -364,7 +364,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-unboxed-types", set Clflags.unboxed_types,
     "Unannotated unboxable types will be unboxed";
 
-    "-bs-re-out", unit_lazy Reason_outcome_printer_main.setup,
+    "-bs-re-out", unit_lazy Outcome_printer.Reason_outcome_printer_main.setup,
     "Print compiler output in Reason syntax";
 
     "-bs-refmt", string_optional_set Js_config.refmt,
