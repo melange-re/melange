@@ -25,3 +25,10 @@ build: [
 pin-depends: [
   [ "melange-compiler-libs.dev" "git+https://github.com/melange-re/melange-compiler-libs.git"]
 ]
+
+install: [
+  [ "dune" "install" "-p" "%{name}%" ]
+  [ "./fix-install-opam.sh" "%{_:lib}%" "%{_:build}%" ]
+]
+
+setenv: [ BSLIB = "%{_:lib}%/melange" ]
