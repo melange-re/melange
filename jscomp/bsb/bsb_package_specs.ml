@@ -209,6 +209,24 @@ let from_map ~(cwd:string) map =
     | Some(Str{str; _}) ->
        Some (Bsb_pkg.resolve_bs_package ~cwd (Bsb_pkg_types.string_as_package str))
     | _ -> assert false in
+
+  let distinct_suffixes =
+    Spec_set.fold
+      (fun spec acc -> Set_string.add acc (Ext_js_suffix.to_string spec.suffix))
+      modules Set_string.empty
+  in
+
+  let distinct_suffixes = Set_string.cardinal distinct_suffixes in
+  let distinct_modules = Spec_set.cardinal modules in
+  if distinct_suffixes < distinct_modules then begin
+    Bsb_log.warn
+      "@{<warning>Warning:@} @[Found %d package specs, but only %d distinct suffix(es).@;\
+      @[Melange can only output multiple package specs if they have distinct suffixes.@]@]@."
+      distinct_modules
+      distinct_suffixes
+    ;
+  end;
+
   {
     runtime;
     modules
