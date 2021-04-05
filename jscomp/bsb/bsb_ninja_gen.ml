@@ -31,7 +31,7 @@ let (//) = Ext_path.combine
 
 (* let dash_i = "-I" *)
 
-let dependencies_directories ~file_groups deps =
+let dependencies_directories deps =
   Ext_list.flat_map deps (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
 
 
@@ -77,7 +77,7 @@ let output_ninja_and_namespace_map
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
   let source_dirs : string list Bsb_db.cat = {lib = []; dev = []} in
   Ext_list.iter bs_file_groups (fun
-      {sources; dir; resources; is_dev} ->
+      {sources; dir; is_dev} ->
     if is_dev then begin
       bs_groups.dev <- Bsb_db_util.merge bs_groups.dev sources ;
       source_dirs.dev <- dir :: source_dirs.dev;
@@ -126,10 +126,10 @@ let output_ninja_and_namespace_map
       ~package_specs
       generators in
   let bs_dependencies =
-    dependencies_directories ~file_groups:bs_file_groups bs_dependencies
+    dependencies_directories bs_dependencies
   in
   let bs_dev_dependencies =
-    dependencies_directories ~file_groups:bs_file_groups bs_dev_dependencies
+    dependencies_directories bs_dev_dependencies
   in
   Buffer.add_char buf '\n';
 

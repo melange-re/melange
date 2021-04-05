@@ -25,25 +25,13 @@
 
 let (//) = Ext_path.combine
 
-let install_targets cwd ({ namespace } as config : Bsb_config_types.t ) =
-  let deps = config.package_specs in
+let install_targets cwd dep_configs =
   let lib_artifacts_dir = Bsb_config.lib_bs in
   begin
     Bsb_log.info "@{<info>Installing started@}@.";
     let file_groups = ref [] in
-    let queue =
-      Bsb_build_util.walk_all_deps cwd  in
-    queue |> Queue.iter (fun ({ top; proj_dir} : Bsb_build_util.package_context) ->
-      let package_kind = match top with
-        | Expect_none -> Bsb_package_kind.Toplevel
-        | Expect_name s -> Dependency deps
-      in
-      let dep_config =
-        Bsb_config_parse.interpret_json
-        ~package_kind
-        ~per_proj_dir:proj_dir in
-      file_groups := (proj_dir, dep_config.file_groups) :: !file_groups
-    );
+    Ext_list.iter dep_configs (fun (dep_config: Bsb_config_types.t) ->
+      file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
     let lib_bs_dir = cwd // lib_artifacts_dir in
     Bsb_build_util.mkp lib_bs_dir;
     Bsb_watcher_gen.generate_sourcedirs_meta
@@ -54,36 +42,34 @@ let install_targets cwd ({ namespace } as config : Bsb_config_types.t ) =
 
 
 let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
-   let queue =
-      Bsb_build_util.walk_all_deps  cwd  in
-      queue |> Queue.iter (fun ({top; proj_dir} : Bsb_build_util.package_context) ->
-        match top with
-        | Expect_none -> ()
-        | Expect_name _ ->
-          let _config: Bsb_config_types.t =  Bsb_ninja_regen.regenerate_ninja
-            ~package_kind:(Dependency deps)
-            ~buf
-            ~root_dir:cwd
-            proj_dir
-          in ()
-    )
-  
-  
+   let queue = Bsb_build_util.walk_all_deps cwd in
+   Queue.fold (fun (acc : _ list) ({top; proj_dir} : Bsb_build_util.package_context) ->
+     match top with
+     | Expect_none -> acc
+     | Expect_name _ ->
+       let package_kind = Bsb_package_kind.Dependency deps in
+       let config : Bsb_config_types.t =
+         Bsb_config_parse.interpret_json
+           ~package_kind
+           ~per_proj_dir:proj_dir
+       in
+       Bsb_ninja_regen.regenerate_ninja
+         ~buf
+         ~config
+         ~package_kind
+         ~root_dir:cwd
+         proj_dir;
+       config :: acc)
+   [] queue
 
 
-
-
-
-let make_world_deps ~cwd ~buf (config : Bsb_config_types.t option) =
+let make_world_deps ~cwd ~buf =
   Bsb_log.info "Making the dependency world!@.";
-  let deps  =
-    match config with
-    | None ->
-      (* When this running bsb does not read bsconfig.json,
-         we will read such json file to know which [package-specs]
-         it wants
-      *)
-      Bsb_config_parse.package_specs_from_bsconfig ()
-    | Some config -> config.package_specs
+  let config : Bsb_config_types.t =
+    Bsb_config_parse.interpret_json
+      ~package_kind:Toplevel
+      ~per_proj_dir:cwd
   in
-  build_bs_deps cwd ~buf deps
+  let deps = config.package_specs in
+  let dep_configs = build_bs_deps cwd ~buf deps in
+  config, dep_configs
