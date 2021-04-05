@@ -3,7 +3,7 @@
  (flags
   (:standard -w -9-50 -open Melange_compiler_libs))
  (wrapped false)
- (libraries ounit2 depends ext bsb bsb_helper core melange-compiler-libs))
+ (libraries ounit2 ext bsb bsb_helper core melange-compiler-libs))
 
 (rule
  (targets ounit_hash_set_tests.ml)
