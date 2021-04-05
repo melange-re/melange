@@ -1,6 +1,5 @@
 (library
  (name core)
- (wrapped false)
  (flags
   (:standard -w -9-30-50 -open Melange_compiler_libs))
  (preprocess

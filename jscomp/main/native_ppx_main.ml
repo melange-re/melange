@@ -1,5 +1,6 @@
 open! Ext
 open! Common
+open! Core
 
 (* Copyright (C) 2019- Hongbo Zhang, Authors of ReScript
  * 
