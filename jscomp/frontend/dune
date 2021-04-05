@@ -12,5 +12,4 @@
   melange-compiler-libs
   outcome_printer
   js_parser
-  builtin_datasets
   napkin))

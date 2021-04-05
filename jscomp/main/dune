@@ -65,8 +65,3 @@
   (alias ../others/all)
   (alias ../stdlib-412/all))
  (libraries ounit2 bs_hash_stubs ext common bsb bsb_helper core ounit_tests))
-
-(library
- (wrapped false)
- (name builtin_datasets)
- (modules builtin_cmi_datasets builtin_cmj_datasets))
