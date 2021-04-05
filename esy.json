@@ -16,18 +16,14 @@
     "@opam/ounit2": "*"
   },
   "scripts": {
+    "test": "esy b dune runtest --ignore-promoted-rules",
     "clean": "node ./scripts/ninja.js clean"
   },
   "esy": {
     "build": "dune build -p #{self.name}",
     "install": [
-      [
-        "esy-installer",
-        "$cur__target_dir/default/melange.install"
-      ],
-      [
-        "$cur__root/fix-install.sh"
-      ]
+      ["esy-installer", "$cur__target_dir/default/melange.install"],
+      ["$cur__root/fix-install.sh"]
     ],
     "exportedEnv": {
       "BSLIB": {
@@ -41,12 +37,7 @@
     "type": "git",
     "url": "git+https://github.com/melange-re/melange.git"
   },
-  "keywords": [
-    "ocaml",
-    "rescript",
-    "stdlib",
-    "functional programming"
-  ],
+  "keywords": ["ocaml", "rescript", "stdlib", "functional programming"],
   "author": {
     "name": "Hongbo Zhang"
   },
