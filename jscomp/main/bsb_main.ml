@@ -92,13 +92,13 @@ let install_target config =
 
 let build_whole_project ~buf =
   let root_dir = Bsb_global_paths.cwd in
-  Bsb_world.make_world_deps ~buf ~cwd:root_dir None;
-  let config = Bsb_ninja_regen.regenerate_ninja
+  let config = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
+  Bsb_ninja_regen.regenerate_ninja
     ~package_kind:Toplevel
     ~buf
     ~root_dir
-    root_dir
-  in
+    ~config
+    root_dir;
   output_dune_file buf;
   config
 

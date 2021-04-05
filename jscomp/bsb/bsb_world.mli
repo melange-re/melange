@@ -28,5 +28,5 @@ val install_targets:
 val make_world_deps:
   cwd:string ->
   buf: Buffer.t ->
-  Bsb_config_types.t option ->
-  unit
+  Bsb_config_types.t
+
