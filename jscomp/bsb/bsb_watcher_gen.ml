@@ -32,7 +32,7 @@ let generate_sourcedirs_meta
   ~name (file_groups : (string * Bsb_file_groups.t) list) =
   let pkgs = Hashtbl.create 10 in
   let (dirs, generated) =
-    Ext_list.fold_left file_groups ([], []) (fun (dirs, generated) (proj_dir, { files }) ->
+    Ext_list.fold_left file_groups ([], []) (fun (dirs, _generated) (proj_dir, { files }) ->
       let dirs = Ext_list.append dirs (Ext_list.map files (fun x -> Ext_path.combine proj_dir x.dir)) in
       let generated =
         Ext_list.fold_left files [] (fun acc x ->

@@ -182,7 +182,7 @@ let extract_predicate (m : json_map)  : string -> bool =
 *)
 
 
-let single_source_subdir_names ({package_kind; is_dev ; cwd}) (x : Ext_json_types.t )
+let single_source_subdir_names ({package_kind; is_dev}) (x : Ext_json_types.t )
   : string list  =
   match x with
   | Str  { str = dir }  -> [dir]
