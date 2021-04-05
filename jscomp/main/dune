@@ -13,8 +13,7 @@
   core
   napkin
   reason)
- (modules_without_implementation jscmj_main)
- (modules js_main jscmj_main)
+ (modules js_main)
  (preprocessor_deps
   js_main.ml
   ../../package.json
@@ -23,7 +22,7 @@
   ../../lib/es6/.gitkeep)
  (preprocess
   (action
-   (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file}))))
+   (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
 
 (executable
  (name bsb_main)
@@ -58,7 +57,7 @@
  (modes native)
  (modules ounit_tests_main)
  (deps
-  bsc.exe
+  js_main.exe
   (alias ../runtime/all)
   (alias ../others/all)
   (alias ../stdlib-412/all))
