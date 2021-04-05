@@ -65,14 +65,14 @@ let () =
     (
       match !rev_list with
       | [x]
-        ->  Bsb_helper_depfile_gen.compute_dependency_info
+        ->  Bsb_helper.Bsb_helper_depfile_gen.compute_dependency_info
               ~root
               ~cwd
               !dev_group
               !namespace x ""
       | [y; x] (* reverse order *)
         ->
-        Bsb_helper_depfile_gen.compute_dependency_info
+        Bsb_helper.Bsb_helper_depfile_gen.compute_dependency_info
           ~root
           ~cwd
           !dev_group
