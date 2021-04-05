@@ -321,7 +321,7 @@ let rec interpret_json
       match package_kind with
       | Toplevel
       | Dependency _ -> [] in
-    
+
     begin match map.?(Bsb_build_schemas.sources) with
       | Some sources ->
         let cut_generators =
@@ -334,6 +334,7 @@ let rec interpret_json
             ~namespace
             sources in
         {
+          dir = per_proj_dir;
           gentype_config;
           package_name ;
           namespace ;
