@@ -1,3 +1,5 @@
+open Bsb
+
 module Bsb_db_decode = Bsb_helper.Bsb_db_decode
 
 let ((>::),
