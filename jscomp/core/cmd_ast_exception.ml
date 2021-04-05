@@ -1,3 +1,5 @@
+open! Ext
+
 type error =
   | CannotRun of string
   | WrongMagic of string

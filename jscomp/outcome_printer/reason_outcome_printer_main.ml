@@ -1,3 +1,5 @@
+open! Ext
+
 (* This is used by js_main.ml *)
 
 open Reason_migrate_parsetree

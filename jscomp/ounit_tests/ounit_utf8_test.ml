@@ -1,3 +1,5 @@
+open! Ext
+
 
 
 (* https://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt

@@ -1,3 +1,5 @@
+open! Ext
+
 module Js = struct
   module Unsafe = struct
     type any

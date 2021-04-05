@@ -1,3 +1,5 @@
+open! Ext
+
 open Ast_helper
 
 let invalid_config (config : Parsetree.expression) = 

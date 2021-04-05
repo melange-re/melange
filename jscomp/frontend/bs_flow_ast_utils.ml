@@ -1,3 +1,5 @@
+open! Ext
+
 (* Copyright (C) 2020 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify

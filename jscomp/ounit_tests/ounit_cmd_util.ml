@@ -1,3 +1,5 @@
+open! Ext
+
 let (//) = Filename.concat
 
 (** may nonterminate when [cwd] is '.' *)
