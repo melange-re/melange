@@ -1,4 +1,5 @@
 open! Ext
+open! Core
 
 type output = {
   stderr : string ; 
