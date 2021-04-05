@@ -25,14 +25,9 @@
 let enabled_if =
   Format.asprintf "(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version
 
-let oc_list xs  oc =
-  Ext_list.iter xs (fun s -> output_string oc Ext_string.single_space ; output_string oc s)
-
 let dune_header = ";;;;{BSB GENERATED: NO EDIT"
-let dune_header_length = String.length dune_header
 let dune_trailer = ";;;;BSB GENERATED: NO EDIT}"
 let dune_trailer_length = String.length dune_trailer
-let (//) = Ext_path.combine
 
 (** [new_content] should start end finish with newline *)
 let revise_dune dune new_content =
@@ -56,37 +51,6 @@ let revise_dune dune new_content =
       let ochan = open_out_bin dune in
       output_string ochan (String.sub s 0 header) ;
       output_string ochan dune_header;
-      Buffer.output_buffer ochan new_content;
-      output_string ochan dune_trailer ;
-      output_string ochan (Ext_string.tail_from s (tail +  dune_trailer_length));
-      close_out ochan
-    else failwith ("the dune file is corrupted, locked region by bsb is not consistent ")
-  else
-    let ochan = open_out_bin dune in
-    output_string ochan dune_header ;
-    Buffer.output_buffer ochan new_content;
-    output_string ochan dune_trailer ;
-    output_string ochan "\n";
-    close_out ochan
-
-let revise_append_dune dune new_content =
-  if Sys.file_exists dune then
-    let s = Ext_io.load_file dune in
-    let header =  Ext_string.find s ~sub:dune_header  in
-    let tail = Ext_string.find s ~sub:dune_trailer in
-    if header < 0  && tail < 0 then (* locked region not added yet *)
-      revise_dune dune new_content
-    else if header >=0 && tail >= 0  then
-      (* there is one, hit it everytime,
-         should be fixed point
-      *)
-      let ochan = open_out_bin dune in
-      let start = header + dune_header_length in
-      let end_ = tail - start in
-      let old_content = String.sub s start end_ in
-      output_string ochan (String.sub s 0 header) ;
-      output_string ochan dune_header;
-      output_string ochan old_content;
       Buffer.output_buffer ochan new_content;
       output_string ochan dune_trailer ;
       output_string ochan (Ext_string.tail_from s (tail +  dune_trailer_length));

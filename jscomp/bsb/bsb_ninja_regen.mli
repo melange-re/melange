@@ -30,8 +30,8 @@
     otherwise return Some info
 *)
 val regenerate_ninja :
+  config:Bsb_config_types.t ->
   package_kind:Bsb_package_kind.t ->
   buf: Buffer.t ->
   root_dir: string ->
-  string ->
-  Bsb_config_types.t
+  string -> unit
