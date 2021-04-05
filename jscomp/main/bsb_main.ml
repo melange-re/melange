@@ -87,20 +87,18 @@ let dune_command_exit dune_args =
   Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list args));
   Unix.execvp Literals.dune args
 
-let install_target config =
-  Bsb_world.install_targets Bsb_global_paths.cwd config
 
 let build_whole_project ~buf =
   let root_dir = Bsb_global_paths.cwd in
-  Bsb_world.make_world_deps ~buf ~cwd:root_dir None;
-  let config = Bsb_ninja_regen.regenerate_ninja
+  let config, dep_configs = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
+  Bsb_ninja_regen.regenerate_ninja
     ~package_kind:Toplevel
     ~buf
     ~root_dir
-    root_dir
-  in
+    ~config
+    root_dir;
   output_dune_file buf;
-  config
+  config :: dep_configs
 
 let print_init_theme_notice () =
   print_endline
@@ -122,8 +120,8 @@ let run_bsb ({ make_world; install; watch_mode; _ } as options) =
       else begin
         if generate_dune_bsb then begin
           let buf = Buffer.create 0x1000 in
-          let cfg = build_whole_project ~buf in
-          install_target cfg
+          let configs = build_whole_project ~buf in
+          Bsb_world.install_targets Bsb_global_paths.cwd configs
         end;
         if watch_mode then exit 0 else if make_world then dune_command_exit options.dune_args
       end

@@ -75,7 +75,7 @@ let emit_module_build
     ~per_proj_dir
     ~bs_dependencies
     ~bs_dev_dependencies
-    js_post_build_cmd
+    _js_post_build_cmd
     namespace
     ~cur_dir
     (module_info : Bsb_db.module_info)

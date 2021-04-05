@@ -47,11 +47,7 @@ let get_name (x : t) ?target cur_dir buf = x.name buf ?target cur_dir
 
 
 (** allocate an unique name for such rule*)
-let define
-    ~command
-    ?dyndep
-    ?restat
-    rule_name : t
+let define ~command rule_name : t
   =
 
   let self = {
@@ -179,7 +175,7 @@ let make_custom_rules
       Buffer.add_string buf " $out_last"
     end ;
   in
-  let mk_ast buf ?target _cur_dir : unit =
+  let mk_ast buf ?target:_ _cur_dir : unit =
     Buffer.add_string buf "(action\n (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf " ";
@@ -221,7 +217,7 @@ let make_custom_rules
 
   let copy_resources =
     define
-      ~command:(fun buf ?target _cur_dir ->
+      ~command:(fun buf ?target:_ _cur_dir ->
         let s = if Ext_sys.is_windows_or_cygwin then
           "cmd.exe /C copy /Y $i $out >NUL"
         else "cp $i $out"
@@ -231,20 +227,8 @@ let make_custom_rules
       "copy_resource" in
 
   let aux ~name ~read_cmi  ~postbuild =
-    define
-      ~command:(mk_ml_cmj_cmd
-                  ~read_cmi  ~is_dev:false
-                  ~postbuild)
-      ~dyndep:()
-      ~restat:() (* Always restat when having mli *)
-      name,
-    define
-      ~command:(mk_ml_cmj_cmd
-                  ~read_cmi  ~is_dev:true
-                  ~postbuild)
-      ~dyndep:()
-      ~restat:() (* Always restat when having mli *)
-      (name ^ "_dev")
+    define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:false ~postbuild) name,
+    define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:true ~postbuild) (name ^ "_dev")
   in
 
   let mj, mj_dev =
@@ -259,12 +243,11 @@ let make_custom_rules
       ~name:"mi" in
   let build_package =
     define
-      ~command:(fun buf ?target _cur_dir ->
+      ~command:(fun buf ?target:_ _cur_dir ->
          let s = global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}" in
         Buffer.add_string buf "(action (run ";
         Buffer.add_string buf s;
         Buffer.add_string buf "))")
-      ~restat:()
       "build_package"
   in
   {
@@ -284,7 +267,7 @@ let make_custom_rules
     build_package ;
     customs =
       Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun buf ?target _cur_dir ->
+        define ~command:(fun buf ?target:_ _cur_dir ->
           let actual_command =
             Str.global_substitute Generators.regexp (fun match_ ->
               match Generators.(maybe_match ~group:1 match_, maybe_match ~group:2 match_) with

@@ -52,6 +52,7 @@ type ppx = {
 }
 type t =
   {
+    dir: string;
     package_name : string ;
     (* [captial-package] *)
     namespace : string option;
