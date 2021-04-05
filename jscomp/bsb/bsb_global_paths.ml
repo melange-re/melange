@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open! Ext
+
 let cwd = Sys.getcwd ()
 
 
@@ -60,4 +62,3 @@ let bs_dep_parse = "bsb_parse_depend"
 
 
 ;; assert (Sys.file_exists bsc_dir)
-

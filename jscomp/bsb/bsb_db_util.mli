@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2015 - 2016 Bloomberg Finance L.P.
  * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
@@ -24,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
+open! Ext
 
 val conflict_module_info:
   string ->
@@ -47,5 +47,4 @@ val add_basename:
   ?error_on_invalid_suffix:Ext_position.t->
   string ->
   Bsb_db.map
-
 

@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open! Ext
+
 let (//) = Ext_path.combine
 
 (** Regenerate ninja file by need based on [.bsdeps]
@@ -50,4 +52,3 @@ let regenerate_ninja
     ~buf ~per_proj_dir ~root_dir ~package_kind config;
 
   config
-

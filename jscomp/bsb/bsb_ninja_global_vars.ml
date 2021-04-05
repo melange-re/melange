@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open! Ext
+
 type t =
  {
   db : Bsb_db.t;
@@ -86,5 +88,4 @@ let make
 
 let lazy_src_root_dir = "$g_root"  *)
 let g_finger = "g_finger"
-
 

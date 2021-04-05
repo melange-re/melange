@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open! Ext 
+
 let flag_concat flag xs =
   String.concat Ext_string.single_space
     (Ext_list.flat_map xs  (fun x -> [flag ; x]))

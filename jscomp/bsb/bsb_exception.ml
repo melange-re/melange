@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
+open! Ext
 
 type error =
   | Package_not_found of Bsb_pkg_types.t * string option (* json file *)

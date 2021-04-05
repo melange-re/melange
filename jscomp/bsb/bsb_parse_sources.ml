@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
+open! Ext
 
 type build_generator = Bsb_file_groups.build_generator
 
@@ -482,4 +482,3 @@ let clean_re_js root =
     end
   | _  -> ()
   | exception _ -> ()
-

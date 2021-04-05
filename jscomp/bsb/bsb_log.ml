@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
+open! Ext
 
 let ninja_ansi_forced = lazy
   (try Sys.getenv "NINJA_ANSI_FORCED" with
@@ -106,4 +107,3 @@ let info_args (args : string array) =
       Format.pp_print_newline Format.std_formatter ()
     end
   else ()
-

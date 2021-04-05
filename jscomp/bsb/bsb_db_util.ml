@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +21,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+open! Ext
+
 type module_info = Bsb_db.module_info
 type t = Bsb_db.map
 
@@ -164,4 +166,3 @@ let add_basename
            | Some x ->
              check x name_sans_extension case (Same syntax_kind) info
         )
-

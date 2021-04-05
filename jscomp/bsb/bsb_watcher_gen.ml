@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
+open! Ext
 
 let kvs = Ext_json_noloc.kvs
 let arr = Ext_json_noloc.arr
@@ -66,4 +66,3 @@ let generate_sourcedirs_meta
   in
   Ext_json_noloc.to_file
   name v
-

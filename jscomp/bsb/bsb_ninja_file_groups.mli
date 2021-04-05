@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-
+open! Ext
 
 val handle_files_per_dir :
   Buffer.t ->

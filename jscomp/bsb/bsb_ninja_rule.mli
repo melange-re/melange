@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
+open! Ext
 
 (** The complexity comes from the fact that we allow custom rules which could
   conflict with our custom built-in rules
@@ -75,4 +75,3 @@ val make_custom_rules :
   package_specs:Bsb_package_specs.t ->
   command Map_string.t ->
   builtin
-

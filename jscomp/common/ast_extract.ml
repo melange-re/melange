@@ -24,6 +24,8 @@
 
 (* type module_name = private string *)
 
+open! Ext
+
 module Set_string = Depend.String.Set
 
 (* FIXME: [Clflags.open_modules] seems not to be properly used *)
@@ -47,7 +49,6 @@ let read_parse_and_extract (type t) (k : t kind) (ast : t) : Set_string.t =
      | Ml_binary.Mli  -> Depend.add_signature bound_vars ast  );
     !Depend.free_structure_names
   end
-
 
 
 

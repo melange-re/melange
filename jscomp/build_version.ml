@@ -1,3 +1,5 @@
+open! Ext 
+
 let (.?()) = Map_string.find_opt
 
 let file_contents ~version ~name  = Format.asprintf {|
@@ -64,6 +66,5 @@ let build_version () =
   close_out f
 
 let () = build_version()
-
 
 

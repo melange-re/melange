@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open! Ext
+
 module D = Dune_action_plugin.V1
 module P = D.Path
 module Glob = Dune_glob.V1
@@ -179,4 +181,3 @@ let compute_dependency_info
   end;
   let deps = Set_string.elements !deps in
   run_dependency_rules ~root ~cwd ~deps
-

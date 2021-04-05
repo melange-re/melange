@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open! Ext
+
 let enabled_if =
   Format.asprintf "(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version
 
@@ -180,4 +182,3 @@ let output_build
   Buffer.add_char buf '\n';
   Buffer.add_string buf enabled_if;
   Buffer.add_string buf " )\n "
-
