@@ -5,7 +5,7 @@
   (:standard -w -9-50 -open Melange_compiler_libs))
  (preprocess
   (action
-   (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file})))
+   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (libraries
   ext
   common
