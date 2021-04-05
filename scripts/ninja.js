@@ -126,7 +126,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run %{workspace_root}/jscomp/main/bsc.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -147,7 +147,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run %{workspace_root}/jscomp/main/bsc.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
