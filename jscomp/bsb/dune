@@ -1,6 +1,5 @@
 (library
  (name bsb)
- (wrapped false)
  (preprocess
   (action
    (run %{bin:cppo} -U BS_NATIVE %{env:CPPO_FLAGS=} %{input-file})))

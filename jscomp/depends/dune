@@ -1,5 +1,0 @@
-(library
- (name depends)
- (wrapped false)
- (flags :standard -w -9 -open Melange_compiler_libs)
- (libraries ext common melange-compiler-libs))

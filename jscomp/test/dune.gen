@@ -9556,7 +9556,7 @@
 
   (rule
     (targets es6_import.cmi es6_import.cmj es6_import.js es6_import.mjs)
-    (deps (:inputs es6_import.ml) ../stdlib-412/stdlib.cmj)
+    (deps (:inputs es6_import.ml) ../stdlib-412/stdlib.cmj es6_export.cmj)
 
   (mode
    (promote

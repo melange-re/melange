@@ -1344,7 +1344,6 @@ async function testNinja() {
       x.endsWith(".re") ||
       x.endsWith(".rei") ||
       ((x.endsWith(".ml") || x.endsWith(".mli")) &&
-        !x.endsWith("bspack.ml") &&
         x !== "es6_import.ml" &&
         x !== "es6_export.ml")
     );
@@ -1354,6 +1353,7 @@ async function testNinja() {
   await Promise.all(depModulesForBscAsync(sources, testDir, depsMap));
   var targets = collectTarget(sources);
   var output = generateDune(depsMap, targets, bsc_flags, ['../stdlib-412/stdlib.cmj'], [".js"]);
+  depsMap.set('es6_import.cmj', new TargetSet([fileTarget('es6_export.cmj')]))
   var output = output.concat(
     generateDune(
       depsMap,

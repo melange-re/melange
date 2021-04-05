@@ -1,5 +1,3 @@
 (library
  (name bsb_helper)
- (wrapped false)
- (modules bsb_db_decode bsb_helper_depfile_gen)
  (libraries dune-action-plugin ext common unix str))

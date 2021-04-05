@@ -1,5 +1,3 @@
-(copy_files# ../frontend/*)
-
 (library
  (name core)
  (wrapped false)
@@ -12,11 +10,10 @@
  (libraries
   ext
   common
-  depends
+  frontend
   melange-compiler-libs
   outcome_printer
   js_parser
-  builtin_datasets
   napkin))
 
 (rule

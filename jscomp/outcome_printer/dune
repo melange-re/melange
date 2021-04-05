@@ -1,4 +1,3 @@
 (library
  (name outcome_printer)
- (wrapped false)
  (libraries ext reason))
