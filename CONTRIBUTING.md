@@ -1,39 +1,38 @@
 # Contributing
 
-Thanks for your help! Due to ReScript's nature, the contribution setup isn't all straightforward. If something isn't working, please file an issue!
+Thanks for your help! Due to Melange's nature, the contribution setup isn't all straightforward. If something isn't working, please file an issue!
 
 ## Prerequisites
 
-- [NodeJS](https://nodejs.org/)
-- C compiler toolchain (you probably already have it installed)
-- OS: Mac/Linux (ReScript works on Windows, but developing the repo using Windows isn't tested. Contribution welcome!)
+- [NixOS](https://nixos.org/)
 
-## Build
+## Developing
 
-```sh
-git submodule update --init # we vendor a fork of ocaml and a syntax repo
-node scripts/buildocaml.js # buid the vendored ocaml compiler
-npm install # install some JS tools for testing purposes
-./scripts/ninja.js config # the repo is build with Ninja. Generate the ninja build files
-./scripts/ninja.js build # runs `ninja` under the hood against the generated ninja build files
-```
+### Nix
 
-Whenever you edit a file, run `./scripts/ninja.js build` to rebuild. Optional watcher to auto-rebuild on file changes: `node scripts/tasks.js`.
-
-In the rare case there you're making changes to the vendored OCaml fork, rebuild the fork with `node scripts/buildocaml.js` then run `./scripts/ninja.js cleanbuild`. `cleanbuild` (aka `clean` + `build`) is necessary since the binary artifacts between versions of compiler may be incompatible.
-
-### Troubleshoot Broken Build
+The best way to get started is to get a `nix` shell running:
 
 ```sh
-./scripts/ninja.js clean # remove files not in version control
-./scripts/ninja.js config
-./scripts/ninja.js build
+# Opens a shell with the necessary environment.
+nix-shell --pure
 ```
 
-If this doesn't work (rare), then:
-- Save your changes
-- `git clean -xdf .` to wipe all artifacts
-- Then do a clean build as instructed above
+> **Note**: You can also run `nix-shell --command $EDITOR` to get merlin support
+
+Once you're in the shell, you have access to `dune`, `node`, `yarn`, and all the other executables you need to get down to business.
+
+⚠️ Should we maybe list out some common/useful `dune`/`yarn` commands here? I'm personally a big fan of running `dune` in watch mode while I do stuff.
+
+When you are almost ready to open a PR, it's a good idea to run the full CI test suite locally to make sure everything works. You can exit your `nix` shell by using the `exit` command or you can simply open a new shell and run the following command:
+
+```sh
+# Runs the full CI test suite
+nix-build nix/ci/test.nix
+```
+
+If that all passes, then congratulations! You are well on your way to becoming a contributor 🎉
+
+⚠️ Should we put next steps here? Also, I think the following sections on testing may need to be rewritten or updated.
 
 ## Test
 
