@@ -71,7 +71,6 @@ let output_ninja_and_namespace_map
     } : Bsb_config_types.t) : unit
   =
   let lib_artifacts_dir = Bsb_config.lib_bs in
-  (* let cwd_lib_bs = per_proj_dir // lib_artifacts_dir in *)
   let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
   let bsc_flags = (get_bsc_flags bsc_flags) in
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
