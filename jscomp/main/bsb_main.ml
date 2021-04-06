@@ -40,6 +40,7 @@ type cli_options =
   ; print_bsb_location : bool
   ; websocket : bool
   ; dune_args : string array
+  ; stdin : bool
   }
 
 let print_version_string () =
@@ -102,6 +103,46 @@ let print_init_theme_notice () =
     "The subcommands -init, -theme and -themes are deprecated now. Use the template at \
      https://github.com/melange-re/melange-basic-template to start a new project."
 
+let implementation impl () =
+  let stdinput = ref [] in
+  let () = 
+    try
+        while true do
+          stdinput := read_line () :: !stdinput;
+        done
+    with
+        End_of_file -> () in
+  let modulename = "Test" in
+  Clflags.nopervasives := true; (* otherwise fails with Melange_compiler_libs.Env.Error(_) *)
+  Lam_compile_env.reset ();
+  let env = Res_compmisc.initial_env () in
+  let types_signature = ref [] in
+  try
+    Js_config.jsx_version := 3;
+    let ast = impl (Lexing.from_string (String.concat "\n" !stdinput)) in
+    let ast = Ppx_entry.rewrite_implementation ast in
+    let typed_tree =
+      let a, b, _, signature =
+        Melange_compiler_libs.Typemod.type_implementation_more modulename modulename modulename env ast
+      in
+      types_signature := signature;
+      a, b
+    in
+    typed_tree |> Melange_compiler_libs.Translmod.transl_implementation modulename
+    |> fun { Melange_compiler_libs.Lambda.code = lam } ->
+    let buffer = Buffer.create 1000 in
+    let () =
+      Js_dump_program.pp_deps_program ~output_prefix:"" (* does not matter here *) NodeJS
+        (Lam_compile_main.compile "" lam) (Ext_pp.from_buffer buffer)
+    in
+    Buffer.contents buffer
+    (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
+  with e ->
+    let buffer = Buffer.create 256 in
+    let formatter = Format.formatter_of_buffer buffer in
+    Melange_compiler_libs.Location.report_exception formatter e;
+    "error"
+
 let run_bsb ({theme; make_world; install; watch_mode; _} as options) =
   let cwd = Bsb_global_paths.cwd in
   try begin
@@ -109,6 +150,7 @@ let run_bsb ({theme; make_world; install; watch_mode; _} as options) =
     if options.verbose then Bsb_log.verbose ();
     if options.clean then Bsb_clean.clean cwd;
     if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
+    if options.stdin then print_endline (implementation (Melange_compiler_libs.Parse.implementation) ());
     match options.init_path, options.list_themes with
     | Some _, _ | _, true -> print_init_theme_notice ()
     | None, false ->
@@ -192,6 +234,10 @@ module CLI = struct
     let doc = "Send build output to websocket" in
     Arg.(value & flag & info ["ws"] ~doc)
 
+  let stdin_flag =
+    let doc = "Reads input from stdin" in
+    Arg.(value & flag & info ["stdin"] ~doc)
+
   let parse_options
       print_version
       verbose
@@ -204,7 +250,8 @@ module CLI = struct
       list_themes
       print_bsb_location
       websocket
-      dune_args =
+      dune_args
+      stdin =
     { print_version
     ; verbose
     ; watch_mode
@@ -217,6 +264,7 @@ module CLI = struct
     ; print_bsb_location
     ; websocket
     ; dune_args
+    ; stdin
     }
 
   let run dune_args =
@@ -233,7 +281,8 @@ module CLI = struct
             $ themes_flag
             $ where_flag
             $ ws_flag
-            $ const dune_args)
+            $ const dune_args
+            $ stdin_flag)
     in
     Term.(const run_bsb $ make_bsb_options), Term.info "bsb"
 end
