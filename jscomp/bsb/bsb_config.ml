@@ -23,11 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 let (//) = Ext_path.combine
 
-let lib_lit = "lib"
+let lib_lit = Literals.lib
 let lib_js = lib_lit //"js"
 
 let lib_ocaml = lib_lit // "ocaml"
-let lib_bs = lib_lit // "bs"
+let lib_bs = Literals.melange_eobjs_dir
 let lib_es6 = lib_lit // "es6"
 let lib_es6_global = lib_lit // "es6_global"
 
@@ -38,22 +38,13 @@ let all_lib_artifacts =
     lib_es6 ;
     lib_es6_global;
   ]
-let rev_lib_bs = ".."// ".."
+let rev_lib_bs = ".."
 
 let dune_build_dir = lazy (
   match Sys.getenv_opt "DUNE_BUILD_DIR" with
   | Some value -> value // "default"
   | None -> "_build" // "default"
 )
-
-(* access the js directory from "lib/bs",
-  it would be '../js'
-*)
-let lib_bs_prefix_of_format (x : Ext_module_system.t) =
-  ".." // match x with
-  | NodeJS -> "js"
-  | Es6 -> "es6"
-  | Es6_global -> "es6_global"
 
 (* lib/js, lib/es6, lib/es6_global *)
 let top_prefix_of_format (x : Ext_module_system.t)  =

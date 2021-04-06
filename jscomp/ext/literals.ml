@@ -27,7 +27,6 @@
 
 
 
-
 let js_array_ctor = "Array"
 let js_type_number = "number"
 let js_type_string = "string"
@@ -78,7 +77,7 @@ let bsb_depends = "bsb_depends"
 let bsb_world = "bsb_world"
 
 (* Name of the library file created for each external dependency. *)
-let library_file = "lib"
+let lib = "lib"
 
 let suffix_a = ".a"
 let suffix_cmj = ".cmj"
@@ -152,3 +151,5 @@ let lazy_done = "LAZY_DONE"
 let lazy_val = "VAL"
 
 let pure = "@__PURE__"
+
+let melange_eobjs_dir = ".melange.eobjs"
