@@ -34,7 +34,7 @@ let install_targets cwd dep_configs =
       file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
     Bsb_build_util.mkp artifacts_dir;
     Bsb_watcher_gen.generate_sourcedirs_meta
-      ~name:(Bsb_config.lib_bs // Literals.sourcedirs_meta)
+      ~name:(artifacts_dir // Literals.sourcedirs_meta)
       !file_groups;
     Bsb_log.info "@{<info>Installing finished@} @.";
   end
