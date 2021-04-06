@@ -26,16 +26,15 @@
 let (//) = Ext_path.combine
 
 let install_targets cwd dep_configs =
-  let lib_artifacts_dir = Bsb_config.lib_bs in
+  let artifacts_dir = cwd // Bsb_config.lib_bs in
   begin
     Bsb_log.info "@{<info>Installing started@}@.";
     let file_groups = ref [] in
     Ext_list.iter dep_configs (fun (dep_config: Bsb_config_types.t) ->
       file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
-    let lib_bs_dir = cwd // lib_artifacts_dir in
-    Bsb_build_util.mkp lib_bs_dir;
+    Bsb_build_util.mkp artifacts_dir;
     Bsb_watcher_gen.generate_sourcedirs_meta
-      ~name:(lib_bs_dir // Literals.sourcedirs_meta)
+      ~name:(Bsb_config.lib_bs // Literals.sourcedirs_meta)
       !file_groups;
     Bsb_log.info "@{<info>Installing finished@} @.";
   end

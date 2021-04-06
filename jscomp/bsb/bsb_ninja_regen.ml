@@ -34,10 +34,9 @@ let regenerate_ninja
     ~buf
     ~root_dir
     per_proj_dir : unit =
-  let lib_artifacts_dir = Bsb_config.lib_bs in
-  let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
+  let artifacts_dir =  per_proj_dir // Bsb_config.lib_bs  in
   (* create directory, lib/bs, lib/js, lib/es6 etc *)
-  Bsb_build_util.mkp lib_bs_dir;
+  Bsb_build_util.mkp artifacts_dir;
   (* PR2184: we still need record empty dir
       since it may add files in the future *)
   Bsb_merlin_gen.merlin_file_gen ~per_proj_dir config;

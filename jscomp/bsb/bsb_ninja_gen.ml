@@ -165,6 +165,19 @@ let output_ninja_and_namespace_map
         ~rule:rules.build_package;
       Buffer.add_string buf ")";
     );
-  Buffer.add_char buf '\n'
+  Buffer.add_char buf '\n';
 
-  (* output_installation_file cwd_lib_bs namespace files_to_install *)
+  match package_kind with
+  | Bsb_package_kind.Toplevel ->
+    (* emitted in bsb_main *)
+    ()
+  | Dependency _ ->
+    let subd =
+      Ext_path.rel_normalized_absolute_path ~from:root_dir per_proj_dir
+    in
+    Buffer.add_string buf "(subdir ";
+    Buffer.add_string buf subd;
+    Buffer.add_string buf "(data_only_dirs ";
+    Buffer.add_string buf Literals.melange_eobjs_dir;
+    Buffer.add_string buf "))\n";
+

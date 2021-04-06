@@ -51,7 +51,7 @@ let get_runtime_module_path
     Js_packages_info.runtime_package_path module_system js_file
   | Package_found pkg ->
     let  dep_path  =
-      "lib" // Js_packages_info.runtime_dir_of_module_system module_system in
+      Literals.lib // Js_packages_info.runtime_dir_of_module_system module_system in
     if  Js_packages_info.is_runtime_package current_package_info then
       Ext_path.node_rebase_file
         ~from:pkg.rel_path

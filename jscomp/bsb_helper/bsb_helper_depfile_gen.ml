@@ -30,7 +30,7 @@ open D.O
 
 let (//) = Ext_path.combine
 
-let lib_bs = "lib" // "bs"
+let lib_bs = Literals.melange_eobjs_dir
 
 (* return an non-decoded string *)
 let extract_dep_raw_string (fn : string) : string =
