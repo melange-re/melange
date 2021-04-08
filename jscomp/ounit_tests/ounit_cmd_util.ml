@@ -36,55 +36,46 @@ type output = {
   exit_code : int
 }
 
+let read_fd_until_eof fd = 
+  let buf = Buffer.create 1024 in
+  let chan = Unix.in_channel_of_descr fd in
+  (try
+    while true do
+      Buffer.add_string buf (input_line chan);
+      Buffer.add_char buf '\n'
+    done;
+  with
+    End_of_file -> ());
+  Buffer.contents buf
+
 let perform command args =
-  let new_fd_in, new_fd_out = Unix.pipe () in
-  let err_fd_in, err_fd_out = Unix.pipe () in
-  match Unix.fork () with
-  | 0 ->
-    begin try
-        safe_close new_fd_in;
-        safe_close err_fd_in;
-        Unix.dup2 err_fd_out Unix.stderr ;
-        Unix.dup2 new_fd_out Unix.stdout;
-        Unix.execv command args
-      with _ ->
-        exit 127
-    end
-  | pid ->
-    (* when all the descriptors on a pipe's input are closed and the pipe is
+  let in_fd_read, in_fd_write = Unix.pipe () in
+  let out_fd_read, out_fd_write = Unix.pipe () in
+  let err_fd_read, err_fd_write = Unix.pipe () in
+
+  let pid =
+    Unix.create_process
+      command
+      args
+      in_fd_read
+      out_fd_write
+      err_fd_write in
+  safe_close in_fd_write;
+  (* when all the descriptors on a pipe's input are closed and the pipe is
         empty, a call to [read] on its output returns zero: end of file.
-       when all the descriptiors on a pipe's output are closed, a call to
-       [write] on its input kills the writing process (EPIPE).
+        when all the descriptiors on a pipe's output are closed, a call to
+        [write] on its input kills the writing process (EPIPE).
     *)
-    safe_close new_fd_out ;
-    safe_close err_fd_out ;
-    let in_chan = Unix.in_channel_of_descr new_fd_in in
-    let err_in_chan = Unix.in_channel_of_descr err_fd_in in
-    let buf = Buffer.create 1024 in
-    let err_buf = Buffer.create 1024 in
-    (try
-       while true do
-         Buffer.add_string buf (input_line in_chan );
-         Buffer.add_char buf '\n'
-       done;
-     with
-       End_of_file -> ()) ;
-    (try
-       while true do
-         Buffer.add_string err_buf (input_line err_in_chan );
-         Buffer.add_char err_buf '\n'
-       done;
-     with
-       End_of_file -> ()) ;
-    let exit_code = match snd @@ Unix.waitpid [] pid with
-      | Unix.WEXITED exit_code -> exit_code
-      | Unix.WSIGNALED _signal_number
-      | Unix.WSTOPPED _signal_number  -> 127 in
-    {
-      stdout = Buffer.contents buf ;
-      stderr = Buffer.contents err_buf;
-      exit_code
-    }
+  safe_close out_fd_write;
+  safe_close err_fd_write;
+  let stdout = read_fd_until_eof out_fd_read in
+  let stderr = read_fd_until_eof err_fd_read in
+  let exit_code =
+    match snd @@ Unix.waitpid [] pid with
+    | Unix.WEXITED exit_code -> exit_code
+    | Unix.WSIGNALED _signal_number
+    | Unix.WSTOPPED _signal_number  -> 127 in
+  { stdout; stderr; exit_code }
 
 
 let perform_bsc args =
