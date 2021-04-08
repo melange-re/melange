@@ -1,10 +1,10 @@
 # Contributing
 
-Thanks for your help! Melange's development setup is straightforward, but if something isn't working, please file an issue.
+Thanks for your interest! Below we describe Melange's development setup for a few different package managers. If something isn't working, or you'd like to add another workflow, please let us know by filing an issue.
 
 ## Prerequisites
 
-- [NixOS](https://nixos.org/)
+- The [Nix](https://nixos.org/) package manager
 
 ## Developing
 
