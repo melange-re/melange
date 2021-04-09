@@ -526,7 +526,7 @@ let translate  loc
             | Pbigarray_complex32 | Pbigarray_complex64), Pbigarray_c_layout, _
         -> 
         begin match args with
-          | [x;indx] -> E.runtime_call Js_runtime_modules.bigarray
+          | [_x;_indx] -> E.runtime_call Js_runtime_modules.bigarray
               ("caml_ba_get_" ^ string_of_int dimension ) args
           | _ -> assert false
         end
@@ -547,7 +547,7 @@ let translate  loc
             | Pbigarray_complex32 | Pbigarray_complex64), Pbigarray_c_layout, _
         -> 
         begin match args with 
-          | [x; index; value] -> 
+          | [_x; _index; _value] -> 
             E.runtime_call Js_runtime_modules.bigarray 
               ("caml_ba_set_" ^ string_of_int dimension) args          
           | _ -> assert false
