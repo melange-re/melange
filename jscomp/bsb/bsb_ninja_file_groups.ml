@@ -78,6 +78,7 @@ let emit_module_build
     _js_post_build_cmd
     namespace
     ~cur_dir
+    ~ppx_config
     (module_info : Bsb_db.module_info)
   =
   let impl_dir, intf_dir = match module_info.dir with
@@ -126,6 +127,12 @@ let emit_module_build
       output_ast
       (if has_intf_file then output_iast else "")
     in
+  let ppx_deps =
+    if ppx_config.Bsb_config_types.ppxlib <> [] then
+      [(Ext_path.rel_normalized_absolute_path
+        ~from:(per_proj_dir // cur_dir)
+        per_proj_dir) // "ppx.exe"]
+    else [] in
   let output_filename_sans_extension =
       Ext_namespace_encode.make ?ns:namespace filename_sans_extension
   in
@@ -144,7 +151,7 @@ let emit_module_build
     Bsb_package_specs.get_list_of_output_js package_specs output_filename_sans_extension in
   if which <> `intf then begin
     Bsb_ninja_targets.output_build cur_dir buf
-      ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
+      ~implicit_deps:((Option.value ~default:[] maybe_gentype_deps) @ ppx_deps)
       ~outputs:[output_ast]
       ~inputs:[basename input_impl]
       ~rule:rules.build_ast;
@@ -174,6 +181,7 @@ let emit_module_build
       (* TODO: we can get rid of absloute path if we fixed the location to be
           [lib/bs], better for testing?
       *)
+      ~implicit_deps:ppx_deps
       ~inputs:[basename input_intf]
       ~rule:rules.build_ast;
 
@@ -224,6 +232,7 @@ let handle_files_per_dir
     ~files_to_install
     ~bs_dependencies
     ~bs_dev_dependencies
+    ~ppx_config
     (group: Bsb_file_groups.file_group )
   : unit =
   let per_proj_dir = global_config.src_root_dir in
@@ -266,6 +275,7 @@ let handle_files_per_dir
         ~bs_dev_dependencies
         ?gentype_config:global_config.gentypeconfig
         ~cur_dir:group.dir
+        ~ppx_config
         js_post_build_cmd
         global_config.namespace module_info
       in

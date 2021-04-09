@@ -38,9 +38,10 @@ let maybe_quote_for_dune ( s : string) =
        instead. *)
     Format.asprintf "%S" s
 
-let ppx_flags (xs : Bsb_config_types.ppx list) =
+let ppx_flags (ppx : Bsb_config_types.ppx_config) =
   flag_concat "-ppx"
-    (Ext_list.map xs
+    ((if ppx.ppxlib <> [] then ["../ppx.exe"] else []) @
+     Ext_list.map ppx.ppx_files
        (fun x ->
           if x.args = [] then maybe_quote_for_dune x.name else
             Printf.sprintf "\"%s %s\"" x.name (String.concat " " x.args)))

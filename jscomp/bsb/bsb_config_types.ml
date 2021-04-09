@@ -50,6 +50,11 @@ type ppx = {
   name : string;
   args : string list
 }
+type ppx_config = { 
+  ppxlib : string list;
+  ppx_files : ppx list
+}
+
 type t =
   {
     dir: string;
@@ -57,9 +62,9 @@ type t =
     (* [captial-package] *)
     namespace : string option;
     (* CapitalPackage *)
-    external_includes : string list ;
-    bsc_flags : string list ;
-    ppx_files : ppx list ;
+    external_includes : string list;
+    bsc_flags : string list;
+    ppx_config : ppx_config;
     pp_file : string option;
     bs_dependencies : dependencies;
     bs_dev_dependencies : dependencies;

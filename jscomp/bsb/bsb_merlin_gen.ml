@@ -125,7 +125,7 @@ let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency)
 let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     ({file_groups = res_files ;
       generate_merlin;
-      ppx_files;
+      ppx_config;
       pp_file;
       bs_dependencies;
       bs_dev_dependencies;
@@ -141,7 +141,11 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
   if generate_merlin then begin
     let buffer = Buffer.create 1024 in
     output_merlin_namespace buffer namespace;
-    Ext_list.iter ppx_files (fun ppx ->
+    if ppx_config.ppxlib <> [] then begin
+      Buffer.add_string buffer merlin_flg_ppx;
+      Buffer.add_string buffer ".melange.eobjs/ppx.exe"
+    end;
+    Ext_list.iter ppx_config.ppx_files (fun ppx ->
         Buffer.add_string buffer merlin_flg_ppx;
         if ppx.args = [] then
           Buffer.add_string buffer ppx.name

@@ -53,7 +53,7 @@ let output_ninja_and_namespace_map
       external_includes;
       bsc_flags ;
       pp_file;
-      ppx_files ;
+      ppx_config ;
 
       bs_dependencies;
       bs_dev_dependencies;
@@ -119,7 +119,7 @@ let output_ninja_and_namespace_map
       ~global_config
       ~has_postbuild:js_post_build_cmd
       ~pp_file
-      ~ppx_files
+      ~ppx_config
       ~has_builtin:built_in_dependency
       ~reason_react_jsx
       ~package_specs
@@ -145,6 +145,7 @@ let output_ninja_and_namespace_map
          ~bs_dev_dependencies
          ~bs_dependencies
          ~root_dir
+         ~ppx_config
          files_per_dir)
   ;
 
@@ -169,6 +170,7 @@ let output_ninja_and_namespace_map
   match package_kind with
   | Bsb_package_kind.Toplevel ->
     (* emitted in bsb_main *)
+    Bsb_ppxlib.ppxlib buf ~ppx_config;
     ()
   | Dependency _ ->
     let subd =
@@ -178,5 +180,7 @@ let output_ninja_and_namespace_map
     Buffer.add_string buf subd;
     Buffer.add_string buf "(data_only_dirs ";
     Buffer.add_string buf Literals.melange_eobjs_dir;
-    Buffer.add_string buf "))\n";
+    Buffer.add_string buf ")\n";
+    Bsb_ppxlib.ppxlib buf ~ppx_config;
+    Buffer.add_string buf ")\n"
 
