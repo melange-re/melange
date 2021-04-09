@@ -505,7 +505,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "Print inferred interface";
 
     "-nolabels", set Clflags.classic,
-    "Ignore non-optional labels in types";
+    "*internal* Ignore non-optional labels in types";
 
     "-principal", set Clflags.principal,
     "*internal* Check principality of type inference";
