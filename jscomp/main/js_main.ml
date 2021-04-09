@@ -507,9 +507,6 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-nolabels", set Clflags.classic,
     "Ignore non-optional labels in types";
 
-    "-nolabels", set Clflags.classic,
-    "*internal* Ignore non-optional labels in types";
-
     "-principal", set Clflags.principal,
     "*internal* Check principality of type inference";
 
