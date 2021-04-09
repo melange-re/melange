@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+let (//) = Ext_path.combine
+
 (* Clflags.keep_docs := false; *)
 (* default to false -check later*)
 (* Clflags.keep_locs := false; *)
@@ -38,21 +40,22 @@ let setup_env () =
   Warnings.parse_options true Bsc_warnings.defaults_warn_error;
   Clflags.locations := false;
   Clflags.compile_only := true;
+  Config.syntax_kind := `rescript;
+  Config.unsafe_empty_array := false;
   Config.bs_only := true;
-  Clflags.no_implicit_current_dir := true;
   Clflags.color := Some Always;
   (* default true
      otherwise [bsc -I sc src/hello.ml ] will include current directory to search path
   *)
-  Clflags.assume_no_mli := Clflags.Mli_non_exists;
+  Bs_clflags.assume_no_mli := Bs_clflags.Mli_non_exists;
   Clflags.unsafe_string := false;
   Clflags.debug := true;
-  Clflags.record_event_when_debug := false;
+  Bs_clflags.record_event_when_debug := false;
   Clflags.binary_annotations := true;
   Clflags.strict_sequence := true;
   Clflags.strict_formats := true;
   (* Turn on [-no-alias-deps] by default -- double check *)
-  Oprint.out_ident := Outcome_printer_ns.out_ident;
+  Oprint.out_ident := Outcome_printer.Outcome_printer_ns.out_ident;
   Builtin_attributes.check_bs_attributes_inclusion := Record_attributes_check.check_bs_attributes_inclusion;
   Builtin_attributes.check_duplicated_labels :=
     Record_attributes_check.check_duplicated_labels;
@@ -63,22 +66,31 @@ let setup_env () =
     Matching_polyfill.names_from_construct_pattern;
 #ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
-    (* (let root_dir = *)
-        (* Filename.dirname *)
-          (* (Filename.dirname Sys.executable_name) in *)
-    (* let (//) = Filename.concat in *)
-    (* Clflags.include_dirs := *)
-      (* (root_dir//"jscomp"//"others") :: *)
-      (* (root_dir//"jscomp"//"stdlib-412") :: *)
-      (* (root_dir//"jscomp"//"runtime") :: *)
-      (* !Clflags.include_dirs); *)
+    (let jscomp =
+        (* jscomp/main/bsc.exe -> jscomp *)
+        Filename.dirname
+          (Filename.dirname Sys.executable_name) in
+    Clflags.include_dirs :=
+      (jscomp//"others") ::
+      (jscomp//"stdlib-412/stdlib_modules") ::
+      (jscomp//"stdlib-412") ::
+      (jscomp//"runtime") ::
+      (Lazy.force Js_config.stdlib_path) ::
+      !Clflags.include_dirs);
 #endif
+
+#ifdef BS_RELEASE_BUILD
+    Clflags.include_dirs := (Lazy.force Js_config.stdlib_path) :: !Clflags.include_dirs;
+#endif
+
   Lexer.replace_directive_bool "BS" true;
   Lexer.replace_directive_bool "JS" true;
   Lexer.replace_directive_string "BS_VERSION"  Bs_version.version
 #if false
   ; Switch.cut := 100 (* tweakable but not very useful *)
 #endif
+;;
 
 let () =
     at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
+

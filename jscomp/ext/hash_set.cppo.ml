@@ -37,7 +37,7 @@ type  t = key  Hash_set_gen.t
 #elif defined TYPE_IDENT
 type key = Ident.t
 let key_index (h :  _ Hash_set_gen.t ) (key : key) =
-  (Bs_hash_stubs.hash_string_int  (Ident.name key) (Ident.stamp key)) land (Array.length h.data - 1)
+  (Bs_hash_stubs.hash_string_int  (Ident.name key) (Ext_ident.stamp key)) land (Array.length h.data - 1)
 let eq_key = Ext_ident.equal
 type t = key Hash_set_gen.t
 #elif defined TYPE_FUNCTOR

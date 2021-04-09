@@ -1,5 +1,5 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+(* Copyright (C) 2015 - 2016 Bloomberg Finance L.P.
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -31,13 +31,10 @@ val lib_js : string
 val lib_bs : string
 val lib_es6 : string
 val lib_es6_global : string
-val lib_ocaml : string
 val all_lib_artifacts : string list
 (* we need generate path relative to [lib/bs] directory in the opposite direction *)
 val rev_lib_bs_prefix : string -> string
-val lib_bs_prefix_of_format : Ext_module_system.t -> string
 val top_prefix_of_format : Ext_module_system.t -> string
 (** default not install, only when -make-world, its dependencies will be installed  *)
 
 val dune_build_dir : string Lazy.t
-val stdlib_path : cwd:string -> string

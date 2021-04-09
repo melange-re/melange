@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -52,6 +52,7 @@ type ppx = {
 }
 type t =
   {
+    dir: string;
     package_name : string ;
     (* [captial-package] *)
     namespace : string option;
@@ -62,7 +63,6 @@ type t =
     pp_file : string option;
     bs_dependencies : dependencies;
     bs_dev_dependencies : dependencies;
-    pinned_dependencies : Set_string.t;
     built_in_dependency : bool;
     warning : Bsb_warning.t;
     (*TODO: maybe we should always resolve bs-platform

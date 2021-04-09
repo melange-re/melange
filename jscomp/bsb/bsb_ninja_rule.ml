@@ -1,5 +1,5 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+(* Copyright (C) 2015 - 2016 Bloomberg Finance L.P.
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -47,11 +47,7 @@ let get_name (x : t) ?target cur_dir buf = x.name buf ?target cur_dir
 
 
 (** allocate an unique name for such rule*)
-let define
-    ~command
-    ?dyndep
-    ?restat
-    rule_name : t
+let define ~command rule_name : t
   =
 
   let self = {
@@ -70,17 +66,12 @@ type command = string
 type builtin = {
   build_ast : t;
   (** TODO: Implement it on top of pp_flags *)
-  build_ast_from_re : t ;
-  (* build_ast_from_rei : t ; *)
 
 
   (** platform dependent, on Win32,
       invoking cmd.exe
   *)
   copy_resources : t;
-  (** Rules below all need restat *)
-  build_bin_deps : t ;
-  build_bin_deps_dev : t;
   mj : t;
   mj_dev : t;
   mij : t ;
@@ -130,8 +121,14 @@ let make_custom_rules
     in
     Buffer.add_string buf "(action\n (progn ";
     Buffer.add_string buf "(dynamic-run ";
-    Buffer.add_string buf global_config.bs_dep_parse;
-    Buffer.add_string buf " %{dep_file}) (run ";
+    Buffer.add_string buf global_config.bsdep;
+    if is_dev then Buffer.add_string buf " -g";
+    Buffer.add_string buf ns_flag;
+    Buffer.add_string buf " -root ";
+    Buffer.add_string buf global_config.src_root_dir;
+    Buffer.add_string buf " -cwd ";
+    Buffer.add_string buf cur_dir;
+    Buffer.add_string buf " %{ast_deps}) (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf ns_flag;
     if not has_builtin then
@@ -139,7 +136,7 @@ let make_custom_rules
     if read_cmi = `yes then
       Buffer.add_string buf " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then begin
-       let dev_incls = Bsb_build_util.include_dirs global_config.g_dev_incls in
+       let dev_incls = rel_incls global_config.g_dev_incls in
         Buffer.add_string buf " ";
         Buffer.add_string buf dev_incls;
     end;
@@ -152,10 +149,6 @@ let make_custom_rules
     if is_dev then begin
       Buffer.add_string buf " ";
       Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);
-    end;
-    if global_config.g_stdlib_incl <> [] then begin
-      Buffer.add_string buf " ";
-      Buffer.add_string buf (Bsb_build_util.include_dirs global_config.g_stdlib_incl)
     end;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
@@ -182,7 +175,7 @@ let make_custom_rules
       Buffer.add_string buf " $out_last"
     end ;
   in
-  let mk_ast ~has_reason_react_jsx buf ?target _cur_dir : unit =
+  let mk_ast buf ?target:_ _cur_dir : unit =
     Buffer.add_string buf "(action\n (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf " ";
@@ -207,11 +200,9 @@ let make_custom_rules
        Buffer.add_char buf ' ';
        Buffer.add_string buf (Bsb_build_util.pp_flag flag)
     );
-    (match has_reason_react_jsx, reason_react_jsx with
-     | false, _
-     | _, None -> ()
-     | _, Some Jsx_v3
-       -> Buffer.add_string buf " -bs-jsx 3"
+    (match reason_react_jsx with
+     | None -> ()
+     | Some Jsx_v3 -> Buffer.add_string buf " -bs-jsx 3"
     );
 
     Buffer.add_char buf ' ';
@@ -221,16 +212,12 @@ let make_custom_rules
   in
   let build_ast =
     define
-      ~command:(mk_ast ~has_reason_react_jsx:false )
+      ~command:mk_ast
       "ast" in
-  let build_ast_from_re =
-    define
-      ~command:(mk_ast  ~has_reason_react_jsx:true)
-      "astj" in
 
   let copy_resources =
     define
-      ~command:(fun buf ?target _cur_dir ->
+      ~command:(fun buf ?target:_ _cur_dir ->
         let s = if Ext_sys.is_windows_or_cygwin then
           "cmd.exe /C copy /Y $i $out >NUL"
         else "cp $i $out"
@@ -239,44 +226,9 @@ let make_custom_rules
       )
       "copy_resource" in
 
-  let build_bin_deps =
-    define
-      ~restat:()
-      ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s %s %%{inputs}))"
-          global_config.bsdep
-          global_config.src_root_dir
-          ns_flag
-        in
-        Buffer.add_string buf s)
-      "deps" in
-  let build_bin_deps_dev =
-    define
-      ~restat:()
-      ~command:(fun buf ?target _cur_dir ->
-        let s = Format.asprintf "(action (run %s -g -cwd %s %s %%{inputs}))"
-          global_config.bsdep
-          global_config.src_root_dir
-          ns_flag
-        in
-        Buffer.add_string buf s)
-      "deps_dev"
-  in
   let aux ~name ~read_cmi  ~postbuild =
-    define
-      ~command:(mk_ml_cmj_cmd
-                  ~read_cmi  ~is_dev:false
-                  ~postbuild)
-      ~dyndep:()
-      ~restat:() (* Always restat when having mli *)
-      name,
-    define
-      ~command:(mk_ml_cmj_cmd
-                  ~read_cmi  ~is_dev:true
-                  ~postbuild)
-      ~dyndep:()
-      ~restat:() (* Always restat when having mli *)
-      (name ^ "_dev")
+    define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:false ~postbuild) name,
+    define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:true ~postbuild) (name ^ "_dev")
   in
 
   let mj, mj_dev =
@@ -291,29 +243,19 @@ let make_custom_rules
       ~name:"mi" in
   let build_package =
     define
-      ~command:(fun buf ?target _cur_dir ->
-         let stdlib_incl =
-           Bsb_build_util.include_dirs global_config.g_stdlib_incl
-         in
-         let s = global_config.bsc ^ Ext_string.single_space ^ stdlib_incl ^
-         " -w -49 -color always -no-alias-deps %{inputs}"
-         in
+      ~command:(fun buf ?target:_ _cur_dir ->
+         let s = global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}" in
         Buffer.add_string buf "(action (run ";
         Buffer.add_string buf s;
         Buffer.add_string buf "))")
-      ~restat:()
       "build_package"
   in
   {
     build_ast ;
-    build_ast_from_re  ;
     (** platform dependent, on Win32,
         invoking cmd.exe
     *)
     copy_resources;
-    (** Rules below all need restat *)
-    build_bin_deps ;
-    build_bin_deps_dev;
     mj  ;
     mj_dev  ;
     mij  ;
@@ -325,7 +267,7 @@ let make_custom_rules
     build_package ;
     customs =
       Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun buf ?target _cur_dir ->
+        define ~command:(fun buf ?target:_ _cur_dir ->
           let actual_command =
             Str.global_substitute Generators.regexp (fun match_ ->
               match Generators.(maybe_match ~group:1 match_, maybe_match ~group:2 match_) with

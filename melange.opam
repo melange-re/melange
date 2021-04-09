@@ -2,9 +2,11 @@
 opam-version: "2.0"
 depends: [
   "dune" {>= "2.5"}
-  "ocaml-variants" {= "4.12.0+BS"}
+  "ocaml" {>= "4.12.0" & < "4.13.0"}
   "dune-action-plugin"
+  "melange-compiler-libs"
   "reason"
+  "cmdliner"
 ]
 build: [
   ["dune" "subst"] {pinned}
@@ -21,5 +23,12 @@ build: [
   ]
 ]
 pin-depends: [
-  [ "ocaml-variants.4.12.0+BS" "git+https://github.com/melange-re/ocaml.git#4.12.0+BS"]
+  [ "melange-compiler-libs.dev" "git+https://github.com/melange-re/melange-compiler-libs.git"]
 ]
+
+install: [
+  [ "dune" "install" "-p" "%{name}%" ]
+  [ "./fix-install-opam.sh" "%{_:lib}%" "%{_:build}%" ]
+]
+
+setenv: [ BSLIB = "%{_:lib}%/melange" ]

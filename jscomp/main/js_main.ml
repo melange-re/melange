@@ -22,9 +22,9 @@ let set_abs_input_name sourcefile =
 let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
   Config.syntax_kind := syntax_kind ;
   if syntax_kind = `reason then begin
-    Lazy.force Reason_outcome_printer_main.setup
+    Lazy.force Outcome_printer.Reason_outcome_printer_main.setup
   end else if !Config.syntax_kind = `rescript then begin
-    Lazy.force Res_outcome_printer.setup
+    Lazy.force Napkin.Res_outcome_printer.setup
   end
 
 
@@ -58,14 +58,14 @@ let process_file sourcefile
     let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.implementation
-      ~parser:Ast_reason_pp.parse_implementation
+      ~parser:Ast_reason_pp.RE.parse_implementation
       ppf sourcefile ~outputprefix
   | Rei ->
     let sourcefile = set_abs_input_name  sourcefile in
     let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.interface
-      ~parser:Ast_reason_pp.parse_interface
+      ~parser:Ast_reason_pp.RE.parse_interface
       ppf sourcefile ~outputprefix
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
@@ -81,13 +81,13 @@ let process_file sourcefile
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `rescript;
     Js_implementation.implementation
-      ~parser:Res_driver.parse_implementation
+      ~parser:Napkin.Res_driver.parse_implementation
       ppf sourcefile
   | Resi ->
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `rescript;
     Js_implementation.interface
-      ~parser:Res_driver.parse_interface
+      ~parser:Napkin.Res_driver.parse_interface
       ppf sourcefile
   | Intf_ast
     ->
@@ -113,6 +113,97 @@ let usage = "Usage: bsc <options> <files>\nOptions are:"
 let ppf = Format.err_formatter
 
 (* Error messages to standard error formatter *)
+open struct
+  open Reason_migrate_parsetree
+  module To_current = Convert(OCaml_406)(OCaml_current)
+  module From_current = Convert(OCaml_current)(OCaml_406)
+
+  let handle_res_parse_result (parse_result : _ Napkin.Res_driver.parseResult) =
+    if parse_result.invalid then begin
+        Napkin.Res_diagnostics.printReport parse_result.diagnostics parse_result.source;
+        exit 1
+    end
+end
+
+let print_res_interface ~comments ast =
+  Napkin.Res_printer.printInterface ~width:100 ~comments ast
+
+let print_res_implementation ~comments ast =
+  Napkin.Res_printer.printImplementation ~width:100 ~comments ast
+
+(* TODO: support printing from AST too. *)
+let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
+  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
+  let impl_format_fn ~comments ast =
+    let std = Format.std_formatter in
+    match kind, comments with
+    | Ml, `Re comments ->
+      Ast_reason_pp.ML.format_implementation_with_comments std ~comments ast
+    | Ml, `Res _ ->
+      Ast_reason_pp.ML.format_implementation_with_comments std ~comments:[] ast
+    | Res, `Res comments ->
+      let ast = From_current.copy_structure ast in
+      output_string stdout (print_res_implementation ~comments ast)
+    | Res, `Re _ ->
+      let ast = From_current.copy_structure ast in
+      output_string stdout (print_res_implementation ~comments:[] ast)
+    | Reason, `Re comments ->
+      Ast_reason_pp.RE.format_implementation_with_comments std ~comments ast
+    | Reason, `Res _ ->
+      Ast_reason_pp.RE.format_implementation_with_comments std ~comments:[] ast
+    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  in
+  let intf_format_fn ~comments ast =
+    let std = Format.std_formatter in
+    match kind, comments with
+    | Ml, `Re comments ->
+      Ast_reason_pp.ML.format_interface_with_comments std ~comments ast
+    | Ml, `Res _ ->
+      Ast_reason_pp.ML.format_interface_with_comments std ~comments:[] ast
+    | Res, `Res comments ->
+      let ast = From_current.copy_signature ast in
+      output_string stdout (print_res_interface ~comments ast)
+    | Res, `Re _ ->
+      let ast = From_current.copy_signature ast in
+      output_string stdout (print_res_interface ~comments:[] ast)
+    | Reason, `Re comments ->
+      Ast_reason_pp.RE.format_interface_with_comments std ~comments ast
+    | Reason, `Res _ ->
+      Ast_reason_pp.RE.format_interface_with_comments std ~comments:[] ast
+    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  in
+  begin match ext with
+  | Ml ->
+    let ast, comments =
+      Ast_reason_pp.ML.parse_implementation_with_comments input
+    in
+    impl_format_fn ~comments:(`Re comments) ast
+  | Mli ->
+    let ast, comments = Ast_reason_pp.ML.parse_interface_with_comments input in
+    intf_format_fn ~comments:(`Re comments) ast
+  | Res ->
+    let parse_result =
+      Napkin.Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
+    in
+    handle_res_parse_result parse_result;
+    impl_format_fn
+      ~comments:(`Res parse_result.comments)
+      parse_result.parsetree
+  | Resi ->
+    let parse_result =
+      Napkin.Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
+    in
+    intf_format_fn
+      ~comments:(`Res parse_result.comments)
+       parse_result.parsetree
+  | Re ->
+    let ast, comments = Ast_reason_pp.RE.parse_implementation_with_comments input in
+    impl_format_fn ~comments:(`Re comments) ast
+  | Rei ->
+    let ast, comments = Ast_reason_pp.RE.parse_interface_with_comments input in
+    intf_format_fn ~comments:(`Re comments) ast
+  | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  end
 
 let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then
@@ -128,7 +219,10 @@ let anonymous ~(rev_args : string list) =
     begin
       match rev_args with
       | [filename] ->
-        process_file filename ppf
+        begin match !Js_config.format with
+        | Some syntax_kind -> format_file ~kind:syntax_kind filename
+        | None -> process_file filename ppf
+        end
       | [] -> ()
       | _ ->
           Format.eprintf "args: %s@." (String.concat "; " rev_args);
@@ -142,26 +236,6 @@ let impl filename =
 let intf filename =
   Js_config.js_stdout := false ;
   process_file filename ~kind:Mli ppf;;
-
-let reason_fmt ~input =
-  let isInterface =
-    let len = String.length input in
-    len > 0 && String.unsafe_get input (len - 1) = 'i'
-  in
-  if isInterface then
-    Ast_reason_pp.format_interface input
-  else
-    Ast_reason_pp.format_implementation input
-
-let format_file input =
-  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
-  let format_fn =
-    match ext with
-    | Ml | Mli -> Res_multi_printer.print `ml
-    | Res | Resi -> Res_multi_printer.print `res
-    | Re | Rei -> reason_fmt
-    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input) in
-  output_string stdout (format_fn ~input)
 
 let set_color_option option =
   match Clflags.color_reader.parse option with
@@ -189,11 +263,7 @@ let define_variable s =
   | _ -> Bsc_args.bad_arg ("illegal definition: " ^ s)
 
 let print_standard_library () =
-  let (//) = Filename.concat in
-  let standard_library =
-    Filename.dirname Sys.executable_name
-    // Filename.parent_dir_name // "lib"// "ocaml"  in
-  print_string standard_library; print_newline();
+  print_endline (Lazy.force Js_config.stdlib_path);
   exit 0
 
 let bs_version_string =
@@ -241,7 +311,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-o", string_optional_set Clflags.output_name,
     "<file>  set output file name to <file>";
 
-    "-bs-read-cmi",  unit_call (fun _ -> Clflags.assume_no_mli := Mli_exists),
+    "-bs-read-cmi",  unit_call (fun _ -> Bs_clflags.assume_no_mli := Mli_exists),
     "*internal* Assume mli always exist ";
 
     "-ppx", string_list_add Clflags.all_ppx,
@@ -281,7 +351,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-no-alias-deps", set Clflags.transparent_modules,
     "*internal*Do not record dependencies for module aliases";
 
-    "-bs-gentype", string_optional_set Clflags.bs_gentype ,
+    "-bs-gentype", string_optional_set Bs_clflags.bs_gentype ,
     "*internal* Pass gentype command";
 
     (******************************************************************************)
@@ -294,7 +364,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-unboxed-types", set Clflags.unboxed_types,
     "Unannotated unboxable types will be unboxed";
 
-    "-bs-re-out", unit_lazy Reason_outcome_printer_main.setup,
+    "-bs-re-out", unit_lazy Outcome_printer.Reason_outcome_printer_main.setup,
     "Print compiler output in Reason syntax";
 
     "-bs-refmt", string_optional_set Js_config.refmt,
@@ -303,7 +373,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bs-D",  string_call define_variable,
     "Define conditional variable e.g, -D DEBUG=true";
 
-    "-bs-unsafe-empty-array",  clear Js_config.mono_empty_array,
+    "-bs-unsafe-empty-array",  set Config.unsafe_empty_array,
     "*internal* Allow [||] to be polymorphic";
 
     "-nostdlib",  set Js_config.no_stdlib,
@@ -360,7 +430,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bs-no-check-div-by-zero", clear Js_config.check_div_by_zero,
     "*internal* unsafe mode, don't check div by zero and mod by zero";
 
-    "-bs-noassertfalse", set Clflags.no_assert_false,
+    "-bs-noassertfalse", set Bs_clflags.no_assert_false,
     "*internal*  no code for assert false";
 
     "-noassert", set Clflags.noassert,
@@ -387,7 +457,17 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-dsource", set Clflags.dump_source,
     "*internal* print source";
 
-    "-format", string_call format_file,
+    "-format", string_call (fun ext ->
+      let syntax: Ext_file_extensions.syntax_kind = match Ext_string.trim ext with
+      | "re" -> Reason
+      | "res" -> Res
+      | "ml" -> Ml
+      | x ->
+        Location.raise_errorf
+          "invalid option `%s` passed to -format, expected `re`, `res` or `ml`"
+          x
+      in
+      Js_config.format := Some syntax),
     "Format as Res syntax";
 
     "-where", unit_call print_standard_library,
@@ -423,9 +503,6 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
 
     "-i", set Clflags.print_types,
     "Print inferred interface";
-
-    "-nolabels", set Clflags.classic,
-    "Ignore non-optional labels in types";
 
     "-nolabels", set Clflags.classic,
     "*internal* Ignore non-optional labels in types";

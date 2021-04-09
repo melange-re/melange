@@ -1,5 +1,5 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+(* Copyright (C) 2015 - 2016 Bloomberg Finance L.P.
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -48,15 +48,12 @@ let ppx_flags (xs : Bsb_config_types.ppx list) =
 let pp_flag (xs : string) =
    "-pp " ^ maybe_quote_for_dune xs
 
-let include_dirs dirs =
-  String.concat Ext_string.single_space
-    (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune x]))
-
-
 let include_dirs_by dirs fn =
   String.concat Ext_string.single_space
     (Ext_list.flat_map dirs (fun x -> ["-I"; maybe_quote_for_dune (fn x)]))
 
+let include_dirs dirs =
+  include_dirs_by dirs Fun.id
 
 let rel_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
  let relativize_single dir =
@@ -201,8 +198,7 @@ let rec walk_all_deps_aux
   (paths : string list)
   ~(top : top)
   (dir : string)
-  (queue : _ Queue.t)
-  ~pinned_dependencies =
+  (queue : _ Queue.t) =
   let bsconfig_json =  dir // Literals.bsconfig_json in
   match Ext_json_parse.parse_json_from_file bsconfig_json with
   | Obj {map; loc} ->
@@ -243,8 +239,7 @@ let rec walk_all_deps_aux
                    let package_dir =
                      Bsb_pkg.resolve_bs_package ~cwd:dir
                        (Bsb_pkg_types.string_as_package   new_package) in
-                   walk_all_deps_aux visited package_stacks  ~top:(Expect_name new_package) package_dir queue
-                   ~pinned_dependencies ;
+                   walk_all_deps_aux visited package_stacks  ~top:(Expect_name new_package) package_dir queue;
                  | _ ->
                    Bsb_exception.errorf ~loc
                      "%s expect an array"
@@ -256,9 +251,6 @@ let rec walk_all_deps_aux
         begin match top with
           | Expect_none ->
             explore_deps Bsb_build_schemas.bs_dev_dependencies
-          | Expect_name n when
-              Set_string.mem pinned_dependencies n ->
-            explore_deps Bsb_build_schemas.bs_dev_dependencies
           | Expect_name _ -> ()
         end;
         Queue.add {top ; proj_dir = dir} queue;
@@ -267,8 +259,8 @@ let rec walk_all_deps_aux
   | _ -> ()
 
 
-let walk_all_deps dir ~pinned_dependencies : package_context Queue.t =
+let walk_all_deps dir : package_context Queue.t =
   let visited = Hash_string.create 0 in
   let cb = Queue.create () in
-  walk_all_deps_aux visited [] ~top:Expect_none dir cb ~pinned_dependencies;
+  walk_all_deps_aux visited [] ~top:Expect_none dir cb;
   cb

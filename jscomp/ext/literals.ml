@@ -27,7 +27,6 @@
 
 
 
-
 let js_array_ctor = "Array"
 let js_type_number = "number"
 let js_type_string = "string"
@@ -73,11 +72,12 @@ let bsconfig_json = "bsconfig.json"
 let build_ninja = "build.ninja"
 let dune = "dune"
 let dune_bsb = "dune.bsb"
+let dune_project = "dune-project"
 let bsb_depends = "bsb_depends"
 let bsb_world = "bsb_world"
 
 (* Name of the library file created for each external dependency. *)
-let library_file = "lib"
+let lib = "lib"
 
 let suffix_a = ".a"
 let suffix_cmj = ".cmj"
@@ -107,6 +107,9 @@ let suffix_mjs = ".mjs"
 let suffix_cjs = ".cjs"
 let suffix_gen_js = ".gen.js"
 let suffix_gen_tsx = ".gen.tsx"
+
+let suffix_impl = ".impl"
+let suffix_intf = ".intf"
 
 let commonjs = "commonjs"
 
@@ -148,3 +151,5 @@ let lazy_done = "LAZY_DONE"
 let lazy_val = "VAL"
 
 let pure = "@__PURE__"
+
+let melange_eobjs_dir = ".melange.eobjs"

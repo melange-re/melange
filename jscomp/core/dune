@@ -2,21 +2,18 @@
  (name core)
  (wrapped false)
  (flags
-  (:standard -w -9-30-50))
+  (:standard -w -9-30-50 -open Melange_compiler_libs))
  (preprocess
   (action
-   (run cppo -U BS_NATIVE_PPX %{env:CPPO_FLAGS=} %{input-file})))
+   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
  (libraries
   ext
   common
-  depends
-  compiler-libs
-  compiler-libs.common
+  frontend
+  melange-compiler-libs
   outcome_printer
   js_parser
-  reason
-  builtin_datasets
   napkin))
 
 (rule
@@ -55,5 +52,3 @@
   (source_tree ../../ocaml-tree))
  (action
   (run node ../../ocaml-tree/wasm.js -record-fold -i %{deps} -o %{targets})))
-
-(copy_files# ../frontend/*)

@@ -9,8 +9,8 @@
             ],
             "description": "es6-global generate relative `require` paths instead of relying on NodeJS' module resolution. Default: commonjs."
         },
-        "suffix-spec" : {
-            "enum" : [
+        "suffix-spec": {
+            "enum": [
                 ".js",
                 ".bs.js",
                 ".mjs",
@@ -28,8 +28,8 @@
                     "type": "boolean",
                     "description": "Default: false."
                 },
-                "suffix" : {
-                    "$ref" : "#/definitions/suffix-spec"
+                "suffix": {
+                    "$ref": "#/definitions/suffix-spec"
                 }
             },
             "required": [
@@ -46,14 +46,14 @@
                 }
             ]
         },
-        "namespace-spec" : {
-            "oneOf" : [
+        "namespace-spec": {
+            "oneOf": [
                 {
-                    "type" : "boolean",
+                    "type": "boolean",
                     "description": "true to use the package name as namespace, false to not use"
                 },
                 {
-                    "type" : "string",
+                    "type": "string",
                     "description": "provide customized namespace name"
                 }
             ]
@@ -79,18 +79,17 @@
         "ppx-specs": {
             "type": "array",
             "items": {
-                "oneOf" : [
+                "oneOf": [
                     {
                         "type": "string"
                     },
                     {
-                        "type" : "array",
+                        "type": "array",
                         "items": {
-                            "type" : "string"
+                            "type": "string"
                         }
                     }
                 ]
-                
             }
         },
         "pp-specs": {
@@ -151,7 +150,6 @@
                             "type": "string",
                             "description": "name of the directory"
                         },
-                   
                         "type": {
                             "enum": [
                                 "dev"
@@ -306,11 +304,11 @@
             },
             "description": "A list of buildable targets"
         },
-        "gentype-specs" : {
-            "type" : "object",
+        "gentype-specs": {
+            "type": "object",
             "properties": {
-                "path" : {
-                    "type" : "string"
+                "path": {
+                    "type": "string"
                 }
             },
             "description": "path to gentype, path resolution is similar to reason"
@@ -328,7 +326,10 @@
             "oneOf": [
                 {
                     "type": "number",
-                    "enum": [2, 3],
+                    "enum": [
+                        2,
+                        3
+                    ],
                     "description": "Reason syntax version to use. Prefer 3. Default: 2, for backward-compatiblity"
                 },
                 {
@@ -388,10 +389,10 @@
             "$ref": "#/definitions/sources",
             "description": "Source code location"
         },
-        "ignored-dirs" : {
-            "type" : "array",
-            "items": { 
-                "type" : "string"
+        "ignored-dirs": {
+            "type": "array",
+            "items": {
+                "type": "string"
             },
             "description": "a list of directories that bsb will not look into"
         },
@@ -402,10 +403,6 @@
         "bs-dev-dependencies": {
             "$ref": "#/definitions/dependencies",
             "description": "OCaml/Reason dev dependencies of the library, like in package.json. Currently searches in `node_modules`"
-        },
-        "pinned-dependencies" : {
-            "$ref": "#/definitions/dependencies",
-            "description": "Those dependencies are pinned (since version 8.4)"
         },
         "generators": {
             "type": "array",
@@ -423,9 +420,9 @@
             "description": "BuckleScript comes with [Reason](http://reasonml.github.io/) by default. Specific configurations here."
         },
         "gentypeconfig": {
-            "$ref" : "#/definitions/gentype-specs",
+            "$ref": "#/definitions/gentype-specs",
             "description": "gentype config, see cristianoc/genType for more details"
-        },        
+        },
         "bsc-flags": {
             "$ref": "#/definitions/bsc-flags",
             "description": "Flags passed to bsc.exe"
@@ -480,8 +477,8 @@
             "type": "boolean",
             "description": "(Experimental) whether to use the OCaml standard library. Default: true"
         },
-        "external-stdlib" : {
-            "type" : "string",
+        "external-stdlib": {
+            "type": "string",
             "description": "Use the external stdlib library instead of the one shipped with the compiler package"
         },
         "bs-external-includes": {
@@ -491,8 +488,8 @@
             },
             "description": "(Not needed usually) external include directories, which will be applied `-I` to all compilation units"
         },
-        "suffix" : {
-            "$ref" : "#/definitions/suffix-spec"
+        "suffix": {
+            "$ref": "#/definitions/suffix-spec"
         }
     },
     "additionalProperties": false,

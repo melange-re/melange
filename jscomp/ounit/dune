@@ -1,4 +1,0 @@
-(library
- (wrapped false)
- (name ounit)
- (libraries unix))

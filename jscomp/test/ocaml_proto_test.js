@@ -1598,7 +1598,7 @@ var __ocaml_lex_tables = {
   lex_code: ""
 };
 
-function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var l = _l;
@@ -1606,21 +1606,17 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf);
-          ___ocaml_lex_state = 47;
-          continue ;
-      case 1 :
-          Lexing.lexeme(lexbuf);
           return /* Comment_value */{
                   _0: $$String.concat("", List.rev(l))
                 };
-      case 2 :
-          ___ocaml_lex_state = 47;
+      case 1 :
+          ___ocaml_lex_state = 41;
           _l = {
             hd: Lexing.lexeme(lexbuf),
             tl: l
           };
           continue ;
-      case 3 :
+      case 2 :
           return /* Comment_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
@@ -1665,7 +1661,7 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
   };
 }
 
-function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
+function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var l = _l;
@@ -1673,17 +1669,21 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf);
+          ___ocaml_lex_state = 47;
+          continue ;
+      case 1 :
+          Lexing.lexeme(lexbuf);
           return /* Comment_value */{
                   _0: $$String.concat("", List.rev(l))
                 };
-      case 1 :
-          ___ocaml_lex_state = 41;
+      case 2 :
+          ___ocaml_lex_state = 47;
           _l = {
             hd: Lexing.lexeme(lexbuf),
             tl: l
           };
           continue ;
-      case 2 :
+      case 3 :
           return /* Comment_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);

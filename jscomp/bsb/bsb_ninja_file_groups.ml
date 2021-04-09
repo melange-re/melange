@@ -25,6 +25,12 @@
 let basename = Filename.basename
 let (//) = Ext_path.combine
 
+let rel_dependencies_alias ~proj_dir ~cur_dir deps =
+  Ext_list.map deps (fun dir ->
+   let rel_dir =
+     Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) dir
+   in
+   rel_dir // Literals.bsb_world)
 
 
 let handle_generators buf
@@ -69,32 +75,66 @@ let emit_module_build
     ~per_proj_dir
     ~bs_dependencies
     ~bs_dev_dependencies
-    js_post_build_cmd
+    _js_post_build_cmd
     namespace
+    ~cur_dir
     (module_info : Bsb_db.module_info)
   =
-  let cur_dir = module_info.dir in
+  let impl_dir, intf_dir = match module_info.dir with
+    | Same dir -> dir, dir
+    | Different { impl; intf } -> impl, intf
+  in
+  let which = match impl_dir = cur_dir, intf_dir = cur_dir with
+  | true, true -> `both
+  | true, false -> `impl
+  | false, true -> `intf
+  | false, false -> assert false
+  in
   let has_intf_file = module_info.info = Impl_intf in
-  let config, ast_rule  =
+  let config  =
     match module_info.syntax_kind with
-    | Reason -> re_suffixes, rules.build_ast_from_re
-    | Ml -> ml_suffixes, rules.build_ast
-    | Res -> res_suffixes, rules.build_ast_from_re (* FIXME: better names *)
+    | Same Reason -> re_suffixes
+    | Same Ml -> ml_suffixes
+    | Same Res -> res_suffixes
+    | Different { impl; intf } ->
+      assert (impl <> intf);
+      match impl, intf with
+      | Ml, Reason -> { impl = ml_suffixes.impl; intf = re_suffixes.intf }
+      | Reason, Ml -> { impl = re_suffixes.impl; intf = ml_suffixes.intf }
+      | Ml, Res -> { impl = ml_suffixes.impl; intf = res_suffixes.intf }
+      | Res, Ml -> { impl = res_suffixes.impl; intf = ml_suffixes.intf }
+      | Reason, Res -> { impl = re_suffixes.impl; intf = res_suffixes.intf }
+      | Res, Reason -> { impl = res_suffixes.impl; intf = re_suffixes.intf }
+      | Ml, Ml | Reason, Reason | Res, Res -> assert false
   in
   let filename_sans_extension = module_info.name_sans_extension in
   let input_impl = Bsb_config.proj_rel (filename_sans_extension ^ config.impl ) in
   let input_intf = Bsb_config.proj_rel (filename_sans_extension ^ config.intf) in
   let output_ast = filename_sans_extension  ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension  ^ Literals.suffix_iast in
-  let output_d = filename_sans_extension ^ Literals.suffix_d in
-  let output_d_as_dep = Format.asprintf "(:dep_file %s)" (basename output_d) in
+  let output_ast =
+    (Ext_path.rel_normalized_absolute_path
+      ~from:(per_proj_dir // cur_dir)
+      (per_proj_dir // impl_dir)) // (basename output_ast)
+  in
+  let output_iast = (Ext_path.rel_normalized_absolute_path
+                ~from:(per_proj_dir // cur_dir)
+                (per_proj_dir // intf_dir)) // basename output_iast
+  in
+  let ast_deps =
+    Format.asprintf "(:ast_deps %s %s)"
+      output_ast
+      (if has_intf_file then output_iast else "")
+    in
   let output_filename_sans_extension =
       Ext_namespace_encode.make ?ns:namespace filename_sans_extension
   in
   let output_cmi =  output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
+  let output_cmt =  output_filename_sans_extension ^ Literals.suffix_cmt in
+  let output_cmti =  output_filename_sans_extension ^ Literals.suffix_cmti in
   let rel_proj_dir = Ext_path.rel_normalized_absolute_path
-     ~from:(Ext_path.combine per_proj_dir module_info.dir)
+     ~from:(per_proj_dir // cur_dir)
      per_proj_dir
   in
   let maybe_gentype_deps = Option.map (fun _ ->
@@ -102,18 +142,13 @@ let emit_module_build
   in
   let output_js =
     Bsb_package_specs.get_list_of_output_js package_specs output_filename_sans_extension in
-  Bsb_ninja_targets.output_build cur_dir buf
-    ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
-    ~outputs:[output_ast]
-    ~inputs:[basename input_impl]
-    ~rule:ast_rule;
-  Bsb_ninja_targets.output_build
-    cur_dir
-    buf
-    ~outputs:[output_d]
-    ~inputs:(Ext_list.map (if has_intf_file then [output_ast;output_iast] else [output_ast] ) basename)
-    ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps)
-  ;
+  if which <> `intf then begin
+    Bsb_ninja_targets.output_build cur_dir buf
+      ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
+      ~outputs:[output_ast]
+      ~inputs:[basename input_impl]
+      ~rule:rules.build_ast;
+  end;
   let relative_ns_cmi =
    match namespace with
    | Some ns ->
@@ -123,33 +158,30 @@ let emit_module_build
       (ns ^ Literals.suffix_cmi) ]
    | None -> []
    in
-  let bs_dependencies = Ext_list.map bs_dependencies (fun dir ->
-     (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
-  )
-  in
   let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
+  let bs_dependencies = rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dependencies in
   let bs_dependencies = if is_dev then
-    let dev_dependencies = Ext_list.map bs_dev_dependencies (fun dir ->
-      (Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir) dir) // Literals.bsb_world
-      )
+    let dev_dependencies =
+      rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dev_dependencies
     in
     dev_dependencies @ bs_dependencies
   else
     bs_dependencies
   in
-  if has_intf_file then begin
+  if has_intf_file && which <> `impl then begin
     Bsb_ninja_targets.output_build cur_dir buf
       ~outputs:[output_iast]
       (* TODO: we can get rid of absloute path if we fixed the location to be
           [lib/bs], better for testing?
       *)
       ~inputs:[basename input_intf]
-      ~rule:ast_rule
-    ;
+      ~rule:rules.build_ast;
+
     Bsb_ninja_targets.output_build cur_dir buf
-      ~implicit_deps:[output_d_as_dep]
-      ~outputs:[output_cmi]
+      ~implicit_deps:[ast_deps]
       ~inputs:[basename output_iast]
+      ~outputs:[output_cmi]
+      ~implicit_outputs:[output_cmti]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
@@ -162,21 +194,25 @@ let emit_module_build
        else rules.mj)
     else
       (if is_dev then rules.mij_dev
-       else rules.mij
-      )
+       else rules.mij)
   in
-  Bsb_ninja_targets.output_build cur_dir buf
-    ~outputs:[output_cmj]
-    ~implicit_outputs:
-     (if has_intf_file then [] else [ output_cmi ])
-    ~js_outputs:output_js
-    ~inputs:[basename output_ast]
-    ~implicit_deps:(if has_intf_file then [(basename output_cmi); output_d_as_dep] else [output_d_as_dep])
-    ~bs_dependencies
-    ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-    ~rule;
-  output_js, output_d
-
+  if which <> `intf then begin
+    let output_cmi =
+      (Ext_path.rel_normalized_absolute_path
+        ~from:(per_proj_dir // cur_dir)
+        (per_proj_dir // intf_dir)) // basename output_cmi
+    in
+    Bsb_ninja_targets.output_build cur_dir buf
+      ~outputs:[output_cmj]
+      ~implicit_outputs:(if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
+      ~js_outputs:output_js
+      ~inputs:[basename output_ast]
+      ~implicit_deps:(if has_intf_file then [output_cmi; ast_deps] else [ast_deps])
+      ~bs_dependencies
+      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
+      ~rule;
+  end;
+  if which <> `intf then output_js else []
 
 let handle_files_per_dir
     buf
@@ -215,33 +251,28 @@ let handle_files_per_dir
       | Export_set set ->
         fun module_name ->
         Set_string.mem set module_name in
-    let js_targets, _d_targets = Map_string.fold group.sources ([], []) (fun module_name module_info (acc_js, acc_d)  ->
-        if installable module_name then
-          Queue.add
-            module_info files_to_install;
-        let js_outputs, output_d = emit_module_build  rules
-          package_specs
-          is_dev
-          buf
-          ~per_proj_dir
-          ~bs_dependencies
-          ~bs_dev_dependencies
-          ?gentype_config:global_config.gentypeconfig
-          js_post_build_cmd
-          global_config.namespace module_info
-        in
-        (List.map fst js_outputs :: acc_js, output_d :: acc_d)
-    )
+    let db = global_config.db in
+    let js_targets = Map_string.fold group.sources [] (fun module_name _ acc_js  ->
+      let module_info = Map_string.find_exn (if is_dev then db.dev else db.lib) module_name in
+      if installable module_name then
+        Queue.add
+          module_info files_to_install;
+      let js_outputs = emit_module_build rules
+        package_specs
+        is_dev
+        buf
+        ~per_proj_dir
+        ~bs_dependencies
+        ~bs_dev_dependencies
+        ?gentype_config:global_config.gentypeconfig
+        ~cur_dir:group.dir
+        js_post_build_cmd
+        global_config.namespace module_info
+      in
+      (List.map fst js_outputs) :: acc_js)
     in
-
     Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world ~deps:(List.concat js_targets);
     Buffer.add_string buf ")";
     Buffer.add_string buf "\n"
-
   end
 
-    (* ;
-    Bsb_ninja_targets.phony
-    oc ~order_only_deps:[] ~inputs:[] ~output:group.dir *)
-
-    (* pseuduo targets per directory *)

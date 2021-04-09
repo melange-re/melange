@@ -1,4 +1,4 @@
-(* Copyright (C) 2020- Hongbo Zhang, Authors of ReScript 
+(* Copyright (C) 2020 - Hongbo Zhang, Authors of ReScript 
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,7 +25,6 @@
 type t = 
     | Toplevel
     | Dependency of Bsb_package_specs.t 
-    | Pinned_dependency of Bsb_package_specs.t 
         (*  This package specs comes from the toplevel to 
             override the current settings
         *)

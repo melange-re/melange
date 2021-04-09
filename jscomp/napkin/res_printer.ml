@@ -22,7 +22,8 @@ type callbackStyle =
   https://github.com/rescript-lang/rescript-compiler/blob/29174de1a5fde3b16cf05d10f5ac109cfac5c4ca/jscomp/frontend/ast_external_process.ml#L291-L367 *)
 let convertBsExternalAttribute = function
   | "bs.as" -> "as"
-  | "bs.deriving" -> "deriving"
+  (* @deriving collides with ppxlib ppx's *)
+  | "bs.deriving" -> "bs.deriving"
   | "bs.get" -> "get"
   | "bs.get_index" -> "get_index"
   | "bs.ignore" -> "ignore"

@@ -22,90 +22,62 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let () =  Bsb_log.setup ()
-let current_theme = ref "basic"
-let generate_theme_with_path = ref None
-let separator = "--"
-let watch_mode = ref false
-let make_world = ref false
-let do_install = ref false
+open Cmdliner
+open Bsb
+
+let () = Bsb_log.setup ()
 let bs_version_string = Bs_version.version
+
+type cli_options =
+  { print_version : bool
+  ; verbose : bool
+  ; watch_mode : bool
+  ; clean : bool
+  ; make_world : bool
+  ; install : bool
+  ; init_path : string option
+  ; theme : string
+  ; list_themes : bool
+  ; print_bsb_location : bool
+  ; websocket : bool
+  ; dune_args : string array
+  }
+
 let print_version_string () =
   print_string bs_version_string;
   print_newline ();
   exit 0
-type spec = Bsb_arg.spec
-
-let call_spec f : spec = Unit (Unit_call f )
-let  unit_set_spec b : spec = Unit (Unit_set b)
-
-
-let bsb_main_flags : (string * spec * string) array =
-  [|
-    "-v", call_spec print_version_string,
-    "Print version and exit";
-    "-version", call_spec print_version_string,
-    "Print version and exit";
-    "-verbose", call_spec Bsb_log.verbose,
-    "Set the output(from bsb) to be verbose";
-    "-w", unit_set_spec watch_mode,
-    "Watch mode" ;
-    (* XXX(anmonteiro): the two commands below do the same, and are kept for
-       CLI compatibility. *)
-    (* TODO(anmonteiro): They call `dune clean` but they can't currently accept
-       dune flags (e.g. --root=.) *)
-    "-clean-world", call_spec (fun _ ->
-        Bsb_clean.clean  Bsb_global_paths.cwd),
-    "Clean all bs dependencies";
-    "-clean", call_spec (fun _ ->
-        Bsb_clean.clean  Bsb_global_paths.cwd),
-    "Clean only current project";
-    "-make-world", unit_set_spec make_world,
-    "Build all dependencies and itself ";
-    "-install", unit_set_spec do_install,
-    "Generate the (dune) rules for building the project";
-    "-init", String (String_call (fun path -> generate_theme_with_path := Some path)),
-    "Init sample project to get started. \n\
-     Note (`bsb -init sample` will create a sample project while \n\
-     `bsb -init .` will reuse current directory)";
-    "-theme", String (String_set current_theme),
-    "The theme for project initialization. \n\
-    default is basic:\n\
-    https://github.com/rescript-lang/rescript-compiler/tree/master/jscomp/bsb/templates";
-
-    "-themes", call_spec Bsb_theme_init.list_themes,
-    "List all available themes";
-    "-where",
-    call_spec (fun _ ->
-        print_endline (Filename.dirname Sys.executable_name)),
-    "Show where bsb.exe is located";
-    (* Below flags are only for bsb script, it is not available for bsb.exe
-        we make it at this time to make `bsb -help` easier *)
-    "-ws", call_spec ignore,
-    "[host:]port \n\
-     specify a websocket number (and optionally, a host). \n\
-     When a build finishes, we send a message to that port. \n\
-     For tools that listen on build completion." ;
-
-  |]
 
 let (//) = Ext_path.combine
+
+let output_dune_project_if_does_not_exist proj_dir =
+  let dune_project = proj_dir // Literals.dune_project in
+  if Sys.file_exists dune_project then ()
+  else
+    let ochan = open_out_bin dune_project in
+    output_string ochan "(lang dune 2.8)\n";
+    output_string ochan "(using action-plugin 0.1)\n";
+    close_out ochan
 
 let output_dune_file buf =
   let proj_dir =  Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
-  Buffer.add_string buf "\n(data_only_dirs node_modules)";
+  Buffer.add_string buf "\n(data_only_dirs node_modules ";
+  Buffer.add_string buf Literals.melange_eobjs_dir;
+  (* for the edge case of empty sources (either in user config or because a
+     source dir is empty), we emit an empty `bsb_world` alias. This avoids
+     showing the user an error when they haven't done anything. *)
+  Buffer.add_string buf ")\n(alias (name bsb_world))\n";
   Bsb_ninja_targets.revise_dune dune_bsb buf;
   let dune = proj_dir // Literals.dune in
-
   let buf = Buffer.create 256 in
   Buffer.add_string buf "\n(include ";
   Buffer.add_string buf Literals.dune_bsb;
   Buffer.add_string buf ")\n";
-  Bsb_ninja_targets.revise_dune dune buf
+  Bsb_ninja_targets.revise_dune dune buf;
+  output_dune_project_if_does_not_exist proj_dir
 
-
-let ninja_command_exit dune_args  =
+let dune_command_exit dune_args =
   let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
   let args =
     if Array.length dune_args = 0 then
@@ -117,109 +89,42 @@ let ninja_command_exit dune_args  =
   Unix.execvp Literals.dune args
 
 
-(**
-   Cache files generated:
-   - .bsdircache in project root dir
-   - .bsdeps in builddir
-
-   What will happen, some flags are really not good
-   ninja -C _build
-*)
-let usage = "Usage : bsb.exe <bsb-options> -- <ninja_options>\n\
-             For ninja options, try bsb.exe --  -h.  \n\
-             Note they are supposed to be internals and not reliable.\n\
-             ninja will be loaded either by just running `bsb.exe' or `bsb.exe .. -- ..`\n\
-             It is always recommended to run ninja via bsb.exe"
-
-let handle_anonymous_arg ~rev_args =
-  match rev_args with
-  | [] -> ()
-  | arg:: _ ->
-    Bsc_args.bad_arg ("Unknown arg \"" ^ arg ^ "\"")
-
-
-let program_exit () =
-  exit 0
-
-let install_target config =
-  Bsb_world.install_targets Bsb_global_paths.cwd config
-
 let build_whole_project ~buf =
   let root_dir = Bsb_global_paths.cwd in
-  Bsb_world.make_world_deps ~buf ~cwd:root_dir None;
-  let config = Bsb_ninja_regen.regenerate_ninja
+  let config, dep_configs = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
+  Bsb_ninja_regen.regenerate_ninja
     ~package_kind:Toplevel
     ~buf
     ~root_dir
-    root_dir
-  in
+    ~config
+    root_dir;
   output_dune_file buf;
-  config
+  config :: dep_configs
 
-(* see discussion #929, if we catch the exception, we don't have stacktrace... *)
-let () =
-  let config = ref None in
-  let argv = Sys.argv in
-  let buf = Buffer.create 0x1000 in
+let print_init_theme_notice () =
+  print_endline
+    "The subcommands -init, -theme and -themes are deprecated now. Use the template at \
+     https://github.com/melange-re/melange-basic-template to start a new project."
+
+let run_bsb ({ make_world; install; watch_mode; _ } as options) =
+  let cwd = Bsb_global_paths.cwd in
   try begin
-    let i =  Ext_array.rfind_with_index argv Ext_string.equal separator in
-    if i < 0 then
-      begin
-        Bsb_arg.parse_exn ~usage ~argv bsb_main_flags handle_anonymous_arg;
-        (* first, check whether we're in boilerplate generation mode, aka -init foo -theme bar *)
-        match !generate_theme_with_path with
-        | Some path -> Bsb_theme_init.init_sample_project ~cwd:Bsb_global_paths.cwd ~theme:!current_theme  path
-        | None ->
-          (* [-make-world] should never be combined with [-package-specs] *)
-          let make_world = !make_world in
-          let do_install = !do_install in
-          let generate_dune_bsb = make_world || do_install in
-          if not make_world && not do_install then
-            (* [regenerate_ninja] is not triggered in this case
-               There are several cases we wish ninja will not be triggered.
-               [bsb -clean-world]
-               [bsb -regen ]
-            *)
-            (if !watch_mode then
-                program_exit ()) (* bsb -verbose hit here *)
-          else begin
-            if generate_dune_bsb then begin
-              let cfg = build_whole_project ~buf in
-              install_target cfg;
-            end;
-            if !watch_mode then begin
-              program_exit ()
-              (* ninja is not triggered in this case
-                 There are several cases we wish ninja will not be triggered.
-                 [bsb -clean-world]
-                 [bsb -regen ]
-              *)
-            end else begin
-              if make_world then begin
-                ninja_command_exit [||]
-              end
-            end
-          end
-      end
-    else
-       (* -make-world all dependencies fall into this category *)
-      begin
-        Bsb_arg.parse_exn
-        ~usage
-        ~argv:argv
-        ~finish:i
-        bsb_main_flags handle_anonymous_arg;
-        let ninja_args = Array.sub argv (i + 1) (Array.length argv - i - 1) in
-        (* [-make-world] should never be combined with [-package-specs] *)
-        let generate_dune_bsb = !make_world || !do_install in
+    if options.print_version then print_version_string ();
+    if options.verbose then Bsb_log.verbose ();
+    if options.clean then Bsb_clean.clean cwd; (* TODO: take dune args *)
+    if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
+    match options.init_path, options.list_themes with
+    | Some _, _ | _, true -> print_init_theme_notice ()
+    | None, false ->
+      let generate_dune_bsb = make_world || install in
+      if (not make_world) && not install then (if watch_mode then exit 0)
+      else begin
         if generate_dune_bsb then begin
-          let config = build_whole_project ~buf in
-          install_target config;
+          let buf = Buffer.create 0x1000 in
+          let configs = build_whole_project ~buf in
+          Bsb_world.install_targets Bsb_global_paths.cwd configs
         end;
-        if !watch_mode then program_exit ()
-        else if !make_world then begin
-          ninja_command_exit ninja_args
-        end
+        if watch_mode then exit 0 else if make_world then dune_command_exit options.dune_args
       end
   end
   with
@@ -234,10 +139,109 @@ let () =
       start.pos_fname start.pos_lnum
       Ext_json_parse.report_error e ;
     exit 2
-  | Bsb_arg.Bad s
   | Sys_error s ->
     Format.fprintf Format.err_formatter
       "@{<error>Error:@} %s@."
       s ;
     exit 2
   | e -> Ext_pervasives.reraise e
+
+module CLI = struct
+  let version_flag =
+    let doc = "Print version and exit" in
+    Arg.(value & flag & info ["v"; "version"] ~doc)
+
+  let verbose_flag =
+    let doc = "Set the output (from bsb) to be verbose" in
+    Arg.(value & flag & info ["verbose"] ~doc)
+
+  let watch_mode_flag =
+    let doc = "Currently does nothing. Enabled for compatibility." in
+    Arg.(value & flag & info ["w"] ~doc)
+
+  let clean_flag =
+    let doc = "Clean all bs dependencies" in
+    Arg.(value & flag & info ["clean"; "clean-world"] ~doc)
+
+  let make_world_flag =
+    let doc = "Build all dependencies and itself" in
+    Arg.(value & flag & info ["make-world"] ~doc)
+
+  let install_flag =
+    let doc = "Generate the (dune) rules for building the project" in
+    Arg.(value & flag & info ["install"] ~doc)
+
+  let init_arg =
+    let docv = "init path" in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
+    Arg.(value & opt (some string) None & info ["init"] ~doc ~docv)
+
+  let theme_arg =
+    let docv = "theme" in
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
+    Arg.(value & opt string "basic" & info ["theme"] ~doc ~docv)
+
+  let themes_flag =
+    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
+    https://github.com/melange-re/melange-basic-template to start a new project." in
+    Arg.(value & flag & info ["themes"] ~doc)
+
+  let where_flag =
+    let doc = "Show where bsb is located" in
+    Arg.(value & flag & info ["where"] ~doc)
+
+  let ws_flag =
+    let doc = "Send build output to websocket" in
+    Arg.(value & flag & info ["ws"] ~doc)
+
+  let parse_options
+      print_version
+      verbose
+      watch_mode
+      clean
+      make_world
+      install
+      init_path
+      theme
+      list_themes
+      print_bsb_location
+      websocket
+      dune_args =
+    { print_version
+    ; verbose
+    ; watch_mode
+    ; clean
+    ; make_world
+    ; install
+    ; init_path
+    ; theme
+    ; list_themes
+    ; print_bsb_location
+    ; websocket
+    ; dune_args
+    }
+
+  let run dune_args =
+    let make_bsb_options =
+      Term.(const parse_options
+            $ version_flag
+            $ verbose_flag
+            $ watch_mode_flag
+            $ clean_flag
+            $ make_world_flag
+            $ install_flag
+            $ init_arg
+            $ theme_arg
+            $ themes_flag
+            $ where_flag
+            $ ws_flag
+            $ const dune_args)
+    in
+    Term.(const run_bsb $ make_bsb_options), Term.info "bsb"
+end
+
+let () =
+  let bsb_args, dune_args = Ext_cli_args.split_argv_at_separator Sys.argv in
+  Term.(exit @@ eval ~argv:(Ext_cli_args.normalize_argv bsb_args) (CLI.run dune_args))

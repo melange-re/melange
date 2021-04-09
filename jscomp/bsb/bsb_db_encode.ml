@@ -58,6 +58,7 @@ let make_encoding length buf : Ext_buffer.t -> int -> unit =
     Ext_buffer.add_char buf '4';
     Ext_buffer.add_int_4
   end else assert false
+
 (* Make sure [tmp_buf1] and [tmp_buf2] is cleared ,
   they are only used to control the order.
   Strictly speaking, [tmp_buf1] is not needed
@@ -65,14 +66,25 @@ let make_encoding length buf : Ext_buffer.t -> int -> unit =
 let encode_single (db : Bsb_db.map) (buf : Ext_buffer.t) =
   (* module name section *)
   let len = Map_string.cardinal db in
-  Ext_buffer.add_string_char buf (string_of_int len) '\n';
-  if len <> 0 then begin
+  if len = 0 then begin
+    Ext_buffer.add_string_char buf (string_of_int len) '\n';
+  end else begin
     let mapping = Hash_string.create 50 in
-    Map_string.iter db (fun name {dir} ->
-        Ext_buffer.add_string_char buf name '\n';
-        if not (Hash_string.mem mapping dir) then
-          Hash_string.add mapping dir (Hash_string.length mapping)
-      );
+    (* Pre-processing step because the DB must be sorted with
+       `Ext_string.compare`, which is not equal to String.compare (the former
+       sorts based the length of the string). *)
+    let modules = Map_string.fold db Map_string.empty (fun name {dir; case} acc ->
+        match dir with
+        | Same dir -> Map_string.add acc name (dir, case)
+        | Different { impl; intf } ->
+          let acc = Map_string.add acc (name ^ Literals.suffix_impl) (impl, case) in
+          Map_string.add acc (name ^ Literals.suffix_intf) (intf, case))
+    in
+    Ext_buffer.add_string_char buf (string_of_int (Map_string.cardinal modules)) '\n';
+    Map_string.iter modules (fun name (dir, _) ->
+      Ext_buffer.add_string_char buf name '\n';
+      if not (Hash_string.mem mapping dir) then
+        Hash_string.add mapping dir (Hash_string.length mapping));
     let length = Hash_string.length mapping in
     let rev_mapping = Array.make length "" in
     Hash_string.iter mapping (fun k i -> Array.unsafe_set rev_mapping i k);
@@ -80,9 +92,9 @@ let encode_single (db : Bsb_db.map) (buf : Ext_buffer.t) =
     Ext_array.iter rev_mapping (fun s -> Ext_buffer.add_string_char buf s '\t');
     nl buf; (* module name info section *)
     let len_encoding = make_encoding length buf in
-    Map_string.iter db (fun _ module_info ->
-        len_encoding buf
-          (Hash_string.find_exn  mapping module_info.dir lsl 1 + (Obj.magic (module_info.case : bool) : int)));
+    Map_string.iter modules (fun _ (dir, case) ->
+      len_encoding buf
+        (Hash_string.find_exn  mapping dir  lsl 1 + (Obj.magic (case : bool) : int)));
     nl buf
   end
 

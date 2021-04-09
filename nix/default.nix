@@ -22,8 +22,8 @@ stdenv.mkDerivation rec {
     cp package.json bsconfig.json $out
     cp -r ./_build/default/lib/es6 ./_build/default/lib/js $out/lib
 
-    mkdir -p $out/lib/ocaml
-    cd $out/lib/ocaml
+    mkdir -p $out/lib/melange
+    cd $out/lib/melange
 
     tar xvf $OCAMLFIND_DESTDIR/melange/libocaml.tar.gz
     mv others/* .
@@ -52,12 +52,15 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = with ocamlPackages; [
     pkgs.gnutar
     dune
-    dune-action-plugin
     ocaml
     findlib
+    cppo
   ];
 
-  buildInputs = [ cppo ];
-
-  propagatedBuildInputs = [ reason ];
+  propagatedBuildInputs = [
+    dune-action-plugin
+    melange-compiler-libs
+    reason
+    cmdliner
+  ];
 }

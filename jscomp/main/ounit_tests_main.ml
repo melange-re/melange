@@ -1,4 +1,5 @@
 
+open Ounit_tests
 
 [@@@warning "-32"]
 
@@ -40,7 +41,6 @@ let suites =
     Ounit_js_regex_checker_tests.suites;
     Ounit_utf8_test.suites;
     Ounit_unicode_tests.suites;
-    Ounit_bsb_regex_tests.suites;
     Ounit_bsb_pkg_tests.suites;
     Ounit_depends_format_test.suites;
     Ounit_util_tests.suites;

@@ -29,25 +29,17 @@ let (//) = Ext_path.combine
     otherwise return Some info
 *)
 let regenerate_ninja
+    ~config
     ~(package_kind : Bsb_package_kind.t)
     ~buf
     ~root_dir
-    per_proj_dir
-  : Bsb_config_types.t =
-  let lib_artifacts_dir = Bsb_config.lib_bs in
-  let lib_bs_dir =  per_proj_dir // lib_artifacts_dir  in
-  let config : Bsb_config_types.t =
-    Bsb_config_parse.interpret_json
-      ~package_kind
-      ~per_proj_dir
-  in
+    per_proj_dir : unit =
+  let artifacts_dir =  per_proj_dir // Bsb_config.lib_bs  in
   (* create directory, lib/bs, lib/js, lib/es6 etc *)
-  Bsb_build_util.mkp lib_bs_dir;
+  Bsb_build_util.mkp artifacts_dir;
   (* PR2184: we still need record empty dir
       since it may add files in the future *)
   Bsb_merlin_gen.merlin_file_gen ~per_proj_dir config;
   Bsb_ninja_gen.output_ninja_and_namespace_map
-    ~buf ~per_proj_dir ~root_dir ~package_kind config;
-
-  config
+    ~buf ~per_proj_dir ~root_dir ~package_kind config
 

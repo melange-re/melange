@@ -1,52 +1,41 @@
 (executable
- (name bsc)
+ (name js_main)
  (public_name bsc)
  (modes native)
+ (flags :standard -open Melange_compiler_libs)
  (libraries
   js_parser
   bs_hash_stubs
   ext
   common
-  depends
   outcome_printer
+  melange-compiler-libs
   core
   napkin
   reason)
- (modules_without_implementation jscmj_main)
- (modules bsc jscmj_main))
-
-(rule
- (target bsc.ml)
- (deps
-  (:input js_main.ml)
+ (modules js_main)
+ (preprocessor_deps
+  js_main.ml
   ../../package.json
   ../../bsconfig.json
   ../../lib/js/.gitkeep
   ../../lib/es6/.gitkeep)
- (action
-  (run cppo %{env:CPPO_FLAGS=} %{input} -o %{target})))
-
-(executable
- (name bspack_main)
- (public_name bspack)
- (modes native)
- (modules bspack_main)
- (flags
-  (:standard -w -50))
- (libraries bs_hash_stubs ext common depends unix))
+ (preprocess
+  (action
+   (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
 
 (executable
  (name bsb_main)
  (public_name bsb)
  (modes native)
  (modules bsb_main)
- (libraries bs_hash_stubs ext common bsb))
+ (libraries bs_hash_stubs ext common bsb cmdliner))
 
 (executable
  (name cmjdump_main)
  (modes native)
  (modules cmjdump_main)
- (libraries bs_hash_stubs ext common depends core))
+ (libraries bs_hash_stubs ext common core))
 
 (executable
  (name cmij_main)
@@ -54,43 +43,22 @@
  (modules cmij_main)
  (flags
   (:standard -w -9))
- (libraries bs_hash_stubs ext common depends core))
+ (libraries bs_hash_stubs ext common core))
 
 (executable
  (name bsb_helper_main)
  (public_name bsb_helper)
  (modes native)
  (modules bsb_helper_main)
- (libraries bsb_helper bs_hash_stubs ext common depends core))
-
-(executable
- (name bsb_parse_depend)
- (public_name bsb_parse_depend)
- (modes native)
- (modules bsb_parse_depend)
- (libraries bsb ext dune-action-plugin))
+ (libraries bsb_helper ext common core))
 
 (test
  (name ounit_tests_main)
  (modes native)
  (modules ounit_tests_main)
  (deps
-  bsc.exe
+  js_main.exe
   (alias ../runtime/all)
   (alias ../others/all)
   (alias ../stdlib-412/all))
- (libraries
-  ounit
-  bs_hash_stubs
-  ext
-  common
-  depends
-  bsb
-  bsb_helper
-  core
-  ounit_tests))
-
-(library
- (wrapped false)
- (name builtin_datasets)
- (modules builtin_cmi_datasets builtin_cmj_datasets))
+ (libraries ounit2 bs_hash_stubs ext common bsb bsb_helper core ounit_tests))

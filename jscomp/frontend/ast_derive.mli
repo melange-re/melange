@@ -30,6 +30,7 @@ type gen = {
   expression_gen : (Parsetree.core_type -> Parsetree.expression) option ;
 }
 
+val is_builtin_deriver: string -> bool
 (**
    [register name cb]
    example: [register "accessors" cb]

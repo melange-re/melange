@@ -1,5 +1,5 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+(* Copyright (C) 2015 - 2016 Bloomberg Finance L.P.
+ * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -182,7 +182,7 @@ let extract_predicate (m : json_map)  : string -> bool =
 *)
 
 
-let single_source_subdir_names ({package_kind; is_dev ; cwd}) (x : Ext_json_types.t )
+let single_source_subdir_names ({package_kind; is_dev}) (x : Ext_json_types.t )
   : string list  =
   match x with
   | Str  { str = dir }  -> [dir]
@@ -196,7 +196,7 @@ let single_source_subdir_names ({package_kind; is_dev ; cwd}) (x : Ext_json_type
     begin match package_kind, current_dir_index with
     | Dependency _ , true -> []
     | Dependency _, false
-    | (Toplevel | Pinned_dependency _), _ ->
+    | (Toplevel), _ ->
       let dir =
         match map.?(Bsb_build_schemas.dir) with
         | Some (Str{str}) -> str
@@ -223,12 +223,7 @@ let rec
   if Set_string.mem cxt.ignored_dirs dir then Bsb_file_groups.empty
   else
     let cur_globbed_dirs = ref false in
-    let has_generators =
-      match cxt with
-      | {cut_generators = false; package_kind = Toplevel | Pinned_dependency _ } -> true
-      | {cut_generators = false; package_kind = Dependency _}
-      | {cut_generators = true ; _ } -> false
-    in
+    let has_generators = not cxt.cut_generators in
     let scanned_generators = extract_generators input in
     let sub_dirs_field = input.?(Bsb_build_schemas.subdirs) in
     let base_name_array =
@@ -280,8 +275,8 @@ let rec
                 (
                   parsing_source_dir_map
                     {cxt with
-                     cwd = Ext_path.concat cxt.cwd
-                         (Ext_path.simple_convert_node_path_to_os_path x);
+                     cwd = Ext_path.(normalize_absolute_path
+                             (concat cxt.cwd (simple_convert_node_path_to_os_path x)));
                      traverse = true
                     } Map_string.empty)  origin
             else origin
@@ -325,10 +320,11 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
     | Dependency _ , true ->
       Bsb_file_groups.empty
     | Dependency _, false
-    | (Toplevel | Pinned_dependency _), _ ->
+    | (Toplevel), _ ->
       parsing_source_dir_map
         {cxt with
-         cwd = Ext_path.concat cwd (Ext_path.simple_convert_node_path_to_os_path dir)}
+         cwd = Ext_path.(normalize_absolute_path
+                 (concat cwd (simple_convert_node_path_to_os_path dir)))}
         Map_string.empty
      end
   | Obj {map} ->
@@ -342,7 +338,7 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
     | Dependency _ , true ->
       Bsb_file_groups.empty
     | Dependency _, false
-    | (Toplevel | Pinned_dependency _), _ ->
+    | (Toplevel), _ ->
       let dir =
         match map.?(Bsb_build_schemas.dir) with
         | Some (Str{str}) ->
@@ -356,7 +352,7 @@ and parsing_single_source ({package_kind; is_dev ; cwd} as cxt ) (x : Ext_json_t
       in
       parsing_source_dir_map
         {cxt with is_dev = current_dir_index;
-                  cwd= Ext_path.concat cwd dir} map
+                  cwd= Ext_path.(normalize_absolute_path (concat cwd dir))} map
       end
   | _ -> Bsb_file_groups.empty
 and  parsing_arr_sources cxt (file_groups : Ext_json_types.t array)  =
@@ -411,13 +407,13 @@ and walk_single_source cxt (x : Ext_json_types.t) =
     ->
     let dir = Ext_path.simple_convert_node_path_to_os_path dir in
     walk_source_dir_map
-    {cxt with cwd = Ext_path.concat cxt.cwd dir } None
+    {cxt with cwd = Ext_path.(normalize_absolute_path (concat cxt.cwd dir)) } None
   | Obj {map} ->
     begin match map.?(Bsb_build_schemas.dir) with
     | Some (Str{str}) ->
       let dir = Ext_path.simple_convert_node_path_to_os_path str  in
       walk_source_dir_map
-      {cxt with cwd = Ext_path.concat cxt.cwd dir} map.?(Bsb_build_schemas.subdirs)
+      {cxt with cwd = Ext_path.(normalize_absolute_path (concat cxt.cwd dir))} map.?(Bsb_build_schemas.subdirs)
     | _ -> ()
     end
   | _ -> ()
@@ -443,8 +439,7 @@ and walk_source_dir_map (cxt : walk_cxt)  sub_dirs_field =
             walk_source_dir_map
               {cxt with
                cwd =
-                 Ext_path.concat cxt.cwd
-                   (Ext_path.simple_convert_node_path_to_os_path f);
+                 Ext_path.(normalize_absolute_path (concat cxt.cwd (simple_convert_node_path_to_os_path f)));
                traverse = true
               } None
         end

@@ -2,10 +2,16 @@
 
 (generate_opam_files true)
 
+(name melange)
+
 (package
  (name melange)
  (depends
-  (ocaml-variants
-   (= "4.12.0+BS"))
+  (ocaml
+   (and
+    (>= "4.12.0")
+    (< "4.13.0")))
   dune-action-plugin
-  reason))
+  melange-compiler-libs
+  reason
+  cmdliner))

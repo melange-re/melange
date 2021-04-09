@@ -37,7 +37,7 @@ let print_if ppf flag printer arg =
 
 
 let process_with_gentype filename =
-  match !Clflags.bs_gentype with
+  match !Bs_clflags.bs_gentype with
   | None -> ()
   | Some cmd ->
     let comm = (cmd ^
@@ -108,6 +108,7 @@ let interface ~parser ppf ?outputprefix fname  =
     | Some x -> x in
   Res_compmisc.init_path ();
   parser fname
+  |> Ast_deriving_compat.signature
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name Mli
   |> Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
@@ -157,7 +158,7 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
 
 let after_parsing_impl ppf  outputprefix (ast : Parsetree.structure) =
   Js_config.all_module_aliases :=
-    !Clflags.assume_no_mli =  Mli_non_exists &&
+    !Bs_clflags.assume_no_mli =  Mli_non_exists &&
     all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
   let ast =
@@ -206,6 +207,7 @@ let implementation ~parser ppf ?outputprefix fname   =
       | Some x -> x in
   Res_compmisc.init_path ();
   parser fname
+  |> Ast_deriving_compat.structure
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name Ml
   |> Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation

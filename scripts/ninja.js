@@ -76,14 +76,7 @@ exports.vendorNinjaPath = vendorNinjaPath;
  * Note ocamldep.opt has built-in macro handling OCAML_VERSION
  */
 var getOcamldepFile = () => {
-  return path.join(
-    // __dirname,
-    // "..",
-    // "native",
-    // require("./buildocaml.js").getVersionPrefix(),
-    // "bin",
-    "ocamldep.opt"
-  );
+  return "ocamldep.opt";
 };
 
 /**
@@ -133,7 +126,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run bsc -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -154,7 +147,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run bsc -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -254,6 +247,12 @@ class TargetSet {
    */
   forEach(callback) {
     this.data.forEach(callback);
+  }
+
+  removeByName(x) {
+    this.data = this.data.filter(cur => cur.name !== x)
+
+    return this;
   }
 }
 
@@ -1003,7 +1002,7 @@ var cppoRule = (src, target, flags = "") => `
     (until-clean)
     (only :standard)))
   (action
-   (run cppo -V OCAML:${getVersionString()} ${flags} %{deps} -o %{targets})))
+   (run cppo ${flags} %{deps} %{env:CPPO_FLAGS=} -o %{targets})))
 `;
 
 async function othersNinja() {
@@ -1192,11 +1191,11 @@ async function stdlibNinja() {
     externalDeps,
   ],
   [
-    ruleCC,
+    ruleCC_cmi,
     bsc_builtin_flags,
     "camlinternalAtomic.ml",
     "camlinternalAtomic.cmj",
-    externalDeps,
+    externalDeps.concat(["camlinternalAtomic.cmi"]),
   ],
   [
     ruleCC,
@@ -1226,6 +1225,24 @@ async function stdlibNinja() {
     "stdlib__no_aliases.cmi",
   ]);
   targets.forEach((ext, mod) => {
+    switch (mod) {
+      /* Some exceptions caused by `-allow-approx`, where ocamldep can't parse
+       * files with `#if` conditionals */
+      case 'obj':
+        var target = mod + ".cmj";
+        if (depsMap.has(target)) {
+          var tgt = depsMap.get(target);
+          tgt.removeByName('ephemeron.cmj');
+        }
+        break;
+      case 'camlinternalFormat':
+        var target = mod + ".cmj";
+        if (depsMap.has(target)) {
+          var tgt = depsMap.get(target);
+          tgt.removeByName('format.cmj');
+        }
+        break;
+    };
     switch (ext) {
       case "HAS_MLI":
       case "HAS_BOTH":
@@ -1327,7 +1344,6 @@ async function testNinja() {
       x.endsWith(".re") ||
       x.endsWith(".rei") ||
       ((x.endsWith(".ml") || x.endsWith(".mli")) &&
-        !x.endsWith("bspack.ml") &&
         x !== "es6_import.ml" &&
         x !== "es6_export.ml")
     );
@@ -1337,6 +1353,7 @@ async function testNinja() {
   await Promise.all(depModulesForBscAsync(sources, testDir, depsMap));
   var targets = collectTarget(sources);
   var output = generateDune(depsMap, targets, bsc_flags, ['../stdlib-412/stdlib.cmj'], [".js"]);
+  depsMap.set('es6_import.cmj', new TargetSet([fileTarget('es6_export.cmj')]))
   var output = output.concat(
     generateDune(
       depsMap,

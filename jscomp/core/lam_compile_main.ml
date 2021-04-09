@@ -130,7 +130,7 @@ let compile
   let () =
 #ifndef BS_RELEASE_BUILD
     Ext_list.iter export_idents
-      (fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  (Ident.name id) (Ident.stamp id)) ;
+      (fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  (Ident.name id) (Ext_ident.stamp id)) ;
 #endif
     Lam_compile_env.reset () ;
   in

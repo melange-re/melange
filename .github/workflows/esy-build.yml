@@ -28,11 +28,9 @@ jobs:
         run: npm install -g esy
 
       - uses: esy/github-action@master
-        if: ${{ matrix.system != 'macos-arm64' }}
         with:
           cache-key: ${{ hashFiles('esy.lock/index.json') }}
 
-      - uses: EduardoRFS/github-action@0e5336e318d2f648cf881ab85ece10f51e369b17
-        if: ${{ matrix.system == 'macos-arm64' }}
-        with:
-          cache-key: ${{ hashFiles('esy.lock/index.json') }}
+      - name: Run tests.
+        if: ${{ matrix.system != 'windows' }}
+        run: esy test

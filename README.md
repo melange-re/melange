@@ -19,18 +19,15 @@ to use it is via [Esy](https://esy.sh).
 
 ```json
 {
+  "name": "melange-project",
   "dependencies": {
-    "bs-platform": "*"
-  },
-  "resolutions": {
-    "bs-platform": "melange-re/melange#HASH_HERE", <- or grab the latest commit in this repo
-    "ocaml": "melange-re/ocaml#75f22c8"
+    "ocaml": "4.12.x",
+    "melange": "melange-re/melange",
+    "@opam/ocaml-lsp-server": "*"
   },
   "esy": {
     "buildsInSource": "unsafe",
-    "build": [
-      "ln -sfn #{bs-platform.install} node_modules/bs-platform"
-    ]
+    "build": ["ln -sfn #{melange.install} node_modules/bs-platform"]
   },
   "installConfig": {
     "pnp": false
@@ -38,20 +35,22 @@ to use it is via [Esy](https://esy.sh).
 }
 ```
 
-3. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
+3. Run `npm install` (or `yarn`) followed by just `esy` and after they finish installing and building, you should be able to use `bsb` commands via esy `esy bsb -make-world`
+
+4. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
    can't figure it out!
 
 ## FAQ
 
 ### How does this project relate to other tools?
 
-| Name  | Purpose  | Dependencies  |  Notes |
-|---|---|---|---|
-| [Esy](https://esy.sh)  | Package manager |  Installed with NPM |  Obtaining dependencies (e.g. `dune` or `reason`)  |
-| [Dune](https://dune.build/)  | Build tool  | Installed with `esy` | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_ |
-|  [Reason](https://reasonml.github.io/) | Syntax  |  Installed with `esy` | a library that implements an alternative syntax to OCaml  |
-|  [Melange](https://melange.re) | Compiler that emits JavaScript  |  Esy (to install), Dune (to build), Reason (used as a library) |  Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
-|  [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript  | None | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
+| Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
+| -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
+| [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy`                                          | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
+| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy`                                          | a library that implements an alternative syntax to OCaml                                                                     |
+| [Melange](https://melange.re)          | Compiler that emits JavaScript                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+| [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                                     |
 
 ### Can I use ReScript syntax?
 
@@ -78,8 +77,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Acknowledgments
 
 See [Credits.md](./Credits.md).
-
-## [Roadmap](https://github.com/rescript-lang/rescript-compiler/wiki)
 
 ## Licensing
 
