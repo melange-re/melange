@@ -1,0 +1,28 @@
+opam-version: "2.0"
+synopsis: "Easy to use and user-friendly topological sort"
+description: """
+Easy to use and user-friendly topological sort.
+
+Example:
+```
+Tsort.sort [("foundation", []); ("walls", ["foundation"]); ("roof", ["walls"])]
+```"""
+maintainer: "daniil@baturin.org"
+authors: "Daniil Baturin <daniil@baturin.org>"
+license: "MIT"
+homepage: "https://github.com/dmbaturin/ocaml-tsort"
+bug-reports: "https://github.com/dmbaturin/ocaml-tsort/issues"
+depends: [
+  "ocaml" {>= "4.03.0"}
+  "containers" {>= "2.7"}
+  "dune" {>= "1.9"}
+]
+build: ["dune" "build" "-p" name "-j" jobs]
+dev-repo: "git+https://github.com/dmbaturin/ocaml-tsort.git"
+url {
+  src: "https://github.com/dmbaturin/ocaml-tsort/archive/2.0.0.zip"
+  checksum: [
+    "md5=78f0b6c5855b303e5f9911cceaabd089"
+    "sha512=6ad3c789ca0230948fd8f20352940ea6a6e7948403aa3dc1660ca8e7dba40062f30eca542353fba8d3b20c4808431bd796ecba7476283993b93b5f13e25f475e"
+  ]
+}
