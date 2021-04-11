@@ -143,7 +143,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     output_merlin_namespace buffer namespace;
     if ppx_config.ppxlib <> [] then begin
       Buffer.add_string buffer merlin_flg_ppx;
-      Buffer.add_string buffer ".melange.eobjs/ppx.exe"
+      Buffer.add_string buffer (Literals.melange_eobjs_dir // Bsb_config.ppx_exe)
     end;
     Ext_list.iter ppx_config.ppx_files (fun ppx ->
         Buffer.add_string buffer merlin_flg_ppx;

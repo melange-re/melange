@@ -174,7 +174,6 @@ let output_ninja_and_namespace_map
 
   match package_kind with
   | Bsb_package_kind.Toplevel ->
-    (* emitted in bsb_main *)
     generate_ppxlib_source ~subdir:"" ~ppx_config buf;
     Buffer.add_string buf "\n(data_only_dirs node_modules ";
     Buffer.add_string buf Literals.melange_eobjs_dir;
