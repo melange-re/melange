@@ -239,10 +239,10 @@ let extract_ppx
           | config -> Bsb_exception.config_error config
             (field ^ "expect each item to be either string or array") in
         let ppx = Bsb_config_types.{ name = path; args } in
-        if checked
-          then { ppxlib; ppx_files = ppx_files @ [ppx]}
-          else { ppxlib = ppxlib @ [path]; ppx_files}
-      ) 
+        if checked then
+          { ppxlib; ppx_files = ppx_files @ [ppx]}
+        else
+          { ppxlib = ppxlib @ [ppx]; ppx_files})
 
   | Some config ->
     Bsb_exception.config_error config (field ^ " expect an array")

@@ -50,8 +50,8 @@ type ppx = {
   name : string;
   args : string list
 }
-type ppx_config = { 
-  ppxlib : string list;
+type ppx_config = {
+  ppxlib : ppx list;
   ppx_files : ppx list
 }
 

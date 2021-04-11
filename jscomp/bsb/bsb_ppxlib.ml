@@ -30,7 +30,7 @@ let generate_rules (ppx_config: Bsb_config_types.ppx_config) =
   let executable =
     Format.asprintf
       "(executable (name ppx) (modules ppx) (flags -linkall) (libraries %s))"
-      (String.concat " " ppx_config.ppxlib) in
+      (String.concat " " (Ext_list.map ppx_config.ppxlib (fun x -> x.name))) in
   Format.asprintf "%s@\n%s" ppx_ml executable
 
 let ppxlib ~(ppx_config: Bsb_config_types.ppx_config) buf =

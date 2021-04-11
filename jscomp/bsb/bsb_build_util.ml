@@ -38,16 +38,20 @@ let maybe_quote_for_dune ( s : string) =
        instead. *)
     Format.asprintf "%S" s
 
-let ppx_flags ~rel_proj_dir (ppx : Bsb_config_types.ppx_config) =
-  let ppxlib = if ppx.ppxlib <> []
-    then
+let ppx_flags ~rel_proj_dir { Bsb_config_types.ppxlib; ppx_files } =
+  let ppxlib = if ppxlib <> [] then
+      (* We don't need to grab the name from `ppx.ppxlib` because it'll always
+         be same everytime (`.melange.eobjs/ppx.exe`). *)
       let path_to_ppx = rel_proj_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe in
-      let ppx_command_with_args = Format.asprintf "%s -as-ppx" path_to_ppx in
+      let args =
+        String.concat " " (List.concat_map (fun (x: Bsb_config_types.ppx) -> x.args) ppxlib)
+      in
+      let ppx_command_with_args = Format.asprintf "%s -as-ppx %s" path_to_ppx args in
       [ maybe_quote_for_dune ppx_command_with_args ]
     else []
   in
   flag_concat "-ppx"
-    (ppxlib @ Ext_list.map ppx.ppx_files (fun x ->
+    (ppxlib @ Ext_list.map ppx_files (fun x ->
        if x.args = [] then
          maybe_quote_for_dune x.name
        else
