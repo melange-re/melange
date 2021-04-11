@@ -70,7 +70,6 @@ val make_custom_rules :
   has_postbuild:string option ->
   pp_file:string option ->
   has_builtin:bool ->
-  ppx_config:Bsb_config_types.ppx_config ->
   reason_react_jsx : Bsb_config_types.reason_react_jsx option ->
   package_specs:Bsb_package_specs.t ->
   command Map_string.t ->

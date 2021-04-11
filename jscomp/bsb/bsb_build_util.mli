@@ -38,7 +38,7 @@ Use:
 ppx_flags [ppxs]
 ]}
 *)
-val ppx_flags : Bsb_config_types.ppx_config -> string
+val ppx_flags : rel_proj_dir:string -> Bsb_config_types.ppx_config -> string
 
 val pp_flag : string  -> string
 

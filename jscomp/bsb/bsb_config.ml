@@ -61,14 +61,4 @@ let ocaml_bin_install_prefix p = lib_ocaml // p
 
 let proj_rel path = rev_lib_bs // path
 
-(** it may not be a bad idea to hard code the binary path
-    of bsb in configuration time
-*)
-
-
-
-
-
-
-(* let cmd_package_specs = ref None  *)
-
+let ppx_exe = "ppx.exe"

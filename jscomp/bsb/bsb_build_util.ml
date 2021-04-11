@@ -38,13 +38,21 @@ let maybe_quote_for_dune ( s : string) =
        instead. *)
     Format.asprintf "%S" s
 
-let ppx_flags (ppx : Bsb_config_types.ppx_config) =
+let ppx_flags ~rel_proj_dir (ppx : Bsb_config_types.ppx_config) =
+  let ppxlib = if ppx.ppxlib <> []
+    then
+      let path_to_ppx = rel_proj_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe in
+      let ppx_command_with_args = Format.asprintf "%s -as-ppx" path_to_ppx in
+      [ maybe_quote_for_dune ppx_command_with_args ]
+    else []
+  in
   flag_concat "-ppx"
-    ((if ppx.ppxlib <> [] then ["../ppx.exe"] else []) @
-     Ext_list.map ppx.ppx_files
-       (fun x ->
-          if x.args = [] then maybe_quote_for_dune x.name else
-            Printf.sprintf "\"%s %s\"" x.name (String.concat " " x.args)))
+    (ppxlib @ Ext_list.map ppx.ppx_files (fun x ->
+       if x.args = [] then
+         maybe_quote_for_dune x.name
+       else
+        maybe_quote_for_dune
+          (Format.asprintf "%s %s" x.name (String.concat " " x.args))))
 
 let pp_flag (xs : string) =
    "-pp " ^ maybe_quote_for_dune xs

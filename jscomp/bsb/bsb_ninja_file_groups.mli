@@ -35,5 +35,4 @@ val handle_files_per_dir :
   files_to_install:Bsb_db.module_info Queue.t ->
   bs_dependencies:string list ->
   bs_dev_dependencies:string list ->
-  ppx_config:Bsb_config_types.ppx_config ->
   Bsb_file_groups.file_group -> unit

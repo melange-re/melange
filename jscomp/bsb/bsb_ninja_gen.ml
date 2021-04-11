@@ -43,6 +43,12 @@ let get_bsc_flags
 let bsc_lib_includes (bs_dependencies : Bsb_config_types.dependencies) =
   (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs))
 
+let generate_ppxlib_source ~subdir ~ppx_config buf =
+  Buffer.add_string buf "(subdir ";
+  Buffer.add_string buf (subdir // Literals.melange_eobjs_dir);
+  Bsb_ppxlib.ppxlib buf ~ppx_config;
+  Buffer.add_string buf ")\n"
+
 let output_ninja_and_namespace_map
     ~buf
     ~per_proj_dir
@@ -88,7 +94,7 @@ let output_ninja_and_namespace_map
     Bsb_ninja_global_vars.make
       ~package_name
       ~db:bs_groups
-      ~src_root_dir:per_proj_dir
+      ~per_proj_dir
       ~bsc:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc)
       ~bsdep:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsdep)
       ~bs_dep_parse:(Ext_filename.maybe_quote Bsb_global_paths.bs_dep_parse)
@@ -101,6 +107,7 @@ let output_ninja_and_namespace_map
       ~external_incls:external_includes
       ~gentypeconfig:(Ext_option.map gentype_config (fun x ->
           ("-bs-gentype " ^ x.path)))
+      ~ppx_config
       ~pp_flags:(Ext_option.map pp_file Bsb_build_util.pp_flag)
       ~namespace
   in
@@ -119,7 +126,6 @@ let output_ninja_and_namespace_map
       ~global_config
       ~has_postbuild:js_post_build_cmd
       ~pp_file
-      ~ppx_config
       ~has_builtin:built_in_dependency
       ~reason_react_jsx
       ~package_specs
@@ -145,7 +151,6 @@ let output_ninja_and_namespace_map
          ~bs_dev_dependencies
          ~bs_dependencies
          ~root_dir
-         ~ppx_config
          files_per_dir)
   ;
 
@@ -170,8 +175,13 @@ let output_ninja_and_namespace_map
   match package_kind with
   | Bsb_package_kind.Toplevel ->
     (* emitted in bsb_main *)
-    Bsb_ppxlib.ppxlib buf ~ppx_config;
-    ()
+    generate_ppxlib_source ~subdir:"" ~ppx_config buf;
+    Buffer.add_string buf "\n(data_only_dirs node_modules ";
+    Buffer.add_string buf Literals.melange_eobjs_dir;
+    (* for the edge case of empty sources (either in user config or because a
+       source dir is empty), we emit an empty `bsb_world` alias. This avoids
+       showing the user an error when they haven't done anything. *)
+    Buffer.add_string buf ")\n(alias (name bsb_world))\n";
   | Dependency _ ->
     let subd =
       Ext_path.rel_normalized_absolute_path ~from:root_dir per_proj_dir
@@ -180,7 +190,7 @@ let output_ninja_and_namespace_map
     Buffer.add_string buf subd;
     Buffer.add_string buf "(data_only_dirs ";
     Buffer.add_string buf Literals.melange_eobjs_dir;
-    Buffer.add_string buf ")\n";
-    Bsb_ppxlib.ppxlib buf ~ppx_config;
-    Buffer.add_string buf ")\n"
+    Buffer.add_string buf "))\n";
+
+    generate_ppxlib_source ~subdir:subd ~ppx_config buf;
 
