@@ -60,15 +60,12 @@ let output_dune_project_if_does_not_exist proj_dir =
     close_out ochan
 
 let output_dune_file buf =
+  (* <root>/dune.bsb generation *)
   let proj_dir =  Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
-  Buffer.add_string buf "\n(data_only_dirs node_modules ";
-  Buffer.add_string buf Literals.melange_eobjs_dir;
-  (* for the edge case of empty sources (either in user config or because a
-     source dir is empty), we emit an empty `bsb_world` alias. This avoids
-     showing the user an error when they haven't done anything. *)
-  Buffer.add_string buf ")\n(alias (name bsb_world))\n";
   Bsb_ninja_targets.revise_dune dune_bsb buf;
+
+  (* <root>/dune generation *)
   let dune = proj_dir // Literals.dune in
   let buf = Buffer.create 256 in
   Buffer.add_string buf "\n(include ";
@@ -89,8 +86,9 @@ let dune_command_exit dune_args =
   Unix.execvp Literals.dune args
 
 
-let build_whole_project ~buf =
+let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
+  let buf = Buffer.create 0x1000 in
   let config, dep_configs = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
   Bsb_ninja_regen.regenerate_ninja
     ~package_kind:Toplevel
@@ -120,8 +118,7 @@ let run_bsb ({ make_world; install; watch_mode; _ } as options) =
       if (not make_world) && not install then (if watch_mode then exit 0)
       else begin
         if generate_dune_bsb then begin
-          let buf = Buffer.create 0x1000 in
-          let configs = build_whole_project ~buf in
+          let configs = build_whole_project () in
           Bsb_world.install_targets Bsb_global_paths.cwd configs
         end;
         if watch_mode then exit 0 else if make_world then dune_command_exit options.dune_args

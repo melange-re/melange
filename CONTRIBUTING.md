@@ -17,7 +17,15 @@ nix-shell --pure
 
 > **Note**: You can also run `nix-shell --command $EDITOR` to get merlin support
 
-Once you're in the shell, you have access to `dune`, `node`, `yarn`, and all the other executables you need to get down to business. Here are some common commands you may find useful:
+Once you're in the shell, you have access to `dune`, `node`, `yarn`, and all the other executables you need to get down to business.
+
+Before you try building with `dune`, be sure to install the local `ocaml-tree` project:
+
+```sh
+cd ocaml-tree && npm install
+```
+
+Here are some common commands you may find useful:
 
 - `dune build` builds the whole project
 - `dune runtest` runs the native tests

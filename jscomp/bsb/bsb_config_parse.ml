@@ -215,32 +215,35 @@ let extract_string_list (map : json_map) (field : string) : string list =
 let extract_ppx
   (map : json_map)
   (field : string)
-  ~(cwd : string) : Bsb_config_types.ppx list =
+  ~(cwd : string) : Bsb_config_types.ppx_config =
+  let empty = Bsb_config_types.{ ppxlib = []; ppx_files = [] } in
   match map.?(field) with
-  | None -> []
+  | None -> empty
   | Some (Arr {content }) ->
     let resolve s =
       if s = "" then Bsb_exception.invalid_spec "invalid ppx, empty string found"
       else
-        (Bsb_build_util.resolve_bsb_magic_file ~cwd ~desc:Bsb_build_schemas.ppx_flags s).path in
-    Ext_array.to_list_f content (fun x ->
-      match x with
-      | Str x ->
+        (Bsb_build_util.resolve_bsb_magic_file ~cwd ~desc:Bsb_build_schemas.ppx_flags s) in
+    Ext_array.fold_left
+      content
+      empty
+      (fun { ppxlib; ppx_files } x ->
+        let (Bsb_build_util.{ path; checked }, args) =
+          match x with
+          | Str x -> (resolve x.str, [])
+          | Arr { content } ->
+            let xs = Bsb_build_util.get_list_string content in
+            (match xs with
+            | [] -> Bsb_exception.config_error x " empty array is not allowed"
+            | name :: args -> (resolve name, args))
+          | config -> Bsb_exception.config_error config
+            (field ^ "expect each item to be either string or array") in
+        let ppx = Bsb_config_types.{ name = path; args } in
+        if checked then
+          { ppxlib; ppx_files = ppx_files @ [ppx]}
+        else
+          { ppxlib = ppxlib @ [ppx]; ppx_files})
 
-        {Bsb_config_types.name =
-          resolve x.str;
-          args = []}
-      | Arr {content } ->
-
-          let xs = Bsb_build_util.get_list_string content in
-          (match xs with
-          | [] -> Bsb_exception.config_error x " empty array is not allowed"
-          | name :: args ->
-            {Bsb_config_types.name = resolve name ; args}
-          )
-      | config -> Bsb_exception.config_error config
-        (field ^ "expect each item to be either string or array")
-    )
   | Some config ->
     Bsb_exception.config_error config (field ^ " expect an array")
 
@@ -341,7 +344,7 @@ let rec interpret_json
           warning = extract_warning map;
           external_includes = extract_string_list map Bsb_build_schemas.bs_external_includes;
           bsc_flags = extract_string_list map Bsb_build_schemas.bsc_flags ;
-          ppx_files = extract_ppx map ~cwd:per_proj_dir Bsb_build_schemas.ppx_flags;
+          ppx_config = extract_ppx map ~cwd:per_proj_dir Bsb_build_schemas.ppx_flags;
           pp_file = pp_flags ;
           bs_dependencies ;
           bs_dev_dependencies ;

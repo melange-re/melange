@@ -78,6 +78,7 @@ let emit_module_build
     _js_post_build_cmd
     namespace
     ~cur_dir
+    ~ppx_config
     (module_info : Bsb_db.module_info)
   =
   let impl_dir, intf_dir = match module_info.dir with
@@ -112,20 +113,22 @@ let emit_module_build
   let input_intf = Bsb_config.proj_rel (filename_sans_extension ^ config.intf) in
   let output_ast = filename_sans_extension  ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension  ^ Literals.suffix_iast in
-  let output_ast =
-    (Ext_path.rel_normalized_absolute_path
-      ~from:(per_proj_dir // cur_dir)
-      (per_proj_dir // impl_dir)) // (basename output_ast)
+  let rel_proj_dir = Ext_path.rel_normalized_absolute_path
+     ~from:(per_proj_dir // cur_dir)
+     per_proj_dir
   in
-  let output_iast = (Ext_path.rel_normalized_absolute_path
-                ~from:(per_proj_dir // cur_dir)
-                (per_proj_dir // intf_dir)) // basename output_iast
-  in
+  let output_ast = rel_proj_dir // (impl_dir // basename output_ast) in
+  let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ast_deps =
     Format.asprintf "(:ast_deps %s %s)"
       output_ast
       (if has_intf_file then output_iast else "")
     in
+  let ppx_deps =
+    if ppx_config.Bsb_config_types.ppxlib <> [] then
+      [ rel_proj_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe ]
+    else []
+  in
   let output_filename_sans_extension =
       Ext_namespace_encode.make ?ns:namespace filename_sans_extension
   in
@@ -133,10 +136,6 @@ let emit_module_build
   let output_cmj =  output_filename_sans_extension ^ Literals.suffix_cmj in
   let output_cmt =  output_filename_sans_extension ^ Literals.suffix_cmt in
   let output_cmti =  output_filename_sans_extension ^ Literals.suffix_cmti in
-  let rel_proj_dir = Ext_path.rel_normalized_absolute_path
-     ~from:(per_proj_dir // cur_dir)
-     per_proj_dir
-  in
   let maybe_gentype_deps = Option.map (fun _ ->
     [rel_proj_dir // Bsb_config.lib_bs // Literals.sourcedirs_meta ]) gentype_config
   in
@@ -144,7 +143,7 @@ let emit_module_build
     Bsb_package_specs.get_list_of_output_js package_specs output_filename_sans_extension in
   if which <> `intf then begin
     Bsb_ninja_targets.output_build cur_dir buf
-      ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps)
+      ~implicit_deps:((Option.value ~default:[] maybe_gentype_deps) @ ppx_deps)
       ~outputs:[output_ast]
       ~inputs:[basename input_impl]
       ~rule:rules.build_ast;
@@ -171,9 +170,7 @@ let emit_module_build
   if has_intf_file && which <> `impl then begin
     Bsb_ninja_targets.output_build cur_dir buf
       ~outputs:[output_iast]
-      (* TODO: we can get rid of absloute path if we fixed the location to be
-          [lib/bs], better for testing?
-      *)
+      ~implicit_deps:ppx_deps
       ~inputs:[basename input_intf]
       ~rule:rules.build_ast;
 
@@ -226,7 +223,7 @@ let handle_files_per_dir
     ~bs_dev_dependencies
     (group: Bsb_file_groups.file_group )
   : unit =
-  let per_proj_dir = global_config.src_root_dir in
+  let per_proj_dir = global_config.per_proj_dir in
   let rel_group_dir =
     Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // group.dir)
   in
@@ -266,6 +263,7 @@ let handle_files_per_dir
         ~bs_dev_dependencies
         ?gentype_config:global_config.gentypeconfig
         ~cur_dir:group.dir
+        ~ppx_config:global_config.ppx_config
         js_post_build_cmd
         global_config.namespace module_info
       in

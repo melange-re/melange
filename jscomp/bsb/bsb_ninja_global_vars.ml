@@ -26,7 +26,7 @@ type t =
  {
   db : Bsb_db.t;
   package_name : string;
-  src_root_dir: string;
+  per_proj_dir: string;
   bsc: string;
   bsdep: string;
   bs_dep_parse: string;
@@ -39,13 +39,14 @@ type t =
   g_sourcedirs_incls: string list;
   gentypeconfig: string option;
   pp_flags: string option;
+  ppx_config: Bsb_config_types.ppx_config;
   namespace: string option
  }
 
 let make
   ~db
   ~package_name
-  ~src_root_dir
+  ~per_proj_dir
   ~bsc
   ~bsdep
   ~bs_dep_parse
@@ -58,11 +59,12 @@ let make
   ~g_sourcedirs_incls
   ~gentypeconfig
   ~pp_flags
+  ~ppx_config
   ~namespace =
  {
   db;
   package_name;
-  src_root_dir;
+  per_proj_dir;
   bsc;
   bsdep;
   bs_dep_parse;
@@ -75,6 +77,7 @@ let make
   g_sourcedirs_incls;
   gentypeconfig;
   pp_flags;
+  ppx_config;
   namespace;
  }
 
