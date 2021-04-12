@@ -296,7 +296,7 @@ let caml_ba_create_unsafe kind layout dims data =
   let size_per_element = caml_ba_get_size_per_element kind in
   if caml_ba_get_size dims * size_per_element != buffer_length data then
     caml_invalid_argument "length doesn't match dims";
-  if layout = 0 && buffer_length data = 1 && size_per_element = 1 then
+  if layout = 0 && Array.length dims = 1 && size_per_element = 1 then
     ml_Bigarray_c_1_1 kind layout dims data
   else
     ml_Bigarray kind layout dims data
