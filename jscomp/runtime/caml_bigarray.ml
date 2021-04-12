@@ -309,6 +309,10 @@ external caml_ba_kind : ('a, 'b, 'c) genarray -> int = "kind" [@@bs.get]
 
 external caml_ba_layout : ('a, 'b, 'c) genarray -> int = "layout" [@@bs.get]
 
+let caml_ba_kind ba = caml_ba_kind ba
+
+let caml_ba_layout ba = caml_ba_layout ba
+
 let caml_ba_num_dims ba = Array.length (dims ba)
 
 let caml_ba_change_layout ba layout =
