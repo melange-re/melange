@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
+let (//) = Ext_path.combine
 
 module Generators = struct
   let regexp = Str.regexp "\\(\\$in\\)\\|\\(\\$out\\)"
@@ -97,7 +98,6 @@ let make_custom_rules
   ~(has_postbuild : string option)
   ~(pp_file: string option)
   ~(has_builtin : bool)
-  ~ppx_files
   ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
   ~package_specs
   (custom_rules : command Map_string.t) :
@@ -114,7 +114,7 @@ let make_custom_rules
       ~postbuild : Buffer.t -> ?target:string -> string -> unit = fun buf ?(target="%{targets}") cur_dir ->
     let rel_incls ?namespace dirs =
       Bsb_build_util.rel_include_dirs
-        ~per_proj_dir:global_config.src_root_dir
+        ~per_proj_dir:global_config.per_proj_dir
         ~cur_dir
         ?namespace
         dirs
@@ -125,7 +125,7 @@ let make_custom_rules
     if is_dev then Buffer.add_string buf " -g";
     Buffer.add_string buf ns_flag;
     Buffer.add_string buf " -root ";
-    Buffer.add_string buf global_config.src_root_dir;
+    Buffer.add_string buf global_config.per_proj_dir;
     Buffer.add_string buf " -cwd ";
     Buffer.add_string buf cur_dir;
     Buffer.add_string buf " %{ast_deps}) (run ";
@@ -175,16 +175,20 @@ let make_custom_rules
       Buffer.add_string buf " $out_last"
     end ;
   in
-  let mk_ast buf ?target:_ _cur_dir : unit =
+  let mk_ast buf ?target:_ cur_dir : unit =
+    let rel_proj_dir = Ext_path.rel_normalized_absolute_path
+      ~from:(global_config.per_proj_dir // cur_dir)
+      global_config.per_proj_dir
+    in
     Buffer.add_string buf "(action\n (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
     Buffer.add_string buf " -bs-v ";
     Buffer.add_string buf Bs_version.version;
-    (match ppx_files with
-     | [ ] -> ()
-     | _ ->
+    (match global_config.ppx_config with
+     | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
+     | { ppxlib = _; ppx_files } ->
        Ext_list.iter ppx_files (fun (x: Bsb_config_types.ppx) ->
            match string_of_float (Unix.stat x.name).st_mtime with
            | exception _ -> ()
@@ -193,7 +197,7 @@ let make_custom_rules
              Buffer.add_string buf st;
          );
        Buffer.add_char buf ' ';
-       Buffer.add_string buf (Bsb_build_util.ppx_flags ppx_files));
+       Buffer.add_string buf (Bsb_build_util.ppx_flags ~rel_proj_dir global_config.ppx_config));
     (match pp_file with
      | None -> ()
      | Some flag ->
