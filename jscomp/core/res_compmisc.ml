@@ -27,7 +27,7 @@ let init_path () =
   let exp_dirs =
     List.map (Misc.expand_directory Config.standard_library) dirs in
     Load_path.reset ();
-    List.iter Load_path.add_dir (List.rev_append exp_dirs (Clflags.std_include_dir ()));
+    List.iter Load_path.add_dir (List.rev ((Lazy.force Js_config.stdlib_path) :: exp_dirs));
   Env.reset_cache ()
 
 (* Return the initial environment in which compilation proceeds. *)
