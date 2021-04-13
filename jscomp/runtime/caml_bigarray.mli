@@ -2,7 +2,7 @@ type buffer
 
 type ('a, 'b, 'c) genarray
 
-val caml_array_bound_error: unit -> 'a
+val caml_array_bound_error : unit -> 'a
 
 val caml_ba_custom_name : string
 
