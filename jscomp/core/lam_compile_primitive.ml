@@ -533,8 +533,6 @@ let translate  loc
       | _, _, _ ,_ -> 
         E.runtime_call Js_runtime_modules.bigarray
           ("caml_ba_get_" ^ string_of_int dimension ) args
-        (* E.runtime_call Js_config.bigarray  *)
-        (*   ("caml_ba_get_" ^ string_of_int dimension ) args  *)
     end
   | Pbigarrayset (unsafe, dimension, kind, layout)
     -> 
@@ -557,8 +555,6 @@ let translate  loc
         -> 
           E.runtime_call Js_runtime_modules.bigarray 
             ("caml_ba_set_" ^ string_of_int dimension) args
-          (* E.runtime_call Js_config.bigarray  *)
-          (*   ("caml_ba_set_" ^ string_of_int dimension ) args  *)
     end
 
   | Pbigarraydim i
