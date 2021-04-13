@@ -1,23 +1,15 @@
+(* Bigarray. - all bigarray types including Int64 and Complex. - fortran + c
+   layouts - sub/slice/reshape - retain fast path for 1d array access *)
+
 module Array = Caml_array_extern
-let caml_ba_get_size dims =
-  let n_dims = Array.length dims in
-  let size = {contents =  1} in
-  for i = 0 to n_dims - 1 do
-    if Array.unsafe_get dims i < 0 then
-      raise (Invalid_argument "Bigarray.create: negative dimension");
-    size.contents <- size.contents * Array.unsafe_get dims i
-  done;
-  size.contents
 
 let caml_invalid_argument err = raise (Invalid_argument err)
 
 let caml_array_bound_error () = caml_invalid_argument "index out of bounds"
 
-let caml_ba_get_size_per_element = function 7 | 10 | 11 -> 2 | _ -> 1
-
 let caml_ba_custom_name = "_bigarr02"
 
-[%%raw
+[%%bs.raw
 {|
   function Ml_Bigarray (kind, layout, dims, buffer) {
     this.kind   = kind ;
@@ -250,6 +242,8 @@ external buffer : ('a, 'b, 'c) genarray -> buffer = "data" [@@bs.get]
 
 external buffer_set : buffer -> buffer -> unit = "set" [@@bs.send]
 
+external sub : buffer -> int -> int -> buffer = "subarray" [@@bs.send]
+
 external buffer_length : buffer -> int = "length" [@@bs.get]
 
 external dims : ('a, 'b, 'c) genarray -> int array = "dims" [@@bs.get]
@@ -265,6 +259,18 @@ external get : ('a, 'b, 'c) genarray -> int -> 'a = "get" [@@bs.send]
 external set : ('a, 'b, 'c) genarray -> int -> 'a -> unit = "set" [@@bs.send]
 
 external fill : ('a, 'b, 'c) genarray -> 'a -> unit = "fill" [@@bs.send]
+
+let caml_ba_get_size dims =
+  let n_dims = Array.length dims in
+  let size = { contents = 1 } in
+  for i = 0 to n_dims - 1 do
+    if Array.unsafe_get dims i < 0 then
+      caml_invalid_argument "Bigarray.create: negative dimension";
+    size.contents <- size.contents * Array.unsafe_get dims i
+  done;
+  size.contents
+
+let caml_ba_get_size_per_element = function 7 | 10 | 11 -> 2 | _ -> 1
 
 let caml_ba_create_buffer : int -> int -> buffer =
   [%raw
@@ -378,90 +384,94 @@ let caml_ba_blit src dst =
   done;
   buffer_set (buffer dst) (buffer src)
 
-let caml_ba_sub : Obj.t -> int -> int -> Obj.t =
-  [%raw
-    {|
-function (ba, ofs, len) {
-  var changed_dim;
-  var mul = 1;
-  if (ba.layout == 0) {
-    for (var i = 1; i < ba.dims.length; i++)
-      mul = mul * ba.dims[i];
-    changed_dim = 0;
-  } else {
-    for (var i = 0; i < (ba.dims.length - 1); i++)
-      mul = mul * ba.dims[i];
-    changed_dim = ba.dims.length - 1;
-    ofs = ofs - 1;
-  }
-  if (ofs < 0 || len < 0 || (ofs + len) > ba.dims[changed_dim]){
-    caml_invalid_argument("Bigarray.sub: bad sub-array");
-  }
-  var new_dims = [];
-  for (var i = 0; i < ba.dims.length; i++)
-    new_dims[i] = ba.dims[i];
-  new_dims[changed_dim] = len;
-  mul *= caml_ba_get_size_per_element(ba.kind);
-  var new_data = ba.data.subarray(ofs * mul, (ofs + len) * mul);
-  return caml_ba_create_unsafe(ba.kind, ba.layout, new_dims, new_data);
-}
-|}]
+let caml_ba_sub ba ofs len =
+  let changed_dim = { contents = 0 } in
+  let mul = { contents = 1 } in
+  let ofs = { contents = ofs } in
+  if caml_ba_layout ba = 0 then
+    for i = 1 to caml_ba_num_dims ba - 1 do
+      mul.contents <- mul.contents * get_dim ba i
+    done
+  else
+    for i = 0 to caml_ba_num_dims ba - 2 do
+      mul.contents <- mul.contents * get_dim ba i
+    done;
+  changed_dim.contents <- caml_ba_num_dims ba - 1;
+  ofs.contents <- ofs.contents - 1;
+  if
+    ofs.contents < 0
+    || len < 0
+    || ofs.contents + len > get_dim ba changed_dim.contents
+  then
+    caml_invalid_argument "Bigarray.sub: bad sub-array";
+  let new_dims = Array.new_uninitialized 0 in
+  for i = 0 to caml_ba_num_dims ba - 1 do
+    Array.unsafe_set new_dims i (get_dim ba i)
+  done;
+  Array.unsafe_set new_dims changed_dim.contents len;
+  mul.contents <- mul.contents * caml_ba_get_size_per_element (caml_ba_kind ba);
+  let new_data =
+    sub
+      (buffer ba)
+      (ofs.contents * mul.contents)
+      ((ofs.contents + len) * mul.contents)
+  in
+  caml_ba_create_unsafe (caml_ba_kind ba) (caml_ba_layout ba) new_dims new_data
 
-let caml_ba_slice : Obj.t -> int array -> Obj.t =
-  [%raw
-    {|
-function (ba, vind) {
-  var num_inds = vind.length;
-  var index = [];
-  var sub_dims = [];
-  var ofs;
+let caml_ba_slice ba (vind : int array) =
+  let num_inds = Array.length vind in
+  let index = Array.new_uninitialized 0 in
+  let sub_dims = { contents = Array.new_uninitialized 0 } in
+  if num_inds > caml_ba_num_dims ba then
+    caml_invalid_argument "Bigarray.slice: too many indices";
+  if caml_ba_layout ba = 0 then (
+    for i = 0 to num_inds - 1 do
+      Array.unsafe_set index i (Array.unsafe_get vind i)
+    done;
+    for i = num_inds - 1 to caml_ba_num_dims ba - 1 do
+      Array.unsafe_set index i 0
+    done;
+    sub_dims.contents <- [%raw {|ba.dims.slice(num_inds)|}])
+  else (
+    for i = 0 to num_inds - 1 do
+      Array.unsafe_set
+        index
+        (caml_ba_num_dims ba - num_inds + i)
+        (Array.unsafe_get vind i)
+    done;
+    for i = 0 to caml_ba_num_dims ba - num_inds - 1 do
+      Array.unsafe_set index i 1
+    done;
+    sub_dims.contents <- [%raw {|ba.dims.slice(0, ba.dims.length - num_inds)|}]);
+  let ofs = offset ba index in
+  let size = caml_ba_get_size sub_dims.contents in
+  let size_per_element = caml_ba_get_size_per_element (caml_ba_kind ba) in
+  let new_data =
+    sub (buffer ba) (ofs * size_per_element) ((ofs + size) * size_per_element)
+  in
+  caml_ba_create_unsafe
+    (caml_ba_kind ba)
+    (caml_ba_layout ba)
+    sub_dims.contents
+    new_data
 
-  if (num_inds > ba.dims.length)
-    caml_invalid_argument("Bigarray.slice: too many indices");
-
-  // Compute offset and check bounds
-  if (ba.layout == 0) {
-    for (var i = 0; i < num_inds; i++)
-      index[i] = vind[i];
-    for (; i < ba.dims.length; i++)
-      index[i] = 0;
-    sub_dims = ba.dims.slice(num_inds);
-  } else {
-    for (var i = 0; i < num_inds; i++)
-      index[ba.dims.length - num_inds + i] = vind[i];
-    for (var i = 0; i < ba.dims.length - num_inds; i++)
-      index[i] = 1;
-    sub_dims = ba.dims.slice(0, ba.dims.length - num_inds);
-  }
-  ofs = ba.offset(index);
-  var size = caml_ba_get_size(sub_dims);
-  var size_per_element = caml_ba_get_size_per_element(ba.kind);
-  var new_data = ba.data.subarray(ofs * size_per_element, (ofs + size) * size_per_element);
-  return caml_ba_create_unsafe(ba.kind, ba.layout, sub_dims, new_data);
-}
-|}]
-
-let caml_ba_reshape: Obj.t -> int array -> Obj.t = 
-  [%raw
-  {|function (ba, vind) {
-  var new_dim = [];
-  var num_dims = vind.length;
-
-  if (num_dims < 0 || num_dims > 16){
-    caml_invalid_argument("Bigarray.reshape: bad number of dimensions");
-  }
-  var num_elts = 1;
-  for (var i = 0; i < num_dims; i++) {
-    new_dim[i] = vind[i];
-    if (new_dim[i] < 0)
-      caml_invalid_argument("Bigarray.reshape: negative dimension");
-    num_elts = num_elts * new_dim[i];
-  }
-
-  var size = caml_ba_get_size(ba.dims);
-  // Check that sizes agree
-  if (num_elts != size)
-    caml_invalid_argument("Bigarray.reshape: size mismatch");
-  return caml_ba_create_unsafe(ba.kind, ba.layout, new_dim, ba.data);
-}|}
-]
+let caml_ba_reshape ba (vind : int array) =
+  let new_dim = Array.new_uninitialized 0 in
+  let num_dims = Array.length vind in
+  if num_dims < 0 || num_dims > 16 then
+    caml_invalid_argument "Bigarray.reshape: bad number of dimensions";
+  let num_elts = { contents = 1 } in
+  for i = 0 to num_dims - 1 do
+    Array.unsafe_set new_dim i (Array.unsafe_get vind i);
+    if Array.unsafe_get new_dim i < 0 then
+      caml_invalid_argument "Bigarray.reshape: negative dimension";
+    num_elts.contents <- num_elts.contents * Array.unsafe_get new_dim i
+  done;
+  let size = caml_ba_get_size (dims ba) in
+  if num_elts.contents != size then
+    caml_invalid_argument "Bigarray.reshape: size mismatch";
+  caml_ba_create_unsafe
+    (caml_ba_kind ba)
+    (caml_ba_layout ba)
+    new_dim
+    (buffer ba)
