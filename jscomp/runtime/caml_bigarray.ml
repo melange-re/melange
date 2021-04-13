@@ -260,7 +260,7 @@ external set : ('a, 'b, 'c) genarray -> int -> 'a -> unit = "set" [@@bs.send]
 
 external fill : ('a, 'b, 'c) genarray -> 'a -> unit = "fill" [@@bs.send]
 
-let caml_ba_get_size dims =
+let caml_ba_get_size (dims: int array) =
   let n_dims = Array.length dims in
   let size = { contents = 1 } in
   for i = 0 to n_dims - 1 do

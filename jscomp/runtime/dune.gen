@@ -362,13 +362,19 @@
 
 
   (rule
-    (targets caml_bigarray.cmi caml_bigarray.cmj )
-    (deps (:inputs caml_bigarray.ml) bs_stdlib_mini.cmi caml_array_extern.cmj js.cmi js.cmj)
+    (targets caml_bigarray.cmj )
+    (deps (:inputs caml_bigarray.ml) bs_stdlib_mini.cmi caml_bigarray.cmi caml_array_extern.cmj js.cmi js.cmj)
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
+
+  (rule
+    (targets caml_bigarray.cmi )
+    (deps (:inputs caml_bigarray.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -nopervasives -unsafe -w +50 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
-
-
+  
   (rule
     (targets caml_exceptions.cmi caml_exceptions.cmj )
     (deps (:inputs caml_exceptions.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
