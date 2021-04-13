@@ -4,6 +4,8 @@ type ('a, 'b, 'c) genarray
 
 val caml_array_bound_error : unit -> 'a
 
+val caml_invalid_argument : string -> 'a
+
 val caml_ba_custom_name : string
 
 val caml_ba_get_size : int array -> int
