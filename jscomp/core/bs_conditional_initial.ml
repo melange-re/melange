@@ -79,10 +79,6 @@ let setup_env () =
       !Clflags.include_dirs);
 #endif
 
-#ifdef BS_RELEASE_BUILD
-    Clflags.include_dirs := (Lazy.force Js_config.stdlib_path) :: !Clflags.include_dirs;
-#endif
-
   Lexer.replace_directive_bool "BS" true;
   Lexer.replace_directive_bool "JS" true;
   Lexer.replace_directive_string "BS_VERSION"  Bs_version.version
