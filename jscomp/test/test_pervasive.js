@@ -176,8 +176,8 @@ function a4(prim) {
   return Math.asin(prim);
 }
 
-function a5(prim, prim$1) {
-  return Math.atan2(prim, prim$1);
+function a5(prim0, prim1) {
+  return Math.atan2(prim0, prim1);
 }
 
 function a6(prim) {
@@ -228,8 +228,8 @@ function a17(prim) {
   return Math.log1p(prim);
 }
 
-function a18(prim, prim$1) {
-  return Math.pow(prim, prim$1);
+function a18(prim0, prim1) {
+  return Math.pow(prim0, prim1);
 }
 
 var f = Pervasives.$at;
