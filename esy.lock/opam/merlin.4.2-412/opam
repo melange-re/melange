@@ -4,8 +4,9 @@ authors:      "The Merlin team"
 homepage:     "https://github.com/ocaml/merlin"
 bug-reports:  "https://github.com/ocaml/merlin/issues"
 dev-repo: "git+https://github.com/ocaml/merlin.git"
+license: "MIT"
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   ["dune" "build" "-p" name "-j" jobs]
   ["dune" "runtest" "-p" "merlin,dot-merlin-reader" "-j" "1"] {with-test}
 ]
@@ -65,12 +66,12 @@ See https://github.com/OCamlPro/opam-user-setup
 "
   {success & !user-setup:installed}
 ]
-x-commit-hash: "35c3ad0fb4a1de53f6afb028961800e63b9363bd"
+x-commit-hash: "fe7380bb13ff91f8ed5cfbfea6a6ca01ee1ef88c"
 url {
   src:
-    "https://github.com/ocaml/merlin/releases/download/v4.1-412/merlin-v4.1-412.tbz"
+    "https://github.com/ocaml/merlin/releases/download/v4.2-412/merlin-v4.2-412.tbz"
   checksum: [
-    "sha256=fb4caede73bdb8393bd60e31792af74b901ae2d319ac2f2a2252c694d2069d8d"
-    "sha512=ec301e0f97e11c1c331478030372d373d381a0ddbb7f72c83f7baa4c2c6d4f26094c3398f56bcf3d40c1242044391369fd06e8cd2ccfe1f5d78467eb3e9d33be"
+    "sha256=86c30769277d3e2c09a8be6c68a98cd342bc0bdbde07c7225bfe2e6d0da2d394"
+    "sha512=27fbfb2ac50d7cd86807bd8cb02ff1e4661ee46abf071b9bec505e1df6d41f366c9c287988e66096fb7a14b67fd806df39c56b9f70c53ec40612192ba2a0e530"
   ]
 }
