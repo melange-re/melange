@@ -1,5 +1,5 @@
 {
-  "checksum": "f1a060b312422a96c83b873be3b2f666",
+  "checksum": "897cd5083657286f6f6e94e63d933c53",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -38,7 +38,7 @@
       "overrides": [],
       "dependencies": [
         "ocaml@4.12.0@d41d8cd9", "@opam/reason@opam:3.7.0@191be014",
-        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9@d41d8cd9",
+        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#c787d2f98a@d41d8cd9",
         "@opam/dune-action-plugin@opam:2.8.5@7512542d",
         "@opam/dune@opam:2.8.5@83fb0224",
         "@opam/cmdliner@opam:1.0.4@93208aac"
@@ -46,8 +46,8 @@
       "devDependencies": [
         "web-tree-sitter@0.18.0@d41d8cd9",
         "@opam/ounit2@opam:2.2.4@1877225e",
-        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#6660fbb0553f3b516cb3b1bed131415999a4a3cb@d41d8cd9",
-        "@opam/merlin@opam:4.1-412@a9da5f4b"
+        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b6fd82a8c0cf11b2a1c3370bc7a61622409b14d5@d41d8cd9",
+        "@opam/merlin@opam:4.2-412@6d72a362"
       ],
       "installConfig": { "pnp": false }
     },
@@ -272,16 +272,16 @@
       ],
       "devDependencies": [ "ocaml@4.12.0@d41d8cd9" ]
     },
-    "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#6660fbb0553f3b516cb3b1bed131415999a4a3cb@d41d8cd9": {
+    "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b6fd82a8c0cf11b2a1c3370bc7a61622409b14d5@d41d8cd9": {
       "id":
-        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#6660fbb0553f3b516cb3b1bed131415999a4a3cb@d41d8cd9",
+        "@opam/ocaml-lsp-server@github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b6fd82a8c0cf11b2a1c3370bc7a61622409b14d5@d41d8cd9",
       "name": "@opam/ocaml-lsp-server",
       "version":
-        "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#6660fbb0553f3b516cb3b1bed131415999a4a3cb",
+        "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b6fd82a8c0cf11b2a1c3370bc7a61622409b14d5",
       "source": {
         "type": "install",
         "source": [
-          "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#6660fbb0553f3b516cb3b1bed131415999a4a3cb"
+          "github:ocaml/ocaml-lsp:ocaml-lsp-server.opam#b6fd82a8c0cf11b2a1c3370bc7a61622409b14d5"
         ]
       },
       "overrides": [],
@@ -331,20 +331,20 @@
         "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:2.8.5@83fb0224"
       ]
     },
-    "@opam/merlin@opam:4.1-412@a9da5f4b": {
-      "id": "@opam/merlin@opam:4.1-412@a9da5f4b",
+    "@opam/merlin@opam:4.2-412@6d72a362": {
+      "id": "@opam/merlin@opam:4.2-412@6d72a362",
       "name": "@opam/merlin",
-      "version": "opam:4.1-412",
+      "version": "opam:4.2-412",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://opam.ocaml.org/cache/sha256/fb/fb4caede73bdb8393bd60e31792af74b901ae2d319ac2f2a2252c694d2069d8d#sha256:fb4caede73bdb8393bd60e31792af74b901ae2d319ac2f2a2252c694d2069d8d",
-          "archive:https://github.com/ocaml/merlin/releases/download/v4.1-412/merlin-v4.1-412.tbz#sha256:fb4caede73bdb8393bd60e31792af74b901ae2d319ac2f2a2252c694d2069d8d"
+          "archive:https://opam.ocaml.org/cache/sha256/86/86c30769277d3e2c09a8be6c68a98cd342bc0bdbde07c7225bfe2e6d0da2d394#sha256:86c30769277d3e2c09a8be6c68a98cd342bc0bdbde07c7225bfe2e6d0da2d394",
+          "archive:https://github.com/ocaml/merlin/releases/download/v4.2-412/merlin-v4.2-412.tbz#sha256:86c30769277d3e2c09a8be6c68a98cd342bc0bdbde07c7225bfe2e6d0da2d394"
         ],
         "opam": {
           "name": "merlin",
-          "version": "4.1-412",
-          "path": "esy.lock/opam/merlin.4.1-412"
+          "version": "4.2-412",
+          "path": "esy.lock/opam/merlin.4.2-412"
         }
       },
       "overrides": [],
@@ -439,16 +439,16 @@
         "@opam/dune@opam:2.8.5@83fb0224"
       ]
     },
-    "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9@d41d8cd9": {
+    "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#c787d2f98a@d41d8cd9": {
       "id":
-        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9@d41d8cd9",
+        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#c787d2f98a@d41d8cd9",
       "name": "@opam/melange-compiler-libs",
       "version":
-        "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9",
+        "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#c787d2f98a",
       "source": {
         "type": "install",
         "source": [
-          "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9"
+          "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#c787d2f98a"
         ]
       },
       "overrides": [],

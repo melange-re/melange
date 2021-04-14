@@ -7,7 +7,7 @@
     "@opam/reason": "^3.7.0",
     "@opam/dune": "*",
     "@opam/dune-action-plugin": "*",
-    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#74916dd9"
+    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#c787d2f98a"
   },
   "devDependencies": {
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam",
@@ -22,8 +22,13 @@
   "esy": {
     "build": "dune build -p #{self.name}",
     "install": [
-      ["esy-installer", "$cur__target_dir/default/melange.install"],
-      ["$cur__root/fix-install.sh"]
+      [
+        "esy-installer",
+        "$cur__target_dir/default/melange.install"
+      ],
+      [
+        "$cur__root/fix-install.sh"
+      ]
     ],
     "exportedEnv": {
       "BSLIB": {
@@ -37,7 +42,12 @@
     "type": "git",
     "url": "git+https://github.com/melange-re/melange.git"
   },
-  "keywords": ["ocaml", "rescript", "stdlib", "functional programming"],
+  "keywords": [
+    "ocaml",
+    "rescript",
+    "stdlib",
+    "functional programming"
+  ],
   "author": {
     "name": "Hongbo Zhang"
   },
