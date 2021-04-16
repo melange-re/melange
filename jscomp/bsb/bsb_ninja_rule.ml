@@ -184,18 +184,9 @@ let make_custom_rules
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
-    Buffer.add_string buf " -bs-v ";
-    Buffer.add_string buf Bs_version.version;
     (match global_config.ppx_config with
      | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
-     | { ppxlib = _; ppx_files } ->
-       Ext_list.iter ppx_files (fun (x: Bsb_config_types.ppx) ->
-           match string_of_float (Unix.stat x.name).st_mtime with
-           | exception _ -> ()
-           | st ->
-             Buffer.add_char buf ',';
-             Buffer.add_string buf st;
-         );
+     | _not_empty ->
        Buffer.add_char buf ' ';
        Buffer.add_string buf (Bsb_build_util.ppx_flags ~rel_proj_dir global_config.ppx_config));
     (match pp_file with
