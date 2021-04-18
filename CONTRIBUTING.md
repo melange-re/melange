@@ -2,15 +2,15 @@
 
 Thanks for your interest! Below we describe Melange's development setup for a few different package managers. If something isn't working, or you'd like to add another workflow, please let us know by filing an issue.
 
-## Prerequisites
 
-- The [Nix](https://nixos.org/) package manager
-
-## Instalation
+## Installation
 
 Melange can be set up with [#nix](Nix) or [#esy](Esy). Instructions for both are detailed below.
 
 ### Nix
+
+Obtaining the [Nix](https://nixos.org/) package manager is a prerequisite.
+
 
 The best way to get started is to get a `nix` shell running:
 
