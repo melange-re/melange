@@ -10,35 +10,14 @@ more details on the motivation behind this project can be found in this
 
 ## Installation
 
-This project is currently unreleased. Currently, the most straightforward way
-to use it is via [Esy](https://esy.sh).
+This project is currently unreleased. Currently, the easiest way to get started
+is to clone the
+[basic template](https://github.com/melange-re/melange-basic-template). Before
+you do, make sure you have Esy installed (`npm install -g esy` should cover
+most workflows).
 
-1. Make sure you have Esy installed (`npm install -g esy` should cover most
-   workflows)
-2. Use an `esy.json` file like the following:
-
-```json
-{
-  "name": "melange-project",
-  "dependencies": {
-    "ocaml": "4.12.x",
-    "melange": "melange-re/melange",
-    "@opam/ocaml-lsp-server": "*"
-  },
-  "esy": {
-    "buildsInSource": "unsafe",
-    "build": ["ln -sfn #{melange.install} node_modules/bs-platform"]
-  },
-  "installConfig": {
-    "pnp": false
-  }
-}
-```
-
-3. Run `npm install` (or `yarn`) followed by just `esy` and after they finish installing and building, you should be able to use `bsb` commands via esy `esy bsb -make-world`
-
-4. Reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
-   can't figure it out!
+Please reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
+can't figure it out!
 
 ## FAQ
 
