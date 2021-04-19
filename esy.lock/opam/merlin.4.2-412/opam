@@ -65,6 +65,11 @@ should take care of basic setup.
 See https://github.com/OCamlPro/opam-user-setup
 "
   {success & !user-setup:installed}
+"Since version 4.2, Merlin integration with completion packages company
+and auto-complete has moved to separate modules. Make sure to add
+`(require 'merlin-company)` or `(require 'merlin-ac)` to your emacs
+configuration if you were using one of these."
+  {success}
 ]
 x-commit-hash: "fe7380bb13ff91f8ed5cfbfea6a6ca01ee1ef88c"
 url {
