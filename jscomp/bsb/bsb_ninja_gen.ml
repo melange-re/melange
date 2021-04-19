@@ -28,9 +28,6 @@ let (//) = Ext_path.combine
    it is a bad idea to copy package.json which requires to copy js files
 *)
 
-
-(* let dash_i = "-I" *)
-
 let dependencies_directories deps =
   Ext_list.flat_map deps (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
 
@@ -191,5 +188,5 @@ let output_ninja_and_namespace_map
     Buffer.add_string buf Literals.melange_eobjs_dir;
     Buffer.add_string buf "))\n";
 
-    generate_ppxlib_source ~subdir:subd ~ppx_config buf;
+    generate_ppxlib_source ~subdir:subd ~ppx_config buf
 

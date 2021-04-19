@@ -72,7 +72,6 @@ type builtin = {
   (** platform dependent, on Win32,
       invoking cmd.exe
   *)
-  copy_resources : t;
   mj : t;
   mj_dev : t;
   mij : t ;
@@ -210,17 +209,6 @@ let make_custom_rules
       ~command:mk_ast
       "ast" in
 
-  let copy_resources =
-    define
-      ~command:(fun buf ?target:_ _cur_dir ->
-        let s = if Ext_sys.is_windows_or_cygwin then
-          "cmd.exe /C copy /Y $i $out >NUL"
-        else "cp $i $out"
-        in
-        Buffer.add_string buf s
-      )
-      "copy_resource" in
-
   let aux ~name ~read_cmi  ~postbuild =
     define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:false ~postbuild) name,
     define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:true ~postbuild) (name ^ "_dev")
@@ -247,10 +235,6 @@ let make_custom_rules
   in
   {
     build_ast ;
-    (** platform dependent, on Win32,
-        invoking cmd.exe
-    *)
-    copy_resources;
     mj  ;
     mj_dev  ;
     mij  ;
@@ -276,5 +260,4 @@ let make_custom_rules
         ("custom_" ^ name)
       end
   }
-
 

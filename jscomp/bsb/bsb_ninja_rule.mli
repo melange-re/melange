@@ -42,7 +42,6 @@ type builtin = {
   (** platform dependent, on Win32,
       invoking cmd.exe
   *)
-  copy_resources : t;
   mj : t;
   mj_dev : t;
   mij : t ;
