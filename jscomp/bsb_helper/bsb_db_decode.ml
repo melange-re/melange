@@ -22,9 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
- let bsbuild_cache = Literals.bsbuild_cache
-
-
 type group =
   | Dummy
   | Group of {
@@ -91,7 +88,7 @@ let decode (x : string) : t =
 (* TODO: shall we check the consistency of digest *)
 let read_build_cache ~dir  : t =
   let all_content =
-    Ext_io.load_file (Filename.concat dir bsbuild_cache) in
+    Ext_io.load_file (Filename.concat dir Literals.bsbuild_cache) in
   decode all_content
 
 
