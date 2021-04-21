@@ -23,7 +23,29 @@ type node = Tree_sitter_bindings.Tree_sitter_output_t.node = {
 }
 
 
-let definitions = [
+
+type supported = 
+  | Yes
+  | No
+  | Exclude 
+
+
+let excludes = [
+    "deps_program";
+    "int_clause";
+    "string_clause";
+    "for_direction";
+    "expression_desc";
+    "statement_desc";
+    "for_ident_expression";
+    "label";
+    "finish_ident_expression";
+    "property_map";
+    "length_object";
+    "required_modules";
+    "case_clause"]
+
+let includes = [
   "ident";
   "module_id";
   "vident";
@@ -71,7 +93,12 @@ let node_children_length node =
 
 
 let is_supported def =
-  node_children_length def = 1 && List.mem (get_node_content def) definitions
+  let is_length_one = node_children_length def = 1 in
+  if is_length_one then 
+    let content = get_node_content def in
+    if List.mem content includes then Yes else 
+      if List.mem content excludes then Exclude else No
+    else No
 
 let get_typedefs output =
       let deriving_type_definitions = has_deriving_type_definitions (Option.get output.children) in 

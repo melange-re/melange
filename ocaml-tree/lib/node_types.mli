@@ -22,6 +22,11 @@ type node = Tree_sitter_bindings.Tree_sitter_output_t.node = {
   id: int;    
 }
 
+type supported = 
+  | Yes
+  | No
+  | Exclude 
+
 type typedef = {
     name: string;
     node: node;
@@ -29,7 +34,6 @@ type typedef = {
 
 
 
-val is_supported: node -> bool
-
+val is_supported: node -> supported
 val get_typedefs: node -> typedef list
 
