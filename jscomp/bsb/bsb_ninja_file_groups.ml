@@ -120,7 +120,7 @@ let emit_module_build
   let output_ast = rel_proj_dir // (impl_dir // basename output_ast) in
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ast_deps =
-    Format.asprintf "(:ast_deps %s %s)"
+    Format.asprintf {|(:ast_deps "%s" "%s")|}
       output_ast
       (if has_intf_file then output_iast else "")
     in
