@@ -153,7 +153,7 @@ let make_custom_rules
     Buffer.add_string buf global_config.warnings;
     if read_cmi <> `is_cmi then begin
       Buffer.add_string buf " -bs-package-name ";
-      Buffer.add_string buf global_config.package_name;
+      Buffer.add_string buf (Ext_filename.maybe_quote global_config.package_name);
       Buffer.add_string buf
         (Bsb_package_specs.package_flag_of_package_specs package_specs ~dirname:cur_dir)
     end;
