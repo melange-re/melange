@@ -93,6 +93,7 @@ let output_build
     ?(bs_dependencies=[])
     ?(implicit_outputs=[])
     ?(js_outputs=[])
+    ?error_syntax_kind
     ~outputs
     ~inputs
     ~rule
@@ -138,6 +139,7 @@ let output_build
   Buffer.add_string buf "\n";
   Bsb_ninja_rule.output_rule
     ~target:(String.concat Ext_string.single_space (Ext_list.map outputs Filename.basename))
+    ?error_syntax_kind
     rule
     buf
     cur_dir;
