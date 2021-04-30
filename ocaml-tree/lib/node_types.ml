@@ -1,12 +1,15 @@
 type position = Tree_sitter_bindings.Tree_sitter_output_t.position = {
-    row: int;
+    row: int; 
     column: int;
 }
+[@@deriving show]
+
 
 type node_kind = Tree_sitter_bindings.Tree_sitter_output_t.node_kind =
     | Name of string
     | Literal of string
     | Error
+[@@deriving show]
 
 type node = Tree_sitter_bindings.Tree_sitter_output_t.node = {
   type_ : string;
@@ -21,7 +24,7 @@ type node = Tree_sitter_bindings.Tree_sitter_output_t.node = {
 
   id: int;    
 }
-
+[@@deriving show]
 
 
 type supported = 
@@ -63,52 +66,53 @@ type typedef = {
 }
 
 
-let get_nth_child node n = match node.children with
+let get_nth_child n node = match node.children with
   | Some children -> List.nth children n
   | None -> node
 
 let get_node_content node = match node.kind with
   | Name name -> name
   | Literal literal -> literal
-  | Error -> failwith "Something went wrong while parsing"
+  | Error -> "Something went wrong while parsing"
 
 let get_last_child node = match node.children with
+  | Some [] -> node
   | Some children -> children |> List.rev |> List.hd
-  | None -> node
+  | None -> failwith "No children"
 
+let node_text node = 
+  node 
+  |> get_nth_child 0 
+  |> get_node_content
 
-let find_item_attribute_node node = 
-  let last = get_last_child node |> get_last_child in
-  last.kind = Name "item_attribute"
+let node_type node = get_nth_child 1 node
 
-let has_deriving_type_definitions nodes = 
-  List.filter find_item_attribute_node nodes 
-
+let _has_deriving_type_definitions nodes = 
+  List.filter (fun node ->
+    let last = node |> get_last_child |> get_last_child in
+    last.type_ = "item_attribute"
+    ) nodes 
 
 let node_children_length node = 
   match node.children with 
   | Some children -> List.length children
   | None -> 0
-  
 
-
-let is_supported def =
-  let is_length_one = node_children_length def = 1 in
+let is_supported node =
+  let is_length_one = node_children_length node = 1 in
   if is_length_one then 
-    let content = get_node_content def in
+    let content = get_node_content node in
     if List.mem content includes then Yes else 
       if List.mem content excludes then Exclude else No
     else No
 
 let get_typedefs output =
-      let deriving_type_definitions = has_deriving_type_definitions (Option.get output.children) in 
-      let get_name (typedef : node)= get_nth_child typedef 0 |>  get_node_content  in
-      let get_def typedef = get_nth_child typedef 1 in
       List.map (fun typedef -> 
-        let name = get_name typedef in
-        let node = get_def typedef in
-        {name ; node}) deriving_type_definitions
+  Format.printf "%a typdefs" pp_node output;
+        let name = node_text typedef in
+        let node = node_type  typedef in
+        {name ; node}) (Option.get output.children)
 
 
-
+let maker make typedefs = make typedefs
 

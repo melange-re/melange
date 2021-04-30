@@ -1,0 +1,16 @@
+(executable
+  (package melange)
+  (public_name parse-ocaml)
+  (name ocaml_tree)
+  (modules ocaml_tree)
+  (libraries melange.ocaml-tree)
+)
+
+
+(executable
+  (package melange)
+  (public_name Main)
+  (name Main)
+  (modules main)
+  (libraries melange.ocaml-tree)
+)

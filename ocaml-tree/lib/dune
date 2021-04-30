@@ -1,7 +1,7 @@
 (library
   (public_name melange.ocaml-tree)
   (name tree_sitter_ocaml)
-  (preprocess (pps ppx_sexp_conv))
+  (preprocess (pps ppx_deriving.show ppx_sexp_conv))
   (libraries atdgen-runtime tree-sitter.run)
 
   ; A copy of the C headers for the tree-sitter library is found locally.
