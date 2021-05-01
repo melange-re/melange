@@ -50,6 +50,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = with ocamlPackages; [
+    pkgs.tree-sitter
     pkgs.gnutar
     dune
     ocaml
@@ -62,5 +63,8 @@ stdenv.mkDerivation rec {
     melange-compiler-libs
     reason
     cmdliner
+    ppx_sexp_conv
+    ppx_deriving
+    tree-sitter
   ];
 }
