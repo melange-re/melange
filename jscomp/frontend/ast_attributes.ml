@@ -355,6 +355,8 @@ let bs_get_arity : attr =
 
 let bs_set : attr
   =  { attr_name = {txt = "bs.set"; loc = locg}; attr_payload = Ast_payload.empty; attr_loc = locg }
+let internal_expansive : attr
+  =  { attr_name = {txt = "internal.expansive"; loc = locg}; attr_payload = Ast_payload.empty; attr_loc = locg}
 
 let bs_return_undefined : attr =
   { attr_name = {txt = "bs.return"; loc = locg };
