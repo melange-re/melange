@@ -210,8 +210,7 @@ let signature_item_mapper (self : mapper) (sigi : Parsetree.signature_item) =
 
         ->
         let pval_attributes = self.attributes self pval_attributes in
-        if pval_prim <> [] && (*  It is external *)
-          Ast_attributes.external_needs_to_be_encoded pval_attributes then
+        if Ast_attributes.rs_externals pval_attributes pval_prim then
           Ast_external.handleExternalInSig self value_desc sigi
         else
           (match
@@ -284,7 +283,8 @@ let structure_item_mapper (self : mapper) (str : Parsetree.structure_item) =
           rf,
           tdcls) (* [ {ptype_attributes} as tdcl ] *)->
           Ast_tdcls.handleTdclsInStru self str rf tdcls
-   | Pstr_primitive prim when Ast_attributes.external_needs_to_be_encoded prim.pval_attributes
+   | Pstr_primitive prim
+     when Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim
       ->
       Ast_external.handleExternalInStru self prim str
    | Pstr_value
