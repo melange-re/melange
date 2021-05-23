@@ -110,11 +110,7 @@ function f(param) {
   return Belt_Array.getExn(partial_arg, param);
 }
 
-<<<<<<< HEAD
-b("File \"bs_array_test.ml\", line 30, characters 4-11", Caml_obj.caml_equal([
-=======
-b("File \"bs_array_test.ml\", line 33, characters 4-11", Caml_obj.equal([
->>>>>>> 5dd270c51 (Merge pull request #5147 from rescript-lang/stdlib_tweaks)
+b("File \"bs_array_test.ml\", line 33, characters 4-11", Caml_obj.caml_equal([
           Curry._1(f, 0),
           Curry._1(f, 1)
         ], [
@@ -317,41 +313,25 @@ neq("File \"bs_array_test.ml\", line 80, characters 6-13", u, v$5);
 
 eq("File \"bs_array_test.ml\", line 82, characters 5-12", Belt_Array.reduce(u, 0, add), Belt_Array.reduce(v$5, 0, add));
 
-<<<<<<< HEAD
-b("File \"bs_array_test.ml\", line 84, characters 4-11", Caml_obj.caml_equal(Belt_Array.range(0, 3), [
-=======
-b("File \"bs_array_test.ml\", line 87, characters 4-11", Caml_obj.equal(Belt_Array.range(0, 3), [
->>>>>>> 5dd270c51 (Merge pull request #5147 from rescript-lang/stdlib_tweaks)
+b("File \"bs_array_test.ml\", line 87, characters 4-11", Caml_obj.caml_equal(Belt_Array.range(0, 3), [
           0,
           1,
           2,
           3
         ]));
 
-<<<<<<< HEAD
-b("File \"bs_array_test.ml\", line 85, characters 4-11", Caml_obj.caml_equal(Belt_Array.range(3, 0), []));
+b("File \"bs_array_test.ml\", line 88, characters 4-11", Caml_obj.caml_equal(Belt_Array.range(3, 0), []));
 
-b("File \"bs_array_test.ml\", line 86, characters 4-11", Caml_obj.caml_equal(Belt_Array.range(3, 3), [3]));
+b("File \"bs_array_test.ml\", line 89, characters 4-11", Caml_obj.caml_equal(Belt_Array.range(3, 3), [3]));
 
-b("File \"bs_array_test.ml\", line 88, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(0, 10, 3), [
-=======
-b("File \"bs_array_test.ml\", line 88, characters 4-11", Caml_obj.equal(Belt_Array.range(3, 0), []));
-
-b("File \"bs_array_test.ml\", line 89, characters 4-11", Caml_obj.equal(Belt_Array.range(3, 3), [3]));
-
-b("File \"bs_array_test.ml\", line 91, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(0, 10, 3), [
->>>>>>> 5dd270c51 (Merge pull request #5147 from rescript-lang/stdlib_tweaks)
+b("File \"bs_array_test.ml\", line 91, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(0, 10, 3), [
           0,
           3,
           6,
           9
         ]));
 
-<<<<<<< HEAD
-b("File \"bs_array_test.ml\", line 89, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(0, 12, 3), [
-=======
-b("File \"bs_array_test.ml\", line 92, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(0, 12, 3), [
->>>>>>> 5dd270c51 (Merge pull request #5147 from rescript-lang/stdlib_tweaks)
+b("File \"bs_array_test.ml\", line 92, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(0, 12, 3), [
           0,
           3,
           6,
@@ -359,27 +339,15 @@ b("File \"bs_array_test.ml\", line 92, characters 4-11", Caml_obj.equal(Belt_Arr
           12
         ]));
 
-<<<<<<< HEAD
-b("File \"bs_array_test.ml\", line 90, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(33, 0, 1), []));
+b("File \"bs_array_test.ml\", line 93, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(33, 0, 1), []));
 
-b("File \"bs_array_test.ml\", line 91, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(33, 0, -1), []));
+b("File \"bs_array_test.ml\", line 94, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(33, 0, -1), []));
 
-b("File \"bs_array_test.ml\", line 92, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(3, 12, -1), []));
+b("File \"bs_array_test.ml\", line 95, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(3, 12, -1), []));
 
-b("File \"bs_array_test.ml\", line 93, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(3, 3, 0), []));
+b("File \"bs_array_test.ml\", line 96, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(3, 3, 0), []));
 
-b("File \"bs_array_test.ml\", line 94, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(3, 3, 1), [3]));
-=======
-b("File \"bs_array_test.ml\", line 93, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(33, 0, 1), []));
-
-b("File \"bs_array_test.ml\", line 94, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(33, 0, -1), []));
-
-b("File \"bs_array_test.ml\", line 95, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(3, 12, -1), []));
-
-b("File \"bs_array_test.ml\", line 96, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(3, 3, 0), []));
-
-b("File \"bs_array_test.ml\", line 97, characters 4-11", Caml_obj.equal(Belt_Array.rangeBy(3, 3, 1), [3]));
->>>>>>> 5dd270c51 (Merge pull request #5147 from rescript-lang/stdlib_tweaks)
+b("File \"bs_array_test.ml\", line 97, characters 4-11", Caml_obj.caml_equal(Belt_Array.rangeBy(3, 3, 1), [3]));
 
 eq("File \"bs_array_test.ml\", line 102, characters 5-12", Belt_Array.reduceReverse([], 100, (function (prim0, prim1) {
             return prim0 - prim1 | 0;
@@ -1652,12 +1620,7 @@ exports.eq = eq;
 exports.b = b;
 exports.$$throw = $$throw;
 exports.neq = neq;
-<<<<<<< HEAD
-=======
-exports.A = A;
-exports.L = L;
 exports.push = push;
->>>>>>> 5dd270c51 (Merge pull request #5147 from rescript-lang/stdlib_tweaks)
 exports.add = add;
 exports.addone = addone;
 exports.makeMatrixExn = makeMatrixExn;
