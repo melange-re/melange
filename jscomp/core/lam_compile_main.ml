@@ -285,22 +285,28 @@ let lambda_as_module
     (lambda_output : J.deps_program)
     (output_prefix : string)
   : unit =
+  let write_to_file module_system file  =
+    Ext_pervasives.with_file_as_chan file (fun chan -> 
+    Js_dump_program.dump_deps_program ~output_prefix
+      module_system
+      lambda_output
+      chan) in
+  let make_basename suffix =
+    Ext_namespace.change_ext_ns_suffix
+      (Filename.basename output_prefix)
+      (Ext_js_suffix.to_string suffix) in
   let package_info = Js_packages_state.get_packages_info () in
-  if Js_packages_info.is_empty package_info && !Js_config.js_stdout then begin
+  let has_packages = Js_packages_info.is_empty package_info in
+  match (has_packages, !Js_config.js_stdout, !Clflags.output_name) with
+  | (true, true, None) -> 
     Js_dump_program.dump_deps_program ~output_prefix NodeJS lambda_output stdout
-  end else
+  | (true, _, Some _) ->
+    (* TODO: try this on windows *)
+    let basename = make_basename Js in
+    write_to_file NodeJS basename
+  |  _ ->
     Js_packages_info.iter package_info (fun {module_system; path; suffix} ->
-        let output_chan chan  =
-          Js_dump_program.dump_deps_program ~output_prefix
-            module_system
-            lambda_output
-            chan in
-        let basename =
-          Ext_namespace.change_ext_ns_suffix
-            (Filename.basename
-               output_prefix)
-            (Ext_js_suffix.to_string  suffix)
-        in
+        let basename = make_basename suffix in
         let target_file =
           (Lazy.force Ext_path.package_dir //
            path //
@@ -308,8 +314,7 @@ let lambda_as_module
            (* #913 only generate little-case js file *)
           ) in
         (if not !Clflags.dont_write_files then
-           Ext_pervasives.with_file_as_chan
-             target_file output_chan );
+          write_to_file module_system target_file );
         if !Warnings.has_warnings  then begin
           Warnings.has_warnings := false ;
           if Sys.file_exists target_file then begin
