@@ -296,8 +296,8 @@ let lambda_as_module
       (Filename.basename output_prefix)
       (Ext_js_suffix.to_string suffix) in
   let package_info = Js_packages_state.get_packages_info () in
-  let has_packages = Js_packages_info.is_empty package_info in
-  match (has_packages, !Js_config.js_stdout, !Clflags.output_name) with
+  let are_packages_empty = Js_packages_info.is_empty package_info in
+  match (are_packages_empty, !Js_config.js_stdout, !Clflags.output_name) with
   | (true, true, None) -> 
     Js_dump_program.dump_deps_program ~output_prefix NodeJS lambda_output stdout
   | (true, _, Some _) ->
