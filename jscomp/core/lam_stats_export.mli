@@ -35,5 +35,6 @@ val export_to_cmj :
   Js_cmj_format.effect ->
   Lam.t Map_ident.t ->
   Ext_js_file_kind.case ->
+  (* FIXME: this is a leaky abstraction *)
+  delayed_program:J.deps_program ->
   Js_cmj_format.t
-
