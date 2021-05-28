@@ -212,12 +212,15 @@ let implementation_mlast ppf fname  setup =
   Binary_ast.read_ast_exn ~fname Ml  setup
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf  (Config_util.output_prefix fname )
+  |> after_parsing_impl ppf (Config_util.output_prefix fname )
 
-
-
-
-
+let implementation_cmj _ppf fname =
+  (* this is needed because the path is used to find other modules path *)
+  Res_compmisc.init_path ();
+  let cmj = Js_cmj_format.from_file fname in
+  Lam_compile_main.lambda_as_module
+    cmj.delayed_program
+    (Config_util.output_prefix fname )
 
 
 let make_structure_item ~ns cunit : Parsetree.structure_item =

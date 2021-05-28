@@ -72,5 +72,8 @@ val implementation_mlast :
   ([`ml | `rescript | `reason ]  -> unit) ->
   unit
 
+val implementation_cmj : Format.formatter -> string -> unit
+(** [implementation_cmj ppf cmj_file] compiles a cmj to JS *)
+
 val implementation_map : 
   Format.formatter -> string ->  unit

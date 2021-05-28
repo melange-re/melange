@@ -104,6 +104,8 @@ let process_file sourcefile
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
     Printtyp.signature Format.std_formatter cmi_sign ;
     Format.pp_print_newline Format.std_formatter ()
+  | Cmj ->
+    Js_implementation.implementation_cmj ppf sourcefile
   | Unknown ->
     Bsc_args.bad_arg ("don't know what to do with " ^ sourcefile)
 let usage = "Usage: bsc <options> <files>\nOptions are:"
