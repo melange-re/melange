@@ -533,6 +533,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-make-runtime-test", unit_call Js_packages_state.make_runtime_test,
     "*internal* make runtime test library";
 
+    "-bs-stop-after-cmj", set Js_config.cmj_only,
+    "Stop after generating the cmj"
   |]
 
 
