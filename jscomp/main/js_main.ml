@@ -55,18 +55,16 @@ let process_file sourcefile
   match kind with
   | Re ->
     let sourcefile = set_abs_input_name  sourcefile in
-    let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.implementation
       ~parser:Ast_reason_pp.RE.parse_implementation
-      ppf sourcefile ~outputprefix
+      ppf sourcefile
   | Rei ->
     let sourcefile = set_abs_input_name  sourcefile in
-    let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.interface
       ~parser:Ast_reason_pp.RE.parse_interface
-      ppf sourcefile ~outputprefix
+      ppf sourcefile
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
