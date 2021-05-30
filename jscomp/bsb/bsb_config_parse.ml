@@ -322,7 +322,12 @@ let rec interpret_json
     in
     let bs_dev_dependencies =
       match package_kind with
-      | Toplevel
+      | Toplevel ->
+        extract_dependencies
+          ~package_kind:(Dependency package_specs)
+          map
+          per_proj_dir
+          Bsb_build_schemas.bs_dev_dependencies
       | Dependency _ -> [] in
 
     begin match map.?(Bsb_build_schemas.sources) with

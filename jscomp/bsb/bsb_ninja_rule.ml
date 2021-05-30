@@ -37,30 +37,25 @@ end
 
 type t = {
   rule_name : string;
-  name : Buffer.t -> ?target:string -> string -> unit
+  name :
+    Buffer.t ->
+    ?error_syntax_kind:Bsb_db.syntax_kind ->
+    ?target:string -> 
+    string ->
+    unit
 }
 
-let output_rule (x : t) buf ?target cur_dir =
- let _name = x.name buf ?target cur_dir in
+let output_rule (x : t) buf ?error_syntax_kind ?target cur_dir =
+ let _name = x.name buf ?error_syntax_kind ?target cur_dir in
  ()
 
-let get_name (x : t) ?target cur_dir buf = x.name buf ?target cur_dir
-
-
 (** allocate an unique name for such rule*)
-let define ~command rule_name : t
-  =
-
+let define ~command rule_name : t =
   let self = {
     rule_name ;
-    name = fun buf ?target cur_dir ->
-         command buf ?target cur_dir
+    name = command
   } in
-
   self
-
-
-
 
 type command = string
 
@@ -110,7 +105,11 @@ let make_custom_rules
   let mk_ml_cmj_cmd
       ~(read_cmi : [`yes | `is_cmi | `no])
       ~is_dev
-      ~postbuild : Buffer.t -> ?target:string -> string -> unit = fun buf ?(target="%{targets}") cur_dir ->
+      ~postbuild
+      buf
+      ?error_syntax_kind
+      ?(target="%{targets}")
+      cur_dir =
     let rel_incls ?namespace dirs =
       Bsb_build_util.rel_include_dirs
         ~per_proj_dir:global_config.per_proj_dir
@@ -141,6 +140,8 @@ let make_custom_rules
         Buffer.add_string buf " ";
         Buffer.add_string buf dev_incls;
     end;
+    if error_syntax_kind = Some Bsb_db.Reason then
+      Buffer.add_string buf " -bs-re-out";
     Buffer.add_string buf " ";
     Buffer.add_string buf (rel_incls global_config.g_sourcedirs_incls);
     Buffer.add_string buf " ";
@@ -155,7 +156,7 @@ let make_custom_rules
     Buffer.add_string buf global_config.warnings;
     if read_cmi <> `is_cmi then begin
       Buffer.add_string buf " -bs-package-name ";
-      Buffer.add_string buf global_config.package_name;
+      Buffer.add_string buf (Ext_filename.maybe_quote global_config.package_name);
       Buffer.add_string buf
         (Bsb_package_specs.package_flag_of_package_specs package_specs ~dirname:cur_dir)
     end;
@@ -176,7 +177,7 @@ let make_custom_rules
       Buffer.add_string buf " $out_last"
     end ;
   in
-  let mk_ast buf ?target:_ cur_dir : unit =
+  let mk_ast buf ?error_syntax_kind:_ ?target:_ cur_dir : unit =
     let rel_proj_dir = Ext_path.rel_normalized_absolute_path
       ~from:(global_config.per_proj_dir // cur_dir)
       global_config.per_proj_dir
@@ -211,9 +212,9 @@ let make_custom_rules
       ~command:mk_ast
       "ast" in
 
-  let aux ~name ~read_cmi  ~postbuild =
-    define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:false ~postbuild) name,
-    define ~command:(mk_ml_cmj_cmd ~read_cmi  ~is_dev:true ~postbuild) (name ^ "_dev")
+  let aux ~name ~read_cmi ~postbuild =
+    define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:false ~postbuild) name,
+    define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild) (name ^ "_dev")
   in
 
   let mj, mj_dev =
@@ -228,7 +229,7 @@ let make_custom_rules
       ~name:"mi" in
   let build_package =
     define
-      ~command:(fun buf ?target:_ _cur_dir ->
+      ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
          let s = global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}" in
         Buffer.add_string buf "(action (run ";
         Buffer.add_string buf s;
@@ -248,7 +249,7 @@ let make_custom_rules
     build_package ;
     customs =
       Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun buf ?target:_ _cur_dir ->
+        define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
           let actual_command =
             Str.global_substitute Generators.regexp (fun match_ ->
               match Generators.(maybe_match ~group:1 match_, maybe_match ~group:2 match_) with
