@@ -309,7 +309,8 @@ let lambda_as_module
   | (true, _, Some _) ->
     (* TODO: try this on windows *)
     let basename = make_basename Js in
-    write_to_file NodeJS basename
+    let target_file = (Filename.dirname output_prefix) // basename in
+    write_to_file NodeJS target_file
   |  _ ->
     Js_packages_info.iter package_info (fun {module_system; path; suffix} ->
         let basename = make_basename suffix in
