@@ -1,5 +1,5 @@
 - Start Date: 2021-05-31
-- RFC PR: tbd
+- RFC PR: https://github.com/melange-re/melange/pull/200
 
 # Summary
 
@@ -10,14 +10,14 @@ it is currently possible with any other OCaml project.
 
 Dune would allow to use Melange as another cross-compiler, e.g.
 
-```
+```dune
 (context (default (targets (melange))))
 ```
 
 Then, users would be able to define `library` and `executable` stanzas that
 would be built by calling Melange binary `ocamlc`. To define the output format
 and extension, a new stanza `melange` would be supported in `dune` files:
-```
+```dune
 (executable
     (name foo)
     (modes melange)
@@ -57,7 +57,7 @@ files from source files, then generate `.js` files from `.cmo` files (see
 Changes required in Dune:
 
 - add a new mode `melange` to `executable` stanza, e.g.
-```
+```dune
 (executable (name foo) (modes melange))
 ```
 - when building under `melange` mode, generate `cma` targets as directories with
@@ -68,7 +68,7 @@ artifacts inside (same way as it's done with `cmxa`)
 `cmo` files (see "`js.` targets" section below)
 - add an option, maybe as part of new stanza `melange`, to define which
 JavaScript module format will be used (`es6` or `commonjs`), e.g.:
-```
+```dune
 (executable
     (name foo)
     (modes melange)
@@ -77,7 +77,7 @@ JavaScript module format will be used (`es6` or `commonjs`), e.g.:
 ```
 - add an option to choose which suffix will be added to JavaScript files
 (`.bs.js` is the default), e.g.:
-```
+```dune
 (executable
     (name foo)
     (modes melange)
@@ -97,9 +97,10 @@ invariants, that require all targets of a single rule
 [to be placed in same directory](https://github.com/ocaml/dune/blob/0490fd413b81cca473ef5e4fb0a6c876e000e953/src/dune_engine/rule.ml#L96-L110).
 
 After [some recent changes](https://github.com/melange-re/melange/pull/199),
-@EduardoRFS unlocked the possibility to generate `js` files from `cmo` files,
-which allows to define `cmo` and `js` artifacts with separate Dune rules. This
-allows to generate just `cmo` files first:
+[@EduardoRFS](https://github.com/EduardoRFS) unlocked the possibility to
+generate `js` files from `cmo` files, which allows to define `cmo` and `js`
+artifacts with separate Dune rules. This allows to generate just `cmo` files
+first:
 
 ```bash
 ocamlc -o output.cmo -bs-stop-after-cmo -impl output.ml
