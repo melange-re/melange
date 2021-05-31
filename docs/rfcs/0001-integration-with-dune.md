@@ -143,7 +143,7 @@ It similarly adds more maintenance costs to Melange, which would need to support
 both `bsconfig.json` workflow, as well as `dune` workflow.
 
 Finally, internal changes in Melange implementation to support Dune might make
-harder to incorporate upstream ReScript changes to Melange.
+harder to incorporate build system changes from ReScript in Melange.
 
 # Alternatives
 
