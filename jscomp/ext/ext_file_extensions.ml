@@ -14,6 +14,7 @@ type valid_input =
   | Impl_ast
   | Mlmap
   | Cmi
+  | Cmj
   | Unknown
 
 
@@ -45,4 +46,6 @@ let classify_input ext =
     Res
   | _ when ext = Literals.suffix_resi ->
     Resi
+  | _ when ext =  Literals.suffix_cmj ->
+    Cmj
   | _ -> Unknown

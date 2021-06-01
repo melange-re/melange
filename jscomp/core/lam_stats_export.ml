@@ -144,12 +144,7 @@ let get_dependent_module_effect
    ]}
    TODO: check that we don't do this in browser environment
 *)
-let export_to_cmj
-    (meta : Lam_stats.t )
-    effect
-    export_map
-    case
-  : Js_cmj_format.t =
+let export_to_cmj meta effect export_map case =
   let values =  values_of_export meta export_map in
 
   Js_cmj_format.make

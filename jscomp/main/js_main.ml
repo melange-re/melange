@@ -55,18 +55,16 @@ let process_file sourcefile
   match kind with
   | Re ->
     let sourcefile = set_abs_input_name  sourcefile in
-    let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.implementation
       ~parser:Ast_reason_pp.RE.parse_implementation
-      ppf sourcefile ~outputprefix
+      ppf sourcefile
   | Rei ->
     let sourcefile = set_abs_input_name  sourcefile in
-    let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.interface
       ~parser:Ast_reason_pp.RE.parse_interface
-      ppf sourcefile ~outputprefix
+      ppf sourcefile
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
@@ -106,6 +104,8 @@ let process_file sourcefile
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
     Printtyp.signature Format.std_formatter cmi_sign ;
     Format.pp_print_newline Format.std_formatter ()
+  | Cmj ->
+    Js_implementation.implementation_cmj ppf sourcefile
   | Unknown ->
     Bsc_args.bad_arg ("don't know what to do with " ^ sourcefile)
 let usage = "Usage: bsc <options> <files>\nOptions are:"
@@ -533,6 +533,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-make-runtime-test", unit_call Js_packages_state.make_runtime_test,
     "*internal* make runtime test library";
 
+    "-bs-stop-after-cmj", set Js_config.cmj_only,
+    "Stop after generating the cmj"
   |]
 
 

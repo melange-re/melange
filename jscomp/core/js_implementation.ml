@@ -101,11 +101,7 @@ let after_parsing_sig ppf  outputprefix ast  =
 
 
 
-let interface ~parser ppf ?outputprefix fname  =
-  let outputprefix =
-    match outputprefix with
-    | None -> Config_util.output_prefix fname
-    | Some x -> x in
+let interface ~parser ppf fname  =
   Res_compmisc.init_path ();
   parser fname
   |> Ast_deriving_compat.signature
@@ -113,14 +109,14 @@ let interface ~parser ppf ?outputprefix fname  =
   |> Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf  outputprefix
+  |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
 let interface_mliast ppf fname  setup =
   Res_compmisc.init_path ();
   Binary_ast.read_ast_exn ~fname Mli  setup
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf  (Config_util.output_prefix fname)
+  |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
 let all_module_alias (ast : Parsetree.structure)=
   Ext_list.for_all ast (fun {pstr_desc} ->
@@ -200,11 +196,7 @@ let after_parsing_impl ppf  outputprefix (ast : Parsetree.structure) =
       end;
       process_with_gentype (outputprefix ^ ".cmt")
     end
-let implementation ~parser ppf ?outputprefix fname   =
-  let outputprefix =
-      match outputprefix with
-      | None -> Config_util.output_prefix fname
-      | Some x -> x in
+let implementation ~parser ppf fname   =
   Res_compmisc.init_path ();
   parser fname
   |> Ast_deriving_compat.structure
@@ -212,7 +204,7 @@ let implementation ~parser ppf ?outputprefix fname   =
   |> Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf outputprefix
+  |> after_parsing_impl ppf (Config_util.output_prefix fname )
 
 let implementation_mlast ppf fname  setup =
 
@@ -220,12 +212,15 @@ let implementation_mlast ppf fname  setup =
   Binary_ast.read_ast_exn ~fname Ml  setup
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf  (Config_util.output_prefix fname )
+  |> after_parsing_impl ppf (Config_util.output_prefix fname )
 
-
-
-
-
+let implementation_cmj _ppf fname =
+  (* this is needed because the path is used to find other modules path *)
+  Res_compmisc.init_path ();
+  let cmj = Js_cmj_format.from_file fname in
+  Lam_compile_main.lambda_as_module
+    cmj.delayed_program
+    (Config_util.output_prefix fname )
 
 
 let make_structure_item ~ns cunit : Parsetree.structure_item =
