@@ -30,6 +30,9 @@
         "$cur__root/fix-install.sh"
       ]
     ],
+    "buildEnv": {
+      "CAML_LD_LIBRARY_PATH": "#{self.target_dir / 'default' / 'jscomp' / 'stubs' : $CAML_LD_LIBRARY_PATH }"
+    },
     "exportedEnv": {
       "BSLIB": {
         "val": "#{self.lib / 'melange'}",

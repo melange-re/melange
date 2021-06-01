@@ -1,7 +1,7 @@
 (executable
  (name js_main)
  (public_name bsc)
- (modes native)
+ (modes byte native)
  (flags :standard -open Melange_compiler_libs)
  (libraries
   js_parser
