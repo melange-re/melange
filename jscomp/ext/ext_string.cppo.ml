@@ -504,4 +504,9 @@ let get_1_2_3_4 (x : string) ~off len : int =
 let unsafe_sub  x offs len =
   let b = Bytes.create len in
   Ext_bytes.unsafe_blit_string x offs b 0 len;
-  (Bytes.unsafe_to_string b);
+  (Bytes.unsafe_to_string b)
+
+let fold_left f initial x =
+  let acc = ref initial in
+  String.iter (fun c -> acc := f !acc c) x;
+  !acc

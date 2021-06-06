@@ -212,3 +212,5 @@ val unsafe_sub :
   int ->
   int ->
   string
+
+val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a
