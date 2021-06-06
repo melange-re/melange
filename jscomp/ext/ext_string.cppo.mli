@@ -220,3 +220,5 @@ val first_marshal_char:
 val is_valid_hash_number: string -> bool
 
 val hash_number_as_i32_exn: string -> int32
+
+val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a
