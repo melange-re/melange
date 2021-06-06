@@ -36,28 +36,38 @@ end
 
 let indent_length = String.length L.indent_str
 
+type kind = | Channel of out_channel | Buffer of Buffer.t
 type t = {
-  output_string : string -> unit;
-  output_char : char -> unit;
-  flush : unit -> unit;
-  mutable indent_level : int;
-  mutable last_new_line : bool;
-  (* only when we print newline, we print the indent *)
-}
+    kind : kind;
+    mutable indent_level : int;
+    mutable last_new_line : bool;
+    (* only when we print newline, we print the indent *)
+  }
+
+let output_string t s =
+  match t.kind with
+  | Channel chan -> output_string chan s
+  | Buffer buf -> Buffer.add_string buf s
+
+let output_char t c =
+  match t.kind with
+  | Channel chan -> output_char chan c
+  | Buffer buf -> Buffer.add_char buf c
+
+let flush t =
+  match t.kind with
+  | Channel chan -> flush chan
+  | Buffer _ -> ()
 
 let from_channel chan = {
-  output_string = (fun  s -> output_string chan s);
-  output_char = (fun c -> output_char chan c);
-  flush = (fun _ -> flush chan);
-  indent_level = 0 ;
+  kind = Channel chan;
+  indent_level = 0;
   last_new_line = false;
 }
 
 
 let from_buffer buf = {
-  output_string = (fun s -> Buffer.add_string buf s);
-  output_char = (fun  c -> Buffer.add_char buf c);
-  flush = (fun _ -> ());
+  kind = Buffer buf;
   indent_level = 0;
   last_new_line = false;
 }
@@ -67,23 +77,23 @@ let from_buffer buf = {
    in the future, we can detect this in [s]
 *)
 let string t s =
-  t.output_string  s ;
+  output_string t s;
   t.last_new_line <- false
 
 let newline t =
   if not t.last_new_line then
     begin
-      t.output_char  '\n';
+      output_char t '\n';
       for _ = 0 to t.indent_level - 1 do
-        t.output_string  L.indent_str;
+        output_string t L.indent_str;
       done;
       t.last_new_line <- true
     end
 
 let force_newline t =
-  t.output_char  '\n';
+  output_char t '\n';
   for _ = 0 to t.indent_level - 1 do
-    t.output_string  L.indent_str;
+    output_string t L.indent_str;
   done
 
 let space t  =
@@ -173,4 +183,4 @@ let brace_group st n action =
 (* let indent t n =
   t.indent_level <- t.indent_level + n *)
 
-let flush t () = t.flush ()
+let flush t () = flush t
