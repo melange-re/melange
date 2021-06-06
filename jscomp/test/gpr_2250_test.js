@@ -53,13 +53,13 @@ function create(param) {
     var data = ids[2];
     CamlinternalOO.set_methods($$class, [
           add,
-          (function (self$neg1, param) {
-              self$neg1[data] = self$neg1[data] + 1 | 0;
-              return self$neg1;
+          (function (self$1, param) {
+              self$1[data] = self$1[data] + 1 | 0;
+              return self$1;
             }),
           get,
-          (function (self$neg1, param) {
-              return self$neg1[data];
+          (function (self$1, param) {
+              return self$1[data];
             })
         ]);
     var env_init = function (env$1) {

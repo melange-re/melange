@@ -44,12 +44,12 @@ function a_init($$class) {
   var m1 = ids[1];
   CamlinternalOO.set_methods($$class, [
         m1,
-        (function (self$neg1) {
+        (function (self$1) {
             if (!object_tables$1.key) {
               var $$class = CamlinternalOO.create_table(["m3"]);
               var env = CamlinternalOO.new_variable($$class, "");
               var m3 = CamlinternalOO.get_method_label($$class, "m3");
-              CamlinternalOO.set_method($$class, m3, (function (self$neg2) {
+              CamlinternalOO.set_method($$class, m3, (function (self$2) {
                       return 3;
                     }));
               var env_init = function (env$1) {
@@ -63,13 +63,13 @@ function a_init($$class) {
             return Curry._1(object_tables$1.key, undefined);
           }),
         m2,
-        (function (self$neg1) {
+        (function (self$1) {
             if (!object_tables.key) {
               var $$class = CamlinternalOO.create_table(["m4"]);
               var env = CamlinternalOO.new_variable($$class, "");
               var m4 = CamlinternalOO.get_method_label($$class, "m4");
-              CamlinternalOO.set_method($$class, m4, (function (self$neg3) {
-                      var env$1 = self$neg3[env];
+              CamlinternalOO.set_method($$class, m4, (function (self$3) {
+                      var env$1 = self$3[env];
                       var tmp = env$1[1];
                       return Curry._1(tmp[0][env$1[0]], tmp);
                     }));
@@ -83,7 +83,7 @@ function a_init($$class) {
             }
             return Curry._1(object_tables.key, [
                         m1,
-                        self$neg1
+                        self$1
                       ]);
           })
       ]);
@@ -104,7 +104,7 @@ function b_init($$class) {
   var a_text = ids[2];
   var inh = CamlinternalOO.inherits($$class, 0, 0, shared, a, true);
   var obj_init = inh[0];
-  CamlinternalOO.set_method($$class, a_text, (function (self$neg4, param) {
+  CamlinternalOO.set_method($$class, a_text, (function (self$4, param) {
           
         }));
   return function (env, self) {

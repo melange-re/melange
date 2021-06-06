@@ -61,17 +61,17 @@ function printable_point_init($$class) {
   var x = ids[4];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg1) {
-            return self$neg1[x];
+        (function (self$1) {
+            return self$1[x];
           }),
         move,
-        (function (self$neg1, d) {
-            self$neg1[x] = self$neg1[x] + d | 0;
+        (function (self$1, d) {
+            self$1[x] = self$1[x] + d | 0;
             
           }),
         print,
-        (function (self$neg1) {
-            return String(Curry._1(self$neg1[0][get_x], self$neg1));
+        (function (self$1) {
+            return String(Curry._1(self$1[0][get_x], self$1));
           })
       ]);
   return function (env, self, x_init$1) {
@@ -101,8 +101,8 @@ function printable_colored_point_init($$class) {
   var print = ids[0];
   var color = ids[3];
   var c$1 = ids[5];
-  CamlinternalOO.set_method($$class, color, (function (self$neg2) {
-          return self$neg2[c$1];
+  CamlinternalOO.set_method($$class, color, (function (self$2) {
+          return self$2[c$1];
         }));
   var inh = CamlinternalOO.inherits($$class, shared$2, 0, [
         "get_x",
@@ -111,8 +111,8 @@ function printable_colored_point_init($$class) {
       ], printable_point, true);
   var obj_init = inh[0];
   var print$1 = inh[4];
-  CamlinternalOO.set_method($$class, print, (function (self$neg2) {
-          return "(" + (Curry._1(print$1, self$neg2) + (", " + (Curry._1(self$neg2[0][color], self$neg2) + ")")));
+  CamlinternalOO.set_method($$class, print, (function (self$2) {
+          return "(" + (Curry._1(print$1, self$2) + (", " + (Curry._1(self$2[0][color], self$2) + ")")));
         }));
   return function (env, self, y$1, c$2) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -147,12 +147,12 @@ function ref_init($$class) {
   var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get,
-        (function (self$neg3) {
-            return self$neg3[x];
+        (function (self$3) {
+            return self$3[x];
           }),
         set,
-        (function (self$neg3, y) {
-            self$neg3[x] = y;
+        (function (self$3, y) {
+            self$3[x] = y;
             
           })
       ]);
@@ -184,12 +184,12 @@ function intlist_init($$class) {
   var empty = ids[1];
   CamlinternalOO.set_methods($$class, [
         empty,
-        (function (self$neg4) {
-            return Caml_obj.caml_equal(self$neg4[l], /* [] */0);
+        (function (self$4) {
+            return Caml_obj.caml_equal(self$4[l], /* [] */0);
           }),
         fold,
-        (function (self$neg4, f, accu) {
-            return List.fold_left(f, accu, self$neg4[l]);
+        (function (self$4, f, accu) {
+            return List.fold_left(f, accu, self$4[l]);
           })
       ]);
   return function (env, self, l$1) {
@@ -223,12 +223,12 @@ function intlist2_init($$class) {
   var empty = ids[1];
   CamlinternalOO.set_methods($$class, [
         empty,
-        (function (self$neg5) {
-            return Caml_obj.caml_equal(self$neg5[l], /* [] */0);
+        (function (self$5) {
+            return Caml_obj.caml_equal(self$5[l], /* [] */0);
           }),
         fold,
-        (function (self$neg5, f, accu) {
-            return List.fold_left(f, accu, self$neg5[l]);
+        (function (self$5, f, accu) {
+            return List.fold_left(f, accu, self$5[l]);
           })
       ]);
   return function (env, self, l$1) {
@@ -275,12 +275,12 @@ function point_init($$class) {
   var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg6) {
-            return self$neg6[x];
+        (function (self$6) {
+            return self$6[x];
           }),
         move,
-        (function (self$neg6, d) {
-            self$neg6[x] = self$neg6[x] + d | 0;
+        (function (self$6, d) {
+            self$6[x] = self$6[x] + d | 0;
             
           })
       ]);
@@ -312,8 +312,8 @@ function distance_point_init($$class) {
       ], point, true);
   var obj_init = inh[0];
   var x$1 = inh[1];
-  CamlinternalOO.set_method($$class, distance, (function (self$neg7, other) {
-          return Stdlib__no_aliases.abs(Caml_oo_curry.js1(291546447, 7, other) - self$neg7[x$1] | 0);
+  CamlinternalOO.set_method($$class, distance, (function (self$7, other) {
+          return Stdlib__no_aliases.abs(Caml_oo_curry.js1(291546447, 7, other) - self$7[x$1] | 0);
         }));
   return function (env, self, x$2) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);

@@ -59,17 +59,17 @@ function restricted_point_init($$class) {
   var x = ids[4];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg1) {
-            return self$neg1[x];
+        (function (self$1) {
+            return self$1[x];
           }),
         move,
-        (function (self$neg1, d) {
-            self$neg1[x] = self$neg1[x] + d | 0;
+        (function (self$1, d) {
+            self$1[x] = self$1[x] + d | 0;
             
           }),
         bump,
-        (function (self$neg1) {
-            return Curry._2(self$neg1[0][move], self$neg1, 1);
+        (function (self$1) {
+            return Curry._2(self$1[0][move], self$1, 1);
           })
       ]);
   return function (env, self, x_init$1) {
@@ -111,8 +111,8 @@ function abstract_point_1($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, shared$1);
   var get_x = ids[1];
   var get_offset = ids[2];
-  CamlinternalOO.set_method($$class, get_offset, (function (self$neg5) {
-          return Curry._1(self$neg5[0][get_x], self$neg5) - self$neg5[x_init] | 0;
+  CamlinternalOO.set_method($$class, get_offset, (function (self$5) {
+          return Curry._1(self$5[0][get_x], self$5) - self$5[x_init] | 0;
         }));
   return function (env, self, x_init$1) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -141,12 +141,12 @@ function point_init($$class) {
   var obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg6) {
-            return self$neg6[x];
+        (function (self$6) {
+            return self$6[x];
           }),
         move,
-        (function (self$neg6, d) {
-            self$neg6[x] = self$neg6[x] + d | 0;
+        (function (self$6, d) {
+            self$6[x] = self$6[x] + d | 0;
             
           })
       ]);
@@ -183,8 +183,8 @@ function colored_point_init($$class) {
         "move"
       ], point, true);
   var obj_init = inh[0];
-  CamlinternalOO.set_method($$class, color, (function (self$neg7) {
-          return self$neg7[c$1];
+  CamlinternalOO.set_method($$class, color, (function (self$7) {
+          return self$7[c$1];
         }));
   return function (env, self, x$1, c$2) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);

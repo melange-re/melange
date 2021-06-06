@@ -15,12 +15,12 @@ function point_init($$class) {
   var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg1) {
-            return self$neg1[x];
+        (function (self$1) {
+            return self$1[x];
           }),
         move,
-        (function (self$neg1, d) {
-            self$neg1[x] = self$neg1[x] + d | 0;
+        (function (self$1, d) {
+            self$1[x] = self$1[x] + d | 0;
             
           })
       ]);

@@ -25,12 +25,12 @@ var hello = ids[1];
 
 CamlinternalOO.set_methods($$class, [
       hi,
-      (function (self$neg1, x, y) {
+      (function (self$1, x, y) {
           return x + y | 0;
         }),
       hello,
-      (function (self$neg1, z) {
-          return Curry._3(self$neg1[0][hi], self$neg1, 10, z);
+      (function (self$1, z) {
+          return Curry._3(self$1[0][hi], self$1, 10, z);
         })
     ]);
 
@@ -54,11 +54,11 @@ var x = ids$1[1];
 
 CamlinternalOO.set_methods($$class$1, [
       x,
-      (function (self$neg2) {
+      (function (self$2) {
           return 3;
         }),
       y,
-      (function (self$neg2) {
+      (function (self$2) {
           return 32;
         })
     ]);
@@ -91,19 +91,19 @@ var hello$1 = ids$2[3];
 
 CamlinternalOO.set_methods($$class$2, [
       hi$1,
-      (function (self$neg3, v, z) {
+      (function (self$3, v, z) {
           return v + z | 0;
         }),
       id1,
-      (function (self$neg3) {
+      (function (self$3) {
           return 3;
         }),
       id2,
-      (function (self$neg3) {
+      (function (self$3) {
           return 4;
         }),
       hello$1,
-      (function (self$neg3, v) {
+      (function (self$3, v) {
           return v;
         })
     ]);
@@ -116,7 +116,7 @@ var $$class$3 = CamlinternalOO.create_table(["id"]);
 
 var id = CamlinternalOO.get_method_label($$class$3, "id");
 
-CamlinternalOO.set_method($$class$3, id, (function (self$neg4) {
+CamlinternalOO.set_method($$class$3, id, (function (self$4) {
         return "uu";
       }));
 
@@ -128,7 +128,7 @@ var $$class$4 = CamlinternalOO.create_table(["add"]);
 
 var add = CamlinternalOO.get_method_label($$class$4, "add");
 
-CamlinternalOO.set_method($$class$4, add, (function (self$neg5, x, y) {
+CamlinternalOO.set_method($$class$4, add, (function (self$5, x, y) {
         return x + y | 0;
       }));
 
@@ -146,12 +146,12 @@ var add$1 = ids$3[1];
 
 CamlinternalOO.set_methods($$class$5, [
       add$1,
-      (function (self$neg6, x, y) {
+      (function (self$6, x, y) {
           return x + y | 0;
         }),
       hi$2,
-      (function (self$neg6, x) {
-          return Curry._3(self$neg6[0][add$1], self$neg6, x, 32);
+      (function (self$6, x) {
+          return Curry._3(self$6[0][add$1], self$6, x, 32);
         })
     ]);
 

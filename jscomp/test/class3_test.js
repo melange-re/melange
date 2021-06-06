@@ -104,12 +104,12 @@ function point_init($$class) {
   var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg1) {
-            return self$neg1[x];
+        (function (self$1) {
+            return self$1[x];
           }),
         move,
-        (function (self$neg1, d) {
-            self$neg1[x] = self$neg1[x] + d | 0;
+        (function (self$1, d) {
+            self$1[x] = self$1[x] + d | 0;
             
           })
       ]);
@@ -137,16 +137,16 @@ function adjusted_point_init($$class) {
   var x = ids[4];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg2) {
-            return self$neg2[x];
+        (function (self$2) {
+            return self$2[x];
           }),
         get_offset,
-        (function (self$neg2) {
-            return self$neg2[x] - self$neg2[origin] | 0;
+        (function (self$2) {
+            return self$2[x] - self$2[origin] | 0;
           }),
         move,
-        (function (self$neg2, d) {
-            self$neg2[x] = self$neg2[x] + d | 0;
+        (function (self$2, d) {
+            self$2[x] = self$2[x] + d | 0;
             
           })
       ]);
@@ -210,17 +210,17 @@ function printable_point_init($$class) {
   var x = ids[4];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg4) {
-            return self$neg4[x];
+        (function (self$4) {
+            return self$4[x];
           }),
         move,
-        (function (self$neg4, d) {
-            self$neg4[x] = self$neg4[x] + d | 0;
+        (function (self$4, d) {
+            self$4[x] = self$4[x] + d | 0;
             
           }),
         print,
-        (function (self$neg4) {
-            return Curry._1(self$neg4[0][get_x], self$neg4);
+        (function (self$4) {
+            return Curry._1(self$4[0][get_x], self$4);
           })
       ]);
   return function (env, self, x_init$1) {
@@ -253,19 +253,19 @@ var len = ids[2];
 
 CamlinternalOO.set_methods($$class, [
       n,
-      (function (self$neg5) {
+      (function (self$5) {
           return 1;
         }),
       register,
-      (function (self$neg5) {
+      (function (self$5) {
           ints.contents = {
-            hd: self$neg5,
+            hd: self$5,
             tl: ints.contents
           };
           
         }),
       len,
-      (function (self$neg5) {
+      (function (self$5) {
           return List.length(ints.contents);
         })
     ]);
@@ -295,22 +295,22 @@ function printable_point2_init($$class) {
   var x = ids[4];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg6) {
-            return self$neg6[x];
+        (function (self$6) {
+            return self$6[x];
           }),
         move,
-        (function (self$neg6, d) {
-            self$neg6[x] = self$neg6[x] + d | 0;
+        (function (self$6, d) {
+            self$6[x] = self$6[x] + d | 0;
             
           }),
         print,
-        (function (self$neg6) {
-            return Stdlib__no_aliases.print_int(Curry._1(self$neg6[0][get_x], self$neg6));
+        (function (self$6) {
+            return Stdlib__no_aliases.print_int(Curry._1(self$6[0][get_x], self$6));
           })
       ]);
-  CamlinternalOO.add_initializer($$class, (function (self$neg6) {
+  CamlinternalOO.add_initializer($$class, (function (self$6) {
           console.log("initializingFile \"class3_test.ml\", line 76, characters 50-57");
-          return Caml_array.set(v, 0, self$neg6[x]);
+          return Caml_array.set(v, 0, self$6[x]);
         }));
   return function (env, self, x_init$1) {
     var origin$1 = Math.imul(x_init$1 / 10 | 0, 10);
@@ -336,8 +336,8 @@ function abstract_point_1($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, shared$4);
   var get_x = ids[1];
   var get_offset = ids[2];
-  CamlinternalOO.set_method($$class, get_offset, (function (self$neg7) {
-          return Curry._1(self$neg7[0][get_x], self$neg7) - self$neg7[x_init] | 0;
+  CamlinternalOO.set_method($$class, get_offset, (function (self$7) {
+          return Curry._1(self$7[0][get_x], self$7) - self$7[x_init] | 0;
         }));
   return function (env, self, x_init$1) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -363,12 +363,12 @@ function vpoint_init($$class) {
   var obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg8) {
-            return self$neg8[x];
+        (function (self$8) {
+            return self$8[x];
           }),
         move,
-        (function (self$neg8, d) {
-            self$neg8[x] = self$neg8[x] + d | 0;
+        (function (self$8, d) {
+            self$8[x] = self$8[x] + d | 0;
             
           })
       ]);
@@ -398,8 +398,8 @@ function abstract_point2_1($$class) {
       ], shared$7);
   var move = ids[0];
   var x = ids[2];
-  CamlinternalOO.set_method($$class, move, (function (self$neg9, d) {
-          self$neg9[x] = self$neg9[x] + d | 0;
+  CamlinternalOO.set_method($$class, move, (function (self$9, d) {
+          self$9[x] = self$9[x] + d | 0;
           
         }));
   return function (env, self) {
@@ -425,8 +425,8 @@ function point2_init($$class) {
   var inh = CamlinternalOO.inherits($$class, shared$7, 0, ["move"], abstract_point2, true);
   var obj_init = inh[0];
   var x = inh[1];
-  CamlinternalOO.set_method($$class, get_offset, (function (self$neg10) {
-          return self$neg10[x] - self$neg10[x_init] | 0;
+  CamlinternalOO.set_method($$class, get_offset, (function (self$10) {
+          return self$10[x] - self$10[x_init] | 0;
         }));
   return function (env, self, x_init$1) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -459,17 +459,17 @@ function restricted_point_init($$class) {
   var x = ids[4];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg11) {
-            return self$neg11[x];
+        (function (self$11) {
+            return self$11[x];
           }),
         move,
-        (function (self$neg11, d) {
-            self$neg11[x] = self$neg11[x] + d | 0;
+        (function (self$11, d) {
+            self$11[x] = self$11[x] + d | 0;
             
           }),
         bump,
-        (function (self$neg11) {
-            return Curry._2(self$neg11[0][move], self$neg11, 1);
+        (function (self$11) {
+            return Curry._2(self$11[0][move], self$11, 1);
           })
       ]);
   return function (env, self, x_init$1) {

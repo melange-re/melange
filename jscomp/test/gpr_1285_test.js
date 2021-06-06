@@ -48,12 +48,12 @@ function step1(param) {
     var $$class = CamlinternalOO.create_table(["step2"]);
     var env = CamlinternalOO.new_variable($$class, "");
     var step2 = CamlinternalOO.get_method_label($$class, "step2");
-    CamlinternalOO.set_method($$class, step2, (function (self$neg1) {
+    CamlinternalOO.set_method($$class, step2, (function (self$1) {
             if (!object_tables$1.key) {
               var $$class = CamlinternalOO.create_table(["step3"]);
               var env = CamlinternalOO.new_variable($$class, "");
               var step3 = CamlinternalOO.get_method_label($$class, "step3");
-              CamlinternalOO.set_method($$class, step3, (function (self$neg2) {
+              CamlinternalOO.set_method($$class, step3, (function (self$2) {
                       return 33;
                     }));
               var env_init = function (env$1) {
