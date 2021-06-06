@@ -125,7 +125,7 @@ let  statement_desc : statement_desc fn  =  fun _self -> function
 |Try ( _x0,_x1,_x2)  -> 
  begin _self.block _self _x0;option ((fun _self (_x0,_x1) -> begin _self.exception_ident _self _x0;_self.block _self _x1 end)) _self _x1;option _self.block _self _x2 end
 |Debugger -> ()   
-let  expression : expression fn  =  fun _self { expression_desc = _x0;comment = _x1} -> begin expression_desc _self _x0 end   
+let  expression : expression fn  =  fun _self { expression_desc = _x0;comment = _x1;loc = _x2} -> begin expression_desc _self _x0 end   
 let  statement : statement fn  =  fun _self { statement_desc = _x0;comment = _x1} -> begin statement_desc _self _x0 end   
 let  variable_declaration : variable_declaration fn  =  fun _self { ident = _x0;value = _x1;property = _x2;ident_info = _x3} -> begin _self.ident _self _x0;option _self.expression _self _x1 end   
 let  block : block fn  =  fun _self arg -> list _self.statement _self arg   
