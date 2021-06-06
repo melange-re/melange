@@ -67,10 +67,11 @@ and apply = private
     ap_info : ap_info;
   }
 and lfunction =  {
-  arity : int ; 
-  params : ident list ;
-  body : t ;
+  arity : int; 
+  params : ident list;
+  body : t;
   attr : function_attribute;
+  loc : Location.t;
 }
 and prim_info = private
   { primitive : Lam_primitive.t ; 
@@ -133,7 +134,8 @@ val function_ :
   attr:function_attribute ->
   arity:int ->
   params:ident list -> 
-  body:t -> t
+  body:t ->
+  loc:Location.t -> t
 
 val let_ : Lam_compat.let_kind -> ident -> t -> t -> t
 val letrec : (ident * t) list -> t -> t

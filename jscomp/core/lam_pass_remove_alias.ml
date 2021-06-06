@@ -224,8 +224,8 @@ let simplify_alias
 
     | Lapply { ap_func = l1; ap_args =  ll;  ap_info; } ->
       Lam.apply (simpl  l1) (Ext_list.map ll simpl) ap_info
-    | Lfunction {arity; params; body; attr}
-      -> Lam.function_ ~arity ~params  ~body:(simpl body) ~attr
+    | Lfunction {arity; params; body; attr; loc}
+      -> Lam.function_ ~arity ~params  ~body:(simpl body) ~attr ~loc
     | Lswitch (l, {sw_failaction; 
                    sw_consts; 
                    sw_blocks;

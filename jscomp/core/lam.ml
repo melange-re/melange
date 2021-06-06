@@ -68,7 +68,8 @@ module Types = struct
     arity : int ;
     params : ident list ;
     body : t;
-    attr : function_attribute
+    attr : function_attribute;
+    loc : Warnings.loc
   }
   (*
     Invariant:
@@ -164,7 +165,8 @@ module X = struct
       arity : int ;
       params : ident list ;
       body : t;
-      attr : function_attribute
+      attr : function_attribute;
+      loc: Location.t
     }
   and t
     = Types.t
@@ -206,9 +208,9 @@ let inner_map
     let ap_func = f ap_func in
     let ap_args = Ext_list.map ap_args f in
     Lapply { ap_func ; ap_args; ap_info }
-  | Lfunction({body; arity;  params ; attr } ) ->
+  | Lfunction({body; arity;  params ; attr; loc } ) ->
     let body = f body in
-    Lfunction {body; arity;  params; attr}
+    Lfunction {body; arity;  params; attr; loc}
   | Llet(str, id, arg, body) ->
     let arg = f arg in let body =  f body in
     Llet(str,id,arg,body)
@@ -470,8 +472,8 @@ let rec seq (a : t) b : t =
 let var id : t = Lvar id
 let global_module id = Lglobal_module id
 let const ct : t = Lconst ct
-let function_ ~attr ~arity  ~params ~body : t =
-  Lfunction { arity;  params ; body; attr}
+let function_ ~attr ~arity  ~params ~body ~loc : t =
+  Lfunction { arity;  params ; body; attr; loc}
 
 let let_ kind id e body :  t
   = Llet (kind,id,e,body)

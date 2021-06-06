@@ -304,7 +304,7 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
           [ Lam.const Const_js_false ;
             (* FIXME: arity 0 does not get proper supported*)
             prim ~primitive:(Pjs_fn_make 0) ~args:[Lam.function_ ~arity:1 ~params:[Ident.create_local "param"] ~body:computation
-            ~attr:Lam.default_fn_attr]
+            ~attr:Lam.default_fn_attr ~loc]
             loc
           ] in
         prim ~primitive:(Pmakeblock (tag,lazy_block_info,Mutable)) ~args loc
@@ -741,9 +741,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
       ->
           (** we need do this eargly in case [aux fn] add some wrapper *)
           Lam.apply (convert_aux fn) (Ext_list.map args convert_aux ) {ap_loc = Debuginfo.Scoped_location.to_location loc; ap_inlined = (convert_inline_attr ap_inlined); ap_status =  App_na}
-    | Lfunction
-    {kind; params; body ; attr }
-      ->
+    | Lfunction {kind; params; body ; attr; loc } ->
       assert (kind = Curried);
       let just_params = List.map fst params in
       let new_map,body = rename_optional_parameters Map_ident.empty just_params body in
@@ -752,12 +750,13 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
         Lam.function_ ~attr
           ~arity:(List.length params)  ~params:just_params
           ~body:(convert_aux body)
+          ~loc:(Debuginfo.Scoped_location.to_location loc)
       else
         let params = Ext_list.map just_params (fun x -> Map_ident.find_default new_map x x) in
         Lam.function_ ~attr
           ~arity:(List.length params)  ~params
           ~body:(convert_aux body)
-
+          ~loc:(Debuginfo.Scoped_location.to_location loc)
     | Llet
       (kind,_value_kind, id,e,body) (*FIXME*)
       -> convert_let kind id e body
