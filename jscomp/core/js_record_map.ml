@@ -152,7 +152,7 @@ let _x2 = option _self.block _self _x2 in  String_switch ( _x0,_x1,_x2)  end
 let _x1 = option ((fun _self (_x0,_x1) -> begin let _x0 = _self.exception_ident _self _x0 in  let _x1 = _self.block _self _x1 in  (_x0,_x1) end)) _self _x1 in 
 let _x2 = option _self.block _self _x2 in  Try ( _x0,_x1,_x2)  end
 |Debugger as v -> v 
- let expression : expression fn  = fun _self { expression_desc = _x0;comment = _x1} -> begin let _x0 = expression_desc _self _x0 in  {expression_desc = _x0;comment = _x1} end 
+ let expression : expression fn  = fun _self { expression_desc = _x0;comment = _x1;loc = _x2} -> begin let _x0 = expression_desc _self _x0 in  {expression_desc = _x0;comment = _x1;loc = _x2} end 
  let statement : statement fn  = fun _self { statement_desc = _x0;comment = _x1} -> begin let _x0 = statement_desc _self _x0 in  {statement_desc = _x0;comment = _x1} end 
  let variable_declaration : variable_declaration fn  = fun _self { ident = _x0;value = _x1;property = _x2;ident_info = _x3} -> begin let _x0 = _self.ident _self _x0 in 
 let _x1 = option _self.expression _self _x1 in  {ident = _x0;value = _x1;property = _x2;ident_info = _x3} end 

@@ -319,6 +319,7 @@ and statement_desc =
 and expression = {
   expression_desc : expression_desc;
   comment : string option;
+  loc : Location.t option;
 }
 
 and statement = {
