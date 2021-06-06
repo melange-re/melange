@@ -44,11 +44,11 @@ function eq(loc, x, y) {
 function fib_init($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, shared);
   var calc = ids[0];
-  CamlinternalOO.set_method($$class, calc, (function (self$neg1, x) {
+  CamlinternalOO.set_method($$class, calc, (function (self$1, x) {
           if (x === 0 || x === 1) {
             return 1;
           } else {
-            return Curry._2(self$neg1[0][calc], self$neg1, x - 1 | 0) + Curry._2(self$neg1[0][calc], self$neg1, x - 2 | 0) | 0;
+            return Curry._2(self$1[0][calc], self$1, x - 1 | 0) + Curry._2(self$1[0][calc], self$1, x - 2 | 0) | 0;
           }
         }));
   return function (env, self) {
@@ -65,15 +65,15 @@ function memo_fib_init($$class) {
   var inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, fib, true);
   var obj_init = inh[0];
   var calc$1 = inh[1];
-  CamlinternalOO.set_method($$class, calc, (function (self$neg2, x) {
+  CamlinternalOO.set_method($$class, calc, (function (self$2, x) {
           try {
-            return Hashtbl.find(self$neg2[cache], x);
+            return Hashtbl.find(self$2[cache], x);
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
-              var v = Curry._2(calc$1, self$neg2, x);
-              Hashtbl.add(self$neg2[cache], x, v);
+              var v = Curry._2(calc$1, self$2, x);
+              Hashtbl.add(self$2[cache], x, v);
               return v;
             }
             throw exn;

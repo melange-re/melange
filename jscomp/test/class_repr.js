@@ -42,8 +42,8 @@ function x_init($$class) {
       ], shared$2);
   var get_x = ids[0];
   var x = ids[2];
-  CamlinternalOO.set_method($$class, get_x, (function (self$neg2) {
-          return self$neg2[x];
+  CamlinternalOO.set_method($$class, get_x, (function (self$2) {
+          return self$2[x];
         }));
   return function (env, self, v$1) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
@@ -91,13 +91,13 @@ function xx_init($$class) {
   var money = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_money,
-        (function (self$neg3) {
-            return self$neg3[money];
+        (function (self$3) {
+            return self$3[money];
           }),
         incr,
-        (function (self$neg3) {
-            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$neg3));
-            copy[money] = 2 * self$neg3[x] + Curry._1(self$neg3[0][get_money], self$neg3);
+        (function (self$3) {
+            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+            copy[money] = 2 * self$3[x] + Curry._1(self$3[0][get_money], self$3);
             return copy;
           })
       ]);
@@ -157,12 +157,12 @@ function point_init($$class) {
   var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
-        (function (self$neg4) {
-            return self$neg4[x];
+        (function (self$4) {
+            return self$4[x];
           }),
         get_x5,
-        (function (self$neg4) {
-            return Curry._1(self$neg4[0][get_x], self$neg4) + 5 | 0;
+        (function (self$4) {
+            return Curry._1(self$4[0][get_x], self$4) + 5 | 0;
           })
       ]);
   return function (env, self) {
@@ -207,13 +207,13 @@ function xx0_init($$class) {
   var a2 = ids[6];
   CamlinternalOO.set_methods($$class, [
         get_money,
-        (function (self$neg5) {
-            return self$neg5[money];
+        (function (self$5) {
+            return self$5[money];
           }),
         incr,
-        (function (self$neg5) {
-            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$neg5));
-            copy[money] = 2 * self$neg5[x] + Curry._1(self$neg5[0][get_money], self$neg5);
+        (function (self$5) {
+            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$5));
+            copy[money] = 2 * self$5[x] + Curry._1(self$5[0][get_money], self$5);
             copy[a0] = 2;
             return copy;
           })
