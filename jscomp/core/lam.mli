@@ -54,6 +54,7 @@ and lfunction =  {
   params : ident list ;
   body : t ;
   attr : Lambda.function_attribute;
+  loc : Location.t;
 }
 and prim_info = private
   { primitive : Lam_primitive.t ;
@@ -119,7 +120,8 @@ val function_ :
   attr:Lambda.function_attribute ->
   arity:int ->
   params:ident list ->
-  body:t -> t
+  body:t ->
+  loc:Location.t -> t
 
 val let_ : Lam_compat.let_kind -> ident -> t -> t -> t
 val mutlet : ident -> t -> t -> t
