@@ -529,3 +529,7 @@ let first_marshal_char (x : string) =
     x <> ""   &&
     ( String.unsafe_get x  0 = '\132')
 
+let fold_left f initial x =
+  let acc = ref initial in
+  String.iter (fun c -> acc := f !acc c) x;
+  !acc
