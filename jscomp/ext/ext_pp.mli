@@ -90,3 +90,6 @@ val from_channel : out_channel -> t
 val from_buffer : Buffer.t -> t
 
 val flush : t -> unit -> unit
+
+val current_line : t -> int
+val current_column : t -> int

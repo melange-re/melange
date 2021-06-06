@@ -38,21 +38,39 @@ let indent_length = String.length L.indent_str
 
 type kind = | Channel of out_channel | Buffer of Buffer.t
 type t = {
-    kind : kind;
-    mutable indent_level : int;
-    mutable last_new_line : bool;
-    (* only when we print newline, we print the indent *)
-  }
+  kind : kind;
+  mutable indent_level : int;
+  mutable column : int;
+  mutable line : int;
+  mutable last_new_line : bool;
+  (* only when we print newline, we print the indent *)
+}
 
 let output_string t s =
-  match t.kind with
+  (match t.kind with
   | Channel chan -> output_string chan s
-  | Buffer buf -> Buffer.add_string buf s
+  | Buffer buf -> Buffer.add_string buf s);
+  let (new_line, new_column) =
+    Ext_string.fold_left 
+      (fun (line, column) char ->
+          if char = '\n' then
+            (line + 1, 0)
+          else (line, column + 1))
+      (t.line, t.column)
+      s
+  in
+  t.line <- new_line;
+  t.column <- new_column
 
 let output_char t c =
-  match t.kind with
+  (match t.kind with
   | Channel chan -> output_char chan c
-  | Buffer buf -> Buffer.add_char buf c
+  | Buffer buf -> Buffer.add_char buf c);
+  if c = '\n' then begin
+    t.line <- t.line + 1;
+    t.column <- 0
+  end else
+    t.column <- t.column + 1
 
 let flush t =
   match t.kind with
@@ -61,6 +79,8 @@ let flush t =
 
 let from_channel chan = {
   kind = Channel chan;
+  line = 0;
+  column = 0;
   indent_level = 0;
   last_new_line = false;
 }
@@ -68,17 +88,15 @@ let from_channel chan = {
 
 let from_buffer buf = {
   kind = Buffer buf;
+  line = 0;
+  column = 0;
   indent_level = 0;
   last_new_line = false;
 }
 
-(* If we have [newline] in [s],
-   all indentations will be broken
-   in the future, we can detect this in [s]
-*)
 let string t s =
   output_string t s;
-  t.last_new_line <- false
+  t.last_new_line <- Ext_string.ends_with s "\n"
 
 let newline t =
   if not t.last_new_line then
@@ -97,10 +115,10 @@ let force_newline t =
   done
 
 let space t  =
-  string t L.space
+  output_string t L.space
 
 let nspace  t n  =
-  string  t (String.make n ' ')
+  output_string t (String.make n ' ')
 
 let group t i action =
   if i = 0 then action ()
@@ -184,3 +202,6 @@ let brace_group st n action =
   t.indent_level <- t.indent_level + n *)
 
 let flush t () = flush t
+
+let current_line t = t.line
+let current_column t = t.column
