@@ -36,6 +36,10 @@ val simple_convert_node_path_to_os_path : string -> string
 
 val split_by_sep_per_os: string -> string list
 
+val combine_specifically : ?force_forward_slash_on_win:unit -> string -> string -> string
+
+val combine_for_merlin : string -> string -> string
+
 (**
    [combine path1 path2]
    1. add some simplifications when concatenating

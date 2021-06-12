@@ -108,6 +108,41 @@ let node_rebase_file ~from ~to_ file =
       else node_relative_path ~from:(Dir from) (Dir to_))
     file
 
+let rec merge_path path1_rev path2 =
+  match path1_rev, path2 with
+    | [], _ -> path2
+    | _, [] -> List.rev path1_rev
+    | _, "."::child -> merge_path path1_rev child
+    | _::parent, ".."::child -> merge_path parent child
+    | _, _ -> List.rev_append path1_rev path2
+
+let render_path ~sep path_list =
+  let buffer = Buffer.create 128 in
+  let rec render_each path_list =
+    match path_list with
+      | [] -> ()
+      | tok::toks ->
+          Buffer.add_string buffer sep;
+          Buffer.add_string buffer tok;
+          render_each toks
+  in
+  let () =
+    match path_list with
+      | [] -> ()
+      | tok::toks -> Buffer.add_string buffer tok; render_each path_list
+  in
+  Buffer.contents buffer
+
+let combine_specifically ?force_forward_slash_on_win path1 path2 =
+  let sep = match force_forward_slash_on_win with
+    | None ->
+      if Ext_sys.is_windows_or_cygwin then
+        "\\"
+      else "/"
+    | Some () -> "/" in
+  let p1 = split_by_sep_per_os path1 |> List.rev in
+  let p2 = split_by_sep_per_os path2 in
+  merge_path p1 p2 |> render_path ~sep
 
 (***
    {[
@@ -126,11 +161,12 @@ let combine path1 path2 =
     if path2 = Filename.current_dir_name
     then path1
     else
-      Filename.concat path1 path2
+      combine_specifically path1 path2
   else
     path2
 
-
+let combine_for_merlin path1 path2 =
+  combine_specifically ~force_forward_slash_on_win:() path1 path2
 
 
 
@@ -140,7 +176,7 @@ let combine path1 path2 =
 let (//) x y =
   if x = Filename.current_dir_name then y
   else if y = Filename.current_dir_name then x
-  else Filename.concat x y
+  else combine_specifically x y
 
 (**
    {[
