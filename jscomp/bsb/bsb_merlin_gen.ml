@@ -110,6 +110,7 @@ let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency)
   Ext_list.iter package.package_install_dirs (fun dir ->
     let rel =
       Ext_path.rel_normalized_absolute_path
+        ~force_forward_slash_on_win:()
         ~from:Bsb_global_paths.cwd
         dir
     in

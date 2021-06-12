@@ -108,41 +108,16 @@ let node_rebase_file ~from ~to_ file =
       else node_relative_path ~from:(Dir from) (Dir to_))
     file
 
-let rec merge_path path1_rev path2 =
-  match path1_rev, path2 with
-    | [], _ -> path2
-    | _, [] -> List.rev path1_rev
-    | _, "."::child -> merge_path path1_rev child
-    | _::parent, ".."::child -> merge_path parent child
-    | _, _ -> List.rev_append path1_rev path2
+let backslash = Str.regexp "\\"
 
-let render_path ~sep path_list =
-  let buffer = Buffer.create 128 in
-  let rec render_each path_list =
-    match path_list with
-      | [] -> ()
-      | tok::toks ->
-          Buffer.add_string buffer sep;
-          Buffer.add_string buffer tok;
-          render_each toks
-  in
-  let () =
-    match path_list with
-      | [] -> ()
-      | tok::toks -> Buffer.add_string buffer tok; render_each path_list
-  in
-  Buffer.contents buffer
-
-let combine_specifically ?force_forward_slash_on_win path1 path2 =
-  let sep = match force_forward_slash_on_win with
-    | None ->
-      if Ext_sys.is_windows_or_cygwin then
-        "\\"
-      else "/"
-    | Some () -> "/" in
-  let p1 = split_by_sep_per_os path1 |> List.rev in
-  let p2 = split_by_sep_per_os path2 in
-  merge_path p1 p2 |> render_path ~sep
+let concat_path ?force_forward_slash_on_win path1 path2 =
+  let concatenated = Filename.concat path1 path2 in
+  match force_forward_slash_on_win with
+    | None -> concatenated
+    | Some () ->
+      if Ext_sys.is_windows_or_cygwin then 
+        Str.global_replace backslash "/" concatenated
+      else concatenated
 
 (***
    {[
@@ -150,7 +125,7 @@ let combine_specifically ?force_forward_slash_on_win path1 path2 =
      "./"
    ]}
 *)
-let combine path1 path2 =
+let combine_specifically ?force_forward_slash_on_win path1 path2 =
   if Filename.is_relative path2 then
     if Ext_string.is_empty path2 then
       path1
@@ -161,9 +136,11 @@ let combine path1 path2 =
     if path2 = Filename.current_dir_name
     then path1
     else
-      combine_specifically path1 path2
+      concat_path ?force_forward_slash_on_win path1 path2
   else
     path2
+
+let combine path1 path2 = combine_specifically path1 path2
 
 let combine_for_merlin path1 path2 =
   combine_specifically ~force_forward_slash_on_win:() path1 path2
@@ -172,11 +149,20 @@ let combine_for_merlin path1 path2 =
 
 
 
-
 let (//) x y =
   if x = Filename.current_dir_name then y
   else if y = Filename.current_dir_name then x
-  else combine_specifically x y
+  else Filename.concat x y
+
+
+let concat ?force_forward_slash_on_win x y =
+  let concatenated = x // y in
+  match force_forward_slash_on_win with
+    | None -> concatenated
+    | Some () ->
+      if Ext_sys.is_windows_or_cygwin then 
+        Str.global_replace backslash "/" concatenated
+      else concatenated
 
 (**
    {[
@@ -227,12 +213,12 @@ let split_aux p =
    This function is useed in [es6-global] and
    [amdjs-global] format and tailored for `rollup`
 *)
-let rel_normalized_absolute_path ~from to_ =
+let rel_normalized_absolute_path ?force_forward_slash_on_win ~from to_ =
   let merge_parent_segment acc segment =
     if segment = Filename.current_dir_name then
       acc
     else
-      acc // Ext_string.parent_dir_lit
+      concat ?force_forward_slash_on_win acc Ext_string.parent_dir_lit
   in
   let root1, paths1 = split_aux from in
   let root2, paths2 = split_aux to_ in
@@ -248,9 +234,9 @@ let rel_normalized_absolute_path ~from to_ =
           let start =
             Ext_list.fold_left xs Ext_string.parent_dir_lit merge_parent_segment
           in
-          Ext_list.fold_left yss start (fun acc v -> acc // v)
+          Ext_list.fold_left yss start (concat ?force_forward_slash_on_win)
       | [], [] -> Ext_string.empty
-      | [], y::ys -> Ext_list.fold_left ys y (fun acc x -> acc // x)
+      | [], y::ys -> Ext_list.fold_left ys y (concat ?force_forward_slash_on_win)
       | x::xs, [] ->
         let start = if x = Filename.current_dir_name then "" else Ext_string.parent_dir_lit in
         Ext_list.fold_left xs start merge_parent_segment
@@ -264,6 +250,8 @@ let rel_normalized_absolute_path ~from to_ =
       || v = ".."
       || Ext_string.starts_with v "./"
       || Ext_string.starts_with v "../"
+      || Ext_string.starts_with v ("." ^ Filename.dir_sep)
+      || Ext_string.starts_with v (".." ^ Filename.dir_sep)
     then v
     else "./" ^ v
 
@@ -287,7 +275,7 @@ let rel_normalized_absolute_path ~from to_ =
   ]}
 *)
 (** See tests in {!Ounit_path_tests} *)
-let normalize_absolute_path x =
+let normalize_absolute_path ?force_forward_slash_on_win x =
   let drop_if_exist xs =
     match xs with
     | [] -> []
@@ -307,8 +295,8 @@ let normalize_absolute_path x =
   let rev_paths =  normalize_list [] paths in
   let rec go acc rev_paths =
     match rev_paths with
-    | [] -> Filename.concat root acc
-    | last::rest ->  go (Filename.concat last acc ) rest  in
+    | [] -> concat_path ?force_forward_slash_on_win root acc
+    | last::rest ->  go (concat_path ?force_forward_slash_on_win last acc ) rest  in
   match rev_paths with
   | [] -> root
   | last :: rest -> go last rest
@@ -316,11 +304,11 @@ let normalize_absolute_path x =
 
 
 
-let absolute_path cwd s =
+let absolute_path ?force_forward_slash_on_win cwd s =
   let process s =
     let s =
       if Filename.is_relative s then
-        Lazy.force cwd // s
+        concat_path ?force_forward_slash_on_win (Lazy.force cwd) s
       else s in
     (* Now simplify . and .. components *)
     let rec aux s =
@@ -328,23 +316,17 @@ let absolute_path cwd s =
       if dir = s then dir
       else if base = Filename.current_dir_name then aux dir
       else if base = Filename.parent_dir_name then Filename.dirname (aux dir)
-      else aux dir // base
+      else concat_path ?force_forward_slash_on_win (aux dir) base
     in aux s  in
   process s
 
-let absolute_cwd_path s =
-  absolute_path cwd  s
+let absolute_cwd_path ?force_forward_slash_on_win s =
+  absolute_path ?force_forward_slash_on_win cwd  s
 
 (* let absolute cwd s =
   match s with
   | File x -> File (absolute_path cwd x )
   | Dir x -> Dir (absolute_path cwd x) *)
-
-let concat dirname filename =
-  if filename = Filename.current_dir_name then dirname
-  else if dirname = Filename.current_dir_name then filename
-  else Filename.concat dirname filename
-
 
 let check_suffix_case =
   Ext_string.ends_with
