@@ -9,8 +9,8 @@ Dynamic dune actions do not need to declare their dependencies
 upfront; they are instead discovered automatically during the
 execution of the action.
 """
-maintainer: ["Jane Street Group, LLC <opensource@janestreet.com>"]
-authors: ["Jane Street Group, LLC <opensource@janestreet.com>"]
+maintainer: ["Jane Street Group, LLC"]
+authors: ["Jane Street Group, LLC"]
 license: "MIT"
 homepage: "https://github.com/ocaml/dune"
 doc: "https://dune.readthedocs.io/"
