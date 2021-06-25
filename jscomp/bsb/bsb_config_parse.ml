@@ -239,12 +239,9 @@ let extract_ppx
           | config -> Bsb_exception.config_error config
             (field ^ "expect each item to be either string or array") in
         let ppx = Bsb_config_types.{ name = path; args } in
-        let args = Ext_list.reduce_from_left args (fun a b -> a ^ ", " ^ b) in
         if checked then
-          let _ = Bsb_log.info "ppx_file: %s, args: [%s]" path args in 
           { ppxlib; ppx_files = ppx_files @ [ppx]}
         else
-          let _ = Bsb_log.info "ppxlib: %s, args: [%s]" path args in 
           { ppxlib = ppxlib @ [ppx]; ppx_files})
 
   | Some config ->
