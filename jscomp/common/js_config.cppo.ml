@@ -108,3 +108,5 @@ let as_ppx = ref false
 let customize_runtime = ref None
 
 let as_pp = ref false
+
+let modules = ref false
