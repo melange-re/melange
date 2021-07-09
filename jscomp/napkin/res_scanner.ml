@@ -97,7 +97,7 @@ let _printDebug ~startPos ~endPos scanner token =
 
 let is_windows_or_cygwin = Sys.win32 || Sys.cygwin
 
-let rec next scanner =
+let next scanner =
   let nextOffset = scanner.offset + 1 in
   (match scanner.ch with
   | '\r' when is_windows_or_cygwin -> ()
