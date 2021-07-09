@@ -123,7 +123,7 @@ let unused_attribute = "Unused attribute "
 
 
 (** Used when produce node compatible paths *)
-let node_sep = if Ext_sys.is_windows_or_cygwin then "\\" else "/"
+let node_sep = "/"
 let node_parent = ".."
 let node_current = "."
 
