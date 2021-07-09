@@ -145,7 +145,9 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     if ppx_config.ppxlib <> [] then begin
       Buffer.add_string buffer merlin_flg_ppx;
       let dune_build_dir = Lazy.force Bsb_config.dune_build_dir in
-      Buffer.add_string buffer (dune_build_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe)
+      let dir = dune_build_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe in
+      let ppx = Format.sprintf "\"%s --as-ppx\"" dir in
+      Buffer.add_string buffer ppx
     end;
     Ext_list.iter ppx_config.ppx_files (fun ppx ->
         Buffer.add_string buffer merlin_flg_ppx;
@@ -164,19 +166,21 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     );
     Buffer.add_string buffer
       (merlin_flg_ppx  ^
-       (match reason_react_jsx with
+       (let bsc = Bsb_global_paths.bsc_dir // Bsb_global_paths.vendor_bsc in
+        match reason_react_jsx with
         | None ->
           let fmt : _ format =
             if Ext_sys.is_windows_or_cygwin then
               "\"%s -as-ppx \""
-            else  "'%s -as-ppx '"  in Printf.sprintf fmt Bsb_global_paths.vendor_bsc
+            else  "'%s -as-ppx '"  in
+            Printf.sprintf fmt bsc
         | Some opt ->
           let fmt : _ format =
             if Ext_sys.is_windows_or_cygwin then
               "\"%s -as-ppx -bs-jsx %d\""
             else  "'%s -as-ppx -bs-jsx %d'"
           in
-          Printf.sprintf fmt  Bsb_global_paths.vendor_bsc
+          Printf.sprintf fmt bsc
             (match opt with Jsx_v3 -> 3)
        )
       );
