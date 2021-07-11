@@ -52,9 +52,6 @@ val combine :
 
 val (//) : string -> string -> string
 
-(** Similar to ( // ), but allows concatenates with \ on Windows. *)
-val concat : ?force_forward_slash_on_win:unit -> string -> string -> string
-
 
 (**
    {[
