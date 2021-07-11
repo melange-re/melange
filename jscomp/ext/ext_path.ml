@@ -192,7 +192,10 @@ let split_aux p =
     if dir = p then dir, acc
     else
       let new_path = Filename.basename p in
-      if Ext_string.equal new_path Filename.dir_sep then
+      (* In Windows, directory separator can either be `\` or `/`.
+         [Filename.dir_sep] holds `\` in Windows.
+      *)
+      if Ext_string.equal new_path Filename.dir_sep || Ext_string.equal new_path "/" then
         go dir acc
         (* We could do more path simplification here
            leave to [rel_normalized_absolute_path]
@@ -202,8 +205,16 @@ let split_aux p =
 
   in go p []
 
+let dir_sep_pattern_on_win = Str.regexp "/"
 
+let path_equal_canonically ?force_forward_slash_on_win path1 path2 =
 
+  match force_forward_slash_on_win, Ext_sys.is_windows_or_cygwin with
+    | None, true ->
+      let left = Str.global_replace dir_sep_pattern_on_win "\\\\" path1 in
+      let right = Str.global_replace dir_sep_pattern_on_win "\\\\" path2 in
+      Ext_string.equal left right
+    | _ -> Ext_string.equal path1 path2
 
 
 (**
@@ -222,7 +233,8 @@ let rel_normalized_absolute_path ?force_forward_slash_on_win ~from to_ =
   in
   let root1, paths1 = split_aux from in
   let root2, paths2 = split_aux to_ in
-  if root1 <> root2 then root2
+  if not (path_equal_canonically ?force_forward_slash_on_win root1 root2) then
+    root2
   else
     let rec go xss yss =
       match xss, yss with
@@ -253,7 +265,7 @@ let rel_normalized_absolute_path ?force_forward_slash_on_win ~from to_ =
       || Ext_string.starts_with v ("." ^ Filename.dir_sep)
       || Ext_string.starts_with v (".." ^ Filename.dir_sep)
     then v
-    else "./" ^ v
+    else concat_path ?force_forward_slash_on_win "." v
 
 (*TODO: could be hgighly optimized later
   {[
