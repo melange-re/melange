@@ -212,3 +212,7 @@ val unsafe_sub :
   int ->
   int ->
   string
+
+val first_marshal_char:
+  string ->
+  bool
