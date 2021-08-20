@@ -777,3 +777,10 @@ let group_by ~fk ~fv xs =
       Hash_string.add_or_update tbl key ~update:(fun x -> value :: x) [value]);
   tbl
 
+let filter lst p =
+  let rec find ~p accu lst =
+    match lst with
+    | [] -> rev accu
+    | x :: l -> if p x then find (x :: accu) l ~p else find accu l ~p
+  in
+  find [] lst ~p
