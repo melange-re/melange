@@ -95,8 +95,10 @@ let output_merlin_namespace buffer ns=
    complicated
 *)
 let bsc_flg_to_merlin_ocamlc_flg bsc_flags  =
-  let flags = (List.filter (fun x -> not (Ext_string.starts_with x bs_flg_prefix )) (
-     bsc_flags)) in
+  let flags =
+    Ext_list.filter bsc_flags (fun x ->
+        not (Ext_string.starts_with x bs_flg_prefix))
+  in
   if flags <> [] then
     merlin_flg ^
     String.concat Ext_string.single_space flags
