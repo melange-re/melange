@@ -393,3 +393,6 @@ val mem_string : string list -> string -> bool
 val group_by : fk:('a -> string) -> fv:('a -> 'b) -> 'a list -> 'b list Hash_string.t
 
 val filter : 'a list -> ('a -> bool) -> 'a list
+
+val array_list_filter_map :
+  'a array -> 'b list -> ('a -> 'b -> 'c option) -> 'c list
