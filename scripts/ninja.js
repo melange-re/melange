@@ -1341,6 +1341,8 @@ async function testNinja() {
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
+      x.endsWith(".res") ||
+      x.endsWith(".resi") ||
       x.endsWith(".re") ||
       x.endsWith(".rei") ||
       ((x.endsWith(".ml") || x.endsWith(".mli")) &&
