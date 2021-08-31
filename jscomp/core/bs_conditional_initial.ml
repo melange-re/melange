@@ -43,7 +43,10 @@ let setup_env () =
   Config.syntax_kind := `rescript;
   Config.unsafe_empty_array := false;
   Config.bs_only := true;
+#ifdef BS_BROWSER
+#else
   Clflags.color := Some Always;
+#endif
   (* default true
      otherwise [bsc -I sc src/hello.ml ] will include current directory to search path
   *)
