@@ -485,37 +485,36 @@ and  pp_function ~is_method
 (* Assume the cond would not change the context,
     since it can be either [int] or [string]
 *)
-and pp_one_case_clause : 'a .
-  _ -> P.t -> (P.t -> 'a -> unit) -> ('a * J.case_clause) -> _
-  = fun cxt f  pp_cond
-    (switch_case, ({switch_body ; should_break; comment; } :  J.case_clause)) ->
-    let cxt =
-      P.group f 1  (fun _ ->
-          P.group f 1 (fun _ ->
-              P.string f L.case;
-              P.space f ;
-              pp_comment_option f comment;
-              pp_cond  f switch_case; (* could be integer or string *)
-              P.space f ;
-              P.string f L.colon  );
-          P.group f 1 (fun _ ->
-              let cxt =
-                match switch_body with
-                | [] -> cxt
-                | _ ->
-                  P.newline f ;
-                  statement_list false cxt  f switch_body
-              in
-              (if should_break then
-                 begin
-                   P.newline f ;
-                   P.string f L.break;
-                   semi f;
-                 end) ;
-              cxt))
-    in
-    P.newline f;
-    cxt
+and pp_one_case_clause :
+      'a. _ -> P.t -> (P.t -> 'a -> unit) -> 'a * J.case_clause -> _ =
+ fun cxt f pp_cond
+     (switch_case, ({ switch_body; should_break; comment } : J.case_clause)) ->
+  let cxt =
+    P.group f 1 (fun _ ->
+        P.group f 1 (fun _ ->
+            P.string f L.case;
+            P.space f;
+            pp_comment_option f comment;
+            pp_cond f switch_case;
+            (* could be integer or string *)
+            P.space f;
+            P.string f L.colon);
+        P.group f 1 (fun _ ->
+            let cxt =
+              match switch_body with
+              | [] -> cxt
+              | _ ->
+                  P.newline f;
+                  statements false cxt f switch_body
+            in
+            if should_break then (
+              P.newline f;
+              P.string f L.break;
+              semi f);
+            cxt))
+  in
+  P.newline f;
+  cxt
 
 and loop_case_clauses  :  'a . cxt ->
   P.t -> (P.t -> 'a -> unit) -> ('a * J.case_clause) list -> cxt
@@ -1012,7 +1011,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
         cxt)
   | Block b -> (* No braces needed here *)
     ipp_comment f L.start_block;
-    let cxt = statement_list top cxt  f b in
+    let cxt = statements top cxt  f b in
     ipp_comment f  L.end_block;
     cxt
   | Variable l ->
@@ -1023,7 +1022,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
     P.space f;
     let cxt = P.paren_group f 1 (fun _ -> expression ~level:0 cxt f e) in
     P.space f;
-    let cxt = block cxt f s1 in
+    let cxt = brace_block cxt f s1 in
     (match s2 with
      | []
      | [{statement_desc = (Block [] | Exp {expression_desc = Var _;} ); }]
@@ -1039,7 +1038,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
        P.space f;
        P.string f L.else_;
        P.space f ;
-       block  cxt f s2)
+       brace_block  cxt f s2)
   | While (label, e, s, _env) ->  (*  FIXME: print scope as well *)
     begin
       (match label with
@@ -1063,7 +1062,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
           P.space f ;
           cxt
       in
-      let cxt = block cxt f s in
+      let cxt = brace_block cxt f s in
       semi f;
       cxt
     end
@@ -1125,7 +1124,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
                   P.space f;
                   pp_direction f direction;
                   Ext_pp_scope.ident cxt f id)) in
-          block  cxt f s ) in
+          brace_block  cxt f s ) in
     let lexical = Js_closure.get_lexical_scope env in
     if Set_ident.is_empty lexical
     then action cxt
@@ -1186,7 +1185,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
               P.string f L.default;
               P.string f L.colon;
               P.newline f;
-              statement_list  false cxt  f def))
+              statements  false cxt  f def))
 
   | String_switch (e, cc, def) ->
     P.string f L.switch;
@@ -1202,7 +1201,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
           P.string f L.default;
           P.string f L.colon;
           P.newline f;
-          statement_list  false cxt  f def ))
+          statements  false cxt  f def ))
   | Throw e ->
     let e = match e.expression_desc with
       | Caml_block (el,_,_,(Blk_extension | Blk_record_ext _ as ext)) ->
@@ -1221,7 +1220,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
       fun _->
         P.string f L.try_;
         P.space f ;
-        let cxt = block cxt f b in
+        let cxt = brace_block cxt f b in
         let cxt =
           match ctch with
           | None ->
@@ -1231,14 +1230,14 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
             P.string f "catch (";
             let cxt = Ext_pp_scope.ident cxt f i in
             P.string f ")";
-            block cxt f b in
+            brace_block cxt f b in
         match fin with
         | None -> cxt
         | Some b ->
           P.group f 1 (fun _ ->
               P.string f L.finally;
               P.space f;
-              block cxt f b))
+              brace_block cxt f b))
 
 and function_body (cxt : cxt) f (b : J.block) : unit =
   match b with
@@ -1261,27 +1260,24 @@ and function_body (cxt : cxt) f (b : J.block) : unit =
     P.newline f;
     function_body cxt f  r
 
-(* similar to [block] but no braces *)
-and statement_list top cxt f  b =
-  iter_lst cxt f b  (fun cxt f s -> statement top cxt f s )
-    (if top then
-      (fun f -> P.newline f ; P.force_newline f )
-      else P.newline
-    )
-
-
-and block cxt f b =
+and brace_block cxt f b =
   (* This one is for '{' *)
-  P.brace_vgroup f 1 (fun _ -> statement_list false cxt   f b )
+  P.brace_vgroup f 1 (fun _ -> statements false cxt f b)
 
+(* main entry point *)
+and statements top cxt f b =
+  iter_lst cxt f b
+    (fun cxt f s -> statement top cxt f s)
+    (if top then (fun f ->
+     P.newline f;
+     P.force_newline f)
+    else P.newline)
 
-
-
-let string_of_block  (block : J.block) =
-  let buffer  = Buffer.create 50 in
+let string_of_block (block : J.block) =
+  let buffer = Buffer.create 50 in
   let f = P.from_buffer buffer in
-  let _ : cxt =  statement_list true Ext_pp_scope.empty  f block in
-  P.flush  f ();
+  let (_ : cxt) = statements true Ext_pp_scope.empty f block in
+  P.flush f ();
   Buffer.contents buffer
 
 
