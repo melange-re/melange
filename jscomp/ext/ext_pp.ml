@@ -91,8 +91,9 @@ let at_least_two_lines t =
 let force_newline t =
   t.output_char  '\n';
   for _ = 0 to t.indent_level - 1 do
-    t.output_string  L.indent_str;
-  done
+    t.output_string L.indent_str
+  done;
+  t.last_new_line <- true
 
 let space t  =
   string t L.space
@@ -165,13 +166,13 @@ let paren_vgroup st n action =
   string st ")";
   v
 
-let paren_group st n action = 
+let paren_group st n action =
     group st n (fun _ -> paren st action)
 
-let cond_paren_group st b n action =    
-  if b then 
-    paren_group st n action 
-  else 
+let cond_paren_group st b n action =
+  if b then
+    paren_group st n action
+  else
     action ()
 
 
