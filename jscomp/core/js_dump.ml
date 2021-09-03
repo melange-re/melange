@@ -1241,20 +1241,21 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
 
 and function_body (cxt : cxt) f (b : J.block) : unit =
   match b with
-  | []     -> ()
-  | [s]    ->
-    begin match s.statement_desc with
-    | If (bool,
-          then_,
-           [{
-              statement_desc =
-                Return {expression_desc = Undefined}} ])
-        ->
-        ignore (statement false cxt f {s with statement_desc = If(bool,then_, [])} : cxt)
-    | Return {expression_desc = Undefined } -> ()
-    | _ ->
-      ignore (statement false  cxt f  s : cxt)
-    end
+  | [] -> ()
+  | [ s ] -> (
+      match s.statement_desc with
+      | If
+          ( bool,
+            then_,
+            [ { statement_desc = Return { expression_desc = Undefined } } ] ) ->
+          ignore
+            (statement false cxt f
+               { s with statement_desc = If (bool, then_, []) }
+              : cxt)
+      | Return { expression_desc = Undefined } -> ()
+      | _ -> ignore (statement false cxt f s : cxt))
+  | [ s; { statement_desc = Return { expression_desc = Undefined } } ] ->
+      ignore (statement false cxt f s : cxt)
   | s :: r ->
     let cxt = statement false cxt f s in
     P.newline f;
@@ -1268,8 +1269,7 @@ and brace_block cxt f b =
 and statements top cxt f b =
   iter_lst cxt f b
     (fun cxt f s -> statement top cxt f s)
-    (if top then P.at_least_two_lines
-    else P.newline)
+    (if top then P.at_least_two_lines else P.newline)
 
 let string_of_block (block : J.block) =
   let buffer = Buffer.create 50 in
