@@ -4095,6 +4095,19 @@
 
 
   (rule
+    (targets gpr_4632.cmi gpr_4632.cmj gpr_4632.js)
+    (deps (:inputs gpr_4632.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_4632.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets gpr_4639_test.cmi gpr_4639_test.cmj gpr_4639_test.js)
     (deps (:inputs gpr_4639_test.ml) ../stdlib-412/stdlib.cmj)
 
