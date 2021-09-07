@@ -129,6 +129,8 @@ val map2 :
   ('a -> 'b -> 'c) ->
   'c list
 
+val map2i : 'a list -> 'b list -> (int -> 'a -> 'b -> 'c) -> 'c list
+
 val fold_left_with_offset :
   'a list ->
   'acc ->
