@@ -759,7 +759,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
           ~body:(convert_aux body)
 
     | Llet
-      (kind,_value_kind, id,e,body) (*FIXME*)
+      (kind, Pgenval, id,e,body) (*FIXME*)
       -> convert_let kind id e body
 
     | Lletrec (bindings,body)
