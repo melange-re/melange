@@ -84,17 +84,17 @@ let simple_beta_reduce params body args =
     let () =
       List.iter2 (fun p a -> Hash_ident.add param_hash p {lambda = a; used = false }) params args
     in
-    begin match aux_exn [] ap_args with
-    | new_args ->
+    begin try
+      let new_args = aux_exn [] ap_args in
       let result =
-        Hash_ident.fold param_hash (Lam.prim ~primitive ~args:new_args ap_loc) (fun _param {lambda; used} acc ->
-            if not used then
-              Lam.seq lambda acc
-            else acc)  in
+        Hash_ident.fold param_hash (Lam.prim ~primitive ~args:new_args ap_loc)
+          (fun _param { lambda; used } acc ->
+            if not used then Lam.seq lambda acc else acc)
+      in
       Hash_ident.clear param_hash;
       Some result
-    | exception _ ->
-      Hash_ident.clear param_hash ;
+    with Not_simple_apply ->
+      Hash_ident.clear param_hash;
       None
     end
   | Lapply { ap_func =
@@ -108,22 +108,20 @@ let simple_beta_reduce params body args =
       if it is removed twice there will be exception.
       if it is never removed, we have it as rest keys
     *)
-    begin match aux_exn [] ap_args with
-      | new_args ->
+    begin
+      try
+        let new_args = aux_exn [] ap_args in
         let f =
-          match f with
-          | Lvar fn_name -> find_param_exn fn_name  f
-          | _ -> f in
+          match f with Lvar fn_name -> find_param_exn fn_name f | _ -> f
+        in
         let result =
-          Hash_ident.fold param_hash (Lam.apply  f new_args  ap_info  )
-            (fun _param {lambda; used} acc ->
-               if not used then
-                 Lam.seq lambda acc
-               else acc )
+          Hash_ident.fold param_hash (Lam.apply f new_args ap_info)
+            (fun _param { lambda; used } acc ->
+              if not used then Lam.seq lambda acc else acc)
         in
         Hash_ident.clear param_hash;
         Some result
-      | exception _ ->
+      with Not_simple_apply ->
         Hash_ident.clear param_hash;
         None
     end
