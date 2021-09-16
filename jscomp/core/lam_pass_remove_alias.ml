@@ -199,8 +199,15 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                   | Lam_rec  ->  Lam_beta_reduce.propogate_beta_reduce_with_map meta param_map params body ap_args
                   | Lam_self_rec -> normal ()
                   | Lam_non_rec ->
-                    simpl
-                      (Lam_beta_reduce.propogate_beta_reduce_with_map meta param_map params body ap_args)
+                      if
+                        Ext_list.exists ap_args (fun lam ->
+                            Lam_hit.hit_variable v lam)
+                        (*avoid nontermination, e.g, `g(g)`*)
+                      then normal ()
+                      else
+                        simpl
+                          (Lam_beta_reduce.propogate_beta_reduce_with_map meta
+                             param_map params body ap_args)
                 end
               | _ -> normal ()
             else
