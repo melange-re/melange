@@ -148,14 +148,12 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         - scope issues
         - code bloat
     *)
-    | Lapply{ap_func = (Lvar v as fn);  ap_args = args; ap_info } ->
+    | Lapply{ap_func = (Lvar v as fn);  ap_args; ap_info } ->
       (* Check info for always inlining *)
 
       (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
-      let args = Ext_list.map args simpl in
-      let normal () =
-        Lam.apply (simpl fn) args ap_info
-      in
+      let ap_args = Ext_list.map ap_args simpl in
+      let[@local] normal () = Lam.apply (simpl fn) ap_args ap_info in
       begin
         match Hash_ident.find_opt meta.ident_tbl v with
         | Some (FunctionId {lambda = Some(Lfunction ({params; body; attr = {is_a_functor}} as m),
@@ -163,7 +161,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                            })
           ->
 
-          if Ext_list.same_length args params (* && false *)
+          if Ext_list.same_length ap_args params (* && false *)
           then
             if is_a_functor = Functor_yes
             (* && (Set_ident.mem v meta.export_idents) && false *)
@@ -176,12 +174,12 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               (* Check: recursive applying may result in non-termination *)
               begin
                 (* Ext_log.dwarn __LOC__ "beta .. %s/%d" v.name v.stamp ; *)
-                simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
+                simpl (Lam_beta_reduce.propogate_beta_reduce meta params body ap_args)
               end
             else
             if (* Lam_analysis.size body < Lam_analysis.small_inline_size *)
               (* ap_inlined = Always_inline || *)
-              Lam_analysis.ok_to_inline_fun_when_app m args
+              Lam_analysis.ok_to_inline_fun_when_app m ap_args
             then
 
               (* let param_map =  *)
@@ -198,11 +196,11 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               | true, (true, param_map) ->
                 begin match rec_flag with
 
-                  | Lam_rec  ->  Lam_beta_reduce.propogate_beta_reduce_with_map meta param_map params body args
+                  | Lam_rec  ->  Lam_beta_reduce.propogate_beta_reduce_with_map meta param_map params body ap_args
                   | Lam_self_rec -> normal ()
                   | Lam_non_rec ->
                     simpl
-                      (Lam_beta_reduce.propogate_beta_reduce_with_map meta param_map params body args)
+                      (Lam_beta_reduce.propogate_beta_reduce_with_map meta param_map params body ap_args)
                 end
               | _ -> normal ()
             else
