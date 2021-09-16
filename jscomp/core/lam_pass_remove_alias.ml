@@ -152,7 +152,10 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
       (* Check info for always inlining *)
 
       (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
-      let normal () = Lam.apply ( simpl fn) (Ext_list.map args simpl) ap_info  in
+      let args = Ext_list.map args simpl in
+      let normal () =
+        Lam.apply (simpl fn) args ap_info
+      in
       begin
         match Hash_ident.find_opt meta.ident_tbl v with
         | Some (FunctionId {lambda = Some(Lfunction ({params; body; attr = {is_a_functor}} as m),
