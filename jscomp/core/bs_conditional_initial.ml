@@ -82,9 +82,9 @@ let setup_env () =
       !Clflags.include_dirs);
 #endif
 
-  Lexer.replace_directive_bool "BS" true;
-  Lexer.replace_directive_bool "JS" true;
-  Lexer.replace_directive_string "BS_VERSION"  Bs_version.version
+  Rescript_cpp.replace_directive_bool "BS" true;
+  Rescript_cpp.replace_directive_bool "JS" true;
+  Rescript_cpp.replace_directive_string "BS_VERSION"  Bs_version.version
 ;;
 
 let () =
