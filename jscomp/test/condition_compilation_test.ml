@@ -6,8 +6,8 @@ let b =
 #endif
 
 let buffer_size =
-#if true || BUFFER_SIZE then
-    1
+#if true || BUFFER_SIZE
+      1
 #else
       32
 #endif
@@ -27,7 +27,7 @@ type open_flag =
   | O_DSYNC
   | O_SYNC
   | O_RSYNC
-#if OCAML_VERSION =~ ">=3.13" then
+#if OCAML_VERSION =~ ">=3.13"
   | O_SHARE_DELETE
 #endif
 #if OCAML_VERSION =~ ">=4.01"
@@ -38,8 +38,8 @@ type open_flag =
 #endif
 
 let vv =
-#if OCAML_PATCH = "BS" then
-    3
+#if 1
+      3
 #else
       1
 #endif
@@ -53,35 +53,35 @@ let () = incr v  in
 #endif !v
 
 let version_gt_3 =
-#if OCAML_VERSION  (* comment *) =~ ">1" then
-    true
+#if OCAML_VERSION  (* comment *) =~ ">1"
+      true
 #else
       false
 #endif
 
 let version =
-#if OCAML_VERSION =~ "~2" then
-   2
-#elif OCAML_VERSION =~ "~1" then
-   1
-#elif OCAML_VERSION =~ "~0" then
-   0
+#if OCAML_VERSION =~ "~2"
+      2
+#elif OCAML_VERSION =~ "~1"
+      1
+#elif OCAML_VERSION =~ "~0"
+      0
 #else
-  -1
+                       -1
 #end
 
 let ocaml_veriosn =
-#if OCAML_VERSION =~ "~4.02.0" then
-   "4.02.3"
+#if OCAML_VERSION =~ "~4.02.0"
+      "4.02.3"
 #else "unknown"
 #end
 
 (**
-#if OCAML_VERSION =~ "4.02.3" #then
+   #if OCAML_VERSION =~ "4.02.3" #then
 
-#elif OCAML_VERSION =~ "4.03" #then
+   #elif OCAML_VERSION =~ "4.03" #then
    gsho
-#end
+   #end
 *)
 (* #if OCAML_VERSION =~ ">4.02" #then *)
 (* #else *)
@@ -99,3 +99,4 @@ let () =
   eq __LOC__ !v 2
 
 ;; Mt.from_pair_suites __MODULE__ !suites
+
