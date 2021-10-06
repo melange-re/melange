@@ -31,7 +31,7 @@ val lift_option_type : t -> t
 
 val is_unit : t -> bool
 
-val is_builtin_rank0_type : 
+val is_builtin_rank0_type :
   string -> bool
 
 (** return a function type
@@ -58,10 +58,16 @@ val get_uncurry_arity : t -> int option
 
 
 
+type param_type = {
+  label : Asttypes.arg_label;
+  ty : t;
+  attr : Parsetree.attributes;
+  loc : Location.t;
+}
+
+val mk_fn_type : param_type list -> t -> t
+
 (** fails when Ptyp_poly *)
-val list_of_arrow :
-  t ->
-  t *  
-  Ast_compatible.param_type list
+val list_of_arrow : t -> t * param_type list
 
 val is_arity_one : t -> bool

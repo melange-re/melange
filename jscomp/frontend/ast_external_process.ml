@@ -382,16 +382,10 @@ type response = {
   no_inline_cross_module : bool
 }
 
-
-
-let process_obj
-    (loc : Location.t)
-    (st : external_desc)
-    (prim_name : string)
-    (arg_types_ty : Ast_compatible.param_type list)
-    (result_type : Ast_core_type.t)
-  : Parsetree.core_type *  External_ffi_types.t
-  =
+let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
+    (arg_types_ty : Ast_core_type.param_type list)
+    (result_type : Ast_core_type.t) : Parsetree.core_type * External_ffi_types.t
+    =
   match st with
   | {
     val_name = None;
@@ -416,7 +410,7 @@ let process_obj
       Location.raise_errorf ~loc "%@obj expect external names to be empty string";
     let arg_kinds, new_arg_types_ty, (result_types : Parsetree.object_field list) =
       Ext_list.fold_right arg_types_ty ( [], [], [])
-        (fun param_type ( arg_labels, (arg_types : Ast_compatible.param_type list), result_types) ->
+        (fun param_type ( arg_labels, (arg_types : Ast_core_type.param_type list), result_types) ->
            let arg_label = param_type.label in
            let loc = param_type.loc in
            let ty  = param_type.ty in
@@ -522,9 +516,9 @@ let process_obj
         result_type
         (* TODO: do we need do some error checking here *)
         (* result type can not be labeled *)
-    in
-    Ast_compatible.mk_fn_type new_arg_types_ty result,
-    External_ffi_types.ffi_obj_create arg_kinds
+      in
+      ( Ast_core_type.mk_fn_type new_arg_types_ty result,
+        External_ffi_types.ffi_obj_create arg_kinds )
   | _ -> Location.raise_errorf ~loc "Attribute found that conflicts with %@obj"
 
 
@@ -881,7 +875,7 @@ let handle_attributes
   else
     let splice = external_desc.splice in
     let arg_type_specs, new_arg_types_ty, arg_type_specs_length   =
-      let init : External_arg_spec.params * Ast_compatible.param_type list * int  =
+      let init : External_arg_spec.params * Ast_core_type.param_type list * int  =
         match external_desc.val_send_pipe with
         | Some obj ->
           let arg_type = refine_arg_type ~nolabel:true obj in
@@ -961,25 +955,23 @@ let handle_attributes
     let relative = External_ffi_types.check_ffi ~loc ffi in
     (* result type can not be labeled *)
     (* currently we don't process attributes of
-       return type, in the future we may  *)
-    let return_wrapper = check_return_wrapper loc external_desc.return_wrapper result_type in
-    Ast_compatible.mk_fn_type new_arg_types_ty result_type,
-    External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
-    unused_attrs,
-    relative
+       return type, in the future we may *)
+    let return_wrapper =
+      check_return_wrapper loc external_desc.return_wrapper result_type
+    in
+    ( Ast_core_type.mk_fn_type new_arg_types_ty result_type,
+      External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
+      unused_attrs,
+      relative )
 
-
-
-let encode_attributes_as_string
-    (pval_loc : Location.t)
-    (typ : Ast_core_type.t)
-    (attrs : Ast_attributes.t)
-    (prim_name : string)
-  : response =
-  let pval_type, ffi, pval_attributes, no_inline_cross_module  =
-    handle_attributes pval_loc typ attrs  prim_name  in
-  { pval_type;
-    pval_prim = [prim_name; External_ffi_types.to_string ffi];
+let encode_attributes_as_string (pval_loc : Location.t) (typ : Ast_core_type.t)
+    (attrs : Ast_attributes.t) (prim_name : string) : response =
+  let pval_type, ffi, pval_attributes, no_inline_cross_module =
+    handle_attributes pval_loc typ attrs prim_name
+  in
+  {
+    pval_type;
+    pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
     pval_attributes;
     no_inline_cross_module
   }
