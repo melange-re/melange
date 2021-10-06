@@ -34,13 +34,9 @@ let rec is_obj_literal ( x : _ Flow_ast.Expression.t) : bool =
     -> is_obj_literal argument
   | Object {properties} ->
     Ext_list.for_all properties is_literal_kv
-  | Array  {elements} ->
-    Ext_list.for_all elements (fun x ->
-      match x with
-      | None -> true
-      | Some (Expression x) -> is_obj_literal x
-      | Some _ -> false
-      )
+  | Array { elements } ->
+      Ext_list.for_all elements (fun x ->
+          match x with Expression x -> is_obj_literal x | _ -> false)
   | _ -> false
 and is_literal_kv (x  : _ Flow_ast.Expression.Object.property) =
   match x with
@@ -71,8 +67,10 @@ let classify_exp (prog : _ Flow_ast.Expression.t  )  : Js_raw_info.exp =
   let comment =
     match comments with
     | None -> None
-    | Some {leading = [_, Block comment]} -> Some ("/*" ^ comment ^ "*/")
-    | Some {leading = [_, Line comment]} -> Some ("//" ^ comment)
+    | Some { leading = [ (_, { kind = Block; text = comment }) ] } ->
+      Some ("/*" ^ comment ^ "*/")
+    | Some { leading = [ (_, { kind = Line; text = comment }) ] } ->
+      Some ("//" ^ comment)
     | Some _ -> None
   in
   Js_literal {comment}
@@ -103,10 +101,9 @@ let classify ?(check : (Location.t*int) option) (prog : string) : Js_raw_info.ex
 
 
 let classify_stmt (prog : string) : Js_raw_info.stmt =
-  let result =  Parser_flow.parse_program false None prog in
+  let result = Parser_flow.parse_program false None prog in
   match fst result with
-  | (_loc, [], _) ->
-    Js_stmt_comment
+  | _loc, { statements = [] } -> Js_stmt_comment
   | _ -> Js_stmt_unknown
 (* we can also analayze throw
   x.x pure access
