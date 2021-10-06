@@ -57,9 +57,9 @@ open Ast_helper
     | _ -> result in
   aux ty *)
 
-let is_builtin_rank0_type txt =   
-  match txt with 
-  | "int"         
+let is_builtin_rank0_type txt =
+  match txt with
+  | "int"
   | "char"
   | "bytes"
   | "float"
@@ -68,9 +68,9 @@ let is_builtin_rank0_type txt =
   | "exn"
   | "int32"
   | "int64"
-  | "string" -> true 
+  | "string" -> true
   | _ -> false
-    
+
 let is_unit (ty : t ) =
   match ty.ptyp_desc with
   | Ptyp_constr({txt =Lident "unit"}, []) -> true
@@ -173,22 +173,34 @@ let get_curry_arity  ty =
 let is_arity_one ty = get_curry_arity ty =  1
 
 
-let list_of_arrow
-    (ty : t) :
-  t * Ast_compatible.param_type list
-  =
+type param_type = {
+  label : Asttypes.arg_label;
+  ty : Parsetree.core_type;
+  attr : Parsetree.attributes;
+  loc : loc;
+}
+
+let mk_fn_type (new_arg_types_ty : param_type list) (result : t) : t =
+  Ext_list.fold_right new_arg_types_ty result
+    (fun { label; ty; attr; loc } acc ->
+      {
+        ptyp_desc = Ptyp_arrow (label, ty, acc);
+        ptyp_loc = loc;
+        ptyp_loc_stack = [ loc ];
+        ptyp_attributes = attr;
+      })
+
+let list_of_arrow (ty : t) : t * param_type list =
   let rec aux (ty : t) acc =
     match ty.ptyp_desc with
-    | Ptyp_arrow(label,t1,t2) ->
-      aux t2
-        (({label;
-          ty = t1;
-          attr = ty.ptyp_attributes;
-          loc = ty.ptyp_loc} : Ast_compatible.param_type) :: acc
-        )
-    | Ptyp_poly(_, ty) -> (* should not happen? *)
-      Bs_syntaxerr.err ty.ptyp_loc Unhandled_poly_type
-    | _ -> ty, List.rev acc
-  in aux ty []
-
-
+    | Ptyp_arrow (label, t1, t2) ->
+        aux t2
+          (({ label; ty = t1; attr = ty.ptyp_attributes; loc = ty.ptyp_loc }
+             : param_type)
+          :: acc)
+    | Ptyp_poly (_, ty) ->
+        (* should not happen? *)
+        Bs_syntaxerr.err ty.ptyp_loc Unhandled_poly_type
+    | _ -> (ty, List.rev acc)
+  in
+  aux ty []
