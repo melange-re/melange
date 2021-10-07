@@ -85,9 +85,6 @@ let setup_env () =
   Lexer.replace_directive_bool "BS" true;
   Lexer.replace_directive_bool "JS" true;
   Lexer.replace_directive_string "BS_VERSION"  Bs_version.version
-#if false
-  ; Switch.cut := 100 (* tweakable but not very useful *)
-#endif
 ;;
 
 let () =
