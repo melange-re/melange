@@ -104,7 +104,8 @@ let format = ref None
 let as_ppx = ref false
 
 
-let customize_runtime = ref None
+(* option to config `@rescript/std`*)
+let customize_runtime : string option ref = ref None
 
 let as_pp = ref false
 
