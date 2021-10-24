@@ -145,18 +145,13 @@ let external_attrs = [|
   Literals.gentype_import
 |]
 
-(* ATT: Special cases for built-in attributes handling *)
-(* XXX(anmonteiro): port some logic *)
-let external_needs_to_be_encoded (attrs : t)=
-  Ext_list.exists attrs
-    (fun { attr_name = {txt; _}; _} ->
-       Ext_string.starts_with txt "bs." ||
-       Ext_array.exists external_attrs (fun (x : string) -> txt = x) )
-
 let first_char_special (x : string) =
   match String.unsafe_get x  0 with
   | '#' | '?' | '%' -> true
   | _ ->
+    (* XXX(anmonteiro): Upstream considers "builtin" attributes ones that
+       start with `?`. We keep the original terminology of `caml_` (and,
+       incidentally, `nativeint_`). *)
     Ext_string.starts_with x "caml_" ||
     Ext_string.starts_with x "nativeint_"
 
