@@ -878,6 +878,7 @@ let handle_attributes
     (loc : Bs_loc.t)
     (type_annotation : Parsetree.core_type)
     (prim_attributes : Ast_attributes.t)
+    (pval_name : string )
     (prim_name : string)
   : Parsetree.core_type *  External_ffi_types.t * Parsetree.attributes * bool
   =
@@ -889,7 +890,9 @@ let handle_attributes
     Location.raise_errorf
       ~loc "%@uncurry can not be applied to the whole definition";
   let prim_name_or_pval_name =
-    `Nm_external prim_name  (* need check name *) in
+    if String.length prim_name = 0 then
+      `Nm_val (lazy (Location.prerr_warning loc (Bs_fragile_external pval_name); pval_name))
+    else  `Nm_external prim_name  (* need check name *) in
   let result_type, arg_types_ty =
     (* Note this assumes external type is syntatic (no abstraction)*)
     Ast_core_type.list_of_arrow type_annotation in
@@ -988,23 +991,26 @@ let handle_attributes
     let relative = External_ffi_types.check_ffi ~loc ffi in
     (* result type can not be labeled *)
     (* currently we don't process attributes of
-       return type, in the future we may *)
-    let return_wrapper =
-      check_return_wrapper loc external_desc.return_wrapper result_type
-    in
-    ( Ast_core_type.mk_fn_type new_arg_types_ty result_type,
-      External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
-      unused_attrs,
-      relative )
+       return type, in the future we may  *)
+    let return_wrapper = check_return_wrapper loc external_desc.return_wrapper result_type in
+    Ast_core_type.mk_fn_type new_arg_types_ty result_type,
+    External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
+    unused_attrs,
+    relative
 
-let encode_attributes_as_string (pval_loc : Location.t) (typ : Ast_core_type.t)
-    (attrs : Ast_attributes.t) (prim_name : string) : response =
-  let pval_type, ffi, pval_attributes, no_inline_cross_module =
-    handle_attributes pval_loc typ attrs prim_name
-  in
-  {
-    pval_type;
-    pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
+
+
+let handle_attributes_as_string
+    (pval_loc : Location.t)
+    (typ : Ast_core_type.t)
+    (attrs : Ast_attributes.t)
+    (pval_name : string)
+    (prim_name : string)
+  : response =
+  let pval_type, ffi, pval_attributes, no_inline_cross_module  =
+    handle_attributes pval_loc typ attrs pval_name prim_name  in
+  { pval_type;
+    pval_prim = [prim_name; External_ffi_types.to_string ffi];
     pval_attributes;
     no_inline_cross_module
   }
