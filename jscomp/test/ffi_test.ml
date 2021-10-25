@@ -1,9 +1,16 @@
+[@@@config {
+  flags = [|
+    "-warn-error";
+       "A-105";
+  |]
+}]
+
 
 
 external f : int -> int = "xx" [@@bs.val ]
 
 
-let u () = f 3 
+let u () = f 3
 let v = Js.Null.empty
 
 let a, b ,c, d = (true, false, Js.Null.empty, Js.Undefined.empty)
@@ -21,10 +28,10 @@ end
 (*
 external never_used : Textarea.t ->  int -> int  = "minHeight" [@@bs.get]
 
-let v = never_used (Textarea.create ()) 3 
+let v = never_used (Textarea.create ()) 3
 *)
 module Int32Array = struct
-  type t 
+  type t
   external create : int -> t = "Int32Array" [@@bs.new]
   external get : t -> int -> int = "" [@@bs.get_index]
   external set : t -> int -> int -> unit = "" [@@bs.set_index]
@@ -37,10 +44,13 @@ let v () =
    (* Textarea.set_minHeight_x *)
 
 
-let f () = 
-  let module Array = Int32Array in 
-  let v  = Array.create 32 in 
-  begin 
+let f () =
+  let module Array = Int32Array in
+  let v  = Array.create 32 in
+  begin
     v.(0) <- 3   ;
     v.(0)
   end
+
+external removeItem : string -> unit  = ""
+[@@bs.val]  [@@bs.scope "localStorage"]
