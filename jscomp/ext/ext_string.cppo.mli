@@ -216,3 +216,7 @@ val unsafe_sub :
 val first_marshal_char:
   string ->
   bool
+
+val is_valid_hash_number: string -> bool
+
+val hash_number_as_i32_exn: string -> int32
