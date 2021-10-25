@@ -29,26 +29,27 @@ let handleExternalInSig
     (sigi : Parsetree.signature_item)
   : Parsetree.signature_item
   =
-  let loc = prim.pval_loc in
+  let loc = prim.pval_loc in  
   let pval_type = self.typ self prim.pval_type in
   let pval_attributes = self.attributes self prim.pval_attributes in
   match prim.pval_prim with
-  | [] ->
+  | [] -> 
     Location.raise_errorf
       ~loc
-      "empty primitive string"
+      "empty primitive string" 
   | a :: b :: _ ->
     Location.raise_errorf
       ~loc
       "only a single string is allowed in bs external %S %S" a b
   | [ v ] ->
-    match Ast_external_process.encode_attributes_as_string
+    match Ast_external_process.handle_attributes_as_string
             loc
             pval_type
             pval_attributes
-            v
+            prim.pval_name.txt            
+            v 
     with
-    | {pval_type; pval_prim; pval_attributes; no_inline_cross_module} ->
+    | {pval_type; pval_prim; pval_attributes; no_inline_cross_module} ->        
       {sigi with
        psig_desc =
          Psig_value
@@ -57,34 +58,35 @@ let handleExternalInSig
             pval_prim = if no_inline_cross_module then [] else pval_prim ;
             pval_attributes
            }}
-
+  
 let handleExternalInStru
     (self : Bs_ast_mapper.mapper)
     (prim : Parsetree.value_description)
     (str : Parsetree.structure_item)
   : Parsetree.structure_item =
-  let loc = prim.pval_loc in
+  let loc = prim.pval_loc in 
   let pval_type = self.typ self prim.pval_type in
   let pval_attributes = self.attributes self prim.pval_attributes in
   match prim.pval_prim with
-  | []
-    ->
+  | [] 
+    -> 
     Location.raise_errorf
-      ~loc
-      "empty primitive string"
+      ~loc 
+      "empty primitive string" 
   | a :: b :: _
-    ->
+    -> 
     Location.raise_errorf
-      ~loc
-      "only a single string is allowed in bs external %S : %S"  a b
+      ~loc 
+      "only a single string is allowed in bs external %S : %S"  a b 
   | [ v] ->
-    match Ast_external_process.encode_attributes_as_string
+    match Ast_external_process.handle_attributes_as_string
             loc
-            pval_type
-            pval_attributes
-            v with
+            pval_type 
+            pval_attributes 
+            prim.pval_name.txt
+            v with 
     | { pval_type; pval_prim; pval_attributes; no_inline_cross_module} ->
-      let external_result =
+      let external_result = 
         {str with
          pstr_desc =
            Pstr_primitive
@@ -92,21 +94,21 @@ let handleExternalInStru
               pval_type ;
               pval_prim;
               pval_attributes
-             }} in
-      if not no_inline_cross_module then
+             }} in 
+      if not no_inline_cross_module then   
         external_result
       else
-        let open Ast_helper in
-        Str.include_ ~loc
-          (Incl.mk ~loc
+        let open Ast_helper in 
+        Str.include_ ~loc 
+          (Incl.mk ~loc 
              (Mod.constraint_ ~loc
-                (Mod.structure ~loc
+                (Mod.structure ~loc 
                    [external_result])
                 (Mty.signature ~loc [
                     {
                       psig_desc = Psig_value {
-                          prim with
-                          pval_type ;
+                          prim with 
+                          pval_type ; 
                           pval_prim = [];
                           pval_attributes ;
                         };
