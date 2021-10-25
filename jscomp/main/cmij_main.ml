@@ -48,10 +48,6 @@ let check_digest output_file digest : bool =
     | _ -> false
   else false
 
-      Digest.equal digest old_digest
-
-    | _ -> false
-  else false
 let (+>) = Ext_buffer.add_string
 let from_cmj ~mode (files : string list) (output_file : string) : unit =
   let cmp = Ext_filename.module_name in
@@ -162,17 +158,9 @@ let () =
   end
 let mode =
   match Sys.argv with
-<<<<<<< HEAD
-  | [|_; "-playground"; folders |]
-    ->
-    Playground (folders
-                |> String.split_on_char ','
-                |> List.filter (fun s -> s <> ""))
-=======
   | [| _; "-playground"; folders |] ->
       Playground
         (Ext_list.filter (String.split_on_char ',' folders) (fun s -> s <> ""))
->>>>>>> 3a24378c9 (avoid an allocation in filter)
   | _ -> Native
 let () =
   let third_party_cmj_files = match mode with
@@ -189,29 +177,10 @@ let () =
     (Filename.dirname Sys.argv.(0) // ".." // "main" // "builtin_cmj_datasets.ml");
   let third_party_cmi_files = match mode with
     | Native -> []
-<<<<<<< HEAD
-    | Playground folders -> List.fold_left (fun acc folder -> acc @ get_files Literals.suffix_cmi folder) [] folders
-=======
     | Playground folders ->
         List.fold_left
           (fun acc folder -> acc @ get_files Literals.suffix_cmi folder)
           [] folders
-  in
-  let cmi_files =
-    if release_cmi then get_files Literals.suffix_cmi (".." // "lib" // "ocaml")
-    else
-      let files =
-        (Filename.dirname Sys.argv.(0) // ".." // "runtime" // "js.cmi")
-        ::
-        (get_files Literals.suffix_cmi
-           (Filename.dirname Sys.argv.(0) // ".." // stdlib)
-        @ get_files Literals.suffix_cmi
-            (Filename.dirname Sys.argv.(0) // ".." // "others")
-        @ third_party_cmi_files)
-      in
-      Ext_list.filter files (fun x ->
-          x |~ "js_OO" || x |~ "camlinternal" || not (x |~ "internal"))
->>>>>>> 3a24378c9 (avoid an allocation in filter)
   in
   let cmi_files =
     if release_cmi then

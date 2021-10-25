@@ -155,10 +155,6 @@ let first_char_special (x : string) =
     Ext_string.starts_with x "caml_" ||
     Ext_string.starts_with x "nativeint_"
 
-let first_marshal_char (x : string) =
-  x <> ""   &&
-  ( String.unsafe_get x  0 = '\132')
-
 let prims_to_be_encoded (attrs : string list) =
   match attrs with
   | [] -> assert false (* normal val declaration *)
