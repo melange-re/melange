@@ -11,7 +11,7 @@ depends: [
   "base-unix"
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   ["dune" "build" "-p" name "-j" jobs]
   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
@@ -28,12 +28,10 @@ Cppo is:
 * reasonably fast
 * simple to install and to maintain
 """
-x-commit-hash: "7d217864a5fdc4551699e248137a2f8b719d2078"
 url {
-  src:
-    "https://github.com/ocaml-community/cppo/releases/download/v1.6.7/cppo-v1.6.7.tbz"
+  src: "https://github.com/ocaml-community/cppo/archive/v1.6.8.tar.gz"
   checksum: [
-    "sha256=db553e3e6c206df09b1858c3aef5e21e56564d593642a3c78bcedb6af36f529d"
-    "sha512=9722b50fd23aaccf86816313333a3bf8fc7c6b4ef06b153e5e1e1aaf14670cf51a4aac52fb1b4a0e5531699c4047a1eff6c24c969f7e5063e78096c2195b5819"
+    "md5=fed401197d86f9089e89f6cbdf1d660d"
+    "sha512=069bbe0ef09c03b0dc4b5795f909c3ef872fe99c6f1e6704a0fa97594b1570b3579226ec67fe11d696ccc349a4585055bbaf07c65eff423aa45af28abf38c858"
   ]
 }

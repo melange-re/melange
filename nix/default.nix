@@ -8,7 +8,6 @@ stdenv.mkDerivation rec {
   name = "melange";
   version = "9.0.0-dev";
 
-  dontConfigure = true;
   buildPhase = ''
     runHook preBuild
     dune build -p ${name} -j $NIX_BUILD_CORES --display=short

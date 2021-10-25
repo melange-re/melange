@@ -48,11 +48,11 @@ depends: [
   "base-unix"
   "base-threads"
 ]
-x-commit-hash: "e84ba5230f6afacb12f022937138a752f1c301b6"
+x-commit-hash: "e41c66259135d6d1d72b031be6684bf8826a2586"
 url {
-  src: "https://github.com/ocaml/dune/releases/download/2.8.5/dune-2.8.5.tbz"
+  src: "https://github.com/ocaml/dune/releases/download/2.9.1/dune-2.9.1.tbz"
   checksum: [
-    "sha256=79011283fb74c7a27eb17ad752efbcc39b39633cbacc8d7be97e8ea869443629"
-    "sha512=4ef6cdea0768a29de0108cb61b04ef471cb494762c865265f20d7d15ed65a39557f7e34f2dbd466352a6567cce29d7ba21be6569afafbcfc2871720b9466dcae"
+    "sha256=b374feb22b34099ccc6dd32128e18d088ff9a81837952b29f05110b308c09f26"
+    "sha512=fce1aa520db785c25ded75a959e9dafeb7887d4f5deeb14b044cd5b9e2d235dca24589d794d2f01513765bc4764cf72f8659bd15f3a4fc06efa61363dc5d709b"
   ]
 }
