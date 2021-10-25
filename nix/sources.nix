@@ -2,10 +2,10 @@
 let
   overlays =
     builtins.fetchTarball
-      https://github.com/anmonteiro/nix-overlays/archive/8a73921.tar.gz;
+      https://github.com/anmonteiro/nix-overlays/archive/79d36ea3.tar.gz;
 
 in
-import "${overlays}/sources.nix" {
+import "${overlays}/boot.nix" {
   overlays = [
     (import overlays)
     (self: super: {

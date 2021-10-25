@@ -6,7 +6,8 @@ authors: [
 ]
 homepage: "http://gitlab.inria.fr/fpottier/menhir"
 dev-repo: "git+https://gitlab.inria.fr/fpottier/menhir.git"
-bug-reports: "menhir@inria.fr"
+bug-reports: "https://gitlab.inria.fr/fpottier/menhir/-/issues"
+license: "LGPL-2.0-only with OCaml-LGPL-linking-exception"
 build: [
   ["dune" "build" "-p" name "-j" jobs]
 ]
@@ -20,9 +21,9 @@ conflicts: [
 synopsis: "Compile-time library for auxiliary tools related to Menhir"
 url {
   src:
-    "https://gitlab.inria.fr/fpottier/menhir/repository/20210310/archive.tar.gz"
+    "https://gitlab.inria.fr/fpottier/menhir/-/archive/20211012/archive.tar.gz"
   checksum: [
-    "md5=1cbc71c0bc1f3ddc3e71d5c1f919fd1a"
-    "sha512=3c309fa2cc4ad7c6fba85107bd946a542894882fa39741496b150307e93455b717418f19e94b5dad06ab269f5c55e8dc25705c96c0a5092e623fa38f1ce43c7f"
+    "md5=f631f4c03859254a7d725f054633ee44"
+    "sha512=13376d3c07158c36dd9b4617294a7e4d53ba90062ab09fae48c36b76f08133e2ffc4be13a1bc88980617c5d1046631844815c9ee7fd7c821699bacaf245b1ed8"
   ]
 }
