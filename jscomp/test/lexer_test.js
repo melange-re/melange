@@ -119,7 +119,6 @@ var lexer_suites_1 = {
               hd: t,
               tl: v.contents
             };
-            
           };
           Number_lexer.token(add, Lexing.from_string(undefined, "32 + 32 ( ) * / "));
           return {

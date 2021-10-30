@@ -33,7 +33,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function eq3(loc, a, b, c) {

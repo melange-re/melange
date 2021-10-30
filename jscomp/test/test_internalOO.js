@@ -3397,7 +3397,6 @@ function resize(array, new_size) {
   var new_buck = Caml_array.make(new_size, /* DummyA */0);
   $$Array.blit(array.methods, 0, new_buck, 0, old_size);
   array.methods = new_buck;
-  
 }
 
 function put(array, label, element) {
@@ -3527,12 +3526,10 @@ function narrow(table, vars, virt_meths, concr_meths) {
             }
           }
           by_label.contents = add$2(label, tmp, by_label.contents);
-          
         }), concr_meths$1, concr_meth_labs);
   List.iter2((function (met, label) {
           by_name.contents = add$1(met, label, by_name.contents);
           by_label.contents = add$2(label, false, by_label.contents);
-          
         }), virt_meths$1, virt_meth_labs);
   table.methods_by_name = by_name.contents;
   table.methods_by_label = by_label.contents;
@@ -3546,7 +3543,6 @@ function narrow(table, vars, virt_meths, concr_meths) {
                   };
           }
         }), table.hidden_meths, /* [] */0);
-  
 }
 
 function widen(table) {
@@ -3568,7 +3564,6 @@ function widen(table) {
                   };
           }
         }), table.hidden_meths, match[2]);
-  
 }
 
 function new_slot(table) {
@@ -3648,7 +3643,6 @@ function add_initializer(table, f) {
     hd: f,
     tl: table.initializers
   };
-  
 }
 
 function create_table(public_methods) {
@@ -3661,7 +3655,6 @@ function create_table(public_methods) {
           var lab = (i << 1) + 2 | 0;
           table.methods_by_name = add$1(met, lab, table.methods_by_name);
           table.methods_by_label = add$2(lab, true, table.methods_by_label);
-          
         }), public_methods);
   return table;
 }
@@ -3711,7 +3704,6 @@ function make_class_store(pub_meths, class_init, init_table) {
   init_class(table);
   init_table.class_init = class_init;
   init_table.env_init = env_init;
-  
 }
 
 function dummy_class(loc) {
@@ -3839,7 +3831,6 @@ function get_meth(n) {
 function set_var(n) {
   return function (obj, x) {
     obj[n] = x;
-    
   };
 }
 
@@ -3997,7 +3988,6 @@ function method_impl(table, i, arr) {
         var n$2 = next(undefined);
         return function (obj, x) {
           obj[n$2] = x;
-          
         };
     case /* AppConst */5 :
         var f = next(undefined);
@@ -4108,7 +4098,6 @@ function set_methods(table, methods) {
     set_method(table, label, clo);
     i.contents = i.contents + 1 | 0;
   };
-  
 }
 
 function stats(param) {

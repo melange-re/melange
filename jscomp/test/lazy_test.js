@@ -14,7 +14,6 @@ var v = {
   LAZY_DONE: false,
   VAL: (function () {
       u.contents = 32;
-      
     })
 };
 
@@ -58,7 +57,6 @@ var set_true = {
   LAZY_DONE: false,
   VAL: (function () {
       s.contents = 1;
-      
     })
 };
 
@@ -66,7 +64,6 @@ var set_false = {
   LAZY_DONE: false,
   VAL: (function () {
       s.contents = undefined;
-      
     })
 };
 
@@ -96,7 +93,6 @@ var u$1 = {
   LAZY_DONE: false,
   VAL: (function () {
       u_v.contents = 2;
-      
     })
 };
 

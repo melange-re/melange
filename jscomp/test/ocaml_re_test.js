@@ -42,7 +42,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function union(_l, _l$p) {

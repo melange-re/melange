@@ -452,7 +452,6 @@ function get_styles(param) {
 
 function set_styles(s) {
   cur_styles.contents = s;
-  
 }
 
 function style_of_tag(s) {
@@ -1091,7 +1090,6 @@ function parse_options(errflag, s) {
     active: active,
     error: error
   };
-  
 }
 
 parse_options(false, "+a-4-6-7-9-27-29-32..39-41..42-44-45-48-50-102");
@@ -1778,7 +1776,6 @@ function highlight_dumb(ppf, lb, loc) {
       pos_at_bol = pos$1 + 1 | 0;
     }
   }
-  
 }
 
 function highlight_locations(ppf, locs) {
@@ -2079,7 +2076,6 @@ function print_error(ppf, loc) {
             },
             _1: "@{<error>%s@}:"
           }), error_prefix);
-  
 }
 
 function default_warning_printer(loc, ppf, w) {
@@ -2221,7 +2217,6 @@ function register_error_of_exn(f) {
     hd: f,
     tl: error_of_exn.contents
   };
-  
 }
 
 function error_of_printer(loc, print, x) {
@@ -2330,7 +2325,6 @@ function equal(i1, i2) {
 
 function set_current_time(t) {
   currentstamp.contents = currentstamp.contents > t ? currentstamp.contents : t;
-  
 }
 
 function hide(i) {
@@ -2343,7 +2337,6 @@ function hide(i) {
 
 function make_global(i) {
   i.flags = i.flags | 1;
-  
 }
 
 function $$global(i) {
@@ -5992,7 +5985,6 @@ function save_desc(ty, desc) {
     ],
     tl: saved_desc.contents
   };
-  
 }
 
 var saved_kinds = {
@@ -6033,22 +6025,18 @@ function dup_kind(r) {
   r.contents = /* Fvar */{
     _0: r$p
   };
-  
 }
 
 function cleanup_types(param) {
   List.iter((function (param) {
           param[0].desc = param[1];
-          
         }), saved_desc.contents);
   List.iter((function (r) {
           r.contents = undefined;
-          
         }), saved_kinds.contents);
   saved_desc.contents = /* [] */0;
   saved_kinds.contents = /* [] */0;
   new_kinds.contents = /* [] */0;
-  
 }
 
 function mark_type(ty) {
@@ -6148,10 +6136,8 @@ var memo = {
 function cleanup_abbrev(param) {
   List.iter((function (abbr) {
           abbr.contents = /* Mnil */0;
-          
         }), memo.contents);
   memo.contents = /* [] */0;
-  
 }
 
 function memorize_abbrev(mem, priv, path, v, v$p) {
@@ -6167,7 +6153,6 @@ function memorize_abbrev(mem, priv, path, v, v$p) {
     hd: mem,
     tl: memo.contents
   };
-  
 }
 
 function forget_abbrev_rec(mem, path) {
@@ -6359,7 +6344,6 @@ function set_level(ty, level) {
         });
   }
   ty.level = level;
-  
 }
 
 function set_univar(rty, ty) {
@@ -6369,7 +6353,6 @@ function set_univar(rty, ty) {
         _1: rty.contents
       });
   rty.contents = ty;
-  
 }
 
 function set_name(nm, v) {
@@ -6379,7 +6362,6 @@ function set_name(nm, v) {
         _1: nm.contents
       });
   nm.contents = v;
-  
 }
 
 function set_row_field(e, v) {
@@ -6389,7 +6371,6 @@ function set_row_field(e, v) {
         _1: e.contents
       });
   e.contents = v;
-  
 }
 
 function set_kind(rk, k) {
@@ -6399,7 +6380,6 @@ function set_kind(rk, k) {
         _1: rk.contents
       });
   rk.contents = k;
-  
 }
 
 function set_commu(rc, c) {
@@ -6409,7 +6389,6 @@ function set_commu(rc, c) {
         _1: rc.contents
       });
   rc.contents = c;
-  
 }
 
 function set_typeset(rs, s) {
@@ -6419,7 +6398,6 @@ function set_typeset(rs, s) {
         _1: rs.contents
       });
   rs.contents = s;
-  
 }
 
 function snapshot(param) {
@@ -7719,7 +7697,6 @@ function associate_docstrings(dsl) {
                 } else {
                   ds.ds_associated = /* One */1;
                 }
-                
               }), dsl);
 }
 
@@ -11612,7 +11589,6 @@ var imported_units = {
 
 function add_import(s) {
   imported_units.contents = add$7(s, imported_units.contents);
-  
 }
 
 function check_consistency(ps) {
@@ -12998,7 +12974,6 @@ function iter_types(f) {
         ],
         tl: iter_env_cont.contents
       };
-      
     };
     Hashtbl.iter((function (s, pso) {
             if (pso === undefined) {
@@ -13939,7 +13914,6 @@ function check_usage(loc, id, warn, tbl) {
   };
   Hashtbl.add(tbl, key, (function (param) {
           used.contents = true;
-          
         }));
   if (!(name === "" || Caml_string.get(name, 0) === /* '_' */95 || Caml_string.get(name, 0) === /* '#' */35)) {
     return Curry._1(add_delayed_check_forward.contents, (function (param) {
@@ -13981,7 +13955,6 @@ function check_value_name(name, loc) {
     }
     
   }
-  
 }
 
 function components_of_module_maker(param) {
@@ -14051,14 +14024,12 @@ function components_of_module_maker(param) {
                                     descr,
                                     -1
                                   ], c.comp_constrs);
-                              
                             }), constructors);
                       List.iter((function (descr) {
                               c.comp_labels = add_to_tbl(descr.lbl_name, [
                                     descr,
                                     -1
                                   ], c.comp_labels);
-                              
                             }), labels);
                       env$1.contents = store_type_infos(undefined, id, {
                             TAG: /* Pident */0,
@@ -14767,7 +14738,6 @@ function open_signature$1(locOpt, toplevelOpt, ovf, root, sg, env) {
       prerr_warning(loc, w);
     }
     used.contents = true;
-    
   };
   return open_signature(slot, root, sg, env);
 }
@@ -15484,7 +15454,6 @@ register_error_of_exn(function (err) {
 
 function assert_fail(msg) {
   Assert.fail(undefined, undefined, msg, "");
-  
 }
 
 function is_mocha(param) {
@@ -15562,7 +15531,6 @@ function from_pair_suites(name, suites) {
                                       
                                     }
                                   }));
-                            
                           }), suites);
             }));
       return ;
@@ -23144,7 +23112,6 @@ function directive_parse(token_with_comments, lexbuf) {
           };
     }
     look_ahead.contents = e;
-    
   };
   var token_op = function (calc, no, lhs) {
     var op = token(undefined);
@@ -23963,7 +23930,6 @@ var string_index = {
 function reset_string_buffer(param) {
   string_buff.contents = initial_string_buffer;
   string_index.contents = 0;
-  
 }
 
 function store_string_char(c) {
@@ -23974,14 +23940,12 @@ function store_string_char(c) {
   }
   string_buff.contents[string_index.contents] = c;
   string_index.contents = string_index.contents + 1 | 0;
-  
 }
 
 function store_string(s) {
   for(var i = 0 ,i_finish = s.length; i < i_finish; ++i){
     store_string_char(Caml_string.get(s, i));
   }
-  
 }
 
 function get_stored_string(param) {
@@ -24173,7 +24137,6 @@ function update_loc(lexbuf, file, line, absolute, chars) {
     pos_bol: pos.pos_cnum - chars | 0,
     pos_cnum: pos.pos_cnum
   };
-  
 }
 
 var preprocessor = {
@@ -24193,7 +24156,6 @@ function add_comment(com) {
     hd: com,
     tl: comment_list.contents
   };
-  
 }
 
 function add_docstring_comment(ds) {
@@ -27682,7 +27644,6 @@ var value_deps = {
 function clear(param) {
   saved_types.contents = /* [] */0;
   value_deps.contents = /* [] */0;
-  
 }
 
 function add_saved_type(b) {
@@ -27690,7 +27651,6 @@ function add_saved_type(b) {
     hd: b,
     tl: saved_types.contents
   };
-  
 }
 
 function record_value_dependency(vd1, vd2) {
@@ -27882,7 +27842,6 @@ var saved_level = {
 function init_def(level) {
   current_level.contents = level;
   nongen_level.contents = level;
-  
 }
 
 function begin_def(param) {
@@ -27895,7 +27854,6 @@ function begin_def(param) {
   };
   current_level.contents = current_level.contents + 1 | 0;
   nongen_level.contents = current_level.contents;
-  
 }
 
 function begin_class_def(param) {
@@ -27907,7 +27865,6 @@ function begin_class_def(param) {
     tl: saved_level.contents
   };
   current_level.contents = current_level.contents + 1 | 0;
-  
 }
 
 function raise_nongen_level(param) {
@@ -27919,7 +27876,6 @@ function raise_nongen_level(param) {
     tl: saved_level.contents
   };
   nongen_level.contents = current_level.contents;
-  
 }
 
 function end_def(param) {
@@ -27927,12 +27883,10 @@ function end_def(param) {
   saved_level.contents = List.tl(saved_level.contents);
   current_level.contents = match[0];
   nongen_level.contents = match[1];
-  
 }
 
 function reset_global_level(param) {
   global_level.contents = current_level.contents + 1 | 0;
-  
 }
 
 function increase_global_level(param) {
@@ -29464,7 +29418,6 @@ function limited_generalize(ty0, ty) {
     var match = Hashtbl.find(graph, ty$1.level);
     var parents = match[1];
     parents.contents = Stdlib__no_aliases.$at(pty, parents.contents);
-    
   };
   var generalize_parents = function (ty) {
     var idx = ty.level;
@@ -30211,7 +30164,6 @@ function copy_sep(fixed, free, bound, visited, ty) {
               TAG: /* Tlink */6,
               _0: copy(undefined, undefined, undefined, ty$1)
             };
-            
           })
       },
       tl: delayed_copy.contents
@@ -45091,7 +45043,6 @@ function raw_type_expr(ppf, t) {
   visited.contents = /* [] */0;
   raw_type(ppf, t);
   visited.contents = /* [] */0;
-  
 }
 
 print_raw = raw_type_expr;
@@ -45537,7 +45488,6 @@ function set_printing_env(env) {
     hd: cont,
     tl: /* [] */0
   };
-  
 }
 
 function wrap_printing_env(env, f) {
@@ -45681,7 +45631,6 @@ function reset_names(param) {
   names.contents = /* [] */0;
   name_counter.contents = 0;
   named_vars.contents = /* [] */0;
-  
 }
 
 function add_named_var(ty) {
@@ -45787,7 +45736,6 @@ function name_of_type(t) {
 
 function check_name_of_type(t) {
   name_of_type(t);
-  
 }
 
 function remove_names(tyl) {
@@ -45795,7 +45743,6 @@ function remove_names(tyl) {
   names.contents = List.filter(function (param) {
           return !List.memq(param[0], tyl$1);
         })(names.contents);
-  
 }
 
 var visited_objects = {
@@ -46022,7 +45969,6 @@ function reset(param) {
   visited_objects.contents = /* [] */0;
   aliased.contents = /* [] */0;
   delayed.contents = /* [] */0;
-  
 }
 
 function reset_and_mark_loops_list(tyl) {
@@ -51918,7 +51864,6 @@ function collect_arg_paths(mty) {
   };
   var it_path = function (p) {
     paths.contents = union$4(get_arg_paths(p), paths.contents);
-    
   };
   var it_signature_item$1 = function (it, si) {
     it_signature_item(it, si);
@@ -51943,7 +51888,6 @@ function collect_arg_paths(mty) {
                               _1: id$p.name,
                               _2: -1
                             }, id$p, subst.contents);
-                        
                       }), p._0);
       case /* Mty_ident */0 :
       case /* Mty_functor */2 :
@@ -58922,7 +58866,6 @@ function pressure_variants$1(tdefs, patl) {
                 };
         }), patl);
   pressure_variants(Caml_option.some(tdefs), pss);
-  
 }
 
 function initial_matrix(_param) {
@@ -59799,7 +59742,6 @@ function warning_enter_scope(param) {
     hd: current.contents,
     tl: warning_scope.contents
   };
-  
 }
 
 function warning_leave_scope(param) {
@@ -60220,7 +60162,6 @@ var used_variables = {
 function reset_type_variables(param) {
   reset_global_level(undefined);
   type_variables.contents = /* Empty */0;
-  
 }
 
 function narrow(param) {
@@ -60233,7 +60174,6 @@ function narrow(param) {
 function widen(param) {
   global_level.contents = param[0];
   type_variables.contents = param[1];
-  
 }
 
 function strict_lowercase(c) {
@@ -63347,7 +63287,6 @@ function reset_pattern(scope, allow) {
   pattern_scope.contents = scope;
   allow_modules.contents = allow;
   module_variables.contents = /* [] */0;
-  
 }
 
 function enter_variable(is_moduleOpt, is_as_variableOpt, loc, name, ty) {
@@ -65603,7 +65542,6 @@ function type_pat$1(allow_existentialsOpt, constrs, labels, levOpt, env, sp, exp
     var r = type_pat(constrs, labels, !allow_existentials, /* Normal */0, env, sp, expected_ty);
     iter_pattern((function (p) {
             p.pat_env = env.contents;
-            
           }), r);
     newtype_level$1.contents = undefined;
     return r;
@@ -65878,7 +65816,6 @@ function add_delayed_check(f) {
     ],
     tl: delayed_checks.contents
   };
-  
 }
 
 function force_delayed_checks(param) {
@@ -70644,7 +70581,6 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                       used.contents = true;
                       some_used.contents = true;
                     }
-                    
                   };
                   var key_1 = vd.val_loc;
                   var key = [
@@ -70720,7 +70656,6 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                 },
                 tl: /* [] */0
               });
-          
         }), pat_list$1, exp_list);
   end_def(undefined);
   List.iter2((function (pat, exp) {
@@ -72913,7 +72848,6 @@ function set_fixed_row(env, loc, p, decl) {
       contents: /* Mnil */0
     }
   };
-  
 }
 
 function height$10(param) {
@@ -74613,7 +74547,6 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                     };
               }
               all_constrs.contents = add$12(name, all_constrs.contents);
-              
             }), scstrs$1);
       if (List.length(List.filter(function (cd) {
                     return Caml_obj.caml_notequal(cd.pcd_args, /* [] */0);
@@ -74693,7 +74626,6 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                     };
               }
               all_labels.contents = add$12(name, all_labels.contents);
-              
             }), lbls);
       var lbls$1 = List.map((function (param) {
               var name = param.pld_name;
@@ -75495,7 +75427,6 @@ function transl_type_extension(check_open, env, loc, styext) {
                 type_variance,
                 loc
               ]);
-          
         }), constructors);
   var newenv = List.fold_left((function (env, ext) {
           return add_extension(true, ext.ext_id, ext.ext_type, env);
@@ -77858,7 +77789,6 @@ function declare_method(val_env, meths, self_type, lab, priv, sty, loc) {
               _1: cty
             };
             returned_cty.ctyp_type = ty;
-            
           })
       },
       tl: delayed_meth_specs.contents
@@ -83279,7 +83209,6 @@ function check(cl, loc, set_ref, name) {
         };
   }
   set_ref.contents = add$14(name, set_ref.contents);
-  
 }
 
 function check_name(cl, set_ref, name) {
@@ -86677,7 +86606,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function v(str) {

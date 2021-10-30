@@ -230,7 +230,6 @@ function createClass(debugName) {
                   } else {
                     $$this.subscriptions = [subscription];
                   }
-                  
                 }),
               handleMethod: (function (callback) {
                   var $$this = this ;

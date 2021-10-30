@@ -31,7 +31,6 @@ function point_init($$class) {
         move,
         (function (self$1, d) {
             self$1[x] = self$1[x] + d | 0;
-            
           })
       ]);
   return function (env, self) {
@@ -68,7 +67,6 @@ function point2_init($$class) {
         move,
         (function (self$2, d) {
             self$2[x] = self$2[x] + d | 0;
-            
           })
       ]);
   return function (env, self) {
