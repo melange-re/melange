@@ -95,7 +95,7 @@ let suites =
       OUnit.assert_equal (Ext_list.assoc_by_int  [2,"x"; 3,"y"; 1, "z"] 1 None) "z"
     end;
     __LOC__ >:: begin fun _ ->
-      OUnit.assert_raises (Assert_failure ("jscomp/ext/ext_list.ml", 708, 16))
+      OUnit.assert_raises (Assert_failure ("jscomp/ext/ext_list.ml", 743, 16))
         (fun _ -> ignore @@ Ext_list.assoc_by_int [2,"x"; 3,"y"; 1, "z"] 11 None )
     end ;
     __LOC__ >:: begin fun _ ->
