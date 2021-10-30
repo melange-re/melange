@@ -78,7 +78,7 @@ Explanation: since records have a known, fixed shape, a spread like `{a, ...b}` 
 Explanation: lists are singly-linked list, where a node contains a value and points to the next node. `list[a, ...bc]` efficiently creates a new item and links `bc` as its next nodes. `[...bc, a]` would be expensive, as it'd need to traverse `bc` and prepend each item to `a` one by one. We therefore disallow such syntax sugar.\n\
 Solution: directly use `concat`."
 
-  let variantIdent = "A polymorphic variant (e.g. #id) must start with an alphabetical letter."
+  let variantIdent = "A polymorphic variant (e.g. #id) must start with an alphabetical letter or be a number (e.g. #742)"
 
   let experimentalIfLet expr =
     let switchExpr = {expr with Parsetree.pexp_attributes = []} in
@@ -110,6 +110,24 @@ Solution: directly use `concat`."
       "A labeled parameter starts with a `~`."
     else
       ("A labeled parameter starts with a `~`. Did you mean: `~" ^ name ^ "`?")
+
+  let stringInterpolationInPattern =
+    "String interpolation is not supported in pattern matching."
+
+  let spreadInRecordDeclaration =
+    "A record type declaration doesn't support the ... spread. Only an object (with quoted field names) does."
+
+  let objectQuotedFieldName name =
+    "An object type declaration needs quoted field names. Did you mean \"" ^ name ^ "\"?"
+
+  let forbiddenInlineRecordDeclaration =
+    "An inline record type declaration is only allowed in a variant constructor's declaration"
+
+  let sameTypeSpread =
+    "You're using a ... spread without extra fields. This is the same type."
+
+  let polyVarIntWithSuffix number =
+    "A numeric polymorphic variant cannot be followed by a letter. Did you mean `#" ^ number ^ "`?"
 end
 
 
@@ -119,6 +137,18 @@ let ternaryAttr = (Location.mknoloc "ns.ternary", Parsetree.PStr [])
 let ifLetAttr = (Location.mknoloc "ns.iflet", Parsetree.PStr [])
 let suppressFragileMatchWarningAttr = (Location.mknoloc "warning", Parsetree.PStr [Ast_helper.Str.eval (Ast_helper.Exp.constant (Pconst_string ("-4", None)))])
 let makeBracesAttr loc = (Location.mkloc "ns.braces" loc, Parsetree.PStr [])
+let templateLiteralAttr = (Location.mknoloc "res.template", Parsetree.PStr [])
+
+type stringLiteralState =
+  | Start
+  | Backslash
+  | HexEscape
+  | DecimalEscape
+  | OctalEscape
+  | UnicodeEscape
+  | UnicodeCodePointEscape
+  | UnicodeEscapeStart
+  | EscapedLineBreak
 
 type typDefOrExt =
   | TypeDef of {recFlag: Asttypes.rec_flag; types: Parsetree.type_declaration list}
@@ -144,14 +174,15 @@ let getClosingToken = function
   | Lbrace -> Rbrace
   | Lbracket -> Rbracket
   | List -> Rbrace
+  | LessThan -> GreaterThan
   | _ -> assert false
 
 let rec goToClosing closingToken state =
   match (state.Parser.token, closingToken) with
-  | (Rparen, Token.Rparen) | (Rbrace, Rbrace) | (Rbracket, Rbracket) ->
+  | (Rparen, Token.Rparen) | (Rbrace, Rbrace) | (Rbracket, Rbracket) | (GreaterThan, GreaterThan) ->
     Parser.next state;
     ()
-  | (Token.Lbracket | Lparen | Lbrace | List) as t, _ ->
+  | (Token.Lbracket | Lparen | Lbrace | List | LessThan) as t, _ ->
     Parser.next state;
     goToClosing (getClosingToken t) state;
     goToClosing closingToken state
@@ -180,10 +211,32 @@ let isEs6ArrowExpression ~inTernary p =
       let prevEndPos = state.prevEndPos in
       Parser.next state;
       begin match state.token with
+      (* arrived at `()` here *)
       | Rparen ->
         Parser.next state;
         begin match state.Parser.token with
-        | Colon when not inTernary -> true
+        (* arrived at `() :` here *)
+        | Colon when not inTernary ->
+          Parser.next state;
+          begin match state.Parser.token with
+          (* arrived at `() :typ` here *)
+          | Lident _ ->
+            Parser.next state;
+            begin match state.Parser.token with
+            (* arrived at `() :typ<` here *)
+            | LessThan ->
+              Parser.next state;
+              goToClosing GreaterThan state;
+            | _ -> ()
+            end;
+            begin match state.Parser.token with
+            (* arrived at `() :typ =>` or `() :typ<'a,'b> =>` here *)
+            | EqualGreater ->
+              true
+            | _ -> false
+            end
+          | _ -> true
+          end
         | EqualGreater -> true
         | _ -> false
         end
@@ -375,15 +428,6 @@ let makeListPattern loc seq ext_opt =
       Ast_helper.Pat.mk ~loc (Ppat_construct(Location.mkloc (Longident.Lident "::") loc, Some arg))
   in
   handle_seq seq
-(* {"foo": bar} -> Js.t({. foo: bar})
- * {.. "foo": bar} -> Js.t({.. foo: bar})
- * {..} -> Js.t({..}) *)
-let makeBsObjType ~attrs ~loc ~closed rows =
-  let obj = Ast_helper.Typ.object_ ~loc rows closed in
-  let jsDotTCtor =
-    Location.mkloc (Longident.Ldot (Longident.Lident "Js", "t")) loc
-  in
-  Ast_helper.Typ.constr ~loc ~attrs jsDotTCtor [obj]
 
 (* TODO: diagnostic reporting *)
 let lidentOfPath longident =
@@ -443,163 +487,125 @@ let processUnderscoreApplication args =
   in
   (args, wrap)
 
-let hexValue x =
-  match x with
-  | '0' .. '9' ->
-    (Char.code x) - 48
-  | 'A' .. 'Z' ->
-    (Char.code x) - 55
-  | 'a' .. 'z' ->
-    (Char.code x) - 97
-  | _ -> 16
+let hexValue ch =
+  match ch with
+  | '0'..'9' -> (Char.code ch) - 48
+  | 'a'..'f' -> (Char.code ch) - (Char.code 'a') + 10
+  | 'A'..'F' -> (Char.code ch) + 32 - (Char.code 'a') + 10
+  | _ -> 16 (* larger than any legal value *)
 
 let parseStringLiteral s =
   let len = String.length s in
   let b = Buffer.create (String.length s) in
 
-  let rec loop i =
+  let rec parse state i d =
     if i = len then
-      ()
+      (match state with
+      | HexEscape | DecimalEscape | OctalEscape | UnicodeEscape | UnicodeCodePointEscape -> false
+      | _ -> true)
     else
       let c = String.unsafe_get s i in
-      match c with
-      | '\\' as c ->
-        let nextIx = i + 1 in
-        if nextIx < len then
-          let nextChar = String.unsafe_get s nextIx in
-          begin match nextChar with
-          (* this is interesting:
-           * let x = "foo\
-           * bar"
-           * The `\` escapes the newline, as if there was nothing here.
-           * Essentialy transforming this piece of code in `let x = "foobar"`
-           *
-           * What is even more interesting is that any space or tabs after the
-           * escaped newline are also dropped.
-           * let x = "foo\
-           *          bar"
-           * is the same as `let x = "foobar"`
-           *)
-          | '\010' | '\013' ->
-            let i = ref (nextIx + 1) in
-            while !i < len && (
-              let c = String.unsafe_get s !i in
-              c = ' ' || c = '\t'
-            ) do
-              incr i
-            done;
-            loop !i
-          | 'n' ->
-            Buffer.add_char b '\010';
-            loop (nextIx + 1)
-          | 'r' ->
-            Buffer.add_char b '\013';
-            loop (nextIx + 1)
-          | 'b' ->
-            Buffer.add_char b '\008';
-            loop (nextIx + 1)
-          | 't' ->
-            Buffer.add_char b '\009';
-            loop (nextIx + 1)
-          | '\\' as c ->
-            Buffer.add_char b c;
-            loop (nextIx + 1)
-          | ' ' as c ->
-              Buffer.add_char b c;
-            loop (nextIx + 1)
-          | '\'' as c ->
-              Buffer.add_char b c;
-            loop (nextIx + 1)
-          | '\"' as c ->
-            Buffer.add_char b c;
-            loop (nextIx + 1)
-          | '0' .. '9' ->
-            if nextIx + 2 < len then
-              let c0 = nextChar in
-              let c1 = (String.unsafe_get s (nextIx + 1)) in
-              let c2 = (String.unsafe_get s (nextIx + 2)) in
-              let c =
-                100 * (Char.code c0 - 48) +
-                10 * (Char.code c1  - 48) +
-                (Char.code c2 - 48)
-              in
-              if (c < 0 || c > 255) then (
-                Buffer.add_char b '\\';
-                Buffer.add_char b c0;
-                Buffer.add_char b c1;
-                Buffer.add_char b c2;
-                loop (nextIx + 3)
-              ) else (
-                Buffer.add_char b (Char.unsafe_chr c);
-                loop (nextIx + 3)
-              )
-            else (
-              Buffer.add_char b '\\';
-              Buffer.add_char b nextChar;
-              loop (nextIx + 1)
-            )
-          | 'o' ->
-            if nextIx + 3 < len then
-              let c0 = (String.unsafe_get s (nextIx + 1)) in
-              let c1 = (String.unsafe_get s (nextIx + 2)) in
-              let c2 = (String.unsafe_get s (nextIx + 3)) in
-              let c =
-                64 * (Char.code c0 - 48) +
-                8 * (Char.code c1  - 48) +
-                (Char.code c2 - 48)
-              in
-              if (c < 0 || c > 255) then (
-                Buffer.add_char b '\\';
-                Buffer.add_char b '0';
-                Buffer.add_char b c0;
-                Buffer.add_char b c1;
-                Buffer.add_char b c2;
-                loop (nextIx + 4)
-              ) else (
-                Buffer.add_char b (Char.unsafe_chr c);
-                loop (nextIx + 4)
-              )
-            else (
-              Buffer.add_char b '\\';
-              Buffer.add_char b nextChar;
-              loop (nextIx + 1)
-            )
-          | 'x' as c ->
-            if nextIx + 2 < len then
-              let c0 = (String.unsafe_get s (nextIx + 1)) in
-              let c1 = (String.unsafe_get s (nextIx + 2)) in
-              let c = (16 * (hexValue c0)) + (hexValue c1) in
-              if (c < 0 || c > 255) then (
-                Buffer.add_char b '\\';
-                Buffer.add_char b 'x';
-                Buffer.add_char b c0;
-                Buffer.add_char b c1;
-                loop (nextIx + 3)
-              ) else (
-                Buffer.add_char b (Char.unsafe_chr c);
-                loop (nextIx + 3)
-              )
-            else (
-              Buffer.add_char b '\\';
-              Buffer.add_char b c;
-              loop (nextIx + 2)
-            )
-          | _ ->
-            Buffer.add_char b c;
-            Buffer.add_char b nextChar;
-            loop (nextIx + 1)
-          end
-        else (
-          Buffer.add_char b c;
-          ()
-        )
-      | c ->
-        Buffer.add_char b c;
-        loop (i + 1)
+      match state with
+      | Start ->
+        (match c with
+        | '\\' -> parse Backslash (i + 1) d
+        | c -> Buffer.add_char b c; parse Start (i + 1) d)
+      | Backslash ->
+        (match c with
+        | 'n' -> Buffer.add_char b '\n'; parse Start (i + 1) d
+        | 'r' -> Buffer.add_char b '\r'; parse Start (i + 1) d
+        | 'b' -> Buffer.add_char b '\008'; parse Start (i + 1) d
+        | 't' -> Buffer.add_char b '\009'; parse Start (i + 1) d
+        | ('\\' | ' ' | '\'' | '"') as c -> Buffer.add_char b c; parse Start (i + 1) d
+        | 'x' -> parse HexEscape (i + 1) 0
+        | 'o' -> parse OctalEscape (i + 1) 0
+        | 'u' -> parse UnicodeEscapeStart (i + 1) 0
+        | '0' .. '9' -> parse DecimalEscape i 0
+        | '\010' | '\013' -> parse EscapedLineBreak (i + 1) d
+        | c -> Buffer.add_char b '\\'; Buffer.add_char b c; parse Start (i + 1) d)
+      | HexEscape ->
+        if d == 1 then
+          let c0 = String.unsafe_get s (i - 1) in
+          let c1 = String.unsafe_get s i in
+          let c = (16 * (hexValue c0)) + (hexValue c1) in
+          if c < 0 || c > 255 then false
+          else (
+            Buffer.add_char b (Char.unsafe_chr c);
+            parse Start (i + 1) 0
+          )
+        else
+          parse HexEscape (i + 1) (d + 1)
+      | DecimalEscape ->
+        if d == 2 then
+          let c0 = String.unsafe_get s (i - 2) in
+          let c1 = String.unsafe_get s (i - 1) in
+          let c2 = String.unsafe_get s i in
+          let c = 100 * (Char.code c0 - 48) + 10 * (Char.code c1  - 48) + (Char.code c2 - 48) in
+          if c < 0 || c > 255 then false
+          else (
+            Buffer.add_char b (Char.unsafe_chr c);
+            parse Start (i + 1) 0
+          )
+        else
+          parse DecimalEscape (i + 1) (d + 1)
+      | OctalEscape ->
+        if d == 2 then
+          let c0 = String.unsafe_get s (i - 2) in
+          let c1 = String.unsafe_get s (i - 1) in
+          let c2 = String.unsafe_get s i in
+          let c = 64 * (Char.code c0 - 48) + 8 * (Char.code c1  - 48) + (Char.code c2 - 48) in
+          if c < 0 || c > 255 then false
+          else (
+            Buffer.add_char b (Char.unsafe_chr c);
+            parse Start (i + 1) 0
+          )
+        else
+          parse OctalEscape (i + 1) (d + 1)
+      | UnicodeEscapeStart ->
+        (match c with
+        | '{' -> parse UnicodeCodePointEscape (i + 1) 0
+        | _ -> parse UnicodeEscape (i + 1) 1)
+      | UnicodeEscape ->
+        if d == 3 then
+          let c0 = String.unsafe_get s (i - 3) in
+          let c1 = String.unsafe_get s (i - 2) in
+          let c2 = String.unsafe_get s (i - 1) in
+          let c3 = String.unsafe_get s i in
+          let c = (4096 * (hexValue c0)) + (256 * (hexValue c1)) + (16 * (hexValue c2)) + (hexValue c3) in
+          if Res_utf8.isValidCodePoint c then (
+            let codePoint = Res_utf8.encodeCodePoint c in
+            Buffer.add_string b codePoint;
+            parse Start (i + 1) 0
+          ) else (
+            false
+          )
+        else
+          parse UnicodeEscape (i + 1) (d + 1)
+      | UnicodeCodePointEscape ->
+        (match c with
+        | '0'..'9' | 'a'..'f' | 'A'.. 'F' ->
+          parse UnicodeCodePointEscape (i + 1) (d + 1)
+        | '}' ->
+          let x = ref 0 in
+          for remaining = d downto 1 do
+            let ix = i - remaining in
+            x := (!x * 16) + (hexValue (String.unsafe_get s ix));
+          done;
+          let c = !x in
+          if Res_utf8.isValidCodePoint c then (
+            let codePoint = Res_utf8.encodeCodePoint !x in
+            Buffer.add_string b codePoint;
+            parse Start (i + 1) 0
+          ) else (
+            false
+          )
+        | _ -> false)
+      | EscapedLineBreak ->
+        (match c with
+        | ' ' | '\t' -> parse EscapedLineBreak (i + 1) d
+        | c -> Buffer.add_char b c; parse Start (i + 1) d)
     in
-    loop 0;
-    Buffer.contents b
-
+    if parse Start 0 0 then Buffer.contents b else s
 
 let rec parseLident p =
   let recoverLident p =
@@ -619,6 +625,7 @@ let rec parseLident p =
           loop p
         end
       in
+      Parser.err p (Diagnostics.lident p.Parser.token);
       Parser.next p;
       loop p;
       match p.Parser.token with
@@ -665,9 +672,17 @@ let parseHashIdent ~startPos p =
   Parser.expect Hash p;
   match p.token with
   | String text ->
-    Parser.next p;
     let text = if p.mode = ParseForTypeChecker then parseStringLiteral text else text in
+    Parser.next p;
     (text, mkLoc startPos p.prevEndPos)
+  | Int {i; suffix} ->
+    let () = match suffix with
+    | Some _ ->
+      Parser.err p (Diagnostics.message (ErrorMessages.polyVarIntWithSuffix i))
+    | None -> ()
+    in
+    Parser.next p;
+    (i, mkLoc startPos p.prevEndPos)
   | _ ->
     parseIdent ~startPos ~msg:ErrorMessages.variantIdent p
 
@@ -899,19 +914,45 @@ let parseConstant p =
     let floatTxt = if isNegative then "-" ^ f else f in
     Parsetree.Pconst_float (floatTxt, suffix)
   | String s ->
-    let txt = if p.mode = ParseForTypeChecker then
-      parseStringLiteral s
+    if p.mode = ParseForTypeChecker then
+      Pconst_string (s, Some "js")
     else
-      s
-    in
-    Pconst_string(txt, None)
-  | Character c -> Pconst_char c
+      Pconst_string (s, None)
+  | Codepoint {c; original} ->
+    if p.mode = ParseForTypeChecker then
+      Pconst_char c
+    else
+      (* Pconst_char char does not have enough information for formatting.
+       * When parsing for the printer, we encode the char contents as a string
+       * with a special prefix. *)
+      Pconst_string (original, Some "INTERNAL_RES_CHAR_CONTENTS")
   | token ->
     Parser.err p (Diagnostics.unexpected token p.breadcrumbs);
     Pconst_string("", None)
   in
   Parser.next p;
   constant
+
+let parseTemplateConstant ~prefix (p : Parser.t) =
+  (* Arrived at the ` char *)
+  let startPos = p.startPos in
+  Parser.nextTemplateLiteralToken p;
+  match p.token with
+  | TemplateTail txt ->
+    Parser.next p;
+    let txt = if p.mode = ParseForTypeChecker then parseTemplateStringLiteral txt else txt in
+    Parsetree.Pconst_string (txt, prefix)
+  | _ ->
+    let rec skipTokens () =
+      Parser.next p;
+      match p.token with
+      | Backtick -> Parser.next p; ()
+      | _ -> skipTokens ()
+    in
+    skipTokens ();
+    Parser.err ~startPos ~endPos:p.prevEndPos p
+      (Diagnostics.message ErrorMessages.stringInterpolationInPattern);
+    Pconst_string ("", None)
 
 let parseCommaDelimitedRegion p ~grammar ~closing ~f =
   Parser.leaveBreadcrumb p grammar;
@@ -1076,7 +1117,7 @@ let rec parsePattern ?(alias=true) ?(or_=true) p =
     let loc = mkLoc startPos endPos in
     Ast_helper.Pat.construct ~loc
       (Location.mkloc (Longident.Lident (Token.toString token)) loc) None
-  | Int _ | String _ | Float _ | Character _ | Minus | Plus ->
+  | Int _ | String _ | Float _ | Codepoint _ | Minus | Plus ->
     let c = parseConstant p in
      begin match p.token with
       | DotDot ->
@@ -1086,6 +1127,9 @@ let rec parsePattern ?(alias=true) ?(or_=true) p =
       | _ ->
         Ast_helper.Pat.constant ~loc:(mkLoc startPos p.prevEndPos) c
     end
+  | Backtick ->
+    let constant = parseTemplateConstant ~prefix:(Some "js") p in
+    Ast_helper.Pat.constant ~attrs:[templateLiteralAttr] ~loc:(mkLoc startPos p.prevEndPos) constant
   | Lparen ->
     Parser.next p;
     begin match p.token with
@@ -1119,7 +1163,13 @@ let rec parsePattern ?(alias=true) ?(or_=true) p =
     let endPos = p.endPos in
     let loc = mkLoc startPos endPos in
     Parser.next p;
-    Ast_helper.Pat.var ~loc ~attrs (Location.mkloc ident loc)
+    begin match p.token with
+    | Backtick ->
+      let constant = parseTemplateConstant ~prefix:(Some ident) p in
+      Ast_helper.Pat.constant ~loc:(mkLoc startPos p.prevEndPos) constant
+    | _ ->
+      Ast_helper.Pat.var ~loc ~attrs (Location.mkloc ident loc)
+    end
   | Uident _ ->
     let constr = parseModuleLongIdent ~lowercase:false p in
     begin match p.Parser.token with
@@ -1138,9 +1188,17 @@ let rec parsePattern ?(alias=true) ?(or_=true) p =
     ) else (
       let (ident, loc) = match p.token with
       | String text ->
-        Parser.next p;
         let text = if p.mode = ParseForTypeChecker then parseStringLiteral text else text in
+        Parser.next p;
         (text, mkLoc startPos p.prevEndPos)
+      | Int {i; suffix} ->
+        let () = match suffix with
+        | Some _ ->
+          Parser.err p (Diagnostics.message (ErrorMessages.polyVarIntWithSuffix i))
+        | None -> ()
+        in
+        Parser.next p;
+        (i, mkLoc startPos p.prevEndPos)
       | _ ->
         parseIdent ~msg:ErrorMessages.variantIdent ~startPos p
       in
@@ -1303,15 +1361,7 @@ and parseRecordPatternField p =
       ~loc:label.loc
       (Location.mkloc (Longident.last label.txt) label.loc)
   in
-  match p.token with
-  | As -> (* {bar as baz} -> {bar: baz} *)
-    Parser.next p;
-    let (name, loc) = parseLident p in
-    let var = Location.mkloc name loc in
-    let newNameOfLabel = Ast_helper.Pat.var ~loc var in
-    (label, newNameOfLabel)
-  | _ ->
-    (label, pattern)
+  (label, pattern)
 
  (* TODO: there are better representations than PatField|Underscore ? *)
 and parseRecordPatternItem p =
@@ -1497,6 +1547,11 @@ and parseVariantPatternArgs p ident startPos attrs =
       p ~grammar:Grammar.PatternList ~closing:Rparen ~f:parseConstrainedPatternRegion in
   let args =
     match patterns with
+    | [] ->
+      let loc = mkLoc lparen p.prevEndPos in
+      Some (
+        Ast_helper.Pat.construct ~loc (Location.mkloc (Longident.Lident "()") loc) None
+      )
     | [{ppat_desc = Ppat_tuple _} as pat] as patterns ->
       if p.mode = ParseForTypeChecker then
         (* #ident(1, 2) for type-checker *)
@@ -1536,7 +1591,7 @@ and parseTernaryExpr leftOperand p =
   | _ ->
     leftOperand
 
-and parseEs6ArrowExpression ?parameters p =
+and parseEs6ArrowExpression ?context ?parameters p =
   let startPos = p.Parser.startPos in
   Parser.leaveBreadcrumb p Grammar.Es6ArrowExpr;
   let parameters = match parameters with
@@ -1552,7 +1607,7 @@ and parseEs6ArrowExpression ?parameters p =
   in
   Parser.expect EqualGreater p;
   let body =
-    let expr = parseExpr p in
+    let expr = parseExpr ?context p in
     match returnType with
     | Some typ ->
       Ast_helper.Exp.constraint_
@@ -1807,7 +1862,7 @@ and parseAtomicExpr p =
       let loc = mkLoc startPos p.prevEndPos in
       Ast_helper.Exp.construct ~loc
         (Location.mkloc (Longident.Lident (Token.toString token)) loc) None
-    | Int _ | String _ | Float _ | Character _ ->
+    | Int _ | String _ | Float _ | Codepoint _ ->
       let c = parseConstant p in
       let loc = mkLoc startPos p.prevEndPos in
       Ast_helper.Exp.constant ~loc c
@@ -1915,9 +1970,7 @@ and parseBracketAccess p expr startPos =
     let e =
       let identLoc = mkLoc stringStart stringEnd in
       let loc = mkLoc lbracket rbracket in
-      Ast_helper.Exp.apply ~loc
-      (Ast_helper.Exp.ident ~loc (Location.mkloc (Longident.Lident "##") loc))
-      [Nolabel, expr; Nolabel, (Ast_helper.Exp.ident ~loc:identLoc (Location.mkloc (Longident.Lident s) identLoc))]
+      Ast_helper.Exp.send ~loc expr (Location.mkloc s identLoc)
     in
     let e = parsePrimaryExpr ~operand:e p in
     let equalStart = p.startPos in
@@ -2070,7 +2123,7 @@ and parseOperandExpr ~context p =
     if (context != WhenExpr) &&
        isEs6ArrowExpression ~inTernary:(context=TernaryTrueBranchExpr) p
     then
-      parseEs6ArrowExpression p
+      parseEs6ArrowExpression ~context p
     else
       parseUnaryExpr p
   in
@@ -2176,25 +2229,19 @@ and parseTemplateExpr ?(prefix="js") p =
     | TemplateTail txt ->
       Parser.next p;
       let loc = mkLoc startPos p.prevEndPos in
-      if String.length txt > 0 then
-        let txt = if p.mode = ParseForTypeChecker then parseTemplateStringLiteral txt else txt in
-        let str = Ast_helper.Exp.constant ~loc (Pconst_string(txt, Some prefix)) in
-        Ast_helper.Exp.apply ~loc hiddenOperator
-          [Nolabel, acc; Nolabel, str]
-      else
-        acc
+      let txt = if p.mode = ParseForTypeChecker then parseTemplateStringLiteral txt else txt in
+      let str = Ast_helper.Exp.constant ~attrs:[templateLiteralAttr] ~loc (Pconst_string(txt, Some prefix)) in
+      Ast_helper.Exp.apply ~attrs:[templateLiteralAttr] ~loc hiddenOperator
+        [Nolabel, acc; Nolabel, str]
     | TemplatePart txt ->
       Parser.next p;
       let loc = mkLoc startPos p.prevEndPos in
       let expr = parseExprBlock p in
       let fullLoc = mkLoc startPos p.prevEndPos in
       let txt = if p.mode = ParseForTypeChecker then parseTemplateStringLiteral txt else txt in
-      let str = Ast_helper.Exp.constant ~loc (Pconst_string(txt, Some prefix)) in
+      let str = Ast_helper.Exp.constant ~attrs:[templateLiteralAttr] ~loc (Pconst_string(txt, Some prefix)) in
       let next =
-        let a = if String.length txt > 0 then
-            Ast_helper.Exp.apply ~loc:fullLoc hiddenOperator [Nolabel, acc; Nolabel, str]
-          else acc
-        in
+        let a = Ast_helper.Exp.apply ~attrs:[templateLiteralAttr] ~loc:fullLoc hiddenOperator [Nolabel, acc; Nolabel, str] in
         Ast_helper.Exp.apply ~loc:fullLoc hiddenOperator
           [Nolabel, a; Nolabel, expr]
       in
@@ -2209,19 +2256,16 @@ and parseTemplateExpr ?(prefix="js") p =
   | TemplateTail txt ->
     Parser.next p;
     let txt = if p.mode = ParseForTypeChecker then parseTemplateStringLiteral txt else txt in
-    Ast_helper.Exp.constant ~loc:(mkLoc startPos p.prevEndPos) (Pconst_string(txt, Some prefix))
+    Ast_helper.Exp.constant ~attrs:[templateLiteralAttr] ~loc:(mkLoc startPos p.prevEndPos) (Pconst_string(txt, Some prefix))
   | TemplatePart txt ->
     Parser.next p;
     let constantLoc = mkLoc startPos p.prevEndPos in
     let expr = parseExprBlock p in
     let fullLoc = mkLoc startPos p.prevEndPos in
     let txt = if p.mode = ParseForTypeChecker then parseTemplateStringLiteral txt else txt in
-    let str = Ast_helper.Exp.constant ~loc:constantLoc (Pconst_string(txt, Some prefix)) in
+    let str = Ast_helper.Exp.constant ~attrs:[templateLiteralAttr] ~loc:constantLoc (Pconst_string(txt, Some prefix)) in
     let next =
-      if String.length txt > 0 then
-        Ast_helper.Exp.apply ~loc:fullLoc hiddenOperator [Nolabel, str; Nolabel, expr]
-      else
-        expr
+      Ast_helper.Exp.apply ~attrs:[templateLiteralAttr] ~loc:fullLoc hiddenOperator [Nolabel, str; Nolabel, expr]
     in
     parseParts next
  | token ->
@@ -3158,8 +3202,8 @@ and parseForRest hasOpeningParen pattern startPos p =
   Parser.expect In p;
   let e1 = parseExpr p in
   let direction = match p.Parser.token with
-  | To -> Asttypes.Upto
-  | Downto -> Asttypes.Downto
+  | Lident "to" -> Asttypes.Upto
+  | Lident "downto" -> Asttypes.Downto
   | token ->
     Parser.err p (Diagnostics.unexpected token p.breadcrumbs);
     Asttypes.Upto
@@ -3313,14 +3357,13 @@ and parseArgument p =
     match p.Parser.token with
     | Dot ->
       let uncurried = true in
-      let startPos = p.Parser.startPos in
       Parser.next(p);
       begin match p.token with
         (* apply(.) *)
         | Rparen ->
-          let loc = mkLoc startPos p.prevEndPos in
-          let unitExpr = Ast_helper.Exp.construct ~loc
-            (Location.mkloc (Longident.Lident "()") loc) None
+          let unitExpr = Ast_helper.Exp.construct
+            (Location.mknoloc (Longident.Lident "()"))
+            None
           in
           Some (uncurried, Asttypes.Nolabel, unitExpr)
         | _ ->
@@ -3414,6 +3457,37 @@ and parseCallExpr p funExpr =
       Ast_helper.Exp.construct
         ~loc (Location.mkloc (Longident.Lident "()") loc) None
     ]
+  | [
+      true,
+      Asttypes.Nolabel,
+      ({
+        pexp_desc = Pexp_construct ({txt = Longident.Lident "()"}, None);
+        pexp_loc = loc;
+        pexp_attributes = []
+      } as expr)
+    ] when (not loc.loc_ghost) && p.mode = ParseForTypeChecker ->
+      (*  Since there is no syntax space for arity zero vs arity one,
+       *  we expand
+       *    `fn(. ())` into
+       *    `fn(. {let __res_unit = (); __res_unit})`
+       *  when the parsetree is intended for type checking
+       *
+       *  Note:
+       *    `fn(.)` is treated as zero arity application.
+       *  The invisible unit expression here has loc_ghost === true
+       *
+       *  Related: https://github.com/rescript-lang/syntax/issues/138
+       *)
+   [
+     true,
+     Asttypes.Nolabel,
+     Ast_helper.Exp.let_
+      Asttypes.Nonrecursive
+      [Ast_helper.Vb.mk
+        (Ast_helper.Pat.var (Location.mknoloc "__res_unit"))
+        expr]
+      (Ast_helper.Exp.ident (Location.mknoloc (Longident.Lident "__res_unit")))
+   ]
   | args -> args
   in
   let loc = {funExpr.pexp_loc with loc_end = p.prevEndPos} in
@@ -3738,7 +3812,7 @@ and parseAtomicTypExpr ~attrs p =
     let loc = mkLoc startPos p.prevEndPos in
     Ast_helper.Typ.extension ~attrs ~loc extension
   | Lbrace ->
-    parseRecordOrBsObjectType ~attrs p
+    parseRecordOrObjectType ~attrs p
   | token ->
     Parser.err p (Diagnostics.unexpected token p.breadcrumbs);
     begin match skipTokensAndMaybeRetry p ~isStartOfGrammar:Grammar.isAtomicTypExprStart with
@@ -3759,7 +3833,7 @@ and parseAtomicTypExpr ~attrs p =
 and parsePackageType ~startPos ~attrs p =
   let modTypePath = parseModuleLongIdent ~lowercase:true p in
   begin match p.Parser.token with
-  | With ->
+  | Lident "with" ->
     Parser.next p;
     let constraints = parsePackageConstraints p in
     let loc = mkLoc startPos p.prevEndPos in
@@ -3797,7 +3871,7 @@ and parsePackageConstraint p =
     Some (typeConstr, typ)
   | _ -> None
 
-and parseRecordOrBsObjectType ~attrs p =
+and parseRecordOrObjectType ~attrs p =
   (* for inline record in constructor *)
   let startPos = p.Parser.startPos in
   Parser.expect Lbrace p;
@@ -3806,6 +3880,12 @@ and parseRecordOrBsObjectType ~attrs p =
   | Dot -> Parser.next p; Asttypes.Closed
   | _ -> Asttypes.Closed
   in
+  let () = match p.token with
+  | Lident _ ->
+    Parser.err p (Diagnostics.message ErrorMessages.forbiddenInlineRecordDeclaration)
+  | _ -> ()
+  in
+  let startFirstField = p.startPos in
   let fields =
     parseCommaDelimitedRegion
       ~grammar:Grammar.StringFieldDeclarations
@@ -3813,9 +3893,16 @@ and parseRecordOrBsObjectType ~attrs p =
       ~f:parseStringFieldDeclaration
       p
   in
+  let () = match fields with
+  | [Parsetree.Oinherit {ptyp_loc}] ->
+    (* {...x}, spread without extra fields *)
+    Parser.err p ~startPos:startFirstField ~endPos:ptyp_loc.loc_end
+      (Diagnostics.message ErrorMessages.sameTypeSpread)
+  | _ -> ()
+  in
   Parser.expect Rbrace p;
   let loc = mkLoc startPos p.prevEndPos in
-  makeBsObjType ~attrs ~loc ~closed:closedFlag fields
+  Ast_helper.Typ.object_ ~loc ~attrs fields closedFlag
 
 (* TODO: check associativity in combination with attributes *)
 and parseTypeAlias p typ =
@@ -4102,9 +4189,13 @@ and parseStringFieldDeclaration p =
     Parser.expect ~grammar:Grammar.TypeExpression Colon p;
     let typ = parsePolyTypeExpr p in
     Some(Parsetree.Otag (fieldName, attrs, typ))
+  | DotDotDot ->
+    Parser.next p;
+    let typ = parseTypExpr p in
+    Some(Parsetree.Oinherit typ)
   | Lident name ->
     let nameLoc = mkLoc p.startPos p.endPos in
-    Parser.err p (Diagnostics.message "An inline record type declaration is only allowed in a variant constructor's declaration");
+    Parser.err p (Diagnostics.message (ErrorMessages.objectQuotedFieldName name));
     Parser.next p;
     let fieldName = Location.mkloc name nameLoc in
     Parser.expect ~grammar:Grammar.TypeExpression Colon p;
@@ -4217,7 +4308,7 @@ and parseConstrDeclArgs p =
         in
         Parser.expect Rbrace p;
         let loc = mkLoc startPos p.prevEndPos in
-        let typ = makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields in
+        let typ = Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag in
         Parser.optional p Comma |> ignore;
         let moreArgs =
           parseCommaDelimitedRegion
@@ -4225,6 +4316,50 @@ and parseConstrDeclArgs p =
           ~closing:Rparen
           ~f:parseTypExprRegion
           p
+        in
+        Parser.expect Rparen p;
+        Parsetree.Pcstr_tuple (typ::moreArgs)
+      | DotDotDot ->
+        let dotdotdotStart = p.startPos in
+        let dotdotdotEnd = p.endPos in
+        (* start of object type spreading, e.g. `User({...a, "u": int})` *)
+        Parser.next p;
+        let typ = parseTypExpr p in
+        let () = match p.token with
+        | Rbrace ->
+          (* {...x}, spread without extra fields *)
+          Parser.err ~startPos:dotdotdotStart ~endPos:dotdotdotEnd p
+            (Diagnostics.message ErrorMessages.sameTypeSpread);
+          Parser.next p;
+        | _ -> Parser.expect Comma p
+        in
+        let () = match p.token with
+        | Lident _ ->
+          Parser.err ~startPos:dotdotdotStart ~endPos:dotdotdotEnd p
+            (Diagnostics.message ErrorMessages.spreadInRecordDeclaration)
+        | _ -> ()
+        in
+        let fields =
+          (Parsetree.Oinherit typ)::(
+            parseCommaDelimitedRegion
+              ~grammar:Grammar.StringFieldDeclarations
+              ~closing:Rbrace
+              ~f:parseStringFieldDeclaration
+              p
+          )
+        in
+        Parser.expect Rbrace p;
+        let loc = mkLoc startPos p.prevEndPos in
+        let typ =
+          Ast_helper.Typ.object_ ~loc fields Asttypes.Closed |> parseTypeAlias p
+        in
+        let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
+        Parser.optional p Comma |> ignore;
+        let moreArgs =
+          parseCommaDelimitedRegion
+            ~grammar:Grammar.TypExprList
+            ~closing:Rparen
+            ~f:parseTypExprRegion p
         in
         Parser.expect Rparen p;
         Parsetree.Pcstr_tuple (typ::moreArgs)
@@ -4268,7 +4403,11 @@ and parseConstrDeclArgs p =
             ) in
             Parser.expect Rbrace p;
             let loc = mkLoc startPos p.prevEndPos in
-            let typ = makeBsObjType ~attrs:[]  ~loc ~closed:closedFlag fields in
+            let typ =
+              Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag
+              |> parseTypeAlias p
+            in
+            let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
             Parser.optional p Comma |> ignore;
             let moreArgs =
               parseCommaDelimitedRegion
@@ -4563,7 +4702,7 @@ and parseTypeEquationOrConstrDecl p =
       | _ -> (Some typ, Asttypes.Public, Parsetree.Ptype_abstract)
       end
     | _ ->
-      let uidentEndPos = p.endPos in
+      let uidentEndPos = p.prevEndPos in
       let (args, res) = parseConstrDeclArgs p in
       let first = Some (
         let uidentLoc = mkLoc uidentStartPos uidentEndPos in
@@ -4580,7 +4719,7 @@ and parseTypeEquationOrConstrDecl p =
     (* TODO: is this a good idea? *)
     (None, Asttypes.Public, Parsetree.Ptype_abstract)
 
-and parseRecordOrBsObjectDecl p =
+and parseRecordOrObjectDecl p =
   let startPos = p.Parser.startPos in
   Parser.expect Lbrace p;
   match p.Parser.token with
@@ -4600,8 +4739,44 @@ and parseRecordOrBsObjectDecl p =
     Parser.expect Rbrace p;
     let loc = mkLoc startPos p.prevEndPos in
     let typ =
-      makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields
+      Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag
       |> parseTypeAlias p
+    in
+    let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
+    (Some typ, Asttypes.Public, Parsetree.Ptype_abstract)
+   | DotDotDot ->
+    let dotdotdotStart = p.startPos in
+    let dotdotdotEnd = p.endPos in
+    (* start of object type spreading, e.g. `type u = {...a, "u": int}` *)
+    Parser.next p;
+    let typ = parseTypExpr p in
+    let () = match p.token with
+    | Rbrace ->
+      (* {...x}, spread without extra fields *)
+      Parser.err ~startPos:dotdotdotStart ~endPos:dotdotdotEnd p
+        (Diagnostics.message ErrorMessages.sameTypeSpread);
+      Parser.next p;
+    | _ -> Parser.expect Comma p
+    in
+    let () = match p.token with
+    | Lident _ ->
+      Parser.err ~startPos:dotdotdotStart ~endPos:dotdotdotEnd p
+        (Diagnostics.message ErrorMessages.spreadInRecordDeclaration)
+    | _ -> ()
+    in
+    let fields =
+      (Parsetree.Oinherit typ)::(
+        parseCommaDelimitedRegion
+          ~grammar:Grammar.StringFieldDeclarations
+          ~closing:Rbrace
+          ~f:parseStringFieldDeclaration
+          p
+      )
+    in
+    Parser.expect Rbrace p;
+    let loc = mkLoc startPos p.prevEndPos in
+    let typ =
+      Ast_helper.Typ.object_ ~loc fields Asttypes.Closed |> parseTypeAlias p
     in
     let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
     (Some typ, Asttypes.Public, Parsetree.Ptype_abstract)
@@ -4647,7 +4822,7 @@ and parseRecordOrBsObjectDecl p =
         Parser.expect Rbrace p;
         let loc = mkLoc startPos p.prevEndPos in
         let typ =
-          makeBsObjType ~attrs:[] ~loc ~closed:closedFlag fields |> parseTypeAlias p
+          Ast_helper.Typ.object_ ~loc ~attrs:[] fields closedFlag |> parseTypeAlias p
         in
         let typ = parseArrowTypeRest ~es6Arrow:true ~startPos typ p in
         (Some typ, Asttypes.Public, Parsetree.Ptype_abstract)
@@ -4695,7 +4870,7 @@ and parsePrivateEqOrRepr p =
   Parser.expect Private p;
   match p.Parser.token with
   | Lbrace ->
-    let (manifest, _ ,kind) = parseRecordOrBsObjectDecl p in
+    let (manifest, _ ,kind) = parseRecordOrObjectDecl p in
     (manifest, Asttypes.Private, kind)
   | Uident _ ->
     let (manifest, _, kind) = parseTypeEquationOrConstrDecl p in
@@ -4897,7 +5072,7 @@ and parseTypeEquationAndRepresentation p =
     | Uident _ ->
       parseTypeEquationOrConstrDecl p
     | Lbrace ->
-      parseRecordOrBsObjectDecl p
+      parseRecordOrObjectDecl p
     | Private ->
       parsePrivateEqOrRepr p
     | Bar | DotDot ->
@@ -5036,19 +5211,6 @@ and parseTypeDefinitionOrExtension ~attrs p =
     let typeDefs = parseTypeDefinitions ~attrs ~name ~params ~startPos p in
     TypeDef {recFlag; types = typeDefs}
 
-and parsePrimitive p =
-  match p.Parser.token with
-  | String s -> Parser.next p; Some s
-  | _ -> None
-
-and parsePrimitives p =
-  match (parseRegion ~grammar:Grammar.Primitive ~f:parsePrimitive p) with
-  | [] ->
-    let msg = "An external definition should have at least one primitive. Example: \"setTimeout\"" in
-    Parser.err p (Diagnostics.message msg);
-    []
-  | primitives -> primitives
-
 (* external value-name : typexp = external-declaration *)
 and parseExternalDef ~attrs ~startPos p =
   Parser.leaveBreadcrumb p Grammar.External;
@@ -5057,8 +5219,18 @@ and parseExternalDef ~attrs ~startPos p =
   let name = Location.mkloc name loc in
   Parser.expect ~grammar:(Grammar.TypeExpression) Colon p;
   let typExpr = parseTypExpr p in
+  let equalStart = p.startPos in
+  let equalEnd = p.endPos in
   Parser.expect Equal p;
-  let prim = parsePrimitives p in
+  let prim = match p.token with
+  | String s -> Parser.next p; [s]
+  | _ ->
+      Parser.err ~startPos:equalStart ~endPos:equalEnd p
+        (Diagnostics.message
+          ("An external requires the name of the JS value you're referring to, like \""
+          ^ name.txt ^ "\"."));
+    []
+  in
   let loc = mkLoc startPos p.prevEndPos in
   let vb = Ast_helper.Val.mk ~loc ~attrs ~prim name typExpr in
   Parser.eatBreadcrumb p;
@@ -5746,7 +5918,7 @@ and parseFunctorModuleType p =
 
 and parseWithConstraints moduleType p =
   match p.Parser.token with
-  | With ->
+  | Lident "with" ->
     Parser.next p;
     let first = parseWithConstraint p in
     let rec loop p acc =

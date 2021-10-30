@@ -22,8 +22,7 @@ type callbackStyle =
   https://github.com/rescript-lang/rescript-compiler/blob/29174de1a5fde3b16cf05d10f5ac109cfac5c4ca/jscomp/frontend/ast_external_process.ml#L291-L367 *)
 let convertBsExternalAttribute = function
   | "bs.as" -> "as"
-  (* @deriving collides with ppxlib ppx's *)
-  | "bs.deriving" -> "bs.deriving"
+  | "bs.deriving" -> "deriving"
   | "bs.get" -> "get"
   | "bs.get_index" -> "get_index"
   | "bs.ignore" -> "ignore"
@@ -427,15 +426,41 @@ let printIdentLike ?allowUident txt =
     ]
   | NormalIdent -> Doc.text txt
 
+let rec unsafe_for_all_range s ~start ~finish p =
+  start > finish ||
+  p (String.unsafe_get s start) &&
+  unsafe_for_all_range s ~start:(start + 1) ~finish p
+
+let for_all_from s start  p =
+  let len = String.length s in
+  unsafe_for_all_range s ~start ~finish:(len - 1) p
+
+(* See https://github.com/rescript-lang/rescript-compiler/blob/726cfa534314b586e5b5734471bc2023ad99ebd9/jscomp/ext/ext_string.ml#L510 *)
+let isValidNumericPolyvarNumber (x : string) =
+  let len = String.length x in
+  len > 0 && (
+    let a = Char.code (String.unsafe_get x 0) in
+    a <= 57 &&
+    (if len > 1 then
+       a > 48 &&
+       for_all_from x 1 (function '0' .. '9' -> true | _ -> false)
+     else
+       a >= 48 )
+  )
+
 (* Exotic identifiers in poly-vars have a "lighter" syntax: #"ease-in" *)
 let printPolyVarIdent txt =
-  match classifyIdentContent ~allowUident:true txt with
-  | ExoticIdent -> Doc.concat [
-      Doc.text "\"";
-      Doc.text txt;
-      Doc.text"\""
-    ]
-  | NormalIdent -> Doc.text txt
+  (* numeric poly-vars don't need quotes: #644 *)
+  if isValidNumericPolyvarNumber txt then
+    Doc.text txt
+  else
+    match classifyIdentContent ~allowUident:true txt with
+    | ExoticIdent -> Doc.concat [
+        Doc.text "\"";
+        Doc.text txt;
+        Doc.text"\""
+      ]
+    | NormalIdent -> Doc.text txt
 
 
 let printLident l = match l with
@@ -471,7 +496,7 @@ let printStringContents txt =
   let lines = String.split_on_char '\n' txt in
   Doc.join ~sep:Doc.literalLine (List.map Doc.text lines)
 
-let printConstant c = match c with
+let printConstant ?(templateLiteral=false) c = match c with
   | Parsetree.Pconst_integer (s, suffix) ->
     begin match suffix with
     | Some c -> Doc.text (s ^ (Char.escaped c))
@@ -484,14 +509,35 @@ let printConstant c = match c with
       Doc.text "\"";
     ]
   | Pconst_string (txt, Some prefix) ->
-    Doc.concat [
-      if prefix = "js" then Doc.nil else Doc.text prefix;
-      Doc.text "`";
-      printStringContents txt;
-      Doc.text "`";
-    ]
+    if prefix = "INTERNAL_RES_CHAR_CONTENTS" then
+      Doc.concat [Doc.text "'"; Doc.text txt; Doc.text "'"]
+    else
+      let (lquote, rquote) =
+        if templateLiteral then ("`", "`") else ("\"", "\"")
+      in
+      Doc.concat [
+        if prefix = "js" then Doc.nil else Doc.text prefix;
+        Doc.text lquote;
+        printStringContents txt;
+        Doc.text rquote;
+      ]
   | Pconst_float (s, _) -> Doc.text s
-  | Pconst_char c -> Doc.text ("'" ^ (Char.escaped c) ^ "'")
+  | Pconst_char c ->
+    let str = match c with
+    | '\'' -> "\\'"
+    | '\\' -> "\\\\"
+    | '\n' -> "\\n"
+    | '\t' -> "\\t"
+    | '\r' -> "\\r"
+    | '\b' -> "\\b"
+    | ' ' .. '~' as c ->
+      let s = (Bytes.create [@doesNotRaise]) 1 in
+      Bytes.unsafe_set s 0 c;
+      Bytes.unsafe_to_string s
+    | c ->
+      Res_utf8.encodeCodePoint (Obj.magic c)
+    in
+    Doc.text ("'" ^ str ^ "'")
 
 let rec printStructure (s : Parsetree.structure) t =
   match s with
@@ -1150,16 +1196,12 @@ and printTypeDeclaration2 ~recFlag (td: Parsetree.type_declaration) cmtTbl i =
     printComments doc cmtTbl td.ptype_name.loc
   in
   let equalSign = "=" in
-  let (hasGenType, attrs) = ParsetreeViewer.splitGenTypeAttr td.ptype_attributes in
-  let attrs = printAttributes ~loc:td.ptype_loc attrs cmtTbl in
+  let attrs = printAttributes ~loc:td.ptype_loc td.ptype_attributes cmtTbl in
   let prefix = if i > 0 then
-    Doc.concat [
-      Doc.text "and ";
-      if hasGenType then Doc.text "export " else Doc.nil
-    ]
+    Doc.text "and "
   else
     Doc.concat [
-      Doc.text (if hasGenType then "export type " else "type ");
+      Doc.text "type ";
       recFlag
     ]
   in
@@ -1469,17 +1511,9 @@ and printTypExpr (typExpr : Parsetree.core_type) cmtTbl =
     in
     Doc.concat [typ; Doc.text " as "; Doc.concat [Doc.text "'"; printIdentLike alias]]
 
-  | Ptyp_constr({txt = Longident.Ldot(Longident.Lident "Js", "t")}, [{ptyp_desc = Ptyp_object (_fields, _openFlag)} as typ]) ->
-    let bsObject = printTypExpr typ cmtTbl in
-    begin match typExpr.ptyp_attributes with
-    | [] -> bsObject
-    | attrs ->
-      Doc.concat [
-        printAttributes ~inline:true attrs cmtTbl;
-        printTypExpr typ cmtTbl;
-      ]
-    end
   (* object printings *)
+  | Ptyp_object (fields, openFlag) ->
+    printObject ~inline:false fields openFlag cmtTbl
   | Ptyp_constr(longidentLoc, [{ptyp_desc = Ptyp_object (fields, openFlag)}]) ->
     (* for foo<{"a": b}>, when the object is long and needs a line break, we
        want the <{ and }> to stay hugged together *)
@@ -1505,17 +1539,6 @@ and printTypExpr (typExpr : Parsetree.core_type) cmtTbl =
     let constrName = printLidentPath longidentLoc cmtTbl in
     begin match constrArgs with
     | [] -> constrName
-    | [{
-        Parsetree.ptyp_desc =
-          Ptyp_constr({txt = Longident.Ldot(Longident.Lident "Js", "t")},
-        [{ptyp_desc = Ptyp_object (fields, openFlag)}])
-      }] ->
-      Doc.concat([
-        constrName;
-        Doc.lessThan;
-        printObject ~inline:true fields openFlag cmtTbl;
-        Doc.greaterThan;
-      ])
     | _args -> Doc.group(
       Doc.concat([
         constrName;
@@ -1619,8 +1642,6 @@ and printTypExpr (typExpr : Parsetree.core_type) cmtTbl =
       )
     end
   | Ptyp_tuple types -> printTupleType ~inline:false types cmtTbl
-  | Ptyp_object (fields, openFlag) ->
-    printObject ~inline:false fields openFlag cmtTbl
   | Ptyp_poly([], typ) ->
     printTypExpr typ cmtTbl
   | Ptyp_poly(stringLocs, typ) ->
@@ -1739,7 +1760,14 @@ and printObject ~inline fields openFlag cmtTbl =
       Doc.lbrace;
       (match openFlag with
       | Asttypes.Closed -> Doc.nil
-      | Open -> Doc.dotdot);
+      | Open ->
+        begin match fields with
+        (* handle `type t = {.. ...objType, "x": int}`
+         * .. and ... should have a space in between *)
+        | (Oinherit _)::_ -> Doc.text ".. "
+        | _ -> Doc.dotdot
+        end
+      );
       Doc.indent (
         Doc.concat [
           Doc.softLine;
@@ -1788,7 +1816,11 @@ and printObjectField (field : Parsetree.object_field) cmtTbl =
     ] in
     let cmtLoc = {labelLoc.loc with loc_end = typ.ptyp_loc.loc_end} in
     printComments doc cmtTbl cmtLoc
-  | _ -> Doc.nil
+  | Oinherit typexpr ->
+    Doc.concat [
+      Doc.dotdotdot;
+      printTypExpr typexpr cmtTbl
+    ]
 
 (* es6 arrow type arg
  * type t = (~foo: string, ~bar: float=?, unit) => unit
@@ -1832,18 +1864,14 @@ and printTypeParameter (attrs, lbl, typ) cmtTbl =
   printComments doc cmtTbl loc
 
 and printValueBinding ~recFlag vb cmtTbl i =
-  let (hasGenType, attrs) = ParsetreeViewer.splitGenTypeAttr vb.pvb_attributes in
-  let attrs = printAttributes ~loc:vb.pvb_pat.ppat_loc attrs cmtTbl in
+  let attrs = printAttributes ~loc:vb.pvb_pat.ppat_loc vb.pvb_attributes cmtTbl in
   let header =
     if i == 0 then
       Doc.concat [
-        if hasGenType then Doc.text "export " else Doc.text "let ";
+        Doc.text "let ";
         recFlag
     ] else
-      Doc.concat [
-        Doc.text "and ";
-        if hasGenType then Doc.text "export " else Doc.nil
-      ]
+      Doc.text "and "
   in
   match vb with
   | {pvb_pat =
@@ -2073,7 +2101,9 @@ and printPattern (p : Parsetree.pattern) cmtTbl =
   let patternWithoutAttributes = match p.ppat_desc with
   | Ppat_any -> Doc.text "_"
   | Ppat_var var -> printIdentLike var.txt
-  | Ppat_constant c -> printConstant c
+  | Ppat_constant c ->
+    let templateLiteral = ParsetreeViewer.hasTemplateLiteralAttr p.ppat_attributes in
+    printConstant ~templateLiteral c
   | Ppat_tuple patterns ->
     Doc.group(
       Doc.concat([
@@ -2158,7 +2188,7 @@ and printPattern (p : Parsetree.pattern) cmtTbl =
       ])
     )
   | Ppat_construct(constrName, constructorArgs) ->
-    let constrName = printLongident constrName.txt in
+    let constrName = printLongidentLocation constrName cmtTbl in
     let argsDoc = match constructorArgs with
     | None -> Doc.nil
     | Some({ppat_loc; ppat_desc = Ppat_construct ({txt = Longident.Lident "()"}, _)}) ->
@@ -2516,7 +2546,8 @@ and printIfChain pexp_attributes ifs elseExpr cmtTbl =
 
 and printExpression (e : Parsetree.expression) cmtTbl =
   let printedExpression = match e.pexp_desc with
-  | Parsetree.Pexp_constant c -> printConstant c
+  | Parsetree.Pexp_constant c ->
+    printConstant ~templateLiteral:(ParsetreeViewer.isTemplateLiteral e) c
   | Pexp_construct _ when ParsetreeViewer.hasJsxAttribute e.pexp_attributes ->
     printJsxFragment e cmtTbl
   | Pexp_construct ({txt = Longident.Lident "()"}, _) -> Doc.text "()"
@@ -3157,8 +3188,26 @@ and printExpression (e : Parsetree.expression) cmtTbl =
       Doc.concat [Doc.text ": "; printTypExpr typ1 cmtTbl]
     in
     Doc.concat [Doc.lparen; docExpr; ofType; Doc.text " :> "; docTyp; Doc.rparen]
-  | Pexp_send _ ->
-    Doc.text "Pexp_send not impemented in printer"
+  | Pexp_send (parentExpr, label) ->
+    let parentDoc =
+      let doc = printExpressionWithComments parentExpr cmtTbl in
+      match Parens.unaryExprOperand parentExpr with
+      | Parens.Parenthesized -> addParens doc
+      | Braced braces  -> printBraces doc parentExpr braces
+      | Nothing -> doc
+    in
+    let member =
+      let memberDoc = printComments (Doc.text label.txt) cmtTbl label.loc in
+      Doc.concat [Doc.text "\""; memberDoc; Doc.text "\""]
+    in
+    Doc.group (
+      Doc.concat [
+        parentDoc;
+        Doc.lbracket;
+        member;
+        Doc.rbracket;
+      ]
+    )
   | Pexp_new _ ->
     Doc.text "Pexp_new not impemented in printer"
   | Pexp_setinstvar _ ->
@@ -3646,7 +3695,8 @@ and printPexpApply expr cmtTbl =
   | Pexp_apply (
       {pexp_desc = Pexp_ident {txt = Longident.Ldot (Lident "Array", "get")}},
       [Nolabel, parentExpr; Nolabel, memberExpr]
-    ) ->
+    ) when not (ParsetreeViewer.isRewrittenUnderscoreApplySugar parentExpr) ->
+      (* Don't print the Array.get(_, 0) sugar a.k.a. (__x) => Array.get(__x, 0) as _[0] *)
       let member =
         let memberDoc =
           let doc = printExpressionWithComments memberExpr cmtTbl in
@@ -3836,7 +3886,11 @@ and printJsxExpression lident args cmtTbl =
   let name = printJsxName lident in
   let (formattedProps, children) = printJsxProps args cmtTbl in
   (* <div className="test" /> *)
-  let isSelfClosing = match children with | [] -> true | _ -> false in
+  let isSelfClosing =
+    match children with
+    | Some ({Parsetree.pexp_desc = Pexp_construct ({txt = Longident.Lident "[]"}, None)}) -> true
+    | _ -> false
+  in
   Doc.group (
     Doc.concat [
       Doc.group (
@@ -3853,7 +3907,10 @@ and printJsxExpression lident args cmtTbl =
           Doc.indent (
             Doc.concat [
               Doc.line;
-              printJsxChildren children cmtTbl;
+              (match children with
+              | Some childrenExpression -> printJsxChildren childrenExpression cmtTbl
+              | None -> Doc.nil
+              );
             ]
           );
           Doc.line;
@@ -3867,17 +3924,17 @@ and printJsxExpression lident args cmtTbl =
 and printJsxFragment expr cmtTbl =
   let opening = Doc.text "<>" in
   let closing = Doc.text "</>" in
-  let (children, _) = ParsetreeViewer.collectListExpressions expr in
+  (* let (children, _) = ParsetreeViewer.collectListExpressions expr in *)
   Doc.group (
     Doc.concat [
       opening;
-      begin match children with
-      | [] -> Doc.nil
-      | children ->
+      begin match expr.pexp_desc with
+      | Pexp_construct ({txt = Longident.Lident "[]"}, None) -> Doc.nil
+      | _ ->
         Doc.indent (
           Doc.concat [
             Doc.line;
-            printJsxChildren children cmtTbl;
+            printJsxChildren expr cmtTbl;
           ]
         )
       end;
@@ -3886,29 +3943,46 @@ and printJsxFragment expr cmtTbl =
     ]
   )
 
-and printJsxChildren (children: Parsetree.expression list) cmtTbl =
-  Doc.group (
-    Doc.join ~sep:Doc.line (
-      List.map (fun (expr : Parsetree.expression) ->
-        let leadingLineCommentPresent = hasLeadingLineComment cmtTbl expr.pexp_loc in
-        let exprDoc = printExpressionWithComments expr cmtTbl in
-        match Parens.jsxChildExpr expr with
-        | Parenthesized | Braced _ ->
-          (* {(20: int)} make sure that we also protect the expression inside *)
-          let innerDoc = if Parens.bracedExpr expr then addParens exprDoc else exprDoc in
-          if leadingLineCommentPresent then
-            addBraces innerDoc
-          else
-            Doc.concat [Doc.lbrace; innerDoc; Doc.rbrace]
-        | Nothing -> exprDoc
-      ) children
+and printJsxChildren (childrenExpr : Parsetree.expression) cmtTbl =
+  match childrenExpr.pexp_desc with
+  | Pexp_construct ({txt = Longident.Lident "::"}, _) ->
+    let (children, _) = ParsetreeViewer.collectListExpressions childrenExpr in
+    Doc.group (
+      Doc.join ~sep:Doc.line (
+        List.map (fun (expr : Parsetree.expression) ->
+          let leadingLineCommentPresent = hasLeadingLineComment cmtTbl expr.pexp_loc in
+          let exprDoc = printExpressionWithComments expr cmtTbl in
+          match Parens.jsxChildExpr expr with
+          | Parenthesized | Braced _ ->
+            (* {(20: int)} make sure that we also protect the expression inside *)
+            let innerDoc = if Parens.bracedExpr expr then addParens exprDoc else exprDoc in
+            if leadingLineCommentPresent then
+              addBraces innerDoc
+            else
+              Doc.concat [Doc.lbrace; innerDoc; Doc.rbrace]
+          | Nothing -> exprDoc
+        ) children
+      )
     )
-  )
+  | _ ->
+    let leadingLineCommentPresent = hasLeadingLineComment cmtTbl childrenExpr.pexp_loc in
+    let exprDoc = printExpressionWithComments childrenExpr cmtTbl in
+    Doc.concat [
+      Doc.dotdotdot;
+      match Parens.jsxChildExpr childrenExpr with
+      | Parenthesized | Braced _ ->
+        let innerDoc = if Parens.bracedExpr childrenExpr then addParens exprDoc else exprDoc in
+        if leadingLineCommentPresent then
+          addBraces innerDoc
+        else
+          Doc.concat [Doc.lbrace; innerDoc; Doc.rbrace]
+      | Nothing -> exprDoc
+    ]
 
-and printJsxProps args cmtTbl =
+and printJsxProps args cmtTbl :(Doc.t * Parsetree.expression option) =
   let rec loop props args =
     match args with
-    | [] -> (Doc.nil, [])
+    | [] -> (Doc.nil, None)
     | [
         (Asttypes.Labelled "children", children);
         (
@@ -3927,8 +4001,7 @@ and printJsxProps args cmtTbl =
             )
           ]
       ) in
-      let (children, _) = ParsetreeViewer.collectListExpressions children in
-      (formattedProps, children)
+      (formattedProps, Some children)
     | arg::args ->
       let propDoc = printJsxProp arg cmtTbl in
       loop (propDoc::props) args
@@ -4200,8 +4273,15 @@ and printArgumentsWithCallbackInLastPosition ~uncurried args cmtTbl =
 
 and printArguments ~uncurried (args : (Asttypes.arg_label * Parsetree.expression) list) cmtTbl =
   match args with
-  | [Nolabel, {pexp_desc = Pexp_construct ({txt = Longident.Lident "()"}, _)}] ->
-    if uncurried then Doc.text "(.)" else Doc.text "()"
+  | [Nolabel, {pexp_desc = Pexp_construct ({txt = Longident.Lident "()"}, _); pexp_loc = loc}] ->
+    (* See "parseCallExpr", ghost unit expression is used the implement
+     * arity zero vs arity one syntax.
+     * Related: https://github.com/rescript-lang/syntax/issues/138 *)
+    begin match uncurried, loc.loc_ghost with
+    | true, true -> Doc.text "(.)" (* arity zero *)
+    | true, false -> Doc.text "(. ())" (* arity one *)
+    | _ -> Doc.text "()"
+    end
   | [(Nolabel, arg)] when ParsetreeViewer.isHuggableExpression arg ->
     let argDoc =
       let doc = printExpressionWithComments arg cmtTbl in
