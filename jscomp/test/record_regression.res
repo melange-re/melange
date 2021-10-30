@@ -5,24 +5,26 @@ type t0 = {x: int, y: option<int>, z: int}
 
 // let f0 = { x : 3 ,y : None}
 
-let f1 = {x: 3, z: 2}
+// let f1 = {x: 3, z: 2}
 
-type r = {
-  x: int,
-  y: option<int>,
-  z: int,
-}
+// type r = {
+//  x: int,
+//  y: option<int>,
+//  z: int,
+//}
 
 // let v0 = { x :  3 , z : 2 }
 
 // let v2 = { ... v0 , x : 3 }
 
-let v1: t0 = {
-  x: 3,
-  z: 3,
-}
+/* let v1: t0 = { */
+  /* x: 3, */
+  /* z: 3, */
+/* } */
 
-let v2: r = {x: 3, y: None, z: 2}
+// let v2: r = {x: 3, y: None, z: 2}
+
+/*
 
 @obj
 type config = {
@@ -73,3 +75,4 @@ let h10: small_config = {...v1, y1: Some(22)}
 let h11 = (v1) : small_config => {
   { ... v1, y1 : Some(22)}
 }
+*/
