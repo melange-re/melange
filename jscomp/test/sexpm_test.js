@@ -30,7 +30,6 @@ function eq(loc, param) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function print_or_error(fmt, x) {

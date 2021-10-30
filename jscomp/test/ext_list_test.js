@@ -811,7 +811,6 @@ function ref_push(x, refs) {
     hd: x,
     tl: refs.contents
   };
-  
 }
 
 function ref_pop(refs) {

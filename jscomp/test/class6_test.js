@@ -51,7 +51,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function point_init($$class) {
@@ -68,7 +67,6 @@ function point_init($$class) {
         move,
         (function (self$1, d) {
             self$1[x] = self$1[x] + d | 0;
-            
           })
       ]);
   return function (env, self, x_init$1) {

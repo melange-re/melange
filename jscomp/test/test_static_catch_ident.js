@@ -16,7 +16,6 @@ function scanf_bad_input(ib, x) {
     console.log(s);
     console.log("don't inlinie");
   }
-  
 }
 
 exports.Scan_failure = Scan_failure;

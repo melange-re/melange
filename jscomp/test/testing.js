@@ -19,7 +19,6 @@ function finish(param) {
   } else {
     console.log("\n\n********* Test suite failed. ***********\n");
   }
-  
 }
 
 Stdlib__no_aliases.at_exit(finish);

@@ -926,7 +926,6 @@ function verify_scan_Chars(param) {
   for(var i = 0; i <= 255; ++i){
     verify_read(Stdlib__no_aliases.char_of_int(i));
   }
-  
 }
 
 function test8(param) {

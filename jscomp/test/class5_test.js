@@ -44,7 +44,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function printable_point_init($$class) {
@@ -67,7 +66,6 @@ function printable_point_init($$class) {
         move,
         (function (self$1, d) {
             self$1[x] = self$1[x] + d | 0;
-            
           }),
         print,
         (function (self$1) {
@@ -153,7 +151,6 @@ function ref_init($$class) {
         set,
         (function (self$3, y) {
             self$3[x] = y;
-            
           })
       ]);
   return function (env, self, x_init$1) {
@@ -281,7 +278,6 @@ function point_init($$class) {
         move,
         (function (self$6, d) {
             self$6[x] = self$6[x] + d | 0;
-            
           })
       ]);
   return function (env, self, x_init$1) {

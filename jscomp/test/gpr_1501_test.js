@@ -28,7 +28,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 var A = /* @__PURE__ */Caml_exceptions.create("Gpr_1501_test.A");

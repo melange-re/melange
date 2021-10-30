@@ -38,7 +38,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function fib_init($$class) {

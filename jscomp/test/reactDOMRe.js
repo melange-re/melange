@@ -11,7 +11,6 @@ function renderToElementWithClassName(reactElement, className) {
   } else {
     console.error("ReactDOMRe.renderToElementWithClassName: no element of class " + (className + " found in the HTML."));
   }
-  
 }
 
 function renderToElementWithId(reactElement, id) {
@@ -21,7 +20,6 @@ function renderToElementWithId(reactElement, id) {
   } else {
     ReactDom.render(reactElement, element);
   }
-  
 }
 
 function createRootWithClassName(className) {
@@ -66,7 +64,6 @@ function hydrateToElementWithClassName(reactElement, className) {
   } else {
     console.error("ReactDOMRe.hydrateToElementWithClassName: no element of class " + (className + " found in the HTML."));
   }
-  
 }
 
 function hydrateToElementWithId(reactElement, id) {
@@ -79,7 +76,6 @@ function hydrateToElementWithId(reactElement, id) {
         };
   }
   ReactDom.hydrate(reactElement, element);
-  
 }
 
 var Ref = {};

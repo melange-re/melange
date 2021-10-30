@@ -89,7 +89,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function point_init($$class) {
@@ -110,7 +109,6 @@ function point_init($$class) {
         move,
         (function (self$1, d) {
             self$1[x] = self$1[x] + d | 0;
-            
           })
       ]);
   return function (env, self, x_init$1) {
@@ -147,7 +145,6 @@ function adjusted_point_init($$class) {
         move,
         (function (self$2, d) {
             self$2[x] = self$2[x] + d | 0;
-            
           })
       ]);
   return function (env, self, x_init$1) {
@@ -216,7 +213,6 @@ function printable_point_init($$class) {
         move,
         (function (self$4, d) {
             self$4[x] = self$4[x] + d | 0;
-            
           }),
         print,
         (function (self$4) {
@@ -262,7 +258,6 @@ CamlinternalOO.set_methods($$class, [
             hd: self$5,
             tl: ints.contents
           };
-          
         }),
       len,
       (function (self$5) {
@@ -301,7 +296,6 @@ function printable_point2_init($$class) {
         move,
         (function (self$6, d) {
             self$6[x] = self$6[x] + d | 0;
-            
           }),
         print,
         (function (self$6) {
@@ -369,7 +363,6 @@ function vpoint_init($$class) {
         move,
         (function (self$8, d) {
             self$8[x] = self$8[x] + d | 0;
-            
           })
       ]);
   return function (env, self, x_init$1) {
@@ -400,7 +393,6 @@ function abstract_point2_1($$class) {
   var x = ids[2];
   CamlinternalOO.set_method($$class, move, (function (self$9, d) {
           self$9[x] = self$9[x] + d | 0;
-          
         }));
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
@@ -465,7 +457,6 @@ function restricted_point_init($$class) {
         move,
         (function (self$11, d) {
             self$11[x] = self$11[x] + d | 0;
-            
           }),
         bump,
         (function (self$11) {
