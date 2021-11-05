@@ -206,6 +206,10 @@ function allResolvedTest(param) {
             });
 }
 
+function is_not_found(error) {
+  return error.RE_EXN_ID === Stdlib__no_aliases.Not_found;
+}
+
 function allRejectTest(param) {
   var p1 = Promise.resolve(1);
   var p2 = Promise.resolve(3);
@@ -218,9 +222,7 @@ function allRejectTest(param) {
     p3
   ];
   return Promise.all(promises).then(fail).catch(function (error) {
-              assert_bool(error === ({
-                      RE_EXN_ID: Stdlib__no_aliases.Not_found
-                    }));
+              assert_bool(error.RE_EXN_ID === Stdlib__no_aliases.Not_found);
               return h;
             });
 }
@@ -245,9 +247,7 @@ function createPromiseRejectTest(param) {
                               RE_EXN_ID: Stdlib__no_aliases.Not_found
                             });
                 })).catch(function (error) {
-              assert_bool(error === ({
-                      RE_EXN_ID: Stdlib__no_aliases.Not_found
-                    }));
+              assert_bool(error.RE_EXN_ID === Stdlib__no_aliases.Not_found);
               return h;
             });
 }
@@ -295,7 +295,7 @@ Promise.all([
         Promise.resolve(2),
         Promise.resolve(3)
       ]).then(function (param) {
-      eq("File \"js_promise_basic_test.ml\", line 165, characters 12-19", [
+      eq("File \"js_promise_basic_test.ml\", line 168, characters 12-19", [
             param[0],
             param[1]
           ], [
@@ -323,7 +323,7 @@ function re(prim) {
 
 Mt.from_promise_suites("Js_promise_basic_test", {
       hd: [
-        "File \"js_promise_basic_test.ml\", line 185, characters 5-12",
+        "File \"js_promise_basic_test.ml\", line 188, characters 5-12",
         twop.then(function (x) {
               return Promise.resolve({
                           TAG: /* Eq */0,
@@ -334,7 +334,7 @@ Mt.from_promise_suites("Js_promise_basic_test", {
       ],
       tl: {
         hd: [
-          "File \"js_promise_basic_test.ml\", line 186, characters 5-12",
+          "File \"js_promise_basic_test.ml\", line 189, characters 5-12",
           twop.then(function (x) {
                 return Promise.resolve({
                             TAG: /* Neq */1,
@@ -367,6 +367,7 @@ exports.rejectTest = rejectTest;
 exports.thenCatchChainResolvedTest = thenCatchChainResolvedTest;
 exports.thenCatchChainRejectedTest = thenCatchChainRejectedTest;
 exports.allResolvedTest = allResolvedTest;
+exports.is_not_found = is_not_found;
 exports.allRejectTest = allRejectTest;
 exports.raceTest = raceTest;
 exports.createPromiseRejectTest = createPromiseRejectTest;
