@@ -48,7 +48,7 @@ function fail(param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "js_promise_basic_test.ml",
-          19,
+          17,
           2
         ],
         Error: new Error()
@@ -82,7 +82,7 @@ function assertIsNotFound(x) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "js_promise_basic_test.ml",
-          36,
+          34,
           9
         ],
         Error: new Error()
@@ -153,8 +153,8 @@ function orElseRejectedRejectTest(param) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "js_promise_basic_test.ml",
-                      77,
-                      18
+                      76,
+                      19
                     ],
                     Error: new Error()
                   };
@@ -295,7 +295,7 @@ Promise.all([
         Promise.resolve(2),
         Promise.resolve(3)
       ]).then(function (param) {
-      eq("File \"js_promise_basic_test.ml\", line 169, characters 7-14", [
+      eq("File \"js_promise_basic_test.ml\", line 165, characters 12-19", [
             param[0],
             param[1]
           ], [
@@ -323,7 +323,7 @@ function re(prim) {
 
 Mt.from_promise_suites("Js_promise_basic_test", {
       hd: [
-        "File \"js_promise_basic_test.ml\", line 187, characters 4-11",
+        "File \"js_promise_basic_test.ml\", line 185, characters 5-12",
         twop.then(function (x) {
               return Promise.resolve({
                           TAG: /* Eq */0,
@@ -334,7 +334,7 @@ Mt.from_promise_suites("Js_promise_basic_test", {
       ],
       tl: {
         hd: [
-          "File \"js_promise_basic_test.ml\", line 190, characters 4-11",
+          "File \"js_promise_basic_test.ml\", line 186, characters 5-12",
           twop.then(function (x) {
                 return Promise.resolve({
                             TAG: /* Neq */1,
