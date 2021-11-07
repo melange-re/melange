@@ -16,12 +16,11 @@ stdenv.mkDerivation rec {
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" "${inputString}\n";
+  outputHash = builtins.hashString "sha256" inputString;
   installPhase = ''
     runHook preInstall
     echo INSTALLING $inputString $out
-    echo "$inputString" > $out
-    # echo -n melange > $out
+    echo -n $inputString > $out
     echo fails before
   '';
 
