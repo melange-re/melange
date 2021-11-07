@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: cachix/install-nix-action@v12
+    - uses: cachix/install-nix-action@v14.1
       with:
         skip_adding_nixpkgs_channel: true
-    - uses: cachix/cachix-action@v8
+    - uses: cachix/cachix-action@v10
       with:
         name: anmonteiro
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
