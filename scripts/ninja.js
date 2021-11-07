@@ -81,6 +81,7 @@ var getOcamldepFile = () => {
 };
 
 var getBsc = () => {
+  // TODO(anmonteiro): fix for CI
   return "./_build/default/jscomp/main/js_main.exe";
 }
 
@@ -608,9 +609,9 @@ function replaceCmj(x) {
  * @param {string} y
  */
 function sourceToTarget(y) {
-  if (y.endsWith(".ml") || y.endsWith(".re")) {
+  if (y.endsWith(".ml") || y.endsWith(".re") || y.endsWith(".res")) {
     return replaceExt(y, ".cmj");
-  } else if (y.endsWith(".mli") || y.endsWith(".rei")) {
+  } else if (y.endsWith(".mli") || y.endsWith(".rei") || y.endsWith(".resi")) {
     return replaceExt(y, ".cmi");
   }
   return y;
