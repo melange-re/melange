@@ -2,15 +2,14 @@ let
   pkgs = import ../sources.nix { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
   melange = import ./.. { inherit pkgs; };
+  inputString = builtins.unsafeDiscardStringContext melange.outPath;
 in
 
 stdenv.mkDerivation {
-  name = "melange-tests";
+  name = "melange-tests-${inputString}";
   inherit (melange) nativeBuildInputs propagatedBuildInputs;
 
   src = ../..;
-
-  # inputString = builtins.unsafeDiscardStringContext melange.outPath;
 
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
   # the dream of running fixed-output-derivations is dead -- somehow after
