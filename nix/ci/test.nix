@@ -18,6 +18,7 @@ stdenv.mkDerivation rec {
   outputHashAlgo = "sha256";
   outputHash = builtins.hashString "sha256" inputString;
   installPhase = ''
+    echo INSTALLING $inputString > $out
     echo -n $inputString > $out
   '';
 
