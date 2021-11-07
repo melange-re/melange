@@ -38,14 +38,14 @@ stdenv.mkDerivation {
   ];
 
   checkPhase = ''
+    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
+    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+
     # check that running `node scripts/ninja.js config` produces an empty diff.
     dune exec jscomp/main/js_main.exe
     node scripts/ninja.js config
 
     git diff --exit-code
-
-    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
-    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
     # `--release` to avoid promotion
     rm -rf _build && dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
