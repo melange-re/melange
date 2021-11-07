@@ -20,8 +20,8 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
     echo INSTALLING $inputString $out
-    # echo -n $inputString > $out
-    echo -n melange > $out
+    echo -n "$inputString" > $out
+    # echo -n melange > $out
     echo fails before
   '';
 
