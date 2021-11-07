@@ -17,14 +17,15 @@ stdenv.mkDerivation rec {
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
   outputHash = builtins.hashString "sha256" inputString;
+  dontInstall = true;
   installPhase = ''
     runHook preInstall
     echo INSTALLING $inputString > $out
     echo -n $inputString > $out
   '';
 
-  phases = [ "unpackPhase" "checkPhase" ];
-  doCheck = true;
+  phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+  doCheck = false;
 
   checkInputs = with ocamlPackages; [ ounit2 ];
 
