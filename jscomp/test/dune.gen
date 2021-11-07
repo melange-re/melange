@@ -4173,6 +4173,19 @@
 
 
   (rule
+    (targets gpr_5280_optimize_test.cmi gpr_5280_optimize_test.cmj gpr_5280_optimize_test.js)
+    (deps (:inputs gpr_5280_optimize_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_5280_optimize_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets gpr_5312.cmi gpr_5312.cmj gpr_5312.js)
     (deps (:inputs gpr_5312.res) ../stdlib-412/stdlib.cmj)
 
@@ -9445,6 +9458,19 @@
    (promote
     (until-clean)
     (only unboxed_attribute_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets unboxed_crash.cmi unboxed_crash.cmj unboxed_crash.js)
+    (deps (:inputs unboxed_crash.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only unboxed_crash.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
