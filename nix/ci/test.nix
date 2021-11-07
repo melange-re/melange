@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
   outputHash = builtins.hashString "sha256" inputString;
   installPhase = ''
     runHook preInstall
-    echo INSTALLING $inputString > $out
+    echo INSTALLING $inputString $out
     echo -n $inputString > $out
   '';
 
