@@ -40,7 +40,7 @@ stdenv.mkDerivation {
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
     # check that running `node scripts/ninja.js config` produces an empty diff.
-    dune exec jscomp/main/js_main.exe
+    # dune build jscomp/main/js_main.exe
     node scripts/ninja.js config
 
     git diff --exit-code
