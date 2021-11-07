@@ -28,6 +28,7 @@ stdenv.mkDerivation {
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
   checkInputs = with ocamlPackages; [ ounit2 ];
+  doCheck = true;
 
   buildInputs = melange.buildInputs ++ [
     git
@@ -51,6 +52,5 @@ stdenv.mkDerivation {
     node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
 
     dune runtest -p ${melange.name} -j $NIX_BUILD_CORES --display=short
-    echo DONE $?
   '';
 }
