@@ -52,11 +52,8 @@ var N = {
   x: 1
 };
 
-var N$p;
-
 var M$p = {
-  N: N,
-  N$p: N$p
+  N: N
 };
 
 console.log(1);
@@ -68,15 +65,14 @@ var M$p$p = {
 console.log(M$p$p.N$p.x);
 
 var M2 = {
-  N: N,
-  N$p: N$p
+  N: N
 };
 
 var M3 = {
   N$p: N
 };
 
-console.log(1);
+console.log(M3.N$p.x);
 
 var M3$p = {
   N$p: N
@@ -92,15 +88,14 @@ var M4 = {
   N$p: N$1
 };
 
-console.log(1);
+console.log(M4.N$p.x);
 
 function F0(X) {
   var N = {
     x: 1
   };
   return {
-          N: N,
-          N$p: undefined
+          N: N
         };
 }
 
@@ -122,12 +117,9 @@ var N$3 = {
   x: 1
 };
 
-var N$p$1;
-
 var M6 = {
   D: D,
-  N: N$3,
-  N$p: N$p$1
+  N: N$3
 };
 
 console.log(1);
@@ -140,19 +132,13 @@ console.log(M7.N$p.x);
 
 console.log(1);
 
-var C$p$1;
-
-var M8 = {
-  C: undefined,
-  C$p: C$p$1
-};
+var M8 = {};
 
 var M9 = {
-  C: Char,
-  C$p: C$p$1
+  C: Char
 };
 
-var prim$4 = Curry._1(Char.chr, 66);
+var prim$4 = Curry._1(M9.C.chr, 66);
 
 console.log(prim$4);
 
@@ -163,8 +149,6 @@ var M10 = {
 var prim$5 = Curry._1(M10.C$p.chr, 66);
 
 console.log(prim$5);
-
-var C;
 
 var C$p$p$p = C$p;
 
@@ -180,12 +164,10 @@ function G0(funarg) {
 }
 
 var M1 = {
-  N: N$3,
-  N$p: N$p$1
+  N: N$3
 };
 
 exports.l = l;
-exports.C = C;
 exports.C$p = C$p;
 exports.C$p$p$p = C$p$p$p;
 exports.C$p$p = C$p$p;
