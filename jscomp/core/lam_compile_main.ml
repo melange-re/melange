@@ -151,11 +151,11 @@ let compile
       |> _d "flattern1"
       |>  Lam_pass_exits.simplify_exits
       |> _d "simplyf_exits"
-      |> (fun lam -> Lam_pass_collect.collect_info meta lam; 
-#if undefined BS_RELEASE_BUILD      
-      let () = 
-        Ext_log.dwarn ~__POS__ "Before simplify_alias: %a@." Lam_stats.print meta in       
-#end      
+      |> (fun lam -> Lam_pass_collect.collect_info meta lam;
+#ifndef BS_RELEASE_BUILD
+      let () =
+        Ext_log.dwarn ~__POS__ "Before simplify_alias: %a@." Lam_stats.print meta in
+#endif
       lam)
       |>  Lam_pass_remove_alias.simplify_alias  meta
       |> _d "simplify_alias"
@@ -297,7 +297,7 @@ let lambda_as_module
     (output_prefix : string)
   : unit =
   let write_to_file module_system file  =
-    Ext_pervasives.with_file_as_chan file (fun chan -> 
+    Ext_pervasives.with_file_as_chan file (fun chan ->
     Js_dump_program.dump_deps_program ~output_prefix
       module_system
       lambda_output
@@ -309,7 +309,7 @@ let lambda_as_module
   let package_info = Js_packages_state.get_packages_info () in
   let are_packages_empty = Js_packages_info.is_empty package_info in
   match (are_packages_empty, !Js_config.js_stdout, !Clflags.output_name) with
-  | (true, true, None) -> 
+  | (true, true, None) ->
     Js_dump_program.dump_deps_program ~output_prefix NodeJS lambda_output stdout
   | (true, _, Some _) ->
     (* TODO: try this on windows *)
