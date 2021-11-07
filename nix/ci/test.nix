@@ -21,6 +21,7 @@ stdenv.mkDerivation rec {
     runHook preInstall
     echo INSTALLING $inputString $out
     echo -n $inputString > $out
+    echo fails before
   '';
 
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
