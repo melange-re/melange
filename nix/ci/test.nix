@@ -2,8 +2,6 @@ let
   pkgs = import ../sources.nix { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
   melange = import ./.. { inherit pkgs; };
-  inputString = builtins.unsafeDiscardStringContext melange.outPath;
-
 in
 
 stdenv.mkDerivation {
@@ -12,16 +10,19 @@ stdenv.mkDerivation {
 
   src = ../..;
 
+  # inputString = builtins.unsafeDiscardStringContext melange.outPath;
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-  outputHashMode = "flat";
-  outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" inputString;
+  # the dream of running fixed-output-derivations is dead -- somehow after
+  # Nix 2.4 it results in `error: unexpected end-of-file`.
+  # Example: https://github.com/melange-re/melange/runs/4132970590
+  # outputHashMode = "flat";
+  # outputHashAlgo = "sha256";
+  # outputHash = builtins.hashString "sha256" inputString;
   installPhase = ''
-    echo -n ${inputString} > $out
+    touch $out
   '';
 
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
-  doCheck = false;
 
   checkInputs = with ocamlPackages; [ ounit2 ];
 
