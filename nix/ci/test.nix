@@ -18,6 +18,7 @@ stdenv.mkDerivation rec {
   outputHashAlgo = "sha256";
   outputHash = builtins.hashString "sha256" inputString;
   installPhase = ''
+    runHook preInstall
     echo INSTALLING $inputString > $out
     echo -n $inputString > $out
   '';
@@ -47,5 +48,6 @@ stdenv.mkDerivation rec {
     node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
 
     dune runtest -p ${melange.name} -j $NIX_BUILD_CORES --display=short
+    echo DONE $?
   '';
 }

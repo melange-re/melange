@@ -6,7 +6,7 @@ on:
      - fork
 jobs:
   tests:
-    name: Build
+    name: Build with Nix
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
