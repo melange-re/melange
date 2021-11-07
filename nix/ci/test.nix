@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" builtins.unsafeDiscardStringContext melange.outPath;
+  outputHash = builtins.hashString "sha256" (builtins.unsafeDiscardStringContext melange.outPath);
   installPhase = ''
     runHook preInstall
     echo INSTALLING ${builtins.unsafeDiscardStringContext melange.outPath} $out
