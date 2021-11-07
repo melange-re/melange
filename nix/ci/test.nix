@@ -2,26 +2,22 @@ let
   pkgs = import ../sources.nix { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
   melange = import ./.. { inherit pkgs; };
+  inputString = builtins.unsafeDiscardStringContext melange.outPath;
 
 in
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   name = "melange-tests";
   inherit (melange) nativeBuildInputs propagatedBuildInputs;
 
   src = ../..;
 
-  # inputString = builtins.unsafeDiscardStringContext melange.outPath;
-
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" (builtins.unsafeDiscardStringContext melange.outPath);
+  outputHash = builtins.hashString "sha256" inputString;
   installPhase = ''
-    runHook preInstall
-    echo INSTALLING ${builtins.unsafeDiscardStringContext melange.outPath} $out
-    echo -n ${builtins.unsafeDiscardStringContext melange.outPath} > $out
-    echo fails before
+    echo -n ${inputString} > $out
   '';
 
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
