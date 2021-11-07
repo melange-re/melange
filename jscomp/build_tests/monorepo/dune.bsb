@@ -1,0 +1,50 @@
+;;;;{BSB GENERATED: NO EDIT
+(subdir ./libs/number-adder/src
+(rule
+(targets  NumberAdder.ast)
+ (deps (:inputs  NumberAdder.ml) )
+(action
+ (run bsc  -w a  -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if (= %{ocaml_version} "4.12.0")) )
+ (rule
+(targets  NumberAdder.cmj NumberAdder.cmi NumberAdder.cmt NumberAdder.bs.js)
+ (mode (promote (until-clean) (only NumberAdder.bs.js)))(deps (:inputs  NumberAdder.ast)  (:ast_deps .././src/NumberAdder.ast ) ../bsconfig.json)
+(action
+ (progn (dynamic-run bsb_helper -root /Users/nordfjord/git/nordfjord/melange/jscomp/build_tests/monorepo/./libs/number-adder -cwd ./src %{ast_deps}) (run bsc -I .    -w a -bs-package-name @app/number-adder -bs-package-output es6:./src:.bs.js -o NumberAdder.cmj %{inputs})))
+(enabled_if (= %{ocaml_version} "4.12.0")) )
+ 
+(alias (name bsb_world)(deps  NumberAdder.bs.js)
+(enabled_if (= %{ocaml_version} "4.12.0"))))
+
+
+(subdir ./libs/number-adder(data_only_dirs .melange.eobjs))
+(subdir ./libs/number-adder/.melange.eobjs)
+
+(subdir ./apps/app/src
+(rule
+(targets  main.ast)
+ (deps (:inputs  main.ml) )
+(action
+ (run bsc  -w a  -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if (= %{ocaml_version} "4.12.0")) )
+ (rule
+(targets  main.cmj main.cmi main.cmt main.bs.js)
+ (mode (promote (until-clean) (only main.bs.js)))(deps (:inputs  main.ast)  (:ast_deps .././src/main.ast ) ../bsconfig.json(alias ../../../libs/number-adder/src/bsb_world))
+(action
+ (progn (dynamic-run bsb_helper -root /Users/nordfjord/git/nordfjord/melange/jscomp/build_tests/monorepo/./apps/app -cwd ./src %{ast_deps}) (run bsc -I . -I ../../../libs/number-adder/src   -w a -bs-package-name @app/app -bs-package-output es6:./src:.bs.js -o main.cmj %{inputs})))
+(enabled_if (= %{ocaml_version} "4.12.0")) )
+ 
+(alias (name bsb_world)(deps  main.bs.js)
+(enabled_if (= %{ocaml_version} "4.12.0"))))
+
+
+(subdir ./apps/app(data_only_dirs .melange.eobjs))
+(subdir ./apps/app/.melange.eobjs)
+
+
+
+(subdir .melange.eobjs)
+
+(data_only_dirs node_modules .melange.eobjs)
+(alias (name bsb_world))
+;;;;BSB GENERATED: NO EDIT}

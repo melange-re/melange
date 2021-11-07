@@ -209,25 +209,26 @@ let rec walk_all_deps_aux (visited : string Hash_string.t) (paths : string list)
         Bsb_log.info "@{<info>Visited before@} %s@." cur_package_name
       else
         let explore_deps (deps : string) =
-          map
-          |? ( deps,
-               `Arr
-                 (fun (new_packages : Ext_json_types.t array) ->
-                   Ext_array.iter new_packages (fun js ->
-                       match js with
-                       | Str { str = new_package } ->
-                           let package_dir =
-                             Bsb_pkg.resolve_bs_package ~cwd:dir
-                               (Bsb_pkg_types.string_as_package new_package)
-                           in
-                           walk_all_deps_aux visited package_stacks
-                             ~top:(Expect_name new_package) package_dir queue
-                       | _ ->
-                           Bsb_exception.errorf ~loc "%s expect an array" deps))
-             )
-          |> ignore
-        in
-        explore_deps Bsb_build_schemas.bs_dependencies;
+        map
+        |?
+        (deps,
+         `Arr (fun (new_packages : Ext_json_types.t array) ->
+             Ext_array.iter new_packages(fun js ->
+                 match js with
+                 | Str {str = new_package} ->
+                   let package_dir =
+                     match Bsb_path_resolver.resolve_import_map_package new_package with
+                     | Some path -> path
+                     | None -> Bsb_pkg.resolve_bs_package ~cwd:dir (Bsb_pkg_types.string_as_package   new_package)
+                   in
+                   walk_all_deps_aux visited package_stacks  ~top:(Expect_name new_package) package_dir queue;
+                 | _ ->
+                   Bsb_exception.errorf ~loc
+                     "%s expect an array"
+                     deps
+               )))
+        |> ignore in
+       explore_deps Bsb_build_schemas.bs_dependencies;
         (match top with
         | Expect_none -> explore_deps Bsb_build_schemas.bs_dev_dependencies
         | Expect_name _ -> ());

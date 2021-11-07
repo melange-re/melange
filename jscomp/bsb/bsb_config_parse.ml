@@ -26,10 +26,16 @@
 (* let get_list_string = Bsb_build_util.get_list_string *)
 let (//) = Ext_path.combine
 
-let resolve_package cwd  package_name =
+let resolve_package cwd package_name =
+  let package = Bsb_pkg_types.string_as_package package_name in
+  let path =
+    match Bsb_path_resolver.resolve_import_map_package package_name with
+    | Some path -> path
+    | None -> Bsb_pkg.resolve_bs_package ~cwd package
+  in
   {
-    Bsb_config_types.package_name ;
-    package_path = Bsb_pkg.resolve_bs_package ~cwd package_name;
+    Bsb_config_types.package_name = package;
+    package_path = path;
     package_dirs = [];
     package_install_dirs = [];
   }
@@ -386,7 +392,7 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
   | None -> []
   | Some (Arr ({content = s})) ->
     Ext_list.map (Bsb_build_util.get_list_string s) (fun s ->
-     let dep = resolve_package cwd (Bsb_pkg_types.string_as_package s) in
+     let dep = resolve_package cwd s in
      let { Bsb_config_types.file_groups = { files; _ }; namespace; _ } =
        interpret_json ~package_kind ~per_proj_dir:dep.package_path
      in

@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@app/app": "./apps/app",
+    "@app/number-adder": "./libs/number-adder"
+  }
+}
