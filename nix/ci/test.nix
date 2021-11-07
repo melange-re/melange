@@ -2,7 +2,7 @@ let
   pkgs = import ../sources.nix { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
   melange = import ./.. { inherit pkgs; };
-  inputString = builtins.unsafeDiscardStringContext melange.outPath;
+  inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 
 stdenv.mkDerivation {
