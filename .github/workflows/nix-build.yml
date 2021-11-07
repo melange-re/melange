@@ -20,4 +20,4 @@ jobs:
         name: anmonteiro
         signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
     - name: "Run nix-build"
-      run: nix shell ./nix/ci/test.nix
+      run: nix shell -f ./nix/ci/test.nix
