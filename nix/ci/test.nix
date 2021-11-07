@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
     echo -n $inputString > $out
   '';
 
-  phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+  phases = [ "unpackPhase" "checkPhase" ];
   doCheck = true;
 
   checkInputs = with ocamlPackages; [ ounit2 ];
