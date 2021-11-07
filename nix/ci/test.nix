@@ -17,12 +17,11 @@ stdenv.mkDerivation {
   # Nix 2.4 it results in `error: unexpected end-of-file`.
   # Example: https://github.com/melange-re/melange/runs/4132970590
 
-  # outputHashMode = "flat";
-  # outputHashAlgo = "sha256";
-  # outputHash = builtins.hashString "sha256" "melange";
+  outputHashMode = "flat";
+  outputHashAlgo = "sha256";
+  outputHash = builtins.hashString "sha256" "melange";
   installPhase = ''
-    touch $out
-    # echo -n melange > $out
+    echo -n melange > $out
   '';
 
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
