@@ -1,5 +1,5 @@
 {
-  "checksum": "7caaa1a845eb3df9aa7da2ae9f03104f",
+  "checksum": "9585d43c1533e8cab3275d59fae85ff7",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -37,8 +37,8 @@
       "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
       "overrides": [],
       "dependencies": [
-        "ocaml@4.12.0@d41d8cd9", "@opam/reason@opam:3.7.0@494dd52d",
-        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#f10b41fb@d41d8cd9",
+        "ocaml@4.12.0@d41d8cd9", "@opam/reason@opam:3.7.0@5ea7a0b2",
+        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#78a33622@d41d8cd9",
         "@opam/dune-action-plugin@opam:2.9.1@290b5649",
         "@opam/dune@opam:2.9.1@1e504822",
         "@opam/cmdliner@opam:1.0.4@93208aac"
@@ -173,8 +173,8 @@
         "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:2.9.1@1e504822"
       ]
     },
-    "@opam/reason@opam:3.7.0@494dd52d": {
-      "id": "@opam/reason@opam:3.7.0@494dd52d",
+    "@opam/reason@opam:3.7.0@5ea7a0b2": {
+      "id": "@opam/reason@opam:3.7.0@5ea7a0b2",
       "name": "@opam/reason",
       "version": "opam:3.7.0",
       "source": {
@@ -192,7 +192,7 @@
       "overrides": [],
       "dependencies": [
         "ocaml@4.12.0@d41d8cd9", "@opam/result@opam:1.5@1c6a6533",
-        "@opam/ppx_derivers@opam:1.2.1@ecf0aa45",
+        "@opam/ppx_derivers@opam:1.2.1@e2cbad12",
         "@opam/ocamlfind@opam:1.9.1@b748edf6",
         "@opam/merlin-extend@opam:0.6@88755c91",
         "@opam/menhir@opam:20211012@1135eab2",
@@ -201,7 +201,7 @@
       ],
       "devDependencies": [
         "ocaml@4.12.0@d41d8cd9", "@opam/result@opam:1.5@1c6a6533",
-        "@opam/ppx_derivers@opam:1.2.1@ecf0aa45",
+        "@opam/ppx_derivers@opam:1.2.1@e2cbad12",
         "@opam/merlin-extend@opam:0.6@88755c91",
         "@opam/menhir@opam:20211012@1135eab2",
         "@opam/fix@opam:20201120@0b212fb9", "@opam/dune@opam:2.9.1@1e504822"
@@ -259,8 +259,8 @@
         "@opam/dune@opam:2.9.1@1e504822"
       ]
     },
-    "@opam/ppx_derivers@opam:1.2.1@ecf0aa45": {
-      "id": "@opam/ppx_derivers@opam:1.2.1@ecf0aa45",
+    "@opam/ppx_derivers@opam:1.2.1@e2cbad12": {
+      "id": "@opam/ppx_derivers@opam:1.2.1@e2cbad12",
       "name": "@opam/ppx_derivers",
       "version": "opam:1.2.1",
       "source": {
@@ -567,16 +567,16 @@
         "@opam/dune@opam:2.9.1@1e504822"
       ]
     },
-    "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#f10b41fb@d41d8cd9": {
+    "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#78a33622@d41d8cd9": {
       "id":
-        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#f10b41fb@d41d8cd9",
+        "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#78a33622@d41d8cd9",
       "name": "@opam/melange-compiler-libs",
       "version":
-        "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#f10b41fb",
+        "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#78a33622",
       "source": {
         "type": "install",
         "source": [
-          "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#f10b41fb"
+          "github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#78a33622"
         ]
       },
       "overrides": [],

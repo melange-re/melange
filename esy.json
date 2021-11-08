@@ -7,7 +7,7 @@
     "@opam/reason": "^3.7.0",
     "@opam/dune": "*",
     "@opam/dune-action-plugin": "*",
-    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#f10b41fb"
+    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#78a33622"
   },
   "devDependencies": {
     "@opam/ocaml-lsp-server": "*",
