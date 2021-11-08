@@ -9607,6 +9607,19 @@
 
 
   (rule
+    (targets undefine_conditional.cmi undefine_conditional.cmj undefine_conditional.js)
+    (deps (:inputs undefine_conditional.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only undefine_conditional.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets unicode_type_error.cmi unicode_type_error.cmj unicode_type_error.js)
     (deps (:inputs unicode_type_error.ml) ../stdlib-412/stdlib.cmj)
 
