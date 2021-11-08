@@ -4160,6 +4160,19 @@
 
 
   (rule
+    (targets gpr_4931_allow.cmi gpr_4931_allow.cmj gpr_4931_allow.js)
+    (deps (:inputs gpr_4931_allow.res) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_4931_allow.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets gpr_5169_test.cmi gpr_5169_test.cmj gpr_5169_test.js)
     (deps (:inputs gpr_5169_test.ml) ../stdlib-412/stdlib.cmj)
 
