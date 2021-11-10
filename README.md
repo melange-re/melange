@@ -63,9 +63,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
   ReScript on a regular basis.
 * Thanks to the [OCaml](https://ocaml.org) team, obviously, without such a
   beautiful yet practical language, this project would not exist.
-* Thanks to [ninja-build](https://ninja-build.org), used internally by Melange.
-  `ninja` is a truly [well-engineered](http://aosabook.org/en/posa/ninja.html)
-  scalable build tool.
 * Thanks to [Bloomberg](https://www.techatbloomberg.com) and
   [Facebook](https://github.com/facebook/). The ReScript project began at
   Bloomberg and was published in 2016; without the support of Bloomberg, it
