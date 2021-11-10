@@ -55,7 +55,21 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Acknowledgments
 
-See [Credits.md](./Credits.md).
+* Thanks to the [ReScript](https://github.com/rescript-lang/rescript-compiler)
+  project, its author and maintainer [@bobzhang](https://github.com/bobzhang),
+  and its many
+  [contributors](https://github.com/rescript-lang/rescript-compiler/graphs/contributors).
+  Melange is a fork of ReScript, and continues to incorporate patches to
+  ReScript on a regular basis.
+* Thanks to the [OCaml](https://ocaml.org) team, obviously, without such a
+  beautiful yet practical language, this project would not exist.
+* Thanks to [Bloomberg](https://www.techatbloomberg.com) and
+  [Facebook](https://github.com/facebook/). The ReScript project began at
+  Bloomberg and was published in 2016; without the support of Bloomberg, it
+  would not have happened. ReScript was funded by Facebook since July 2017.
+
+See also [Credits.md](./Credits.md) concerning some individual components of
+Melange.
 
 ## Licensing
 
