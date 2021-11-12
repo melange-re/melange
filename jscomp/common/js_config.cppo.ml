@@ -41,6 +41,24 @@ let stdlib_path =
   | value -> value
   | exception _ -> install_dir // Literals.lib // "melange" )
 
+let include_dirs =
+
+#ifndef BS_RELEASE_BUILD
+  let jscomp =
+    (* jscomp/main/bsc.exe -> jscomp *)
+    Filename.dirname
+      (Filename.dirname Sys.executable_name)
+  in
+  [ (jscomp//"others")
+  ; (jscomp//"stdlib-412/stdlib_modules")
+  ; (jscomp//"stdlib-412")
+  ; (jscomp//"runtime")
+  ; (Lazy.force stdlib_path)
+  ]
+#else
+  []
+#endif
+
 (** Browser is not set via command line only for internal use *)
 
 

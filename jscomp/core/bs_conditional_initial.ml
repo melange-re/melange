@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let (//) = Ext_path.combine
-
 (* Clflags.keep_docs := false; *)
 (* default to false -check later*)
 (* Clflags.keep_locs := false; *)
@@ -69,17 +67,7 @@ let setup_env () =
     Matching_polyfill.names_from_construct_pattern;
 #ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
-    (let jscomp =
-        (* jscomp/main/bsc.exe -> jscomp *)
-        Filename.dirname
-          (Filename.dirname Sys.executable_name) in
-    Clflags.include_dirs :=
-      (jscomp//"others") ::
-      (jscomp//"stdlib-412/stdlib_modules") ::
-      (jscomp//"stdlib-412") ::
-      (jscomp//"runtime") ::
-      (Lazy.force Js_config.stdlib_path) ::
-      !Clflags.include_dirs);
+    Clflags.include_dirs := Js_config.include_dirs @ !Clflags.include_dirs;
 #endif
 
   Rescript_cpp.replace_directive_bool "BS" true;
