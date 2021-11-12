@@ -10,5 +10,6 @@ mkShell {
   buildInputs = [
     nodejs-14_x
     yarn
+    python3
   ] ++ (with ocamlPackages; [ merlin utop ounit2 ]);
 }
