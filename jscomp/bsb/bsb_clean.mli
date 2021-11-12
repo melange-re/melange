@@ -26,4 +26,4 @@
   TODO: clean staled in source js artifacts
 *)
 
-val clean : string -> unit
+val clean : dune_args:string array -> string -> unit
