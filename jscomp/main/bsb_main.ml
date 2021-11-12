@@ -76,11 +76,7 @@ let output_dune_file buf =
 
 let dune_command_exit dune_args =
   let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
-  let args =
-    if Array.length dune_args = 0 then
-      common_args
-    else
-      Array.append common_args dune_args
+  let args = Array.append common_args dune_args
   in
   Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list args));
   Unix.execvp Literals.dune args

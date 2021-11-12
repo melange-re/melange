@@ -30,12 +30,7 @@ let dune_clean ~dune_args proj_dir =
   try
     let cmd = Literals.dune in
     let common_args = [|cmd; "clean"|] in
-    let args =
-      if Array.length dune_args = 0 then
-        common_args
-      else
-        Array.append common_args dune_args
-    in
+    let args = Array.append common_args dune_args in
     let eid =
       Bsb_unix.run_command_execvp {cmd ; args; cwd = proj_dir}
     in
