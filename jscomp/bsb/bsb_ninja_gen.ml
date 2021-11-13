@@ -110,8 +110,6 @@ let output_ninja_and_namespace_map
   in
   let lib = bs_groups.lib in
   let dev = bs_groups.dev in
-  Bsb_db_util.sanity_check lib;
-  Bsb_db_util.sanity_check dev;
   Map_string.iter dev
     (fun k a ->
        if Map_string.mem lib k  then
