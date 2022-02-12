@@ -1,13 +1,19 @@
 (rule
-  (mode (promote (until-clean)))
-  (deps (sandbox always))
- (targets (dir js))
+ (mode
+  (promote (until-clean)))
+ (deps
+  (sandbox always))
+ (targets
+  (dir js))
  (action
-   (run  mkdir %{targets})))
- (rule
-  (mode (promote (until-clean)))
-  (deps (sandbox always))
- (targets (dir es6))
+  (run mkdir %{targets})))
+
+(rule
+ (mode
+  (promote (until-clean)))
+ (deps
+  (sandbox always))
+ (targets
+  (dir es6))
  (action
-   (run  mkdir %{targets}))
- )
+  (run mkdir %{targets})))

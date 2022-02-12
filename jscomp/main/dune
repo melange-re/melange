@@ -18,8 +18,8 @@
   js_main.ml
   ../../package.json
   ../../bsconfig.json
-  ../../lib/js/
-  ../../lib/es6/)
+  (glob_files ../../lib/js/*)
+  (glob_files ../../lib/es6/*))
  (preprocess
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
