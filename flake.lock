@@ -35,17 +35,17 @@
         "flake-utils": "flake-utils_2"
       },
       "locked": {
-        "lastModified": 1644629628,
-        "narHash": "sha256-FlJ6D3bu90UmH8bDH6DlKKzHT9Rrwp78Xiv+L0hePXc=",
-        "ref": "anmonteiro/update-sources-and-dune",
-        "rev": "639c15067d760f9393d07ccbb746d5d456f93713",
-        "revCount": 551,
-        "type": "git",
-        "url": "file:///Users/anmonteiro/projects/nix-overlays"
+        "lastModified": 1644605071,
+        "narHash": "sha256-bUapL1oc8TouzI1PISMbXk9wTj1y4JC2W5MiC66MW20=",
+        "owner": "anmonteiro",
+        "repo": "nix-overlays",
+        "rev": "d2029f1ab295489d6bcf4dc1744d3f803b831c03",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///Users/anmonteiro/projects/nix-overlays"
+        "owner": "anmonteiro",
+        "repo": "nix-overlays",
+        "type": "github"
       }
     },
     "root": {
