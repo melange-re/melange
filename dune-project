@@ -1,6 +1,7 @@
-(lang dune 2.5)
+(lang dune 3.0)
 
 (generate_opam_files true)
+(using directory-targets 0.1)
 
 (name melange)
 

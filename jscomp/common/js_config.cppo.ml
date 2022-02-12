@@ -47,7 +47,7 @@ let include_dirs =
   let jscomp =
     (* jscomp/main/bsc.exe -> jscomp *)
     Filename.dirname
-      (Filename.dirname Sys.executable_name)
+      (Filename.dirname (Ext_path.real_path Sys.executable_name))
   in
   [ (jscomp//"others")
   ; (jscomp//"stdlib-412/stdlib_modules")
