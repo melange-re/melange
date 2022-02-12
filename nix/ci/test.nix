@@ -7,7 +7,7 @@ let
   };
   pkgs = import "${src}/boot.nix" { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
-  melange = import ./.. { inherit pkgs; };
+  melange = pkgs.callPackage ./.. { };
   inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 
