@@ -1,7 +1,5 @@
-{ pkgs ? import ./sources.nix { } }:
-let
-  inherit (pkgs) stdenv ocamlPackages lib opaline;
-in
+{ stdenv, ocamlPackages, lib, opaline, gnutar }:
+
 with ocamlPackages;
 
 stdenv.mkDerivation rec {
@@ -49,7 +47,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = with ocamlPackages; [
-    pkgs.gnutar
+    gnutar
     dune
     ocaml
     findlib
