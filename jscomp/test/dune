@@ -2,12 +2,15 @@
 
 (ocamllex
  (modules arith_lexer)
- (mode promote-until-clean))
+ (mode
+  (promote (until-clean))))
 
 (ocamllex
  (modules number_lexer)
- (mode promote-until-clean))
+ (mode
+  (promote (until-clean))))
 
 (ocamllex
  (modules simple_lexer_test)
- (mode promote-until-clean))
+ (mode
+  (promote (until-clean))))

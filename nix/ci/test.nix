@@ -1,7 +1,13 @@
 let
-  pkgs = import ../sources.nix { };
+  lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
+  src = fetchGit {
+    url = with lock.nodes.nixpkgs.locked;"https://github.com/${owner}/${repo}";
+    inherit (lock.nodes.nixpkgs.locked) rev;
+    # inherit (lock.nodes.nixpkgs.original) ref;
+  };
+  pkgs = import "${src}/boot.nix" { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
-  melange = import ./.. { inherit pkgs; };
+  melange = pkgs.callPackage ./.. { };
   inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 
