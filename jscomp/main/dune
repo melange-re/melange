@@ -18,8 +18,8 @@
   js_main.ml
   ../../package.json
   ../../bsconfig.json
-  (glob_files ../../lib/js/*)
-  (glob_files ../../lib/es6/*))
+  ../../lib/js/.gitkeep
+  ../../lib/es6/.gitkeep)
  (preprocess
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
