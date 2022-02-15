@@ -20,7 +20,7 @@
     "clean": "node ./scripts/ninja.js clean"
   },
   "esy": {
-    "build": "dune build -p #{self.name}",
+    "build": "dune build -p #{self.name} --disable-promotion",
     "install": [
       [
         "esy-installer",
