@@ -1243,9 +1243,16 @@ async function stdlibNinja() {
   [
     ruleCC,
     bsc_builtin_flags,
+    "stdlib__no_aliases.mli",
+    "stdlib__no_aliases.cmi",
+    externalDeps.concat(["camlinternalFormatBasics.cmi", "camlinternalAtomic.cmi"]),
+  ],
+  [
+    ruleCC_cmi,
+    bsc_builtin_flags,
     "stdlib__no_aliases.ml",
-    [ "stdlib__no_aliases.cmj", "stdlib__no_aliases.cmi" ],
-    externalDeps.concat(["camlinternalFormatBasics.cmj", "camlinternalAtomic.cmj"]),
+    [ "stdlib__no_aliases.cmj" ],
+    ["stdlib__no_aliases.cmi"]
   ],
 ])}
 `;
