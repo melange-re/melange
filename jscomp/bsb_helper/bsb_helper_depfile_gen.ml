@@ -22,15 +22,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module D = Dune_action_plugin.V1
-module P = D.Path
-module Glob = Dune_glob.V1
-
-open D.O
-
 let (//) = Ext_path.combine
 
 let lib_bs = Literals.melange_eobjs_dir
+(* let dep_lit = " : " *)
+let write_buf name buf  =
+  let oc = open_out_bin name in
+  Ext_buffer.output_buffer oc buf ;
+  close_out oc
+
+(* should be good for small file *)
+let load_file name (buf : Ext_buffer.t): unit  =
+  let len = Ext_buffer.length buf in
+  let ic = open_in_bin name in
+  let n = in_channel_length ic in
+  if n <> len then begin close_in ic ; write_buf name buf  end
+  else
+    let holder = really_input_string ic  n in
+    close_in ic ;
+    if Ext_buffer.not_equal buf holder then
+      write_buf name buf
+;;
+let write_file name  (buf : Ext_buffer.t) =
+  if Sys.file_exists name then
+    load_file name buf
+  else
+    write_buf name buf
 
 (* return an non-decoded string *)
 let extract_dep_raw_string (fn : string) : string =
@@ -117,51 +134,25 @@ let oc_deps
     offset := next_tab + 1
   done
 
-let multi_file_glob files =
-  let pp_list =
-    Format.(pp_print_list ~pp_sep:(fun fmt () -> fprintf fmt ",") pp_print_string)
+let process_deps_for_dune ~root ~cwd deps =
+  let rel_deps = Ext_list.map deps (fun dep ->
+    Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // dep))
   in
-  Glob.of_string (Format.asprintf "{%a}" pp_list files)
+  String.concat "\n" rel_deps
 
-let process_deps ~root ~cwd ~deps =
-  let rules =
-    Ext_list.group_by ~fk:(fun x -> Filename.dirname x) ~fv:Filename.basename deps
-  in
-  Hash_string.fold rules [] (fun dir basenames acc ->
-    let dirname =
-      Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // dir)
-    in
-    let p: unit D.t =
-      let+ (_: string list) = D.read_directory_with_glob
-        ~path:(P.of_string dirname)
-        ~glob:(multi_file_glob basenames)
-      in
-      ()
-    in
-    p :: acc)
-
-let ignore_both a b =
-  D.map ~f:(fun (_, _) -> ()) (D.both a b)
-
-let realize ~rules =
-  List.fold_left ignore_both (D.return ()) rules
-
-let run_dependency_rules ~root ~cwd ~deps =
-  let rules = process_deps ~root ~cwd ~deps in
-  let rule = realize ~rules  in
-  D.run rule
-
-let compute_dependency_info
-  ~root
+let emit_d
   ~cwd
+  ~root
   (is_dev : bool)
   (namespace : string option) (mlast : string) (mliast : string) =
   let data  =
     Bsb_db_decode.read_build_cache ~dir:(root // lib_bs)
   in
   let deps = ref Set_string.empty in
+  let filename =
+      Ext_filename.new_extension mlast Literals.suffix_d in
   oc_deps
-    ~deps
+  ~deps
     mlast
     is_dev
     data
@@ -170,13 +161,15 @@ let compute_dependency_info
     ;
   if mliast <> "" then begin
     oc_deps
-      ~deps
+    ~deps
       mliast
       is_dev
       data
       namespace
-      `intf
+       `intf
   end;
   let deps = Set_string.elements !deps in
-  run_dependency_rules ~root ~cwd ~deps
+  let buf = Ext_buffer.create 2048 in
+  Ext_buffer.add_string buf (process_deps_for_dune ~root ~cwd deps);
+  write_file filename buf
 
