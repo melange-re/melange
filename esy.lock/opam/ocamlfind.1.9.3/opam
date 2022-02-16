@@ -36,9 +36,9 @@ install: [
 ]
 dev-repo: "git+https://github.com/ocaml/ocamlfind.git"
 url {
-  src: "http://download.camlcity.org/download/findlib-1.9.1.tar.gz"
+  src: "http://download.camlcity.org/download/findlib-1.9.3.tar.gz"
   checksum: [
-    "md5=65e6dc9b305ccbed1267275fe180f538"
-    "sha512=83a05f3e310fa7cabb0475c5525f7a87c1b6bc2dc5e39f094cabfb5d944a826a5581844ba00ec1a48dd96184eb9de3c4d1055cdddee2b83c700a2de5a6dc6f84"
+    "md5=24047dd8a0da5322253de9b7aa254e42"
+    "sha512=27cc4ce141576bf477fb9d61a82ad65f55478740eed59fb43f43edb794140829fd2ff89ad27d8a890cfc336b54c073a06de05b31100fc7c01cacbd7d88e928ea"
   ]
 }

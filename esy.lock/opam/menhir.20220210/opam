@@ -1,3 +1,4 @@
+
 opam-version: "2.0"
 maintainer: "francois.pottier@inria.fr"
 authors: [
@@ -12,18 +13,17 @@ build: [
   ["dune" "build" "-p" name "-j" jobs]
 ]
 depends: [
-  "ocaml"  { >= "4.02.3" }
-  "dune"   { >= "2.0.0"  }
+  "ocaml" {>= "4.03.0"}
+  "dune" {>= "2.8.0"}
+  "menhirLib" {= version}
+  "menhirSdk" {= version}
 ]
-conflicts: [
-  "menhir" { != version  }
-]
-synopsis: "Compile-time library for auxiliary tools related to Menhir"
+synopsis: "An LR(1) parser generator"
 url {
   src:
-    "https://gitlab.inria.fr/fpottier/menhir/-/archive/20211012/archive.tar.gz"
+    "https://gitlab.inria.fr/fpottier/menhir/-/archive/20220210/archive.tar.gz"
   checksum: [
-    "md5=f631f4c03859254a7d725f054633ee44"
-    "sha512=13376d3c07158c36dd9b4617294a7e4d53ba90062ab09fae48c36b76f08133e2ffc4be13a1bc88980617c5d1046631844815c9ee7fd7c821699bacaf245b1ed8"
+    "md5=e3cef220f676c4b1c16cbccb174cefe3"
+    "sha512=3063fec1d8b9fe092c8461b0689d426c7fe381a2bf3fd258dc42ceecca1719d32efbb8a18d94ada5555c38175ea352da3adbb239fdbcbcf52c3a5c85a4d9586f"
   ]
 }

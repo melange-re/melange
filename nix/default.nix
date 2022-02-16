@@ -55,7 +55,6 @@ stdenv.mkDerivation rec {
   ];
 
   propagatedBuildInputs = [
-    dune-action-plugin
     melange-compiler-libs
     reason
     cmdliner
