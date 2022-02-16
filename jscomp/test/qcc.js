@@ -5,8 +5,8 @@ var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
-var Caml_io = require("../../lib/js/caml_io.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_sys = require("../../lib/js/caml_sys.js");
 var Caml_array = require("../../lib/js/caml_array.js");
@@ -14,15 +14,13 @@ var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 var dbg = {
   contents: true
 };
 
 var inch = {
-  contents: Stdlib__no_aliases.stdin
+  contents: Stdlib.stdin
 };
 
 function bufferize(f) {
@@ -57,7 +55,7 @@ function bufferize(f) {
 }
 
 var match = bufferize(function (param) {
-      return Caml_external_polyfill.resolve("caml_ml_input_char")(inch.contents);
+      return Stdlib.input_char(inch.contents);
     });
 
 var ungetch = match[1];
@@ -192,7 +190,7 @@ function next(param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
+    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
       c = undefined;
     } else {
       throw exn;
@@ -245,16 +243,13 @@ function next(param) {
     var ch = getq(undefined);
     var qt = Curry._1(getch, undefined);
     if (qt !== /* '\'' */39) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "syntax error",
-            Error: new Error()
-          };
+      return Stdlib.failwith("syntax error");
+    } else {
+      return {
+              TAG: /* ILit */1,
+              _0: ch
+            };
     }
-    return {
-            TAG: /* ILit */1,
-            _0: ch
-          };
   }
   if (isid(c)) {
     var _n$1 = 0;
@@ -945,30 +940,23 @@ function unary(stk) {
           case "*" :
               Curry._1(next$1, undefined);
               var t = Curry._1(next$1, undefined);
-              var match;
-              if (Caml_obj.caml_equal(t, tokint)) {
-                match = Caml_obj.caml_equal(Curry._1(next$1, undefined), {
-                      TAG: /* Op */0,
-                      _0: "*"
-                    }) ? [
-                    /* Int */0,
-                    1
-                  ] : [
-                    /* Int */0,
-                    5
-                  ];
-              } else if (Caml_obj.caml_equal(t, tokchar)) {
-                match = [
-                  /* Chr */1,
-                  2
-                ];
-              } else {
-                throw {
-                      RE_EXN_ID: "Failure",
-                      _1: "[cast] expected",
-                      Error: new Error()
-                    };
-              }
+              var match = Caml_obj.caml_equal(t, tokint) ? (
+                  Caml_obj.caml_equal(Curry._1(next$1, undefined), {
+                        TAG: /* Op */0,
+                        _0: "*"
+                      }) ? [
+                      /* Int */0,
+                      1
+                    ] : [
+                      /* Int */0,
+                      5
+                    ]
+                ) : (
+                  Caml_obj.caml_equal(t, tokchar) ? [
+                      /* Chr */1,
+                      2
+                    ] : Stdlib.failwith("[cast] expected")
+                );
               for(var k = 1 ,k_finish = match[1]; k <= k_finish; ++k){
                 Curry._1(next$1, undefined);
               }
@@ -1002,23 +990,18 @@ function unary(stk) {
             };
             unary(stk);
             if (!List.mem_assoc(o, unops)) {
-              var s = Curry._1(Printf.sprintf(/* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "unknown operator ",
-                          _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: /* End_of_format */0
-                          }
-                        },
-                        _1: "unknown operator %s"
-                      }), o);
-              throw {
-                    RE_EXN_ID: "Failure",
-                    _1: s,
-                    Error: new Error()
-                  };
+              Stdlib.failwith(Curry._1(Printf.sprintf(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "unknown operator ",
+                              _1: {
+                                TAG: /* String */2,
+                                _0: /* No_padding */0,
+                                _1: /* End_of_format */0
+                              }
+                            },
+                            _1: "unknown operator %s"
+                          }), o));
             }
             out(List.assoc(o, unops));
             if (o === "!") {
@@ -1243,54 +1226,46 @@ function decl(g, _n, _stk) {
                   ];
           }
           var s = Curry._1(next$1, undefined);
-          if (s.TAG === /* Sym */3) {
-            var s$1 = s._0;
-            var n$p = n + 1 | 0;
-            var stk$p;
-            if (g) {
-              var glo = Caml_array.get(globs, s$1);
-              if (glo.va >= 0) {
-                throw {
-                      RE_EXN_ID: "Failure",
-                      _1: "symbol defined twice",
-                      Error: new Error()
-                    };
-              }
-              var va = (gpos.contents + 232 | 0) + 4194304 | 0;
-              Caml_array.set(globs, s$1, {
-                    loc: glo.loc,
-                    va: va
-                  });
-              gpos.contents = gpos.contents + 8 | 0;
-              stk$p = stk;
-            } else {
-              stk$p = {
-                hd: [
-                  s$1,
-                  top - (n$p << 3) | 0
-                ],
-                tl: stk
-              };
-            }
-            if (!nextis({
-                    TAG: /* Op */0,
-                    _0: ","
-                  })) {
-              return [
-                      n$p,
-                      stk$p
-                    ];
-            }
-            Curry._1(next$1, undefined);
-            _stk = stk$p;
-            _n = n$p;
-            continue ;
+          if (s.TAG !== /* Sym */3) {
+            return Stdlib.failwith("[var] expected in [decl]");
           }
-          throw {
-                RE_EXN_ID: "Failure",
-                _1: "[var] expected in [decl]",
-                Error: new Error()
-              };
+          var s$1 = s._0;
+          var n$p = n + 1 | 0;
+          var stk$p;
+          if (g) {
+            var glo = Caml_array.get(globs, s$1);
+            if (glo.va >= 0) {
+              Stdlib.failwith("symbol defined twice");
+            }
+            var va = (gpos.contents + 232 | 0) + 4194304 | 0;
+            Caml_array.set(globs, s$1, {
+                  loc: glo.loc,
+                  va: va
+                });
+            gpos.contents = gpos.contents + 8 | 0;
+            stk$p = stk;
+          } else {
+            stk$p = {
+              hd: [
+                s$1,
+                top - (n$p << 3) | 0
+              ],
+              tl: stk
+            };
+          }
+          if (!nextis({
+                  TAG: /* Op */0,
+                  _0: ","
+                })) {
+            return [
+                    n$p,
+                    stk$p
+                  ];
+          }
+          Curry._1(next$1, undefined);
+          _stk = stk$p;
+          _n = n$p;
+          continue ;
         };
       }
       }(top));
@@ -1520,132 +1495,117 @@ function top(_param) {
       continue ;
     }
     var f = Curry._1(next$1, undefined);
-    if (f.TAG === /* Sym */3) {
-      var f$1 = f._0;
-      var g = Caml_array.get(globs, f$1);
-      if (g.va >= 0) {
-        throw {
-              RE_EXN_ID: "Failure",
-              _1: "symbol defined twice",
-              Error: new Error()
-            };
-      }
-      Caml_array.set(globs, f$1, {
-            loc: g.loc,
-            va: opos.contents
-          });
-      var emitargs = function (_regs, _n, _stk) {
-        while(true) {
-          var stk = _stk;
-          var n = _n;
-          var regs = _regs;
-          var i = Curry._1(next$1, undefined);
-          switch (i.TAG | 0) {
-            case /* Op */0 :
-                if (i._0 === ")") {
-                  return stk;
-                }
-                throw {
-                      RE_EXN_ID: "Failure",
-                      _1: "[var] or ) expected",
-                      Error: new Error()
-                    };
-            case /* ILit */1 :
-            case /* SLit */2 :
-                throw {
-                      RE_EXN_ID: "Failure",
-                      _1: "[var] or ) expected",
-                      Error: new Error()
-                    };
-            case /* Sym */3 :
-                var r = List.hd(regs);
-                push(r);
-                if (nextis({
-                        TAG: /* Op */0,
-                        _0: ","
-                      })) {
-                  Curry._1(next$1, undefined);
-                }
-                var stk$p_0 = [
-                  i._0,
-                  ((-n | 0) << 3)
-                ];
-                var stk$p = {
-                  hd: stk$p_0,
-                  tl: stk
-                };
-                _stk = stk$p;
-                _n = n + 1 | 0;
-                _regs = List.tl(regs);
-                continue ;
-            
-          }
-        };
+    if (f.TAG !== /* Sym */3) {
+      return Stdlib.failwith("[decl] or [fun] expected");
+    }
+    var f$1 = f._0;
+    var g = Caml_array.get(globs, f$1);
+    if (g.va >= 0) {
+      Stdlib.failwith("symbol defined twice");
+    }
+    Caml_array.set(globs, f$1, {
+          loc: g.loc,
+          va: opos.contents
+        });
+    var emitargs = function (_regs, _n, _stk) {
+      while(true) {
+        var stk = _stk;
+        var n = _n;
+        var regs = _regs;
+        var i = Curry._1(next$1, undefined);
+        switch (i.TAG | 0) {
+          case /* Op */0 :
+              if (i._0 === ")") {
+                return stk;
+              } else {
+                return Stdlib.failwith("[var] or ) expected");
+              }
+          case /* ILit */1 :
+          case /* SLit */2 :
+              return Stdlib.failwith("[var] or ) expected");
+          case /* Sym */3 :
+              var r = List.hd(regs);
+              push(r);
+              if (nextis({
+                      TAG: /* Op */0,
+                      _0: ","
+                    })) {
+                Curry._1(next$1, undefined);
+              }
+              var stk$p_0 = [
+                i._0,
+                ((-n | 0) << 3)
+              ];
+              var stk$p = {
+                hd: stk$p_0,
+                tl: stk
+              };
+              _stk = stk$p;
+              _n = n + 1 | 0;
+              _regs = List.tl(regs);
+              continue ;
+          
+        }
       };
-      Curry._1(next$1, undefined);
-      align.contents = 0;
-      out(85);
-      out(4753893);
-      var stk = emitargs({
-            hd: 7,
+    };
+    Curry._1(next$1, undefined);
+    align.contents = 0;
+    out(85);
+    out(4753893);
+    var stk = emitargs({
+          hd: 7,
+          tl: {
+            hd: 6,
             tl: {
-              hd: 6,
+              hd: 2,
               tl: {
-                hd: 2,
+                hd: 1,
                 tl: {
-                  hd: 1,
+                  hd: 8,
                   tl: {
-                    hd: 8,
-                    tl: {
-                      hd: 9,
-                      tl: /* [] */0
-                    }
+                    hd: 9,
+                    tl: /* [] */0
                   }
                 }
               }
             }
-          }, 1, /* [] */0);
-      while(Caml_obj.caml_notequal(Curry._1(next$1, undefined), {
-              TAG: /* Op */0,
-              _0: "{"
-            })) {
-        
-      };
-      retl.contents = 0;
-      block([
-            {
-              contents: 0
-            },
-            0
-          ], stk);
-      patch(true, retl.contents, opos.contents);
-      out(51651);
-      if (dbg.contents) {
-        Curry._1(Printf.eprintf(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "done with function ",
+          }
+        }, 1, /* [] */0);
+    while(Caml_obj.caml_notequal(Curry._1(next$1, undefined), {
+            TAG: /* Op */0,
+            _0: "{"
+          })) {
+      
+    };
+    retl.contents = 0;
+    block([
+          {
+            contents: 0
+          },
+          0
+        ], stk);
+    patch(true, retl.contents, opos.contents);
+    out(51651);
+    if (dbg.contents) {
+      Curry._1(Printf.eprintf(/* Format */{
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "done with function ",
+                  _1: {
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* Char_literal */12,
-                        _0: /* '\n' */10,
-                        _1: /* End_of_format */0
-                      }
+                      TAG: /* Char_literal */12,
+                      _0: /* '\n' */10,
+                      _1: /* End_of_format */0
                     }
-                  },
-                  _1: "done with function %s\n"
-                }), symstr(f$1));
-      }
-      _param = undefined;
-      continue ;
+                  }
+                },
+                _1: "done with function %s\n"
+              }), symstr(f$1));
     }
-    throw {
-          RE_EXN_ID: "Failure",
-          _1: "[decl] or [fun] expected",
-          Error: new Error()
-        };
+    _param = undefined;
+    continue ;
   };
 }
 
@@ -1879,7 +1839,7 @@ function elfgen(outf) {
         };
   }
   patch(false, 24, va(entry));
-  return Stdlib__no_aliases.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));
+  return Stdlib.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));
 }
 
 function main(param) {
@@ -1985,7 +1945,7 @@ function main(param) {
         var stk = /* [] */0;
         opos.contents = 0;
         Curry._1(c, stk);
-        return Stdlib__no_aliases.print_bytes(Bytes.sub(obuf, 0, opos.contents));
+        return Stdlib.print_bytes(Bytes.sub(obuf, 0, opos.contents));
     case "-lex" :
         var _param;
         while(true) {
@@ -2010,12 +1970,11 @@ function main(param) {
           continue ;
         };
     default:
-      var oc = Stdlib__no_aliases.open_out("a.out");
-      inch.contents = Stdlib__no_aliases.open_in_bin(f);
+      var oc = Stdlib.open_out("a.out");
+      inch.contents = Stdlib.open_in_bin(f);
       top(undefined);
       elfgen(oc);
-      Caml_io.caml_ml_flush(oc);
-      return Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+      return Stdlib.close_out(oc);
   }
 }
 

@@ -3,10 +3,10 @@
 var Mt = require("./mt.js");
 var Lazy = require("../../lib/js/lazy.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_module = require("../../lib/js/caml_module.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 var suites = {
@@ -192,7 +192,7 @@ try {
 }
 catch (raw_exn$1){
   var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Undefined_recursive_module) {
+  if (exn$1.RE_EXN_ID === Stdlib.Undefined_recursive_module) {
     tmp$1 = 4;
   } else {
     throw exn$1;

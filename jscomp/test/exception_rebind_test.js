@@ -1,8 +1,8 @@
 'use strict';
 
+var Stdlib = require("../../lib/js/stdlib.js");
 var Exception_def = require("./exception_def.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var E = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A.E");
 
@@ -17,24 +17,24 @@ var B = {
 var A0 = /* @__PURE__ */Caml_exceptions.create("Exception_rebind_test.A0");
 
 var u0 = {
-  RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+  RE_EXN_ID: Stdlib.Invalid_argument,
   _1: "x"
 };
 
 var u1 = {
-  RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+  RE_EXN_ID: Stdlib.Invalid_argument,
   _1: "x"
 };
 
 var u2 = {
-  RE_EXN_ID: Stdlib__no_aliases.Not_found
+  RE_EXN_ID: Stdlib.Not_found
 };
 
 var H = Exception_def.A;
 
-var H0 = Stdlib__no_aliases.Invalid_argument;
+var H0 = Stdlib.Invalid_argument;
 
-var H1 = Stdlib__no_aliases.Invalid_argument;
+var H1 = Stdlib.Invalid_argument;
 
 exports.A = A;
 exports.B = B;

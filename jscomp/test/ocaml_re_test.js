@@ -8,6 +8,7 @@ var $$Array = require("../../lib/js/array.js");
 var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
 var Format = require("../../lib/js/format.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
@@ -293,6 +294,10 @@ function compare(param, param$1) {
   }
 }
 
+var funarg = {
+  compare: compare
+};
+
 function height(param) {
   if (param) {
     return param.h;
@@ -387,7 +392,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -415,6 +420,24 @@ function add(x, data, m) {
   } else {
     return bal(l, v, d, rr);
   }
+}
+
+function find(x, _param) {
+  while(true) {
+    var param = _param;
+    if (param) {
+      var c = Curry._2(funarg.compare, x, param.v);
+      if (c === 0) {
+        return param.d;
+      }
+      _param = c < 0 ? param.l : param.r;
+      continue ;
+    }
+    throw {
+          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          Error: new Error()
+        };
+  };
 }
 
 var cany = {
@@ -476,6 +499,12 @@ function from_char(param) {
     return 12;
   }
 }
+
+var compare$1 = Caml.caml_int_compare;
+
+var funarg$1 = {
+  compare: compare$1
+};
 
 function height$1(param) {
   if (param) {
@@ -565,7 +594,7 @@ function add$1(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg$1.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -589,9 +618,11 @@ function hash_combine(h, accu) {
   return Math.imul(accu, 65599) + h | 0;
 }
 
+var empty_pmarks = /* Empty */0;
+
 var empty = {
   marks: /* [] */0,
-  pmarks: /* Empty */0
+  pmarks: empty_pmarks
 };
 
 function hash(m, accu) {
@@ -1313,7 +1344,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
         }
     case /* Pmark */8 :
         var marks_marks$1 = marks.marks;
-        var marks_pmarks$1 = add$1(s._0, marks.pmarks);
+        var marks_pmarks$1 = Curry._2(add$1, s._0, marks.pmarks);
         var marks$2 = {
           marks: marks_marks$1,
           pmarks: marks_pmarks$1
@@ -1501,7 +1532,7 @@ function find_state(re, desc) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var st = mk_state(re.ncol, desc);
       Curry._3(Re_automata_State.Table.add, re.states, desc, st);
       return st;
@@ -1570,7 +1601,7 @@ function $$final(info, st, cat) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var st$p = delta$1(info, cat, -1, st);
       var res_0 = st$p.idx;
       var res_1 = status(st$p);
@@ -1597,7 +1628,7 @@ function find_initial_state(re, cat) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var st = find_state(re, Curry._2(Re_automata_State.create, cat, re.initial));
       re.initial_states = {
         hd: [
@@ -1707,30 +1738,15 @@ function trans_set(cache, cm, s) {
     s
   ];
   try {
-    var _param = cache.contents;
-    while(true) {
-      var param = _param;
-      if (param) {
-        var c = compare(v, param.v);
-        if (c === 0) {
-          return param.d;
-        }
-        _param = c < 0 ? param.l : param.r;
-        continue ;
-      }
-      throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
-            Error: new Error()
-          };
-    };
+    return Curry._2(find, v, cache.contents);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var l = List.fold_right((function (param, l) {
               return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
             }), s, /* [] */0);
-      cache.contents = add(v, l, cache.contents);
+      cache.contents = Curry._3(add, v, l, cache.contents);
       return l;
     }
     throw exn;
@@ -2199,7 +2215,7 @@ function merge_sequences(_param) {
             }
             break;
         case /* Alternative */2 :
-            _param = Stdlib__no_aliases.$at(l$p._0, param.tl);
+            _param = Stdlib.$at(l$p._0, param.tl);
             continue ;
         default:
           
@@ -2752,18 +2768,10 @@ var epsilon = {
 
 function repn(r, i, j) {
   if (i < 0) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Re.repn",
-          Error: new Error()
-        };
+    Stdlib.invalid_arg("Re.repn");
   }
   if (j !== undefined && Caml_option.valFromOption(j) < i) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Re.repn",
-          Error: new Error()
-        };
+    Stdlib.invalid_arg("Re.repn");
   }
   return {
           TAG: /* Repeat */3,
@@ -2791,12 +2799,9 @@ function compl(l) {
   };
   if (is_charset(r)) {
     return r;
+  } else {
+    return Stdlib.invalid_arg("Re.compl");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Re.compl",
-        Error: new Error()
-      };
 }
 
 var any = {
@@ -3146,11 +3151,7 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
   var pos = posOpt !== undefined ? posOpt : 0;
   var len = lenOpt !== undefined ? lenOpt : -1;
   if (pos < 0 || len < -1 || (pos + len | 0) > s.length) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: name,
-          Error: new Error()
-        };
+    Stdlib.invalid_arg(name);
   }
   var partial = false;
   var slen = s.length;
@@ -3216,14 +3217,14 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
 function offset$1(t, i) {
   if (((i << 1) + 1 | 0) >= t.marks.length) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
   var m1 = Caml_array.get(t.marks, (i << 1));
   if (m1 === -1) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -3274,12 +3275,7 @@ function posix_class_of_string(class_) {
     case "xdigit" :
         return xdigit;
     default:
-      var s = "Invalid pcre class: " + class_;
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: s,
-            Error: new Error()
-          };
+      return Stdlib.invalid_arg("Invalid pcre class: " + class_);
   }
 }
 
@@ -3309,7 +3305,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         try {
           if (Caml_string.get(s$p, j) !== Caml_string.get(s, i.contents + j | 0)) {
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                  RE_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }
@@ -3317,7 +3313,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         }
         catch (exn){
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                RE_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
         }
@@ -3327,7 +3323,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     }
     catch (raw_exn){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+      if (exn$1.RE_EXN_ID === Stdlib.Exit) {
         return false;
       }
       throw exn$1;
@@ -3355,6 +3351,19 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
+  var branch$p = function (_left) {
+    while(true) {
+      var left = _left;
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
+        return seq$2(List.rev(left));
+      }
+      _left = {
+        hd: piece(undefined),
+        tl: left
+      };
+      continue ;
+    };
+  };
   var regexp$p = function (_left) {
     while(true) {
       var left = _left;
@@ -3371,134 +3380,37 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       continue ;
     };
   };
-  var branch$p = function (_left) {
-    while(true) {
-      var left = _left;
-      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(List.rev(left));
-      }
-      _left = {
-        hd: piece(undefined),
-        tl: left
-      };
-      continue ;
-    };
-  };
-  var bracket = function (_s) {
-    while(true) {
-      var s = _s;
-      if (Caml_obj.caml_notequal(s, /* [] */0) && accept(/* ']' */93)) {
-        return s;
-      }
-      var match = $$char(undefined);
-      if (match.NAME === "Char") {
-        var c = match.VAL;
-        if (accept(/* '-' */45)) {
-          if (accept(/* ']' */93)) {
-            return {
-                    hd: {
-                      TAG: /* Set */0,
-                      _0: single(c)
-                    },
-                    tl: {
-                      hd: {
-                        TAG: /* Set */0,
-                        _0: {
-                          hd: [
-                            /* '-' */45,
-                            /* '-' */45
-                          ],
-                          tl: /* [] */0
-                        }
-                      },
-                      tl: s
-                    }
-                  };
-          }
-          var match$1 = $$char(undefined);
-          if (match$1.NAME !== "Char") {
-            return {
-                    hd: {
-                      TAG: /* Set */0,
-                      _0: single(c)
-                    },
-                    tl: {
-                      hd: {
-                        TAG: /* Set */0,
-                        _0: {
-                          hd: [
-                            /* '-' */45,
-                            /* '-' */45
-                          ],
-                          tl: /* [] */0
-                        }
-                      },
-                      tl: {
-                        hd: match$1.VAL,
-                        tl: s
-                      }
-                    }
-                  };
-          }
-          _s = {
-            hd: {
-              TAG: /* Set */0,
-              _0: seq(c, match$1.VAL)
-            },
-            tl: s
-          };
-          continue ;
+  var integer = function (param) {
+    if (i.contents === l) {
+      return ;
+    }
+    var d = get(undefined);
+    if (d > 57 || d < 48) {
+      i.contents = i.contents - 1 | 0;
+      return ;
+    } else {
+      var _i = d - /* '0' */48 | 0;
+      while(true) {
+        var i$1 = _i;
+        if (i.contents === l) {
+          return i$1;
         }
-        _s = {
-          hd: {
-            TAG: /* Set */0,
-            _0: single(c)
-          },
-          tl: s
-        };
+        var d$1 = get(undefined);
+        if (d$1 > 57 || d$1 < 48) {
+          i.contents = i.contents - 1 | 0;
+          return i$1;
+        }
+        var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
+        if (i$p < i$1) {
+          throw {
+                RE_EXN_ID: Parse_error,
+                Error: new Error()
+              };
+        }
+        _i = i$p;
         continue ;
-      }
-      _s = {
-        hd: match.VAL,
-        tl: s
       };
-      continue ;
-    };
-  };
-  var piece = function (param) {
-    var r = atom(undefined);
-    if (accept(/* '*' */42)) {
-      return greedy_mod(repn(r, 0, undefined));
     }
-    if (accept(/* '+' */43)) {
-      return greedy_mod(repn(r, 1, undefined));
-    }
-    if (accept(/* '?' */63)) {
-      return greedy_mod(repn(r, 0, 1));
-    }
-    if (!accept(/* '{' */123)) {
-      return r;
-    }
-    var i$1 = integer(undefined);
-    if (i$1 !== undefined) {
-      var i$2 = Caml_option.valFromOption(i$1);
-      var j = accept(/* ',' */44) ? integer(undefined) : i$2;
-      if (!accept(/* '}' */125)) {
-        throw {
-              RE_EXN_ID: Parse_error,
-              Error: new Error()
-            };
-      }
-      if (j !== undefined && j < i$2) {
-        throw {
-              RE_EXN_ID: Parse_error,
-              Error: new Error()
-            };
-      }
-      return greedy_mod(repn(r, i$2, j));
-    }
-    i.contents = i.contents - 1 | 0;
-    return r;
   };
   var atom = function (param) {
     if (accept(/* '.' */46)) {
@@ -3777,38 +3689,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
-  var integer = function (param) {
-    if (i.contents === l) {
-      return ;
-    }
-    var d = get(undefined);
-    if (d > 57 || d < 48) {
-      i.contents = i.contents - 1 | 0;
-      return ;
-    } else {
-      var _i = d - /* '0' */48 | 0;
-      while(true) {
-        var i$1 = _i;
-        if (i.contents === l) {
-          return i$1;
-        }
-        var d$1 = get(undefined);
-        if (d$1 > 57 || d$1 < 48) {
-          i.contents = i.contents - 1 | 0;
-          return i$1;
-        }
-        var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
-        if (i$p < i$1) {
-          throw {
-                RE_EXN_ID: Parse_error,
-                Error: new Error()
-              };
-        }
-        _i = i$p;
-        continue ;
-      };
-    }
-  };
   var $$char = function (param) {
     if (i.contents === l) {
       throw {
@@ -3871,7 +3751,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             throw {
                   RE_EXN_ID: Parse_error,
                   Error: new Error()
@@ -4104,6 +3984,122 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
+  var bracket = function (_s) {
+    while(true) {
+      var s = _s;
+      if (Caml_obj.caml_notequal(s, /* [] */0) && accept(/* ']' */93)) {
+        return s;
+      }
+      var match = $$char(undefined);
+      if (match.NAME === "Char") {
+        var c = match.VAL;
+        if (accept(/* '-' */45)) {
+          if (accept(/* ']' */93)) {
+            return {
+                    hd: {
+                      TAG: /* Set */0,
+                      _0: single(c)
+                    },
+                    tl: {
+                      hd: {
+                        TAG: /* Set */0,
+                        _0: {
+                          hd: [
+                            /* '-' */45,
+                            /* '-' */45
+                          ],
+                          tl: /* [] */0
+                        }
+                      },
+                      tl: s
+                    }
+                  };
+          }
+          var match$1 = $$char(undefined);
+          if (match$1.NAME !== "Char") {
+            return {
+                    hd: {
+                      TAG: /* Set */0,
+                      _0: single(c)
+                    },
+                    tl: {
+                      hd: {
+                        TAG: /* Set */0,
+                        _0: {
+                          hd: [
+                            /* '-' */45,
+                            /* '-' */45
+                          ],
+                          tl: /* [] */0
+                        }
+                      },
+                      tl: {
+                        hd: match$1.VAL,
+                        tl: s
+                      }
+                    }
+                  };
+          }
+          _s = {
+            hd: {
+              TAG: /* Set */0,
+              _0: seq(c, match$1.VAL)
+            },
+            tl: s
+          };
+          continue ;
+        }
+        _s = {
+          hd: {
+            TAG: /* Set */0,
+            _0: single(c)
+          },
+          tl: s
+        };
+        continue ;
+      }
+      _s = {
+        hd: match.VAL,
+        tl: s
+      };
+      continue ;
+    };
+  };
+  var piece = function (param) {
+    var r = atom(undefined);
+    if (accept(/* '*' */42)) {
+      return greedy_mod(repn(r, 0, undefined));
+    }
+    if (accept(/* '+' */43)) {
+      return greedy_mod(repn(r, 1, undefined));
+    }
+    if (accept(/* '?' */63)) {
+      return greedy_mod(repn(r, 0, 1));
+    }
+    if (!accept(/* '{' */123)) {
+      return r;
+    }
+    var i$1 = integer(undefined);
+    if (i$1 !== undefined) {
+      var i$2 = Caml_option.valFromOption(i$1);
+      var j = accept(/* ',' */44) ? integer(undefined) : i$2;
+      if (!accept(/* '}' */125)) {
+        throw {
+              RE_EXN_ID: Parse_error,
+              Error: new Error()
+            };
+      }
+      if (j !== undefined && j < i$2) {
+        throw {
+              RE_EXN_ID: Parse_error,
+              Error: new Error()
+            };
+      }
+      return greedy_mod(repn(r, i$2, j));
+    }
+    i.contents = i.contents - 1 | 0;
+    return r;
+  };
   var res = regexp$p(branch$p(/* [] */0));
   if (i.contents !== l) {
     throw {
@@ -4150,7 +4146,7 @@ function exec(rex, pos, s) {
   var substr = exec_internal("Re.exec", pos, len, true, rex, s);
   if (typeof substr === "number") {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -4163,4 +4159,4 @@ eq("File \"xx.ml\", line 7, characters 3-10", get(exec(compile(re(undefined, "aa
 
 Mt.from_pair_suites("Ocaml_re_test", suites.contents);
 
-/* Table Not a pure module */
+/* CSetMap Not a pure module */

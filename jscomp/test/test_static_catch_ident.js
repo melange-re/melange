@@ -1,13 +1,13 @@
 'use strict';
 
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Scan_failure = /* @__PURE__ */Caml_exceptions.create("Test_static_catch_ident.Scan_failure");
 
 function scanf_bad_input(ib, x) {
   var s;
-  if (x.RE_EXN_ID === Scan_failure || x.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+  if (x.RE_EXN_ID === Scan_failure || x.RE_EXN_ID === Stdlib.Failure) {
     s = x._1;
   } else {
     throw x;

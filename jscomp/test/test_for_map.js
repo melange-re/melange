@@ -6,6 +6,12 @@ var Curry = require("../../lib/js/curry.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
+var compare = Caml.caml_int_compare;
+
+var funarg = {
+  compare: compare
+};
+
 function height(param) {
   if (param) {
     return param.h;
@@ -118,7 +124,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -152,7 +158,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_int_compare(x, param.v);
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -326,7 +332,7 @@ function find_opt(x, _param) {
     if (!param) {
       return ;
     }
-    var c = Caml.caml_int_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -341,7 +347,7 @@ function mem(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_int_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -461,7 +467,7 @@ function remove(x, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -487,7 +493,7 @@ function update(x, f, m) {
     var d = m.d;
     var v = m.v;
     var l = m.l;
-    var c = Caml.caml_int_compare(x, v);
+    var c = Curry._2(funarg.compare, x, v);
     if (c === 0) {
       var data = Curry._1(f, Caml_option.some(d));
       if (data === undefined) {
@@ -693,7 +699,7 @@ function split(x, param) {
   var d = param.d;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -861,7 +867,7 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare(cmp, m1, m2) {
+function compare$1(cmp, m1, m2) {
   var _e1 = cons_enum(m1, /* End */0);
   var _e2 = cons_enum(m2, /* End */0);
   while(true) {
@@ -877,7 +883,7 @@ function compare(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_int_compare(e1._0, e2._0);
+    var c = Curry._2(funarg.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -907,7 +913,7 @@ function equal(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (e1._0 !== e2._0) {
+    if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -1035,7 +1041,7 @@ function to_seq_from(low, m) {
       var r = m.r;
       var d = m.d;
       var v = m.v;
-      var n = Caml.caml_int_compare(v, low);
+      var n = Curry._2(funarg.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -1074,7 +1080,7 @@ var IntMap = {
   remove: remove,
   merge: merge$1,
   union: union,
-  compare: compare,
+  compare: compare$1,
   equal: equal,
   iter: iter,
   fold: fold,
@@ -1110,13 +1116,13 @@ var IntMap = {
 function assertion_test(param) {
   var m = /* Empty */0;
   for(var i = 0; i <= 1000000; ++i){
-    m = add(i, i, m);
+    m = Curry._3(add, i, i, m);
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
-    find(i$1, m);
+    Curry._2(find, i$1, m);
   }
 }
 
 exports.IntMap = IntMap;
 exports.assertion_test = assertion_test;
-/* No side effect */
+/* IntMap Not a pure module */

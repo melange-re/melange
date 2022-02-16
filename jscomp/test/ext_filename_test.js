@@ -5,6 +5,7 @@ var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
 var Format = require("../../lib/js/format.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_sys = require("../../lib/js/caml_sys.js");
 var Filename = require("../../lib/js/filename.js");
@@ -13,7 +14,6 @@ var Test_literals = require("./test_literals.js");
 var Ext_string_test = require("./ext_string_test.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var Ext_pervasives_test = require("./ext_pervasives_test.js");
 var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
@@ -69,8 +69,8 @@ function chop_extension(locOpt, name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
-      return Curry._2(Format.ksprintf(Stdlib__no_aliases.invalid_arg, /* Format */{
+    if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
+      return Curry._2(Format.ksprintf(Stdlib.invalid_arg, /* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Filename.chop_extension ( ",
@@ -105,7 +105,7 @@ function chop_extension_if_any(fname) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
+    if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
     throw exn;
@@ -128,7 +128,7 @@ function relative_path(file_or_dir_1, file_or_dir_2) {
         _dir1 = dir1.tl;
         continue ;
       }
-      return Stdlib__no_aliases.$at(List.map((function (param) {
+      return Stdlib.$at(List.map((function (param) {
                         return node_parent;
                       }), dir2), dir1);
     };
@@ -383,22 +383,11 @@ function get_extension(x) {
   }
 }
 
-var simple_convert_node_path_to_os_path;
-
-if (Sys.unix) {
-  simple_convert_node_path_to_os_path = (function (x) {
+var simple_convert_node_path_to_os_path = Sys.unix ? (function (x) {
       return x;
-    });
-} else if (Sys.win32 || false) {
-  simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
-} else {
-  var s = "Unknown OS : " + Sys.os_type;
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: s,
-        Error: new Error()
-      };
-}
+    }) : (
+    Sys.win32 || false ? Ext_string_test.replace_slash_backward : Stdlib.failwith("Unknown OS : " + Sys.os_type)
+  );
 
 var $slash$slash = Filename.concat;
 

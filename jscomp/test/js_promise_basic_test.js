@@ -3,9 +3,9 @@
 var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -37,7 +37,7 @@ function assert_bool(b) {
     return ;
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+        RE_EXN_ID: Stdlib.Invalid_argument,
         _1: "Assertion Failure.",
         Error: new Error()
       };
@@ -74,7 +74,7 @@ function andThenTest(param) {
 var h = Promise.resolve(undefined);
 
 function assertIsNotFound(x) {
-  var match = Caml_exceptions.caml_is_extension(x) && x.RE_EXN_ID === Stdlib__no_aliases.Not_found ? 0 : undefined;
+  var match = Caml_exceptions.caml_is_extension(x) && x.RE_EXN_ID === Stdlib.Not_found ? 0 : undefined;
   if (match !== undefined) {
     return h;
   }
@@ -91,7 +91,7 @@ function assertIsNotFound(x) {
 
 function catchTest(param) {
   var p = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   return p.then(fail).catch(assertIsNotFound);
 }
@@ -107,7 +107,7 @@ function orResolvedTest(param) {
 
 function orRejectedTest(param) {
   var p = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
                   return Promise.resolve(22);
@@ -127,7 +127,7 @@ function orElseResolvedTest(param) {
 
 function orElseRejectedResolveTest(param) {
   var p = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
                   return Promise.resolve(22);
@@ -138,14 +138,14 @@ function orElseRejectedResolveTest(param) {
 
 function orElseRejectedRejectTest(param) {
   var p = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   return p.catch(function (param) {
                   return Promise.reject({
-                              RE_EXN_ID: Stdlib__no_aliases.Stack_overflow
+                              RE_EXN_ID: Stdlib.Stack_overflow
                             });
                 }).then(fail).catch(function (error) {
-              var match = Caml_exceptions.caml_is_extension(error) && error.RE_EXN_ID === Stdlib__no_aliases.Stack_overflow ? 0 : undefined;
+              var match = Caml_exceptions.caml_is_extension(error) && error.RE_EXN_ID === Stdlib.Stack_overflow ? 0 : undefined;
               if (match !== undefined) {
                 return h;
               }
@@ -170,7 +170,7 @@ function resolveTest(param) {
 
 function rejectTest(param) {
   var p = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   return p.catch(assertIsNotFound);
 }
@@ -184,7 +184,7 @@ function thenCatchChainResolvedTest(param) {
 
 function thenCatchChainRejectedTest(param) {
   var p = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   return p.then(fail).catch(assertIsNotFound);
 }
@@ -207,14 +207,14 @@ function allResolvedTest(param) {
 }
 
 function is_not_found(error) {
-  return error.RE_EXN_ID === Stdlib__no_aliases.Not_found;
+  return error.RE_EXN_ID === Stdlib.Not_found;
 }
 
 function allRejectTest(param) {
   var p1 = Promise.resolve(1);
   var p2 = Promise.resolve(3);
   var p3 = Promise.reject({
-        RE_EXN_ID: Stdlib__no_aliases.Not_found
+        RE_EXN_ID: Stdlib.Not_found
       });
   var promises = [
     p1,
@@ -222,7 +222,7 @@ function allRejectTest(param) {
     p3
   ];
   return Promise.all(promises).then(fail).catch(function (error) {
-              assert_bool(error.RE_EXN_ID === Stdlib__no_aliases.Not_found);
+              assert_bool(error.RE_EXN_ID === Stdlib.Not_found);
               return h;
             });
 }
@@ -244,10 +244,10 @@ function raceTest(param) {
 function createPromiseRejectTest(param) {
   return new Promise((function (resolve, reject) {
                   return reject({
-                              RE_EXN_ID: Stdlib__no_aliases.Not_found
+                              RE_EXN_ID: Stdlib.Not_found
                             });
                 })).catch(function (error) {
-              assert_bool(error.RE_EXN_ID === Stdlib__no_aliases.Not_found);
+              assert_bool(error.RE_EXN_ID === Stdlib.Not_found);
               return h;
             });
 }

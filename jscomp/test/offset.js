@@ -1,13 +1,16 @@
 'use strict';
 
 var Seq = require("../../lib/js/seq.js");
-var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+
+var funarg = {
+  compare: $$String.compare
+};
 
 function height(param) {
   if (param) {
@@ -97,7 +100,7 @@ function add(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -263,7 +266,7 @@ function split(x, param) {
   var r = param.r;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -301,7 +304,7 @@ function mem(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -317,7 +320,7 @@ function remove(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (l) {
       if (r) {
@@ -401,7 +404,7 @@ function split_bis(x, param) {
   var r = param.r;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return /* Found */0;
   }
@@ -507,7 +510,7 @@ function compare(s1, s2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_string_compare(e1._0, e2._0);
+    var c = Curry._2(funarg.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -536,7 +539,7 @@ function subset(_s1, _s2) {
     var r1 = s1.r;
     var v1 = s1.v;
     var l1 = s1.l;
-    var c = Caml.caml_string_compare(v1, s2.v);
+    var c = Curry._2(funarg.compare, v1, s2.v);
     if (c === 0) {
       if (!subset(l1, l2)) {
         return false;
@@ -712,7 +715,7 @@ function find(x, _param) {
     var param = _param;
     if (param) {
       var v = param.v;
-      var c = Caml.caml_string_compare(x, v);
+      var c = Curry._2(funarg.compare, x, v);
       if (c === 0) {
         return v;
       }
@@ -863,7 +866,7 @@ function find_opt(x, _param) {
       return ;
     }
     var v = param.v;
-    var c = Caml.caml_string_compare(x, v);
+    var c = Curry._2(funarg.compare, x, v);
     if (c === 0) {
       return Caml_option.some(v);
     }
@@ -873,7 +876,7 @@ function find_opt(x, _param) {
 }
 
 function try_join(l, v, r) {
-  if ((Caml_obj.caml_equal(l, /* Empty */0) || Caml.caml_string_compare(max_elt(l), v) < 0) && (Caml_obj.caml_equal(r, /* Empty */0) || Caml.caml_string_compare(v, min_elt(r)) < 0)) {
+  if ((Caml_obj.caml_equal(l, /* Empty */0) || Curry._2(funarg.compare, max_elt(l), v) < 0) && (Caml_obj.caml_equal(r, /* Empty */0) || Curry._2(funarg.compare, v, min_elt(r)) < 0)) {
     return join(l, v, r);
   } else {
     return union(l, add(v, r));
@@ -949,7 +952,7 @@ function of_list(l) {
   var x3 = match$2.hd;
   if (match$3) {
     if (match$3.tl) {
-      var l$1 = List.sort_uniq($$String.compare, l);
+      var l$1 = List.sort_uniq(funarg.compare, l);
       var sub = function (n, l) {
         switch (n) {
           case 0 :
@@ -1132,7 +1135,7 @@ function to_seq_from(low, s) {
       }
       var r = s.r;
       var v = s.v;
-      var n = Caml.caml_string_compare(v, low);
+      var n = Curry._2(funarg.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -1214,4 +1217,4 @@ var x = 1;
 exports.M = M;
 exports.x = x;
 exports.$$Set = $$Set;
-/* No side effect */
+/* Set Not a pure module */

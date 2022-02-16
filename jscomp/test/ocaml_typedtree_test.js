@@ -17,9 +17,9 @@ var Digest = require("../../lib/js/digest.js");
 var Format = require("../../lib/js/format.js");
 var Lexing = require("../../lib/js/lexing.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
 var Assert = require("assert");
-var Caml_io = require("../../lib/js/caml_io.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Marshal = require("../../lib/js/marshal.js");
 var Parsing = require("../../lib/js/parsing.js");
@@ -45,7 +45,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID !== Stdlib__no_aliases.Not_found) {
+  if (exn.RE_EXN_ID !== Stdlib.Not_found) {
     throw exn;
   }
   
@@ -162,7 +162,7 @@ var color = {
 var Fatal_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Misc.Fatal_error");
 
 function fatal_error(msg) {
-  Stdlib__no_aliases.prerr_string(">> Fatal error: ");
+  Stdlib.prerr_string(">> Fatal error: ");
   console.error(msg);
   throw {
         RE_EXN_ID: Fatal_error,
@@ -290,7 +290,7 @@ function find_in_path_uncap(path, name) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -302,7 +302,7 @@ function remove_file(filename) {
   }
   catch (raw_msg){
     var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-    if (msg.RE_EXN_ID === Stdlib__no_aliases.Sys_error) {
+    if (msg.RE_EXN_ID === Stdlib.Sys_error) {
       return ;
     }
     throw msg;
@@ -323,7 +323,7 @@ function chop_extension_if_any(fname) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
+    if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
       return fname;
     }
     throw exn;
@@ -340,7 +340,7 @@ function edit_distance(a, b, cutoff) {
   var la = a.length;
   var lb = b.length;
   var cutoff$1 = Caml.caml_int_min(la > lb ? la : lb, cutoff);
-  if (Stdlib__no_aliases.abs(la - lb | 0) > cutoff$1) {
+  if (Stdlib.abs(la - lb | 0) > cutoff$1) {
     return ;
   }
   var m = $$Array.make_matrix(la + 1 | 0, lb + 1 | 0, cutoff$1 + 1 | 0);
@@ -488,7 +488,7 @@ function style_of_tag(s) {
         return cur_styles.contents.warning;
     default:
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
   }
@@ -513,7 +513,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg, param);
       }
       throw exn;
@@ -533,7 +533,7 @@ function set_color_tag_handling(ppf) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return Curry._1(partial_arg$1, param);
       }
       throw exn;
@@ -1606,7 +1606,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Exit,
+          RE_EXN_ID: Stdlib.Exit,
           Error: new Error()
         };
   }
@@ -1619,17 +1619,17 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   if (lines >= (num_lines - 2 | 0)) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Exit,
+          RE_EXN_ID: Stdlib.Exit,
           Error: new Error()
         };
   }
-  Caml_io.caml_ml_flush(Stdlib__no_aliases.stdout);
+  Stdlib.flush(Stdlib.stdout);
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   var bol = false;
-  Stdlib__no_aliases.print_string("# ");
+  Stdlib.print_string("# ");
   for(var pos = 0 ,pos_finish = lb.lex_buffer_len - pos0 | 0; pos < pos_finish; ++pos){
     if (bol) {
-      Stdlib__no_aliases.print_string("  ");
+      Stdlib.print_string("  ");
       bol = false;
     }
     if (List.exists((function(pos){
@@ -1647,19 +1647,19 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
       Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
     }
     var c = Caml_bytes.get(lb.lex_buffer, pos + pos0 | 0);
-    Stdlib__no_aliases.print_char(c);
+    Stdlib.print_char(c);
     bol = c === /* '\n' */10;
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  return Caml_io.caml_ml_flush(Stdlib__no_aliases.stdout);
+  return Stdlib.flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
   var pos0 = -lb.lex_abs_pos | 0;
   if (pos0 < 0) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Exit,
+          RE_EXN_ID: Stdlib.Exit,
           Error: new Error()
         };
   }
@@ -1793,7 +1793,7 @@ function highlight_locations(ppf, locs) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             norepeat = false;
           } else {
             throw exn;
@@ -1809,13 +1809,13 @@ function highlight_locations(ppf, locs) {
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+          if (exn$1.RE_EXN_ID === Stdlib.Exit) {
             return false;
           }
           throw exn$1;
         }
       } else {
-        status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib__no_aliases.stdout);
+        status.contents = Caml_external_polyfill.resolve("caml_terminfo_setup")(Stdlib.stdout);
         continue ;
       }
     } else {
@@ -1829,7 +1829,7 @@ function highlight_locations(ppf, locs) {
       }
       catch (raw_exn$2){
         var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-        if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+        if (exn$2.RE_EXN_ID === Stdlib.Exit) {
           return false;
         }
         throw exn$2;
@@ -2238,7 +2238,7 @@ function error_of_printer_file(print, x) {
 }
 
 register_error_of_exn(function (msg) {
-      if (msg.RE_EXN_ID === Stdlib__no_aliases.Sys_error) {
+      if (msg.RE_EXN_ID === Stdlib.Sys_error) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -2542,7 +2542,7 @@ function find_same(id, _param) {
               continue ;
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                  RE_EXN_ID: Stdlib.Not_found,
                   Error: new Error()
                 };
           };
@@ -2552,7 +2552,7 @@ function find_same(id, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -2571,7 +2571,7 @@ function find_name(name, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -2908,6 +2908,12 @@ function equal$1(t1, t2) {
   return t1 === t2;
 }
 
+var compare$1 = Caml.caml_string_compare;
+
+var OrderedString = {
+  compare: compare$1
+};
+
 function height(param) {
   if (param) {
     return param.h;
@@ -3020,7 +3026,7 @@ function add$1(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(OrderedString.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -3054,7 +3060,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(OrderedString.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -3228,7 +3234,7 @@ function find_opt(x, _param) {
     if (!param) {
       return ;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(OrderedString.compare, x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -3243,7 +3249,7 @@ function mem(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(OrderedString.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -3363,7 +3369,7 @@ function remove(x, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(OrderedString.compare, x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -3389,7 +3395,7 @@ function update(x, f, m) {
     var d = m.d;
     var v = m.v;
     var l = m.l;
-    var c = Caml.caml_string_compare(x, v);
+    var c = Curry._2(OrderedString.compare, x, v);
     if (c === 0) {
       var data = Curry._1(f, Caml_option.some(d));
       if (data === undefined) {
@@ -3595,7 +3601,7 @@ function split(x, param) {
   var d = param.d;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(OrderedString.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -3763,7 +3769,7 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare$1(cmp, m1, m2) {
+function compare$2(cmp, m1, m2) {
   var _e1 = cons_enum(m1, /* End */0);
   var _e2 = cons_enum(m2, /* End */0);
   while(true) {
@@ -3779,7 +3785,7 @@ function compare$1(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_string_compare(e1._0, e2._0);
+    var c = Curry._2(OrderedString.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -3809,7 +3815,7 @@ function equal$2(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (Caml.caml_string_compare(e1._0, e2._0) !== 0) {
+    if (Curry._2(OrderedString.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -3937,7 +3943,7 @@ function to_seq_from(low, m) {
       var r = m.r;
       var d = m.d;
       var v = m.v;
-      var n = Caml.caml_string_compare(v, low);
+      var n = Curry._2(OrderedString.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -3976,7 +3982,7 @@ var Meths = {
   remove: remove,
   merge: merge$1,
   union: union,
-  compare: compare$1,
+  compare: compare$2,
   equal: equal$2,
   iter: iter$1,
   fold: fold,
@@ -4045,7 +4051,7 @@ function set(x, b, v) {
   if (b) {
     return v | single(x);
   } else {
-    return v & (single(x) ^ -1);
+    return v & Stdlib.lnot(single(x));
   }
 }
 
@@ -4169,7 +4175,7 @@ function add$2(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(OrderedString.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -4289,7 +4295,7 @@ function split$1(x, param) {
   var r = param.r;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(OrderedString.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -4313,13 +4319,21 @@ function split$1(x, param) {
         ];
 }
 
+function is_empty$1(param) {
+  if (param) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function mem$2(x, _param) {
   while(true) {
     var param = _param;
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(OrderedString.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -4408,7 +4422,7 @@ function cons_enum$1(_s, _e) {
   };
 }
 
-function compare$2(s1, s2) {
+function compare$3(s1, s2) {
   var _e1 = cons_enum$1(s1, /* End */0);
   var _e2 = cons_enum$1(s2, /* End */0);
   while(true) {
@@ -4424,7 +4438,7 @@ function compare$2(s1, s2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_string_compare(e1._0, e2._0);
+    var c = Curry._2(OrderedString.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -4435,7 +4449,7 @@ function compare$2(s1, s2) {
 }
 
 function equal$3(s1, s2) {
-  return compare$2(s1, s2) === 0;
+  return compare$3(s1, s2) === 0;
 }
 
 function fold$1(f, _s, _accu) {
@@ -4465,6 +4479,10 @@ function elements_aux(_accu, _param) {
     };
     continue ;
   };
+}
+
+function elements(s) {
+  return elements_aux(/* [] */0, s);
 }
 
 function equal_tag(t1, t2) {
@@ -4759,6 +4777,14 @@ function split$2(x, param) {
         ];
 }
 
+function is_empty$2(param) {
+  if (param) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function mem$3(x, _param) {
   while(true) {
     var param = _param;
@@ -4930,6 +4956,10 @@ function elements_aux$1(_accu, _param) {
     };
     continue ;
   };
+}
+
+function elements$1(s) {
+  return elements_aux$1(/* [] */0, s);
 }
 
 var funarg$1 = Types_TypeOps;
@@ -5218,13 +5248,13 @@ function row_field_repr_aux(_tl, _fi) {
       return {
               TAG: /* Reither */1,
               _0: fi._0,
-              _1: Stdlib__no_aliases.$at(tl, fi._1),
+              _1: Stdlib.$at(tl, fi._1),
               _2: fi._2,
               _3: fi._3
             };
     }
     _fi = fi$1;
-    _tl = Stdlib__no_aliases.$at(tl, fi._1);
+    _tl = Stdlib.$at(tl, fi._1);
     continue ;
   };
 }
@@ -5237,7 +5267,7 @@ function rev_concat(_l, _ll) {
       return l;
     }
     _ll = ll.tl;
-    _l = Stdlib__no_aliases.$at(ll.hd, l);
+    _l = Stdlib.$at(ll.hd, l);
     continue ;
   };
 }
@@ -6184,7 +6214,7 @@ function forget_abbrev_rec(mem, path) {
   var mem$p = mem._0;
   mem$p.contents = forget_abbrev_rec(mem$p.contents, path);
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Exit,
+        RE_EXN_ID: Stdlib.Exit,
         Error: new Error()
       };
 }
@@ -6196,7 +6226,7 @@ function forget_abbrev(mem, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       return ;
     }
     throw exn;
@@ -6251,7 +6281,7 @@ function extract_label_aux(_hd, l, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -6456,14 +6486,11 @@ function backtrack(param) {
   var change = changes.contents;
   if (typeof change === "number") {
     if (change) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Btype.backtrack",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Btype.backtrack");
+    } else {
+      last_snapshot.contents = old;
+      return ;
     }
-    last_snapshot.contents = old;
-    return ;
   }
   cleanup_abbrev(undefined);
   var backlog = rev_log(/* [] */0, change);
@@ -6476,9 +6503,9 @@ function backtrack(param) {
 var $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Cmi_format.Error");
 
 function input_cmi(ic) {
-  var match = Caml_external_polyfill.resolve("caml_input_value")(ic);
-  var crcs = Caml_external_polyfill.resolve("caml_input_value")(ic);
-  var flags = Caml_external_polyfill.resolve("caml_input_value")(ic);
+  var match = Stdlib.input_value(ic);
+  var crcs = Stdlib.input_value(ic);
+  var flags = Stdlib.input_value(ic);
   return {
           cmi_name: match[0],
           cmi_sign: match[1],
@@ -6488,11 +6515,11 @@ function input_cmi(ic) {
 }
 
 function read_cmi(filename) {
-  var ic = Stdlib__no_aliases.open_in_bin(filename);
+  var ic = Stdlib.open_in_bin(filename);
   try {
-    var buffer = Stdlib__no_aliases.really_input_string(ic, cmi_magic_number.length);
+    var buffer = Stdlib.really_input_string(ic, cmi_magic_number.length);
     if (buffer !== cmi_magic_number) {
-      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+      Stdlib.close_in(ic);
       var pre_len = cmi_magic_number.length - 3 | 0;
       if ($$String.sub(buffer, 0, pre_len) === $$String.sub(cmi_magic_number, 0, pre_len)) {
         var msg = buffer < cmi_magic_number ? "an older" : "a newer";
@@ -6516,13 +6543,13 @@ function read_cmi(filename) {
           };
     }
     var cmi = input_cmi(ic);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+    Stdlib.close_in(ic);
     return cmi;
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
-      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+    if (e.RE_EXN_ID === Stdlib.End_of_file) {
+      Stdlib.close_in(ic);
       throw {
             RE_EXN_ID: $$Error$1,
             _1: {
@@ -6532,8 +6559,8 @@ function read_cmi(filename) {
             Error: new Error()
           };
     }
-    if (e.RE_EXN_ID === Stdlib__no_aliases.Failure) {
-      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+    if (e.RE_EXN_ID === Stdlib.Failure) {
+      Stdlib.close_in(ic);
       throw {
             RE_EXN_ID: $$Error$1,
             _1: {
@@ -6544,7 +6571,7 @@ function read_cmi(filename) {
           };
     }
     if (e.RE_EXN_ID === $$Error$1) {
-      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+      Stdlib.close_in(ic);
       throw {
             RE_EXN_ID: $$Error$1,
             _1: e._1,
@@ -6556,12 +6583,12 @@ function read_cmi(filename) {
 }
 
 function output_cmi(filename, oc, cmi) {
-  Stdlib__no_aliases.output_string(oc, cmi_magic_number);
-  Caml_external_polyfill.resolve("caml_output_value")(oc, [
+  Stdlib.output_string(oc, cmi_magic_number);
+  Stdlib.output_value(oc, [
         cmi.cmi_name,
         cmi.cmi_sign
-      ], /* [] */0);
-  Caml_io.caml_ml_flush(oc);
+      ]);
+  Stdlib.flush(oc);
   var crc = Digest.file(filename);
   var crcs_0 = [
     cmi.cmi_name,
@@ -6572,8 +6599,8 @@ function output_cmi(filename, oc, cmi) {
     hd: crcs_0,
     tl: crcs_1
   };
-  Caml_external_polyfill.resolve("caml_output_value")(oc, crcs, /* [] */0);
-  Caml_external_polyfill.resolve("caml_output_value")(oc, cmi.cmi_flags, /* [] */0);
+  Stdlib.output_value(oc, crcs);
+  Stdlib.output_value(oc, cmi.cmi_flags);
   return crc;
 }
 
@@ -6693,7 +6720,7 @@ function extract(l, tbl) {
                 }
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                     return {
                             hd: [
                               name,
@@ -6725,7 +6752,7 @@ function free_vars(ty) {
       }
       switch (row.TAG | 0) {
         case /* Tvar */0 :
-            ret.contents = add$3(ty$1, ret.contents);
+            ret.contents = Curry._2(add$3, ty$1, ret.contents);
             return ;
         case /* Tvariant */8 :
             var row$1 = row_repr_aux(/* [] */0, row._0);
@@ -6784,7 +6811,7 @@ function extension_descr(path_ext, ext) {
               TAG: /* Ttuple */2,
               _0: ext.ext_args
             }));
-    existentials = elements_aux$1(/* [] */0, diff$1(arg_vars, ret_vars));
+    existentials = Curry._1(elements$1, Curry._2(diff$1, arg_vars, ret_vars));
   } else {
     existentials = /* [] */0;
   }
@@ -7580,7 +7607,7 @@ function add_docs_attrs(docs, attrs) {
       }) : attrs;
   var ds$1 = docs.docs_post;
   if (ds$1 !== undefined) {
-    return Stdlib__no_aliases.$at(attrs$1, {
+    return Stdlib.$at(attrs$1, {
                 hd: docs_attr(ds$1),
                 tl: /* [] */0
               });
@@ -7591,7 +7618,7 @@ function add_docs_attrs(docs, attrs) {
 
 function add_info_attrs(info, attrs) {
   if (info !== undefined) {
-    return Stdlib__no_aliases.$at(attrs, {
+    return Stdlib.$at(attrs, {
                 hd: docs_attr(info),
                 tl: /* [] */0
               });
@@ -7643,7 +7670,7 @@ function text_attr(ds) {
 }
 
 function add_text_attrs(dsl, attrs) {
-  return Stdlib__no_aliases.$at(List.map(text_attr, dsl), attrs);
+  return Stdlib.$at(List.map(text_attr, dsl), attrs);
 }
 
 function get_docstring(info, dsl) {
@@ -7717,7 +7744,7 @@ function get_pre_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -7730,7 +7757,7 @@ function mark_pre_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -7754,7 +7781,7 @@ function get_post_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -7767,7 +7794,7 @@ function mark_post_docs(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -7781,7 +7808,7 @@ function get_info(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -7803,7 +7830,7 @@ function get_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -7825,7 +7852,7 @@ function get_pre_extra_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -7847,7 +7874,7 @@ function get_post_extra_text(pos) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -7922,7 +7949,7 @@ function attr(d, a) {
   return {
           ptyp_desc: d.ptyp_desc,
           ptyp_loc: d.ptyp_loc,
-          ptyp_attributes: Stdlib__no_aliases.$at(d.ptyp_attributes, {
+          ptyp_attributes: Stdlib.$at(d.ptyp_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8040,7 +8067,7 @@ function attr$1(d, a) {
   return {
           ppat_desc: d.ppat_desc,
           ppat_loc: d.ppat_loc,
-          ppat_attributes: Stdlib__no_aliases.$at(d.ppat_attributes, {
+          ppat_attributes: Stdlib.$at(d.ppat_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8180,7 +8207,7 @@ function attr$2(d, a) {
   return {
           pexp_desc: d.pexp_desc,
           pexp_loc: d.pexp_loc,
-          pexp_attributes: Stdlib__no_aliases.$at(d.pexp_attributes, {
+          pexp_attributes: Stdlib.$at(d.pexp_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8480,7 +8507,7 @@ function attr$3(d, a) {
   return {
           pmty_desc: d.pmty_desc,
           pmty_loc: d.pmty_loc,
-          pmty_attributes: Stdlib__no_aliases.$at(d.pmty_attributes, {
+          pmty_attributes: Stdlib.$at(d.pmty_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8553,7 +8580,7 @@ function attr$4(d, a) {
   return {
           pmod_desc: d.pmod_desc,
           pmod_loc: d.pmod_loc,
-          pmod_attributes: Stdlib__no_aliases.$at(d.pmod_attributes, {
+          pmod_attributes: Stdlib.$at(d.pmod_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8700,7 +8727,7 @@ function attr$5(d, a) {
   return {
           pcl_desc: d.pcl_desc,
           pcl_loc: d.pcl_loc,
-          pcl_attributes: Stdlib__no_aliases.$at(d.pcl_attributes, {
+          pcl_attributes: Stdlib.$at(d.pcl_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8778,7 +8805,7 @@ function attr$6(d, a) {
   return {
           pcty_desc: d.pcty_desc,
           pcty_loc: d.pcty_loc,
-          pcty_attributes: Stdlib__no_aliases.$at(d.pcty_attributes, {
+          pcty_attributes: Stdlib.$at(d.pcty_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8892,7 +8919,7 @@ function attr$7(d, a) {
   return {
           pctf_desc: d.pctf_desc,
           pctf_loc: d.pctf_loc,
-          pctf_attributes: Stdlib__no_aliases.$at(d.pctf_attributes, {
+          pctf_attributes: Stdlib.$at(d.pctf_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -8997,7 +9024,7 @@ function attr$8(d, a) {
   return {
           pcf_desc: d.pcf_desc,
           pcf_loc: d.pcf_loc,
-          pcf_attributes: Stdlib__no_aliases.$at(d.pcf_attributes, {
+          pcf_attributes: Stdlib.$at(d.pcf_attributes, {
                 hd: a,
                 tl: /* [] */0
               })
@@ -10256,7 +10283,7 @@ function find$2(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -10389,7 +10416,7 @@ function module_path(s, p) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return p;
           }
           throw exn;
@@ -10424,7 +10451,7 @@ function modtype_path(s, p) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return p;
           }
           throw exn;
@@ -10450,7 +10477,7 @@ function type_path(s, p) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return p;
           }
           throw exn;
@@ -11025,7 +11052,7 @@ function modtype(s, mty) {
               }
               catch (raw_exn){
                 var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                if (exn.RE_EXN_ID === Stdlib.Not_found) {
                   return mty;
                 }
                 throw exn;
@@ -11237,7 +11264,7 @@ function already_defined(s, tbl) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -11446,6 +11473,10 @@ var persistent_structures = Hashtbl.create(undefined, 17);
 
 var crc_units = Hashtbl.create(undefined, 13);
 
+var funarg$2 = {
+  compare: $$String.compare
+};
+
 function height$5(param) {
   if (param) {
     return param.h;
@@ -11534,7 +11565,7 @@ function add$7(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$2.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -11583,12 +11614,16 @@ function elements_aux$2(_accu, _param) {
   };
 }
 
+function elements$2(s) {
+  return elements_aux$2(/* [] */0, s);
+}
+
 var imported_units = {
   contents: /* Empty */0
 };
 
 function add_import(s) {
-  imported_units.contents = add$7(s, imported_units.contents);
+  imported_units.contents = Curry._2(add$7, s, imported_units.contents);
 }
 
 function check_consistency(ps) {
@@ -11619,7 +11654,7 @@ function check_consistency(ps) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 return Hashtbl.add(crc_units, name, [
                             crco,
                             source
@@ -11717,7 +11752,7 @@ function find_pers_struct(checkOpt, name) {
   var check = checkOpt !== undefined ? checkOpt : true;
   if (name === "*predef*") {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -11727,7 +11762,7 @@ function find_pers_struct(checkOpt, name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       r = undefined;
     } else {
       throw exn;
@@ -11740,7 +11775,7 @@ function find_pers_struct(checkOpt, name) {
       ps = sg;
     } else {
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -11752,10 +11787,10 @@ function find_pers_struct(checkOpt, name) {
     }
     catch (raw_exn$1){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-      if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
         Hashtbl.add(persistent_structures, name, undefined);
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
       }
@@ -11778,12 +11813,12 @@ function find_module_descr(path, env) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             if (id.stamp === 0 && id.name !== current_unit.contents) {
               return find_pers_struct(undefined, id.name).ps_comps;
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                  RE_EXN_ID: Stdlib.Not_found,
                   Error: new Error()
                 };
           }
@@ -11795,7 +11830,7 @@ function find_module_descr(path, env) {
           return find$2(path._1, c._0.comp_components)[0];
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Papply */2 :
@@ -11805,7 +11840,7 @@ function find_module_descr(path, env) {
           return Curry._3(components_of_functor_appl$p.contents, f._0, p1, path._1);
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     
@@ -11822,12 +11857,12 @@ function find$3(proj1, proj2, path, env) {
           return find$2(path._1, Curry._1(proj2, c._0))[0];
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Papply */2 :
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     
@@ -11875,7 +11910,7 @@ function find_module(alias, path, env) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             if (id.stamp === 0 && id.name !== current_unit.contents) {
               var ps = find_pers_struct(undefined, id.name);
               return {
@@ -11888,7 +11923,7 @@ function find_module(alias, path, env) {
                     };
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                  RE_EXN_ID: Stdlib.Not_found,
                   Error: new Error()
                 };
           }
@@ -11906,7 +11941,7 @@ function find_module(alias, path, env) {
                 };
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Papply */2 :
@@ -11915,7 +11950,7 @@ function find_module(alias, path, env) {
         var f = force(components_of_module_maker$p.contents, desc1);
         if (f.TAG === /* Structure_comps */0) {
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                RE_EXN_ID: Stdlib.Not_found,
                 Error: new Error()
               };
         }
@@ -11935,7 +11970,7 @@ function find_module(alias, path, env) {
           }
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
               var mty = modtype(add_module(f$1.fcomp_param, p2, f$1.fcomp_subst), f$1.fcomp_res);
               Hashtbl.add(f$1.fcomp_subst_cache, p2, mty);
               md_type$1 = mty;
@@ -12011,7 +12046,7 @@ function normalize_path(lax, env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var tmp = true;
       if (!lax) {
         var tmp$1;
@@ -12043,7 +12078,7 @@ function normalize_path$1(oloc, env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       if (oloc !== undefined) {
         throw {
               RE_EXN_ID: $$Error$2,
@@ -12085,7 +12120,7 @@ function find_type_expansion(path, env) {
   var path$p = normalize_path$1(undefined, env, path);
   if (same(path, path$p)) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -12120,7 +12155,7 @@ function find_type_expansion_opt(path, env) {
   var path$p = normalize_path$1(undefined, env, path);
   if (same(path, path$p)) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -12146,7 +12181,7 @@ function find_modtype_expansion(path, env) {
     return mty;
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -12162,7 +12197,7 @@ function is_functor_arg(_path, env) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return false;
             }
             throw exn;
@@ -12188,10 +12223,10 @@ function lookup_module_descr(lid, env) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             if (s === current_unit.contents) {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
@@ -12227,7 +12262,7 @@ function lookup_module_descr(lid, env) {
                 ];
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Lapply */2 :
@@ -12238,7 +12273,7 @@ function lookup_module_descr(lid, env) {
         var f = force(components_of_module_maker$p.contents, match$2[1]);
         if (f.TAG === /* Structure_comps */0) {
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                RE_EXN_ID: Stdlib.Not_found,
                 Error: new Error()
               };
         }
@@ -12284,10 +12319,10 @@ function lookup_module(load, lid, env) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             if (s === current_unit.contents) {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
@@ -12297,7 +12332,7 @@ function lookup_module(load, lid, env) {
               }
               catch (raw_exn$1){
                 var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                   prerr_warning(none, {
                         TAG: /* No_cmi_file */32,
                         _0: s
@@ -12334,7 +12369,7 @@ function lookup_module(load, lid, env) {
                 };
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Lapply */2 :
@@ -12350,7 +12385,7 @@ function lookup_module(load, lid, env) {
         var f = force(components_of_module_maker$p.contents, match$2[1]);
         if (f.TAG === /* Structure_comps */0) {
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                RE_EXN_ID: Stdlib.Not_found,
                 Error: new Error()
               };
         }
@@ -12381,12 +12416,12 @@ function lookup(proj1, proj2, lid, env) {
                 ];
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Lapply */2 :
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     
@@ -12424,7 +12459,7 @@ function lookup_all_simple(proj1, proj2, shadow, lid, env) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               comps = /* [] */0;
             } else {
               throw exn;
@@ -12440,12 +12475,12 @@ function lookup_all_simple(proj1, proj2, shadow, lid, env) {
                       }), comps);
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     case /* Lapply */2 :
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     
@@ -12544,7 +12579,7 @@ function mark_value_used(env, name, vd) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -12563,7 +12598,7 @@ function mark_type_used(env, name, vd) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -12583,7 +12618,7 @@ function mark_constructor_used(usage, env, name, vd, constr) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -12604,7 +12639,7 @@ function mark_extension_used(usage, env, ext, name) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -12626,7 +12661,7 @@ function set_type_used_callback(name, td, callback) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -12667,7 +12702,7 @@ function mark_type_path(env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -12712,7 +12747,7 @@ function lookup_constructor(lid, env) {
     return desc;
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -12745,7 +12780,7 @@ function lookup_all_constructors$1(lid, env) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       if (is_lident(lid)) {
         return /* [] */0;
       }
@@ -12776,7 +12811,7 @@ function mark_constructor(usage, env, name, desc) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return ;
           }
           throw exn;
@@ -12790,7 +12825,7 @@ function mark_constructor(usage, env, name, desc) {
   }
   catch (raw_exn$1){
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -12824,7 +12859,7 @@ function lookup_all_labels$1(lid, env) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       if (is_lident(lid)) {
         return /* [] */0;
       }
@@ -12918,7 +12953,7 @@ function iter_types(f) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               safe = false;
             } else {
               throw exn;
@@ -13013,7 +13048,7 @@ function used_persistent(param) {
   };
   Hashtbl.iter((function (s, pso) {
           if (pso !== undefined) {
-            r.contents = add$2(s, r.contents);
+            r.contents = Curry._2(add$2, s, r.contents);
             return ;
           }
           
@@ -13043,7 +13078,7 @@ function find_all_comps(proj, s, param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return /* [] */0;
     }
     throw exn;
@@ -13144,15 +13179,12 @@ function gadt_instance_level(env, t) {
     }
     var match = param.hd;
     var r = match[1];
-    if (exists$1(is_Tlink, r.contents)) {
-      r.contents = fold$2((function (ty) {
-              var partial_arg = repr(ty);
-              return function (param) {
-                return add$3(partial_arg, param);
-              };
+    if (Curry._2(exists$1, is_Tlink, r.contents)) {
+      r.contents = Curry._3(fold$2, (function (ty) {
+              return Curry._1(add$3, repr(ty));
             }), r.contents, /* Empty */0);
     }
-    if (mem$3(t, r.contents)) {
+    if (Curry._2(mem$3, t, r.contents)) {
       return Caml_option.some(match[0]);
     }
     _param = param.tl;
@@ -13167,7 +13199,7 @@ function add_gadt_instances(env, lv, tl) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -13190,7 +13222,7 @@ function add_gadt_instance_chain(env, lv, t) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -13205,10 +13237,10 @@ function add_gadt_instance_chain(env, lv, t) {
   }
   var add_instance = function (t) {
     var t$1 = repr(t);
-    if (mem$3(t$1, r.contents)) {
+    if (Curry._2(mem$3, t$1, r.contents)) {
       return ;
     }
-    set_typeset(r, add$3(t$1, r.contents));
+    set_typeset(r, Curry._2(add$3, t$1, r.contents));
     var match = t$1.desc;
     if (typeof match === "number" || match.TAG !== /* Tconstr */3) {
       return ;
@@ -13227,7 +13259,7 @@ function scrape_alias(env, path, mty) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return mty;
           }
           throw exn;
@@ -13242,7 +13274,7 @@ function scrape_alias(env, path, mty) {
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
             return mty;
           }
           throw exn$1;
@@ -13322,7 +13354,7 @@ function constructors_of_type(ty_path, decl) {
                   TAG: /* Ttuple */2,
                   _0: cd_args
                 }));
-        existentials = elements_aux$1(/* [] */0, diff$1(arg_vars, res_vars));
+        existentials = Curry._1(elements$1, Curry._2(diff$1, arg_vars, res_vars));
       } else {
         existentials = /* [] */0;
       }
@@ -13744,7 +13776,7 @@ function prefix_idents_and_subst$1(root, sub, sg) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var sgs$1 = {
         contents: /* [] */0
       };
@@ -13759,7 +13791,7 @@ function prefix_idents_and_subst$1(root, sub, sg) {
   }
   catch (raw_exn$1){
     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-    if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
       var r = prefix_idents_and_subst(root, sub, sg);
       sgs.contents = {
         hd: [
@@ -13781,7 +13813,7 @@ function add_to_tbl(id, decl, tbl) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       decls = /* [] */0;
     } else {
       throw exn;
@@ -13807,34 +13839,64 @@ function components_of_module(env, sub, path, mty) {
         };
 }
 
-function store_module(slot, id, path, md, env, renv) {
-  return {
-          values: env.values,
-          constrs: env.constrs,
-          labels: env.labels,
-          types: env.types,
-          modules: add$6("module", slot, id, [
-                path,
-                md
-              ], env.modules, renv.modules),
-          modtypes: env.modtypes,
-          components: add$6("module", slot, id, [
-                path,
-                components_of_module(env, identity, path, md.md_type)
-              ], env.components, renv.components),
-          classes: env.classes,
-          cltypes: env.cltypes,
-          functor_args: env.functor_args,
-          summary: {
-            TAG: /* Env_module */3,
-            _0: env.summary,
-            _1: id,
-            _2: md
+function check_value_name(name, loc) {
+  if (bs_only.contents && name === "|.") {
+    throw {
+          RE_EXN_ID: $$Error$2,
+          _1: {
+            TAG: /* Illegal_value_name */4,
+            _0: loc,
+            _1: name
           },
-          local_constraints: env.local_constraints,
-          gadt_instances: env.gadt_instances,
-          flags: env.flags
+          Error: new Error()
         };
+  }
+  if (!(name.length !== 0 && Caml_string.get(name, 0) === /* '#' */35)) {
+    return ;
+  }
+  for(var i = 1 ,i_finish = name.length; i < i_finish; ++i){
+    if (Caml_string.get(name, i) === /* '#' */35) {
+      throw {
+            RE_EXN_ID: $$Error$2,
+            _1: {
+              TAG: /* Illegal_value_name */4,
+              _0: loc,
+              _1: name
+            },
+            Error: new Error()
+          };
+    }
+    
+  }
+}
+
+function check_usage(loc, id, warn, tbl) {
+  if (!(!loc.loc_ghost && is_active(Curry._1(warn, "")))) {
+    return ;
+  }
+  var name = id.name;
+  var key = [
+    name,
+    loc
+  ];
+  if (Hashtbl.mem(tbl, key)) {
+    return ;
+  }
+  var used = {
+    contents: false
+  };
+  Hashtbl.add(tbl, key, (function (param) {
+          used.contents = true;
+        }));
+  if (!(name === "" || Caml_string.get(name, 0) === /* '_' */95 || Caml_string.get(name, 0) === /* '#' */35)) {
+    return Curry._1(add_delayed_check_forward.contents, (function (param) {
+                  if (!used.contents) {
+                    return prerr_warning(loc, Curry._1(warn, name));
+                  }
+                  
+                }));
+  }
+  
 }
 
 function store_modtype(slot, id, path, info, env, renv) {
@@ -13897,64 +13959,34 @@ function store_type_infos(slot, id, path, info, env, renv) {
         };
 }
 
-function check_usage(loc, id, warn, tbl) {
-  if (!(!loc.loc_ghost && is_active(Curry._1(warn, "")))) {
-    return ;
-  }
-  var name = id.name;
-  var key = [
-    name,
-    loc
-  ];
-  if (Hashtbl.mem(tbl, key)) {
-    return ;
-  }
-  var used = {
-    contents: false
-  };
-  Hashtbl.add(tbl, key, (function (param) {
-          used.contents = true;
-        }));
-  if (!(name === "" || Caml_string.get(name, 0) === /* '_' */95 || Caml_string.get(name, 0) === /* '#' */35)) {
-    return Curry._1(add_delayed_check_forward.contents, (function (param) {
-                  if (!used.contents) {
-                    return prerr_warning(loc, Curry._1(warn, name));
-                  }
-                  
-                }));
-  }
-  
-}
-
-function check_value_name(name, loc) {
-  if (bs_only.contents && name === "|.") {
-    throw {
-          RE_EXN_ID: $$Error$2,
-          _1: {
-            TAG: /* Illegal_value_name */4,
-            _0: loc,
-            _1: name
+function store_module(slot, id, path, md, env, renv) {
+  return {
+          values: env.values,
+          constrs: env.constrs,
+          labels: env.labels,
+          types: env.types,
+          modules: add$6("module", slot, id, [
+                path,
+                md
+              ], env.modules, renv.modules),
+          modtypes: env.modtypes,
+          components: add$6("module", slot, id, [
+                path,
+                components_of_module(env, identity, path, md.md_type)
+              ], env.components, renv.components),
+          classes: env.classes,
+          cltypes: env.cltypes,
+          functor_args: env.functor_args,
+          summary: {
+            TAG: /* Env_module */3,
+            _0: env.summary,
+            _1: id,
+            _2: md
           },
-          Error: new Error()
+          local_constraints: env.local_constraints,
+          gadt_instances: env.gadt_instances,
+          flags: env.flags
         };
-  }
-  if (!(name.length !== 0 && Caml_string.get(name, 0) === /* '#' */35)) {
-    return ;
-  }
-  for(var i = 1 ,i_finish = name.length; i < i_finish; ++i){
-    if (Caml_string.get(name, i) === /* '#' */35) {
-      throw {
-            RE_EXN_ID: $$Error$2,
-            _1: {
-              TAG: /* Illegal_value_name */4,
-              _0: loc,
-              _1: name
-            },
-            Error: new Error()
-          };
-    }
-    
-  }
 }
 
 function components_of_module_maker(param) {
@@ -14392,7 +14424,7 @@ function components_of_functor_appl(f, p1, p2) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var p = {
         TAG: /* Papply */2,
         _0: p1,
@@ -14751,7 +14783,7 @@ function read_signature(modname, filename) {
 function imports(param) {
   var dont_record_crc_unit$1 = dont_record_crc_unit.contents;
   if (dont_record_crc_unit$1 !== undefined) {
-    return extract(fold$5((function (m, acc) {
+    return extract(Curry._3(fold$5, (function (m, acc) {
                       if (m === dont_record_crc_unit$1) {
                         return acc;
                       } else {
@@ -14762,7 +14794,7 @@ function imports(param) {
                       }
                     }), imported_units.contents, /* [] */0), crc_units);
   } else {
-    return extract(elements_aux$2(/* [] */0, imported_units.contents), crc_units);
+    return extract(Curry._1(elements$2, imported_units.contents), crc_units);
   }
 }
 
@@ -14771,7 +14803,7 @@ function save_signature(sg, modname, filename) {
   cleanup_abbrev(undefined);
   new_id$1.contents = -1;
   var sg$1 = signature$2(for_saving(identity), sg);
-  var oc = Stdlib__no_aliases.open_out_bin(filename);
+  var oc = Stdlib.open_out_bin(filename);
   try {
     var cmi_cmi_flags = recursive_types.contents ? ({
           hd: /* Rectypes */0,
@@ -14784,8 +14816,7 @@ function save_signature(sg, modname, filename) {
       cmi_flags: cmi_cmi_flags
     };
     var crc = output_cmi(filename, oc, cmi);
-    Caml_io.caml_ml_flush(oc);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+    Stdlib.close_out(oc);
     var comps = components_of_module(empty, identity, {
           TAG: /* Pident */0,
           _0: {
@@ -14816,8 +14847,7 @@ function save_signature(sg, modname, filename) {
     return sg$1;
   }
   catch (exn){
-    Caml_io.caml_ml_flush(oc);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+    Stdlib.close_out(oc);
     remove_file(filename);
     throw exn;
   }
@@ -16442,7 +16472,7 @@ function wrap_exp_attrs(body, param) {
   var ext = param[0];
   var body_pexp_desc = body.pexp_desc;
   var body_pexp_loc = body.pexp_loc;
-  var body_pexp_attributes = Stdlib__no_aliases.$at(param[1], body.pexp_attributes);
+  var body_pexp_attributes = Stdlib.$at(param[1], body.pexp_attributes);
   var body$1 = {
     pexp_desc: body_pexp_desc,
     pexp_loc: body_pexp_loc,
@@ -16480,7 +16510,7 @@ function text_def(pos) {
 function extra_text(text, pos, items) {
   var pre_extras = get_pre_extra_text(Parsing.rhs_start_pos(pos));
   var post_extras = get_post_extra_text(Parsing.rhs_end_pos(pos));
-  return Stdlib__no_aliases.$at(Curry._1(text, pre_extras), Stdlib__no_aliases.$at(items, Curry._1(text, post_extras)));
+  return Stdlib.$at(Curry._1(text, pre_extras), Stdlib.$at(items, Curry._1(text, post_extras)));
 }
 
 function extra_cstr(pos, items) {
@@ -16654,11 +16684,7 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "parser",
-            Error: new Error()
-          };
+      return Stdlib.failwith("parser");
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
@@ -16680,14 +16706,14 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.End_of_file,
+            RE_EXN_ID: Stdlib.End_of_file,
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: mkstrexp(_1, _2),
                   tl: /* [] */0
                 });
@@ -16701,7 +16727,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
@@ -16726,7 +16752,7 @@ var yyact = [
       var _1 = Parsing.peek_val(__caml_parser_env, 2);
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text_def(1), {
+      return Stdlib.$at(text_def(1), {
                   hd: {
                     TAG: /* Ptop_def */0,
                     _0: {
@@ -16748,7 +16774,7 @@ var yyact = [
       var _3 = Parsing.peek_val(__caml_parser_env, 1);
       var _4 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(2, 3);
-      return Stdlib__no_aliases.$at(text_def(1), Stdlib__no_aliases.$at(text_def(2), {
+      return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
                       hd: {
                         TAG: /* Ptop_def */0,
                         _0: {
@@ -16762,7 +16788,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text_def(1), Stdlib__no_aliases.$at(text_def(2), {
+      return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
                       hd: {
                         TAG: /* Ptop_def */0,
                         _0: {
@@ -16777,7 +16803,7 @@ var yyact = [
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(2, 3);
-      return Stdlib__no_aliases.$at(text_def(1), Stdlib__no_aliases.$at(text_def(2), {
+      return Stdlib.$at(text_def(1), Stdlib.$at(text_def(2), {
                       hd: _2,
                       tl: _3
                     }));
@@ -16785,7 +16811,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text_def(1), {
+      return Stdlib.$at(text_def(1), {
                   hd: {
                     TAG: /* Ptop_def */0,
                     _0: {
@@ -16800,7 +16826,7 @@ var yyact = [
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(1, 1);
-      return Stdlib__no_aliases.$at(text_def(1), {
+      return Stdlib.$at(text_def(1), {
                   hd: _1,
                   tl: _2
                 });
@@ -17021,7 +17047,7 @@ var yyact = [
       var _2 = Parsing.peek_val(__caml_parser_env, 1);
       var _3 = Parsing.peek_val(__caml_parser_env, 0);
       mark_rhs_docs(1, 2);
-      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: mkstrexp(_1, _2),
                   tl: _3
                 });
@@ -17034,12 +17060,12 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), _2);
+      return Stdlib.$at(text$1(get_text(Parsing.rhs_start_pos(1))), _2);
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib.$at(text$1(get_text(Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
@@ -17345,12 +17371,12 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text(get_text(Parsing.rhs_start_pos(1))), _2);
+      return Stdlib.$at(text(get_text(Parsing.rhs_start_pos(1))), _2);
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at(text(get_text(Parsing.rhs_start_pos(1))), {
+      return Stdlib.$at(text(get_text(Parsing.rhs_start_pos(1))), {
                   hd: _1,
                   tl: _2
                 });
@@ -17820,7 +17846,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at({
+      return Stdlib.$at({
                   hd: _2,
                   tl: Curry._1(Ast_helper_Cf.text, get_text(Parsing.rhs_start_pos(2)))
                 }, _1);
@@ -18194,7 +18220,7 @@ var yyact = [
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
       var _2 = Parsing.peek_val(__caml_parser_env, 0);
-      return Stdlib__no_aliases.$at({
+      return Stdlib.$at({
                   hd: _2,
                   tl: Curry._1(Ast_helper_Ctf.text, get_text(Parsing.rhs_start_pos(2)))
                 }, _1);
@@ -20945,7 +20971,7 @@ var yyact = [
       var _4 = Parsing.peek_val(__caml_parser_env, 2);
       var _5 = Parsing.peek_val(__caml_parser_env, 1);
       var _6 = Parsing.peek_val(__caml_parser_env, 0);
-      return rebind(symbol_rloc(undefined), Stdlib__no_aliases.$at(_5, _6), symbol_docs(undefined), undefined, {
+      return rebind(symbol_rloc(undefined), Stdlib.$at(_5, _6), symbol_docs(undefined), undefined, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, {
@@ -20958,7 +20984,7 @@ var yyact = [
       var _3 = Parsing.peek_val(__caml_parser_env, 2);
       var _4 = Parsing.peek_val(__caml_parser_env, 1);
       var _5 = Parsing.peek_val(__caml_parser_env, 0);
-      return decl(symbol_rloc(undefined), Stdlib__no_aliases.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
+      return decl(symbol_rloc(undefined), Stdlib.$at(_4, _5), symbol_docs(undefined), undefined, _3[0], _3[1], {
                   txt: _2,
                   loc: rhs_loc(2)
                 });
@@ -21031,7 +21057,7 @@ var yyact = [
       var _7 = Parsing.peek_val(__caml_parser_env, 0);
       var info_before_semi = get_info(Parsing.rhs_end_pos(5));
       var info = info_before_semi !== undefined ? info_before_semi : get_info(Parsing.symbol_end_pos(undefined));
-      return field$1(symbol_rloc(undefined), Stdlib__no_aliases.$at(_5, _7), Caml_option.some(info), _1, {
+      return field$1(symbol_rloc(undefined), Stdlib.$at(_5, _7), Caml_option.some(info), _1, {
                   txt: _2,
                   loc: rhs_loc(2)
                 }, _4);
@@ -22842,7 +22868,7 @@ try {
 }
 catch (raw_exn$1){
   var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-  if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+  if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
     tmp = "";
   } else {
     throw exn$2;
@@ -22946,7 +22972,7 @@ function query(loc, str) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var exit = 0;
       var v$1;
       try {
@@ -22955,7 +22981,7 @@ function query(loc, str) {
       }
       catch (raw_exn$1){
         var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-        if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
           return {
                   TAG: /* Dir_bool */0,
                   _0: false
@@ -22967,7 +22993,7 @@ function query(loc, str) {
         try {
           return {
                   TAG: /* Dir_bool */0,
-                  _0: Stdlib__no_aliases.bool_of_string(v$1)
+                  _0: Stdlib.bool_of_string(v$1)
                 };
         }
         catch (exn$2){
@@ -23354,24 +23380,6 @@ function directive_parse(token_with_comments, lexbuf) {
     }
     
   };
-  var parse_and_aux = function (calc, v) {
-    var e = token(undefined);
-    if (typeof e === "number") {
-      if (e) {
-        push(e);
-        return v;
-      }
-      var calc$1 = calc && v;
-      var b = parse_and_aux(calc$1, parse_relation(calc$1));
-      if (v) {
-        return b;
-      } else {
-        return false;
-      }
-    }
-    push(e);
-    return v;
-  };
   var parse_relation = function (calc) {
     var curr_token = token(undefined);
     var curr_loc = curr(lexbuf);
@@ -23532,6 +23540,24 @@ function directive_parse(token_with_comments, lexbuf) {
         return true;
       } else {
         return b;
+      }
+    }
+    push(e);
+    return v;
+  };
+  var parse_and_aux = function (calc, v) {
+    var e = token(undefined);
+    if (typeof e === "number") {
+      if (e) {
+        push(e);
+        return v;
+      }
+      var calc$1 = calc && v;
+      var b = parse_and_aux(calc$1, parse_relation(calc$1));
+      if (v) {
+        return b;
+      } else {
+        return false;
       }
     }
     push(e);
@@ -24459,7 +24485,7 @@ function token(lexbuf) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return {
                       TAG: /* LIDENT */11,
                       _0: s
@@ -24499,7 +24525,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+            if (exn$1.RE_EXN_ID === Stdlib.Failure) {
               throw {
                     RE_EXN_ID: $$Error$4,
                     _1: {
@@ -24526,7 +24552,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$2){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-            if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+            if (exn$2.RE_EXN_ID === Stdlib.Failure) {
               throw {
                     RE_EXN_ID: $$Error$4,
                     _1: {
@@ -24548,7 +24574,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$3){
             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-            if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+            if (exn$3.RE_EXN_ID === Stdlib.Failure) {
               throw {
                     RE_EXN_ID: $$Error$4,
                     _1: {
@@ -24570,7 +24596,7 @@ function token(lexbuf) {
           }
           catch (raw_exn$4){
             var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-            if (exn$4.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+            if (exn$4.RE_EXN_ID === Stdlib.Failure) {
               throw {
                     RE_EXN_ID: $$Error$4,
                     _1: {
@@ -24892,106 +24918,6 @@ function token(lexbuf) {
   };
 }
 
-function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 1 :
-          is_in_string.contents = false;
-          throw {
-                RE_EXN_ID: $$Error$4,
-                _1: /* Unterminated_string */0,
-                _2: string_start_loc.contents,
-                Error: new Error()
-              };
-      case 2 :
-          var edelim = Lexing.lexeme(lexbuf);
-          var edelim$1 = $$String.sub(edelim, 1, edelim.length - 2 | 0);
-          if (delim === edelim$1) {
-            return ;
-          }
-          store_string(Lexing.lexeme(lexbuf));
-          ___ocaml_lex_state = 183;
-          continue ;
-      case 3 :
-          store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          ___ocaml_lex_state = 183;
-          continue ;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
-function string(lexbuf) {
-  lexbuf.lex_mem = Caml_array.make(2, -1);
-  var ___ocaml_lex_state = 164;
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          return ;
-      case 1 :
-          var space = Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
-          update_loc(lexbuf, undefined, 1, false, space.length);
-          return string(lexbuf);
-      case 2 :
-          store_string_char(char_for_backslash(Lexing.lexeme_char(lexbuf, 1)));
-          return string(lexbuf);
-      case 3 :
-          store_string_char(char_for_decimal_code(lexbuf, 1));
-          return string(lexbuf);
-      case 4 :
-          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
-          return string(lexbuf);
-      case 5 :
-          if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
-            return string(lexbuf);
-          }
-          var loc = curr(lexbuf);
-          prerr_warning(loc, /* Illegal_backslash */7);
-          store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          store_string_char(Lexing.lexeme_char(lexbuf, 1));
-          return string(lexbuf);
-      case 6 :
-          if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
-            prerr_warning(curr(lexbuf), /* Eol_in_string */14);
-          }
-          update_loc(lexbuf, undefined, 1, false, 0);
-          store_string(Lexing.lexeme(lexbuf));
-          return string(lexbuf);
-      case 7 :
-          is_in_string.contents = false;
-          throw {
-                RE_EXN_ID: $$Error$4,
-                _1: /* Unterminated_string */0,
-                _2: string_start_loc.contents,
-                Error: new Error()
-              };
-      case 8 :
-          store_string_char(Lexing.lexeme_char(lexbuf, 0));
-          return string(lexbuf);
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
-}
-
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
@@ -25175,6 +25101,106 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
         continue ;
     }
   };
+}
+
+function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          update_loc(lexbuf, undefined, 1, false, 0);
+          store_string(Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 1 :
+          is_in_string.contents = false;
+          throw {
+                RE_EXN_ID: $$Error$4,
+                _1: /* Unterminated_string */0,
+                _2: string_start_loc.contents,
+                Error: new Error()
+              };
+      case 2 :
+          var edelim = Lexing.lexeme(lexbuf);
+          var edelim$1 = $$String.sub(edelim, 1, edelim.length - 2 | 0);
+          if (delim === edelim$1) {
+            return ;
+          }
+          store_string(Lexing.lexeme(lexbuf));
+          ___ocaml_lex_state = 183;
+          continue ;
+      case 3 :
+          store_string_char(Lexing.lexeme_char(lexbuf, 0));
+          ___ocaml_lex_state = 183;
+          continue ;
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
+function string(lexbuf) {
+  lexbuf.lex_mem = Caml_array.make(2, -1);
+  var ___ocaml_lex_state = 164;
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var __ocaml_lex_state$1 = Lexing.new_engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          return ;
+      case 1 :
+          var space = Lexing.sub_lexeme(lexbuf, Caml_array.get(lexbuf.lex_mem, 0), lexbuf.lex_curr_pos);
+          update_loc(lexbuf, undefined, 1, false, space.length);
+          return string(lexbuf);
+      case 2 :
+          store_string_char(char_for_backslash(Lexing.lexeme_char(lexbuf, 1)));
+          return string(lexbuf);
+      case 3 :
+          store_string_char(char_for_decimal_code(lexbuf, 1));
+          return string(lexbuf);
+      case 4 :
+          store_string_char(char_for_hexadecimal_code(lexbuf, 2));
+          return string(lexbuf);
+      case 5 :
+          if (Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
+            return string(lexbuf);
+          }
+          var loc = curr(lexbuf);
+          prerr_warning(loc, /* Illegal_backslash */7);
+          store_string_char(Lexing.lexeme_char(lexbuf, 0));
+          store_string_char(Lexing.lexeme_char(lexbuf, 1));
+          return string(lexbuf);
+      case 6 :
+          if (!Caml_obj.caml_notequal(comment_start_loc.contents, /* [] */0)) {
+            prerr_warning(curr(lexbuf), /* Eol_in_string */14);
+          }
+          update_loc(lexbuf, undefined, 1, false, 0);
+          store_string(Lexing.lexeme(lexbuf));
+          return string(lexbuf);
+      case 7 :
+          is_in_string.contents = false;
+          throw {
+                RE_EXN_ID: $$Error$4,
+                _1: /* Unterminated_string */0,
+                _2: string_start_loc.contents,
+                Error: new Error()
+              };
+      case 8 :
+          store_string_char(Lexing.lexeme_char(lexbuf, 0));
+          return string(lexbuf);
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
 }
 
 function at_bol(lexbuf) {
@@ -25463,7 +25489,7 @@ function token$1(lexbuf) {
                 docs$p = lines >= 2 ? ({
                       TAG: /* Before */1,
                       _0: a$1,
-                      _1: Stdlib__no_aliases.$at(b, f),
+                      _1: Stdlib.$at(b, f),
                       _2: {
                         hd: doc$1,
                         tl: /* [] */0
@@ -25731,7 +25757,7 @@ function alpha_pat(env, p) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               tmp = /* Tpat_any */0;
             } else {
               throw exn;
@@ -25764,7 +25790,7 @@ function alpha_pat(env, p) {
           }
           catch (raw_exn$1){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-            if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
               return new_p;
             }
             throw exn$1;
@@ -25951,257 +25977,6 @@ function TypedtreeMap_MakeMap(funarg) {
                 str_final_env: str$1.str_final_env
               });
   };
-  var map_core_type = function (ct) {
-    var ct$1 = Curry._1(funarg.enter_core_type, ct);
-    var list = ct$1.ctyp_desc;
-    var ctyp_desc;
-    if (typeof list === "number") {
-      ctyp_desc = ct$1.ctyp_desc;
-    } else {
-      switch (list.TAG | 0) {
-        case /* Ttyp_var */0 :
-            ctyp_desc = ct$1.ctyp_desc;
-            break;
-        case /* Ttyp_arrow */1 :
-            ctyp_desc = {
-              TAG: /* Ttyp_arrow */1,
-              _0: list._0,
-              _1: map_core_type(list._1),
-              _2: map_core_type(list._2)
-            };
-            break;
-        case /* Ttyp_tuple */2 :
-            ctyp_desc = {
-              TAG: /* Ttyp_tuple */2,
-              _0: List.map(map_core_type, list._0)
-            };
-            break;
-        case /* Ttyp_constr */3 :
-            ctyp_desc = {
-              TAG: /* Ttyp_constr */3,
-              _0: list._0,
-              _1: list._1,
-              _2: List.map(map_core_type, list._2)
-            };
-            break;
-        case /* Ttyp_object */4 :
-            ctyp_desc = {
-              TAG: /* Ttyp_object */4,
-              _0: List.map((function (param) {
-                      return [
-                              param[0],
-                              param[1],
-                              map_core_type(param[2])
-                            ];
-                    }), list._0),
-              _1: list._1
-            };
-            break;
-        case /* Ttyp_class */5 :
-            ctyp_desc = {
-              TAG: /* Ttyp_class */5,
-              _0: list._0,
-              _1: list._1,
-              _2: List.map(map_core_type, list._2)
-            };
-            break;
-        case /* Ttyp_alias */6 :
-            ctyp_desc = {
-              TAG: /* Ttyp_alias */6,
-              _0: map_core_type(list._0),
-              _1: list._1
-            };
-            break;
-        case /* Ttyp_variant */7 :
-            ctyp_desc = {
-              TAG: /* Ttyp_variant */7,
-              _0: List.map(map_row_field, list._0),
-              _1: list._1,
-              _2: list._2
-            };
-            break;
-        case /* Ttyp_poly */8 :
-            ctyp_desc = {
-              TAG: /* Ttyp_poly */8,
-              _0: list._0,
-              _1: map_core_type(list._1)
-            };
-            break;
-        case /* Ttyp_package */9 :
-            ctyp_desc = {
-              TAG: /* Ttyp_package */9,
-              _0: map_package_type(list._0)
-            };
-            break;
-        
-      }
-    }
-    return Curry._1(funarg.leave_core_type, {
-                ctyp_desc: ctyp_desc,
-                ctyp_type: ct$1.ctyp_type,
-                ctyp_env: ct$1.ctyp_env,
-                ctyp_loc: ct$1.ctyp_loc,
-                ctyp_attributes: ct$1.ctyp_attributes
-              });
-  };
-  var map_module_expr = function (mexpr) {
-    var mexpr$1 = Curry._1(funarg.enter_module_expr, mexpr);
-    var st = mexpr$1.mod_desc;
-    var mod_desc;
-    switch (st.TAG | 0) {
-      case /* Tmod_ident */0 :
-          mod_desc = mexpr$1.mod_desc;
-          break;
-      case /* Tmod_structure */1 :
-          mod_desc = {
-            TAG: /* Tmod_structure */1,
-            _0: map_structure(st._0)
-          };
-          break;
-      case /* Tmod_functor */2 :
-          mod_desc = {
-            TAG: /* Tmod_functor */2,
-            _0: st._0,
-            _1: st._1,
-            _2: may_map(map_module_type, st._2),
-            _3: map_module_expr(st._3)
-          };
-          break;
-      case /* Tmod_apply */3 :
-          mod_desc = {
-            TAG: /* Tmod_apply */3,
-            _0: map_module_expr(st._0),
-            _1: map_module_expr(st._1),
-            _2: st._2
-          };
-          break;
-      case /* Tmod_constraint */4 :
-          var mtype = st._2;
-          var mod_type = st._1;
-          var mexpr$2 = st._0;
-          mod_desc = mtype ? ({
-                TAG: /* Tmod_constraint */4,
-                _0: map_module_expr(mexpr$2),
-                _1: mod_type,
-                _2: /* Tmodtype_explicit */{
-                  _0: map_module_type(mtype._0)
-                },
-                _3: st._3
-              }) : ({
-                TAG: /* Tmod_constraint */4,
-                _0: map_module_expr(mexpr$2),
-                _1: mod_type,
-                _2: /* Tmodtype_implicit */0,
-                _3: st._3
-              });
-          break;
-      case /* Tmod_unpack */5 :
-          mod_desc = {
-            TAG: /* Tmod_unpack */5,
-            _0: map_expression(st._0),
-            _1: st._1
-          };
-          break;
-      
-    }
-    return Curry._1(funarg.leave_module_expr, {
-                mod_desc: mod_desc,
-                mod_loc: mexpr$1.mod_loc,
-                mod_type: mexpr$1.mod_type,
-                mod_env: mexpr$1.mod_env,
-                mod_attributes: mexpr$1.mod_attributes
-              });
-  };
-  var map_class_field = function (cf) {
-    var cf$1 = Curry._1(funarg.enter_class_field, cf);
-    var exp = cf$1.cf_desc;
-    var cf_desc;
-    switch (exp.TAG | 0) {
-      case /* Tcf_inherit */0 :
-          cf_desc = {
-            TAG: /* Tcf_inherit */0,
-            _0: exp._0,
-            _1: map_class_expr(exp._1),
-            _2: exp._2,
-            _3: exp._3,
-            _4: exp._4
-          };
-          break;
-      case /* Tcf_val */1 :
-          var cty = exp._3;
-          var ident = exp._2;
-          var mut = exp._1;
-          var lab = exp._0;
-          cf_desc = cty.TAG === /* Tcfk_virtual */0 ? ({
-                TAG: /* Tcf_val */1,
-                _0: lab,
-                _1: mut,
-                _2: ident,
-                _3: {
-                  TAG: /* Tcfk_virtual */0,
-                  _0: map_core_type(cty._0)
-                },
-                _4: exp._4
-              }) : ({
-                TAG: /* Tcf_val */1,
-                _0: lab,
-                _1: mut,
-                _2: ident,
-                _3: {
-                  TAG: /* Tcfk_concrete */1,
-                  _0: cty._0,
-                  _1: map_expression(cty._1)
-                },
-                _4: exp._4
-              });
-          break;
-      case /* Tcf_method */2 :
-          var cty$1 = exp._2;
-          var priv = exp._1;
-          var lab$1 = exp._0;
-          cf_desc = cty$1.TAG === /* Tcfk_virtual */0 ? ({
-                TAG: /* Tcf_method */2,
-                _0: lab$1,
-                _1: priv,
-                _2: {
-                  TAG: /* Tcfk_virtual */0,
-                  _0: map_core_type(cty$1._0)
-                }
-              }) : ({
-                TAG: /* Tcf_method */2,
-                _0: lab$1,
-                _1: priv,
-                _2: {
-                  TAG: /* Tcfk_concrete */1,
-                  _0: cty$1._0,
-                  _1: map_expression(cty$1._1)
-                }
-              });
-          break;
-      case /* Tcf_constraint */3 :
-          cf_desc = {
-            TAG: /* Tcf_constraint */3,
-            _0: map_core_type(exp._0),
-            _1: map_core_type(exp._1)
-          };
-          break;
-      case /* Tcf_initializer */4 :
-          cf_desc = {
-            TAG: /* Tcf_initializer */4,
-            _0: map_expression(exp._0)
-          };
-          break;
-      case /* Tcf_attribute */5 :
-          cf_desc = exp;
-          break;
-      
-    }
-    return Curry._1(funarg.leave_class_field, {
-                cf_desc: cf_desc,
-                cf_loc: cf$1.cf_loc,
-                cf_attributes: cf$1.cf_attributes
-              });
-  };
   var map_pattern = function (pat) {
     var pat$1 = Curry._1(funarg.enter_pattern, pat);
     var list = pat$1.pat_desc;
@@ -26288,116 +26063,6 @@ function TypedtreeMap_MakeMap(funarg) {
                 pat_type: pat$1.pat_type,
                 pat_env: pat$1.pat_env,
                 pat_attributes: pat$1.pat_attributes
-              });
-  };
-  var map_class_type = function (ct) {
-    var ct$1 = Curry._1(funarg.enter_class_type, ct);
-    var csg = ct$1.cltyp_desc;
-    var cltyp_desc;
-    switch (csg.TAG | 0) {
-      case /* Tcty_constr */0 :
-          cltyp_desc = {
-            TAG: /* Tcty_constr */0,
-            _0: csg._0,
-            _1: csg._1,
-            _2: List.map(map_core_type, csg._2)
-          };
-          break;
-      case /* Tcty_signature */1 :
-          cltyp_desc = {
-            TAG: /* Tcty_signature */1,
-            _0: map_class_signature(csg._0)
-          };
-          break;
-      case /* Tcty_arrow */2 :
-          cltyp_desc = {
-            TAG: /* Tcty_arrow */2,
-            _0: csg._0,
-            _1: map_core_type(csg._1),
-            _2: map_class_type(csg._2)
-          };
-          break;
-      
-    }
-    return Curry._1(funarg.leave_class_type, {
-                cltyp_desc: cltyp_desc,
-                cltyp_type: ct$1.cltyp_type,
-                cltyp_env: ct$1.cltyp_env,
-                cltyp_loc: ct$1.cltyp_loc,
-                cltyp_attributes: ct$1.cltyp_attributes
-              });
-  };
-  var map_class_signature = function (cs) {
-    var cs$1 = Curry._1(funarg.enter_class_signature, cs);
-    var csig_self = map_core_type(cs$1.csig_self);
-    var csig_fields = List.map(map_class_type_field, cs$1.csig_fields);
-    return Curry._1(funarg.leave_class_signature, {
-                csig_self: csig_self,
-                csig_fields: csig_fields,
-                csig_type: cs$1.csig_type
-              });
-  };
-  var map_type_parameter = function (param) {
-    return [
-            map_core_type(param[0]),
-            param[1]
-          ];
-  };
-  var map_case = function (param) {
-    return {
-            c_lhs: map_pattern(param.c_lhs),
-            c_guard: may_map(map_expression, param.c_guard),
-            c_rhs: map_expression(param.c_rhs)
-          };
-  };
-  var map_type_declaration = function (decl) {
-    var decl$1 = Curry._1(funarg.enter_type_declaration, decl);
-    var typ_params = List.map(map_type_parameter, decl$1.typ_params);
-    var typ_cstrs = List.map((function (param) {
-            return [
-                    map_core_type(param[0]),
-                    map_core_type(param[1]),
-                    param[2]
-                  ];
-          }), decl$1.typ_cstrs);
-    var list = decl$1.typ_kind;
-    var typ_kind;
-    if (typeof list === "number") {
-      typ_kind = list === /* Ttype_abstract */0 ? /* Ttype_abstract */0 : /* Ttype_open */1;
-    } else if (list.TAG === /* Ttype_variant */0) {
-      var list$1 = List.map(map_constructor_declaration, list._0);
-      typ_kind = {
-        TAG: /* Ttype_variant */0,
-        _0: list$1
-      };
-    } else {
-      var list$2 = List.map((function (ld) {
-              return {
-                      ld_id: ld.ld_id,
-                      ld_name: ld.ld_name,
-                      ld_mutable: ld.ld_mutable,
-                      ld_type: map_core_type(ld.ld_type),
-                      ld_loc: ld.ld_loc,
-                      ld_attributes: ld.ld_attributes
-                    };
-            }), list._0);
-      typ_kind = {
-        TAG: /* Ttype_record */1,
-        _0: list$2
-      };
-    }
-    var typ_manifest = may_map(map_core_type, decl$1.typ_manifest);
-    return Curry._1(funarg.leave_type_declaration, {
-                typ_id: decl$1.typ_id,
-                typ_name: decl$1.typ_name,
-                typ_params: typ_params,
-                typ_type: decl$1.typ_type,
-                typ_cstrs: typ_cstrs,
-                typ_kind: typ_kind,
-                typ_private: decl$1.typ_private,
-                typ_manifest: typ_manifest,
-                typ_loc: decl$1.typ_loc,
-                typ_attributes: decl$1.typ_attributes
               });
   };
   var map_expression = function (exp) {
@@ -26631,118 +26296,6 @@ function TypedtreeMap_MakeMap(funarg) {
                 exp_attributes: exp$1.exp_attributes
               });
   };
-  var map_class_structure = function (cs) {
-    var cs$1 = Curry._1(funarg.enter_class_structure, cs);
-    var cstr_self = map_pattern(cs$1.cstr_self);
-    var cstr_fields = List.map(map_class_field, cs$1.cstr_fields);
-    return Curry._1(funarg.leave_class_structure, {
-                cstr_self: cstr_self,
-                cstr_fields: cstr_fields,
-                cstr_type: cs$1.cstr_type,
-                cstr_meths: cs$1.cstr_meths
-              });
-  };
-  var map_binding = function (vb) {
-    return {
-            vb_pat: map_pattern(vb.vb_pat),
-            vb_expr: map_expression(vb.vb_expr),
-            vb_attributes: vb.vb_attributes,
-            vb_loc: vb.vb_loc
-          };
-  };
-  var map_class_expr = function (cexpr) {
-    var cexpr$1 = Curry._1(funarg.enter_class_expr, cexpr);
-    var clstr = cexpr$1.cl_desc;
-    var cl_desc;
-    switch (clstr.TAG | 0) {
-      case /* Tcl_ident */0 :
-          cl_desc = {
-            TAG: /* Tcl_ident */0,
-            _0: clstr._0,
-            _1: clstr._1,
-            _2: List.map(map_core_type, clstr._2)
-          };
-          break;
-      case /* Tcl_structure */1 :
-          cl_desc = {
-            TAG: /* Tcl_structure */1,
-            _0: map_class_structure(clstr._0)
-          };
-          break;
-      case /* Tcl_fun */2 :
-          cl_desc = {
-            TAG: /* Tcl_fun */2,
-            _0: clstr._0,
-            _1: map_pattern(clstr._1),
-            _2: List.map((function (param) {
-                    return [
-                            param[0],
-                            param[1],
-                            map_expression(param[2])
-                          ];
-                  }), clstr._2),
-            _3: map_class_expr(clstr._3),
-            _4: clstr._4
-          };
-          break;
-      case /* Tcl_apply */3 :
-          cl_desc = {
-            TAG: /* Tcl_apply */3,
-            _0: map_class_expr(clstr._0),
-            _1: List.map((function (param) {
-                    return [
-                            param[0],
-                            may_map(map_expression, param[1]),
-                            param[2]
-                          ];
-                  }), clstr._1)
-          };
-          break;
-      case /* Tcl_let */4 :
-          var rec_flat = clstr._0;
-          cl_desc = {
-            TAG: /* Tcl_let */4,
-            _0: rec_flat,
-            _1: List.map(map_binding, clstr._1),
-            _2: List.map((function (param) {
-                    return [
-                            param[0],
-                            param[1],
-                            map_expression(param[2])
-                          ];
-                  }), clstr._2),
-            _3: map_class_expr(clstr._3)
-          };
-          break;
-      case /* Tcl_constraint */5 :
-          var clty = clstr._1;
-          var cl = clstr._0;
-          cl_desc = clty !== undefined ? ({
-                TAG: /* Tcl_constraint */5,
-                _0: map_class_expr(cl),
-                _1: map_class_type(clty),
-                _2: clstr._2,
-                _3: clstr._3,
-                _4: clstr._4
-              }) : ({
-                TAG: /* Tcl_constraint */5,
-                _0: map_class_expr(cl),
-                _1: undefined,
-                _2: clstr._2,
-                _3: clstr._3,
-                _4: clstr._4
-              });
-          break;
-      
-    }
-    return Curry._1(funarg.leave_class_expr, {
-                cl_desc: cl_desc,
-                cl_loc: cexpr$1.cl_loc,
-                cl_type: cexpr$1.cl_type,
-                cl_env: cexpr$1.cl_env,
-                cl_attributes: cexpr$1.cl_attributes
-              });
-  };
   var map_pat_extra = function (pat_extra) {
     var ct = pat_extra[0];
     if (typeof ct === "number" || ct.TAG !== /* Tpat_constraint */0) {
@@ -26757,6 +26310,99 @@ function TypedtreeMap_MakeMap(funarg) {
               pat_extra[2]
             ];
     }
+  };
+  var map_core_type = function (ct) {
+    var ct$1 = Curry._1(funarg.enter_core_type, ct);
+    var list = ct$1.ctyp_desc;
+    var ctyp_desc;
+    if (typeof list === "number") {
+      ctyp_desc = ct$1.ctyp_desc;
+    } else {
+      switch (list.TAG | 0) {
+        case /* Ttyp_var */0 :
+            ctyp_desc = ct$1.ctyp_desc;
+            break;
+        case /* Ttyp_arrow */1 :
+            ctyp_desc = {
+              TAG: /* Ttyp_arrow */1,
+              _0: list._0,
+              _1: map_core_type(list._1),
+              _2: map_core_type(list._2)
+            };
+            break;
+        case /* Ttyp_tuple */2 :
+            ctyp_desc = {
+              TAG: /* Ttyp_tuple */2,
+              _0: List.map(map_core_type, list._0)
+            };
+            break;
+        case /* Ttyp_constr */3 :
+            ctyp_desc = {
+              TAG: /* Ttyp_constr */3,
+              _0: list._0,
+              _1: list._1,
+              _2: List.map(map_core_type, list._2)
+            };
+            break;
+        case /* Ttyp_object */4 :
+            ctyp_desc = {
+              TAG: /* Ttyp_object */4,
+              _0: List.map((function (param) {
+                      return [
+                              param[0],
+                              param[1],
+                              map_core_type(param[2])
+                            ];
+                    }), list._0),
+              _1: list._1
+            };
+            break;
+        case /* Ttyp_class */5 :
+            ctyp_desc = {
+              TAG: /* Ttyp_class */5,
+              _0: list._0,
+              _1: list._1,
+              _2: List.map(map_core_type, list._2)
+            };
+            break;
+        case /* Ttyp_alias */6 :
+            ctyp_desc = {
+              TAG: /* Ttyp_alias */6,
+              _0: map_core_type(list._0),
+              _1: list._1
+            };
+            break;
+        case /* Ttyp_variant */7 :
+            ctyp_desc = {
+              TAG: /* Ttyp_variant */7,
+              _0: List.map(map_row_field, list._0),
+              _1: list._1,
+              _2: list._2
+            };
+            break;
+        case /* Ttyp_poly */8 :
+            ctyp_desc = {
+              TAG: /* Ttyp_poly */8,
+              _0: list._0,
+              _1: map_core_type(list._1)
+            };
+            break;
+        case /* Ttyp_package */9 :
+            ctyp_desc = {
+              TAG: /* Ttyp_package */9,
+              _0: map_package_type(list._0)
+            };
+            break;
+        
+      }
+    }
+    return Curry._1(funarg.leave_core_type, {
+                ctyp_desc: ctyp_desc,
+                ctyp_type: ct$1.ctyp_type,
+                ctyp_env: ct$1.ctyp_env,
+                ctyp_loc: ct$1.ctyp_loc,
+                ctyp_attributes: ct$1.ctyp_attributes
+              });
   };
   var map_signature_item = function (item) {
     var item$1 = Curry._1(funarg.enter_signature_item, item);
@@ -26858,6 +26504,127 @@ function TypedtreeMap_MakeMap(funarg) {
                 sig_loc: item$1.sig_loc
               });
   };
+  var map_module_type = function (mty) {
+    var mty$1 = Curry._1(funarg.enter_module_type, mty);
+    var sg = mty$1.mty_desc;
+    var mty_desc;
+    switch (sg.TAG | 0) {
+      case /* Tmty_signature */1 :
+          mty_desc = {
+            TAG: /* Tmty_signature */1,
+            _0: map_signature(sg._0)
+          };
+          break;
+      case /* Tmty_functor */2 :
+          mty_desc = {
+            TAG: /* Tmty_functor */2,
+            _0: sg._0,
+            _1: sg._1,
+            _2: may_map(map_module_type, sg._2),
+            _3: map_module_type(sg._3)
+          };
+          break;
+      case /* Tmty_with */3 :
+          mty_desc = {
+            TAG: /* Tmty_with */3,
+            _0: map_module_type(sg._0),
+            _1: List.map((function (param) {
+                    return [
+                            param[0],
+                            param[1],
+                            map_with_constraint(param[2])
+                          ];
+                  }), sg._1)
+          };
+          break;
+      case /* Tmty_typeof */4 :
+          mty_desc = {
+            TAG: /* Tmty_typeof */4,
+            _0: map_module_expr(sg._0)
+          };
+          break;
+      case /* Tmty_ident */0 :
+      case /* Tmty_alias */5 :
+          mty_desc = mty$1.mty_desc;
+          break;
+      
+    }
+    return Curry._1(funarg.leave_module_type, {
+                mty_desc: mty_desc,
+                mty_type: mty$1.mty_type,
+                mty_env: mty$1.mty_env,
+                mty_loc: mty$1.mty_loc,
+                mty_attributes: mty$1.mty_attributes
+              });
+  };
+  var map_module_expr = function (mexpr) {
+    var mexpr$1 = Curry._1(funarg.enter_module_expr, mexpr);
+    var st = mexpr$1.mod_desc;
+    var mod_desc;
+    switch (st.TAG | 0) {
+      case /* Tmod_ident */0 :
+          mod_desc = mexpr$1.mod_desc;
+          break;
+      case /* Tmod_structure */1 :
+          mod_desc = {
+            TAG: /* Tmod_structure */1,
+            _0: map_structure(st._0)
+          };
+          break;
+      case /* Tmod_functor */2 :
+          mod_desc = {
+            TAG: /* Tmod_functor */2,
+            _0: st._0,
+            _1: st._1,
+            _2: may_map(map_module_type, st._2),
+            _3: map_module_expr(st._3)
+          };
+          break;
+      case /* Tmod_apply */3 :
+          mod_desc = {
+            TAG: /* Tmod_apply */3,
+            _0: map_module_expr(st._0),
+            _1: map_module_expr(st._1),
+            _2: st._2
+          };
+          break;
+      case /* Tmod_constraint */4 :
+          var mtype = st._2;
+          var mod_type = st._1;
+          var mexpr$2 = st._0;
+          mod_desc = mtype ? ({
+                TAG: /* Tmod_constraint */4,
+                _0: map_module_expr(mexpr$2),
+                _1: mod_type,
+                _2: /* Tmodtype_explicit */{
+                  _0: map_module_type(mtype._0)
+                },
+                _3: st._3
+              }) : ({
+                TAG: /* Tmod_constraint */4,
+                _0: map_module_expr(mexpr$2),
+                _1: mod_type,
+                _2: /* Tmodtype_implicit */0,
+                _3: st._3
+              });
+          break;
+      case /* Tmod_unpack */5 :
+          mod_desc = {
+            TAG: /* Tmod_unpack */5,
+            _0: map_expression(st._0),
+            _1: st._1
+          };
+          break;
+      
+    }
+    return Curry._1(funarg.leave_module_expr, {
+                mod_desc: mod_desc,
+                mod_loc: mexpr$1.mod_loc,
+                mod_type: mexpr$1.mod_type,
+                mod_env: mexpr$1.mod_env,
+                mod_attributes: mexpr$1.mod_attributes
+              });
+  };
   var map_class_type_field = function (ctf) {
     var ctf$1 = Curry._1(funarg.enter_class_type_field, ctf);
     var ct = ctf$1.ctf_desc;
@@ -26914,202 +26681,48 @@ function TypedtreeMap_MakeMap(funarg) {
                 ctf_attributes: ctf$1.ctf_attributes
               });
   };
-  var map_extension_constructor = function (ext) {
-    var ext$1 = Curry._1(funarg.enter_extension_constructor, ext);
-    var match = ext$1.ext_kind;
-    var ext_kind;
-    if (match.TAG === /* Text_decl */0) {
-      var args = List.map(map_core_type, match._0);
-      var ret = may_map(map_core_type, match._1);
-      ext_kind = {
-        TAG: /* Text_decl */0,
-        _0: args,
-        _1: ret
-      };
-    } else {
-      ext_kind = {
-        TAG: /* Text_rebind */1,
-        _0: match._0,
-        _1: match._1
-      };
-    }
-    return Curry._1(funarg.leave_extension_constructor, {
-                ext_id: ext$1.ext_id,
-                ext_name: ext$1.ext_name,
-                ext_type: ext$1.ext_type,
-                ext_kind: ext_kind,
-                ext_loc: ext$1.ext_loc,
-                ext_attributes: ext$1.ext_attributes
-              });
-  };
-  var map_value_description = function (v) {
-    var v$1 = Curry._1(funarg.enter_value_description, v);
-    var val_desc = map_core_type(v$1.val_desc);
-    return Curry._1(funarg.leave_value_description, {
-                val_id: v$1.val_id,
-                val_name: v$1.val_name,
-                val_desc: val_desc,
-                val_val: v$1.val_val,
-                val_prim: v$1.val_prim,
-                val_loc: v$1.val_loc,
-                val_attributes: v$1.val_attributes
-              });
-  };
-  var map_module_type_declaration = function (mtd) {
-    var mtd$1 = Curry._1(funarg.enter_module_type_declaration, mtd);
-    return Curry._1(funarg.leave_module_type_declaration, {
-                mtd_id: mtd$1.mtd_id,
-                mtd_name: mtd$1.mtd_name,
-                mtd_type: may_map(map_module_type, mtd$1.mtd_type),
-                mtd_attributes: mtd$1.mtd_attributes,
-                mtd_loc: mtd$1.mtd_loc
-              });
-  };
-  var map_type_extension = function (tyext) {
-    var tyext$1 = Curry._1(funarg.enter_type_extension, tyext);
-    var tyext_params = List.map(map_type_parameter, tyext$1.tyext_params);
-    var tyext_constructors = List.map(map_extension_constructor, tyext$1.tyext_constructors);
-    return Curry._1(funarg.leave_type_extension, {
-                tyext_path: tyext$1.tyext_path,
-                tyext_txt: tyext$1.tyext_txt,
-                tyext_params: tyext_params,
-                tyext_constructors: tyext_constructors,
-                tyext_private: tyext$1.tyext_private,
-                tyext_attributes: tyext$1.tyext_attributes
-              });
-  };
-  var map_class_declaration = function (cd) {
-    var cd$1 = Curry._1(funarg.enter_class_declaration, cd);
-    var ci_params = List.map(map_type_parameter, cd$1.ci_params);
-    var ci_expr = map_class_expr(cd$1.ci_expr);
-    return Curry._1(funarg.leave_class_declaration, {
-                ci_virt: cd$1.ci_virt,
-                ci_params: ci_params,
-                ci_id_name: cd$1.ci_id_name,
-                ci_id_class: cd$1.ci_id_class,
-                ci_id_class_type: cd$1.ci_id_class_type,
-                ci_id_object: cd$1.ci_id_object,
-                ci_id_typesharp: cd$1.ci_id_typesharp,
-                ci_expr: ci_expr,
-                ci_decl: cd$1.ci_decl,
-                ci_type_decl: cd$1.ci_type_decl,
-                ci_loc: cd$1.ci_loc,
-                ci_attributes: cd$1.ci_attributes
-              });
-  };
-  var map_class_type_declaration = function (cd) {
-    var cd$1 = Curry._1(funarg.enter_class_type_declaration, cd);
-    var ci_params = List.map(map_type_parameter, cd$1.ci_params);
-    var ci_expr = map_class_type(cd$1.ci_expr);
-    return Curry._1(funarg.leave_class_type_declaration, {
-                ci_virt: cd$1.ci_virt,
-                ci_params: ci_params,
-                ci_id_name: cd$1.ci_id_name,
-                ci_id_class: cd$1.ci_id_class,
-                ci_id_class_type: cd$1.ci_id_class_type,
-                ci_id_object: cd$1.ci_id_object,
-                ci_id_typesharp: cd$1.ci_id_typesharp,
-                ci_expr: ci_expr,
-                ci_decl: cd$1.ci_decl,
-                ci_type_decl: cd$1.ci_type_decl,
-                ci_loc: cd$1.ci_loc,
-                ci_attributes: cd$1.ci_attributes
-              });
-  };
-  var map_module_binding = function (x) {
-    return {
-            mb_id: x.mb_id,
-            mb_name: x.mb_name,
-            mb_expr: map_module_expr(x.mb_expr),
-            mb_attributes: x.mb_attributes,
-            mb_loc: x.mb_loc
-          };
-  };
-  var map_module_type = function (mty) {
-    var mty$1 = Curry._1(funarg.enter_module_type, mty);
-    var sg = mty$1.mty_desc;
-    var mty_desc;
-    switch (sg.TAG | 0) {
-      case /* Tmty_signature */1 :
-          mty_desc = {
-            TAG: /* Tmty_signature */1,
-            _0: map_signature(sg._0)
+  var map_class_type = function (ct) {
+    var ct$1 = Curry._1(funarg.enter_class_type, ct);
+    var csg = ct$1.cltyp_desc;
+    var cltyp_desc;
+    switch (csg.TAG | 0) {
+      case /* Tcty_constr */0 :
+          cltyp_desc = {
+            TAG: /* Tcty_constr */0,
+            _0: csg._0,
+            _1: csg._1,
+            _2: List.map(map_core_type, csg._2)
           };
           break;
-      case /* Tmty_functor */2 :
-          mty_desc = {
-            TAG: /* Tmty_functor */2,
-            _0: sg._0,
-            _1: sg._1,
-            _2: may_map(map_module_type, sg._2),
-            _3: map_module_type(sg._3)
+      case /* Tcty_signature */1 :
+          cltyp_desc = {
+            TAG: /* Tcty_signature */1,
+            _0: map_class_signature(csg._0)
           };
           break;
-      case /* Tmty_with */3 :
-          mty_desc = {
-            TAG: /* Tmty_with */3,
-            _0: map_module_type(sg._0),
-            _1: List.map((function (param) {
-                    return [
-                            param[0],
-                            param[1],
-                            map_with_constraint(param[2])
-                          ];
-                  }), sg._1)
+      case /* Tcty_arrow */2 :
+          cltyp_desc = {
+            TAG: /* Tcty_arrow */2,
+            _0: csg._0,
+            _1: map_core_type(csg._1),
+            _2: map_class_type(csg._2)
           };
-          break;
-      case /* Tmty_typeof */4 :
-          mty_desc = {
-            TAG: /* Tmty_typeof */4,
-            _0: map_module_expr(sg._0)
-          };
-          break;
-      case /* Tmty_ident */0 :
-      case /* Tmty_alias */5 :
-          mty_desc = mty$1.mty_desc;
           break;
       
     }
-    return Curry._1(funarg.leave_module_type, {
-                mty_desc: mty_desc,
-                mty_type: mty$1.mty_type,
-                mty_env: mty$1.mty_env,
-                mty_loc: mty$1.mty_loc,
-                mty_attributes: mty$1.mty_attributes
+    return Curry._1(funarg.leave_class_type, {
+                cltyp_desc: cltyp_desc,
+                cltyp_type: ct$1.cltyp_type,
+                cltyp_env: ct$1.cltyp_env,
+                cltyp_loc: ct$1.cltyp_loc,
+                cltyp_attributes: ct$1.cltyp_attributes
               });
   };
-  var map_with_constraint = function (cstr) {
-    var cstr$1 = Curry._1(funarg.enter_with_constraint, cstr);
-    var tmp;
-    switch (cstr$1.TAG | 0) {
-      case /* Twith_type */0 :
-          tmp = {
-            TAG: /* Twith_type */0,
-            _0: map_type_declaration(cstr$1._0)
-          };
-          break;
-      case /* Twith_typesubst */2 :
-          tmp = {
-            TAG: /* Twith_typesubst */2,
-            _0: map_type_declaration(cstr$1._0)
-          };
-          break;
-      case /* Twith_module */1 :
-      case /* Twith_modsubst */3 :
-          tmp = cstr$1;
-          break;
-      
-    }
-    return Curry._1(funarg.leave_with_constraint, tmp);
-  };
-  var map_signature = function (sg) {
-    var sg$1 = Curry._1(funarg.enter_signature, sg);
-    var sig_items = List.map(map_signature_item, sg$1.sig_items);
-    return Curry._1(funarg.leave_signature, {
-                sig_items: sig_items,
-                sig_type: sg$1.sig_type,
-                sig_final_env: sg$1.sig_final_env
-              });
+  var map_type_parameter = function (param) {
+    return [
+            map_core_type(param[0]),
+            param[1]
+          ];
   };
   var map_constructor_declaration = function (cd) {
     return {
@@ -27121,62 +26734,62 @@ function TypedtreeMap_MakeMap(funarg) {
             cd_attributes: cd.cd_attributes
           };
   };
-  var map_exp_extra = function (exp_extra) {
-    var attrs = exp_extra[2];
-    var loc = exp_extra[1];
-    var desc = exp_extra[0];
-    switch (desc.TAG | 0) {
-      case /* Texp_constraint */0 :
-          return [
-                  {
-                    TAG: /* Texp_constraint */0,
-                    _0: map_core_type(desc._0)
-                  },
-                  loc,
-                  attrs
-                ];
-      case /* Texp_coerce */1 :
-          var ct1 = desc._0;
-          if (ct1 !== undefined) {
+  var map_type_declaration = function (decl) {
+    var decl$1 = Curry._1(funarg.enter_type_declaration, decl);
+    var typ_params = List.map(map_type_parameter, decl$1.typ_params);
+    var typ_cstrs = List.map((function (param) {
             return [
-                    {
-                      TAG: /* Texp_coerce */1,
-                      _0: map_core_type(ct1),
-                      _1: map_core_type(desc._1)
-                    },
-                    loc,
-                    attrs
+                    map_core_type(param[0]),
+                    map_core_type(param[1]),
+                    param[2]
                   ];
-          } else {
-            return [
-                    {
-                      TAG: /* Texp_coerce */1,
-                      _0: undefined,
-                      _1: map_core_type(desc._1)
-                    },
-                    loc,
-                    attrs
-                  ];
-          }
-      case /* Texp_poly */3 :
-          var ct = desc._0;
-          if (ct !== undefined) {
-            return [
-                    {
-                      TAG: /* Texp_poly */3,
-                      _0: map_core_type(ct)
-                    },
-                    loc,
-                    attrs
-                  ];
-          } else {
-            return exp_extra;
-          }
-      case /* Texp_open */2 :
-      case /* Texp_newtype */4 :
-          return exp_extra;
-      
+          }), decl$1.typ_cstrs);
+    var list = decl$1.typ_kind;
+    var typ_kind;
+    if (typeof list === "number") {
+      typ_kind = list === /* Ttype_abstract */0 ? /* Ttype_abstract */0 : /* Ttype_open */1;
+    } else if (list.TAG === /* Ttype_variant */0) {
+      var list$1 = List.map(map_constructor_declaration, list._0);
+      typ_kind = {
+        TAG: /* Ttype_variant */0,
+        _0: list$1
+      };
+    } else {
+      var list$2 = List.map((function (ld) {
+              return {
+                      ld_id: ld.ld_id,
+                      ld_name: ld.ld_name,
+                      ld_mutable: ld.ld_mutable,
+                      ld_type: map_core_type(ld.ld_type),
+                      ld_loc: ld.ld_loc,
+                      ld_attributes: ld.ld_attributes
+                    };
+            }), list._0);
+      typ_kind = {
+        TAG: /* Ttype_record */1,
+        _0: list$2
+      };
     }
+    var typ_manifest = may_map(map_core_type, decl$1.typ_manifest);
+    return Curry._1(funarg.leave_type_declaration, {
+                typ_id: decl$1.typ_id,
+                typ_name: decl$1.typ_name,
+                typ_params: typ_params,
+                typ_type: decl$1.typ_type,
+                typ_cstrs: typ_cstrs,
+                typ_kind: typ_kind,
+                typ_private: decl$1.typ_private,
+                typ_manifest: typ_manifest,
+                typ_loc: decl$1.typ_loc,
+                typ_attributes: decl$1.typ_attributes
+              });
+  };
+  var map_case = function (param) {
+    return {
+            c_lhs: map_pattern(param.c_lhs),
+            c_guard: may_map(map_expression, param.c_guard),
+            c_rhs: map_expression(param.c_rhs)
+          };
   };
   var map_structure_item = function (item) {
     var item$1 = Curry._1(funarg.enter_structure_item, item);
@@ -27299,21 +26912,6 @@ function TypedtreeMap_MakeMap(funarg) {
                 str_env: item$1.str_env
               });
   };
-  var map_package_type = function (pack) {
-    var pack$1 = Curry._1(funarg.enter_package_type, pack);
-    var pack_fields = List.map((function (param) {
-            return [
-                    param[0],
-                    map_core_type(param[1])
-                  ];
-          }), pack$1.pack_fields);
-    return Curry._1(funarg.leave_package_type, {
-                pack_path: pack$1.pack_path,
-                pack_fields: pack_fields,
-                pack_type: pack$1.pack_type,
-                pack_txt: pack$1.pack_txt
-              });
-  };
   var map_row_field = function (rf) {
     if (rf.TAG === /* Ttag */0) {
       return {
@@ -27329,6 +26927,64 @@ function TypedtreeMap_MakeMap(funarg) {
               _0: map_core_type(rf._0)
             };
     }
+  };
+  var map_package_type = function (pack) {
+    var pack$1 = Curry._1(funarg.enter_package_type, pack);
+    var pack_fields = List.map((function (param) {
+            return [
+                    param[0],
+                    map_core_type(param[1])
+                  ];
+          }), pack$1.pack_fields);
+    return Curry._1(funarg.leave_package_type, {
+                pack_path: pack$1.pack_path,
+                pack_fields: pack_fields,
+                pack_type: pack$1.pack_type,
+                pack_txt: pack$1.pack_txt
+              });
+  };
+  var map_class_signature = function (cs) {
+    var cs$1 = Curry._1(funarg.enter_class_signature, cs);
+    var csig_self = map_core_type(cs$1.csig_self);
+    var csig_fields = List.map(map_class_type_field, cs$1.csig_fields);
+    return Curry._1(funarg.leave_class_signature, {
+                csig_self: csig_self,
+                csig_fields: csig_fields,
+                csig_type: cs$1.csig_type
+              });
+  };
+  var map_signature = function (sg) {
+    var sg$1 = Curry._1(funarg.enter_signature, sg);
+    var sig_items = List.map(map_signature_item, sg$1.sig_items);
+    return Curry._1(funarg.leave_signature, {
+                sig_items: sig_items,
+                sig_type: sg$1.sig_type,
+                sig_final_env: sg$1.sig_final_env
+              });
+  };
+  var map_with_constraint = function (cstr) {
+    var cstr$1 = Curry._1(funarg.enter_with_constraint, cstr);
+    var tmp;
+    switch (cstr$1.TAG | 0) {
+      case /* Twith_type */0 :
+          tmp = {
+            TAG: /* Twith_type */0,
+            _0: map_type_declaration(cstr$1._0)
+          };
+          break;
+      case /* Twith_typesubst */2 :
+          tmp = {
+            TAG: /* Twith_typesubst */2,
+            _0: map_type_declaration(cstr$1._0)
+          };
+          break;
+      case /* Twith_module */1 :
+      case /* Twith_modsubst */3 :
+          tmp = cstr$1;
+          break;
+      
+    }
+    return Curry._1(funarg.leave_with_constraint, tmp);
   };
   var map_class_description = function (cd) {
     var cd$1 = Curry._1(funarg.enter_class_description, cd);
@@ -27348,6 +27004,376 @@ function TypedtreeMap_MakeMap(funarg) {
                 ci_loc: cd$1.ci_loc,
                 ci_attributes: cd$1.ci_attributes
               });
+  };
+  var map_type_extension = function (tyext) {
+    var tyext$1 = Curry._1(funarg.enter_type_extension, tyext);
+    var tyext_params = List.map(map_type_parameter, tyext$1.tyext_params);
+    var tyext_constructors = List.map(map_extension_constructor, tyext$1.tyext_constructors);
+    return Curry._1(funarg.leave_type_extension, {
+                tyext_path: tyext$1.tyext_path,
+                tyext_txt: tyext$1.tyext_txt,
+                tyext_params: tyext_params,
+                tyext_constructors: tyext_constructors,
+                tyext_private: tyext$1.tyext_private,
+                tyext_attributes: tyext$1.tyext_attributes
+              });
+  };
+  var map_class_type_declaration = function (cd) {
+    var cd$1 = Curry._1(funarg.enter_class_type_declaration, cd);
+    var ci_params = List.map(map_type_parameter, cd$1.ci_params);
+    var ci_expr = map_class_type(cd$1.ci_expr);
+    return Curry._1(funarg.leave_class_type_declaration, {
+                ci_virt: cd$1.ci_virt,
+                ci_params: ci_params,
+                ci_id_name: cd$1.ci_id_name,
+                ci_id_class: cd$1.ci_id_class,
+                ci_id_class_type: cd$1.ci_id_class_type,
+                ci_id_object: cd$1.ci_id_object,
+                ci_id_typesharp: cd$1.ci_id_typesharp,
+                ci_expr: ci_expr,
+                ci_decl: cd$1.ci_decl,
+                ci_type_decl: cd$1.ci_type_decl,
+                ci_loc: cd$1.ci_loc,
+                ci_attributes: cd$1.ci_attributes
+              });
+  };
+  var map_extension_constructor = function (ext) {
+    var ext$1 = Curry._1(funarg.enter_extension_constructor, ext);
+    var match = ext$1.ext_kind;
+    var ext_kind;
+    if (match.TAG === /* Text_decl */0) {
+      var args = List.map(map_core_type, match._0);
+      var ret = may_map(map_core_type, match._1);
+      ext_kind = {
+        TAG: /* Text_decl */0,
+        _0: args,
+        _1: ret
+      };
+    } else {
+      ext_kind = {
+        TAG: /* Text_rebind */1,
+        _0: match._0,
+        _1: match._1
+      };
+    }
+    return Curry._1(funarg.leave_extension_constructor, {
+                ext_id: ext$1.ext_id,
+                ext_name: ext$1.ext_name,
+                ext_type: ext$1.ext_type,
+                ext_kind: ext_kind,
+                ext_loc: ext$1.ext_loc,
+                ext_attributes: ext$1.ext_attributes
+              });
+  };
+  var map_value_description = function (v) {
+    var v$1 = Curry._1(funarg.enter_value_description, v);
+    var val_desc = map_core_type(v$1.val_desc);
+    return Curry._1(funarg.leave_value_description, {
+                val_id: v$1.val_id,
+                val_name: v$1.val_name,
+                val_desc: val_desc,
+                val_val: v$1.val_val,
+                val_prim: v$1.val_prim,
+                val_loc: v$1.val_loc,
+                val_attributes: v$1.val_attributes
+              });
+  };
+  var map_module_type_declaration = function (mtd) {
+    var mtd$1 = Curry._1(funarg.enter_module_type_declaration, mtd);
+    return Curry._1(funarg.leave_module_type_declaration, {
+                mtd_id: mtd$1.mtd_id,
+                mtd_name: mtd$1.mtd_name,
+                mtd_type: may_map(map_module_type, mtd$1.mtd_type),
+                mtd_attributes: mtd$1.mtd_attributes,
+                mtd_loc: mtd$1.mtd_loc
+              });
+  };
+  var map_binding = function (vb) {
+    return {
+            vb_pat: map_pattern(vb.vb_pat),
+            vb_expr: map_expression(vb.vb_expr),
+            vb_attributes: vb.vb_attributes,
+            vb_loc: vb.vb_loc
+          };
+  };
+  var map_class_expr = function (cexpr) {
+    var cexpr$1 = Curry._1(funarg.enter_class_expr, cexpr);
+    var clstr = cexpr$1.cl_desc;
+    var cl_desc;
+    switch (clstr.TAG | 0) {
+      case /* Tcl_ident */0 :
+          cl_desc = {
+            TAG: /* Tcl_ident */0,
+            _0: clstr._0,
+            _1: clstr._1,
+            _2: List.map(map_core_type, clstr._2)
+          };
+          break;
+      case /* Tcl_structure */1 :
+          cl_desc = {
+            TAG: /* Tcl_structure */1,
+            _0: map_class_structure(clstr._0)
+          };
+          break;
+      case /* Tcl_fun */2 :
+          cl_desc = {
+            TAG: /* Tcl_fun */2,
+            _0: clstr._0,
+            _1: map_pattern(clstr._1),
+            _2: List.map((function (param) {
+                    return [
+                            param[0],
+                            param[1],
+                            map_expression(param[2])
+                          ];
+                  }), clstr._2),
+            _3: map_class_expr(clstr._3),
+            _4: clstr._4
+          };
+          break;
+      case /* Tcl_apply */3 :
+          cl_desc = {
+            TAG: /* Tcl_apply */3,
+            _0: map_class_expr(clstr._0),
+            _1: List.map((function (param) {
+                    return [
+                            param[0],
+                            may_map(map_expression, param[1]),
+                            param[2]
+                          ];
+                  }), clstr._1)
+          };
+          break;
+      case /* Tcl_let */4 :
+          var rec_flat = clstr._0;
+          cl_desc = {
+            TAG: /* Tcl_let */4,
+            _0: rec_flat,
+            _1: List.map(map_binding, clstr._1),
+            _2: List.map((function (param) {
+                    return [
+                            param[0],
+                            param[1],
+                            map_expression(param[2])
+                          ];
+                  }), clstr._2),
+            _3: map_class_expr(clstr._3)
+          };
+          break;
+      case /* Tcl_constraint */5 :
+          var clty = clstr._1;
+          var cl = clstr._0;
+          cl_desc = clty !== undefined ? ({
+                TAG: /* Tcl_constraint */5,
+                _0: map_class_expr(cl),
+                _1: map_class_type(clty),
+                _2: clstr._2,
+                _3: clstr._3,
+                _4: clstr._4
+              }) : ({
+                TAG: /* Tcl_constraint */5,
+                _0: map_class_expr(cl),
+                _1: undefined,
+                _2: clstr._2,
+                _3: clstr._3,
+                _4: clstr._4
+              });
+          break;
+      
+    }
+    return Curry._1(funarg.leave_class_expr, {
+                cl_desc: cl_desc,
+                cl_loc: cexpr$1.cl_loc,
+                cl_type: cexpr$1.cl_type,
+                cl_env: cexpr$1.cl_env,
+                cl_attributes: cexpr$1.cl_attributes
+              });
+  };
+  var map_class_structure = function (cs) {
+    var cs$1 = Curry._1(funarg.enter_class_structure, cs);
+    var cstr_self = map_pattern(cs$1.cstr_self);
+    var cstr_fields = List.map(map_class_field, cs$1.cstr_fields);
+    return Curry._1(funarg.leave_class_structure, {
+                cstr_self: cstr_self,
+                cstr_fields: cstr_fields,
+                cstr_type: cs$1.cstr_type,
+                cstr_meths: cs$1.cstr_meths
+              });
+  };
+  var map_class_field = function (cf) {
+    var cf$1 = Curry._1(funarg.enter_class_field, cf);
+    var exp = cf$1.cf_desc;
+    var cf_desc;
+    switch (exp.TAG | 0) {
+      case /* Tcf_inherit */0 :
+          cf_desc = {
+            TAG: /* Tcf_inherit */0,
+            _0: exp._0,
+            _1: map_class_expr(exp._1),
+            _2: exp._2,
+            _3: exp._3,
+            _4: exp._4
+          };
+          break;
+      case /* Tcf_val */1 :
+          var cty = exp._3;
+          var ident = exp._2;
+          var mut = exp._1;
+          var lab = exp._0;
+          cf_desc = cty.TAG === /* Tcfk_virtual */0 ? ({
+                TAG: /* Tcf_val */1,
+                _0: lab,
+                _1: mut,
+                _2: ident,
+                _3: {
+                  TAG: /* Tcfk_virtual */0,
+                  _0: map_core_type(cty._0)
+                },
+                _4: exp._4
+              }) : ({
+                TAG: /* Tcf_val */1,
+                _0: lab,
+                _1: mut,
+                _2: ident,
+                _3: {
+                  TAG: /* Tcfk_concrete */1,
+                  _0: cty._0,
+                  _1: map_expression(cty._1)
+                },
+                _4: exp._4
+              });
+          break;
+      case /* Tcf_method */2 :
+          var cty$1 = exp._2;
+          var priv = exp._1;
+          var lab$1 = exp._0;
+          cf_desc = cty$1.TAG === /* Tcfk_virtual */0 ? ({
+                TAG: /* Tcf_method */2,
+                _0: lab$1,
+                _1: priv,
+                _2: {
+                  TAG: /* Tcfk_virtual */0,
+                  _0: map_core_type(cty$1._0)
+                }
+              }) : ({
+                TAG: /* Tcf_method */2,
+                _0: lab$1,
+                _1: priv,
+                _2: {
+                  TAG: /* Tcfk_concrete */1,
+                  _0: cty$1._0,
+                  _1: map_expression(cty$1._1)
+                }
+              });
+          break;
+      case /* Tcf_constraint */3 :
+          cf_desc = {
+            TAG: /* Tcf_constraint */3,
+            _0: map_core_type(exp._0),
+            _1: map_core_type(exp._1)
+          };
+          break;
+      case /* Tcf_initializer */4 :
+          cf_desc = {
+            TAG: /* Tcf_initializer */4,
+            _0: map_expression(exp._0)
+          };
+          break;
+      case /* Tcf_attribute */5 :
+          cf_desc = exp;
+          break;
+      
+    }
+    return Curry._1(funarg.leave_class_field, {
+                cf_desc: cf_desc,
+                cf_loc: cf$1.cf_loc,
+                cf_attributes: cf$1.cf_attributes
+              });
+  };
+  var map_exp_extra = function (exp_extra) {
+    var attrs = exp_extra[2];
+    var loc = exp_extra[1];
+    var desc = exp_extra[0];
+    switch (desc.TAG | 0) {
+      case /* Texp_constraint */0 :
+          return [
+                  {
+                    TAG: /* Texp_constraint */0,
+                    _0: map_core_type(desc._0)
+                  },
+                  loc,
+                  attrs
+                ];
+      case /* Texp_coerce */1 :
+          var ct1 = desc._0;
+          if (ct1 !== undefined) {
+            return [
+                    {
+                      TAG: /* Texp_coerce */1,
+                      _0: map_core_type(ct1),
+                      _1: map_core_type(desc._1)
+                    },
+                    loc,
+                    attrs
+                  ];
+          } else {
+            return [
+                    {
+                      TAG: /* Texp_coerce */1,
+                      _0: undefined,
+                      _1: map_core_type(desc._1)
+                    },
+                    loc,
+                    attrs
+                  ];
+          }
+      case /* Texp_poly */3 :
+          var ct = desc._0;
+          if (ct !== undefined) {
+            return [
+                    {
+                      TAG: /* Texp_poly */3,
+                      _0: map_core_type(ct)
+                    },
+                    loc,
+                    attrs
+                  ];
+          } else {
+            return exp_extra;
+          }
+      case /* Texp_open */2 :
+      case /* Texp_newtype */4 :
+          return exp_extra;
+      
+    }
+  };
+  var map_class_declaration = function (cd) {
+    var cd$1 = Curry._1(funarg.enter_class_declaration, cd);
+    var ci_params = List.map(map_type_parameter, cd$1.ci_params);
+    var ci_expr = map_class_expr(cd$1.ci_expr);
+    return Curry._1(funarg.leave_class_declaration, {
+                ci_virt: cd$1.ci_virt,
+                ci_params: ci_params,
+                ci_id_name: cd$1.ci_id_name,
+                ci_id_class: cd$1.ci_id_class,
+                ci_id_class_type: cd$1.ci_id_class_type,
+                ci_id_object: cd$1.ci_id_object,
+                ci_id_typesharp: cd$1.ci_id_typesharp,
+                ci_expr: ci_expr,
+                ci_decl: cd$1.ci_decl,
+                ci_type_decl: cd$1.ci_type_decl,
+                ci_loc: cd$1.ci_loc,
+                ci_attributes: cd$1.ci_attributes
+              });
+  };
+  var map_module_binding = function (x) {
+    return {
+            mb_id: x.mb_id,
+            mb_name: x.mb_name,
+            mb_expr: map_module_expr(x.mb_expr),
+            mb_attributes: x.mb_attributes,
+            mb_loc: x.mb_loc
+          };
   };
   return {
           map_structure: map_structure,
@@ -27369,7 +27395,7 @@ try {
 }
 catch (raw_exn$2){
   var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-  if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+  if (exn$3.RE_EXN_ID === Stdlib.Not_found) {
     need_to_clear_env = true;
   } else {
     throw exn$3;
@@ -27629,8 +27655,8 @@ function clear_env(binary_annots) {
 }
 
 function output_cmt(oc, cmt) {
-  Stdlib__no_aliases.output_string(oc, "Caml2012T004");
-  return Caml_external_polyfill.resolve("caml_output_value")(oc, cmt, /* [] */0);
+  Stdlib.output_string(oc, "Caml2012T004");
+  return Stdlib.output_value(oc, cmt);
 }
 
 var saved_types = {
@@ -27670,7 +27696,7 @@ function record_value_dependency(vd1, vd2) {
 function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg) {
   if (binary_annotations.contents && !print_types.contents) {
     var imports$1 = imports(undefined);
-    var oc = Stdlib__no_aliases.open_out_bin(filename);
+    var oc = Stdlib.open_out_bin(filename);
     var this_crc;
     if (sg !== undefined) {
       var cmi_cmi_flags = recursive_types.contents ? ({
@@ -27712,8 +27738,7 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
       cmt_use_summaries: need_to_clear_env
     };
     output_cmt(oc, cmt);
-    Caml_io.caml_ml_flush(oc);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+    Stdlib.close_out(oc);
     var exit = 0;
     var cmd;
     try {
@@ -28072,7 +28097,7 @@ function in_pervasives(p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -28186,7 +28211,7 @@ function associate_fields(fields1, fields2) {
     if (!param[1]) {
       return [
               List.rev(p),
-              Stdlib__no_aliases.$at(List.rev(s), l),
+              Stdlib.$at(List.rev(s), l),
               List.rev(s$p)
             ];
     }
@@ -28194,7 +28219,7 @@ function associate_fields(fields1, fields2) {
       return [
               List.rev(p),
               List.rev(s),
-              Stdlib__no_aliases.$at(List.rev(s$p), param[1])
+              Stdlib.$at(List.rev(s$p), param[1])
             ];
     }
     var l$p = param[1];
@@ -28760,7 +28785,7 @@ function free_vars_rec(_real, _ty) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID !== Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID !== Stdlib.Not_found) {
               throw exn;
             }
             
@@ -29087,7 +29112,7 @@ function get_level(env, p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return binding_time(p);
     }
     throw exn;
@@ -29103,7 +29128,7 @@ function normalize_package_path(env, _p) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         t = undefined;
       } else {
         throw exn;
@@ -29312,7 +29337,7 @@ function generalize_expansive(env, var_level, _ty) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               variance = List.map((function (param) {
                       return Types_Variance.may_inv;
                     }), tyl);
@@ -29417,7 +29442,7 @@ function limited_generalize(ty0, ty) {
     }
     var match = Hashtbl.find(graph, ty$1.level);
     var parents = match[1];
-    parents.contents = Stdlib__no_aliases.$at(pty, parents.contents);
+    parents.contents = Stdlib.$at(pty, parents.contents);
   };
   var generalize_parents = function (ty) {
     var idx = ty.level;
@@ -29460,12 +29485,12 @@ function inv_type(hash, pty, ty) {
   var ty$1 = repr(ty);
   try {
     var inv = Curry._2(TypeHash.find, hash, ty$1);
-    inv.inv_parents = Stdlib__no_aliases.$at(pty, inv.inv_parents);
+    inv.inv_parents = Stdlib.$at(pty, inv.inv_parents);
     return ;
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var inv$1 = {
         inv_type: ty$1,
         inv_parents: pty
@@ -29494,8 +29519,8 @@ function compute_univars(ty) {
     }
     try {
       var univs = Curry._2(TypeHash.find, node_univars, inv.inv_type);
-      if (!mem$3(univ, univs.contents)) {
-        univs.contents = add$3(univ, univs.contents);
+      if (!Curry._2(mem$3, univ, univs.contents)) {
+        univs.contents = Curry._2(add$3, univ, univs.contents);
         return List.iter((function (param) {
                       return add_univar(univ, param);
                     }), inv.inv_parents);
@@ -29505,9 +29530,9 @@ function compute_univars(ty) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         Curry._3(TypeHash.add, node_univars, inv.inv_type, {
-              contents: singleton$2(univ)
+              contents: Curry._1(singleton$2, univ)
             });
         return List.iter((function (param) {
                       return add_univar(univ, param);
@@ -29528,7 +29553,7 @@ function compute_univars(ty) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return /* Empty */0;
       }
       throw exn;
@@ -29588,10 +29613,7 @@ function copy(env, partial, keep_names, ty) {
     if (ty$1.level === 100000000) {
       forget = 100000000;
     } else if (partial !== undefined) {
-      var param = Curry._1(partial[0], ty$1);
-      forget = (
-        param ? false : true
-      ) ? (
+      forget = Curry._1(is_empty$2, Curry._1(partial[0], ty$1)) ? (
           partial[1] ? ty$1.level : current_level.contents
         ) : 100000000;
     } else {
@@ -29797,18 +29819,7 @@ function copy(env, partial, keep_names, ty) {
                     return false;
                   }
                 };
-                var tmp$2 = false;
-                if (row$1.row_closed) {
-                  var tmp$3 = false;
-                  if (!row$1.row_fixed) {
-                    var param$1 = Curry._1(partial[0], ty$1);
-                    tmp$3 = (
-                      param$1 ? false : true
-                    ) && !List.for_all(not_reither, row$1.row_fields);
-                  }
-                  tmp$2 = tmp$3;
-                }
-                match$6 = tmp$2 ? [
+                match$6 = row$1.row_closed && !row$1.row_fixed && Curry._1(is_empty$2, Curry._1(partial[0], ty$1)) && !List.for_all(not_reither, row$1.row_fields) ? [
                     more$p$1,
                     {
                       row_fields: List.filter(not_reither)(row$1.row_fields),
@@ -29906,7 +29917,7 @@ function get_new_abstract_name(s) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       index = 0;
     } else {
       throw exn;
@@ -30123,23 +30134,19 @@ function instance_class(params, cty) {
 function diff_list(l1, l2) {
   if (l1 === l2) {
     return /* [] */0;
-  }
-  if (l1) {
+  } else if (l1) {
     return {
             hd: l1.hd,
             tl: diff_list(l1.tl, l2)
           };
+  } else {
+    return Stdlib.invalid_arg("Ctype.diff_list");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Ctype.diff_list",
-        Error: new Error()
-      };
 }
 
 function conflicts(free, bound) {
   var bound$1 = List.map(repr, bound);
-  return exists$1((function (t) {
+  return Curry._2(exists$1, (function (t) {
                 return List.memq(repr(t), bound$1);
               }), free);
 }
@@ -30151,7 +30158,7 @@ var delayed_copy = {
 function copy_sep(fixed, free, bound, visited, ty) {
   var ty$1 = repr(ty);
   var univars = Curry._1(free, ty$1);
-  if (univars ? false : true) {
+  if (Curry._1(is_empty$2, univars)) {
     if (ty$1.level !== 100000000) {
       return ty$1;
     }
@@ -30175,7 +30182,7 @@ function copy_sep(fixed, free, bound, visited, ty) {
     var dl = is_Tunivar(ty$1) ? /* [] */0 : diff_list(bound, match[1]);
     if (Caml_obj.caml_notequal(dl, /* [] */0) && conflicts(univars, dl)) {
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -30183,7 +30190,7 @@ function copy_sep(fixed, free, bound, visited, ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var t$1 = newvar(undefined, undefined);
       var match$1 = ty$1.desc;
       var visited$1;
@@ -30242,8 +30249,8 @@ function copy_sep(fixed, free, bound, visited, ty) {
               var tl$p = List.map((function (t) {
                       return newty2(current_level.contents, t.desc);
                     }), tl);
-              var bound$1 = Stdlib__no_aliases.$at(tl, bound);
-              var visited$2 = Stdlib__no_aliases.$at(List.map2((function (ty, t) {
+              var bound$1 = Stdlib.$at(tl, bound);
+              var visited$2 = Stdlib.$at(List.map2((function (ty, t) {
                           return [
                                   ty,
                                   [
@@ -30478,7 +30485,7 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
     }
     catch (raw_exn$1){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-      if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
         throw {
               RE_EXN_ID: Cannot_expand,
               Error: new Error()
@@ -30690,7 +30697,7 @@ function extract_concrete_typedecl(env, ty) {
   var match = ty$1.desc;
   if (typeof match === "number") {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -30712,7 +30719,7 @@ function extract_concrete_typedecl(env, ty) {
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.RE_EXN_ID === Cannot_expand) {
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
       }
@@ -30726,7 +30733,7 @@ function extract_concrete_typedecl(env, ty) {
           ];
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -30813,7 +30820,7 @@ function enforce_constraints(env, ty) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return ;
       }
       throw exn;
@@ -30865,7 +30872,7 @@ function generic_abbrev(env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -30894,7 +30901,7 @@ function generic_private_abbrev(env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -30918,7 +30925,7 @@ function is_contractive(env, ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -31083,7 +31090,7 @@ function unify_univar(t1, t2, _param) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return ;
           }
           throw exn;
@@ -31158,18 +31165,18 @@ function occur_univar(env, ty) {
       var tmp = false;
       if (ty$1.level >= 0) {
         var tmp$1;
-        if (bound ? false : true) {
+        if (Curry._1(is_empty$2, bound)) {
           ty$1.level = pivot_level - ty$1.level | 0;
           tmp$1 = true;
         } else {
           try {
-            var bound$p = find$1(ty$1, visited.contents);
-            if (exists$1((function(bound){
+            var bound$p = Curry._2(find$1, ty$1, visited.contents);
+            if (Curry._2(exists$1, (function(bound){
                   return function (x) {
-                    return !mem$3(x, bound);
+                    return !Curry._2(mem$3, x, bound);
                   }
                   }(bound)), bound$p)) {
-              visited.contents = add$4(ty$1, inter$2(bound, bound$p), visited.contents);
+              visited.contents = Curry._3(add$4, ty$1, Curry._2(inter$2, bound, bound$p), visited.contents);
               tmp$1 = true;
             } else {
               tmp$1 = false;
@@ -31177,8 +31184,8 @@ function occur_univar(env, ty) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
-              visited.contents = add$4(ty$1, bound, visited.contents);
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
+              visited.contents = Curry._3(add$4, ty$1, bound, visited.contents);
               tmp$1 = true;
             } else {
               throw exn;
@@ -31217,7 +31224,7 @@ function occur_univar(env, ty) {
             }
             catch (raw_exn$1){
               var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-              if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                 return List.iter((function(bound){
                           return function (param) {
                             return occur_rec(bound, param);
@@ -31227,7 +31234,7 @@ function occur_univar(env, ty) {
               throw exn$1;
             }
         case /* Tunivar */9 :
-            if (mem$3(ty$1, bound)) {
+            if (Curry._2(mem$3, ty$1, bound)) {
               return ;
             }
             throw {
@@ -31270,7 +31277,7 @@ function occur_univar(env, ty) {
 
 function add_univars(param, param$1) {
   return List.fold_left((function (s, param) {
-                return add$3(repr(param[0]), s);
+                return Curry._2(add$3, repr(param[0]), s);
               }), param, param$1);
 }
 
@@ -31281,7 +31288,7 @@ function get_univar_family(univar_pairs, univars) {
   var insert = function (s, param) {
     var cl2 = param[1];
     if (cl2 && List.exists((function (param) {
-              return mem$3(repr(param[0]), s);
+              return Curry._2(mem$3, repr(param[0]), s);
             }), param[0])) {
       return add_univars(s, cl2);
     } else {
@@ -31301,10 +31308,10 @@ function univars_escape(env, univar_pairs, vl, ty) {
     while(true) {
       var t = _t;
       var t$1 = repr(t);
-      if (mem$3(t$1, visited.contents)) {
+      if (Curry._2(mem$3, t$1, visited.contents)) {
         return ;
       }
-      visited.contents = add$3(t$1, visited.contents);
+      visited.contents = Curry._2(add$3, t$1, visited.contents);
       var match = t$1.desc;
       if (typeof match === "number") {
         return iter_type_expr(occur, t$1);
@@ -31326,13 +31333,13 @@ function univars_escape(env, univar_pairs, vl, ty) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 return List.iter(occur, tl);
               }
               throw exn;
             }
         case /* Tunivar */9 :
-            if (!mem$3(t$1, family)) {
+            if (!Curry._2(mem$3, t$1, family)) {
               return ;
             }
             throw {
@@ -31341,7 +31348,7 @@ function univars_escape(env, univar_pairs, vl, ty) {
                 };
         case /* Tpoly */10 :
             if (List.exists((function (t) {
-                      return mem$3(repr(t), family);
+                      return Curry._2(mem$3, repr(t), family);
                     }), match._1)) {
               return ;
             }
@@ -31373,13 +31380,13 @@ function enter_poly(env, univar_pairs, t1, tl1, t2, tl2, f) {
   var tl1$1 = List.map(repr, tl1);
   var tl2$1 = List.map(repr, tl2);
   if (List.exists((function (t) {
-            return mem$3(t, known_univars);
+            return Curry._2(mem$3, t, known_univars);
           }), tl1$1) && univars_escape(env, old_univars, tl1$1, newty2(current_level.contents, {
               TAG: /* Tpoly */10,
               _0: t2,
               _1: tl2$1
             })) || List.exists((function (t) {
-            return mem$3(t, known_univars);
+            return Curry._2(mem$3, t, known_univars);
           }), tl2$1) && univars_escape(env, old_univars, tl2$1, newty2(current_level.contents, {
               TAG: /* Tpoly */10,
               _0: t1,
@@ -31569,10 +31576,10 @@ function reify(env, t) {
   };
   var iterator = function (ty) {
     var ty$1 = repr(ty);
-    if (mem$3(ty$1, visited.contents)) {
+    if (Curry._2(mem$3, ty$1, visited.contents)) {
       return ;
     }
-    visited.contents = add$3(ty$1, visited.contents);
+    visited.contents = Curry._2(add$3, ty$1, visited.contents);
     var o = ty$1.desc;
     if (typeof o === "number") {
       return iter_type_expr(iterator, ty$1);
@@ -31659,7 +31666,7 @@ function is_newtype(env, p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -31692,7 +31699,7 @@ function expands_to_datatype(env, ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     if (exn.RE_EXN_ID === Cannot_expand) {
@@ -31779,7 +31786,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID === Stdlib.Not_found) {
           Curry._3(TypePairs.add, type_pairs, [
                 t1$p$1,
                 t2$p$1
@@ -31910,7 +31917,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                           }
                           catch (raw_exn$1){
                             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                            if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                            if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                               inj = List.map((function (param) {
                                       return false;
                                     }), tl1);
@@ -32081,7 +32088,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                       }
                       catch (raw_exn$2){
                         var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-                        if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                        if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
                           return ;
                         }
                         throw exn$2;
@@ -32454,7 +32461,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
             }
             catch (raw_exn$3){
               var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-              if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn$3.RE_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
               throw exn$3;
@@ -32652,7 +32659,7 @@ function find_newtype_level(env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -32808,7 +32815,7 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
           var decl = match[1];
           if (decl.type_arity !== 0) {
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                  RE_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }
@@ -32816,7 +32823,7 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
           if (typeof match$1 === "number") {
             if (match$1) {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                    RE_EXN_ID: Stdlib.Exit,
                     Error: new Error()
                   };
             }
@@ -32835,24 +32842,24 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
                 return complete(nl, ntl2);
               }
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                    RE_EXN_ID: Stdlib.Exit,
                     Error: new Error()
                   };
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                  RE_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                RE_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
           var exit$1 = 0;
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             if (allow_absent) {
               _nl1 = nl;
               continue ;
@@ -32862,9 +32869,9 @@ function complete_type_list(allow_absentOpt, env, nl1, lv2, mty2, nl2, tl2) {
             exit$1 = 2;
           }
           if (exit$1 === 2) {
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+            if (exn.RE_EXN_ID === Stdlib.Exit) {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
@@ -32897,7 +32904,7 @@ function unify_package(env, unify_list, lv1, p1, n1, tl1, lv2, p2, n2, tl2) {
     return ;
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -32916,7 +32923,7 @@ function unify_eq(env, t1, t2) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -33057,863 +33064,77 @@ function unify(env, t1, t2) {
   }
 }
 
-function unify3(env, t1, t1$p, t2, t2$p) {
-  var d1 = t1$p.desc;
-  var d2 = t2$p.desc;
-  var create_recursion = t2 !== t2$p && deep_occur(t1$p, t2);
-  var exit = 0;
-  var exit$1 = 0;
-  if (typeof d1 === "number") {
-    exit$1 = 2;
-  } else {
-    switch (d1.TAG | 0) {
-      case /* Tvar */0 :
-          occur(env.contents, t1$p, t2);
-          occur_univar(env.contents, t2);
-          return link_type(t1$p, t2);
-      case /* Tfield */5 :
-          if (typeof d2 === "number") {
-            exit = 1;
-          } else {
-            switch (d2.TAG | 0) {
-              case /* Tvar */0 :
-                  exit$1 = 2;
-                  break;
-              case /* Tfield */5 :
-                  return unify_fields(env, t1$p, t2$p);
-              default:
-                exit = 1;
-            }
-          }
-          break;
-      case /* Tunivar */9 :
-          if (typeof d2 === "number") {
-            exit = 1;
-          } else {
-            switch (d2.TAG | 0) {
-              case /* Tvar */0 :
-                  exit$1 = 2;
-                  break;
-              case /* Tunivar */9 :
-                  unify_univar(t1$p, t2$p, univar_pairs.contents);
-                  return link_type(t1$p, t2$p);
-              default:
-                exit = 1;
-            }
-          }
-          break;
-      default:
-        exit$1 = 2;
-    }
-  }
-  if (exit$1 === 2) {
-    if (typeof d2 === "number") {
-      exit = 1;
-    } else {
-      if (d2.TAG === /* Tvar */0) {
-        occur(env.contents, t2$p, t1);
-        occur_univar(env.contents, t1);
-        return link_type(t2$p, t1);
-      }
-      exit = 1;
-    }
-  }
-  if (exit === 1) {
-    var match = umode.contents;
-    if (match) {
-      add_type_equality(t1$p, t2$p);
-    } else {
-      occur(env.contents, t1$p, t2$p);
-      link_type(t1$p, t2);
-    }
-    try {
-      var exit$2 = 0;
-      var f;
-      var kind;
-      var rem;
-      var exit$3 = 0;
-      var exit$4 = 0;
-      if (typeof d1 === "number") {
-        if (typeof d2 !== "number") {
-          switch (d2.TAG | 0) {
-            case /* Tconstr */3 :
-                exit$4 = 5;
-                break;
-            case /* Tfield */5 :
-                f = d2._0;
-                kind = d2._1;
-                rem = d2._3;
-                exit$2 = 3;
-                break;
-            default:
-              throw {
-                    RE_EXN_ID: Unify,
-                    _1: /* [] */0,
-                    Error: new Error()
-                  };
-          }
-        }
-        
-      } else {
-        switch (d1.TAG | 0) {
-          case /* Tarrow */1 :
-              var l1 = d1._0;
-              if (typeof d2 === "number") {
-                throw {
-                      RE_EXN_ID: Unify,
-                      _1: /* [] */0,
-                      Error: new Error()
-                    };
-              }
-              switch (d2.TAG | 0) {
-                case /* Tarrow */1 :
-                    var l2 = d2._0;
-                    if (l1 === l2 || classic.contents && !(is_optional(l1) || is_optional(l2))) {
-                      unify(env, d1._1, d2._1);
-                      unify(env, d1._2, d2._2);
-                      var match$1 = commu_repr(d1._3);
-                      var match$2 = commu_repr(d2._3);
-                      if (typeof match$1 === "number") {
-                        if (typeof match$2 === "number") {
-                          
-                        } else {
-                          set_commu(match$2._0, match$1);
-                        }
-                      } else {
-                        set_commu(match$1._0, match$2);
-                      }
-                    } else {
+function unify_fields(env, ty1, ty2) {
+  var match = flatten_fields(ty1);
+  var rest1 = match[1];
+  var match$1 = flatten_fields(ty2);
+  var rest2 = match$1[1];
+  var match$2 = associate_fields(match[0], match$1[0]);
+  var miss2 = match$2[2];
+  var miss1 = match$2[1];
+  var l1 = repr(ty1).level;
+  var l2 = repr(ty2).level;
+  var va = make_rowvar(l1 < l2 ? l1 : l2, Caml_obj.caml_equal(miss2, /* [] */0), rest1, Caml_obj.caml_equal(miss1, /* [] */0), rest2);
+  var d1 = rest1.desc;
+  var d2 = rest2.desc;
+  try {
+    unify(env, build_fields(l1)(miss1, va), rest2);
+    unify(env, rest1, build_fields(l2)(miss2, va));
+    return List.iter((function (param) {
+                  var t2 = param[4];
+                  var k2 = param[3];
+                  var t1 = param[2];
+                  var k1 = param[1];
+                  var n = param[0];
+                  unify_kind(k1, k2);
+                  try {
+                    if (trace_gadt_instances.contents) {
+                      update_level(env.contents, va.level, t1);
+                    }
+                    return unify(env, t1, t2);
+                  }
+                  catch (raw_trace){
+                    var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+                    if (trace.RE_EXN_ID === Unify) {
+                      var desc_3 = newty2(current_level.contents, /* Tnil */0);
+                      var desc = {
+                        TAG: /* Tfield */5,
+                        _0: n,
+                        _1: k1,
+                        _2: t1,
+                        _3: desc_3
+                      };
+                      var desc_3$1 = newty2(current_level.contents, /* Tnil */0);
+                      var desc$1 = {
+                        TAG: /* Tfield */5,
+                        _0: n,
+                        _1: k2,
+                        _2: t2,
+                        _3: desc_3$1
+                      };
                       throw {
                             RE_EXN_ID: Unify,
-                            _1: /* [] */0,
+                            _1: {
+                              hd: [
+                                newty2(current_level.contents, desc),
+                                newty2(current_level.contents, desc$1)
+                              ],
+                              tl: trace._1
+                            },
                             Error: new Error()
                           };
                     }
-                    break;
-                case /* Tconstr */3 :
-                    exit$4 = 5;
-                    break;
-                default:
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-              }
-              break;
-          case /* Ttuple */2 :
-              if (typeof d2 === "number") {
-                throw {
-                      RE_EXN_ID: Unify,
-                      _1: /* [] */0,
-                      Error: new Error()
-                    };
-              }
-              switch (d2.TAG | 0) {
-                case /* Ttuple */2 :
-                    unify_list(env, d1._0, d2._0);
-                    break;
-                case /* Tconstr */3 :
-                    exit$4 = 5;
-                    break;
-                default:
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-              }
-              break;
-          case /* Tconstr */3 :
-              var p1 = d1._0;
-              var exit$5 = 0;
-              if (typeof d2 === "number" || d2.TAG !== /* Tconstr */3) {
-                exit$5 = 6;
-              } else {
-                var tl2 = d2._1;
-                var tl1 = d1._1;
-                if (same(p1, d2._0)) {
-                  if (umode.contents === /* Expression */0 || !generate_equations.contents) {
-                    unify_list(env, tl1, tl2);
-                  } else if (assume_injective.contents) {
-                    set_mode_pattern(true, false, (function (param) {
-                            return unify_list(env, tl1, tl2);
-                          }));
-                  } else {
-                    var tmp = true;
-                    if (!in_current_module(p1)) {
-                      var partial_arg = env.contents;
-                      tmp = List.exists((function (param) {
-                              return expands_to_datatype(partial_arg, param);
-                            }), {
-                            hd: t1$p,
-                            tl: {
-                              hd: t1,
-                              tl: {
-                                hd: t2,
-                                tl: /* [] */0
-                              }
-                            }
-                          });
-                    }
-                    if (tmp) {
-                      unify_list(env, tl1, tl2);
-                    } else {
-                      var inj;
-                      try {
-                        inj = List.map(Curry._1(Types_Variance.mem, /* Inj */3), find_type_full(p1, env.contents)[0].type_variance);
-                      }
-                      catch (raw_exn){
-                        var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
-                          inj = List.map((function (param) {
-                                  return false;
-                                }), tl1);
-                        } else {
-                          throw exn;
-                        }
-                      }
-                      List.iter2((function (i, param) {
-                              var t2 = param[1];
-                              var t1 = param[0];
-                              if (i) {
-                                return unify(env, t1, t2);
-                              } else {
-                                return set_mode_pattern(false, false, (function (param) {
-                                              var snap = snapshot(undefined);
-                                              try {
-                                                return unify(env, t1, t2);
-                                              }
-                                              catch (raw_exn){
-                                                var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                                                if (exn.RE_EXN_ID === Unify) {
-                                                  backtrack(snap);
-                                                  reify(env, t1);
-                                                  return reify(env, t2);
-                                                }
-                                                throw exn;
-                                              }
-                                            }));
-                              }
-                            }), inj, List.combine(tl1, tl2));
-                    }
+                    throw trace;
                   }
-                } else {
-                  exit$5 = 6;
-                }
-              }
-              if (exit$5 === 6) {
-                switch (p1.TAG | 0) {
-                  case /* Pident */0 :
-                      if (d1._1) {
-                        exit$4 = 5;
-                      } else {
-                        var p = p1._0;
-                        var exit$6 = 0;
-                        if (typeof d2 === "number" || d2.TAG !== /* Tconstr */3) {
-                          exit$6 = 7;
-                        } else {
-                          var path$p = d2._0;
-                          switch (path$p.TAG | 0) {
-                            case /* Pident */0 :
-                                if (d2._1 || !(is_newtype(env.contents, p1) && is_newtype(env.contents, path$p) && generate_equations.contents)) {
-                                  exit$6 = 7;
-                                } else {
-                                  var match$3 = Caml_obj.caml_greaterthan(find_newtype_level(env.contents, p1), find_newtype_level(env.contents, path$p)) ? [
-                                      p,
-                                      t2$p
-                                    ] : [
-                                      path$p._0,
-                                      t1$p
-                                    ];
-                                  add_gadt_equation(env, match$3[0], match$3[1]);
-                                }
-                                break;
-                            case /* Pdot */1 :
-                            case /* Papply */2 :
-                                exit$6 = 7;
-                                break;
-                            
-                          }
-                        }
-                        if (exit$6 === 7) {
-                          if (is_newtype(env.contents, p1) && generate_equations.contents) {
-                            reify(env, t2$p);
-                            add_gadt_equation(env, p, t2$p);
-                          } else {
-                            exit$4 = 5;
-                          }
-                        }
-                        
-                      }
-                      break;
-                  case /* Pdot */1 :
-                  case /* Papply */2 :
-                      exit$4 = 5;
-                      break;
-                  
-                }
-              }
-              break;
-          case /* Tobject */4 :
-              if (typeof d2 === "number") {
-                throw {
-                      RE_EXN_ID: Unify,
-                      _1: /* [] */0,
-                      Error: new Error()
-                    };
-              }
-              switch (d2.TAG | 0) {
-                case /* Tconstr */3 :
-                    exit$4 = 5;
-                    break;
-                case /* Tobject */4 :
-                    unify_fields(env, d1._0, d2._0);
-                    var match$4 = repr(t2$p).desc;
-                    if (typeof match$4 !== "number" && match$4.TAG === /* Tobject */4) {
-                      var exit$7 = 0;
-                      var match$5 = match$4._1.contents;
-                      if (match$5 !== undefined) {
-                        var match$6 = match$5[1];
-                        if (match$6) {
-                          var match$7 = repr(match$6.hd).desc;
-                          var tmp$1;
-                          if (typeof match$7 === "number") {
-                            tmp$1 = true;
-                          } else {
-                            switch (match$7.TAG | 0) {
-                              case /* Tvar */0 :
-                              case /* Tunivar */9 :
-                                  tmp$1 = true;
-                                  break;
-                              default:
-                                tmp$1 = false;
-                            }
-                          }
-                          if (!tmp$1) {
-                            exit$7 = 6;
-                          }
-                          
-                        } else {
-                          exit$7 = 6;
-                        }
-                      } else {
-                        exit$7 = 6;
-                      }
-                      if (exit$7 === 6) {
-                        set_name(match$4._1, d1._1.contents);
-                      }
-                      
-                    }
-                    break;
-                default:
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-              }
-              break;
-          case /* Tfield */5 :
-              if (typeof d2 === "number") {
-                f = d1._0;
-                kind = d1._1;
-                rem = d1._3;
-                exit$2 = 3;
-              } else if (d2.TAG === /* Tconstr */3) {
-                exit$4 = 5;
-              } else {
-                throw {
-                      RE_EXN_ID: Unify,
-                      _1: /* [] */0,
-                      Error: new Error()
-                    };
-              }
-              break;
-          case /* Tvariant */8 :
-              var row1 = d1._0;
-              if (typeof d2 === "number") {
-                throw {
-                      RE_EXN_ID: Unify,
-                      _1: /* [] */0,
-                      Error: new Error()
-                    };
-              }
-              switch (d2.TAG | 0) {
-                case /* Tconstr */3 :
-                    exit$4 = 5;
-                    break;
-                case /* Tvariant */8 :
-                    var row2 = d2._0;
-                    if (umode.contents === /* Expression */0) {
-                      unify_row(env, row1, row2);
-                    } else {
-                      var snap = snapshot(undefined);
-                      try {
-                        unify_row(env, row1, row2);
-                      }
-                      catch (raw_exn$1){
-                        var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                        if (exn$1.RE_EXN_ID === Unify) {
-                          backtrack(snap);
-                          reify(env, t1$p);
-                          reify(env, t2$p);
-                          if (generate_equations.contents) {
-                            mcomp$1(env.contents, t1$p, t2$p);
-                          }
-                          
-                        } else {
-                          throw exn$1;
-                        }
-                      }
-                    }
-                    break;
-                default:
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-              }
-              break;
-          case /* Tpoly */10 :
-              var tl1$1 = d1._1;
-              var t1$1 = d1._0;
-              var exit$8 = 0;
-              if (tl1$1) {
-                exit$8 = 6;
-              } else {
-                if (typeof d2 === "number") {
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-                }
-                switch (d2.TAG | 0) {
-                  case /* Tconstr */3 :
-                      exit$4 = 5;
-                      break;
-                  case /* Tpoly */10 :
-                      if (d2._1) {
-                        exit$8 = 6;
-                      } else {
-                        unify(env, t1$1, d2._0);
-                      }
-                      break;
-                  default:
-                    throw {
-                          RE_EXN_ID: Unify,
-                          _1: /* [] */0,
-                          Error: new Error()
-                        };
-                }
-              }
-              if (exit$8 === 6) {
-                if (typeof d2 === "number") {
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-                }
-                switch (d2.TAG | 0) {
-                  case /* Tconstr */3 :
-                      exit$4 = 5;
-                      break;
-                  case /* Tpoly */10 :
-                      enter_poly(env.contents, univar_pairs, t1$1, tl1$1, d2._0, d2._1, (function (param, param$1) {
-                              return unify(env, param, param$1);
-                            }));
-                      break;
-                  default:
-                    throw {
-                          RE_EXN_ID: Unify,
-                          _1: /* [] */0,
-                          Error: new Error()
-                        };
-                }
-              }
-              break;
-          case /* Tpackage */11 :
-              var tl1$2 = d1._2;
-              if (typeof d2 === "number") {
-                throw {
-                      RE_EXN_ID: Unify,
-                      _1: /* [] */0,
-                      Error: new Error()
-                    };
-              }
-              switch (d2.TAG | 0) {
-                case /* Tconstr */3 :
-                    exit$4 = 5;
-                    break;
-                case /* Tpackage */11 :
-                    var tl2$1 = d2._2;
-                    try {
-                      unify_package(env.contents, (function (param, param$1) {
-                              return unify_list(env, param, param$1);
-                            }), t1.level, d1._0, d1._1, tl1$2, t2.level, d2._0, d2._1, tl2$1);
-                    }
-                    catch (raw_exn$2){
-                      var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-                      if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
-                        if (umode.contents === /* Expression */0) {
-                          throw {
-                                RE_EXN_ID: Unify,
-                                _1: /* [] */0,
-                                Error: new Error()
-                              };
-                        }
-                        List.iter((function (param) {
-                                return reify(env, param);
-                              }), Stdlib__no_aliases.$at(tl1$2, tl2$1));
-                      } else {
-                        throw exn$2;
-                      }
-                    }
-                    break;
-                default:
-                  throw {
-                        RE_EXN_ID: Unify,
-                        _1: /* [] */0,
-                        Error: new Error()
-                      };
-              }
-              break;
-          default:
-            exit$4 = 5;
-        }
-      }
-      if (exit$4 === 5) {
-        if (typeof d2 === "number" || d2.TAG !== /* Tconstr */3) {
-          exit$3 = 4;
-        } else {
-          var path = d2._0;
-          switch (path.TAG | 0) {
-            case /* Pident */0 :
-                if (d2._1 || !(is_newtype(env.contents, path) && generate_equations.contents)) {
-                  exit$2 = 2;
-                } else {
-                  reify(env, t1$p);
-                  add_gadt_equation(env, path._0, t1$p);
-                }
-                break;
-            case /* Pdot */1 :
-            case /* Papply */2 :
-                exit$2 = 2;
-                break;
-            
-          }
-        }
-      }
-      if (exit$3 === 4) {
-        if (typeof d1 === "number") {
-          throw {
-                RE_EXN_ID: Unify,
-                _1: /* [] */0,
-                Error: new Error()
-              };
-        }
-        if (d1.TAG === /* Tconstr */3) {
-          exit$2 = 2;
-        } else {
-          throw {
-                RE_EXN_ID: Unify,
-                _1: /* [] */0,
-                Error: new Error()
-              };
-        }
-      }
-      switch (exit$2) {
-        case 2 :
-            if (umode.contents === /* Pattern */1) {
-              reify(env, t1$p);
-              reify(env, t2$p);
-              if (generate_equations.contents) {
-                mcomp$1(env.contents, t1$p, t2$p);
-              }
-              
-            } else {
-              throw {
-                    RE_EXN_ID: Unify,
-                    _1: /* [] */0,
-                    Error: new Error()
-                  };
-            }
-            break;
-        case 3 :
-            var r = field_kind_repr(kind);
-            if (typeof r === "number") {
-              throw {
-                    RE_EXN_ID: Unify,
-                    _1: /* [] */0,
-                    Error: new Error()
-                  };
-            }
-            if (f !== dummy_method) {
-              set_kind(r._0, /* Fabsent */1);
-              if (Caml_obj.caml_equal(d2, /* Tnil */0)) {
-                unify(env, rem, t2$p);
-              } else {
-                unify(env, newty2(rem.level, /* Tnil */0), rem);
-              }
-            } else {
-              throw {
-                    RE_EXN_ID: Unify,
-                    _1: /* [] */0,
-                    Error: new Error()
-                  };
-            }
-            break;
-        
-      }
-      if (!create_recursion) {
-        return ;
-      }
-      var match$8 = t2.desc;
-      if (typeof match$8 === "number") {
-        return ;
-      }
-      if (match$8.TAG !== /* Tconstr */3) {
-        return ;
-      }
-      forget_abbrev(match$8._2, match$8._0);
-      var t2$p$p = expand_head_unif(env.contents, t2);
-      if (!closed_parameterized_type(match$8._1, t2$p$p)) {
-        return link_type(repr(t2), repr(t2$p));
-      } else {
-        return ;
-      }
-    }
-    catch (raw_trace){
-      var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-      if (trace.RE_EXN_ID === Unify) {
-        t1$p.desc = d1;
-        throw {
-              RE_EXN_ID: Unify,
-              _1: trace._1,
-              Error: new Error()
-            };
-      }
-      throw trace;
-    }
+                }), match$2[0]);
   }
-  
-}
-
-function unify2(env, t1, t2) {
-  var expand_both = function (_t1$p$p, _t2$p$p) {
-    while(true) {
-      var t2$p$p = _t2$p$p;
-      var t1$p$p = _t1$p$p;
-      var t1$p = expand_head_unif(env.contents, t1);
-      var t2$p = expand_head_unif(env.contents, t2);
-      if (unify_eq(env.contents, t1$p, t1$p$p) && unify_eq(env.contents, t2$p, t2$p$p)) {
-        return [
-                t1$p,
-                t2$p
-              ];
-      }
-      _t2$p$p = t2$p;
-      _t1$p$p = t1$p;
-      continue ;
-    };
-  };
-  var match = expand_both(t1, t2);
-  var t2$p = match[1];
-  var t1$p = match[0];
-  var lv = t1$p.level < t2$p.level ? t1$p.level : t2$p.level;
-  update_level(env.contents, lv, t2);
-  update_level(env.contents, lv, t1);
-  if (unify_eq(env.contents, t1$p, t2$p)) {
-    return ;
+  catch (exn){
+    log_type(rest1);
+    rest1.desc = d1;
+    log_type(rest2);
+    rest2.desc = d2;
+    throw exn;
   }
-  var t1$1 = repr(t1);
-  var t2$1 = repr(t2);
-  if (trace_gadt_instances.contents) {
-    var ilevel = function (t) {
-      var lv = gadt_instance_level(env.contents, t);
-      if (lv !== undefined) {
-        return lv;
-      } else {
-        return 0;
-      }
-    };
-    var lv1 = ilevel(t1$1);
-    var lv2 = ilevel(t2$1);
-    if (lv1 > lv2) {
-      add_gadt_instance_chain(env.contents, lv1, t2$1);
-    } else if (lv2 > lv1) {
-      add_gadt_instance_chain(env.contents, lv2, t1$1);
-    }
-    
-  }
-  var match$1;
-  if (principal.contents && (find_lowest_level(t1$p) < lv || find_lowest_level(t2$p) < lv)) {
-    var match$2 = t1$1.desc;
-    var tmp;
-    tmp = typeof match$2 === "number" || !(match$2.TAG === /* Tconstr */3 && !match$2._1) ? t1$1 : t1$p;
-    var match$3 = t2$1.desc;
-    var tmp$1;
-    tmp$1 = typeof match$3 === "number" || !(match$3.TAG === /* Tconstr */3 && !match$3._1) ? t2$1 : t2$p;
-    match$1 = [
-      tmp,
-      tmp$1
-    ];
-  } else {
-    match$1 = [
-      t1$1,
-      t2$1
-    ];
-  }
-  var t2$2 = match$1[1];
-  var t1$2 = match$1[0];
-  if (unify_eq(env.contents, t1$2, t1$p) || !unify_eq(env.contents, t2$2, t2$p)) {
-    return unify3(env, t1$2, t1$p, t2$2, t2$p);
-  }
-  try {
-    return unify3(env, t2$2, t2$p, t1$2, t1$p);
-  }
-  catch (raw_trace){
-    var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-    if (trace.RE_EXN_ID === Unify) {
-      throw {
-            RE_EXN_ID: Unify,
-            _1: List.map((function (param) {
-                    return [
-                            param[1],
-                            param[0]
-                          ];
-                  }), trace._1),
-            Error: new Error()
-          };
-    }
-    throw trace;
-  }
-}
-
-function make_rowvar(level, use1, rest1, use2, rest2) {
-  var set_name = function (ty, name) {
-    var match = ty.desc;
-    if (typeof match === "number" || !(match.TAG === /* Tvar */0 && match._0 === undefined)) {
-      return ;
-    } else {
-      log_type(ty);
-      ty.desc = {
-        TAG: /* Tvar */0,
-        _0: name
-      };
-      return ;
-    }
-  };
-  var match = rest1.desc;
-  var match$1 = rest2.desc;
-  var name;
-  var exit = 0;
-  if (typeof match === "number" || match.TAG !== /* Tvar */0) {
-    exit = 1;
-  } else {
-    var name1 = match._0;
-    if (name1 !== undefined) {
-      var exit$1 = 0;
-      if (typeof match$1 === "number" || match$1.TAG !== /* Tvar */0) {
-        exit$1 = 2;
-      } else {
-        var name2 = match$1._0;
-        if (name2 !== undefined) {
-          name = rest1.level <= rest2.level ? name1 : name2;
-        } else {
-          exit$1 = 2;
-        }
-      }
-      if (exit$1 === 2) {
-        if (use2) {
-          set_name(rest2, name1);
-        }
-        name = name1;
-      }
-      
-    } else {
-      exit = 1;
-    }
-  }
-  if (exit === 1) {
-    if (typeof match$1 === "number" || match$1.TAG !== /* Tvar */0) {
-      name = undefined;
-    } else {
-      var name$1 = match$1._0;
-      if (name$1 !== undefined) {
-        if (use1) {
-          set_name(rest2, name$1);
-        }
-        name = name$1;
-      } else {
-        name = undefined;
-      }
-    }
-  }
-  if (use1) {
-    return rest1;
-  } else if (use2) {
-    return rest2;
-  } else {
-    return newty2(level, {
-                TAG: /* Tvar */0,
-                _0: name
-              });
-  }
-}
-
-function unify_kind(k1, k2) {
-  var k1$1 = field_kind_repr(k1);
-  var k2$1 = field_kind_repr(k2);
-  if (k1$1 === k2$1) {
-    return ;
-  }
-  if (typeof k1$1 === "number") {
-    if (!k1$1) {
-      if (typeof k2$1 !== "number") {
-        return set_kind(k2$1._0, k1$1);
-      }
-      if (!k2$1) {
-        return ;
-      }
-      
-    }
-    
-  } else {
-    var r = k1$1._0;
-    if (typeof k2$1 !== "number") {
-      return set_kind(r, k2$1);
-    }
-    if (!k2$1) {
-      return set_kind(r, k2$1);
-    }
-    
-  }
-  throw {
-        RE_EXN_ID: "Assert_failure",
-        _1: [
-          "ocaml_typedtree_test.ml",
-          32644,
-          37
-        ],
-        Error: new Error()
-      };
-}
-
-function unify_list(env, tl1, tl2) {
-  if (List.length(tl1) !== List.length(tl2)) {
-    throw {
-          RE_EXN_ID: Unify,
-          _1: /* [] */0,
-          Error: new Error()
-        };
-  }
-  return List.iter2((function (param, param$1) {
-                return unify(env, param, param$1);
-              }), tl1, tl2);
 }
 
 function unify_row(env, row1, row2) {
@@ -33946,7 +33167,7 @@ function unify_row(env, row1, row2) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 return ;
               }
               throw exn;
@@ -34285,7 +33506,7 @@ function unify_row(env, row1, row2) {
                           var c2 = f2$2._0;
                           var redo = false;
                           if (m1 || m2 || fixed1 || fixed2 || rigid_variants.contents && (List.length(tl1) === 1 || List.length(tl2) === 1)) {
-                            var match = Stdlib__no_aliases.$at(tl1, tl2);
+                            var match = Stdlib.$at(tl1, tl2);
                             var tmp;
                             if (match) {
                               var t1$1 = match.hd;
@@ -34340,7 +33561,7 @@ function unify_row(env, row1, row2) {
                               return function (param) {
                                 return update_level(partial_arg$1, partial_arg, param);
                               }
-                              }(partial_arg,partial_arg$1)), Stdlib__no_aliases.$at(tl1$p, tl2$p));
+                              }(partial_arg,partial_arg$1)), Stdlib.$at(tl1$p, tl2$p));
                           var e = {
                             contents: undefined
                           };
@@ -34408,76 +33629,862 @@ function unify_row(env, row1, row2) {
   }
 }
 
-function unify_fields(env, ty1, ty2) {
-  var match = flatten_fields(ty1);
-  var rest1 = match[1];
-  var match$1 = flatten_fields(ty2);
-  var rest2 = match$1[1];
-  var match$2 = associate_fields(match[0], match$1[0]);
-  var miss2 = match$2[2];
-  var miss1 = match$2[1];
-  var l1 = repr(ty1).level;
-  var l2 = repr(ty2).level;
-  var va = make_rowvar(l1 < l2 ? l1 : l2, Caml_obj.caml_equal(miss2, /* [] */0), rest1, Caml_obj.caml_equal(miss1, /* [] */0), rest2);
-  var d1 = rest1.desc;
-  var d2 = rest2.desc;
-  try {
-    unify(env, build_fields(l1)(miss1, va), rest2);
-    unify(env, rest1, build_fields(l2)(miss2, va));
-    return List.iter((function (param) {
-                  var t2 = param[4];
-                  var k2 = param[3];
-                  var t1 = param[2];
-                  var k1 = param[1];
-                  var n = param[0];
-                  unify_kind(k1, k2);
-                  try {
-                    if (trace_gadt_instances.contents) {
-                      update_level(env.contents, va.level, t1);
-                    }
-                    return unify(env, t1, t2);
-                  }
-                  catch (raw_trace){
-                    var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-                    if (trace.RE_EXN_ID === Unify) {
-                      var desc_3 = newty2(current_level.contents, /* Tnil */0);
-                      var desc = {
-                        TAG: /* Tfield */5,
-                        _0: n,
-                        _1: k1,
-                        _2: t1,
-                        _3: desc_3
-                      };
-                      var desc_3$1 = newty2(current_level.contents, /* Tnil */0);
-                      var desc$1 = {
-                        TAG: /* Tfield */5,
-                        _0: n,
-                        _1: k2,
-                        _2: t2,
-                        _3: desc_3$1
-                      };
+function unify_list(env, tl1, tl2) {
+  if (List.length(tl1) !== List.length(tl2)) {
+    throw {
+          RE_EXN_ID: Unify,
+          _1: /* [] */0,
+          Error: new Error()
+        };
+  }
+  return List.iter2((function (param, param$1) {
+                return unify(env, param, param$1);
+              }), tl1, tl2);
+}
+
+function unify3(env, t1, t1$p, t2, t2$p) {
+  var d1 = t1$p.desc;
+  var d2 = t2$p.desc;
+  var create_recursion = t2 !== t2$p && deep_occur(t1$p, t2);
+  var exit = 0;
+  var exit$1 = 0;
+  if (typeof d1 === "number") {
+    exit$1 = 2;
+  } else {
+    switch (d1.TAG | 0) {
+      case /* Tvar */0 :
+          occur(env.contents, t1$p, t2);
+          occur_univar(env.contents, t2);
+          return link_type(t1$p, t2);
+      case /* Tfield */5 :
+          if (typeof d2 === "number") {
+            exit = 1;
+          } else {
+            switch (d2.TAG | 0) {
+              case /* Tvar */0 :
+                  exit$1 = 2;
+                  break;
+              case /* Tfield */5 :
+                  return unify_fields(env, t1$p, t2$p);
+              default:
+                exit = 1;
+            }
+          }
+          break;
+      case /* Tunivar */9 :
+          if (typeof d2 === "number") {
+            exit = 1;
+          } else {
+            switch (d2.TAG | 0) {
+              case /* Tvar */0 :
+                  exit$1 = 2;
+                  break;
+              case /* Tunivar */9 :
+                  unify_univar(t1$p, t2$p, univar_pairs.contents);
+                  return link_type(t1$p, t2$p);
+              default:
+                exit = 1;
+            }
+          }
+          break;
+      default:
+        exit$1 = 2;
+    }
+  }
+  if (exit$1 === 2) {
+    if (typeof d2 === "number") {
+      exit = 1;
+    } else {
+      if (d2.TAG === /* Tvar */0) {
+        occur(env.contents, t2$p, t1);
+        occur_univar(env.contents, t1);
+        return link_type(t2$p, t1);
+      }
+      exit = 1;
+    }
+  }
+  if (exit === 1) {
+    var match = umode.contents;
+    if (match) {
+      add_type_equality(t1$p, t2$p);
+    } else {
+      occur(env.contents, t1$p, t2$p);
+      link_type(t1$p, t2);
+    }
+    try {
+      var exit$2 = 0;
+      var f;
+      var kind;
+      var rem;
+      var exit$3 = 0;
+      var exit$4 = 0;
+      if (typeof d1 === "number") {
+        if (typeof d2 !== "number") {
+          switch (d2.TAG | 0) {
+            case /* Tconstr */3 :
+                exit$4 = 5;
+                break;
+            case /* Tfield */5 :
+                f = d2._0;
+                kind = d2._1;
+                rem = d2._3;
+                exit$2 = 3;
+                break;
+            default:
+              throw {
+                    RE_EXN_ID: Unify,
+                    _1: /* [] */0,
+                    Error: new Error()
+                  };
+          }
+        }
+        
+      } else {
+        switch (d1.TAG | 0) {
+          case /* Tarrow */1 :
+              var l1 = d1._0;
+              if (typeof d2 === "number") {
+                throw {
+                      RE_EXN_ID: Unify,
+                      _1: /* [] */0,
+                      Error: new Error()
+                    };
+              }
+              switch (d2.TAG | 0) {
+                case /* Tarrow */1 :
+                    var l2 = d2._0;
+                    if (l1 === l2 || classic.contents && !(is_optional(l1) || is_optional(l2))) {
+                      unify(env, d1._1, d2._1);
+                      unify(env, d1._2, d2._2);
+                      var match$1 = commu_repr(d1._3);
+                      var match$2 = commu_repr(d2._3);
+                      if (typeof match$1 === "number") {
+                        if (typeof match$2 === "number") {
+                          
+                        } else {
+                          set_commu(match$2._0, match$1);
+                        }
+                      } else {
+                        set_commu(match$1._0, match$2);
+                      }
+                    } else {
                       throw {
                             RE_EXN_ID: Unify,
-                            _1: {
-                              hd: [
-                                newty2(current_level.contents, desc),
-                                newty2(current_level.contents, desc$1)
-                              ],
-                              tl: trace._1
-                            },
+                            _1: /* [] */0,
                             Error: new Error()
                           };
                     }
-                    throw trace;
+                    break;
+                case /* Tconstr */3 :
+                    exit$4 = 5;
+                    break;
+                default:
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+              }
+              break;
+          case /* Ttuple */2 :
+              if (typeof d2 === "number") {
+                throw {
+                      RE_EXN_ID: Unify,
+                      _1: /* [] */0,
+                      Error: new Error()
+                    };
+              }
+              switch (d2.TAG | 0) {
+                case /* Ttuple */2 :
+                    unify_list(env, d1._0, d2._0);
+                    break;
+                case /* Tconstr */3 :
+                    exit$4 = 5;
+                    break;
+                default:
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+              }
+              break;
+          case /* Tconstr */3 :
+              var p1 = d1._0;
+              var exit$5 = 0;
+              if (typeof d2 === "number" || d2.TAG !== /* Tconstr */3) {
+                exit$5 = 6;
+              } else {
+                var tl2 = d2._1;
+                var tl1 = d1._1;
+                if (same(p1, d2._0)) {
+                  if (umode.contents === /* Expression */0 || !generate_equations.contents) {
+                    unify_list(env, tl1, tl2);
+                  } else if (assume_injective.contents) {
+                    set_mode_pattern(true, false, (function (param) {
+                            return unify_list(env, tl1, tl2);
+                          }));
+                  } else {
+                    var tmp = true;
+                    if (!in_current_module(p1)) {
+                      var partial_arg = env.contents;
+                      tmp = List.exists((function (param) {
+                              return expands_to_datatype(partial_arg, param);
+                            }), {
+                            hd: t1$p,
+                            tl: {
+                              hd: t1,
+                              tl: {
+                                hd: t2,
+                                tl: /* [] */0
+                              }
+                            }
+                          });
+                    }
+                    if (tmp) {
+                      unify_list(env, tl1, tl2);
+                    } else {
+                      var inj;
+                      try {
+                        inj = List.map(Curry._1(Types_Variance.mem, /* Inj */3), find_type_full(p1, env.contents)[0].type_variance);
+                      }
+                      catch (raw_exn){
+                        var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+                        if (exn.RE_EXN_ID === Stdlib.Not_found) {
+                          inj = List.map((function (param) {
+                                  return false;
+                                }), tl1);
+                        } else {
+                          throw exn;
+                        }
+                      }
+                      List.iter2((function (i, param) {
+                              var t2 = param[1];
+                              var t1 = param[0];
+                              if (i) {
+                                return unify(env, t1, t2);
+                              } else {
+                                return set_mode_pattern(false, false, (function (param) {
+                                              var snap = snapshot(undefined);
+                                              try {
+                                                return unify(env, t1, t2);
+                                              }
+                                              catch (raw_exn){
+                                                var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+                                                if (exn.RE_EXN_ID === Unify) {
+                                                  backtrack(snap);
+                                                  reify(env, t1);
+                                                  return reify(env, t2);
+                                                }
+                                                throw exn;
+                                              }
+                                            }));
+                              }
+                            }), inj, List.combine(tl1, tl2));
+                    }
                   }
-                }), match$2[0]);
+                } else {
+                  exit$5 = 6;
+                }
+              }
+              if (exit$5 === 6) {
+                switch (p1.TAG | 0) {
+                  case /* Pident */0 :
+                      if (d1._1) {
+                        exit$4 = 5;
+                      } else {
+                        var p = p1._0;
+                        var exit$6 = 0;
+                        if (typeof d2 === "number" || d2.TAG !== /* Tconstr */3) {
+                          exit$6 = 7;
+                        } else {
+                          var path$p = d2._0;
+                          switch (path$p.TAG | 0) {
+                            case /* Pident */0 :
+                                if (d2._1 || !(is_newtype(env.contents, p1) && is_newtype(env.contents, path$p) && generate_equations.contents)) {
+                                  exit$6 = 7;
+                                } else {
+                                  var match$3 = Caml_obj.caml_greaterthan(find_newtype_level(env.contents, p1), find_newtype_level(env.contents, path$p)) ? [
+                                      p,
+                                      t2$p
+                                    ] : [
+                                      path$p._0,
+                                      t1$p
+                                    ];
+                                  add_gadt_equation(env, match$3[0], match$3[1]);
+                                }
+                                break;
+                            case /* Pdot */1 :
+                            case /* Papply */2 :
+                                exit$6 = 7;
+                                break;
+                            
+                          }
+                        }
+                        if (exit$6 === 7) {
+                          if (is_newtype(env.contents, p1) && generate_equations.contents) {
+                            reify(env, t2$p);
+                            add_gadt_equation(env, p, t2$p);
+                          } else {
+                            exit$4 = 5;
+                          }
+                        }
+                        
+                      }
+                      break;
+                  case /* Pdot */1 :
+                  case /* Papply */2 :
+                      exit$4 = 5;
+                      break;
+                  
+                }
+              }
+              break;
+          case /* Tobject */4 :
+              if (typeof d2 === "number") {
+                throw {
+                      RE_EXN_ID: Unify,
+                      _1: /* [] */0,
+                      Error: new Error()
+                    };
+              }
+              switch (d2.TAG | 0) {
+                case /* Tconstr */3 :
+                    exit$4 = 5;
+                    break;
+                case /* Tobject */4 :
+                    unify_fields(env, d1._0, d2._0);
+                    var match$4 = repr(t2$p).desc;
+                    if (typeof match$4 !== "number" && match$4.TAG === /* Tobject */4) {
+                      var exit$7 = 0;
+                      var match$5 = match$4._1.contents;
+                      if (match$5 !== undefined) {
+                        var match$6 = match$5[1];
+                        if (match$6) {
+                          var match$7 = repr(match$6.hd).desc;
+                          var tmp$1;
+                          if (typeof match$7 === "number") {
+                            tmp$1 = true;
+                          } else {
+                            switch (match$7.TAG | 0) {
+                              case /* Tvar */0 :
+                              case /* Tunivar */9 :
+                                  tmp$1 = true;
+                                  break;
+                              default:
+                                tmp$1 = false;
+                            }
+                          }
+                          if (!tmp$1) {
+                            exit$7 = 6;
+                          }
+                          
+                        } else {
+                          exit$7 = 6;
+                        }
+                      } else {
+                        exit$7 = 6;
+                      }
+                      if (exit$7 === 6) {
+                        set_name(match$4._1, d1._1.contents);
+                      }
+                      
+                    }
+                    break;
+                default:
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+              }
+              break;
+          case /* Tfield */5 :
+              if (typeof d2 === "number") {
+                f = d1._0;
+                kind = d1._1;
+                rem = d1._3;
+                exit$2 = 3;
+              } else if (d2.TAG === /* Tconstr */3) {
+                exit$4 = 5;
+              } else {
+                throw {
+                      RE_EXN_ID: Unify,
+                      _1: /* [] */0,
+                      Error: new Error()
+                    };
+              }
+              break;
+          case /* Tvariant */8 :
+              var row1 = d1._0;
+              if (typeof d2 === "number") {
+                throw {
+                      RE_EXN_ID: Unify,
+                      _1: /* [] */0,
+                      Error: new Error()
+                    };
+              }
+              switch (d2.TAG | 0) {
+                case /* Tconstr */3 :
+                    exit$4 = 5;
+                    break;
+                case /* Tvariant */8 :
+                    var row2 = d2._0;
+                    if (umode.contents === /* Expression */0) {
+                      unify_row(env, row1, row2);
+                    } else {
+                      var snap = snapshot(undefined);
+                      try {
+                        unify_row(env, row1, row2);
+                      }
+                      catch (raw_exn$1){
+                        var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+                        if (exn$1.RE_EXN_ID === Unify) {
+                          backtrack(snap);
+                          reify(env, t1$p);
+                          reify(env, t2$p);
+                          if (generate_equations.contents) {
+                            mcomp$1(env.contents, t1$p, t2$p);
+                          }
+                          
+                        } else {
+                          throw exn$1;
+                        }
+                      }
+                    }
+                    break;
+                default:
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+              }
+              break;
+          case /* Tpoly */10 :
+              var tl1$1 = d1._1;
+              var t1$1 = d1._0;
+              var exit$8 = 0;
+              if (tl1$1) {
+                exit$8 = 6;
+              } else {
+                if (typeof d2 === "number") {
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+                }
+                switch (d2.TAG | 0) {
+                  case /* Tconstr */3 :
+                      exit$4 = 5;
+                      break;
+                  case /* Tpoly */10 :
+                      if (d2._1) {
+                        exit$8 = 6;
+                      } else {
+                        unify(env, t1$1, d2._0);
+                      }
+                      break;
+                  default:
+                    throw {
+                          RE_EXN_ID: Unify,
+                          _1: /* [] */0,
+                          Error: new Error()
+                        };
+                }
+              }
+              if (exit$8 === 6) {
+                if (typeof d2 === "number") {
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+                }
+                switch (d2.TAG | 0) {
+                  case /* Tconstr */3 :
+                      exit$4 = 5;
+                      break;
+                  case /* Tpoly */10 :
+                      enter_poly(env.contents, univar_pairs, t1$1, tl1$1, d2._0, d2._1, (function (param, param$1) {
+                              return unify(env, param, param$1);
+                            }));
+                      break;
+                  default:
+                    throw {
+                          RE_EXN_ID: Unify,
+                          _1: /* [] */0,
+                          Error: new Error()
+                        };
+                }
+              }
+              break;
+          case /* Tpackage */11 :
+              var tl1$2 = d1._2;
+              if (typeof d2 === "number") {
+                throw {
+                      RE_EXN_ID: Unify,
+                      _1: /* [] */0,
+                      Error: new Error()
+                    };
+              }
+              switch (d2.TAG | 0) {
+                case /* Tconstr */3 :
+                    exit$4 = 5;
+                    break;
+                case /* Tpackage */11 :
+                    var tl2$1 = d2._2;
+                    try {
+                      unify_package(env.contents, (function (param, param$1) {
+                              return unify_list(env, param, param$1);
+                            }), t1.level, d1._0, d1._1, tl1$2, t2.level, d2._0, d2._1, tl2$1);
+                    }
+                    catch (raw_exn$2){
+                      var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
+                      if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
+                        if (umode.contents === /* Expression */0) {
+                          throw {
+                                RE_EXN_ID: Unify,
+                                _1: /* [] */0,
+                                Error: new Error()
+                              };
+                        }
+                        List.iter((function (param) {
+                                return reify(env, param);
+                              }), Stdlib.$at(tl1$2, tl2$1));
+                      } else {
+                        throw exn$2;
+                      }
+                    }
+                    break;
+                default:
+                  throw {
+                        RE_EXN_ID: Unify,
+                        _1: /* [] */0,
+                        Error: new Error()
+                      };
+              }
+              break;
+          default:
+            exit$4 = 5;
+        }
+      }
+      if (exit$4 === 5) {
+        if (typeof d2 === "number" || d2.TAG !== /* Tconstr */3) {
+          exit$3 = 4;
+        } else {
+          var path = d2._0;
+          switch (path.TAG | 0) {
+            case /* Pident */0 :
+                if (d2._1 || !(is_newtype(env.contents, path) && generate_equations.contents)) {
+                  exit$2 = 2;
+                } else {
+                  reify(env, t1$p);
+                  add_gadt_equation(env, path._0, t1$p);
+                }
+                break;
+            case /* Pdot */1 :
+            case /* Papply */2 :
+                exit$2 = 2;
+                break;
+            
+          }
+        }
+      }
+      if (exit$3 === 4) {
+        if (typeof d1 === "number") {
+          throw {
+                RE_EXN_ID: Unify,
+                _1: /* [] */0,
+                Error: new Error()
+              };
+        }
+        if (d1.TAG === /* Tconstr */3) {
+          exit$2 = 2;
+        } else {
+          throw {
+                RE_EXN_ID: Unify,
+                _1: /* [] */0,
+                Error: new Error()
+              };
+        }
+      }
+      switch (exit$2) {
+        case 2 :
+            if (umode.contents === /* Pattern */1) {
+              reify(env, t1$p);
+              reify(env, t2$p);
+              if (generate_equations.contents) {
+                mcomp$1(env.contents, t1$p, t2$p);
+              }
+              
+            } else {
+              throw {
+                    RE_EXN_ID: Unify,
+                    _1: /* [] */0,
+                    Error: new Error()
+                  };
+            }
+            break;
+        case 3 :
+            var r = field_kind_repr(kind);
+            if (typeof r === "number") {
+              throw {
+                    RE_EXN_ID: Unify,
+                    _1: /* [] */0,
+                    Error: new Error()
+                  };
+            }
+            if (f !== dummy_method) {
+              set_kind(r._0, /* Fabsent */1);
+              if (Caml_obj.caml_equal(d2, /* Tnil */0)) {
+                unify(env, rem, t2$p);
+              } else {
+                unify(env, newty2(rem.level, /* Tnil */0), rem);
+              }
+            } else {
+              throw {
+                    RE_EXN_ID: Unify,
+                    _1: /* [] */0,
+                    Error: new Error()
+                  };
+            }
+            break;
+        
+      }
+      if (!create_recursion) {
+        return ;
+      }
+      var match$8 = t2.desc;
+      if (typeof match$8 === "number") {
+        return ;
+      }
+      if (match$8.TAG !== /* Tconstr */3) {
+        return ;
+      }
+      forget_abbrev(match$8._2, match$8._0);
+      var t2$p$p = expand_head_unif(env.contents, t2);
+      if (!closed_parameterized_type(match$8._1, t2$p$p)) {
+        return link_type(repr(t2), repr(t2$p));
+      } else {
+        return ;
+      }
+    }
+    catch (raw_trace){
+      var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+      if (trace.RE_EXN_ID === Unify) {
+        t1$p.desc = d1;
+        throw {
+              RE_EXN_ID: Unify,
+              _1: trace._1,
+              Error: new Error()
+            };
+      }
+      throw trace;
+    }
   }
-  catch (exn){
-    log_type(rest1);
-    rest1.desc = d1;
-    log_type(rest2);
-    rest2.desc = d2;
-    throw exn;
+  
+}
+
+function unify2(env, t1, t2) {
+  var expand_both = function (_t1$p$p, _t2$p$p) {
+    while(true) {
+      var t2$p$p = _t2$p$p;
+      var t1$p$p = _t1$p$p;
+      var t1$p = expand_head_unif(env.contents, t1);
+      var t2$p = expand_head_unif(env.contents, t2);
+      if (unify_eq(env.contents, t1$p, t1$p$p) && unify_eq(env.contents, t2$p, t2$p$p)) {
+        return [
+                t1$p,
+                t2$p
+              ];
+      }
+      _t2$p$p = t2$p;
+      _t1$p$p = t1$p;
+      continue ;
+    };
+  };
+  var match = expand_both(t1, t2);
+  var t2$p = match[1];
+  var t1$p = match[0];
+  var lv = t1$p.level < t2$p.level ? t1$p.level : t2$p.level;
+  update_level(env.contents, lv, t2);
+  update_level(env.contents, lv, t1);
+  if (unify_eq(env.contents, t1$p, t2$p)) {
+    return ;
+  }
+  var t1$1 = repr(t1);
+  var t2$1 = repr(t2);
+  if (trace_gadt_instances.contents) {
+    var ilevel = function (t) {
+      var lv = gadt_instance_level(env.contents, t);
+      if (lv !== undefined) {
+        return lv;
+      } else {
+        return 0;
+      }
+    };
+    var lv1 = ilevel(t1$1);
+    var lv2 = ilevel(t2$1);
+    if (lv1 > lv2) {
+      add_gadt_instance_chain(env.contents, lv1, t2$1);
+    } else if (lv2 > lv1) {
+      add_gadt_instance_chain(env.contents, lv2, t1$1);
+    }
+    
+  }
+  var match$1;
+  if (principal.contents && (find_lowest_level(t1$p) < lv || find_lowest_level(t2$p) < lv)) {
+    var match$2 = t1$1.desc;
+    var tmp;
+    tmp = typeof match$2 === "number" || !(match$2.TAG === /* Tconstr */3 && !match$2._1) ? t1$1 : t1$p;
+    var match$3 = t2$1.desc;
+    var tmp$1;
+    tmp$1 = typeof match$3 === "number" || !(match$3.TAG === /* Tconstr */3 && !match$3._1) ? t2$1 : t2$p;
+    match$1 = [
+      tmp,
+      tmp$1
+    ];
+  } else {
+    match$1 = [
+      t1$1,
+      t2$1
+    ];
+  }
+  var t2$2 = match$1[1];
+  var t1$2 = match$1[0];
+  if (unify_eq(env.contents, t1$2, t1$p) || !unify_eq(env.contents, t2$2, t2$p)) {
+    return unify3(env, t1$2, t1$p, t2$2, t2$p);
+  }
+  try {
+    return unify3(env, t2$2, t2$p, t1$2, t1$p);
+  }
+  catch (raw_trace){
+    var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+    if (trace.RE_EXN_ID === Unify) {
+      throw {
+            RE_EXN_ID: Unify,
+            _1: List.map((function (param) {
+                    return [
+                            param[1],
+                            param[0]
+                          ];
+                  }), trace._1),
+            Error: new Error()
+          };
+    }
+    throw trace;
+  }
+}
+
+function unify_kind(k1, k2) {
+  var k1$1 = field_kind_repr(k1);
+  var k2$1 = field_kind_repr(k2);
+  if (k1$1 === k2$1) {
+    return ;
+  }
+  if (typeof k1$1 === "number") {
+    if (!k1$1) {
+      if (typeof k2$1 !== "number") {
+        return set_kind(k2$1._0, k1$1);
+      }
+      if (!k2$1) {
+        return ;
+      }
+      
+    }
+    
+  } else {
+    var r = k1$1._0;
+    if (typeof k2$1 !== "number") {
+      return set_kind(r, k2$1);
+    }
+    if (!k2$1) {
+      return set_kind(r, k2$1);
+    }
+    
+  }
+  throw {
+        RE_EXN_ID: "Assert_failure",
+        _1: [
+          "ocaml_typedtree_test.ml",
+          32644,
+          37
+        ],
+        Error: new Error()
+      };
+}
+
+function make_rowvar(level, use1, rest1, use2, rest2) {
+  var set_name = function (ty, name) {
+    var match = ty.desc;
+    if (typeof match === "number" || !(match.TAG === /* Tvar */0 && match._0 === undefined)) {
+      return ;
+    } else {
+      log_type(ty);
+      ty.desc = {
+        TAG: /* Tvar */0,
+        _0: name
+      };
+      return ;
+    }
+  };
+  var match = rest1.desc;
+  var match$1 = rest2.desc;
+  var name;
+  var exit = 0;
+  if (typeof match === "number" || match.TAG !== /* Tvar */0) {
+    exit = 1;
+  } else {
+    var name1 = match._0;
+    if (name1 !== undefined) {
+      var exit$1 = 0;
+      if (typeof match$1 === "number" || match$1.TAG !== /* Tvar */0) {
+        exit$1 = 2;
+      } else {
+        var name2 = match$1._0;
+        if (name2 !== undefined) {
+          name = rest1.level <= rest2.level ? name1 : name2;
+        } else {
+          exit$1 = 2;
+        }
+      }
+      if (exit$1 === 2) {
+        if (use2) {
+          set_name(rest2, name1);
+        }
+        name = name1;
+      }
+      
+    } else {
+      exit = 1;
+    }
+  }
+  if (exit === 1) {
+    if (typeof match$1 === "number" || match$1.TAG !== /* Tvar */0) {
+      name = undefined;
+    } else {
+      var name$1 = match$1._0;
+      if (name$1 !== undefined) {
+        if (use1) {
+          set_name(rest2, name$1);
+        }
+        name = name$1;
+      } else {
+        name = undefined;
+      }
+    }
+  }
+  if (use1) {
+    return rest1;
+  } else if (use2) {
+    return rest2;
+  } else {
+    return newty2(level, {
+                TAG: /* Tvar */0,
+                _0: name
+              });
   }
 }
 
@@ -34718,17 +34725,17 @@ function filter_method(env, name, priv, ty) {
 function filter_self_method(env, lab, priv, meths, ty) {
   var ty$p = filter_method(env, lab, priv, ty);
   try {
-    return find(lab, meths.contents);
+    return Curry._2(find, lab, meths.contents);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var pair_0 = create(lab);
       var pair = [
         pair_0,
         ty$p
       ];
-      meths.contents = add$1(lab, pair, meths.contents);
+      meths.contents = Curry._3(add$1, lab, pair, meths.contents);
       return pair;
     }
     throw exn;
@@ -34845,7 +34852,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID === Stdlib.Not_found) {
           Curry._3(TypePairs.add, type_pairs, [
                 t1$p$1,
                 t2$p$1
@@ -35354,7 +35361,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                   }
                   catch (raw_exn$1){
                     var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                    if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                    if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                       throw {
                             RE_EXN_ID: Unify,
                             _1: /* [] */0,
@@ -35711,7 +35718,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
               }
               catch (raw_exn){
                 var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                if (exn.RE_EXN_ID === Stdlib.Not_found) {
                   if (List.exists((function (param) {
                             return param[1] === t2$1;
                           }), subst.contents)) {
@@ -35764,7 +35771,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
       }
       catch (raw_exn$1){
         var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-        if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
           Curry._3(TypePairs.add, type_pairs, [
                 t1$p$1,
                 t2$p$1
@@ -35805,7 +35812,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                     }
                     catch (raw_exn$2){
                       var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-                      if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                      if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
                         if (List.exists((function (param) {
                                   return param[1] === t2$p$1;
                                 }), subst.contents)) {
@@ -35968,7 +35975,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                     var match$5 = merge_row_fields(row1$1.row_fields, row2$2.row_fields);
                     var r2 = match$5[1];
                     var r1 = match$5[0];
-                    if (row1$1.row_closed !== row2$2.row_closed || !row1$1.row_closed && (Caml_obj.caml_notequal(r1, /* [] */0) || Caml_obj.caml_notequal(r2, /* [] */0)) || Caml_obj.caml_notequal(filter_row_fields(false, Stdlib__no_aliases.$at(r1, r2)), /* [] */0)) {
+                    if (row1$1.row_closed !== row2$2.row_closed || !row1$1.row_closed && (Caml_obj.caml_notequal(r1, /* [] */0) || Caml_obj.caml_notequal(r2, /* [] */0)) || Caml_obj.caml_notequal(filter_row_fields(false, Stdlib.$at(r1, r2)), /* [] */0)) {
                       throw {
                             RE_EXN_ID: Unify,
                             _1: /* [] */0,
@@ -36222,7 +36229,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                   }
                   catch (raw_exn$3){
                     var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-                    if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                    if (exn$3.RE_EXN_ID === Stdlib.Not_found) {
                       throw {
                             RE_EXN_ID: Unify,
                             _1: /* [] */0,
@@ -36601,7 +36608,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
                 },
                 tl: err
               }) : (set_kind(k._0, /* Fabsent */1), err);
-          if (mem$2(lab, sign1.csig_concr)) {
+          if (Curry._2(mem$2, lab, sign1.csig_concr)) {
             return err$1;
           } else {
             return {
@@ -36617,7 +36624,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
   var missing_method = List.map((function (param) {
           return param[0];
         }), match$4[2]);
-  var error$1 = Stdlib__no_aliases.$at(List.map((function (m) {
+  var error$1 = Stdlib.$at(List.map((function (m) {
               return {
                       TAG: /* CM_Missing_method */9,
                       _0: m
@@ -36668,7 +36675,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return {
                       hd: {
                         TAG: /* CM_Missing_value */8,
@@ -36706,7 +36713,7 @@ function match_class_types(traceOpt, env, pat_sch, subj_sch) {
                     tl: l
                   };
           }
-        }), elements_aux(/* [] */0, diff(sign2.csig_concr, sign1.csig_concr)), error$4);
+        }), Curry._1(elements, Curry._2(diff, sign2.csig_concr, sign1.csig_concr)), error$4);
   var res;
   if (error$5) {
     res = {
@@ -36933,7 +36940,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
                 },
                 tl: err
               }) : err;
-          if (mem$2(lab, sign1.csig_concr)) {
+          if (Curry._2(mem$2, lab, sign1.csig_concr)) {
             return err$1;
           } else {
             return {
@@ -36949,7 +36956,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
   var missing_method = List.map((function (param) {
           return param[0];
         }), match$2[2]);
-  var error$1 = Stdlib__no_aliases.$at(List.map((function (m) {
+  var error$1 = Stdlib.$at(List.map((function (m) {
               return {
                       TAG: /* CM_Missing_method */9,
                       _0: m
@@ -37027,7 +37034,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return {
                       hd: {
                         TAG: /* CM_Missing_value */8,
@@ -37065,7 +37072,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
                     tl: l
                   };
           }
-        }), elements_aux(/* [] */0, diff(sign2.csig_concr, sign1.csig_concr)), error$4);
+        }), Curry._1(elements, Curry._2(diff, sign2.csig_concr, sign1.csig_concr)), error$4);
   if (error$5) {
     return error$5;
   }
@@ -37226,7 +37233,7 @@ function find_cltype_for_path(env, p) {
     var match$1 = repr(ty).desc;
     if (typeof match$1 === "number") {
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -37240,17 +37247,17 @@ function find_cltype_for_path(env, p) {
                 ];
         }
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
       }
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   } else {
@@ -37301,7 +37308,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             return [
                     t$1,
                     /* Unchanged */0
@@ -37380,7 +37387,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
             var match$2 = t$p$1.desc;
             if (typeof match$2 === "number") {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
@@ -37393,7 +37400,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                 var match$5;
                 if (typeof match$4 === "number") {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                        RE_EXN_ID: Stdlib.Not_found,
                         Error: new Error()
                       };
                 }
@@ -37407,19 +37414,19 @@ function build_subtype(env, visited, loops, posi, level, t) {
                       ];
                     } else {
                       throw {
-                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                            RE_EXN_ID: Stdlib.Not_found,
                             Error: new Error()
                           };
                     }
                   } else {
                     throw {
-                          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                          RE_EXN_ID: Stdlib.Not_found,
                           Error: new Error()
                         };
                   }
                 } else {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                        RE_EXN_ID: Stdlib.Not_found,
                         Error: new Error()
                       };
                 }
@@ -37428,7 +37435,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                           return deep_occur(ty$1, param);
                         }), tl1)) {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                        RE_EXN_ID: Stdlib.Not_found,
                         Error: new Error()
                       };
                 }
@@ -37496,18 +37503,18 @@ function build_subtype(env, visited, loops, posi, level, t) {
                       ];
               }
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                  RE_EXN_ID: Stdlib.Not_found,
                   Error: new Error()
                 };
           }
           catch (raw_exn$2){
             var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-            if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
               var match$8 = build_subtype(env, visited, loops, posi, level$p, t$p$1);
               var c$2 = match$8[1];
               if (c$2 > /* Unchanged */0) {
@@ -37578,7 +37585,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
           }
           catch (raw_exn$3){
             var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-            if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn$3.RE_EXN_ID === Stdlib.Not_found) {
               return [
                       t$1,
                       /* Unchanged */0
@@ -37831,7 +37838,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         Curry._3(TypePairs.add, subtypes, [
               t1$1,
               t2$1
@@ -38081,7 +38088,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                               case /* Tunivar */9 :
                                   if (typeof match$7 === "number") {
                                     throw {
-                                          RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                          RE_EXN_ID: Stdlib.Exit,
                                           Error: new Error()
                                         };
                                   }
@@ -38105,7 +38112,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                       return cstrs;
                                                     }
                                                     throw {
-                                                          RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                          RE_EXN_ID: Stdlib.Exit,
                                                           Error: new Error()
                                                         };
                                                   }
@@ -38114,7 +38121,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                     if (t1$1 !== undefined) {
                                                       if (typeof match$1 === "number") {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
@@ -38125,67 +38132,67 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                           t2 = t2$1;
                                                         } else {
                                                           throw {
-                                                                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                                RE_EXN_ID: Stdlib.Exit,
                                                                 Error: new Error()
                                                               };
                                                         }
                                                       } else {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                     } else {
                                                       if (typeof match$1 === "number") {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                       if (match$1.TAG === /* Rpresent */0) {
                                                         if (match$1._0 !== undefined) {
                                                           throw {
-                                                                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                                RE_EXN_ID: Stdlib.Exit,
                                                                 Error: new Error()
                                                               };
                                                         }
                                                         return cstrs;
                                                       }
                                                       throw {
-                                                            RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                            RE_EXN_ID: Stdlib.Exit,
                                                             Error: new Error()
                                                           };
                                                     }
                                                   } else if (match._0) {
                                                     if (match._1) {
                                                       throw {
-                                                            RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                            RE_EXN_ID: Stdlib.Exit,
                                                             Error: new Error()
                                                           };
                                                     }
                                                     if (typeof match$1 === "number") {
                                                       throw {
-                                                            RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                            RE_EXN_ID: Stdlib.Exit,
                                                             Error: new Error()
                                                           };
                                                     }
                                                     if (match$1.TAG === /* Rpresent */0) {
                                                       throw {
-                                                            RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                            RE_EXN_ID: Stdlib.Exit,
                                                             Error: new Error()
                                                           };
                                                     }
                                                     if (match$1._0) {
                                                       if (match$1._1) {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                       return cstrs;
                                                     }
                                                     throw {
-                                                          RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                          RE_EXN_ID: Stdlib.Exit,
                                                           Error: new Error()
                                                         };
                                                   } else {
@@ -38193,25 +38200,25 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                     if (match$2) {
                                                       if (match$2.tl) {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                       if (typeof match$1 === "number") {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                       if (match$1.TAG === /* Rpresent */0) {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                       if (match$1._0) {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
@@ -38219,7 +38226,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                       if (match$3) {
                                                         if (match$3.tl) {
                                                           throw {
-                                                                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                                RE_EXN_ID: Stdlib.Exit,
                                                                 Error: new Error()
                                                               };
                                                         }
@@ -38227,13 +38234,13 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                         t2 = match$3.hd;
                                                       } else {
                                                         throw {
-                                                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                              RE_EXN_ID: Stdlib.Exit,
                                                               Error: new Error()
                                                             };
                                                       }
                                                     } else {
                                                       throw {
-                                                            RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                            RE_EXN_ID: Stdlib.Exit,
                                                             Error: new Error()
                                                           };
                                                     }
@@ -38249,17 +38256,17 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                 }(trace)), cstrs$4, pairs);
                                     }
                                     throw {
-                                          RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                          RE_EXN_ID: Stdlib.Exit,
                                           Error: new Error()
                                         };
                                   }
                                   throw {
-                                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                        RE_EXN_ID: Stdlib.Exit,
                                         Error: new Error()
                                       };
                               default:
                                 throw {
-                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                      RE_EXN_ID: Stdlib.Exit,
                                       Error: new Error()
                                     };
                             }
@@ -38276,7 +38283,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                     break;
                                 default:
                                   throw {
-                                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                        RE_EXN_ID: Stdlib.Exit,
                                         Error: new Error()
                                       };
                               }
@@ -38295,7 +38302,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                               if (t1 !== undefined) {
                                                 if (typeof match$1 === "number") {
                                                   throw {
-                                                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                        RE_EXN_ID: Stdlib.Exit,
                                                         Error: new Error()
                                                       };
                                                 }
@@ -38311,12 +38318,12 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                               }, t1, t2, cstrs);
                                                   }
                                                   throw {
-                                                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                        RE_EXN_ID: Stdlib.Exit,
                                                         Error: new Error()
                                                       };
                                                 }
                                                 throw {
-                                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                      RE_EXN_ID: Stdlib.Exit,
                                                       Error: new Error()
                                                     };
                                               }
@@ -38327,7 +38334,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                 var t1$1 = match$2.hd;
                                                 if (typeof match$1 === "number") {
                                                   throw {
-                                                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                        RE_EXN_ID: Stdlib.Exit,
                                                         Error: new Error()
                                                       };
                                                 }
@@ -38343,45 +38350,45 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                                               }, t1$1, t2$1, cstrs);
                                                   }
                                                   throw {
-                                                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                        RE_EXN_ID: Stdlib.Exit,
                                                         Error: new Error()
                                                       };
                                                 }
                                                 throw {
-                                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                      RE_EXN_ID: Stdlib.Exit,
                                                       Error: new Error()
                                                     };
                                               } else {
                                                 throw {
-                                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                      RE_EXN_ID: Stdlib.Exit,
                                                       Error: new Error()
                                                     };
                                               }
                                             }
                                             if (typeof match$1 === "number") {
                                               throw {
-                                                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                    RE_EXN_ID: Stdlib.Exit,
                                                     Error: new Error()
                                                   };
                                             }
                                             if (match$1.TAG === /* Rpresent */0) {
                                               if (match$1._0 !== undefined) {
                                                 throw {
-                                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                      RE_EXN_ID: Stdlib.Exit,
                                                       Error: new Error()
                                                     };
                                               }
                                               return cstrs;
                                             }
                                             throw {
-                                                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                                  RE_EXN_ID: Stdlib.Exit,
                                                   Error: new Error()
                                                 };
                                           }
                                           }(trace)), cstrs, pairs);
                               }
                               throw {
-                                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                    RE_EXN_ID: Stdlib.Exit,
                                     Error: new Error()
                                   };
                             }
@@ -38391,7 +38398,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                         }
                         catch (raw_exn$1){
                           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+                          if (exn$1.RE_EXN_ID === Stdlib.Exit) {
                             return {
                                     hd: [
                                       trace,
@@ -38524,7 +38531,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                               }
                               }(trace,ntl1)), ntl2);
                           if (eq_package_path(env, p1, p2)) {
-                            return Stdlib__no_aliases.$at(cstrs$p, cstrs);
+                            return Stdlib.$at(cstrs$p, cstrs);
                           }
                           var snap = snapshot(undefined);
                           try {
@@ -38533,7 +38540,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                                   }), cstrs$p);
                             if (Curry._7(package_subtype.contents, env, p1, nl1, tl1$2, p2, nl2, tl2$1)) {
                               backtrack(snap);
-                              return Stdlib__no_aliases.$at(cstrs$p, cstrs);
+                              return Stdlib.$at(cstrs$p, cstrs);
                             }
                             throw {
                                   RE_EXN_ID: Unify,
@@ -38546,7 +38553,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                             if (exn$3.RE_EXN_ID === Unify) {
                               backtrack(snap);
                               throw {
-                                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                    RE_EXN_ID: Stdlib.Not_found,
                                     Error: new Error()
                                   };
                             }
@@ -38555,7 +38562,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                         }
                         catch (raw_exn$4){
                           var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-                          if (exn$4.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                          if (exn$4.RE_EXN_ID === Stdlib.Not_found) {
                             return {
                                     hd: [
                                       trace,
@@ -38673,7 +38680,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
               }
               catch (raw_exn$5){
                 var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
-                if (exn$5.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                if (exn$5.RE_EXN_ID === Stdlib.Not_found) {
                   return {
                           hd: [
                             trace,
@@ -38876,10 +38883,10 @@ function cyclic_abbrev(env, id, ty) {
 
 function normalize_type_rec(env, visited, ty) {
   var ty$1 = repr(ty);
-  if (mem$3(ty$1, visited.contents)) {
+  if (Curry._2(mem$3, ty$1, visited.contents)) {
     return ;
   }
-  visited.contents = add$3(ty$1, visited.contents);
+  visited.contents = Curry._2(add$3, ty$1, visited.contents);
   var row = ty$1.desc;
   if (typeof row !== "number") {
     switch (row.TAG | 0) {
@@ -39062,7 +39069,7 @@ function nondep_type_rec(env, id, _ty) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID === Stdlib.Not_found) {
           var ty$p = newty2(100000000, {
                 TAG: /* Tvar */0,
                 _0: undefined
@@ -39088,13 +39095,13 @@ function nondep_type_rec(env, id, _ty) {
                       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
                       if (exn$1.RE_EXN_ID === Cannot_expand) {
                         throw {
-                              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                              RE_EXN_ID: Stdlib.Not_found,
                               Error: new Error()
                             };
                       }
                       if (exn$1.RE_EXN_ID === Unify) {
                         throw {
-                              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                              RE_EXN_ID: Stdlib.Not_found,
                               Error: new Error()
                             };
                       }
@@ -39148,7 +39155,7 @@ function nondep_type_rec(env, id, _ty) {
                   }
                   catch (raw_exn$2){
                     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-                    if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                    if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
                       Curry._3(TypeHash.add, nondep_variants, more, ty$p);
                       var $$static = static_row(row$1);
                       var more$p = $$static ? newty2(100000000, /* Tnil */0) : more;
@@ -39181,7 +39188,7 @@ function nondep_type_rec(env, id, _ty) {
                     var p$p = normalize_package_path(env, p$2);
                     if (isfree(id, p$p)) {
                       throw {
-                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                            RE_EXN_ID: Stdlib.Not_found,
                             Error: new Error()
                           };
                     }
@@ -39225,11 +39232,11 @@ function nondep_type(env, id, ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       Curry._1(TypeHash.clear, nondep_hash);
       Curry._1(TypeHash.clear, nondep_variants);
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -39305,7 +39312,7 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         if (is_covariant) {
           tk = /* Type_abstract */0;
         } else {
@@ -39322,7 +39329,7 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
     }
     catch (raw_exn$1){
       var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-      if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
         if (is_covariant) {
           tm = undefined;
         } else {
@@ -39349,11 +39356,11 @@ function nondep_type_decl(env, mid, id, is_covariant, decl) {
   }
   catch (raw_exn$2){
     var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-    if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
       Curry._1(TypeHash.clear, nondep_hash);
       Curry._1(TypeHash.clear, nondep_variants);
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -39377,7 +39384,7 @@ function nondep_extension_constructor(env, mid, ext) {
       var match$1 = repr(ty$p).desc;
       if (typeof match$1 === "number") {
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
       }
@@ -39388,7 +39395,7 @@ function nondep_extension_constructor(env, mid, ext) {
         ];
       } else {
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
       }
@@ -39421,11 +39428,11 @@ function nondep_extension_constructor(env, mid, ext) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       Curry._1(TypeHash.clear, nondep_hash);
       Curry._1(TypeHash.clear, nondep_variants);
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -40045,7 +40052,7 @@ function print_simple_out_type(ppf, s) {
                                     if (typeof single !== "number" && single.TAG === /* Otyp_tuple */9) {
                                       if (tys.tl) {
                                         throw {
-                                              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                              RE_EXN_ID: Stdlib.Not_found,
                                               Error: new Error()
                                             };
                                       }
@@ -40069,7 +40076,7 @@ function print_simple_out_type(ppf, s) {
                                     }
                                     if (tys.tl) {
                                       throw {
-                                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                            RE_EXN_ID: Stdlib.Not_found,
                                             Error: new Error()
                                           };
                                     }
@@ -40081,7 +40088,7 @@ function print_simple_out_type(ppf, s) {
                                           };
                                   }
                                   throw {
-                                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                        RE_EXN_ID: Stdlib.Not_found,
                                         Error: new Error()
                                       };
                                 };
@@ -40206,7 +40213,7 @@ function print_simple_out_type(ppf, s) {
                                 if (typeof single !== "number" && single.TAG === /* Otyp_tuple */9) {
                                   if (tys.tl) {
                                     throw {
-                                          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                          RE_EXN_ID: Stdlib.Not_found,
                                           Error: new Error()
                                         };
                                   }
@@ -40230,7 +40237,7 @@ function print_simple_out_type(ppf, s) {
                                 }
                                 if (tys.tl) {
                                   throw {
-                                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                        RE_EXN_ID: Stdlib.Not_found,
                                         Error: new Error()
                                       };
                                 }
@@ -40242,7 +40249,7 @@ function print_simple_out_type(ppf, s) {
                                       };
                               }
                               throw {
-                                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                                    RE_EXN_ID: Stdlib.Not_found,
                                     Error: new Error()
                                   };
                             };
@@ -41451,41 +41458,25 @@ var out_class_type = {
 
 var out_module_type = {
   contents: (function (param) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Oprint.out_module_type",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Oprint.out_module_type");
     })
 };
 
 var out_sig_item = {
   contents: (function (param) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Oprint.out_sig_item",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Oprint.out_sig_item");
     })
 };
 
 var out_signature = {
   contents: (function (param) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Oprint.out_signature",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Oprint.out_signature");
     })
 };
 
 var out_type_extension = {
   contents: (function (param) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Oprint.out_type_extension",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Oprint.out_type_extension");
     })
 };
 
@@ -41706,57 +41697,109 @@ function print_out_constr(ppf, param) {
   }
 }
 
-function print_out_label(ppf, param) {
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* Formatting_gen */18,
+function print_out_signature(ppf, param) {
+  if (!param) {
+    return ;
+  }
+  var item = param.hd;
+  if (!param.tl) {
+    return Curry._2(out_sig_item.contents, ppf, item);
+  }
+  if (item.TAG === /* Osig_typext */2 && !item._1) {
+    var ext = item._0;
+    var gather_extensions = function (_acc, _items) {
+      while(true) {
+        var items = _items;
+        var acc = _acc;
+        if (!items) {
+          return [
+                  List.rev(acc),
+                  items
+                ];
+        }
+        var match = items.hd;
+        if (match.TAG !== /* Osig_typext */2) {
+          return [
+                  List.rev(acc),
+                  items
+                ];
+        }
+        if (match._1 !== 1) {
+          return [
+                  List.rev(acc),
+                  items
+                ];
+        }
+        var ext = match._0;
+        _items = items.tl;
+        _acc = {
+          hd: [
+            ext.oext_name,
+            ext.oext_args,
+            ext.oext_ret_type
+          ],
+          tl: acc
+        };
+        continue ;
+      };
+    };
+    var match = gather_extensions({
+          hd: [
+            ext.oext_name,
+            ext.oext_args,
+            ext.oext_ret_type
+          ],
+          tl: /* [] */0
+        }, param.tl);
+    var te_otyext_name = ext.oext_type_name;
+    var te_otyext_params = ext.oext_type_params;
+    var te_otyext_constructors = match[0];
+    var te_otyext_private = ext.oext_private;
+    var te = {
+      otyext_name: te_otyext_name,
+      otyext_params: te_otyext_params,
+      otyext_constructors: te_otyext_constructors,
+      otyext_private: te_otyext_private
+    };
+    return Curry._4(Format.fprintf(ppf)(/* Format */{
                     _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
+                      TAG: /* Alpha */15,
+                      _0: {
+                        TAG: /* Formatting_lit */17,
                         _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<2>",
-                          _1: /* End_of_format */0
+                          TAG: /* Break */0,
+                          _0: "@ ",
+                          _1: 1,
+                          _2: 0
                         },
-                        _1: "<2>"
+                        _1: {
+                          TAG: /* Alpha */15,
+                          _0: /* End_of_format */0
+                        }
                       }
                     },
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
+                    _1: "%a@ %a"
+                  }), out_type_extension.contents, te, print_out_signature, match[1]);
+  }
+  return Curry._4(Format.fprintf(ppf)(/* Format */{
+                  _0: {
+                    TAG: /* Alpha */15,
+                    _0: {
+                      TAG: /* Formatting_lit */17,
+                      _0: {
+                        TAG: /* Break */0,
+                        _0: "@ ",
+                        _1: 1,
+                        _2: 0
+                      },
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* String_literal */11,
-                          _0: " :",
-                          _1: {
-                            TAG: /* Formatting_lit */17,
-                            _0: {
-                              TAG: /* Break */0,
-                              _0: "@ ",
-                              _1: 1,
-                              _2: 0
-                            },
-                            _1: {
-                              TAG: /* Alpha */15,
-                              _0: {
-                                TAG: /* Formatting_lit */17,
-                                _0: /* Close_box */0,
-                                _1: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* ';' */59,
-                                  _1: /* End_of_format */0
-                                }
-                              }
-                            }
-                          }
-                        }
+                        TAG: /* Alpha */15,
+                        _0: /* End_of_format */0
                       }
                     }
                   },
-                  _1: "@[<2>%s%s :@ %a@];"
-                }), param[1] ? "mutable " : "", param[0], out_type.contents, param[2]);
+                  _1: "%a@ %a"
+                }), out_sig_item.contents, item, print_out_signature, param.tl);
 }
 
 function print_out_module_type(ppf, t) {
@@ -41883,109 +41926,57 @@ function print_out_module_type(ppf, t) {
   }
 }
 
-function print_out_signature(ppf, param) {
-  if (!param) {
-    return ;
-  }
-  var item = param.hd;
-  if (!param.tl) {
-    return Curry._2(out_sig_item.contents, ppf, item);
-  }
-  if (item.TAG === /* Osig_typext */2 && !item._1) {
-    var ext = item._0;
-    var gather_extensions = function (_acc, _items) {
-      while(true) {
-        var items = _items;
-        var acc = _acc;
-        if (!items) {
-          return [
-                  List.rev(acc),
-                  items
-                ];
-        }
-        var match = items.hd;
-        if (match.TAG !== /* Osig_typext */2) {
-          return [
-                  List.rev(acc),
-                  items
-                ];
-        }
-        if (match._1 !== 1) {
-          return [
-                  List.rev(acc),
-                  items
-                ];
-        }
-        var ext = match._0;
-        _items = items.tl;
-        _acc = {
-          hd: [
-            ext.oext_name,
-            ext.oext_args,
-            ext.oext_ret_type
-          ],
-          tl: acc
-        };
-        continue ;
-      };
-    };
-    var match = gather_extensions({
-          hd: [
-            ext.oext_name,
-            ext.oext_args,
-            ext.oext_ret_type
-          ],
-          tl: /* [] */0
-        }, param.tl);
-    var te_otyext_name = ext.oext_type_name;
-    var te_otyext_params = ext.oext_type_params;
-    var te_otyext_constructors = match[0];
-    var te_otyext_private = ext.oext_private;
-    var te = {
-      otyext_name: te_otyext_name,
-      otyext_params: te_otyext_params,
-      otyext_constructors: te_otyext_constructors,
-      otyext_private: te_otyext_private
-    };
-    return Curry._4(Format.fprintf(ppf)(/* Format */{
-                    _0: {
-                      TAG: /* Alpha */15,
-                      _0: {
-                        TAG: /* Formatting_lit */17,
-                        _0: {
-                          TAG: /* Break */0,
-                          _0: "@ ",
-                          _1: 1,
-                          _2: 0
-                        },
-                        _1: {
-                          TAG: /* Alpha */15,
-                          _0: /* End_of_format */0
-                        }
-                      }
-                    },
-                    _1: "%a@ %a"
-                  }), out_type_extension.contents, te, print_out_signature, match[1]);
-  }
+function print_out_label(ppf, param) {
   return Curry._4(Format.fprintf(ppf)(/* Format */{
                   _0: {
-                    TAG: /* Alpha */15,
+                    TAG: /* Formatting_gen */18,
                     _0: {
-                      TAG: /* Formatting_lit */17,
-                      _0: {
-                        TAG: /* Break */0,
-                        _0: "@ ",
-                        _1: 1,
-                        _2: 0
-                      },
+                      TAG: /* Open_box */1,
+                      _0: /* Format */{
+                        _0: {
+                          TAG: /* String_literal */11,
+                          _0: "<2>",
+                          _1: /* End_of_format */0
+                        },
+                        _1: "<2>"
+                      }
+                    },
+                    _1: {
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
                       _1: {
-                        TAG: /* Alpha */15,
-                        _0: /* End_of_format */0
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: {
+                          TAG: /* String_literal */11,
+                          _0: " :",
+                          _1: {
+                            TAG: /* Formatting_lit */17,
+                            _0: {
+                              TAG: /* Break */0,
+                              _0: "@ ",
+                              _1: 1,
+                              _2: 0
+                            },
+                            _1: {
+                              TAG: /* Alpha */15,
+                              _0: {
+                                TAG: /* Formatting_lit */17,
+                                _0: /* Close_box */0,
+                                _1: {
+                                  TAG: /* Char_literal */12,
+                                  _0: /* ';' */59,
+                                  _1: /* End_of_format */0
+                                }
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   },
-                  _1: "%a@ %a"
-                }), out_sig_item.contents, item, print_out_signature, param.tl);
+                  _1: "@[<2>%s%s :@ %a@];"
+                }), param[1] ? "mutable " : "", param[0], out_type.contents, param[2]);
 }
 
 function print_out_sig_item(ppf, param) {
@@ -43414,7 +43405,7 @@ function ident_name(id) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return id.name;
     }
     throw exn;
@@ -43428,7 +43419,7 @@ function add_unique(id) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       unique_names.contents = add(id, unique_toplevel_name(id), unique_names.contents);
       return ;
     }
@@ -45111,7 +45102,7 @@ var printing_pers = {
   contents: /* Empty */0
 };
 
-function compare$3(_p1, _p2) {
+function compare$4(_p1, _p2) {
   while(true) {
     var p2 = _p2;
     var p1 = _p1;
@@ -45121,7 +45112,7 @@ function compare$3(_p1, _p2) {
       case /* Pdot */1 :
           switch (p2.TAG | 0) {
             case /* Pdot */1 :
-                var c = compare$3(p1._0, p2._0);
+                var c = compare$4(p1._0, p2._0);
                 if (c !== 0) {
                   return c;
                 } else {
@@ -45138,7 +45129,7 @@ function compare$3(_p1, _p2) {
             case /* Pdot */1 :
                 return Caml_obj.caml_compare(p1, p2);
             case /* Papply */2 :
-                var c$1 = compare$3(p1._0, p2._0);
+                var c$1 = compare$4(p1._0, p2._0);
                 if (c$1 !== 0) {
                   return c$1;
                 }
@@ -45151,6 +45142,10 @@ function compare$3(_p1, _p2) {
     }
   };
 }
+
+var funarg$3 = {
+  compare: compare$4
+};
 
 function height$6(param) {
   if (param) {
@@ -45246,7 +45241,7 @@ function add$8(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = compare$3(x, v);
+  var c = Curry._2(funarg$3.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -45280,7 +45275,7 @@ function find$4(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = compare$3(x, param.v);
+      var c = Curry._2(funarg$3.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -45311,7 +45306,7 @@ function index(l, x) {
     }
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -45380,7 +45375,7 @@ function normalize_type_path(cacheOpt, env, p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return [
               p,
               /* Id */0
@@ -45418,7 +45413,7 @@ function path_size(id) {
 function same_printing_env(env) {
   var used_pers = used_persistent(undefined);
   if (same_types(printing_old.contents, env)) {
-    return equal$3(printing_pers.contents, used_pers);
+    return Curry._2(equal$3, printing_pers.contents, used_pers);
   } else {
     return false;
   }
@@ -45440,7 +45435,7 @@ function set_printing_env(env) {
         }
         var p1 = match[0];
         try {
-          var r = find$4(p1, printing_map.contents);
+          var r = Curry._2(find$4, p1, printing_map.contents);
           var l = r.contents;
           if (l.TAG === /* Paths */0) {
             r.contents = {
@@ -45466,8 +45461,8 @@ function set_printing_env(env) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
-            printing_map.contents = add$8(p1, {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
+            printing_map.contents = Curry._3(add$8, p1, {
                   contents: {
                     TAG: /* Paths */0,
                     _0: {
@@ -45538,7 +45533,7 @@ function best_type_path(p) {
   var match = normalize_type_path(undefined, printing_env.contents, p);
   var p$p = match[0];
   var get_path = function (param) {
-    var r = find$4(p$p, printing_map.contents);
+    var r = Curry._2(find$4, p$p, printing_map.contents);
     while(true) {
       var p$p$1 = r.contents;
       if (p$p$1.TAG !== /* Paths */0) {
@@ -45567,7 +45562,7 @@ function best_type_path(p) {
         continue ;
       }
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     };
@@ -45582,7 +45577,7 @@ function best_type_path(p) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 tmp$1 = true;
               } else {
                 throw exn;
@@ -45603,7 +45598,7 @@ function best_type_path(p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       p$p$p = p$p;
     } else {
       throw exn;
@@ -45685,7 +45680,7 @@ function name_of_type(t) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var match = t.desc;
       var name;
       var exit = 0;
@@ -46873,7 +46868,7 @@ function tree_of_class_type(sch, params, _sign) {
                 }
                 var kind = field_kind_repr(param$1[1]);
                 var priv = Caml_obj.caml_notequal(kind, /* Fpresent */0);
-                var virt = !mem$2(lab, partial_arg);
+                var virt = !Curry._2(mem$2, lab, partial_arg);
                 var match = method_type([
                       lab,
                       kind,
@@ -47009,7 +47004,7 @@ function tree_of_cltype_declaration(id, cl, rs) {
   var match = flatten_fields(object_fields(sign.csig_self));
   var virt = List.exists((function (param) {
           var lab = param[0];
-          return !(lab === dummy_method || mem$2(lab, sign.csig_concr));
+          return !(lab === dummy_method || Curry._2(mem$2, lab, sign.csig_concr));
         }), match[0]) || Curry._3(Meths.fold, (function (param, param$1, b) {
           if (param$1[1] === /* Virtual */0) {
             return true;
@@ -47304,7 +47299,7 @@ function tree_of_signature_rec(env$p, in_type_group, param) {
         hd: item,
         tl: match[0]
       }, env$p);
-  return Stdlib__no_aliases.$at(trees, tree_of_signature_rec(env$p$1, in_type_group$1, rem));
+  return Stdlib.$at(trees, tree_of_signature_rec(env$p$1, in_type_group$1, rem));
 }
 
 function tree_of_modtype_declaration(id, decl) {
@@ -49741,7 +49736,7 @@ function type_manifest(env, ty1, params1, ty2, params2, priv2) {
                                   param[4]
                                 ];
                         }), match$5[0]));
-              return equal$5(env, true, Stdlib__no_aliases.$at(params1, match$6[0]), Stdlib__no_aliases.$at(params2, match$6[1]));
+              return equal$5(env, true, Stdlib.$at(params1, match$6[0]), Stdlib.$at(params2, match$6[1]));
             }
             
           }
@@ -49860,7 +49855,7 @@ function type_manifest(env, ty1, params1, ty2, params2, priv2) {
                         }
                         var tl2 = match$1._1;
                         if (List.length(tl1) === List.length(tl2) && match._0 === match$1._0) {
-                          to_equal.contents = Stdlib__no_aliases.$at(List.combine(tl1, tl2), to_equal.contents);
+                          to_equal.contents = Stdlib.$at(List.combine(tl1, tl2), to_equal.contents);
                           return true;
                         } else {
                           return false;
@@ -50570,7 +50565,7 @@ function scrape(env, mty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return mty;
     }
     throw exn;
@@ -50865,10 +50860,10 @@ function nondep_supertype(env, mid, mty) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               if (va) {
                 throw {
-                      RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                      RE_EXN_ID: Stdlib.Not_found,
                       Error: new Error()
                     };
               }
@@ -50954,7 +50949,7 @@ function enrich_typedecl(env, p, decl) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return decl;
     }
     throw exn;
@@ -51047,7 +51042,7 @@ function type_paths_sig(_env, p, _pos, _sg) {
       case /* Sig_module */3 :
           var md = match._1;
           var id = match._0;
-          return Stdlib__no_aliases.$at(type_paths(env, {
+          return Stdlib.$at(type_paths(env, {
                           TAG: /* Pdot */1,
                           _0: p,
                           _1: id.name,
@@ -51082,15 +51077,15 @@ function contains_type(env, _path) {
               return contains_type(env, mty);
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                  RE_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                    RE_EXN_ID: Stdlib.Exit,
                     Error: new Error()
                   };
             }
@@ -51126,19 +51121,19 @@ function contains_type_sig(env) {
                             return ;
                           }
                           throw {
-                                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                RE_EXN_ID: Stdlib.Exit,
                                 Error: new Error()
                               };
                         }
                         throw {
-                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                              RE_EXN_ID: Stdlib.Exit,
                               Error: new Error()
                             };
                     case /* Sig_module */3 :
                         return contains_type(env, param._1.md_type);
                     case /* Sig_modtype */4 :
                         throw {
-                              RE_EXN_ID: Stdlib__no_aliases.Exit,
+                              RE_EXN_ID: Stdlib.Exit,
                               Error: new Error()
                             };
                     default:
@@ -51155,20 +51150,24 @@ function contains_type$1(env, mty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       return true;
     }
     throw exn;
   }
 }
 
-function compare$4(p1, p2) {
+function compare$5(p1, p2) {
   if (same(p1, p2)) {
     return 0;
   } else {
     return Caml_obj.caml_compare(p1, p2);
   }
 }
+
+var P = {
+  compare: compare$5
+};
 
 function height$7(param) {
   if (param) {
@@ -51258,7 +51257,7 @@ function add$9(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = compare$4(x, v);
+  var c = Curry._2(P.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -51332,7 +51331,7 @@ function split$3(x, param) {
   var r = param.r;
   var v = param.v;
   var l = param.l;
-  var c = compare$4(x, v);
+  var c = Curry._2(P.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -51488,7 +51487,7 @@ function add$10(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = compare$4(x, v);
+  var c = Curry._2(P.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -51522,7 +51521,7 @@ function find$5(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = compare$4(x, param.v);
+      var c = Curry._2(P.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -51535,6 +51534,12 @@ function find$5(x, _param) {
         };
   };
 }
+
+var compare$6 = Caml_obj.caml_compare;
+
+var funarg$4 = {
+  compare: compare$6
+};
 
 function height$9(param) {
   if (param) {
@@ -51624,7 +51629,7 @@ function add$11(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml_obj.caml_compare(x, v);
+  var c = Curry._2(funarg$4.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -51698,7 +51703,7 @@ function split$4(x, param) {
   var r = param.r;
   var v = param.v;
   var l = param.l;
-  var c = Caml_obj.caml_compare(x, v);
+  var c = Curry._2(funarg$4.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -51728,7 +51733,7 @@ function mem$5(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml_obj.caml_compare(x, param.v);
+    var c = Curry._2(funarg$4.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -51772,7 +51777,7 @@ function get_prefixes(param) {
     
   }
   var p = param._0;
-  return add$9(p, get_prefixes(p));
+  return Curry._2(add$9, p, get_prefixes(p));
 }
 
 function get_arg_paths(_param) {
@@ -51786,7 +51791,7 @@ function get_arg_paths(_param) {
           continue ;
       case /* Papply */2 :
           var p2 = param._1;
-          return add$9(p2, union$4(get_prefixes(p2), union$4(get_arg_paths(param._0), get_arg_paths(p2))));
+          return Curry._2(add$9, p2, Curry._2(union$4, get_prefixes(p2), Curry._2(union$4, get_arg_paths(param._0), get_arg_paths(p2))));
       
     }
   };
@@ -51798,12 +51803,12 @@ function rollback_path(subst, _p) {
     try {
       return {
               TAG: /* Pident */0,
-              _0: find$5(p, subst)
+              _0: Curry._2(find$5, p, subst)
             };
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         switch (p.TAG | 0) {
           case /* Pdot */1 :
               var p1 = p._0;
@@ -51841,13 +51846,13 @@ function collect_ids(subst, bindings, p) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             ids = /* Empty */0;
           } else {
             throw exn;
           }
         }
-        return add$11(id$1, ids);
+        return Curry._2(add$11, id$1, ids);
     case /* Pdot */1 :
     case /* Papply */2 :
         return /* Empty */0;
@@ -51866,7 +51871,7 @@ function collect_arg_paths(mty) {
     contents: /* Empty */0
   };
   var it_path = function (p) {
-    paths.contents = union$4(get_arg_paths(p), paths.contents);
+    paths.contents = Curry._2(union$4, get_arg_paths(p), paths.contents);
   };
   var it_signature_item$1 = function (it, si) {
     it_signature_item(it, si);
@@ -51882,7 +51887,7 @@ function collect_arg_paths(mty) {
                           return ;
                         }
                         var id$p = param._0;
-                        subst.contents = add$10({
+                        subst.contents = Curry._3(add$10, {
                               TAG: /* Pdot */1,
                               _0: {
                                 TAG: /* Pident */0,
@@ -51920,11 +51925,8 @@ function collect_arg_paths(mty) {
   };
   it_module_type(it, mty);
   it_module_type(unmark_iterators, mty);
-  return fold$6((function (p) {
-                var partial_arg = collect_ids(subst.contents, bindings.contents, p);
-                return function (param) {
-                  return union$5(partial_arg, param);
-                };
+  return Curry._3(fold$6, (function (p) {
+                return Curry._1(union$5, collect_ids(subst.contents, bindings.contents, p));
               }), paths.contents, /* Empty */0);
 }
 
@@ -51963,7 +51965,7 @@ function remove_aliases_sig(env, excl, sg) {
         var id = it._0;
         var mty = md.md_type;
         var mty$1;
-        mty$1 = mty.TAG === /* Mty_alias */3 && mem$5(id, excl) ? md.md_type : remove_aliases(env, excl, mty);
+        mty$1 = mty.TAG === /* Mty_alias */3 && Curry._2(mem$5, id, excl) ? md.md_type : remove_aliases(env, excl, mty);
         return {
                 hd: {
                   TAG: /* Sig_module */3,
@@ -52190,7 +52192,7 @@ function may_expand_module_path(env, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return false;
     }
     throw exn;
@@ -52203,7 +52205,7 @@ function expand_module_path(env, cxt, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: $$Error$5,
             _1: {
@@ -52230,7 +52232,7 @@ function expand_module_alias(env, cxt, path) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: $$Error$5,
             _1: {
@@ -52774,7 +52776,7 @@ function signatures(env, cxt, subst, sig1, sig2) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             var unpaired$1 = match$1[1] ? ({
                   hd: [
                     cxt,
@@ -53044,7 +53046,7 @@ function check_modtype_inclusion$1(env, mty1, path1, mty2) {
     var reasons = Caml_js_exceptions.internalToOCamlException(raw_reasons);
     if (reasons.RE_EXN_ID === $$Error$5) {
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+            RE_EXN_ID: Stdlib.Not_found,
             Error: new Error()
           };
     }
@@ -56041,7 +56043,7 @@ function simple_match_args(p1, _p2) {
                         }
                         catch (raw_exn){
                           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                          if (exn.RE_EXN_ID === Stdlib.Not_found) {
                             return omega;
                           }
                           throw exn;
@@ -56218,7 +56220,7 @@ function discr_pat(q, pss) {
                     }
                     catch (raw_exn){
                       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                      if (exn.RE_EXN_ID === Stdlib.Not_found) {
                         return {
                                 hd: [
                                   param[0],
@@ -56459,7 +56461,7 @@ function filter_one(q, pss) {
       var pss = param.tl;
       if (simple_match(q, p)) {
         return {
-                hd: Stdlib__no_aliases.$at(simple_match_args(q, p), match.tl),
+                hd: Stdlib.$at(simple_match_args(q, p), match.tl),
                 tl: filter_rec(pss)
               };
       }
@@ -56541,7 +56543,7 @@ function filter_all(pat0, pss) {
                 hd: [
                   q0,
                   {
-                    hd: Stdlib__no_aliases.$at(simple_match_args(q0, q), qs),
+                    hd: Stdlib.$at(simple_match_args(q0, q), qs),
                     tl: c[1]
                   }
                 ],
@@ -56559,7 +56561,7 @@ function filter_all(pat0, pss) {
             hd: [
               q0$1,
               {
-                hd: Stdlib__no_aliases.$at(simple_match_args(q0$1, q), qs),
+                hd: Stdlib.$at(simple_match_args(q0$1, q), qs),
                 tl: /* [] */0
               }
             ],
@@ -56697,7 +56699,7 @@ function filter_all(pat0, pss) {
             return [
                     q,
                     {
-                      hd: Stdlib__no_aliases.$at(simple_match_args(q, omega), ps$1),
+                      hd: Stdlib.$at(simple_match_args(q, omega), ps$1),
                       tl: param[1]
                     }
                   ];
@@ -57303,7 +57305,7 @@ function build_other(ext, env) {
                     var i = _i;
                     if (i > imax) {
                       throw {
-                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                            RE_EXN_ID: Stdlib.Not_found,
                             Error: new Error()
                           };
                     }
@@ -57323,7 +57325,7 @@ function build_other(ext, env) {
                 }
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                     _param = param.tl;
                     continue ;
                   }
@@ -57383,7 +57385,7 @@ function build_other(ext, env) {
                                     TAG: /* Tpat_constant */2,
                                     _0: {
                                       TAG: /* Const_float */3,
-                                      _0: Stdlib__no_aliases.string_of_float(f)
+                                      _0: Stdlib.string_of_float(f)
                                     }
                                   };
                           }), 0.0, (function (f) {
@@ -57787,7 +57789,7 @@ function satisfiable(_pss, _qs) {
                       if (is_absent_pat(p)) {
                         return false;
                       } else {
-                        return satisfiable(param[1], Stdlib__no_aliases.$at(simple_match_args(p, omega), qs$2));
+                        return satisfiable(param[1], Stdlib.$at(simple_match_args(p, omega), qs$2));
                       }
                     }
                     }(qs$2)), constrs);
@@ -57801,7 +57803,7 @@ function satisfiable(_pss, _qs) {
       continue ;
     }
     var q0$1 = discr_pat(q, pss);
-    _qs = Stdlib__no_aliases.$at(simple_match_args(q0$1, q), qs.tl);
+    _qs = Stdlib.$at(simple_match_args(q0$1, q), qs.tl);
     _pss = filter_one(q0$1, pss);
     continue ;
   };
@@ -57846,7 +57848,7 @@ function try_many_gadt(f, param) {
   if (r1) {
     if (r2) {
       return /* Rsome */{
-              _0: Stdlib__no_aliases.$at(r1._0, r2._0)
+              _0: Stdlib.$at(r1._0, r2._0)
             };
     } else {
       return r1;
@@ -57948,7 +57950,7 @@ function combinations(f, lst, lst$p) {
   };
   var iter = function (param) {
     if (param) {
-      return Stdlib__no_aliases.$at(iter2(param.hd, lst$p), iter(param.tl));
+      return Stdlib.$at(iter2(param.hd, lst$p), iter(param.tl));
     } else {
       return /* [] */0;
     }
@@ -58005,7 +58007,7 @@ function exhaust_gadt(ext, pss, n) {
             }), missing_trailing, r._0);
       if (before) {
         return /* Rsome */{
-                _0: Stdlib__no_aliases.$at(before._0, dug)
+                _0: Stdlib.$at(before._0, dug)
               };
       } else {
         return /* Rsome */{
@@ -58355,7 +58357,7 @@ function filter_one$1(q, rs) {
                   hd: {
                     no_ors: r.no_ors,
                     ors: r.ors,
-                    active: Stdlib__no_aliases.$at(simple_match_args(q, p), match.tl)
+                    active: Stdlib.$at(simple_match_args(q, p), match.tl)
                   },
                   tl: filter_rec(rem)
                 };
@@ -58390,7 +58392,7 @@ function extract_elements(qs) {
     var q = param.hd;
     return {
             hd: {
-              no_ors: Stdlib__no_aliases.$at(List.rev_append(seen, rem), qs.no_ors),
+              no_ors: Stdlib.$at(List.rev_append(seen, rem), qs.no_ors),
               ors: /* [] */0,
               active: {
                 hd: q,
@@ -58483,7 +58485,7 @@ function every_satisfiables(_pss, _qs) {
             _qs = {
               no_ors: qs.no_ors,
               ors: qs.ors,
-              active: Stdlib__no_aliases.$at(simple_match_args(q0, q), match.tl)
+              active: Stdlib.$at(simple_match_args(q0, q), match.tl)
             };
             _pss = filter_one$1(q0, pss);
             continue ;
@@ -58528,7 +58530,7 @@ function every_satisfiables(_pss, _qs) {
                         } else {
                           if (typeof r_loc !== "number") {
                             return /* Upartial */{
-                                    _0: Stdlib__no_aliases.$at(r._0, r_loc._0)
+                                    _0: Stdlib.$at(r._0, r_loc._0)
                                   };
                           }
                           if (!r_loc) {
@@ -58625,7 +58627,7 @@ function every_both(pss, qs, q1, q2) {
   if (typeof r2 === "number") {
     if (r2) {
       return /* Upartial */{
-              _0: Stdlib__no_aliases.$at(u1, {
+              _0: Stdlib.$at(u1, {
                     hd: q2,
                     tl: /* [] */0
                   })
@@ -58635,7 +58637,7 @@ function every_both(pss, qs, q1, q2) {
     }
   } else {
     return /* Upartial */{
-            _0: Stdlib__no_aliases.$at(u1, r2._0)
+            _0: Stdlib.$at(u1, r2._0)
           };
   }
 }
@@ -58996,7 +58998,7 @@ function do_filter_one(q, pss) {
       if (simple_match(q, p)) {
         return {
                 hd: [
-                  Stdlib__no_aliases.$at(simple_match_args(q, p), match$1.tl),
+                  Stdlib.$at(simple_match_args(q, p), match$1.tl),
                   match[1]
                 ],
                 tl: filter_rec(pss)
@@ -59037,7 +59039,7 @@ function do_match(_pss, _qs) {
         continue ;
       }
       var q0 = normalize_pat(q);
-      _qs = Stdlib__no_aliases.$at(simple_match_args(q0, q), qs$1);
+      _qs = Stdlib.$at(simple_match_args(q0, q), qs$1);
       _pss = do_filter_one(q0, pss);
       continue ;
     } else {
@@ -59104,7 +59106,7 @@ function select(param) {
   }
   var ys = param.tl;
   var x = xs.hd;
-  return Stdlib__no_aliases.$at(List.map((function (lst) {
+  return Stdlib.$at(List.map((function (lst) {
                     return {
                             hd: x,
                             tl: lst
@@ -59266,7 +59268,7 @@ function conv(typed) {
                                     });
                         }), results$3);
         case /* Tpat_or */8 :
-            return Stdlib__no_aliases.$at(loop(lst._0), loop(lst._1));
+            return Stdlib.$at(loop(lst._0), loop(lst._1));
         case /* Tpat_lazy */9 :
             var results$4 = loop(lst._0);
             return List.map((function (p) {
@@ -59824,7 +59826,7 @@ function narrow_unbound_lid_error(env, loc, lid, make_error) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return narrow_unbound_lid_error(env, loc, mlid, (function (lid) {
                       return {
                               TAG: /* Unbound_module */20,
@@ -59917,7 +59919,7 @@ function find_component(lookup, make_error, env, loc, lid) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return narrow_unbound_lid_error(env, loc, lid, make_error);
     }
     if (exn.RE_EXN_ID === Recmodule) {
@@ -60233,7 +60235,7 @@ function transl_type_param(env, styp) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         var v = new_global_var(validate_name(name$1), undefined);
         type_variables.contents = add$5(name$1, v, type_variables.contents);
         ty$1 = v;
@@ -60344,13 +60346,13 @@ function transl_type(env, policy, styp) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             try {
               ty$1 = instance(undefined, env, find$2(name$1, used_variables.contents)[0]);
             }
             catch (raw_exn$1){
               var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-              if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                 var v = policy === /* Univars */2 ? new_pre_univar(name$1, undefined) : newvar(validate_name(name$1), undefined);
                 used_variables.contents = add$5(name$1, [
                       v,
@@ -60519,7 +60521,7 @@ function transl_type(env, policy, styp) {
                 var row = repr(ty).desc;
                 if (typeof row === "number") {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                        RE_EXN_ID: Stdlib.Not_found,
                         Error: new Error()
                       };
                 }
@@ -60532,18 +60534,18 @@ function transl_type(env, policy, styp) {
                         return ;
                       }
                       throw {
-                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                            RE_EXN_ID: Stdlib.Not_found,
                             Error: new Error()
                           };
                   default:
                     throw {
-                          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                          RE_EXN_ID: Stdlib.Not_found,
                           Error: new Error()
                         };
                 }
               } else {
                 throw {
-                      RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                      RE_EXN_ID: Stdlib.Not_found,
                       Error: new Error()
                     };
               }
@@ -60562,7 +60564,7 @@ function transl_type(env, policy, styp) {
         }
         catch (raw_exn$2){
           var exn$2 = Caml_js_exceptions.internalToOCamlException(raw_exn$2);
-          if (exn$2.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$2.RE_EXN_ID === Stdlib.Not_found) {
             try {
               var s = lid$1.txt;
               var lid2;
@@ -60594,7 +60596,7 @@ function transl_type(env, policy, styp) {
             }
             catch (raw_exn$3){
               var exn$3 = Caml_js_exceptions.internalToOCamlException(raw_exn$3);
-              if (exn$3.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn$3.RE_EXN_ID === Stdlib.Not_found) {
                 find_class$1(env, styp.ptyp_loc, lid$1.txt);
                 throw {
                       RE_EXN_ID: "Assert_failure",
@@ -60800,7 +60802,7 @@ function transl_type(env, policy, styp) {
           }
           catch (raw_exn$4){
             var exn$4 = Caml_js_exceptions.internalToOCamlException(raw_exn$4);
-            if (exn$4.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn$4.RE_EXN_ID === Stdlib.Not_found) {
               t$1 = instance(undefined, env, find$2(alias, used_variables.contents)[0]);
             } else {
               throw exn$4;
@@ -60831,7 +60833,7 @@ function transl_type(env, policy, styp) {
         }
         catch (raw_exn$5){
           var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
-          if (exn$5.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$5.RE_EXN_ID === Stdlib.Not_found) {
             if (principal.contents) {
               begin_def(undefined);
             }
@@ -60991,7 +60993,7 @@ function transl_type(env, policy, styp) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return Hashtbl.add(hfields, h, [
                           l,
                           f
@@ -61070,7 +61072,7 @@ function transl_type(env, policy, styp) {
           try {
             Hashtbl.iter((function (param, param$1) {
                     throw {
-                          RE_EXN_ID: Stdlib__no_aliases.Exit,
+                          RE_EXN_ID: Stdlib.Exit,
                           Error: new Error()
                         };
                   }), hfields);
@@ -61078,7 +61080,7 @@ function transl_type(env, policy, styp) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+            if (exn.RE_EXN_ID === Stdlib.Exit) {
               name$2.contents = undefined;
             } else {
               throw exn;
@@ -61264,7 +61266,7 @@ function transl_type(env, policy, styp) {
                       ];
               }), vars);
         var old_univars = univars.contents;
-        univars.contents = Stdlib__no_aliases.$at(new_univars, univars.contents);
+        univars.contents = Stdlib.$at(new_univars, univars.contents);
         var cty$1 = transl_type(env, policy, name._1);
         var ty$11 = cty$1.ctyp_type;
         univars.contents = old_univars;
@@ -61484,7 +61486,7 @@ function globalize_used_variables(env, fixed) {
           }
           catch (raw_exn){
             var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
               if (fixed && is_Tvar(repr(ty))) {
                 throw {
                       RE_EXN_ID: $$Error$6,
@@ -61658,7 +61660,7 @@ function spellcheck(ppf, fold, env, lid) {
   };
   var init = [
     /* [] */0,
-    Stdlib__no_aliases.max_int
+    Stdlib.max_int
   ];
   var handle = function (param) {
     var match = List.rev(param[0]);
@@ -62872,7 +62874,7 @@ function extract_concrete_record(env, ty) {
   var match$1 = match[2].type_kind;
   if (typeof match$1 === "number") {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -62884,7 +62886,7 @@ function extract_concrete_record(env, ty) {
           ];
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -62903,7 +62905,7 @@ function extract_concrete_variant(env, ty) {
             ];
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   } else {
@@ -62915,7 +62917,7 @@ function extract_concrete_variant(env, ty) {
             ];
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
@@ -62930,7 +62932,7 @@ function extract_label_names(sexp, env, ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -63249,7 +63251,7 @@ function has_variants(p) {
               return ;
             }
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                  RE_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }), p);
@@ -63257,7 +63259,7 @@ function has_variants(p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       return true;
     }
     throw exn;
@@ -63827,7 +63829,7 @@ function expand_path(env, _p) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         decl = undefined;
       } else {
         throw exn;
@@ -63939,7 +63941,7 @@ function lookup_from_type(env, tpath, lid) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             throw {
                   RE_EXN_ID: $$Error$7,
                   _1: lid.loc,
@@ -63960,7 +63962,7 @@ function lookup_from_type(env, tpath, lid) {
     case /* Ldot */1 :
     case /* Lapply */2 :
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     
@@ -64064,7 +64066,7 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         try {
           var lbl$2 = lookup_from_type(env, tpath, lid);
           Curry._2(check_lk, tpath, lbl$2);
@@ -64085,7 +64087,7 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
             if (Caml_obj.caml_equal(lbls, /* [] */0)) {
               lbl = unbound_label_error(env, lid);
             } else {
@@ -64524,7 +64526,7 @@ function lookup_from_type$1(env, tpath, lid) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             throw {
                   RE_EXN_ID: $$Error$7,
                   _1: lid.loc,
@@ -64545,7 +64547,7 @@ function lookup_from_type$1(env, tpath, lid) {
     case /* Ldot */1 :
     case /* Lapply */2 :
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Not_found,
+              RE_EXN_ID: Stdlib.Not_found,
               Error: new Error()
             };
     
@@ -64649,7 +64651,7 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         try {
           var lbl$2 = lookup_from_type$1(env, tpath, lid);
           Curry._2(check_lk, tpath, lbl$2);
@@ -64670,7 +64672,7 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
             if (Caml_obj.caml_equal(lbls, /* [] */0)) {
               lbl = unbound_constructor_error(env, lid);
             } else {
@@ -64951,7 +64953,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             opath = undefined;
           } else {
             throw exn;
@@ -65168,7 +65170,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
             match$3 = [
               undefined,
               newvar(undefined, undefined)
@@ -66080,7 +66082,7 @@ function approx_type(env, _sty) {
             var match = lookup_type$1(args._0.txt, env);
             if (List.length(ctl) !== match[1].type_arity) {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
@@ -66091,7 +66093,7 @@ function approx_type(env, _sty) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return newvar(undefined, undefined);
             }
             throw exn;
@@ -66370,7 +66372,7 @@ function generalizable(level, ty) {
     }
     if (ty$1.level <= level) {
       throw {
-            RE_EXN_ID: Stdlib__no_aliases.Exit,
+            RE_EXN_ID: Stdlib.Exit,
             Error: new Error()
           };
     }
@@ -66384,7 +66386,7 @@ function generalizable(level, ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       unmark_type(ty);
       return false;
     }
@@ -66434,7 +66436,7 @@ function contains_variant_either(ty) {
                 return ;
               }
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                    RE_EXN_ID: Stdlib.Exit,
                     Error: new Error()
                   };
             }), row$1.row_fields);
@@ -66448,7 +66450,7 @@ function contains_variant_either(ty) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       unmark_type(ty);
       return true;
     }
@@ -66495,7 +66497,7 @@ function contains_polymorphic_variant(p) {
       case /* Ppat_variant */6 :
       case /* Ppat_type */11 :
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                RE_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
       default:
@@ -66508,7 +66510,7 @@ function contains_polymorphic_variant(p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       return true;
     }
     throw exn;
@@ -66531,14 +66533,14 @@ function contains_gadt(env, p) {
                 return ;
               }
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                    RE_EXN_ID: Stdlib.Exit,
                     Error: new Error()
                   };
             }), cstrs);
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID !== Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID !== Stdlib.Not_found) {
         throw exn;
       }
       
@@ -66551,7 +66553,7 @@ function contains_gadt(env, p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       return true;
     }
     throw exn;
@@ -66657,7 +66659,7 @@ function duplicate_ident_types(loc, caselist, env) {
                 }
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                     return env;
                   }
                   throw exn;
@@ -67243,7 +67245,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         }
         catch (raw_exn){
           var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-          if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn.RE_EXN_ID === Stdlib.Not_found) {
             opath = undefined;
           } else {
             throw exn;
@@ -67392,7 +67394,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             var row = match$18.desc;
             if (typeof row === "number") {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
@@ -67400,7 +67402,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               var row0 = match$19.desc;
               if (typeof row0 === "number") {
                 throw {
-                      RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                      RE_EXN_ID: Stdlib.Not_found,
                       Error: new Error()
                     };
               }
@@ -67410,7 +67412,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 var match$21 = row_field_repr_aux(/* [] */0, List.assoc(l$1, row0._0.row_fields));
                 if (typeof match$20 === "number") {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                        RE_EXN_ID: Stdlib.Not_found,
                         Error: new Error()
                       };
                 }
@@ -67419,7 +67421,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   if (ty$1 !== undefined) {
                     if (typeof match$21 === "number") {
                       throw {
-                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                            RE_EXN_ID: Stdlib.Not_found,
                             Error: new Error()
                           };
                     }
@@ -67441,48 +67443,48 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                                   });
                       }
                       throw {
-                            RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                            RE_EXN_ID: Stdlib.Not_found,
                             Error: new Error()
                           };
                     }
                     throw {
-                          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                          RE_EXN_ID: Stdlib.Not_found,
                           Error: new Error()
                         };
                   } else {
                     throw {
-                          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                          RE_EXN_ID: Stdlib.Not_found,
                           Error: new Error()
                         };
                   }
                 } else {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                        RE_EXN_ID: Stdlib.Not_found,
                         Error: new Error()
                       };
                 }
               } else {
                 throw {
-                      RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                      RE_EXN_ID: Stdlib.Not_found,
                       Error: new Error()
                     };
               }
             } else {
               throw {
-                    RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                    RE_EXN_ID: Stdlib.Not_found,
                     Error: new Error()
                   };
             }
           } else {
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Not_found,
+                  RE_EXN_ID: Stdlib.Not_found,
                   Error: new Error()
                 };
           }
         }
         catch (raw_exn$1){
           var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-          if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
             var arg$2 = may_map((function (param) {
                     return type_exp(env, param);
                   }), sarg$1);
@@ -67555,7 +67557,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               return ;
             }
             throw exn;
@@ -68188,7 +68190,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                     }
                     catch (raw_exn$5){
                       var exn$5 = Caml_js_exceptions.internalToOCamlException(raw_exn$5);
-                      if (exn$5.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                      if (exn$5.RE_EXN_ID === Stdlib.Not_found) {
                         throw {
                               RE_EXN_ID: $$Error$7,
                               _1: e.pexp_loc,
@@ -68503,7 +68505,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         }
         catch (raw_exn$7){
           var exn$7 = Caml_js_exceptions.internalToOCamlException(raw_exn$7);
-          if (exn$7.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$7.RE_EXN_ID === Stdlib.Not_found) {
             throw {
                   RE_EXN_ID: $$Error$7,
                   _1: loc,
@@ -68556,7 +68558,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
         }
         catch (raw_exn$8){
           var exn$8 = Caml_js_exceptions.internalToOCamlException(raw_exn$8);
-          if (exn$8.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+          if (exn$8.RE_EXN_ID === Stdlib.Not_found) {
             throw {
                   RE_EXN_ID: $$Error$7,
                   _1: loc,
@@ -68597,7 +68599,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 throw {
                       RE_EXN_ID: $$Error$7,
                       _1: loc,
@@ -69187,7 +69189,7 @@ function type_label_access(env, loc, srecord, lid) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       opath = undefined;
     } else {
       throw exn;
@@ -69528,7 +69530,7 @@ function type_argument(env, sarg, ty_expected$p, ty_expected) {
           var e_exp_desc = {
             TAG: /* Texp_apply */4,
             _0: texp,
-            _1: Stdlib__no_aliases.$at(args, {
+            _1: Stdlib.$at(args, {
                   hd: [
                     "",
                     eta_var,
@@ -69766,13 +69768,13 @@ function type_application(env, funct, sargs) {
                   match$7 = [
                     match$8[0],
                     sarg0$1,
-                    Stdlib__no_aliases.$at(sargs1, match$8[3]),
+                    Stdlib.$at(sargs1, match$8[3]),
                     more_sargs
                   ];
                 }
                 catch (raw_exn){
                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                     var match$9 = extract_label_aux(/* [] */0, name, more_sargs);
                     var sargs1$1 = match$9[2];
                     var sarg0$2 = match$9[1];
@@ -69785,7 +69787,7 @@ function type_application(env, funct, sargs) {
                     match$7 = [
                       match$9[0],
                       sarg0$2,
-                      Stdlib__no_aliases.$at(sargs, sargs1$1),
+                      Stdlib.$at(sargs, sargs1$1),
                       match$9[3]
                     ];
                   } else {
@@ -69819,7 +69821,7 @@ function type_application(env, funct, sargs) {
               }
               catch (raw_exn$1){
                 var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                   match$4 = [
                     sargs,
                     more_sargs,
@@ -69901,7 +69903,7 @@ function type_application(env, funct, sargs) {
         if (exit$1 === 2) {
           var _args$1 = args;
           var _ty_fun$1 = ty_fun0;
-          var _param = Stdlib__no_aliases.$at(sargs, more_sargs);
+          var _param = Stdlib.$at(sargs, more_sargs);
           while(true) {
             var param = _param;
             var ty_fun$2 = _ty_fun$1;
@@ -69990,7 +69992,7 @@ function type_application(env, funct, sargs) {
             if (exit$2 === 1) {
               var ty_fun$4;
               ty_fun$4 = typeof td === "number" || td.TAG !== /* Tarrow */1 ? ty_fun$3 : newty2(current_level.contents, td);
-              var ty_res = result_type(Stdlib__no_aliases.$at(omitted, ignored.contents), ty_fun$4);
+              var ty_res = result_type(Stdlib.$at(omitted, ignored.contents), ty_fun$4);
               var match$13 = ty_res.desc;
               var exit$3 = 0;
               if (typeof match$13 === "number") {
@@ -70220,7 +70222,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
           var ty_arg$2 = instance(partial, env$2, ty_arg$1);
           var match = type_pattern(lev$1, env$2, param.pc_lhs, scope, ty_arg$2);
           var pat = match[0];
-          pattern_force.contents = Stdlib__no_aliases.$at(match[2], pattern_force.contents);
+          pattern_force.contents = Stdlib.$at(match[2], pattern_force.contents);
           var pat$1 = principal.contents ? (end_def(undefined), iter_pattern((function (param) {
                       return generalize_structure$1(current_level.contents, param.pat_type);
                     }), pat), {
@@ -70356,7 +70358,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             var exit = 0;
-            if (exn.RE_EXN_ID === Empty || exn.RE_EXN_ID === Stdlib__no_aliases.Not_found || exn.RE_EXN_ID === NoGuard) {
+            if (exn.RE_EXN_ID === Empty || exn.RE_EXN_ID === Stdlib.Not_found || exn.RE_EXN_ID === NoGuard) {
               exit = 1;
             } else {
               throw exn;
@@ -70595,7 +70597,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                   }
                   catch (raw_exn){
                     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                    if (exn.RE_EXN_ID === Stdlib.Not_found) {
                       return Hashtbl.add(value_declarations, key, callback);
                     }
                     throw exn;
@@ -72849,6 +72851,12 @@ function set_fixed_row(env, loc, p, decl) {
   };
 }
 
+var compare$7 = Caml.caml_string_compare;
+
+var funarg$5 = {
+  compare: compare$7
+};
+
 function height$10(param) {
   if (param) {
     return param.h;
@@ -72937,7 +72945,7 @@ function add$12(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$5.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -72963,7 +72971,7 @@ function mem$6(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg$5.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -73078,10 +73086,10 @@ function check_constraints_rec(env, loc, visited, _ty) {
   while(true) {
     var ty = _ty;
     var ty$1 = repr(ty);
-    if (mem$3(ty$1, visited.contents)) {
+    if (Curry._2(mem$3, ty$1, visited.contents)) {
       return ;
     }
-    visited.contents = add$3(ty$1, visited.contents);
+    visited.contents = Curry._2(add$3, ty$1, visited.contents);
     var match = ty$1.desc;
     if (typeof match === "number") {
       return iter_type_expr((function (param) {
@@ -73112,7 +73120,7 @@ function check_constraints_rec(env, loc, visited, _ty) {
                     Error: new Error()
                   };
             }
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               throw {
                     RE_EXN_ID: $$Error$8,
                     _1: loc,
@@ -73151,6 +73159,10 @@ function check_constraints_rec(env, loc, visited, _ty) {
     }
   };
 }
+
+var funarg$6 = {
+  compare: $$String.compare
+};
 
 function height$11(param) {
   if (param) {
@@ -73246,7 +73258,7 @@ function add$13(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$6.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -73280,7 +73292,7 @@ function find$6(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(funarg$6.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -73346,7 +73358,7 @@ function check_coherence(env, loc, id, decl) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         throw {
               RE_EXN_ID: $$Error$8,
               _1: loc,
@@ -73379,7 +73391,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
   };
   var check = function (ty0, exp_nodes, ty) {
     var ty$1 = repr(ty);
-    if (mem$3(ty$1, exp_nodes)) {
+    if (Curry._2(mem$3, ty$1, exp_nodes)) {
       var match = ty0.desc;
       var tmp;
       tmp = typeof match === "number" || match.TAG !== /* Tconstr */3 ? false : same(match._0, path);
@@ -73407,18 +73419,18 @@ function check_well_founded(env, loc, path, to_check, ty) {
     }
     var match$1;
     try {
-      var prev = find$1(ty$1, visited.contents);
-      match$1 = subset$1(exp_nodes, prev) ? [
+      var prev = Curry._2(find$1, ty$1, visited.contents);
+      match$1 = Curry._2(subset$1, exp_nodes, prev) ? [
           true,
           exp_nodes
         ] : [
           false,
-          union$3(exp_nodes, prev)
+          Curry._2(union$3, exp_nodes, prev)
         ];
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         match$1 = [
           false,
           exp_nodes
@@ -73433,7 +73445,7 @@ function check_well_founded(env, loc, path, to_check, ty) {
       return ;
     }
     try {
-      visited.contents = add$4(ty$1, exp_nodes$1, visited.contents);
+      visited.contents = Curry._3(add$4, ty$1, exp_nodes$1, visited.contents);
       var match$2 = ty$1.desc;
       if (typeof match$2 === "number") {
         throw {
@@ -73442,14 +73454,10 @@ function check_well_founded(env, loc, path, to_check, ty) {
             };
       }
       if (match$2.TAG === /* Tconstr */3) {
-        if (!(
-            exp_nodes$1 ? false : true
-          ) || Curry._1(to_check, match$2._0)) {
+        if (!Curry._1(is_empty$2, exp_nodes$1) || Curry._1(to_check, match$2._0)) {
           var ty$p = try_expand_once_opt(env, ty$1);
-          var ty0$1 = (
-            exp_nodes$1 ? false : true
-          ) ? ty$1 : ty0;
-          return check(ty0$1, add$3(ty$1, exp_nodes$1), ty$p);
+          var ty0$1 = Curry._1(is_empty$2, exp_nodes$1) ? ty$1 : ty0;
+          return check(ty0$1, Curry._2(add$3, ty$1, exp_nodes$1), ty$p);
         }
         throw {
               RE_EXN_ID: Cannot_expand,
@@ -73600,7 +73608,7 @@ function check_recursion(env, loc, path, decl, to_check) {
               }
               catch (raw_exn$1){
                 var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                if (exn$1.RE_EXN_ID !== Stdlib__no_aliases.Not_found) {
+                if (exn$1.RE_EXN_ID !== Stdlib.Not_found) {
                   throw exn$1;
                 }
                 
@@ -73628,11 +73636,11 @@ function check_recursion(env, loc, path, decl, to_check) {
 
 function get_variance(ty, visited) {
   try {
-    return find$1(ty, visited.contents);
+    return Curry._2(find$1, ty, visited.contents);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return Types_Variance.$$null;
     }
     throw exn;
@@ -73650,7 +73658,7 @@ function compute_variance(env, visited, vari, ty) {
         return ;
       }
       var vari$1 = Curry._2(Types_Variance.union, vari, vari$p);
-      visited.contents = add$4(ty$1, vari$1, visited.contents);
+      visited.contents = Curry._3(add$4, ty$1, vari$1, visited.contents);
       var compute_same = (function(vari$1){
       return function compute_same(param) {
         return compute_variance_rec(vari$1, param);
@@ -73694,7 +73702,7 @@ function compute_variance(env, visited, vari, ty) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 return List.iter((function (param) {
                               return compute_variance_rec(Types_Variance.may_inv, param);
                             }), tl$1);
@@ -73858,14 +73866,14 @@ function compute_variance_type(env, check, param, decl, tyl) {
       };
       var check$1 = function (ty) {
         var ty$1 = repr(ty);
-        if (mem$3(ty$1, visited.contents)) {
+        if (Curry._2(mem$3, ty$1, visited.contents)) {
           return ;
         }
-        var visited$p = add$3(ty$1, visited.contents);
+        var visited$p = Curry._2(add$3, ty$1, visited.contents);
         visited.contents = visited$p;
         var v1 = get_variance(ty$1, tvl);
         var snap = snapshot(undefined);
-        var v2 = fold$3((function (t, vt, v) {
+        var v2 = Curry._3(fold$3, (function (t, vt, v) {
                 if (equal$5(env, false, {
                         hd: ty$1,
                         tl: /* [] */0
@@ -74010,7 +74018,7 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
             if (fv2) {
               var fv2$1 = fv2.tl;
               var fv1 = param[0];
-              if ((param$1[0] || param$1[1]) && constrained(env, Stdlib__no_aliases.$at(fv1, fv2$1), ty)) {
+              if ((param$1[0] || param$1[1]) && constrained(env, Stdlib.$at(fv1, fv2$1), ty)) {
                 throw {
                       RE_EXN_ID: $$Error$8,
                       _1: loc,
@@ -74098,7 +74106,7 @@ function compute_variance_decl(env, check, decl, rloc) {
     return compute_variance_type(env, check, rloc, decl, mn);
   }
   if (tll.TAG === /* Type_record */0) {
-    return compute_variance_type(env, check, rloc, decl, Stdlib__no_aliases.$at(mn, List.map((function (param) {
+    return compute_variance_type(env, check, rloc, decl, Stdlib.$at(mn, List.map((function (param) {
                           return [
                                   param.ld_mutable === /* Mutable */1,
                                   param.ld_type
@@ -74109,7 +74117,7 @@ function compute_variance_decl(env, check, decl, rloc) {
   if (List.for_all((function (c) {
             return c.cd_res === undefined;
           }), tll$1)) {
-    return compute_variance_type(env, check, rloc, decl, Stdlib__no_aliases.$at(mn, add_false(List.flatten(List.map((function (c) {
+    return compute_variance_type(env, check, rloc, decl, Stdlib.$at(mn, add_false(List.flatten(List.map((function (c) {
                                   return c.cd_args;
                                 }), tll$1)))));
   }
@@ -74122,7 +74130,7 @@ function compute_variance_decl(env, check, decl, rloc) {
                   undefined
                 ];
         }), mn);
-  var tll$2 = Stdlib__no_aliases.$at(mn$1, List.map((function (c) {
+  var tll$2 = Stdlib.$at(mn$1, List.map((function (c) {
               return [
                       c.cd_args,
                       c.cd_res
@@ -74339,7 +74347,7 @@ function check_duplicates(sdecl_list) {
                                 }
                                 catch (raw_exn){
                                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                                     return Hashtbl.add(constrs, pcd.pcd_name.txt, sdecl.ptype_name.txt);
                                   }
                                   throw exn;
@@ -74360,7 +74368,7 @@ function check_duplicates(sdecl_list) {
                                 }
                                 catch (raw_exn){
                                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                                     return Hashtbl.add(labels, cname.txt, sdecl.ptype_name.txt);
                                   }
                                   throw exn;
@@ -74423,7 +74431,7 @@ function name_recursion(sdecl, id, decl) {
 
 function transl_type_decl(env, rec_flag, sdecl_list) {
   var fixed_types = List.filter(is_fixed_type)(sdecl_list);
-  var sdecl_list$1 = Stdlib__no_aliases.$at(List.map((function (sdecl) {
+  var sdecl_list$1 = Stdlib.$at(List.map((function (sdecl) {
               var ptype_name_txt = sdecl.ptype_name.txt + "#row";
               var ptype_name_loc = sdecl.ptype_name.loc;
               var ptype_name = {
@@ -74534,7 +74542,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       };
       List.iter((function (param) {
               var name = param.pcd_name.txt;
-              if (mem$6(name, all_constrs.contents)) {
+              if (Curry._2(mem$6, name, all_constrs.contents)) {
                 throw {
                       RE_EXN_ID: $$Error$8,
                       _1: name_sdecl.ptype_loc,
@@ -74545,7 +74553,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                       Error: new Error()
                     };
               }
-              all_constrs.contents = add$12(name, all_constrs.contents);
+              all_constrs.contents = Curry._2(add$12, name, all_constrs.contents);
             }), scstrs$1);
       if (List.length(List.filter(function (cd) {
                     return Caml_obj.caml_notequal(cd.pcd_args, /* [] */0);
@@ -74613,7 +74621,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       };
       List.iter((function (param) {
               var name = param.pld_name.txt;
-              if (mem$6(name, all_labels.contents)) {
+              if (Curry._2(mem$6, name, all_labels.contents)) {
                 throw {
                       RE_EXN_ID: $$Error$8,
                       _1: name_sdecl.ptype_loc,
@@ -74624,7 +74632,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                       Error: new Error()
                     };
               }
-              all_labels.contents = add$12(name, all_labels.contents);
+              all_labels.contents = Curry._2(add$12, name, all_labels.contents);
             }), lbls);
       var lbls$1 = List.map((function (param) {
               var name = param.pld_name;
@@ -74743,7 +74751,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID === Stdlib.Not_found) {
           throw {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
@@ -74988,18 +74996,18 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
             };
             var pl$1 = find_pl$1(param.ptype_kind);
             var foldf = function (acc, x) {
-              return add$13(x.pcd_name.txt, x, acc);
+              return Curry._3(add$13, x.pcd_name.txt, x, acc);
             };
             var pl_index = List.fold_left(foldf, /* Empty */0, pl$1);
             List.iter((function (param) {
                     var ret_type = param.cd_res;
                     var match;
                     try {
-                      match = find$6(param.cd_id.name, pl_index);
+                      match = Curry._2(find$6, param.cd_id.name, pl_index);
                     }
                     catch (raw_exn){
                       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                      if (exn.RE_EXN_ID === Stdlib.Not_found) {
                         throw {
                               RE_EXN_ID: "Assert_failure",
                               _1: [
@@ -75328,7 +75336,7 @@ function transl_type_extension(check_open, env, loc, styext) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID !== Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID !== Stdlib.Not_found) {
           throw exn;
         }
         
@@ -75867,7 +75875,7 @@ function explain_unbound(ppf, tv, tl, typ, kwd, lab) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -77282,7 +77290,7 @@ function virtual_methods(sign) {
   var match = flatten_fields(object_fields(sign.csig_self));
   return List.fold_left((function (virt, param) {
                 var lab = param[0];
-                if (lab === dummy_method || mem$2(lab, sign.csig_concr)) {
+                if (lab === dummy_method || Curry._2(mem$2, lab, sign.csig_concr)) {
                   return virt;
                 } else {
                   return {
@@ -77523,7 +77531,7 @@ function enter_val(cl_num, vars, inh, lab, mut, virt, ty, val_env, met_env, par_
             Error: new Error()
           };
     }
-    if (tr.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (tr.RE_EXN_ID === Stdlib.Not_found) {
       match = [
         undefined,
         virt
@@ -77557,7 +77565,7 @@ function concr_vals(vars) {
                 if (param[1] === /* Virtual */0) {
                   return s;
                 } else {
-                  return add$2(id, s);
+                  return Curry._2(add$2, id, s);
                 }
               }), vars, /* Empty */0);
 }
@@ -77630,9 +77638,9 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
             throw trace;
           }
         }
-        var over_meths = inter$1(cl_sig$1.csig_concr, concr_meths);
+        var over_meths = Curry._2(inter$1, cl_sig$1.csig_concr, concr_meths);
         var concr_vals$1 = concr_vals(cl_sig$1.csig_vars);
-        var over_vals = inter$1(concr_vals$1, warn_vals);
+        var over_vals = Curry._2(inter$1, concr_vals$1, warn_vals);
         if (ovf !== undefined) {
           if (ovf) {
             var cname;
@@ -77646,34 +77654,26 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
                   break;
               
             }
-            if (!(
-                over_meths ? false : true
-              )) {
+            if (!Curry._1(is_empty$1, over_meths)) {
               prerr_warning(loc, {
                     TAG: /* Method_override */2,
                     _0: {
                       hd: cname,
-                      tl: elements_aux(/* [] */0, over_meths)
+                      tl: Curry._1(elements, over_meths)
                     }
                   });
             }
-            if (!(
-                over_vals ? false : true
-              )) {
+            if (!Curry._1(is_empty$1, over_vals)) {
               prerr_warning(loc, {
                     TAG: /* Instance_variable_override */5,
                     _0: {
                       hd: cname,
-                      tl: elements_aux(/* [] */0, over_vals)
+                      tl: Curry._1(elements, over_vals)
                     }
                   });
             }
             
-          } else if ((
-              over_meths ? false : true
-            ) && (
-              over_vals ? false : true
-            )) {
+          } else if (Curry._1(is_empty$1, over_meths) && Curry._1(is_empty$1, over_vals)) {
             throw {
                   RE_EXN_ID: $$Error$9,
                   _1: loc,
@@ -77688,8 +77688,8 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
           }
           
         }
-        var concr_meths$1 = union$2(cl_sig$1.csig_concr, concr_meths);
-        var warn_vals$1 = union$2(concr_vals$1, warn_vals);
+        var concr_meths$1 = Curry._2(union$2, cl_sig$1.csig_concr, concr_meths);
+        var warn_vals$1 = Curry._2(union$2, concr_vals$1, warn_vals);
         return [
                 cl_sig$1,
                 concr_meths$1,
@@ -77850,7 +77850,7 @@ function add_val(env, loc, lab, param, val_sig) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       virt$1 = virt;
     } else {
       throw exn;
@@ -77989,7 +77989,7 @@ function class_signature$1(env, param) {
                 var priv = match$3[1];
                 var lab$1 = match$3[0];
                 var cty$1 = declare_method(env, meths, self_type, lab$1, priv, match$3[3], param$1.pctf_loc);
-                var concr_meths$1 = virt$1 ? add$2(lab$1, concr_meths) : concr_meths;
+                var concr_meths$1 = virt$1 ? Curry._2(add$2, lab$1, concr_meths) : concr_meths;
                 return [
                         {
                           hd: mkctf({
@@ -78351,7 +78351,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                 var par_env$1 = match$2[2];
                 var met_env$1 = match$2[1];
                 var val_env$1 = match$2[0];
-                var inh_meths = fold$1((function (lab, rem) {
+                var inh_meths = Curry._3(fold$1, (function (lab, rem) {
                         return {
                                 hd: [
                                   lab,
@@ -78459,7 +78459,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                         ];
                 }
                 var ovf$1 = styp._0;
-                if (mem$2(lab.txt, local_vals)) {
+                if (Curry._2(mem$2, lab.txt, local_vals)) {
                   throw {
                         RE_EXN_ID: $$Error$9,
                         _1: loc,
@@ -78472,7 +78472,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                         Error: new Error()
                       };
                 }
-                if (mem$2(lab.txt, warn_vals)) {
+                if (Curry._2(mem$2, lab.txt, warn_vals)) {
                   if (ovf$1 === /* Fresh */1) {
                     prerr_warning(lab.loc, {
                           TAG: /* Instance_variable_override */5,
@@ -78558,10 +78558,10 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                           tl: fields
                         },
                         concr_meths,
-                        add$2(lab.txt, warn_vals),
+                        Curry._2(add$2, lab.txt, warn_vals),
                         inher,
                         local_meths,
-                        add$2(lab.txt, local_vals)
+                        Curry._2(add$2, lab.txt, local_vals)
                       ];
             case /* Pcf_method */2 :
                 var match$9 = expr._0;
@@ -78603,7 +78603,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                 var match$10 = expr$1.pexp_desc;
                 var expr$2;
                 expr$2 = match$10.TAG === /* Pexp_poly */28 ? expr$1 : Curry._4(Ast_helper_Exp.poly, expr$1.pexp_loc, undefined, expr$1, undefined);
-                if (mem$2(lab$1.txt, local_meths)) {
+                if (Curry._2(mem$2, lab$1.txt, local_meths)) {
                   throw {
                         RE_EXN_ID: $$Error$9,
                         _1: loc,
@@ -78616,7 +78616,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                         Error: new Error()
                       };
                 }
-                if (mem$2(lab$1.txt, concr_meths)) {
+                if (Curry._2(mem$2, lab$1.txt, concr_meths)) {
                   if (ovf$2 === /* Fresh */1) {
                     prerr_warning(loc, {
                           TAG: /* Method_override */2,
@@ -78757,10 +78757,10 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                           hd: field,
                           tl: fields
                         },
-                        add$2(lab$1.txt, concr_meths),
+                        Curry._2(add$2, lab$1.txt, concr_meths),
                         warn_vals,
                         inher,
-                        add$2(lab$1.txt, local_meths),
+                        Curry._2(add$2, lab$1.txt, local_meths),
                         local_vals
                       ];
             case /* Pcf_constraint */3 :
@@ -78992,7 +78992,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
             return unify$2(val_env$1, param[2], newvar(undefined, undefined));
           }), methods);
   }
-  var meths$1 = map((function (param) {
+  var meths$1 = Curry._2(map, (function (param) {
           return param[0];
         }), meths.contents);
   var pub_meths$p = List.filter(function (param) {
@@ -79426,18 +79426,18 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                   match$3 = [
                                     match$4[0],
                                     match$4[1],
-                                    Stdlib__no_aliases.$at(match$4[2], match$4[3]),
+                                    Stdlib.$at(match$4[2], match$4[3]),
                                     more_sargs
                                   ];
                                 }
                                 catch (raw_exn){
                                   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                                  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
                                     var match$5 = extract_label_aux(/* [] */0, name, more_sargs);
                                     match$3 = [
                                       match$5[0],
                                       match$5[1],
-                                      Stdlib__no_aliases.$at(sargs, match$5[2]),
+                                      Stdlib.$at(sargs, match$5[2]),
                                       match$5[3]
                                     ];
                                   } else {
@@ -79469,7 +79469,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                               }
                               catch (raw_exn$1){
                                 var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-                                if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                                if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                                   match = [
                                     sargs,
                                     more_sargs,
@@ -79509,7 +79509,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                     break;
                 
               }
-              var match$6 = Stdlib__no_aliases.$at(sargs, more_sargs);
+              var match$6 = Stdlib.$at(sargs, more_sargs);
               if (!match$6) {
                 return [
                         List.rev(args),
@@ -80563,7 +80563,7 @@ function unify_parents_struct(env, ty, st) {
                           }
                           catch (raw_exn){
                             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+                            if (exn.RE_EXN_ID === Stdlib.Not_found) {
                               return ;
                             }
                             throw {
@@ -81201,7 +81201,7 @@ register_error_of_exn(function (err) {
                                                           }
                                                         },
                                                         _1: "@[%t.@ @[<2>The following %s are undefined :%a@]@]"
-                                                      }), print_msg, missings, print_mets, Stdlib__no_aliases.$at(mets, vals));
+                                                      }), print_msg, missings, print_mets, Stdlib.$at(mets, vals));
                                     case /* Parameter_arity_mismatch */11 :
                                         return Curry._4(Format.fprintf(param)(/* Format */{
                                                         _0: {
@@ -82649,7 +82649,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                 var match$2 = match$1.ptyp_desc;
                 if (typeof match$2 === "number") {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                        RE_EXN_ID: Stdlib.Exit,
                         Error: new Error()
                       };
                 }
@@ -82660,7 +82660,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                             var sx = x.ptyp_desc;
                             if (typeof sx === "number") {
                               throw {
-                                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                    RE_EXN_ID: Stdlib.Exit,
                                     Error: new Error()
                                   };
                             }
@@ -82668,7 +82668,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                               var sy = param[0].ptyp_desc;
                               if (typeof sy === "number") {
                                 throw {
-                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                      RE_EXN_ID: Stdlib.Exit,
                                       Error: new Error()
                                     };
                               }
@@ -82677,17 +82677,17 @@ function merge_constraint(initial_env, loc, sg, constr) {
                                   return ;
                                 }
                                 throw {
-                                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                      RE_EXN_ID: Stdlib.Exit,
                                       Error: new Error()
                                     };
                               }
                               throw {
-                                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                    RE_EXN_ID: Stdlib.Exit,
                                     Error: new Error()
                                   };
                             } else {
                               throw {
-                                    RE_EXN_ID: Stdlib__no_aliases.Exit,
+                                    RE_EXN_ID: Stdlib.Exit,
                                     Error: new Error()
                                   };
                             }
@@ -82695,26 +82695,26 @@ function merge_constraint(initial_env, loc, sg, constr) {
                     lid$1 = match$2._0;
                   } else {
                     throw {
-                          RE_EXN_ID: Stdlib__no_aliases.Exit,
+                          RE_EXN_ID: Stdlib.Exit,
                           Error: new Error()
                         };
                   }
                 } else {
                   throw {
-                        RE_EXN_ID: Stdlib__no_aliases.Exit,
+                        RE_EXN_ID: Stdlib.Exit,
                         Error: new Error()
                       };
                 }
               } else {
                 throw {
-                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                      RE_EXN_ID: Stdlib.Exit,
                       Error: new Error()
                     };
               }
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+              if (exn.RE_EXN_ID === Stdlib.Exit) {
                 throw {
                       RE_EXN_ID: $$Error$10,
                       _1: sdecl.ptype_loc,
@@ -82731,7 +82731,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
             }
             catch (raw_exn$1){
               var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
-              if (exn$1.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn$1.RE_EXN_ID === Stdlib.Not_found) {
                 throw {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
@@ -82996,7 +82996,7 @@ function approx_sig(_env, _ssg) {
           var mty = approx_modtype(env, smty);
           var sg = signature$2(identity, extract_sig(env, smty.pmty_loc, mty));
           var newenv$1 = add_signature(sg, env);
-          return Stdlib__no_aliases.$at(sg, approx_sig(newenv$1, srem));
+          return Stdlib.$at(sg, approx_sig(newenv$1, srem));
       case /* Psig_class */9 :
       case /* Psig_class_type */10 :
           break;
@@ -83069,6 +83069,12 @@ function check_recmod_typedecls(env, sdecls, decls) {
                               }, mty));
               }), sdecls, decls);
 }
+
+var compare$8 = Caml.caml_string_compare;
+
+var funarg$7 = {
+  compare: compare$8
+};
 
 function height$12(param) {
   if (param) {
@@ -83158,7 +83164,7 @@ function add$14(x, t) {
   var r = t.r;
   var v = t.v;
   var l = t.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$7.compare, x, v);
   if (c === 0) {
     return t;
   }
@@ -83184,7 +83190,7 @@ function mem$7(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg$7.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -83194,7 +83200,7 @@ function mem$7(x, _param) {
 }
 
 function check(cl, loc, set_ref, name) {
-  if (mem$7(name, set_ref.contents)) {
+  if (Curry._2(mem$7, name, set_ref.contents)) {
     throw {
           RE_EXN_ID: $$Error$10,
           _1: loc,
@@ -83207,7 +83213,7 @@ function check(cl, loc, set_ref, name) {
           Error: new Error()
         };
   }
-  set_ref.contents = add$14(name, set_ref.contents);
+  set_ref.contents = Curry._2(add$14, name, set_ref.contents);
 }
 
 function check_name(cl, set_ref, name) {
@@ -83742,7 +83748,7 @@ function transl_signature(env, sg) {
                         }, env, loc),
                     tl: match$16[0]
                   },
-                  Stdlib__no_aliases.$at(remove_duplicates(get_values(rem$3), get_extension_constructors(rem$3), sg$1), rem$3),
+                  Stdlib.$at(remove_duplicates(get_values(rem$3), get_extension_constructors(rem$3), sg$1), rem$3),
                   match$16[2]
                 ];
       case /* Psig_class */9 :
@@ -84015,7 +84021,7 @@ function simplify_signature(sg) {
           var k = aux(param.tl);
           var val_names = k[1];
           var name = component._0.name;
-          if (mem$7(name, val_names)) {
+          if (Curry._2(mem$7, name, val_names)) {
             return k;
           } else {
             return [
@@ -84023,7 +84029,7 @@ function simplify_signature(sg) {
                       hd: component,
                       tl: k[0]
                     },
-                    add$14(name, val_names),
+                    Curry._2(add$14, name, val_names),
                     k[2]
                   ];
           }
@@ -84033,14 +84039,14 @@ function simplify_signature(sg) {
           var val_names$1 = k$1[1];
           var sg = k$1[0];
           var name$1 = component._0.name;
-          if (!mem$7(name$1, ext_names)) {
+          if (!Curry._2(mem$7, name$1, ext_names)) {
             return [
                     {
                       hd: component,
                       tl: sg
                     },
                     val_names$1,
-                    add$14(name$1, ext_names)
+                    Curry._2(add$14, name$1, ext_names)
                   ];
           }
           if (component._2) {
@@ -84427,7 +84433,7 @@ function modtype_of_package(env, loc, p, nl, tl) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var error = {
         TAG: /* Unbound_modtype */22,
         _0: lid_of_path(undefined, p)
@@ -84728,7 +84734,7 @@ function type_module$1(aliasOpt, sttn, funct_body, anchor, env, smod) {
             }
             catch (raw_exn){
               var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-              if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+              if (exn.RE_EXN_ID === Stdlib.Not_found) {
                 throw {
                       RE_EXN_ID: $$Error$10,
                       _1: smod.pmod_loc,
@@ -85433,7 +85439,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
               hd: str,
               tl: match$1[0]
             },
-            Stdlib__no_aliases.$at(match[1], match$1[1]),
+            Stdlib.$at(match[1], match$1[1]),
             match$1[2]
           ];
   };
@@ -85722,7 +85728,7 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID === Stdlib.Not_found) {
           throw {
                 RE_EXN_ID: $$Error$10,
                 _1: in_file(sourcefile),
