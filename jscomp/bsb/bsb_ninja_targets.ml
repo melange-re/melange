@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let enabled_if =
-  Format.asprintf "(enabled_if %%{lib-available:melange})"
+  Format.asprintf "(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version
 
 let dune_header = ";;;;{BSB GENERATED: NO EDIT"
 let dune_trailer = ";;;;BSB GENERATED: NO EDIT}"
