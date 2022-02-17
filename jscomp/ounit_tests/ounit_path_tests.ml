@@ -84,13 +84,13 @@ let suites =
         "/a/b/c/"  ".."  ;
       aux
         "/a/b/c/d/"
-        "/a/b/"  "../.."  ;
+        "/a/b/"  (os_adapt "../..")  ;
       aux
         "/a/b/c/d/"
-        "/a/"  "../../.."  ;
+        "/a/"  (os_adapt "../../.." ) ;
       aux
         "/a/b/c/d/"
-        "//"  "../../../.."  ;
+        "//"  (os_adapt"../../../..")  ;
 
     end;
     (* This is still correct just not optimal depends
@@ -102,13 +102,13 @@ let suites =
 
       Ext_path.rel_normalized_absolute_path
              ~from:"/a/b/c/d/e/./src/bindings/Navigation"
-             "/a/b/c/d/e" =~ "../../..";
+             "/a/b/c/d/e" =~ (os_adapt "../../..");
 
       Ext_path.rel_normalized_absolute_path
         ~from:"/a/b/c/./d" "/a/b/c" =~ ".." ;
 
       Ext_path.rel_normalized_absolute_path
-        ~from:"/a/b/c/./src" "/a/b/d/./src" =~ "../../d/src" ;
+        ~from:"/a/b/c/./src" "/a/b/d/./src" =~ (os_adapt "../../d/src") ;
     end;
 
     (* used in module system: [es6-global] and [amdjs-global] *)
@@ -118,13 +118,13 @@ let suites =
         "//" =~ (os_adapt "../../../..");
       Ext_path.rel_normalized_absolute_path
         ~from:"/usr/local/lib/node_modules/"
-        "/" =~ "../../../..";
+        "/" =~ (os_adapt "../../../..");
       Ext_path.rel_normalized_absolute_path
         ~from:"./"
-        "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js";
+        "./node_modules/xx/./xx.js" =~ (os_adapt "./node_modules/xx/xx.js");
       Ext_path.rel_normalized_absolute_path
         ~from:"././"
-        "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js"
+        "./node_modules/xx/./xx.js" =~ (os_adapt "./node_modules/xx/xx.js")
     end;
 
      __LOC__ >:: begin fun _ ->
