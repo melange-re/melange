@@ -3,9 +3,9 @@
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Format = require("../../lib/js/format.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_array = require("../../lib/js/caml_array.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function sub(_tr, _k) {
   while(true) {
@@ -25,7 +25,7 @@ function sub(_tr, _k) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -65,7 +65,7 @@ function update(tr, k, w) {
           };
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -93,7 +93,7 @@ function $$delete(tr, n) {
     }
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -138,7 +138,7 @@ function lorem(tr) {
         };
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -155,12 +155,9 @@ function length(param) {
 function get(param, i) {
   if (i >= 0 && i < param[1]) {
     return sub(param[0], i + 1 | 0);
+  } else {
+    return Stdlib.invalid_arg("Array.get");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Array.get",
-        Error: new Error()
-      };
 }
 
 function set(param, i, v) {
@@ -170,12 +167,9 @@ function set(param, i, v) {
             update(param[0], i + 1 | 0, v),
             k
           ];
+  } else {
+    return Stdlib.invalid_arg("Array.set");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Array.set",
-        Error: new Error()
-      };
 }
 
 function push_front(param, v) {
@@ -192,12 +186,9 @@ function pop_front(param) {
             lorem(param[0]),
             k - 1 | 0
           ];
+  } else {
+    return Stdlib.invalid_arg("Array.pop_front");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Array.pop_front",
-        Error: new Error()
-      };
 }
 
 function push_back(param, v) {
@@ -215,12 +206,9 @@ function pop_back(param) {
             $$delete(param[0], k),
             k - 1 | 0
           ];
+  } else {
+    return Stdlib.invalid_arg("Array.pop_back");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Array.pop_back",
-        Error: new Error()
-      };
 }
 
 function pp(fmt, s) {

@@ -1,10 +1,10 @@
 'use strict';
 
 var List = require("../../lib/js/list.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 
 var a0 = {
-  RE_EXN_ID: Stdlib__no_aliases.Not_found
+  RE_EXN_ID: Stdlib.Not_found
 };
 
 var b = List.length({

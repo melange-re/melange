@@ -6,6 +6,12 @@ var Curry = require("../../lib/js/curry.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
+var compare = Caml.caml_int_compare;
+
+var funarg = {
+  compare: compare
+};
+
 function height(param) {
   if (param) {
     return param.h;
@@ -118,7 +124,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -152,7 +158,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_int_compare(x, param.v);
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -326,7 +332,7 @@ function find_opt(x, _param) {
     if (!param) {
       return ;
     }
-    var c = Caml.caml_int_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -341,7 +347,7 @@ function mem(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_int_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -461,7 +467,7 @@ function remove(x, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -487,7 +493,7 @@ function update(x, f, m) {
     var d = m.d;
     var v = m.v;
     var l = m.l;
-    var c = Caml.caml_int_compare(x, v);
+    var c = Curry._2(funarg.compare, x, v);
     if (c === 0) {
       var data = Curry._1(f, Caml_option.some(d));
       if (data === undefined) {
@@ -693,7 +699,7 @@ function split(x, param) {
   var d = param.d;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -861,7 +867,7 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare(cmp, m1, m2) {
+function compare$1(cmp, m1, m2) {
   var _e1 = cons_enum(m1, /* End */0);
   var _e2 = cons_enum(m2, /* End */0);
   while(true) {
@@ -877,7 +883,7 @@ function compare(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_int_compare(e1._0, e2._0);
+    var c = Curry._2(funarg.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -907,7 +913,7 @@ function equal(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (e1._0 !== e2._0) {
+    if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -1035,7 +1041,7 @@ function to_seq_from(low, m) {
       var r = m.r;
       var d = m.d;
       var v = m.v;
-      var n = Caml.caml_int_compare(v, low);
+      var n = Curry._2(funarg.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -1066,48 +1072,122 @@ function to_seq_from(low, m) {
 
 var empty = /* Empty */0;
 
+var is_empty$1 = is_empty;
+
+var mem$1 = mem;
+
+var add$1 = add;
+
+var update$1 = update;
+
+var singleton$1 = singleton;
+
+var remove$1 = remove;
+
+var merge$2 = merge$1;
+
+var union$1 = union;
+
+var compare$2 = compare$1;
+
+var equal$1 = equal;
+
+var iter$1 = iter;
+
+var fold$1 = fold;
+
+var for_all$1 = for_all;
+
+var exists$1 = exists;
+
+var filter$1 = filter;
+
+var filter_map$1 = filter_map;
+
+var partition$1 = partition;
+
+var cardinal$1 = cardinal;
+
+var bindings$1 = bindings;
+
+var min_binding$1 = min_binding;
+
+var min_binding_opt$1 = min_binding_opt;
+
+var max_binding$1 = max_binding;
+
+var max_binding_opt$1 = max_binding_opt;
+
 var choose = min_binding;
 
 var choose_opt = min_binding_opt;
 
+var split$1 = split;
+
+var find$1 = find;
+
+var find_opt$1 = find_opt;
+
+var find_first$1 = find_first;
+
+var find_first_opt$1 = find_first_opt;
+
+var find_last$1 = find_last;
+
+var find_last_opt$1 = find_last_opt;
+
+var map$1 = map;
+
+var mapi$1 = mapi;
+
+var to_seq$1 = to_seq;
+
+var to_rev_seq$1 = to_rev_seq;
+
+var to_seq_from$1 = to_seq_from;
+
+var add_seq$1 = add_seq;
+
+var of_seq$1 = of_seq;
+
 exports.empty = empty;
-exports.is_empty = is_empty;
-exports.mem = mem;
-exports.add = add;
-exports.update = update;
-exports.singleton = singleton;
-exports.remove = remove;
-exports.merge = merge$1;
-exports.union = union;
-exports.compare = compare;
-exports.equal = equal;
-exports.iter = iter;
-exports.fold = fold;
-exports.for_all = for_all;
-exports.exists = exists;
-exports.filter = filter;
-exports.filter_map = filter_map;
-exports.partition = partition;
-exports.cardinal = cardinal;
-exports.bindings = bindings;
-exports.min_binding = min_binding;
-exports.min_binding_opt = min_binding_opt;
-exports.max_binding = max_binding;
-exports.max_binding_opt = max_binding_opt;
+exports.is_empty = is_empty$1;
+exports.mem = mem$1;
+exports.add = add$1;
+exports.update = update$1;
+exports.singleton = singleton$1;
+exports.remove = remove$1;
+exports.merge = merge$2;
+exports.union = union$1;
+exports.compare = compare$2;
+exports.equal = equal$1;
+exports.iter = iter$1;
+exports.fold = fold$1;
+exports.for_all = for_all$1;
+exports.exists = exists$1;
+exports.filter = filter$1;
+exports.filter_map = filter_map$1;
+exports.partition = partition$1;
+exports.cardinal = cardinal$1;
+exports.bindings = bindings$1;
+exports.min_binding = min_binding$1;
+exports.min_binding_opt = min_binding_opt$1;
+exports.max_binding = max_binding$1;
+exports.max_binding_opt = max_binding_opt$1;
 exports.choose = choose;
 exports.choose_opt = choose_opt;
-exports.split = split;
-exports.find = find;
-exports.find_opt = find_opt;
-exports.find_first = find_first;
-exports.find_first_opt = find_first_opt;
-exports.find_last = find_last;
-exports.find_last_opt = find_last_opt;
-exports.map = map;
-exports.mapi = mapi;
-exports.to_seq = to_seq;
-exports.to_rev_seq = to_rev_seq;
-exports.to_seq_from = to_seq_from;
-exports.add_seq = add_seq;
-exports.of_seq = of_seq;
-/* No side effect */
+exports.split = split$1;
+exports.find = find$1;
+exports.find_opt = find_opt$1;
+exports.find_first = find_first$1;
+exports.find_first_opt = find_first_opt$1;
+exports.find_last = find_last$1;
+exports.find_last_opt = find_last_opt$1;
+exports.map = map$1;
+exports.mapi = mapi$1;
+exports.to_seq = to_seq$1;
+exports.to_rev_seq = to_rev_seq$1;
+exports.to_seq_from = to_seq_from$1;
+exports.add_seq = add_seq$1;
+exports.of_seq = of_seq$1;
+/* include Not a pure module */

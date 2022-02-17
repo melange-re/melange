@@ -2,10 +2,10 @@
 
 var Mt = require("./mt.js");
 var Sys = require("../../lib/js/sys.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_sys = require("../../lib/js/caml_sys.js");
 var Node_process = require("../../lib/js/node_process.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -53,7 +53,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+  if (exn.RE_EXN_ID === Stdlib.Not_found) {
     tmp = "Z";
   } else {
     throw exn;

@@ -1,8 +1,8 @@
 'use strict';
 
+var Stdlib = require("../../lib/js/stdlib.js");
 var Test_common = require("./test_common.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 
@@ -16,7 +16,7 @@ function f(param) {
 
 function g(param) {
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -38,7 +38,7 @@ function x(param) {
 
 function xx(param) {
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+        RE_EXN_ID: Stdlib.Invalid_argument,
         _1: "x",
         Error: new Error()
       };

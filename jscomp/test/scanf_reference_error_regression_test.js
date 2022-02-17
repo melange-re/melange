@@ -5,6 +5,7 @@ var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Scanf = require("../../lib/js/scanf.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 
 var suites = {
@@ -69,19 +70,14 @@ function scan_rest(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  var s = Printf.sprintf(/* Format */{
-                                                        _0: {
-                                                          TAG: /* String_literal */11,
-                                                          _0: "scan_int_list",
-                                                          _1: /* End_of_format */0
-                                                        },
-                                                        _1: "scan_int_list"
-                                                      });
-                                                  throw {
-                                                        RE_EXN_ID: "Failure",
-                                                        _1: s,
-                                                        Error: new Error()
-                                                      };
+                                                  return Stdlib.failwith(Printf.sprintf(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* String_literal */11,
+                                                                    _0: "scan_int_list",
+                                                                    _1: /* End_of_format */0
+                                                                  },
+                                                                  _1: "scan_int_list"
+                                                                }));
                                               }
                                             }));
                               }));

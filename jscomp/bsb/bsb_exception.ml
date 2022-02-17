@@ -30,7 +30,6 @@ type error =
   | Invalid_json of string
   | Invalid_spec of string
   | Conflict_module of string * string * string
-  | No_implementation of string
   | Not_consistent of string
 
 exception Error of error
@@ -49,9 +48,6 @@ let print (fmt : Format.formatter) (x : error) =
   | Not_consistent modname ->
     Format.fprintf fmt
     "@{<error>Error:@} %s has implementation/interface in non-consistent syntax(reason/ocaml)" modname
-  | No_implementation (modname) ->
-    Format.fprintf fmt
-    "@{<error>Error:@} %s does not have implementation file" modname
   | Package_not_found (name,json_opt) ->
     let in_json = match json_opt with
     | None -> Ext_string.empty
@@ -88,8 +84,6 @@ let print (fmt : Format.formatter) (x : error) =
 
 let conflict_module modname dir1 dir2 =
   Error (Conflict_module (modname,dir1,dir2))
-let no_implementation modname =
-  error (No_implementation modname)
 let not_consistent modname =
   error (Not_consistent modname)
 let errorf ~loc fmt =

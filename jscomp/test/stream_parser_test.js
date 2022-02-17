@@ -70,14 +70,14 @@ function parse(token) {
             };
     }
   };
-  var parse_term_aux = function (e1) {
+  var parse_expr_aux = function (e1) {
     var e = token$1(undefined);
     if (e.TAG === /* Kwd */0) {
       switch (e._0) {
-        case "*" :
-            return Math.imul(e1, parse_term_aux(parse_atom(undefined)));
-        case "/" :
-            return Caml_int32.div(e1, parse_term_aux(parse_atom(undefined)));
+        case "+" :
+            return e1 + parse_expr_aux(parse_term_aux(parse_atom(undefined))) | 0;
+        case "-" :
+            return e1 - parse_expr_aux(parse_term_aux(parse_atom(undefined))) | 0;
         default:
           Queue.push(e, look_ahead);
           return e1;
@@ -87,14 +87,14 @@ function parse(token) {
       return e1;
     }
   };
-  var parse_expr_aux = function (e1) {
+  var parse_term_aux = function (e1) {
     var e = token$1(undefined);
     if (e.TAG === /* Kwd */0) {
       switch (e._0) {
-        case "+" :
-            return e1 + parse_expr_aux(parse_term_aux(parse_atom(undefined))) | 0;
-        case "-" :
-            return e1 - parse_expr_aux(parse_term_aux(parse_atom(undefined))) | 0;
+        case "*" :
+            return Math.imul(e1, parse_term_aux(parse_atom(undefined)));
+        case "/" :
+            return Caml_int32.div(e1, parse_term_aux(parse_atom(undefined)));
         default:
           Queue.push(e, look_ahead);
           return e1;
@@ -201,28 +201,6 @@ function l_parse(token) {
             };
     }
   };
-  var parse_f_aux = function (_a) {
-    while(true) {
-      var a = _a;
-      var t = token$1(undefined);
-      if (t.TAG === /* Kwd */0) {
-        switch (t._0) {
-          case "*" :
-              _a = Math.imul(a, parse_f(undefined));
-              continue ;
-          case "/" :
-              _a = Caml_int32.div(a, parse_f(undefined));
-              continue ;
-          default:
-            Queue.push(t, look_ahead);
-            return a;
-        }
-      } else {
-        Queue.push(t, look_ahead);
-        return a;
-      }
-    };
-  };
   var parse_t_aux = function (_a) {
     while(true) {
       var a = _a;
@@ -234,6 +212,28 @@ function l_parse(token) {
               continue ;
           case "-" :
               _a = a - parse_f_aux(parse_f(undefined)) | 0;
+              continue ;
+          default:
+            Queue.push(t, look_ahead);
+            return a;
+        }
+      } else {
+        Queue.push(t, look_ahead);
+        return a;
+      }
+    };
+  };
+  var parse_f_aux = function (_a) {
+    while(true) {
+      var a = _a;
+      var t = token$1(undefined);
+      if (t.TAG === /* Kwd */0) {
+        switch (t._0) {
+          case "*" :
+              _a = Math.imul(a, parse_f(undefined));
+              continue ;
+          case "/" :
+              _a = Caml_int32.div(a, parse_f(undefined));
               continue ;
           default:
             Queue.push(t, look_ahead);

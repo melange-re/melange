@@ -1,8 +1,8 @@
 'use strict';
 
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_array = require("../../lib/js/caml_array.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function map(f, a) {
   var f$1 = Curry.__1(f);
@@ -23,11 +23,7 @@ function init(l, f) {
     return [];
   }
   if (l < 0) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Array.init",
-          Error: new Error()
-        };
+    return Stdlib.invalid_arg("Array.init");
   }
   var res = Caml_array.make(l, f$1(0));
   for(var i = 1; i < l; ++i){
@@ -55,7 +51,7 @@ function f2(param) {
   var v = fold_left((function (prim0, prim1) {
           return prim0 + prim1;
         }), 0, b);
-  console.log(Stdlib__no_aliases.string_of_float(v));
+  console.log(Stdlib.string_of_float(v));
 }
 
 f2(undefined);

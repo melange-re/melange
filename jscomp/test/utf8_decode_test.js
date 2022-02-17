@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Stream = require("../../lib/js/stream.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 
@@ -130,11 +131,7 @@ function utf8_list(s) {
 function decode(bytes, offset) {
   var c = classify(Caml_bytes.get(bytes, offset));
   if (typeof c === "number") {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "decode",
-          Error: new Error()
-        };
+    return Stdlib.invalid_arg("decode");
   }
   switch (c.TAG | 0) {
     case /* Single */0 :
@@ -143,11 +140,7 @@ function decode(bytes, offset) {
                 offset + 1 | 0
               ];
     case /* Cont */1 :
-        throw {
-              RE_EXN_ID: "Invalid_argument",
-              _1: "decode",
-              Error: new Error()
-            };
+        return Stdlib.invalid_arg("decode");
     case /* Leading */2 :
         var _n = c._0;
         var _c = c._1;
@@ -164,23 +157,15 @@ function decode(bytes, offset) {
           }
           var cc = classify(Caml_bytes.get(bytes, offset$1));
           if (typeof cc === "number") {
-            throw {
-                  RE_EXN_ID: "Invalid_argument",
-                  _1: "decode",
-                  Error: new Error()
-                };
+            return Stdlib.invalid_arg("decode");
           }
-          if (cc.TAG === /* Cont */1) {
-            _offset = offset$1 + 1 | 0;
-            _c = (c$1 << 6) | cc._0 & 63;
-            _n = n - 1 | 0;
-            continue ;
+          if (cc.TAG !== /* Cont */1) {
+            return Stdlib.invalid_arg("decode");
           }
-          throw {
-                RE_EXN_ID: "Invalid_argument",
-                _1: "decode",
-                Error: new Error()
-              };
+          _offset = offset$1 + 1 | 0;
+          _c = (c$1 << 6) | cc._0 & 63;
+          _n = n - 1 | 0;
+          continue ;
         };
     
   }

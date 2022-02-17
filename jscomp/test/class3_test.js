@@ -3,10 +3,10 @@
 var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var shared = [
   "move",
@@ -299,7 +299,7 @@ function printable_point2_init($$class) {
           }),
         print,
         (function (self$6) {
-            return Stdlib__no_aliases.print_int(Curry._1(self$6[0][get_x], self$6));
+            return Stdlib.print_int(Curry._1(self$6[0][get_x], self$6));
           })
       ]);
   CamlinternalOO.add_initializer($$class, (function (self$6) {

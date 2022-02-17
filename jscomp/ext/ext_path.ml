@@ -191,9 +191,11 @@ let split_aux p =
    This function is useed in [es6-global] and
    [amdjs-global] format and tailored for `rollup`
 *)
+let curd = Filename.current_dir_name
+let pard = Filename.parent_dir_name
 let rel_normalized_absolute_path ~from to_ =
   let merge_parent_segment acc segment =
-    if segment = Filename.current_dir_name then
+    if segment = curd then
       acc
     else
       acc // Ext_string.parent_dir_lit
@@ -206,8 +208,8 @@ let rel_normalized_absolute_path ~from to_ =
       match xss, yss with
       | x::xs, y::ys ->
         if Ext_string.equal x  y then go xs ys
-        else if x = Filename.current_dir_name then go xs yss
-        else if y = Filename.current_dir_name then go xss ys
+        else if x = curd then go xs yss
+        else if y = curd then go xss ys
         else
           let start =
             Ext_list.fold_left xs Ext_string.parent_dir_lit merge_parent_segment
@@ -216,20 +218,20 @@ let rel_normalized_absolute_path ~from to_ =
       | [], [] -> Ext_string.empty
       | [], y::ys -> Ext_list.fold_left ys y (fun acc x -> acc // x)
       | x::xs, [] ->
-        let start = if x = Filename.current_dir_name then "" else Ext_string.parent_dir_lit in
+        let start = if x = curd then "" else Ext_string.parent_dir_lit in
         Ext_list.fold_left xs start merge_parent_segment
      in
     let v =  go paths1 paths2  in
 
-    if Ext_string.is_empty v then  Literals.node_current
+    if Ext_string.is_empty v then Literals.node_current
     else
     if
-      v = "."
-      || v = ".."
-      || Ext_string.starts_with v "./"
-      || Ext_string.starts_with v "../"
+      v = curd
+      || v = pard
+      || Ext_string.starts_with v (curd ^ Filename.dir_sep)
+      || Ext_string.starts_with v (pard ^ Filename.dir_sep)
     then v
-    else "./" ^ v
+    else (curd ^ Filename.dir_sep) ^ v
 
 (*TODO: could be hgighly optimized later
   {[

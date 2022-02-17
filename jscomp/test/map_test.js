@@ -4,7 +4,14 @@ var Mt = require("./mt.js");
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var $$String = require("../../lib/js/string.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+
+var compare = Caml.caml_int_compare;
+
+var Int = {
+  compare: compare
+};
 
 function height(param) {
   if (param) {
@@ -100,7 +107,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(Int.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -148,7 +155,7 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare(cmp, m1, m2) {
+function compare$1(cmp, m1, m2) {
   var _e1 = cons_enum(m1, /* End */0);
   var _e2 = cons_enum(m2, /* End */0);
   while(true) {
@@ -164,7 +171,7 @@ function compare(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_int_compare(e1._0, e2._0);
+    var c = Curry._2(Int.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -194,7 +201,7 @@ function equal(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (e1._0 !== e2._0) {
+    if (Curry._2(Int.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -213,6 +220,10 @@ function cardinal(param) {
     return 0;
   }
 }
+
+var funarg = {
+  compare: $$String.compare
+};
 
 function height$1(param) {
   if (param) {
@@ -308,7 +319,7 @@ function add$1(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -342,7 +353,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -358,7 +369,7 @@ function find(x, _param) {
 
 function of_list(kvs) {
   return List.fold_left((function (acc, param) {
-                return add(param[0], param[1], acc);
+                return Curry._3(add, param[0], param[1], acc);
               }), /* Empty */0, kvs);
 }
 
@@ -386,7 +397,7 @@ var int_map_suites_0 = [
           });
       return {
               TAG: /* Eq */0,
-              _0: cardinal(v),
+              _0: Curry._1(cardinal, v),
               _1: 3
             };
     })
@@ -436,7 +447,7 @@ var int_map_suites_1 = {
             });
         return {
                 TAG: /* Eq */0,
-                _0: compare(Caml.caml_int_compare, u, v),
+                _0: Curry._3(compare$1, Caml.caml_int_compare, u, v),
                 _1: 0
               };
       })
@@ -486,7 +497,7 @@ var int_map_suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: true,
-                  _1: equal((function (x, y) {
+                  _1: Curry._3(equal, (function (x, y) {
                           return x === y;
                         }), u, v)
                 };
@@ -498,11 +509,11 @@ var int_map_suites_1 = {
         (function (param) {
             var m = /* Empty */0;
             for(var i = 0; i <= 10000; ++i){
-              m = add$1(String(i), String(i), m);
+              m = Curry._3(add$1, String(i), String(i), m);
             }
             var v = -1;
             for(var i$1 = 0; i$1 <= 10000; ++i$1){
-              if (find(String(i$1), m) !== String(i$1)) {
+              if (Curry._2(find, String(i$1), m) !== String(i$1)) {
                 v = i$1;
               }
               
@@ -526,4 +537,4 @@ var int_map_suites = {
 
 Mt.from_pair_suites("Map_test", int_map_suites);
 
-/*  Not a pure module */
+/* Int_map Not a pure module */

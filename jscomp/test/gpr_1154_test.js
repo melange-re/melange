@@ -2,8 +2,8 @@
 
 var Mt = require("./mt.js");
 var Int64 = require("../../lib/js/int64.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -31,12 +31,12 @@ function eq(loc, x, y) {
 }
 
 function f(x) {
-  Stdlib__no_aliases.print_string("f");
+  Stdlib.print_string("f");
   return x;
 }
 
 function g(x) {
-  return Caml_int64.or_(x, (Stdlib__no_aliases.print_string("f"), x));
+  return Caml_int64.or_(x, (Stdlib.print_string("f"), x));
 }
 
 var v = {

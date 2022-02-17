@@ -2,9 +2,9 @@
 
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function cons_enum(_s, _e) {
   while(true) {
@@ -43,7 +43,7 @@ function min_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -60,7 +60,7 @@ function max_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -210,7 +210,7 @@ function check_height_and_diff(param) {
           Error: new Error()
         };
   }
-  var diff = Stdlib__no_aliases.abs(hl - hr | 0);
+  var diff = Stdlib.abs(hl - hr | 0);
   if (diff > 2) {
     throw {
           RE_EXN_ID: Height_diff_borken,
@@ -309,19 +309,15 @@ function internal_bal(l, v, r) {
 }
 
 function remove_min_elt(param) {
-  if (param) {
-    var l = param._0;
-    if (l) {
-      return internal_bal(remove_min_elt(l), param._1, param._2);
-    } else {
-      return param._2;
-    }
+  if (!param) {
+    return Stdlib.invalid_arg("Set.remove_min_elt");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Set.remove_min_elt",
-        Error: new Error()
-      };
+  var l = param._0;
+  if (l) {
+    return internal_bal(remove_min_elt(l), param._1, param._2);
+  } else {
+    return param._2;
+  }
 }
 
 function singleton(x) {

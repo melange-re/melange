@@ -2,11 +2,11 @@
 
 var Mt = require("./mt.js");
 var Bytes = require("../../lib/js/bytes.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var v = "gso";
 
@@ -52,13 +52,13 @@ function is_equal(param) {
 function is_exception(param) {
   try {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return ;
     }
     throw exn;
@@ -130,11 +130,11 @@ var suites = {
 };
 
 var e = {
-  RE_EXN_ID: Stdlib__no_aliases.Not_found
+  RE_EXN_ID: Stdlib.Not_found
 };
 
 function eq(param) {
-  return param.RE_EXN_ID === Stdlib__no_aliases.Not_found;
+  return param.RE_EXN_ID === Stdlib.Not_found;
 }
 
 var Not_found = /* @__PURE__ */Caml_exceptions.create("Equal_exception_test.Not_found");
@@ -153,7 +153,7 @@ if (Caml_obj.caml_equal(e, {
       };
 }
 
-if (Not_found === Stdlib__no_aliases.Not_found !== false) {
+if (Not_found === Stdlib.Not_found !== false) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [

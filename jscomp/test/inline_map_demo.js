@@ -3,7 +3,7 @@
 var Mt = require("./mt.js");
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 
 function height(x) {
   if (x) {
@@ -171,7 +171,7 @@ function find(px, _x) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };

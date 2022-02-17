@@ -9,6 +9,7 @@ var Int32 = require("../../lib/js/int32.js");
 var Scanf = require("../../lib/js/scanf.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
 var Testing = require("./testing.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
@@ -18,7 +19,6 @@ var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -924,7 +924,7 @@ function verify_read(c) {
 
 function verify_scan_Chars(param) {
   for(var i = 0; i <= 255; ++i){
-    verify_read(Stdlib__no_aliases.char_of_int(i));
+    verify_read(Stdlib.char_of_int(i));
   }
 }
 
@@ -1731,23 +1731,21 @@ function scan_elems$1(ib, accu) {
                   },
                   _1: " %i %c"
                 }), (function (i, c) {
-                if (c === 59) {
+                if (c !== 59) {
+                  if (c !== 93) {
+                    return Stdlib.failwith("scan_elems");
+                  } else {
+                    return List.rev({
+                                hd: i,
+                                tl: accu
+                              });
+                  }
+                } else {
                   return scan_elems$1(ib, {
                               hd: i,
                               tl: accu
                             });
                 }
-                if (c !== 93) {
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "scan_elems",
-                        Error: new Error()
-                      };
-                }
-                return List.rev({
-                            hd: i,
-                            tl: accu
-                          });
               }));
 }
 
@@ -1829,11 +1827,7 @@ function scan_elems$2(ib, accu) {
                               });
                   }
                   console.log(Caml_bytes.bytes_to_string(Bytes.make(1, c)));
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "scan_elems",
-                        Error: new Error()
-                      };
+                  return Stdlib.failwith("scan_elems");
                 }));
   }
   catch (raw_exn){
@@ -1849,7 +1843,7 @@ function scan_elems$2(ib, accu) {
               }), undefined);
       return accu;
     }
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
+    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
       return accu;
     }
     throw exn;
@@ -2016,7 +2010,13 @@ function scan_rest(ib, accu) {
                   },
                   _1: " %c "
                 }), (function (c) {
-                if (c === 59) {
+                if (c !== 59) {
+                  if (c !== 93) {
+                    return Stdlib.failwith("scan_rest");
+                  } else {
+                    return accu;
+                  }
+                } else {
                   return Curry._1(Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2055,14 +2055,6 @@ function scan_rest(ib, accu) {
                                 }
                               }));
                 }
-                if (c !== 93) {
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "scan_rest",
-                        Error: new Error()
-                      };
-                }
-                return accu;
               }));
 }
 
@@ -2082,14 +2074,9 @@ function scan_elems$4(ib, accu) {
                   },
                   _1: " %c "
                 }), (function (c) {
-                if (c !== 91) {
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "scan_elems",
-                        Error: new Error()
-                      };
-                }
-                if (Caml_obj.caml_equal(accu, /* [] */0)) {
+                if (c !== 91 || !Caml_obj.caml_equal(accu, /* [] */0)) {
+                  return Stdlib.failwith("scan_elems");
+                } else {
                   return Curry._1(Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2128,11 +2115,6 @@ function scan_elems$4(ib, accu) {
                                 }
                               }));
                 }
-                throw {
-                      RE_EXN_ID: "Failure",
-                      _1: "scan_elems",
-                      Error: new Error()
-                    };
               }));
 }
 
@@ -2251,19 +2233,14 @@ function scan_rest$1(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  var s = Printf.sprintf(/* Format */{
-                                                        _0: {
-                                                          TAG: /* String_literal */11,
-                                                          _0: "scan_int_list",
-                                                          _1: /* End_of_format */0
-                                                        },
-                                                        _1: "scan_int_list"
-                                                      });
-                                                  throw {
-                                                        RE_EXN_ID: "Failure",
-                                                        _1: s,
-                                                        Error: new Error()
-                                                      };
+                                                  return Stdlib.failwith(Printf.sprintf(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* String_literal */11,
+                                                                    _0: "scan_int_list",
+                                                                    _1: /* End_of_format */0
+                                                                  },
+                                                                  _1: "scan_int_list"
+                                                                }));
                                               }
                                             }));
                               }));
@@ -3752,9 +3729,9 @@ function test44(param) {
 }
 
 Testing.test_raises_this_exc({
-        RE_EXN_ID: Stdlib__no_aliases.End_of_file
+        RE_EXN_ID: Stdlib.End_of_file
       })(test43, undefined) && Testing.test_raises_this_exc({
-        RE_EXN_ID: Stdlib__no_aliases.End_of_file
+        RE_EXN_ID: Stdlib.End_of_file
       })(test44, undefined);
 
 function test45(param) {
@@ -4340,7 +4317,7 @@ function next_char(ob, param) {
   var len = s.length;
   if (len === 0) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.End_of_file,
+          RE_EXN_ID: Stdlib.End_of_file,
           Error: new Error()
         };
   }
