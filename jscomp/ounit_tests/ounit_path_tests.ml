@@ -5,7 +5,7 @@ let ((>::),
 let normalize = Ext_path.normalize_absolute_path
 let os_adapt s =
   let regexp = Str.regexp "\\(/\\)" in
-  Str.global_replace regexp Filename.dir_sep s
+  Str.global_replace regexp (String.escaped Filename.dir_sep) s
 
 let (=~) x y =
   OUnit.assert_equal
