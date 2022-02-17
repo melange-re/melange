@@ -223,7 +223,7 @@ let rel_normalized_absolute_path ~from to_ =
      in
     let v =  go paths1 paths2  in
 
-    if Ext_string.is_empty v then  Literals.node_current
+    if Ext_string.is_empty v then Literals.node_current
     else
     if
       v = curd
