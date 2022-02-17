@@ -16,11 +16,11 @@
     "@opam/ounit2": "*"
   },
   "scripts": {
-    "test": "esy b dune runtest --ignore-promoted-rules",
+    "test": "esy b dune runtest --disable-promotion --ignore-promoted-rules",
     "clean": "node ./scripts/ninja.js clean"
   },
   "esy": {
-    "build": "dune build -p #{self.name}",
+    "build": "dune build -p #{self.name} --disable-promotion",
     "install": [
       [
         "esy-installer",

@@ -1,6 +1,7 @@
+{ pkgs }:
+
 let
-  pkgs = import ./nix/sources.nix { };
-  melange = import ./nix { inherit pkgs; };
+  melange = pkgs.callPackage ./nix { };
   inherit (pkgs) stdenv lib;
 in
 with pkgs;
@@ -8,8 +9,7 @@ with pkgs;
 mkShell {
   inputsFrom = [ melange ];
   buildInputs = [
-    nodejs-14_x
+    nodejs_latest
     yarn
-    python3
   ] ++ (with ocamlPackages; [ merlin utop ounit2 ]);
 }
