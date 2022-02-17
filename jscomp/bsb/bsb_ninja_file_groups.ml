@@ -86,12 +86,15 @@ let emit_module_build
     | Different { impl; intf } -> impl, intf
   in
   let which = match impl_dir = cur_dir, intf_dir = cur_dir with
-  | true, true -> `both
+  | true, true -> if module_info.info = Intf then `intf else `both
   | true, false -> `impl
   | false, true -> `intf
   | false, false -> assert false
   in
-  let has_intf_file = module_info.info = Impl_intf in
+  let has_intf_file = match module_info.info with
+    | Intf | Impl_intf -> true
+    | Impl -> false
+  in
   let config  =
     match module_info.syntax_kind with
     | Same Reason -> re_suffixes
@@ -125,7 +128,7 @@ let emit_module_build
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ast_deps =
     Format.asprintf "(:ast_deps %s %s)"
-      output_ast
+      (if module_info.info <> Intf then output_ast else "")
       (if has_intf_file then output_iast else "")
     in
   let ppx_deps =
