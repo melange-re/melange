@@ -24,85 +24,66 @@
 
 type t = Parsetree.core_type
 
-
-
-
-
-
-
-
-
-let lift_option_type ({ptyp_loc} as ty:t) : t =
-  {ptyp_desc =
-     Ptyp_constr(
-       {txt = Lident "option"(* Ast_literal.predef_option *);
-        loc = ptyp_loc}
-        , [ty]);
-      ptyp_loc = ptyp_loc;
-      ptyp_loc_stack = [ ptyp_loc ];
-      ptyp_attributes = []
-    }
-
+let lift_option_type ({ ptyp_loc } as ty : t) : t =
+  {
+    ptyp_desc =
+      Ptyp_constr
+        ( {
+            txt = Lident "option" (* Ast_literal.predef_option *);
+            loc = ptyp_loc;
+          },
+          [ ty ] );
+    ptyp_loc;
+    ptyp_loc_stack = [ ptyp_loc ];
+    ptyp_attributes = [];
+  }
 
 open Ast_helper
 
 (* let replace_result (ty : t) (result : t) : t =
-  let rec aux (ty : Parsetree.core_type) =
-    match ty with
-    | { ptyp_desc =
-          Ptyp_arrow (label,t1,t2)
-      } -> { ty with ptyp_desc = Ptyp_arrow(label,t1, aux t2)}
-    | {ptyp_desc = Ptyp_poly(fs,ty)}
-      ->  {ty with ptyp_desc = Ptyp_poly(fs, aux ty)}
-    | _ -> result in
-  aux ty *)
+   let rec aux (ty : Parsetree.core_type) =
+     match ty with
+     | { ptyp_desc =
+           Ptyp_arrow (label,t1,t2)
+       } -> { ty with ptyp_desc = Ptyp_arrow(label,t1, aux t2)}
+     | {ptyp_desc = Ptyp_poly(fs,ty)}
+       ->  {ty with ptyp_desc = Ptyp_poly(fs, aux ty)}
+     | _ -> result in
+   aux ty *)
 
 let is_builtin_rank0_type txt =
   match txt with
-  | "int"
-  | "char"
-  | "bytes"
-  | "float"
-  | "bool"
-  | "unit"
-  | "exn"
-  | "int32"
-  | "int64"
-  | "string" -> true
+  | "int" | "char" | "bytes" | "float" | "bool" | "unit" | "exn" | "int32"
+  | "int64" | "string" ->
+      true
   | _ -> false
 
-let is_unit (ty : t ) =
+let is_unit (ty : t) =
   match ty.ptyp_desc with
-  | Ptyp_constr({txt =Lident "unit"}, []) -> true
+  | Ptyp_constr ({ txt = Lident "unit" }, []) -> true
   | _ -> false
-
 
 (* let is_array (ty : t) =
-  match ty.ptyp_desc with
-  | Ptyp_constr({txt =Lident "array"}, [_]) -> true
-  | _ -> false *)
+   match ty.ptyp_desc with
+   | Ptyp_constr({txt =Lident "array"}, [_]) -> true
+   | _ -> false *)
 
 let is_user_option (ty : t) =
   match ty.ptyp_desc with
-  | Ptyp_constr(
-    {txt = Lident "option" |
-     (Ldot (Lident "*predef*", "option")) },
-    [_]) -> true
+  | Ptyp_constr
+      ({ txt = Lident "option" | Ldot (Lident "*predef*", "option") }, [ _ ]) ->
+      true
   | _ -> false
 
 (* let is_user_bool (ty : t) =
-  match ty.ptyp_desc with
-  | Ptyp_constr({txt = Lident "bool"},[]) -> true
-  | _ -> false *)
+   match ty.ptyp_desc with
+   | Ptyp_constr({txt = Lident "bool"},[]) -> true
+   | _ -> false *)
 
 (* let is_user_int (ty : t) =
-  match ty.ptyp_desc with
-  | Ptyp_constr({txt = Lident "int"},[]) -> true
-  | _ -> false *)
-
-
-
-
+   match ty.ptyp_desc with
+   | Ptyp_constr({txt = Lident "int"},[]) -> true
+   | _ -> false *)
 
 (* Note that OCaml type checker will not allow arbitrary
    name as type variables, for example:
@@ -111,28 +92,22 @@ let is_user_option (ty : t) =
    ]}
    will be recognized as a invalid program
 *)
-let from_labels ~loc arity labels
-  : t =
+let from_labels ~loc arity labels : t =
   let tyvars =
-    ((Ext_list.init arity (fun i ->
-         Typ.var ~loc ("a" ^ string_of_int i)))) in
+    Ext_list.init arity (fun i -> Typ.var ~loc ("a" ^ string_of_int i))
+  in
   let result_type =
     Ast_comb.to_js_type loc
       (Typ.object_ ~loc
-         (Ext_list.map2 labels tyvars
-          (fun x y -> Ast_compatible.object_field x [] y)) Closed)
+         (Ext_list.map2 labels tyvars (fun x y ->
+              Ast_compatible.object_field x [] y))
+         Closed)
   in
-  Ext_list.fold_right2 labels tyvars  result_type
-    (fun label (* {loc ; txt = label }*)
-      tyvar acc ->
+  Ext_list.fold_right2 labels tyvars result_type
+    (fun label (* {loc ; txt = label }*) tyvar acc ->
       Ast_compatible.label_arrow ~loc:label.loc label.txt tyvar acc)
 
-
-let make_obj ~loc xs =
-  Ast_comb.to_js_type loc
-    (Typ.object_  ~loc xs Closed)
-
-
+let make_obj ~loc xs = Ast_comb.to_js_type loc (Typ.object_ ~loc xs Closed)
 
 (**
 
@@ -141,37 +116,30 @@ OCaml does not support such syntax yet
 {[ 'a -> ('a. 'a -> 'b) ]}
 
 *)
-let rec get_uncurry_arity_aux  (ty : t) acc =
-    match ty.ptyp_desc with
-    | Ptyp_arrow(_, _ , new_ty) ->
-      get_uncurry_arity_aux new_ty (succ acc)
-    | Ptyp_poly (_,ty) ->
-      get_uncurry_arity_aux ty acc
-    | _ -> acc
+let rec get_uncurry_arity_aux (ty : t) acc =
+  match ty.ptyp_desc with
+  | Ptyp_arrow (_, _, new_ty) -> get_uncurry_arity_aux new_ty (succ acc)
+  | Ptyp_poly (_, ty) -> get_uncurry_arity_aux ty acc
+  | _ -> acc
 
 (**
    {[ unit -> 'b ]} return arity 0
    {[ unit -> 'a1 -> a2']} arity 2
    {[ 'a1 -> 'a2 -> ... 'aN -> 'b ]} return arity N
 *)
-let get_uncurry_arity (ty : t ) =
-  match ty.ptyp_desc  with
-  | Ptyp_arrow(Nolabel, {ptyp_desc = (Ptyp_constr ({txt = Lident "unit"}, []))},
-     rest  )  ->
-     begin match rest with
-     | {ptyp_desc = Ptyp_arrow _ } ->
-      Some (get_uncurry_arity_aux rest 1 )
-    | _ -> Some 0
-    end
-  | Ptyp_arrow(_,_,rest ) ->
-    Some (get_uncurry_arity_aux rest 1)
+let get_uncurry_arity (ty : t) =
+  match ty.ptyp_desc with
+  | Ptyp_arrow
+      (Nolabel, { ptyp_desc = Ptyp_constr ({ txt = Lident "unit" }, []) }, rest)
+    -> (
+      match rest with
+      | { ptyp_desc = Ptyp_arrow _ } -> Some (get_uncurry_arity_aux rest 1)
+      | _ -> Some 0)
+  | Ptyp_arrow (_, _, rest) -> Some (get_uncurry_arity_aux rest 1)
   | _ -> None
 
-let get_curry_arity  ty =
-  get_uncurry_arity_aux ty 0
-
-let is_arity_one ty = get_curry_arity ty =  1
-
+let get_curry_arity ty = get_uncurry_arity_aux ty 0
+let is_arity_one ty = get_curry_arity ty = 1
 
 type param_type = {
   label : Asttypes.arg_label;

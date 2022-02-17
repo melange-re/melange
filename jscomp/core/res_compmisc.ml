@@ -25,9 +25,11 @@
 let init_path () =
   let dirs = !Clflags.include_dirs in
   let exp_dirs =
-    List.map (Misc.expand_directory Config.standard_library) dirs in
-    Load_path.reset ();
-    List.iter Load_path.add_dir (List.rev ((Lazy.force Js_config.stdlib_path) :: exp_dirs));
+    List.map (Misc.expand_directory Config.standard_library) dirs
+  in
+  Load_path.reset ();
+  List.iter Load_path.add_dir
+    (List.rev (Lazy.force Js_config.stdlib_path :: exp_dirs));
   Env.reset_cache ()
 
 (* Return the initial environment in which compilation proceeds. *)
@@ -36,28 +38,30 @@ let init_path () =
    toplevel initialization (PR#1775) *)
 
 let[@ocaml.warning "-3"] open_implicit_module m env =
-  let lid = {Asttypes.loc = Location.in_file "command line";
-             txt = Longident.parse m } in
-  snd (!Typeclass.type_open_descr env {
-     popen_expr = lid;
-     popen_override = Override;
-     popen_loc = lid.loc;
-     popen_attributes = [];
-    })
-
+  let lid =
+    { Asttypes.loc = Location.in_file "command line"; txt = Longident.parse m }
+  in
+  snd
+    (!Typeclass.type_open_descr env
+       {
+         popen_expr = lid;
+         popen_override = Override;
+         popen_loc = lid.loc;
+         popen_attributes = [];
+       })
 
 let initial_env () =
-  Ident.reinit();
+  Ident.reinit ();
   let initial =
     if Config.safe_string then Env.initial_safe_string
     else if !Clflags.unsafe_string then Env.initial_unsafe_string
     else Env.initial_safe_string
   in
   let env =
-    if !Clflags.nopervasives then initial else
-    open_implicit_module "Stdlib" initial
+    if !Clflags.nopervasives then initial
+    else open_implicit_module "Stdlib" initial
   in
-  List.fold_left (fun env m ->
-    open_implicit_module m env
-  ) env (List.rev !Clflags.open_modules)
-
+  List.fold_left
+    (fun env m -> open_implicit_module m env)
+    env
+    (List.rev !Clflags.open_modules)

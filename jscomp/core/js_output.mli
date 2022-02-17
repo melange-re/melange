@@ -22,29 +22,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
 (** The intemediate output when compiling lambda into JS IR *)
 
 (* Hongbo Should we rename this module js_of_lambda since it looks like it's
    containing that step
- *)
+*)
 
+type finished = True | False | Dummy
+(* Have no idea, so that when [++] is applied, always use the other *)
 
-type finished =
-  | True
-  | False
-  | Dummy (* Have no idea, so that when [++] is applied, always use the other *)
-
-type t  =  {
-  block : J.block ;
+type t = {
+  block : J.block;
   value : J.expression option;
-  output_finished : finished
+  output_finished : finished;
 }
 
 (** When [finished] is true the block is already terminated,
@@ -52,60 +42,38 @@ type t  =  {
     [finished]  default to false, which is conservative
 *)
 
-val make :
-  ?value: J.expression ->
-  ?output_finished:finished ->
-  J.block ->
-  t
+val make : ?value:J.expression -> ?output_finished:finished -> J.block -> t
+val output_as_block : t -> J.block
+val to_break_block : t -> J.block * bool
+(* the second argument is
+   [true] means [break] needed
 
-val output_as_block :
-  t ->
-  J.block
+   When we know the output is gonna finished true
+   we can reduce
+   {[
+     return xx ;
+     break
+   ]}
+   into
+   {[
+     return ;
+   ]}
+*)
 
-val to_break_block :
-  t ->
-  J.block * bool
-  (* the second argument is
-    [true] means [break] needed
-
-    When we know the output is gonna finished true
-    we can reduce
-    {[
-      return xx ;
-      break
-    ]}
-    into
-    {[
-      return ;
-    ]}
-
-  *)
-
-val append_output: t -> t -> t
-
-
+val append_output : t -> t -> t
 val dummy : t
 
-
 val output_of_expression :
-    Lam_compile_context.continuation ->
-  
-    J.expression -> (* compiled expression *)
-    no_effects: bool Lazy.t -> 
-    t
-
-(** - needed for instrument [return] statement properly
-*)
-val output_of_block_and_expression :
-    Lam_compile_context.continuation ->
-    J.block ->
-    J.expression ->
-    t
-
-val concat :
-  t list ->
+  Lam_compile_context.continuation ->
+  J.expression ->
+  (* compiled expression *)
+  no_effects:bool Lazy.t ->
   t
 
-val to_string :
-  t ->
-  string
+val output_of_block_and_expression :
+  Lam_compile_context.continuation -> J.block -> J.expression -> t
+(** - needed for instrument [return] statement properly
+*)
+
+val concat : t list -> t
+val to_string : t -> string

@@ -22,14 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-val classify :
-  ?check:(Location.t * int) ->
-  string ->
-  Js_raw_info.exp
+val classify : ?check:Location.t * int -> string -> Js_raw_info.exp
 
 open Js_parser
-val classify_exp :
-  (Loc.t, Loc.t) Flow_ast.Expression.t -> Js_raw_info.exp
-val classify_stmt :
-  string -> Js_raw_info.stmt
+
+val classify_exp : (Loc.t, Loc.t) Flow_ast.Expression.t -> Js_raw_info.exp
+val classify_stmt : string -> Js_raw_info.stmt

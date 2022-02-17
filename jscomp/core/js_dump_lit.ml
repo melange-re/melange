@@ -24,7 +24,9 @@
 
 let function_ = "function"
 let var = "var" (* should be able to switch to [let] easily*)
+
 let return = "return"
+
 (* let eq = "=" *)
 let require = "require"
 let import = "import"
@@ -45,7 +47,7 @@ let length = "length"
 let char_code_at = "charCodeAt"
 let new_ = "new"
 let array = "Array"
-let question = "?"      
+let question = "?"
 let plusplus = "++"
 let minusminus = "--"
 let semi = ";"
@@ -54,7 +56,6 @@ let if_ = "if"
 let for_ = "for"
 let try_ = "try"
 let finally = "finally"
-
 let this = "this"
 let while_ = "while"
 let empty_block = "empty_block"
@@ -70,7 +71,6 @@ let switch = "switch"
 let strict_directive = "'use strict';"
 let true_ = "true"
 let false_ = "false"
-
 let debugger = "debugger"
 let tag = "TAG"
 let bind = "bind"
@@ -85,16 +85,15 @@ let le = "<="
 let lt = "<"
 let ge = ">="
 let gt = ">"
-let plus_plus = "++" 
+let plus_plus = "++"
+
 (*  FIXME: use (i = i + 1 | 0) instead  *)
 let minus_minus = "--"
-
 let caml_block_create = "__"
 
 (** debug symbols *)
 
-
 let block_poly_var = "polyVar"
 let block_variant = "variant"
 let block_simple_variant = "simpleVariant"
-let case = "case" 
+let case = "case"

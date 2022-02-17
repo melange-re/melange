@@ -23,20 +23,24 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (* Similiar to {!Lambda.tag_info}
-  In particular, 
-  it reduces some branches e.g, 
-  [Blk_some], [Blk_some_not_nested]
+   In particular,
+   it reduces some branches e.g,
+   [Blk_some], [Blk_some_not_nested]
 *)
-type t =   
+type t =
   | Blk_tuple
   | Blk_array
   | Blk_poly_var
-  | Blk_record of string array 
+  | Blk_record of string array
   | Blk_module of string list
   | Blk_extension
   | Blk_na of string (* for debugging *)
   | Blk_record_ext of string array
-  | Blk_record_inlined of { name : string ; num_nonconst : int; fields : string array }
-  | Blk_constructor of {name : string ; num_nonconst : int}
+  | Blk_record_inlined of {
+      name : string;
+      num_nonconst : int;
+      fields : string array;
+    }
+  | Blk_constructor of { name : string; num_nonconst : int }
   | Blk_class
   | Blk_module_export

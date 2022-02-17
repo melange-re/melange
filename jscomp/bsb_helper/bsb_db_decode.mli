@@ -22,40 +22,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
- type group = private
+type group = private
   | Dummy
   | Group of {
-      modules : string array ;
+      modules : string array;
       dir_length : int;
-      dir_info_offset : int ;
+      dir_info_offset : int;
       module_info_offset : int;
     }
 
 type t = {
-  lib : group ;
-  dev : group ;
-  content : string (* string is whole content*)
+  lib : group;
+  dev : group;
+  content : string; (* string is whole content*)
 }
 
-val read_build_cache :
-  dir:string -> t
+val read_build_cache : dir:string -> t
 
+type module_info = { case : bool; (* Bsb_db.case*) dir_name : string }
 
-
-type module_info = {
-  case : bool (* Bsb_db.case*);
-  dir_name : string
-}
-
-val find:
-  t -> (* contains global info *)
-  kind:[`impl | `intf] ->
-  string -> (* module name *)
-  bool -> (* more likely to be zero *)
+val find :
+  t ->
+  (* contains global info *)
+  kind:[ `impl | `intf ] ->
+  string ->
+  (* module name *)
+  bool ->
+  (* more likely to be zero *)
   module_info option
-
 
 val decode : string -> t

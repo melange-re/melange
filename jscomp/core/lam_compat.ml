@@ -22,34 +22,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type boxed_integer = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
 
-
-type boxed_integer = Lambda.boxed_integer =
-    Pnativeint | Pint32 | Pint64
-
-
-let eq_boxed_integer (p : boxed_integer) (p1 : boxed_integer ) =
+let eq_boxed_integer (p : boxed_integer) (p1 : boxed_integer) =
   match p with
   | Pnativeint -> p1 = Pnativeint
   | Pint32 -> p1 = Pint32
   | Pint64 -> p1 = Pint64
 
 type integer_comparison = Lambda.integer_comparison =
-    Ceq | Cne | Clt | Cgt | Cle | Cge
+  | Ceq
+  | Cne
+  | Clt
+  | Cgt
+  | Cle
+  | Cge
 
 type float_comparison = Lambda.float_comparison =
-    CFeq | CFneq | CFlt | CFnlt | CFgt | CFngt | CFle | CFnle | CFge | CFnge
+  | CFeq
+  | CFneq
+  | CFlt
+  | CFnlt
+  | CFgt
+  | CFngt
+  | CFle
+  | CFnle
+  | CFge
+  | CFnge
 
-let eq_comparison ( p : integer_comparison) (p1:integer_comparison) =
+let eq_comparison (p : integer_comparison) (p1 : integer_comparison) =
   match p with
-  | Cge -> p1 =  Cge
-  | Cgt -> p1 =  Cgt
-  | Cle -> p1 =  Cle
-  | Clt -> p1 =  Clt
-  | Ceq -> p1 =  Ceq
-  | Cne -> p1 =  Cne
+  | Cge -> p1 = Cge
+  | Cgt -> p1 = Cgt
+  | Cle -> p1 = Cle
+  | Clt -> p1 = Clt
+  | Ceq -> p1 = Ceq
+  | Cne -> p1 = Cne
 
-let eq_float_comparison ( p : float_comparison) (p1:float_comparison) =
+let eq_float_comparison (p : float_comparison) (p1 : float_comparison) =
   match p with
   | CFeq -> p1 = CFeq
   | CFneq -> p1 = CFneq
@@ -91,9 +101,9 @@ let cmp_nativeint (cmp : integer_comparison) (a : nativeint) b : bool =
 
 let cmp_float (cmp : float_comparison) (a : float) b : bool =
   match cmp with
-  | CFeq ->  a = b
+  | CFeq -> a = b
   | CFneq -> a <> b
-  | CFlt  -> a < b
+  | CFlt -> a < b
   | CFnlt -> not (a < b)
   | CFgt -> a > b
   | CFngt -> not (a > b)
@@ -101,7 +111,6 @@ let cmp_float (cmp : float_comparison) (a : float) b : bool =
   | CFnle -> not (a <= b)
   | CFge -> a >= b
   | CFnge -> not (a >= b)
-
 
 let cmp_int (cmp : integer_comparison) (a : int) b : bool =
   match cmp with
@@ -112,36 +121,27 @@ let cmp_int (cmp : integer_comparison) (a : int) b : bool =
   | Clt -> a < b
   | Cge -> a >= b
 
-
 type compile_time_constant =
-    | Big_endian
-    | Ostype_unix
-    | Ostype_win32
-    | Ostype
-    | Backend_type
+  | Big_endian
+  | Ostype_unix
+  | Ostype_win32
+  | Ostype
+  | Backend_type
 
 (** relies on the fact that [compile_time_constant] is enum type *)
-let eq_compile_time_constant ( p : compile_time_constant) (p1 : compile_time_constant) =
+let eq_compile_time_constant (p : compile_time_constant)
+    (p1 : compile_time_constant) =
   p = p1
 
-type let_kind = Lambda.let_kind
-= Strict
-| Alias
-| StrictOpt
-| Variable
-
-
-type meth_kind = Lambda.meth_kind
-  = Self
-| Public of string option
-| Cached
+type let_kind = Lambda.let_kind = Strict | Alias | StrictOpt | Variable
+type meth_kind = Lambda.meth_kind = Self | Public of string option | Cached
 
 type field_dbg_info = Lambda.field_dbg_info =
   | Fld_na of string
-  | Fld_record of { name : string; mutable_flag : Asttypes.mutable_flag}
+  | Fld_record of { name : string; mutable_flag : Asttypes.mutable_flag }
   | Fld_module of { name : string }
-  | Fld_record_inline of { name : string}
-  | Fld_record_extension of {name : string }
+  | Fld_record_inline of { name : string }
+  | Fld_record_extension of { name : string }
   | Fld_tuple
   | Fld_poly_var_tag
   | Fld_poly_var_content
@@ -152,20 +152,14 @@ type field_dbg_info = Lambda.field_dbg_info =
 
 let str_of_field_info (x : field_dbg_info) : string option =
   match x with
-  | Fld_na  s -> if s = "" then None else Some s
-  | Fld_array
-  | Fld_extension
-  | Fld_variant
-  | Fld_cons
-  | Fld_poly_var_tag
-  | Fld_poly_var_content
-  | Fld_tuple
-     -> None
-  | Fld_record {name ; _}
-  | Fld_module {name ; _}
-  | Fld_record_inline {name}
-  | Fld_record_extension {name}
-     ->
+  | Fld_na s -> if s = "" then None else Some s
+  | Fld_array | Fld_extension | Fld_variant | Fld_cons | Fld_poly_var_tag
+  | Fld_poly_var_content | Fld_tuple ->
+      None
+  | Fld_record { name; _ }
+  | Fld_module { name; _ }
+  | Fld_record_inline { name }
+  | Fld_record_extension { name } ->
       Some name
 
 type set_field_dbg_info = Lambda.set_field_dbg_info =
@@ -173,6 +167,3 @@ type set_field_dbg_info = Lambda.set_field_dbg_info =
   | Fld_record_set of string
   | Fld_record_inline_set of string
   | Fld_record_extension_set of string
-
-
-
