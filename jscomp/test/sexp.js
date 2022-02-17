@@ -2,11 +2,11 @@
 
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Caml_option = require("../../lib/js/caml_option.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var equal = Caml_obj.caml_equal;
 
@@ -24,14 +24,14 @@ function of_int(x) {
 function of_float(x) {
   return {
           NAME: "Atom",
-          VAL: Stdlib__no_aliases.string_of_float(x)
+          VAL: Stdlib.string_of_float(x)
         };
 }
 
 function of_bool(x) {
   return {
           NAME: "Atom",
-          VAL: x ? "true" : "false"
+          VAL: Stdlib.string_of_bool(x)
         };
 }
 
@@ -246,7 +246,7 @@ function to_int(e) {
 }
 
 function to_bool(e) {
-  return _try_atom(e, Stdlib__no_aliases.bool_of_string);
+  return _try_atom(e, Stdlib.bool_of_string);
 }
 
 function to_float(e) {
@@ -484,12 +484,9 @@ function get_variant(l, e) {
 function get_exn(e) {
   if (e !== undefined) {
     return Caml_option.valFromOption(e);
+  } else {
+    return Stdlib.failwith("CCSexp.Traverse.get_exn");
   }
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "CCSexp.Traverse.get_exn",
-        Error: new Error()
-      };
 }
 
 var of_unit = {

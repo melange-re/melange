@@ -6,6 +6,7 @@ var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_oo = require("../../lib/js/caml_oo.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_array = require("../../lib/js/caml_array.js");
@@ -41,6 +42,12 @@ function public_method_label(s) {
     return accu;
   }
 }
+
+var compare = Caml.caml_string_compare;
+
+var funarg = {
+  compare: compare
+};
 
 function height(param) {
   if (param) {
@@ -154,7 +161,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -188,7 +195,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -362,7 +369,7 @@ function find_opt(x, _param) {
     if (!param) {
       return ;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -377,7 +384,7 @@ function mem(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -497,7 +504,7 @@ function remove(x, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return merge(l, r);
   }
@@ -523,7 +530,7 @@ function update(x, f, m) {
     var d = m.d;
     var v = m.v;
     var l = m.l;
-    var c = Caml.caml_string_compare(x, v);
+    var c = Curry._2(funarg.compare, x, v);
     if (c === 0) {
       var data = Curry._1(f, Caml_option.some(d));
       if (data === undefined) {
@@ -729,7 +736,7 @@ function split(x, param) {
   var d = param.d;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -897,7 +904,7 @@ function cons_enum(_m, _e) {
   };
 }
 
-function compare(cmp, m1, m2) {
+function compare$1(cmp, m1, m2) {
   var _e1 = cons_enum(m1, /* End */0);
   var _e2 = cons_enum(m2, /* End */0);
   while(true) {
@@ -913,7 +920,7 @@ function compare(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_string_compare(e1._0, e2._0);
+    var c = Curry._2(funarg.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -943,7 +950,7 @@ function equal(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (Caml.caml_string_compare(e1._0, e2._0) !== 0) {
+    if (Curry._2(funarg.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -1071,7 +1078,7 @@ function to_seq_from(low, m) {
       var r = m.r;
       var d = m.d;
       var v = m.v;
-      var n = Caml.caml_string_compare(v, low);
+      var n = Curry._2(funarg.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -1110,7 +1117,7 @@ var Vars = {
   remove: remove,
   merge: merge$1,
   union: union,
-  compare: compare,
+  compare: compare$1,
   equal: equal,
   iter: iter,
   fold: fold,
@@ -1141,6 +1148,12 @@ var Vars = {
   to_seq_from: to_seq_from,
   add_seq: add_seq,
   of_seq: of_seq
+};
+
+var compare$2 = Caml.caml_string_compare;
+
+var funarg$1 = {
+  compare: compare$2
 };
 
 function height$1(param) {
@@ -1255,7 +1268,7 @@ function add$1(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$1.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -1289,7 +1302,7 @@ function find$1(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(funarg$1.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -1463,7 +1476,7 @@ function find_opt$1(x, _param) {
     if (!param) {
       return ;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg$1.compare, x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -1478,7 +1491,7 @@ function mem$1(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_string_compare(x, param.v);
+    var c = Curry._2(funarg$1.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -1598,7 +1611,7 @@ function remove$1(x, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$1.compare, x, v);
   if (c === 0) {
     return merge$2(l, r);
   }
@@ -1624,7 +1637,7 @@ function update$1(x, f, m) {
     var d = m.d;
     var v = m.v;
     var l = m.l;
-    var c = Caml.caml_string_compare(x, v);
+    var c = Curry._2(funarg$1.compare, x, v);
     if (c === 0) {
       var data = Curry._1(f, Caml_option.some(d));
       if (data === undefined) {
@@ -1830,7 +1843,7 @@ function split$1(x, param) {
   var d = param.d;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$1.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -1998,7 +2011,7 @@ function cons_enum$1(_m, _e) {
   };
 }
 
-function compare$1(cmp, m1, m2) {
+function compare$3(cmp, m1, m2) {
   var _e1 = cons_enum$1(m1, /* End */0);
   var _e2 = cons_enum$1(m2, /* End */0);
   while(true) {
@@ -2014,7 +2027,7 @@ function compare$1(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_string_compare(e1._0, e2._0);
+    var c = Curry._2(funarg$1.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -2044,7 +2057,7 @@ function equal$1(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (Caml.caml_string_compare(e1._0, e2._0) !== 0) {
+    if (Curry._2(funarg$1.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -2172,7 +2185,7 @@ function to_seq_from$1(low, m) {
       var r = m.r;
       var d = m.d;
       var v = m.v;
-      var n = Caml.caml_string_compare(v, low);
+      var n = Curry._2(funarg$1.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -2211,7 +2224,7 @@ var Meths = {
   remove: remove$1,
   merge: merge$3,
   union: union$1,
-  compare: compare$1,
+  compare: compare$3,
   equal: equal$1,
   iter: iter$1,
   fold: fold$1,
@@ -2242,6 +2255,12 @@ var Meths = {
   to_seq_from: to_seq_from$1,
   add_seq: add_seq$1,
   of_seq: of_seq$1
+};
+
+var compare$4 = Caml.caml_int_compare;
+
+var funarg$2 = {
+  compare: compare$4
 };
 
 function height$2(param) {
@@ -2356,7 +2375,7 @@ function add$2(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg$2.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -2390,7 +2409,7 @@ function find$2(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_int_compare(x, param.v);
+      var c = Curry._2(funarg$2.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -2564,7 +2583,7 @@ function find_opt$2(x, _param) {
     if (!param) {
       return ;
     }
-    var c = Caml.caml_int_compare(x, param.v);
+    var c = Curry._2(funarg$2.compare, x, param.v);
     if (c === 0) {
       return Caml_option.some(param.d);
     }
@@ -2579,7 +2598,7 @@ function mem$2(x, _param) {
     if (!param) {
       return false;
     }
-    var c = Caml.caml_int_compare(x, param.v);
+    var c = Curry._2(funarg$2.compare, x, param.v);
     if (c === 0) {
       return true;
     }
@@ -2699,7 +2718,7 @@ function remove$2(x, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg$2.compare, x, v);
   if (c === 0) {
     return merge$4(l, r);
   }
@@ -2725,7 +2744,7 @@ function update$2(x, f, m) {
     var d = m.d;
     var v = m.v;
     var l = m.l;
-    var c = Caml.caml_int_compare(x, v);
+    var c = Curry._2(funarg$2.compare, x, v);
     if (c === 0) {
       var data = Curry._1(f, Caml_option.some(d));
       if (data === undefined) {
@@ -2931,7 +2950,7 @@ function split$2(x, param) {
   var d = param.d;
   var v = param.v;
   var l = param.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg$2.compare, x, v);
   if (c === 0) {
     return [
             l,
@@ -3099,7 +3118,7 @@ function cons_enum$2(_m, _e) {
   };
 }
 
-function compare$2(cmp, m1, m2) {
+function compare$5(cmp, m1, m2) {
   var _e1 = cons_enum$2(m1, /* End */0);
   var _e2 = cons_enum$2(m2, /* End */0);
   while(true) {
@@ -3115,7 +3134,7 @@ function compare$2(cmp, m1, m2) {
     if (!e2) {
       return 1;
     }
-    var c = Caml.caml_int_compare(e1._0, e2._0);
+    var c = Curry._2(funarg$2.compare, e1._0, e2._0);
     if (c !== 0) {
       return c;
     }
@@ -3145,7 +3164,7 @@ function equal$2(cmp, m1, m2) {
     if (!e2) {
       return false;
     }
-    if (e1._0 !== e2._0) {
+    if (Curry._2(funarg$2.compare, e1._0, e2._0) !== 0) {
       return false;
     }
     if (!Curry._2(cmp, e1._1, e2._1)) {
@@ -3273,7 +3292,7 @@ function to_seq_from$2(low, m) {
       var r = m.r;
       var d = m.d;
       var v = m.v;
-      var n = Caml.caml_int_compare(v, low);
+      var n = Curry._2(funarg$2.compare, v, low);
       if (n === 0) {
         return /* More */{
                 _0: v,
@@ -3312,7 +3331,7 @@ var Labs = {
   remove: remove$2,
   merge: merge$5,
   union: union$2,
-  compare: compare$2,
+  compare: compare$5,
   equal: equal$2,
   iter: iter$2,
   fold: fold$2,
@@ -3397,7 +3416,6 @@ function resize(array, new_size) {
   var new_buck = Caml_array.make(new_size, /* DummyA */0);
   $$Array.blit(array.methods, 0, new_buck, 0, old_size);
   array.methods = new_buck;
-  
 }
 
 function put(array, label, element) {
@@ -3421,14 +3439,14 @@ function new_method(table) {
 
 function get_method_label(table, name) {
   try {
-    return find$1(name, table.methods_by_name);
+    return Curry._2(find$1, name, table.methods_by_name);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var label = new_method(table);
-      table.methods_by_name = add$1(name, label, table.methods_by_name);
-      table.methods_by_label = add$2(label, true, table.methods_by_label);
+      table.methods_by_name = Curry._3(add$1, name, label, table.methods_by_name);
+      table.methods_by_label = Curry._3(add$2, label, true, table.methods_by_label);
       return label;
     }
     throw exn;
@@ -3443,7 +3461,7 @@ function get_method_labels(table, names) {
 
 function set_method(table, label, element) {
   method_count.contents = method_count.contents + 1 | 0;
-  if (find$2(label, table.methods_by_label)) {
+  if (Curry._2(find$2, label, table.methods_by_label)) {
     return put(table, label, element);
   } else {
     table.hidden_meths = {
@@ -3463,7 +3481,7 @@ function get_method(table, label) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return Caml_array.get(table.methods, label);
     }
     throw exn;
@@ -3499,9 +3517,9 @@ function narrow(table, vars, virt_meths, concr_meths) {
     ],
     tl: table.previous_states
   };
-  table.vars = fold((function (lab, info, tvars) {
+  table.vars = Curry._3(fold, (function (lab, info, tvars) {
           if (List.mem(lab, vars$1)) {
-            return add(lab, info, tvars);
+            return Curry._3(add, lab, info, tvars);
           } else {
             return tvars;
           }
@@ -3513,26 +3531,24 @@ function narrow(table, vars, virt_meths, concr_meths) {
     contents: /* Empty */0
   };
   List.iter2((function (met, label) {
-          by_name.contents = add$1(met, label, by_name.contents);
+          by_name.contents = Curry._3(add$1, met, label, by_name.contents);
           var tmp;
           try {
-            tmp = find$2(label, table.methods_by_label);
+            tmp = Curry._2(find$2, label, table.methods_by_label);
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               tmp = true;
             } else {
               throw exn;
             }
           }
-          by_label.contents = add$2(label, tmp, by_label.contents);
-          
+          by_label.contents = Curry._3(add$2, label, tmp, by_label.contents);
         }), concr_meths$1, concr_meth_labs);
   List.iter2((function (met, label) {
-          by_name.contents = add$1(met, label, by_name.contents);
-          by_label.contents = add$2(label, false, by_label.contents);
-          
+          by_name.contents = Curry._3(add$1, met, label, by_name.contents);
+          by_label.contents = Curry._3(add$2, label, false, by_label.contents);
         }), virt_meths$1, virt_meth_labs);
   table.methods_by_name = by_name.contents;
   table.methods_by_label = by_label.contents;
@@ -3546,7 +3562,6 @@ function narrow(table, vars, virt_meths, concr_meths) {
                   };
           }
         }), table.hidden_meths, /* [] */0);
-  
 }
 
 function widen(table) {
@@ -3554,7 +3569,7 @@ function widen(table) {
   var virt_meths = match[4];
   table.previous_states = List.tl(table.previous_states);
   table.vars = List.fold_left((function (s, v) {
-          return add(v, find(v, table.vars), s);
+          return Curry._3(add, v, Curry._2(find, v, table.vars), s);
         }), match[3], match[5]);
   table.methods_by_name = match[0];
   table.methods_by_label = match[1];
@@ -3568,7 +3583,6 @@ function widen(table) {
                   };
           }
         }), table.hidden_meths, match[2]);
-  
 }
 
 function new_slot(table) {
@@ -3579,14 +3593,14 @@ function new_slot(table) {
 
 function new_variable(table, name) {
   try {
-    return find(name, table.vars);
+    return Curry._2(find, name, table.vars);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       var index = new_slot(table);
       if (name !== "") {
-        table.vars = add(name, index, table.vars);
+        table.vars = Curry._3(add, name, index, table.vars);
       }
       return index;
     }
@@ -3618,11 +3632,11 @@ function new_methods_variables(table, meths, vals) {
 
 function get_variable(table, name) {
   try {
-    return find(name, table.vars);
+    return Curry._2(find, name, table.vars);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
@@ -3648,7 +3662,6 @@ function add_initializer(table, f) {
     hd: f,
     tl: table.initializers
   };
-  
 }
 
 function create_table(public_methods) {
@@ -3659,9 +3672,8 @@ function create_table(public_methods) {
   var table = new_table(tags);
   $$Array.iteri((function (i, met) {
           var lab = (i << 1) + 2 | 0;
-          table.methods_by_name = add$1(met, lab, table.methods_by_name);
-          table.methods_by_label = add$2(lab, true, table.methods_by_label);
-          
+          table.methods_by_name = Curry._3(add$1, met, lab, table.methods_by_name);
+          table.methods_by_label = Curry._3(add$2, lab, true, table.methods_by_label);
         }), public_methods);
   return table;
 }
@@ -3711,13 +3723,12 @@ function make_class_store(pub_meths, class_init, init_table) {
   init_class(table);
   init_table.class_init = class_init;
   init_table.env_init = env_init;
-  
 }
 
 function dummy_class(loc) {
   var undef = function (param) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Undefined_recursive_module,
+          RE_EXN_ID: Stdlib.Undefined_recursive_module,
           _1: loc,
           Error: new Error()
         };
@@ -3839,7 +3850,6 @@ function get_meth(n) {
 function set_var(n) {
   return function (obj, x) {
     obj[n] = x;
-    
   };
 }
 
@@ -3997,7 +4007,6 @@ function method_impl(table, i, arr) {
         var n$2 = next(undefined);
         return function (obj, x) {
           obj[n$2] = x;
-          
         };
     case /* AppConst */5 :
         var f = next(undefined);
@@ -4108,7 +4117,6 @@ function set_methods(table, methods) {
     set_method(table, label, clo);
     i.contents = i.contents + 1 | 0;
   };
-  
 }
 
 function stats(param) {
@@ -4198,4 +4206,4 @@ exports.new_cache = new_cache;
 exports.method_impl = method_impl;
 exports.set_methods = set_methods;
 exports.stats = stats;
-/* No side effect */
+/* Vars Not a pure module */

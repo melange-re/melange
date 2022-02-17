@@ -4,6 +4,12 @@ var Caml = require("../../lib/js/caml.js");
 var Curry = require("../../lib/js/curry.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
+var compare = Caml.caml_string_compare;
+
+var funarg = {
+  compare: compare
+};
+
 function height(param) {
   if (param) {
     return param.h;
@@ -98,7 +104,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -132,7 +138,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -150,7 +156,6 @@ function timing(label, f) {
   console.time(label);
   Curry._1(f, undefined);
   console.timeEnd(label);
-  
 }
 
 function assertion_test(param) {
@@ -159,17 +164,15 @@ function assertion_test(param) {
   };
   timing("building", (function (param) {
           for(var i = 0; i <= 1000000; ++i){
-            m.contents = add(String(i), String(i), m.contents);
+            m.contents = Curry._3(add, String(i), String(i), m.contents);
           }
-          
         }));
   return timing("querying", (function (param) {
                 for(var i = 0; i <= 1000000; ++i){
-                  find(String(i), m.contents);
+                  Curry._2(find, String(i), m.contents);
                 }
-                
               }));
 }
 
 exports.assertion_test = assertion_test;
-/* No side effect */
+/* StringMap Not a pure module */

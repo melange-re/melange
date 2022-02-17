@@ -7,12 +7,10 @@ var Scanf = require("../../lib/js/scanf.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Digest = require("../../lib/js/digest.js");
 var Printf = require("../../lib/js/printf.js");
-var Caml_io = require("../../lib/js/caml_io.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 var tscanf_data_file = "tscanf_data";
 
@@ -49,12 +47,11 @@ function create_tscanf_data(ob, lines) {
 }
 
 function write_tscanf_data_file(fname, lines) {
-  var oc = Stdlib__no_aliases.open_out(fname);
+  var oc = Stdlib.open_out(fname);
   var ob = $$Buffer.create(42);
   create_tscanf_data(ob, lines);
   $$Buffer.output_buffer(oc, ob);
-  Caml_io.caml_ml_flush(oc);
-  return Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+  return Stdlib.close_out(oc);
 }
 
 function get_lines(fname) {
@@ -95,7 +92,6 @@ function get_lines(fname) {
                 ],
                 tl: l.contents
               };
-              
             }));
     };
     return List.rev(l.contents);
@@ -103,54 +99,44 @@ function get_lines(fname) {
   catch (raw_s){
     var s = Caml_js_exceptions.internalToOCamlException(raw_s);
     if (s.RE_EXN_ID === Scanf.Scan_failure) {
-      var s$1 = Curry._2(Printf.sprintf(/* Format */{
-                _0: {
-                  TAG: /* String_literal */11,
-                  _0: "in file ",
-                  _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: {
-                      TAG: /* String_literal */11,
-                      _0: ", ",
-                      _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  }
-                },
-                _1: "in file %s, %s"
-              }), fname, s._1);
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: s$1,
-            Error: new Error()
-          };
+      return Stdlib.failwith(Curry._2(Printf.sprintf(/* Format */{
+                          _0: {
+                            TAG: /* String_literal */11,
+                            _0: "in file ",
+                            _1: {
+                              TAG: /* String */2,
+                              _0: /* No_padding */0,
+                              _1: {
+                                TAG: /* String_literal */11,
+                                _0: ", ",
+                                _1: {
+                                  TAG: /* String */2,
+                                  _0: /* No_padding */0,
+                                  _1: /* End_of_format */0
+                                }
+                              }
+                            }
+                          },
+                          _1: "in file %s, %s"
+                        }), fname, s._1));
     }
-    if (s.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
-      var s$2 = Curry._1(Printf.sprintf(/* Format */{
-                _0: {
-                  TAG: /* String_literal */11,
-                  _0: "in file ",
-                  _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: {
-                      TAG: /* String_literal */11,
-                      _0: ", unexpected end of file",
-                      _1: /* End_of_format */0
-                    }
-                  }
-                },
-                _1: "in file %s, unexpected end of file"
-              }), fname);
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: s$2,
-            Error: new Error()
-          };
+    if (s.RE_EXN_ID === Stdlib.End_of_file) {
+      return Stdlib.failwith(Curry._1(Printf.sprintf(/* Format */{
+                          _0: {
+                            TAG: /* String_literal */11,
+                            _0: "in file ",
+                            _1: {
+                              TAG: /* String */2,
+                              _0: /* No_padding */0,
+                              _1: {
+                                TAG: /* String_literal */11,
+                                _0: ", unexpected end of file",
+                                _1: /* End_of_format */0
+                              }
+                            }
+                          },
+                          _1: "in file %s, unexpected end of file"
+                        }), fname));
     }
     throw s;
   }
@@ -187,7 +173,7 @@ function add_digest_ib(ob, ib) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.End_of_file) {
+    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
       return ;
     }
     throw exn;

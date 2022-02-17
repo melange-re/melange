@@ -37,7 +37,7 @@ function c1_init($$class) {
         "*dummy method*"
       ]);
   var b = ids[0];
-  CamlinternalOO.set_method($$class, b, (function (self$neg1) {
+  CamlinternalOO.set_method($$class, b, (function (self$1) {
           if (!object_tables.key) {
             var $$class = CamlinternalOO.create_table([
                   "c",
@@ -52,14 +52,14 @@ function c1_init($$class) {
             var c = ids[1];
             CamlinternalOO.set_methods($$class, [
                   c,
-                  (function (self$neg2) {
-                      var env$1 = self$neg2[env];
+                  (function (self$2) {
+                      var env$1 = self$2[env];
                       if (!object_tables$1.key) {
                         var $$class = CamlinternalOO.create_table(["d"]);
                         var env$2 = CamlinternalOO.new_variable($$class, "");
                         var d = CamlinternalOO.get_method_label($$class, "d");
-                        CamlinternalOO.set_method($$class, d, (function (self$neg3) {
-                                var env$3 = self$neg3[env$2];
+                        CamlinternalOO.set_method($$class, d, (function (self$3) {
+                                var env$3 = self$3[env$2];
                                 var tmp = env$3[1];
                                 return Curry._1(tmp[0][env$3[0]], tmp);
                               }));
@@ -77,7 +77,7 @@ function c1_init($$class) {
                                 ]);
                     }),
                   h,
-                  (function (self$neg2) {
+                  (function (self$2) {
                       return 33;
                     })
                 ]);
@@ -91,7 +91,7 @@ function c1_init($$class) {
           }
           return Curry._1(object_tables.key, [
                       b,
-                      self$neg1
+                      self$1
                     ]);
         }));
   return function (env, self) {
@@ -110,7 +110,7 @@ function c2_init($$class) {
   var a = ids[1];
   var inh = CamlinternalOO.inherits($$class, 0, 0, shared, c1, true);
   var obj_init = inh[0];
-  CamlinternalOO.set_method($$class, a, (function (self$neg4) {
+  CamlinternalOO.set_method($$class, a, (function (self$4) {
           
         }));
   return function (env, self) {

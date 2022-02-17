@@ -5,10 +5,10 @@ var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
 var Random = require("../../lib/js/random.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_int32 = require("../../lib/js/caml_int32.js");
 var Caml_option = require("../../lib/js/caml_option.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var Actors = {};
 
@@ -665,7 +665,6 @@ function transform_enemy(enemy_typ, spr, dir) {
   img.src = params.img_src;
   spr.params = params;
   spr.img = img;
-  
 }
 
 function update_animation(spr) {
@@ -769,7 +768,6 @@ function make_score(score, pos, ctx) {
 function update_vel(part) {
   part.vel.x = part.vel.x + part.acc.x;
   part.vel.y = part.vel.y + part.acc.y;
-  
 }
 
 function $$process(part) {
@@ -780,7 +778,6 @@ function $$process(part) {
   update_vel(part);
   part.pos.x = part.vel.x + part.pos.x;
   part.pos.y = part.vel.y + part.pos.y;
-  
 }
 
 var Particle = {
@@ -790,7 +787,7 @@ var Particle = {
 };
 
 var id_counter = {
-  contents: Stdlib__no_aliases.min_int
+  contents: Stdlib.min_int
 };
 
 function setup_obj(has_gravityOpt, speedOpt, param) {
@@ -810,7 +807,6 @@ function set_vel_to_speed(obj) {
   } else {
     obj.vel.x = -speed;
   }
-  
 }
 
 function make_type$2(t) {
@@ -950,7 +946,6 @@ function normalize_pos(pos, p1, p2) {
   var match$3 = p2.bbox_size;
   pos.x = pos.x - (match$3[0] + match$1[0]) + (match$2[0] + match[0]);
   pos.y = pos.y - (match$3[1] + match$1[1]) + (match$2[1] + match[1]);
-  
 }
 
 function update_player(player, keys, context) {
@@ -1090,7 +1085,6 @@ function normalize_origin(pos, spr) {
   var match$1 = p.bbox_size;
   pos.x = pos.x - match[0];
   pos.y = pos.y - (match[1] + match$1[1]);
-  
 }
 
 function collide_block(check_xOpt, dir, obj) {
@@ -1118,7 +1112,6 @@ function collide_block(check_xOpt, dir, obj) {
 function reverse_left_right(obj) {
   obj.vel.x = -obj.vel.x;
   obj.dir = obj.dir ? /* Left */0 : /* Right */1;
-  
 }
 
 function evolve_enemy(player_dir, typ, spr, obj, context) {
@@ -1171,7 +1164,6 @@ function evolve_enemy(player_dir, typ, spr, obj, context) {
   } else {
     set_vel_to_speed(obj);
   }
-  
 }
 
 function rev_dir(o, t, s) {
@@ -1336,7 +1328,7 @@ function kill(collid, ctx) {
               hd: make$1(undefined, undefined, /* GoombaSquish */0, pos, ctx),
               tl: /* [] */0
             });
-        return Stdlib__no_aliases.$at(score, remains);
+        return Stdlib.$at(score, remains);
     case /* Item */2 :
         var o$1 = collid._2;
         if (collid._0) {
@@ -1464,7 +1456,6 @@ function clear_canvas(canvas) {
   var cwidth = canvas.width;
   var cheight = canvas.height;
   context.clearRect(0, 0, cwidth, cheight);
-  
 }
 
 function hud(canvas, score, coins) {
@@ -1474,14 +1465,12 @@ function hud(canvas, score, coins) {
   context.font = "10px 'Press Start 2P'";
   context.fillText("Score: " + score_string, canvas.width - 140, 18);
   context.fillText("Coins: " + coin_string, 120, 18);
-  
 }
 
 function fps(canvas, fps_val) {
   var fps_str = String(fps_val | 0);
   var context = canvas.getContext("2d");
   context.fillText(fps_str, 10, 18);
-  
 }
 
 function game_win(ctx) {
@@ -1491,11 +1480,7 @@ function game_win(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("You win!", 180, 128);
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "Game over.",
-        Error: new Error()
-      };
+  return Stdlib.failwith("Game over.");
 }
 
 function game_loss(ctx) {
@@ -1505,11 +1490,7 @@ function game_loss(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("GAME OVER. You lose!", 60, 128);
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "Game over.",
-        Error: new Error()
-      };
+  return Stdlib.failwith("Game over.");
 }
 
 var Draw = {
@@ -1621,7 +1602,6 @@ function calc_fps(t0, t1) {
 
 function update_score(state, i) {
   state.score = state.score + i | 0;
-  
 }
 
 function process_collision(dir, c1, c2, state) {
@@ -2150,7 +2130,7 @@ function run_update_collid(state, collid, all_collids) {
       player = collid;
     }
     var evolved = update_collidable(state, player, all_collids);
-    collid_objs.contents = Stdlib__no_aliases.$at(collid_objs.contents, evolved);
+    collid_objs.contents = Stdlib.$at(collid_objs.contents, evolved);
     return player;
   }
   var obj = collid._2;
@@ -2158,11 +2138,11 @@ function run_update_collid(state, collid, all_collids) {
   if (!obj.kill) {
     collid_objs.contents = {
       hd: collid,
-      tl: Stdlib__no_aliases.$at(collid_objs.contents, evolved$1)
+      tl: Stdlib.$at(collid_objs.contents, evolved$1)
     };
   }
   var new_parts = obj.kill ? kill(collid, state.ctx) : /* [] */0;
-  particles.contents = Stdlib__no_aliases.$at(particles.contents, new_parts);
+  particles.contents = Stdlib.$at(particles.contents, new_parts);
   return collid;
 }
 
@@ -2214,7 +2194,6 @@ function update_loop(canvas, param, map_dim) {
     };
     List.iter((function (obj) {
             run_update_collid(state$1, obj, objs);
-            
           }), objs);
     List.iter((function (part) {
             $$process(part);
@@ -2238,7 +2217,6 @@ function update_loop(canvas, param, map_dim) {
     requestAnimationFrame(function (t) {
           return update_helper(t, state$1, player$1, collid_objs.contents, particles.contents);
         });
-    
   };
   return update_helper(0, state, player, param[1], /* [] */0);
 }
@@ -2383,7 +2361,7 @@ function convert_list(lst) {
     return /* [] */0;
   }
   var h = lst.hd;
-  return Stdlib__no_aliases.$at({
+  return Stdlib.$at({
               hd: [
                 h[0],
                 [
@@ -2404,11 +2382,7 @@ function choose_enemy_typ(typ) {
     case 2 :
         return /* Goomba */0;
     default:
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Shouldn't reach here",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Shouldn't reach here");
   }
 }
 
@@ -2427,11 +2401,7 @@ function choose_sblock_typ(typ) {
     case 4 :
         return /* Ground */5;
     default:
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Shouldn't reach here",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Shouldn't reach here");
   }
 }
 
@@ -2444,7 +2414,7 @@ function avoid_overlap(_lst, currentLst) {
     var t = lst.tl;
     var h = lst.hd;
     if (!mem_loc(h[1], currentLst)) {
-      return Stdlib__no_aliases.$at({
+      return Stdlib.$at({
                   hd: h,
                   tl: /* [] */0
                 }, avoid_overlap(t, currentLst));
@@ -2467,7 +2437,7 @@ function trim_edges(_lst, blockw, blockh) {
     var pixx = blockw * 16;
     var pixy = blockh * 16;
     if (!(cx < 128 || pixx - cx < 528 || cy === 0 || pixy - cy < 48)) {
-      return Stdlib__no_aliases.$at({
+      return Stdlib.$at({
                   hd: h,
                   tl: /* [] */0
                 }, trim_edges(t, blockw, blockh));
@@ -2481,7 +2451,7 @@ function generate_clouds(cbx, cby, typ, num) {
   if (num === 0) {
     return /* [] */0;
   } else {
-    return Stdlib__no_aliases.$at({
+    return Stdlib.$at({
                 hd: [
                   typ,
                   [
@@ -2506,7 +2476,7 @@ function generate_coins(_block_coord) {
     if (place_coin === 0) {
       var xc = h[1][0];
       var yc = h[1][1];
-      return Stdlib__no_aliases.$at({
+      return Stdlib.$at({
                   hd: [
                     0,
                     [
@@ -2703,7 +2673,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
             hd: one_0,
             tl: /* [] */0
           };
-          return Stdlib__no_aliases.$at(four, Stdlib__no_aliases.$at(three, Stdlib__no_aliases.$at(two, one)));
+          return Stdlib.$at(four, Stdlib.$at(three, Stdlib.$at(two, one)));
         } else {
           return /* [] */0;
         }
@@ -2781,7 +2751,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
             hd: one_0$1,
             tl: one_1
           };
-          return Stdlib__no_aliases.$at(three$1, Stdlib__no_aliases.$at(two$1, one$1));
+          return Stdlib.$at(three$1, Stdlib.$at(two$1, one$1));
         } else if (blockh - cby > 2) {
           var one_0$2 = [
             stair_typ,
@@ -2855,7 +2825,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
             hd: three_0$2,
             tl: three_1$2
           };
-          return Stdlib__no_aliases.$at(one$2, Stdlib__no_aliases.$at(two$2, three$2));
+          return Stdlib.$at(one$2, Stdlib.$at(two$2, three$2));
         } else {
           return {
                   hd: [
@@ -2942,11 +2912,7 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
                 tl: /* [] */0
               };
     default:
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "Shouldn't reach here",
-            Error: new Error()
-          };
+      return Stdlib.failwith("Shouldn't reach here");
   }
 }
 
@@ -2982,7 +2948,7 @@ function generate_enemies(blockw, blockh, _cbx, _cby, acc) {
         hd: enemy_0,
         tl: /* [] */0
       };
-      return Stdlib__no_aliases.$at(enemy, generate_enemies(blockw, blockh, cbx, cby + 1, acc));
+      return Stdlib.$at(enemy, generate_enemies(blockw, blockh, cbx, cby + 1, acc));
     }
     _cby = cby + 1;
     continue ;
@@ -3002,7 +2968,7 @@ function generate_block_enemies(_block_coord) {
     if (place_enemy === 0) {
       var xc = h[1][0];
       var yc = h[1][1];
-      return Stdlib__no_aliases.$at({
+      return Stdlib.$at({
                   hd: [
                     enemy_typ,
                     [
@@ -3042,7 +3008,7 @@ function generate_block_locs(blockw, blockh, _cbx, _cby, _acc) {
     if (prob < 5) {
       var newacc = choose_block_pattern(blockw, blockh, cbx, cby, prob);
       var undup_lst = avoid_overlap(newacc, acc);
-      var called_acc = Stdlib__no_aliases.$at(acc, undup_lst);
+      var called_acc = Stdlib.$at(acc, undup_lst);
       _acc = called_acc;
       _cby = cby + 1;
       continue ;
@@ -3071,7 +3037,7 @@ function generate_ground(blockw, blockh, _inc, _acc) {
     }
     if (inc > 10) {
       var skip = Random.$$int(10);
-      var newacc = Stdlib__no_aliases.$at(acc, {
+      var newacc = Stdlib.$at(acc, {
             hd: [
               4,
               [
@@ -3089,7 +3055,7 @@ function generate_ground(blockw, blockh, _inc, _acc) {
       _inc = inc + 1;
       continue ;
     }
-    var newacc$1 = Stdlib__no_aliases.$at(acc, {
+    var newacc$1 = Stdlib.$at(acc, {
           hd: [
             4,
             [
@@ -3115,7 +3081,7 @@ function convert_to_block_obj(lst, context) {
         TAG: /* SBlock */3,
         _0: sblock_typ
       }, context, h[1]);
-  return Stdlib__no_aliases.$at({
+  return Stdlib.$at({
               hd: ob,
               tl: /* [] */0
             }, convert_to_block_obj(lst.tl, context));
@@ -3131,7 +3097,7 @@ function convert_to_enemy_obj(lst, context) {
         TAG: /* SEnemy */1,
         _0: senemy_typ
       }, context, h[1]);
-  return Stdlib__no_aliases.$at({
+  return Stdlib.$at({
               hd: ob,
               tl: /* [] */0
             }, convert_to_enemy_obj(lst.tl, context));
@@ -3145,7 +3111,7 @@ function convert_to_coin_obj(lst, context) {
         TAG: /* SItem */2,
         _0: /* Coin */3
       }, context, lst.hd[1]);
-  return Stdlib__no_aliases.$at({
+  return Stdlib.$at({
               hd: ob,
               tl: /* [] */0
             }, convert_to_coin_obj(lst.tl, context));
@@ -3157,19 +3123,19 @@ function generate_helper(blockw, blockh, cx, cy, context) {
   var obj_converted_block_locs = convert_to_block_obj(converted_block_locs, context);
   var ground_blocks = generate_ground(blockw, blockh, 0, /* [] */0);
   var obj_converted_ground_blocks = convert_to_block_obj(ground_blocks, context);
-  var block_locations = Stdlib__no_aliases.$at(block_locs, ground_blocks);
-  var all_blocks = Stdlib__no_aliases.$at(obj_converted_block_locs, obj_converted_ground_blocks);
+  var block_locations = Stdlib.$at(block_locs, ground_blocks);
+  var all_blocks = Stdlib.$at(obj_converted_block_locs, obj_converted_ground_blocks);
   var enemy_locs = generate_enemies(blockw, blockh, 0, 0, block_locations);
   var obj_converted_enemies = convert_to_enemy_obj(enemy_locs, context);
   var coin_locs = generate_coins(converted_block_locs);
   var undup_coin_locs = trim_edges(avoid_overlap(coin_locs, converted_block_locs), blockw, blockh);
-  var converted_block_coin_locs = Stdlib__no_aliases.$at(converted_block_locs, coin_locs);
+  var converted_block_coin_locs = Stdlib.$at(converted_block_locs, coin_locs);
   var enemy_block_locs = generate_block_enemies(converted_block_locs);
   var undup_enemy_block_locs = avoid_overlap(enemy_block_locs, converted_block_coin_locs);
   var obj_enemy_blocks = convert_to_enemy_obj(undup_enemy_block_locs, context);
   var coin_objects = convert_to_coin_obj(undup_coin_locs, context);
   var obj_panel = generate_panel(context, blockw, blockh);
-  return Stdlib__no_aliases.$at(all_blocks, Stdlib__no_aliases.$at(obj_converted_enemies, Stdlib__no_aliases.$at(coin_objects, Stdlib__no_aliases.$at(obj_enemy_blocks, {
+  return Stdlib.$at(all_blocks, Stdlib.$at(obj_converted_enemies, Stdlib.$at(coin_objects, Stdlib.$at(obj_enemy_blocks, {
                           hd: obj_panel,
                           tl: /* [] */0
                         }))));
@@ -3210,32 +3176,22 @@ function load(param) {
   Random.self_init(undefined);
   var canvas_id = "canvas";
   var el = document.getElementById(canvas_id);
-  var canvas;
-  if (el !== null) {
-    canvas = el;
-  } else {
-    Curry._1(Printf.printf(/* Format */{
-              _0: {
-                TAG: /* String_literal */11,
-                _0: "cant find canvas ",
-                _1: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
+  var canvas = el !== null ? el : (Curry._1(Printf.printf(/* Format */{
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "cant find canvas ",
                   _1: {
-                    TAG: /* String_literal */11,
-                    _0: " \n",
-                    _1: /* End_of_format */0
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* String_literal */11,
+                      _0: " \n",
+                      _1: /* End_of_format */0
+                    }
                   }
-                }
-              },
-              _1: "cant find canvas %s \n"
-            }), canvas_id);
-    throw {
-          RE_EXN_ID: "Failure",
-          _1: "fail",
-          Error: new Error()
-        };
-  }
+                },
+                _1: "cant find canvas %s \n"
+              }), canvas_id), Stdlib.failwith("fail"));
   var context = canvas.getContext("2d");
   document.addEventListener("keydown", keydown, true);
   document.addEventListener("keyup", keyup, true);
@@ -3245,7 +3201,6 @@ function load(param) {
         256
       ]);
   console.log("asd");
-  
 }
 
 function inc_counter(param) {
@@ -3265,7 +3220,6 @@ function preload(param) {
                         inc_counter(undefined);
                         return true;
                       }), true);
-                
               }), {
               hd: "blocks.png",
               tl: {

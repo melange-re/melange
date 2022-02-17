@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 
 var suites_0 = [
   "_NaN <> _NaN",
@@ -43,7 +43,7 @@ var suites_1 = {
             return {
                     TAG: /* Eq */0,
                     _0: false,
-                    _1: Number.isFinite(Stdlib__no_aliases.infinity)
+                    _1: Number.isFinite(Stdlib.infinity)
                   };
           })
       ],
@@ -54,7 +54,7 @@ var suites_1 = {
               return {
                       TAG: /* Eq */0,
                       _0: false,
-                      _1: Number.isFinite(Stdlib__no_aliases.neg_infinity)
+                      _1: Number.isFinite(Stdlib.neg_infinity)
                     };
             })
         ],
@@ -143,7 +143,6 @@ var suites_1 = {
                                       TAG: /* ThrowAny */7,
                                       _0: (function (param) {
                                           (0).toExponential(101);
-                                          
                                         })
                                     };
                             })
@@ -156,7 +155,6 @@ var suites_1 = {
                                         TAG: /* ThrowAny */7,
                                         _0: (function (param) {
                                             (0).toExponential(-1);
-                                            
                                           })
                                       };
                               })
@@ -224,7 +222,6 @@ var suites_1 = {
                                                     TAG: /* ThrowAny */7,
                                                     _0: (function (param) {
                                                         (0).toFixed(101);
-                                                        
                                                       })
                                                   };
                                           })
@@ -237,7 +234,6 @@ var suites_1 = {
                                                       TAG: /* ThrowAny */7,
                                                       _0: (function (param) {
                                                           (0).toFixed(-1);
-                                                          
                                                         })
                                                     };
                                             })
@@ -305,7 +301,6 @@ var suites_1 = {
                                                                   TAG: /* ThrowAny */7,
                                                                   _0: (function (param) {
                                                                       (0).toPrecision(101);
-                                                                      
                                                                     })
                                                                 };
                                                         })
@@ -318,7 +313,6 @@ var suites_1 = {
                                                                     TAG: /* ThrowAny */7,
                                                                     _0: (function (param) {
                                                                         (0).toPrecision(-1);
-                                                                        
                                                                       })
                                                                   };
                                                           })
@@ -386,7 +380,6 @@ var suites_1 = {
                                                                                 TAG: /* ThrowAny */7,
                                                                                 _0: (function (param) {
                                                                                     (0).toString(37);
-                                                                                    
                                                                                   })
                                                                               };
                                                                       })
@@ -399,7 +392,6 @@ var suites_1 = {
                                                                                   TAG: /* ThrowAny */7,
                                                                                   _0: (function (param) {
                                                                                       (0).toString(1);
-                                                                                      
                                                                                     })
                                                                                 };
                                                                         })
@@ -412,7 +404,6 @@ var suites_1 = {
                                                                                     TAG: /* ThrowAny */7,
                                                                                     _0: (function (param) {
                                                                                         (0).toString(-1);
-                                                                                        
                                                                                       })
                                                                                   };
                                                                           })

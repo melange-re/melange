@@ -10,8 +10,7 @@ var count = {
 };
 
 function test(set) {
-  count.contents = Offset.$$Set.cardinal(set) + count.contents | 0;
-  
+  count.contents = Curry._1(Offset.$$Set.cardinal, set) + count.contents | 0;
 }
 
 test(Curry._1(Offset.M.$$Set.singleton, "42"));

@@ -47,8 +47,6 @@ val process_pexp_fun_attributes_rev :
 val process_bs :
   t -> bool * t
 
-val external_needs_to_be_encoded :
-  t -> bool
 
 
 val has_inline_payload :
@@ -105,5 +103,7 @@ val bs_get_index : attr
 val bs_get_arity : attr 
 val bs_set : attr
 val bs_return_undefined : attr
-
+val internal_expansive : attr 
 (* val deprecated : string -> attr *)
+
+val rs_externals :  t -> string list  -> bool 

@@ -57,12 +57,12 @@ function money_init($$class) {
   var obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
         value,
-        (function (self$neg2) {
-            return self$neg2[repr];
+        (function (self$2) {
+            return self$2[repr];
           }),
         leq,
-        (function (self$neg2, p) {
-            return self$neg2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
+        (function (self$2, p) {
+            return self$2[repr] <= Caml_oo_curry.js1(834174833, 1, p);
           })
       ]);
   return function (env, self, x$1) {
@@ -88,9 +88,9 @@ function money2_init($$class) {
   var inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);
   var obj_init = inh[0];
   var repr = inh[1];
-  CamlinternalOO.set_method($$class, times, (function (self$neg3, k) {
-          var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$neg3));
-          copy[repr] = k * self$neg3[repr];
+  CamlinternalOO.set_method($$class, times, (function (self$3, k) {
+          var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
+          copy[repr] = k * self$3[repr];
           return copy;
         }));
   return function (env, self, x$1) {

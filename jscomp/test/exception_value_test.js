@@ -2,13 +2,13 @@
 
 var Curry = require("../../lib/js/curry.js");
 var Js_exn = require("../../lib/js/js_exn.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(param) {
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -30,7 +30,7 @@ function assert_f(x) {
 
 function hh(param) {
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Not_found,
+        RE_EXN_ID: Stdlib.Not_found,
         Error: new Error()
       };
 }
@@ -52,7 +52,7 @@ function test_not_found(f, param) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       return 2;
     }
     throw exn;

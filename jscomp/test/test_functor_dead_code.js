@@ -1,7 +1,16 @@
 'use strict';
 
+var Curry = require("../../lib/js/curry.js");
 
-var v = true;
+function is_empty(param) {
+  if (param) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+var v = Curry._1(is_empty, /* Empty */0);
 
 exports.v = v;
-/* No side effect */
+/* M Not a pure module */

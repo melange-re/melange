@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- *
+ * Copyright (C) 2017 -  Hongbo Zhang, Authors of ReScript
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -86,13 +86,13 @@ let local_external_obj loc
       } : Parsetree.expression) args ~loc
     )
 
-let local_extern_cont loc
-     ?(pval_attributes=[])
-     ~pval_prim
-     ~pval_type
-     ?(local_module_name = "J")
-     ?(local_fun_name = "unsafe_expr")
-     (cb : Parsetree.expression -> 'a)
+let local_extern_cont_to_obj loc
+    ?(pval_attributes=[])
+    ~pval_prim
+    ~pval_type
+    ?(local_module_name = "J")
+    ?(local_fun_name = "unsafe_expr")
+    (cb : Parsetree.expression -> 'a)
   : Parsetree.expression_desc =
   Pexp_letmodule
     ({txt = Some local_module_name; loc},

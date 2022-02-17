@@ -1421,4 +1421,4 @@ exports.Odd = Odd;
 exports.AAA = AAA;
 exports.ASet = ASet;
 exports.suites = suites;
-/*  Not a pure module */
+/* ASet Not a pure module */

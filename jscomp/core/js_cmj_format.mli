@@ -72,9 +72,10 @@ type keyed_cmj_value = {
 
 type t =  {
   values : keyed_cmj_value array ;
-  pure : bool;
+  pure : bool ;
   package_spec : Js_packages_info.t ;
-  case : Ext_js_file_kind.case;
+  case : Ext_js_file_kind.case ;
+  delayed_program : J.deps_program ;
 }
 
 
@@ -83,6 +84,7 @@ val make:
   effect: effect -> 
   package_spec: Js_packages_info.t ->
   case:Ext_js_file_kind.case ->
+  delayed_program: J.deps_program ->
   t
   
 

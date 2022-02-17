@@ -1,14 +1,11 @@
-{ pkgs ? import ./sources.nix { } }:
-let
-  inherit (pkgs) stdenv ocamlPackages lib opaline;
-in
+{ stdenv, ocamlPackages, lib, opaline, gnutar }:
+
 with ocamlPackages;
 
 stdenv.mkDerivation rec {
   name = "melange";
   version = "9.0.0-dev";
 
-  dontConfigure = true;
   buildPhase = ''
     runHook preBuild
     dune build -p ${name} -j $NIX_BUILD_CORES --display=short
@@ -50,7 +47,7 @@ stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = with ocamlPackages; [
-    pkgs.gnutar
+    gnutar
     dune
     ocaml
     findlib

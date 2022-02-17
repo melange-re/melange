@@ -1,17 +1,17 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (match.RE_EXN_ID === Stdlib.Not_found) {
       return 0;
-    } else if (match.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument || match.RE_EXN_ID === Stdlib__no_aliases.Stack_overflow) {
+    } else if (match.RE_EXN_ID === Stdlib.Invalid_argument || match.RE_EXN_ID === Stdlib.Stack_overflow) {
       return 1;
-    } else if (match.RE_EXN_ID === Stdlib__no_aliases.Sys_error) {
+    } else if (match.RE_EXN_ID === Stdlib.Sys_error) {
       return 2;
     } else {
       return ;
@@ -26,9 +26,9 @@ var B = /* @__PURE__ */Caml_exceptions.create("Exn_error_pattern.B");
 
 function g(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
-    if (match.RE_EXN_ID === Stdlib__no_aliases.Not_found || match.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
+    if (match.RE_EXN_ID === Stdlib.Not_found || match.RE_EXN_ID === Stdlib.Invalid_argument) {
       return 0;
-    } else if (match.RE_EXN_ID === Stdlib__no_aliases.Sys_error) {
+    } else if (match.RE_EXN_ID === Stdlib.Sys_error) {
       return 2;
     } else if (match.RE_EXN_ID === A || match.RE_EXN_ID === B) {
       return match._1;
@@ -52,20 +52,20 @@ function eq(loc, x, y) {
 }
 
 eq("File \"exn_error_pattern.ml\", line 34, characters 5-12", f({
-          RE_EXN_ID: Stdlib__no_aliases.Not_found
+          RE_EXN_ID: Stdlib.Not_found
         }), 0);
 
 eq("File \"exn_error_pattern.ml\", line 35, characters 5-12", f({
-          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+          RE_EXN_ID: Stdlib.Invalid_argument,
           _1: ""
         }), 1);
 
 eq("File \"exn_error_pattern.ml\", line 36, characters 5-12", f({
-          RE_EXN_ID: Stdlib__no_aliases.Stack_overflow
+          RE_EXN_ID: Stdlib.Stack_overflow
         }), 1);
 
 eq("File \"exn_error_pattern.ml\", line 37, characters 5-12", f({
-          RE_EXN_ID: Stdlib__no_aliases.Sys_error,
+          RE_EXN_ID: Stdlib.Sys_error,
           _1: ""
         }), 2);
 

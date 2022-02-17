@@ -41,6 +41,24 @@ let stdlib_path =
   | value -> value
   | exception _ -> install_dir // Literals.lib // "melange" )
 
+let include_dirs =
+
+#ifndef BS_RELEASE_BUILD
+  let jscomp =
+    (* jscomp/main/bsc.exe -> jscomp *)
+    Filename.dirname
+      (Filename.dirname (Ext_path.real_path Sys.executable_name))
+  in
+  [ (jscomp//"others")
+  ; (jscomp//"stdlib-412/stdlib_modules")
+  ; (jscomp//"stdlib-412")
+  ; (jscomp//"runtime")
+  ; (Lazy.force stdlib_path)
+  ]
+#else
+  []
+#endif
+
 (** Browser is not set via command line only for internal use *)
 
 
@@ -104,7 +122,9 @@ let format = ref None
 let as_ppx = ref false
 
 
-
-let customize_runtime = ref None
+(* option to config `@rescript/std`*)
+let customize_runtime : string option ref = ref None
 
 let as_pp = ref false
+
+let modules = ref false

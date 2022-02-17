@@ -2,8 +2,8 @@
 
 var Mt = require("./mt.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Ffi_js_test = require("./ffi_js_test.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var x = "\x01\x02\x03";
 
@@ -23,13 +23,12 @@ function g(a) {
    return ""
 });
   var regression2 = Math.max;
-  regression(a, Stdlib__no_aliases.failwith);
+  regression(a, Stdlib.failwith);
   Curry._2(regression2, 3, 2);
   regression3(3, 2);
   regression4(3, (function (x) {
           return x;
         }));
-  
 }
 
 var max2 = Math.max;

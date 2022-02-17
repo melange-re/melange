@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require("react");
+var Stdlib = require("../../lib/js/stdlib.js");
 var ReactDom = require("react-dom");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function renderToElementWithClassName(reactElement, className) {
   var elements = document.getElementsByClassName(className);
@@ -11,7 +11,6 @@ function renderToElementWithClassName(reactElement, className) {
   } else {
     console.error("ReactDOMRe.renderToElementWithClassName: no element of class " + (className + " found in the HTML."));
   }
-  
 }
 
 function renderToElementWithId(reactElement, id) {
@@ -21,7 +20,6 @@ function renderToElementWithId(reactElement, id) {
   } else {
     ReactDom.render(reactElement, element);
   }
-  
 }
 
 function createRootWithClassName(className) {
@@ -66,20 +64,18 @@ function hydrateToElementWithClassName(reactElement, className) {
   } else {
     console.error("ReactDOMRe.hydrateToElementWithClassName: no element of class " + (className + " found in the HTML."));
   }
-  
 }
 
 function hydrateToElementWithId(reactElement, id) {
   var element = document.getElementById(id);
   if (element == null) {
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+          RE_EXN_ID: Stdlib.Invalid_argument,
           _1: "ReactDOMRe.hydrateToElementWithId : no element of id " + (id + " found in the HTML."),
           Error: new Error()
         };
   }
   ReactDom.hydrate(reactElement, element);
-  
 }
 
 var Ref = {};

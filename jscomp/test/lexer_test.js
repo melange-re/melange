@@ -4,12 +4,12 @@ var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
 var Lexing = require("../../lib/js/lexing.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");
 var Number_lexer = require("./number_lexer.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function get_tokens(lex, str) {
   var buf = Lexing.from_string(undefined, str);
@@ -43,7 +43,7 @@ function from_tokens(lst) {
       return match.hd;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.End_of_file,
+          RE_EXN_ID: Stdlib.End_of_file,
           Error: new Error()
         };
   };
@@ -119,7 +119,6 @@ var lexer_suites_1 = {
               hd: t,
               tl: v.contents
             };
-            
           };
           Number_lexer.token(add, Lexing.from_string(undefined, "32 + 32 ( ) * / "));
           return {

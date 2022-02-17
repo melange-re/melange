@@ -1,8 +1,8 @@
 'use strict';
 
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var hh;
 
@@ -11,7 +11,7 @@ try {
 }
 catch (raw_e){
   var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-  if (e.RE_EXN_ID === Stdlib__no_aliases.Invalid_argument) {
+  if (e.RE_EXN_ID === Stdlib.Invalid_argument) {
     console.log(e._1);
     hh = /* 'a' */97;
   } else {

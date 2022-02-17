@@ -86,12 +86,15 @@ let emit_module_build
     | Different { impl; intf } -> impl, intf
   in
   let which = match impl_dir = cur_dir, intf_dir = cur_dir with
-  | true, true -> `both
+  | true, true -> if module_info.info = Intf then `intf else `both
   | true, false -> `impl
   | false, true -> `intf
   | false, false -> assert false
   in
-  let has_intf_file = module_info.info = Impl_intf in
+  let has_intf_file = match module_info.info with
+    | Intf | Impl_intf -> true
+    | Impl -> false
+  in
   let config  =
     match module_info.syntax_kind with
     | Same Reason -> re_suffixes
@@ -108,6 +111,10 @@ let emit_module_build
       | Res, Reason -> { impl = res_suffixes.impl; intf = re_suffixes.intf }
       | Ml, Ml | Reason, Reason | Res, Res -> assert false
   in
+  let error_syntax_kind =
+    match module_info.syntax_kind with
+    | Same syntax_kind -> syntax_kind
+    | Different { impl } -> impl in
   let filename_sans_extension = module_info.name_sans_extension in
   let input_impl = Bsb_config.proj_rel (filename_sans_extension ^ config.impl ) in
   let input_intf = Bsb_config.proj_rel (filename_sans_extension ^ config.intf) in
@@ -121,7 +128,7 @@ let emit_module_build
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ast_deps =
     Format.asprintf "(:ast_deps %s %s)"
-      output_ast
+      (if module_info.info <> Intf then output_ast else "")
       (if has_intf_file then output_iast else "")
     in
   let ppx_deps =
@@ -146,7 +153,8 @@ let emit_module_build
       ~implicit_deps:((Option.value ~default:[] maybe_gentype_deps) @ ppx_deps)
       ~outputs:[output_ast]
       ~inputs:[basename input_impl]
-      ~rule:rules.build_ast;
+      ~rule:rules.build_ast
+      ~error_syntax_kind;
   end;
   let relative_ns_cmi =
    match namespace with
@@ -172,7 +180,8 @@ let emit_module_build
       ~outputs:[output_iast]
       ~implicit_deps:ppx_deps
       ~inputs:[basename input_intf]
-      ~rule:rules.build_ast;
+      ~rule:rules.build_ast
+      ~error_syntax_kind;
 
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:[ast_deps]
@@ -182,7 +191,7 @@ let emit_module_build
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-    ;
+      ~error_syntax_kind;
   end;
 
   let rule =
@@ -207,7 +216,8 @@ let emit_module_build
       ~implicit_deps:(if has_intf_file then [output_cmi; ast_deps] else [ast_deps])
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-      ~rule;
+      ~rule
+      ~error_syntax_kind;
   end;
   if which <> `intf then output_js else []
 

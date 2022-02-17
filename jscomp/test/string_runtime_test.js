@@ -22,10 +22,10 @@ var suites_1 = {
     "caml_string_of_bytes",
     (function (param) {
         var match = List.split(List.map((function (x) {
-                    var b = Caml_bytes.caml_create_bytes(1000);
-                    Caml_bytes.caml_fill_bytes(b, 0, x, /* 'c' */99);
+                    var b = Caml_bytes.caml_create_bytes(x);
+                    Bytes.fill(b, 0, x, /* 'c' */99);
                     return [
-                            Caml_bytes.bytes_to_string(b),
+                            Bytes.to_string(b),
                             Caml_bytes.bytes_to_string(Bytes.init(x, (function (param) {
                                         return /* 'c' */99;
                                       })))

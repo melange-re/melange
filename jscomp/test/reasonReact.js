@@ -2,8 +2,8 @@
 
 var Curry = require("../../lib/js/curry.js");
 var React = require("react");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_option = require("../../lib/js/caml_option.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var ReasonReactOptimizedCreateClass = require("./reasonReactOptimizedCreateClass.js");
 
 function createDomElement(s, props, children) {
@@ -49,7 +49,7 @@ function convertPropsIfTheyreFromJs(props, jsPropsToReason, debugName) {
           };
   }
   throw {
-        RE_EXN_ID: Stdlib__no_aliases.Invalid_argument,
+        RE_EXN_ID: Stdlib.Invalid_argument,
         _1: "A JS component called the Reason component " + (debugName + " which didn't implement the JS->Reason React props conversion."),
         Error: new Error()
       };
@@ -230,7 +230,6 @@ function createClass(debugName) {
                   } else {
                     $$this.subscriptions = [subscription];
                   }
-                  
                 }),
               handleMethod: (function (callback) {
                   var $$this = this ;

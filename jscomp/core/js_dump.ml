@@ -20,8 +20,6 @@
 *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
-[@@@ocaml.warning "-57"] (* FIXME: turn off such warning temporarily*)
-
 (*
   http://stackoverflow.com/questions/2846283/what-are-the-rules-for-javascripts-automatic-semicolon-insertion-asi
   ASI catch up
@@ -354,9 +352,17 @@ and  pp_function ~is_method
       (* match such case:
          {[ function(x,y){ return u(x,y) } ]}
          it can be optimized in to either [u] or [Curry.__n(u)]
-      *)
-      not is_method &&
-      Ext_list.for_all2_no_exn ls l  is_var  ->
+         *)
+         (not is_method)
+         && Ext_list.for_all2_no_exn ls l is_var
+         &&
+         match v with
+         (* This check is needed to avoid some edge cases
+            {[function(x){return x(x)}]}
+            here the function is also called `x`
+         *)
+         | Id id -> not (Ext_list.exists l (fun x -> Ident.same x id))
+         | Qualified _ -> true ->
     let optimize  len ~p cxt f v =
       if p then try_optimize_curry cxt f len function_id
       else
@@ -487,37 +493,36 @@ and  pp_function ~is_method
 (* Assume the cond would not change the context,
     since it can be either [int] or [string]
 *)
-and pp_one_case_clause : 'a .
-  _ -> P.t -> (P.t -> 'a -> unit) -> ('a * J.case_clause) -> _
-  = fun cxt f  pp_cond
-    (switch_case, ({switch_body ; should_break; comment; } :  J.case_clause)) ->
-    let cxt =
-      P.group f 1  (fun _ ->
-          P.group f 1 (fun _ ->
-              P.string f L.case;
-              P.space f ;
-              pp_comment_option f comment;
-              pp_cond  f switch_case; (* could be integer or string *)
-              P.space f ;
-              P.string f L.colon  );
-          P.group f 1 (fun _ ->
-              let cxt =
-                match switch_body with
-                | [] -> cxt
-                | _ ->
-                  P.newline f ;
-                  statement_list false cxt  f switch_body
-              in
-              (if should_break then
-                 begin
-                   P.newline f ;
-                   P.string f L.break;
-                   semi f;
-                 end) ;
-              cxt))
-    in
-    P.newline f;
-    cxt
+and pp_one_case_clause :
+      'a. _ -> P.t -> (P.t -> 'a -> unit) -> 'a * J.case_clause -> _ =
+ fun cxt f pp_cond
+     (switch_case, ({ switch_body; should_break; comment } : J.case_clause)) ->
+  let cxt =
+    P.group f 1 (fun _ ->
+        P.group f 1 (fun _ ->
+            P.string f L.case;
+            P.space f;
+            pp_comment_option f comment;
+            pp_cond f switch_case;
+            (* could be integer or string *)
+            P.space f;
+            P.string f L.colon);
+        P.group f 1 (fun _ ->
+            let cxt =
+              match switch_body with
+              | [] -> cxt
+              | _ ->
+                  P.newline f;
+                  statements false cxt f switch_body
+            in
+            if should_break then (
+              P.newline f;
+              P.string f L.break;
+              semi f);
+            cxt))
+  in
+  P.newline f;
+  cxt
 
 and loop_case_clauses  :  'a . cxt ->
   P.t -> (P.t -> 'a -> unit) -> ('a * J.case_clause) list -> cxt
@@ -710,77 +715,19 @@ and expression_desc cxt ~(level:int) f x : cxt  =
     P.string f "typeof";
     P.space f;
     expression ~level:13 cxt f e
-
-  | Bin (Eq, ({expression_desc = Array_index({expression_desc = Var i; _},
-                                       {expression_desc = Number (Int {i = k0 })}
-                                      ) } as lhs),
-         {expression_desc =
-            (Bin((Plus as op),
-                 {expression_desc = Array_index(
-                      {expression_desc = Var j; _},
-                      {expression_desc = Number (Int {i = k1; })}
-                    ); _}, delta)
-            | Bin((Plus as op), delta,
-                  {expression_desc = Array_index(
-                       {expression_desc = Var j; _},
-                       {expression_desc = Number (Int {i = k1; })}
-                     ); _})
-            | Bin((Minus as op),
-                  {expression_desc = Array_index(
-                       {expression_desc = Var j; _},
-                       {expression_desc = Number (Int {i = k1; })}
-                     ); _}, delta)
-
-            )})
-    when  k0 = k1 && Js_op_util.same_vident i j
-    (* Note that
-       {[x = x + 1]}
-       is exactly the same  (side effect, and return value)
-       as {[ ++ x]}
-       same to
-       {[ x = x + a]}
-       {[ x += a ]}
-       they both return the modified value too
-    *)
-    (* TODO:
-       handle parens..
-    *)
-    ->
-    (** TODO: parenthesize when necessary *)
-    (match delta, op with
-     | {expression_desc = Number (Int { i =  1l; _})}, Plus
-     | {expression_desc = Number (Int { i =  -1l; _})}, Minus
-       ->
-       P.string f L.plusplus;
-       P.space f ;
-       expression ~level:13 cxt f lhs (* Static index level is 15*)
-     | {expression_desc = Number (Int { i =  -1l; _})}, Plus
-     | {expression_desc = Number (Int { i =  1l; _})}, Minus
-       ->
-       P.string f L.minusminus;
-       P.space f ;
-       expression ~level:13 cxt f lhs
-
-     | _, _ ->
-       let cxt = expression ~level:13 cxt f lhs in
-       P.space f ;
-       P.string f (if op = Plus then "+=" else "-=");
-       P.space f ;
-       expression ~level:13 cxt  f delta)
-
-
-  | Bin (Minus, {expression_desc = Number (Int {i=0l;_} | Float {f = "0."})}, e)
-    (* TODO:
-       Handle multiple cases like
-       {[ 0. - x ]}
-       {[ 0.00 - x ]}
-       {[ 0.000 - x ]}
-    *)
-    ->
-    P.cond_paren_group f (level > 13 ) 1 (fun _ ->
-      P.string f "-" ;
-      expression ~level:13 cxt f e
-    )
+  | Bin
+      ( Minus,
+        { expression_desc = Number (Int { i = 0l; _ } | Float { f = "0." }) },
+        e )
+  (* TODO:
+     Handle multiple cases like
+     {[ 0. - x ]}
+     {[ 0.00 - x ]}
+     {[ 0.000 - x ]}
+  *) ->
+      P.cond_paren_group f (level > 13) 1 (fun _ ->
+          P.string f "-";
+          expression ~level:13 cxt f e)
   | Bin (op, e1, e2) ->
     let (out, lft, rght) = Js_op_util.op_prec op in
     let need_paren =
@@ -1072,7 +1019,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
         cxt)
   | Block b -> (* No braces needed here *)
     ipp_comment f L.start_block;
-    let cxt = statement_list top cxt  f b in
+    let cxt = statements top cxt  f b in
     ipp_comment f  L.end_block;
     cxt
   | Variable l ->
@@ -1083,7 +1030,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
     P.space f;
     let cxt = P.paren_group f 1 (fun _ -> expression ~level:0 cxt f e) in
     P.space f;
-    let cxt = block cxt f s1 in
+    let cxt = brace_block cxt f s1 in
     (match s2 with
      | []
      | [{statement_desc = (Block [] | Exp {expression_desc = Var _;} ); }]
@@ -1099,7 +1046,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
        P.space f;
        P.string f L.else_;
        P.space f ;
-       block  cxt f s2)
+       brace_block  cxt f s2)
   | While (label, e, s, _env) ->  (*  FIXME: print scope as well *)
     begin
       (match label with
@@ -1123,7 +1070,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
           P.space f ;
           cxt
       in
-      let cxt = block cxt f s in
+      let cxt = brace_block cxt f s in
       semi f;
       cxt
     end
@@ -1185,7 +1132,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
                   P.space f;
                   pp_direction f direction;
                   Ext_pp_scope.ident cxt f id)) in
-          block  cxt f s ) in
+          brace_block  cxt f s ) in
     let lexical = Js_closure.get_lexical_scope env in
     if Set_ident.is_empty lexical
     then action cxt
@@ -1246,7 +1193,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
               P.string f L.default;
               P.string f L.colon;
               P.newline f;
-              statement_list  false cxt  f def))
+              statements  false cxt  f def))
 
   | String_switch (e, cc, def) ->
     P.string f L.switch;
@@ -1262,7 +1209,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
           P.string f L.default;
           P.string f L.colon;
           P.newline f;
-          statement_list  false cxt  f def ))
+          statements  false cxt  f def ))
   | Throw e ->
     let e = match e.expression_desc with
       | Caml_block (el,_,_,(Blk_extension | Blk_record_ext _ as ext)) ->
@@ -1281,7 +1228,7 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
       fun _->
         P.string f L.try_;
         P.space f ;
-        let cxt = block cxt f b in
+        let cxt = brace_block cxt f b in
         let cxt =
           match ctch with
           | None ->
@@ -1291,57 +1238,52 @@ and statement_desc top cxt f (s : J.statement_desc) : cxt =
             P.string f "catch (";
             let cxt = Ext_pp_scope.ident cxt f i in
             P.string f ")";
-            block cxt f b in
+            brace_block cxt f b in
         match fin with
         | None -> cxt
         | Some b ->
           P.group f 1 (fun _ ->
               P.string f L.finally;
               P.space f;
-              block cxt f b))
+              brace_block cxt f b))
 
 and function_body (cxt : cxt) f (b : J.block) : unit =
   match b with
-  | []     -> ()
-  | [s]    ->
-    begin match s.statement_desc with
-    | If (bool,
-          then_,
-           [{
-              statement_desc =
-                Return {expression_desc = Undefined}} ])
-        ->
-        ignore (statement false cxt f {s with statement_desc = If(bool,then_, [])} : cxt)
-    | Return {expression_desc = Undefined } -> ()
-    | _ ->
-      ignore (statement false  cxt f  s : cxt)
-    end
+  | [] -> ()
+  | [ s ] -> (
+      match s.statement_desc with
+      | If
+          ( bool,
+            then_,
+            [ { statement_desc = Return { expression_desc = Undefined } } ] ) ->
+          ignore
+            (statement false cxt f
+               { s with statement_desc = If (bool, then_, []) }
+              : cxt)
+      | Return { expression_desc = Undefined } -> ()
+      | _ -> ignore (statement false cxt f s : cxt))
+  | [ s; { statement_desc = Return { expression_desc = Undefined } } ] ->
+      ignore (statement false cxt f s : cxt)
   | s :: r ->
     let cxt = statement false cxt f s in
     P.newline f;
     function_body cxt f  r
 
-(* similar to [block] but no braces *)
-and statement_list top cxt f  b =
-  iter_lst cxt f b  (fun cxt f s -> statement top cxt f s )
-    (if top then
-      (fun f -> P.newline f ; P.force_newline f )
-      else P.newline
-    )
-
-
-and block cxt f b =
+and brace_block cxt f b =
   (* This one is for '{' *)
-  P.brace_vgroup f 1 (fun _ -> statement_list false cxt   f b )
+  P.brace_vgroup f 1 (fun _ -> statements false cxt f b)
 
+(* main entry point *)
+and statements top cxt f b =
+  iter_lst cxt f b
+    (fun cxt f s -> statement top cxt f s)
+    (if top then P.at_least_two_lines else P.newline)
 
-
-
-let string_of_block  (block : J.block) =
-  let buffer  = Buffer.create 50 in
+let string_of_block (block : J.block) =
+  let buffer = Buffer.create 50 in
   let f = P.from_buffer buffer in
-  let _ : cxt =  statement_list true Ext_pp_scope.empty  f block in
-  P.flush  f ();
+  let (_ : cxt) = statements true Ext_pp_scope.empty f block in
+  P.flush f ();
   Buffer.contents buffer
 
 

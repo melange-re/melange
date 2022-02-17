@@ -7,9 +7,9 @@ var Int64 = require("../../lib/js/int64.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Format = require("../../lib/js/format.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_format = require("../../lib/js/caml_format.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
 
 var of_string = [
@@ -85,7 +85,7 @@ var of_string = [
 
 function from_float_of_string(xs) {
   return $$Array.mapi((function (i, param) {
-                return Stdlib__no_aliases.string_of_float;
+                return Stdlib.string_of_float;
               }), xs);
 }
 
@@ -189,19 +189,19 @@ var pairs$1 = [
   ]
 ];
 
-var suites = Stdlib__no_aliases.$at(from_of_string(of_string), Stdlib__no_aliases.$at({
+var suites = Stdlib.$at(from_of_string(of_string), Stdlib.$at({
           hd: [
             "isnan_of_string",
             (function (param) {
                 return {
                         TAG: /* Eq */0,
                         _0: true,
-                        _1: Stdlib__no_aliases.classify_float(Caml_format.caml_float_of_string("nan")) === /* FP_nan */4
+                        _1: Stdlib.classify_float(Caml_format.caml_float_of_string("nan")) === /* FP_nan */4
                       };
               })
           ],
           tl: /* [] */0
-        }, Stdlib__no_aliases.$at($$Array.to_list($$Array.mapi((function (i, param) {
+        }, Stdlib.$at($$Array.to_list($$Array.mapi((function (i, param) {
                         var b = param[1];
                         var a = param[0];
                         return [
@@ -223,11 +223,11 @@ var suites = Stdlib__no_aliases.$at(from_of_string(of_string), Stdlib__no_aliase
                                     return {
                                             TAG: /* Eq */0,
                                             _0: a,
-                                            _1: Stdlib__no_aliases.classify_float(Caml_format.caml_float_of_string(b))
+                                            _1: Stdlib.classify_float(Caml_format.caml_float_of_string(b))
                                           };
                                   })
                               ];
-                      }), pairs)), Stdlib__no_aliases.$at({
+                      }), pairs)), Stdlib.$at({
                   hd: [
                     "throw",
                     (function (param) {
@@ -235,7 +235,6 @@ var suites = Stdlib__no_aliases.$at(from_of_string(of_string), Stdlib__no_aliase
                                 TAG: /* ThrowAny */7,
                                 _0: (function (param) {
                                     Caml_format.caml_float_of_string("");
-                                    
                                   })
                               };
                       })
@@ -1611,12 +1610,12 @@ var float_data = [
   ],
   [
     "%f",
-    Stdlib__no_aliases.infinity,
+    Stdlib.infinity,
     "inf"
   ],
   [
     "%f",
-    Stdlib__no_aliases.neg_infinity,
+    Stdlib.neg_infinity,
     "-inf"
   ],
   [
@@ -2798,7 +2797,7 @@ var of_string_data = [
   ]
 ];
 
-Mt.from_pair_suites("Caml_format_test", Stdlib__no_aliases.$at(suites, Stdlib__no_aliases.$at(formatter_suites, Stdlib__no_aliases.$at(from_lambda_pairs(lambda_suites), Stdlib__no_aliases.$at(ksprintf_suites, Stdlib__no_aliases.$at($$Array.to_list($$Array.mapi((function (i, param) {
+Mt.from_pair_suites("Caml_format_test", Stdlib.$at(suites, Stdlib.$at(formatter_suites, Stdlib.$at(from_lambda_pairs(lambda_suites), Stdlib.$at(ksprintf_suites, Stdlib.$at($$Array.to_list($$Array.mapi((function (i, param) {
                                     var str_result = param[2];
                                     var f = param[1];
                                     var fmt = param[0];
@@ -2825,7 +2824,7 @@ Mt.from_pair_suites("Caml_format_test", Stdlib__no_aliases.$at(suites, Stdlib__n
                                                       };
                                               })
                                           ];
-                                  }), float_data)), Stdlib__no_aliases.$at(int64_suites, $$Array.to_list($$Array.mapi((function (i, param) {
+                                  }), float_data)), Stdlib.$at(int64_suites, $$Array.to_list($$Array.mapi((function (i, param) {
                                         var b = param[1];
                                         var a = param[0];
                                         return [

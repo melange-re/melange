@@ -27,7 +27,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 var expected_0 = true === false;

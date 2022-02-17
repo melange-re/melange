@@ -55,18 +55,16 @@ let process_file sourcefile
   match kind with
   | Re ->
     let sourcefile = set_abs_input_name  sourcefile in
-    let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.implementation
       ~parser:Ast_reason_pp.RE.parse_implementation
-      ppf sourcefile ~outputprefix
+      ppf sourcefile
   | Rei ->
     let sourcefile = set_abs_input_name  sourcefile in
-    let outputprefix = Config_util.output_prefix sourcefile in
     setup_error_printer `reason;
     Js_implementation.interface
       ~parser:Ast_reason_pp.RE.parse_interface
-      ppf sourcefile ~outputprefix
+      ppf sourcefile
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
@@ -106,6 +104,8 @@ let process_file sourcefile
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
     Printtyp.signature Format.std_formatter cmi_sign ;
     Format.pp_print_newline Format.std_formatter ()
+  | Cmj ->
+    Js_implementation.implementation_cmj ppf sourcefile
   | Unknown ->
     Bsc_args.bad_arg ("don't know what to do with " ^ sourcefile)
 let usage = "Usage: bsc <options> <files>\nOptions are:"
@@ -206,6 +206,7 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
   end
 
 let anonymous ~(rev_args : string list) =
+  Ext_log.dwarn ~__POS__ "Compiler include dirs: %s@." (String.concat "; " !Clflags.include_dirs);
   if !Js_config.as_ppx then
     match rev_args with
     | [output; input] ->
@@ -225,8 +226,15 @@ let anonymous ~(rev_args : string list) =
         end
       | [] -> ()
       | _ ->
-          Format.eprintf "args: %s@." (String.concat "; " rev_args);
-        Bsc_args.bad_arg "can not handle multiple files"
+        if !Js_config.syntax_only then
+          Ext_list.rev_iter rev_args (fun filename ->
+              begin
+                (* Clflags.reset_dump_state (); *)
+                (* Warnings.reset (); *)
+                process_file filename ppf
+              end )
+        else
+          Bsc_args.bad_arg "can not handle multiple files"
     end
 
 (** used by -impl -intf *)
@@ -254,11 +262,11 @@ let eval (s : string) ~suffix =
 
 
 
-
+module Pp = Rescript_cpp
 let define_variable s =
   match Ext_string.split ~keep_empty:true s '=' with
   | [key; v] ->
-    if not (Lexer.define_key_value key v)  then
+    if not (Pp.define_key_value key v)  then
        Bsc_args.bad_arg ("illegal definition: " ^ s)
   | _ -> Bsc_args.bad_arg ("illegal definition: " ^ s)
 
@@ -334,7 +342,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-bs-syntax-only", set Js_config.syntax_only,
     "Only check syntax";
 
-    "-bs-g", unit_call (fun _ -> Js_config.debug := true; Lexer.replace_directive_bool "DEBUG" true),
+    "-bs-g", unit_call (fun _ -> Js_config.debug := true; Pp.replace_directive_bool "DEBUG" true),
     "Debug mode";
 
     "-bs-v", string_call ignore,
@@ -347,7 +355,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
 
     "-as-ppx", set Js_config.as_ppx,
     "*internal*As ppx for editor integration";
-
+    "-as-pp", unit_call(fun _ ->  Js_config.as_pp := true ; Js_config.syntax_only := true),
+    "*internal*As pp to interact with native tools";
     "-no-alias-deps", set Clflags.transparent_modules,
     "*internal*Do not record dependencies for module aliases";
 
@@ -394,7 +403,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
      checks that the TERM environment variable exists and is\n\
      not empty or \"dumb\", and that isatty(stderr) holds.";
 
-    "-bs-list-conditionals", unit_call (fun () -> Lexer.list_variables Format.err_formatter),
+    "-bs-list-conditionals", unit_call (fun () -> Pp.list_variables Format.err_formatter),
     "List existing conditional variables";
 
     "-bs-eval", string_call (fun  s -> eval s ~suffix:Literals.suffix_ml),
@@ -504,6 +513,9 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-i", set Clflags.print_types,
     "Print inferred interface";
 
+    "-modules", set Js_config.modules,
+    "*internal* serve similar to ocamldep";
+
     "-nolabels", set Clflags.classic,
     "*internal* Ignore non-optional labels in types";
 
@@ -533,6 +545,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-make-runtime-test", unit_call Js_packages_state.make_runtime_test,
     "*internal* make runtime test library";
 
+    "-bs-stop-after-cmj", set Js_config.cmj_only,
+    "Stop after generating the cmj"
   |]
 
 

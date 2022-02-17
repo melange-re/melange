@@ -5,9 +5,9 @@ var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_float = require("../../lib/js/caml_float.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var one_float = [
   1072693248,
@@ -83,7 +83,7 @@ function from_pairs(pair) {
                       }), int32_pairs)));
 }
 
-var suites = Stdlib__no_aliases.$at({
+var suites = Stdlib.$at({
       hd: [
         "one",
         (function (param) {

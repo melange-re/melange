@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -29,7 +29,7 @@
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN> MDN
 *)
-external _NaN : float = "NaN" [@@bs.val] 
+external _NaN : float = "NaN" [@@bs.val]
 
 (** Tests if the given value is [_NaN]
 
@@ -71,11 +71,11 @@ external isFinite : float -> bool = "isFinite" [@@bs.val] [@@bs.scope "Number"]
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
 @example {[
-(* prints "7.71234e+1" *)
-let _ = Js.log \@\@ Js.Float.toExponential 77.1234
+  (* prints "7.71234e+1" *)
+  let _ = Js.log (Js.Float.toExponential 77.1234)
 
-(* prints "7.7e+1" *)
-let _ = Js.log \@\@ Js.Float.toExponential 77.
+  (* prints "7.7e+1" *)
+  let _ = Js.log (Js.Float.toExponential 77.)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
@@ -94,8 +94,9 @@ The output will be rounded or padded with zeroes if necessary.
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
 @example {[
-(* prints "7.71e+1" *)
-let _ = Js.log \@\@ Js.Float.toExponentialWithPrecision 77.1234 ~digits:2
+  ```
+  (* prints "7.71e+1" *)
+  let _ = Js.log (Js.Float.toExponentialWithPrecision 77.1234 ~digits:2)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
@@ -109,11 +110,11 @@ external toExponentialWithPrecision : float -> digits:int -> string = "toExponen
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
 @example {[
-(* prints "12346" (note the rounding) *)
-let _ = Js.log \@\@ Js.Float.toFixed 12345.6789
+  (* prints "12346" (note the rounding) *)
+  let _ = Js.log (Js.Float.toFixed 12345.6789)
 
-(* print "1.2e+21" *)
-let _ = Js.log \@\@ Js.Float.toFixed 1.2e21
+  (* print "1.2e+21" *)
+  let _ = Js.log (Js.Float.toFixed 1.2e21)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed> MDN
@@ -132,11 +133,11 @@ The output will be rounded or padded with zeroes if necessary.
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
 @example {[
-(* prints "12345.7" (note the rounding) *)
-let _ = Js.log \@\@ Js.Float.toFixedWithPrecision 12345.6789 ~digits:1
+  (* prints "12345.7" (note the rounding) *)
+  let _ = Js.log (Js.Float.toFixedWithPrecision 12345.6789 ~digits:1)
 
-(* prints "0.00" (note the added zeroes) *)
-let _ = Js.log \@\@ Js.Float.toFixedWithPrecision 0. ~digits:2
+  (* prints "0.00" (note the added zeroes) *)
+  let _ = Js.log (Js.Float.toFixedWithPrecision 0. ~digits:2)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed> MDN
@@ -154,11 +155,11 @@ decimal point.
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
 @example {[
-(* prints "12345.6789" *)
-let _ = Js.log \@\@ Js.Float.toPrecision 12345.6789
+  (* prints "12345.6789" *)
+  let _ = Js.log (Js.Float.toPrecision 12345.6789)
 
-(* print "1.2e+21" *)
-let _ = Js.log \@\@ Js.Float.toPrecision 1.2e21
+  (* print "1.2e+21" *)
+  let _ = Js.log (Js.Float.toPrecision 1.2e21)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
@@ -184,11 +185,11 @@ before the decimal point.
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
 @example {[
-(* prints "1e+4" *)
-let _ = Js.log \@\@ Js.Float.toPrecisionWithPrecision 12345.6789 ~digits:1
+  (* prints "1e+4" *)
+  let _ = Js.log (Js.Float.toPrecisionWithPrecision 12345.6789 ~digits:1)
 
-(* prints "0.0" *)
-let _ = Js.log \@\@ Js.Float.toPrecisionWithPrecision 0. ~digits:2
+  (* prints "0.0" *)
+  let _ = Js.log (Js.Float.toPrecisionWithPrecision 0. ~digits:2)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
@@ -201,8 +202,8 @@ external toPrecisionWithPrecision : float -> digits:int -> string = "toPrecision
 {b Returns} a [string] representing the given value in fixed-point (usually)
 
 @example {[
-(* prints "12345.6789" *)
-let _ = Js.log \@\@ Js.Float.toString 12345.6789
+  (* prints "12345.6789" *)
+  let _ = Js.log (Js.Float.toString 12345.6789)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
@@ -219,17 +220,17 @@ value must be in the range \[2, 36\] (inclusive).
 @raise RangeError if radix is not in the range \[2, 36\] (inclusive)
 
 @example {[
-(* prints "110" *)
-let _ = Js.log \@\@ Js.Float.toStringWithRadix 6. ~radix:2
+  (* prints "110" *)
+  let _ = Js.log (Js.Float.toStringWithRadix 6. ~radix:2)
 
-(* prints "11.001000111101011100001010001111010111000010100011111" *)
-let _ = Js.log \@\@ Js.Float.toStringWithRadix 3.14 ~radix:2
+  (* prints "11.001000111101011100001010001111010111000010100011111" *)
+  let _ = Js.log (Js.Float.toStringWithRadix 3.14 ~radix:2)
 
-(* prints "deadbeef" *)
-let _ = Js.log \@\@ Js.Float.toStringWithRadix 3735928559. ~radix:16
+  (* prints "deadbeef" *)
+  let _ = Js.log (Js.Float.toStringWithRadix 3735928559. ~radix:16)
 
-(* prints "3f.gez4w97ry0a18ymf6qadcxr" *)
-let _ = Js.log \@\@ Js.Float.toStringWithRadix 123.456 ~radix:36
+  (* prints "3f.gez4w97ry0a18ymf6qadcxr" *)
+  let _ = Js.log (Js.Float.toStringWithRadix 123.456 ~radix:36)
 ]}
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN

@@ -22,8 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
+external ( .!() ) : 'a array -> int -> 'a = "%array_unsafe_get"
 
 let rec map l f =
   match l with
@@ -76,22 +75,35 @@ let rec map_combine l1 l2 f =
   | (_, _) ->
     invalid_arg "Ext_list.map_combine"
 
-let rec combine_array_unsafe arr l i j acc f =
+let rec arr_list_combine_unsafe arr l i j acc f =
   if i = j then acc
   else
     match l with
     | [] -> invalid_arg "Ext_list.combine"
     | h :: tl ->
-      (f (Array.unsafe_get arr i) , h) ::
-      combine_array_unsafe arr tl (i + 1) j acc f
+        (f arr.!(i), h) :: arr_list_combine_unsafe arr tl (i + 1) j acc f
 
 let combine_array_append arr l acc f =
   let len = Array.length arr in
-  combine_array_unsafe arr l 0 len acc f
+  arr_list_combine_unsafe arr l 0 len acc f
 
 let combine_array arr l f =
   let len = Array.length arr in
-  combine_array_unsafe arr l 0 len [] f
+  arr_list_combine_unsafe arr l 0 len [] f
+
+let rec arr_list_filter_map_unasfe arr l i j acc f =
+  if i = j then acc
+  else
+    match l with
+    | [] -> invalid_arg "Ext_list.arr_list_filter_map_unsafe"
+    | h :: tl -> (
+        match f arr.!(i) h with
+        | None -> arr_list_filter_map_unasfe arr tl (i + 1) j acc f
+        | Some v -> v :: arr_list_filter_map_unasfe arr tl (i + 1) j acc f)
+
+let array_list_filter_map arr l f =
+  let len = Array.length arr in
+  arr_list_filter_map_unasfe arr l 0 len [] f
 
 let rec map_split_opt
   (xs : 'a list)  (f : 'a -> 'b option * 'c option)
@@ -275,39 +287,74 @@ let rec fold_right3 l r last acc f =
     f a0 b0 c0 (f a1 b1 c1 (f a2 b2 c2 (f a3 b3 c3 (f a4 b4 c4 (fold_right3 arest brest crest acc f )))))
   | _, _, _ -> invalid_arg "Ext_list.fold_right2"
 
-let rec map2  l r f =
-  match l,r  with
-  | [],[] -> []
-  | [a0],[b0] -> [f a0 b0]
-  | [a0;a1],[b0;b1] ->
-    let c0 = f a0 b0 in
-    let c1 = f a1 b1 in
-    [c0; c1]
-  | [a0;a1;a2],[b0;b1;b2] ->
-    let c0 = f a0 b0 in
-    let c1 = f a1 b1 in
-    let c2 = f a2 b2 in
-    [c0;c1;c2]
-  | [a0;a1;a2;a3],[b0;b1;b2;b3] ->
-    let c0 = f a0 b0 in
-    let c1 = f a1 b1 in
-    let c2 = f a2 b2 in
-    let c3 = f a3 b3 in
-    [c0;c1;c2;c3]
-  | [a0;a1;a2;a3;a4], [b0;b1;b2;b3;b4] ->
-    let c0 = f a0 b0 in
-    let c1 = f a1 b1 in
-    let c2 = f a2 b2 in
-    let c3 = f a3 b3 in
-    let c4 = f a4 b4 in
-    [c0;c1;c2;c3;c4]
-  | a0::a1::a2::a3::a4::arest, b0::b1::b2::b3::b4::brest ->
-    let c0 = f a0 b0 in
-    let c1 = f a1 b1 in
-    let c2 = f a2 b2 in
-    let c3 = f a3 b3 in
-    let c4 = f a4 b4 in
-    c0::c1::c2::c3::c4::map2 arest brest f
+let rec map2i l r f =
+  match (l, r) with
+  | [], [] -> []
+  | [ a0 ], [ b0 ] -> [ f 0 a0 b0 ]
+  | [ a0; a1 ], [ b0; b1 ] ->
+      let c0 = f 0 a0 b0 in
+      let c1 = f 1 a1 b1 in
+      [ c0; c1 ]
+  | [ a0; a1; a2 ], [ b0; b1; b2 ] ->
+      let c0 = f 0 a0 b0 in
+      let c1 = f 1 a1 b1 in
+      let c2 = f 2 a2 b2 in
+      [ c0; c1; c2 ]
+  | [ a0; a1; a2; a3 ], [ b0; b1; b2; b3 ] ->
+      let c0 = f 0 a0 b0 in
+      let c1 = f 1 a1 b1 in
+      let c2 = f 2 a2 b2 in
+      let c3 = f 3 a3 b3 in
+      [ c0; c1; c2; c3 ]
+  | [ a0; a1; a2; a3; a4 ], [ b0; b1; b2; b3; b4 ] ->
+      let c0 = f 0 a0 b0 in
+      let c1 = f 1 a1 b1 in
+      let c2 = f 2 a2 b2 in
+      let c3 = f 3 a3 b3 in
+      let c4 = f 4 a4 b4 in
+      [ c0; c1; c2; c3; c4 ]
+  | a0 :: a1 :: a2 :: a3 :: a4 :: arest, b0 :: b1 :: b2 :: b3 :: b4 :: brest ->
+      let c0 = f 0 a0 b0 in
+      let c1 = f 1 a1 b1 in
+      let c2 = f 2 a2 b2 in
+      let c3 = f 3 a3 b3 in
+      let c4 = f 4 a4 b4 in
+      c0 :: c1 :: c2 :: c3 :: c4 :: map2i arest brest f
+  | _, _ -> invalid_arg "Ext_list.map2"
+
+let rec map2 l r f =
+  match (l, r) with
+  | [], [] -> []
+  | [ a0 ], [ b0 ] -> [ f a0 b0 ]
+  | [ a0; a1 ], [ b0; b1 ] ->
+      let c0 = f a0 b0 in
+      let c1 = f a1 b1 in
+      [ c0; c1 ]
+  | [ a0; a1; a2 ], [ b0; b1; b2 ] ->
+      let c0 = f a0 b0 in
+      let c1 = f a1 b1 in
+      let c2 = f a2 b2 in
+      [ c0; c1; c2 ]
+  | [ a0; a1; a2; a3 ], [ b0; b1; b2; b3 ] ->
+      let c0 = f a0 b0 in
+      let c1 = f a1 b1 in
+      let c2 = f a2 b2 in
+      let c3 = f a3 b3 in
+      [ c0; c1; c2; c3 ]
+  | [ a0; a1; a2; a3; a4 ], [ b0; b1; b2; b3; b4 ] ->
+      let c0 = f a0 b0 in
+      let c1 = f a1 b1 in
+      let c2 = f a2 b2 in
+      let c3 = f a3 b3 in
+      let c4 = f a4 b4 in
+      [ c0; c1; c2; c3; c4 ]
+  | a0 :: a1 :: a2 :: a3 :: a4 :: arest, b0 :: b1 :: b2 :: b3 :: b4 :: brest ->
+      let c0 = f a0 b0 in
+      let c1 = f a1 b1 in
+      let c2 = f a2 b2 in
+      let c3 = f a3 b3 in
+      let c4 = f a4 b4 in
+      c0 :: c1 :: c2 :: c3 :: c4 :: map2 arest brest f
   | _, _ -> invalid_arg "Ext_list.map2"
 
 let rec fold_left_with_offset l accu i f =
@@ -777,3 +824,10 @@ let group_by ~fk ~fv xs =
       Hash_string.add_or_update tbl key ~update:(fun x -> value :: x) [value]);
   tbl
 
+let filter lst p =
+  let rec find ~p accu lst =
+    match lst with
+    | [] -> rev accu
+    | x :: l -> if p x then find (x :: accu) l ~p else find accu l ~p
+  in
+  find [] lst ~p

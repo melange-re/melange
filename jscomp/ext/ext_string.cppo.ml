@@ -332,7 +332,7 @@ let replace_backward_slash (x : string)=
 
 let empty = ""
 
-#if defined BS_BROWSER || defined BS_PACK
+#if defined BS_BROWSER
 let compare = Bs_hash_stubs.string_length_based_compare
 #else
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
@@ -475,6 +475,7 @@ let uncapitalize_ascii =
 let lowercase_ascii = String.lowercase_ascii
 
 
+external (.![]) : string -> int -> int = "%string_unsafe_get"
 
 let get_int_1 (x : string) off : int =
   Char.code x.[off]
@@ -504,4 +505,27 @@ let get_1_2_3_4 (x : string) ~off len : int =
 let unsafe_sub  x offs len =
   let b = Bytes.create len in
   Ext_bytes.unsafe_blit_string x offs b 0 len;
-  (Bytes.unsafe_to_string b);
+  (Bytes.unsafe_to_string b)
+
+let is_valid_hash_number (x:string) =
+  let len = String.length x in
+  len > 0 && (
+    let a = x.![0] in
+    a <= 57 &&
+    (if len > 1 then
+       a > 48 &&
+       for_all_from x 1 (function '0' .. '9' -> true | _ -> false)
+     else
+       a >= 48 )
+  )
+
+
+let hash_number_as_i32_exn
+    ( x : string) : int32 =
+  Int32.of_string x
+
+
+let first_marshal_char (x : string) =
+    x <> ""   &&
+    ( String.unsafe_get x  0 = '\132')
+

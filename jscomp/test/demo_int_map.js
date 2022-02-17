@@ -1,6 +1,15 @@
 'use strict';
 
+var Curry = require("../../lib/js/curry.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+
+function compare(x, y) {
+  return x - y | 0;
+}
+
+var funarg = {
+  compare: compare
+};
 
 function height(param) {
   if (param) {
@@ -96,7 +105,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = x - v | 0;
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -130,7 +139,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = x - param.v | 0;
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -147,14 +156,13 @@ function find(x, _param) {
 function test(param) {
   var m = /* Empty */0;
   for(var i = 0; i <= 1000000; ++i){
-    m = add(i, i, m);
+    m = Curry._3(add, i, i, m);
   }
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
-    find(i$1, m);
+    Curry._2(find, i$1, m);
   }
-  
 }
 
 test(undefined);
 
-/*  Not a pure module */
+/* IntMap Not a pure module */

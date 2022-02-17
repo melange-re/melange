@@ -303,9 +303,10 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
         let args =
           [ Lam.const Const_js_false ;
             (* FIXME: arity 0 does not get proper supported*)
-            prim ~primitive:(Pjs_fn_make 0) ~args:[Lam.function_ ~arity:1 ~params:[Ident.create_local "param"] ~body:computation
-            ~attr:Lam.default_fn_attr]
-            loc
+            Lam.function_
+              ~arity:0
+              ~params:[] ~body:computation
+              ~attr:Lam.default_fn_attr
           ] in
         prim ~primitive:(Pmakeblock (tag,lazy_block_info,Mutable)) ~args loc
 
@@ -742,9 +743,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
           (** we need do this eargly in case [aux fn] add some wrapper *)
           Lam.apply (convert_aux fn) (Ext_list.map args convert_aux ) {ap_loc = Debuginfo.Scoped_location.to_location loc; ap_inlined = (convert_inline_attr ap_inlined); ap_status =  App_na}
     | Lfunction
-    {kind; params; body ; attr }
+    { params; body ; attr }
       ->
-      assert (kind = Curried);
       let just_params = List.map fst params in
       let new_map,body = rename_optional_parameters Map_ident.empty just_params body in
       let attr = convert_fn_attribute attr in

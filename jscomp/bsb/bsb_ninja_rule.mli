@@ -29,9 +29,13 @@
 *)
 type t
 
-val output_rule : t -> Buffer.t -> ?target:string -> string -> unit
-
-val get_name : t -> ?target:string -> string  -> Buffer.t -> unit
+val output_rule :
+  t ->
+  Buffer.t ->
+  ?error_syntax_kind:Bsb_db.syntax_kind ->
+  ?target:string ->
+  string ->
+  unit
 
 (***********************************************************)
 (** A list of existing rules *)
@@ -42,7 +46,6 @@ type builtin = {
   (** platform dependent, on Win32,
       invoking cmd.exe
   *)
-  copy_resources : t;
   mj : t;
   mj_dev : t;
   mij : t ;

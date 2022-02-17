@@ -5,9 +5,9 @@ var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Format = require("../../lib/js/format.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Float_array = require("./float_array.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var buf = $$Buffer.create(50);
 
@@ -21,7 +21,7 @@ function print_float(f) {
                     _1: /* End_of_format */0
                   },
                   _1: "%s"
-                }), Stdlib__no_aliases.string_of_float(f));
+                }), Stdlib.string_of_float(f));
 }
 
 function print_newline(param) {

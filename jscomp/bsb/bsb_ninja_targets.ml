@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let enabled_if =
-  Format.asprintf "(enabled_if (= %%{ocaml_version} %S))" Sys.ocaml_version
+  Format.asprintf "(enabled_if %%{lib-available:melange})"
 
 let dune_header = ";;;;{BSB GENERATED: NO EDIT"
 let dune_trailer = ";;;;BSB GENERATED: NO EDIT}"
@@ -93,6 +93,7 @@ let output_build
     ?(bs_dependencies=[])
     ?(implicit_outputs=[])
     ?(js_outputs=[])
+    ?error_syntax_kind
     ~outputs
     ~inputs
     ~rule
@@ -138,6 +139,7 @@ let output_build
   Buffer.add_string buf "\n";
   Bsb_ninja_rule.output_rule
     ~target:(String.concat Ext_string.single_space (Ext_list.map outputs Filename.basename))
+    ?error_syntax_kind
     rule
     buf
     cur_dir;
