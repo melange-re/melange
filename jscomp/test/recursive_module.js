@@ -23,7 +23,7 @@ function eq(loc, x, y) {
 
 var Xx = {
   f: (function (prim0, prim1) {
-      return Caml_external_polyfill.resolve("hfiehi")(prim0, prim1);
+      return Caml_external_polyfill.resolve("caml_hfiehi")(prim0, prim1);
     })
 };
 

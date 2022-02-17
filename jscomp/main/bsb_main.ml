@@ -76,11 +76,7 @@ let output_dune_file buf =
 
 let dune_command_exit dune_args =
   let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
-  let args =
-    if Array.length dune_args = 0 then
-      common_args
-    else
-      Array.append common_args dune_args
+  let args = Array.append common_args dune_args
   in
   Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list args));
   Unix.execvp Literals.dune args
@@ -100,16 +96,17 @@ let build_whole_project () =
   config :: dep_configs
 
 let print_init_theme_notice () =
-  print_endline
+  prerr_endline
     "The subcommands -init, -theme and -themes are deprecated now. Use the template at \
-     https://github.com/melange-re/melange-basic-template to start a new project."
+     https://github.com/melange-re/melange-basic-template to start a new project.";
+  flush stderr
 
-let run_bsb ({ make_world; install; watch_mode; _ } as options) =
+let run_bsb ({ make_world; install; watch_mode; dune_args; _ } as options) =
   let cwd = Bsb_global_paths.cwd in
   try begin
     if options.print_version then print_version_string ();
     if options.verbose then Bsb_log.verbose ();
-    if options.clean then Bsb_clean.clean cwd; (* TODO: take dune args *)
+    if options.clean then Bsb_clean.clean ~dune_args cwd;
     if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
     match options.init_path, options.list_themes with
     | Some _, _ | _, true -> print_init_theme_notice ()
@@ -121,7 +118,7 @@ let run_bsb ({ make_world; install; watch_mode; _ } as options) =
           let configs = build_whole_project () in
           Bsb_world.install_targets Bsb_global_paths.cwd configs
         end;
-        if watch_mode then exit 0 else if make_world then dune_command_exit options.dune_args
+        if watch_mode then exit 0 else if make_world then dune_command_exit dune_args
       end
   end
   with

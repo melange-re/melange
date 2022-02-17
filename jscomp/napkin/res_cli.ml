@@ -167,22 +167,22 @@ module ResClflags: sig
   val print: string ref
   val width: int ref
   val origin: string ref
-  val files: string list ref
+  val file: string ref
   val interface: bool ref
   val ppx: string ref
+  val typechecker: bool ref
 
   val parse: unit -> unit
 end = struct
   let recover = ref false
   let width = ref 100
 
-  let files = ref []
-  let addFilename filename = files := filename::(!files)
-
   let print = ref "res"
-  let origin = ref "res"
+  let origin = ref ""
   let interface = ref false
   let ppx = ref ""
+  let file = ref ""
+  let typechecker = ref false
 
   let usage = "\n**This command line is for the repo developer's testing purpose only. DO NOT use it in production**!\n\n" ^
   "Usage:\n  rescript <options> <file>\n\n" ^
@@ -199,15 +199,16 @@ end = struct
     ("-width", Arg.Int (fun w -> width := w), "Specify the line length for the printer (formatter)");
     ("-interface", Arg.Unit (fun () -> interface := true), "Parse as interface");
     ("-ppx", Arg.String (fun txt -> ppx := txt), "Apply a specific built-in ppx before parsing, none or jsx. Default: none");
+    ("-typechecker", Arg.Unit (fun () -> typechecker := true), "Parses the ast as it would be passed to the typechecker and not the printer")
   ]
 
-  let parse () = Arg.parse spec addFilename usage
+  let parse () = Arg.parse spec (fun f -> file := f) usage
 end
 
 module CliArgProcessor = struct
   type backend = Parser: ('diagnostics) Res_driver.parsingEngine -> backend [@@unboxed]
 
-  let processFile ~isInterface ~width ~recover ~origin ~target ~ppx filename =
+  let processFile ~isInterface ~width ~recover ~origin ~target ~ppx ~typechecker filename =
     let len = String.length filename in
     let processInterface =
       isInterface || len > 0 && (String.get [@doesNotRaise]) filename (len - 1) = 'i'
@@ -217,6 +218,12 @@ module CliArgProcessor = struct
       | "reasonBinary" -> Parser Res_driver_reason_binary.parsingEngine
       | "ml" -> Parser Res_driver_ml_parser.parsingEngine
       | "res" -> Parser Res_driver.parsingEngine
+      | "" -> (
+        match Filename.extension filename with
+        | ".ml" | ".mli" -> Parser Res_driver_ml_parser.parsingEngine
+        | ".re" | ".rei" -> Parser Res_driver_reason_binary.parsingEngine
+        | _ -> Parser Res_driver.parsingEngine
+      )
       | origin ->
         print_endline ("-parse needs to be either reasonBinary, ml or res. You provided " ^ origin);
         exit 1
@@ -234,7 +241,7 @@ module CliArgProcessor = struct
     in
 
     let forPrinter = match target with
-    | "res" | "sexp" -> true
+    | "res" | "sexp" when not typechecker -> true
     | _ -> false
     in
 
@@ -286,25 +293,13 @@ end
 let [@raises Invalid_argument, Failure, exit] () =
   if not !Sys.interactive then begin
     ResClflags.parse ();
-    match !ResClflags.files with
-    | [] -> (* stdin *)
-      CliArgProcessor.processFile
-        ~isInterface:!ResClflags.interface
-        ~width:!ResClflags.width
-        ~recover:!ResClflags.recover
-        ~target:!ResClflags.print
-        ~origin:!ResClflags.origin
-        ~ppx:!ResClflags.ppx
-        ""
-    | files ->
-      List.iter (fun filename ->
-        CliArgProcessor.processFile
-          ~isInterface:!ResClflags.interface
-          ~width:!ResClflags.width
-          ~recover:!ResClflags.recover
-          ~target:!ResClflags.print
-          ~origin:!ResClflags.origin
-          ~ppx:!ResClflags.ppx
-          filename
-        ) files
+    CliArgProcessor.processFile
+      ~isInterface:!ResClflags.interface
+      ~width:!ResClflags.width
+      ~recover:!ResClflags.recover
+      ~target:!ResClflags.print
+      ~origin:!ResClflags.origin
+      ~ppx:!ResClflags.ppx
+      ~typechecker:!ResClflags.typechecker
+      !ResClflags.file
 end

@@ -152,7 +152,6 @@ function test(param) {
   for(var i$1 = 0; i$1 <= 1000000; ++i$1){
     find(i$1, m);
   }
-  
 }
 
 test(undefined);

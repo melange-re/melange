@@ -129,6 +129,8 @@ val map2 :
   ('a -> 'b -> 'c) ->
   'c list
 
+val map2i : 'a list -> 'b list -> (int -> 'a -> 'b -> 'c) -> 'c list
+
 val fold_left_with_offset :
   'a list ->
   'acc ->
@@ -376,40 +378,23 @@ val iter_fst : ('a * 'b) list -> ('a -> unit) -> unit
 
 val exists : 'a list -> ('a -> bool) -> bool
 
-val exists_fst :
-  ('a * 'b) list ->
-  ('a -> bool) ->
-  bool
+val exists_fst : ('a * 'b) list -> ('a -> bool) -> bool
 
-val exists_snd :
-  ('a * 'b) list ->
-  ('b -> bool) ->
-  bool
+val exists_snd : ('a * 'b) list -> ('b -> bool) -> bool
 
-val concat_append:
-    'a list list ->
-    'a list ->
-    'a list
+val concat_append : 'a list list -> 'a list -> 'a list
 
-val fold_left2:
-    'a list ->
-    'b list ->
-    'c ->
-    ('a -> 'b -> 'c -> 'c)
-    -> 'c
+val fold_left2 : 'a list -> 'b list -> 'c -> ('a -> 'b -> 'c -> 'c) -> 'c
 
-val fold_left:
-    'a list ->
-    'b ->
-    ('b -> 'a -> 'b) ->
-    'b
+val fold_left : 'a list -> 'b -> ('b -> 'a -> 'b) -> 'b
 
-val singleton_exn:
-    'a list -> 'a
+val singleton_exn : 'a list -> 'a
 
-val mem_string :
-    string list ->
-    string ->
-    bool
+val mem_string : string list -> string -> bool
 
 val group_by : fk:('a -> string) -> fv:('a -> 'b) -> 'a list -> 'b list Hash_string.t
+
+val filter : 'a list -> ('a -> bool) -> 'a list
+
+val array_list_filter_map :
+  'a array -> 'b list -> ('a -> 'b -> 'c option) -> 'c list

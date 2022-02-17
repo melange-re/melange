@@ -171,7 +171,6 @@ function get_styles(param) {
 
 function set_styles(s) {
   cur_styles.contents = s;
-  
 }
 
 function style_of_tag(s) {
@@ -810,7 +809,6 @@ function parse_options(errflag, s) {
     active: active,
     error: error
   };
-  
 }
 
 parse_options(false, "+a-4-6-7-9-27-29-32..39-41..42-44-45-48-50-102");
@@ -1497,7 +1495,6 @@ function highlight_dumb(ppf, lb, loc) {
       pos_at_bol = pos$1 + 1 | 0;
     }
   }
-  
 }
 
 function highlight_locations(ppf, locs) {
@@ -1798,7 +1795,6 @@ function print_error(ppf, loc) {
             },
             _1: "@{<error>%s@}:"
           }), error_prefix);
-  
 }
 
 function default_warning_printer(loc, ppf, w) {
@@ -1928,7 +1924,6 @@ function register_error_of_exn(f) {
     hd: f,
     tl: error_of_exn.contents
   };
-  
 }
 
 function error_of_printer(loc, print, x) {
@@ -2006,7 +2001,6 @@ function last(s) {
 
 function assert_fail(msg) {
   Assert.fail(undefined, undefined, msg, "");
-  
 }
 
 function is_mocha(param) {
@@ -2084,7 +2078,6 @@ function from_pair_suites(name, suites) {
                                       
                                     }
                                   }));
-                            
                           }), suites);
             }));
       return ;
@@ -2395,7 +2388,6 @@ function associate_docstrings(dsl) {
                 } else {
                   ds.ds_associated = /* One */1;
                 }
-                
               }), dsl);
 }
 
@@ -11018,7 +11010,6 @@ function directive_parse(token_with_comments, lexbuf) {
           };
     }
     look_ahead.contents = e;
-    
   };
   var token_op = function (calc, no, lhs) {
     var op = token(undefined);
@@ -11830,7 +11821,6 @@ var string_index = {
 function reset_string_buffer(param) {
   string_buff.contents = initial_string_buffer;
   string_index.contents = 0;
-  
 }
 
 function store_string_char(c) {
@@ -11841,14 +11831,12 @@ function store_string_char(c) {
   }
   string_buff.contents[string_index.contents] = c;
   string_index.contents = string_index.contents + 1 | 0;
-  
 }
 
 function store_string(s) {
   for(var i = 0 ,i_finish = s.length; i < i_finish; ++i){
     store_string_char(Caml_string.get(s, i));
   }
-  
 }
 
 function get_stored_string(param) {
@@ -12040,7 +12028,6 @@ function update_loc(lexbuf, file, line, absolute, chars) {
     pos_bol: pos.pos_cnum - chars | 0,
     pos_cnum: pos.pos_cnum
   };
-  
 }
 
 var preprocessor = {
@@ -12060,7 +12047,6 @@ function add_comment(com) {
     hd: com,
     tl: comment_list.contents
   };
-  
 }
 
 function add_docstring_comment(ds) {
@@ -13483,7 +13469,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function v(str) {

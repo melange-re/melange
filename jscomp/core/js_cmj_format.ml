@@ -44,14 +44,14 @@ type effect = string option
 let single_na = Single Lam_arity.na
 
 type keyed_cmj_value = { name : string ; arity : arity ; persistent_closed_lambda : Lam.t option}
-type keyed_cmj_values 
-  =   keyed_cmj_value array
+type keyed_cmj_values = keyed_cmj_value array
 
 type t = {
   values : keyed_cmj_values ;
-  pure : bool;
+  pure : bool ;
   package_spec : Js_packages_info.t ;
-  case : Ext_js_file_kind.case;  
+  case : Ext_js_file_kind.case ;
+  delayed_program : J.deps_program ;
 }
 
 let make 
@@ -59,6 +59,7 @@ let make
     ~effect 
     ~package_spec 
     ~case
+    ~delayed_program
      : t = 
   {
     values = Map_string.to_sorted_array_with_f values (fun k v -> {
@@ -68,7 +69,8 @@ let make
         }); 
     pure = effect = None ; 
     package_spec;
-    case
+    case ;
+    delayed_program
   }
 
 

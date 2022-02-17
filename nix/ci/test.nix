@@ -1,30 +1,38 @@
 let
-  pkgs = import ../sources.nix { };
+  lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
+  src = fetchGit {
+    url = with lock.nodes.nixpkgs.locked;"https://github.com/${owner}/${repo}";
+    inherit (lock.nodes.nixpkgs.locked) rev;
+    # inherit (lock.nodes.nixpkgs.original) ref;
+  };
+  pkgs = import "${src}/boot.nix" { };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
-  melange = import ./.. { inherit pkgs; };
-
+  melange = pkgs.callPackage ./.. { };
+  inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 
-stdenv.mkDerivation rec {
-  name = "melange-tests";
+stdenv.mkDerivation {
+  name = "melange-tests-${inputString}";
   inherit (melange) nativeBuildInputs propagatedBuildInputs;
 
   src = ../..;
 
-  inputString = builtins.unsafeDiscardStringContext melange.outPath;
-
   # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
+  # the dream of running fixed-output-derivations is dead -- somehow after
+  # Nix 2.4 it results in `error: unexpected end-of-file`.
+  # Example: https://github.com/melange-re/melange/runs/4132970590
+
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" inputString;
+  outputHash = builtins.hashString "sha256" "melange";
   installPhase = ''
-    echo -n $inputString > $out
+    echo -n melange > $out
   '';
 
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
-  doCheck = true;
 
   checkInputs = with ocamlPackages; [ ounit2 ];
+  doCheck = true;
 
   buildInputs = melange.buildInputs ++ [
     git
@@ -34,15 +42,18 @@ stdenv.mkDerivation rec {
   ];
 
   checkPhase = ''
-    # check that running `node scripts/ninja.js config` produces an empty diff.
-    node scripts/ninja.js config
-    git diff --exit-code
-
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
     # `--release` to avoid promotion
-    dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
+    rm -rf _build && dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
+
+    # check that running `node scripts/ninja.js config` produces an empty diff.
+    # dune build jscomp/main/js_main.exe
+    node scripts/ninja.js config
+
+    git diff --exit-code
+
     node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
 
     dune runtest -p ${melange.name} -j $NIX_BUILD_CORES --display=short

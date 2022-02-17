@@ -1,7 +1,7 @@
 
   (rule
     (targets 406_primitive_test.cmi 406_primitive_test.cmj 406_primitive_test.js)
-    (deps (:inputs 406_primitive_test.ml) ../stdlib-412/stdlib.cmj a.cmj mt.cmj)
+    (deps (:inputs 406_primitive_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
   (mode
    (promote
@@ -1359,6 +1359,19 @@
    (promote
     (until-clean)
     (only class_type_ffi_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets coercion_module_alias_test.cmi coercion_module_alias_test.cmj coercion_module_alias_test.js)
+    (deps (:inputs coercion_module_alias_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only coercion_module_alias_test.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -4082,6 +4095,19 @@
 
 
   (rule
+    (targets gpr_4632.cmi gpr_4632.cmj gpr_4632.js)
+    (deps (:inputs gpr_4632.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_4632.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets gpr_4639_test.cmi gpr_4639_test.cmj gpr_4639_test.js)
     (deps (:inputs gpr_4639_test.ml) ../stdlib-412/stdlib.cmj)
 
@@ -4128,6 +4154,58 @@
    (promote
     (until-clean)
     (only gpr_4931.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets gpr_4931_allow.cmi gpr_4931_allow.cmj gpr_4931_allow.js)
+    (deps (:inputs gpr_4931_allow.res) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_4931_allow.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets gpr_5169_test.cmi gpr_5169_test.cmj gpr_5169_test.js)
+    (deps (:inputs gpr_5169_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_5169_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets gpr_5280_optimize_test.cmi gpr_5280_optimize_test.cmj gpr_5280_optimize_test.js)
+    (deps (:inputs gpr_5280_optimize_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_5280_optimize_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets gpr_5312.cmi gpr_5312.cmj gpr_5312.js)
+    (deps (:inputs gpr_5312.res) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only gpr_5312.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -4355,6 +4433,32 @@
 
 
   (rule
+    (targets hello_res.cmj hello_res.js)
+    (deps (:inputs hello_res.res) ../stdlib-412/stdlib.cmj hello_res.cmi)
+
+  (mode
+   (promote
+    (until-clean)
+    (only hello_res.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets hello_res.cmi )
+    (deps (:inputs hello_res.resi) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only )))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets http_types.cmi http_types.cmj http_types.js)
     (deps (:inputs http_types.ml) ../stdlib-412/stdlib.cmj)
 
@@ -4544,6 +4648,19 @@
    (promote
     (until-clean)
     (only inline_map2_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets inline_map_demo.cmi inline_map_demo.cmj inline_map_demo.js)
+    (deps (:inputs inline_map_demo.res) ../stdlib-412/stdlib.cmj mt.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only inline_map_demo.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -6162,6 +6279,19 @@
 
 
   (rule
+    (targets option_encoding_test.cmi option_encoding_test.cmj option_encoding_test.js)
+    (deps (:inputs option_encoding_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only option_encoding_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets option_repr_test.cmi option_repr_test.cmj option_repr_test.js)
     (deps (:inputs option_repr_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
@@ -6299,6 +6429,19 @@
    (promote
     (until-clean)
     (only )))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets polymorphic_raw_test.cmi polymorphic_raw_test.cmj polymorphic_raw_test.js)
+    (deps (:inputs polymorphic_raw_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only polymorphic_raw_test.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -6981,6 +7124,19 @@
 
 
   (rule
+    (targets record_regression.cmi record_regression.cmj record_regression.js)
+    (deps (:inputs record_regression.res) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only record_regression.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets record_with_test.cmi record_with_test.cmj record_with_test.js)
     (deps (:inputs record_with_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
@@ -7079,6 +7235,19 @@
    (promote
     (until-clean)
     (only relative_path.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets res_debug.cmi res_debug.cmj res_debug.js)
+    (deps (:inputs res_debug.res) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only res_debug.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -9152,6 +9321,19 @@
 
 
   (rule
+    (targets then_mangle_test.cmi then_mangle_test.cmj then_mangle_test.js)
+    (deps (:inputs then_mangle_test.res) ../stdlib-412/stdlib.cmj mt.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only then_mangle_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets ticker.cmi ticker.cmj ticker.js)
     (deps (:inputs ticker.ml) ../stdlib-412/stdlib.cmj)
 
@@ -9269,6 +9451,19 @@
 
 
   (rule
+    (targets unboxed_attribute.cmi unboxed_attribute.cmj unboxed_attribute.js)
+    (deps (:inputs unboxed_attribute.res) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only unboxed_attribute.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets unboxed_attribute_test.cmi unboxed_attribute_test.cmj unboxed_attribute_test.js)
     (deps (:inputs unboxed_attribute_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
@@ -9276,6 +9471,19 @@
    (promote
     (until-clean)
     (only unboxed_attribute_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets unboxed_crash.cmi unboxed_crash.cmj unboxed_crash.js)
+    (deps (:inputs unboxed_crash.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only unboxed_crash.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -9302,6 +9510,19 @@
    (promote
     (until-clean)
     (only )))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets uncurry_external_test.cmi uncurry_external_test.cmj uncurry_external_test.js)
+    (deps (:inputs uncurry_external_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only uncurry_external_test.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
@@ -9380,6 +9601,19 @@
    (promote
     (until-clean)
     (only undef_regression_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))
+
+
+  (rule
+    (targets undefine_conditional.cmi undefine_conditional.cmj undefine_conditional.js)
+    (deps (:inputs undefine_conditional.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only undefine_conditional.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-26-27-29-30-32..40-44-45-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -nopervasives -open Stdlib__no_aliases -I ../others -I . %{inputs})))

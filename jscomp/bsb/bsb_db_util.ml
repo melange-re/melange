@@ -64,12 +64,6 @@ let fix_conflict modname (a : module_info) (b : module_info) =
 let merge (acc : t) (sources : t) : t =
   Map_string.disjoint_merge acc sources fix_conflict
 
-let sanity_check (map : t) =
-  Map_string.iter map (fun m module_info ->
-      if module_info.info = Intf then
-        Bsb_exception.no_implementation m
-    )
-
 (* invariant check:
   ml and mli should have the same case, same path
 *)

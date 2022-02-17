@@ -26,11 +26,13 @@
 let (//) = Ext_path.combine
 
 
-let dune_clean  proj_dir =
+let dune_clean ~dune_args proj_dir =
   try
     let cmd = Literals.dune in
+    let common_args = [|cmd; "clean"|] in
+    let args = Array.append common_args dune_args in
     let eid =
-      Bsb_unix.run_command_execvp {cmd ; args = [|cmd; "clean"|] ; cwd = proj_dir}
+      Bsb_unix.run_command_execvp {cmd ; args; cwd = proj_dir}
     in
     if eid <> 0 then
       Bsb_log.warn "@{<warning>dune clean failed@}@."
@@ -60,18 +62,15 @@ let clean_bs_garbage proj_dir =
     Bsb_log.warn "@{<warning>Failed@} to clean due to %s" (Printexc.to_string e)
 
 
-let clean_bs_deps  proj_dir =
-  dune_clean  proj_dir ;
+let clean_self ~dune_args proj_dir =
+    dune_clean ~dune_args proj_dir ;
+    clean_bs_garbage  proj_dir
+
+let clean ~dune_args proj_dir =
+  clean_self ~dune_args proj_dir;
   let queue = Bsb_build_util.walk_all_deps  proj_dir in
   Queue.iter (fun (pkg_cxt : Bsb_build_util.package_context )->
       (* whether top or not always do the cleaning *)
       clean_bs_garbage  pkg_cxt.proj_dir
     ) queue
 
-let clean_self  proj_dir =
-    dune_clean  proj_dir ;
-    clean_bs_garbage  proj_dir
-
-let clean proj_dir =
-  clean_bs_deps proj_dir;
-  clean_self proj_dir;

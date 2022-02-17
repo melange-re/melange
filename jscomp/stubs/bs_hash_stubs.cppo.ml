@@ -1,5 +1,5 @@
 
-#if defined BS_BROWSER || defined BS_PACK
+#if defined BS_BROWSER
 
 
 let hash_string : string -> int = Hashtbl.hash

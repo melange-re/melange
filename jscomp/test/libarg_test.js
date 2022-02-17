@@ -21,7 +21,6 @@ function record(fmt) {
                   hd: s,
                   tl: accum.contents
                 };
-                
               }), fmt);
 }
 

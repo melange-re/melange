@@ -22,7 +22,6 @@ function h4(u) {
 
 function h5(u) {
   u.hi = 3;
-  
 }
 
 function h6(u) {

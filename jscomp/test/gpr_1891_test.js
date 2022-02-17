@@ -8,7 +8,6 @@ function foo(x) {
   } else {
     console.log("1");
   }
-  
 }
 
 function foo2(x) {
@@ -41,7 +40,6 @@ function foo5(x) {
   } else {
     console.log("hi");
   }
-  
 }
 
 exports.foo = foo;

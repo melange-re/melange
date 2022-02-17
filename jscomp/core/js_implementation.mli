@@ -38,7 +38,6 @@
 val interface : 
   parser:(string -> Parsetree.signature) ->
   Format.formatter -> 
-  ?outputprefix:string -> 
   string -> 
   unit
 
@@ -63,7 +62,6 @@ val interface_mliast :
 val implementation : 
   parser:(string -> Parsetree.structure) ->
   Format.formatter -> 
-  ?outputprefix:string -> 
   string -> 
   unit
 (** [implementation ppf sourcefile outprefix] compiles to JS directly *) 
@@ -73,6 +71,9 @@ val implementation_mlast :
   string -> 
   ([`ml | `rescript | `reason ]  -> unit) ->
   unit
+
+val implementation_cmj : Format.formatter -> string -> unit
+(** [implementation_cmj ppf cmj_file] compiles a cmj to JS *)
 
 val implementation_map : 
   Format.formatter -> string ->  unit

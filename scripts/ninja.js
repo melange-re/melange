@@ -5,6 +5,7 @@ var fs = require("fs");
 var path = require("path");
 var cp = require("child_process");
 
+var root = process.cwd();
 var jscompDir = path.join(__dirname, "..", "jscomp");
 var runtimeDir = path.join(jscompDir, "runtime");
 var othersDir = path.join(jscompDir, "others");
@@ -78,6 +79,11 @@ exports.vendorNinjaPath = vendorNinjaPath;
 var getOcamldepFile = () => {
   return "ocamldep.opt";
 };
+
+var getBsc = () => {
+  // TODO(anmonteiro): fix for CI
+  return "./_build/default/jscomp/main/js_main.exe";
+}
 
 /**
  * @type {string}
@@ -603,9 +609,9 @@ function replaceCmj(x) {
  * @param {string} y
  */
 function sourceToTarget(y) {
-  if (y.endsWith(".ml") || y.endsWith(".re")) {
+  if (y.endsWith(".ml") || y.endsWith(".re") || y.endsWith(".res")) {
     return replaceExt(y, ".cmj");
-  } else if (y.endsWith(".mli") || y.endsWith(".rei")) {
+  } else if (y.endsWith(".mli") || y.endsWith(".rei") || y.endsWith(".resi")) {
     return replaceExt(y, ".cmi");
   }
   return y;
@@ -663,6 +669,7 @@ function ocamlDepForBscAsync(files, dir, depsMap) {
 function depModulesForBscAsync(files, dir, depsMap) {
   let ocamlFiles = files.filter((x) => x.endsWith(".ml") || x.endsWith(".mli"));
   let reFiles = files.filter((x) => x.endsWith(".re") || x.endsWith(".rei"));
+  let resFiles = files.filter((x) => x.endsWith(".res") || x.endsWith(".resi"));
   /**
    *
    * @param {(value:void) =>void} resolve
@@ -716,6 +723,15 @@ function depModulesForBscAsync(files, dir, depsMap) {
         cb(resolve, reject)
       );
     }),
+    new Promise((resolve, reject) => {
+      cp.exec(
+        `${path.join(path.relative(dir, root), getBsc())} -modules -bs-syntax-only ${resFiles.join(
+          " "
+        )}`,
+        config,
+        cb(resolve, reject)
+      );
+    }),
   ];
 }
 
@@ -742,7 +758,12 @@ function collectTarget(sourceFiles) {
         allTargets.set(name, "HAS_RE");
       } else if (ext === ".rei") {
         allTargets.set(name, "HAS_REI");
+      } else if (ext === ".res") {
+        allTargets.set(name, "HAS_RES");
+      } else if (ext === ".resi") {
+        allTargets.set(name, "HAS_RESI");
       }
+
     } else {
       switch (existExt) {
         case "HAS_ML":
@@ -755,6 +776,11 @@ function collectTarget(sourceFiles) {
             allTargets.set(name, "HAS_BOTH_RE");
           }
           break;
+        case "HAS_RES":
+          if (ext === ".resi") {
+            allTargets.set(name, "HAS_BOTH_RES");
+          }
+          break;
         case "HAS_MLI":
           if (ext === ".ml") {
             allTargets.set(name, "HAS_BOTH");
@@ -765,8 +791,14 @@ function collectTarget(sourceFiles) {
             allTargets.set(name, "HAS_BOTH_RE");
           }
           break;
+        case "HAS_RESI":
+          if (ext === ".res") {
+            allTargets.set(name, "HAS_BOTH_RES");
+          }
+          break;
         case "HAS_BOTH_RE":
         case "HAS_BOTH":
+        case "HAS_BOTH_RES":
           break;
       }
     }
@@ -787,13 +819,16 @@ function scanFileTargets(allTargets, collIn) {
     switch (ext) {
       case "HAS_MLI":
       case "HAS_REI":
+      case "HAS_RESI":
         coll.push(`${mod}.cmi`);
         break;
+      case "HAS_BOTH_RES":
       case "HAS_BOTH_RE":
       case "HAS_BOTH":
         coll.push(`${mod}.cmi`, `${mod}.cmj`);
         break;
       case "HAS_RE":
+      case "HAS_RES":
       case "HAS_ML":
         coll.push(`${mod}.cmi`, `${mod}.cmj`);
         break;
@@ -813,7 +848,9 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
     let input_ml = mod + ".ml";
     let input_mli = mod + ".mli";
     let input_re = mod + ".re";
+    let input_res = mod + ".res";
     let input_rei = mod + ".rei";
+    let input_resi = mod + ".resi";
 
     var flags = (mod.endsWith("Labels")) ? `${bscFlags} -nolabels` : bscFlags;
 
@@ -837,14 +874,24 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
         mk([output_cmj], [input_re], ruleCC_cmi);
         mk([output_cmi], [input_rei], ruleCC);
         break;
+      case "HAS_BOTH_RES":
+        mk([output_cmj], [input_res], ruleCC_cmi);
+        mk([output_cmi], [input_resi], ruleCC);
+        break;
       case "HAS_RE":
         mk([output_cmi, output_cmj], [input_re], ruleCC);
+        break;
+      case "HAS_RES":
+        mk([output_cmi, output_cmj], [input_res], ruleCC);
         break;
       case "HAS_ML":
         mk([output_cmi, output_cmj], [input_ml]);
         break;
       case "HAS_REI":
         mk([output_cmi], [input_rei], ruleCC);
+      case "HAS_RESI":
+        mk([output_cmi], [input_resi], ruleCC);
+        break;
       case "HAS_MLI":
         mk([output_cmi], [input_mli]);
         break;
@@ -916,10 +963,6 @@ function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
   });
   return build_stmts;
 }
-
-var COMPILER = `../${process.platform}/bsc.exe`;
-var BSC_COMPILER = `bsc = ${COMPILER}`;
-var compilerTarget = pseudoTarget(COMPILER);
 
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
@@ -1341,6 +1384,8 @@ async function testNinja() {
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var sources = testDirFiles.filter((x) => {
     return (
+      x.endsWith(".res") ||
+      x.endsWith(".resi") ||
       x.endsWith(".re") ||
       x.endsWith(".rei") ||
       ((x.endsWith(".ml") || x.endsWith(".mli")) &&

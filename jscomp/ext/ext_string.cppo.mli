@@ -164,7 +164,7 @@ val replace_backward_slash : string -> string
 
 val empty : string
 
-#if defined BS_BROWSER || defined BS_PACK
+#if defined BS_BROWSER
 val compare :  string -> string -> int
 #else
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
@@ -212,3 +212,11 @@ val unsafe_sub :
   int ->
   int ->
   string
+
+val first_marshal_char:
+  string ->
+  bool
+
+val is_valid_hash_number: string -> bool
+
+val hash_number_as_i32_exn: string -> int32

@@ -52,7 +52,6 @@ function bufferize(f) {
                     };
               }
               buf.contents = Caml_option.some(x);
-              
             })
         ];
 }
@@ -117,7 +116,6 @@ function symitr(f) {
   for(var i = 0 ,i_finish = syms.contents; i < i_finish; ++i){
     Curry._2(f, i, Caml_array.get(symtab, i));
   }
-  
 }
 
 var glo = Bytes.make(4096, /* '\000' */0);
@@ -363,7 +361,6 @@ function le(n, x) {
     Caml_bytes.set(obuf, opos.contents, Char.chr($$byte));
     opos.contents = opos.contents + 1 | 0;
   }
-  
 }
 
 function get32(l) {
@@ -432,7 +429,6 @@ function patch(rel, loc, n) {
   le(32, x);
   patch(rel, loc$p, n);
   opos.contents = i;
-  
 }
 
 function load(r, n) {
@@ -517,7 +513,6 @@ function read(param) {
       /* Int */0
     ];
   }
-  
 }
 
 var globs = Caml_array.make(100, {
@@ -1361,7 +1356,6 @@ function stmt(brk, stk) {
     Curry._1(next$1, undefined);
     expr(stk);
     Curry._1(next$1, undefined);
-    
   };
   var t = Curry._1(next$1, undefined);
   if (Caml_obj.caml_equal(t, tokif)) {
@@ -1490,7 +1484,6 @@ function stmt(brk, stk) {
   Curry._1(unnext, t);
   expr(stk);
   Curry._1(next$1, undefined);
-  
 }
 
 function block(brk, stk) {
@@ -1761,7 +1754,6 @@ function elfgen(outf) {
   itr(function (s, sl, param) {
         $$String.blit(s, 0, obuf, opos.contents, sl);
         opos.contents = (opos.contents + sl | 0) + 1 | 0;
-        
       });
   opos.contents = opos.contents + 7 & -8;
   var symtab = opos.contents;
@@ -1775,7 +1767,6 @@ function elfgen(outf) {
         le(64, 0);
         le(64, 0);
         n.contents = (n.contents + sl | 0) + 1 | 0;
-        
       });
   var rel = opos.contents;
   var n$1 = {
@@ -1797,7 +1788,6 @@ function elfgen(outf) {
         };
         genrel(l);
         n$1.contents = n$1.contents + 1 | 0;
-        
       });
   var hash = opos.contents;
   var n$2 = ((rel - symtab | 0) / 24 | 0) - 1 | 0;

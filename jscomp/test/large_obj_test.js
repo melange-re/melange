@@ -397,84 +397,84 @@ var field99 = ids[119];
 
 CamlinternalOO.set_methods($$class, [
       get0,
-      (function (self$neg1) {
-          return self$neg1[field0] + 0 | 0;
+      (function (self$1) {
+          return self$1[field0] + 0 | 0;
         }),
       get1,
-      (function (self$neg1) {
-          return self$neg1[field1] + 1 | 0;
+      (function (self$1) {
+          return self$1[field1] + 1 | 0;
         }),
       get2,
-      (function (self$neg1) {
-          return self$neg1[field2] + 2 | 0;
+      (function (self$1) {
+          return self$1[field2] + 2 | 0;
         }),
       get3,
-      (function (self$neg1) {
-          return self$neg1[field3] + 3 | 0;
+      (function (self$1) {
+          return self$1[field3] + 3 | 0;
         }),
       get4,
-      (function (self$neg1) {
-          return self$neg1[field4] + 4 | 0;
+      (function (self$1) {
+          return self$1[field4] + 4 | 0;
         }),
       get5,
-      (function (self$neg1) {
-          return self$neg1[field5] + 5 | 0;
+      (function (self$1) {
+          return self$1[field5] + 5 | 0;
         }),
       get6,
-      (function (self$neg1) {
-          return self$neg1[field6] + 6 | 0;
+      (function (self$1) {
+          return self$1[field6] + 6 | 0;
         }),
       get7,
-      (function (self$neg1) {
-          return self$neg1[field7] + 7 | 0;
+      (function (self$1) {
+          return self$1[field7] + 7 | 0;
         }),
       get8,
-      (function (self$neg1) {
-          return self$neg1[field8] + 8 | 0;
+      (function (self$1) {
+          return self$1[field8] + 8 | 0;
         }),
       get9,
-      (function (self$neg1) {
-          return self$neg1[field9] + 9 | 0;
+      (function (self$1) {
+          return self$1[field9] + 9 | 0;
         }),
       get10,
-      (function (self$neg1) {
-          return self$neg1[field10] + 10 | 0;
+      (function (self$1) {
+          return self$1[field10] + 10 | 0;
         }),
       get11,
-      (function (self$neg1) {
-          return self$neg1[field11] + 11 | 0;
+      (function (self$1) {
+          return self$1[field11] + 11 | 0;
         }),
       get12,
-      (function (self$neg1) {
-          return self$neg1[field12] + 12 | 0;
+      (function (self$1) {
+          return self$1[field12] + 12 | 0;
         }),
       get13,
-      (function (self$neg1) {
-          return self$neg1[field13] + 13 | 0;
+      (function (self$1) {
+          return self$1[field13] + 13 | 0;
         }),
       get14,
-      (function (self$neg1) {
-          return self$neg1[field14] + 14 | 0;
+      (function (self$1) {
+          return self$1[field14] + 14 | 0;
         }),
       get15,
-      (function (self$neg1) {
-          return self$neg1[field15] + 15 | 0;
+      (function (self$1) {
+          return self$1[field15] + 15 | 0;
         }),
       get16,
-      (function (self$neg1) {
-          return self$neg1[field16] + 16 | 0;
+      (function (self$1) {
+          return self$1[field16] + 16 | 0;
         }),
       get17,
-      (function (self$neg1) {
-          return self$neg1[field17] + 17 | 0;
+      (function (self$1) {
+          return self$1[field17] + 17 | 0;
         }),
       get18,
-      (function (self$neg1) {
-          return self$neg1[field18] + 18 | 0;
+      (function (self$1) {
+          return self$1[field18] + 18 | 0;
         }),
       get19,
-      (function (self$neg1) {
-          return self$neg1[field19] + 19 | 0;
+      (function (self$1) {
+          return self$1[field19] + 19 | 0;
         })
     ]);
 
@@ -746,84 +746,84 @@ function raw_class_init($$class) {
   var field99 = ids[120];
   CamlinternalOO.set_methods($$class, [
         get0,
-        (function (self$neg2) {
-            return self$neg2[field0] + 0 | 0;
+        (function (self$2) {
+            return self$2[field0] + 0 | 0;
           }),
         get1,
-        (function (self$neg2) {
-            return self$neg2[field1] + 1 | 0;
+        (function (self$2) {
+            return self$2[field1] + 1 | 0;
           }),
         get2,
-        (function (self$neg2) {
-            return self$neg2[field2] + 2 | 0;
+        (function (self$2) {
+            return self$2[field2] + 2 | 0;
           }),
         get3,
-        (function (self$neg2) {
-            return self$neg2[field3] + 3 | 0;
+        (function (self$2) {
+            return self$2[field3] + 3 | 0;
           }),
         get4,
-        (function (self$neg2) {
-            return self$neg2[field4] + 4 | 0;
+        (function (self$2) {
+            return self$2[field4] + 4 | 0;
           }),
         get5,
-        (function (self$neg2) {
-            return self$neg2[field5] + 5 | 0;
+        (function (self$2) {
+            return self$2[field5] + 5 | 0;
           }),
         get6,
-        (function (self$neg2) {
-            return self$neg2[field6] + 6 | 0;
+        (function (self$2) {
+            return self$2[field6] + 6 | 0;
           }),
         get7,
-        (function (self$neg2) {
-            return self$neg2[field7] + 7 | 0;
+        (function (self$2) {
+            return self$2[field7] + 7 | 0;
           }),
         get8,
-        (function (self$neg2) {
-            return self$neg2[field8] + 8 | 0;
+        (function (self$2) {
+            return self$2[field8] + 8 | 0;
           }),
         get9,
-        (function (self$neg2) {
-            return self$neg2[field9] + 9 | 0;
+        (function (self$2) {
+            return self$2[field9] + 9 | 0;
           }),
         get10,
-        (function (self$neg2) {
-            return self$neg2[field10] + 10 | 0;
+        (function (self$2) {
+            return self$2[field10] + 10 | 0;
           }),
         get11,
-        (function (self$neg2) {
-            return self$neg2[field11] + 11 | 0;
+        (function (self$2) {
+            return self$2[field11] + 11 | 0;
           }),
         get12,
-        (function (self$neg2) {
-            return self$neg2[field12] + 12 | 0;
+        (function (self$2) {
+            return self$2[field12] + 12 | 0;
           }),
         get13,
-        (function (self$neg2) {
-            return self$neg2[field13] + 13 | 0;
+        (function (self$2) {
+            return self$2[field13] + 13 | 0;
           }),
         get14,
-        (function (self$neg2) {
-            return self$neg2[field14] + 14 | 0;
+        (function (self$2) {
+            return self$2[field14] + 14 | 0;
           }),
         get15,
-        (function (self$neg2) {
-            return self$neg2[field15] + 15 | 0;
+        (function (self$2) {
+            return self$2[field15] + 15 | 0;
           }),
         get16,
-        (function (self$neg2) {
-            return self$neg2[field16] + 16 | 0;
+        (function (self$2) {
+            return self$2[field16] + 16 | 0;
           }),
         get17,
-        (function (self$neg2) {
-            return self$neg2[field17] + 17 | 0;
+        (function (self$2) {
+            return self$2[field17] + 17 | 0;
           }),
         get18,
-        (function (self$neg2) {
-            return self$neg2[field18] + 18 | 0;
+        (function (self$2) {
+            return self$2[field18] + 18 | 0;
           }),
         get19,
-        (function (self$neg2) {
-            return self$neg2[field19] + 19 | 0;
+        (function (self$2) {
+            return self$2[field19] + 19 | 0;
           })
       ]);
   return function (env, self, value$1) {

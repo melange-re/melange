@@ -150,10 +150,9 @@ let printReport diagnostics src =
     | d::rest ->
       Res_diagnostics_printing_utils.Super_location.super_error_reporter
         Format.err_formatter
-        ~src
-        ~startPos:d.startPos
-        ~endPos:d.endPos
-        ~msg:(explain d);
+        src
+        ~loc:Location.{loc_start = d.startPos; loc_end = d.endPos; loc_ghost = false}
+        (explain d);
       begin match rest with
       | [] -> ()
       | _ -> Format.fprintf Format.err_formatter "@."

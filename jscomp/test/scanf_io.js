@@ -95,7 +95,6 @@ function get_lines(fname) {
                 ],
                 tl: l.contents
               };
-              
             }));
     };
     return List.rev(l.contents);

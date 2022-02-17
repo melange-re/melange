@@ -397,16 +397,10 @@ type response = {
   no_inline_cross_module : bool
 }
 
-
-
-let process_obj
-    (loc : Location.t)
-    (st : external_desc)
-    (prim_name : string)
-    (arg_types_ty : Ast_compatible.param_type list)
-    (result_type : Ast_core_type.t)
-  : Parsetree.core_type *  External_ffi_types.t
-  =
+let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
+    (arg_types_ty : Ast_core_type.param_type list)
+    (result_type : Ast_core_type.t) : Parsetree.core_type * External_ffi_types.t
+    =
   match st with
   | {
     val_name = `Nm_na;
@@ -431,7 +425,7 @@ let process_obj
       Location.raise_errorf ~loc "%@obj expect external names to be empty string";
     let arg_kinds, new_arg_types_ty, (result_types : Parsetree.object_field list) =
       Ext_list.fold_right arg_types_ty ( [], [], [])
-        (fun param_type ( arg_labels, (arg_types : Ast_compatible.param_type list), result_types) ->
+        (fun param_type ( arg_labels, (arg_types : Ast_core_type.param_type list), result_types) ->
            let arg_label = param_type.label in
            let loc = param_type.loc in
            let ty  = param_type.ty in
@@ -537,9 +531,9 @@ let process_obj
         result_type
         (* TODO: do we need do some error checking here *)
         (* result type can not be labeled *)
-    in
-    Ast_compatible.mk_fn_type new_arg_types_ty result,
-    External_ffi_types.ffi_obj_create arg_kinds
+      in
+      ( Ast_core_type.mk_fn_type new_arg_types_ty result,
+        External_ffi_types.ffi_obj_create arg_kinds )
   | _ -> Location.raise_errorf ~loc "Attribute found that conflicts with %@obj"
 
 
@@ -622,7 +616,7 @@ let external_desc_of_non_obj
       | [], `Nm_na,  _ -> Js_module_as_var external_module_name
       | _, `Nm_na, _ -> Js_module_as_fn {splice; external_module_name }
       | _, #bundle_source, #bundle_source ->
-        Bs_syntaxerr.err loc (Conflict_ffi_attribute "Attribute found that conflicts with %@module.")
+        Bs_syntaxerr.err loc (Conflict_ffi_attribute "Attribute found that conflicts with @module.")
 
       | _, (`Nm_val _ | `Nm_external _) , `Nm_na
         -> Js_module_as_class external_module_name
@@ -631,8 +625,44 @@ let external_desc_of_non_obj
         Location.raise_errorf ~loc
           "Incorrect FFI attribute found: (%@new should not carry a payload here)"
     end
-  | {module_as_val = Some _; _} ->
-    Bs_syntaxerr.err loc (Conflict_ffi_attribute "Attribute found that conflicts with %@module.")
+  | {module_as_val = Some _; get_index ; val_send ; _} ->
+    let reason =
+      begin match get_index, val_send with
+        | true , _ ->
+          "@module is for imports from a module, @get_index does not need import a module "
+        | _, #bundle_source ->
+          "@module is for imports from a module, @send does not need import a module "
+        | _ -> "Attribute found that conflicts with @module."
+      end in
+    Bs_syntaxerr.err loc (Conflict_ffi_attribute reason)
+  | {get_name = `Nm_na;
+     val_name = `Nm_na  ;
+     call_name = `Nm_na ;
+     module_as_val = None;
+     set_index = false;
+     get_index = false;
+     val_send = `Nm_na ;
+     val_send_pipe = None;
+     new_name = `Nm_na ;
+     set_name = `Nm_na ;
+     external_module_name = None;
+     splice ;
+     scopes ;
+     mk_obj = _; (* mk_obj is always false *)
+     return_wrapper = _;
+
+    } ->
+    let name = string_of_bundle_source prim_name_or_pval_prim in
+    if arg_type_specs_length  = 0 then
+      (*
+         {[
+           external ff : int -> int [@bs] = "" [@@module "xx"]
+         ]}
+         FIXME: splice is not supported here
+      *)
+      Js_var { name; external_module_name = None; scopes}
+    else
+    Js_call {splice; name; external_module_name = None; scopes}
   | {call_name = (`Nm_val lazy name | `Nm_external name | `Nm_payload name) ;
      splice;
      scopes ;
@@ -651,6 +681,15 @@ let external_desc_of_non_obj
      mk_obj = _ ;
      return_wrapper = _ ;
     } ->
+      if arg_type_specs_length  = 0 then
+        (*
+           {[
+             external ff : int -> int = "" [@@module "xx"]
+           ]}
+        *)
+        Js_var { name; external_module_name ; scopes}
+        (*FIXME: splice is not supported here *)
+      else
     Js_call {splice; name; external_module_name; scopes }
   | {call_name = #bundle_source ; _ }
     ->
@@ -834,25 +873,6 @@ let external_desc_of_non_obj
   | {get_name = #bundle_source; _}
     -> Location.raise_errorf ~loc "Attribute found that conflicts with %@bs.get"
 
-  | {get_name = `Nm_na;
-     val_name = `Nm_na  ;
-     call_name = `Nm_na ;
-     module_as_val = None;
-     set_index = false;
-     get_index = false;
-     val_send = `Nm_na ;
-     val_send_pipe = None;
-     new_name = `Nm_na ;
-     set_name = `Nm_na ;
-     external_module_name = None;
-     splice = _ ;
-     scopes = _;
-     mk_obj = _;
-     return_wrapper = _;
-
-    }
-    ->  Location.raise_errorf ~loc "Could not infer which FFI category it belongs to, maybe you forgot %@val? "
-
 (** Note that the passed [type_annotation] is already processed by visitor pattern before*)
 let handle_attributes
     (loc : Bs_loc.t)
@@ -891,7 +911,7 @@ let handle_attributes
   else
     let splice = external_desc.splice in
     let arg_type_specs, new_arg_types_ty, arg_type_specs_length   =
-      let init : External_arg_spec.params * Ast_compatible.param_type list * int  =
+      let init : External_arg_spec.params * Ast_core_type.param_type list * int  =
         match external_desc.val_send_pipe with
         | Some obj ->
           let arg_type = refine_arg_type ~nolabel:true obj in
@@ -973,7 +993,7 @@ let handle_attributes
     (* currently we don't process attributes of
        return type, in the future we may  *)
     let return_wrapper = check_return_wrapper loc external_desc.return_wrapper result_type in
-    Ast_compatible.mk_fn_type new_arg_types_ty result_type,
+    Ast_core_type.mk_fn_type new_arg_types_ty result_type,
     External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
     unused_attrs,
     relative

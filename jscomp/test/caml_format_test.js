@@ -235,7 +235,6 @@ var suites = Stdlib__no_aliases.$at(from_of_string(of_string), Stdlib__no_aliase
                                 TAG: /* ThrowAny */7,
                                 _0: (function (param) {
                                     Caml_format.caml_float_of_string("");
-                                    
                                   })
                               };
                       })

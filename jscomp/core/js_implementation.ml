@@ -35,6 +35,15 @@ let print_if ppf flag printer arg =
   if !flag then fprintf ppf "%a@." printer arg
 
 
+let output_deps_set name  set  =
+  output_string stdout name;
+  output_string stdout ": ";
+  Depend.String.Set.iter (fun s ->
+      if s <> "" && s.[0] <> '*' then begin
+        output_string stdout s ;
+        output_string stdout " "
+      end ) set;
+  output_string stdout "\n"
 
 let process_with_gentype filename =
   match !Bs_clflags.bs_gentype with
@@ -56,6 +65,9 @@ let process_with_gentype filename =
 
 let after_parsing_sig ppf  outputprefix ast  =
   Ast_config.iter_on_bs_config_sigi ast;
+  if !Js_config.modules then begin
+    output_deps_set !Location.input_name (Ast_extract.read_parse_and_extract Mli ast)
+  end;
   if !Js_config.binary_ast then
     begin
       let sourcefile = !Location.input_name in
@@ -67,6 +79,11 @@ let after_parsing_sig ppf  outputprefix ast  =
         ast
 
     end;
+  if !Js_config.as_pp then begin
+      output_string stdout Config.ast_intf_magic_number;
+      output_value stdout (!Location.input_name : string);
+      output_value stdout ast;
+  end;
   if !Js_config.syntax_only then
     Warnings.check_fatal()
   else
@@ -101,11 +118,7 @@ let after_parsing_sig ppf  outputprefix ast  =
 
 
 
-let interface ~parser ppf ?outputprefix fname  =
-  let outputprefix =
-    match outputprefix with
-    | None -> Config_util.output_prefix fname
-    | Some x -> x in
+let interface ~parser ppf fname  =
   Res_compmisc.init_path ();
   parser fname
   |> Ast_deriving_compat.signature
@@ -113,14 +126,14 @@ let interface ~parser ppf ?outputprefix fname  =
   |> Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf  outputprefix
+  |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
 let interface_mliast ppf fname  setup =
   Res_compmisc.init_path ();
   Binary_ast.read_ast_exn ~fname Mli  setup
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf  (Config_util.output_prefix fname)
+  |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
 let all_module_alias (ast : Parsetree.structure)=
   Ext_list.for_all ast (fun {pstr_desc} ->
@@ -164,12 +177,20 @@ let after_parsing_impl ppf  outputprefix (ast : Parsetree.structure) =
   let ast =
     if !Js_config.no_export  then
       no_export ast else ast in
+  if !Js_config.modules then begin
+    output_deps_set !Location.input_name (Ast_extract.read_parse_and_extract Ml ast)
+  end;
   if !Js_config.binary_ast then begin
     let sourcefile = !Location.input_name in
     Binary_ast.write_ast ~sourcefile
       Ml ~output:(outputprefix ^ Literals.suffix_ast)
       ast
   end ;
+  if !Js_config.as_pp then begin
+    output_string stdout Config.ast_impl_magic_number;
+    output_value stdout (!Location.input_name : string);
+    output_value stdout ast;
+  end;
   if !Js_config.syntax_only then
     Warnings.check_fatal ()
   else
@@ -200,11 +221,7 @@ let after_parsing_impl ppf  outputprefix (ast : Parsetree.structure) =
       end;
       process_with_gentype (outputprefix ^ ".cmt")
     end
-let implementation ~parser ppf ?outputprefix fname   =
-  let outputprefix =
-      match outputprefix with
-      | None -> Config_util.output_prefix fname
-      | Some x -> x in
+let implementation ~parser ppf fname   =
   Res_compmisc.init_path ();
   parser fname
   |> Ast_deriving_compat.structure
@@ -212,7 +229,7 @@ let implementation ~parser ppf ?outputprefix fname   =
   |> Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf outputprefix
+  |> after_parsing_impl ppf (Config_util.output_prefix fname )
 
 let implementation_mlast ppf fname  setup =
 
@@ -220,12 +237,15 @@ let implementation_mlast ppf fname  setup =
   Binary_ast.read_ast_exn ~fname Ml  setup
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf  (Config_util.output_prefix fname )
+  |> after_parsing_impl ppf (Config_util.output_prefix fname )
 
-
-
-
-
+let implementation_cmj _ppf fname =
+  (* this is needed because the path is used to find other modules path *)
+  Res_compmisc.init_path ();
+  let cmj = Js_cmj_format.from_file fname in
+  Lam_compile_main.lambda_as_module
+    cmj.delayed_program
+    (Config_util.output_prefix fname )
 
 
 let make_structure_item ~ns cunit : Parsetree.structure_item =

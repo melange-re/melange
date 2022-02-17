@@ -9,7 +9,6 @@ var Process = require("process");
 
 function assert_fail(msg) {
   Assert.fail(undefined, undefined, msg, "");
-  
 }
 
 function is_mocha(param) {
@@ -38,7 +37,6 @@ function from_suites(name, suite) {
                           it(param[0], (function () {
                                   return Curry._1(partial_arg, undefined);
                                 }));
-                          
                         }), suite);
           }));
     return ;
@@ -107,7 +105,6 @@ function from_pair_suites(name, suites) {
                             it(param[0], (function () {
                                     return handleCode(Curry._1(code, undefined));
                                   }));
-                            
                           }), suites);
             }));
       return ;
@@ -209,7 +206,6 @@ function from_promise_suites(name, suites) {
                                                 return val_unit;
                                               });
                                   }));
-                            
                           }), suites);
             }));
     } else {
@@ -235,7 +231,6 @@ function eq_suites(test_id, suites, loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function bool_suites(test_id, suites, loc, x) {
@@ -252,7 +247,6 @@ function bool_suites(test_id, suites, loc, x) {
     ],
     tl: suites.contents
   };
-  
 }
 
 function throw_suites(test_id, suites, loc, x) {
@@ -269,7 +263,6 @@ function throw_suites(test_id, suites, loc, x) {
     ],
     tl: suites.contents
   };
-  
 }
 
 exports.from_suites = from_suites;

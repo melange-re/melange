@@ -5,7 +5,7 @@ license: "MIT"
 homepage: "https://github.com/facebook/reason"
 doc: "http://reasonml.github.io/"
 bug-reports: "https://github.com/facebook/reason/issues"
-dev-repo: "git://github.com/facebook/reason.git"
+dev-repo: "git+https://github.com/facebook/reason.git"
 tags: [ "syntax" ]
 build: [
   ["dune" "build" "-p" name "-j" jobs]
@@ -14,7 +14,7 @@ depends: [
   "ocaml"         {>= "4.03" & < "4.13"}
   "dune"          {>= "1.4"}
   "ocamlfind"     {build}
-  "menhir"        {>= "20170418"}
+  "menhir"        {>= "20180523"}
   "merlin-extend" {>= "0.6"}
   "ppx_derivers" {< "2.0"}
   "fix"

@@ -95,8 +95,10 @@ let output_merlin_namespace buffer ns=
    complicated
 *)
 let bsc_flg_to_merlin_ocamlc_flg bsc_flags  =
-  let flags = (List.filter (fun x -> not (Ext_string.starts_with x bs_flg_prefix )) (
-     bsc_flags)) in
+  let flags =
+    Ext_list.filter bsc_flags (fun x ->
+        not (Ext_string.starts_with x bs_flg_prefix))
+  in
   if flags <> [] then
     merlin_flg ^
     String.concat Ext_string.single_space flags
@@ -185,9 +187,16 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
         Buffer.add_string buffer path ;
       );
     if built_in_dependency then (
-      let path = Lazy.force Js_config.stdlib_path in
-      Buffer.add_string buffer (merlin_s ^ path );
-      Buffer.add_string buffer (merlin_b ^ path)
+      let paths =
+#ifndef BS_RELEASE_BUILD
+        Js_config.include_dirs
+#else
+        [Lazy.force Js_config.stdlib_path]
+#endif
+      in
+      Ext_list.iter paths (fun path ->
+          Buffer.add_string buffer (merlin_s ^ path );
+          Buffer.add_string buffer (merlin_b ^ path))
     );
     let bsc_string_flag = bsc_flg_to_merlin_ocamlc_flg bsc_flags in
     Buffer.add_string buffer bsc_string_flag ;

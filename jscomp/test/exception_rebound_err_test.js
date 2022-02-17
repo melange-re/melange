@@ -29,7 +29,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 var A = /* @__PURE__ */Caml_exceptions.create("Exception_rebound_err_test.A");

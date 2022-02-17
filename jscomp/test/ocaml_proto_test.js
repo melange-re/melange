@@ -1455,14 +1455,12 @@ var yyact = [
     }),
   (function (__caml_parser_env) {
       Parsing.peek_val(__caml_parser_env, 1);
-      
     }),
   (function (__caml_parser_env) {
       
     }),
   (function (__caml_parser_env) {
       Parsing.peek_val(__caml_parser_env, 1);
-      
     }),
   (function (__caml_parser_env) {
       throw {
@@ -1581,7 +1579,6 @@ function update_loc(lexbuf) {
     pos_bol: pos.pos_cnum,
     pos_cnum: pos.pos_cnum
   };
-  
 }
 
 var __ocaml_lex_tables = {
@@ -2048,7 +2045,6 @@ function line$1(scope, s) {
     },
     tl: scope.items
   };
-  
 }
 
 function scope(scope$1, f) {
@@ -2063,7 +2059,6 @@ function scope(scope$1, f) {
     },
     tl: scope$1.items
   };
-  
 }
 
 function indentation_prefix(n) {
@@ -4803,10 +4798,8 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
     var name = field_name(field);
     if (not_found(function (param) {
             List.assoc(number, number_index);
-            
           }) && not_found(function (param) {
             list_assoc2(name, number_index);
-            
           })) {
       return {
               hd: [
@@ -6865,7 +6858,6 @@ function gen_sig_record(sc, param) {
                 },
                 _1: "(** [default_%s ()] is the default value for type [%s] *)"
               }), r_name, r_name));
-  
 }
 
 function gen_sig$4(and_, t, sc) {
@@ -7751,7 +7743,6 @@ function compile(proto_definition) {
                                           return false;
                                         }
                                       }), true, types);
-                                
                               }), otypes);
                 }), fs);
   };
@@ -7824,7 +7815,6 @@ function eq(loc, x, y) {
     ],
     tl: suites.contents
   };
-  
 }
 
 eq("File \"ocaml_protc_test.ml\", line 10, characters 5-12", match[0], "(** tmp.proto Generated Types and Encoding *)\n\n(** {2 Types} *)\n\ntype t = {\n  j : int32;\n}\n\n\n(** {2 Default values} *)\n\nval default_t : \n  ?j:int32 ->\n  unit ->\n  t\n(** [default_t ()] is the default value for type [t] *)\n\n\n(** {2 Protobuf Decoding} *)\n\nval decode_t : Pbrt.Decoder.t -> t\n(** [decode_t decoder] decodes a [t] value from [decoder] *)\n\n\n(** {2 Protobuf Toding} *)\n\nval encode_t : t -> Pbrt.Encoder.t -> unit\n(** [encode_t v encoder] encodes [v] with the given [encoder] *)\n\n\n(** {2 Formatters} *)\n\nval pp_t : Format.formatter -> t -> unit \n(** [pp_t v] formats v] *)\n");
