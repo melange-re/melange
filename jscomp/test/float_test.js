@@ -5,10 +5,10 @@ var Caml = require("../../lib/js/caml.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Caml_float = require("../../lib/js/caml_float.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var test_id = {
   contents: 0
@@ -153,7 +153,7 @@ function from_pairs(ps) {
 
 var float_compare = Caml.caml_float_compare;
 
-Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 47, characters 5-12", Stdlib__no_aliases.classify_float(3), /* FP_normal */0);
+Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 47, characters 5-12", Stdlib.classify_float(3), /* FP_normal */0);
 
 Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 48, characters 5-12", Caml_float.caml_modf_float(-3.125), [
       -0.125,
@@ -217,7 +217,7 @@ var b = match$4[1];
 
 var a = match$4[0];
 
-Mt.from_pair_suites("Float_test", Stdlib__no_aliases.$at({
+Mt.from_pair_suites("Float_test", Stdlib.$at({
           hd: [
             "mod_float",
             (function (param) {
@@ -265,7 +265,7 @@ Mt.from_pair_suites("Float_test", Stdlib__no_aliases.$at({
               }
             }
           }
-        }, Stdlib__no_aliases.$at(from_pairs(results), suites.contents)));
+        }, Stdlib.$at(from_pairs(results), suites.contents)));
 
 exports.test_id = test_id;
 exports.suites = suites;

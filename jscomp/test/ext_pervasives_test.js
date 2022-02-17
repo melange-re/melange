@@ -3,10 +3,10 @@
 var Arg = require("../../lib/js/arg.js");
 var Curry = require("../../lib/js/curry.js");
 var Format = require("../../lib/js/format.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_string = require("../../lib/js/caml_string.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function $$finally(v, action, f) {
   var e;
@@ -22,11 +22,11 @@ function $$finally(v, action, f) {
 }
 
 function with_file_as_chan(filename, f) {
-  return $$finally(Stdlib__no_aliases.open_out_bin(filename), Stdlib__no_aliases.close_out, f);
+  return $$finally(Stdlib.open_out_bin(filename), Stdlib.close_out, f);
 }
 
 function with_file_as_pp(filename, f) {
-  return $$finally(Stdlib__no_aliases.open_out_bin(filename), Stdlib__no_aliases.close_out, (function (chan) {
+  return $$finally(Stdlib.open_out_bin(filename), Stdlib.close_out, (function (chan) {
                 var fmt = Format.formatter_of_out_channel(chan);
                 var v = Curry._1(f, fmt);
                 Format.pp_print_flush(fmt, undefined);
@@ -70,17 +70,12 @@ function is_pos_pow(n) {
 
 function failwithf(loc, fmt) {
   return Format.ksprintf((function (s) {
-                var s$1 = loc + s;
-                throw {
-                      RE_EXN_ID: "Failure",
-                      _1: s$1,
-                      Error: new Error()
-                    };
+                return Stdlib.failwith(loc + s);
               }), fmt);
 }
 
 function invalid_argf(fmt) {
-  return Format.ksprintf(Stdlib__no_aliases.invalid_arg, fmt);
+  return Format.ksprintf(Stdlib.invalid_arg, fmt);
 }
 
 function bad_argf(fmt) {

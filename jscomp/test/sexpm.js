@@ -9,24 +9,22 @@ var Curry = require("../../lib/js/curry.js");
 var $$Buffer = require("../../lib/js/buffer.js");
 var Format = require("../../lib/js/format.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
-var Caml_io = require("../../lib/js/caml_io.js");
 var Printexc = require("../../lib/js/printexc.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
 
 function _with_in(filename, f) {
-  var ic = Stdlib__no_aliases.open_in_bin(filename);
+  var ic = Stdlib.open_in_bin(filename);
   try {
     var x = Curry._1(f, ic);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+    Stdlib.close_in(ic);
     return x;
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
+    Stdlib.close_in(ic);
     return {
             NAME: "Error",
             VAL: Printexc.to_string(e)
@@ -45,13 +43,13 @@ function _must_escape(s) {
             exit = 1;
           } else {
             throw {
-                  RE_EXN_ID: Stdlib__no_aliases.Exit,
+                  RE_EXN_ID: Stdlib.Exit,
                   Error: new Error()
                 };
           }
         } else {
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                RE_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
         }
@@ -71,7 +69,7 @@ function _must_escape(s) {
             case 40 :
             case 41 :
                 throw {
-                      RE_EXN_ID: Stdlib__no_aliases.Exit,
+                      RE_EXN_ID: Stdlib.Exit,
                       Error: new Error()
                     };
             
@@ -82,7 +80,7 @@ function _must_escape(s) {
       } else {
         if (c >= 9) {
           throw {
-                RE_EXN_ID: Stdlib__no_aliases.Exit,
+                RE_EXN_ID: Stdlib.Exit,
                 Error: new Error()
               };
         }
@@ -90,7 +88,7 @@ function _must_escape(s) {
       }
       if (exit === 1 && c > 127) {
         throw {
-              RE_EXN_ID: Stdlib__no_aliases.Exit,
+              RE_EXN_ID: Stdlib.Exit,
               Error: new Error()
             };
       }
@@ -100,7 +98,7 @@ function _must_escape(s) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Exit) {
+    if (exn.RE_EXN_ID === Stdlib.Exit) {
       return true;
     }
     throw exn;
@@ -356,19 +354,17 @@ function to_file_seq(filename, seq) {
   var f = function (oc) {
     return Curry._1(seq, (function (t) {
                   to_chan(oc, t);
-                  return Caml_io.caml_ml_output_char(oc, /* '\n' */10);
+                  return Stdlib.output_char(oc, /* '\n' */10);
                 }));
   };
-  var oc = Stdlib__no_aliases.open_out(filename);
+  var oc = Stdlib.open_out(filename);
   try {
     var x = Curry._1(f, oc);
-    Caml_io.caml_ml_flush(oc);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+    Stdlib.close_out(oc);
     return x;
   }
   catch (e){
-    Caml_io.caml_ml_flush(oc);
-    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+    Stdlib.close_out(oc);
     throw e;
   }
 }
@@ -940,7 +936,7 @@ function parse_string(s) {
 
 function parse_chan(bufsize, ic) {
   var d = make(bufsize, (function (param, param$1, param$2) {
-          return Stdlib__no_aliases.input(ic, param, param$1, param$2);
+          return Stdlib.input(ic, param, param$1, param$2);
         }));
   var res = next(d);
   if (typeof res === "string") {
@@ -955,7 +951,7 @@ function parse_chan(bufsize, ic) {
 
 function parse_chan_gen(bufsize, ic) {
   var d = make(bufsize, (function (param, param$1, param$2) {
-          return Stdlib__no_aliases.input(ic, param, param$1, param$2);
+          return Stdlib.input(ic, param, param$1, param$2);
         }));
   return function (param) {
     var e = next(d);
@@ -969,7 +965,7 @@ function parse_chan_gen(bufsize, ic) {
 
 function parse_chan_list(bufsize, ic) {
   var d = make(bufsize, (function (param, param$1, param$2) {
-          return Stdlib__no_aliases.input(ic, param, param$1, param$2);
+          return Stdlib.input(ic, param, param$1, param$2);
         }));
   var _acc = /* [] */0;
   while(true) {

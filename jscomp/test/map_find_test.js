@@ -3,7 +3,14 @@
 var Mt = require("./mt.js");
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
+var Curry = require("../../lib/js/curry.js");
 var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+
+var compare = Caml.caml_int_compare;
+
+var funarg = {
+  compare: compare
+};
 
 function height(param) {
   if (param) {
@@ -99,7 +106,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -133,7 +140,7 @@ function find(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_int_compare(x, param.v);
+      var c = Curry._2(funarg.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -148,7 +155,7 @@ function find(x, _param) {
 }
 
 var m = List.fold_left((function (acc, param) {
-        return add(param[0], param[1], acc);
+        return Curry._3(add, param[0], param[1], acc);
       }), /* Empty */0, {
       hd: [
         10,
@@ -174,6 +181,12 @@ var m = List.fold_left((function (acc, param) {
         }
       }
     });
+
+var compare$1 = Caml.caml_string_compare;
+
+var funarg$1 = {
+  compare: compare$1
+};
 
 function height$1(param) {
   if (param) {
@@ -269,7 +282,7 @@ function add$1(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_string_compare(x, v);
+  var c = Curry._2(funarg$1.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -303,7 +316,7 @@ function find$1(x, _param) {
   while(true) {
     var param = _param;
     if (param) {
-      var c = Caml.caml_string_compare(x, param.v);
+      var c = Curry._2(funarg$1.compare, x, param.v);
       if (c === 0) {
         return param.d;
       }
@@ -318,7 +331,7 @@ function find$1(x, _param) {
 }
 
 var s = List.fold_left((function (acc, param) {
-        return add$1(param[0], param[1], acc);
+        return Curry._3(add$1, param[0], param[1], acc);
       }), /* Empty */0, {
       hd: [
         "10",
@@ -351,7 +364,7 @@ Mt.from_pair_suites("Map_find_test", {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: find(10, m),
+                    _0: Curry._2(find, 10, m),
                     _1: /* 'a' */97
                   };
           })
@@ -362,7 +375,7 @@ Mt.from_pair_suites("Map_find_test", {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: find$1("10", s),
+                      _0: Curry._2(find$1, "10", s),
                       _1: /* 'a' */97
                     };
             })
@@ -371,4 +384,4 @@ Mt.from_pair_suites("Map_find_test", {
       }
     });
 
-/* m Not a pure module */
+/* IntMap Not a pure module */

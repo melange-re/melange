@@ -6,8 +6,8 @@ var Curry = require("../../lib/js/curry.js");
 var Scanf = require("../../lib/js/scanf.js");
 var Format = require("../../lib/js/format.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_format = require("../../lib/js/caml_format.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
 
 var suites = {
@@ -100,27 +100,27 @@ eq("File \"format_test.ml\", line 38, characters 5-12", 7.875, 7.875);
 
 eq("File \"format_test.ml\", line 41, characters 5-12", -7.875, -7.875);
 
-eq3("File \"format_test.ml\", line 45, characters 6-13", Infinity, Number.POSITIVE_INFINITY, Stdlib__no_aliases.infinity);
+eq3("File \"format_test.ml\", line 45, characters 6-13", Infinity, Number.POSITIVE_INFINITY, Stdlib.infinity);
 
-eq3("File \"format_test.ml\", line 46, characters 6-13", -Infinity, Number.NEGATIVE_INFINITY, Stdlib__no_aliases.neg_infinity);
+eq3("File \"format_test.ml\", line 46, characters 6-13", -Infinity, Number.NEGATIVE_INFINITY, Stdlib.neg_infinity);
 
-eq3("File \"format_test.ml\", line 47, characters 6-13", Stdlib__no_aliases.max_float, 1.79769313486231571e+308, Number.MAX_VALUE);
+eq3("File \"format_test.ml\", line 47, characters 6-13", Stdlib.max_float, 1.79769313486231571e+308, Number.MAX_VALUE);
 
-eq("File \"format_test.ml\", line 48, characters 5-12", Stdlib__no_aliases.classify_float(Infinity), /* FP_infinite */3);
+eq("File \"format_test.ml\", line 48, characters 5-12", Stdlib.classify_float(Infinity), /* FP_infinite */3);
 
-eq("File \"format_test.ml\", line 49, characters 5-12", Stdlib__no_aliases.classify_float(Infinity), /* FP_infinite */3);
+eq("File \"format_test.ml\", line 49, characters 5-12", Stdlib.classify_float(Infinity), /* FP_infinite */3);
 
-eq("File \"format_test.ml\", line 52, characters 5-12", Stdlib__no_aliases.min_float, 2.22507385850720138e-308);
+eq("File \"format_test.ml\", line 52, characters 5-12", Stdlib.min_float, 2.22507385850720138e-308);
 
-eq("File \"format_test.ml\", line 53, characters 5-12", Stdlib__no_aliases.epsilon_float, 2.22044604925031308e-16);
+eq("File \"format_test.ml\", line 53, characters 5-12", Stdlib.epsilon_float, 2.22044604925031308e-16);
 
 eq("File \"format_test.ml\", line 54, characters 5-12", 4.94065645841e-324, 5e-324);
 
-eq("File \"format_test.ml\", line 55, characters 5-12", 1.00000000000000022 - 1, Stdlib__no_aliases.epsilon_float);
+eq("File \"format_test.ml\", line 55, characters 5-12", 1.00000000000000022 - 1, Stdlib.epsilon_float);
 
 eq("File \"format_test.ml\", line 57, characters 5-12", 1.11253692925360069e-308 / 2.22507385850720138e-308, 0.5);
 
-eq("File \"format_test.ml\", line 59, characters 5-12", Stdlib__no_aliases.classify_float(1.11253692925360069e-308), /* FP_subnormal */1);
+eq("File \"format_test.ml\", line 59, characters 5-12", Stdlib.classify_float(1.11253692925360069e-308), /* FP_subnormal */1);
 
 eq("File \"format_test.ml\", line 60, characters 5-12", 1.11253692925360069e-308, 1.11253692925360069e-308);
 
@@ -192,7 +192,7 @@ var literals_1 = {
   ],
   tl: {
     hd: [
-      Stdlib__no_aliases.infinity,
+      Stdlib.infinity,
       "infinity"
     ],
     tl: {

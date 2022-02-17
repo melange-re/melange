@@ -3,11 +3,11 @@
 var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Bytes = require("../../lib/js/bytes.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function ff(x) {
   var a;
@@ -72,7 +72,7 @@ function rev_split_by_char(c, s) {
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+      if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return {
                 hd: $$String.sub(s, i, s.length - i | 0),
                 tl: l
@@ -101,7 +101,7 @@ function xsplit(delim, s) {
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-        if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+        if (exn.RE_EXN_ID === Stdlib.Not_found) {
           return {
                   hd: $$String.sub(s, 0, i),
                   tl: l

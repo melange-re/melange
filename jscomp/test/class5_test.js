@@ -3,10 +3,10 @@
 var Mt = require("./mt.js");
 var List = require("../../lib/js/list.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var shared = [
   "fold",
@@ -309,7 +309,7 @@ function distance_point_init($$class) {
   var obj_init = inh[0];
   var x$1 = inh[1];
   CamlinternalOO.set_method($$class, distance, (function (self$7, other) {
-          return Stdlib__no_aliases.abs(Caml_oo_curry.js1(291546447, 7, other) - self$7[x$1] | 0);
+          return Stdlib.abs(Caml_oo_curry.js1(291546447, 7, other) - self$7[x$1] | 0);
         }));
   return function (env, self, x$2) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);

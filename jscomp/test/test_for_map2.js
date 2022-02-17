@@ -1,1 +1,6 @@
-/* This output is empty. Its source's type definitions, externals and/or unused code got optimized away. */
+'use strict';
+
+var Int_map = require("./int_map.js");
+
+
+/* Int_map Not a pure module */

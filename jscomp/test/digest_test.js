@@ -6,10 +6,10 @@ var Bytes = require("../../lib/js/bytes.js");
 var Curry = require("../../lib/js/curry.js");
 var Digest = require("../../lib/js/digest.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var Caml_bytes = require("../../lib/js/caml_bytes.js");
 var Ext_array_test = require("./ext_array_test.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(x) {
   return Digest.to_hex(Digest.string(x));
@@ -148,7 +148,7 @@ var ref = [
   "b325dc1c6f5e7a2b7cf465b9feab7948"
 ];
 
-Mt.from_pair_suites("Digest_test", Stdlib__no_aliases.$at({
+Mt.from_pair_suites("Digest_test", Stdlib.$at({
           hd: [
             "File \"digest_test.ml\", line 6, characters 4-11",
             (function (param) {

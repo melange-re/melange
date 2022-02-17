@@ -6,11 +6,11 @@ var Curry = require("../../lib/js/curry.js");
 var Int32 = require("../../lib/js/int32.js");
 var Int64 = require("../../lib/js/int64.js");
 var Format = require("../../lib/js/format.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_format = require("../../lib/js/caml_format.js");
 var Ext_array_test = require("./ext_array_test.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function f(u, v) {
   return u > v;
@@ -855,7 +855,7 @@ function fac(_n, _acc) {
   };
 }
 
-var suites = Stdlib__no_aliases.$at({
+var suites = Stdlib.$at({
       hd: [
         "add_one",
         (function (param) {
@@ -2104,7 +2104,7 @@ var suites = Stdlib__no_aliases.$at({
           }
         }
       }
-    }, Stdlib__no_aliases.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+    }, Stdlib.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                     return [
                             Curry._1(Format.asprintf(/* Format */{
                                       _0: {
@@ -2128,7 +2128,7 @@ var suites = Stdlib__no_aliases.$at({
                                       };
                               })
                           ];
-                  }), shift_left_tests_0, shift_left_tests_1)), Stdlib__no_aliases.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                  }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                         return [
                                 Curry._1(Format.asprintf(/* Format */{
                                           _0: {
@@ -2192,7 +2192,7 @@ function eq(loc, x, y) {
 
 function id(loc, x) {
   var float_value = Caml_int64.float_of_bits(x);
-  var match = Stdlib__no_aliases.classify_float(float_value);
+  var match = Stdlib.classify_float(float_value);
   if (match >= 4) {
     return ;
   } else {

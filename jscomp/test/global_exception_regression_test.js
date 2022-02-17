@@ -1,18 +1,18 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 
 var v = {
-  RE_EXN_ID: Stdlib__no_aliases.Not_found
+  RE_EXN_ID: Stdlib.Not_found
 };
 
 var u = {
-  RE_EXN_ID: Stdlib__no_aliases.Not_found
+  RE_EXN_ID: Stdlib.Not_found
 };
 
 var s = {
-  RE_EXN_ID: Stdlib__no_aliases.End_of_file
+  RE_EXN_ID: Stdlib.End_of_file
 };
 
 var suites_0 = [

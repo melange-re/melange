@@ -1,9 +1,9 @@
 'use strict';
 
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_array = require("../../lib/js/caml_array.js");
 var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function a4(prim) {
   return [
@@ -46,7 +46,7 @@ var a = /* 'a' */97;
 
 function u(b) {
   if (b) {
-    Stdlib__no_aliases.print_int(1);
+    Stdlib.print_int(1);
     return 32;
   } else {
     return 7;

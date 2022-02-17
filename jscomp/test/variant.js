@@ -1,10 +1,10 @@
 'use strict';
 
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function foo(n) {
   if (typeof n === "number") {
@@ -87,7 +87,7 @@ function rollback_path(subst, p) {
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-    if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+    if (exn.RE_EXN_ID === Stdlib.Not_found) {
       switch (p.TAG | 0) {
         case /* Pdot */1 :
             return "Pdot";

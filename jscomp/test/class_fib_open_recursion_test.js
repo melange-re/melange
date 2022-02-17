@@ -2,11 +2,11 @@
 
 var Mt = require("./mt.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Hashtbl = require("../../lib/js/hashtbl.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var shared = [
   "calc",
@@ -70,7 +70,7 @@ function memo_fib_init($$class) {
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-            if (exn.RE_EXN_ID === Stdlib__no_aliases.Not_found) {
+            if (exn.RE_EXN_ID === Stdlib.Not_found) {
               var v = Curry._2(calc$1, self$2, x);
               Hashtbl.add(self$2[cache], x, v);
               return v;

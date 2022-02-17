@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var suites = {
   contents: /* [] */0
@@ -32,15 +32,12 @@ function eq(loc, x, y) {
 var y;
 
 try {
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "boo",
-        Error: new Error()
-      };
+  Stdlib.failwith("boo");
+  y = undefined;
 }
 catch (raw_msg){
   var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-  if (msg.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+  if (msg.RE_EXN_ID === Stdlib.Failure) {
     y = msg._1;
   } else {
     throw msg;
@@ -51,16 +48,15 @@ var x;
 
 var exit = 0;
 
+var e;
+
 try {
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "boo",
-        Error: new Error()
-      };
+  e = Stdlib.failwith("boo");
+  exit = 1;
 }
 catch (raw_msg$1){
   var msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);
-  if (msg$1.RE_EXN_ID === Stdlib__no_aliases.Failure) {
+  if (msg$1.RE_EXN_ID === Stdlib.Failure) {
     x = msg$1._1;
   } else {
     throw msg$1;

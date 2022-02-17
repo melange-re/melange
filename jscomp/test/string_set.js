@@ -3,9 +3,9 @@
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var $$String = require("../../lib/js/string.js");
 var Set_gen = require("./set_gen.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function split(x, tree) {
   if (!tree) {
@@ -229,7 +229,7 @@ function find(x, _tree) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };

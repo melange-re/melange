@@ -6,9 +6,9 @@ var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
 var Int64 = require("../../lib/js/int64.js");
 var Printf = require("../../lib/js/printf.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_int64 = require("../../lib/js/caml_int64.js");
 var Caml_format = require("../../lib/js/caml_format.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 function commutative_mul(result, a, b) {
   return {
@@ -1652,7 +1652,7 @@ function from_to_string(xs) {
               }), $$Array.to_list(xs));
 }
 
-Mt.from_pair_suites("Int64_mul_div_test", Stdlib__no_aliases.$at(from_pairs("random", pairs), Stdlib__no_aliases.$at(from_pairs("small", small_pairs), Stdlib__no_aliases.$at(List.mapi((function (i, param) {
+Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs), Stdlib.$at(from_pairs("small", small_pairs), Stdlib.$at(List.mapi((function (i, param) {
                         var f = param[1];
                         var i64 = param[0];
                         return [
@@ -1678,7 +1678,7 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib__no_aliases.$at(from_pairs("ran
                                           };
                                   })
                               ];
-                      }), $$Array.to_list(to_floats)), Stdlib__no_aliases.$at(List.mapi((function (i, param) {
+                      }), $$Array.to_list(to_floats)), Stdlib.$at(List.mapi((function (i, param) {
                             var i64 = param[1];
                             var f = param[0];
                             return [
@@ -1704,7 +1704,7 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib__no_aliases.$at(from_pairs("ran
                                               };
                                       })
                                   ];
-                          }), $$Array.to_list(of_float_pairs)), Stdlib__no_aliases.$at({
+                          }), $$Array.to_list(of_float_pairs)), Stdlib.$at({
                           hd: [
                             "compare_check_complete",
                             (function (param) {
@@ -1718,7 +1718,7 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib__no_aliases.$at(from_pairs("ran
                               })
                           ],
                           tl: /* [] */0
-                        }, Stdlib__no_aliases.$at(from(simple_divs), Stdlib__no_aliases.$at(from_compare(int64_compare_tests), {
+                        }, Stdlib.$at(from(simple_divs), Stdlib.$at(from_compare(int64_compare_tests), {
                                   hd: [
                                     "div_rem_0",
                                     (function (param) {

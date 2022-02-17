@@ -2,11 +2,11 @@
 
 var Mt = require("./mt.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_oo = require("../../lib/js/caml_oo.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var shared = [
   "move",
@@ -134,7 +134,7 @@ function lookup_obj(obj, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };

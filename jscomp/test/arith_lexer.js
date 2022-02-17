@@ -2,8 +2,8 @@
 
 var Curry = require("../../lib/js/curry.js");
 var Lexing = require("../../lib/js/lexing.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_format = require("../../lib/js/caml_format.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff:\0\x85\0\xff\xff",
@@ -66,7 +66,7 @@ function lexeme(lexbuf) {
 function str(e) {
   switch (e.TAG | 0) {
     case /* Numeral */0 :
-        return Stdlib__no_aliases.string_of_float(e._0);
+        return Stdlib.string_of_float(e._0);
     case /* Plus */1 :
         return str(e._0) + ("+" + str(e._1));
     case /* Minus */2 :

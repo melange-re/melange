@@ -2,6 +2,13 @@
 
 var Caml = require("../../lib/js/caml.js");
 var List = require("../../lib/js/list.js");
+var Curry = require("../../lib/js/curry.js");
+
+var compare = Caml.caml_int_compare;
+
+var funarg = {
+  compare: compare
+};
 
 function height(param) {
   if (param) {
@@ -97,7 +104,7 @@ function add(x, data, m) {
   var d = m.d;
   var v = m.v;
   var l = m.l;
-  var c = Caml.caml_int_compare(x, v);
+  var c = Curry._2(funarg.compare, x, v);
   if (c === 0) {
     if (d === data) {
       return m;
@@ -128,7 +135,7 @@ function add(x, data, m) {
 }
 
 List.fold_left((function (acc, param) {
-        return add(param[0], param[1], acc);
+        return Curry._3(add, param[0], param[1], acc);
       }), /* Empty */0, {
       hd: [
         10,
@@ -155,4 +162,4 @@ List.fold_left((function (acc, param) {
       }
     });
 
-/*  Not a pure module */
+/* IntMap Not a pure module */

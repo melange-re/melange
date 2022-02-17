@@ -3,6 +3,7 @@
 var List = require("../../lib/js/list.js");
 var $$Array = require("../../lib/js/array.js");
 var Curry = require("../../lib/js/curry.js");
+var Stdlib = require("../../lib/js/stdlib.js");
 var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_option = require("../../lib/js/caml_option.js");
 var Ext_string_test = require("./ext_string_test.js");
@@ -189,35 +190,28 @@ function filter_map2(f, _xs, _ys) {
   while(true) {
     var ys = _ys;
     var xs = _xs;
-    if (xs) {
+    if (!xs) {
       if (ys) {
-        var vs = ys.tl;
-        var us = xs.tl;
-        var z = Curry._2(f, xs.hd, ys.hd);
-        if (z !== undefined) {
-          return {
-                  hd: Caml_option.valFromOption(z),
-                  tl: filter_map2(f, us, vs)
-                };
-        }
-        _ys = vs;
-        _xs = us;
-        continue ;
+        return Stdlib.invalid_arg("Ext_list_test.filter_map2");
+      } else {
+        return /* [] */0;
       }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.filter_map2",
-            Error: new Error()
-          };
     }
     if (!ys) {
-      return /* [] */0;
+      return Stdlib.invalid_arg("Ext_list_test.filter_map2");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.filter_map2",
-          Error: new Error()
-        };
+    var vs = ys.tl;
+    var us = xs.tl;
+    var z = Curry._2(f, xs.hd, ys.hd);
+    if (z !== undefined) {
+      return {
+              hd: Caml_option.valFromOption(z),
+              tl: filter_map2(f, us, vs)
+            };
+    }
+    _ys = vs;
+    _xs = us;
+    continue ;
   };
 }
 
@@ -227,36 +221,29 @@ function filter_map2i(f, xs, ys) {
       var ys = _ys;
       var xs = _xs;
       var i = _i;
-      if (xs) {
+      if (!xs) {
         if (ys) {
-          var vs = ys.tl;
-          var us = xs.tl;
-          var z = Curry._3(f, i, xs.hd, ys.hd);
-          if (z !== undefined) {
-            return {
-                    hd: Caml_option.valFromOption(z),
-                    tl: aux(i + 1 | 0, us, vs)
-                  };
-          }
-          _ys = vs;
-          _xs = us;
-          _i = i + 1 | 0;
-          continue ;
+          return Stdlib.invalid_arg("Ext_list_test.filter_map2i");
+        } else {
+          return /* [] */0;
         }
-        throw {
-              RE_EXN_ID: "Invalid_argument",
-              _1: "Ext_list_test.filter_map2i",
-              Error: new Error()
-            };
       }
       if (!ys) {
-        return /* [] */0;
+        return Stdlib.invalid_arg("Ext_list_test.filter_map2i");
       }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.filter_map2i",
-            Error: new Error()
-          };
+      var vs = ys.tl;
+      var us = xs.tl;
+      var z = Curry._3(f, i, xs.hd, ys.hd);
+      if (z !== undefined) {
+        return {
+                hd: Caml_option.valFromOption(z),
+                tl: aux(i + 1 | 0, us, vs)
+              };
+      }
+      _ys = vs;
+      _xs = us;
+      _i = i + 1 | 0;
+      continue ;
     };
   };
   return aux(0, xs, ys);
@@ -286,27 +273,20 @@ function flat_map2(f, lx, ly) {
     var ly$1 = _ly;
     var lx$1 = _lx;
     var acc = _acc;
-    if (lx$1) {
+    if (!lx$1) {
       if (ly$1) {
-        _ly = ly$1.tl;
-        _lx = lx$1.tl;
-        _acc = List.rev_append(Curry._2(f, lx$1.hd, ly$1.hd), acc);
-        continue ;
+        return Stdlib.invalid_arg("Ext_list_test.flat_map2");
+      } else {
+        return List.rev(acc);
       }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.flat_map2",
-            Error: new Error()
-          };
     }
-    if (ly$1) {
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.flat_map2",
-            Error: new Error()
-          };
+    if (!ly$1) {
+      return Stdlib.invalid_arg("Ext_list_test.flat_map2");
     }
-    return List.rev(acc);
+    _ly = ly$1.tl;
+    _lx = lx$1.tl;
+    _acc = List.rev_append(Curry._2(f, lx$1.hd, ly$1.hd), acc);
+    continue ;
   };
 }
 
@@ -332,47 +312,35 @@ function flat_map_acc(f, append, lx) {
 }
 
 function map2_last(f, l1, l2) {
-  if (l1) {
-    var l1$1 = l1.tl;
-    var u = l1.hd;
-    if (!l1$1) {
-      if (l2) {
-        if (!l2.tl) {
-          return {
-                  hd: Curry._3(f, true, u, l2.hd),
-                  tl: /* [] */0
-                };
-        }
-        
-      } else {
-        throw {
-              RE_EXN_ID: "Invalid_argument",
-              _1: "List.map2_last",
-              Error: new Error()
-            };
-      }
-    }
+  if (!l1) {
     if (l2) {
-      var r = Curry._3(f, false, u, l2.hd);
+      return Stdlib.invalid_arg("List.map2_last");
+    } else {
+      return /* [] */0;
+    }
+  }
+  var l1$1 = l1.tl;
+  var u = l1.hd;
+  if (!l1$1) {
+    if (!l2) {
+      return Stdlib.invalid_arg("List.map2_last");
+    }
+    if (!l2.tl) {
       return {
-              hd: r,
-              tl: map2_last(f, l1$1, l2.tl)
+              hd: Curry._3(f, true, u, l2.hd),
+              tl: /* [] */0
             };
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "List.map2_last",
-          Error: new Error()
-        };
+    
   }
   if (!l2) {
-    return /* [] */0;
+    return Stdlib.invalid_arg("List.map2_last");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "List.map2_last",
-        Error: new Error()
-      };
+  var r = Curry._3(f, false, u, l2.hd);
+  return {
+          hd: r,
+          tl: map2_last(f, l1$1, l2.tl)
+        };
 }
 
 function map_last(f, l1) {
@@ -394,40 +362,29 @@ function map_last(f, l1) {
 }
 
 function fold_right2_last(f, l1, l2, accu) {
-  if (l1) {
-    var l1$1 = l1.tl;
-    var last1 = l1.hd;
-    if (!l1$1) {
-      if (l2) {
-        if (!l2.tl) {
-          return Curry._4(f, true, last1, l2.hd, accu);
-        }
-        
-      } else {
-        throw {
-              RE_EXN_ID: "Invalid_argument",
-              _1: "List.fold_right2",
-              Error: new Error()
-            };
-      }
-    }
+  if (!l1) {
     if (l2) {
-      return Curry._4(f, false, last1, l2.hd, fold_right2_last(f, l1$1, l2.tl, accu));
+      return Stdlib.invalid_arg("List.fold_right2");
+    } else {
+      return accu;
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "List.fold_right2",
-          Error: new Error()
-        };
+  }
+  var l1$1 = l1.tl;
+  var last1 = l1.hd;
+  if (!l1$1) {
+    if (!l2) {
+      return Stdlib.invalid_arg("List.fold_right2");
+    }
+    if (!l2.tl) {
+      return Curry._4(f, true, last1, l2.hd, accu);
+    }
+    
   }
   if (l2) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "List.fold_right2",
-          Error: new Error()
-        };
+    return Curry._4(f, false, last1, l2.hd, fold_right2_last(f, l1$1, l2.tl, accu));
+  } else {
+    return Stdlib.invalid_arg("List.fold_right2");
   }
-  return accu;
 }
 
 function init(n, f) {
@@ -438,16 +395,13 @@ function take(n, l) {
   var arr = $$Array.of_list(l);
   var arr_length = arr.length;
   if (arr_length < n) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.take",
-          Error: new Error()
-        };
+    return Stdlib.invalid_arg("Ext_list_test.take");
+  } else {
+    return [
+            $$Array.to_list($$Array.sub(arr, 0, n)),
+            $$Array.to_list($$Array.sub(arr, n, arr_length - n | 0))
+          ];
   }
-  return [
-          $$Array.to_list($$Array.sub(arr, 0, n)),
-          $$Array.to_list($$Array.sub(arr, n, arr_length - n | 0))
-        ];
 }
 
 function try_take(n, l) {
@@ -510,26 +464,22 @@ function exclude_tail(x) {
   while(true) {
     var x$1 = _x;
     var acc = _acc;
-    if (x$1) {
-      var x$2 = x$1.hd;
-      if (!x$1.tl) {
-        return [
-                x$2,
-                List.rev(acc)
-              ];
-      }
-      _x = x$1.tl;
-      _acc = {
-        hd: x$2,
-        tl: acc
-      };
-      continue ;
+    if (!x$1) {
+      return Stdlib.invalid_arg("Ext_list_test.exclude_tail");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.exclude_tail",
-          Error: new Error()
-        };
+    var x$2 = x$1.hd;
+    if (!x$1.tl) {
+      return [
+              x$2,
+              List.rev(acc)
+            ];
+    }
+    _x = x$1.tl;
+    _acc = {
+      hd: x$2,
+      tl: acc
+    };
+    continue ;
   };
 }
 
@@ -578,21 +528,13 @@ function drop(_n, _h) {
     var h = _h;
     var n = _n;
     if (n < 0) {
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.drop",
-            Error: new Error()
-          };
+      return Stdlib.invalid_arg("Ext_list_test.drop");
     }
     if (n === 0) {
       return h;
     }
     if (Caml_obj.caml_equal(h, /* [] */0)) {
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Ext_list_test.drop",
-            Error: new Error()
-          };
+      return Stdlib.invalid_arg("Ext_list_test.drop");
     }
     _h = List.tl(h);
     _n = n - 1 | 0;
@@ -760,23 +702,17 @@ function reduce_from_right(fn, lst) {
     return List.fold_left((function (x, y) {
                   return Curry._2(fn, y, x);
                 }), match.hd, match.tl);
+  } else {
+    return Stdlib.invalid_arg("Ext_list_test.reduce");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.reduce",
-        Error: new Error()
-      };
 }
 
 function reduce_from_left(fn, lst) {
   if (lst) {
     return List.fold_left(fn, lst.hd, lst.tl);
+  } else {
+    return Stdlib.invalid_arg("Ext_list_test.reduce_from_left");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.reduce_from_left",
-        Error: new Error()
-      };
 }
 
 function create_ref_empty(param) {
@@ -789,12 +725,9 @@ function ref_top(x) {
   var match = x.contents;
   if (match) {
     return match.hd;
+  } else {
+    return Stdlib.invalid_arg("Ext_list_test.ref_top");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.ref_top",
-        Error: new Error()
-      };
 }
 
 function ref_empty(x) {
@@ -818,12 +751,9 @@ function ref_pop(refs) {
   if (match) {
     refs.contents = match.tl;
     return match.hd;
+  } else {
+    return Stdlib.invalid_arg("Ext_list_test.ref_pop");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Ext_list_test.ref_pop",
-        Error: new Error()
-      };
 }
 
 function rev_except_last(xs) {
@@ -832,26 +762,22 @@ function rev_except_last(xs) {
   while(true) {
     var xs$1 = _xs;
     var acc = _acc;
-    if (xs$1) {
-      var x = xs$1.hd;
-      if (!xs$1.tl) {
-        return [
-                acc,
-                x
-              ];
-      }
-      _xs = xs$1.tl;
-      _acc = {
-        hd: x,
-        tl: acc
-      };
-      continue ;
+    if (!xs$1) {
+      return Stdlib.invalid_arg("Ext_list_test.rev_except_last");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.rev_except_last",
-          Error: new Error()
-        };
+    var x = xs$1.hd;
+    if (!xs$1.tl) {
+      return [
+              acc,
+              x
+            ];
+    }
+    _xs = xs$1.tl;
+    _acc = {
+      hd: x,
+      tl: acc
+    };
+    continue ;
   };
 }
 
@@ -864,18 +790,14 @@ function sort_via_array(cmp, lst) {
 function last(_xs) {
   while(true) {
     var xs = _xs;
-    if (xs) {
-      if (!xs.tl) {
-        return xs.hd;
-      }
-      _xs = xs.tl;
-      continue ;
+    if (!xs) {
+      return Stdlib.invalid_arg("Ext_list_test.last");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Ext_list_test.last",
-          Error: new Error()
-        };
+    if (!xs.tl) {
+      return xs.hd;
+    }
+    _xs = xs.tl;
+    continue ;
   };
 }
 
