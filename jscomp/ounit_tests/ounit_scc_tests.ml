@@ -28,7 +28,7 @@ let tiny_test_cases = {|
  6  4
  6  9
  7  6
-|}     
+|}
 
 let medium_test_cases = {|
 50
@@ -140,7 +140,7 @@ let medium_test_cases = {|
 33  2
 33  8
 33 19
-34  2 
+34  2
 34 19
 34 40
 35  9
@@ -181,113 +181,113 @@ let medium_test_cases = {|
 49 22
 49 49
 |}
-(* 
-reference output: 
-http://algs4.cs.princeton.edu/42digraph/KosarajuSharirSCC.java.html 
+(*
+reference output:
+http://algs4.cs.princeton.edu/42digraph/KosarajuSharirSCC.java.html
 *)
 
-let handle_lines tiny_test_cases = 
-  match Ext_string.split  tiny_test_cases '\n' with 
-  | nodes :: _edges :: rest -> 
-    let nodes_num = int_of_string nodes in 
-    let node_array = 
+let handle_lines tiny_test_cases =
+  match Ext_string.split_by  (function |'\n'| '\r' -> true | _ -> false) tiny_test_cases with
+  | nodes :: _edges :: rest ->
+    let nodes_num = int_of_string nodes in
+    let node_array =
       Array.init nodes_num
         (fun _ -> Vec_int.empty () )
-    in 
-    begin 
+    in
+    begin
     Ext_list.iter rest (fun x ->
-          match Ext_string.split x ' ' with 
-          | [ a ; b] -> 
-            let a , b = int_of_string a , int_of_string b in 
-            Vec_int.push node_array.(a) b  
-          | _ -> assert false 
+          match Ext_string.split x ' ' with
+          | [ a ; b] ->
+            let a , b = int_of_string a , int_of_string b in
+            Vec_int.push node_array.(a) b
+          | _ -> assert false
         );
-      node_array 
+      node_array
     end
   | _ -> assert false
 
-let read_file file = 
-  let in_chan = open_in_bin file in 
-  let nodes_sum = int_of_string (input_line in_chan) in 
-  let node_array = Array.init nodes_sum (fun _ -> Vec_int.empty () ) in 
-  let rec aux () = 
-    match input_line in_chan with 
+let read_file file =
+  let in_chan = open_in_bin file in
+  let nodes_sum = int_of_string (input_line in_chan) in
+  let node_array = Array.init nodes_sum (fun _ -> Vec_int.empty () ) in
+  let rec aux () =
+    match input_line in_chan with
     | exception End_of_file -> ()
-    | x -> 
-      begin match Ext_string.split x ' ' with 
-      | [ a ; b] -> 
-        let a , b = int_of_string a , int_of_string b in 
-        Vec_int.push node_array.(a) b 
+    | x ->
+      begin match Ext_string.split x ' ' with
+      | [ a ; b] ->
+        let a , b = int_of_string a , int_of_string b in
+        Vec_int.push node_array.(a) b
       | _ -> (* assert false  *) ()
-      end; 
-      aux () in 
+      end;
+      aux () in
   print_endline "read data into memory";
   aux ();
    (fst (Ext_scc.graph_check node_array)) (* 25 *)
 
 
-let test  (input : (string * string list) list) = 
-  (* string -> int mapping 
+let test  (input : (string * string list) list) =
+  (* string -> int mapping
   *)
   let tbl = Hash_string.create 32 in
-  let idx = ref 0 in 
+  let idx = ref 0 in
   let add x =
-    if not (Hash_string.mem tbl x ) then 
-      begin 
+    if not (Hash_string.mem tbl x ) then
+      begin
         Hash_string.add  tbl x !idx ;
-        incr idx 
+        incr idx
       end in
-  input |> List.iter 
+  input |> List.iter
     (fun (x,others) -> List.iter add (x::others));
   let nodes_num = Hash_string.length tbl in
-  let node_array = 
+  let node_array =
       Array.init nodes_num
-        (fun _ -> Vec_int.empty () ) in 
-  input |> 
-  List.iter (fun (x,others) -> 
-      let idx = Hash_string.find_exn tbl  x  in 
-      others |> 
+        (fun _ -> Vec_int.empty () ) in
+  input |>
+  List.iter (fun (x,others) ->
+      let idx = Hash_string.find_exn tbl  x  in
+      others |>
       List.iter (fun y -> Vec_int.push node_array.(idx) (Hash_string.find_exn tbl y ) )
-    ) ; 
-  Ext_scc.graph_check node_array 
+    ) ;
+  Ext_scc.graph_check node_array
 
-let test2  (input : (string * string list) list) = 
-  (* string -> int mapping 
+let test2  (input : (string * string list) list) =
+  (* string -> int mapping
   *)
   let tbl = Hash_string.create 32 in
-  let idx = ref 0 in 
+  let idx = ref 0 in
   let add x =
-    if not (Hash_string.mem tbl x ) then 
-      begin 
+    if not (Hash_string.mem tbl x ) then
+      begin
         Hash_string.add  tbl x !idx ;
-        incr idx 
+        incr idx
       end in
-  input |> List.iter 
+  input |> List.iter
     (fun (x,others) -> List.iter add (x::others));
   let nodes_num = Hash_string.length tbl in
-  let other_mapping = Array.make nodes_num "" in 
+  let other_mapping = Array.make nodes_num "" in
   Hash_string.iter tbl (fun k v  -> other_mapping.(v) <- k ) ;
-  
-  let node_array = 
+
+  let node_array =
       Array.init nodes_num
-        (fun _ -> Vec_int.empty () ) in 
-  input |> 
-  List.iter (fun (x,others) -> 
-      let idx = Hash_string.find_exn tbl  x  in 
-      others |> 
+        (fun _ -> Vec_int.empty () ) in
+  input |>
+  List.iter (fun (x,others) ->
+      let idx = Hash_string.find_exn tbl  x  in
+      others |>
       List.iter (fun y -> Vec_int.push node_array.(idx) (Hash_string.find_exn tbl y ) )
     )  ;
-  let output = Ext_scc.graph node_array in 
+  let output = Ext_scc.graph node_array in
   output |> Int_vec_vec.map_into_array (fun int_vec -> Vec_int.map_into_array (fun i -> other_mapping.(i)) int_vec )
 
 
-let suites = 
+let suites =
     __FILE__
     >::: [
-      __LOC__ >:: begin fun _ -> 
+      __LOC__ >:: begin fun _ ->
         OUnit.assert_equal (fst @@ Ext_scc.graph_check (handle_lines tiny_test_cases))  5
       end       ;
-      __LOC__ >:: begin fun _ -> 
+      __LOC__ >:: begin fun _ ->
         OUnit.assert_equal (fst @@ Ext_scc.graph_check (handle_lines medium_test_cases))  10
       end       ;
       __LOC__ >:: begin fun _ ->
@@ -297,7 +297,7 @@ let suites =
             "c", [ "b"];
             "d", [];
           ]) (3 , [1;2;1])
-      end ; 
+      end ;
       __LOC__ >:: begin fun _ ->
         OUnit.assert_equal (test [
             "a", ["b" ; "c"];
@@ -308,16 +308,16 @@ let suites =
           ])  (4, [1;1;2;1])
           (*  {[
               a -> b
-              a -> c 
-              b -> c 
-              b -> d 
-              c -> b 
-              d 
+              a -> c
+              b -> c
+              b -> d
+              c -> b
+              d
               e
               ]}
               {[
               [d ; e ; [b;c] [a] ]
-              ]}  
+              ]}
           *)
       end ;
       __LOC__ >:: begin fun _ ->
@@ -328,7 +328,7 @@ let suites =
             "d", ["e"];
             "e", []
           ]) (4 , [1;2;1;1])
-      end ; 
+      end ;
       __LOC__ >:: begin fun _ ->
         OUnit.assert_equal (test [
             "a", ["b" ; "c"];
@@ -346,7 +346,7 @@ let suites =
             "d", ["e"];
             "e", ["a"]
           ]) (1, [5])
-      end ; 
+      end ;
       __LOC__ >:: begin fun _ ->
         OUnit.assert_equal (test [
             "a", ["b"];
@@ -355,7 +355,7 @@ let suites =
             "d", [];
             "e", []
           ]) (5, [1;1;1;1;1])
-      end ; 
+      end ;
       __LOC__ >:: begin fun _ ->
         OUnit.assert_equal (test [
             "1", ["0"];
@@ -364,7 +364,7 @@ let suites =
             "0", ["3"];
             "3", [ "4"]
           ]) (3, [3;1;1])
-      end ; 
+      end ;
       (* http://algs4.cs.princeton.edu/42digraph/largeDG.txt *)
       (* __LOC__ >:: begin fun _ -> *)
       (*   OUnit.assert_equal (read_file "largeDG.txt") 25 *)
@@ -386,7 +386,7 @@ let suites =
             "c", ["d" ];
             "d", ["e"];
             "e", []
-          ]) [|[|"e"|]; [|"d"|]; [|"c"|]; [|"b"|]; [|"a"|]|] 
+          ]) [|[|"e"|]; [|"d"|]; [|"c"|]; [|"b"|]; [|"a"|]|]
       end ;
 
     ]

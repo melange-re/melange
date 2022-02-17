@@ -3,6 +3,10 @@ let ((>::),
 
 
 let normalize = Ext_path.normalize_absolute_path
+let os_adapt s =
+  let regexp = Str.regexp "\\(/\\)" in
+  Str.global_replace regexp (String.escaped Filename.dir_sep) s
+
 let (=~) x y =
   OUnit.assert_equal
   ~printer:(fun x -> x)
@@ -42,10 +46,10 @@ let suites =
         |]
     end;
     __LOC__ >:: begin fun _ ->
-      normalize "/./a/.////////j/k//../////..///././b/./c/d/./." =~ "/a/b/c/d"
+      normalize "/./a/.////////j/k//../////..///././b/./c/d/./." =~ (os_adapt "/a/b/c/d")
     end;
     __LOC__ >:: begin fun _ ->
-      normalize "/./a/.////////j/k//../////..///././b/./c/d/././../" =~ "/a/b/c"
+      normalize "/./a/.////////j/k//../////..///././b/./c/d/././../" =~ (os_adapt "/a/b/c")
     end;
 
     __LOC__ >:: begin fun _ ->
@@ -71,22 +75,22 @@ let suites =
       in
       aux
         "/a/b/c/"
-        "/a/b/c/d/"  "./d";
+        "/a/b/c/d/"  (os_adapt "./d");
       aux
         "/a/b/c/"
-        "/a/b/c/d/e/f/" "./d/e/f" ;
+        "/a/b/c/d/e/f/" (os_adapt "./d/e/f") ;
       aux
         "/a/b/c/d/"
         "/a/b/c/"  ".."  ;
       aux
         "/a/b/c/d/"
-        "/a/b/"  "../.."  ;
+        "/a/b/"  (os_adapt "../..")  ;
       aux
         "/a/b/c/d/"
-        "/a/"  "../../.."  ;
+        "/a/"  (os_adapt "../../.." ) ;
       aux
         "/a/b/c/d/"
-        "//"  "../../../.."  ;
+        "//"  (os_adapt"../../../..")  ;
 
     end;
     (* This is still correct just not optimal depends
@@ -94,33 +98,33 @@ let suites =
     __LOC__ >:: begin fun _ ->
       Ext_path.rel_normalized_absolute_path
         ~from:"/a/b/c/d"
-        "/x/y" =~ "../../../../x/y";
+        "/x/y" =~ (os_adapt "../../../../x/y");
 
       Ext_path.rel_normalized_absolute_path
              ~from:"/a/b/c/d/e/./src/bindings/Navigation"
-             "/a/b/c/d/e" =~ "../../..";
+             "/a/b/c/d/e" =~ (os_adapt "../../..");
 
       Ext_path.rel_normalized_absolute_path
         ~from:"/a/b/c/./d" "/a/b/c" =~ ".." ;
 
       Ext_path.rel_normalized_absolute_path
-        ~from:"/a/b/c/./src" "/a/b/d/./src" =~ "../../d/src" ;
+        ~from:"/a/b/c/./src" "/a/b/d/./src" =~ (os_adapt "../../d/src") ;
     end;
 
     (* used in module system: [es6-global] and [amdjs-global] *)
     __LOC__ >:: begin fun _ ->
       Ext_path.rel_normalized_absolute_path
         ~from:"/usr/local/lib/node_modules/"
-        "//" =~ "../../../..";
+        "//" =~ (os_adapt "../../../..");
       Ext_path.rel_normalized_absolute_path
         ~from:"/usr/local/lib/node_modules/"
-        "/" =~ "../../../..";
+        "/" =~ (os_adapt "../../../..");
       Ext_path.rel_normalized_absolute_path
         ~from:"./"
-        "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js";
+        "./node_modules/xx/./xx.js" =~ (os_adapt "./node_modules/xx/xx.js");
       Ext_path.rel_normalized_absolute_path
         ~from:"././"
-        "./node_modules/xx/./xx.js" =~ "./node_modules/xx/xx.js"
+        "./node_modules/xx/./xx.js" =~ (os_adapt "./node_modules/xx/xx.js")
     end;
 
      __LOC__ >:: begin fun _ ->
