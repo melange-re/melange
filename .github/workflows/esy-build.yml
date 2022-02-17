@@ -32,5 +32,4 @@ jobs:
           cache-key: ${{ hashFiles('esy.lock/index.json') }}
 
       - name: Run tests.
-        if: ${{ matrix.system != 'windows' }}
         run: esy test
