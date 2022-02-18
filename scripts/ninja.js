@@ -29,47 +29,6 @@ var runtimeTarget = pseudoTarget("runtime");
 var othersTarget = pseudoTarget("others");
 var stdlibTarget = pseudoTarget("stdlib");
 
-var vendorNinjaPath = path.join(__dirname, "..", process.platform, "ninja.exe");
-
-exports.vendorNinjaPath = vendorNinjaPath;
-/**
- * By default we use vendored,
- * we produce two ninja files which won't overlap
- * one is build.ninja which use  vendored config
- * the other is env.ninja which use binaries from environment
- *
- * In dev mode, files generated for vendor config
- *
- * build.ninja
- * compiler.ninja
- * snapshot.ninja
- * runtime/build.ninja
- * others/build.ninja
- * $stdlib/build.ninja
- * test/build.ninja
- *
- * files generated for env config
- *
- * env.ninja
- * compilerEnv.ninja (no snapshot since env can not provide snapshot)
- * runtime/env.ninja
- * others/env.ninja
- * $stdlib/env.ninja
- * test/env.ninja
- *
- * In release mode:
- *
- * release.ninja
- * runtime/release.ninja
- * others/release.ninja
- * $stdlib/release.ninja
- *
- * Like that our snapshot is so robust that
- * we don't do snapshot in CI, we don't
- * need do test build in CI either
- *
- */
-
 /**
  * Note this file is not used in ninja file
  * It is used to generate ninja file
@@ -84,36 +43,6 @@ var getBsc = () => {
   // TODO(anmonteiro): fix for CI
   return "./_build/default/jscomp/main/js_main.exe";
 }
-
-/**
- * @type {string}
- */
-var versionString = undefined;
-
-var getVersionString = () => {
-  if (versionString === undefined) {
-    var searcher = "version";
-    try {
-      var output = cp.execSync(`${getOcamldepFile()} -version`, {
-        encoding: "ascii",
-      });
-      versionString = output
-        .substring(output.indexOf(searcher) + searcher.length)
-        .trim();
-    } catch (err) {
-      //
-      console.error(`This error  probably came from that you don't have our vendored ocaml installed
-      If this is the first time you clone the repo
-      try this
-      git submodule init && git submodule update
-      node ./scripts/buildocaml.js
-      `);
-      console.error(err.message);
-      process.exit(err.status);
-    }
-  }
-  return versionString;
-};
 
 function ruleCC(flags, src, target, deps = [], promoteExts) {
   var promoteTarget = promoteExts != null
@@ -157,10 +86,6 @@ ${promoteTarget ? `
 `;
 }
 
-/**
- * Fixed since it is already vendored
- */
-var cppoMonoFile = `../vendor/cppo/cppo_bin.ml`;
 /**
  *
  * @param {string} name
@@ -287,6 +212,7 @@ function uncapitalize(s) {
   }
   return s[0].toLowerCase() + s.slice(1);
 }
+
 /**
  *
  * @param {string} target
@@ -332,6 +258,7 @@ function updateDepsKVsByModule(target, modules, depsMap) {
     }
   }
 }
+
 /**
  *
  * @param {string[]}sources
@@ -358,131 +285,12 @@ function createDepsMapWithTargets(sources) {
   return depsMap;
 }
 
-/**
- *
- * @param {Target} file
- * @param {string} cwd
- */
-function targetToString(file, cwd) {
-  switch (file.kind) {
-    case "file":
-      return path.join(cwd, file.name);
-    case "pseudo":
-      return file.name;
-    default:
-      throw Error;
-  }
-}
-/**
- *
- * @param {Targets} files
- * @param {string} cwd
- *
- * @returns {string} return a string separated with whitespace
- */
-function targetsToString(files, cwd) {
-  return files.map((x) => targetToString(x, cwd)).join(" ");
-}
-/**
- *
- * @param {Targets} outputs
- * @param {Targets} inputs
- * @param {Targets} deps
- * @param {Override[]} overrides
- * @param {string} rule
- * @param {string} cwd
- * @return {string}
- */
-function ninjaBuild(outputs, inputs, rule, deps, cwd, overrides) {
-  var fileOutputs = targetsToString(outputs, cwd);
-  var fileInputs = targetsToString(inputs, cwd);
-  var stmt = `o ${fileOutputs} : ${rule} ${fileInputs}`;
-  // deps.push(pseudoTarget('../lib/bsc'))
-  if (deps.length > 0) {
-    var fileDeps = targetsToString(deps, cwd);
-    stmt += ` | ${fileDeps}`;
-  }
-  if (overrides.length > 0) {
-    stmt +=
-      `\n` +
-      overrides
-        .map((x) => {
-          return `    ${x.key} = ${x.value}`;
-        })
-        .join("\n");
-  }
-  return stmt;
-}
-
-function dunePhony(outputs, inputs) {
+function duneAlias(outputs, inputs) {
   return `
     (alias
       (name ${outputs.name})
       (deps ${inputs.join(' ')}))
   `
-}
-
-/**
- *
- * @param {Target} outputs
- * @param {Targets} inputs
- * @param {string} cwd
- */
-function phony(outputs, inputs, cwd) {
-  return ninjaBuild([outputs], inputs, "phony", [], cwd, []);
-}
-
-/**
- *
- * @param {string | string[]} outputs
- * @param {string | string[]} inputs
- * @param {string | string[]} fileDeps
- * @param {string} rule
- * @param {string} cwd
- * @param {[string,string][]} overrides
- * @param {Target | Targets} extraDeps
- */
-function ninjaQuickBuild(
-  outputs,
-  inputs,
-  rule,
-  cwd,
-  overrides,
-  fileDeps,
-  extraDeps
-) {
-  var os = Array.isArray(outputs)
-    ? fileTargets(outputs)
-    : [fileTarget(outputs)];
-  var is = Array.isArray(inputs) ? fileTargets(inputs) : [fileTarget(inputs)];
-  var ds = Array.isArray(fileDeps)
-    ? fileTargets(fileDeps)
-    : [fileTarget(fileDeps)];
-  var dds = Array.isArray(extraDeps) ? extraDeps : [extraDeps];
-
-  return ninjaBuild(
-    os,
-    is,
-    rule,
-    ds.concat(dds),
-    cwd,
-    overrides.map((x) => {
-      return { key: x[0], value: x[1] };
-    })
-  );
-}
-
-/**
- * @typedef { (string | string []) } Strings
- * @typedef { [string,string]} KV
- * @typedef { [Strings, Strings,  string, string, KV[], Strings, (Target|Targets)] } BuildList
- * @param {BuildList[]} xs
- * @returns {string}
- */
-function ninjaQuickBuidList(xs) {
-  return xs
-    .map((x) => ninjaQuickBuild(x[0], x[1], x[2], x[3], x[4], x[5], x[6]))
-    .join("\n");
 }
 
 function ccRuleList(xs) {
@@ -514,22 +322,7 @@ function cppoList(xs) {
     })
     .join("");
 }
-/**
- *
- * @param {string} cwd
- * @param {string[]} xs
- * @returns {string}
- */
-function mllList(cwd, xs) {
-  return xs
-    .map((x) => {
-      var output = baseName(x) + ".ml";
-      return `
-      (ocamllex ${path.join(cwd, x)})
-      `
-    })
-    .join("\n");
-}
+
 /**
  *
  * @param {string} name
@@ -555,30 +348,6 @@ function pseudoTarget(name) {
  */
 function fileTargets(args) {
   return args.map((name) => fileTarget(name));
-}
-
-/**
- *
- * @param {string[]} outputs
- * @param {string[]} inputs
- * @param {DepsMap} depsMap
- * @param {Override[]} overrides
- * @param {Targets} extraDeps
- * @param {string} rule
- * @param {string} cwd
- */
-function buildStmt(outputs, inputs, rule, depsMap, cwd, overrides, extraDeps) {
-  var os = outputs.map(fileTarget);
-  var is = inputs.map(fileTarget);
-  var deps = new TargetSet();
-  for (var i = 0; i < outputs.length; ++i) {
-    var curDeps = depsMap.get(outputs[i]);
-    if (curDeps !== undefined) {
-      curDeps.forEach((x) => deps.add(x));
-    }
-  }
-  extraDeps.forEach((x) => deps.add(x));
-  return ninjaBuild(os, is, rule, deps.toSortedArray(), cwd, overrides);
 }
 
 function duneBuildStmt(outputs, inputs, rule, depsMap, flags, externalDeps = [], promoteExt) {
@@ -900,70 +669,6 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
   return build_stmts;
 }
 
-/**
- *
- * @param {DepsMap} depsMap
- * @param {Map<string,string>} allTargets
- * @param {string} cwd
- * @param {Targets} extraDeps
- * @return {string[]}
- */
-function generateNinja(depsMap, allTargets, cwd, extraDeps = []) {
-  /**
-   * @type {string[]}
-   */
-  var build_stmts = [];
-  allTargets.forEach((x, mod) => {
-    let output_cmj = mod + ".cmj";
-    let output_cmi = mod + ".cmi";
-    let input_ml = mod + ".ml";
-    let input_mli = mod + ".mli";
-    let input_re = mod + ".re";
-    let input_rei = mod + ".rei";
-    /**
-     * @type {Override[]}
-     */
-    var overrides = [];
-    if (mod.endsWith("Labels")) {
-      overrides.push({ key: "bsc_flags", value: "$bsc_flags -nolabels" });
-    }
-
-    /**
-     *
-     * @param {string[]} outputs
-     * @param {string[]} inputs
-     *
-     */
-    let mk = (outputs, inputs, rule = "cc") => {
-      return build_stmts.push(
-        buildStmt(outputs, inputs, rule, depsMap, cwd, overrides, extraDeps)
-      );
-    };
-    switch (x) {
-      case "HAS_BOTH":
-        mk([output_cmj], [input_ml], "cc_cmi");
-        mk([output_cmi], [input_mli]);
-        break;
-      case "HAS_BOTH_RE":
-        mk([output_cmj], [input_re], "cc_cmi");
-        mk([output_cmi], [input_rei], "cc");
-        break;
-      case "HAS_RE":
-        mk([output_cmi, output_cmj], [input_re], "cc");
-        break;
-      case "HAS_ML":
-        mk([output_cmi, output_cmj], [input_ml]);
-        break;
-      case "HAS_REI":
-        mk([output_cmi], [input_rei], "cc");
-      case "HAS_MLI":
-        mk([output_cmi], [input_mli]);
-        break;
-    }
-  });
-  return build_stmts;
-}
-
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
@@ -993,14 +698,18 @@ ${ccRuleList([
   var allTargets = collectTarget([...runtimeMliFiles, ...runtimeMlFiles]);
   var manualDeps = ["bs_stdlib_mini.cmi", "js.cmj", "js.cmi"];
   var allFileTargetsInRuntime = scanFileTargets(allTargets, manualDeps);
+  var overrides = {
+    curry: ['caml_array.cmi']
+  };
   allTargets.forEach((ext, mod) => {
+    moduleDeps = manualDeps.concat(overrides[mod] || [])
     switch (ext) {
       case "HAS_MLI":
       case "HAS_BOTH":
-        updateDepsKVsByFile(mod + ".cmi", manualDeps, depsMap);
+        updateDepsKVsByFile(mod + ".cmi", moduleDeps, depsMap);
         break;
       case "HAS_ML":
-        updateDepsKVsByFile(mod + ".cmj", manualDeps, depsMap);
+        updateDepsKVsByFile(mod + ".cmj", moduleDeps, depsMap);
         break;
     }
   });
@@ -1013,7 +722,7 @@ ${ccRuleList([
     ]);
     var stmts = generateDune(depsMap, allTargets, bsc_flags);
     stmts.push(
-      dunePhony(runtimeTarget, allFileTargetsInRuntime)
+      duneAlias(runtimeTarget, allFileTargetsInRuntime)
     );
     writeFileAscii(
       path.join(runtimeDir, ninjaOutput),
@@ -1027,14 +736,6 @@ ${ccRuleList([
 var dTypeString = "TYPE_STRING";
 
 var dTypeInt = "TYPE_INT";
-
-var dTypeFunctor = "TYPE_FUNCTOR";
-
-var dTypeLocalIdent = "TYPE_LOCAL_IDENT";
-
-var dTypeIdent = "TYPE_IDENT";
-
-var dTypePoly = "TYPE_POLY";
 
 var cppoRule = (src, target, flags = "") => `
 (rule
@@ -1155,7 +856,7 @@ ${ccRuleList([
     ocamlDepForBscAsync(othersFiles, othersDir, depsMap),
   ]);
   var jsOutput = generateDune(jsDepsMap, jsTargets, bsc_flags, externalDeps);
-  jsOutput.push(dunePhony(js_package, allJsTargets));
+  jsOutput.push(duneAlias(js_package, allJsTargets));
 
   // Note compiling belt.ml still try to read
   // belt_xx.cmi we need enforce the order to
@@ -1183,8 +884,7 @@ ${ccRuleList([
 
   var allOthersTarget = scanFileTargets(beltTargets, []);
   var beltOutput = generateDune(depsMap, beltTargets, bsc_flags, externalDeps);
-  beltOutput.push(dunePhony(othersTarget, allOthersTarget));
-  // ninjaBuild([`belt_HashSetString.ml`,])
+  beltOutput.push(duneAlias(othersTarget, allOthersTarget));
   writeFileAscii(
     path.join(othersDir, ninjaOutput),
     templateOthersRules +
@@ -1304,7 +1004,7 @@ async function stdlibNinja() {
     }
   });
   var output = generateDune(depsMap, targets, `${bsc_builtin_flags} -open Stdlib__no_aliases `, externalDeps);
-  output.push(dunePhony(stdlibTarget, allTargets));
+  output.push(duneAlias(stdlibTarget, allTargets));
 
   writeFileAscii(
     path.join(stdlibModulesDir, ninjaOutput),
@@ -1507,99 +1207,11 @@ function checkEffect() {
   console.log(effect);
 }
 
-/**
- *
- * @param {string[]} domain
- * @param {Map<string,Set<string>>} dependency_graph
- * @returns {string[]}
- */
-function sortFilesByDeps(domain, dependency_graph) {
-  /**
-   * @type{string[]}
-   */
-  var result = [];
-  var workList = new Set(domain);
-  /**
-   *
-   * @param {Set<string>} visiting
-   * @param {string[]} path
-   * @param {string} current
-   */
-  var visit = function (visiting, path, current) {
-    if (visiting.has(current)) {
-      throw new Error(`cycle: ${path.concat(current).join(" ")}`);
-    }
-    if (workList.has(current)) {
-      visiting.add(current);
-      var next = dependency_graph.get(current);
-      if (next !== undefined && next.size > 0) {
-        next.forEach((x) => {
-          visit(visiting, path.concat(current), x);
-        });
-      }
-      visiting.delete(current);
-      workList.delete(current);
-      result.push(current);
-    }
-  };
-  while (workList.size > 0) {
-    visit(new Set(), [], workList.values().next().value);
-  }
-  return result;
-}
-
 function genDuneFiles() {
   runtimeNinja();
   stdlibNinja();
   testNinja();
   othersNinja();
-}
-
-/**
- *
- * @param {string} dir
- */
-function readdirSync(dir) {
-  return fs.readdirSync(dir, "ascii");
-}
-
-/**
- *
- * @param {string} dir
- */
-function test(dir) {
-  return readdirSync(path.join(jscompDir, dir))
-    .filter((x) => {
-      return (
-        (x.endsWith(".ml") || x.endsWith(".mli")) &&
-        !(x.endsWith(".cppo.ml") || x.endsWith(".cppo.mli"))
-      );
-    })
-    .map((x) => path.join(dir, x));
-}
-
-/**
- *
- * @param {Set<string>} xs
- * @returns {string}
- */
-function setSortedToStringAsNativeDeps(xs) {
-  var arr = Array.from(xs).sort();
-  // it relies on we have -opaque, so that .cmx is dummy file
-  return arr.join(" ").replace(/\.cmx/g, ".cmi");
-}
-
-/**
- * @returns {string}
- */
-function getVendorConfigNinja() {
-  var prefix = `../native/${require("./buildocaml.js").getVersionPrefix()}/bin`;
-  return `
-ocamlopt = ${prefix}/ocamlopt.opt
-ocamllex = ${prefix}/ocamllex.opt
-ocamlmklib = ${prefix}/ocamlmklib
-ocaml = ${prefix}/ocaml
-`;
 }
 
 function main() {
@@ -1616,74 +1228,10 @@ function main() {
 
     var subcommand = process.argv[2];
     switch (subcommand) {
-      case "build":
-        try {
-          cp.execFileSync(vendorNinjaPath, {
-            encoding: "utf8",
-            cwd: jscompDir,
-            stdio: [0, 1, 2],
-          });
-          if (!isPlayground) {
-            cp.execFileSync(
-              path.join(__dirname, "..", "jscomp", "bin", "cmij.exe"),
-              {
-                encoding: "utf8",
-                cwd: jscompDir,
-                stdio: [0, 1, 2],
-              }
-            );
-          }
-          cp.execFileSync(vendorNinjaPath, ["-f", "snapshot.ninja"], {
-            encoding: "utf8",
-            cwd: jscompDir,
-            stdio: [0, 1, 2],
-          });
-        } catch (e) {
-          console.log(e.message);
-          console.log(`please run "./scripts/ninja.js config" first`);
-          process.exit(2);
-        }
-        cp.execSync(`node ${__filename} config`, {
-          cwd: __dirname,
-          stdio: [0, 1, 2],
-        });
-        break;
-      case "clean":
-        try {
-          cp.execFileSync(vendorNinjaPath, ["-t", "clean"], {
-            encoding: "utf8",
-            cwd: jscompDir,
-            stdio: [0, 1],
-          });
-        } catch (e) {}
-        cp.execSync(
-          `git clean -dfx jscomp ${process.platform} lib && rm -rf lib/js/*.js && rm -rf lib/es6/*.js`,
-          {
-            encoding: "utf8",
-            cwd: path.join(__dirname, ".."),
-            stdio: [0, 1, 2],
-          }
-        );
-        break;
       case "config":
         console.log(`config for the first time may take a while`);
         genDuneFiles();
 
-        break;
-      case "cleanbuild":
-        console.log(`run cleaning first`);
-        cp.execSync(`node ${__filename} clean`, {
-          cwd: __dirname,
-          stdio: [0, 1, 2],
-        });
-        cp.execSync(`node ${__filename} config`, {
-          cwd: __dirname,
-          stdio: [0, 1, 2],
-        });
-        cp.execSync(`node ${__filename} build`, {
-          cwd: __dirname,
-          stdio: [0, 1, 2],
-        });
         break;
       case "docs":
         console.log(`building docs`);
@@ -1692,22 +1240,12 @@ function main() {
       case "help":
         console.log(`supported subcommands:
 [exe] config
-[exe] build
-[exe] cleanbuild
 [exe] docs
 [exe] help
-[exe] clean
         `);
         break;
       default:
-        if (process.argv.length === emptyCount) {
-          genDuneFiles();
-        } else {
-          var dev = process.argv.includes("-dev");
-          var release = process.argv.includes("-release");
-          var all = process.argv.includes("-all");
-          genDuneFiles();
-        }
+        genDuneFiles();
         break;
     }
   }
