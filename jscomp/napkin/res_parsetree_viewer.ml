@@ -455,13 +455,13 @@ let shouldInlineRhsBinaryExpr rhs = match rhs.pexp_desc with
 
 let filterPrinteableAttributes attrs =
   List.filter (fun attr -> match attr with
-    | ({Location.txt="bs" | "ns.ternary" | "ns.iflet"}, _) -> false
+    | ({Location.txt="bs" | "ns.ternary" | "ns.iflet" | "JSX"}, _) -> false
     | _ -> true
   ) attrs
 
 let partitionPrinteableAttributes attrs =
   List.partition (fun attr -> match attr with
-    | ({Location.txt="bs" | "ns.ternary" | "ns.iflet"}, _) -> false
+    | ({Location.txt="bs" | "ns.ternary" | "ns.iflet" | "JSX"}, _) -> false
     | _ -> true
   ) attrs
 
@@ -502,11 +502,6 @@ let modExprFunctor modExpr =
     (List.rev acc, returnModExpr)
   in
   loop [] modExpr
-
-let splitGenTypeAttr attrs =
-  match attrs with
-  | ({Location.txt = "genType"}, PStr [])::attrs -> (true, attrs)
-  | attrs -> (false, attrs)
 
 let rec collectPatternsFromListConstruct acc pattern =
   let open Parsetree in
@@ -575,4 +570,9 @@ let isUnderscoreApplySugar expr =
       {ppat_desc = Ppat_var {txt="__x"}},
       {pexp_desc = Pexp_apply _}
     ) -> true
+  | _ -> false
+
+let isRewrittenUnderscoreApplySugar expr =
+  match expr.pexp_desc with
+  | Pexp_ident {txt = Longident.Lident "_"} -> true
   | _ -> false

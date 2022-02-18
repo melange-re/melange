@@ -53,7 +53,6 @@ type t =
   | Implementation
   | Attribute
   | TypeConstraint
-  | Primitive
   | AtomicTypExpr
   | ListExpr
   | JsFfiImport
@@ -111,7 +110,6 @@ let toString = function
   | Implementation -> "implementation"
   | Attribute -> "an attribute"
   | TypeConstraint -> "constraints on a type"
-  | Primitive -> "an external primitive"
   | AtomicTypExpr -> "a type"
   | ListExpr -> "an ocaml list expr"
   | PackageConstraint -> "a package constraint"
@@ -136,7 +134,7 @@ let isSignatureItemStart = function
   | _ -> false
 
 let isAtomicPatternStart = function
-  | Token.Int _ | String _ | Character _
+  | Token.Int _ | String _ | Character _ | Backtick
   | Lparen | Lbracket | Lbrace
   | Underscore
   | Lident _ | Uident _ | List
@@ -196,7 +194,7 @@ let isStructureItemStart = function
   | _ -> false
 
 let isPatternStart = function
-  | Token.Int _ | Float _ | String _ | Character _ | True | False | Minus | Plus
+  | Token.Int _ | Float _ | String _ | Character _ | Backtick | True | False | Minus | Plus
   | Lparen | Lbracket | Lbrace | List
   | Underscore
   | Lident _ | Uident _ | Hash
@@ -211,7 +209,7 @@ let isParameterStart = function
 
 (* TODO: overparse Uident ? *)
 let isStringFieldDeclStart = function
-  | Token.String _ | Lident _ | At -> true
+  | Token.String _ | Lident _ | At | DotDotDot -> true
   | _ -> false
 
 (* TODO: overparse Uident ? *)
@@ -335,7 +333,6 @@ let isListElement grammar token =
   | TypeConstraint -> token = Constraint
   | PackageConstraint -> token = And
   | ConstructorDeclaration -> token = Bar
-  | Primitive -> begin match token with Token.String _ -> true | _ -> false end
   | JsxAttribute -> isJsxAttributeStart token
   | JsFfiImport -> isJsFfiImportStart token
   | AttributePayload -> token = Lparen
@@ -363,8 +360,6 @@ let isListTerminator grammar token =
   | TypeConstraint, token when token <> Constraint -> true
   | PackageConstraint, token when token <> And -> true
   | ConstructorDeclaration, token when token <> Bar -> true
-  | Primitive, Semicolon -> true
-  | Primitive, token when isStructureItemStart token -> true
   | AttributePayload, Rparen -> true
 
   | _ -> false

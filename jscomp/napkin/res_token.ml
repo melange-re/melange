@@ -44,7 +44,7 @@ type t =
   | Lazy
   | Tilde
   | Question
-  | If | Else | For | In | To | Downto | While | Switch
+  | If | Else | For | In | While | Switch
   | When
   | EqualGreater | MinusGreater
   | External
@@ -55,7 +55,6 @@ type t =
   | Include
   | Module
   | Of
-  | With
   | Land | Lor
   | Band (* Bitwise and: & *)
   | BangEqual | BangEqualEqual
@@ -131,8 +130,6 @@ let toString = function
   | Else -> "else"
   | For -> "for"
   | In -> "in"
-  | To -> "to"
-  | Downto -> "downto"
   | While -> "while"
   | Switch -> "switch"
   | When -> "when"
@@ -145,7 +142,6 @@ let toString = function
   | Include -> "include"
   | Module -> "module"
   | Of -> "of"
-  | With -> "with"
   | Lor -> "||"
   | Band -> "&" | Land -> "&&"
   | BangEqual -> "!=" | BangEqualEqual -> "!=="
@@ -164,48 +160,43 @@ let toString = function
   | Export -> "export"
 
 let keywordTable = function
-| "true" -> True
-| "false" -> False
-| "open" -> Open
-| "let" -> Let
-| "rec" -> Rec
 | "and" -> And
 | "as" -> As
-| "exception" -> Exception
 | "assert" -> Assert
-| "lazy" -> Lazy
-| "if" -> If
-| "else" -> Else
-| "for" -> For
-| "in" -> In
-| "to" -> To
-| "downto" -> Downto
-| "while" -> While
-| "switch" -> Switch
-| "when" -> When
-| "external" -> External
-| "type" -> Typ
-| "private" -> Private
-| "mutable" -> Mutable
 | "constraint" -> Constraint
-| "include" -> Include
-| "module" -> Module
-| "of" -> Of
-| "list{" -> List
-| "with" -> With
-| "try" -> Try
-| "import" -> Import
+| "else" -> Else
+| "exception" -> Exception
 | "export" -> Export
+| "external" -> External
+| "false" -> False
+| "for" -> For
+| "if" -> If
+| "import" -> Import
+| "in" -> In
+| "include" -> Include
+| "lazy" -> Lazy
+| "let" -> Let
+| "list{" -> List
+| "module" -> Module
+| "mutable" -> Mutable
+| "of" -> Of
+| "open" -> Open
+| "private" -> Private
+| "rec" -> Rec
+| "switch" -> Switch
+| "true" -> True
+| "try" -> Try
+| "type" -> Typ
+| "when" -> When
+| "while" -> While
 | _ -> raise Not_found
 [@@raises Not_found]
 
 let isKeyword = function
-  | True | False | Open | Let | Rec | And | As
-  | Exception | Assert | Lazy | If | Else | For | In | To
-  | Downto | While | Switch | When | External | Typ | Private
-  | Mutable | Constraint | Include | Module | Of
-  | Land | Lor | List | With
-  | Try | Import | Export -> true
+  | And | As | Assert | Constraint | Else | Exception | Export
+  | External | False | For | If | Import | In | Include | Land | Lazy
+  | Let | List | Lor | Module | Mutable | Of | Open | Private | Rec
+  | Switch | True | Try | Typ | When | While -> true
   | _ -> false
 
 let lookupKeyword str =

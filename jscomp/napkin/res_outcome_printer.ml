@@ -12,6 +12,28 @@ open Ast_406
 module Doc = Res_doc
 module Token = Res_token
 
+let rec unsafe_for_all_range s ~start ~finish p =
+  start > finish ||
+  p (String.unsafe_get s start) &&
+  unsafe_for_all_range s ~start:(start + 1) ~finish p
+
+let for_all_from s start  p =
+  let len = String.length s in
+  unsafe_for_all_range s ~start ~finish:(len - 1) p
+
+(* See https://github.com/rescript-lang/rescript-compiler/blob/726cfa534314b586e5b5734471bc2023ad99ebd9/jscomp/ext/ext_string.ml#L510 *)
+let isValidNumericPolyvarNumber (x : string) =
+  let len = String.length x in
+  len > 0 && (
+    let a = Char.code (String.unsafe_get x 0) in
+    a <= 57 &&
+    (if len > 1 then
+       a > 48 &&
+       for_all_from x 1 (function '0' .. '9' -> true | _ -> false)
+     else
+       a >= 48 )
+  )
+
 (* checks if ident contains "arity", like in "arity1", "arity2", "arity3" etc. *)
 let isArityIdent ident =
   if String.length ident >= 6 then
@@ -59,13 +81,17 @@ let printIdentLike ~allowUident txt =
   | NormalIdent -> Doc.text txt
 
 let printPolyVarIdent txt =
-  match classifyIdentContent ~allowUident:true txt with
-  | ExoticIdent -> Doc.concat [
-     Doc.text "\"";
-     Doc.text txt;
-     Doc.text"\""
-   ]
-  | NormalIdent -> Doc.text txt
+  (* numeric poly-vars don't need quotes: #644 *)
+  if isValidNumericPolyvarNumber txt then
+    Doc.text txt
+  else
+    match classifyIdentContent ~allowUident:true txt with
+    | ExoticIdent -> Doc.concat [
+       Doc.text "\"";
+       Doc.text txt;
+       Doc.text"\""
+     ]
+    | NormalIdent -> Doc.text txt
 
   (* ReScript doesn't have parenthesized identifiers.
    * We don't support custom operators. *)
@@ -319,20 +345,54 @@ let printPolyVarIdent txt =
        )
      | Otyp_arrow _ as typ ->
        printOutArrowType ~uncurried:false typ
-     | Otyp_module (_modName, _stringList, _outTypes) ->
-         Doc.nil
+     | Otyp_module (modName, stringList, outTypes) ->
+      let packageTypeDoc = match (stringList, outTypes) with
+      | [], [] -> Doc.nil
+      | labels, types ->
+        let i = ref 0 in
+        let package = Doc.join ~sep:Doc.line ((List.map2 [@doesNotRaise]) (fun lbl typ ->
+          Doc.concat [
+            Doc.text (if i.contents > 0 then "and " else "with ");
+            Doc.text lbl;
+            Doc.text " = ";
+            printOutTypeDoc typ;
+          ]
+        ) labels types)
+        in
+        Doc.indent (
+          Doc.concat [
+            Doc.line;
+            package
+          ]
+        )
+      in
+       Doc.concat [
+         Doc.text "module";
+         Doc.lparen;
+         Doc.text modName;
+         packageTypeDoc;
+         Doc.rparen;
+       ]
 
    and printOutArrowType ~uncurried typ =
      let (typArgs, typ) = collectArrowArgs typ [] in
      let args = Doc.join ~sep:(Doc.concat [Doc.comma; Doc.line]) (
        List.map (fun (lbl, typ) ->
-         if lbl = "" then
+         let lblLen = String.length lbl in
+         if lblLen = 0 then
            printOutTypeDoc typ
          else
+           let (lbl, optionalIndicator) =
+             (* the ocaml compiler hardcodes the optional label inside the string of the label in printtyp.ml *)
+             match String.unsafe_get lbl 0 with
+             | '?' -> ((String.sub [@doesNotRaise]) lbl 1 (lblLen - 1) , Doc.text "=?")
+             | _ -> (lbl, Doc.nil)
+           in
            Doc.group (
              Doc.concat [
                Doc.text ("~" ^ lbl ^ ": ");
-               printOutTypeDoc typ
+               printOutTypeDoc typ;
+               optionalIndicator
              ]
            )
        ) typArgs
@@ -418,7 +478,7 @@ let printPolyVarIdent txt =
    and printObjectFields fields rest =
      let dots = match rest with
      | Some non_gen -> Doc.text ((if non_gen then "_" else "") ^ "..")
-     | None -> Doc.nil
+     | None -> if fields = [] then Doc.dot else Doc.nil
      in
      Doc.group (
        Doc.concat [
@@ -437,8 +497,8 @@ let printPolyVarIdent txt =
              )
            ]
          );
-         Doc.softLine;
          Doc.trailingComma;
+         Doc.softLine;
          Doc.rbrace;
        ]
      )
@@ -574,7 +634,10 @@ let printPolyVarIdent txt =
                  Doc.text " =";
                  Doc.line;
                  Doc.group (
-                   Doc.join ~sep:Doc.line (List.map (fun prim -> Doc.text ("\"" ^ prim ^ "\"")) primitives)
+                   Doc.join ~sep:Doc.line (List.map (fun prim ->
+                       let prim = if prim <> "" && (prim.[0] [@doesNotRaise]) = '\132' then "#rescript-external" else prim in
+                       (* not display those garbage '\132' is a magic number for marshal *)
+                       Doc.text ("\"" ^ prim ^ "\"")) primitives)
                  )
                ]
              )
@@ -613,10 +676,10 @@ let printPolyVarIdent txt =
            match outRecStatus with
            | Orec_not -> "module "
            | Orec_first -> "module rec "
-           | Orec_next -> "and"
+           | Orec_next -> "and "
          );
          Doc.text modName;
-         Doc.text " = ";
+         Doc.text ": ";
          printOutModuleTypeDoc outModType;
        ]
      )
@@ -680,29 +743,22 @@ let printPolyVarIdent txt =
      let constraints =  match outTypeDecl.otype_cstrs with
      | [] -> Doc.nil
      | _ -> Doc.group (
-       Doc.concat [
-         Doc.line;
-         Doc.indent (
-           Doc.concat [
-             Doc.hardLine;
-             Doc.join ~sep:Doc.line (List.map (fun (typ1, typ2) ->
-               Doc.group (
-                 Doc.concat [
-                   Doc.text "constraint ";
-                   printOutTypeDoc typ1;
-                   Doc.text " =";
-                   Doc.indent (
-                     Doc.concat [
-                       Doc.line;
-                       printOutTypeDoc typ2;
-                     ]
-                   )
-                 ]
-               )
-             ) outTypeDecl.otype_cstrs)
-           ]
-         )
-       ]
+       Doc.indent (
+         Doc.concat [
+           Doc.hardLine;
+           Doc.join ~sep:Doc.line (List.map (fun (typ1, typ2) ->
+             Doc.group (
+               Doc.concat [
+                 Doc.text "constraint ";
+                 printOutTypeDoc typ1;
+                 Doc.text " =";
+                     Doc.space;
+                     printOutTypeDoc typ2;
+               ]
+             )
+           ) outTypeDecl.otype_cstrs)
+         ]
+       )
      ) in
      Doc.group (
        Doc.concat [
@@ -1156,7 +1212,3 @@ let wrap f g fmt x = g fmt (f x)
     Oprint.out_type_extension := wrap copy_out_type_extension printOutTypeExtension;
     Oprint.out_phrase := wrap copy_out_phrase printOutPhrase
   end
-
-
-
-
