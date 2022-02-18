@@ -1,7 +1,5 @@
-
-
-(* no mli file emitted, since mli is not very meaningful 
-   except which identifiers are exposed 
+(* no mli file emitted, since mli is not very meaningful
+   except which identifiers are exposed
    exported functions:
 
    - [ app f args]
@@ -10,7 +8,8 @@
       called when apply a curried function with [n] argument
    - [ __1 o] .. [ __n o]
 *)
-let prelude ={|
+let prelude =
+  {|
 (* Copyright (C) 2015 -  Hongbo Zhang, Authors of ReScript
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -57,58 +56,44 @@ let rec app f args =
   
 |}
 
-let list_init n  fn = Array.to_list (Array.init n fn)
-    
-let generate_case
-    ?arity
-    ~args_number args_array args =
+let list_init n fn = Array.to_list (Array.init n fn)
+
+let generate_case ?arity ~args_number args_array args =
   match arity with
   | None ->
-    Printf.sprintf " _ -> Obj.magic (app o [|%s|])"
-      (String.concat ";"args)      
-  | Some arity ->     
-    Printf.sprintf " %d -> %s" arity
-      (if arity >= args_number then
-         Printf.sprintf "apply%d (Obj.magic o) %s"
-           arity (String.concat " " args)
-       else
-         Printf.sprintf
-           "app (apply%d (Obj.magic o) %s) [|%s|]"
-           arity
-           (String.concat " "(Array.to_list (Array.sub args_array 0 arity)))          
-           (String.concat ";"
-              (Array.to_list (Array.sub args_array arity (args_number - arity)))))
-
-
+      Printf.sprintf " _ -> Obj.magic (app o [|%s|])" (String.concat ";" args)
+  | Some arity ->
+      Printf.sprintf " %d -> %s" arity
+        (if arity >= args_number then
+         Printf.sprintf "apply%d (Obj.magic o) %s" arity
+           (String.concat " " args)
+        else
+          Printf.sprintf "app (apply%d (Obj.magic o) %s) [|%s|]" arity
+            (String.concat " " (Array.to_list (Array.sub args_array 0 arity)))
+            (String.concat ";"
+               (Array.to_list
+                  (Array.sub args_array arity (args_number - arity)))))
 
 let number = 8
 
 let generate_apply arity =
-  let vars =
-    list_init (arity + 1)
-      (fun i -> Printf.sprintf "'a%d" i) in
+  let vars = list_init (arity + 1) (fun i -> Printf.sprintf "'a%d" i) in
   let ty =
     match vars with
     | [] -> assert false
-    | x::xs
-      ->       
-      List.fold_left
-        (fun acc x -> acc ^ " -> " ^ x )
-        x xs in         
+    | x :: xs -> List.fold_left (fun acc x -> acc ^ " -> " ^ x) x xs
+  in
   Printf.sprintf
-    "(* Internal use *)\n\
-    external apply%d : (%s) -> %s = \"#apply%d\""
-    arity ty ty arity
-    
-
+    "(* Internal use *)\nexternal apply%d : (%s) -> %s = \"#apply%d\"" arity ty
+    ty arity
 
 let generate_fun args_number =
-  let args_array =
-    Array.init args_number (fun i -> Printf.sprintf "a%d" i) in
-  let args =  Array.to_list args_array in
-  let args_string =  (String.concat " " args) in
+  let args_array = Array.init args_number (fun i -> Printf.sprintf "a%d" i) in
+  let args = Array.to_list args_array in
+  let args_string = String.concat " " args in
 
-  Printf.sprintf {|
+  Printf.sprintf
+    {|
 
 let %%private curry_%d o %s arity =
   match arity with
@@ -126,41 +111,19 @@ let __%d o =
   if arity = %d then o
   else fun %s -> _%d o %s
 |}
-    args_number
-    args_string
+    args_number args_string
     (String.concat "\n  |"
+       (list_init (number - 1) (fun arity ->
+            generate_case ~arity:(arity + 1) ~args_number args_array args)
+       @ [ generate_case ~args_number args_array args ]))
+    args_number args_string args_number args_number args_string args_number
+    args_string args_number args_number args_string args_number args_string
 
-       (list_init (number - 1) 
-          (fun arity -> generate_case ~arity:(arity + 1) ~args_number args_array args)
-        @ [ generate_case ~args_number args_array args]          
-       )
-    )
-
-    args_number
-    args_string
-    args_number
-    args_number
-    args_string
-    args_number
-    args_string
-    
-
-    args_number
-    args_number
-    args_string
-    args_number
-    args_string
-    
 let () =
   print_endline
-  @@ Printf.sprintf
-    "%s\n%s\n%s"
-    prelude
-    (String.concat "\n"
-       (list_init number (fun i -> generate_apply (i + 1)))       
-    )    
-    (String.concat "\n"
-       (list_init 8 (fun i -> generate_fun (i + 1))))
+  @@ Printf.sprintf "%s\n%s\n%s" prelude
+       (String.concat "\n" (list_init number (fun i -> generate_apply (i + 1))))
+       (String.concat "\n" (list_init 8 (fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml curry_gen.ml > ../jscomp/runtime/curry.ml" *)
