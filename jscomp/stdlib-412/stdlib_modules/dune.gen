@@ -10,7 +10,7 @@
 
   (rule
     (targets camlinternalFormatBasics.cmj )
-    (deps (:inputs camlinternalFormatBasics.ml) (alias ../../others/others) camlinternalFormatBasics.cmi)
+    (deps (:inputs camlinternalFormatBasics.ml) camlinternalFormatBasics.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
@@ -26,7 +26,7 @@
 
   (rule
     (targets camlinternalAtomic.cmj )
-    (deps (:inputs camlinternalAtomic.ml) (alias ../../others/others) camlinternalAtomic.cmi)
+    (deps (:inputs camlinternalAtomic.ml) camlinternalAtomic.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
@@ -42,7 +42,7 @@
 
   (rule
     (targets stdlib__no_aliases.cmj )
-    (deps (:inputs stdlib__no_aliases.ml) stdlib__no_aliases.cmi)
+    (deps (:inputs stdlib__no_aliases.ml) stdlib__no_aliases.cmi camlinternalFormatBasics.cmj camlinternalAtomic.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))

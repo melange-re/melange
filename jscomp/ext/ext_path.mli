@@ -24,7 +24,7 @@
 
 type t
 
-
+val simple_convert_node_path_to_os_path : string -> string
 (** Js_output is node style, which means
     separator is only '/'
 
@@ -32,22 +32,17 @@ type t
     [node_relative_path] will discard its prefix and
     just treat it as a library instead
 *)
-val simple_convert_node_path_to_os_path : string -> string
 
-val split_by_sep_per_os: string -> string list
+val split_by_sep_per_os : string -> string list
 
+val combine : string -> string -> string
 (**
    [combine path1 path2]
    1. add some simplifications when concatenating
    2. when [path2] is absolute, return [path2]
 *)
-val combine :
-  string ->
-  string ->
-  string
 
-val (//) : string -> string -> string
-
+val ( // ) : string -> string -> string
 
 (**
    {[
@@ -56,16 +51,9 @@ val (//) : string -> string -> string
    ]}
 *)
 
+val node_rebase_file : from:string -> to_:string -> string -> string
 
-
-
-
-val node_rebase_file :
-  from:string ->
-  to_:string ->
-  string ->
-  string
-
+val rel_normalized_absolute_path : from:string -> string -> string
 (**
    TODO: could be highly optimized
    if [from] and [to] resolve to the same path, a zero-length string is returned
@@ -78,27 +66,18 @@ val node_rebase_file :
        (Filename.basename a)
    ]}
 *)
-val rel_normalized_absolute_path : from:string -> string -> string
-
 
 val normalize_absolute_path : string -> string
-
-
 val absolute_cwd_path : string -> string
 
+val concat : string -> string -> string
 (** [concat dirname filename]
     The same as {!Filename.concat} except a tiny optimization
     for current directory simplification
 *)
-val concat : string -> string -> string
 
-val check_suffix_case :
-  string -> string -> bool
-
-
+val check_suffix_case : string -> string -> bool
 
 (* It is lazy so that it will not hit errors when in script mode *)
 val package_dir : string Lazy.t
-
 val real_path : string -> string
-

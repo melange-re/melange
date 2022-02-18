@@ -22,7 +22,5 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 val separator : string
-
 val normalize_argv : string array -> string array
-
 val split_argv_at_separator : string array -> string array * string array

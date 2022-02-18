@@ -22,9 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
 val handle_files_per_dir :
   Buffer.t ->
   global_config:Bsb_ninja_global_vars.t ->
@@ -35,4 +32,5 @@ val handle_files_per_dir :
   files_to_install:Bsb_db.module_info Queue.t ->
   bs_dependencies:string list ->
   bs_dev_dependencies:string list ->
-  Bsb_file_groups.file_group -> unit
+  Bsb_file_groups.file_group ->
+  unit

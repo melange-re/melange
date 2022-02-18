@@ -22,38 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
 (** Extension to standard library [Pervavives] module, safe to open
   *)
 
-external reraise: exn -> 'a = "%reraise"
-
-val finally :
-  'a ->
-  clean:('a -> unit) ->
-  ('a -> 'b) -> 'b
+external reraise : exn -> 'a = "%reraise"
+val finally : 'a -> clean:('a -> unit) -> ('a -> 'b) -> 'b
 
 (* val try_it : (unit -> 'a) ->  unit  *)
 
 val with_file_as_chan : string -> (out_channel -> 'a) -> 'a
-
-
-
-
-
-
-
-
-
-
-
-
 
 (* external id : 'a -> 'a = "%identity" *)
 
@@ -65,8 +42,4 @@ val with_file_as_chan : string -> (out_channel -> 'a) -> 'a
 (* val todo : string -> 'a *)
 
 val nat_of_string_exn : string -> int
-
-val parse_nat_of_string:
-  string ->
-  int ref ->
-  int
+val parse_nat_of_string : string -> int ref -> int

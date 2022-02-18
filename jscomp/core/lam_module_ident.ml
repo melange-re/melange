@@ -22,44 +22,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
-
-type t = J.module_id =
-  { id : Ident.t ; kind : Js_op.kind }
-
-
+type t = J.module_id = { id : Ident.t; kind : Js_op.kind }
 
 let id x = x.id
+let of_ml id = { id; kind = Ml }
+let of_runtime id = { id; kind = Runtime }
 
-let of_ml id = { id ; kind =  Ml}
-
-
-let of_runtime id = { id ; kind = Runtime }
-
-let name  (x : t) : string  =
-  match x.kind  with
-  | Ml  | Runtime ->  Ident.name x.id
-  | External {name = v} -> v
+let name (x : t) : string =
+  match x.kind with
+  | Ml | Runtime -> Ident.name x.id
+  | External { name = v } -> v
 
 module Cmp = struct
   [@@@warning "+9"]
+
   type nonrec t = t
+
   let equal (x : t) y =
     match x.kind with
-    | External {name = x_kind; default = x_default}->
-      begin match y.kind with
-        | External {name = y_kind; default = y_default} ->
-          x_kind = (y_kind : string) && x_default = y_default
-        | _ -> false
-      end
-    | Ml
-    | Runtime -> Ext_ident.equal x.id y.id
+    | External { name = x_kind; default = x_default } -> (
+        match y.kind with
+        | External { name = y_kind; default = y_default } ->
+            x_kind = (y_kind : string) && x_default = y_default
+        | _ -> false)
+    | Ml | Runtime -> Ext_ident.equal x.id y.id
+
   (* #1556
      Note the main difference between [Ml] and [Runtime] is
      that we have more assumptions about [Runtime] module,
@@ -75,17 +62,14 @@ module Cmp = struct
   *)
   let hash (x : t) =
     match x.kind with
-    | External {name = x_kind ; _} ->
-      (* The hash collision is rare? *)
-      Bs_hash_stubs.hash_string x_kind
-    | Ml
-    | Runtime ->
-      let x_id = x.id in
-      Bs_hash_stubs.hash_stamp_and_name (Ext_ident.stamp x_id) (Ident.name x_id)
+    | External { name = x_kind; _ } ->
+        (* The hash collision is rare? *)
+        Bs_hash_stubs.hash_string x_kind
+    | Ml | Runtime ->
+        let x_id = x.id in
+        Bs_hash_stubs.hash_stamp_and_name (Ext_ident.stamp x_id)
+          (Ident.name x_id)
 end
 
 module Hash = Hash.Make (Cmp)
-
 module Hash_set = Hash_set.Make (Cmp)
-
-

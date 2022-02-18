@@ -94,13 +94,11 @@ let implementation ~use_super_errors impl str : Js.Unsafe.obj =
           obj [| ("js_error_msg", inject @@ Js.string (Printexc.to_string e)) |]))
 
 let compile impl ~use_super_errors = implementation ~use_super_errors impl
-
 let export (field : string) v = Js.Unsafe.set Js.Unsafe.global field v
 
 (* To add a directory to the load path *)
 
 let dir_directory d = Config.load_path := d :: !Config.load_path
-
 let () = dir_directory "/static"
 
 let make_compiler name impl =

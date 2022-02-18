@@ -22,72 +22,54 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t =
- {
+type t = {
   db : Bsb_db.t;
   package_name : string;
-  per_proj_dir: string;
-  bsc: string;
-  bsdep: string;
-  bs_dep_parse: string;
-  warnings: string;
-  bsc_flags: string;
-  g_dpkg_incls: string list;
-  g_dev_incls: string list;
-  g_lib_incls: string list;
-  external_incls: string list;
-  g_sourcedirs_incls: string list;
-  gentypeconfig: string option;
-  pp_flags: string option;
-  ppx_config: Bsb_config_types.ppx_config;
-  namespace: string option
- }
+  per_proj_dir : string;
+  bsc : string;
+  bsdep : string;
+  bs_dep_parse : string;
+  warnings : string;
+  bsc_flags : string;
+  g_dpkg_incls : string list;
+  g_dev_incls : string list;
+  g_lib_incls : string list;
+  external_incls : string list;
+  g_sourcedirs_incls : string list;
+  gentypeconfig : string option;
+  pp_flags : string option;
+  ppx_config : Bsb_config_types.ppx_config;
+  namespace : string option;
+}
 
-let make
-  ~db
-  ~package_name
-  ~per_proj_dir
-  ~bsc
-  ~bsdep
-  ~bs_dep_parse
-  ~warnings
-  ~bsc_flags
-  ~g_dpkg_incls
-  ~g_dev_incls
-  ~g_lib_incls
-  ~external_incls
-  ~g_sourcedirs_incls
-  ~gentypeconfig
-  ~pp_flags
-  ~ppx_config
-  ~namespace =
- {
-  db;
-  package_name;
-  per_proj_dir;
-  bsc;
-  bsdep;
-  bs_dep_parse;
-  warnings;
-  bsc_flags;
-  g_dpkg_incls;
-  g_dev_incls;
-  g_lib_incls;
-  external_incls;
-  g_sourcedirs_incls;
-  gentypeconfig;
-  pp_flags;
-  ppx_config;
-  namespace;
- }
+let make ~db ~package_name ~per_proj_dir ~bsc ~bsdep ~bs_dep_parse ~warnings
+    ~bsc_flags ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~external_incls
+    ~g_sourcedirs_incls ~gentypeconfig ~pp_flags ~ppx_config ~namespace =
+  {
+    db;
+    package_name;
+    per_proj_dir;
+    bsc;
+    bsdep;
+    bs_dep_parse;
+    warnings;
+    bsc_flags;
+    g_dpkg_incls;
+    g_dev_incls;
+    g_lib_incls;
+    external_incls;
+    g_sourcedirs_incls;
+    gentypeconfig;
+    pp_flags;
+    ppx_config;
+    namespace;
+  }
 
 (* Invariant: the two string literal has
-  to be "a" and "$a"
+   to be "a" and "$a"
 *)
 
 (* let src_root_dir = "g_root"
 
-let lazy_src_root_dir = "$g_root"  *)
+   let lazy_src_root_dir = "$g_root" *)
 let g_finger = "g_finger"
-
-

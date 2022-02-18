@@ -22,16 +22,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
 exception Pp_error
 
 module ML : sig
   val parse_implementation : string -> Parsetree.structure
   val parse_interface : string -> Parsetree.signature
-  val parse_implementation_with_comments : string -> Parsetree.structure * Reason_comment.t list
-  val parse_interface_with_comments : string -> Parsetree.signature * Reason_comment.t list
-  val format_implementation_with_comments : Format.formatter -> comments:Reason_comment.t list -> Parsetree.structure -> unit
-  val format_interface_with_comments : Format.formatter -> comments:Reason_comment.t list -> Parsetree.signature -> unit
+
+  val parse_implementation_with_comments :
+    string -> Parsetree.structure * Reason_comment.t list
+
+  val parse_interface_with_comments :
+    string -> Parsetree.signature * Reason_comment.t list
+
+  val format_implementation_with_comments :
+    Format.formatter ->
+    comments:Reason_comment.t list ->
+    Parsetree.structure ->
+    unit
+
+  val format_interface_with_comments :
+    Format.formatter ->
+    comments:Reason_comment.t list ->
+    Parsetree.signature ->
+    unit
+
   val format_implementation : string -> string
   val format_interface : string -> string
 end
@@ -39,14 +53,27 @@ end
 module RE : sig
   val parse_implementation : string -> Parsetree.structure
   val parse_interface : string -> Parsetree.signature
-  val parse_implementation_with_comments : string -> Parsetree.structure * Reason_comment.t list
-  val parse_interface_with_comments : string -> Parsetree.signature * Reason_comment.t list
-  val format_implementation_with_comments : Format.formatter -> comments:Reason_comment.t list -> Parsetree.structure -> unit
-  val format_interface_with_comments : Format.formatter -> comments:Reason_comment.t list -> Parsetree.signature -> unit
+
+  val parse_implementation_with_comments :
+    string -> Parsetree.structure * Reason_comment.t list
+
+  val parse_interface_with_comments :
+    string -> Parsetree.signature * Reason_comment.t list
+
+  val format_implementation_with_comments :
+    Format.formatter ->
+    comments:Reason_comment.t list ->
+    Parsetree.structure ->
+    unit
+
+  val format_interface_with_comments :
+    Format.formatter ->
+    comments:Reason_comment.t list ->
+    Parsetree.signature ->
+    unit
+
   val format_implementation : string -> string
   val format_interface : string -> string
 end
 
-val clean:
-  string ->
-  unit
+val clean : string -> unit

@@ -22,23 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
-
-
 let jsop_of_comp (cmp : Lam_compat.integer_comparison) : Js_op.binop =
   match cmp with
   | Ceq -> EqEqEq (* comparison*)
   | Cne -> NotEqEq
   | Clt -> Lt
-  | Cgt  -> Gt
+  | Cgt -> Gt
   | Cle -> Le
-  | Cge  -> Ge
+  | Cge -> Ge
 
 let jsop_of_float_comp (cmp : Lam_compat.float_comparison) : Js_op.binop =
   match cmp with
@@ -53,26 +44,24 @@ let jsop_of_float_comp (cmp : Lam_compat.float_comparison) : Js_op.binop =
   | CFge -> Ge
   | CFnge -> Lt
 
-let comment_of_tag_info  (x : Lam_tag_info.t) =
+let comment_of_tag_info (x : Lam_tag_info.t) =
   match x with
-  | Blk_constructor {name = n} -> Some n
+  | Blk_constructor { name = n } -> Some n
   | Blk_tuple -> Some "tuple"
   | Blk_class -> Some "class"
-  | Blk_poly_var  -> None
+  | Blk_poly_var -> None
   | Blk_record _ -> None
-  | Blk_record_inlined {name = ctor} -> Some ctor
+  | Blk_record_inlined { name = ctor } -> Some ctor
   | Blk_record_ext _ -> None
   | Blk_array ->
-    (* so far only appears in {!Translclass}
-      and some constant immutable array block
-    *)
-    Some "array"
-  | Blk_module_export
-  | Blk_module _ ->
-     (* Turn it on next time to save some noise diff*)
-    None
-  | Blk_extension (* TODO: enhance it later *)
-    -> None
+      (* so far only appears in {!Translclass}
+         and some constant immutable array block
+      *)
+      Some "array"
+  | Blk_module_export | Blk_module _ ->
+      (* Turn it on next time to save some noise diff*)
+      None
+  | Blk_extension (* TODO: enhance it later *) -> None
   | Blk_na s -> if s = "" then None else Some s
 
 (* let module_alias = Some "alias"   *)
