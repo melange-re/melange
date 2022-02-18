@@ -7124,19 +7124,6 @@
 
 
   (rule
-    (targets record_regression.cmi record_regression.cmj record_regression.js)
-    (deps (:inputs record_regression.res) ../stdlib-412/stdlib.cmj)
-
-  (mode
-   (promote
-    (until-clean)
-    (only record_regression.js)))
-
-    (action
-     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others -I . %{inputs})))
-
-
-  (rule
     (targets record_with_test.cmi record_with_test.cmj record_with_test.js)
     (deps (:inputs record_with_test.ml) ../stdlib-412/stdlib.cmj mt.cmj)
 
@@ -7235,19 +7222,6 @@
    (promote
     (until-clean)
     (only relative_path.js)))
-
-    (action
-     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others -I . %{inputs})))
-
-
-  (rule
-    (targets res_debug.cmi res_debug.cmj res_debug.js)
-    (deps (:inputs res_debug.res) ../stdlib-412/stdlib.cmj)
-
-  (mode
-   (promote
-    (until-clean)
-    (only res_debug.js)))
 
     (action
      (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others -I . %{inputs})))

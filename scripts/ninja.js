@@ -1089,15 +1089,20 @@ async function testNinja() {
   var ninjaCwd = `test`;
   var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
+  var tempIgnoredFiles = new Set([
+    'res_debug.res',
+    'record_regression.res',
+  ]);
   var sources = testDirFiles.filter((x) => {
     return (
-      x.endsWith(".res") ||
-      x.endsWith(".resi") ||
-      x.endsWith(".re") ||
-      x.endsWith(".rei") ||
-      ((x.endsWith(".ml") || x.endsWith(".mli")) &&
-        x !== "es6_import.ml" &&
-        x !== "es6_export.ml")
+      !tempIgnoredFiles.has(x) &&
+      (x.endsWith(".res") ||
+        x.endsWith(".resi") ||
+        x.endsWith(".re") ||
+        x.endsWith(".rei") ||
+        ((x.endsWith(".ml") || x.endsWith(".mli")) &&
+          x !== "es6_import.ml" &&
+          x !== "es6_export.ml"))
     );
   });
 
