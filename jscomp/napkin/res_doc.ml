@@ -15,10 +15,10 @@ type t =
   | Text of string
   | Concat of t list
   | Indent of t
-  | IfBreaks of {yes: t; no: t; mutable broken: bool} (* when broken is true, treat as the yes branch *)
+  | IfBreaks of {yes: t; no: t}
   | LineSuffix of t
   | LineBreak of lineStyle
-  | Group of {mutable shouldBreak: bool; doc: t}
+  | Group of {shouldBreak: bool; doc: t}
   | CustomLayout of t list
   | BreakParent
 
@@ -43,7 +43,7 @@ let rec _concat acc l =
 let concat l = Concat(_concat [] l)
 
 let indent d = Indent d
-let ifBreaks t f = IfBreaks {yes = t; no = f; broken = false}
+let ifBreaks t f = IfBreaks {yes = t; no = f}
 let lineSuffix d = LineSuffix d
 let group d = Group {shouldBreak = false; doc = d}
 let breakableGroup ~forceBreak d = Group {shouldBreak = forceBreak; doc = d}
@@ -66,52 +66,55 @@ let rbracket = Text "]"
 let question = Text "?"
 let tilde = Text "~"
 let equal = Text "="
-let trailingComma = ifBreaks comma nil
+let trailingComma = IfBreaks {yes = comma; no = nil}
 let doubleQuote = Text "\""
 
 let propagateForcedBreaks doc =
   let rec walk doc = match doc with
   | Text _ | Nil | LineSuffix _ ->
-    false
+    (false, doc)
   | BreakParent ->
-    true
+    (true, Nil)
   | LineBreak (Hard | Literal) ->
-    true
+    (true, doc)
   | LineBreak (Classic | Soft) ->
-    false
+    (false, doc)
   | Indent children ->
-    let childForcesBreak = walk children in
-    childForcesBreak
-  | IfBreaks ({yes = trueDoc; no = falseDoc} as ib) ->
-    let falseForceBreak = walk falseDoc in
+    let (childForcesBreak, newChildren) = walk children in
+    (childForcesBreak, Indent newChildren)
+  | IfBreaks {yes = trueDoc; no = falseDoc} ->
+    let (falseForceBreak, falseDoc) = walk falseDoc in
     if falseForceBreak then
-      let _ = walk trueDoc in
-      ib.broken <- true;
-      true
+      let (_, trueDoc) = walk trueDoc in
+      (true, trueDoc)
     else
-      let forceBreak = walk trueDoc in
-      forceBreak
-  | Group ({shouldBreak = forceBreak; doc = children} as gr) ->
-    let childForcesBreak = walk children in
+      let forceBreak, trueDoc = walk trueDoc in
+      (forceBreak, IfBreaks {yes = trueDoc; no = falseDoc})
+  | Group {shouldBreak = forceBreak; doc = children} ->
+    let (childForcesBreak, newChildren) = walk children in
     let shouldBreak = forceBreak || childForcesBreak in
-    gr.shouldBreak <- shouldBreak;
-    shouldBreak
+    (shouldBreak, Group {shouldBreak; doc = newChildren})
   | Concat children ->
-    List.fold_left (fun forceBreak child ->
-      let childForcesBreak = walk child in
-      forceBreak || childForcesBreak
-    ) false children
+    let (forceBreak, newChildren) = List.fold_left (fun (forceBreak, newChildren) child ->
+      let (childForcesBreak, newChild) = walk child in
+      (forceBreak || childForcesBreak, newChild::newChildren)
+    ) (false, []) children
+    in
+    (forceBreak, Concat (List.rev newChildren))
   | CustomLayout children ->
     (* When using CustomLayout, we don't want to propagate forced breaks
      * from the children up. By definition it picks the first layout that fits
      * otherwise it takes the last of the list.
      * However we do want to propagate forced breaks in the sublayouts. They
      * might need to be broken. We just don't propagate them any higher here *)
-    let _ = walk (Concat children) in
-    false
+    let children = match walk (Concat children) with
+    | (_, Concat children) -> children
+    | _ -> assert false
+    in
+    (false, CustomLayout children)
   in
-  let _ = walk doc in
-  ()
+  let (_, processedDoc) = walk doc in
+  processedDoc
 
 (* See documentation in interface file *)
 let rec willBreak doc = match doc with
@@ -150,7 +153,6 @@ let fits w stack =
     | Break, LineBreak _ -> result := Some true
     | _, Group {shouldBreak = true; doc} -> calculate indent Break doc
     | _, Group {doc} -> calculate indent mode doc
-    | _, IfBreaks {yes = breakDoc; broken = true} -> calculate indent mode breakDoc
     | Break, IfBreaks {yes = breakDoc} -> calculate indent mode breakDoc
     | Flat, IfBreaks {no = flatDoc} -> calculate indent mode flatDoc
     | _, Concat docs -> calculateConcat indent mode docs
@@ -178,7 +180,7 @@ let fits w stack =
   calculateAll stack
 
 let toString ~width doc =
-  propagateForcedBreaks doc;
+  let doc = propagateForcedBreaks doc in
   let buffer = MiniBuffer.create 1000 in
 
   let rec process ~pos lineSuffices stack =
@@ -197,8 +199,6 @@ let toString ~width doc =
         process ~pos lineSuffices (List.append ops rest)
       | Indent doc ->
         process ~pos lineSuffices ((ind + 2, mode, doc)::rest)
-      | IfBreaks {yes = breakDoc; broken = true} ->
-        process ~pos lineSuffices ((ind, mode, breakDoc)::rest)
       | IfBreaks {yes = breakDoc; no = flatDoc} ->
         if mode = Break then
           process ~pos lineSuffices ((ind, mode, breakDoc)::rest)
@@ -309,7 +309,6 @@ let debug t =
           softLine;
           text ")";
         ]
-    | IfBreaks {yes = trueDoc; broken = true} -> toDoc trueDoc
     | IfBreaks {yes = trueDoc; no = falseDoc} ->
       group(
         concat [

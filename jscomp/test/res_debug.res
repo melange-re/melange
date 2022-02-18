@@ -37,14 +37,14 @@ type r = {
     z : int
 }
 
-// let v0 = { x :  3 , z : 2 }
+let v0 = { x :  3 , z : 2 }
 
 
 
 
-// let v2 = { ... v0 , x : 3 }
+let v2 = { ... v0 , x : 3 }
 
-// let v1 : r = { x : 3
-//   , z : 3
-// }
+let v1 : r = { x : 3
+  , z : 3
+}
 // failed to type check

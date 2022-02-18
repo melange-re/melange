@@ -104,6 +104,8 @@ val modExprFunctor : Parsetree.module_expr -> (
  Parsetree.module_expr
 )
 
+val splitGenTypeAttr : Parsetree.attributes -> (bool * Parsetree.attributes)
+
 val collectPatternsFromListConstruct:
  Parsetree.pattern list -> Parsetree.pattern ->
    (Parsetree.pattern list * Parsetree.pattern)
@@ -111,7 +113,6 @@ val collectPatternsFromListConstruct:
 val isBlockExpr : Parsetree.expression -> bool
 
 val isTemplateLiteral: Parsetree.expression -> bool
-val hasTemplateLiteralAttr: Parsetree.attributes -> bool
 
 val collectOrPatternChain:
  Parsetree.pattern -> Parsetree.pattern list
@@ -131,5 +132,3 @@ val rewriteUnderscoreApply: Parsetree.expression -> Parsetree.expression
 val isUnderscoreApplySugar: Parsetree.expression -> bool
 
 val hasIfLetAttribute: Parsetree.attributes -> bool
-
-val isRewrittenUnderscoreApplySugar: Parsetree.expression -> bool

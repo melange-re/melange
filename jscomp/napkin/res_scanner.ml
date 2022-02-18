@@ -98,12 +98,9 @@ let _printDebug ~startPos ~endPos scanner token =
 let next scanner =
   let nextOffset = scanner.offset + 1 in
   (match scanner.ch with
-  | '\n' ->
+  | '\n' | '\r' ->
     scanner.lineOffset <- nextOffset;
     scanner.lnum <- scanner.lnum + 1;
-    (* What about CRLF (\r + \n) on windows?
-     * \r\n will always be terminated by a \n
-     * -> we can just bump the line count on \n *)
   | _ -> ());
   if nextOffset < String.length scanner.src then (
     scanner.offset <- nextOffset;
@@ -319,9 +316,9 @@ let scanStringEscapeSequence ~startPos scanner =
           loop (n - 1) (x * base + d)
     in
     let x = loop n 0 in
-    if x > max || 0xD800 <= x && x < 0xE000 then
+    if x > max then
       let pos = position scanner in
-      let msg = "escape sequence is invalid unicode code point" in
+      let msg = "invalid escape sequence (value too high)" in
       scanner.err ~startPos ~endPos:pos (Diagnostics.message msg)
   in
   match scanner.ch with
@@ -339,24 +336,6 @@ let scanStringEscapeSequence ~startPos scanner =
     (* hex *)
     next scanner;
     scan ~n:2 ~base:16 ~max:255
-  | 'u' ->
-    next scanner;
-    (match scanner.ch with
-    | '{' ->
-      (* unicode code point escape sequence: '\u{7A}', one or more hex digits *)
-      next scanner;
-      let x = ref 0 in
-      while match scanner.ch with | '0'..'9' | 'a'..'f' | 'A'..'F' -> true | _ -> false do
-        x := (!x * 16) + (digitValue scanner.ch);
-        next scanner
-      done;
-      (* consume '}' in '\u{7A}' *)
-      (match scanner.ch with
-      | '}' -> next scanner
-      | _ -> ());
-    | _  ->
-      scan ~n:4 ~base:16 ~max:Res_utf8.max
-    )
   | _ ->
     (* unknown escape sequence
      * TODO: we should warn the user here. Let's not make it a hard error for now, for reason compat *)
@@ -371,18 +350,12 @@ let scanStringEscapeSequence ~startPos scanner =
     ()
 
 let scanString scanner =
-  (* assumption: we've just matched a quote *)
+  let offs = scanner.offset in
 
-  let startPosWithQuote = position scanner in
-  next scanner;
-  let firstCharOffset = scanner.offset in
-
+  let startPos = position scanner in
   let rec scan () =
     match scanner.ch with
-    | '"' ->
-      let lastCharOffset = scanner.offset in
-      next scanner;
-      (String.sub [@doesNotRaise]) scanner.src firstCharOffset (lastCharOffset - firstCharOffset)
+    | '"' -> next scanner
     | '\\' ->
       let startPos = position scanner in
       next scanner;
@@ -390,17 +363,15 @@ let scanString scanner =
       scan ()
     | ch when ch == hackyEOFChar ->
       let endPos = position scanner in
-      scanner.err ~startPos:startPosWithQuote ~endPos Diagnostics.unclosedString;
-      (String.sub [@doesNotRaise]) scanner.src firstCharOffset (scanner.offset - firstCharOffset)
+      scanner.err ~startPos ~endPos Diagnostics.unclosedString
     | _ ->
       next scanner;
       scan ()
   in
-  Token.String (scan ())
+  scan ();
+  Token.String ((String.sub [@doesNotRaise]) scanner.src offs (scanner.offset - offs - 1))
 
 let scanEscape scanner =
-  (* '\' consumed *)
-  let offset = scanner.offset - 1 in
   let convertNumber scanner ~n ~base =
     let x = ref 0 in
     for _ = n downto 1 do
@@ -408,13 +379,10 @@ let scanEscape scanner =
       x := (!x * base) + d;
       next scanner
     done;
-    let c = !x in
-    if Res_utf8.isValidCodePoint c then
-      Char.unsafe_chr c
-    else
-      Char.unsafe_chr Res_utf8.repl
+    (Char.chr [@doesNotRaise]) !x
   in
-  let codepoint = match scanner.ch with
+  (* let offset = scanner.offset in *)
+  let c = match scanner.ch with
   | '0'..'9' -> convertNumber scanner ~n:3 ~base:10
   | 'b' -> next scanner; '\008'
   | 'n' -> next scanner; '\010'
@@ -422,36 +390,11 @@ let scanEscape scanner =
   | 't' -> next scanner; '\009'
   | 'x' -> next scanner; convertNumber scanner ~n:2 ~base:16
   | 'o' -> next scanner; convertNumber scanner ~n:3 ~base:8
-  | 'u' ->
-    next scanner;
-    begin match scanner.ch with
-    | '{' ->
-      (* unicode code point escape sequence: '\u{7A}', one or more hex digits *)
-      next scanner;
-      let x = ref 0 in
-      while match scanner.ch with | '0'..'9' | 'a'..'f' | 'A'..'F' -> true | _ -> false do
-        x := (!x * 16) + (digitValue scanner.ch);
-        next scanner
-      done;
-      (* consume '}' in '\u{7A}' *)
-      (match scanner.ch with
-      | '}' -> next scanner
-      | _ -> ());
-      let c = !x in
-      if Res_utf8.isValidCodePoint c then
-        Char.unsafe_chr c
-      else
-        Char.unsafe_chr Res_utf8.repl
-    | _ ->
-      (* unicode escape sequence: '\u007A', exactly 4 hex digits *)
-      convertNumber scanner ~n:4 ~base:16
-    end
   | ch -> next scanner; ch
   in
-  let contents = (String.sub [@doesNotRaise]) scanner.src offset (scanner.offset - offset) in
   next scanner; (* Consume \' *)
   (* TODO: do we know it's \' ? *)
-  Token.Codepoint {c = codepoint; original = contents}
+  Token.Character c
 
 let scanSingleLineComment scanner =
   let startOff = scanner.offset in
@@ -523,7 +466,7 @@ let scanTemplateLiteralToken scanner =
         in
         Token.TemplatePart contents
       | _ ->
-        next scanner;
+        next2 scanner;
         scan())
     | '\\' ->
       (match peek scanner with
@@ -535,11 +478,11 @@ let scanTemplateLiteralToken scanner =
       | _ ->
         next scanner;
         scan ())
-    | ch when ch = hackyEOFChar ->
+    | ch when ch == hackyEOFChar ->
       let endPos = position scanner in
       scanner.err ~startPos ~endPos Diagnostics.unclosedTemplate;
       Token.TemplateTail(
-        (String.sub [@doesNotRaise]) scanner.src startOff (max (scanner.offset - 1 - startOff) 0)
+        (String.sub [@doesNotRaise]) scanner.src startOff (scanner.offset - 1 - startOff)
       )
     | _ ->
       next scanner;
@@ -568,7 +511,7 @@ let rec scan scanner =
   | '{' -> next scanner; Token.Lbrace
   | '}' -> next scanner; Token.Rbrace
   | ',' -> next scanner; Token.Comma
-  | '"' -> scanString scanner
+  | '"' -> next scanner; scanString scanner
 
   (* peeking 1 char *)
   | '_' ->
@@ -661,26 +604,8 @@ let rec scan scanner =
         then relying on matching on the quote *)
       next scanner; SingleQuote
     | '\\', _ -> next2 scanner; scanEscape scanner
-    | ch, '\'' ->
-      let offset = scanner.offset + 1 in
-      next3 scanner;
-      Token.Codepoint {c = ch; original = (String.sub [@doesNotRaise]) scanner.src offset 1}
-    | ch, _ ->
-      next scanner;
-      let offset = scanner.offset in
-      let (codepoint, length) = Res_utf8.decodeCodePoint scanner.offset scanner.src (String.length scanner.src) in
-      for _ = 0 to length - 1 do
-        next scanner
-      done;
-      if scanner.ch = '\'' then (
-        let contents = (String.sub [@doesNotRaise]) scanner.src offset length in
-        next scanner;
-        Token.Codepoint {c = Obj.magic codepoint; original = contents}
-      ) else (
-        scanner.ch <- ch;
-        scanner.offset <- offset;
-        SingleQuote
-      ))
+    | ch, '\'' -> next3 scanner; Token.Character ch
+    | _ -> next scanner; SingleQuote)
   | '!' ->
     (match peek scanner, peek2 scanner with
     | '=', '=' -> next3 scanner; Token.BangEqualEqual
