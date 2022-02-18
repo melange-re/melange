@@ -1,4 +1,5 @@
-let prelude ={|
+let prelude =
+  {|
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -34,37 +35,24 @@ let js label cacheid obj args =
   
 |}
 
-let list_init n  fn = Array.to_list (Array.init n fn)
-    
-
+let list_init n fn = Array.to_list (Array.init n fn)
 let number = 8
 
-
 let generate_fun args_number =
-  let args_array =
-    Array.init args_number (fun i -> Printf.sprintf "a%d" i) in
-  let args =  Array.to_list args_array in
-  let args_string =  (String.concat " " args) in
-  Printf.sprintf {|    
+  let args_array = Array.init args_number (fun i -> Printf.sprintf "a%d" i) in
+  let args = Array.to_list args_array in
+  let args_string = String.concat " " args in
+  Printf.sprintf
+    {|    
 let js%d label cacheid %s =
   Curry._%d (Obj.magic Caml_oo.caml_get_public_method %s label cacheid) %s
 |}
-    
-    args_number
-    args_string
-    args_number
-    (List.hd args)    
-    args_string    
+    args_number args_string args_number (List.hd args) args_string
 
-    
 let () =
   print_endline
-  @@ Printf.sprintf
-    "%s\n%s"
-    prelude
-
-    (String.concat "\n"
-       (list_init 8 (fun i -> generate_fun (i + 1))))
+  @@ Printf.sprintf "%s\n%s" prelude
+       (String.concat "\n" (list_init 8 (fun i -> generate_fun (i + 1))))
 
 (* local variables: *)
 (* compile-command: "ocaml caml_oo_curry_gen.ml > ../jscomp/runtime/caml_oo_curry.ml" *)
