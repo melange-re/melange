@@ -400,7 +400,7 @@ let jsxMapper () =
                   Location.prerr_warning pattern.ppat_loc
                     (Preprocessor
                        (Printf.sprintf
-                          "React: optional argument annotations must have explicit `option`. Did you mean \
+                          "ReasonReact: optional argument annotations must have explicit `option`. Did you mean \
                            `option(%s)=?`?"
                           currentType)) )
           | _ -> ()
@@ -425,7 +425,7 @@ let jsxMapper () =
         (list, Some txt)
     | Pexp_fun (Nolabel, _, pattern, _expression) ->
         Location.raise_errorf ~loc:pattern.ppat_loc
-          "React: react.component refs only support plain arguments and type annotations."
+          "ReasonReact: react.component refs only support plain arguments and type annotations."
     | _ -> (list, None)
     [@@raises Invalid_argument]
   in
@@ -612,7 +612,7 @@ let jsxMapper () =
                     if hasApplication.contents then ((fun a -> a), false, unerasableIgnoreExp expression)
                     else
                       Location.raise_errorf ~loc:pattern.ppat_loc
-                        "React: props need to be labelled arguments.\n\
+                        "ReasonReact: props need to be labelled arguments.\n\
                         \  If you are working with refs be sure to wrap with React.forwardRef.\n\
                         \  If your component doesn't have any props use () or _ instead of a name."
                 (* let make = {let foo = bar in (~prop) => ...} *)
