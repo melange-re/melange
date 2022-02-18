@@ -22,32 +22,43 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-let  should_hide ( x : Typedtree.module_binding) =
-    match x.mb_attributes with
-    | [] -> false
-    | { attr_name = {txt = "internal.local";_};_} :: _ -> true
-    | _ :: rest ->
-      Ext_list.exists rest (fun { attr_name = x; _} -> x.txt = "internal.local")
+let should_hide (x : Typedtree.module_binding) =
+  match x.mb_attributes with
+  | [] -> false
+  | { attr_name = { txt = "internal.local"; _ }; _ } :: _ -> true
+  | _ :: rest ->
+      Ext_list.exists rest (fun { attr_name = x; _ } ->
+          x.txt = "internal.local")
 
 let attrs : Parsetree.attributes =
-  [{ attr_name = {txt = "internal.local";loc = Location.none};
-     attr_payload = PStr [];
-     attr_loc = Location.none;
-  }]
+  [
+    {
+      attr_name = { txt = "internal.local"; loc = Location.none };
+      attr_payload = PStr [];
+      attr_loc = Location.none;
+    };
+  ]
 
-let no_type_defined ( x : Parsetree.structure_item) =
+let no_type_defined (x : Parsetree.structure_item) =
   match x.pstr_desc with
-  | Pstr_eval _
-  | Pstr_value _
-  | Pstr_primitive _
-  | Pstr_typext _
+  | Pstr_eval _ | Pstr_value _ | Pstr_primitive _ | Pstr_typext _
   | Pstr_exception _
-  (* | Pstr_module {pmb_expr = {pmod_desc = Pmod_ident _} }  *)
-    -> true
-  | Pstr_include {pincl_mod = {pmod_desc =
-    Pmod_constraint({pmod_desc = Pmod_structure [{pstr_desc = Pstr_primitive _}]},_)}}
-    -> true
+  (* | Pstr_module {pmb_expr = {pmod_desc = Pmod_ident _} }  *) ->
+      true
+  | Pstr_include
+      {
+        pincl_mod =
+          {
+            pmod_desc =
+              Pmod_constraint
+                ( {
+                    pmod_desc =
+                      Pmod_structure [ { pstr_desc = Pstr_primitive _ } ];
+                  },
+                  _ );
+          };
+      } ->
+      true
       (* FIX #4881
          generated code from:
          {[
@@ -56,8 +67,9 @@ let no_type_defined ( x : Parsetree.structure_item) =
          ]}
       *)
   | _ -> false
+
 let check (x : Parsetree.structure) =
   Ext_list.iter x (fun x ->
-    if not (no_type_defined x) then
-    Location.raise_errorf ~loc:x.pstr_loc
-      "the structure is not supported in local extension")
+      if not (no_type_defined x) then
+        Location.raise_errorf ~loc:x.pstr_loc
+          "the structure is not supported in local extension")

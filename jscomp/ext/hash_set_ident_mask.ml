@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,135 +28,119 @@ type ident = Ident.t
 
 type bucket =
   | Empty
-  | Cons of {
-    ident : ident;
-    mutable mask : bool;
-    rest : bucket
-  }
+  | Cons of { ident : ident; mutable mask : bool; rest : bucket }
 
 type t = {
-  mutable size : int ;
+  mutable size : int;
   mutable data : bucket array;
-  mutable mask_size : int (* mark how many idents are marked *)
+  mutable mask_size : int; (* mark how many idents are marked *)
 }
 
-
-
 let key_index_by_ident (h : t) (key : Ident.t) =
-  (Bs_hash_stubs.hash_string_int  (Ident.name key) (Ext_ident.stamp key)) land (Array.length h.data - 1)
+  Bs_hash_stubs.hash_string_int (Ident.name key) (Ext_ident.stamp key)
+  land (Array.length h.data - 1)
 
-
-
-
-let create  initial_size =
+let create initial_size =
   let s = Ext_util.power_2_above 8 initial_size in
-  { size = 0; data = Array.make s Empty ; mask_size = 0}
+  { size = 0; data = Array.make s Empty; mask_size = 0 }
 
 let iter_and_unmask h f =
   let rec iter_bucket buckets =
     match buckets with
-    | Empty ->
-      ()
+    | Empty -> ()
     | Cons k ->
-      let k_mask = k.mask in
-      f k.ident k_mask ;
-      if k_mask then
-        begin
-          k.mask <- false ;
+        let k_mask = k.mask in
+        f k.ident k_mask;
+        if k_mask then (
+          k.mask <- false;
           (* we can set [h.mask_size] to zero,
              however, it would result inconsistent state
              once [f] throw
           *)
-          h.mask_size <- h.mask_size - 1
-        end;
-      iter_bucket k.rest
+          h.mask_size <- h.mask_size - 1);
+        iter_bucket k.rest
   in
   let d = h.data in
   for i = 0 to Array.length d - 1 do
     iter_bucket (Array.unsafe_get d i)
   done
 
-
 let rec small_bucket_mem key lst =
   match lst with
   | Empty -> false
-  | Cons rst ->
-    Ext_ident.equal key   rst.ident ||
-    match rst.rest with
-    | Empty -> false
-    | Cons rst ->
-      Ext_ident.equal key   rst.ident ||
+  | Cons rst -> (
+      Ext_ident.equal key rst.ident
+      ||
       match rst.rest with
       | Empty -> false
-      | Cons rst ->
-        Ext_ident.equal key   rst.ident ||
-        small_bucket_mem key rst.rest
+      | Cons rst -> (
+          Ext_ident.equal key rst.ident
+          ||
+          match rst.rest with
+          | Empty -> false
+          | Cons rst ->
+              Ext_ident.equal key rst.ident || small_bucket_mem key rst.rest))
 
 let resize indexfun h =
   let odata = h.data in
   let osize = Array.length odata in
   let nsize = osize * 2 in
-  if nsize < Sys.max_array_length then begin
+  if nsize < Sys.max_array_length then (
     let ndata = Array.make nsize Empty in
-    h.data <- ndata;          (* so that indexfun sees the new bucket count *)
+    h.data <- ndata;
+    (* so that indexfun sees the new bucket count *)
     let rec insert_bucket = function
-        Empty -> ()
-      | Cons {ident = key;  mask; rest} ->
-        let nidx = indexfun h key in
-        Array.unsafe_set
-          ndata (nidx)
-            (Cons {ident = key; mask; rest = Array.unsafe_get ndata (nidx)});
-        insert_bucket rest
+      | Empty -> ()
+      | Cons { ident = key; mask; rest } ->
+          let nidx = indexfun h key in
+          Array.unsafe_set ndata nidx
+            (Cons { ident = key; mask; rest = Array.unsafe_get ndata nidx });
+          insert_bucket rest
     in
     for i = 0 to osize - 1 do
       insert_bucket (Array.unsafe_get odata i)
-    done
-  end
+    done)
 
 let add_unmask (h : t) (key : Ident.t) =
-  let i = key_index_by_ident h key  in
+  let i = key_index_by_ident h key in
   let h_data = h.data in
   let old_bucket = Array.unsafe_get h_data i in
-  if not (small_bucket_mem key old_bucket) then
-    begin
-      Array.unsafe_set h_data i
-        (Cons {ident = key; mask = false; rest =  old_bucket});
-      h.size <- h.size + 1 ;
-      if h.size > Array.length h_data lsl 1 then resize key_index_by_ident h
-    end
+  if not (small_bucket_mem key old_bucket) then (
+    Array.unsafe_set h_data i
+      (Cons { ident = key; mask = false; rest = old_bucket });
+    h.size <- h.size + 1;
+    if h.size > Array.length h_data lsl 1 then resize key_index_by_ident h)
 
-
-
-
-let rec small_bucket_mask  key lst =
+let rec small_bucket_mask key lst =
   match lst with
   | Empty -> false
-  | Cons rst ->
-    if Ext_ident.equal key   rst.ident  then
-      if rst.mask then false else (rst.mask <- true ; true)
-    else
-      match rst.rest with
-      | Empty -> false
-      | Cons rst ->
-        if Ext_ident.equal key rst.ident  then
-          if rst.mask then false else (rst.mask <- true ; true)
-        else
-          match rst.rest with
-          | Empty -> false
-          | Cons rst ->
+  | Cons rst -> (
+      if Ext_ident.equal key rst.ident then
+        if rst.mask then false
+        else (
+          rst.mask <- true;
+          true)
+      else
+        match rst.rest with
+        | Empty -> false
+        | Cons rst -> (
             if Ext_ident.equal key rst.ident then
-              if rst.mask then false else (rst.mask <- true ; true)
+              if rst.mask then false
+              else (
+                rst.mask <- true;
+                true)
             else
-              small_bucket_mask  key rst.rest
+              match rst.rest with
+              | Empty -> false
+              | Cons rst ->
+                  if Ext_ident.equal key rst.ident then
+                    if rst.mask then false
+                    else (
+                      rst.mask <- true;
+                      true)
+                  else small_bucket_mask key rst.rest))
 
 let mask_and_check_all_hit (h : t) (key : Ident.t) =
-  if
-    small_bucket_mask key
-      (Array.unsafe_get h.data (key_index_by_ident h key )) then
-    begin
-      h.mask_size <- h.mask_size + 1
-    end;
+  if small_bucket_mask key (Array.unsafe_get h.data (key_index_by_ident h key))
+  then h.mask_size <- h.mask_size + 1;
   h.size = h.mask_size
-
-
-

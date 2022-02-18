@@ -26,61 +26,54 @@ type loc = Location.t
 
 type whole =
   | Let_open of
-      (Asttypes.override_flag * Longident.t Asttypes.loc * loc *
-       Parsetree.attributes)
+      (Asttypes.override_flag
+      * Longident.t Asttypes.loc
+      * loc
+      * Parsetree.attributes)
 
 type t = whole list
-
 type exp = Parsetree.expression
-
-type destruct_output =
-  exp list
+type destruct_output = exp list
 
 (**
    destruct such pattern
    {[ A.B.let open C in (a,b)]}
 *)
-let rec destruct_open_tuple
-    (e : Parsetree.expression)
-    (acc : t)
-  : (t * destruct_output * _) option =
+let rec destruct_open_tuple (e : Parsetree.expression) (acc : t) :
+    (t * destruct_output * _) option =
   match e.pexp_desc with
-  | Pexp_open ({ popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid;_ } }, cont)
-    ->
-    destruct_open_tuple
-      cont
-      (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
+  | Pexp_open
+      ( { popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid; _ } },
+        cont ) ->
+      destruct_open_tuple cont
+        (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
   | Pexp_tuple es -> Some (acc, es, e.pexp_attributes)
   | _ -> None
 
-let rec destruct
-    (e : Parsetree.expression)
-    (acc : t)
-  =
+let rec destruct (e : Parsetree.expression) (acc : t) =
   match e.pexp_desc with
-  | Pexp_open ({ popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid;_ } }, cont)
-    ->
-    destruct
-      cont
-      (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
-  | _ -> e, acc
-
+  | Pexp_open
+      ( { popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid; _ } },
+        cont ) ->
+      destruct cont (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
+  | _ -> (e, acc)
 
 (* ?loc:Warnings.loc -> *)
 (* ?attrs:Ast_helper.attrs -> *)
 (* ?docs:Docstrings.docs -> *)
 (* ?override:Asttypes.override_flag -> 'a -> 'a Parsetree.open_infos *)
 
-let restore_exp
-    (xs : Parsetree.expression)
-    (qualifiers : t) : Parsetree.expression =
-  Ext_list.fold_left qualifiers xs (fun x hole  ->
+let restore_exp (xs : Parsetree.expression) (qualifiers : t) :
+    Parsetree.expression =
+  Ext_list.fold_left qualifiers xs (fun x hole ->
       match hole with
-      | Let_open (flag, lid,loc,attrs) ->
-        ({
-          pexp_desc = Pexp_open (Ast_helper.Opn.mk ~override:flag (Ast_helper.Mod.ident lid), x);
-          pexp_attributes = attrs;
-          pexp_loc = loc;
-          pexp_loc_stack = [ loc ]
-        } : Parsetree.expression)
-    )
+      | Let_open (flag, lid, loc, attrs) ->
+          ({
+             pexp_desc =
+               Pexp_open
+                 (Ast_helper.Opn.mk ~override:flag (Ast_helper.Mod.ident lid), x);
+             pexp_attributes = attrs;
+             pexp_loc = loc;
+             pexp_loc_stack = [ loc ];
+           }
+            : Parsetree.expression))

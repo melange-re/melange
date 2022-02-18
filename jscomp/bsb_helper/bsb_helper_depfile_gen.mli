@@ -22,13 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-val emit_d:
+val emit_d :
   cwd:string ->
   root:string ->
   bool ->
-  string  option ->
+  string option ->
   string ->
-  string -> (* empty string means no mliast *)
+  string ->
+  (* empty string means no mliast *)
   unit

@@ -22,48 +22,44 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
 let kvs = Ext_json_noloc.kvs
 let arr = Ext_json_noloc.arr
 let str = Ext_json_noloc.str
 
-let generate_sourcedirs_meta
-  ~name (file_groups : (string * Bsb_file_groups.t) list) =
+let generate_sourcedirs_meta ~name
+    (file_groups : (string * Bsb_file_groups.t) list) =
   let pkgs = Hashtbl.create 10 in
-  let (dirs, generated) =
-    Ext_list.fold_left file_groups ([], []) (fun (dirs, _generated) (proj_dir, { files }) ->
-      let dirs = Ext_list.append dirs (Ext_list.map files (fun x -> Ext_path.combine proj_dir x.dir)) in
-      let generated =
-        Ext_list.fold_left files [] (fun acc x ->
-          Ext_list.flat_map_append x.generators acc (fun x ->
-            Ext_list.map (x.input @ x.output) (fun x ->
-              Ext_path.combine proj_dir x)))
-      in
-      let _ : unit list = Bsb_pkg.to_list (fun pkg path ->
-        let pkg = (Bsb_pkg_types.to_string pkg) in
-        if not (Hashtbl.mem pkgs pkg) then
-          Hashtbl.add pkgs pkg path)
-      in
-      dirs, generated)
+  let dirs, generated =
+    Ext_list.fold_left file_groups ([], [])
+      (fun (dirs, _generated) (proj_dir, { files }) ->
+        let dirs =
+          Ext_list.append dirs
+            (Ext_list.map files (fun x -> Ext_path.combine proj_dir x.dir))
+        in
+        let generated =
+          Ext_list.fold_left files [] (fun acc x ->
+              Ext_list.flat_map_append x.generators acc (fun x ->
+                  Ext_list.map (x.input @ x.output) (fun x ->
+                      Ext_path.combine proj_dir x)))
+        in
+        let (_ : unit list) =
+          Bsb_pkg.to_list (fun pkg path ->
+              let pkg = Bsb_pkg_types.to_string pkg in
+              if not (Hashtbl.mem pkgs pkg) then Hashtbl.add pkgs pkg path)
+        in
+        (dirs, generated))
   in
   let v =
-    kvs [
-      "dirs" ,
-      arr (Ext_array.of_list_map dirs str) ;
-      "generated" ,
-      arr (Ext_array.of_list_map generated str);
-      "pkgs", arr
-        (Array.of_list
-          (Hashtbl.fold (fun pkg path acc ->
-            (arr [|
-              str pkg;
-              str path
-        |]) :: acc
-          ) pkgs [] )
-        )
-    ]
+    kvs
+      [
+        ("dirs", arr (Ext_array.of_list_map dirs str));
+        ("generated", arr (Ext_array.of_list_map generated str));
+        ( "pkgs",
+          arr
+            (Array.of_list
+               (Hashtbl.fold
+                  (fun pkg path acc -> arr [| str pkg; str path |] :: acc)
+                  pkgs [])) );
+      ]
   in
-  Ext_json_noloc.to_file
-  name v
-
+  Ext_json_noloc.to_file name v

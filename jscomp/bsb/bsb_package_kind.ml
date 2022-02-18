@@ -22,9 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t = 
-    | Toplevel
-    | Dependency of Bsb_package_specs.t 
-        (*  This package specs comes from the toplevel to 
-            override the current settings
-        *)
+type t = Toplevel | Dependency of Bsb_package_specs.t
+(* This package specs comes from the toplevel to
+   override the current settings
+*)

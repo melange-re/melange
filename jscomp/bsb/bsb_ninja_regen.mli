@@ -22,16 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
+val regenerate_ninja :
+  config:Bsb_config_types.t ->
+  package_kind:Bsb_package_kind.t ->
+  buf:Buffer.t ->
+  root_dir:string ->
+  string ->
+  unit
 (** Regenerate ninja file by need based on [.bsdeps]
     return None if we dont need regenerate
     otherwise return Some info
 *)
-val regenerate_ninja :
-  config:Bsb_config_types.t ->
-  package_kind:Bsb_package_kind.t ->
-  buf: Buffer.t ->
-  root_dir: string ->
-  string -> unit

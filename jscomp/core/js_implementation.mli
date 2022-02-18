@@ -22,58 +22,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+(** High level compilation module *)
 
-
-
-
-
-
-
-(** High level compilation module *) 
-
+val interface :
+  parser:(string -> Parsetree.signature) -> Format.formatter -> string -> unit
 (** This module defines a function to compile the program directly into [js]
     given [filename] and [outputprefix], 
     it will be useful if we don't care about bytecode output(generating js only).
  *)
-val interface : 
-  parser:(string -> Parsetree.signature) ->
-  Format.formatter -> 
-  string -> 
-  unit
 
-val interface_mliast : 
-  Format.formatter -> 
-  string  -> 
-  ([`ml | `rescript | `reason ] -> unit) ->
-  unit
-  
+val interface_mliast :
+  Format.formatter -> string -> ([ `ml | `rescript | `reason ] -> unit) -> unit
 
-
-(* val after_parsing_impl : 
-  Format.formatter -> 
-  string ->
-  Parsetree.structure ->
-  unit *)
+(* val after_parsing_impl :
+   Format.formatter ->
+   string ->
+   Parsetree.structure ->
+   unit *)
 (** [after_parsing_impl ppf sourcefile outputprefix ast ]
     Make sure you need run {!Res_compmisc.init_path} for set up
     Used in eval
 *)
 
-val implementation : 
-  parser:(string -> Parsetree.structure) ->
-  Format.formatter -> 
-  string -> 
-  unit
-(** [implementation ppf sourcefile outprefix] compiles to JS directly *) 
+val implementation :
+  parser:(string -> Parsetree.structure) -> Format.formatter -> string -> unit
+(** [implementation ppf sourcefile outprefix] compiles to JS directly *)
 
-val implementation_mlast : 
-  Format.formatter ->
-  string -> 
-  ([`ml | `rescript | `reason ]  -> unit) ->
-  unit
+val implementation_mlast :
+  Format.formatter -> string -> ([ `ml | `rescript | `reason ] -> unit) -> unit
 
 val implementation_cmj : Format.formatter -> string -> unit
 (** [implementation_cmj ppf cmj_file] compiles a cmj to JS *)
 
-val implementation_map : 
-  Format.formatter -> string ->  unit
+val implementation_map : Format.formatter -> string -> unit

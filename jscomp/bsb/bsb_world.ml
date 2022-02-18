@@ -22,53 +22,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-let (//) = Ext_path.combine
+let ( // ) = Ext_path.combine
 
 let install_targets cwd dep_configs =
   let artifacts_dir = cwd // Bsb_config.lib_bs in
-  begin
-    Bsb_log.info "@{<info>Installing started@}@.";
-    let file_groups = ref [] in
-    Ext_list.iter dep_configs (fun (dep_config: Bsb_config_types.t) ->
+  Bsb_log.info "@{<info>Installing started@}@.";
+  let file_groups = ref [] in
+  Ext_list.iter dep_configs (fun (dep_config : Bsb_config_types.t) ->
       file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
-    Bsb_build_util.mkp artifacts_dir;
-    Bsb_watcher_gen.generate_sourcedirs_meta
-      ~name:(artifacts_dir // Literals.sourcedirs_meta)
-      !file_groups;
-    Bsb_log.info "@{<info>Installing finished@} @.";
-  end
-
+  Bsb_build_util.mkp artifacts_dir;
+  Bsb_watcher_gen.generate_sourcedirs_meta
+    ~name:(artifacts_dir // Literals.sourcedirs_meta)
+    !file_groups;
+  Bsb_log.info "@{<info>Installing finished@} @."
 
 let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
-   let queue = Bsb_build_util.walk_all_deps cwd in
-   Queue.fold (fun (acc : _ list) ({top; proj_dir} : Bsb_build_util.package_context) ->
-     match top with
-     | Expect_none -> acc
-     | Expect_name _ ->
-       let package_kind = Bsb_package_kind.Dependency deps in
-       let config : Bsb_config_types.t =
-         Bsb_config_parse.interpret_json
-           ~package_kind
-           ~per_proj_dir:proj_dir
-       in
-       Bsb_ninja_regen.regenerate_ninja
-         ~buf
-         ~config
-         ~package_kind
-         ~root_dir:cwd
-         proj_dir;
-       config :: acc)
-   [] queue
-
+  let queue = Bsb_build_util.walk_all_deps cwd in
+  Queue.fold
+    (fun (acc : _ list) ({ top; proj_dir } : Bsb_build_util.package_context) ->
+      match top with
+      | Expect_none -> acc
+      | Expect_name _ ->
+          let package_kind = Bsb_package_kind.Dependency deps in
+          let config : Bsb_config_types.t =
+            Bsb_config_parse.interpret_json ~package_kind ~per_proj_dir:proj_dir
+          in
+          Bsb_ninja_regen.regenerate_ninja ~buf ~config ~package_kind
+            ~root_dir:cwd proj_dir;
+          config :: acc)
+    [] queue
 
 let make_world_deps ~cwd ~buf =
   Bsb_log.info "Making the dependency world!@.";
   let config : Bsb_config_types.t =
-    Bsb_config_parse.interpret_json
-      ~package_kind:Toplevel
-      ~per_proj_dir:cwd
+    Bsb_config_parse.interpret_json ~package_kind:Toplevel ~per_proj_dir:cwd
   in
   let deps = config.package_specs in
   let dep_configs = build_bs_deps cwd ~buf deps in
-  config, dep_configs
+  (config, dep_configs)

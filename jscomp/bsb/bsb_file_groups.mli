@@ -22,54 +22,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type public = Export_none | Export_all | Export_set of Set_string.t
 
- type public =
-  | Export_none
-  | Export_all
-  | Export_set of Set_string.t
+type build_generator = {
+  input : string list;
+  output : string list;
+  command : string;
+}
 
-
-type build_generator =
-  { input : string list ;
-    output : string list;
-    command : string}
-
-
-type  file_group =
-  { dir : string ;
-    subdirs : string list;
-    sources : Bsb_db.map;
-    resources : string list ;
-    public : public ;
-    is_dev : bool ; (* false means not in dev mode *)
-    generators : build_generator list ;
-    (* output of [generators] should be added to [sources],
-       if it is [.ml,.mli,.re,.rei]
-    *)
-  }
+type file_group = {
+  dir : string;
+  subdirs : string list;
+  sources : Bsb_db.map;
+  resources : string list;
+  public : public;
+  is_dev : bool; (* false means not in dev mode *)
+  generators : build_generator list;
+      (* output of [generators] should be added to [sources],
+         if it is [.ml,.mli,.re,.rei]
+      *)
+}
 
 type file_groups = file_group list
-
-type t
-  = private
-  { files :  file_groups;
-    globbed_dirs : string list ;
-  }
+type t = private { files : file_groups; globbed_dirs : string list }
 
 val empty : t
-
-val merge :
-  t ->
-  t ->
-  t
-
-val cons :
-  file_group:file_group ->
-  ?globbed_dir:string ->
-  t ->
-  t
-
-val is_empty :
-  file_group ->
-  bool
-
+val merge : t -> t -> t
+val cons : file_group:file_group -> ?globbed_dir:string -> t -> t
+val is_empty : file_group -> bool

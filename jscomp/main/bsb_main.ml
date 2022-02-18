@@ -28,27 +28,27 @@ open Bsb
 let () = Bsb_log.setup ()
 let bs_version_string = Bs_version.version
 
-type cli_options =
-  { print_version : bool
-  ; verbose : bool
-  ; watch_mode : bool
-  ; clean : bool
-  ; make_world : bool
-  ; install : bool
-  ; init_path : string option
-  ; theme : string
-  ; list_themes : bool
-  ; print_bsb_location : bool
-  ; websocket : bool
-  ; dune_args : string array
-  }
+type cli_options = {
+  print_version : bool;
+  verbose : bool;
+  watch_mode : bool;
+  clean : bool;
+  make_world : bool;
+  install : bool;
+  init_path : string option;
+  theme : string;
+  list_themes : bool;
+  print_bsb_location : bool;
+  websocket : bool;
+  dune_args : string array;
+}
 
 let print_version_string () =
   print_string bs_version_string;
   print_newline ();
   exit 0
 
-let (//) = Ext_path.combine
+let ( // ) = Ext_path.combine
 
 let output_dune_project_if_does_not_exist proj_dir =
   let dune_project = proj_dir // Literals.dune_project in
@@ -61,7 +61,7 @@ let output_dune_project_if_does_not_exist proj_dir =
 
 let output_dune_file buf =
   (* <root>/dune.bsb generation *)
-  let proj_dir =  Bsb_global_paths.cwd in
+  let proj_dir = Bsb_global_paths.cwd in
   let dune_bsb = proj_dir // Literals.dune_bsb in
   Bsb_ninja_targets.revise_dune dune_bsb buf;
 
@@ -75,167 +75,150 @@ let output_dune_file buf =
   output_dune_project_if_does_not_exist proj_dir
 
 let dune_command_exit dune_args =
-  let common_args = [|Literals.dune; "build"; ("@" ^ Literals.bsb_world)|] in
-  let args = Array.append common_args dune_args
-  in
-  Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " (Array.to_list args));
+  let common_args = [| Literals.dune; "build"; "@" ^ Literals.bsb_world |] in
+  let args = Array.append common_args dune_args in
+  Bsb_log.info "@{<info>Running:@} %s@."
+    (String.concat " " (Array.to_list args));
   Unix.execvp Literals.dune args
-
 
 let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
   let buf = Buffer.create 0x1000 in
   let config, dep_configs = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
-  Bsb_ninja_regen.regenerate_ninja
-    ~package_kind:Toplevel
-    ~buf
-    ~root_dir
-    ~config
+  Bsb_ninja_regen.regenerate_ninja ~package_kind:Toplevel ~buf ~root_dir ~config
     root_dir;
   output_dune_file buf;
   config :: dep_configs
 
 let print_init_theme_notice () =
   prerr_endline
-    "The subcommands -init, -theme and -themes are deprecated now. Use the template at \
-     https://github.com/melange-re/melange-basic-template to start a new project.";
+    "The subcommands -init, -theme and -themes are deprecated now. Use the \
+     template at https://github.com/melange-re/melange-basic-template to start \
+     a new project.";
   flush stderr
 
 let run_bsb ({ make_world; install; watch_mode; dune_args; _ } as options) =
   let cwd = Bsb_global_paths.cwd in
-  try begin
+  try
     if options.print_version then print_version_string ();
     if options.verbose then Bsb_log.verbose ();
     if options.clean then Bsb_clean.clean ~dune_args cwd;
-    if options.print_bsb_location then print_endline (Filename.dirname Sys.executable_name);
-    match options.init_path, options.list_themes with
+    if options.print_bsb_location then
+      print_endline (Filename.dirname Sys.executable_name);
+    match (options.init_path, options.list_themes) with
     | Some _, _ | _, true -> print_init_theme_notice ()
     | None, false ->
-      let generate_dune_bsb = make_world || install in
-      if (not make_world) && not install then (if watch_mode then exit 0)
-      else begin
-        if generate_dune_bsb then begin
-          let configs = build_whole_project () in
-          Bsb_world.install_targets Bsb_global_paths.cwd configs
-        end;
-        if watch_mode then exit 0 else if make_world then dune_command_exit dune_args
-      end
-  end
+        let generate_dune_bsb = make_world || install in
+        if (not make_world) && not install then (if watch_mode then exit 0)
+        else (
+          (if generate_dune_bsb then
+           let configs = build_whole_project () in
+           Bsb_world.install_targets Bsb_global_paths.cwd configs);
+          if watch_mode then exit 0
+          else if make_world then dune_command_exit dune_args)
   with
   | Bsb_exception.Error e ->
-    Bsb_exception.print Format.err_formatter e ;
-    Format.pp_print_newline Format.err_formatter ();
-    exit 2
-  | Ext_json_parse.Error (start,_,e) ->
-    Format.fprintf Format.err_formatter
-      "File %S, line %d\n\
-       @{<error>Error:@} %a@."
-      start.pos_fname start.pos_lnum
-      Ext_json_parse.report_error e ;
-    exit 2
+      Bsb_exception.print Format.err_formatter e;
+      Format.pp_print_newline Format.err_formatter ();
+      exit 2
+  | Ext_json_parse.Error (start, _, e) ->
+      Format.fprintf Format.err_formatter
+        "File %S, line %d\n@{<error>Error:@} %a@." start.pos_fname
+        start.pos_lnum Ext_json_parse.report_error e;
+      exit 2
   | Sys_error s ->
-    Format.fprintf Format.err_formatter
-      "@{<error>Error:@} %s@."
-      s ;
-    exit 2
+      Format.fprintf Format.err_formatter "@{<error>Error:@} %s@." s;
+      exit 2
   | e -> Ext_pervasives.reraise e
 
 module CLI = struct
   let version_flag =
     let doc = "Print version and exit" in
-    Arg.(value & flag & info ["v"; "version"] ~doc)
+    Arg.(value & flag & info [ "v"; "version" ] ~doc)
 
   let verbose_flag =
     let doc = "Set the output (from bsb) to be verbose" in
-    Arg.(value & flag & info ["verbose"] ~doc)
+    Arg.(value & flag & info [ "verbose" ] ~doc)
 
   let watch_mode_flag =
     let doc = "Currently does nothing. Enabled for compatibility." in
-    Arg.(value & flag & info ["w"] ~doc)
+    Arg.(value & flag & info [ "w" ] ~doc)
 
   let clean_flag =
     let doc = "Clean all bs dependencies" in
-    Arg.(value & flag & info ["clean"; "clean-world"] ~doc)
+    Arg.(value & flag & info [ "clean"; "clean-world" ] ~doc)
 
   let make_world_flag =
     let doc = "Build all dependencies and itself" in
-    Arg.(value & flag & info ["make-world"] ~doc)
+    Arg.(value & flag & info [ "make-world" ] ~doc)
 
   let install_flag =
     let doc = "Generate the (dune) rules for building the project" in
-    Arg.(value & flag & info ["install"] ~doc)
+    Arg.(value & flag & info [ "install" ] ~doc)
 
   let init_arg =
     let docv = "init path" in
-    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
-    https://github.com/melange-re/melange-basic-template to start a new project." in
-    Arg.(value & opt (some string) None & info ["init"] ~doc ~docv)
+    let doc =
+      "Currently does nothing. Enabled for compatibility. Use the template at \
+       https://github.com/melange-re/melange-basic-template to start a new \
+       project."
+    in
+    Arg.(value & opt (some string) None & info [ "init" ] ~doc ~docv)
 
   let theme_arg =
     let docv = "theme" in
-    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
-    https://github.com/melange-re/melange-basic-template to start a new project." in
-    Arg.(value & opt string "basic" & info ["theme"] ~doc ~docv)
+    let doc =
+      "Currently does nothing. Enabled for compatibility. Use the template at \
+       https://github.com/melange-re/melange-basic-template to start a new \
+       project."
+    in
+    Arg.(value & opt string "basic" & info [ "theme" ] ~doc ~docv)
 
   let themes_flag =
-    let doc = "Currently does nothing. Enabled for compatibility. Use the template at \
-    https://github.com/melange-re/melange-basic-template to start a new project." in
-    Arg.(value & flag & info ["themes"] ~doc)
+    let doc =
+      "Currently does nothing. Enabled for compatibility. Use the template at \
+       https://github.com/melange-re/melange-basic-template to start a new \
+       project."
+    in
+    Arg.(value & flag & info [ "themes" ] ~doc)
 
   let where_flag =
     let doc = "Show where bsb is located" in
-    Arg.(value & flag & info ["where"] ~doc)
+    Arg.(value & flag & info [ "where" ] ~doc)
 
   let ws_flag =
     let doc = "Send build output to websocket" in
-    Arg.(value & flag & info ["ws"] ~doc)
+    Arg.(value & flag & info [ "ws" ] ~doc)
 
-  let parse_options
-      print_version
-      verbose
-      watch_mode
-      clean
-      make_world
-      install
-      init_path
-      theme
-      list_themes
-      print_bsb_location
-      websocket
-      dune_args =
-    { print_version
-    ; verbose
-    ; watch_mode
-    ; clean
-    ; make_world
-    ; install
-    ; init_path
-    ; theme
-    ; list_themes
-    ; print_bsb_location
-    ; websocket
-    ; dune_args
+  let parse_options print_version verbose watch_mode clean make_world install
+      init_path theme list_themes print_bsb_location websocket dune_args =
+    {
+      print_version;
+      verbose;
+      watch_mode;
+      clean;
+      make_world;
+      install;
+      init_path;
+      theme;
+      list_themes;
+      print_bsb_location;
+      websocket;
+      dune_args;
     }
 
   let run dune_args =
     let make_bsb_options =
-      Term.(const parse_options
-            $ version_flag
-            $ verbose_flag
-            $ watch_mode_flag
-            $ clean_flag
-            $ make_world_flag
-            $ install_flag
-            $ init_arg
-            $ theme_arg
-            $ themes_flag
-            $ where_flag
-            $ ws_flag
-            $ const dune_args)
+      Term.(
+        const parse_options $ version_flag $ verbose_flag $ watch_mode_flag
+        $ clean_flag $ make_world_flag $ install_flag $ init_arg $ theme_arg
+        $ themes_flag $ where_flag $ ws_flag $ const dune_args)
     in
-    Term.(const run_bsb $ make_bsb_options), Term.info "bsb"
+    (Term.(const run_bsb $ make_bsb_options), Term.info "bsb")
 end
 
 let () =
   let bsb_args, dune_args = Ext_cli_args.split_argv_at_separator Sys.argv in
-  Term.(exit @@ eval ~argv:(Ext_cli_args.normalize_argv bsb_args) (CLI.run dune_args))
+  Term.(
+    exit
+    @@ eval ~argv:(Ext_cli_args.normalize_argv bsb_args) (CLI.run dune_args))

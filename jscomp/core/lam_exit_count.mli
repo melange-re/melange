@@ -22,17 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-type exit = {
-  mutable count: int;
-  mutable max_depth: int;
-}
-
+type exit = { mutable count : int; mutable max_depth : int }
 type collection = (int, exit) Hashtbl.t
 
 val count_helper : try_depth:int ref -> Lam.t -> collection
-
 val get_exit : collection -> int -> exit
-
-
-

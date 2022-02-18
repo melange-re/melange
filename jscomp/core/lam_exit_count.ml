@@ -22,16 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type exit = {
-  mutable count: int;
-  mutable max_depth: int;
-}
-
+type exit = { mutable count : int; mutable max_depth : int }
 type collection = (int, exit) Hashtbl.t
 
 let get_exit exits i =
-  try Hashtbl.find exits i
-  with Not_found -> {count = 0; max_depth = 0}
+  try Hashtbl.find exits i with Not_found -> { count = 0; max_depth = 0 }
 
 let incr_exit exits i nb d =
   match Hashtbl.find_opt exits i with
@@ -39,7 +34,7 @@ let incr_exit exits i nb d =
       r.count <- r.count + nb;
       r.max_depth <- max r.max_depth d
   | None ->
-      let r = {count = nb; max_depth = d} in
+      let r = { count = nb; max_depth = d } in
       Hashtbl.add exits i r
 
 (**
@@ -64,50 +59,70 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
   let exits : collection = Hashtbl.create 17 in
   let rec count (lam : Lam.t) =
     match lam with
-    | Lstaticraise (i,ls) -> incr_exit exits i 1 !try_depth; Ext_list.iter ls count
-    | Lstaticcatch (l1,(i,[]),Lstaticraise (j,[])) ->
-      count l1 ;
-      let ic = get_exit exits i in
-      incr_exit exits j ic.count (max !try_depth ic.max_depth)
-    | Lstaticcatch(l1, (i,_), l2) ->
-      count l1;
-      if (get_exit exits i).count > 0 then count l2
-    | Lstringswitch(l, sw, d) ->
-      count l;
-      Ext_list.iter_snd sw count;
-      Ext_option.iter d count
-    | Lglobal_module _
-    | Lvar _| Lconst _ -> ()
-    | Lapply{ap_func ; ap_args; _} -> count ap_func; Ext_list.iter ap_args count
-    | Lfunction {body} -> count body
-    | Llet(_, _, l1, l2) ->
-      count l2; count l1
-    | Lletrec(bindings, body) ->
-      Ext_list.iter_snd bindings count;
-      count body
-    | Lprim {args;  _} -> List.iter count args
-    | Lswitch(l, sw) ->
-      count_default sw ;
-      count l;
-      Ext_list.iter_snd sw.sw_consts count;
-      Ext_list.iter_snd sw.sw_blocks count
-    | Ltrywith(l1, _v, l2) -> incr try_depth; count l1; decr try_depth; count l2
-    | Lifthenelse(l1, l2, l3) -> count l1; count l2; count l3
-    | Lsequence(l1, l2) -> count l1; count l2
-    | Lwhile(l1, l2) -> count l1; count l2
-    | Lfor(_, l1, l2, _dir, l3) -> count l1; count l2; count l3
-    | Lassign(_, l) -> count l
-    | Lsend(_, m, o, ll, _) -> count m; count o; List.iter count ll
+    | Lstaticraise (i, ls) ->
+        incr_exit exits i 1 !try_depth;
+        Ext_list.iter ls count
+    | Lstaticcatch (l1, (i, []), Lstaticraise (j, [])) ->
+        count l1;
+        let ic = get_exit exits i in
+        incr_exit exits j ic.count (max !try_depth ic.max_depth)
+    | Lstaticcatch (l1, (i, _), l2) ->
+        count l1;
+        if (get_exit exits i).count > 0 then count l2
+    | Lstringswitch (l, sw, d) ->
+        count l;
+        Ext_list.iter_snd sw count;
+        Ext_option.iter d count
+    | Lglobal_module _ | Lvar _ | Lconst _ -> ()
+    | Lapply { ap_func; ap_args; _ } ->
+        count ap_func;
+        Ext_list.iter ap_args count
+    | Lfunction { body } -> count body
+    | Llet (_, _, l1, l2) ->
+        count l2;
+        count l1
+    | Lletrec (bindings, body) ->
+        Ext_list.iter_snd bindings count;
+        count body
+    | Lprim { args; _ } -> List.iter count args
+    | Lswitch (l, sw) ->
+        count_default sw;
+        count l;
+        Ext_list.iter_snd sw.sw_consts count;
+        Ext_list.iter_snd sw.sw_blocks count
+    | Ltrywith (l1, _v, l2) ->
+        incr try_depth;
+        count l1;
+        decr try_depth;
+        count l2
+    | Lifthenelse (l1, l2, l3) ->
+        count l1;
+        count l2;
+        count l3
+    | Lsequence (l1, l2) ->
+        count l1;
+        count l2
+    | Lwhile (l1, l2) ->
+        count l1;
+        count l2
+    | Lfor (_, l1, l2, _dir, l3) ->
+        count l1;
+        count l2;
+        count l3
+    | Lassign (_, l) -> count l
+    | Lsend (_, m, o, ll, _) ->
+        count m;
+        count o;
+        List.iter count ll
   and count_default sw =
     match sw.sw_failaction with
     | None -> ()
     | Some al ->
-      if not sw.sw_consts_full && not sw.sw_blocks_full
-      then
-          (count al ; count al)
-      else
-          count al in
-  count lam ;
-  assert(!try_depth = 0);
+        if (not sw.sw_consts_full) && not sw.sw_blocks_full then (
+          count al;
+          count al)
+        else count al
+  in
+  count lam;
+  assert (!try_depth = 0);
   exits
-;;

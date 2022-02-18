@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
 (**
   See the meanings of the warning codes here: https://caml.inria.fr/pub/docs/manual-ocaml/comp.html#sec281
 
@@ -41,7 +39,6 @@
   - 48 Implicit elimination of optional arguments. https://caml.inria.fr/mantis/view.php?id=6352
   - 101 (bsb-specific) unsafe polymorphic comparison.
 *)
-
 
 (*
   The purpose of default warning set is to make it strict while
@@ -73,5 +70,5 @@
   - 102 Bs_polymorphic_comparison
 *)
 let defaults_w = "+a-4-29-40-41-42-44-45-48-58-59-60-102"
-let defaults_warn_error = "-a+5+6+101+109";;
+let defaults_warn_error = "-a+5+6+101+109"
 (*TODO: add +10*)

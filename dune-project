@@ -1,5 +1,8 @@
 (lang dune 2.5)
 
+(formatting
+ (enabled_for ocaml))
+
 (generate_opam_files true)
 
 (name melange)

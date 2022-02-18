@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,41 +25,20 @@
 type case = bool
 (** true means upper case*)
 
-type info =
-  | Intf
-  | Impl
-  | Impl_intf
+type info = Intf | Impl | Impl_intf
+type syntax_kind = Ml | Reason | Res
+type 'a diff = Same of 'a | Different of { impl : 'a; intf : 'a }
 
-type syntax_kind =
-  | Ml
-  | Reason
-  | Res
-
-type 'a diff =
-  | Same of 'a
-  | Different of { impl: 'a; intf: 'a }
-
-type module_info =
-  {
-    mutable info : info;
-    dir : string diff;
-    syntax_kind : syntax_kind diff;
-    case : bool;
-    name_sans_extension : string  ;
-  }
-
+type module_info = {
+  mutable info : info;
+  dir : string diff;
+  syntax_kind : syntax_kind diff;
+  case : bool;
+  name_sans_extension : string;
+}
 
 type map = module_info Map_string.t
-
-type 'a cat  = {
-  mutable lib : 'a;
-  mutable dev : 'a
-}
+type 'a cat = { mutable lib : 'a; mutable dev : 'a }
 
 type t = map cat
 (** indexed by the group *)
-
-
-
-
-

@@ -22,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
 let exceptions = "Caml_exceptions"
 let io = "Caml_io"
 let sys = "Caml_sys"
@@ -43,8 +42,6 @@ let caml_primitive = "Caml"
 let int64 = "Caml_int64"
 let md5 = "Caml_md5"
 let int32 = "Caml_int32"
-
-
 let option = "Caml_option"
 let module_ = "Caml_module"
 let external_polyfill = "Caml_external_polyfill"
