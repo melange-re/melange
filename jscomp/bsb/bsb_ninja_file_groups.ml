@@ -104,16 +104,15 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   let output_ast = rel_proj_dir // (impl_dir // basename output_ast) in
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
-  let ast_deps =
-    Format.asprintf "(:ast_deps %s %s)"
-      (if module_info.info <> Intf then output_ast else "")
-      (if has_intf_file then output_iast else "")
-  in
   let ppx_deps =
     if ppx_config.Bsb_config_types.ppxlib <> [] then
       [ rel_proj_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe ]
     else []
   in
+  let output_d =
+    (rel_proj_dir // filename_sans_extension) ^ Literals.suffix_d
+  in
+  let output_d_as_dep = Format.asprintf "(include %s)" (basename output_d) in
   let output_filename_sans_extension =
     Ext_namespace_encode.make ?ns:namespace filename_sans_extension
   in
@@ -131,12 +130,17 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
     Bsb_package_specs.get_list_of_output_js package_specs
       output_filename_sans_extension
   in
-  if which <> `intf then
+  if which <> `intf then (
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps @ ppx_deps)
       ~outputs:[ output_ast ]
       ~inputs:[ basename input_impl ]
       ~rule:rules.build_ast ~error_syntax_kind;
+
+    Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_d ]
+      ~inputs:
+        (if has_intf_file then [ output_ast; output_iast ] else [ output_ast ])
+      ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps));
   let relative_ns_cmi =
     match namespace with
     | Some ns ->
@@ -166,9 +170,10 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
       ~inputs:[ basename input_intf ]
       ~rule:rules.build_ast ~error_syntax_kind;
 
-    Bsb_ninja_targets.output_build cur_dir buf ~implicit_deps:[ ast_deps ]
+    Bsb_ninja_targets.output_build cur_dir buf
+      ~implicit_deps:[ output_d_as_dep ] ~outputs:[ output_cmi ]
       ~inputs:[ basename output_iast ]
-      ~outputs:[ output_cmi ] ~implicit_outputs:[ output_cmti ]
+      ~implicit_outputs:[ output_cmti ]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
@@ -191,7 +196,8 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
      ~js_outputs:output_js
      ~inputs:[ basename output_ast ]
      ~implicit_deps:
-       (if has_intf_file then [ output_cmi; ast_deps ] else [ ast_deps ])
+       (if has_intf_file then [ output_cmi; output_d_as_dep ]
+       else [ output_d_as_dep ])
      ~bs_dependencies
      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
      ~rule ~error_syntax_kind);

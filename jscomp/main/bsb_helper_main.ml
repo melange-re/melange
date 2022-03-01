@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bsb_helper
+
 let () =
   let namespace = ref None in
   let root = ref None in
@@ -59,14 +61,13 @@ let () =
   | Some cwd, Some root -> (
       match !rev_list with
       | [ x ] ->
-          Bsb_helper.Bsb_helper_depfile_gen.compute_dependency_info ~root ~cwd
-            !dev_group !namespace x ""
+          Bsb_helper_depfile_gen.emit_d ~root ~cwd !dev_group !namespace x ""
       | [ y; x ] (* reverse order *) ->
-          Bsb_helper.Bsb_helper_depfile_gen.compute_dependency_info ~root ~cwd
-            !dev_group !namespace x y
-      | _ ->
-          prerr_endline "too many arguments to bsb_helper";
-          exit 2)
-  | _ ->
+          Bsb_helper_depfile_gen.emit_d ~root ~cwd !dev_group !namespace x y
+      | _ -> ())
+  | None, Some _ ->
       prerr_endline "-cwd is a required option";
+      exit 2
+  | _ ->
+      prerr_endline "-root is a required option";
       exit 2

@@ -46,6 +46,8 @@ type builtin = {
   (** platform dependent, on Win32,
       invoking cmd.exe
   *)
+  build_bin_deps : t ;
+  build_bin_deps_dev : t ;
   mj : t;
   mj_dev : t;
   mij : t ;

@@ -5,11 +5,13 @@ homepage: "https://github.com/gildor478/ounit"
 dev-repo: "git+https://github.com/gildor478/ounit.git"
 bug-reports: "https://github.com/gildor478/ounit/issues"
 doc: "https://gildor478.github.io/ounit/"
+license: "MIT"
 depends: [
   "ocaml" {>= "4.04.0"}
   "dune" {>= "1.11.0"}
   "base-bytes"
   "base-unix"
+  "seq"
   "stdlib-shims"
 ]
 build: [
@@ -24,12 +26,12 @@ unit-tests for OCaml code. It is loosely based on [HUnit], a unit testing
 framework for Haskell. It is similar to [JUnit], and other XUnit testing
 frameworks.
 """
-x-commit-hash: "faf4936b17507406c7592186dcaa3f25c6fc138a"
 url {
   src:
-    "https://github.com/gildor478/ounit/releases/download/v2.2.4/ounit-v2.2.4.tbz"
+    "https://github.com/gildor478/ounit/releases/download/v2.2.6/ounit-2.2.6.tbz"
   checksum: [
-    "sha256=b5c069a5d957220ca0669e945f1e81e6b6db9622766d860913e136e1168e3345"
-    "sha512=d69dc501a360c31f7854322b5e2c2abcb1e43890737e1cc00c167ee104d5dee471b6b8d8186f8044b0482c91a8f15210a25d833a1e03ed7baabfba923815962f"
+    "sha256=0690fb1e0e90a18eed5c3566b3cc1825d98b0e8c7d51bb6b846c95c45a615913"
+    "sha512=d7cb36a1fe245d02afab606cd1ee755a178ee4cb18fbbfec1df32baa88fa90ef6c9a50d9fd5bde46c7fd9c481f2debe4bafac75c4e3bdfbdb63fc18b0ccce3cc"
   ]
 }
+x-commit-hash: "77f01c482bd618eabde7c5065beae2d68db88723"
