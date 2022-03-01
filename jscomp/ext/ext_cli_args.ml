@@ -24,18 +24,15 @@
 let separator = "--"
 
 let normalize_argv argv =
-  Array.map (fun s ->
+  Array.map
+    (fun s ->
       if String.length s <= 2 then s
-      else if s.[0] = '-' && s.[1] <> '-'
-      then "-" ^ s
-      else s
-    ) argv
+      else if s.[0] = '-' && s.[1] <> '-' then "-" ^ s
+      else s)
+    argv
 
 let split_argv_at_separator argv =
   let len = Array.length argv in
   let i = Ext_array.rfind_with_index argv Ext_string.equal separator in
-  if i < 0 then
-    argv, [||]
-  else
-    Array.sub argv 0 i,
-    Array.sub argv (i + 1) (len - i - 1)
+  if i < 0 then (argv, [||])
+  else (Array.sub argv 0 i, Array.sub argv (i + 1) (len - i - 1))

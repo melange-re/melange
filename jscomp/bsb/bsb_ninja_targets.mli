@@ -22,9 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
 (** output should always be marked explicitly,
    otherwise the build system can not figure out clearly
    however, for the command we don't need pass `-o`
@@ -37,8 +34,8 @@ val output_build :
   ?implicit_deps:string list ->
   ?rel_deps:string list ->
   ?bs_dependencies:string list ->
-  ?implicit_outputs: string list ->
-  ?js_outputs: (string * bool) list ->
+  ?implicit_outputs:string list ->
+  ?js_outputs:(string * bool) list ->
   ?error_syntax_kind:Bsb_db.syntax_kind ->
   outputs:string list ->
   inputs:string list ->
@@ -47,6 +44,4 @@ val output_build :
   Buffer.t ->
   unit
 
-
 val revise_dune : string -> Buffer.t -> unit
-

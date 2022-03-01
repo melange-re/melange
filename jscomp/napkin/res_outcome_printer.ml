@@ -508,7 +508,7 @@ let printPolyVarIdent txt =
      Doc.group (
        Doc.indent (
          Doc.concat [
-           Doc.softLine;
+           Doc.line;
            Doc.join ~sep:Doc.line (
              List.mapi (fun i constructor ->
                Doc.concat [
@@ -1212,7 +1212,3 @@ let wrap f g fmt x = g fmt (f x)
     Oprint.out_type_extension := wrap copy_out_type_extension printOutTypeExtension;
     Oprint.out_phrase := wrap copy_out_phrase printOutPhrase
   end
-
-
-
-

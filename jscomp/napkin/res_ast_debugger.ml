@@ -148,13 +148,10 @@ module SexpAst = struct
         string txt;
         optChar tag;
       ]
-    | Pconst_char _ ->
+    | Pconst_char c ->
       Sexp.list [
         Sexp.atom "Pconst_char";
-      ]
-    | Pconst_string(_, Some "INTERNAL_RES_CHAR_CONTENTS") ->
-      Sexp.list [
-        Sexp.atom "Pconst_char";
+        Sexp.atom (Char.escaped c);
       ]
     | Pconst_string (txt, tag) ->
       Sexp.list [

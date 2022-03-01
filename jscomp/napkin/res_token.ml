@@ -3,7 +3,7 @@ module Comment = Res_comment
 type t =
   | Open
   | True | False
-  | Codepoint of {c: char; original: string}
+  | Character of char
   | Int of {i: string; suffix: char option}
   | Float of {f: string; suffix: char option}
   | String of string
@@ -88,7 +88,7 @@ let precedence = function
 let toString = function
   | Open -> "open"
   | True -> "true" | False -> "false"
-  | Codepoint {original} -> "codepoint '" ^ original ^ "'"
+  | Character c -> "character '" ^ (Char.escaped c) ^ "'"
   | String s -> "string \"" ^ s ^ "\""
   | Lident str -> str
   | Uident str -> str

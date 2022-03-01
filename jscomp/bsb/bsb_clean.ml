@@ -22,55 +22,48 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-let (//) = Ext_path.combine
-
+let ( // ) = Ext_path.combine
 
 let dune_clean ~dune_args proj_dir =
   try
     let cmd = Literals.dune in
-    let common_args = [|cmd; "clean"|] in
+    let common_args = [| cmd; "clean" |] in
     let args = Array.append common_args dune_args in
-    let eid =
-      Bsb_unix.run_command_execvp {cmd ; args; cwd = proj_dir}
-    in
-    if eid <> 0 then
-      Bsb_log.warn "@{<warning>dune clean failed@}@."
-  with  e ->
+    let eid = Bsb_unix.run_command_execvp { cmd; args; cwd = proj_dir } in
+    if eid <> 0 then Bsb_log.warn "@{<warning>dune clean failed@}@."
+  with e ->
     Bsb_log.warn "@{<warning>dune clean failed@} : %s @." (Printexc.to_string e)
 
 let clean_bs_garbage proj_dir =
-  Bsb_log.info "@{<info>Cleaning:@} in %s@." proj_dir ;
+  Bsb_log.info "@{<info>Cleaning:@} in %s@." proj_dir;
   let try_remove x =
     let x = proj_dir // x in
-    if Sys.file_exists x then
-      Bsb_unix.remove_dir_recursive x  in
+    if Sys.file_exists x then Bsb_unix.remove_dir_recursive x
+  in
   let try_revise_dune dune_file =
-    if Sys.file_exists dune_file then begin
+    if Sys.file_exists dune_file then
       let buf = Buffer.create 0 in
       Bsb_ninja_targets.revise_dune dune_file buf
-    end;
   in
   try
-    Bsb_parse_sources.clean_re_js proj_dir; (* clean re.js files*)
-    Ext_list.iter Bsb_config.all_lib_artifacts try_remove ;
+    Bsb_parse_sources.clean_re_js proj_dir;
+    (* clean re.js files*)
+    Ext_list.iter Bsb_config.all_lib_artifacts try_remove;
 
     try_revise_dune (proj_dir // Literals.dune);
     try_remove (proj_dir // Literals.dune_bsb)
-  with
-    e ->
+  with e ->
     Bsb_log.warn "@{<warning>Failed@} to clean due to %s" (Printexc.to_string e)
 
-
 let clean_self ~dune_args proj_dir =
-    dune_clean ~dune_args proj_dir ;
-    clean_bs_garbage  proj_dir
+  dune_clean ~dune_args proj_dir;
+  clean_bs_garbage proj_dir
 
 let clean ~dune_args proj_dir =
   clean_self ~dune_args proj_dir;
-  let queue = Bsb_build_util.walk_all_deps  proj_dir in
-  Queue.iter (fun (pkg_cxt : Bsb_build_util.package_context )->
+  let queue = Bsb_build_util.walk_all_deps proj_dir in
+  Queue.iter
+    (fun (pkg_cxt : Bsb_build_util.package_context) ->
       (* whether top or not always do the cleaning *)
-      clean_bs_garbage  pkg_cxt.proj_dir
-    ) queue
-
+      clean_bs_garbage pkg_cxt.proj_dir)
+    queue

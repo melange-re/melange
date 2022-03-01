@@ -22,13 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
 (** Define intemediate format to be serialized for cross module optimization
  *)
 
@@ -52,71 +45,48 @@
     ]}
 *)
 
-type arity = 
-  | Single of Lam_arity.t
-  | Submodule of Lam_arity.t array
+type arity = Single of Lam_arity.t | Submodule of Lam_arity.t array
 
 type cmj_value = {
-  arity : arity ; 
-  persistent_closed_lambda : Lam.t option ; 
-  (* Either constant or closed functor *)
+  arity : arity;
+  persistent_closed_lambda : Lam.t option;
+      (* Either constant or closed functor *)
 }
 
 type effect = string option
 
-type keyed_cmj_value = { 
-  name : string ;
-  arity : arity ; 
-  persistent_closed_lambda : Lam.t option
+type keyed_cmj_value = {
+  name : string;
+  arity : arity;
+  persistent_closed_lambda : Lam.t option;
 }
 
-type t =  {
-  values : keyed_cmj_value array ;
-  pure : bool ;
-  package_spec : Js_packages_info.t ;
-  case : Ext_js_file_kind.case ;
-  delayed_program : J.deps_program ;
+type t = {
+  values : keyed_cmj_value array;
+  pure : bool;
+  package_spec : Js_packages_info.t;
+  case : Ext_js_file_kind.case;
+  delayed_program : J.deps_program;
 }
 
-
-val make:
-  values: cmj_value Map_string.t -> 
-  effect: effect -> 
-  package_spec: Js_packages_info.t ->
+val make :
+  values:cmj_value Map_string.t ->
+  effect:effect ->
+  package_spec:Js_packages_info.t ->
   case:Ext_js_file_kind.case ->
-  delayed_program: J.deps_program ->
+  delayed_program:J.deps_program ->
   t
-  
 
-val query_by_name : 
-  t ->
-  string -> 
-  keyed_cmj_value
-
-
-
+val query_by_name : t -> string -> keyed_cmj_value
 val single_na : arity
-
-
-
 val from_file : string -> t
-
-val from_file_with_digest :
-   string -> t * Digest.t
-
+val from_file_with_digest : string -> t * Digest.t
 val from_string : string -> t
 
-(* 
-  Note writing the file if its content is not changed  
+(*
+   Note writing the file if its content is not changed
 *)
-val to_file : 
-  string -> check_exists:bool -> t -> unit
+val to_file : string -> check_exists:bool -> t -> unit
 
-
-
-
-type path = string  
-type cmj_load_info = {
-  cmj_table : t ; 
-  package_path : path ;
-}    
+type path = string
+type cmj_load_info = { cmj_table : t; package_path : path }

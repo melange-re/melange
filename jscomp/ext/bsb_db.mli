@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,39 +32,28 @@
 type case = bool
 
 type info =
-  | Intf (* intemediate state *)
+  | Intf
+  (* intemediate state *)
   | Impl
   | Impl_intf
 
-type syntax_kind =
-  | Ml
-  | Reason
-  | Res
+type syntax_kind = Ml | Reason | Res
+type 'a diff = Same of 'a | Different of { impl : 'a; intf : 'a }
 
-type 'a diff =
-  | Same of 'a
-  | Different of { impl: 'a; intf: 'a }
-
-type module_info =
-  {
-    mutable info : info;
-    dir : string diff;
-    syntax_kind : syntax_kind diff;
-    (* This is actually not stored in bsbuild meta info
-      since creating .d file only emit .cmj/.cmi dependencies, so it does not
-      need know which syntax it is written
-    *)
-    case : bool;
-    name_sans_extension : string;
-  }
-
-type map = module_info Map_string.t
-
-type 'a cat  = {
-  mutable lib : 'a ;
-  mutable dev : 'a;
+type module_info = {
+  mutable info : info;
+  dir : string diff;
+  syntax_kind : syntax_kind diff;
+  (* This is actually not stored in bsbuild meta info
+     since creating .d file only emit .cmj/.cmi dependencies, so it does not
+     need know which syntax it is written
+  *)
+  case : bool;
+  name_sans_extension : string;
 }
 
+type map = module_info Map_string.t
+type 'a cat = { mutable lib : 'a; mutable dev : 'a }
 type t = map cat
 
 (** store  the meta data indexed by {!Bsb_dir_index}
@@ -76,8 +64,3 @@ type t = map cat
 
   ]}
 *)
-
-
-
-
-

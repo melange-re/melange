@@ -24,7 +24,6 @@
 
 let cwd = Sys.getcwd ()
 
-
 (**
    If [Sys.executable_name] gives an absolute path,
    nothing needs to be done.
@@ -45,19 +44,14 @@ let cwd = Sys.getcwd ()
    Only the latter need be adapted based on project root
 *)
 
-let bsc_dir  =
+let bsc_dir =
   Filename.dirname
     (Ext_path.normalize_absolute_path
-       (Ext_path.combine cwd  Sys.executable_name))
+       (Ext_path.combine cwd Sys.executable_name))
 
 let vendor_bsc = "bsc"
-
 let vendor_ninja = "ninja.exe"
-
 let vendor_bsdep = "bsb_helper"
+let bs_dep_parse = "bsb_parse_depend";;
 
-let bs_dep_parse = "bsb_parse_depend"
-
-
-;; assert (Sys.file_exists bsc_dir)
-
+assert (Sys.file_exists bsc_dir)

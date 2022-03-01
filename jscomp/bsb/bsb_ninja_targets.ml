@@ -33,117 +33,109 @@ let dune_trailer_length = String.length dune_trailer
 let revise_dune dune new_content =
   if Sys.file_exists dune then
     let s = Ext_io.load_file dune in
-    let header =  Ext_string.find s ~sub:dune_header  in
+    let header = Ext_string.find s ~sub:dune_header in
     let tail = Ext_string.find s ~sub:dune_trailer in
-    if header < 0  && tail < 0 then (* locked region not added yet *)
+    if header < 0 && tail < 0 then (
+      (* locked region not added yet *)
       let ochan = open_out_bin dune in
-      output_string ochan s ;
+      output_string ochan s;
       output_string ochan "\n";
       output_string ochan dune_header;
       Buffer.output_buffer ochan new_content;
-      output_string ochan dune_trailer ;
+      output_string ochan dune_trailer;
       output_string ochan "\n";
-      close_out ochan
-    else if header >=0 && tail >= 0  then
+      close_out ochan)
+    else if header >= 0 && tail >= 0 then (
       (* there is one, hit it everytime,
          should be fixed point
       *)
       let ochan = open_out_bin dune in
-      output_string ochan (String.sub s 0 header) ;
+      output_string ochan (String.sub s 0 header);
       output_string ochan dune_header;
       Buffer.output_buffer ochan new_content;
-      output_string ochan dune_trailer ;
-      output_string ochan (Ext_string.tail_from s (tail +  dune_trailer_length));
-      close_out ochan
-    else failwith ("the dune file is corrupted, locked region by bsb is not consistent ")
+      output_string ochan dune_trailer;
+      output_string ochan (Ext_string.tail_from s (tail + dune_trailer_length));
+      close_out ochan)
+    else
+      failwith
+        "the dune file is corrupted, locked region by bsb is not consistent "
   else
     let ochan = open_out_bin dune in
-    output_string ochan dune_header ;
+    output_string ochan dune_header;
     Buffer.output_buffer ochan new_content;
-    output_string ochan dune_trailer ;
+    output_string ochan dune_trailer;
     output_string ochan "\n";
     close_out ochan
 
 let output_alias ?action buf ~name ~deps =
- begin match action with
- | Some action ->
-   Buffer.add_string buf "\n(rule (alias ";
-   Buffer.add_string buf name;
-   Buffer.add_string buf ")\n (action ";
-   Buffer.add_string buf action
- | None ->
-  Buffer.add_string buf "\n(alias (name ";
-  Buffer.add_string buf name
-  end;
+  (match action with
+  | Some action ->
+      Buffer.add_string buf "\n(rule (alias ";
+      Buffer.add_string buf name;
+      Buffer.add_string buf ")\n (action ";
+      Buffer.add_string buf action
+  | None ->
+      Buffer.add_string buf "\n(alias (name ";
+      Buffer.add_string buf name);
   Buffer.add_string buf ")";
-  if deps <> [] then begin
-  Buffer.add_string buf "(deps ";
-  Ext_list.iter deps (fun x ->
-       Buffer.add_string buf Ext_string.single_space;
-       Buffer.add_string buf (Filename.basename x));
-   Buffer.add_string buf ")"
-  end;
- Buffer.add_char buf '\n';
- Buffer.add_string buf enabled_if ;
- Buffer.add_string buf ")"
+  if deps <> [] then (
+    Buffer.add_string buf "(deps ";
+    Ext_list.iter deps (fun x ->
+        Buffer.add_string buf Ext_string.single_space;
+        Buffer.add_string buf (Filename.basename x));
+    Buffer.add_string buf ")");
+  Buffer.add_char buf '\n';
+  Buffer.add_string buf enabled_if;
+  Buffer.add_string buf ")"
 
-let output_build
-    ?(implicit_deps=[])
-    ?(rel_deps=[])
-    ?(bs_dependencies=[])
-    ?(implicit_outputs=[])
-    ?(js_outputs=[])
-    ?error_syntax_kind
-    ~outputs
-    ~inputs
-    ~rule
-    cur_dir
-    buf =
+let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
+    ?(implicit_outputs = []) ?(js_outputs = []) ?error_syntax_kind ~outputs
+    ~inputs ~rule cur_dir buf =
   let just_js_outputs = List.map fst js_outputs in
   Buffer.add_string buf "(rule\n(targets ";
-  Ext_list.iter outputs (fun s -> Buffer.add_string buf Ext_string.single_space ; Buffer.add_string buf (Filename.basename s)  );
-  if implicit_outputs <> [] || js_outputs <> [] then begin
-    Ext_list.iter (implicit_outputs @ just_js_outputs) (fun s ->
+  Ext_list.iter outputs (fun s ->
       Buffer.add_string buf Ext_string.single_space;
-      Buffer.add_string buf (Filename.basename s))
-  end;
+      Buffer.add_string buf (Filename.basename s));
+  if implicit_outputs <> [] || js_outputs <> [] then
+    Ext_list.iter (implicit_outputs @ just_js_outputs) (fun s ->
+        Buffer.add_string buf Ext_string.single_space;
+        Buffer.add_string buf (Filename.basename s));
   Buffer.add_string buf ")\n ";
   let in_source_outputs =
-    List.filter_map (fun (js, in_source) ->
-      if in_source then Some js else None)
+    List.filter_map
+      (fun (js, in_source) -> if in_source then Some js else None)
       js_outputs
   in
-  if in_source_outputs <> [] then begin
-   Buffer.add_string buf "(mode (promote (until-clean) (only";
-   Ext_list.iter in_source_outputs  (fun s ->
-     Buffer.add_string buf Ext_string.single_space;
-     Buffer.add_string buf (Filename.basename s));
-   Buffer.add_string buf ")))";
-  end;
+  if in_source_outputs <> [] then (
+    Buffer.add_string buf "(mode (promote (until-clean) (only";
+    Ext_list.iter in_source_outputs (fun s ->
+        Buffer.add_string buf Ext_string.single_space;
+        Buffer.add_string buf (Filename.basename s));
+    Buffer.add_string buf ")))");
   Buffer.add_string buf "(deps (:inputs ";
   Ext_list.iter inputs (fun s ->
-    Buffer.add_string buf Ext_string.single_space;
-    Buffer.add_string buf s);
+      Buffer.add_string buf Ext_string.single_space;
+      Buffer.add_string buf s);
   Buffer.add_string buf ") ";
-  if implicit_deps <> [] then begin
-      Ext_list.iter implicit_deps (fun s ->
+  if implicit_deps <> [] then
+    Ext_list.iter implicit_deps (fun s ->
         Buffer.add_string buf Ext_string.single_space;
-        Buffer.add_string buf s)
-  end;
-  Ext_list.iter rel_deps (fun s -> Buffer.add_string buf Ext_string.single_space; Buffer.add_string buf s);
+        Buffer.add_string buf s);
+  Ext_list.iter rel_deps (fun s ->
+      Buffer.add_string buf Ext_string.single_space;
+      Buffer.add_string buf s);
   if bs_dependencies <> [] then
     Ext_list.iter bs_dependencies (fun dir ->
-      Buffer.add_string buf "(alias "; Buffer.add_string buf dir; Buffer.add_string buf ")";
-    );
+        Buffer.add_string buf "(alias ";
+        Buffer.add_string buf dir;
+        Buffer.add_string buf ")");
   Buffer.add_string buf ")";
   Buffer.add_string buf "\n";
   Bsb_ninja_rule.output_rule
-    ~target:(String.concat Ext_string.single_space (Ext_list.map outputs Filename.basename))
-    ?error_syntax_kind
-    rule
-    buf
-    cur_dir;
+    ~target:
+      (String.concat Ext_string.single_space
+         (Ext_list.map outputs Filename.basename))
+    ?error_syntax_kind rule buf cur_dir;
   Buffer.add_char buf '\n';
   Buffer.add_string buf enabled_if;
   Buffer.add_string buf " )\n "
-

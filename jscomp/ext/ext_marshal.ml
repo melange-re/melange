@@ -22,12 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
 (*
 let to_file filename v =
   let chan = open_out_bin filename in
@@ -41,9 +35,8 @@ let from_file filename =
   close_in chan;
   v  *)
 
-external from_bytes_unsafe: bytes -> int -> 'a
-  = "caml_input_value_from_bytes"
+external from_bytes_unsafe : bytes -> int -> 'a = "caml_input_value_from_bytes"
 
-let from_string_uncheck (s:string) =
+let from_string_uncheck (s : string) =
   let s = Bytes.unsafe_of_string s in
   from_bytes_unsafe s 0

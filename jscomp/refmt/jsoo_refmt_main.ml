@@ -29,109 +29,112 @@ This is usually the file you want to build for the full playground experience.
 
 module Js = Jsoo_common.Js
 
-let () =  
+let () =
   Bs_conditional_initial.setup_env ();
   Clflags.binary_annotations := false
 
-let error_of_exn e =   
-  match Location.error_of_exn e with 
-  | Some (`Ok e) -> Some e 
-  | Some `Already_displayed
-  | None -> None
+let error_of_exn e =
+  match Location.error_of_exn e with
+  | Some (`Ok e) -> Some e
+  | Some `Already_displayed | None -> None
 
-let implementation ~use_super_errors impl str  : Js.Unsafe.obj =
+let implementation ~use_super_errors impl str : Js.Unsafe.obj =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
   (* Res_compmisc.init_path false; *)
   (* let modulename = module_of_filename ppf sourcefile outputprefix in *)
   (* Env.set_unit_name modulename; *)
-  Lam_compile_env.reset () ;
-  let env = Res_compmisc.initial_env() in (* Question ?? *)
+  Lam_compile_env.reset ();
+  let env = Res_compmisc.initial_env () in
+  (* Question ?? *)
   (* let finalenv = ref Env.empty in *)
   let types_signature = ref [] in
-  if use_super_errors then begin
+  if use_super_errors then (
     Misc.Color.setup (Some Always);
-    Lazy.force Super_main.setup ;
-  end;
+    Lazy.force Super_main.setup);
 
   try
-    Js_config.jsx_version :=  3 ; (* default *)
-    let ast = impl (Lexing.from_string str) in     
-    let ast = Ppx_entry.rewrite_implementation ast in 
-    let typed_tree = 
-      let (a,b,_,signature) = Typemod.type_implementation_more modulename modulename modulename env ast in
+    Js_config.jsx_version := 3;
+    (* default *)
+    let ast = impl (Lexing.from_string str) in
+    let ast = Ppx_entry.rewrite_implementation ast in
+    let typed_tree =
+      let a, b, _, signature =
+        Typemod.type_implementation_more modulename modulename modulename env
+          ast
+      in
       (* finalenv := c ; *)
       types_signature := signature;
-      (a,b) in      
-  typed_tree
-  |>  Translmod.transl_implementation modulename
-  |> (* Printlambda.lambda ppf *) (fun 
-    {Lambda.code = lam}
-
-    ->
-      let buffer = Buffer.create 1000 in
-      let () = Js_dump_program.pp_deps_program
-                          ~output_prefix:"" (* does not matter here *)
-                          NodeJS
-                          (Lam_compile_main.compile ""
-                              lam)
-                          (Ext_pp.from_buffer buffer) in
-      let v = Buffer.contents buffer in
-      Js.Unsafe.(obj [| "js_code", inject @@ Js.string v |]) )
-      (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
-  with
-  | e ->
-      begin match error_of_exn e with
-      | Some error ->
-        Location.report_error Format.err_formatter  error;
+      (a, b)
+    in
+    typed_tree |> Translmod.transl_implementation modulename
+    |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam } ->
+    let buffer = Buffer.create 1000 in
+    let () =
+      Js_dump_program.pp_deps_program
+        ~output_prefix:"" (* does not matter here *)
+        NodeJS
+        (Lam_compile_main.compile "" lam)
+        (Ext_pp.from_buffer buffer)
+    in
+    let v = Buffer.contents buffer in
+    Js.Unsafe.(obj [| ("js_code", inject @@ Js.string v) |])
+    (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
+  with e -> (
+    match error_of_exn e with
+    | Some error ->
+        Location.report_error Format.err_formatter error;
         Jsoo_common.mk_js_error error.loc error.msg
-      | None ->
+    | None -> (
         let msg = Printexc.to_string e in
         match e with
-        | Refmt_api.Migrate_parsetree.Def.Migration_error (_,loc)
-        | Refmt_api.Reason_errors.Reason_error (_,loc) ->
-          Jsoo_common.mk_js_error loc msg
-        | _ -> 
-          Js.Unsafe.(obj [|
-            "js_error_msg" , inject @@ Js.string msg;
-            "type" , inject @@ Js.string "error"
-          |])
-      end
+        | Refmt_api.Migrate_parsetree.Def.Migration_error (_, loc)
+        | Refmt_api.Reason_errors.Reason_error (_, loc) ->
+            Jsoo_common.mk_js_error loc msg
+        | _ ->
+            Js.Unsafe.(
+              obj
+                [|
+                  ("js_error_msg", inject @@ Js.string msg);
+                  ("type", inject @@ Js.string "error");
+                |])))
 
-
-let compile ~use_super_errors impl =
-    implementation ~use_super_errors impl
-
-let export (field : string) v =
-  Js.Unsafe.set (Js.Unsafe.global) field v
-;;
+let compile ~use_super_errors impl = implementation ~use_super_errors impl
+let export (field : string) v = Js.Unsafe.set Js.Unsafe.global field v
 
 (* To add a directory to the load path *)
-let dir_directory d =
-  Config.load_path := d :: !Config.load_path
-let () =
-  dir_directory "/static"
+let dir_directory d = Config.load_path := d :: !Config.load_path
+let () = dir_directory "/static"
 
-module Converter = Refmt_api.Migrate_parsetree.Convert(Refmt_api.Migrate_parsetree.OCaml_404)(Refmt_api.Migrate_parsetree.OCaml_406)
+module Converter =
+  Refmt_api.Migrate_parsetree.Convert
+    (Refmt_api.Migrate_parsetree.OCaml_404)
+    (Refmt_api.Migrate_parsetree.OCaml_406)
 
-let reason_parse lexbuf = 
-  Refmt_api.Reason_toolchain.RE.implementation lexbuf |> Converter.copy_structure;;
+let reason_parse lexbuf =
+  Refmt_api.Reason_toolchain.RE.implementation lexbuf
+  |> Converter.copy_structure
 
-let make_compiler ~name impl=
+let make_compiler ~name impl =
   export name
-    (Js.Unsafe.(obj
-                  [|"compile",
-                    inject @@
-                    Js.wrap_meth_callback
-                      (fun _ code ->
-                         (compile impl ~use_super_errors:false (Js.to_string code)));
-                    "compile_super_errors",
-                    inject @@
-                    Js.wrap_meth_callback
-                      (fun _ code ->
-                         (compile impl ~use_super_errors:true (Js.to_string code)));
-                    "version", Js.Unsafe.inject (Js.string (match name with | "reason" -> Refmt_api.version | _ -> Bs_version.version));
-                  |]))
+    Js.Unsafe.(
+      obj
+        [|
+          ( "compile",
+            inject
+            @@ Js.wrap_meth_callback (fun _ code ->
+                   compile impl ~use_super_errors:false (Js.to_string code)) );
+          ( "compile_super_errors",
+            inject
+            @@ Js.wrap_meth_callback (fun _ code ->
+                   compile impl ~use_super_errors:true (Js.to_string code)) );
+          ( "version",
+            Js.Unsafe.inject
+              (Js.string
+                 (match name with
+                 | "reason" -> Refmt_api.version
+                 | _ -> Bs_version.version)) );
+        |])
 
 let () = make_compiler ~name:"ocaml" Parse.implementation
 let () = make_compiler ~name:"reason" reason_parse
@@ -139,4 +142,3 @@ let () = make_compiler ~name:"reason" reason_parse
 (* local variables: *)
 (* compile-command: "ocamlbuild -use-ocamlfind -pkg compiler-libs -no-hygiene driver.cmo" *)
 (* end: *)
-

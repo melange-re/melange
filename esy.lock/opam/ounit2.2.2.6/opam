@@ -1,0 +1,37 @@
+opam-version: "2.0"
+maintainer: "Sylvain Le Gall <sylvaini+ocaml@le-gall.net>"
+authors: [ "Maas-Maarten Zeeman" "Sylvain Le Gall" ]
+homepage: "https://github.com/gildor478/ounit"
+dev-repo: "git+https://github.com/gildor478/ounit.git"
+bug-reports: "https://github.com/gildor478/ounit/issues"
+doc: "https://gildor478.github.io/ounit/"
+license: "MIT"
+depends: [
+  "ocaml" {>= "4.04.0"}
+  "dune" {>= "1.11.0"}
+  "base-bytes"
+  "base-unix"
+  "seq"
+  "stdlib-shims"
+]
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+  ["dune" "build" "@doc" "-p" name "-j" jobs] {with-doc}
+]
+synopsis: "OUnit testing framework"
+description: """
+OUnit is a unit test framework for OCaml. It allows one to easily create
+unit-tests for OCaml code. It is loosely based on [HUnit], a unit testing
+framework for Haskell. It is similar to [JUnit], and other XUnit testing
+frameworks.
+"""
+url {
+  src:
+    "https://github.com/gildor478/ounit/releases/download/v2.2.6/ounit-2.2.6.tbz"
+  checksum: [
+    "sha256=0690fb1e0e90a18eed5c3566b3cc1825d98b0e8c7d51bb6b846c95c45a615913"
+    "sha512=d7cb36a1fe245d02afab606cd1ee755a178ee4cb18fbbfec1df32baa88fa90ef6c9a50d9fd5bde46c7fd9c481f2debe4bafac75c4e3bdfbdb63fc18b0ccce3cc"
+  ]
+}
+x-commit-hash: "77f01c482bd618eabde7c5065beae2d68db88723"

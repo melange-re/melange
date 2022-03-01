@@ -40,7 +40,7 @@ type t = {
   name :
     Buffer.t ->
     ?error_syntax_kind:Bsb_db.syntax_kind ->
-    ?target:string -> 
+    ?target:string ->
     string ->
     unit
 }
@@ -67,6 +67,8 @@ type builtin = {
   (** platform dependent, on Win32,
       invoking cmd.exe
   *)
+  build_bin_deps : t ;
+  build_bin_deps_dev : t;
   mj : t;
   mj_dev : t;
   mij : t ;
@@ -117,16 +119,8 @@ let make_custom_rules
         ?namespace
         dirs
     in
-    Buffer.add_string buf "(action\n (progn ";
-    Buffer.add_string buf "(dynamic-run ";
-    Buffer.add_string buf global_config.bsdep;
-    if is_dev then Buffer.add_string buf " -g";
-    Buffer.add_string buf ns_flag;
-    Buffer.add_string buf " -root ";
-    Buffer.add_string buf global_config.per_proj_dir;
-    Buffer.add_string buf " -cwd ";
-    Buffer.add_string buf cur_dir;
-    Buffer.add_string buf " %{ast_deps}) (run ";
+    Buffer.add_string buf "(action\n ";
+    Buffer.add_string buf " (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf ns_flag;
     if not has_builtin then
@@ -166,7 +160,7 @@ let make_custom_rules
     Buffer.add_string buf " -o ";
     Buffer.add_string buf target;
     Buffer.add_string buf " %{inputs}";
-    Buffer.add_string buf ")))";
+    Buffer.add_string buf "))";
     begin match postbuild with
     | None -> ()
     | Some cmd ->
@@ -213,6 +207,31 @@ let make_custom_rules
   let aux ~name ~read_cmi ~postbuild =
     define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:false ~postbuild) name,
     define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild) (name ^ "_dev")
+
+  in
+
+  let build_bin_deps =
+    define
+      ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
+        let s = Format.asprintf "(action (run %s -cwd %s -root %s %s %%{inputs}))"
+          global_config.bsdep
+          cur_dir
+          global_config.per_proj_dir
+          ns_flag
+        in
+        Buffer.add_string buf s)
+      "deps" in
+  let build_bin_deps_dev =
+    define
+      ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
+        let s = Format.asprintf "(action (run %s -g -cwd %s -root %s %s %%{inputs}))"
+          global_config.bsdep
+          cur_dir
+          global_config.per_proj_dir
+          ns_flag
+        in
+        Buffer.add_string buf s)
+      "deps_dev"
   in
 
   let mj, mj_dev =
@@ -236,6 +255,8 @@ let make_custom_rules
   in
   {
     build_ast ;
+    build_bin_deps ;
+    build_bin_deps_dev;
     mj  ;
     mj_dev  ;
     mij  ;

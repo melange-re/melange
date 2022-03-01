@@ -22,8 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
+open Bsb_helper
 
 let () =
   let namespace = ref None in
@@ -37,53 +36,38 @@ let () =
   while !current < l do
     let s = argv.(!current) in
     incr current;
-    if s <> "" && s.[0] = '-' then begin
+    if s <> "" && s.[0] = '-' then (
       match s with
       | "-root" ->
-        let root_arg = argv.(!current) in
-        root := Some root_arg;
-        incr current
+          let root_arg = argv.(!current) in
+          root := Some root_arg;
+          incr current
       | "-cwd" ->
-        let cwd_arg = argv.(!current) in
-        cwd := Some cwd_arg;
-        incr current
+          let cwd_arg = argv.(!current) in
+          cwd := Some cwd_arg;
+          incr current
       | "-bs-ns" ->
-        let ns = argv.(!current) in
-        namespace := Some ns;
-        incr current
-      | "-g"  ->
-        dev_group := true
+          let ns = argv.(!current) in
+          namespace := Some ns;
+          incr current
+      | "-g" -> dev_group := true
       | s ->
-        prerr_endline ("unknown options: " ^ s);
-        prerr_endline ("available options: -bs-ns [ns]; -g; -cwd; -root");
-        exit 2
-    end else
-      rev_list := s :: !rev_list
+          prerr_endline ("unknown options: " ^ s);
+          prerr_endline "available options: -bs-ns [ns]; -g; -cwd; -root";
+          exit 2)
+    else rev_list := s :: !rev_list
   done;
-  match !cwd, !root with
-  | Some cwd, Some root ->
-    (
+  match (!cwd, !root) with
+  | Some cwd, Some root -> (
       match !rev_list with
-      | [x]
-        ->  Bsb_helper.Bsb_helper_depfile_gen.compute_dependency_info
-              ~root
-              ~cwd
-              !dev_group
-              !namespace x ""
-      | [y; x] (* reverse order *)
-        ->
-        Bsb_helper.Bsb_helper_depfile_gen.compute_dependency_info
-          ~root
-          ~cwd
-          !dev_group
-          !namespace x y
-      | _ ->
-        prerr_endline "too many arguments to bsb_helper";
-        exit 2
-    )
+      | [ x ] ->
+          Bsb_helper_depfile_gen.emit_d ~root ~cwd !dev_group !namespace x ""
+      | [ y; x ] (* reverse order *) ->
+          Bsb_helper_depfile_gen.emit_d ~root ~cwd !dev_group !namespace x y
+      | _ -> ())
+  | None, Some _ ->
+      prerr_endline "-cwd is a required option";
+      exit 2
   | _ ->
-    prerr_endline "-cwd is a required option";
-    exit 2
-
-;;
-
+      prerr_endline "-root is a required option";
+      exit 2

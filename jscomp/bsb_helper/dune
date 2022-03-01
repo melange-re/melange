@@ -1,3 +1,4 @@
 (library
  (name bsb_helper)
- (libraries dune-action-plugin ext common unix))
+ (modules bsb_db_decode bsb_helper_depfile_gen)
+ (libraries bs_hash_stubs ext common unix str))

@@ -22,32 +22,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
 let js_flag = 100000008
 let js_object_flag = 100000032
+let is_js (i : Ident.t) = Ident.scope i = js_flag
+let is_js_or_global (i : Ident.t) = Ident.global i || is_js i
 
-let is_js (i : Ident.t) =
-  (Ident.scope i) = js_flag
-
-let is_js_or_global (i : Ident.t) =
-  Ident.global i || is_js i
-
-
-type[@ocaml.warning "-unused-constructor"] t =
-  | Local of { name: string; stamp: int }
-  | Scoped of { name: string; stamp: int; scope: int }
+type t =
+  | Local of { name : string; stamp : int }
+  | Scoped of { name : string; stamp : int; scope : int }
   | Global of string
-  | Predef of { name: string; stamp: int }
+  | Predef of { name : string; stamp : int }
+[@@ocaml.warning "-unused-constructor"]
 
-let stamp (id: Ident.t) =
-  let stamp = match (Obj.magic id : t) with
-    | Local { stamp; _ }
-    | Scoped { stamp; _ } -> stamp
+let stamp (id : Ident.t) =
+  let stamp =
+    match (Obj.magic id : t) with
+    | Local { stamp; _ } | Scoped { stamp; _ } -> stamp
     | _ -> 0
   in
   stamp
@@ -60,14 +50,14 @@ let stamp (id: Ident.t) =
    recursion).
 
    An interesting read: https://github.com/ocaml/ocaml/pull/1980 *)
-let create_unsafe_dont_use_or_bad_things_will_happen ~scope ~stamp name =
-  (Obj.magic (Scoped { name; stamp; scope }) : Ident.t)
+let create_unsafe_dont_use_or_bad_things_will_happen ~scope ~stamp name :
+    Ident.t =
+  Obj.magic (Scoped { name; stamp; scope })
 
 let make_js_object (i : Ident.t) =
-  create_unsafe_dont_use_or_bad_things_will_happen
-   ~stamp:(stamp i)
-   ~scope:(Ident.scope i lor js_object_flag)
-   (Ident.name i)
+  create_unsafe_dont_use_or_bad_things_will_happen ~stamp:(stamp i)
+    ~scope:(Ident.scope i lor js_object_flag)
+    (Ident.name i)
 
 (* `create_js` creates an ident that has been described to us by the JS FFI. In
    OCaml 4.06 and below, the `Ident.t` type abused `flags` and `stamp` to mark
@@ -75,15 +65,13 @@ let make_js_object (i : Ident.t) =
    only has the `Ident.t` type been made abstract, but also the `Global of
    string` constructor stopped taking "flags" (which we need to mark the value
    as coming from the JS FFI). *)
-let create_js (name : string) : Ident.t  =
+let create_js (name : string) : Ident.t =
   create_unsafe_dont_use_or_bad_things_will_happen ~stamp:0 ~scope:js_flag name
 
 let create = Ident.create_local
 
 (* FIXME: no need for `$' operator *)
-let create_tmp ?(name=Literals.tmp) () = create name
-
-
+let create_tmp ?(name = Literals.tmp) () = create name
 let js_module_table : Ident.t Hash_string.t = Hash_string.create 31
 
 (* This is for a js exeternal module, we can change it when printing
@@ -96,79 +84,75 @@ let js_module_table : Ident.t Hash_string.t = Hash_string.create 31
    Given a name, if duplicated, they should  have the same id
 *)
 (* let create_js_module (name : string) : Ident.t =
-  let name =
-    String.concat "" @@ Ext_list.map
-    (Ext_string.split name '-')  Ext_string.capitalize_ascii in
-  (* TODO: if we do such transformation, we should avoid       collision for example:
-      react-dom
-      react--dom
-      check collision later
-  *)
-  match Hash_string.find_exn js_module_table name  with
-  | exception Not_found ->
-    let ans = Ident.create name in
-    (* let ans = { v with flags = js_module_flag} in  *)
-    Hash_string.add js_module_table name ans;
-    ans
-  | v -> (* v *) Ident.rename v
+   let name =
+     String.concat "" @@ Ext_list.map
+     (Ext_string.split name '-')  Ext_string.capitalize_ascii in
+   (* TODO: if we do such transformation, we should avoid       collision for example:
+       react-dom
+       react--dom
+       check collision later
+   *)
+   match Hash_string.find_exn js_module_table name  with
+   | exception Not_found ->
+     let ans = Ident.create name in
+     (* let ans = { v with flags = js_module_flag} in  *)
+     Hash_string.add js_module_table name ans;
+     ans
+   | v -> (* v *) Ident.rename v
+*)
 
-
- *)
-
-let [@inline] convert ?(op=false) (c : char) : string =
-  (match c with
-   | '*' ->   "$star"
-   | '\'' ->   "$p"
-   | '!' ->   "$bang"
-   | '>' ->   "$great"
-   | '<' ->   "$less"
-   | '=' ->   "$eq"
-   | '+' ->   "$plus"
-   | '-' ->   if op then "$neg" else "$"
-   | '@' ->   "$at"
-   | '^' ->   "$caret"
-   | '/' ->   "$slash"
-   | '|' ->   "$pipe"
-   | '.' ->   "$dot"
-   | '%' ->   "$percent"
-   | '~' ->   "$tilde"
-   | '#' ->   "$hash"
-   | ':' ->   "$colon"
-   | '?' ->   "$question"
-   | '&' ->   "$amp"
-   | '(' ->   "$lpar"
-   | ')' ->   "$rpar"
-   | '{' ->   "$lbrace"
-   | '}' ->   "$lbrace"
-   | '[' ->   "$lbrack"
-   | ']' ->   "$rbrack"
-
-   | _ ->   "$unknown")
-let [@inline] no_escape (c : char) =
+let[@inline] convert ?(op = false) (c : char) : string =
   match c with
-  | 'a' .. 'z' | 'A' .. 'Z'
-  | '0' .. '9' | '_' | '$' -> true
+  | '*' -> "$star"
+  | '\'' -> "$p"
+  | '!' -> "$bang"
+  | '>' -> "$great"
+  | '<' -> "$less"
+  | '=' -> "$eq"
+  | '+' -> "$plus"
+  | '-' -> if op then "$neg" else "$"
+  | '@' -> "$at"
+  | '^' -> "$caret"
+  | '/' -> "$slash"
+  | '|' -> "$pipe"
+  | '.' -> "$dot"
+  | '%' -> "$percent"
+  | '~' -> "$tilde"
+  | '#' -> "$hash"
+  | ':' -> "$colon"
+  | '?' -> "$question"
+  | '&' -> "$amp"
+  | '(' -> "$lpar"
+  | ')' -> "$rpar"
+  | '{' -> "$lbrace"
+  | '}' -> "$lbrace"
+  | '[' -> "$lbrack"
+  | ']' -> "$rbrack"
+  | _ -> "$unknown"
+
+let[@inline] no_escape (c : char) =
+  match c with
+  | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '$' -> true
   | _ -> false
 
 exception Not_normal_letter of int
 
 let name_mangle name =
-  let len = String.length name  in
+  let len = String.length name in
   try
-    for i  = 0 to len - 1 do
+    for i = 0 to len - 1 do
       if not (no_escape (String.unsafe_get name i)) then
         raise_notrace (Not_normal_letter i)
     done;
     name (* Normal letter *)
-  with
-  | Not_normal_letter i ->
+  with Not_normal_letter i ->
     let buffer = Ext_buffer.create len in
-    for j = 0 to  len - 1 do
+    for j = 0 to len - 1 do
       let c = String.unsafe_get name j in
       if no_escape c then Ext_buffer.add_char buffer c
-      else
-        Ext_buffer.add_string buffer (convert ~op:(i=0) c)
-    done; Ext_buffer.contents buffer
+      else Ext_buffer.add_string buffer (convert ~op:(i = 0) c)
+    done;
+    Ext_buffer.contents buffer
 
 (* TODO:
     check name conflicts with javascript conventions
@@ -181,9 +165,7 @@ let name_mangle name =
    a valid js identifier
 *)
 let convert (name : string) =
-  if  Js_reserved_map.is_reserved name  then
-    "$$" ^ name
-  else name_mangle name
+  if Js_reserved_map.is_reserved name then "$$" ^ name else name_mangle name
 
 (** keyword could be used in property *)
 
@@ -192,24 +174,16 @@ let convert (name : string) =
     - other solution: use lazy values
 *)
 let make_unused () = create "_"
-
-
-
-let reset () =
-  Hash_string.clear js_module_table
-
+let reset () = Hash_string.clear js_module_table
 
 (* Has to be total order, [x < y]
    and [x > y] should be consistent
    flags are not relevant here
 *)
-let compare (x : Ident.t ) ( y : Ident.t) =
+let compare (x : Ident.t) (y : Ident.t) =
   let u = stamp x - stamp y in
-  if u = 0 then
-    Ext_string.compare (Ident.name x) (Ident.name y)
-  else u
+  if u = 0 then Ext_string.compare (Ident.name x) (Ident.name y) else u
 
-let equal ( x : Ident.t) ( y : Ident.t) =
+let equal (x : Ident.t) (y : Ident.t) =
   if stamp x <> 0 then stamp x = stamp y
   else stamp y = 0 && Ident.name x = Ident.name y
-

@@ -22,88 +22,61 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-val install_dir: string
-val stdlib_path: string lazy_t
-val include_dirs: string list
+val install_dir : string
+val stdlib_path : string lazy_t
+val include_dirs : string list
 
 (* val get_packages_info :
    unit -> Js_packages_info.t *)
 
-
-(** set/get header *)
 val no_version_header : bool ref
-
+(** set/get header *)
 
 (** return [package_name] and [path]
     when in script mode:
 *)
 
 (* val get_current_package_name_and_path :
-  Js_packages_info.module_system ->
-  Js_packages_info.info_query *)
-
+   Js_packages_info.module_system ->
+   Js_packages_info.info_query *)
 
 (* val set_package_name : string -> unit
-val get_package_name : unit -> string option *)
+   val get_package_name : unit -> string option *)
 
-(** cross module inline option *)
 val cross_module_inline : bool ref
+(** cross module inline option *)
 
-(** diagnose option *)
 val diagnose : bool ref
+(** diagnose option *)
+
 val get_diagnose : unit -> bool
 (* val set_diagnose : bool -> unit  *)
 
-
-(** options for builtin ppx *)
 val no_builtin_ppx : bool ref
+(** options for builtin ppx *)
 
-
-
-
-
-
-(** check-div-by-zero option *)
 val check_div_by_zero : bool ref
+(** check-div-by-zero option *)
+
 val get_check_div_by_zero : unit -> bool
-
-
-
 val tool_name : string
-
-
-val syntax_only  : bool ref
+val syntax_only : bool ref
 val binary_ast : bool ref
-
-
-
-
 val debug : bool ref
-
-val cmi_only  : bool ref
+val cmi_only : bool ref
 val cmj_only : bool ref
+
 (* stopped after generating cmj *)
 val force_cmi : bool ref
 val force_cmj : bool ref
-
 val jsx_version : int ref
 val refmt : string option ref
-
-
 val js_stdout : bool ref
-
 val all_module_aliases : bool ref
-
-val no_stdlib: bool ref
-val no_export: bool ref
-
+val no_stdlib : bool ref
+val no_export : bool ref
 val format : Ext_file_extensions.syntax_kind option ref
 val as_ppx : bool ref
-
-
 val customize_runtime : string option ref
-val as_pp: bool ref
-
+val as_pp : bool ref
 val modules : bool ref

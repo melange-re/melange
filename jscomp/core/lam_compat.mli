@@ -22,20 +22,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-type boxed_integer = Lambda.boxed_integer =
-    Pnativeint | Pint32 | Pint64
-
+type boxed_integer = Lambda.boxed_integer = Pnativeint | Pint32 | Pint64
 
 type integer_comparison = Lambda.integer_comparison =
-    Ceq | Cne | Clt | Cgt | Cle | Cge
+  | Ceq
+  | Cne
+  | Clt
+  | Cgt
+  | Cle
+  | Cge
 
 type float_comparison = Lambda.float_comparison =
-    CFeq | CFneq | CFlt | CFnlt | CFgt | CFngt | CFle | CFnle | CFge | CFnge
-
-
+  | CFeq
+  | CFneq
+  | CFlt
+  | CFnlt
+  | CFgt
+  | CFngt
+  | CFle
+  | CFnle
+  | CFge
+  | CFnge
 
 type compile_time_constant =
   | Big_endian
@@ -44,25 +51,15 @@ type compile_time_constant =
   | Ostype
   | Backend_type
 
-
-type let_kind = Lambda.let_kind
-= Strict
-| Alias
-| StrictOpt
-| Variable
-
-type meth_kind = Lambda.meth_kind
-= Self
-| Public of string option
-| Cached
-
+type let_kind = Lambda.let_kind = Strict | Alias | StrictOpt | Variable
+type meth_kind = Lambda.meth_kind = Self | Public of string option | Cached
 
 type field_dbg_info = Lambda.field_dbg_info =
   | Fld_na of string
-  | Fld_record of {name : string; mutable_flag : Asttypes.mutable_flag}
-  | Fld_module of {name : string }
-  | Fld_record_inline of {name : string}
-  | Fld_record_extension of {name : string}
+  | Fld_record of { name : string; mutable_flag : Asttypes.mutable_flag }
+  | Fld_module of { name : string }
+  | Fld_record_inline of { name : string }
+  | Fld_record_extension of { name : string }
   | Fld_tuple
   | Fld_poly_var_tag
   | Fld_poly_var_content
@@ -71,9 +68,7 @@ type field_dbg_info = Lambda.field_dbg_info =
   | Fld_cons
   | Fld_array
 
-val str_of_field_info :
-  field_dbg_info ->
-  string option
+val str_of_field_info : field_dbg_info -> string option
 
 type set_field_dbg_info = Lambda.set_field_dbg_info =
   | Fld_set_na
@@ -81,14 +76,14 @@ type set_field_dbg_info = Lambda.set_field_dbg_info =
   | Fld_record_inline_set of string
   | Fld_record_extension_set of string
 
-
 val cmp_int32 : integer_comparison -> int32 -> int32 -> bool
 val cmp_int64 : integer_comparison -> int64 -> int64 -> bool
 val cmp_nativeint : integer_comparison -> nativeint -> nativeint -> bool
 val cmp_float : float_comparison -> float -> float -> bool
 val cmp_int : integer_comparison -> int -> int -> bool
-
 val eq_comparison : integer_comparison -> integer_comparison -> bool
 val eq_float_comparison : float_comparison -> float_comparison -> bool
-val eq_boxed_integer: boxed_integer -> boxed_integer -> bool
-val eq_compile_time_constant : compile_time_constant -> compile_time_constant -> bool
+val eq_boxed_integer : boxed_integer -> boxed_integer -> bool
+
+val eq_compile_time_constant :
+  compile_time_constant -> compile_time_constant -> bool
