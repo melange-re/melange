@@ -41,7 +41,7 @@ var getOcamldepFile = () => {
 
 var getBsc = () => {
   // TODO(anmonteiro): fix for CI
-  return "./_build/default/jscomp/main/js_main.exe";
+  return "./_build/default/jscomp/main/melc.exe";
 }
 
 function ruleCC(flags, src, target, deps = [], promoteExts) {
@@ -61,7 +61,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run %{workspace_root}/jscomp/main/js_main.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
@@ -82,7 +82,7 @@ ${promoteTarget ? `
     (only ${promoteTarget.join(' ')})))
 ` : ""}
     (action
-     (run %{workspace_root}/jscomp/main/js_main.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
 `;
 }
 
