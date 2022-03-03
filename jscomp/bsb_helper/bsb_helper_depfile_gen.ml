@@ -120,7 +120,7 @@ let process_deps_for_dune ~root ~cwd deps =
     Ext_list.map deps (fun dep ->
         Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // dep))
   in
-  String.concat "\n" rel_deps
+  String.concat " " rel_deps
 
 let emit_d ~cwd ~root (is_dev : bool) (namespace : string option)
     (mlast : string) (mliast : string) =
@@ -131,5 +131,7 @@ let emit_d ~cwd ~root (is_dev : bool) (namespace : string option)
   if mliast <> "" then oc_deps ~deps mliast is_dev data namespace `intf;
   let deps = Set_string.elements !deps in
   let buf = Ext_buffer.create 2048 in
+  Ext_buffer.add_string buf "(";
   Ext_buffer.add_string buf (process_deps_for_dune ~root ~cwd deps);
+  Ext_buffer.add_string buf ")";
   write_file filename buf
