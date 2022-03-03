@@ -13,7 +13,7 @@ let () =
       let root = App_root_finder.find_package_json p in
       let bsc_exe =
         Node.Path.join
-          [| root ; "bsc" |] in
+          [| root ; "melc" |] in
 
       begin match Node.Child_process.execSync
               (bsc_exe ^ " -where ")

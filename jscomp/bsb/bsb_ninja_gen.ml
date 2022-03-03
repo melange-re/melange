@@ -94,7 +94,6 @@ let output_ninja_and_namespace_map
       ~per_proj_dir
       ~bsc:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc)
       ~bsdep:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsdep)
-      ~bs_dep_parse:(Ext_filename.maybe_quote Bsb_global_paths.bs_dep_parse)
       ~warnings
       ~bsc_flags
       ~g_dpkg_incls:(bsc_lib_includes bs_dev_dependencies)

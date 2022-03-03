@@ -11,6 +11,6 @@
         pkgs = nixpkgs.legacyPackages."${system}";
       in
       {
-        devShell = import ./shell.nix { inherit pkgs; };
+        devShell = pkgs.callPackage ./shell.nix { };
       });
 }

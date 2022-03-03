@@ -1,6 +1,9 @@
 (executable
- (name js_main)
  (public_name bsc)
+ (modules bsc))
+
+(executable
+ (public_name melc)
  (modes byte native)
  (flags :standard -open Melange_compiler_libs)
  (libraries
@@ -13,9 +16,9 @@
   core
   napkin
   reason)
- (modules js_main)
+ (modules melc)
  (preprocessor_deps
-  js_main.ml
+ melc.ml
   ../../package.json
   ../../bsconfig.json
   ../../lib/js/.gitkeep
@@ -25,10 +28,15 @@
    (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
 
 (executable
- (name bsb_main)
  (public_name bsb)
  (modes native)
- (modules bsb_main)
+ (modules bsb)
+ (libraries bs_hash_stubs ext common bsb cmdliner))
+
+(executable
+ (public_name mel)
+ (modes native)
+ (modules mel)
  (libraries bs_hash_stubs ext common bsb cmdliner))
 
 (executable
@@ -57,7 +65,7 @@
  (modes native)
  (modules ounit_tests_main)
  (deps
-  js_main.exe
+  melc.exe
   (alias ../runtime/all)
   (alias ../others/all)
   (alias ../stdlib-412/all))

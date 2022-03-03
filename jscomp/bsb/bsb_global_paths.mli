@@ -25,6 +25,4 @@
 val cwd : string
 val bsc_dir : string
 val vendor_bsc : string
-val vendor_ninja : string
 val vendor_bsdep : string
-val bs_dep_parse : string

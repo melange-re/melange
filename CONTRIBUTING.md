@@ -42,7 +42,7 @@ Here are some common commands you may find useful:
 
 - `dune build` builds the whole project
 - `dune runtest` runs the native tests
-- `dune exec jscomp/main/js_main.exe` is useful to run the development version of `bsc`
+- `dune exec jscomp/main/melc.exe` is useful to run the development version of `bsc`
 
 If you're on an esy environment, prefix the command with the `esy` command.
 
