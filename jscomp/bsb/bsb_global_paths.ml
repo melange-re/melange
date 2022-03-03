@@ -50,5 +50,5 @@ let bsc_dir =
        (Ext_path.combine cwd Sys.executable_name))
 
 let vendor_bsc = "melc"
-let vendor_bsdep = "bsb_helper"
+let vendor_bsdep = "meldep"
 let () = assert (Sys.file_exists bsc_dir)

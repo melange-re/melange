@@ -18,7 +18,7 @@
   reason)
  (modules melc)
  (preprocessor_deps
- melc.ml
+  melc.ml
   ../../package.json
   ../../bsconfig.json
   ../../lib/js/.gitkeep
@@ -54,10 +54,9 @@
  (libraries bs_hash_stubs ext common core))
 
 (executable
- (name bsb_helper_main)
- (public_name bsb_helper)
+ (public_name meldep)
  (modes native)
- (modules bsb_helper_main)
+ (modules meldep)
  (libraries bsb_helper ext common core))
 
 (test

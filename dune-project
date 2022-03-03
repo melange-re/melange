@@ -1,4 +1,6 @@
-(lang dune 2.5)
+(lang dune 2.9)
+
+(executables_implicit_empty_intf true)
 
 (formatting
  (enabled_for ocaml))
