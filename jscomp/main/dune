@@ -18,7 +18,7 @@
   reason)
  (modules melc)
  (preprocessor_deps
- melc.ml
+  melc.ml
   ../../package.json
   ../../bsconfig.json
   ../../lib/js/.gitkeep

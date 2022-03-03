@@ -51,6 +51,6 @@ stdenv.mkDerivation rec {
   propagatedBuildInputs = [
     melange-compiler-libs
     reason
-    cmdliner
+    cmdliner_1_1
   ];
 }
