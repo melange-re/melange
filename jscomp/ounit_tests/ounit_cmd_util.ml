@@ -36,7 +36,7 @@ type output = {
   exit_code : int
 }
 
-let read_fd_until_eof fd = 
+let read_fd_until_eof fd =
   let buf = Buffer.create 1024 in
   let chan = Unix.in_channel_of_descr fd in
   (try

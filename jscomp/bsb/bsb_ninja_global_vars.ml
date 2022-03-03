@@ -28,7 +28,6 @@ type t = {
   per_proj_dir : string;
   bsc : string;
   bsdep : string;
-  bs_dep_parse : string;
   warnings : string;
   bsc_flags : string;
   g_dpkg_incls : string list;
@@ -42,16 +41,15 @@ type t = {
   namespace : string option;
 }
 
-let make ~db ~package_name ~per_proj_dir ~bsc ~bsdep ~bs_dep_parse ~warnings
-    ~bsc_flags ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~external_incls
-    ~g_sourcedirs_incls ~gentypeconfig ~pp_flags ~ppx_config ~namespace =
+let make ~db ~package_name ~per_proj_dir ~bsc ~bsdep ~warnings ~bsc_flags
+    ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~external_incls ~g_sourcedirs_incls
+    ~gentypeconfig ~pp_flags ~ppx_config ~namespace =
   {
     db;
     package_name;
     per_proj_dir;
     bsc;
     bsdep;
-    bs_dep_parse;
     warnings;
     bsc_flags;
     g_dpkg_incls;
