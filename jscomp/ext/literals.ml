@@ -58,9 +58,8 @@ let package_json = "package.json"
 let bsconfig_json = "bsconfig.json"
 let build_ninja = "build.ninja"
 let dune = "dune"
-let dune_bsb = "dune.bsb"
+let dune_mel = "dune.mel"
 let dune_project = "dune-project"
-let bsb_depends = "bsb_depends"
 let bsb_world = "bsb_world"
 
 (* Name of the library file created for each external dependency. *)
