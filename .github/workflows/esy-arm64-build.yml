@@ -1,4 +1,4 @@
-name: Build using esy
+name: Build using esy (arm64)
 
 on:
   pull_request:
@@ -12,21 +12,12 @@ jobs:
 
     strategy:
       matrix:
-        system: [windows, ubuntu, macos]
+        system: [macos-arm64]
 
     runs-on: ${{ matrix.system }}-latest
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v3
-        if: ${{ matrix.system != 'macos-arm64' }}
-        with:
-          node-version: 14
-
-      - name: Install esy
-        if: ${{ matrix.system != 'macos-arm64' }}
-        run: npm install -g esy
-
       - uses: esy/github-action@master
         with:
           cache-key: ${{ hashFiles('esy.lock/index.json') }}
