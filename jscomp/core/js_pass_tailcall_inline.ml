@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -78,7 +78,7 @@ let inline_call (immutable_list : bool list) params (args : J.expression list)
     let obj = substitue_variables map in
     obj.block obj block
 
-(** There is a side effect when traversing dead code, since 
+(** There is a side effect when traversing dead code, since
     we assume that substitue a node would mark a node as dead node,
 
     so if we traverse a dead node, this would get a wrong result.
@@ -98,10 +98,10 @@ let inline_call (immutable_list : bool list) params (args : J.expression list)
         then current_dir_name
         else find_end (String.length name - 1)
     ]}
-    [find_beg] can potentially be expanded in [find_end] and in [find_end]'s expansion, 
-    if the order is not correct, or even worse, only the wrong one [find_beg] in [find_end] get expanded 
-    (when we forget to recursive apply), then some code non-dead [find_beg] will be marked as dead, 
-    while it is still called 
+    [find_beg] can potentially be expanded in [find_end] and in [find_end]'s expansion,
+    if the order is not correct, or even worse, only the wrong one [find_beg] in [find_end] get expanded
+    (when we forget to recursive apply), then some code non-dead [find_beg] will be marked as dead,
+    while it is still called
 *)
 let super = Js_record_map.super
 
@@ -164,7 +164,8 @@ let subst (export_set : Set_ident.t) stats =
                    value =
                      Some
                        {
-                         expression_desc = Fun (false, params, block, env);
+                         expression_desc =
+                           Fun (false, params, block, env, _return_unit);
                          comment = _;
                        };
                    (*TODO: don't inline method tail call yet,
@@ -197,7 +198,10 @@ let subst (export_set : Set_ident.t) stats =
                {
                  expression_desc =
                    Call
-                     ( { expression_desc = Fun (false, params, block, env) },
+                     ( {
+                         expression_desc =
+                           Fun (false, params, block, env, _return_unit);
+                       },
                        args,
                        _info );
                };

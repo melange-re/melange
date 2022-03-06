@@ -115,7 +115,7 @@ function to_buf(b, t) {
                 if (i > 0) {
                   $$Buffer.add_char(b, /* ' ' */32);
                 }
-                return to_buf(b, t$p);
+                to_buf(b, t$p);
               }), l);
         return $$Buffer.add_char(b, /* ')' */41);
       } else {
@@ -211,7 +211,7 @@ function print(fmt, t) {
                         _1: "@ "
                       });
                 }
-                return print(fmt, t$p);
+                print(fmt, t$p);
               }), l);
         return Format.fprintf(fmt)(/* Format */{
                     _0: {
@@ -297,7 +297,7 @@ function print_noindent(fmt, t) {
                 if (i > 0) {
                   Format.pp_print_char(fmt, /* ' ' */32);
                 }
-                return print_noindent(fmt, t$p);
+                print_noindent(fmt, t$p);
               }), l);
         return Format.pp_print_char(fmt, /* ')' */41);
       } else {
@@ -347,14 +347,14 @@ function print_noindent(fmt, t) {
 function to_chan(oc, t) {
   var fmt = Format.formatter_of_out_channel(oc);
   print(fmt, t);
-  return Format.pp_print_flush(fmt, undefined);
+  Format.pp_print_flush(fmt, undefined);
 }
 
 function to_file_seq(filename, seq) {
   var f = function (oc) {
     return Curry._1(seq, (function (t) {
                   to_chan(oc, t);
-                  return Stdlib.output_char(oc, /* '\n' */10);
+                  Stdlib.output_char(oc, /* '\n' */10);
                 }));
   };
   var oc = Stdlib.open_out(filename);
@@ -370,9 +370,9 @@ function to_file_seq(filename, seq) {
 }
 
 function to_file(filename, t) {
-  return to_file_seq(filename, (function (k) {
-                return Curry._1(k, t);
-              }));
+  to_file_seq(filename, (function (k) {
+          Curry._1(k, t);
+        }));
 }
 
 function $$return(x) {

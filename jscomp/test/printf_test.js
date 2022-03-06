@@ -6,34 +6,34 @@ var Format = require("../../lib/js/format.js");
 var Printf = require("../../lib/js/printf.js");
 
 function print_pair(fmt, param) {
-  return Curry._2(Format.fprintf(fmt)(/* Format */{
-                  _0: {
-                    TAG: /* Char_literal */12,
-                    _0: /* '(' */40,
-                    _1: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
-                      _3: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ',' */44,
-                        _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_d */0,
-                          _1: /* No_padding */0,
-                          _2: /* No_precision */0,
-                          _3: {
-                            TAG: /* Char_literal */12,
-                            _0: /* ')' */41,
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      }
+  Curry._2(Format.fprintf(fmt)(/* Format */{
+            _0: {
+              TAG: /* Char_literal */12,
+              _0: /* '(' */40,
+              _1: {
+                TAG: /* Int */4,
+                _0: /* Int_d */0,
+                _1: /* No_padding */0,
+                _2: /* No_precision */0,
+                _3: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ',' */44,
+                  _1: {
+                    TAG: /* Int */4,
+                    _0: /* Int_d */0,
+                    _1: /* No_padding */0,
+                    _2: /* No_precision */0,
+                    _3: {
+                      TAG: /* Char_literal */12,
+                      _0: /* ')' */41,
+                      _1: /* End_of_format */0
                     }
-                  },
-                  _1: "(%d,%d)"
-                }), param[0], param[1]);
+                  }
+                }
+              }
+            },
+            _1: "(%d,%d)"
+          }), param[0], param[1]);
 }
 
 var suites_0 = [

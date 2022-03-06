@@ -243,9 +243,9 @@ function raceTest(param) {
 
 function createPromiseRejectTest(param) {
   return new Promise((function (resolve, reject) {
-                  return reject({
-                              RE_EXN_ID: Stdlib.Not_found
-                            });
+                  reject({
+                        RE_EXN_ID: Stdlib.Not_found
+                      });
                 })).catch(function (error) {
               assert_bool(error.RE_EXN_ID === Stdlib.Not_found);
               return h;
@@ -254,7 +254,7 @@ function createPromiseRejectTest(param) {
 
 function createPromiseFulfillTest(param) {
   return new Promise((function (resolve, param) {
-                    return resolve("success");
+                    resolve("success");
                   })).then(function (resolved) {
                 assert_bool(resolved === "success");
                 return h;

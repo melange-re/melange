@@ -14,7 +14,7 @@ var test_id = {
 };
 
 function eq(f, param) {
-  return Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
+  Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
 eq("File \"scanf_test.ml\", line 6, characters 5-12", [

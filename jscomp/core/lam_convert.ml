@@ -306,7 +306,7 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
             Lam.function_
               ~arity:0
               ~params:[] ~body:computation
-              ~attr:Lam.default_fn_attr
+              ~attr:Lambda.default_function_attribute
           ] in
         prim ~primitive:(Pmakeblock (tag,lazy_block_info,Mutable)) ~args loc
 
@@ -542,22 +542,6 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
   | Pduparray _ ->  assert false
     (* Does not exist since we compile array in js backend unlike native backend *)
 
-let convert_inline_attr (inline : Lambda.inline_attribute) : Lam.inline_attribute =
-  match inline with
-  | Always_inline -> Always_inline
-  | Never_inline -> Never_inline
-  | Hint_inline
-  | Unroll _
-  | Default_inline -> Default_inline
-
-let convert_fn_attribute (attr : Lambda.function_attribute) : Lam.function_attribute =
-  let inline : Lam.inline_attribute =
-    convert_inline_attr attr.inline in
-  let is_a_functor =
-    if attr.is_a_functor then Lam.Functor_yes else Functor_no in
-  Lam.{inline; is_a_functor}
-
-
 
 let may_depend = Lam_module_ident.Hash_set.add
 
@@ -741,13 +725,12 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
         {ap_func = fn; ap_args = args; ap_loc = loc; ap_inlined}
       ->
           (** we need do this eargly in case [aux fn] add some wrapper *)
-          Lam.apply (convert_aux fn) (Ext_list.map args convert_aux ) {ap_loc = Debuginfo.Scoped_location.to_location loc; ap_inlined = (convert_inline_attr ap_inlined); ap_status =  App_na}
+          Lam.apply (convert_aux fn) (Ext_list.map args convert_aux ) {ap_loc = Debuginfo.Scoped_location.to_location loc; ap_inlined; ap_status =  App_na}
     | Lfunction
     { params; body ; attr }
       ->
       let just_params = List.map fst params in
       let new_map,body = rename_optional_parameters Map_ident.empty just_params body in
-      let attr = convert_fn_attribute attr in
       if Map_ident.is_empty new_map then
         Lam.function_ ~attr
           ~arity:(List.length params)  ~params:just_params

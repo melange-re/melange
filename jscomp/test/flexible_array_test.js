@@ -217,14 +217,14 @@ function pp(fmt, s) {
     v = v + (", " + String(get(s, i)));
   }
   v = v + "]";
-  return Curry._1(Format.fprintf(fmt)(/* Format */{
-                  _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: /* End_of_format */0
-                  },
-                  _1: "%s"
-                }), v);
+  Curry._1(Format.fprintf(fmt)(/* Format */{
+            _0: {
+              TAG: /* String */2,
+              _0: /* No_padding */0,
+              _1: /* End_of_format */0
+            },
+            _1: "%s"
+          }), v);
 }
 
 function filter_from(i, p, s) {

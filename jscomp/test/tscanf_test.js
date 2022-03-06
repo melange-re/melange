@@ -29,14 +29,14 @@ var test_id = {
 };
 
 function eq(f, param) {
-  return Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
+  Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
 function test(loc, b) {
-  return eq(loc, [
-              b,
-              true
-            ]);
+  eq(loc, [
+        b,
+        true
+      ]);
 }
 
 function id(x) {
@@ -4329,11 +4329,11 @@ function next_char(ob, param) {
 
 function send_string(ob, s) {
   $$Buffer.add_string(ob, s);
-  return $$Buffer.add_char(ob, /* '\n' */10);
+  $$Buffer.add_char(ob, /* '\n' */10);
 }
 
 function send_int(ob, i) {
-  return send_string(ob, String(i));
+  send_string(ob, String(i));
 }
 
 function writer(ib, ob) {

@@ -163,7 +163,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
 
           if Ext_list.same_length ap_args params (* && false *)
           then
-            if is_a_functor = Functor_yes
+            if is_a_functor
             (* && (Set_ident.mem v meta.export_idents) && false *)
             then
               (* TODO: check l1 if it is exported,

@@ -14,25 +14,25 @@ var buf = $$Buffer.create(50);
 var fmt = Format.formatter_of_buffer(buf);
 
 function print_float(f) {
-  return Curry._1(Format.fprintf(fmt)(/* Format */{
-                  _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: /* End_of_format */0
-                  },
-                  _1: "%s"
-                }), Stdlib.string_of_float(f));
+  Curry._1(Format.fprintf(fmt)(/* Format */{
+            _0: {
+              TAG: /* String */2,
+              _0: /* No_padding */0,
+              _1: /* End_of_format */0
+            },
+            _1: "%s"
+          }), Stdlib.string_of_float(f));
 }
 
 function print_newline(param) {
-  return Format.fprintf(fmt)(/* Format */{
-              _0: {
-                TAG: /* Char_literal */12,
-                _0: /* '\n' */10,
-                _1: /* End_of_format */0
-              },
-              _1: "\n"
-            });
+  Format.fprintf(fmt)(/* Format */{
+        _0: {
+          TAG: /* Char_literal */12,
+          _0: /* '\n' */10,
+          _1: /* End_of_format */0
+        },
+        _1: "\n"
+      });
 }
 
 var s = {
@@ -50,9 +50,9 @@ var c = Float_array.longer_float_array(34);
 function print_array(a) {
   $$Array.iter((function (f) {
           print_float(f);
-          return print_newline(undefined);
+          print_newline(undefined);
         }), a);
-  return print_newline(undefined);
+  print_newline(undefined);
 }
 
 print_array(b[0]);
@@ -68,7 +68,7 @@ var test_id = {
 };
 
 function eq(f, a, b) {
-  return Mt_global.collect_eq(test_id, suites, f, a, b);
+  Mt_global.collect_eq(test_id, suites, f, a, b);
 }
 
 eq("File \"tfloat_record_test.ml\", line 43, characters 5-12", $$Buffer.contents(buf), "1.\n1.\n2.\n3.\n\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n\n");

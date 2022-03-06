@@ -234,22 +234,24 @@ let unit : t =
 let ocaml_fun
     ?comment
     ?immutable_mask
+    ~return_unit
     params block  : t =
   let len = List.length params in
   {
     expression_desc =
-      Fun (false, params,block, Js_fun_env.make ?immutable_mask len );
+      Fun (false, params,block, Js_fun_env.make ?immutable_mask len, return_unit );
     comment
   }
 
 let method_
     ?comment
     ?immutable_mask
+    ~return_unit
     params block  : t =
   let len = List.length params in
   {
     expression_desc =
-      Fun (true, params,block, Js_fun_env.make ?immutable_mask len );
+      Fun (true, params,block, Js_fun_env.make ?immutable_mask len, return_unit );
     comment
   }
 
@@ -541,7 +543,7 @@ let bytes_length ?comment (e : t) : t =
 
 let function_length ?comment (e : t) : t =
   match e.expression_desc with
-  | Fun(b, params, _, _) ->
+  | Fun(b, params, _, _, _) ->
     let params_length =
       List.length params in
     int ?comment
@@ -1342,6 +1344,7 @@ let rec int32_band ?comment (e1 : J.expression) (e2 : J.expression) : J.expressi
     remember to add parens..
 *)
 let of_block ?comment ?e block : t =
+  let return_unit = false in
   call ~info:Js_call_info.ml_full_call
     {
       comment ;
@@ -1353,8 +1356,9 @@ let of_block ?comment ?e block : t =
                  Ext_list.append block
                    [{J.statement_desc = Return e  ;
                      comment}]
-             end
-            , Js_fun_env.make 0)
+             end,
+            Js_fun_env.make 0,
+            return_unit)
     } []
 
 let is_null ?comment (x : t) =
@@ -1440,5 +1444,5 @@ let resolve_and_apply
        [str s ]
     ) args
 
-let make_exception (s : string) = 
-  pure_runtime_call Js_runtime_modules.exceptions Literals.create [str s]     
+let make_exception (s : string) =
+  pure_runtime_call Js_runtime_modules.exceptions Literals.create [str s]
