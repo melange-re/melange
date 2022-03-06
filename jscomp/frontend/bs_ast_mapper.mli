@@ -98,6 +98,7 @@ type mapper = {
   type_declaration_list :
     mapper -> type_declaration list -> type_declaration list;
   type_extension : mapper -> type_extension -> type_extension;
+  type_exception : mapper -> type_exception -> type_exception;
   type_kind : mapper -> type_kind -> type_kind;
   value_binding : mapper -> value_binding -> value_binding;
   value_bindings_rec : mapper -> value_binding list -> value_binding list;

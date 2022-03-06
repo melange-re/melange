@@ -94,11 +94,13 @@ module Types = struct
 
   and t =
     | Lvar of ident
+    | Lmutvar of ident
     | Lglobal_module of ident
     | Lconst of Lam_constant.t
     | Lapply of apply
     | Lfunction of lfunction
     | Llet of Lam_compat.let_kind * ident * t * t
+    | Lmutlet of ident * t * t
     | Lletrec of (ident * t) list * t
     | Lprim of prim_info
     | Lswitch of t * lambda_switch
@@ -150,11 +152,13 @@ module X = struct
     = Types.t
     =
       | Lvar of ident
+      | Lmutvar of ident
       | Lglobal_module of ident
       | Lconst of Lam_constant.t
       | Lapply of apply
       | Lfunction of lfunction
       | Llet of Lam_compat.let_kind * ident * t * t
+      | Lmutlet of ident * t * t
       | Lletrec of (ident * t) list * t
       | Lprim of prim_info
       | Lswitch of t * lambda_switch

@@ -63,7 +63,7 @@ let remove export_idents (rest : Lam_group.t list) : Lam_group.t list  =
               (Lam_free_variables.pass_free_variables lam);
             match kind with
             | Alias | StrictOpt -> acc
-            | Strict | Variable -> id :: acc
+            | Strict -> id :: acc
           end
         | Recursive bindings ->
           Ext_list.fold_left bindings acc (fun acc (id,lam) ->

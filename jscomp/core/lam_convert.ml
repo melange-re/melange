@@ -94,6 +94,8 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t): bool  =
       hit_list args
     | Lvar id ->
       Ident.same id fv
+    | Lmutvar id ->
+      Ident.same id fv
     | Lassign(id, e) ->
       Ident.same id fv || hit e
     | Lstaticcatch(e1, (_,_vars), e2) ->
@@ -102,7 +104,8 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t): bool  =
       hit e1 || hit e2
     | Lfunction{body;params=_} ->
       hit body;
-    | Llet(_str, _id, arg, body) ->
+    | Llet(_, _id, arg, body)
+    | Lmutlet (_id, arg, body) ->
       hit arg || hit body
     | Lletrec(decl, body) ->
       hit body ||
@@ -207,10 +210,8 @@ let convert_record_repr ( x : Types.record_representation)
 let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
   match p with
   | Pint_as_pointer
-  | Pidentity -> Ext_list.singleton_exn args
+  (* | Pidentity -> Ext_list.singleton_exn args *)
   | Pccall _ -> assert false
-  | Prevapply -> assert false
-  | Pdirapply -> assert false
 
   | Pbytes_to_string (* handled very early *)
     -> prim ~primitive:Pbytes_to_string ~args loc
@@ -752,11 +753,11 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
       let lam = Lam.letrec bindings body in
       Lam_scc.scc bindings lam body
     (* inlining will affect how mututal recursive behave *)
-    | Lprim(Prevapply, [x ; f ],  outer_loc)
-    | Lprim(Pdirapply, [f ; x],  outer_loc) ->
-      convert_pipe f x outer_loc
-    | Lprim (Prevapply, _, _ ) -> assert false
-    | Lprim(Pdirapply, _, _) -> assert false
+    (* | Lprim(Prevapply, [x ; f ],  outer_loc) *)
+    (* | Lprim(Pdirapply, [f ; x],  outer_loc) -> *)
+      (* convert_pipe f x outer_loc *)
+    (* | Lprim (Prevapply, _, _ ) -> assert false *)
+    (* | Lprim(Pdirapply, _, _) -> assert false *)
     | Lprim(Pccall a, args, loc)  ->
       convert_ccall a  args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->

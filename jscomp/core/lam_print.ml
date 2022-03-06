@@ -200,21 +200,16 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pint64comp Cle -> fprintf ppf "<="
   | Pint64comp Cge -> fprintf ppf ">="
 
-type print_kind = Alias | Strict | StrictOpt | Variable | Recursive
+type print_kind = Alias | Strict | StrictOpt | Recursive
 
 let kind = function
   | Alias -> "a"
   | Strict -> ""
   | StrictOpt -> "o"
-  | Variable -> "v"
   | Recursive -> "r"
 
 let to_print_kind (k : Lam_compat.let_kind) : print_kind =
-  match k with
-  | Alias -> Alias
-  | Strict -> Strict
-  | StrictOpt -> StrictOpt
-  | Variable -> Variable
+  match k with Alias -> Alias | Strict -> Strict | StrictOpt -> StrictOpt
 
 let rec aux (acc : (print_kind * Ident.t * Lam.t) list) (lam : Lam.t) =
   match lam with

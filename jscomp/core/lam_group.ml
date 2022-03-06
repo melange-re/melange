@@ -39,11 +39,7 @@ let nop_cons (x : Lam.t) acc =
 (* let pp = Format.fprintf *)
 
 let str_of_kind (kind : Lam_compat.let_kind) =
-  match kind with
-  | Alias -> "a"
-  | Strict -> ""
-  | StrictOpt -> "o"
-  | Variable -> "v"
+  match kind with Alias -> "a" | Strict -> "" | StrictOpt -> "o"
 
 let pp_group fmt (x : t) =
   match x with

@@ -163,14 +163,15 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
     Lam_compile_env.reset ();
     let env = Res_compmisc.initial_env () in
     Env.set_unit_name modulename;
-    let typedtree, coercion, _, _ =
+    let ({ Typedtree.structure = typedtree; coercion; _ } as implementation), _
+        =
       Typemod.type_implementation_more
         ?check_exists:(if !Js_config.force_cmi then None else Some ())
         !Location.input_name outputprefix modulename env ast
     in
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
-      typedtree_coercion;
+      implementation;
     (if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
     else
       let lambda =
