@@ -13,7 +13,7 @@ var test_id = {
 };
 
 function eq(loc, x, y) {
-  return Mt.eq_suites(test_id, suites, loc, x, y);
+  Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
 var match = Parser_api.implementation(Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));

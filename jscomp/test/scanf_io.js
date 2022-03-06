@@ -41,9 +41,9 @@ function create_tscanf_data(ob, lines) {
                   },
                   _1: "%S"
                 }), param[1]));
-    return $$Buffer.add_string(ob, ";\n");
+    $$Buffer.add_string(ob, ";\n");
   };
-  return List.iter(add_line, lines);
+  List.iter(add_line, lines);
 }
 
 function write_tscanf_data_file(fname, lines) {
@@ -51,7 +51,7 @@ function write_tscanf_data_file(fname, lines) {
   var ob = $$Buffer.create(42);
   create_tscanf_data(ob, lines);
   $$Buffer.output_buffer(oc, ob);
-  return Stdlib.close_out(oc);
+  Stdlib.close_out(oc);
 }
 
 function get_lines(fname) {
@@ -163,7 +163,7 @@ function add_digest_ib(ob, ib) {
     $$Buffer.add_char(ob, /* '#' */35);
     var s$1 = Digest.to_hex(Digest.string(s));
     $$Buffer.add_string(ob, Caml_bytes.bytes_to_string(Bytes.uppercase(Caml_bytes.bytes_of_string(s$1))));
-    return $$Buffer.add_char(ob, /* '\n' */10);
+    $$Buffer.add_char(ob, /* '\n' */10);
   };
   try {
     while(true) {

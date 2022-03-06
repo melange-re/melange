@@ -105,13 +105,13 @@ function find_ticker_by_name(all_tickers, ticker) {
 }
 
 function print_all_composite(all_tickers) {
-  return List.iter((function (param) {
-                if (param.type_) {
-                  console.log(param.ticker_name);
-                  return ;
-                }
-                
-              }), all_tickers);
+  List.iter((function (param) {
+          if (param.type_) {
+            console.log(param.ticker_name);
+            return ;
+          }
+          
+        }), all_tickers);
 }
 
 var compare = Caml_obj.caml_compare;
@@ -1304,24 +1304,24 @@ function compute_update_sequences(all_tickers) {
 
 function process_quote(ticker_map, new_ticker, new_value) {
   var update_sequence = Curry._2(find, new_ticker, ticker_map);
-  return List.iter((function (ticker) {
-                var match = ticker.type_;
-                if (!match) {
-                  if (ticker.ticker_name === new_ticker) {
-                    ticker.value = new_value;
-                    return ;
-                  } else {
-                    return Stdlib.failwith("Only single Market ticker should be udpated upon a new quote");
-                  }
-                }
-                var match$1 = match._0;
-                var match$2 = match$1.lhs.value;
-                var match$3 = match$1.rhs.value;
-                var value = match$2 !== undefined && match$3 !== undefined ? (
-                    match$1.op ? match$2 - match$3 : match$2 + match$3
-                  ) : undefined;
-                ticker.value = value;
-              }), update_sequence);
+  List.iter((function (ticker) {
+          var match = ticker.type_;
+          if (!match) {
+            if (ticker.ticker_name === new_ticker) {
+              ticker.value = new_value;
+              return ;
+            } else {
+              return Stdlib.failwith("Only single Market ticker should be udpated upon a new quote");
+            }
+          }
+          var match$1 = match._0;
+          var match$2 = match$1.lhs.value;
+          var match$3 = match$1.rhs.value;
+          var value = match$2 !== undefined && match$3 !== undefined ? (
+              match$1.op ? match$2 - match$3 : match$2 + match$3
+            ) : undefined;
+          ticker.value = value;
+        }), update_sequence);
 }
 
 function process_input_line(ticker_map, all_tickers, line) {

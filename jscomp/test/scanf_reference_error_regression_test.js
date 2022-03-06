@@ -17,7 +17,7 @@ var test_id = {
 };
 
 function eq(f, param) {
-  return Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
+  Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
 function scan_rest(ib, accu) {

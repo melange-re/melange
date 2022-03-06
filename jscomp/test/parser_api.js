@@ -129,48 +129,48 @@ switch (Sys.os_type) {
 
 function print_config(oc) {
   var p = function (name, valu) {
-    return Curry._2(Printf.fprintf(oc, /* Format */{
-                    _0: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* String_literal */11,
-                        _0: ": ",
-                        _1: {
-                          TAG: /* String */2,
-                          _0: /* No_padding */0,
-                          _1: {
-                            TAG: /* Char_literal */12,
-                            _0: /* '\n' */10,
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      }
-                    },
-                    _1: "%s: %s\n"
-                  }), name, valu);
+    Curry._2(Printf.fprintf(oc, /* Format */{
+              _0: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* String_literal */11,
+                  _0: ": ",
+                  _1: {
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* Char_literal */12,
+                      _0: /* '\n' */10,
+                      _1: /* End_of_format */0
+                    }
+                  }
+                }
+              },
+              _1: "%s: %s\n"
+            }), name, valu);
   };
   var p_bool = function (name, valu) {
-    return Curry._2(Printf.fprintf(oc, /* Format */{
-                    _0: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* String_literal */11,
-                        _0: ": ",
-                        _1: {
-                          TAG: /* Bool */9,
-                          _0: /* No_padding */0,
-                          _1: {
-                            TAG: /* Char_literal */12,
-                            _0: /* '\n' */10,
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      }
-                    },
-                    _1: "%s: %B\n"
-                  }), name, valu);
+    Curry._2(Printf.fprintf(oc, /* Format */{
+              _0: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* String_literal */11,
+                  _0: ": ",
+                  _1: {
+                    TAG: /* Bool */9,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* Char_literal */12,
+                      _0: /* '\n' */10,
+                      _1: /* End_of_format */0
+                    }
+                  }
+                }
+              },
+              _1: "%s: %B\n"
+            }), name, valu);
   };
   p("version", Sys.ocaml_version);
   p("standard_library_default", standard_library_default);
@@ -209,7 +209,7 @@ function print_config(oc) {
   p("ast_intf_magic_number", ast_intf_magic_number);
   p("cmxs_magic_number", cmxs_magic_number);
   p("cmt_magic_number", cmt_magic_number);
-  return Stdlib.flush(oc);
+  Stdlib.flush(oc);
 }
 
 var Config = {
@@ -1043,7 +1043,7 @@ function expand_directory(alt, s) {
 function create_hashtable(size, init) {
   var tbl = Hashtbl.create(undefined, size);
   List.iter((function (param) {
-          return Hashtbl.add(tbl, param[0], param[1]);
+          Hashtbl.add(tbl, param[0], param[1]);
         }), init);
   return tbl;
 }
@@ -1326,7 +1326,7 @@ function get(tbl, ind) {
 }
 
 function set(tbl, ind, c) {
-  return Caml_bytes.set(Caml_array.get(tbl, Caml_int32.div(ind, Sys.max_string_length)), Caml_int32.mod_(ind, Sys.max_string_length), c);
+  Caml_bytes.set(Caml_array.get(tbl, Caml_int32.div(ind, Sys.max_string_length)), Caml_int32.mod_(ind, Sys.max_string_length), c);
 }
 
 function blit(src, srcoff, dst, dstoff, len) {
@@ -1350,7 +1350,7 @@ function unsafe_blit_to_bytes(src, srcoff, dst, dstoff, len) {
 function input_bytes(ic, len) {
   var tbl = create(len);
   $$Array.iter((function (str) {
-          return Stdlib.really_input(ic, str, 0, str.length);
+          Stdlib.really_input(ic, str, 0, str.length);
         }), tbl);
   return tbl;
 }
@@ -1634,7 +1634,7 @@ function set_color_tag_handling(ppf) {
     print_close_tag: functions$p_print_close_tag
   };
   ppf.pp_mark_tags = true;
-  return Format.pp_set_formatter_tag_functions(ppf, functions$p);
+  Format.pp_set_formatter_tag_functions(ppf, functions$p);
 }
 
 var first = {
@@ -2061,14 +2061,14 @@ function is_error(x) {
 
 function parse_opt(error, active, flags, s) {
   var set = function (i) {
-    return Caml_array.set(flags, i, true);
+    Caml_array.set(flags, i, true);
   };
   var clear = function (i) {
-    return Caml_array.set(flags, i, false);
+    Caml_array.set(flags, i, false);
   };
   var set_all = function (i) {
     Caml_array.set(active, i, true);
-    return Caml_array.set(error, i, true);
+    Caml_array.set(error, i, true);
   };
   var get_num = function (_n, _i) {
     while(true) {
@@ -2224,9 +2224,9 @@ function parse_opt(error, active, flags, s) {
     for(var n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
       Curry._1(myset, n);
     }
-    return loop(match$1[0]);
+    loop(match$1[0]);
   };
-  return loop(0);
+  loop(0);
 }
 
 function parse_options(errflag, s) {
@@ -2718,32 +2718,32 @@ function check_fatal(param) {
 
 function help_warnings(param) {
   List.iter((function (param) {
-          return Curry._2(Printf.printf(/* Format */{
-                          _0: {
-                            TAG: /* Int */4,
-                            _0: /* Int_i */3,
-                            _1: {
-                              TAG: /* Lit_padding */0,
-                              _0: /* Right */1,
-                              _1: 3
-                            },
-                            _2: /* No_precision */0,
-                            _3: {
-                              TAG: /* Char_literal */12,
-                              _0: /* ' ' */32,
-                              _1: {
-                                TAG: /* String */2,
-                                _0: /* No_padding */0,
-                                _1: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* '\n' */10,
-                                  _1: /* End_of_format */0
-                                }
-                              }
-                            }
-                          },
-                          _1: "%3i %s\n"
-                        }), param[0], param[1]);
+          Curry._2(Printf.printf(/* Format */{
+                    _0: {
+                      TAG: /* Int */4,
+                      _0: /* Int_i */3,
+                      _1: {
+                        TAG: /* Lit_padding */0,
+                        _0: /* Right */1,
+                        _1: 3
+                      },
+                      _2: /* No_precision */0,
+                      _3: {
+                        TAG: /* Char_literal */12,
+                        _0: /* ' ' */32,
+                        _1: {
+                          TAG: /* String */2,
+                          _0: /* No_padding */0,
+                          _1: {
+                            TAG: /* Char_literal */12,
+                            _0: /* '\n' */10,
+                            _1: /* End_of_format */0
+                          }
+                        }
+                      }
+                    },
+                    _1: "%3i %s\n"
+                  }), param[0], param[1]);
         }), {
         hd: [
           1,
@@ -3229,7 +3229,7 @@ function print_updating_num_loc_lines(ppf, f, arg) {
       };
     };
     num_loc_lines.contents = num_loc_lines.contents + count(start, 0) | 0;
-    return Curry._3(out_functions.out_string, str, start, len);
+    Curry._3(out_functions.out_string, str, start, len);
   };
   Format.pp_set_formatter_out_functions(ppf, {
         out_string: out_string,
@@ -3240,7 +3240,7 @@ function print_updating_num_loc_lines(ppf, f, arg) {
       });
   Curry._2(f, ppf, arg);
   Format.pp_print_flush(ppf, undefined);
-  return Format.pp_set_formatter_out_functions(ppf, out_functions);
+  Format.pp_set_formatter_out_functions(ppf, out_functions);
 }
 
 function highlight_terminfo(ppf, num_lines, lb, locs) {
@@ -3294,7 +3294,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  return Stdlib.flush(Stdlib.stdout);
+  Stdlib.flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
@@ -3513,14 +3513,14 @@ function show_filename(file) {
 }
 
 function print_filename(ppf, file) {
-  return Curry._1(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: /* End_of_format */0
-                  },
-                  _1: "%s"
-                }), show_filename(file));
+  Curry._1(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* String */2,
+              _0: /* No_padding */0,
+              _1: /* End_of_format */0
+            },
+            _1: "%s"
+          }), show_filename(file));
 }
 
 function reset(param) {
@@ -3729,11 +3729,11 @@ function print_error_prefix(ppf, param) {
 
 function print_error(ppf, loc) {
   print$1(ppf, loc);
-  return print_error_prefix(ppf, undefined);
+  print_error_prefix(ppf, undefined);
 }
 
 function print_error_cur_file(ppf, param) {
-  return print_error(ppf, in_file(input_name.contents));
+  print_error(ppf, in_file(input_name.contents));
 }
 
 function default_warning_printer(loc, ppf, w) {
@@ -3786,7 +3786,7 @@ var warning_printer = {
 };
 
 function print_warning(loc, ppf, w) {
-  return print_updating_num_loc_lines(ppf, Curry._1(warning_printer.contents, loc), w);
+  print_updating_num_loc_lines(ppf, Curry._1(warning_printer.contents, loc), w);
 }
 
 var formatter_for_warnings = {
@@ -3794,7 +3794,7 @@ var formatter_for_warnings = {
 };
 
 function prerr_warning(loc, w) {
-  return print_warning(loc, formatter_for_warnings.contents, w);
+  print_warning(loc, formatter_for_warnings.contents, w);
 }
 
 function echo_eof(param) {
@@ -3830,7 +3830,7 @@ function pp_ksprintf(before, k, fmt) {
 }
 
 function print_phanton_error_prefix(ppf) {
-  return Format.pp_print_as(ppf, error_prefix.length + 2 | 0, "");
+  Format.pp_print_as(ppf, error_prefix.length + 2 | 0, "");
 }
 
 function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
@@ -3959,7 +3959,7 @@ var error_reporter = {
 };
 
 function report_error(ppf, err) {
-  return print_updating_num_loc_lines(ppf, error_reporter.contents, err);
+  print_updating_num_loc_lines(ppf, error_reporter.contents, err);
 }
 
 function error_of_printer(loc, print, x) {
@@ -4454,14 +4454,14 @@ function get_docstrings(dsl) {
 }
 
 function associate_docstrings(dsl) {
-  return List.iter((function (ds) {
-                var match = ds.ds_associated;
-                if (match) {
-                  ds.ds_associated = /* Many */2;
-                } else {
-                  ds.ds_associated = /* One */1;
-                }
-              }), dsl);
+  List.iter((function (ds) {
+          var match = ds.ds_associated;
+          if (match) {
+            ds.ds_associated = /* Many */2;
+          } else {
+            ds.ds_associated = /* One */1;
+          }
+        }), dsl);
 }
 
 var pre_table = Hashtbl.create(undefined, 50);
@@ -4662,12 +4662,12 @@ function rhs_docs_lazy(pos1, pos2) {
 
 function mark_symbol_docs(param) {
   mark_pre_docs(Parsing.symbol_start_pos(undefined));
-  return mark_post_docs(Parsing.symbol_end_pos(undefined));
+  mark_post_docs(Parsing.symbol_end_pos(undefined));
 }
 
 function mark_rhs_docs(pos1, pos2) {
   mark_pre_docs(Parsing.rhs_start_pos(pos1));
-  return mark_post_docs(Parsing.rhs_end_pos(pos2));
+  mark_post_docs(Parsing.rhs_end_pos(pos2));
 }
 
 function symbol_info(param) {
@@ -4728,7 +4728,7 @@ function init$1(param) {
   Hashtbl.reset(post_table);
   Hashtbl.reset(floating_table);
   Hashtbl.reset(pre_extra_table);
-  return Hashtbl.reset(post_extra_table);
+  Hashtbl.reset(post_extra_table);
 }
 
 var Docstrings = {
@@ -6730,7 +6730,7 @@ register_error_of_exn(function (err) {
     });
 
 function report_error$1(ppf, err) {
-  return report_error(ppf, prepare_error(err));
+  report_error(ppf, prepare_error(err));
 }
 
 function location_of_error(param) {
@@ -13814,28 +13814,28 @@ function assert_same_type(lexbuf, x, y) {
 var directive_built_in_values = Hashtbl.create(undefined, 51);
 
 function remove_directive_built_in_value(k) {
-  return Hashtbl.replace(directive_built_in_values, k, /* Dir_null */0);
+  Hashtbl.replace(directive_built_in_values, k, /* Dir_null */0);
 }
 
 function replace_directive_int(k, v) {
-  return Hashtbl.replace(directive_built_in_values, k, {
-              TAG: /* Dir_int */2,
-              _0: v
-            });
+  Hashtbl.replace(directive_built_in_values, k, {
+        TAG: /* Dir_int */2,
+        _0: v
+      });
 }
 
 function replace_directive_bool(k, v) {
-  return Hashtbl.replace(directive_built_in_values, k, {
-              TAG: /* Dir_bool */0,
-              _0: v
-            });
+  Hashtbl.replace(directive_built_in_values, k, {
+        TAG: /* Dir_bool */0,
+        _0: v
+      });
 }
 
 function replace_directive_string(k, v) {
-  return Hashtbl.replace(directive_built_in_values, k, {
-              TAG: /* Dir_string */3,
-              _0: v
-            });
+  Hashtbl.replace(directive_built_in_values, k, {
+        TAG: /* Dir_string */3,
+        _0: v
+      });
 }
 
 Hashtbl.replace(directive_built_in_values, "OCAML_VERSION", {
@@ -14074,46 +14074,46 @@ function pp_directive_value(fmt, x) {
 }
 
 function list_variables(fmt) {
-  return Hashtbl.iter((function (s, dir_value) {
-                return Curry._3(Format.fprintf(fmt)(/* Format */{
-                                _0: {
-                                  TAG: /* Formatting_gen */18,
-                                  _0: {
-                                    TAG: /* Open_box */1,
-                                    _0: /* Format */{
-                                      _0: /* End_of_format */0,
-                                      _1: ""
-                                    }
-                                  },
-                                  _1: {
-                                    TAG: /* String */2,
-                                    _0: /* No_padding */0,
-                                    _1: {
-                                      TAG: /* Formatting_lit */17,
-                                      _0: {
-                                        TAG: /* Break */0,
-                                        _0: "@ ",
-                                        _1: 1,
-                                        _2: 0
-                                      },
-                                      _1: {
-                                        TAG: /* Alpha */15,
-                                        _0: {
-                                          TAG: /* Formatting_lit */17,
-                                          _0: /* Close_box */0,
-                                          _1: {
-                                            TAG: /* Formatting_lit */17,
-                                            _0: /* Flush_newline */4,
-                                            _1: /* End_of_format */0
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                },
-                                _1: "@[%s@ %a@]@."
-                              }), s, pp_directive_value, dir_value);
-              }), directive_built_in_values);
+  Hashtbl.iter((function (s, dir_value) {
+          Curry._3(Format.fprintf(fmt)(/* Format */{
+                    _0: {
+                      TAG: /* Formatting_gen */18,
+                      _0: {
+                        TAG: /* Open_box */1,
+                        _0: /* Format */{
+                          _0: /* End_of_format */0,
+                          _1: ""
+                        }
+                      },
+                      _1: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: {
+                          TAG: /* Formatting_lit */17,
+                          _0: {
+                            TAG: /* Break */0,
+                            _0: "@ ",
+                            _1: 1,
+                            _2: 0
+                          },
+                          _1: {
+                            TAG: /* Alpha */15,
+                            _0: {
+                              TAG: /* Formatting_lit */17,
+                              _0: /* Close_box */0,
+                              _1: {
+                                TAG: /* Formatting_lit */17,
+                                _0: /* Flush_newline */4,
+                                _1: /* End_of_format */0
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    _1: "@[%s@ %a@]@."
+                  }), s, pp_directive_value, dir_value);
+        }), directive_built_in_values);
 }
 
 function defined(str) {
@@ -15279,10 +15279,10 @@ function add_comment(com) {
 }
 
 function add_docstring_comment(ds) {
-  return add_comment([
-              ds.ds_body,
-              ds.ds_loc
-            ]);
+  add_comment([
+        ds.ds_body,
+        ds.ds_loc
+      ]);
 }
 
 function comments(param) {

@@ -167,11 +167,11 @@ function assertion_test(param) {
             m.contents = Curry._3(add, String(i), String(i), m.contents);
           }
         }));
-  return timing("querying", (function (param) {
-                for(var i = 0; i <= 1000000; ++i){
-                  Curry._2(find, String(i), m.contents);
-                }
-              }));
+  timing("querying", (function (param) {
+          for(var i = 0; i <= 1000000; ++i){
+            Curry._2(find, String(i), m.contents);
+          }
+        }));
 }
 
 exports.assertion_test = assertion_test;

@@ -38,7 +38,7 @@ function eq(loc, x, y) {
 function eq3(loc, a, b, c) {
   eq(loc, a, b);
   eq(loc, b, c);
-  return eq(loc, a, c);
+  eq(loc, a, c);
 }
 
 function $caret$caret(param, param$1) {
@@ -133,9 +133,9 @@ eq("File \"format_test.ml\", line 69, characters 5-12", (1 + 4095 / 4096) * 8, 1
 eq("File \"format_test.ml\", line 72, characters 5-12", (1 + 65535 / 65536) * 8, 15.9998779296875);
 
 function f(loc, ls) {
-  return List.iter((function (param) {
-                return eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
-              }), ls);
+  List.iter((function (param) {
+          eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
+        }), ls);
 }
 
 f("File \"format_test.ml\", line 85, characters 6-13", {
@@ -175,9 +175,9 @@ function sl(f) {
 }
 
 function aux_list(loc, ls) {
-  return List.iter((function (param) {
-                return eq(loc, sl(param[0]), param[1]);
-              }), ls);
+  List.iter((function (param) {
+          eq(loc, sl(param[0]), param[1]);
+        }), ls);
 }
 
 var literals_0 = [
@@ -257,21 +257,21 @@ eq("File \"format_test.ml\", line 120, characters 5-12", Curry._1(Printf.sprintf
             }), 7.875), "0X1.F8P+2");
 
 function scan_float(loc, s, expect) {
-  return Curry._1(Scanf.sscanf(s, /* Format */{
-                  _0: {
-                    TAG: /* Float */8,
-                    _0: [
-                      /* Float_flag_ */0,
-                      /* Float_h */6
-                    ],
-                    _1: /* No_padding */0,
-                    _2: /* No_precision */0,
-                    _3: /* End_of_format */0
-                  },
-                  _1: "%h"
-                }), (function (result) {
-                return eq(loc, result, expect);
-              }));
+  Curry._1(Scanf.sscanf(s, /* Format */{
+            _0: {
+              TAG: /* Float */8,
+              _0: [
+                /* Float_flag_ */0,
+                /* Float_h */6
+              ],
+              _1: /* No_padding */0,
+              _2: /* No_precision */0,
+              _3: /* End_of_format */0
+            },
+            _1: "%h"
+          }), (function (result) {
+          eq(loc, result, expect);
+        }));
 }
 
 scan_float("File \"format_test.ml\", line 125, characters 13-20", "0x3f.p1", 126);
@@ -279,7 +279,7 @@ scan_float("File \"format_test.ml\", line 125, characters 13-20", "0x3f.p1", 126
 scan_float("File \"format_test.ml\", line 126, characters 13-20", "0x1.3333333333333p-2", 0.3);
 
 List.iter((function (param) {
-        return scan_float("File \"format_test.ml\", line 128, characters 13-20", param[1], param[0]);
+        scan_float("File \"format_test.ml\", line 128, characters 13-20", param[1], param[0]);
       }), literals);
 
 Mt.from_pair_suites("Format_test", suites.contents);

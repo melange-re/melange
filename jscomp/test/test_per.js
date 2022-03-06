@@ -238,11 +238,11 @@ function flush_all(param) {
 }
 
 function output_bytes(oc, s) {
-  return Caml_io.caml_ml_output(oc, s, 0, s.length);
+  Caml_io.caml_ml_output(oc, s, 0, s.length);
 }
 
 function output_string(oc, s) {
-  return Caml_io.caml_ml_output(oc, s, 0, s.length);
+  Caml_io.caml_ml_output(oc, s, 0, s.length);
 }
 
 function output(oc, s, ofs, len) {
@@ -253,7 +253,7 @@ function output(oc, s, ofs, len) {
           Error: new Error()
         };
   }
-  return Caml_io.caml_ml_output(oc, s, ofs, len);
+  Caml_io.caml_ml_output(oc, s, ofs, len);
 }
 
 function output_substring(oc, s, ofs, len) {
@@ -264,16 +264,16 @@ function output_substring(oc, s, ofs, len) {
           Error: new Error()
         };
   }
-  return Caml_io.caml_ml_output(oc, s, ofs, len);
+  Caml_io.caml_ml_output(oc, s, ofs, len);
 }
 
 function output_value(chan, v) {
-  return Caml_external_polyfill.resolve("caml_output_value")(chan, v, /* [] */0);
+  Caml_external_polyfill.resolve("caml_output_value")(chan, v, /* [] */0);
 }
 
 function close_out(oc) {
   Caml_io.caml_ml_flush(oc);
-  return Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
+  Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
 }
 
 function close_out_noerr(oc) {
@@ -354,7 +354,7 @@ function really_input(ic, s, ofs, len) {
           Error: new Error()
         };
   }
-  return unsafe_really_input(ic, s, ofs, len);
+  unsafe_really_input(ic, s, ofs, len);
 }
 
 function really_input_string(ic, len) {
@@ -428,65 +428,65 @@ function close_in_noerr(ic) {
 }
 
 function print_char(c) {
-  return Caml_io.caml_ml_output_char(stdout, c);
+  Caml_io.caml_ml_output_char(stdout, c);
 }
 
 function print_string(s) {
-  return output_string(stdout, s);
+  output_string(stdout, s);
 }
 
 function print_bytes(s) {
-  return output_bytes(stdout, s);
+  output_bytes(stdout, s);
 }
 
 function print_int(i) {
-  return output_string(stdout, Caml_format.caml_format_int("%d", i));
+  output_string(stdout, Caml_format.caml_format_int("%d", i));
 }
 
 function print_float(f) {
-  return output_string(stdout, valid_float_lexem(Caml_format.caml_format_float("%.12g", f)));
+  output_string(stdout, valid_float_lexem(Caml_format.caml_format_float("%.12g", f)));
 }
 
 function print_endline(s) {
   output_string(stdout, s);
   Caml_io.caml_ml_output_char(stdout, /* '\n' */10);
-  return Caml_io.caml_ml_flush(stdout);
+  Caml_io.caml_ml_flush(stdout);
 }
 
 function print_newline(param) {
   Caml_io.caml_ml_output_char(stdout, /* '\n' */10);
-  return Caml_io.caml_ml_flush(stdout);
+  Caml_io.caml_ml_flush(stdout);
 }
 
 function prerr_char(c) {
-  return Caml_io.caml_ml_output_char(stderr, c);
+  Caml_io.caml_ml_output_char(stderr, c);
 }
 
 function prerr_string(s) {
-  return output_string(stderr, s);
+  output_string(stderr, s);
 }
 
 function prerr_bytes(s) {
-  return output_bytes(stderr, s);
+  output_bytes(stderr, s);
 }
 
 function prerr_int(i) {
-  return output_string(stderr, Caml_format.caml_format_int("%d", i));
+  output_string(stderr, Caml_format.caml_format_int("%d", i));
 }
 
 function prerr_float(f) {
-  return output_string(stderr, valid_float_lexem(Caml_format.caml_format_float("%.12g", f)));
+  output_string(stderr, valid_float_lexem(Caml_format.caml_format_float("%.12g", f)));
 }
 
 function prerr_endline(s) {
   output_string(stderr, s);
   Caml_io.caml_ml_output_char(stderr, /* '\n' */10);
-  return Caml_io.caml_ml_flush(stderr);
+  Caml_io.caml_ml_flush(stderr);
 }
 
 function prerr_newline(param) {
   Caml_io.caml_ml_output_char(stderr, /* '\n' */10);
-  return Caml_io.caml_ml_flush(stderr);
+  Caml_io.caml_ml_flush(stderr);
 }
 
 function read_line(param) {
@@ -523,12 +523,12 @@ function at_exit(f) {
   var g = exit_function.contents;
   exit_function.contents = (function (param) {
       Curry._1(f, undefined);
-      return Curry._1(g, undefined);
+      Curry._1(g, undefined);
     });
 }
 
 function do_at_exit(param) {
-  return Curry._1(exit_function.contents, undefined);
+  Curry._1(exit_function.contents, undefined);
 }
 
 function exit(retcode) {

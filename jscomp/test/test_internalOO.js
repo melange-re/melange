@@ -3420,7 +3420,7 @@ function resize(array, new_size) {
 
 function put(array, label, element) {
   resize(array, label + 1 | 0);
-  return Caml_array.set(array.methods, label, element);
+  Caml_array.set(array.methods, label, element);
 }
 
 var method_count = {
@@ -3681,7 +3681,7 @@ function create_table(public_methods) {
 function init_class(table) {
   inst_var_count.contents = (inst_var_count.contents + table.size | 0) - 1 | 0;
   table.initializers = List.rev(table.initializers);
-  return resize(table, 3 + Caml_int32.div((Caml_array.get(table.methods, 1) << 4), Sys.word_size) | 0);
+  resize(table, 3 + Caml_int32.div((Caml_array.get(table.methods, 1) << 4), Sys.word_size) | 0);
 }
 
 function inherits(cla, vals, virt_meths, concr_meths, param, top) {

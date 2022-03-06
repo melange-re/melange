@@ -312,7 +312,7 @@ function remove_file(filename) {
 function create_hashtable(size, init) {
   var tbl = Hashtbl.create(undefined, size);
   List.iter((function (param) {
-          return Hashtbl.add(tbl, param[0], param[1]);
+          Hashtbl.add(tbl, param[0], param[1]);
         }), init);
   return tbl;
 }
@@ -548,7 +548,7 @@ function set_color_tag_handling(ppf) {
     print_close_tag: functions$p_print_close_tag
   };
   ppf.pp_mark_tags = true;
-  return Format.pp_set_formatter_tag_functions(ppf, functions$p);
+  Format.pp_set_formatter_tag_functions(ppf, functions$p);
 }
 
 var first = {
@@ -914,14 +914,14 @@ function is_active(x) {
 
 function parse_opt(error, active, flags, s) {
   var set = function (i) {
-    return Caml_array.set(flags, i, true);
+    Caml_array.set(flags, i, true);
   };
   var clear = function (i) {
-    return Caml_array.set(flags, i, false);
+    Caml_array.set(flags, i, false);
   };
   var set_all = function (i) {
     Caml_array.set(active, i, true);
-    return Caml_array.set(error, i, true);
+    Caml_array.set(error, i, true);
   };
   var get_num = function (_n, _i) {
     while(true) {
@@ -1077,9 +1077,9 @@ function parse_opt(error, active, flags, s) {
     for(var n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
       Curry._1(myset, n);
     }
-    return loop(match$1[0]);
+    loop(match$1[0]);
   };
-  return loop(0);
+  loop(0);
 }
 
 function parse_options(errflag, s) {
@@ -1652,7 +1652,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  return Stdlib.flush(Stdlib.stdout);
+  Stdlib.flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
@@ -1867,14 +1867,14 @@ function show_filename(file) {
 }
 
 function print_filename(ppf, file) {
-  return Curry._1(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: /* End_of_format */0
-                  },
-                  _1: "%s"
-                }), show_filename(file));
+  Curry._1(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* String */2,
+              _0: /* No_padding */0,
+              _1: /* End_of_format */0
+            },
+            _1: "%s"
+          }), show_filename(file));
 }
 
 function get_pos_info(pos) {
@@ -2153,7 +2153,7 @@ function prerr_warning(loc, w) {
       };
     };
     num_loc_lines.contents = num_loc_lines.contents + count(start, 0) | 0;
-    return Curry._3(out_functions.out_string, str, start, len);
+    Curry._3(out_functions.out_string, str, start, len);
   };
   Format.pp_set_formatter_out_functions(ppf, {
         out_string: out_string,
@@ -2164,11 +2164,11 @@ function prerr_warning(loc, w) {
       });
   Curry._2(f, ppf, w);
   Format.pp_print_flush(ppf, undefined);
-  return Format.pp_set_formatter_out_functions(ppf, out_functions);
+  Format.pp_set_formatter_out_functions(ppf, out_functions);
 }
 
 function print_phanton_error_prefix(ppf) {
-  return Format.pp_print_as(ppf, error_prefix.length + 2 | 0, "");
+  Format.pp_print_as(ppf, error_prefix.length + 2 | 0, "");
 }
 
 function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
@@ -5553,7 +5553,7 @@ function iter_row(f, _row) {
       }
     }
     return may((function (param) {
-                  return List.iter(f, param[1]);
+                  List.iter(f, param[1]);
                 }), row.row_name);
   };
 }
@@ -5645,41 +5645,41 @@ function it_signature_item(it, param) {
 }
 
 function it_value_description(it, vd) {
-  return Curry._2(it.it_type_expr, it, vd.val_type);
+  Curry._2(it.it_type_expr, it, vd.val_type);
 }
 
 function it_type_declaration(it, td) {
   List.iter(Curry._1(it.it_type_expr, it), td.type_params);
   may(Curry._1(it.it_type_expr, it), td.type_manifest);
-  return Curry._2(it.it_type_kind, it, td.type_kind);
+  Curry._2(it.it_type_kind, it, td.type_kind);
 }
 
 function it_extension_constructor(it, td) {
   Curry._1(it.it_path, td.ext_type_path);
   List.iter(Curry._1(it.it_type_expr, it), td.ext_type_params);
   List.iter(Curry._1(it.it_type_expr, it), td.ext_args);
-  return may(Curry._1(it.it_type_expr, it), td.ext_ret_type);
+  may(Curry._1(it.it_type_expr, it), td.ext_ret_type);
 }
 
 function it_module_declaration(it, md) {
-  return Curry._2(it.it_module_type, it, md.md_type);
+  Curry._2(it.it_module_type, it, md.md_type);
 }
 
 function it_modtype_declaration(it, mtd) {
-  return may(Curry._1(it.it_module_type, it), mtd.mtd_type);
+  may(Curry._1(it.it_module_type, it), mtd.mtd_type);
 }
 
 function it_class_declaration(it, cd) {
   List.iter(Curry._1(it.it_type_expr, it), cd.cty_params);
   Curry._2(it.it_class_type, it, cd.cty_type);
   may(Curry._1(it.it_type_expr, it), cd.cty_new);
-  return Curry._1(it.it_path, cd.cty_path);
+  Curry._1(it.it_path, cd.cty_path);
 }
 
 function it_class_type_declaration(it, ctd) {
   List.iter(Curry._1(it.it_type_expr, it), ctd.clty_params);
   Curry._2(it.it_class_type, it, ctd.clty_type);
-  return Curry._1(it.it_path, ctd.clty_path);
+  Curry._1(it.it_path, ctd.clty_path);
 }
 
 function it_module_type(it, sg) {
@@ -5706,11 +5706,11 @@ function it_class_type(it, cs) {
         var cs$1 = cs._0;
         Curry._2(it.it_type_expr, it, cs$1.csig_self);
         Curry._2(Meths.iter, (function (param, param$1) {
-                return Curry._2(it.it_type_expr, it, param$1[2]);
+                Curry._2(it.it_type_expr, it, param$1[2]);
               }), cs$1.csig_vars);
         return List.iter((function (param) {
                       Curry._1(it.it_path, param[0]);
-                      return List.iter(Curry._1(it.it_type_expr, it), param[1]);
+                      List.iter(Curry._1(it.it_type_expr, it), param[1]);
                     }), cs$1.csig_inher);
     case /* Cty_arrow */2 :
         Curry._2(it.it_type_expr, it, cs._1);
@@ -5724,12 +5724,12 @@ function it_type_kind(it, cl) {
     return ;
   } else if (cl.TAG === /* Type_record */0) {
     return List.iter((function (ld) {
-                  return Curry._2(it.it_type_expr, it, ld.ld_type);
+                  Curry._2(it.it_type_expr, it, ld.ld_type);
                 }), cl._0);
   } else {
     return List.iter((function (cd) {
                   List.iter(Curry._1(it.it_type_expr, it), cd.cd_args);
-                  return may(Curry._1(it.it_type_expr, it), cd.cd_res);
+                  may(Curry._1(it.it_type_expr, it), cd.cd_res);
                 }), cl._0);
   }
 }
@@ -5750,7 +5750,7 @@ function it_do_type_expr(it, ty) {
         }
     case /* Tvariant */8 :
         return may((function (param) {
-                      return Curry._1(it.it_path, param[0]);
+                      Curry._1(it.it_path, param[0]);
                     }), row_repr_aux(/* [] */0, row._0).row_name);
     case /* Tconstr */3 :
     case /* Tpackage */11 :
@@ -6106,7 +6106,7 @@ function unmark_type(ty) {
 }
 
 function it_type_expr$1(it, ty) {
-  return unmark_type(ty);
+  unmark_type(ty);
 }
 
 var unmark_iterators = {
@@ -6130,14 +6130,14 @@ var unmark_iterators = {
 function unmark_extension_constructor(ext) {
   List.iter(unmark_type, ext.ext_type_params);
   List.iter(unmark_type, ext.ext_args);
-  return may(unmark_type, ext.ext_ret_type);
+  may(unmark_type, ext.ext_ret_type);
 }
 
 function unmark_class_signature(sign) {
   unmark_type(sign.csig_self);
-  return Curry._2(Meths.iter, (function (l, param) {
-                return unmark_type(param[2]);
-              }), sign.csig_vars);
+  Curry._2(Meths.iter, (function (l, param) {
+          unmark_type(param[2]);
+        }), sign.csig_vars);
 }
 
 function find_expans(priv, p1, _param) {
@@ -6319,7 +6319,7 @@ function log_change(ch) {
     _0: ch,
     _1: r$p
   };
-  return Caml_array.set(trail, 0, r$p);
+  Caml_array.set(trail, 0, r$p);
 }
 
 function log_type(ty) {
@@ -6497,7 +6497,7 @@ function backtrack(param) {
   List.iter(undo_change, backlog);
   changes.contents = /* Unchanged */0;
   last_snapshot.contents = old;
-  return Caml_array.set(trail, 0, changes);
+  Caml_array.set(trail, 0, changes);
 }
 
 var $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Cmi_format.Error");
@@ -6699,10 +6699,10 @@ register_error_of_exn(function (err) {
 var Inconsistency = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Consistbl.Inconsistency");
 
 function set$1(tbl, name, crc, source) {
-  return Hashtbl.add(tbl, name, [
-              crc,
-              source
-            ]);
+  Hashtbl.add(tbl, name, [
+        crc,
+        source
+      ]);
 }
 
 function extract(l, tbl) {
@@ -7717,14 +7717,14 @@ function get_docstrings(dsl) {
 }
 
 function associate_docstrings(dsl) {
-  return List.iter((function (ds) {
-                var match = ds.ds_associated;
-                if (match) {
-                  ds.ds_associated = /* Many */2;
-                } else {
-                  ds.ds_associated = /* One */1;
-                }
-              }), dsl);
+  List.iter((function (ds) {
+          var match = ds.ds_associated;
+          if (match) {
+            ds.ds_associated = /* Many */2;
+          } else {
+            ds.ds_associated = /* One */1;
+          }
+        }), dsl);
 }
 
 var pre_table = Hashtbl.create(undefined, 50);
@@ -7904,12 +7904,12 @@ function symbol_docs_lazy(param) {
 
 function mark_symbol_docs(param) {
   mark_pre_docs(Parsing.symbol_start_pos(undefined));
-  return mark_post_docs(Parsing.symbol_end_pos(undefined));
+  mark_post_docs(Parsing.symbol_end_pos(undefined));
 }
 
 function mark_rhs_docs(pos1, pos2) {
   mark_pre_docs(Parsing.rhs_start_pos(pos1));
-  return mark_post_docs(Parsing.rhs_end_pos(pos2));
+  mark_post_docs(Parsing.rhs_end_pos(pos2));
 }
 
 function symbol_text_lazy(param) {
@@ -7928,7 +7928,7 @@ function init(param) {
   Hashtbl.reset(post_table);
   Hashtbl.reset(floating_table);
   Hashtbl.reset(pre_extra_table);
-  return Hashtbl.reset(post_extra_table);
+  Hashtbl.reset(post_extra_table);
 }
 
 var default_loc = {
@@ -11274,7 +11274,7 @@ function already_defined(s, tbl) {
 function add$6(kind, slot, id, x, tbl, ref_tbl) {
   var slot$1 = slot !== undefined ? (function (param) {
         var s = id.name;
-        return Curry._3(slot, kind, s, already_defined(s, ref_tbl));
+        Curry._3(slot, kind, s, already_defined(s, ref_tbl));
       }) : nothing;
   return add(id, [
               x,
@@ -11688,7 +11688,7 @@ function save_pers_struct(crc, ps) {
   var modname = ps.ps_name;
   Hashtbl.add(persistent_structures, modname, ps);
   set$1(crc_units, modname, crc, ps.ps_filename);
-  return add_import(modname);
+  add_import(modname);
 }
 
 function read_pers_struct(modname, filename) {
@@ -12674,9 +12674,9 @@ function set_type_used_callback(name, td, callback) {
     }
     throw exn;
   }
-  return Hashtbl.replace(type_declarations, key, (function (param) {
-                return Curry._1(callback, old);
-              }));
+  Hashtbl.replace(type_declarations, key, (function (param) {
+          Curry._1(callback, old);
+        }));
 }
 
 function lookup_value$1(lid, env) {
@@ -12839,7 +12839,7 @@ function mark_constructor(usage, env, name, desc) {
     throw exn$1;
   }
   var ty_name$1 = last(ty_path$2);
-  return mark_constructor_used(usage, env, ty_name$1, ty_decl, name);
+  mark_constructor_used(usage, env, ty_name$1, ty_decl, name);
 }
 
 function lookup_all_labels$1(lid, env) {
@@ -12922,7 +12922,7 @@ function scrape_alias_safe(env, _mty) {
 function run_iter_cont(l) {
   iter_env_cont.contents = /* [] */0;
   List.iter((function (c) {
-          return Curry._1(c, undefined);
+          Curry._1(c, undefined);
         }), l);
   var cont = List.rev(iter_env_cont.contents);
   iter_env_cont.contents = /* [] */0;
@@ -12938,10 +12938,10 @@ function iter_types(f) {
       return sc.comp_types;
     };
     iter((function (id, param) {
-            return Curry._2(f, {
-                        TAG: /* Pident */0,
-                        _0: id
-                      }, param[0]);
+            Curry._2(f, {
+                  TAG: /* Pident */0,
+                  _0: id
+                }, param[0]);
           }), Curry._1(proj1, param));
     var iter_components = function (path, path$p, mcomps) {
       var cont = function (param) {
@@ -12972,35 +12972,35 @@ function iter_types(f) {
         var comps$1 = comps._0;
         iter$2((function (s, param) {
                 var n = param[1];
-                return Curry._2(f, {
-                            TAG: /* Pdot */1,
-                            _0: path,
-                            _1: s,
-                            _2: n
-                          }, [
-                            {
-                              TAG: /* Pdot */1,
-                              _0: path$p,
-                              _1: s,
-                              _2: n
-                            },
-                            param[0]
-                          ]);
+                Curry._2(f, {
+                      TAG: /* Pdot */1,
+                      _0: path,
+                      _1: s,
+                      _2: n
+                    }, [
+                      {
+                        TAG: /* Pdot */1,
+                        _0: path$p,
+                        _1: s,
+                        _2: n
+                      },
+                      param[0]
+                    ]);
               }), Curry._1(proj2, comps$1));
-        return iter$2((function (s, param) {
-                      var n = param[1];
-                      return iter_components({
-                                  TAG: /* Pdot */1,
-                                  _0: path,
-                                  _1: s,
-                                  _2: n
-                                }, {
-                                  TAG: /* Pdot */1,
-                                  _0: path$p,
-                                  _1: s,
-                                  _2: n
-                                }, param[0]);
-                    }), comps$1.comp_components);
+        iter$2((function (s, param) {
+                var n = param[1];
+                iter_components({
+                      TAG: /* Pdot */1,
+                      _0: path,
+                      _1: s,
+                      _2: n
+                    }, {
+                      TAG: /* Pdot */1,
+                      _0: path$p,
+                      _1: s,
+                      _2: n
+                    }, param[0]);
+              }), comps$1.comp_components);
       };
       iter_env_cont.contents = {
         hd: [
@@ -13022,14 +13022,14 @@ function iter_types(f) {
                 flags: 1
               }
             };
-            return iter_components(id, id, pso.ps_comps);
+            iter_components(id, id, pso.ps_comps);
           }), persistent_structures);
     return iter((function (id, param) {
                   var match = param[0];
-                  return iter_components({
-                              TAG: /* Pident */0,
-                              _0: id
-                            }, match[0], match[1]);
+                  iter_components({
+                        TAG: /* Pident */0,
+                        _0: id
+                      }, match[0], match[1]);
                 }), param.components);
   };
 }
@@ -13212,7 +13212,7 @@ function add_gadt_instances(env, lv, tl) {
     }
     throw exn;
   }
-  return set_typeset(r, List.fold_right(add$3, tl, r.contents));
+  set_typeset(r, List.fold_right(add$3, tl, r.contents));
 }
 
 function add_gadt_instance_chain(env, lv, t) {
@@ -13248,7 +13248,7 @@ function add_gadt_instance_chain(env, lv, t) {
       return may(add_instance, find_expans(/* Private */0, match._0, match._2.contents));
     }
   };
-  return add_instance(t);
+  add_instance(t);
 }
 
 function scrape_alias(env, path, mty) {
@@ -14179,7 +14179,7 @@ function components_of_module_maker(param) {
 function store_value(check, slot, id, path, decl, env, renv) {
   check_value_name(id.name, decl.val_loc);
   may((function (f) {
-          return check_usage(decl.val_loc, id, f, value_declarations);
+          check_usage(decl.val_loc, id, f, value_declarations);
         }), check);
   return {
           values: add$6("value", slot, id, [
@@ -24185,10 +24185,10 @@ function add_comment(com) {
 }
 
 function add_docstring_comment(ds) {
-  return add_comment([
-              ds.ds_body,
-              ds.ds_loc
-            ]);
+  add_comment([
+        ds.ds_body,
+        ds.ds_loc
+      ]);
 }
 
 function report_error$2(ppf, c) {
@@ -25592,7 +25592,7 @@ function iter_pattern_desc(f, patl) {
         return may(f, patl._1);
     case /* Tpat_record */6 :
         return List.iter((function (param) {
-                      return Curry._1(f, param[2]);
+                      Curry._1(f, param[2]);
                     }), patl._0);
     case /* Tpat_tuple */3 :
     case /* Tpat_array */7 :
@@ -25729,7 +25729,7 @@ function pat_bound_idents(pat) {
 function rev_let_bound_idents_with_loc(bindings) {
   idents.contents = /* [] */0;
   List.iter((function (vb) {
-          return bound_idents(vb.vb_pat);
+          bound_idents(vb.vb_pat);
         }), bindings);
   var res = idents.contents;
   idents.contents = /* [] */0;
@@ -27656,7 +27656,7 @@ function clear_env(binary_annots) {
 
 function output_cmt(oc, cmt) {
   Stdlib.output_string(oc, "Caml2012T004");
-  return Stdlib.output_value(oc, cmt);
+  Stdlib.output_value(oc, cmt);
 }
 
 var saved_types = {
@@ -27755,7 +27755,7 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
     }
     
   }
-  return clear(undefined);
+  clear(undefined);
 }
 
 var Unify = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Ctype.Unify");
@@ -28881,7 +28881,7 @@ function closed_type_decl(decl) {
       v === /* Type_abstract */0;
     } else if (v.TAG === /* Type_record */0) {
       List.iter((function (l) {
-              return closed_type(l.ld_type);
+              closed_type(l.ld_type);
             }), v._0);
     } else {
       List.iter((function (param) {
@@ -29006,20 +29006,20 @@ function iter_generalize(tyl, ty) {
             return iter_generalize(tyl, param);
           }), match._2.contents);
   }
-  return iter_type_expr((function (param) {
-                return iter_generalize(tyl, param);
-              }), ty$1);
+  iter_type_expr((function (param) {
+          return iter_generalize(tyl, param);
+        }), ty$1);
 }
 
 function iter_generalize$1(tyl, ty) {
   simple_abbrevs.contents = /* Mnil */0;
-  return iter_generalize(tyl, ty);
+  iter_generalize(tyl, ty);
 }
 
 function generalize(ty) {
-  return iter_generalize$1({
-              contents: /* [] */0
-            }, ty);
+  iter_generalize$1({
+        contents: /* [] */0
+      }, ty);
 }
 
 function generalize_structure(var_level, ty) {
@@ -29048,7 +29048,7 @@ function generalize_structure(var_level, ty) {
 
 function generalize_structure$1(var_level, ty) {
   simple_abbrevs.contents = /* Mnil */0;
-  return generalize_structure(var_level, ty);
+  generalize_structure(var_level, ty);
 }
 
 function generalize_spine(_ty) {
@@ -29400,7 +29400,7 @@ function generalize_expansive$1(env, ty) {
 }
 
 function generalize_structure$2(ty) {
-  return generalize_structure$1(current_level.contents, ty);
+  generalize_structure$1(current_level.contents, ty);
 }
 
 function limited_generalize(ty0, ty) {
@@ -29472,13 +29472,13 @@ function limited_generalize(ty0, ty) {
           }), ty0$1);
   }
   List.iter(generalize_parents, roots.contents);
-  return Hashtbl.iter((function (param, param$1) {
-                var ty = param$1[0];
-                if (ty.level !== 100000000) {
-                  return set_level(ty, current_level.contents);
-                }
-                
-              }), graph);
+  Hashtbl.iter((function (param, param$1) {
+          var ty = param$1[0];
+          if (ty.level !== 100000000) {
+            return set_level(ty, current_level.contents);
+          }
+          
+        }), graph);
 }
 
 function inv_type(hash, pty, ty) {
@@ -30001,7 +30001,7 @@ function instance_constructor(in_pattern, cstr) {
               Error: new Error()
             };
       }
-      return link_type(tv, to_unify);
+      link_type(tv, to_unify);
     };
     List.iter($$process, cstr.cstr_existentials);
   }
@@ -31511,7 +31511,7 @@ function deep_occur(t0, ty) {
           };
     }
     ty$1.level = pivot_level - ty$1.level | 0;
-    return iter_type_expr(occur_rec, ty$1);
+    iter_type_expr(occur_rec, ty$1);
   };
   try {
     occur_rec(ty);
@@ -31652,7 +31652,7 @@ function reify(env, t) {
         return iter_type_expr(iterator, ty$1);
     }
   };
-  return iterator(t);
+  iterator(t);
 }
 
 function is_newtype(env, p) {
@@ -32485,9 +32485,9 @@ function mcomp_list(type_pairs, env, tl1, tl2) {
           Error: new Error()
         };
   }
-  return List.iter2((function (param, param$1) {
-                return mcomp(type_pairs, env, param, param$1);
-              }), tl1, tl2);
+  List.iter2((function (param, param$1) {
+          return mcomp(type_pairs, env, param, param$1);
+        }), tl1, tl2);
 }
 
 function mcomp_fields(type_pairs, env, ty1, ty2) {
@@ -32513,10 +32513,10 @@ function mcomp_fields(type_pairs, env, ty1, ty2) {
           Error: new Error()
         };
   }
-  return List.iter((function (param) {
-                mcomp_kind(param[1], param[3]);
-                return mcomp(type_pairs, env, param[2], param[4]);
-              }), match$2[0]);
+  List.iter((function (param) {
+          mcomp_kind(param[1], param[3]);
+          mcomp(type_pairs, env, param[2], param[4]);
+        }), match$2[0]);
 }
 
 function mcomp_kind(k1, k2) {
@@ -32618,7 +32618,7 @@ function mcomp_record_description(type_pairs, env) {
 }
 
 function mcomp$1(env, t1, t2) {
-  return mcomp(Curry._1(TypePairs.create, 4), env, t1, t2);
+  mcomp(Curry._1(TypePairs.create, 4), env, t1, t2);
 }
 
 function find_lowest_level(ty) {
@@ -32683,7 +32683,7 @@ function add_gadt_equation(env, source, destination) {
   var decl = new_declaration(source_lev, destination$1);
   var newtype_level = get_newtype_level(undefined);
   env.contents = add_local_constraint(source, decl, newtype_level, env.contents);
-  return cleanup_abbrev(undefined);
+  cleanup_abbrev(undefined);
 }
 
 var unify_eq_set = Curry._1(TypePairs.create, 11);
@@ -32703,7 +32703,7 @@ function order_type_pair(t1, t2) {
 }
 
 function add_type_equality(t1, t2) {
-  return Curry._3(TypePairs.add, unify_eq_set, order_type_pair(t1, t2), undefined);
+  Curry._3(TypePairs.add, unify_eq_set, order_type_pair(t1, t2), undefined);
 }
 
 function eq_package_path(env, p1, p2) {
@@ -33153,7 +33153,7 @@ function unify_row(env, row1, row2) {
     var ht = Hashtbl.create(undefined, List.length(r1));
     List.iter((function (param) {
             var l = param[0];
-            return Hashtbl.add(ht, hash_variant(l), l);
+            Hashtbl.add(ht, hash_variant(l), l);
           }), r1);
     List.iter((function (param) {
             var l = param[0];
@@ -33281,7 +33281,7 @@ function unify_row(env, row1, row2) {
           }
         });
     update_level(env.contents, rm.level, ty);
-    return link_type(rm, ty);
+    link_type(rm, ty);
   };
   var md1 = rm1.desc;
   var md2 = rm2.desc;
@@ -33481,7 +33481,7 @@ function unify_row(env, row1, row2) {
                             try {
                               return List.iter((function(t2$1){
                                         return function (t1) {
-                                          return unify(env, t1, t2$1);
+                                          unify(env, t1, t2$1);
                                         }
                                         }(t2$1)), f1$2._1);
                             }
@@ -33637,9 +33637,9 @@ function unify_list(env, tl1, tl2) {
           Error: new Error()
         };
   }
-  return List.iter2((function (param, param$1) {
-                return unify(env, param, param$1);
-              }), tl1, tl2);
+  List.iter2((function (param, param$1) {
+          return unify(env, param, param$1);
+        }), tl1, tl2);
 }
 
 function unify3(env, t1, t1$p, t2, t2$p) {
@@ -33822,7 +33822,7 @@ function unify3(env, t1, t1$p, t2, t2$p) {
                     unify_list(env, tl1, tl2);
                   } else if (assume_injective.contents) {
                     set_mode_pattern(true, false, (function (param) {
-                            return unify_list(env, tl1, tl2);
+                            unify_list(env, tl1, tl2);
                           }));
                   } else {
                     var tmp = true;
@@ -34567,13 +34567,13 @@ unify$p.contents = unify_var;
 
 function unify_pairs(env, ty1, ty2, pairs) {
   univar_pairs.contents = pairs;
-  return unify$1(env, ty1, ty2);
+  unify$1(env, ty1, ty2);
 }
 
 function unify$2(env, ty1, ty2) {
-  return unify_pairs({
-              contents: env
-            }, ty1, ty2, /* [] */0);
+  unify_pairs({
+        contents: env
+      }, ty1, ty2, /* [] */0);
 }
 
 function expand_head_trace(env, t) {
@@ -34786,7 +34786,7 @@ function moregen_occur(env, level, ty) {
     throw exn;
   }
   occur_univar(env, ty);
-  return update_level(env, level, ty);
+  update_level(env, level, ty);
 }
 
 function may_instantiate(inst_nongen, t1) {
@@ -35201,7 +35201,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                       if (may_inst) {
                                         set_row_field(f1._3, f2);
                                         return List.iter((function (t1) {
-                                                      return moregen(inst_nongen, type_pairs, env, t1, t2$1);
+                                                      moregen(inst_nongen, type_pairs, env, t1, t2$1);
                                                     }), f1._1);
                                       }
                                       throw {
@@ -35263,7 +35263,7 @@ function moregen(inst_nongen, type_pairs, env, t1, t2) {
                                   if (tl2) {
                                     var t2$2 = tl2.hd;
                                     return List.iter((function (t1) {
-                                                  return moregen(inst_nongen, type_pairs, env, t1, t2$2);
+                                                  moregen(inst_nongen, type_pairs, env, t1, t2$2);
                                                 }), tl1);
                                   }
                                   if (!Caml_obj.caml_notequal(tl1, /* [] */0)) {
@@ -35413,9 +35413,9 @@ function moregen_list(inst_nongen, type_pairs, env, tl1, tl2) {
           Error: new Error()
         };
   }
-  return List.iter2((function (param, param$1) {
-                return moregen(inst_nongen, type_pairs, env, param, param$1);
-              }), tl1, tl2);
+  List.iter2((function (param, param$1) {
+          return moregen(inst_nongen, type_pairs, env, param, param$1);
+        }), tl1, tl2);
 }
 
 function moregen_fields(inst_nongen, type_pairs, env, ty1, ty2) {
@@ -35431,46 +35431,46 @@ function moregen_fields(inst_nongen, type_pairs, env, ty1, ty2) {
         };
   }
   moregen(inst_nongen, type_pairs, env, match[1], build_fields(repr(ty2).level)(match$2[2], rest2));
-  return List.iter((function (param) {
-                var t2 = param[4];
-                var k2 = param[3];
-                var t1 = param[2];
-                var k1 = param[1];
-                var n = param[0];
-                moregen_kind(k1, k2);
-                try {
-                  return moregen(inst_nongen, type_pairs, env, t1, t2);
-                }
-                catch (raw_trace){
-                  var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-                  if (trace.RE_EXN_ID === Unify) {
-                    throw {
-                          RE_EXN_ID: Unify,
-                          _1: {
-                            hd: [
-                              newty2(current_level.contents, {
-                                    TAG: /* Tfield */5,
-                                    _0: n,
-                                    _1: k1,
-                                    _2: t1,
-                                    _3: rest2
-                                  }),
-                              newty2(current_level.contents, {
-                                    TAG: /* Tfield */5,
-                                    _0: n,
-                                    _1: k2,
-                                    _2: t2,
-                                    _3: rest2
-                                  })
-                            ],
-                            tl: trace._1
-                          },
-                          Error: new Error()
-                        };
-                  }
-                  throw trace;
-                }
-              }), match$2[0]);
+  List.iter((function (param) {
+          var t2 = param[4];
+          var k2 = param[3];
+          var t1 = param[2];
+          var k1 = param[1];
+          var n = param[0];
+          moregen_kind(k1, k2);
+          try {
+            return moregen(inst_nongen, type_pairs, env, t1, t2);
+          }
+          catch (raw_trace){
+            var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+            if (trace.RE_EXN_ID === Unify) {
+              throw {
+                    RE_EXN_ID: Unify,
+                    _1: {
+                      hd: [
+                        newty2(current_level.contents, {
+                              TAG: /* Tfield */5,
+                              _0: n,
+                              _1: k1,
+                              _2: t1,
+                              _3: rest2
+                            }),
+                        newty2(current_level.contents, {
+                              TAG: /* Tfield */5,
+                              _0: n,
+                              _1: k2,
+                              _2: t2,
+                              _3: rest2
+                            })
+                      ],
+                      tl: trace._1
+                    },
+                    Error: new Error()
+                  };
+            }
+            throw trace;
+          }
+        }), match$2[0]);
 }
 
 function moregen_kind(k1, k2) {
@@ -35514,12 +35514,12 @@ function moregen_kind(k1, k2) {
           Error: new Error()
         };
   }
-  return set_kind(r, k2$1);
+  set_kind(r, k2$1);
 }
 
 function moregen$1(inst_nongen, type_pairs, env, patt, subj) {
   univar_pairs.contents = /* [] */0;
-  return moregen(inst_nongen, type_pairs, env, patt, subj);
+  moregen(inst_nongen, type_pairs, env, patt, subj);
 }
 
 function moregeneral(env, inst_nongen, pat_sch, subj_sch) {
@@ -36125,7 +36125,7 @@ function eqtype(rename, type_pairs, subst, env, t1, t2) {
                                                   return eqtype(rename, type_pairs, subst, env, t1$1, param);
                                                 }), tl2);
                                           return List.iter((function (t1) {
-                                                        return eqtype(rename, type_pairs, subst, env, t1, t2$1);
+                                                        eqtype(rename, type_pairs, subst, env, t1, t2$1);
                                                       }), tl1);
                                         }
                                       }
@@ -36281,9 +36281,9 @@ function eqtype_list(rename, type_pairs, subst, env, tl1, tl2) {
           Error: new Error()
         };
   }
-  return List.iter2((function (param, param$1) {
-                return eqtype(rename, type_pairs, subst, env, param, param$1);
-              }), tl1, tl2);
+  List.iter2((function (param, param$1) {
+          return eqtype(rename, type_pairs, subst, env, param, param$1);
+        }), tl1, tl2);
 }
 
 function eqtype_fields(rename, type_pairs, subst, env, ty1, _ty2) {
@@ -36419,7 +36419,7 @@ function equal$5(env, rename, tyl1, tyl2) {
 
 function eqtype$1(rename, type_pairs, subst, env, t1, t2) {
   univar_pairs.contents = /* [] */0;
-  return eqtype(rename, type_pairs, subst, env, t1, t2);
+  eqtype(rename, type_pairs, subst, env, t1, t2);
 }
 
 var Failure = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Ctype.Failure");
@@ -38536,7 +38536,7 @@ function subtype_rec(env, _trace, _t1, _t2, _cstrs) {
                           var snap = snapshot(undefined);
                           try {
                             List.iter((function (param) {
-                                    return unify$2(env, param[1], param[2]);
+                                    unify$2(env, param[1], param[2]);
                                   }), cstrs$p);
                             if (Curry._7(package_subtype.contents, env, p1, nl1, tl1$2, p2, nl2, tl2$1)) {
                               backtrack(snap);
@@ -38738,25 +38738,25 @@ function subtype(env, ty1, ty2) {
       }, ty1, ty2, /* [] */0);
   Curry._1(TypePairs.clear, subtypes);
   return function (param) {
-    return List.iter((function (param) {
-                  try {
-                    return unify_pairs({
-                                contents: env
-                              }, param[1], param[2], param[3]);
-                  }
-                  catch (raw_trace){
-                    var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-                    if (trace.RE_EXN_ID === Unify) {
-                      throw {
-                            RE_EXN_ID: Subtype,
-                            _1: expand_trace(env, List.rev(param[0])),
-                            _2: List.tl(List.tl(trace._1)),
-                            Error: new Error()
-                          };
-                    }
-                    throw trace;
-                  }
-                }), List.rev(cstrs));
+    List.iter((function (param) {
+            try {
+              return unify_pairs({
+                          contents: env
+                        }, param[1], param[2], param[3]);
+            }
+            catch (raw_trace){
+              var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+              if (trace.RE_EXN_ID === Unify) {
+                throw {
+                      RE_EXN_ID: Subtype,
+                      _1: expand_trace(env, List.rev(param[0])),
+                      _2: List.tl(List.tl(trace._1)),
+                      Error: new Error()
+                    };
+              }
+              throw trace;
+            }
+          }), List.rev(cstrs));
   };
 }
 
@@ -39029,15 +39029,15 @@ function normalize_type_rec(env, visited, ty) {
         
     }
   }
-  return iter_type_expr((function (param) {
-                return normalize_type_rec(env, visited, param);
-              }), ty$1);
+  iter_type_expr((function (param) {
+          return normalize_type_rec(env, visited, param);
+        }), ty$1);
 }
 
 function normalize_type(env, ty) {
-  return normalize_type_rec(env, {
-              contents: /* Empty */0
-            }, ty);
+  normalize_type_rec(env, {
+        contents: /* Empty */0
+      }, ty);
 }
 
 var nondep_hash = Curry._1(TypeHash.create, 47);
@@ -39600,28 +39600,28 @@ function collapse_conj(env, visited, ty) {
           List.iter((function (param) {
                   return unify$2(env, t1, param);
                 }), tl);
-          return set_row_field(match._3, {
-                      TAG: /* Reither */1,
-                      _0: match._0,
-                      _1: {
-                        hd: t1,
-                        tl: /* [] */0
-                      },
-                      _2: match._2,
-                      _3: {
-                        contents: undefined
-                      }
-                    });
+          set_row_field(match._3, {
+                TAG: /* Reither */1,
+                _0: match._0,
+                _1: {
+                  hd: t1,
+                  tl: /* [] */0
+                },
+                _2: match._2,
+                _3: {
+                  contents: undefined
+                }
+              });
         }), row$1.row_fields);
-  return iter_row((function (param) {
-                return collapse_conj(env, visited$1, param);
-              }), row$1);
+  iter_row((function (param) {
+          return collapse_conj(env, visited$1, param);
+        }), row$1);
 }
 
 function collapse_conj_params(env, params) {
-  return List.iter((function (param) {
-                return collapse_conj(env, /* [] */0, param);
-              }), params);
+  List.iter((function (param) {
+          return collapse_conj(env, /* [] */0, param);
+        }), params);
 }
 
 var out_ident = {
@@ -39743,63 +39743,63 @@ function print_list(pr, sep, ppf, _param) {
 
 function pr_present(param, param$1) {
   return print_list((function (ppf, s) {
-                return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                _0: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* '`' */96,
-                                  _1: {
-                                    TAG: /* String */2,
-                                    _0: /* No_padding */0,
-                                    _1: /* End_of_format */0
-                                  }
-                                },
-                                _1: "`%s"
-                              }), s);
-              }), (function (ppf) {
-                return Format.fprintf(ppf)(/* Format */{
-                            _0: {
-                              TAG: /* Formatting_lit */17,
-                              _0: {
-                                TAG: /* Break */0,
-                                _0: "@ ",
-                                _1: 1,
-                                _2: 0
-                              },
+                Curry._1(Format.fprintf(ppf)(/* Format */{
+                          _0: {
+                            TAG: /* Char_literal */12,
+                            _0: /* '`' */96,
+                            _1: {
+                              TAG: /* String */2,
+                              _0: /* No_padding */0,
                               _1: /* End_of_format */0
-                            },
-                            _1: "@ "
-                          });
+                            }
+                          },
+                          _1: "`%s"
+                        }), s);
+              }), (function (ppf) {
+                Format.fprintf(ppf)(/* Format */{
+                      _0: {
+                        TAG: /* Formatting_lit */17,
+                        _0: {
+                          TAG: /* Break */0,
+                          _0: "@ ",
+                          _1: 1,
+                          _2: 0
+                        },
+                        _1: /* End_of_format */0
+                      },
+                      _1: "@ "
+                    });
               }), param, param$1);
 }
 
 function pr_vars(param, param$1) {
   return print_list((function (ppf, s) {
-                return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                _0: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* '\'' */39,
-                                  _1: {
-                                    TAG: /* String */2,
-                                    _0: /* No_padding */0,
-                                    _1: /* End_of_format */0
-                                  }
-                                },
-                                _1: "'%s"
-                              }), s);
-              }), (function (ppf) {
-                return Format.fprintf(ppf)(/* Format */{
-                            _0: {
-                              TAG: /* Formatting_lit */17,
-                              _0: {
-                                TAG: /* Break */0,
-                                _0: "@ ",
-                                _1: 1,
-                                _2: 0
-                              },
+                Curry._1(Format.fprintf(ppf)(/* Format */{
+                          _0: {
+                            TAG: /* Char_literal */12,
+                            _0: /* '\'' */39,
+                            _1: {
+                              TAG: /* String */2,
+                              _0: /* No_padding */0,
                               _1: /* End_of_format */0
-                            },
-                            _1: "@ "
-                          });
+                            }
+                          },
+                          _1: "'%s"
+                        }), s);
+              }), (function (ppf) {
+                Format.fprintf(ppf)(/* Format */{
+                      _0: {
+                        TAG: /* Formatting_lit */17,
+                        _0: {
+                          TAG: /* Break */0,
+                          _0: "@ ",
+                          _1: 1,
+                          _2: 0
+                        },
+                        _1: /* End_of_format */0
+                      },
+                      _1: "@ "
+                    });
               }), param, param$1);
 }
 
@@ -39911,7 +39911,7 @@ function print_out_type_1(ppf, ty) {
   Format.pp_print_string(ppf, " ->");
   Format.pp_print_space(ppf, undefined);
   print_out_type_1(ppf, ty._2);
-  return Format.pp_close_box(ppf, undefined);
+  Format.pp_close_box(ppf, undefined);
 }
 
 function print_out_type_2(ppf, tyl) {
@@ -40522,23 +40522,23 @@ function print_simple_out_type(ppf, s) {
         var print_fields$1 = function (ppf, fields) {
           if (fields.TAG === /* Ovar_fields */0) {
             return print_list(print_row_field, (function (ppf) {
-                          return Format.fprintf(ppf)(/* Format */{
-                                      _0: {
-                                        TAG: /* Formatting_lit */17,
-                                        _0: {
-                                          TAG: /* Break */0,
-                                          _0: "@;<1 -2>",
-                                          _1: 1,
-                                          _2: -2
-                                        },
-                                        _1: {
-                                          TAG: /* String_literal */11,
-                                          _0: "| ",
-                                          _1: /* End_of_format */0
-                                        }
-                                      },
-                                      _1: "@;<1 -2>| "
-                                    });
+                          Format.fprintf(ppf)(/* Format */{
+                                _0: {
+                                  TAG: /* Formatting_lit */17,
+                                  _0: {
+                                    TAG: /* Break */0,
+                                    _0: "@;<1 -2>",
+                                    _1: 1,
+                                    _2: -2
+                                  },
+                                  _1: {
+                                    TAG: /* String_literal */11,
+                                    _0: "| ",
+                                    _1: /* End_of_format */0
+                                  }
+                                },
+                                _1: "@;<1 -2>| "
+                              });
                         }), ppf, fields._0);
           } else {
             return Curry._4(Format.fprintf(ppf)(/* Format */{
@@ -40670,33 +40670,33 @@ function print_simple_out_type(ppf, s) {
         };
         List.iter2((function (s, t) {
                 var sep = first.contents ? (first.contents = false, "with") : "and";
-                return Curry._4(Format.fprintf(ppf)(/* Format */{
-                                _0: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* ' ' */32,
+                Curry._4(Format.fprintf(ppf)(/* Format */{
+                          _0: {
+                            TAG: /* Char_literal */12,
+                            _0: /* ' ' */32,
+                            _1: {
+                              TAG: /* String */2,
+                              _0: /* No_padding */0,
+                              _1: {
+                                TAG: /* String_literal */11,
+                                _0: " type ",
+                                _1: {
+                                  TAG: /* String */2,
+                                  _0: /* No_padding */0,
                                   _1: {
-                                    TAG: /* String */2,
-                                    _0: /* No_padding */0,
+                                    TAG: /* String_literal */11,
+                                    _0: " = ",
                                     _1: {
-                                      TAG: /* String_literal */11,
-                                      _0: " type ",
-                                      _1: {
-                                        TAG: /* String */2,
-                                        _0: /* No_padding */0,
-                                        _1: {
-                                          TAG: /* String_literal */11,
-                                          _0: " = ",
-                                          _1: {
-                                            TAG: /* Alpha */15,
-                                            _0: /* End_of_format */0
-                                          }
-                                        }
-                                      }
+                                      TAG: /* Alpha */15,
+                                      _0: /* End_of_format */0
                                     }
                                   }
-                                },
-                                _1: " %s type %s = %a"
-                              }), sep, s, print_out_type, t);
+                                }
+                              }
+                            }
+                          },
+                          _1: " %s type %s = %a"
+                        }), sep, s, print_out_type, t);
               }), s._1, s._2);
         return Format.fprintf(ppf)(/* Format */{
                     _0: {
@@ -40717,7 +40717,7 @@ function print_simple_out_type(ppf, s) {
   Format.pp_print_char(ppf, /* '(' */40);
   print_out_type(ppf, s);
   Format.pp_print_char(ppf, /* ')' */41);
-  return Format.pp_close_box(ppf, undefined);
+  Format.pp_close_box(ppf, undefined);
 }
 
 function print_fields(rest, ppf, _param) {
@@ -40877,44 +40877,44 @@ function print_row_field(ppf, param) {
                 });
     }
   };
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
+                    TAG: /* String_literal */11,
+                    _0: "<hv 2>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<hv 2>"
+                }
+              },
+              _1: {
+                TAG: /* Char_literal */12,
+                _0: /* '`' */96,
+                _1: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* Theta */16,
                     _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<hv 2>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<hv 2>"
-                      }
-                    },
-                    _1: {
-                      TAG: /* Char_literal */12,
-                      _0: /* '`' */96,
-                      _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* Theta */16,
-                          _0: {
-                            TAG: /* Alpha */15,
-                            _0: {
-                              TAG: /* Formatting_lit */17,
-                              _0: /* Close_box */0,
-                              _1: /* End_of_format */0
-                            }
-                          }
-                        }
+                      TAG: /* Alpha */15,
+                      _0: {
+                        TAG: /* Formatting_lit */17,
+                        _0: /* Close_box */0,
+                        _1: /* End_of_format */0
                       }
                     }
-                  },
-                  _1: "@[<hv 2>`%s%t%a@]"
-                }), param[0], pr_of, (function (param, param$1) {
-                return print_typlist(print_out_type, " &", param, param$1);
-              }), tyl);
+                  }
+                }
+              }
+            },
+            _1: "@[<hv 2>`%s%t%a@]"
+          }), param[0], pr_of, (function (param, param$1) {
+          return print_typlist(print_out_type, " &", param, param$1);
+        }), tyl);
 }
 
 function print_typlist(print_elem, sep, ppf, _param) {
@@ -40959,20 +40959,20 @@ var out_type = {
 function type_parameter(ppf, param) {
   var match = param[1];
   var ty = param[0];
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: /* End_of_format */0
-                    }
-                  },
-                  _1: "%s%s"
-                }), match[1] ? (
-                match[0] ? "" : "-"
-              ) : "+", ty === "_" ? ty : "'" + ty);
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* String */2,
+              _0: /* No_padding */0,
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: /* End_of_format */0
+              }
+            },
+            _1: "%s%s"
+          }), match[1] ? (
+          match[0] ? "" : "-"
+        ) : "+", ty === "_" ? ty : "'" + ty);
 }
 
 function print_out_class_params(ppf, tyl) {
@@ -41020,14 +41020,14 @@ function print_out_class_params(ppf, tyl) {
                     _1: "@[<1>[%a]@]@ "
                   }), (function (param, param$1) {
                   return print_list(type_parameter, (function (ppf) {
-                                return Format.fprintf(ppf)(/* Format */{
-                                            _0: {
-                                              TAG: /* String_literal */11,
-                                              _0: ", ",
-                                              _1: /* End_of_format */0
-                                            },
-                                            _1: ", "
-                                          });
+                                Format.fprintf(ppf)(/* Format */{
+                                      _0: {
+                                        TAG: /* String_literal */11,
+                                        _0: ", ",
+                                        _1: /* End_of_format */0
+                                      },
+                                      _1: ", "
+                                    });
                               }), param, param$1);
                 }), tyl);
   }
@@ -41042,50 +41042,50 @@ function print_out_class_type(ppf, param) {
             return ;
           }
           var partial_arg = out_type.contents;
-          return Curry._2(Format.fprintf(ppf)(/* Format */{
+          Curry._2(Format.fprintf(ppf)(/* Format */{
+                    _0: {
+                      TAG: /* Formatting_gen */18,
+                      _0: {
+                        TAG: /* Open_box */1,
+                        _0: /* Format */{
                           _0: {
-                            TAG: /* Formatting_gen */18,
-                            _0: {
-                              TAG: /* Open_box */1,
-                              _0: /* Format */{
-                                _0: {
-                                  TAG: /* String_literal */11,
-                                  _0: "<1>",
-                                  _1: /* End_of_format */0
-                                },
-                                _1: "<1>"
-                              }
-                            },
+                            TAG: /* String_literal */11,
+                            _0: "<1>",
+                            _1: /* End_of_format */0
+                          },
+                          _1: "<1>"
+                        }
+                      },
+                      _1: {
+                        TAG: /* Char_literal */12,
+                        _0: /* '[' */91,
+                        _1: {
+                          TAG: /* Alpha */15,
+                          _0: {
+                            TAG: /* Char_literal */12,
+                            _0: /* ']' */93,
                             _1: {
-                              TAG: /* Char_literal */12,
-                              _0: /* '[' */91,
+                              TAG: /* Formatting_lit */17,
+                              _0: /* Close_box */0,
                               _1: {
-                                TAG: /* Alpha */15,
+                                TAG: /* Formatting_lit */17,
                                 _0: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* ']' */93,
-                                  _1: {
-                                    TAG: /* Formatting_lit */17,
-                                    _0: /* Close_box */0,
-                                    _1: {
-                                      TAG: /* Formatting_lit */17,
-                                      _0: {
-                                        TAG: /* Break */0,
-                                        _0: "@ ",
-                                        _1: 1,
-                                        _2: 0
-                                      },
-                                      _1: /* End_of_format */0
-                                    }
-                                  }
-                                }
+                                  TAG: /* Break */0,
+                                  _0: "@ ",
+                                  _1: 1,
+                                  _2: 0
+                                },
+                                _1: /* End_of_format */0
                               }
                             }
-                          },
-                          _1: "@[<1>[%a]@]@ "
-                        }), (function (param, param$1) {
-                        return print_typlist(partial_arg, ",", param, param$1);
-                      }), tyl);
+                          }
+                        }
+                      }
+                    },
+                    _1: "@[<1>[%a]@]@ "
+                  }), (function (param, param$1) {
+                  return print_typlist(partial_arg, ",", param, param$1);
+                }), tyl);
         };
         return Curry._4(Format.fprintf(ppf)(/* Format */{
                         _0: {
@@ -41271,19 +41271,19 @@ function print_out_class_type(ppf, param) {
                         _1: "@[<hv 2>@[<2>object%a@]@ %a@;<1 -2>end@]"
                       }), pr_param, param._0, (function (param, param$1) {
                       return print_list(print_out_class_sig_item, (function (ppf) {
-                                    return Format.fprintf(ppf)(/* Format */{
-                                                _0: {
-                                                  TAG: /* Formatting_lit */17,
-                                                  _0: {
-                                                    TAG: /* Break */0,
-                                                    _0: "@ ",
-                                                    _1: 1,
-                                                    _2: 0
-                                                  },
-                                                  _1: /* End_of_format */0
-                                                },
-                                                _1: "@ "
-                                              });
+                                    Format.fprintf(ppf)(/* Format */{
+                                          _0: {
+                                            TAG: /* Formatting_lit */17,
+                                            _0: {
+                                              TAG: /* Break */0,
+                                              _0: "@ ",
+                                              _1: 1,
+                                              _2: 0
+                                            },
+                                            _1: /* End_of_format */0
+                                          },
+                                          _1: "@ "
+                                        });
                                   }), param, param$1);
                     }), param._1);
     
@@ -41524,26 +41524,26 @@ function print_out_functor(ppf, m) {
                     }), print_out_functor, m._2);
     }
   }
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "->",
-                    _1: {
-                      TAG: /* Formatting_lit */17,
-                      _0: {
-                        TAG: /* Break */0,
-                        _0: "@ ",
-                        _1: 1,
-                        _2: 0
-                      },
-                      _1: {
-                        TAG: /* Alpha */15,
-                        _0: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "->@ %a"
-                }), print_out_module_type, m);
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "->",
+              _1: {
+                TAG: /* Formatting_lit */17,
+                _0: {
+                  TAG: /* Break */0,
+                  _0: "@ ",
+                  _1: 1,
+                  _2: 0
+                },
+                _1: {
+                  TAG: /* Alpha */15,
+                  _0: /* End_of_format */0
+                }
+              }
+            },
+            _1: "->@ %a"
+          }), print_out_module_type, m);
 }
 
 function print_out_constr(ppf, param) {
@@ -41781,25 +41781,25 @@ function print_out_signature(ppf, param) {
                     _1: "%a@ %a"
                   }), out_type_extension.contents, te, print_out_signature, match[1]);
   }
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* Alpha */15,
-                    _0: {
-                      TAG: /* Formatting_lit */17,
-                      _0: {
-                        TAG: /* Break */0,
-                        _0: "@ ",
-                        _1: 1,
-                        _2: 0
-                      },
-                      _1: {
-                        TAG: /* Alpha */15,
-                        _0: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "%a@ %a"
-                }), out_sig_item.contents, item, print_out_signature, param.tl);
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Alpha */15,
+              _0: {
+                TAG: /* Formatting_lit */17,
+                _0: {
+                  TAG: /* Break */0,
+                  _0: "@ ",
+                  _1: 1,
+                  _2: 0
+                },
+                _1: {
+                  TAG: /* Alpha */15,
+                  _0: /* End_of_format */0
+                }
+              }
+            },
+            _1: "%a@ %a"
+          }), out_sig_item.contents, item, print_out_signature, param.tl);
 }
 
 function print_out_module_type(ppf, t) {
@@ -41927,56 +41927,56 @@ function print_out_module_type(ppf, t) {
 }
 
 function print_out_label(ppf, param) {
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<2>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<2>"
-                      }
-                    },
+                    TAG: /* String_literal */11,
+                    _0: "<2>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<2>"
+                }
+              },
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* String_literal */11,
+                    _0: " :",
                     _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
+                      TAG: /* Formatting_lit */17,
+                      _0: {
+                        TAG: /* Break */0,
+                        _0: "@ ",
+                        _1: 1,
+                        _2: 0
+                      },
                       _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: {
-                          TAG: /* String_literal */11,
-                          _0: " :",
+                        TAG: /* Alpha */15,
+                        _0: {
+                          TAG: /* Formatting_lit */17,
+                          _0: /* Close_box */0,
                           _1: {
-                            TAG: /* Formatting_lit */17,
-                            _0: {
-                              TAG: /* Break */0,
-                              _0: "@ ",
-                              _1: 1,
-                              _2: 0
-                            },
-                            _1: {
-                              TAG: /* Alpha */15,
-                              _0: {
-                                TAG: /* Formatting_lit */17,
-                                _0: /* Close_box */0,
-                                _1: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* ';' */59,
-                                  _1: /* End_of_format */0
-                                }
-                              }
-                            }
+                            TAG: /* Char_literal */12,
+                            _0: /* ';' */59,
+                            _1: /* End_of_format */0
                           }
                         }
                       }
                     }
-                  },
-                  _1: "@[<2>%s%s :@ %a@];"
-                }), param[1] ? "mutable " : "", param[0], out_type.contents, param[2]);
+                  }
+                }
+              }
+            },
+            _1: "@[<2>%s%s :@ %a@];"
+          }), param[1] ? "mutable " : "", param[0], out_type.contents, param[2]);
 }
 
 function print_out_sig_item(ppf, param) {
@@ -42164,14 +42164,14 @@ function print_out_sig_item(ppf, param) {
         } else {
           var print_extended_type = function (ppf) {
             var print_type_parameter = function (ppf, ty) {
-              return Curry._1(Format.fprintf(ppf)(/* Format */{
-                              _0: {
-                                TAG: /* String */2,
-                                _0: /* No_padding */0,
-                                _1: /* End_of_format */0
-                              },
-                              _1: "%s"
-                            }), ty === "_" ? ty : "'" + ty);
+              Curry._1(Format.fprintf(ppf)(/* Format */{
+                        _0: {
+                          TAG: /* String */2,
+                          _0: /* No_padding */0,
+                          _1: /* End_of_format */0
+                        },
+                        _1: "%s"
+                      }), ty === "_" ? ty : "'" + ty);
             };
             var match = ext.oext_type_params;
             if (match) {
@@ -42233,23 +42233,23 @@ function print_out_sig_item(ppf, param) {
                                 _1: "@[(@[%a)@]@ %s@]"
                               }), (function (param, param$1) {
                               return print_list(print_type_parameter, (function (ppf) {
-                                            return Format.fprintf(ppf)(/* Format */{
-                                                        _0: {
-                                                          TAG: /* Char_literal */12,
-                                                          _0: /* ',' */44,
-                                                          _1: {
-                                                            TAG: /* Formatting_lit */17,
-                                                            _0: {
-                                                              TAG: /* Break */0,
-                                                              _0: "@ ",
-                                                              _1: 1,
-                                                              _2: 0
-                                                            },
-                                                            _1: /* End_of_format */0
-                                                          }
-                                                        },
-                                                        _1: ",@ "
-                                                      });
+                                            Format.fprintf(ppf)(/* Format */{
+                                                  _0: {
+                                                    TAG: /* Char_literal */12,
+                                                    _0: /* ',' */44,
+                                                    _1: {
+                                                      TAG: /* Formatting_lit */17,
+                                                      _0: {
+                                                        TAG: /* Break */0,
+                                                        _0: "@ ",
+                                                        _1: 1,
+                                                        _2: 0
+                                                      },
+                                                      _1: /* End_of_format */0
+                                                    }
+                                                  },
+                                                  _1: ",@ "
+                                                });
                                           }), param, param$1);
                             }), ext.oext_type_params, ext.oext_type_name);
               } else {
@@ -42564,62 +42564,62 @@ function print_out_sig_item(ppf, param) {
         }
         var td = param._0;
         var print_constraints = function (ppf) {
-          return List.iter((function (param) {
-                        return Curry._4(Format.fprintf(ppf)(/* Format */{
+          List.iter((function (param) {
+                  Curry._4(Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* Formatting_lit */17,
+                              _0: {
+                                TAG: /* Break */0,
+                                _0: "@ ",
+                                _1: 1,
+                                _2: 0
+                              },
+                              _1: {
+                                TAG: /* Formatting_gen */18,
+                                _0: {
+                                  TAG: /* Open_box */1,
+                                  _0: /* Format */{
+                                    _0: {
+                                      TAG: /* String_literal */11,
+                                      _0: "<2>",
+                                      _1: /* End_of_format */0
+                                    },
+                                    _1: "<2>"
+                                  }
+                                },
+                                _1: {
+                                  TAG: /* String_literal */11,
+                                  _0: "constraint ",
+                                  _1: {
+                                    TAG: /* Alpha */15,
+                                    _0: {
+                                      TAG: /* String_literal */11,
+                                      _0: " =",
+                                      _1: {
+                                        TAG: /* Formatting_lit */17,
                                         _0: {
-                                          TAG: /* Formatting_lit */17,
-                                          _0: {
-                                            TAG: /* Break */0,
-                                            _0: "@ ",
-                                            _1: 1,
-                                            _2: 0
-                                          },
-                                          _1: {
-                                            TAG: /* Formatting_gen */18,
-                                            _0: {
-                                              TAG: /* Open_box */1,
-                                              _0: /* Format */{
-                                                _0: {
-                                                  TAG: /* String_literal */11,
-                                                  _0: "<2>",
-                                                  _1: /* End_of_format */0
-                                                },
-                                                _1: "<2>"
-                                              }
-                                            },
-                                            _1: {
-                                              TAG: /* String_literal */11,
-                                              _0: "constraint ",
-                                              _1: {
-                                                TAG: /* Alpha */15,
-                                                _0: {
-                                                  TAG: /* String_literal */11,
-                                                  _0: " =",
-                                                  _1: {
-                                                    TAG: /* Formatting_lit */17,
-                                                    _0: {
-                                                      TAG: /* Break */0,
-                                                      _0: "@ ",
-                                                      _1: 1,
-                                                      _2: 0
-                                                    },
-                                                    _1: {
-                                                      TAG: /* Alpha */15,
-                                                      _0: {
-                                                        TAG: /* Formatting_lit */17,
-                                                        _0: /* Close_box */0,
-                                                        _1: /* End_of_format */0
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
+                                          TAG: /* Break */0,
+                                          _0: "@ ",
+                                          _1: 1,
+                                          _2: 0
                                         },
-                                        _1: "@ @[<2>constraint %a =@ %a@]"
-                                      }), out_type.contents, param[0], out_type.contents, param[1]);
-                      }), td.otype_cstrs);
+                                        _1: {
+                                          TAG: /* Alpha */15,
+                                          _0: {
+                                            TAG: /* Formatting_lit */17,
+                                            _0: /* Close_box */0,
+                                            _1: /* End_of_format */0
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            _1: "@ @[<2>constraint %a =@ %a@]"
+                          }), out_type.contents, param[0], out_type.contents, param[1]);
+                }), td.otype_cstrs);
         };
         var type_defined = function (ppf) {
           var match = td.otype_params;
@@ -42682,23 +42682,23 @@ function print_out_sig_item(ppf, param) {
                               _1: "@[(@[%a)@]@ %s@]"
                             }), (function (param, param$1) {
                             return print_list(type_parameter, (function (ppf) {
-                                          return Format.fprintf(ppf)(/* Format */{
-                                                      _0: {
-                                                        TAG: /* Char_literal */12,
-                                                        _0: /* ',' */44,
-                                                        _1: {
-                                                          TAG: /* Formatting_lit */17,
-                                                          _0: {
-                                                            TAG: /* Break */0,
-                                                            _0: "@ ",
-                                                            _1: 1,
-                                                            _2: 0
-                                                          },
-                                                          _1: /* End_of_format */0
-                                                        }
-                                                      },
-                                                      _1: ",@ "
-                                                    });
+                                          Format.fprintf(ppf)(/* Format */{
+                                                _0: {
+                                                  TAG: /* Char_literal */12,
+                                                  _0: /* ',' */44,
+                                                  _1: {
+                                                    TAG: /* Formatting_lit */17,
+                                                    _0: {
+                                                      TAG: /* Break */0,
+                                                      _0: "@ ",
+                                                      _1: 1,
+                                                      _2: 0
+                                                    },
+                                                    _1: /* End_of_format */0
+                                                  }
+                                                },
+                                                _1: ",@ "
+                                              });
                                         }), param, param$1);
                           }), td.otype_params, td.otype_name);
             } else {
@@ -42768,24 +42768,24 @@ function print_out_sig_item(ppf, param) {
           }
         };
         var print_name_params = function (ppf) {
-          return Curry._4(Format.fprintf(ppf)(/* Format */{
+          Curry._4(Format.fprintf(ppf)(/* Format */{
+                    _0: {
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
+                      _1: {
+                        TAG: /* Char_literal */12,
+                        _0: /* ' ' */32,
+                        _1: {
+                          TAG: /* Theta */16,
                           _0: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: {
-                              TAG: /* Char_literal */12,
-                              _0: /* ' ' */32,
-                              _1: {
-                                TAG: /* Theta */16,
-                                _0: {
-                                  TAG: /* Alpha */15,
-                                  _0: /* End_of_format */0
-                                }
-                              }
-                            }
-                          },
-                          _1: "%s %t%a"
-                        }), tmp$1, type_defined, print_manifest, td.otype_type);
+                            TAG: /* Alpha */15,
+                            _0: /* End_of_format */0
+                          }
+                        }
+                      }
+                    },
+                    _1: "%s %t%a"
+                  }), tmp$1, type_defined, print_manifest, td.otype_type);
         };
         var match = td.otype_type;
         var ty;
@@ -42853,19 +42853,19 @@ function print_out_sig_item(ppf, param) {
                                 _1: " =%a {%a@;<1 -2>}"
                               }), print_private, td.otype_private, (function (param, param$1) {
                               var sep = function (ppf) {
-                                return Format.fprintf(ppf)(/* Format */{
-                                            _0: {
-                                              TAG: /* Formatting_lit */17,
-                                              _0: {
-                                                TAG: /* Break */0,
-                                                _0: "@ ",
-                                                _1: 1,
-                                                _2: 0
-                                              },
-                                              _1: /* End_of_format */0
-                                            },
-                                            _1: "@ "
-                                          });
+                                Format.fprintf(ppf)(/* Format */{
+                                      _0: {
+                                        TAG: /* Formatting_lit */17,
+                                        _0: {
+                                          TAG: /* Break */0,
+                                          _0: "@ ",
+                                          _1: 1,
+                                          _2: 0
+                                        },
+                                        _1: /* End_of_format */0
+                                      },
+                                      _1: "@ "
+                                    });
                               };
                               var _param = param$1;
                               while(true) {
@@ -42904,23 +42904,23 @@ function print_out_sig_item(ppf, param) {
                                 _1: " =%a@;<1 2>%a"
                               }), print_private, td.otype_private, (function (param, param$1) {
                               return print_list(print_out_constr, (function (ppf) {
-                                            return Format.fprintf(ppf)(/* Format */{
-                                                        _0: {
-                                                          TAG: /* Formatting_lit */17,
-                                                          _0: {
-                                                            TAG: /* Break */0,
-                                                            _0: "@ ",
-                                                            _1: 1,
-                                                            _2: 0
-                                                          },
-                                                          _1: {
-                                                            TAG: /* String_literal */11,
-                                                            _0: "| ",
-                                                            _1: /* End_of_format */0
-                                                          }
-                                                        },
-                                                        _1: "@ | "
-                                                      });
+                                            Format.fprintf(ppf)(/* Format */{
+                                                  _0: {
+                                                    TAG: /* Formatting_lit */17,
+                                                    _0: {
+                                                      TAG: /* Break */0,
+                                                      _0: "@ ",
+                                                      _1: 1,
+                                                      _2: 0
+                                                    },
+                                                    _1: {
+                                                      TAG: /* String_literal */11,
+                                                      _0: "| ",
+                                                      _1: /* End_of_format */0
+                                                    }
+                                                  },
+                                                  _1: "@ | "
+                                                });
                                           }), param, param$1);
                             }), lbls._0);
             default:
@@ -43138,14 +43138,14 @@ function print_out_sig_item(ppf, param) {
 function print_out_type_extension(ppf, te) {
   var print_extended_type = function (ppf) {
     var print_type_parameter = function (ppf, ty) {
-      return Curry._1(Format.fprintf(ppf)(/* Format */{
-                      _0: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: /* End_of_format */0
-                      },
-                      _1: "%s"
-                    }), ty === "_" ? ty : "'" + ty);
+      Curry._1(Format.fprintf(ppf)(/* Format */{
+                _0: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: /* End_of_format */0
+                },
+                _1: "%s"
+              }), ty === "_" ? ty : "'" + ty);
     };
     var match = te.otyext_params;
     if (match) {
@@ -43207,23 +43207,23 @@ function print_out_type_extension(ppf, te) {
                         _1: "@[(@[%a)@]@ %s@]"
                       }), (function (param, param$1) {
                       return print_list(print_type_parameter, (function (ppf) {
-                                    return Format.fprintf(ppf)(/* Format */{
-                                                _0: {
-                                                  TAG: /* Char_literal */12,
-                                                  _0: /* ',' */44,
-                                                  _1: {
-                                                    TAG: /* Formatting_lit */17,
-                                                    _0: {
-                                                      TAG: /* Break */0,
-                                                      _0: "@ ",
-                                                      _1: 1,
-                                                      _2: 0
-                                                    },
-                                                    _1: /* End_of_format */0
-                                                  }
-                                                },
-                                                _1: ",@ "
-                                              });
+                                    Format.fprintf(ppf)(/* Format */{
+                                          _0: {
+                                            TAG: /* Char_literal */12,
+                                            _0: /* ',' */44,
+                                            _1: {
+                                              TAG: /* Formatting_lit */17,
+                                              _0: {
+                                                TAG: /* Break */0,
+                                                _0: "@ ",
+                                                _1: 1,
+                                                _2: 0
+                                              },
+                                              _1: /* End_of_format */0
+                                            }
+                                          },
+                                          _1: ",@ "
+                                        });
                                   }), param, param$1);
                     }), te.otyext_params, te.otyext_name);
       } else {
@@ -43273,75 +43273,75 @@ function print_out_type_extension(ppf, te) {
                     }), te.otyext_name);
     }
   };
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<hv 2>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<hv 2>"
-                      }
-                    },
+                    TAG: /* String_literal */11,
+                    _0: "<hv 2>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<hv 2>"
+                }
+              },
+              _1: {
+                TAG: /* String_literal */11,
+                _0: "type ",
+                _1: {
+                  TAG: /* Theta */16,
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: " +=",
                     _1: {
-                      TAG: /* String_literal */11,
-                      _0: "type ",
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
                       _1: {
-                        TAG: /* Theta */16,
+                        TAG: /* Formatting_lit */17,
                         _0: {
-                          TAG: /* String_literal */11,
-                          _0: " +=",
-                          _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: {
-                              TAG: /* Formatting_lit */17,
-                              _0: {
-                                TAG: /* Break */0,
-                                _0: "@;<1 2>",
-                                _1: 1,
-                                _2: 2
-                              },
-                              _1: {
-                                TAG: /* Alpha */15,
-                                _0: {
-                                  TAG: /* Formatting_lit */17,
-                                  _0: /* Close_box */0,
-                                  _1: /* End_of_format */0
-                                }
-                              }
-                            }
+                          TAG: /* Break */0,
+                          _0: "@;<1 2>",
+                          _1: 1,
+                          _2: 2
+                        },
+                        _1: {
+                          TAG: /* Alpha */15,
+                          _0: {
+                            TAG: /* Formatting_lit */17,
+                            _0: /* Close_box */0,
+                            _1: /* End_of_format */0
                           }
                         }
                       }
                     }
-                  },
-                  _1: "@[<hv 2>type %t +=%s@;<1 2>%a@]"
-                }), print_extended_type, te.otyext_private === /* Private */0 ? " private" : "", (function (param, param$1) {
-                return print_list(print_out_constr, (function (ppf) {
-                              return Format.fprintf(ppf)(/* Format */{
-                                          _0: {
-                                            TAG: /* Formatting_lit */17,
-                                            _0: {
-                                              TAG: /* Break */0,
-                                              _0: "@ ",
-                                              _1: 1,
-                                              _2: 0
-                                            },
-                                            _1: {
-                                              TAG: /* String_literal */11,
-                                              _0: "| ",
-                                              _1: /* End_of_format */0
-                                            }
-                                          },
-                                          _1: "@ | "
-                                        });
-                            }), param, param$1);
-              }), te.otyext_constructors);
+                  }
+                }
+              }
+            },
+            _1: "@[<hv 2>type %t +=%s@;<1 2>%a@]"
+          }), print_extended_type, te.otyext_private === /* Private */0 ? " private" : "", (function (param, param$1) {
+          return print_list(print_out_constr, (function (ppf) {
+                        Format.fprintf(ppf)(/* Format */{
+                              _0: {
+                                TAG: /* Formatting_lit */17,
+                                _0: {
+                                  TAG: /* Break */0,
+                                  _0: "@ ",
+                                  _1: 1,
+                                  _2: 0
+                                },
+                                _1: {
+                                  TAG: /* String_literal */11,
+                                  _0: "| ",
+                                  _1: /* End_of_format */0
+                                }
+                              },
+                              _1: "@ | "
+                            });
+                      }), param, param$1);
+        }), te.otyext_constructors);
 }
 
 out_module_type.contents = print_out_module_type;
@@ -43428,7 +43428,7 @@ function add_unique(id) {
 }
 
 function ident$3(ppf, id) {
-  return Format.pp_print_string(ppf, ident_name(id));
+  Format.pp_print_string(ppf, ident_name(id));
 }
 
 var ident_pervasive = {
@@ -43564,65 +43564,65 @@ function raw_list(pr, ppf, param) {
               });
   }
   var l = param.tl;
-  return Curry._3(Format.fprintf(ppf)(/* Format */{
+  Curry._3(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
+                    TAG: /* String_literal */11,
+                    _0: "<1>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<1>"
+                }
+              },
+              _1: {
+                TAG: /* Char_literal */12,
+                _0: /* '[' */91,
+                _1: {
+                  TAG: /* Alpha */15,
+                  _0: {
+                    TAG: /* Theta */16,
                     _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<1>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<1>"
-                      }
-                    },
-                    _1: {
                       TAG: /* Char_literal */12,
-                      _0: /* '[' */91,
+                      _0: /* ']' */93,
                       _1: {
-                        TAG: /* Alpha */15,
-                        _0: {
-                          TAG: /* Theta */16,
-                          _0: {
-                            TAG: /* Char_literal */12,
-                            _0: /* ']' */93,
-                            _1: {
-                              TAG: /* Formatting_lit */17,
-                              _0: /* Close_box */0,
-                              _1: /* End_of_format */0
-                            }
-                          }
-                        }
+                        TAG: /* Formatting_lit */17,
+                        _0: /* Close_box */0,
+                        _1: /* End_of_format */0
                       }
                     }
-                  },
-                  _1: "@[<1>[%a%t]@]"
-                }), pr, param.hd, (function (ppf) {
-                return List.iter((function (x) {
-                              return Curry._2(Format.fprintf(ppf)(/* Format */{
-                                              _0: {
-                                                TAG: /* Char_literal */12,
-                                                _0: /* ';' */59,
-                                                _1: {
-                                                  TAG: /* Formatting_lit */17,
-                                                  _0: {
-                                                    TAG: /* Break */0,
-                                                    _0: "@,",
-                                                    _1: 0,
-                                                    _2: 0
-                                                  },
-                                                  _1: {
-                                                    TAG: /* Alpha */15,
-                                                    _0: /* End_of_format */0
-                                                  }
-                                                }
-                                              },
-                                              _1: ";@,%a"
-                                            }), pr, x);
-                            }), l);
-              }));
+                  }
+                }
+              }
+            },
+            _1: "@[<1>[%a%t]@]"
+          }), pr, param.hd, (function (ppf) {
+          List.iter((function (x) {
+                  Curry._2(Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* Char_literal */12,
+                              _0: /* ';' */59,
+                              _1: {
+                                TAG: /* Formatting_lit */17,
+                                _0: {
+                                  TAG: /* Break */0,
+                                  _0: "@,",
+                                  _1: 0,
+                                  _2: 0
+                                },
+                                _1: {
+                                  TAG: /* Alpha */15,
+                                  _0: /* End_of_format */0
+                                }
+                              }
+                            },
+                            _1: ";@,%a"
+                          }), pr, x);
+                }), l);
+        }));
 }
 
 function safe_kind_repr(_v, _param) {
@@ -44566,44 +44566,44 @@ function raw_type_desc(ppf, name) {
                     "row_fields=",
                     (function (param, param$1) {
                         return raw_list((function (ppf, param) {
-                                      return Curry._3(Format.fprintf(ppf)(/* Format */{
-                                                      _0: {
-                                                        TAG: /* Formatting_gen */18,
+                                      Curry._3(Format.fprintf(ppf)(/* Format */{
+                                                _0: {
+                                                  TAG: /* Formatting_gen */18,
+                                                  _0: {
+                                                    TAG: /* Open_box */1,
+                                                    _0: /* Format */{
+                                                      _0: /* End_of_format */0,
+                                                      _1: ""
+                                                    }
+                                                  },
+                                                  _1: {
+                                                    TAG: /* String */2,
+                                                    _0: /* No_padding */0,
+                                                    _1: {
+                                                      TAG: /* Char_literal */12,
+                                                      _0: /* ',' */44,
+                                                      _1: {
+                                                        TAG: /* Formatting_lit */17,
                                                         _0: {
-                                                          TAG: /* Open_box */1,
-                                                          _0: /* Format */{
-                                                            _0: /* End_of_format */0,
-                                                            _1: ""
-                                                          }
+                                                          TAG: /* Break */0,
+                                                          _0: "@ ",
+                                                          _1: 1,
+                                                          _2: 0
                                                         },
                                                         _1: {
-                                                          TAG: /* String */2,
-                                                          _0: /* No_padding */0,
-                                                          _1: {
-                                                            TAG: /* Char_literal */12,
-                                                            _0: /* ',' */44,
-                                                            _1: {
-                                                              TAG: /* Formatting_lit */17,
-                                                              _0: {
-                                                                TAG: /* Break */0,
-                                                                _0: "@ ",
-                                                                _1: 1,
-                                                                _2: 0
-                                                              },
-                                                              _1: {
-                                                                TAG: /* Alpha */15,
-                                                                _0: {
-                                                                  TAG: /* Formatting_lit */17,
-                                                                  _0: /* Close_box */0,
-                                                                  _1: /* End_of_format */0
-                                                                }
-                                                              }
-                                                            }
+                                                          TAG: /* Alpha */15,
+                                                          _0: {
+                                                            TAG: /* Formatting_lit */17,
+                                                            _0: /* Close_box */0,
+                                                            _1: /* End_of_format */0
                                                           }
                                                         }
-                                                      },
-                                                      _1: "@[%s,@ %a@]"
-                                                    }), param[0], raw_field, param[1]);
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                _1: "@[%s,@ %a@]"
+                                              }), param[0], raw_field, param[1]);
                                     }), param, param$1);
                       }),
                     row.row_fields,
@@ -44868,27 +44868,40 @@ function raw_field(ppf, param) {
     }
   }
   var e = param._3;
-  return Curry._5(Format.fprintf(ppf)(/* Format */{
+  Curry._5(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<hov1>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<hov1>"
-                      }
-                    },
+                    TAG: /* String_literal */11,
+                    _0: "<hov1>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<hov1>"
+                }
+              },
+              _1: {
+                TAG: /* String_literal */11,
+                _0: "Reither(",
+                _1: {
+                  TAG: /* Bool */9,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* Char_literal */12,
+                    _0: /* ',' */44,
                     _1: {
-                      TAG: /* String_literal */11,
-                      _0: "Reither(",
+                      TAG: /* Formatting_lit */17,
+                      _0: {
+                        TAG: /* Break */0,
+                        _0: "@,",
+                        _1: 0,
+                        _2: 0
+                      },
                       _1: {
-                        TAG: /* Bool */9,
-                        _0: /* No_padding */0,
-                        _1: {
+                        TAG: /* Alpha */15,
+                        _0: {
                           TAG: /* Char_literal */12,
                           _0: /* ',' */44,
                           _1: {
@@ -44900,8 +44913,9 @@ function raw_field(ppf, param) {
                               _2: 0
                             },
                             _1: {
-                              TAG: /* Alpha */15,
-                              _0: {
+                              TAG: /* Bool */9,
+                              _0: /* No_padding */0,
+                              _1: {
                                 TAG: /* Char_literal */12,
                                 _0: /* ',' */44,
                                 _1: {
@@ -44913,50 +44927,33 @@ function raw_field(ppf, param) {
                                     _2: 0
                                   },
                                   _1: {
-                                    TAG: /* Bool */9,
-                                    _0: /* No_padding */0,
-                                    _1: {
-                                      TAG: /* Char_literal */12,
-                                      _0: /* ',' */44,
-                                      _1: {
-                                        TAG: /* Formatting_lit */17,
+                                    TAG: /* Formatting_gen */18,
+                                    _0: {
+                                      TAG: /* Open_box */1,
+                                      _0: /* Format */{
                                         _0: {
-                                          TAG: /* Break */0,
-                                          _0: "@,",
-                                          _1: 0,
-                                          _2: 0
+                                          TAG: /* String_literal */11,
+                                          _0: "<1>",
+                                          _1: /* End_of_format */0
                                         },
-                                        _1: {
-                                          TAG: /* Formatting_gen */18,
-                                          _0: {
-                                            TAG: /* Open_box */1,
-                                            _0: /* Format */{
-                                              _0: {
-                                                TAG: /* String_literal */11,
-                                                _0: "<1>",
-                                                _1: /* End_of_format */0
-                                              },
-                                              _1: "<1>"
-                                            }
-                                          },
+                                        _1: "<1>"
+                                      }
+                                    },
+                                    _1: {
+                                      TAG: /* String_literal */11,
+                                      _0: "ref",
+                                      _1: {
+                                        TAG: /* Theta */16,
+                                        _0: {
+                                          TAG: /* Formatting_lit */17,
+                                          _0: /* Close_box */0,
                                           _1: {
-                                            TAG: /* String_literal */11,
-                                            _0: "ref",
+                                            TAG: /* Char_literal */12,
+                                            _0: /* ')' */41,
                                             _1: {
-                                              TAG: /* Theta */16,
-                                              _0: {
-                                                TAG: /* Formatting_lit */17,
-                                                _0: /* Close_box */0,
-                                                _1: {
-                                                  TAG: /* Char_literal */12,
-                                                  _0: /* ')' */41,
-                                                  _1: {
-                                                    TAG: /* Formatting_lit */17,
-                                                    _0: /* Close_box */0,
-                                                    _1: /* End_of_format */0
-                                                  }
-                                                }
-                                              }
+                                              TAG: /* Formatting_lit */17,
+                                              _0: /* Close_box */0,
+                                              _1: /* End_of_format */0
                                             }
                                           }
                                         }
@@ -44970,64 +44967,67 @@ function raw_field(ppf, param) {
                         }
                       }
                     }
-                  },
-                  _1: "@[<hov1>Reither(%b,@,%a,@,%b,@,@[<1>ref%t@])@]"
-                }), param._0, raw_type_list, param._1, param._2, (function (ppf) {
-                var f = e.contents;
-                if (f !== undefined) {
-                  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* Formatting_lit */17,
+                  }
+                }
+              }
+            },
+            _1: "@[<hov1>Reither(%b,@,%a,@,%b,@,@[<1>ref%t@])@]"
+          }), param._0, raw_type_list, param._1, param._2, (function (ppf) {
+          var f = e.contents;
+          if (f !== undefined) {
+            return Curry._2(Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* Formatting_lit */17,
+                              _0: {
+                                TAG: /* Break */0,
+                                _0: "@,",
+                                _1: 0,
+                                _2: 0
+                              },
+                              _1: {
+                                TAG: /* Formatting_gen */18,
+                                _0: {
+                                  TAG: /* Open_box */1,
+                                  _0: /* Format */{
                                     _0: {
-                                      TAG: /* Break */0,
-                                      _0: "@,",
-                                      _1: 0,
-                                      _2: 0
+                                      TAG: /* String_literal */11,
+                                      _0: "<1>",
+                                      _1: /* End_of_format */0
                                     },
-                                    _1: {
-                                      TAG: /* Formatting_gen */18,
-                                      _0: {
-                                        TAG: /* Open_box */1,
-                                        _0: /* Format */{
-                                          _0: {
-                                            TAG: /* String_literal */11,
-                                            _0: "<1>",
-                                            _1: /* End_of_format */0
-                                          },
-                                          _1: "<1>"
-                                        }
-                                      },
+                                    _1: "<1>"
+                                  }
+                                },
+                                _1: {
+                                  TAG: /* Char_literal */12,
+                                  _0: /* '(' */40,
+                                  _1: {
+                                    TAG: /* Alpha */15,
+                                    _0: {
+                                      TAG: /* Char_literal */12,
+                                      _0: /* ')' */41,
                                       _1: {
-                                        TAG: /* Char_literal */12,
-                                        _0: /* '(' */40,
-                                        _1: {
-                                          TAG: /* Alpha */15,
-                                          _0: {
-                                            TAG: /* Char_literal */12,
-                                            _0: /* ')' */41,
-                                            _1: {
-                                              TAG: /* Formatting_lit */17,
-                                              _0: /* Close_box */0,
-                                              _1: /* End_of_format */0
-                                            }
-                                          }
-                                        }
+                                        TAG: /* Formatting_lit */17,
+                                        _0: /* Close_box */0,
+                                        _1: /* End_of_format */0
                                       }
                                     }
-                                  },
-                                  _1: "@,@[<1>(%a)@]"
-                                }), raw_field, f);
-                } else {
-                  return Format.fprintf(ppf)(/* Format */{
-                              _0: {
-                                TAG: /* String_literal */11,
-                                _0: " None",
-                                _1: /* End_of_format */0
-                              },
-                              _1: " None"
-                            });
-                }
-              }));
+                                  }
+                                }
+                              }
+                            },
+                            _1: "@,@[<1>(%a)@]"
+                          }), raw_field, f);
+          } else {
+            return Format.fprintf(ppf)(/* Format */{
+                        _0: {
+                          TAG: /* String_literal */11,
+                          _0: " None",
+                          _1: /* End_of_format */0
+                        },
+                        _1: " None"
+                      });
+          }
+        }));
 }
 
 function raw_type_expr(ppf, t) {
@@ -45488,7 +45488,7 @@ function set_printing_env(env) {
 function wrap_printing_env(env, f) {
   set_printing_env(env);
   return try_finally(f, (function (param) {
-                return set_printing_env(empty);
+                set_printing_env(empty);
               }));
 }
 
@@ -45955,7 +45955,7 @@ function mark_loops_rec(_visited, _ty) {
 
 function mark_loops(ty) {
   normalize_type(empty, ty);
-  return mark_loops_rec(/* [] */0, ty);
+  mark_loops_rec(/* [] */0, ty);
 }
 
 function reset(param) {
@@ -45968,7 +45968,7 @@ function reset(param) {
 
 function reset_and_mark_loops_list(tyl) {
   reset(undefined);
-  return List.iter(mark_loops, tyl);
+  List.iter(mark_loops, tyl);
 }
 
 var print_labels = {
@@ -46370,17 +46370,17 @@ function tree_of_typfields(sch, rest, param) {
 }
 
 function typexp$1(sch, prio, ppf, ty) {
-  return Curry._2(out_type.contents, ppf, tree_of_typexp(sch, ty));
+  Curry._2(out_type.contents, ppf, tree_of_typexp(sch, ty));
 }
 
 function type_expr$1(ppf, ty) {
-  return typexp$1(false, 0, ppf, ty);
+  typexp$1(false, 0, ppf, ty);
 }
 
 function type_scheme(ppf, ty) {
   reset(undefined);
   mark_loops(ty);
-  return typexp$1(true, 0, ppf, ty);
+  typexp$1(true, 0, ppf, ty);
 }
 
 function tree_of_type_scheme(ty) {
@@ -46535,12 +46535,12 @@ function tree_of_type_decl(id, decl) {
     cstrs === /* Type_abstract */0;
   } else if (cstrs.TAG === /* Type_record */0) {
     List.iter((function (l) {
-            return mark_loops(l.ld_type);
+            mark_loops(l.ld_type);
           }), cstrs._0);
   } else {
     List.iter((function (c) {
             List.iter(mark_loops, c.cd_args);
-            return may(mark_loops, c.cd_res);
+            may(mark_loops, c.cd_res);
           }), cstrs._0);
   }
   var type_param = function (param) {
@@ -46641,7 +46641,7 @@ function tree_of_type_declaration(id, decl, rs) {
 }
 
 function type_declaration$1(id, ppf, decl) {
-  return Curry._2(out_sig_item.contents, ppf, tree_of_type_declaration(id, decl, /* Trec_first */1));
+  Curry._2(out_sig_item.contents, ppf, tree_of_type_declaration(id, decl, /* Trec_first */1));
 }
 
 function tree_of_extension_constructor(id, ext, es) {
@@ -46703,7 +46703,7 @@ function tree_of_extension_constructor(id, ext, es) {
 }
 
 function extension_constructor$1(id, ppf, ext) {
-  return Curry._2(out_sig_item.contents, ppf, tree_of_extension_constructor(id, ext, /* Text_first */0));
+  Curry._2(out_sig_item.contents, ppf, tree_of_extension_constructor(id, ext, /* Text_first */0));
 }
 
 function tree_of_value_description(id, decl) {
@@ -46721,7 +46721,7 @@ function tree_of_value_description(id, decl) {
 }
 
 function value_description$1(id, ppf, decl) {
-  return Curry._2(out_sig_item.contents, ppf, tree_of_value_description(id, decl));
+  Curry._2(out_sig_item.contents, ppf, tree_of_value_description(id, decl));
 }
 
 function method_type(param) {
@@ -46784,10 +46784,10 @@ function prepare_class_type(params, _sign) {
           }
           var match = flatten_fields(object_fields(sign$1.csig_self));
           List.iter((function (met) {
-                  return mark_loops(method_type(met)[0]);
+                  mark_loops(method_type(met)[0]);
                 }), match[0]);
           return Curry._2(Meths.iter, (function (param, param$1) {
-                        return mark_loops(param$1[2]);
+                        mark_loops(param$1[2]);
                       }), sign$1.csig_vars);
       case /* Cty_arrow */2 :
           mark_loops(sign._1);
@@ -46936,7 +46936,7 @@ function tree_of_class_type(sch, params, _sign) {
 function class_type$2(ppf, cty) {
   reset(undefined);
   prepare_class_type(/* [] */0, cty);
-  return Curry._2(out_class_type.contents, ppf, tree_of_class_type(false, /* [] */0, cty));
+  Curry._2(out_class_type.contents, ppf, tree_of_class_type(false, /* [] */0, cty));
 }
 
 function tree_of_class_param(param, variance) {
@@ -46985,7 +46985,7 @@ function tree_of_class_declaration(id, cl, rs) {
 }
 
 function class_declaration$1(id, ppf, cl) {
-  return Curry._2(out_sig_item.contents, ppf, tree_of_class_declaration(id, cl, /* Trec_first */1));
+  Curry._2(out_sig_item.contents, ppf, tree_of_class_declaration(id, cl, /* Trec_first */1));
 }
 
 function tree_of_cltype_declaration(id, cl, rs) {
@@ -47023,7 +47023,7 @@ function tree_of_cltype_declaration(id, cl, rs) {
 }
 
 function cltype_declaration$1(id, ppf, cl) {
-  return Curry._2(out_sig_item.contents, ppf, tree_of_cltype_declaration(id, cl, /* Trec_first */1));
+  Curry._2(out_sig_item.contents, ppf, tree_of_cltype_declaration(id, cl, /* Trec_first */1));
 }
 
 function wrap_env(fenv, ftree, arg) {
@@ -47147,12 +47147,12 @@ function hide_rec_items(param) {
     hd: ids_0,
     tl: ids_1
   };
-  return set_printing_env(List.fold_right((function (id) {
-                    var partial_arg = rename(id);
-                    return function (param) {
-                      return add_type$1(false, partial_arg, dummy, param);
-                    };
-                  }), ids, printing_env.contents));
+  set_printing_env(List.fold_right((function (id) {
+              var partial_arg = rename(id);
+              return function (param) {
+                return add_type$1(false, partial_arg, dummy, param);
+              };
+            }), ids, printing_env.contents));
 }
 
 function tree_of_modtype(p) {
@@ -47313,49 +47313,49 @@ function tree_of_modtype_declaration(id, decl) {
 }
 
 function modtype$1(ppf, mty) {
-  return Curry._2(out_module_type.contents, ppf, tree_of_modtype(mty));
+  Curry._2(out_module_type.contents, ppf, tree_of_modtype(mty));
 }
 
 function modtype_declaration$1(id, ppf, decl) {
-  return Curry._2(out_sig_item.contents, ppf, tree_of_modtype_declaration(id, decl));
+  Curry._2(out_sig_item.contents, ppf, tree_of_modtype_declaration(id, decl));
 }
 
 function print_signature(ppf, tree) {
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<v>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<v>"
-                      }
-                    },
-                    _1: {
-                      TAG: /* Alpha */15,
-                      _0: {
-                        TAG: /* Formatting_lit */17,
-                        _0: /* Close_box */0,
-                        _1: /* End_of_format */0
-                      }
-                    }
+                    TAG: /* String_literal */11,
+                    _0: "<v>",
+                    _1: /* End_of_format */0
                   },
-                  _1: "@[<v>%a@]"
-                }), out_signature.contents, tree);
+                  _1: "<v>"
+                }
+              },
+              _1: {
+                TAG: /* Alpha */15,
+                _0: {
+                  TAG: /* Formatting_lit */17,
+                  _0: /* Close_box */0,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "@[<v>%a@]"
+          }), out_signature.contents, tree);
 }
 
 function signature$3(ppf, sg) {
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* Alpha */15,
-                    _0: /* End_of_format */0
-                  },
-                  _1: "%a"
-                }), print_signature, tree_of_signature(sg));
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Alpha */15,
+              _0: /* End_of_format */0
+            },
+            _1: "%a"
+          }), print_signature, tree_of_signature(sg));
 }
 
 function same_path(t, t$p) {
@@ -47427,56 +47427,56 @@ function type_expansion(t, ppf, t$p) {
     return type_expr$1(ppf, t);
   }
   var t$p$1 = proxy(t) === proxy(t$p) ? unalias(t$p) : t$p;
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<2>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<2>"
-                      }
-                    },
+                    TAG: /* String_literal */11,
+                    _0: "<2>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<2>"
+                }
+              },
+              _1: {
+                TAG: /* Alpha */15,
+                _0: {
+                  TAG: /* Formatting_lit */17,
+                  _0: {
+                    TAG: /* Break */0,
+                    _0: "@ ",
+                    _1: 1,
+                    _2: 0
+                  },
+                  _1: {
+                    TAG: /* Char_literal */12,
+                    _0: /* '=' */61,
                     _1: {
-                      TAG: /* Alpha */15,
+                      TAG: /* Formatting_lit */17,
                       _0: {
-                        TAG: /* Formatting_lit */17,
+                        TAG: /* Break */0,
+                        _0: "@ ",
+                        _1: 1,
+                        _2: 0
+                      },
+                      _1: {
+                        TAG: /* Alpha */15,
                         _0: {
-                          TAG: /* Break */0,
-                          _0: "@ ",
-                          _1: 1,
-                          _2: 0
-                        },
-                        _1: {
-                          TAG: /* Char_literal */12,
-                          _0: /* '=' */61,
-                          _1: {
-                            TAG: /* Formatting_lit */17,
-                            _0: {
-                              TAG: /* Break */0,
-                              _0: "@ ",
-                              _1: 1,
-                              _2: 0
-                            },
-                            _1: {
-                              TAG: /* Alpha */15,
-                              _0: {
-                                TAG: /* Formatting_lit */17,
-                                _0: /* Close_box */0,
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          }
+                          TAG: /* Formatting_lit */17,
+                          _0: /* Close_box */0,
+                          _1: /* End_of_format */0
                         }
                       }
                     }
-                  },
-                  _1: "@[<2>%a@ =@ %a@]"
-                }), type_expr$1, t, type_expr$1, t$p$1);
+                  }
+                }
+              }
+            },
+            _1: "@[<2>%a@ =@ %a@]"
+          }), type_expr$1, t, type_expr$1, t$p$1);
 }
 
 function type_path_expansion(tp, ppf, tp$p) {
@@ -47563,62 +47563,59 @@ function trace(fst, txt, ppf, param) {
           _1: "@,"
         });
   }
-  return Curry._7(Format.fprintf(ppf)(/* Format */{
+  Curry._7(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
+                  _0: /* End_of_format */0,
+                  _1: ""
+                }
+              },
+              _1: {
+                TAG: /* String_literal */11,
+                _0: "Type",
+                _1: {
+                  TAG: /* Formatting_lit */17,
                   _0: {
-                    TAG: /* Formatting_gen */18,
+                    TAG: /* Break */0,
+                    _0: "@;<1 2>",
+                    _1: 1,
+                    _2: 2
+                  },
+                  _1: {
+                    TAG: /* Alpha */15,
                     _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: /* End_of_format */0,
-                        _1: ""
-                      }
-                    },
-                    _1: {
-                      TAG: /* String_literal */11,
-                      _0: "Type",
+                      TAG: /* Formatting_lit */17,
+                      _0: {
+                        TAG: /* Break */0,
+                        _0: "@ ",
+                        _1: 1,
+                        _2: 0
+                      },
                       _1: {
-                        TAG: /* Formatting_lit */17,
-                        _0: {
-                          TAG: /* Break */0,
-                          _0: "@;<1 2>",
-                          _1: 1,
-                          _2: 2
-                        },
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
                         _1: {
-                          TAG: /* Alpha */15,
+                          TAG: /* Formatting_lit */17,
                           _0: {
-                            TAG: /* Formatting_lit */17,
+                            TAG: /* Break */0,
+                            _0: "@;<1 2>",
+                            _1: 1,
+                            _2: 2
+                          },
+                          _1: {
+                            TAG: /* Alpha */15,
                             _0: {
-                              TAG: /* Break */0,
-                              _0: "@ ",
-                              _1: 1,
-                              _2: 0
-                            },
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
+                              TAG: /* Formatting_lit */17,
+                              _0: /* Close_box */0,
                               _1: {
-                                TAG: /* Formatting_lit */17,
-                                _0: {
-                                  TAG: /* Break */0,
-                                  _0: "@;<1 2>",
-                                  _1: 1,
-                                  _2: 2
-                                },
+                                TAG: /* Char_literal */12,
+                                _0: /* ' ' */32,
                                 _1: {
                                   TAG: /* Alpha */15,
-                                  _0: {
-                                    TAG: /* Formatting_lit */17,
-                                    _0: /* Close_box */0,
-                                    _1: {
-                                      TAG: /* Char_literal */12,
-                                      _0: /* ' ' */32,
-                                      _1: {
-                                        TAG: /* Alpha */15,
-                                        _0: /* End_of_format */0
-                                      }
-                                    }
-                                  }
+                                  _0: /* End_of_format */0
                                 }
                               }
                             }
@@ -47626,15 +47623,18 @@ function trace(fst, txt, ppf, param) {
                         }
                       }
                     }
-                  },
-                  _1: "@[Type@;<1 2>%a@ %s@;<1 2>%a@] %a"
-                }), (function (param, param$1) {
-                return type_expansion(t1, param, param$1);
-              }), match$2[1], txt, (function (param, param$1) {
-                return type_expansion(t2, param, param$1);
-              }), match$1[1], (function (param, param$1) {
-                return trace(false, txt, param, param$1);
-              }), match.tl);
+                  }
+                }
+              }
+            },
+            _1: "@[Type@;<1 2>%a@ %s@;<1 2>%a@] %a"
+          }), (function (param, param$1) {
+          return type_expansion(t1, param, param$1);
+        }), match$2[1], txt, (function (param, param$1) {
+          return type_expansion(t2, param, param$1);
+        }), match$1[1], (function (param, param$1) {
+          return trace(false, txt, param, param$1);
+        }), match.tl);
 }
 
 function filter_trace(keep_last, param) {
@@ -47800,31 +47800,31 @@ function print_tags(ppf, fields) {
               _1: "`%s"
             }), fields.hd[0]);
     return List.iter((function (param) {
-                  return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* Char_literal */12,
-                                    _0: /* ',' */44,
-                                    _1: {
-                                      TAG: /* Formatting_lit */17,
-                                      _0: {
-                                        TAG: /* Break */0,
-                                        _0: "@ ",
-                                        _1: 1,
-                                        _2: 0
-                                      },
-                                      _1: {
-                                        TAG: /* Char_literal */12,
-                                        _0: /* '`' */96,
-                                        _1: {
-                                          TAG: /* String */2,
-                                          _0: /* No_padding */0,
-                                          _1: /* End_of_format */0
-                                        }
-                                      }
-                                    }
-                                  },
-                                  _1: ",@ `%s"
-                                }), param[0]);
+                  Curry._1(Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* Char_literal */12,
+                              _0: /* ',' */44,
+                              _1: {
+                                TAG: /* Formatting_lit */17,
+                                _0: {
+                                  TAG: /* Break */0,
+                                  _0: "@ ",
+                                  _1: 1,
+                                  _2: 0
+                                },
+                                _1: {
+                                  TAG: /* Char_literal */12,
+                                  _0: /* '`' */96,
+                                  _1: {
+                                    TAG: /* String */2,
+                                    _0: /* No_padding */0,
+                                    _1: /* End_of_format */0
+                                  }
+                                }
+                              }
+                            },
+                            _1: ",@ `%s"
+                          }), param[0]);
                 }), fields.tl);
   }
   
@@ -48920,96 +48920,93 @@ function trace_same_names(_param) {
 
 function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
   var unif = unifOpt !== undefined ? unifOpt : true;
-  return wrap_printing_env(env, (function (param) {
-                reset(undefined);
-                trace_same_names(tr);
-                var tr$1 = List.map((function (param) {
-                        return [
-                                param[0],
-                                hide_variant_name(param[1])
-                              ];
-                      }), tr);
-                var mis = mismatch(unif, tr$1);
-                if (tr$1) {
-                  var match = tr$1.tl;
-                  if (match) {
-                    try {
-                      var tr$2 = filter_trace(mis === undefined, match.tl);
-                      var match$1 = may_prepare_expansion(Caml_obj.caml_equal(tr$2, /* [] */0), tr$1.hd);
-                      var t1 = match$1[0];
-                      var match$2 = may_prepare_expansion(Caml_obj.caml_equal(tr$2, /* [] */0), match.hd);
-                      var t2 = match$2[0];
-                      print_labels.contents = !classic.contents;
-                      var tr$3 = List.map(prepare_expansion, tr$2);
-                      Curry.app(Format.fprintf(ppf)(/* Format */{
+  wrap_printing_env(env, (function (param) {
+          reset(undefined);
+          trace_same_names(tr);
+          var tr$1 = List.map((function (param) {
+                  return [
+                          param[0],
+                          hide_variant_name(param[1])
+                        ];
+                }), tr);
+          var mis = mismatch(unif, tr$1);
+          if (tr$1) {
+            var match = tr$1.tl;
+            if (match) {
+              try {
+                var tr$2 = filter_trace(mis === undefined, match.tl);
+                var match$1 = may_prepare_expansion(Caml_obj.caml_equal(tr$2, /* [] */0), tr$1.hd);
+                var t1 = match$1[0];
+                var match$2 = may_prepare_expansion(Caml_obj.caml_equal(tr$2, /* [] */0), match.hd);
+                var t2 = match$2[0];
+                print_labels.contents = !classic.contents;
+                var tr$3 = List.map(prepare_expansion, tr$2);
+                Curry.app(Format.fprintf(ppf)(/* Format */{
+                          _0: {
+                            TAG: /* Formatting_gen */18,
+                            _0: {
+                              TAG: /* Open_box */1,
+                              _0: /* Format */{
                                 _0: {
-                                  TAG: /* Formatting_gen */18,
+                                  TAG: /* String_literal */11,
+                                  _0: "<v>",
+                                  _1: /* End_of_format */0
+                                },
+                                _1: "<v>"
+                              }
+                            },
+                            _1: {
+                              TAG: /* Formatting_gen */18,
+                              _0: {
+                                TAG: /* Open_box */1,
+                                _0: /* Format */{
+                                  _0: /* End_of_format */0,
+                                  _1: ""
+                                }
+                              },
+                              _1: {
+                                TAG: /* Theta */16,
+                                _0: {
+                                  TAG: /* Formatting_lit */17,
                                   _0: {
-                                    TAG: /* Open_box */1,
-                                    _0: /* Format */{
-                                      _0: {
-                                        TAG: /* String_literal */11,
-                                        _0: "<v>",
-                                        _1: /* End_of_format */0
-                                      },
-                                      _1: "<v>"
-                                    }
+                                    TAG: /* Break */0,
+                                    _0: "@;<1 2>",
+                                    _1: 1,
+                                    _2: 2
                                   },
                                   _1: {
-                                    TAG: /* Formatting_gen */18,
+                                    TAG: /* Alpha */15,
                                     _0: {
-                                      TAG: /* Open_box */1,
-                                      _0: /* Format */{
-                                        _0: /* End_of_format */0,
-                                        _1: ""
-                                      }
-                                    },
-                                    _1: {
-                                      TAG: /* Theta */16,
+                                      TAG: /* Formatting_lit */17,
                                       _0: {
-                                        TAG: /* Formatting_lit */17,
+                                        TAG: /* Break */0,
+                                        _0: "@ ",
+                                        _1: 1,
+                                        _2: 0
+                                      },
+                                      _1: {
+                                        TAG: /* Theta */16,
                                         _0: {
-                                          TAG: /* Break */0,
-                                          _0: "@;<1 2>",
-                                          _1: 1,
-                                          _2: 2
-                                        },
-                                        _1: {
-                                          TAG: /* Alpha */15,
+                                          TAG: /* Formatting_lit */17,
                                           _0: {
-                                            TAG: /* Formatting_lit */17,
+                                            TAG: /* Break */0,
+                                            _0: "@;<1 2>",
+                                            _1: 1,
+                                            _2: 2
+                                          },
+                                          _1: {
+                                            TAG: /* Alpha */15,
                                             _0: {
-                                              TAG: /* Break */0,
-                                              _0: "@ ",
-                                              _1: 1,
-                                              _2: 0
-                                            },
-                                            _1: {
-                                              TAG: /* Theta */16,
-                                              _0: {
-                                                TAG: /* Formatting_lit */17,
+                                              TAG: /* Formatting_lit */17,
+                                              _0: /* Close_box */0,
+                                              _1: {
+                                                TAG: /* Alpha */15,
                                                 _0: {
-                                                  TAG: /* Break */0,
-                                                  _0: "@;<1 2>",
-                                                  _1: 1,
-                                                  _2: 2
-                                                },
-                                                _1: {
-                                                  TAG: /* Alpha */15,
+                                                  TAG: /* Theta */16,
                                                   _0: {
                                                     TAG: /* Formatting_lit */17,
                                                     _0: /* Close_box */0,
-                                                    _1: {
-                                                      TAG: /* Alpha */15,
-                                                      _0: {
-                                                        TAG: /* Theta */16,
-                                                        _0: {
-                                                          TAG: /* Formatting_lit */17,
-                                                          _0: /* Close_box */0,
-                                                          _1: /* End_of_format */0
-                                                        }
-                                                      }
-                                                    }
+                                                    _1: /* End_of_format */0
                                                   }
                                                 }
                                               }
@@ -49019,57 +49016,60 @@ function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
                                       }
                                     }
                                   }
-                                },
-                                _1: "@[<v>@[%t@;<1 2>%a@ %t@;<1 2>%a@]%a%t@]"
-                              }), [
-                            txt1,
-                            (function (param, param$1) {
-                                return type_expansion(t1, param, param$1);
-                              }),
-                            match$1[1],
-                            txt2,
-                            (function (param, param$1) {
-                                return type_expansion(t2, param, param$1);
-                              }),
-                            match$2[1],
-                            (function (param, param$1) {
-                                return trace(false, "is not compatible with type", param, param$1);
-                              }),
-                            tr$3,
-                            (function (param) {
-                                return explanation(unif, mis, param);
-                              })
-                          ]);
-                      print_labels.contents = true;
-                      return ;
-                    }
-                    catch (exn){
-                      print_labels.contents = true;
-                      throw exn;
-                    }
-                  } else {
-                    throw {
-                          RE_EXN_ID: "Assert_failure",
-                          _1: [
-                            "ocaml_typedtree_test.ml",
-                            36929,
-                            20
-                          ],
-                          Error: new Error()
-                        };
-                  }
-                } else {
-                  throw {
-                        RE_EXN_ID: "Assert_failure",
-                        _1: [
-                          "ocaml_typedtree_test.ml",
-                          36929,
-                          20
-                        ],
-                        Error: new Error()
-                      };
-                }
-              }));
+                                }
+                              }
+                            }
+                          },
+                          _1: "@[<v>@[%t@;<1 2>%a@ %t@;<1 2>%a@]%a%t@]"
+                        }), [
+                      txt1,
+                      (function (param, param$1) {
+                          return type_expansion(t1, param, param$1);
+                        }),
+                      match$1[1],
+                      txt2,
+                      (function (param, param$1) {
+                          return type_expansion(t2, param, param$1);
+                        }),
+                      match$2[1],
+                      (function (param, param$1) {
+                          return trace(false, "is not compatible with type", param, param$1);
+                        }),
+                      tr$3,
+                      (function (param) {
+                          return explanation(unif, mis, param);
+                        })
+                    ]);
+                print_labels.contents = true;
+                return ;
+              }
+              catch (exn){
+                print_labels.contents = true;
+                throw exn;
+              }
+            } else {
+              throw {
+                    RE_EXN_ID: "Assert_failure",
+                    _1: [
+                      "ocaml_typedtree_test.ml",
+                      36929,
+                      20
+                    ],
+                    Error: new Error()
+                  };
+            }
+          } else {
+            throw {
+                  RE_EXN_ID: "Assert_failure",
+                  _1: [
+                    "ocaml_typedtree_test.ml",
+                    36929,
+                    20
+                  ],
+                  Error: new Error()
+                };
+          }
+        }));
 }
 
 function trace$1(fst, keep_last, txt, ppf, tr) {
@@ -49147,183 +49147,183 @@ function include_err(ppf, lab) {
                   });
     case /* CM_Type_parameter_mismatch */1 :
         return report_unification_error(ppf, lab._0, false, lab._1, (function (ppf) {
-                      return Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* String_literal */11,
-                                    _0: "A type parameter has type",
-                                    _1: /* End_of_format */0
-                                  },
-                                  _1: "A type parameter has type"
-                                });
+                      Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "A type parameter has type",
+                              _1: /* End_of_format */0
+                            },
+                            _1: "A type parameter has type"
+                          });
                     }), (function (ppf) {
-                      return Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* String_literal */11,
-                                    _0: "but is expected to have type",
-                                    _1: /* End_of_format */0
-                                  },
-                                  _1: "but is expected to have type"
-                                });
+                      Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "but is expected to have type",
+                              _1: /* End_of_format */0
+                            },
+                            _1: "but is expected to have type"
+                          });
                     }));
     case /* CM_Class_type_mismatch */2 :
         var cty2 = lab._2;
         var cty1 = lab._1;
         return wrap_printing_env(lab._0, (function (param) {
-                      return Curry._5(Format.fprintf(ppf)(/* Format */{
+                      Curry._5(Format.fprintf(ppf)(/* Format */{
+                                _0: {
+                                  TAG: /* Formatting_gen */18,
+                                  _0: {
+                                    TAG: /* Open_box */1,
+                                    _0: /* Format */{
+                                      _0: /* End_of_format */0,
+                                      _1: ""
+                                    }
+                                  },
+                                  _1: {
+                                    TAG: /* String_literal */11,
+                                    _0: "The class type",
+                                    _1: {
+                                      TAG: /* Formatting_lit */17,
                                       _0: {
-                                        TAG: /* Formatting_gen */18,
+                                        TAG: /* Break */0,
+                                        _0: "@;<1 2>",
+                                        _1: 1,
+                                        _2: 2
+                                      },
+                                      _1: {
+                                        TAG: /* Alpha */15,
                                         _0: {
-                                          TAG: /* Open_box */1,
-                                          _0: /* Format */{
-                                            _0: /* End_of_format */0,
-                                            _1: ""
-                                          }
-                                        },
-                                        _1: {
-                                          TAG: /* String_literal */11,
-                                          _0: "The class type",
+                                          TAG: /* Formatting_lit */17,
+                                          _0: {
+                                            TAG: /* Break */0,
+                                            _0: "@ ",
+                                            _1: 1,
+                                            _2: 0
+                                          },
                                           _1: {
-                                            TAG: /* Formatting_lit */17,
-                                            _0: {
-                                              TAG: /* Break */0,
-                                              _0: "@;<1 2>",
-                                              _1: 1,
-                                              _2: 2
-                                            },
+                                            TAG: /* String */2,
+                                            _0: /* No_padding */0,
                                             _1: {
-                                              TAG: /* Alpha */15,
+                                              TAG: /* Formatting_lit */17,
                                               _0: {
-                                                TAG: /* Formatting_lit */17,
+                                                TAG: /* Break */0,
+                                                _0: "@;<1 2>",
+                                                _1: 1,
+                                                _2: 2
+                                              },
+                                              _1: {
+                                                TAG: /* Alpha */15,
                                                 _0: {
-                                                  TAG: /* Break */0,
-                                                  _0: "@ ",
-                                                  _1: 1,
-                                                  _2: 0
-                                                },
-                                                _1: {
-                                                  TAG: /* String */2,
-                                                  _0: /* No_padding */0,
-                                                  _1: {
-                                                    TAG: /* Formatting_lit */17,
-                                                    _0: {
-                                                      TAG: /* Break */0,
-                                                      _0: "@;<1 2>",
-                                                      _1: 1,
-                                                      _2: 2
-                                                    },
-                                                    _1: {
-                                                      TAG: /* Alpha */15,
-                                                      _0: {
-                                                        TAG: /* Formatting_lit */17,
-                                                        _0: /* Close_box */0,
-                                                        _1: /* End_of_format */0
-                                                      }
-                                                    }
-                                                  }
+                                                  TAG: /* Formatting_lit */17,
+                                                  _0: /* Close_box */0,
+                                                  _1: /* End_of_format */0
                                                 }
                                               }
                                             }
                                           }
                                         }
-                                      },
-                                      _1: "@[The class type@;<1 2>%a@ %s@;<1 2>%a@]"
-                                    }), class_type$2, cty1, "is not matched by the class type", class_type$2, cty2);
+                                      }
+                                    }
+                                  }
+                                },
+                                _1: "@[The class type@;<1 2>%a@ %s@;<1 2>%a@]"
+                              }), class_type$2, cty1, "is not matched by the class type", class_type$2, cty2);
                     }));
     case /* CM_Parameter_mismatch */3 :
         return report_unification_error(ppf, lab._0, false, lab._1, (function (ppf) {
-                      return Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* String_literal */11,
-                                    _0: "A parameter has type",
-                                    _1: /* End_of_format */0
-                                  },
-                                  _1: "A parameter has type"
-                                });
+                      Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "A parameter has type",
+                              _1: /* End_of_format */0
+                            },
+                            _1: "A parameter has type"
+                          });
                     }), (function (ppf) {
-                      return Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* String_literal */11,
-                                    _0: "but is expected to have type",
-                                    _1: /* End_of_format */0
-                                  },
-                                  _1: "but is expected to have type"
-                                });
+                      Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "but is expected to have type",
+                              _1: /* End_of_format */0
+                            },
+                            _1: "but is expected to have type"
+                          });
                     }));
     case /* CM_Val_type_mismatch */4 :
         var lab$1 = lab._0;
         return report_unification_error(ppf, lab._1, false, lab._2, (function (ppf) {
-                      return Curry._1(Format.fprintf(ppf)(/* Format */{
+                      Curry._1(Format.fprintf(ppf)(/* Format */{
+                                _0: {
+                                  TAG: /* String_literal */11,
+                                  _0: "The instance variable ",
+                                  _1: {
+                                    TAG: /* String */2,
+                                    _0: /* No_padding */0,
+                                    _1: {
+                                      TAG: /* Formatting_lit */17,
                                       _0: {
-                                        TAG: /* String_literal */11,
-                                        _0: "The instance variable ",
-                                        _1: {
-                                          TAG: /* String */2,
-                                          _0: /* No_padding */0,
-                                          _1: {
-                                            TAG: /* Formatting_lit */17,
-                                            _0: {
-                                              TAG: /* Break */0,
-                                              _0: "@ ",
-                                              _1: 1,
-                                              _2: 0
-                                            },
-                                            _1: {
-                                              TAG: /* String_literal */11,
-                                              _0: "has type",
-                                              _1: /* End_of_format */0
-                                            }
-                                          }
-                                        }
+                                        TAG: /* Break */0,
+                                        _0: "@ ",
+                                        _1: 1,
+                                        _2: 0
                                       },
-                                      _1: "The instance variable %s@ has type"
-                                    }), lab$1);
+                                      _1: {
+                                        TAG: /* String_literal */11,
+                                        _0: "has type",
+                                        _1: /* End_of_format */0
+                                      }
+                                    }
+                                  }
+                                },
+                                _1: "The instance variable %s@ has type"
+                              }), lab$1);
                     }), (function (ppf) {
-                      return Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* String_literal */11,
-                                    _0: "but is expected to have type",
-                                    _1: /* End_of_format */0
-                                  },
-                                  _1: "but is expected to have type"
-                                });
+                      Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "but is expected to have type",
+                              _1: /* End_of_format */0
+                            },
+                            _1: "but is expected to have type"
+                          });
                     }));
     case /* CM_Meth_type_mismatch */5 :
         var lab$2 = lab._0;
         return report_unification_error(ppf, lab._1, false, lab._2, (function (ppf) {
-                      return Curry._1(Format.fprintf(ppf)(/* Format */{
+                      Curry._1(Format.fprintf(ppf)(/* Format */{
+                                _0: {
+                                  TAG: /* String_literal */11,
+                                  _0: "The method ",
+                                  _1: {
+                                    TAG: /* String */2,
+                                    _0: /* No_padding */0,
+                                    _1: {
+                                      TAG: /* Formatting_lit */17,
                                       _0: {
-                                        TAG: /* String_literal */11,
-                                        _0: "The method ",
-                                        _1: {
-                                          TAG: /* String */2,
-                                          _0: /* No_padding */0,
-                                          _1: {
-                                            TAG: /* Formatting_lit */17,
-                                            _0: {
-                                              TAG: /* Break */0,
-                                              _0: "@ ",
-                                              _1: 1,
-                                              _2: 0
-                                            },
-                                            _1: {
-                                              TAG: /* String_literal */11,
-                                              _0: "has type",
-                                              _1: /* End_of_format */0
-                                            }
-                                          }
-                                        }
+                                        TAG: /* Break */0,
+                                        _0: "@ ",
+                                        _1: 1,
+                                        _2: 0
                                       },
-                                      _1: "The method %s@ has type"
-                                    }), lab$2);
+                                      _1: {
+                                        TAG: /* String_literal */11,
+                                        _0: "has type",
+                                        _1: /* End_of_format */0
+                                      }
+                                    }
+                                  }
+                                },
+                                _1: "The method %s@ has type"
+                              }), lab$2);
                     }), (function (ppf) {
-                      return Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* String_literal */11,
-                                    _0: "but is expected to have type",
-                                    _1: /* End_of_format */0
-                                  },
-                                  _1: "but is expected to have type"
-                                });
+                      Format.fprintf(ppf)(/* Format */{
+                            _0: {
+                              TAG: /* String_literal */11,
+                              _0: "but is expected to have type",
+                              _1: /* End_of_format */0
+                            },
+                            _1: "but is expected to have type"
+                          });
                     }));
     case /* CM_Non_mutable_value */6 :
         return Curry._1(Format.fprintf(ppf)(/* Format */{
@@ -49591,53 +49591,53 @@ function report_error$3(ppf, param) {
     return ;
   }
   var print_errs = function (ppf, errs) {
-    return List.iter((function (err) {
-                  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                                  _0: {
-                                    TAG: /* Formatting_lit */17,
-                                    _0: {
-                                      TAG: /* Break */0,
-                                      _0: "@ ",
-                                      _1: 1,
-                                      _2: 0
-                                    },
-                                    _1: {
-                                      TAG: /* Alpha */15,
-                                      _0: /* End_of_format */0
-                                    }
-                                  },
-                                  _1: "@ %a"
-                                }), include_err, err);
-                }), errs);
-  };
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<v>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<v>"
-                      }
-                    },
-                    _1: {
-                      TAG: /* Alpha */15,
+    List.iter((function (err) {
+            Curry._2(Format.fprintf(ppf)(/* Format */{
                       _0: {
-                        TAG: /* Alpha */15,
+                        TAG: /* Formatting_lit */17,
                         _0: {
-                          TAG: /* Formatting_lit */17,
-                          _0: /* Close_box */0,
-                          _1: /* End_of_format */0
+                          TAG: /* Break */0,
+                          _0: "@ ",
+                          _1: 1,
+                          _2: 0
+                        },
+                        _1: {
+                          TAG: /* Alpha */15,
+                          _0: /* End_of_format */0
                         }
-                      }
-                    }
+                      },
+                      _1: "@ %a"
+                    }), include_err, err);
+          }), errs);
+  };
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
+                  _0: {
+                    TAG: /* String_literal */11,
+                    _0: "<v>",
+                    _1: /* End_of_format */0
                   },
-                  _1: "@[<v>%a%a@]"
-                }), include_err, param.hd, print_errs, param.tl);
+                  _1: "<v>"
+                }
+              },
+              _1: {
+                TAG: /* Alpha */15,
+                _0: {
+                  TAG: /* Alpha */15,
+                  _0: {
+                    TAG: /* Formatting_lit */17,
+                    _0: /* Close_box */0,
+                    _1: /* End_of_format */0
+                  }
+                }
+              }
+            },
+            _1: "@[<v>%a%a@]"
+          }), include_err, param.hd, print_errs, param.tl);
 }
 
 var Dont_match = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Includecore.Dont_match");
@@ -50384,9 +50384,9 @@ function type_declarations$1(equalityOpt, env, name, decl1, id, decl2) {
       } else {
         var cstrs2 = match$1._0;
         var mark = function (cstrs, usage, name, decl) {
-          return List.iter((function (c) {
-                        return mark_constructor_used(usage, env, name, decl, c.cd_id.name);
-                      }), cstrs);
+          List.iter((function (c) {
+                  mark_constructor_used(usage, env, name, decl, c.cd_id.name);
+                }), cstrs);
         };
         var usage = decl1.type_private === /* Private */0 || decl2.type_private === /* Public */1 ? /* Positive */0 : /* Privatize */2;
         mark(cstrs1, usage, name, decl1);
@@ -53089,7 +53089,7 @@ function modtypes$1(env, mty1, mty2) {
 }
 
 function type_declarations$3(env, id, decl1, decl2) {
-  return type_declarations$2(env, undefined, /* [] */0, identity, id, decl1, decl2);
+  type_declarations$2(env, undefined, /* [] */0, identity, id, decl1, decl2);
 }
 
 function show_loc(msg, ppf, loc) {
@@ -53157,7 +53157,7 @@ function show_loc(msg, ppf, loc) {
 
 function show_locs(ppf, param) {
   show_loc("Expected declaration", ppf, param[1]);
-  return show_loc("Actual declaration", ppf, param[0]);
+  show_loc("Actual declaration", ppf, param[0]);
 }
 
 function include_err$1(ppf, path$1) {
@@ -54006,57 +54006,57 @@ function context_mty(ppf, rem) {
         return context(ppf, rem);
     
   }
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
+                    TAG: /* String_literal */11,
+                    _0: "<2>",
+                    _1: /* End_of_format */0
+                  },
+                  _1: "<2>"
+                }
+              },
+              _1: {
+                TAG: /* String_literal */11,
+                _0: "sig",
+                _1: {
+                  TAG: /* Formatting_lit */17,
+                  _0: {
+                    TAG: /* Break */0,
+                    _0: "@ ",
+                    _1: 1,
+                    _2: 0
+                  },
+                  _1: {
+                    TAG: /* Alpha */15,
                     _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<2>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<2>"
-                      }
-                    },
-                    _1: {
-                      TAG: /* String_literal */11,
-                      _0: "sig",
+                      TAG: /* Formatting_lit */17,
+                      _0: {
+                        TAG: /* Break */0,
+                        _0: "@;<1 -2>",
+                        _1: 1,
+                        _2: -2
+                      },
                       _1: {
-                        TAG: /* Formatting_lit */17,
-                        _0: {
-                          TAG: /* Break */0,
-                          _0: "@ ",
-                          _1: 1,
-                          _2: 0
-                        },
+                        TAG: /* String_literal */11,
+                        _0: "end",
                         _1: {
-                          TAG: /* Alpha */15,
-                          _0: {
-                            TAG: /* Formatting_lit */17,
-                            _0: {
-                              TAG: /* Break */0,
-                              _0: "@;<1 -2>",
-                              _1: 1,
-                              _2: -2
-                            },
-                            _1: {
-                              TAG: /* String_literal */11,
-                              _0: "end",
-                              _1: {
-                                TAG: /* Formatting_lit */17,
-                                _0: /* Close_box */0,
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          }
+                          TAG: /* Formatting_lit */17,
+                          _0: /* Close_box */0,
+                          _1: /* End_of_format */0
                         }
                       }
                     }
-                  },
-                  _1: "@[<2>sig@ %a@;<1 -2>end@]"
-                }), context, rem);
+                  }
+                }
+              }
+            },
+            _1: "@[<2>sig@ %a@;<1 -2>end@]"
+          }), context, rem);
 }
 
 function args(ppf, cxt) {
@@ -54121,26 +54121,26 @@ function args(ppf, cxt) {
       
     }
   }
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: " :",
-                    _1: {
-                      TAG: /* Formatting_lit */17,
-                      _0: {
-                        TAG: /* Break */0,
-                        _0: "@ ",
-                        _1: 1,
-                        _2: 0
-                      },
-                      _1: {
-                        TAG: /* Alpha */15,
-                        _0: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: " :@ %a"
-                }), context_mty, cxt);
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: " :",
+              _1: {
+                TAG: /* Formatting_lit */17,
+                _0: {
+                  TAG: /* Break */0,
+                  _0: "@ ",
+                  _1: 1,
+                  _2: 0
+                },
+                _1: {
+                  TAG: /* Alpha */15,
+                  _0: /* End_of_format */0
+                }
+              }
+            },
+            _1: " :@ %a"
+          }), context_mty, cxt);
 }
 
 function argname(x) {
@@ -54294,36 +54294,36 @@ function context$1(ppf, cxt) {
 function include_err$2(ppf, param) {
   var err = param[2];
   var cxt = param[0];
-  return wrap_printing_env(param[1], (function (param) {
-                return Curry._4(Format.fprintf(ppf)(/* Format */{
-                                _0: {
-                                  TAG: /* Formatting_gen */18,
-                                  _0: {
-                                    TAG: /* Open_box */1,
-                                    _0: /* Format */{
-                                      _0: {
-                                        TAG: /* String_literal */11,
-                                        _0: "<v>",
-                                        _1: /* End_of_format */0
-                                      },
-                                      _1: "<v>"
-                                    }
-                                  },
-                                  _1: {
-                                    TAG: /* Alpha */15,
-                                    _0: {
-                                      TAG: /* Alpha */15,
-                                      _0: {
-                                        TAG: /* Formatting_lit */17,
-                                        _0: /* Close_box */0,
-                                        _1: /* End_of_format */0
-                                      }
-                                    }
-                                  }
-                                },
-                                _1: "@[<v>%a%a@]"
-                              }), context$1, List.rev(cxt), include_err$1, err);
-              }));
+  wrap_printing_env(param[1], (function (param) {
+          Curry._4(Format.fprintf(ppf)(/* Format */{
+                    _0: {
+                      TAG: /* Formatting_gen */18,
+                      _0: {
+                        TAG: /* Open_box */1,
+                        _0: /* Format */{
+                          _0: {
+                            TAG: /* String_literal */11,
+                            _0: "<v>",
+                            _1: /* End_of_format */0
+                          },
+                          _1: "<v>"
+                        }
+                      },
+                      _1: {
+                        TAG: /* Alpha */15,
+                        _0: {
+                          TAG: /* Alpha */15,
+                          _0: {
+                            TAG: /* Formatting_lit */17,
+                            _0: /* Close_box */0,
+                            _1: /* End_of_format */0
+                          }
+                        }
+                      }
+                    },
+                    _1: "@[<v>%a%a@]"
+                  }), context$1, List.rev(cxt), include_err$1, err);
+        }));
 }
 
 var buffer = {
@@ -54403,34 +54403,34 @@ function report_error$4(ppf, errs) {
                   }), param);
     };
   };
-  return Curry._4(Format.fprintf(ppf)(/* Format */{
+  Curry._4(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
                   _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "<v>",
-                          _1: /* End_of_format */0
-                        },
-                        _1: "<v>"
-                      }
-                    },
-                    _1: {
-                      TAG: /* Alpha */15,
-                      _0: {
-                        TAG: /* Alpha */15,
-                        _0: {
-                          TAG: /* Formatting_lit */17,
-                          _0: /* Close_box */0,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    }
+                    TAG: /* String_literal */11,
+                    _0: "<v>",
+                    _1: /* End_of_format */0
                   },
-                  _1: "@[<v>%a%a@]"
-                }), print_errs, match[0], include_err$2, match[1]);
+                  _1: "<v>"
+                }
+              },
+              _1: {
+                TAG: /* Alpha */15,
+                _0: {
+                  TAG: /* Alpha */15,
+                  _0: {
+                    TAG: /* Formatting_lit */17,
+                    _0: /* Close_box */0,
+                    _1: /* End_of_format */0
+                  }
+                }
+              }
+            },
+            _1: "@[<v>%a%a@]"
+          }), print_errs, match[0], include_err$2, match[1]);
 }
 
 register_error_of_exn(function (err) {
@@ -55725,21 +55725,21 @@ function pretty_arg(ppf, v) {
     default:
       return pretty_val(ppf, v);
   }
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* Char_literal */12,
-                    _0: /* '(' */40,
-                    _1: {
-                      TAG: /* Alpha */15,
-                      _0: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "(%a)"
-                }), pretty_val, v);
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Char_literal */12,
+              _0: /* '(' */40,
+              _1: {
+                TAG: /* Alpha */15,
+                _0: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "(%a)"
+          }), pretty_val, v);
 }
 
 function pretty_or(ppf, v) {
@@ -55866,31 +55866,31 @@ function pretty_lvals(ppf, param) {
 }
 
 function top_pretty(ppf, v) {
-  return Curry._2(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* Formatting_gen */18,
-                    _0: {
-                      TAG: /* Open_box */1,
-                      _0: /* Format */{
-                        _0: /* End_of_format */0,
-                        _1: ""
-                      }
-                    },
-                    _1: {
-                      TAG: /* Alpha */15,
-                      _0: {
-                        TAG: /* Formatting_lit */17,
-                        _0: /* Close_box */0,
-                        _1: {
-                          TAG: /* Formatting_lit */17,
-                          _0: /* FFlush */2,
-                          _1: /* End_of_format */0
-                        }
-                      }
-                    }
-                  },
-                  _1: "@[%a@]@?"
-                }), pretty_val, v);
+  Curry._2(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* Formatting_gen */18,
+              _0: {
+                TAG: /* Open_box */1,
+                _0: /* Format */{
+                  _0: /* End_of_format */0,
+                  _1: ""
+                }
+              },
+              _1: {
+                TAG: /* Alpha */15,
+                _0: {
+                  TAG: /* Formatting_lit */17,
+                  _0: /* Close_box */0,
+                  _1: {
+                    TAG: /* Formatting_lit */17,
+                    _0: /* FFlush */2,
+                    _1: /* End_of_format */0
+                  }
+                }
+              }
+            },
+            _1: "@[%a@]@?"
+          }), pretty_val, v);
 }
 
 function simple_match(p1, p2) {
@@ -59437,17 +59437,17 @@ function do_check_fragile_param(exhaust, loc, casel, pss) {
     return ;
   }
   var ps = pss.hd;
-  return List.iter((function (ext) {
-                var match = Curry._3(exhaust, ext, pss, List.length(ps));
-                if (match) {
-                  return ;
-                } else {
-                  return prerr_warning(loc, {
-                              TAG: /* Fragile_match */1,
-                              _0: name(undefined, ext)
-                            });
-                }
-              }), exts);
+  List.iter((function (ext) {
+          var match = Curry._3(exhaust, ext, pss, List.length(ps));
+          if (match) {
+            return ;
+          } else {
+            return prerr_warning(loc, {
+                        TAG: /* Fragile_match */1,
+                        _0: name(undefined, ext)
+                      });
+          }
+        }), exts);
 }
 
 function do_check_fragile_normal(param, param$1, param$2) {
@@ -59658,34 +59658,34 @@ function error_of_extension(ext) {
 }
 
 function check_deprecated(loc, attrs, s) {
-  return List.iter((function (param) {
-                switch (param[0].txt) {
-                  case "deprecated" :
-                  case "ocaml.deprecated" :
-                      break;
-                  default:
-                    return ;
-                }
-                var txt = string_of_payload(param[1]);
-                if (txt !== undefined) {
-                  if (bs_vscode) {
-                    return prerr_warning(loc, {
-                                TAG: /* Deprecated */0,
-                                _0: s + (" " + txt)
-                              });
-                  } else {
-                    return prerr_warning(loc, {
-                                TAG: /* Deprecated */0,
-                                _0: s + ("\n" + txt)
-                              });
-                  }
-                } else {
-                  return prerr_warning(loc, {
-                              TAG: /* Deprecated */0,
-                              _0: s
-                            });
-                }
-              }), attrs);
+  List.iter((function (param) {
+          switch (param[0].txt) {
+            case "deprecated" :
+            case "ocaml.deprecated" :
+                break;
+            default:
+              return ;
+          }
+          var txt = string_of_payload(param[1]);
+          if (txt !== undefined) {
+            if (bs_vscode) {
+              return prerr_warning(loc, {
+                          TAG: /* Deprecated */0,
+                          _0: s + (" " + txt)
+                        });
+            } else {
+              return prerr_warning(loc, {
+                          TAG: /* Deprecated */0,
+                          _0: s + ("\n" + txt)
+                        });
+            }
+          } else {
+            return prerr_warning(loc, {
+                        TAG: /* Deprecated */0,
+                        _0: s
+                      });
+          }
+        }), attrs);
 }
 
 var newrecord$1 = Caml_obj.caml_obj_dup(default_mapper);
@@ -59792,30 +59792,30 @@ function warning_attribute(attrs) {
       throw exn;
     }
   };
-  return List.iter((function (param) {
-                var match = param[0];
-                var txt = match.txt;
-                var exit = 0;
-                switch (txt) {
-                  case "ocaml.warnerror" :
-                  case "warnerror" :
-                      exit = 2;
-                      break;
-                  case "ocaml.warning" :
-                  case "warning" :
-                      exit = 1;
-                      break;
-                  default:
-                    return ;
-                }
-                switch (exit) {
-                  case 1 :
-                      return $$process(match.loc, txt, false, param[1]);
-                  case 2 :
-                      return $$process(match.loc, txt, true, param[1]);
-                  
-                }
-              }), attrs);
+  List.iter((function (param) {
+          var match = param[0];
+          var txt = match.txt;
+          var exit = 0;
+          switch (txt) {
+            case "ocaml.warnerror" :
+            case "warnerror" :
+                exit = 2;
+                break;
+            case "ocaml.warning" :
+            case "warning" :
+                exit = 1;
+                break;
+            default:
+              return ;
+          }
+          switch (exit) {
+            case 1 :
+                return $$process(match.loc, txt, false, param[1]);
+            case 2 :
+                return $$process(match.loc, txt, true, param[1]);
+            
+          }
+        }), attrs);
 }
 
 function narrow_unbound_lid_error(env, loc, lid, make_error) {
@@ -61185,7 +61185,7 @@ function transl_type(env, policy, styp) {
                   } else {
                     f$1 = f;
                   }
-                  return add_typed_field(sty$1.ptyp_loc, l, f$1);
+                  add_typed_field(sty$1.ptyp_loc, l, f$1);
                 }), fl);
           return {
                   TAG: /* Tinherit */1,
@@ -61449,7 +61449,7 @@ function make_fixed_univars(ty) {
       }
     };
   }
-  return iter_row(make_fixed_univars, row$1);
+  iter_row(make_fixed_univars, row$1);
 }
 
 function globalize_used_variables(env, fixed) {
@@ -61516,27 +61516,27 @@ function globalize_used_variables(env, fixed) {
         }), used_variables.contents);
   used_variables.contents = /* Empty */0;
   return function (param) {
-    return List.iter((function (param) {
-                  try {
-                    return unify$2(env, param[1], param[2]);
-                  }
-                  catch (raw_trace){
-                    var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
-                    if (trace.RE_EXN_ID === Unify) {
-                      throw {
-                            RE_EXN_ID: $$Error$6,
-                            _1: param[0],
-                            _2: env,
-                            _3: {
-                              TAG: /* Type_mismatch */6,
-                              _0: trace._1
-                            },
-                            Error: new Error()
-                          };
-                    }
-                    throw trace;
-                  }
-                }), r.contents);
+    List.iter((function (param) {
+            try {
+              return unify$2(env, param[1], param[2]);
+            }
+            catch (raw_trace){
+              var trace = Caml_js_exceptions.internalToOCamlException(raw_trace);
+              if (trace.RE_EXN_ID === Unify) {
+                throw {
+                      RE_EXN_ID: $$Error$6,
+                      _1: param[0],
+                      _2: env,
+                      _3: {
+                        TAG: /* Type_mismatch */6,
+                        _0: trace._1
+                      },
+                      Error: new Error()
+                    };
+              }
+              throw trace;
+            }
+          }), r.contents);
   };
 }
 
@@ -61668,34 +61668,34 @@ function spellcheck(ppf, fold, env, lid) {
       return ;
     }
     var rev_rest = match.tl;
-    return Curry._3(Format.fprintf(ppf)(/* Format */{
-                    _0: {
-                      TAG: /* Formatting_lit */17,
-                      _0: /* Force_newline */3,
+    Curry._3(Format.fprintf(ppf)(/* Format */{
+              _0: {
+                TAG: /* Formatting_lit */17,
+                _0: /* Force_newline */3,
+                _1: {
+                  TAG: /* String_literal */11,
+                  _0: "Hint: Did you mean ",
+                  _1: {
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
                       _1: {
-                        TAG: /* String_literal */11,
-                        _0: "Hint: Did you mean ",
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
                         _1: {
-                          TAG: /* String */2,
-                          _0: /* No_padding */0,
-                          _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* Char_literal */12,
-                                _0: /* '?' */63,
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          }
+                          TAG: /* Char_literal */12,
+                          _0: /* '?' */63,
+                          _1: /* End_of_format */0
                         }
                       }
-                    },
-                    _1: "@\nHint: Did you mean %s%s%s?"
-                  }), $$String.concat(", ", List.rev(rev_rest)), Caml_obj.caml_equal(rev_rest, /* [] */0) ? "" : " or ", match.hd);
+                    }
+                  }
+                }
+              },
+              _1: "@\nHint: Did you mean %s%s%s?"
+            }), $$String.concat(", ", List.rev(rev_rest)), Caml_obj.caml_equal(rev_rest, /* [] */0) ? "" : " or ", match.hd);
   };
   Format.fprintf(ppf)(/* Format */{
         _0: {
@@ -61938,43 +61938,43 @@ register_error_of_exn(function (err) {
                                         }), longident, param$1._0);
                       case /* Type_mismatch */6 :
                           return report_unification_error(param, empty, undefined, param$1._0, (function (ppf) {
-                                        return Format.fprintf(ppf)(/* Format */{
-                                                    _0: {
-                                                      TAG: /* String_literal */11,
-                                                      _0: "This type",
-                                                      _1: /* End_of_format */0
-                                                    },
-                                                    _1: "This type"
-                                                  });
+                                        Format.fprintf(ppf)(/* Format */{
+                                              _0: {
+                                                TAG: /* String_literal */11,
+                                                _0: "This type",
+                                                _1: /* End_of_format */0
+                                              },
+                                              _1: "This type"
+                                            });
                                       }), (function (ppf) {
-                                        return Format.fprintf(ppf)(/* Format */{
-                                                    _0: {
-                                                      TAG: /* String_literal */11,
-                                                      _0: "should be an instance of type",
-                                                      _1: /* End_of_format */0
-                                                    },
-                                                    _1: "should be an instance of type"
-                                                  });
+                                        Format.fprintf(ppf)(/* Format */{
+                                              _0: {
+                                                TAG: /* String_literal */11,
+                                                _0: "should be an instance of type",
+                                                _1: /* End_of_format */0
+                                              },
+                                              _1: "should be an instance of type"
+                                            });
                                       }));
                       case /* Alias_type_mismatch */7 :
                           return report_unification_error(param, empty, undefined, param$1._0, (function (ppf) {
-                                        return Format.fprintf(ppf)(/* Format */{
-                                                    _0: {
-                                                      TAG: /* String_literal */11,
-                                                      _0: "This alias is bound to type",
-                                                      _1: /* End_of_format */0
-                                                    },
-                                                    _1: "This alias is bound to type"
-                                                  });
+                                        Format.fprintf(ppf)(/* Format */{
+                                              _0: {
+                                                TAG: /* String_literal */11,
+                                                _0: "This alias is bound to type",
+                                                _1: /* End_of_format */0
+                                              },
+                                              _1: "This alias is bound to type"
+                                            });
                                       }), (function (ppf) {
-                                        return Format.fprintf(ppf)(/* Format */{
-                                                    _0: {
-                                                      TAG: /* String_literal */11,
-                                                      _0: "but is used as an instance of type",
-                                                      _1: /* End_of_format */0
-                                                    },
-                                                    _1: "but is used as an instance of type"
-                                                  });
+                                        Format.fprintf(ppf)(/* Format */{
+                                              _0: {
+                                                TAG: /* String_literal */11,
+                                                _0: "but is used as an instance of type",
+                                                _1: /* End_of_format */0
+                                              },
+                                              _1: "but is used as an instance of type"
+                                            });
                                       }));
                       case /* Present_has_conjunction */8 :
                           return Curry._1(Format.fprintf(param)(/* Format */{
@@ -62021,64 +62021,64 @@ register_error_of_exn(function (err) {
                                                 tl: /* [] */0
                                               }
                                             });
-                                        return Curry._6(Format.fprintf(param)(/* Format */{
+                                        Curry._6(Format.fprintf(param)(/* Format */{
+                                                  _0: {
+                                                    TAG: /* Formatting_gen */18,
+                                                    _0: {
+                                                      TAG: /* Open_box */1,
+                                                      _0: /* Format */{
                                                         _0: {
-                                                          TAG: /* Formatting_gen */18,
+                                                          TAG: /* String_literal */11,
+                                                          _0: "<hov>",
+                                                          _1: /* End_of_format */0
+                                                        },
+                                                        _1: "<hov>"
+                                                      }
+                                                    },
+                                                    _1: {
+                                                      TAG: /* String */2,
+                                                      _0: /* No_padding */0,
+                                                      _1: {
+                                                        TAG: /* Char_literal */12,
+                                                        _0: /* ' ' */32,
+                                                        _1: {
+                                                          TAG: /* Alpha */15,
                                                           _0: {
-                                                            TAG: /* Open_box */1,
-                                                            _0: /* Format */{
-                                                              _0: {
-                                                                TAG: /* String_literal */11,
-                                                                _0: "<hov>",
-                                                                _1: /* End_of_format */0
-                                                              },
-                                                              _1: "<hov>"
-                                                            }
-                                                          },
-                                                          _1: {
-                                                            TAG: /* String */2,
-                                                            _0: /* No_padding */0,
+                                                            TAG: /* Formatting_lit */17,
+                                                            _0: {
+                                                              TAG: /* Break */0,
+                                                              _0: "@ ",
+                                                              _1: 1,
+                                                              _2: 0
+                                                            },
                                                             _1: {
-                                                              TAG: /* Char_literal */12,
-                                                              _0: /* ' ' */32,
+                                                              TAG: /* String */2,
+                                                              _0: /* No_padding */0,
                                                               _1: {
-                                                                TAG: /* Alpha */15,
+                                                                TAG: /* Formatting_lit */17,
                                                                 _0: {
-                                                                  TAG: /* Formatting_lit */17,
+                                                                  TAG: /* Break */0,
+                                                                  _0: "@ ",
+                                                                  _1: 1,
+                                                                  _2: 0
+                                                                },
+                                                                _1: {
+                                                                  TAG: /* Alpha */15,
                                                                   _0: {
-                                                                    TAG: /* Break */0,
-                                                                    _0: "@ ",
-                                                                    _1: 1,
-                                                                    _2: 0
-                                                                  },
-                                                                  _1: {
-                                                                    TAG: /* String */2,
-                                                                    _0: /* No_padding */0,
-                                                                    _1: {
-                                                                      TAG: /* Formatting_lit */17,
-                                                                      _0: {
-                                                                        TAG: /* Break */0,
-                                                                        _0: "@ ",
-                                                                        _1: 1,
-                                                                        _2: 0
-                                                                      },
-                                                                      _1: {
-                                                                        TAG: /* Alpha */15,
-                                                                        _0: {
-                                                                          TAG: /* Formatting_lit */17,
-                                                                          _0: /* Close_box */0,
-                                                                          _1: /* End_of_format */0
-                                                                        }
-                                                                      }
-                                                                    }
+                                                                    TAG: /* Formatting_lit */17,
+                                                                    _0: /* Close_box */0,
+                                                                    _1: /* End_of_format */0
                                                                   }
                                                                 }
                                                               }
                                                             }
                                                           }
-                                                        },
-                                                        _1: "@[<hov>%s %a@ %s@ %a@]"
-                                                      }), "This variant type contains a constructor", type_expr$1, ty, "which should be", type_expr$1, ty$p);
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  _1: "@[<hov>%s %a@ %s@ %a@]"
+                                                }), "This variant type contains a constructor", type_expr$1, ty, "which should be", type_expr$1, ty$p);
                                       }));
                       case /* Not_a_variant */11 :
                           var ty$1 = param$1._0;
@@ -62553,7 +62553,7 @@ function iter_expression(f, e) {
         case /* Pexp_apply */5 :
             expr(pel._0);
             return List.iter((function (param) {
-                          return expr(param[1]);
+                          expr(param[1]);
                         }), pel._1);
         case /* Pexp_match */6 :
         case /* Pexp_try */7 :
@@ -62564,7 +62564,7 @@ function iter_expression(f, e) {
         case /* Pexp_record */11 :
             may(expr, pel._1);
             return List.iter((function (param) {
-                          return expr(param[1]);
+                          expr(param[1]);
                         }), pel._0);
         case /* Pexp_setfield */13 :
             expr(pel._0);
@@ -62589,7 +62589,7 @@ function iter_expression(f, e) {
             continue ;
         case /* Pexp_override */24 :
             return List.iter((function (param) {
-                          return expr(param[1]);
+                          expr(param[1]);
                         }), pel._0);
         case /* Pexp_letmodule */25 :
             expr(pel._2);
@@ -62620,10 +62620,10 @@ function iter_expression(f, e) {
   };
   var $$case = function (param) {
     may(expr, param.pc_guard);
-    return expr(param.pc_rhs);
+    expr(param.pc_rhs);
   };
   var binding = function (x) {
-    return expr(x.pvb_expr);
+    expr(x.pvb_expr);
   };
   var module_expr = function (_me) {
     while(true) {
@@ -62662,11 +62662,11 @@ function iter_expression(f, e) {
           return module_expr(l._0.pmb_expr);
       case /* Pstr_recmodule */7 :
           return List.iter((function (x) {
-                        return module_expr(x.pmb_expr);
+                        module_expr(x.pmb_expr);
                       }), l._0);
       case /* Pstr_class */10 :
           return List.iter((function (c) {
-                        return class_expr(c.pci_expr);
+                        class_expr(c.pci_expr);
                       }), l._0);
       case /* Pstr_include */12 :
           return module_expr(l._0.pincl_mod);
@@ -62688,7 +62688,7 @@ function iter_expression(f, e) {
         case /* Pcl_apply */3 :
             class_expr(match._0);
             return List.iter((function (param) {
-                          return expr(param[1]);
+                          expr(param[1]);
                         }), match._1);
         case /* Pcl_let */4 :
             List.iter(binding, match._1);
@@ -62732,7 +62732,7 @@ function iter_expression(f, e) {
       
     }
   };
-  return expr(e);
+  expr(e);
 }
 
 function all_idents_cases(el) {
@@ -62756,7 +62756,7 @@ function all_idents_cases(el) {
           may((function (param) {
                   return iter_expression(f, param);
                 }), cp.pc_guard);
-          return iter_expression(f, cp.pc_rhs);
+          iter_expression(f, cp.pc_rhs);
         }), el);
   return Hashtbl.fold((function (x, param, rest) {
                 return {
@@ -63070,7 +63070,7 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
       univar_pairs.contents = /* [] */0;
       newtype_level.contents = newtype_level$2;
       set_mode_pattern(true, true, (function (param) {
-              return unify$1(env, ty, ty$p);
+              unify$1(env, ty, ty$p);
             }));
       newtype_level.contents = undefined;
       return Curry._1(TypePairs.clear, unify_eq_set);
@@ -63133,7 +63133,7 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
 }
 
 function unify_pat(env, pat, expected_ty) {
-  return unify_pat_types(pat.pat_loc, env, pat.pat_type, expected_ty);
+  unify_pat_types(pat.pat_loc, env, pat.pat_type, expected_ty);
 }
 
 function finalize_variant(pat) {
@@ -63235,9 +63235,9 @@ function finalize_variant(pat) {
 
 function iter_pattern(f, p) {
   Curry._1(f, p);
-  return iter_pattern_desc((function (param) {
-                return iter_pattern(f, param);
-              }), p.pat_desc);
+  iter_pattern_desc((function (param) {
+          return iter_pattern(f, param);
+        }), p.pat_desc);
 }
 
 function has_variants(p) {
@@ -63341,12 +63341,12 @@ function enter_variable(is_moduleOpt, is_as_variableOpt, loc, name, ty) {
     };
   } else {
     may((function (s) {
-            return record$2({
-                        TAG: /* An_ident */5,
-                        _0: name.loc,
-                        _1: name.txt,
-                        _2: s
-                      });
+            record$2({
+                  TAG: /* An_ident */5,
+                  _0: name.loc,
+                  _1: name.txt,
+                  _2: s
+                });
           }), pattern_scope.contents);
   }
   return id;
@@ -63567,7 +63567,7 @@ function build_as_type(env, _p) {
             }
             var match$2 = instance_label(false, lbl);
             unify$2(env, ty_arg, match$2[1]);
-            return unify_pat(env, p, match$2[2]);
+            unify_pat(env, p, match$2[2]);
           }
           }(p,ty$1,ppl));
           $$Array.iter(do_label, lbl.lbl_all);
@@ -64029,10 +64029,10 @@ function disambiguate(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
     var tpath = opath[1];
     var warn_pr = function (param) {
       var kind = type_kind === "record" ? "field" : "constructor";
-      return Curry._2(warn, lid.loc, {
-                  TAG: /* Not_principal */8,
-                  _0: "this type-based " + (kind + " disambiguation")
-                });
+      Curry._2(warn, lid.loc, {
+            TAG: /* Not_principal */8,
+            _0: "this type-based " + (kind + " disambiguation")
+          });
     };
     try {
       var match = disambiguate_by_type(env, tpath, scope$1);
@@ -64162,7 +64162,7 @@ function disambiguate_label_by_ids(keep, env, closed, ids, labels) {
   var check_ids = function (param) {
     var lbls = Hashtbl.create(undefined, 8);
     $$Array.iter((function (lbl) {
-            return Hashtbl.add(lbls, lbl.lbl_name, undefined);
+            Hashtbl.add(lbls, lbl.lbl_name, undefined);
           }), param[0].lbl_all);
     return List.for_all((function (param) {
                   return Hashtbl.mem(lbls, param);
@@ -64308,15 +64308,15 @@ function disambiguate_lid_a_list(loc, closed, env, opath, lid_a_list) {
             });
       } else {
         List.iter((function (param) {
-                return prerr_warning(loc, {
-                            TAG: /* Ambiguous_name */24,
-                            _0: {
-                              hd: param[0],
-                              tl: /* [] */0
-                            },
-                            _1: param[1],
-                            _2: false
-                          });
+                prerr_warning(loc, {
+                      TAG: /* Ambiguous_name */24,
+                      _0: {
+                        hd: param[0],
+                        tl: /* [] */0
+                      },
+                      _1: param[1],
+                      _2: false
+                    });
               }), amb);
       }
     }
@@ -64454,7 +64454,7 @@ function check_recordpat_labels(loc, lbl_pat_list, closed) {
             Error: new Error()
           };
     }
-    return Caml_array.set(defined, label.lbl_pos, true);
+    Caml_array.set(defined, label.lbl_pos, true);
   };
   List.iter(check_defined, lbl_pat_list);
   if (!(closed === /* Closed */0 && is_active({
@@ -64477,10 +64477,10 @@ function check_recordpat_labels(loc, lbl_pat_list, closed) {
     return ;
   }
   var u = $$String.concat(", ", List.rev($$undefined));
-  return prerr_warning(loc, {
-              TAG: /* Non_closed_record_pattern */4,
-              _0: u
-            });
+  prerr_warning(loc, {
+        TAG: /* Non_closed_record_pattern */4,
+        _0: u
+      });
 }
 
 var type_kind$1 = "variant";
@@ -64614,10 +64614,10 @@ function disambiguate$1(warnOpt, check_lkOpt, scope, lid, env, opath, lbls) {
     var tpath = opath[1];
     var warn_pr = function (param) {
       var kind = type_kind$1 === "record" ? "field" : "constructor";
-      return Curry._2(warn, lid.loc, {
-                  TAG: /* Not_principal */8,
-                  _0: "this type-based " + (kind + " disambiguation")
-                });
+      Curry._2(warn, lid.loc, {
+            TAG: /* Not_principal */8,
+            _0: "this type-based " + (kind + " disambiguation")
+          });
     };
     try {
       var match = disambiguate_by_type$1(env, tpath, scope$1);
@@ -65661,7 +65661,7 @@ function type_class_arg_pattern(cl_num, val_env, met_env, l, spat) {
     iter_pattern(finalize_variant, pat);
   }
   List.iter((function (f) {
-          return Curry._1(f, undefined);
+          Curry._1(f, undefined);
         }), get_ref(pattern_force));
   if (is_optional(l)) {
     unify_pat(val_env, pat, type_option$1(newvar(undefined, undefined)));
@@ -65740,7 +65740,7 @@ function type_self_pattern(cl_num, privty, val_env, met_env, par_env, spat) {
         contents: val_env
       }, spat$1, nv);
   List.iter((function (f) {
-          return Curry._1(f, undefined);
+          Curry._1(f, undefined);
         }), get_ref(pattern_force));
   var meths = {
     contents: /* Empty */0
@@ -65827,11 +65827,11 @@ function force_delayed_checks(param) {
   var w_old = current.contents;
   List.iter((function (param) {
           current.contents = param[1];
-          return Curry._1(param[0], undefined);
+          Curry._1(param[0], undefined);
         }), List.rev(delayed_checks.contents));
   current.contents = w_old;
   delayed_checks.contents = /* [] */0;
-  return backtrack(snap);
+  backtrack(snap);
 }
 
 function final_subexpression(_sexp) {
@@ -66377,7 +66377,7 @@ function generalizable(level, ty) {
           };
     }
     mark_type_node(ty$1);
-    return iter_type_expr(check, ty$1);
+    iter_type_expr(check, ty$1);
   };
   try {
     check(ty);
@@ -66441,7 +66441,7 @@ function contains_variant_either(ty) {
                   };
             }), row$1.row_fields);
     }
-    return iter_row(loop, row$1);
+    iter_row(loop, row$1);
   };
   try {
     loop(ty);
@@ -66469,7 +66469,7 @@ function iter_ppat(f, p) {
         return may(f, pats._1);
     case /* Ppat_record */7 :
         return List.iter((function (param) {
-                      return Curry._1(f, param[1]);
+                      Curry._1(f, param[1]);
                     }), pats._0);
     case /* Ppat_tuple */4 :
     case /* Ppat_array */8 :
@@ -66545,7 +66545,7 @@ function contains_gadt(env, p) {
       }
       
     }
-    return iter_ppat(loop, p);
+    iter_ppat(loop, p);
   };
   try {
     loop(p);
@@ -66610,17 +66610,17 @@ function check_absent_variant(env) {
                     row_fixed: false,
                     row_name: undefined
                   };
-                  return unify_pat(env, {
-                              pat_desc: pat.pat_desc,
-                              pat_loc: pat.pat_loc,
-                              pat_extra: pat.pat_extra,
-                              pat_type: newty2(current_level.contents, {
-                                    TAG: /* Tvariant */8,
-                                    _0: row$p
-                                  }),
-                              pat_env: pat.pat_env,
-                              pat_attributes: pat.pat_attributes
-                            }, type_expr(identity, pat.pat_type));
+                  unify_pat(env, {
+                        pat_desc: pat.pat_desc,
+                        pat_loc: pat.pat_loc,
+                        pat_extra: pat.pat_extra,
+                        pat_type: newty2(current_level.contents, {
+                              TAG: /* Tvariant */8,
+                              _0: row$p
+                            }),
+                        pat_env: pat.pat_env,
+                        pat_attributes: pat.pat_attributes
+                      }, type_expr(identity, pat.pat_type));
                 }), param);
   };
 }
@@ -66668,7 +66668,7 @@ function duplicate_ident_types(loc, caselist, env) {
 }
 
 function unify_exp(env, exp, expected_ty) {
-  return unify_exp_types(exp.exp_loc, env, exp.exp_type, expected_ty);
+  unify_exp_types(exp.exp_loc, env, exp.exp_type, expected_ty);
 }
 
 function type_exp(env, sexp) {
@@ -67647,7 +67647,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               var match$1 = instance_label(false, lbl);
               unify$2(env, match[1], match$1[1]);
               unify$2(env, instance(undefined, env, ty_expected), match$1[2]);
-              return unify_exp_types(opt_exp.exp_loc, env, ty_exp$1, match[2]);
+              unify_exp_types(opt_exp.exp_loc, env, ty_exp$1, match[2]);
             };
             $$Array.iter(unify_kept, lbl_exp_list.hd[1].lbl_all);
             opt_exp$1 = {
@@ -70078,7 +70078,7 @@ function type_application(env, funct, sargs) {
           switch (match$5.TAG | 0) {
             case /* Tvar */0 :
                 add_delayed_check(function (param) {
-                      return check_application_result(env, false, exp);
+                      check_application_result(env, false, exp);
                     });
                 break;
             case /* Tarrow */1 :
@@ -70134,7 +70134,7 @@ function type_statement(env, sexp) {
             prerr_warning(loc, /* Nonreturning_statement */10);
           } else {
             add_delayed_check(function (param) {
-                  return check_application_result(env, true, exp);
+                  check_application_result(env, true, exp);
                 });
           }
           break;
@@ -70224,7 +70224,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
           var pat = match[0];
           pattern_force.contents = Stdlib.$at(match[2], pattern_force.contents);
           var pat$1 = principal.contents ? (end_def(undefined), iter_pattern((function (param) {
-                      return generalize_structure$1(current_level.contents, param.pat_type);
+                      generalize_structure$1(current_level.contents, param.pat_type);
                     }), pat), {
                 pat_desc: pat.pat_desc,
                 pat_loc: pat.pat_loc,
@@ -70245,7 +70245,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
           return prim[0];
         }), pat_env_list);
   List.iter((function (pat) {
-          return unify_pat(env$2, pat, ty_arg$p);
+          unify_pat(env$2, pat, ty_arg$p);
         }), patl);
   if (List.exists(has_variants, patl)) {
     pressure_variants$1(env$2, patl);
@@ -70254,22 +70254,22 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
           }), patl);
   }
   List.iter((function (f) {
-          return Curry._1(f, undefined);
+          Curry._1(f, undefined);
         }), pattern_force.contents);
   List.iter((function (param) {
           return iter_pattern((function (param) {
-                        return unify_var(env$2, param.pat_type, newvar(undefined, undefined));
+                        unify_var(env$2, param.pat_type, newvar(undefined, undefined));
                       }), param);
         }), patl);
   List.iter((function (pat) {
-          return unify_pat(env$2, pat, instance(undefined, env$2, ty_arg$1));
+          unify_pat(env$2, pat, instance(undefined, env$2, ty_arg$1));
         }), patl);
   end_def(undefined);
   List.iter((function (param) {
           return iter_pattern((function (param) {
-                        return iter_generalize$1({
-                                    contents: /* [] */0
-                                  }, param.pat_type);
+                        iter_generalize$1({
+                              contents: /* [] */0
+                            }, param.pat_type);
                       }), param);
         }), patl);
   var in_function$1 = List.length(caselist) === 1 ? in_function : undefined;
@@ -70307,13 +70307,13 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
   if (principal.contents || has_gadts) {
     var ty_res$p = instance(undefined, env$2, ty_res$1);
     List.iter((function (c) {
-            return unify_exp(env$2, c.c_rhs, ty_res$p);
+            unify_exp(env$2, c.c_rhs, ty_res$p);
           }), cases);
   }
   var partial = partial_flag ? check_partial$1(lev$1, env$2, ty_arg$1)(loc, cases) : /* Partial */0;
   add_delayed_check(function (param) {
         List.iter((function (param) {
-                return check_absent_variant(param[1][0])(param[0]);
+                check_absent_variant(param[1][0])(param[0]);
               }), pat_env_list);
         if (!is_active(/* Unused_match */5)) {
           return ;
@@ -70351,7 +70351,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
               
             } else {
               List.iter((function (p) {
-                      return prerr_warning(p.pat_loc, /* Unused_pat */6);
+                      prerr_warning(p.pat_loc, /* Unused_pat */6);
                     }), r._0);
             }
           }
@@ -70496,7 +70496,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                   pat_env: pat.pat_env,
                   pat_attributes: pat.pat_attributes
                 });
-            return unify_pat(env, pat$1, type_approx(env, binding.pvb_expr));
+            unify_pat(env, pat$1, type_approx(env, binding.pvb_expr));
           }), pat_list, spat_sexp_list);
   }
   List.iter((function (pat) {
@@ -70511,7 +70511,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
         }), pat_list);
   var pat_list$1 = principal.contents ? (end_def(undefined), List.map((function (pat) {
               iter_pattern((function (pat) {
-                      return generalize_structure$1(current_level.contents, pat.pat_type);
+                      generalize_structure$1(current_level.contents, pat.pat_type);
                     }), pat);
               return {
                       pat_desc: pat.pat_desc,
@@ -70523,7 +70523,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                     };
             }), pat_list)) : pat_list;
   List.iter((function (f) {
-          return Curry._1(f, undefined);
+          Curry._1(f, undefined);
         }), match$3[2]);
   var exp_env = is_recursive ? new_env : env;
   var current_slot = {
@@ -70577,7 +70577,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                       rec_needed.contents = true;
                     } else {
                       List.iter((function (param) {
-                              return mark_value_used(env, param[0], param[1]);
+                              mark_value_used(env, param[0], param[1]);
                             }), get_ref(slot));
                       used.contents = true;
                       some_used.contents = true;
@@ -70592,7 +70592,7 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
                     var old = Hashtbl.find(value_declarations, key);
                     return Hashtbl.replace(value_declarations, key, (function (param) {
                                   Curry._1(old, undefined);
-                                  return Curry._1(callback, undefined);
+                                  Curry._1(callback, undefined);
                                 }));
                   }
                   catch (raw_exn){
@@ -70662,17 +70662,17 @@ function type_let(checkOpt, check_strictOpt, env, rec_flag, spat_sexp_list, scop
   List.iter2((function (pat, exp) {
           if (!is_nonexpansive(exp)) {
             return iter_pattern((function (pat) {
-                          return generalize_expansive$1(env, pat.pat_type);
+                          generalize_expansive$1(env, pat.pat_type);
                         }), pat);
           }
           
         }), pat_list$1, exp_list);
   List.iter((function (pat) {
-          return iter_pattern((function (pat) {
-                        return iter_generalize$1({
-                                    contents: /* [] */0
-                                  }, pat.pat_type);
-                      }), pat);
+          iter_pattern((function (pat) {
+                  iter_generalize$1({
+                        contents: /* [] */0
+                      }, pat.pat_type);
+                }), pat);
         }), pat_list$1);
   var l = List.combine(pat_list$1, exp_list);
   var l$1 = List.map2((function (param, pvb) {
@@ -71036,88 +71036,88 @@ register_error_of_exn(function (err) {
                                       case /* Label_mismatch */2 :
                                           var lid = param$1._0;
                                           return report_unification_error(param, env, undefined, param$1._1, (function (ppf) {
-                                                        return Curry._2(Format.fprintf(ppf)(/* Format */{
+                                                        Curry._2(Format.fprintf(ppf)(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* String_literal */11,
+                                                                    _0: "The record field ",
+                                                                    _1: {
+                                                                      TAG: /* Alpha */15,
+                                                                      _0: {
+                                                                        TAG: /* Formatting_lit */17,
                                                                         _0: {
-                                                                          TAG: /* String_literal */11,
-                                                                          _0: "The record field ",
-                                                                          _1: {
-                                                                            TAG: /* Alpha */15,
-                                                                            _0: {
-                                                                              TAG: /* Formatting_lit */17,
-                                                                              _0: {
-                                                                                TAG: /* Break */0,
-                                                                                _0: "@ ",
-                                                                                _1: 1,
-                                                                                _2: 0
-                                                                              },
-                                                                              _1: {
-                                                                                TAG: /* String_literal */11,
-                                                                                _0: "belongs to the type",
-                                                                                _1: /* End_of_format */0
-                                                                              }
-                                                                            }
-                                                                          }
+                                                                          TAG: /* Break */0,
+                                                                          _0: "@ ",
+                                                                          _1: 1,
+                                                                          _2: 0
                                                                         },
-                                                                        _1: "The record field %a@ belongs to the type"
-                                                                      }), longident, lid);
+                                                                        _1: {
+                                                                          TAG: /* String_literal */11,
+                                                                          _0: "belongs to the type",
+                                                                          _1: /* End_of_format */0
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  _1: "The record field %a@ belongs to the type"
+                                                                }), longident, lid);
                                                       }), (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "but is mixed here with fields of type",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "but is mixed here with fields of type"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "but is mixed here with fields of type",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "but is mixed here with fields of type"
+                                                            });
                                                       }));
                                       case /* Pattern_type_clash */3 :
                                           return report_unification_error(param, env, undefined, param$1._0, (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "This pattern matches values of type",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "This pattern matches values of type"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "This pattern matches values of type",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "This pattern matches values of type"
+                                                            });
                                                       }), (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "but a pattern was expected which matches values of type",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "but a pattern was expected which matches values of type"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "but a pattern was expected which matches values of type",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "but a pattern was expected which matches values of type"
+                                                            });
                                                       }));
                                       case /* Or_pattern_type_clash */4 :
                                           var id = param$1._0;
                                           return report_unification_error(param, env, undefined, param$1._1, (function (ppf) {
-                                                        return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                                                        _0: {
-                                                                          TAG: /* String_literal */11,
-                                                                          _0: "The variable ",
-                                                                          _1: {
-                                                                            TAG: /* String */2,
-                                                                            _0: /* No_padding */0,
-                                                                            _1: {
-                                                                              TAG: /* String_literal */11,
-                                                                              _0: " on the left-hand side of this or-pattern has type",
-                                                                              _1: /* End_of_format */0
-                                                                            }
-                                                                          }
-                                                                        },
-                                                                        _1: "The variable %s on the left-hand side of this or-pattern has type"
-                                                                      }), id.name);
+                                                        Curry._1(Format.fprintf(ppf)(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* String_literal */11,
+                                                                    _0: "The variable ",
+                                                                    _1: {
+                                                                      TAG: /* String */2,
+                                                                      _0: /* No_padding */0,
+                                                                      _1: {
+                                                                        TAG: /* String_literal */11,
+                                                                        _0: " on the left-hand side of this or-pattern has type",
+                                                                        _1: /* End_of_format */0
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  _1: "The variable %s on the left-hand side of this or-pattern has type"
+                                                                }), id.name);
                                                       }), (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "but on the right-hand side it has type",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "but on the right-hand side it has type"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "but on the right-hand side it has type",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "but on the right-hand side it has type"
+                                                            });
                                                       }));
                                       case /* Multiply_bound_variable */5 :
                                           return Curry._1(Format.fprintf(param)(/* Format */{
@@ -71155,23 +71155,23 @@ register_error_of_exn(function (err) {
                                                         }), param$1._0.name);
                                       case /* Expr_type_clash */7 :
                                           return report_unification_error(param, env, undefined, param$1._0, (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "This expression has type",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "This expression has type"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "This expression has type",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "This expression has type"
+                                                            });
                                                       }), (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "but an expression was expected of type",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "but an expression was expected of type"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "but an expression was expected of type",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "but an expression was expected of type"
+                                                            });
                                                       }));
                                       case /* Apply_non_function */8 :
                                           var typ = param$1._0;
@@ -71466,23 +71466,23 @@ register_error_of_exn(function (err) {
                                           var print_labels = function (ppf) {
                                             return function (param) {
                                               return List.iter((function (lbl) {
-                                                            return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                                                            _0: {
-                                                                              TAG: /* Formatting_lit */17,
-                                                                              _0: {
-                                                                                TAG: /* Break */0,
-                                                                                _0: "@ ",
-                                                                                _1: 1,
-                                                                                _2: 0
-                                                                              },
-                                                                              _1: {
-                                                                                TAG: /* String */2,
-                                                                                _0: /* No_padding */0,
-                                                                                _1: /* End_of_format */0
-                                                                              }
-                                                                            },
-                                                                            _1: "@ %s"
-                                                                          }), lbl.name);
+                                                            Curry._1(Format.fprintf(ppf)(/* Format */{
+                                                                      _0: {
+                                                                        TAG: /* Formatting_lit */17,
+                                                                        _0: {
+                                                                          TAG: /* Break */0,
+                                                                          _0: "@ ",
+                                                                          _1: 1,
+                                                                          _2: 0
+                                                                        },
+                                                                        _1: {
+                                                                          TAG: /* String */2,
+                                                                          _0: /* No_padding */0,
+                                                                          _1: /* End_of_format */0
+                                                                        }
+                                                                      },
+                                                                      _1: "@ %s"
+                                                                    }), lbl.name);
                                                           }), param);
                                             };
                                           };
@@ -71653,100 +71653,29 @@ register_error_of_exn(function (err) {
                                           var param$3 = param$1._2;
                                           var tpl = param$1._3;
                                           var txt1 = function (ppf) {
-                                            return Curry._4(Format.fprintf(ppf)(/* Format */{
-                                                            _0: {
-                                                              TAG: /* String_literal */11,
-                                                              _0: "The ",
-                                                              _1: {
-                                                                TAG: /* String */2,
-                                                                _0: /* No_padding */0,
-                                                                _1: {
-                                                                  TAG: /* Char_literal */12,
-                                                                  _0: /* ' ' */32,
-                                                                  _1: {
-                                                                    TAG: /* Alpha */15,
-                                                                    _0: {
-                                                                      TAG: /* Formatting_lit */17,
-                                                                      _0: {
-                                                                        TAG: /* Break */0,
-                                                                        _0: "@ ",
-                                                                        _1: 1,
-                                                                        _2: 0
-                                                                      },
-                                                                      _1: {
-                                                                        TAG: /* String_literal */11,
-                                                                        _0: "belongs to the ",
-                                                                        _1: {
-                                                                          TAG: /* String */2,
-                                                                          _0: /* No_padding */0,
-                                                                          _1: {
-                                                                            TAG: /* String_literal */11,
-                                                                            _0: " type",
-                                                                            _1: /* End_of_format */0
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            },
-                                                            _1: "The %s %a@ belongs to the %s type"
-                                                          }), name, longident, lid$2, kind$1);
-                                          };
-                                          var txt2 = function (ppf) {
-                                            return Curry._4(Format.fprintf(ppf)(/* Format */{
-                                                            _0: {
-                                                              TAG: /* String_literal */11,
-                                                              _0: "The ",
-                                                              _1: {
-                                                                TAG: /* String */2,
-                                                                _0: /* No_padding */0,
-                                                                _1: {
-                                                                  TAG: /* Char_literal */12,
-                                                                  _0: /* ' ' */32,
-                                                                  _1: {
-                                                                    TAG: /* Alpha */15,
-                                                                    _0: {
-                                                                      TAG: /* Formatting_lit */17,
-                                                                      _0: {
-                                                                        TAG: /* Break */0,
-                                                                        _0: "@ ",
-                                                                        _1: 1,
-                                                                        _2: 0
-                                                                      },
-                                                                      _1: {
-                                                                        TAG: /* String_literal */11,
-                                                                        _0: "belongs to one of the following ",
-                                                                        _1: {
-                                                                          TAG: /* String */2,
-                                                                          _0: /* No_padding */0,
-                                                                          _1: {
-                                                                            TAG: /* String_literal */11,
-                                                                            _0: " types:",
-                                                                            _1: /* End_of_format */0
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                }
-                                                              }
-                                                            },
-                                                            _1: "The %s %a@ belongs to one of the following %s types:"
-                                                          }), name, longident, lid$2, kind$1);
-                                          };
-                                          var txt3 = function (ppf) {
-                                            return Curry._2(Format.fprintf(ppf)(/* Format */{
-                                                            _0: {
-                                                              TAG: /* String_literal */11,
-                                                              _0: "but a ",
-                                                              _1: {
-                                                                TAG: /* String */2,
-                                                                _0: /* No_padding */0,
+                                            Curry._4(Format.fprintf(ppf)(/* Format */{
+                                                      _0: {
+                                                        TAG: /* String_literal */11,
+                                                        _0: "The ",
+                                                        _1: {
+                                                          TAG: /* String */2,
+                                                          _0: /* No_padding */0,
+                                                          _1: {
+                                                            TAG: /* Char_literal */12,
+                                                            _0: /* ' ' */32,
+                                                            _1: {
+                                                              TAG: /* Alpha */15,
+                                                              _0: {
+                                                                TAG: /* Formatting_lit */17,
+                                                                _0: {
+                                                                  TAG: /* Break */0,
+                                                                  _0: "@ ",
+                                                                  _1: 1,
+                                                                  _2: 0
+                                                                },
                                                                 _1: {
                                                                   TAG: /* String_literal */11,
-                                                                  _0: " was expected belonging to the ",
+                                                                  _0: "belongs to the ",
                                                                   _1: {
                                                                     TAG: /* String */2,
                                                                     _0: /* No_padding */0,
@@ -71758,9 +71687,80 @@ register_error_of_exn(function (err) {
                                                                   }
                                                                 }
                                                               }
-                                                            },
-                                                            _1: "but a %s was expected belonging to the %s type"
-                                                          }), name, kind$1);
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                      _1: "The %s %a@ belongs to the %s type"
+                                                    }), name, longident, lid$2, kind$1);
+                                          };
+                                          var txt2 = function (ppf) {
+                                            Curry._4(Format.fprintf(ppf)(/* Format */{
+                                                      _0: {
+                                                        TAG: /* String_literal */11,
+                                                        _0: "The ",
+                                                        _1: {
+                                                          TAG: /* String */2,
+                                                          _0: /* No_padding */0,
+                                                          _1: {
+                                                            TAG: /* Char_literal */12,
+                                                            _0: /* ' ' */32,
+                                                            _1: {
+                                                              TAG: /* Alpha */15,
+                                                              _0: {
+                                                                TAG: /* Formatting_lit */17,
+                                                                _0: {
+                                                                  TAG: /* Break */0,
+                                                                  _0: "@ ",
+                                                                  _1: 1,
+                                                                  _2: 0
+                                                                },
+                                                                _1: {
+                                                                  TAG: /* String_literal */11,
+                                                                  _0: "belongs to one of the following ",
+                                                                  _1: {
+                                                                    TAG: /* String */2,
+                                                                    _0: /* No_padding */0,
+                                                                    _1: {
+                                                                      TAG: /* String_literal */11,
+                                                                      _0: " types:",
+                                                                      _1: /* End_of_format */0
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                      _1: "The %s %a@ belongs to one of the following %s types:"
+                                                    }), name, longident, lid$2, kind$1);
+                                          };
+                                          var txt3 = function (ppf) {
+                                            Curry._2(Format.fprintf(ppf)(/* Format */{
+                                                      _0: {
+                                                        TAG: /* String_literal */11,
+                                                        _0: "but a ",
+                                                        _1: {
+                                                          TAG: /* String */2,
+                                                          _0: /* No_padding */0,
+                                                          _1: {
+                                                            TAG: /* String_literal */11,
+                                                            _0: " was expected belonging to the ",
+                                                            _1: {
+                                                              TAG: /* String */2,
+                                                              _0: /* No_padding */0,
+                                                              _1: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: " type",
+                                                                _1: /* End_of_format */0
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                      _1: "but a %s was expected belonging to the %s type"
+                                                    }), name, kind$1);
                                           };
                                           var tp0$p = param$3[1];
                                           var tp0 = param$3[0];
@@ -71768,7 +71768,7 @@ register_error_of_exn(function (err) {
                                                         reset(undefined);
                                                         List.iter((function (param) {
                                                                 path_same_name(tp0, param[0]);
-                                                                return path_same_name(tp0$p, param[1]);
+                                                                path_same_name(tp0$p, param[1]);
                                                               }), tpl);
                                                         if (tpl) {
                                                           if (tpl.tl) {
@@ -72156,24 +72156,24 @@ register_error_of_exn(function (err) {
                                                         }
                                                         var mis = mismatch(true, tr2$1);
                                                         var partial_arg$1 = mis === undefined;
-                                                        return Curry._3(Format.fprintf(param)(/* Format */{
-                                                                        _0: {
-                                                                          TAG: /* Alpha */15,
-                                                                          _0: {
-                                                                            TAG: /* Theta */16,
-                                                                            _0: {
-                                                                              TAG: /* Formatting_lit */17,
-                                                                              _0: /* Close_box */0,
-                                                                              _1: /* End_of_format */0
-                                                                            }
-                                                                          }
-                                                                        },
-                                                                        _1: "%a%t@]"
-                                                                      }), (function (param, param$1) {
-                                                                      return trace$1(false, partial_arg$1, "is not compatible with type", param, param$1);
-                                                                    }), tr2$1, (function (param) {
-                                                                      return explanation(true, mis, param);
-                                                                    }));
+                                                        Curry._3(Format.fprintf(param)(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* Alpha */15,
+                                                                    _0: {
+                                                                      TAG: /* Theta */16,
+                                                                      _0: {
+                                                                        TAG: /* Formatting_lit */17,
+                                                                        _0: /* Close_box */0,
+                                                                        _1: /* End_of_format */0
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  _1: "%a%t@]"
+                                                                }), (function (param, param$1) {
+                                                                return trace$1(false, partial_arg$1, "is not compatible with type", param, param$1);
+                                                              }), tr2$1, (function (param) {
+                                                                return explanation(true, mis, param);
+                                                              }));
                                                       }));
                                       case /* Value_multiply_overridden */24 :
                                           return Curry._1(Format.fprintf(param)(/* Format */{
@@ -72201,54 +72201,54 @@ register_error_of_exn(function (err) {
                                                         ty$p
                                                       ]);
                                                   var ty$4 = match[0];
-                                                  return Curry._2(Format.fprintf(ppf)(/* Format */{
+                                                  Curry._2(Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "This expression cannot be coerced to type",
+                                                              _1: {
+                                                                TAG: /* Formatting_lit */17,
+                                                                _0: {
+                                                                  TAG: /* Break */0,
+                                                                  _0: "@;<1 2>",
+                                                                  _1: 1,
+                                                                  _2: 2
+                                                                },
+                                                                _1: {
+                                                                  TAG: /* Alpha */15,
                                                                   _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "This expression cannot be coerced to type",
+                                                                    TAG: /* Char_literal */12,
+                                                                    _0: /* ';' */59,
                                                                     _1: {
                                                                       TAG: /* Formatting_lit */17,
                                                                       _0: {
                                                                         TAG: /* Break */0,
-                                                                        _0: "@;<1 2>",
+                                                                        _0: "@ ",
                                                                         _1: 1,
-                                                                        _2: 2
+                                                                        _2: 0
                                                                       },
                                                                       _1: {
-                                                                        TAG: /* Alpha */15,
-                                                                        _0: {
-                                                                          TAG: /* Char_literal */12,
-                                                                          _0: /* ';' */59,
-                                                                          _1: {
-                                                                            TAG: /* Formatting_lit */17,
-                                                                            _0: {
-                                                                              TAG: /* Break */0,
-                                                                              _0: "@ ",
-                                                                              _1: 1,
-                                                                              _2: 0
-                                                                            },
-                                                                            _1: {
-                                                                              TAG: /* String_literal */11,
-                                                                              _0: "it has type",
-                                                                              _1: /* End_of_format */0
-                                                                            }
-                                                                          }
-                                                                        }
+                                                                        TAG: /* String_literal */11,
+                                                                        _0: "it has type",
+                                                                        _1: /* End_of_format */0
                                                                       }
                                                                     }
-                                                                  },
-                                                                  _1: "This expression cannot be coerced to type@;<1 2>%a;@ it has type"
-                                                                }), (function (param, param$1) {
-                                                                return type_expansion(ty$4, param, param$1);
-                                                              }), match[1]);
+                                                                  }
+                                                                }
+                                                              }
+                                                            },
+                                                            _1: "This expression cannot be coerced to type@;<1 2>%a;@ it has type"
+                                                          }), (function (param, param$1) {
+                                                          return type_expansion(ty$4, param, param$1);
+                                                        }), match[1]);
                                                 }), (function (ppf) {
-                                                  return Format.fprintf(ppf)(/* Format */{
-                                                              _0: {
-                                                                TAG: /* String_literal */11,
-                                                                _0: "but is here used with type",
-                                                                _1: /* End_of_format */0
-                                                              },
-                                                              _1: "but is here used with type"
-                                                            });
+                                                  Format.fprintf(ppf)(/* Format */{
+                                                        _0: {
+                                                          TAG: /* String_literal */11,
+                                                          _0: "but is here used with type",
+                                                          _1: /* End_of_format */0
+                                                        },
+                                                        _1: "but is here used with type"
+                                                      });
                                                 }));
                                           if (param$1._3) {
                                             return Curry._2(Format.fprintf(param)(/* Format */{
@@ -72575,31 +72575,31 @@ register_error_of_exn(function (err) {
                                       case /* Less_general */31 :
                                           var kind$2 = param$1._0;
                                           return report_unification_error(param, env, undefined, param$1._1, (function (ppf) {
-                                                        return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                                                        _0: {
-                                                                          TAG: /* String_literal */11,
-                                                                          _0: "This ",
-                                                                          _1: {
-                                                                            TAG: /* String */2,
-                                                                            _0: /* No_padding */0,
-                                                                            _1: {
-                                                                              TAG: /* String_literal */11,
-                                                                              _0: " has type",
-                                                                              _1: /* End_of_format */0
-                                                                            }
-                                                                          }
-                                                                        },
-                                                                        _1: "This %s has type"
-                                                                      }), kind$2);
+                                                        Curry._1(Format.fprintf(ppf)(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* String_literal */11,
+                                                                    _0: "This ",
+                                                                    _1: {
+                                                                      TAG: /* String */2,
+                                                                      _0: /* No_padding */0,
+                                                                      _1: {
+                                                                        TAG: /* String_literal */11,
+                                                                        _0: " has type",
+                                                                        _1: /* End_of_format */0
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  _1: "This %s has type"
+                                                                }), kind$2);
                                                       }), (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "which is less general than",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "which is less general than"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "which is less general than",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "which is less general than"
+                                                            });
                                                       }));
                                       case /* Not_a_packed_module */32 :
                                           return Curry._2(Format.fprintf(param)(/* Format */{
@@ -72624,23 +72624,23 @@ register_error_of_exn(function (err) {
                                                         }), type_expr$1, param$1._0);
                                       case /* Recursive_local_constraint */33 :
                                           return report_unification_error(param, env, undefined, param$1._0, (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "Recursive local constraint when unifying",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "Recursive local constraint when unifying"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "Recursive local constraint when unifying",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "Recursive local constraint when unifying"
+                                                            });
                                                       }), (function (ppf) {
-                                                        return Format.fprintf(ppf)(/* Format */{
-                                                                    _0: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "with",
-                                                                      _1: /* End_of_format */0
-                                                                    },
-                                                                    _1: "with"
-                                                                  });
+                                                        Format.fprintf(ppf)(/* Format */{
+                                                              _0: {
+                                                                TAG: /* String_literal */11,
+                                                                _0: "with",
+                                                                _1: /* End_of_format */0
+                                                              },
+                                                              _1: "with"
+                                                            });
                                                       }));
                                       case /* Unqualified_gadt_pattern */34 :
                                           return Curry._4(Format.fprintf(param)(/* Format */{
@@ -73063,14 +73063,14 @@ function generalize_decl(decl) {
     v === /* Type_abstract */0;
   } else if (v.TAG === /* Type_record */0) {
     List.iter((function (l) {
-            return iter_generalize$1({
-                        contents: /* [] */0
-                      }, l.ld_type);
+            iter_generalize$1({
+                  contents: /* [] */0
+                }, l.ld_type);
           }), v._0);
   } else {
     List.iter((function (c) {
             List.iter(generalize, c.cd_args);
-            return may(generalize, c.cd_res);
+            may(generalize, c.cd_res);
           }), v._0);
   }
   var ty = decl.type_manifest;
@@ -73501,9 +73501,9 @@ function check_well_founded(env, loc, path, to_check, ty) {
       throw exn$1;
     }
   };
-  return wrap_trace_gadt_instances(env, (function (param) {
-                return check(ty, /* Empty */0, param);
-              }), ty);
+  wrap_trace_gadt_instances(env, (function (param) {
+          return check(ty, /* Empty */0, param);
+        }), ty);
 }
 
 function check_well_founded_decl(env, loc, path, decl, to_check) {
@@ -73529,7 +73529,7 @@ function check_well_founded_decl(env, loc, path, decl, to_check) {
     it_type_expr: it_it_type_expr,
     it_path: it_path
   };
-  return it_type_declaration(it, instance_declaration(decl));
+  it_type_declaration(it, instance_declaration(decl));
 }
 
 function check_recursion(env, loc, path, decl, to_check) {
@@ -73628,10 +73628,10 @@ function check_recursion(env, loc, path, decl, to_check) {
       }
     };
   };
-  return may((function (body) {
-                var match = instance_parameterized_type(true, decl.type_params, body);
-                return check_regular(path, match[0], /* [] */0, match[1]);
-              }), decl.type_manifest);
+  may((function (body) {
+          var match = instance_parameterized_type(true, decl.type_params, body);
+          check_regular(path, match[0], /* [] */0, match[1]);
+        }), decl.type_manifest);
 }
 
 function get_variance(ty, visited) {
@@ -73696,7 +73696,7 @@ function compute_variance(env, visited, vari, ty) {
                           var v1 = Curry._2(Types_Variance.union, Curry._2(Types_Variance.inter, Types_Variance.covariant, Curry._2(Types_Variance.union, p1, Curry._1(Types_Variance.conjugate, p1))), Curry._2(Types_Variance.inter, Curry._1(Types_Variance.conjugate, Types_Variance.covariant), Curry._2(Types_Variance.union, n1, Curry._1(Types_Variance.conjugate, n1))));
                           var weak = Curry._2(Types_Variance.mem, /* May_weak */2, vari$1) && (Curry._2(Types_Variance.mem, /* May_pos */0, v) || Curry._2(Types_Variance.mem, /* May_neg */1, v)) || (Curry._2(Types_Variance.mem, /* May_pos */0, vari$1) || Curry._2(Types_Variance.mem, /* May_neg */1, vari$1)) && Curry._2(Types_Variance.mem, /* May_weak */2, v);
                           var v2 = Curry._3(Types_Variance.set, /* May_weak */2, weak, v1);
-                          return compute_variance_rec(v2, ty);
+                          compute_variance_rec(v2, ty);
                         }
                         }(vari$1)), tl$1, decl.type_variance);
             }
@@ -73743,9 +73743,9 @@ function compute_variance(env, visited, vari, ty) {
                         }
                       });
                   var v = Curry._2(Types_Variance.inter, vari$1, upper);
-                  return List.iter((function (param) {
-                                return compute_variance_rec(v, param);
-                              }), match._1);
+                  List.iter((function (param) {
+                          return compute_variance_rec(v, param);
+                        }), match._1);
                 }
                 }(vari$1)), row.row_fields);
             _ty = row.row_more;
@@ -73769,7 +73769,7 @@ function compute_variance(env, visited, vari, ty) {
       }
     };
   };
-  return compute_variance_rec(vari, ty);
+  compute_variance_rec(vari, ty);
 }
 
 function make(p, n, i) {
@@ -73801,7 +73801,7 @@ function compute_variance_type(env, check, param, decl, tyl) {
     contents: /* Empty */0
   };
   List.iter((function (param) {
-          return compute_variance(env, tvl, param[0] ? Types_Variance.full : Types_Variance.covariant, param[1]);
+          compute_variance(env, tvl, param[0] ? Types_Variance.full : Types_Variance.covariant, param[1]);
         }), tyl);
   if (check) {
     var pos = {
@@ -73859,7 +73859,7 @@ function compute_variance_type(env, check, param, decl, tyl) {
               var v = param[0] ? (
                   param[1] ? Types_Variance.full : Types_Variance.covariant
                 ) : Curry._1(Types_Variance.conjugate, Types_Variance.covariant);
-              return compute_variance(env, tvl2, v, ty);
+              compute_variance(env, tvl2, v, ty);
             }), params, required);
       var visited = {
         contents: /* Empty */0
@@ -73923,7 +73923,7 @@ function compute_variance_type(env, check, param, decl, tyl) {
             };
       };
       List.iter((function (param) {
-              return check$1(param[1]);
+              check$1(param[1]);
             }), tyl);
     }
     
@@ -74329,53 +74329,53 @@ function compute_variance_decls(env, cldecls) {
 function check_duplicates(sdecl_list) {
   var labels = Hashtbl.create(undefined, 7);
   var constrs = Hashtbl.create(undefined, 7);
-  return List.iter((function (sdecl) {
-                var cl = sdecl.ptype_kind;
-                if (typeof cl === "number") {
-                  return ;
-                } else if (cl.TAG === /* Ptype_variant */0) {
-                  return List.iter((function (pcd) {
-                                try {
-                                  var name$p = Hashtbl.find(constrs, pcd.pcd_name.txt);
-                                  return prerr_warning(pcd.pcd_loc, {
-                                              TAG: /* Duplicate_definitions */14,
-                                              _0: "constructor",
-                                              _1: pcd.pcd_name.txt,
-                                              _2: name$p,
-                                              _3: sdecl.ptype_name.txt
-                                            });
-                                }
-                                catch (raw_exn){
-                                  var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
-                                    return Hashtbl.add(constrs, pcd.pcd_name.txt, sdecl.ptype_name.txt);
-                                  }
-                                  throw exn;
-                                }
-                              }), cl._0);
-                } else {
-                  return List.iter((function (param) {
-                                var cname = param.pld_name;
-                                try {
-                                  var name$p = Hashtbl.find(labels, cname.txt);
-                                  return prerr_warning(param.pld_loc, {
-                                              TAG: /* Duplicate_definitions */14,
-                                              _0: "label",
-                                              _1: cname.txt,
-                                              _2: name$p,
-                                              _3: sdecl.ptype_name.txt
-                                            });
-                                }
-                                catch (raw_exn){
-                                  var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                                  if (exn.RE_EXN_ID === Stdlib.Not_found) {
-                                    return Hashtbl.add(labels, cname.txt, sdecl.ptype_name.txt);
-                                  }
-                                  throw exn;
-                                }
-                              }), cl._0);
-                }
-              }), sdecl_list);
+  List.iter((function (sdecl) {
+          var cl = sdecl.ptype_kind;
+          if (typeof cl === "number") {
+            return ;
+          } else if (cl.TAG === /* Ptype_variant */0) {
+            return List.iter((function (pcd) {
+                          try {
+                            var name$p = Hashtbl.find(constrs, pcd.pcd_name.txt);
+                            return prerr_warning(pcd.pcd_loc, {
+                                        TAG: /* Duplicate_definitions */14,
+                                        _0: "constructor",
+                                        _1: pcd.pcd_name.txt,
+                                        _2: name$p,
+                                        _3: sdecl.ptype_name.txt
+                                      });
+                          }
+                          catch (raw_exn){
+                            var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+                            if (exn.RE_EXN_ID === Stdlib.Not_found) {
+                              return Hashtbl.add(constrs, pcd.pcd_name.txt, sdecl.ptype_name.txt);
+                            }
+                            throw exn;
+                          }
+                        }), cl._0);
+          } else {
+            return List.iter((function (param) {
+                          var cname = param.pld_name;
+                          try {
+                            var name$p = Hashtbl.find(labels, cname.txt);
+                            return prerr_warning(param.pld_loc, {
+                                        TAG: /* Duplicate_definitions */14,
+                                        _0: "label",
+                                        _1: cname.txt,
+                                        _2: name$p,
+                                        _3: sdecl.ptype_name.txt
+                                      });
+                          }
+                          catch (raw_exn){
+                            var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+                            if (exn.RE_EXN_ID === Stdlib.Not_found) {
+                              return Hashtbl.add(labels, cname.txt, sdecl.ptype_name.txt);
+                            }
+                            throw exn;
+                          }
+                        }), cl._0);
+          }
+        }), sdecl_list);
 }
 
 function name_recursion(sdecl, id, decl) {
@@ -74496,7 +74496,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
               return ;
             } else {
               List.iter((function (param) {
-                      return mark_type_used(env, param[0], param[1]);
+                      mark_type_used(env, param[0], param[1]);
                     }), get_ref(slot));
               return Curry._1(old_callback, undefined);
             }
@@ -74840,7 +74840,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
   }
   end_def(undefined);
   List.iter((function (param) {
-          return generalize_decl(param[1]);
+          generalize_decl(param[1]);
         }), decls);
   var id_loc_list = List.map2((function (id, sdecl) {
           return [
@@ -74862,9 +74862,9 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
           var args = List.map((function (param) {
                   return newvar(undefined, undefined);
                 }), decl.type_params);
-          return check_well_founded(newenv, loc, path, (function (param) {
-                        return same(path, param);
-                      }), newconstr(path, args));
+          check_well_founded(newenv, loc, path, (function (param) {
+                  return same(path, param);
+                }), newconstr(path, args));
         }), decls);
   var to_check = function (id) {
     switch (id.TAG | 0) {
@@ -74878,10 +74878,10 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
   };
   List.iter((function (param) {
           var id = param[0];
-          return check_well_founded_decl(newenv, List.assoc(id, id_loc_list), {
-                      TAG: /* Pident */0,
-                      _0: id
-                    }, param[1], to_check);
+          check_well_founded_decl(newenv, List.assoc(id, id_loc_list), {
+                TAG: /* Pident */0,
+                _0: id
+              }, param[1], to_check);
         }), decls);
   List.iter((function (param) {
           var decl = param.typ_type;
@@ -74966,7 +74966,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
               };
             };
             List.iter((function (param) {
-                    return check_constraints_rec(newenv, get_loc(param.ld_id.name, pl), visited, param.ld_type);
+                    check_constraints_rec(newenv, get_loc(param.ld_id.name, pl), visited, param.ld_type);
                   }), l._0);
           } else {
             var find_pl$1 = function (pl) {
@@ -75022,7 +75022,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                     }
                     var sret_type = match.pcd_res;
                     List.iter2((function (sty, ty) {
-                            return check_constraints_rec(newenv, sty.ptyp_loc, visited, ty);
+                            check_constraints_rec(newenv, sty.ptyp_loc, visited, ty);
                           }), match.pcd_args, param.cd_args);
                     if (sret_type !== undefined && ret_type !== undefined) {
                       return check_constraints_rec(newenv, sret_type.ptyp_loc, visited, ret_type);
@@ -75411,7 +75411,7 @@ function transl_type_extension(check_open, env, loc, styext) {
   List.iter(generalize, type_params);
   List.iter((function (ext) {
           List.iter(generalize, ext.ext_type.ext_args);
-          return may(generalize, ext.ext_type.ext_ret_type);
+          may(generalize, ext.ext_type.ext_ret_type);
         }), constructors);
   List.iter((function (ext) {
           var ty = closed_extension_constructor(ext.ext_type);
@@ -76327,43 +76327,43 @@ function report_error$5(ppf, s) {
                 _1: "The type constraints are not consistent.@."
               });
           return report_unification_error(ppf, s._0, undefined, s._1, (function (ppf) {
-                        return Format.fprintf(ppf)(/* Format */{
-                                    _0: {
-                                      TAG: /* String_literal */11,
-                                      _0: "Type",
-                                      _1: /* End_of_format */0
-                                    },
-                                    _1: "Type"
-                                  });
+                        Format.fprintf(ppf)(/* Format */{
+                              _0: {
+                                TAG: /* String_literal */11,
+                                _0: "Type",
+                                _1: /* End_of_format */0
+                              },
+                              _1: "Type"
+                            });
                       }), (function (ppf) {
-                        return Format.fprintf(ppf)(/* Format */{
-                                    _0: {
-                                      TAG: /* String_literal */11,
-                                      _0: "is not compatible with type",
-                                      _1: /* End_of_format */0
-                                    },
-                                    _1: "is not compatible with type"
-                                  });
+                        Format.fprintf(ppf)(/* Format */{
+                              _0: {
+                                TAG: /* String_literal */11,
+                                _0: "is not compatible with type",
+                                _1: /* End_of_format */0
+                              },
+                              _1: "is not compatible with type"
+                            });
                       }));
       case /* Type_clash */7 :
           return report_unification_error(ppf, s._0, undefined, s._1, (function (ppf) {
-                        return Format.fprintf(ppf)(/* Format */{
-                                    _0: {
-                                      TAG: /* String_literal */11,
-                                      _0: "This type constructor expands to type",
-                                      _1: /* End_of_format */0
-                                    },
-                                    _1: "This type constructor expands to type"
-                                  });
+                        Format.fprintf(ppf)(/* Format */{
+                              _0: {
+                                TAG: /* String_literal */11,
+                                _0: "This type constructor expands to type",
+                                _1: /* End_of_format */0
+                              },
+                              _1: "This type constructor expands to type"
+                            });
                       }), (function (ppf) {
-                        return Format.fprintf(ppf)(/* Format */{
-                                    _0: {
-                                      TAG: /* String_literal */11,
-                                      _0: "but is used here with type",
-                                      _1: /* End_of_format */0
-                                    },
-                                    _1: "but is used here with type"
-                                  });
+                        Format.fprintf(ppf)(/* Format */{
+                              _0: {
+                                TAG: /* String_literal */11,
+                                _0: "but is used here with type",
+                                _1: /* End_of_format */0
+                              },
+                              _1: "but is used here with type"
+                            });
                       }));
       case /* Parameters_differ */8 :
           var ty$p$1 = s._2;
@@ -76458,14 +76458,14 @@ function report_error$5(ppf, s) {
           if (typeof match === "number") {
             if (match === /* Type_abstract */0 && match$1 !== undefined) {
               var trivial = function (ty$5) {
-                return explain_unbound(ppf, ty$4, {
-                            hd: ty$5,
-                            tl: /* [] */0
-                          }, (function (t) {
-                              return t;
-                            }), "type", (function (param) {
-                              return "";
-                            }));
+                explain_unbound(ppf, ty$4, {
+                      hd: ty$5,
+                      tl: /* [] */0
+                    }, (function (t) {
+                        return t;
+                      }), "type", (function (param) {
+                        return "";
+                      }));
               };
               var row = repr(match$1).desc;
               if (typeof row === "number") {
@@ -76704,39 +76704,39 @@ function report_error$5(ppf, s) {
       case /* Rebind_wrong_type */13 :
           var lid = s._0;
           return report_unification_error(ppf, s._1, undefined, s._2, (function (ppf) {
-                        return Curry._2(Format.fprintf(ppf)(/* Format */{
+                        Curry._2(Format.fprintf(ppf)(/* Format */{
+                                  _0: {
+                                    TAG: /* String_literal */11,
+                                    _0: "The constructor ",
+                                    _1: {
+                                      TAG: /* Alpha */15,
+                                      _0: {
+                                        TAG: /* Formatting_lit */17,
                                         _0: {
-                                          TAG: /* String_literal */11,
-                                          _0: "The constructor ",
-                                          _1: {
-                                            TAG: /* Alpha */15,
-                                            _0: {
-                                              TAG: /* Formatting_lit */17,
-                                              _0: {
-                                                TAG: /* Break */0,
-                                                _0: "@ ",
-                                                _1: 1,
-                                                _2: 0
-                                              },
-                                              _1: {
-                                                TAG: /* String_literal */11,
-                                                _0: "has type",
-                                                _1: /* End_of_format */0
-                                              }
-                                            }
-                                          }
+                                          TAG: /* Break */0,
+                                          _0: "@ ",
+                                          _1: 1,
+                                          _2: 0
                                         },
-                                        _1: "The constructor %a@ has type"
-                                      }), longident, lid);
+                                        _1: {
+                                          TAG: /* String_literal */11,
+                                          _0: "has type",
+                                          _1: /* End_of_format */0
+                                        }
+                                      }
+                                    }
+                                  },
+                                  _1: "The constructor %a@ has type"
+                                }), longident, lid);
                       }), (function (ppf) {
-                        return Format.fprintf(ppf)(/* Format */{
-                                    _0: {
-                                      TAG: /* String_literal */11,
-                                      _0: "but was expected to be of type",
-                                      _1: /* End_of_format */0
-                                    },
-                                    _1: "but was expected to be of type"
-                                  });
+                        Format.fprintf(ppf)(/* Format */{
+                              _0: {
+                                TAG: /* String_literal */11,
+                                _0: "but was expected to be of type",
+                                _1: /* End_of_format */0
+                              },
+                              _1: "but was expected to be of type"
+                            });
                       }));
       case /* Rebind_mismatch */14 :
           return Curry._8(Format.fprintf(ppf)(/* Format */{
@@ -77272,10 +77272,10 @@ function generalize_class_type(gen, _param) {
           var match = param._0;
           Curry._1(gen, match.csig_self);
           Curry._2(Meths.iter, (function (param, param$1) {
-                  return Curry._1(gen, param$1[2]);
+                  Curry._1(gen, param$1[2]);
                 }), match.csig_vars);
           return List.iter((function (param) {
-                        return List.iter(gen, param[1]);
+                        List.iter(gen, param[1]);
                       }), match.csig_inher);
       case /* Cty_arrow */2 :
           Curry._1(gen, param._1);
@@ -77437,12 +77437,12 @@ function limited_generalize$1(rv, _sign) {
           var sign$1 = sign._0;
           limited_generalize(rv, sign$1.csig_self);
           Curry._2(Meths.iter, (function (param, param$1) {
-                  return limited_generalize(rv, param$1[2]);
+                  limited_generalize(rv, param$1[2]);
                 }), sign$1.csig_vars);
           return List.iter((function (param) {
-                        return List.iter((function (param) {
-                                      return limited_generalize(rv, param);
-                                    }), param[1]);
+                        List.iter((function (param) {
+                                return limited_generalize(rv, param);
+                              }), param[1]);
                       }), sign$1.csig_inher);
       case /* Cty_arrow */2 :
           limited_generalize(rv, sign._1);
@@ -78983,13 +78983,13 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
   }
   if (principal.contents) {
     List.iter((function (param) {
-            return generalize_spine(param[2]);
+            generalize_spine(param[2]);
           }), methods);
   }
   var fields = List.map(CamlinternalLazy.force, List.rev(match$1[3]));
   if (principal.contents) {
     List.iter((function (param) {
-            return unify$2(val_env$1, param[2], newvar(undefined, undefined));
+            unify$2(val_env$1, param[2], newvar(undefined, undefined));
           }), methods);
   }
   var meths$1 = Curry._2(map, (function (param) {
@@ -79207,7 +79207,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
           if (principal.contents) {
             end_def(undefined);
             iter_pattern((function (param) {
-                    return generalize_structure$1(current_level.contents, param.pat_type);
+                    generalize_structure$1(current_level.contents, param.pat_type);
                   }), pat);
           }
           var pv = List.map((function(val_env$p){
@@ -80347,9 +80347,9 @@ function type_classes(define_class, approx, kind, env, cls) {
           var reason = closed_class(clty.cty_params, signature_of_class_type(clty.cty_type));
           if (reason !== undefined) {
             var printer = define_class ? (function (ppf) {
-                  return class_declaration$1(id, ppf, clty);
+                  class_declaration$1(id, ppf, clty);
                 }) : (function (ppf) {
-                  return cltype_declaration$1(id, ppf, cltydef);
+                  cltype_declaration$1(id, ppf, cltydef);
                 });
             throw {
                   RE_EXN_ID: $$Error$9,
@@ -80547,51 +80547,51 @@ function class_type_declarations$2(env, cls) {
 }
 
 function unify_parents_struct(env, ty, st) {
-  return List.iter((function (param) {
-                var match = param.cf_desc;
-                if (match.TAG === /* Tcf_inherit */0) {
-                  var _cl = match._1;
-                  while(true) {
-                    var cl = _cl;
-                    var st = cl.cl_desc;
-                    switch (st.TAG | 0) {
-                      case /* Tcl_ident */0 :
-                          try {
-                            var decl = find_class(st._0, env);
-                            var match$1 = find_cltype_for_path(env, decl.cty_path);
-                            return unify$2(env, ty, instance(undefined, env, match$1[1]));
-                          }
-                          catch (raw_exn){
-                            var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-                            if (exn.RE_EXN_ID === Stdlib.Not_found) {
-                              return ;
-                            }
-                            throw {
-                                  RE_EXN_ID: "Assert_failure",
-                                  _1: [
-                                    "ocaml_typedtree_test.ml",
-                                    49905,
-                                    15
-                                  ],
-                                  Error: new Error()
-                                };
-                          }
-                      case /* Tcl_structure */1 :
-                          return unify_parents_struct(env, ty, st._0);
-                      case /* Tcl_fun */2 :
-                      case /* Tcl_let */4 :
-                          _cl = st._3;
-                          continue ;
-                      case /* Tcl_apply */3 :
-                      case /* Tcl_constraint */5 :
-                          _cl = st._0;
-                          continue ;
-                      
+  List.iter((function (param) {
+          var match = param.cf_desc;
+          if (match.TAG === /* Tcf_inherit */0) {
+            var _cl = match._1;
+            while(true) {
+              var cl = _cl;
+              var st = cl.cl_desc;
+              switch (st.TAG | 0) {
+                case /* Tcl_ident */0 :
+                    try {
+                      var decl = find_class(st._0, env);
+                      var match$1 = find_cltype_for_path(env, decl.cty_path);
+                      return unify$2(env, ty, instance(undefined, env, match$1[1]));
                     }
-                  };
-                }
+                    catch (raw_exn){
+                      var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+                      if (exn.RE_EXN_ID === Stdlib.Not_found) {
+                        return ;
+                      }
+                      throw {
+                            RE_EXN_ID: "Assert_failure",
+                            _1: [
+                              "ocaml_typedtree_test.ml",
+                              49905,
+                              15
+                            ],
+                            Error: new Error()
+                          };
+                    }
+                case /* Tcl_structure */1 :
+                    return unify_parents_struct(env, ty, st._0);
+                case /* Tcl_fun */2 :
+                case /* Tcl_let */4 :
+                    _cl = st._3;
+                    continue ;
+                case /* Tcl_apply */3 :
+                case /* Tcl_constraint */5 :
+                    _cl = st._0;
+                    continue ;
                 
-              }), st.cstr_fields);
+              }
+            };
+          }
+          
+        }), st.cstr_fields);
 }
 
 function type_object$1(env, loc, s) {
@@ -80671,70 +80671,70 @@ register_error_of_exn(function (err) {
                                               _1: "The class constraints are not consistent.@."
                                             });
                                         return report_unification_error(param, env, undefined, param$1._0, (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "Type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "Type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "Type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "Type"
+                                                          });
                                                     }), (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "is not compatible with type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "is not compatible with type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "is not compatible with type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "is not compatible with type"
+                                                          });
                                                     }));
                                     case /* Field_type_mismatch */1 :
                                         var m = param$1._1;
                                         var k = param$1._0;
                                         return report_unification_error(param, env, undefined, param$1._2, (function (ppf) {
-                                                      return Curry._2(Format.fprintf(ppf)(/* Format */{
-                                                                      _0: {
-                                                                        TAG: /* String_literal */11,
-                                                                        _0: "The ",
+                                                      Curry._2(Format.fprintf(ppf)(/* Format */{
+                                                                _0: {
+                                                                  TAG: /* String_literal */11,
+                                                                  _0: "The ",
+                                                                  _1: {
+                                                                    TAG: /* String */2,
+                                                                    _0: /* No_padding */0,
+                                                                    _1: {
+                                                                      TAG: /* Char_literal */12,
+                                                                      _0: /* ' ' */32,
+                                                                      _1: {
+                                                                        TAG: /* String */2,
+                                                                        _0: /* No_padding */0,
                                                                         _1: {
-                                                                          TAG: /* String */2,
-                                                                          _0: /* No_padding */0,
+                                                                          TAG: /* Formatting_lit */17,
+                                                                          _0: {
+                                                                            TAG: /* Break */0,
+                                                                            _0: "@ ",
+                                                                            _1: 1,
+                                                                            _2: 0
+                                                                          },
                                                                           _1: {
-                                                                            TAG: /* Char_literal */12,
-                                                                            _0: /* ' ' */32,
-                                                                            _1: {
-                                                                              TAG: /* String */2,
-                                                                              _0: /* No_padding */0,
-                                                                              _1: {
-                                                                                TAG: /* Formatting_lit */17,
-                                                                                _0: {
-                                                                                  TAG: /* Break */0,
-                                                                                  _0: "@ ",
-                                                                                  _1: 1,
-                                                                                  _2: 0
-                                                                                },
-                                                                                _1: {
-                                                                                  TAG: /* String_literal */11,
-                                                                                  _0: "has type",
-                                                                                  _1: /* End_of_format */0
-                                                                                }
-                                                                              }
-                                                                            }
+                                                                            TAG: /* String_literal */11,
+                                                                            _0: "has type",
+                                                                            _1: /* End_of_format */0
                                                                           }
                                                                         }
-                                                                      },
-                                                                      _1: "The %s %s@ has type"
-                                                                    }), k, m);
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                },
+                                                                _1: "The %s %s@ has type"
+                                                              }), k, m);
                                                     }), (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "but is expected to have type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "but is expected to have type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "but is expected to have type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "but is expected to have type"
+                                                          });
                                                     }));
                                     case /* Structure_expected */2 :
                                         return Curry._2(Format.fprintf(param)(/* Format */{
@@ -81046,31 +81046,31 @@ register_error_of_exn(function (err) {
                                     case /* Constructor_type_mismatch */9 :
                                         var c = param$1._0;
                                         return report_unification_error(param, env, undefined, param$1._1, (function (ppf) {
-                                                      return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                                                      _0: {
-                                                                        TAG: /* String_literal */11,
-                                                                        _0: "The expression \"new ",
-                                                                        _1: {
-                                                                          TAG: /* String */2,
-                                                                          _0: /* No_padding */0,
-                                                                          _1: {
-                                                                            TAG: /* String_literal */11,
-                                                                            _0: "\" has type",
-                                                                            _1: /* End_of_format */0
-                                                                          }
-                                                                        }
-                                                                      },
-                                                                      _1: "The expression \"new %s\" has type"
-                                                                    }), c);
+                                                      Curry._1(Format.fprintf(ppf)(/* Format */{
+                                                                _0: {
+                                                                  TAG: /* String_literal */11,
+                                                                  _0: "The expression \"new ",
+                                                                  _1: {
+                                                                    TAG: /* String */2,
+                                                                    _0: /* No_padding */0,
+                                                                    _1: {
+                                                                      TAG: /* String_literal */11,
+                                                                      _0: "\" has type",
+                                                                      _1: /* End_of_format */0
+                                                                    }
+                                                                  }
+                                                                },
+                                                                _1: "The expression \"new %s\" has type"
+                                                              }), c);
                                                     }), (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "but is used with type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "but is used with type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "but is used with type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "but is used with type"
+                                                          });
                                                     }));
                                     case /* Virtual_class */10 :
                                         var vals = param$1._3;
@@ -81078,25 +81078,25 @@ register_error_of_exn(function (err) {
                                         var imm = param$1._1;
                                         var cl = param$1._0;
                                         var print_mets = function (ppf, mets) {
-                                          return List.iter((function (met) {
-                                                        return Curry._1(Format.fprintf(ppf)(/* Format */{
-                                                                        _0: {
-                                                                          TAG: /* Formatting_lit */17,
-                                                                          _0: {
-                                                                            TAG: /* Break */0,
-                                                                            _0: "@ ",
-                                                                            _1: 1,
-                                                                            _2: 0
-                                                                          },
-                                                                          _1: {
-                                                                            TAG: /* String */2,
-                                                                            _0: /* No_padding */0,
-                                                                            _1: /* End_of_format */0
-                                                                          }
-                                                                        },
-                                                                        _1: "@ %s"
-                                                                      }), met);
-                                                      }), mets);
+                                          List.iter((function (met) {
+                                                  Curry._1(Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* Formatting_lit */17,
+                                                              _0: {
+                                                                TAG: /* Break */0,
+                                                                _0: "@ ",
+                                                                _1: 1,
+                                                                _2: 0
+                                                              },
+                                                              _1: {
+                                                                TAG: /* String */2,
+                                                                _0: /* No_padding */0,
+                                                                _1: /* End_of_format */0
+                                                              }
+                                                            },
+                                                            _1: "@ %s"
+                                                          }), met);
+                                                }), mets);
                                         };
                                         var missings = mets ? (
                                             vals ? "methods and variables" : "methods"
@@ -81276,23 +81276,23 @@ register_error_of_exn(function (err) {
                                                       }), longident, param$1._0, param$1._1, param$1._2);
                                     case /* Parameter_mismatch */12 :
                                         return report_unification_error(param, env, undefined, param$1._0, (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "The type parameter",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "The type parameter"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "The type parameter",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "The type parameter"
+                                                          });
                                                     }), (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "does not meet its constraint: it should be",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "does not meet its constraint: it should be"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "does not meet its constraint: it should be",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "does not meet its constraint: it should be"
+                                                          });
                                                     }));
                                     case /* Bad_parameters */13 :
                                         var cstrs = param$1._2;
@@ -81404,76 +81404,73 @@ register_error_of_exn(function (err) {
                                                   }
                                                 });
                                           mark_loops(ty1);
-                                          return Curry._6(Format.fprintf(ppf)(/* Format */{
-                                                          _0: {
-                                                            TAG: /* String_literal */11,
-                                                            _0: "The ",
+                                          Curry._6(Format.fprintf(ppf)(/* Format */{
+                                                    _0: {
+                                                      TAG: /* String_literal */11,
+                                                      _0: "The ",
+                                                      _1: {
+                                                        TAG: /* String */2,
+                                                        _0: /* No_padding */0,
+                                                        _1: {
+                                                          TAG: /* Char_literal */12,
+                                                          _0: /* ' ' */32,
+                                                          _1: {
+                                                            TAG: /* String */2,
+                                                            _0: /* No_padding */0,
                                                             _1: {
-                                                              TAG: /* String */2,
-                                                              _0: /* No_padding */0,
+                                                              TAG: /* Formatting_lit */17,
+                                                              _0: {
+                                                                TAG: /* Break */0,
+                                                                _0: "@ ",
+                                                                _1: 1,
+                                                                _2: 0
+                                                              },
                                                               _1: {
-                                                                TAG: /* Char_literal */12,
-                                                                _0: /* ' ' */32,
+                                                                TAG: /* String_literal */11,
+                                                                _0: "has type",
                                                                 _1: {
-                                                                  TAG: /* String */2,
-                                                                  _0: /* No_padding */0,
+                                                                  TAG: /* Formatting_lit */17,
+                                                                  _0: {
+                                                                    TAG: /* Break */0,
+                                                                    _0: "@;<1 2>",
+                                                                    _1: 1,
+                                                                    _2: 2
+                                                                  },
                                                                   _1: {
-                                                                    TAG: /* Formatting_lit */17,
+                                                                    TAG: /* Alpha */15,
                                                                     _0: {
-                                                                      TAG: /* Break */0,
-                                                                      _0: "@ ",
-                                                                      _1: 1,
-                                                                      _2: 0
-                                                                    },
-                                                                    _1: {
-                                                                      TAG: /* String_literal */11,
-                                                                      _0: "has type",
+                                                                      TAG: /* Formatting_lit */17,
+                                                                      _0: {
+                                                                        TAG: /* Break */0,
+                                                                        _0: "@ ",
+                                                                        _1: 1,
+                                                                        _2: 0
+                                                                      },
                                                                       _1: {
-                                                                        TAG: /* Formatting_lit */17,
-                                                                        _0: {
-                                                                          TAG: /* Break */0,
-                                                                          _0: "@;<1 2>",
-                                                                          _1: 1,
-                                                                          _2: 2
-                                                                        },
+                                                                        TAG: /* String_literal */11,
+                                                                        _0: "where",
                                                                         _1: {
-                                                                          TAG: /* Alpha */15,
+                                                                          TAG: /* Formatting_lit */17,
                                                                           _0: {
-                                                                            TAG: /* Formatting_lit */17,
+                                                                            TAG: /* Break */0,
+                                                                            _0: "@ ",
+                                                                            _1: 1,
+                                                                            _2: 0
+                                                                          },
+                                                                          _1: {
+                                                                            TAG: /* Alpha */15,
                                                                             _0: {
-                                                                              TAG: /* Break */0,
-                                                                              _0: "@ ",
-                                                                              _1: 1,
-                                                                              _2: 0
-                                                                            },
-                                                                            _1: {
-                                                                              TAG: /* String_literal */11,
-                                                                              _0: "where",
+                                                                              TAG: /* Formatting_lit */17,
+                                                                              _0: {
+                                                                                TAG: /* Break */0,
+                                                                                _0: "@ ",
+                                                                                _1: 1,
+                                                                                _2: 0
+                                                                              },
                                                                               _1: {
-                                                                                TAG: /* Formatting_lit */17,
-                                                                                _0: {
-                                                                                  TAG: /* Break */0,
-                                                                                  _0: "@ ",
-                                                                                  _1: 1,
-                                                                                  _2: 0
-                                                                                },
-                                                                                _1: {
-                                                                                  TAG: /* Alpha */15,
-                                                                                  _0: {
-                                                                                    TAG: /* Formatting_lit */17,
-                                                                                    _0: {
-                                                                                      TAG: /* Break */0,
-                                                                                      _0: "@ ",
-                                                                                      _1: 1,
-                                                                                      _2: 0
-                                                                                    },
-                                                                                    _1: {
-                                                                                      TAG: /* String_literal */11,
-                                                                                      _0: "is unbound",
-                                                                                      _1: /* End_of_format */0
-                                                                                    }
-                                                                                  }
-                                                                                }
+                                                                                TAG: /* String_literal */11,
+                                                                                _0: "is unbound",
+                                                                                _1: /* End_of_format */0
                                                                               }
                                                                             }
                                                                           }
@@ -81484,9 +81481,12 @@ register_error_of_exn(function (err) {
                                                                 }
                                                               }
                                                             }
-                                                          },
-                                                          _1: "The %s %s@ has type@;<1 2>%a@ where@ %a@ is unbound"
-                                                        }), kind, lab, type_expr$1, ty, type_expr$1, ty0);
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    _1: "The %s %s@ has type@;<1 2>%a@ where@ %a@ is unbound"
+                                                  }), kind, lab, type_expr$1, ty, type_expr$1, ty0);
                                         };
                                         var print_reason = function (ppf, param) {
                                           if (param.TAG === /* CC_Method */0) {
@@ -81811,43 +81811,43 @@ register_error_of_exn(function (err) {
                                                 return class_declaration$1(id$1, param, param$1);
                                               }), param$1._1);
                                         return report_unification_error(param, env, undefined, param$1._2, (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "Type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "Type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "Type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "Type"
+                                                          });
                                                     }), (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "is not compatible with type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "is not compatible with type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "is not compatible with type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "is not compatible with type"
+                                                          });
                                                     }));
                                     case /* Final_self_clash */21 :
                                         return report_unification_error(param, env, undefined, param$1._0, (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "This object is expected to have type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "This object is expected to have type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "This object is expected to have type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "This object is expected to have type"
+                                                          });
                                                     }), (function (ppf) {
-                                                      return Format.fprintf(ppf)(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "but actually has type",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "but actually has type"
-                                                                });
+                                                      Format.fprintf(ppf)(/* Format */{
+                                                            _0: {
+                                                              TAG: /* String_literal */11,
+                                                              _0: "but actually has type",
+                                                              _1: /* End_of_format */0
+                                                            },
+                                                            _1: "but actually has type"
+                                                          });
                                                     }));
                                     case /* Mutability_mismatch */22 :
                                         var match = param$1._1 === /* Immutable */0 ? [
@@ -82194,7 +82194,7 @@ function check_type_decl(env, loc, id, row_id, newdecl, decl, rs, rem) {
   var env$2 = row_id !== undefined ? add_type$1(true, row_id, newdecl, env$1) : env$1;
   var env$3 = rs === /* Trec_not */0 ? env$2 : add_rec_types(env$2, rem);
   type_declarations$3(env$3, id, newdecl, decl);
-  return check_coherence(env$3, loc, id, newdecl);
+  check_coherence(env$3, loc, id, newdecl);
 }
 
 function update_rec_next(rs, rem) {
@@ -83051,23 +83051,23 @@ function approx_modtype_info(env, sinfo) {
 
 function check_recmod_typedecls(env, sdecls, decls) {
   var recmod_ids = List.map(fst3, decls);
-  return List.iter2((function (pmd, param) {
-                var mty = param[2].mty_type;
-                return List.iter((function (path) {
-                              var loc = pmd.pmd_type.pmty_loc;
-                              var decl = find_type_full(path, env)[0];
-                              var to_check = function (path) {
-                                return List.exists((function (id) {
-                                              return isfree(id, path);
-                                            }), recmod_ids);
-                              };
-                              check_well_founded_decl(env, loc, path, decl, to_check);
-                              return check_recursion(env, loc, path, decl, to_check);
-                            }), type_paths(env, {
-                                TAG: /* Pident */0,
-                                _0: param[0]
-                              }, mty));
-              }), sdecls, decls);
+  List.iter2((function (pmd, param) {
+          var mty = param[2].mty_type;
+          List.iter((function (path) {
+                  var loc = pmd.pmd_type.pmty_loc;
+                  var decl = find_type_full(path, env)[0];
+                  var to_check = function (path) {
+                    return List.exists((function (id) {
+                                  return isfree(id, path);
+                                }), recmod_ids);
+                  };
+                  check_well_founded_decl(env, loc, path, decl, to_check);
+                  check_recursion(env, loc, path, decl, to_check);
+                }), type_paths(env, {
+                    TAG: /* Pident */0,
+                    _0: param[0]
+                  }, mty));
+        }), sdecls, decls);
 }
 
 var compare$8 = Caml.caml_string_compare;
@@ -83217,7 +83217,7 @@ function check(cl, loc, set_ref, name) {
 }
 
 function check_name(cl, set_ref, name) {
-  return check(cl, name.loc, set_ref, name.txt);
+  check(cl, name.loc, set_ref, name.txt);
 }
 
 function check_sig_item(type_names, module_names, modtype_names, loc, param) {
@@ -83534,7 +83534,7 @@ function transl_signature(env, sg) {
           var sdecls = sdesc._0;
           var rec_flag = rec_flag_of_ptype_declarations(sdecls);
           List.iter((function (decl) {
-                  return check_name("type", type_names, decl.ptype_name);
+                  check_name("type", type_names, decl.ptype_name);
                 }), sdecls);
           var match$2 = transl_type_decl(env, rec_flag, sdecls);
           var decls = match$2[0];
@@ -83657,7 +83657,7 @@ function transl_signature(env, sg) {
       case /* Psig_recmodule */5 :
           var sdecls$1 = sdesc._0;
           List.iter((function (pmd) {
-                  return check_name("module", module_names, pmd.pmd_name);
+                  check_name("module", module_names, pmd.pmd_name);
                 }), sdecls$1);
           var match$10 = transl_recmodule_modtypes(item.psig_loc, env, sdecls$1);
           var decls$1 = match$10[0];
@@ -83754,7 +83754,7 @@ function transl_signature(env, sg) {
       case /* Psig_class */9 :
           var cl = sdesc._0;
           List.iter((function (param) {
-                  return check_name("type", type_names, param.pci_name);
+                  check_name("type", type_names, param.pci_name);
                 }), cl);
           var match$17 = class_descriptions(env, cl);
           var classes = match$17[0];
@@ -83812,7 +83812,7 @@ function transl_signature(env, sg) {
       case /* Psig_class_type */10 :
           var cl$1 = sdesc._0;
           List.iter((function (param) {
-                  return check_name("type", type_names, param.pci_name);
+                  check_name("type", type_names, param.pci_name);
                 }), cl$1);
           var match$19 = class_type_declarations$2(env, cl$1);
           var classes$1 = match$19[0];
@@ -84998,7 +84998,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
           var sdecls = desc._0;
           var rec_flag$1 = rec_flag_of_ptype_declarations(sdecls);
           List.iter((function (decl) {
-                  return check_name("type", type_names, decl.ptype_name);
+                  check_name("type", type_names, decl.ptype_name);
                 }), sdecls);
           var match$2 = transl_type_decl(env, rec_flag$1, sdecls);
           var decls = match$2[0];
@@ -85116,7 +85116,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
                       };
                 }), desc._0);
           List.iter((function (param) {
-                  return check_name("module", module_names, param[0]);
+                  check_name("module", module_names, param[0]);
                 }), sbind);
           var match$7 = transl_recmodule_modtypes(loc, env, List.map((function (param) {
                       return {
@@ -85202,7 +85202,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
       case /* Pstr_class */10 :
           var cl = desc._0;
           List.iter((function (param) {
-                  return check_name("type", type_names, param.pci_name);
+                  check_name("type", type_names, param.pci_name);
                 }), cl);
           var match$10 = class_declarations$2(env, cl);
           var classes = match$10[0];
@@ -85258,7 +85258,7 @@ function type_structure(toplevelOpt, funct_body, anchor, env, sstr, scope) {
       case /* Pstr_class_type */11 :
           var cl$1 = desc._0;
           List.iter((function (param) {
-                  return check_name("type", type_names, param.pci_name);
+                  check_name("type", type_names, param.pci_name);
                 }), cl$1);
           var match$11 = class_type_declarations$2(env, cl$1);
           var classes$1 = match$11[0];
@@ -85700,17 +85700,17 @@ function type_implementation_more(sourcefile, outputprefix, modulename, initial_
     var simple_sg = simplify_signature(sg);
     if (print_types.contents) {
       wrap_printing_env(initial_env, (function (param) {
-              return Curry._2(Format.fprintf(Format.std_formatter)(/* Format */{
-                              _0: {
-                                TAG: /* Alpha */15,
-                                _0: {
-                                  TAG: /* Formatting_lit */17,
-                                  _0: /* Flush_newline */4,
-                                  _1: /* End_of_format */0
-                                }
-                              },
-                              _1: "%a@."
-                            }), signature$3, simple_sg);
+              Curry._2(Format.fprintf(Format.std_formatter)(/* Format */{
+                        _0: {
+                          TAG: /* Alpha */15,
+                          _0: {
+                            TAG: /* Formatting_lit */17,
+                            _0: /* Flush_newline */4,
+                            _1: /* End_of_format */0
+                          }
+                        },
+                        _1: "%a@."
+                      }), signature$3, simple_sg);
             }));
       return [
               str,

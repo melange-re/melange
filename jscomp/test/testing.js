@@ -29,51 +29,51 @@ var test_num = {
 function print_test_number(param) {
   Stdlib.print_string(" ");
   Stdlib.print_int(test_num.contents);
-  return Stdlib.flush(Stdlib.stdout);
+  Stdlib.flush(Stdlib.stdout);
 }
 
 function print_failure_test_fail(param) {
   all_tests_ok.contents = false;
-  return Stdlib.print_string(Curry._1(Printf.sprintf(/* Format */{
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "\n********* Failure Test number ",
-                        _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_i */3,
-                          _1: /* No_padding */0,
-                          _2: /* No_precision */0,
-                          _3: {
-                            TAG: /* String_literal */11,
-                            _0: " incorrectly failed ***********\n",
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      },
-                      _1: "\n********* Failure Test number %i incorrectly failed ***********\n"
-                    }), test_num.contents));
+  Stdlib.print_string(Curry._1(Printf.sprintf(/* Format */{
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "\n********* Failure Test number ",
+                  _1: {
+                    TAG: /* Int */4,
+                    _0: /* Int_i */3,
+                    _1: /* No_padding */0,
+                    _2: /* No_precision */0,
+                    _3: {
+                      TAG: /* String_literal */11,
+                      _0: " incorrectly failed ***********\n",
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "\n********* Failure Test number %i incorrectly failed ***********\n"
+              }), test_num.contents));
 }
 
 function print_failure_test_succeed(param) {
   all_tests_ok.contents = false;
-  return Stdlib.print_string(Curry._1(Printf.sprintf(/* Format */{
-                      _0: {
-                        TAG: /* String_literal */11,
-                        _0: "\n********* Failure Test number ",
-                        _1: {
-                          TAG: /* Int */4,
-                          _0: /* Int_i */3,
-                          _1: /* No_padding */0,
-                          _2: /* No_precision */0,
-                          _3: {
-                            TAG: /* String_literal */11,
-                            _0: " failed to fail ***********\n",
-                            _1: /* End_of_format */0
-                          }
-                        }
-                      },
-                      _1: "\n********* Failure Test number %i failed to fail ***********\n"
-                    }), test_num.contents));
+  Stdlib.print_string(Curry._1(Printf.sprintf(/* Format */{
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "\n********* Failure Test number ",
+                  _1: {
+                    TAG: /* Int */4,
+                    _0: /* Int_i */3,
+                    _1: /* No_padding */0,
+                    _2: /* No_precision */0,
+                    _3: {
+                      TAG: /* String_literal */11,
+                      _0: " failed to fail ***********\n",
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "\n********* Failure Test number %i failed to fail ***********\n"
+              }), test_num.contents));
 }
 
 function test(b) {

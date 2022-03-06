@@ -428,12 +428,12 @@ function patch(rel, loc, n) {
 
 function load(r, n) {
   out(184 + r | 0);
-  return le(32, n);
+  le(32, n);
 }
 
 function cmp(n) {
   load(0, 0);
-  return out(1020608 + (n << 8) | 0);
+  out(1020608 + (n << 8) | 0);
 }
 
 function test(n, l) {
@@ -921,7 +921,7 @@ function binary(stk, lvl) {
     };
   }
   var loc = foldtst(0);
-  return patch(true, loc, opos.contents);
+  patch(true, loc, opos.contents);
 }
 
 function unary(stk) {
@@ -1130,46 +1130,46 @@ function postfix(stk) {
   patchlval(undefined);
   out(4753857);
   read(lval.contents[1]);
-  return out(List.assoc([
-                  op$1,
-                  lval.contents[1]
-                ], {
+  out(List.assoc([
+            op$1,
+            lval.contents[1]
+          ], {
+            hd: [
+              [
+                "++",
+                /* Int */0
+              ],
+              4783873
+            ],
+            tl: {
+              hd: [
+                [
+                  "--",
+                  /* Int */0
+                ],
+                4783881
+              ],
+              tl: {
+                hd: [
+                  [
+                    "++",
+                    /* Chr */1
+                  ],
+                  65025
+                ],
+                tl: {
                   hd: [
                     [
-                      "++",
-                      /* Int */0
+                      "--",
+                      /* Chr */1
                     ],
-                    4783873
+                    65033
                   ],
-                  tl: {
-                    hd: [
-                      [
-                        "--",
-                        /* Int */0
-                      ],
-                      4783881
-                    ],
-                    tl: {
-                      hd: [
-                        [
-                          "++",
-                          /* Chr */1
-                        ],
-                        65025
-                      ],
-                      tl: {
-                        hd: [
-                          [
-                            "--",
-                            /* Chr */1
-                          ],
-                          65033
-                        ],
-                        tl: /* [] */0
-                      }
-                    }
-                  }
-                }));
+                  tl: /* [] */0
+                }
+              }
+            }
+          }));
 }
 
 function expr(stk) {
@@ -1664,7 +1664,7 @@ function elfphdr(ty, off, sz, align) {
   le(64, off + 4194304 | 0);
   le(64, sz);
   le(64, sz);
-  return le(64, align);
+  le(64, align);
 }
 
 function elfgen(outf) {
@@ -1685,13 +1685,13 @@ function elfgen(outf) {
   out(3845);
   var off = 232 + gpos.contents | 0;
   var itr = function (f) {
-    return symitr(function (i, s) {
-                var g = Caml_array.get(globs, i);
-                if (g.va < 0 && g.loc !== 0) {
-                  return Curry._3(f, s, s.length, g.loc);
-                }
-                
-              });
+    symitr(function (i, s) {
+          var g = Caml_array.get(globs, i);
+          if (g.va < 0 && g.loc !== 0) {
+            return Curry._3(f, s, s.length, g.loc);
+          }
+          
+        });
   };
   var va = function (x) {
     return (x + off | 0) + 4194304 | 0;
@@ -1839,7 +1839,7 @@ function elfgen(outf) {
         };
   }
   patch(false, 24, va(entry));
-  return Stdlib.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));
+  Stdlib.output_bytes(outf, Bytes.sub(obuf, 0, tend + off | 0));
 }
 
 function main(param) {

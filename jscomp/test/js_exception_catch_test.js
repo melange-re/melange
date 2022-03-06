@@ -28,31 +28,31 @@ function add_test(loc, test) {
 }
 
 function eq(loc, x, y) {
-  return add_test(loc, (function (param) {
-                return {
-                        TAG: /* Eq */0,
-                        _0: x,
-                        _1: y
-                      };
-              }));
+  add_test(loc, (function (param) {
+          return {
+                  TAG: /* Eq */0,
+                  _0: x,
+                  _1: y
+                };
+        }));
 }
 
 function false_(loc) {
-  return add_test(loc, (function (param) {
-                return {
-                        TAG: /* Ok */4,
-                        _0: false
-                      };
-              }));
+  add_test(loc, (function (param) {
+          return {
+                  TAG: /* Ok */4,
+                  _0: false
+                };
+        }));
 }
 
 function true_(loc) {
-  return add_test(loc, (function (param) {
-                return {
-                        TAG: /* Ok */4,
-                        _0: true
-                      };
-              }));
+  add_test(loc, (function (param) {
+          return {
+                  TAG: /* Ok */4,
+                  _0: true
+                };
+        }));
 }
 
 var exit = 0;
@@ -141,11 +141,11 @@ eq("File \"js_exception_catch_test.ml\", line 44, characters 5-12", test(functio
         }), "Not_found");
 
 eq("File \"js_exception_catch_test.ml\", line 45, characters 5-12", test(function (param) {
-          return Stdlib.invalid_arg("x");
+          Stdlib.invalid_arg("x");
         }), "Invalid_argument");
 
 eq("File \"js_exception_catch_test.ml\", line 46, characters 5-12", test(function (param) {
-          return Stdlib.invalid_arg("");
+          Stdlib.invalid_arg("");
         }), "Invalid_any");
 
 eq("File \"js_exception_catch_test.ml\", line 47, characters 5-12", test(function (param) {
@@ -194,7 +194,7 @@ eq("File \"js_exception_catch_test.ml\", line 52, characters 5-12", test(functio
         }), "Js_error");
 
 eq("File \"js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {
-          return Stdlib.failwith("x");
+          Stdlib.failwith("x");
         }), "Any");
 
 Mt.from_pair_suites("Js_exception_catch_test", suites.contents);

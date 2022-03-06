@@ -80,7 +80,7 @@ function fatal_error(msg) {
 function create_hashtable(size, init) {
   var tbl = Hashtbl.create(undefined, size);
   List.iter((function (param) {
-          return Hashtbl.add(tbl, param[0], param[1]);
+          Hashtbl.add(tbl, param[0], param[1]);
         }), init);
   return tbl;
 }
@@ -266,7 +266,7 @@ function set_color_tag_handling(ppf) {
     print_close_tag: functions$p_print_close_tag
   };
   ppf.pp_mark_tags = true;
-  return Format.pp_set_formatter_tag_functions(ppf, functions$p);
+  Format.pp_set_formatter_tag_functions(ppf, functions$p);
 }
 
 var first = {
@@ -632,14 +632,14 @@ function is_active(x) {
 
 function parse_opt(error, active, flags, s) {
   var set = function (i) {
-    return Caml_array.set(flags, i, true);
+    Caml_array.set(flags, i, true);
   };
   var clear = function (i) {
-    return Caml_array.set(flags, i, false);
+    Caml_array.set(flags, i, false);
   };
   var set_all = function (i) {
     Caml_array.set(active, i, true);
-    return Caml_array.set(error, i, true);
+    Caml_array.set(error, i, true);
   };
   var get_num = function (_n, _i) {
     while(true) {
@@ -795,9 +795,9 @@ function parse_opt(error, active, flags, s) {
     for(var n = match$1[1] ,n_finish = Caml.caml_int_min(match$1[2], 104); n <= n_finish; ++n){
       Curry._1(myset, n);
     }
-    return loop(match$1[0]);
+    loop(match$1[0]);
   };
-  return loop(0);
+  loop(0);
 }
 
 function parse_options(errflag, s) {
@@ -1370,7 +1370,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  return Stdlib.flush(Stdlib.stdout);
+  Stdlib.flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
@@ -1585,14 +1585,14 @@ function show_filename(file) {
 }
 
 function print_filename(ppf, file) {
-  return Curry._1(Format.fprintf(ppf)(/* Format */{
-                  _0: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: /* End_of_format */0
-                  },
-                  _1: "%s"
-                }), show_filename(file));
+  Curry._1(Format.fprintf(ppf)(/* Format */{
+            _0: {
+              TAG: /* String */2,
+              _0: /* No_padding */0,
+              _1: /* End_of_format */0
+            },
+            _1: "%s"
+          }), show_filename(file));
 }
 
 function get_pos_info(pos) {
@@ -1871,7 +1871,7 @@ function prerr_warning(loc, w) {
       };
     };
     num_loc_lines.contents = num_loc_lines.contents + count(start, 0) | 0;
-    return Curry._3(out_functions.out_string, str, start, len);
+    Curry._3(out_functions.out_string, str, start, len);
   };
   Format.pp_set_formatter_out_functions(ppf, {
         out_string: out_string,
@@ -1882,11 +1882,11 @@ function prerr_warning(loc, w) {
       });
   Curry._2(f, ppf, w);
   Format.pp_print_flush(ppf, undefined);
-  return Format.pp_set_formatter_out_functions(ppf, out_functions);
+  Format.pp_set_formatter_out_functions(ppf, out_functions);
 }
 
 function print_phanton_error_prefix(ppf) {
-  return Format.pp_print_as(ppf, error_prefix.length + 2 | 0, "");
+  Format.pp_print_as(ppf, error_prefix.length + 2 | 0, "");
 }
 
 function errorf(locOpt, subOpt, if_highlightOpt, fmt) {
@@ -2380,14 +2380,14 @@ function get_docstrings(dsl) {
 }
 
 function associate_docstrings(dsl) {
-  return List.iter((function (ds) {
-                var match = ds.ds_associated;
-                if (match) {
-                  ds.ds_associated = /* Many */2;
-                } else {
-                  ds.ds_associated = /* One */1;
-                }
-              }), dsl);
+  List.iter((function (ds) {
+          var match = ds.ds_associated;
+          if (match) {
+            ds.ds_associated = /* Many */2;
+          } else {
+            ds.ds_associated = /* One */1;
+          }
+        }), dsl);
 }
 
 var pre_table = Hashtbl.create(undefined, 50);
@@ -2567,12 +2567,12 @@ function symbol_docs_lazy(param) {
 
 function mark_symbol_docs(param) {
   mark_pre_docs(Parsing.symbol_start_pos(undefined));
-  return mark_post_docs(Parsing.symbol_end_pos(undefined));
+  mark_post_docs(Parsing.symbol_end_pos(undefined));
 }
 
 function mark_rhs_docs(pos1, pos2) {
   mark_pre_docs(Parsing.rhs_start_pos(pos1));
-  return mark_post_docs(Parsing.rhs_end_pos(pos2));
+  mark_post_docs(Parsing.rhs_end_pos(pos2));
 }
 
 function symbol_text_lazy(param) {
@@ -2591,7 +2591,7 @@ function init(param) {
   Hashtbl.reset(post_table);
   Hashtbl.reset(floating_table);
   Hashtbl.reset(pre_extra_table);
-  return Hashtbl.reset(post_extra_table);
+  Hashtbl.reset(post_extra_table);
 }
 
 var default_loc = {
@@ -12045,10 +12045,10 @@ function add_comment(com) {
 }
 
 function add_docstring_comment(ds) {
-  return add_comment([
-              ds.ds_body,
-              ds.ds_loc
-            ]);
+  add_comment([
+        ds.ds_body,
+        ds.ds_loc
+      ]);
 }
 
 function report_error(ppf, c) {

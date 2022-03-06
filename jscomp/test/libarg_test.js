@@ -25,33 +25,33 @@ function record(fmt) {
 }
 
 function f_unit(param) {
-  return record(/* Format */{
-              _0: {
-                TAG: /* String_literal */11,
-                _0: "unit()",
-                _1: /* End_of_format */0
-              },
-              _1: "unit()"
-            });
+  record(/* Format */{
+        _0: {
+          TAG: /* String_literal */11,
+          _0: "unit()",
+          _1: /* End_of_format */0
+        },
+        _1: "unit()"
+      });
 }
 
 function f_bool(b) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "bool(",
-                    _1: {
-                      TAG: /* Bool */9,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "bool(%b)"
-                }), b);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "bool(",
+              _1: {
+                TAG: /* Bool */9,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "bool(%b)"
+          }), b);
 }
 
 var r_set = {
@@ -63,22 +63,22 @@ var r_clear = {
 };
 
 function f_string(s) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "string(",
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "string(%s)"
-                }), s);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "string(",
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "string(%s)"
+          }), s);
 }
 
 var r_string = {
@@ -86,24 +86,24 @@ var r_string = {
 };
 
 function f_int(i) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "int(",
-                    _1: {
-                      TAG: /* Int */4,
-                      _0: /* Int_d */0,
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
-                      _3: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "int(%d)"
-                }), i);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "int(",
+              _1: {
+                TAG: /* Int */4,
+                _0: /* Int_d */0,
+                _1: /* No_padding */0,
+                _2: /* No_precision */0,
+                _3: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "int(%d)"
+          }), i);
 }
 
 var r_int = {
@@ -111,27 +111,27 @@ var r_int = {
 };
 
 function f_float(f) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "float(",
-                    _1: {
-                      TAG: /* Float */8,
-                      _0: [
-                        /* Float_flag_ */0,
-                        /* Float_g */3
-                      ],
-                      _1: /* No_padding */0,
-                      _2: /* No_precision */0,
-                      _3: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "float(%g)"
-                }), f);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "float(",
+              _1: {
+                TAG: /* Float */8,
+                _0: [
+                  /* Float_flag_ */0,
+                  /* Float_g */3
+                ],
+                _1: /* No_padding */0,
+                _2: /* No_precision */0,
+                _3: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "float(%g)"
+          }), f);
 }
 
 var r_float = {
@@ -139,60 +139,60 @@ var r_float = {
 };
 
 function f_symbol(s) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "symbol(",
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "symbol(%s)"
-                }), s);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "symbol(",
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "symbol(%s)"
+          }), s);
 }
 
 function f_rest(s) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "rest(",
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "rest(%s)"
-                }), s);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "rest(",
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "rest(%s)"
+          }), s);
 }
 
 function f_anon(s) {
-  return Curry._1(record(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "anon(",
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* Char_literal */12,
-                        _0: /* ')' */41,
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "anon(%s)"
-                }), s);
+  Curry._1(record(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "anon(",
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* Char_literal */12,
+                  _0: /* ')' */41,
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "anon(%s)"
+          }), s);
 }
 
 var spec_0 = [
@@ -420,22 +420,22 @@ var args2 = [
 ];
 
 function error(s) {
-  return Curry._1(Printf.printf(/* Format */{
-                  _0: {
-                    TAG: /* String_literal */11,
-                    _0: "error (",
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* String_literal */11,
-                        _0: ")\n",
-                        _1: /* End_of_format */0
-                      }
-                    }
-                  },
-                  _1: "error (%s)\n"
-                }), s);
+  Curry._1(Printf.printf(/* Format */{
+            _0: {
+              TAG: /* String_literal */11,
+              _0: "error (",
+              _1: {
+                TAG: /* String */2,
+                _0: /* No_padding */0,
+                _1: {
+                  TAG: /* String_literal */11,
+                  _0: ")\n",
+                  _1: /* End_of_format */0
+                }
+              }
+            },
+            _1: "error (%s)\n"
+          }), s);
 }
 
 function check(r, v, msg) {
@@ -503,44 +503,44 @@ function test(argv) {
   };
   if (Caml_obj.caml_notequal(result, reference)) {
     var f = function (x, y) {
-      return Curry._3(Printf.printf(/* Format */{
+      Curry._3(Printf.printf(/* Format */{
+                _0: {
+                  TAG: /* String */2,
+                  _0: {
+                    TAG: /* Lit_padding */0,
+                    _0: /* Right */1,
+                    _1: 20
+                  },
+                  _1: {
+                    TAG: /* Char_literal */12,
+                    _0: /* ' ' */32,
+                    _1: {
+                      TAG: /* Char */0,
                       _0: {
-                        TAG: /* String */2,
-                        _0: {
-                          TAG: /* Lit_padding */0,
-                          _0: /* Right */1,
-                          _1: 20
-                        },
+                        TAG: /* Char_literal */12,
+                        _0: /* ' ' */32,
                         _1: {
-                          TAG: /* Char_literal */12,
-                          _0: /* ' ' */32,
+                          TAG: /* String */2,
+                          _0: {
+                            TAG: /* Lit_padding */0,
+                            _0: /* Left */0,
+                            _1: 20
+                          },
                           _1: {
-                            TAG: /* Char */0,
-                            _0: {
-                              TAG: /* Char_literal */12,
-                              _0: /* ' ' */32,
-                              _1: {
-                                TAG: /* String */2,
-                                _0: {
-                                  TAG: /* Lit_padding */0,
-                                  _0: /* Left */0,
-                                  _1: 20
-                                },
-                                _1: {
-                                  TAG: /* Char_literal */12,
-                                  _0: /* '\n' */10,
-                                  _1: {
-                                    TAG: /* Flush */10,
-                                    _0: /* End_of_format */0
-                                  }
-                                }
-                              }
+                            TAG: /* Char_literal */12,
+                            _0: /* '\n' */10,
+                            _1: {
+                              TAG: /* Flush */10,
+                              _0: /* End_of_format */0
                             }
                           }
                         }
-                      },
-                      _1: "%20s %c %-20s\n%!"
-                    }), x, x === y ? /* '=' */61 : /* '#' */35, y);
+                      }
+                    }
+                  }
+                },
+                _1: "%20s %c %-20s\n%!"
+              }), x, x === y ? /* '=' */61 : /* '#' */35, y);
     };
     List.iter2(f, result, reference);
   }
@@ -548,7 +548,7 @@ function test(argv) {
   check(r_clear, false, "Clear");
   check(r_string, "bar", "Set_string");
   check(r_int, 42, "Set_int");
-  return check(r_float, 2.72, "Set_float");
+  check(r_float, 2.72, "Set_float");
 }
 
 test(args1);

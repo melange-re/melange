@@ -279,13 +279,13 @@ function dfs3(nodes, graph) {
         tl: visited.contents
       };
       return List.iter((function (x) {
-                    return aux(x, graph);
+                    aux(x, graph);
                   }), nexts(node, graph));
     }
     
   };
   List.iter((function (node) {
-          return aux(node, graph);
+          aux(node, graph);
         }), nodes);
   return List.rev(visited.contents);
 }
@@ -416,7 +416,7 @@ function unsafe_topsort(graph) {
     };
   };
   List.iter((function (param) {
-          return sort_node(param[0]);
+          sort_node(param[0]);
         }), graph);
   return visited.contents;
 }
@@ -1683,9 +1683,9 @@ function pathsort(graph) {
           ];
   };
   var sort_nodes = function (path, nodes) {
-    return List.iter((function (node) {
-                  return sort_node(path, node);
-                }), nodes);
+    List.iter((function (node) {
+            sort_node(path, node);
+          }), nodes);
   };
   var sort_node = function (path, node) {
     if (!List.mem(node, visited.contents)) {
@@ -1699,7 +1699,7 @@ function pathsort(graph) {
     
   };
   List.iter((function (param) {
-          return sort_node(empty_path, param[0]);
+          sort_node(empty_path, param[0]);
         }), graph);
   return visited.contents;
 }
