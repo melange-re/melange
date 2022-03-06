@@ -75,7 +75,7 @@ let  expression_desc : 'a . ('a,expression_desc) fn  =  fun _self st -> function
   let st = _self.expression _self st _x0 in let st = option (fun _self st arg -> list _self.expression _self st arg) _self st _x1 in st
 |Var ( _x0)  -> 
   let st = _self.vident _self st _x0 in st
-|Fun ( _x0,_x1,_x2,_x3)  -> 
+|Fun ( _x0,_x1,_x2,_x3,_x4)  -> 
   let st = list _self.ident _self st _x1 in let st = _self.block _self st _x2 in st
 |Str _ -> st
 |Unicode _ -> st

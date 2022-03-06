@@ -62,7 +62,8 @@ let rec apply_with_arity_aux (fn : J.expression)
       else (* GPR #1423 *)
       if Ext_list.for_all  args Js_analyzer.is_okay_to_duplicate then
         let params = Ext_list.init (x - len) (fun _ -> Ext_ident.create "param") in
-        E.ocaml_fun params
+        E.ocaml_fun params (* unknown info *)
+          ~return_unit:false
           [S.return_stmt (E.call ~info:{arity=Full; call_info=Call_ml}
                             fn (Ext_list.append args @@ Ext_list.map params E.var))]
       else E.call ~info:Js_call_info.dummy fn args
@@ -310,7 +311,7 @@ and compile_recursive_let ~all_bindings
     (id : Ident.t)
     (arg : Lam.t)   : Js_output.t * initialization =
   match arg with
-  |  Lfunction { params; body; _}  ->
+  |  Lfunction { params; body; attr = { return_unit; _ }; _}  ->
 
     let continue_label = Lam_util.generate_label ~name:(Ident.name id) () in
     (* TODO: Think about recursive value
@@ -341,6 +342,7 @@ and compile_recursive_let ~all_bindings
              it will be renamed into [method]
              when it is detected by a primitive
           *)
+          ~return_unit
           ~immutable_mask:ret.immutable_mask
           (Ext_list.map params (fun x ->
                Map_ident.find_default ret.new_params x  x )
@@ -357,7 +359,7 @@ and compile_recursive_let ~all_bindings
           ]
 
       else            (* TODO:  save computation of length several times *)
-        E.ocaml_fun params (Js_output.output_as_block output )
+        E.ocaml_fun params ~return_unit (Js_output.output_as_block output )
     in
     Js_output.output_of_expression
       (Declare (Alias, id))
@@ -1523,13 +1525,14 @@ and compile_prim (prim_info : Lam.prim_info) (lambda_cxt : Lam_compile_context.t
 
     | {primitive = Pjs_fn_method;  args = args_lambda} ->
       (match args_lambda with
-       | [Lfunction{ params; body} ]
+       | [Lfunction{ params; body; attr = { return_unit; _ }; _} ]
           ->
          Js_output.output_of_block_and_expression
            lambda_cxt.continuation
            []
            (E.method_
               params
+              ~return_unit
               (* Invariant:  jmp_table can not across function boundary,
                  here we share env
               *)
@@ -1578,10 +1581,11 @@ and compile_lambda
     (cur_lam : Lam.t)  : Js_output.t  =
 
     match cur_lam with
-    | Lfunction{ params; body} ->
+    | Lfunction{ params; body; attr = { return_unit; _ }; _ } ->
       Js_output.output_of_expression lambda_cxt.continuation  ~no_effects:no_effects_const
         (E.ocaml_fun
            params
+           ~return_unit
            (* Invariant:  jmp_table can not across function boundary,
               here we share env
            *)

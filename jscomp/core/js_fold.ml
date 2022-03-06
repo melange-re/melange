@@ -99,7 +99,7 @@ let _self = option (fun _self -> list (fun _self -> _self#expression) _self) _se
 |Var ( _x0)  -> 
 let _self = _self#vident _x0 in
  _self
-|Fun ( _x0,_x1,_x2,_x3)  -> 
+|Fun ( _x0,_x1,_x2,_x3,_x4)  -> 
 let _self = list (fun _self -> _self#ident) _self _x1 in
 let _self = _self#block _x2 in
  _self

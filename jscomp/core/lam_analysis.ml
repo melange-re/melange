@@ -340,6 +340,7 @@ let ok_to_inline_fun_when_app
   (m : Lam.lfunction)
   (args : Lam.t list) =
   match m.attr.inline with
+  | Hint_inline | Unroll _ -> false
   | Always_inline -> true
   | Never_inline -> false
   | Default_inline ->

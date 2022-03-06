@@ -73,7 +73,7 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
                  It precludes ues cases
                  - inline forEach but not forEachU
               *)
-              | Lfunction { attr = { is_a_functor = Functor_yes } } ->
+              | Lfunction { attr = { is_a_functor = true } } ->
                   if Lam_closure.is_closed lambda (* TODO: seriealize more*)
                   then optlam
                   else None
