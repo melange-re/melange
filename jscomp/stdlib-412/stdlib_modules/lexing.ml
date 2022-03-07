@@ -80,7 +80,6 @@ let new_engine tbl state buf =
   end;
   result
 
-
 let lex_refill read_fun aux_buffer lexbuf =
   let read =
     read_fun aux_buffer (Bytes.length aux_buffer) in
@@ -112,7 +111,7 @@ let lex_refill read_fun aux_buffer lexbuf =
 #if BS then
        (2 * Bytes.length lexbuf.lex_buffer)
 #else
-        min (2 * Bytes.length lexbuf.lex_buffer) Sys.max_string_length
+        Int.min (2 * Bytes.length lexbuf.lex_buffer) Sys.max_string_length in
 #end
       in
       if lexbuf.lex_buffer_len - lexbuf.lex_start_pos + n > newlen

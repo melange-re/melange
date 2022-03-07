@@ -150,7 +150,7 @@ module Hashtbl : sig
      of OCaml.  For randomized hash tables, the order of enumeration
      is entirely random.
 
-     The behavior is not defined if the hash table is modified
+     The behavior is not specified if the hash table is modified
      by [f] during the iteration.
   *)
 
@@ -183,7 +183,7 @@ module Hashtbl : sig
      of OCaml.  For randomized hash tables, the order of enumeration
      is entirely random.
 
-     The behavior is not defined if the hash table is modified
+     The behavior is not specified if the hash table is modified
      by [f] during the iteration.
   *)
 
@@ -255,7 +255,7 @@ module Hashtbl : sig
      buckets by size.
      @since 4.00.0 *)
 
-  (** {1 Iterators} *)
+  (** {1 Hash tables and Sequences} *)
 
   val to_seq : ('a,'b) t -> ('a * 'b) Seq.t
   (** Iterate on the whole table.  The order in which the bindings
@@ -263,7 +263,7 @@ module Hashtbl : sig
       several bindings for the same key, they appear in reversed order of
       introduction, that is, the most recent binding appears first.
 
-      The behavior is not defined if the hash table is modified
+      The behavior is not specified if the hash table is modified
       during the iteration.
 
       @since 4.07 *)
@@ -419,8 +419,8 @@ module Hashtbl : sig
         (** A seeded hashing function on keys.  The first argument is
             the seed.  It must be the case that if [equal x y] is true,
             then [hash seed x = hash seed y] for any value of [seed].
-            A suitable choice for [hash] is the function {!seeded_hash}
-            below. *)
+            A suitable choice for [hash] is the function
+            {!Stdlib.Hashtbl.seeded_hash} below. *)
     end
   (** The input signature of the functor {!MakeSeeded}.
       @since 4.00.0 *)
@@ -735,7 +735,7 @@ module Map : sig
       (** Return the list of all bindings of the given map.
          The returned list is sorted in increasing order of keys with respect
          to the ordering [Ord.compare], where [Ord] is the argument
-         given to {!Make}.
+         given to {!Stdlib.Map.Make}.
           @since 3.12.0
        *)
 
@@ -754,13 +754,13 @@ module Map : sig
        *)
 
       val max_binding: 'a t -> (key * 'a)
-      (** Same as {!S.min_binding}, but returns the binding with
+      (** Same as {!min_binding}, but returns the binding with
           the largest key in the given map.
           @since 3.12.0
        *)
 
       val max_binding_opt: 'a t -> (key * 'a) option
-      (** Same as {!S.min_binding_opt}, but returns the binding with
+      (** Same as {!min_binding_opt}, but returns the binding with
           the largest key in the given map.
           @since 4.05
        *)
@@ -843,10 +843,10 @@ module Map : sig
          with respect to the ordering over the type of the keys. *)
 
       val mapi: f:(key -> 'a -> 'b) -> 'a t -> 'b t
-      (** Same as {!S.map}, but the function receives as arguments both the
+      (** Same as {!map}, but the function receives as arguments both the
          key and the associated value for each binding of the map. *)
 
-      (** {1 Iterators} *)
+      (** {1 Maps and Sequences} *)
 
       val to_seq : 'a t -> (key * 'a) Seq.t
       (** Iterate on the whole map, in ascending order of keys
@@ -1050,7 +1050,7 @@ module Set : sig
       (** Return the list of all elements of the given set.
          The returned list is sorted in increasing order with respect
          to the ordering [Ord.compare], where [Ord] is the argument
-         given to {!Make}. *)
+         given to {!Stdlib.Set.Make}. *)
 
       val min_elt: t -> elt
       (** Return the smallest element of the given set
@@ -1065,11 +1065,11 @@ module Set : sig
       *)
 
       val max_elt: t -> elt
-      (** Same as {!S.min_elt}, but returns the largest element of the
+      (** Same as {!min_elt}, but returns the largest element of the
          given set. *)
 
       val max_elt_opt: t -> elt option
-      (** Same as {!S.min_elt_opt}, but returns the largest element of the
+      (** Same as {!min_elt_opt}, but returns the largest element of the
           given set.
           @since 4.05
       *)

@@ -151,7 +151,27 @@ external runtime_warnings_enabled: unit -> bool =
 
 (* The version string is found in file ../VERSION *)
 
-let ocaml_version = "4.12.0+BS"
+let ocaml_version = "4.14.0+mel"
+
+let development_version = "dev"
+
+type extra_prefix = Plus | Tilde
+
+type extra_info = extra_prefix * string
+
+type ocaml_release_info = {
+  major : int;
+  minor : int;
+  patchlevel : int;
+  extra : extra_info option
+}
+
+let ocaml_release = {
+  major = "4";
+  minor = "14";
+  patchlevel = "0";
+  extra = "mel"
+}
 
 (* Optimization *)
 

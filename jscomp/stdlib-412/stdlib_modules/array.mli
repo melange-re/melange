@@ -184,6 +184,12 @@ val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b array -> 'a
    [f (... (f (f init a.(0)) a.(1)) ...) a.(n-1)],
    where [n] is the length of the array [a]. *)
 
+val fold_left_map :
+  ('a -> 'b -> 'a * 'c) -> 'a -> 'b array -> 'a * 'c array
+(** [fold_left_map] is a combination of {!fold_left} and {!map} that threads an
+    accumulator through calls to [f].
+    @since 4.13.0 *)
+
 val fold_right : ('b -> 'a -> 'a) -> 'b array -> 'a -> 'a
 (** [fold_right f a init] computes
    [f a.(0) (f a.(1) ( ... (f a.(n-1) init) ...))],
@@ -243,6 +249,31 @@ val memq : 'a -> 'a array -> bool
    instead of structural equality to compare list elements.
    @since 4.03.0 *)
 
+val find_opt : ('a -> bool) -> 'a array -> 'a option
+(** [find_opt f a] returns the first element of the array [a] that satisfies
+    the predicate [f], or [None] if there is no value that satisfies [f] in the
+    array [a].
+
+    @since 4.13.0 *)
+
+val find_map : ('a -> 'b option) -> 'a array -> 'b option
+(** [find_map f a] applies [f] to the elements of [a] in order, and returns the
+    first result of the form [Some v], or [None] if none exist.
+
+    @since 4.13.0 *)
+
+(** {1 Arrays of pairs} *)
+
+val split : ('a * 'b) array -> 'a array * 'b array
+(** [split [|(a1,b1); ...; (an,bn)|]] is [([|a1; ...; an|], [|b1; ...; bn|])].
+
+    @since 4.13.0 *)
+
+val combine : 'a array -> 'b array -> ('a * 'b) array
+(** [combine [|a1; ...; an|] [|b1; ...; bn|]] is [[|(a1,b1); ...; (an,bn)|]].
+    Raise [Invalid_argument] if the two arrays have different lengths.
+
+    @since 4.13.0 *)
 
 (** {1 Sorting} *)
 
@@ -286,17 +317,17 @@ val fast_sort : ('a -> 'a -> int) -> 'a array -> unit
     faster on typical input. *)
 
 
-(** {1 Iterators} *)
+(** {1 Arrays and Sequences} *)
 
 val to_seq : 'a array -> 'a Seq.t
 (** Iterate on the array, in increasing order. Modifications of the
-    array during iteration will be reflected in the iterator.
+    array during iteration will be reflected in the sequence.
     @since 4.07 *)
 
 val to_seqi : 'a array -> (int * 'a) Seq.t
 (** Iterate on the array, in increasing order, yielding indices along elements.
     Modifications of the array during iteration will be reflected in the
-    iterator.
+    sequence.
     @since 4.07 *)
 
 val of_seq : 'a Seq.t -> 'a array

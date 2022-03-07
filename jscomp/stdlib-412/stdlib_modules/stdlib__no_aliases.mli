@@ -557,6 +557,30 @@ external sinh : float -> float =  "sinh" [@@bs.val] [@@bs.scope "Math"]
 external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
 (** Hyperbolic tangent.  Argument is in radians. *)
 
+external acosh : float -> float = "caml_acosh_float" "caml_acosh"
+  [@@unboxed] [@@noalloc]
+(** Hyperbolic arc cosine.  The argument must fall within the range
+    [[1.0, inf]].
+    Result is in radians and is between [0.0] and [inf].
+    @since 4.13.0
+*)
+
+external asinh : float -> float = "caml_asinh_float" "caml_asinh"
+  [@@unboxed] [@@noalloc]
+(** Hyperbolic arc sine.  The argument and result range over the entire
+    real line.
+    Result is in radians.
+    @since 4.13.0
+*)
+
+external atanh : float -> float = "caml_atanh_float" "caml_atanh"
+  [@@unboxed] [@@noalloc]
+(** Hyperbolic arc tangent.  The argument must fall within the range
+    [[-1.0, 1.0]].
+    Result is in radians and ranges over the entire real line.
+    @since 4.13.0
+*)
+
 external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
 (** Round above to an integer value.
     [ceil f] returns the least integer value greater than or equal to [f].
@@ -779,6 +803,9 @@ val ( ^ ) : string -> string -> string
 #end
 (** String concatenation.
     Right-associative operator, see {!Ocaml_operators} for more information.
+
+    @raise Invalid_argument if the result is longer then
+    than {!Sys.max_string_length} bytes.
 *)
 
 (** {1 Character operations}
@@ -995,8 +1022,12 @@ val prerr_newline : unit -> unit
 
 val read_line : unit -> string
 (** Flush standard output, then read characters from standard input
-   until a newline character is encountered. Return the string of
-   all characters read, without the newline character at the end. *)
+   until a newline character is encountered.
+   Return the string of all characters read, without the newline character
+   at the end.
+   @raise End_of_file if the end of the file is reached at the beginning of
+   line.
+*)
 
 val read_int_opt: unit -> int option
 (** Flush standard output, then read one line from standard input
@@ -1219,12 +1250,12 @@ val really_input_string : in_channel -> int -> string
 val input_byte : in_channel -> int
 (** Same as {!Stdlib.input_char}, but return the 8-bit integer representing
    the character.
-   @raise End_of_file if an end of file was reached. *)
+   @raise End_of_file if the end of file was reached. *)
 
 val input_binary_int : in_channel -> int
 (** Read an integer encoded in binary format (4 bytes, big-endian)
    from the given input channel. See {!Stdlib.output_binary_int}.
-   @raise End_of_file if an end of file was reached while reading the
+   @raise End_of_file if the end of file was reached while reading the
    integer. *)
 
 val input_value : in_channel -> 'a
@@ -1375,7 +1406,7 @@ type ('a,'b) result = ('a, 'b) Belt.Result.t = Ok of 'a | Error of 'b
       For [printf]-style functions from module {!Printf}, ['b] is typically
       [out_channel];
       for [printf]-style functions from module {!Format}, ['b] is typically
-      {!Format.formatter};
+      {!type:Format.formatter};
       for [scanf]-style functions from module {!Scanf}, ['b] is typically
       {!Scanf.Scanning.in_channel}.
 
@@ -1466,4 +1497,3 @@ val do_at_exit : unit -> unit
 end
 
 include module type of struct include Stdlib end
-
