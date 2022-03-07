@@ -49,8 +49,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
       (* ATTENTION:
          Main use case, we should detect inline all immutable block .. *)
       begin match  simpl  arg with
-        (* TODO(anmonteiro): should this include Lmutvar? *)
-        | Lvar v as l->
+        | Lvar v | Lmutvar v as l->
           Lam_util.field_flatten_get (fun _ -> Lam.prim ~primitive ~args:[l] loc )
             v  i info meta.ident_tbl
         | l ->
