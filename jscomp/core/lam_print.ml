@@ -269,6 +269,7 @@ let lambda ppf v =
   let rec lam ppf (l : Lam.t) =
     match l with
     | Lvar id -> Ident.print ppf id
+    | Lmutvar id -> fprintf ppf "*%a" Ident.print id
     | Lglobal_module id -> fprintf ppf "global %a" Ident.print id
     | Lconst cst -> struct_const ppf cst
     | Lapply { ap_func; ap_args; ap_info = { ap_inlined } } ->
@@ -292,7 +293,7 @@ let lambda ppf v =
           (*     fprintf ppf ")"  *)
         in
         fprintf ppf "@[<2>(function%a@ %a)@]" pr_params params lam body
-    | (Llet _ | Lletrec _) as x ->
+    | (Llet _ | Lmutlet _ | Lletrec _) as x ->
         let args, body = flatten x in
         let bindings ppf id_arg_list =
           let spc = ref false in

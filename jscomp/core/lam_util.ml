@@ -49,7 +49,7 @@ let refine_let
     ~kind param
     (arg : Lam.t) (l : Lam.t)  : Lam.t =
 
-  match (kind : Lam_compat.let_kind ), arg, l  with
+  match (kind : Lam_group.let_kind ), arg, l  with
   | _, _, Lvar w when Ident.same w param
     (* let k = xx in k
        there is no [rec] so [k] would not appear in [xx]
@@ -113,9 +113,9 @@ let refine_let
   | Strict, _ ,_  when Lam_analysis.no_side_effects arg ->
     Lam.let_ StrictOpt param arg l
   | Variable, _, _ ->
-    Lam.let_ Variable  param arg l
+    Lam.mutlet param arg l
   | kind, _, _ ->
-    Lam.let_ kind  param arg l
+    Lam.let_ (Lam_group.to_lam_kind kind)  param arg l
 (* | None , _, _ ->
    Lam.let_ Strict param arg  l *)
 

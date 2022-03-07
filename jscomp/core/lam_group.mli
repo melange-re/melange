@@ -22,13 +22,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t =
-  | Single of Lam_compat.let_kind * Ident.t * Lam.t
+type let_kind = Strict | Alias | StrictOpt | Variable
+
+type nonrec t =
+  | Single of let_kind * Ident.t * Lam.t
   | Recursive of (Ident.t * Lam.t) list
   | Nop of Lam.t
+
+val of_lam_kind : Lambda.let_kind -> let_kind
+val to_lam_kind : let_kind -> Lambda.let_kind
 
 (** Tricky to be complete *)
 
 val pp_group : Format.formatter -> t -> unit
-val single : Lam_compat.let_kind -> Ident.t -> Lam.t -> t
+val single : let_kind -> Ident.t -> Lam.t -> t
 val nop_cons : Lam.t -> t list -> t list

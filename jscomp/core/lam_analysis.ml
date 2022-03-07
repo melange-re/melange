@@ -34,6 +34,7 @@ let not_zero_constant ( x : Lam_constant.t) =
 let rec no_side_effects (lam : Lam.t) : bool =
   match lam with
   | Lvar _
+  | Lmutvar _
   | Lconst _
   | Lfunction _ -> true
   | Lglobal_module _ -> true
@@ -192,7 +193,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Psetfield_computed
         -> false
     )
-  | Llet (_,_, arg,body) -> no_side_effects arg && no_side_effects body
+  | Llet (_,_, arg,body) | Lmutlet (_, arg,body) -> no_side_effects arg && no_side_effects body
   | Lswitch (_,_) -> false
   | Lstringswitch (_,_,_) -> false
   | Lstaticraise _ -> false
@@ -234,9 +235,10 @@ let really_big () = raise_notrace Too_big_to_inline
 let rec size (lam : Lam.t) =
   try
     match lam with
-    | Lvar _ ->  1
+    | Lvar _ | Lmutvar _  ->  1
     | Lconst c -> size_constant c
-    | Llet(_, _, l1, l2) -> 1 + size l1 + size l2
+    | Llet(_, _, l1, l2) | Lmutlet(_, l1, l2) ->
+      1 + size l1 + size l2
     | Lletrec _ -> really_big ()
     | Lprim{primitive = Pfield (_, Fld_module _);
             args =  [ Lglobal_module _ | Lvar _ ]

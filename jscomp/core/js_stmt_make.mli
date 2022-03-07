@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -34,7 +34,7 @@ val throw_stmt : ?comment:string -> J.expression -> t
 
 val if_ :
   ?comment:string ->
-  ?declaration:Lam_compat.let_kind * Ident.t ->
+  ?declaration:Lam_group.let_kind * Ident.t ->
   (* when it's not None, we also need make a variable declaration in the
      begininnig, however, we can optmize such case
   *)
@@ -44,28 +44,28 @@ val if_ :
   t
 
 val block : ?comment:string -> J.block -> t
-(**   
+(**
   turn a block into  a single statement,
   avoid nested block
 *)
 
 val int_switch :
   ?comment:string ->
-  ?declaration:Lam_compat.let_kind * Ident.t ->
+  ?declaration:Lam_group.let_kind * Ident.t ->
   ?default:J.block ->
   J.expression ->
   (int * J.case_clause) list ->
   t
 (** [int_switch ~declaration e clauses]
 
-  The [declaration] is attached to peepwhole 
-  such pattern 
+  The [declaration] is attached to peepwhole
+  such pattern
 
   {[
     var x ;
     x = yy
   ]}
-  
+
   into
   {[
     var x = yy;
@@ -74,7 +74,7 @@ val int_switch :
 
 val string_switch :
   ?comment:string ->
-  ?declaration:Lam_compat.let_kind * Ident.t ->
+  ?declaration:Lam_group.let_kind * Ident.t ->
   ?default:J.block ->
   J.expression ->
   (string * J.case_clause) list ->
@@ -83,7 +83,7 @@ val string_switch :
 val declare_variable :
   ?comment:string ->
   ?ident_info:J.ident_info ->
-  kind:Lam_compat.let_kind ->
+  kind:Lam_group.let_kind ->
   Ident.t ->
   t
 (** Just declaration without initialization *)
@@ -92,7 +92,7 @@ val declare_variable :
 val define_variable :
   ?comment:string ->
   ?ident_info:J.ident_info ->
-  kind:Lam_compat.let_kind ->
+  kind:Lam_group.let_kind ->
   Ident.t ->
   J.expression ->
   t
@@ -106,9 +106,9 @@ val define_variable :
 
 val assign : ?comment:string -> J.ident -> J.expression -> t
 
-(** Used in cases like 
+(** Used in cases like
   {[
-    let x = while true do 
+    let x = while true do
       ...
     done in ..
   ]}
@@ -118,9 +118,9 @@ val assign : ?comment:string -> J.ident -> J.expression -> t
    J.ident ->
    t *)
 
-(** used in cases like 
+(** used in cases like
   {[
-    let x = while true do 
+    let x = while true do
       ...
     done in ..
   ]}
@@ -159,7 +159,7 @@ val exp : ?comment:string -> J.expression -> t
 val return_stmt : ?comment:string -> J.expression -> t
 
 (* val return_unit : t list *)
-(** for ocaml function which returns unit 
+(** for ocaml function which returns unit
     it will be compiled into [return 0] in js *)
 
 (** if [label] is not set, it will default to empty *)

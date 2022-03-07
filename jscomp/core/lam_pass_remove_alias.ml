@@ -44,11 +44,12 @@ let id_is_for_sure_true_in_boolean (tbl : Lam_stats.ident_tbl) id =
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
   let rec simpl (lam : Lam.t) : Lam.t =
     match lam with
-    | Lvar _ -> lam
+    | Lvar _ | Lmutvar _ -> lam
     | Lprim {primitive = (Pfield (i,info) as primitive); args =  [arg]; loc} ->
       (* ATTENTION:
          Main use case, we should detect inline all immutable block .. *)
       begin match  simpl  arg with
+        (* TODO(anmonteiro): should this include Lmutvar? *)
         | Lvar v as l->
           Lam_util.field_flatten_get (fun _ -> Lam.prim ~primitive ~args:[l] loc )
             v  i info meta.ident_tbl
@@ -102,6 +103,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | Lconst _ -> lam
     | Llet(str, v, l1, l2) ->
       Lam.let_ str v (simpl l1) (simpl l2 )
+    | Lmutlet(v, l1, l2) ->
+      Lam.mutlet v (simpl l1) (simpl l2 )
     | Lletrec(bindings, body) ->
       let bindings = Ext_list.map_snd  bindings simpl in
       Lam.letrec bindings (simpl body)

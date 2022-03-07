@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -41,9 +41,9 @@ let param_map_of_list lst : stats Map_ident.t =
 let sink_pos = Lam_var_stats.sink
 
 (**
-   [param_stats = free_variables exports param_stats lam] 
-   This function tries to do more than detect free variable of [lam],  
-   given [param_stats] it tries to return a new stats with updated usage of 
+   [param_stats = free_variables exports param_stats lam]
+   This function tries to do more than detect free variable of [lam],
+   given [param_stats] it tries to return a new stats with updated usage of
    recorded params and unbound parameters
 
    An enriched version of [free_varaibles] in {!Lam_free_variables}
@@ -64,7 +64,7 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
 
   let rec iter (top : position) (lam : Lam.t) =
     match lam with
-    | Lvar v -> used top v
+    | Lvar v | Lmutvar v -> used top v
     | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         iter top ap_func;
@@ -77,7 +77,7 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
     | Lfunction { params; body } ->
         local_add_list params;
         iter sink_pos body (* Do we need continue *)
-    | Llet (_, id, arg, body) ->
+    | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
         iter top arg;
         local_add id;
         iter sink_pos body

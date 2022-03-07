@@ -1,5 +1,5 @@
 (* Copyright (C) 2018 Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -38,12 +38,12 @@ let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
   and hit_list xs = Ext_list.exists xs hit
   and hit (l : Lam.t) =
     match l with
-    | Lvar id -> hit_var id
+    | Lvar id | Lmutvar id -> hit_var id
     | Lassign (id, e) -> hit_var id || hit e
     | Lstaticcatch (e1, (_, _), e2) -> hit e1 || hit e2
     | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
     | Lfunction { body; params = _ } -> hit body
-    | Llet (_str, _id, arg, body) -> hit arg || hit body
+    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
     | Lletrec (decl, body) -> hit body || hit_list_snd decl
     | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
     | Lconst _ -> false

@@ -491,7 +491,7 @@ and compile_general_cases
   (J.expression -> J.expression -> J.expression) ->
   Lam_compile_context.t ->
   (?default:J.block ->
-   ?declaration:Lam_compat.let_kind * Ident.t  ->
+   ?declaration:Lam_group.let_kind * Ident.t  ->
    _ -> ('a * J.case_clause) list ->  J.statement) ->
   _ ->
   ('a * Lam.t) list -> default_case -> J.block
@@ -502,7 +502,7 @@ and compile_general_cases
   (cxt : Lam_compile_context.t)
   (switch :
   ?default:J.block ->
-   ?declaration:Lam_compat.let_kind * Ident.t  ->
+   ?declaration:Lam_group.let_kind * Ident.t  ->
    _ -> (_ * J.case_clause) list ->  J.statement
    )
    (switch_exp : J.expression)
@@ -1600,7 +1600,14 @@ and compile_lambda
     | Llet (let_kind,id,arg, body) ->
       (* Order matters..  see comment below in [Lletrec] *)
       let args_code =
-        compile_lambda {lambda_cxt with continuation = Declare(let_kind,id)} arg in
+        compile_lambda {lambda_cxt with continuation = Declare(Lam_group.of_lam_kind let_kind,id)} arg in
+      Js_output.append_output
+      args_code (compile_lambda  lambda_cxt  body)
+
+    | Lmutlet (id,arg, body) ->
+      (* Order matters..  see comment below in [Lletrec] *)
+      let args_code =
+        compile_lambda {lambda_cxt with continuation = Declare(Variable,id)} arg in
       Js_output.append_output
       args_code (compile_lambda  lambda_cxt  body)
 
@@ -1619,7 +1626,7 @@ and compile_lambda
       let v =  compile_recursive_lets lambda_cxt  id_args in
       Js_output.append_output v  (compile_lambda lambda_cxt  body)
 
-    | Lvar id ->
+    | Lvar id | Lmutvar id ->
       Js_output.output_of_expression lambda_cxt.continuation ~no_effects:no_effects_const (E.var id )
     | Lconst c ->
       Js_output.output_of_expression lambda_cxt.continuation ~no_effects:no_effects_const (Lam_compile_const.translate c)

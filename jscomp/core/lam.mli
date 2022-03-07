@@ -105,6 +105,7 @@ val handle_bs_non_obj_ffi:
 (**************************************************************)
 (** Smart constructors *)
 val var : ident -> t
+val mutvar : ident -> t
 val global_module : ident -> t
 val const : Lam_constant.t -> t
 
@@ -121,6 +122,7 @@ val function_ :
   body:t -> t
 
 val let_ : Lam_compat.let_kind -> ident -> t -> t -> t
+val mutlet : ident -> t -> t -> t
 val letrec : (ident * t) list -> t -> t
 
 (**  constant folding *)

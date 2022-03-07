@@ -92,8 +92,7 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t): bool  =
     | Lprim {primitive = Praise ; args = [Lvar _]} -> false
     | Lprim {primitive = _; args; _} ->
       hit_list args
-    | Lvar id ->
-      Ident.same id fv
+    | Lvar id
     | Lmutvar id ->
       Ident.same id fv
     | Lassign(id, e) ->
@@ -144,7 +143,7 @@ let no_over_flow x  = abs_int x < 0x1fff_ffff
 
 let lam_is_var (x : Lam.t) (y : Ident.t) =
   match x with
-  | Lvar y2 -> Ident.same y2 y
+  | Lvar y2 | Lmutvar y2 -> Ident.same y2 y
   | _ -> false
 
 (** Make sure no int range overflow happens
@@ -294,7 +293,7 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
     | Blk_lazy_general
       ->
       begin match args with
-      | [Lvar _ | Lconst _ | Lfunction _ as result ] ->
+      | [Lvar _ | Lmutvar _ | Lconst _ | Lfunction _ as result ] ->
         let args =
           [ Lam.const Const_js_true ;
            result
@@ -720,6 +719,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
     match lam with
     | Lvar x ->
       Lam.var (Hash_ident.find_default alias_tbl x x)
+    | Lmutvar x ->
+      Lam.mutvar (Hash_ident.find_default alias_tbl x x)
     | Lconst x ->
       Lam.const (Lam_constant_convert.convert_constant x )
     | Lapply
@@ -745,6 +746,9 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
     | Llet
       (kind,_value_kind, id,e,body) (*FIXME*)
       -> convert_let kind id e body
+    | Lmutlet
+      (_value_kind, id,e,body) (*FIXME*)
+      -> convert_mutlet id e body
 
     | Lletrec (bindings,body)
       ->
@@ -887,7 +891,13 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
           }
       | _ ->
         Lam.let_ kind id new_e new_body
-  and convert_pipe (f : Lambda.lambda) (x : Lambda.lambda) outer_loc =
+
+  and convert_mutlet id (e : Lambda.lambda) body : Lam.t =
+    let new_e = convert_aux e in
+    let new_body = convert_aux body in
+    Lam.mutlet id new_e new_body
+
+  and _convert_pipe (f : Lambda.lambda) (x : Lambda.lambda) outer_loc =
       let x  = convert_aux x in
       let f =  convert_aux f in
       match  f with

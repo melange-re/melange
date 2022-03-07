@@ -113,7 +113,7 @@ type int_op =
 *)
 type level = Log | Info | Warn | Error
 type kind = Ml | Runtime | External of { name : string; default : bool }
-type property = Lam_compat.let_kind = Strict | Alias | StrictOpt
+type property = Lam_group.let_kind = Strict | Alias | StrictOpt | Variable
 type property_name = Lit of string | Symbol_name
 type 'a access = Getter | Setter
 

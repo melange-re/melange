@@ -38,7 +38,7 @@ let incr_exit exits i nb d =
       Hashtbl.add exits i r
 
 (**
-  This funcition counts how each [exit] is used, it will affect how the following optimizations performed.
+  This function counts how each [exit] is used, it will affect how the following optimizations performed.
 
   Some smart cases (this requires the following optimizations follow it):
 
@@ -73,12 +73,12 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
         count l;
         Ext_list.iter_snd sw count;
         Ext_option.iter d count
-    | Lglobal_module _ | Lvar _ | Lconst _ -> ()
+    | Lglobal_module _ | Lvar _ | Lmutvar _ | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         count ap_func;
         Ext_list.iter ap_args count
     | Lfunction { body } -> count body
-    | Llet (_, _, l1, l2) ->
+    | Llet (_, _, l1, l2) | Lmutlet (_, l1, l2) ->
         count l2;
         count l1
     | Lletrec (bindings, body) ->

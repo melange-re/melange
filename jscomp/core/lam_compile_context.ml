@@ -52,7 +52,7 @@ type tail_type = Not_tail | Maybe_tail_is_return of maybe_tail
 (* have a mutable field to notifiy it's actually triggered *)
 (* anonoymous function does not have identifier *)
 
-type let_kind = Lam_compat.let_kind
+type let_kind = Lam_group.let_kind
 
 type continuation =
   | EffectCall of tail_type

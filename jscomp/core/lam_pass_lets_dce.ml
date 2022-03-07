@@ -19,6 +19,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
   let rec simplif (lam : Lam.t) =
     match lam with
     | Lvar v  -> Hash_ident.find_default subst v lam
+    | Lmutvar _ -> lam
     | Llet( (Strict | Alias | StrictOpt) , v, Lvar w, l2)
       ->
       Hash_ident.add subst v (simplif (Lam.var w));
@@ -37,7 +38,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
              (Lam_pass_eliminate_ref.eliminate_ref v slbody)
         with Lam_pass_eliminate_ref.Real_reference ->
           Lam_util.refine_let
-            ~kind v (Lam.prim ~primitive ~args:[slinit] loc)
+            ~kind:(Lam_group.of_lam_kind kind) v (Lam.prim ~primitive ~args:[slinit] loc)
             slbody
       end
     | Llet(Alias, v, l1, l2) ->
@@ -108,7 +109,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
                 (Lam_pass_eliminate_ref.eliminate_ref v slbody)
             with Lam_pass_eliminate_ref.Real_reference ->
               Lam_util.refine_let
-                ~kind v (Lam.prim ~primitive ~args:[slinit] loc)
+                ~kind:(Lam_group.of_lam_kind kind) v (Lam.prim ~primitive ~args:[slinit] loc)
                 slbody
           end
 
@@ -120,12 +121,12 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
               (* we need move [simplif lbody] later, since adding Hash does have side effect *)
               Lam.let_ Alias v l1 (simplif lbody)
             | _ ->
-              Lam_util.refine_let ~kind v l1 (simplif lbody)
+              Lam_util.refine_let ~kind:(Lam_group.of_lam_kind kind) v l1 (simplif lbody)
           end
         end
     (* TODO: check if it is correct rollback to [StrictOpt]? *)
 
-    | Llet((Strict | Variable as kind), v, l1, l2) ->
+    | Llet((Strict as kind), v, l1, l2) ->
       if not (used v)
       then
         let l1 = simplif l1 in
@@ -142,8 +143,20 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
             Hash_ident.add string_table v s;
             Lam.let_ Alias v l1 (simplif l2)
          | _ ->
-           Lam_util.refine_let ~kind v l1 (simplif l2)
+           Lam_util.refine_let ~kind:(Lam_group.of_lam_kind kind) v l1 (simplif l2)
         end
+
+    | Lmutlet(v, l1, l2) ->
+      if not (used v)
+      then
+        let l1 = simplif l1 in
+        let l2 = simplif l2 in
+        if Lam_analysis.no_side_effects l1
+        then l2
+        else Lam.seq l1 l2
+      else
+        let l1 = (simplif l1) in
+         Lam_util.refine_let ~kind:Variable v l1 (simplif l2)
     | Lsequence(l1, l2) -> Lam.seq (simplif l1) (simplif l2)
 
     | Lapply{ap_func = Lfunction{params; body};  ap_args = args; _}

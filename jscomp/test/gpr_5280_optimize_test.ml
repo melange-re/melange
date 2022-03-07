@@ -3,7 +3,7 @@
   flags =
     [|
       "-w";
-      "@A";
+      "@A-70";
       (* "-drawlambda"; *)
       (* "-dtypedtree"; *)
       "-bs-diagnose"
