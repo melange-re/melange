@@ -37,8 +37,7 @@ var object_tables$1 = /* Cons */{
 function a_init($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, [
         "m2",
-        "m1",
-        "*dummy method*"
+        "m1"
       ]);
   var m2 = ids[0];
   var m1 = ids[1];
@@ -98,8 +97,7 @@ function b_init($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, [
         "m2",
         "m1",
-        "a_text",
-        "*dummy method*"
+        "a_text"
       ]);
   var a_text = ids[2];
   var inh = CamlinternalOO.inherits($$class, 0, 0, shared, a, true);

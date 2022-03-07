@@ -5,12 +5,14 @@ var Belt_Array = require("../../lib/js/belt_Array.js");
 
 var N = {};
 
-function f(X, xs) {
-  X.forEach(xs, {
-        i: (function (x) {
-            console.log(x.x);
-          })
-      });
+function f(X) {
+  return function (xs) {
+    X.forEach(xs, {
+          i: (function (x) {
+              console.log(x.x);
+            })
+        });
+  };
 }
 
 Belt_List.forEachU({

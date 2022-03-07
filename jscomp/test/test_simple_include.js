@@ -56,6 +56,8 @@ var mapi = $$Array.mapi;
 
 var fold_left = $$Array.fold_left;
 
+var fold_left_map = $$Array.fold_left_map;
+
 var fold_right = $$Array.fold_right;
 
 var iter2 = $$Array.iter2;
@@ -73,6 +75,14 @@ var exists2 = $$Array.exists2;
 var mem = $$Array.mem;
 
 var memq = $$Array.memq;
+
+var find_opt = $$Array.find_opt;
+
+var find_map = $$Array.find_map;
+
+var split = $$Array.split;
+
+var combine = $$Array.combine;
 
 var sort = $$Array.sort;
 
@@ -107,6 +117,7 @@ exports.iteri = iteri;
 exports.map = map;
 exports.mapi = mapi;
 exports.fold_left = fold_left;
+exports.fold_left_map = fold_left_map;
 exports.fold_right = fold_right;
 exports.iter2 = iter2;
 exports.map2 = map2;
@@ -116,6 +127,10 @@ exports.for_all2 = for_all2;
 exports.exists2 = exists2;
 exports.mem = mem;
 exports.memq = memq;
+exports.find_opt = find_opt;
+exports.find_map = find_map;
+exports.split = split;
+exports.combine = combine;
 exports.sort = sort;
 exports.stable_sort = stable_sort;
 exports.fast_sort = fast_sort;

@@ -24,26 +24,28 @@ function f(H) {
                   }), tbl, /* [] */0));
 }
 
-function g(H, count) {
-  var tbl = Curry._1(H.create, 17);
-  for(var i = 0; i <= count; ++i){
-    Curry._3(H.replace, tbl, (i << 1), String(i));
-  }
-  for(var i$1 = 0; i$1 <= count; ++i$1){
-    Curry._3(H.replace, tbl, (i$1 << 1), String(i$1));
-  }
-  var v = Curry._3(H.fold, (function (k, v, acc) {
-          return {
-                  hd: [
-                    k,
-                    v
-                  ],
-                  tl: acc
-                };
-        }), tbl, /* [] */0);
-  return $$Array.of_list(List.sort((function (param, param$1) {
-                    return Caml.caml_int_compare(param[0], param$1[0]);
-                  }), v));
+function g(H) {
+  return function (count) {
+    var tbl = Curry._1(H.create, 17);
+    for(var i = 0; i <= count; ++i){
+      Curry._3(H.replace, tbl, (i << 1), String(i));
+    }
+    for(var i$1 = 0; i$1 <= count; ++i$1){
+      Curry._3(H.replace, tbl, (i$1 << 1), String(i$1));
+    }
+    var v = Curry._3(H.fold, (function (k, v, acc) {
+            return {
+                    hd: [
+                      k,
+                      v
+                    ],
+                    tl: acc
+                  };
+          }), tbl, /* [] */0);
+    return $$Array.of_list(List.sort((function (param, param$1) {
+                      return Caml.caml_int_compare(param[0], param$1[0]);
+                    }), v));
+  };
 }
 
 var hash = Hashtbl.hash;
@@ -92,7 +94,7 @@ var suites_1 = {
                                 String(i)
                               ];
                       })),
-                _1: g(Int_hash, 1000)
+                _1: g(Int_hash)(1000)
               };
       })
   ],
