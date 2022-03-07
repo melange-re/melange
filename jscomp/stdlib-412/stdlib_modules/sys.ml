@@ -153,7 +153,7 @@ external runtime_warnings_enabled: unit -> bool =
 
 let ocaml_version = "4.14.0+mel"
 
-let development_version = "dev"
+let development_version = false
 
 type extra_prefix = Plus | Tilde
 
@@ -167,10 +167,10 @@ type ocaml_release_info = {
 }
 
 let ocaml_release = {
-  major = "4";
-  minor = "14";
-  patchlevel = "0";
-  extra = "mel"
+  major = 4;
+  minor = 14;
+  patchlevel = 0;
+  extra = Some (Plus, "mel")
 }
 
 (* Optimization *)

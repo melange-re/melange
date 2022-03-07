@@ -191,10 +191,12 @@ module State = struct
     let b3 = Int64.(shift_right_logical (of_int (bits s)) 8) in  (* 22 bits *)
     Int64.(logor b1 (logor (shift_left b2 21) (shift_left b3 42)))
 
+#if 0 then
   let nativebits =
     if Nativeint.size = 32
     then fun s -> Nativeint.of_int32 (bits32 s)
     else fun s -> Int64.to_nativeint (bits64 s)
+#end
 
 end
 
@@ -228,7 +230,9 @@ let float scale = State.float default scale
 let bool () = State.bool default
 let bits32 () = State.bits32 default
 let bits64 () = State.bits64 default
+#if 0 then
 let nativebits () = State.nativebits default
+#end
 
 let full_init seed = State.full_init default seed
 let init seed = State.full_init default [| seed |]

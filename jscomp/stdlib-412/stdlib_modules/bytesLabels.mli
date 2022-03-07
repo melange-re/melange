@@ -523,6 +523,9 @@ val of_seq : char Seq.t -> t
 
 (** {2:utf_8 UTF-8} *)
 
+#if BS then
+#else
+
 val get_utf_8_uchar : t -> int -> Uchar.utf_decode
 (** [get_utf_8_uchar b i] decodes an UTF-8 character at index [i] in
     [b]. *)
@@ -602,8 +605,6 @@ val is_valid_utf_16le : t -> bool
        bytes.}}
 *)
 
-#if BS then
-#else
 val get_uint8 : bytes -> int -> int
 (** [get_uint8 b i] is [b]'s unsigned 8-bit integer starting at byte index [i].
     @since 4.08

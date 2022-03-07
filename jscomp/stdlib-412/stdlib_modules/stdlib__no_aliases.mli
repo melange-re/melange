@@ -557,24 +557,21 @@ external sinh : float -> float =  "sinh" [@@bs.val] [@@bs.scope "Math"]
 external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
 (** Hyperbolic tangent.  Argument is in radians. *)
 
-external acosh : float -> float = "caml_acosh_float" "caml_acosh"
-  [@@unboxed] [@@noalloc]
+external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
 (** Hyperbolic arc cosine.  The argument must fall within the range
     [[1.0, inf]].
     Result is in radians and is between [0.0] and [inf].
     @since 4.13.0
 *)
 
-external asinh : float -> float = "caml_asinh_float" "caml_asinh"
-  [@@unboxed] [@@noalloc]
+external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
 (** Hyperbolic arc sine.  The argument and result range over the entire
     real line.
     Result is in radians.
     @since 4.13.0
 *)
 
-external atanh : float -> float = "caml_atanh_float" "caml_atanh"
-  [@@unboxed] [@@noalloc]
+external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
 (** Hyperbolic arc tangent.  The argument must fall within the range
     [[-1.0, 1.0]].
     Result is in radians and ranges over the entire real line.

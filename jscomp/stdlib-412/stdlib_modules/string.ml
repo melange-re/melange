@@ -23,10 +23,8 @@
 
 external length : string -> int = "%string_length"
 external get : string -> int -> char = "%string_safe_get"
-external set : bytes -> int -> char -> unit = "%string_safe_set"
 external create : int -> bytes = "caml_create_string"
 external unsafe_get : string -> int -> char = "%string_unsafe_get"
-external unsafe_set : bytes -> int -> char -> unit = "%string_unsafe_set"
 external unsafe_blit : string -> int ->  bytes -> int -> int -> unit
                      = "caml_blit_string" [@@noalloc]
 external unsafe_fill : bytes -> int -> int -> char -> unit
@@ -267,6 +265,8 @@ let to_seqi s = bos s |> B.to_seqi
 
 let of_seq g = B.of_seq g |> bts
 
+#if BS then
+#else
 (* UTF decoders and validators *)
 
 let get_utf_8_uchar s i = B.get_utf_8_uchar (bos s) i
@@ -295,3 +295,5 @@ let get_int32_le s i = B.get_int32_le (bos s) i
 let get_int32_be s i = B.get_int32_be (bos s) i
 let get_int64_le s i = B.get_int64_le (bos s) i
 let get_int64_be s i = B.get_int64_be (bos s) i
+
+#end

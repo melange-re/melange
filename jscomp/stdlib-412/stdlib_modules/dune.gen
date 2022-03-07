@@ -50,7 +50,7 @@
 
   (rule
     (targets arg.cmj )
-    (deps (:inputs arg.ml) (alias ../../others/others) arg.cmi array.cmj buffer.cmj list.cmj printf.cmj string.cmj sys.cmj)
+    (deps (:inputs arg.ml) (alias ../../others/others) arg.cmi array.cmj buffer.cmj int.cmj list.cmj printf.cmj string.cmj sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -130,7 +130,7 @@
 
   (rule
     (targets buffer.cmj )
-    (deps (:inputs buffer.ml) (alias ../../others/others) buffer.cmi bytes.cmj char.cmj seq.cmj string.cmj sys.cmj uchar.cmj)
+    (deps (:inputs buffer.ml) (alias ../../others/others) buffer.cmi bytes.cmj seq.cmj string.cmj sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -146,7 +146,7 @@
 
   (rule
     (targets bytes.cmj )
-    (deps (:inputs bytes.ml) (alias ../../others/others) bytes.cmi char.cmj seq.cmj sys.cmj)
+    (deps (:inputs bytes.ml) (alias ../../others/others) bytes.cmi char.cmj int.cmj seq.cmj sys.cmj uchar.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -154,7 +154,7 @@
 
   (rule
     (targets bytes.cmi )
-    (deps (:inputs bytes.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
+    (deps (:inputs bytes.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -170,7 +170,7 @@
 
   (rule
     (targets bytesLabels.cmi )
-    (deps (:inputs bytesLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
+    (deps (:inputs bytesLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
@@ -210,7 +210,7 @@
 
   (rule
     (targets camlinternalLazy.cmj )
-    (deps (:inputs camlinternalLazy.ml) (alias ../../others/others) camlinternalLazy.cmi)
+    (deps (:inputs camlinternalLazy.ml) (alias ../../others/others) camlinternalLazy.cmi sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -226,7 +226,7 @@
 
   (rule
     (targets camlinternalMod.cmj )
-    (deps (:inputs camlinternalMod.ml) (alias ../../others/others) array.cmj camlinternalMod.cmi camlinternalOO.cmj lazy.cmj obj.cmj sys.cmj)
+    (deps (:inputs camlinternalMod.ml) (alias ../../others/others) array.cmj camlinternalMod.cmi camlinternalOO.cmj lazy.cmj obj.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -322,7 +322,7 @@
 
   (rule
     (targets ephemeron.cmj )
-    (deps (:inputs ephemeron.ml) (alias ../../others/others) array.cmj ephemeron.cmi hashtbl.cmj lazy.cmj obj.cmj random.cmj seq.cmj sys.cmj)
+    (deps (:inputs ephemeron.ml) (alias ../../others/others) array.cmj ephemeron.cmi hashtbl.cmj int.cmj lazy.cmj list.cmj obj.cmj random.cmj seq.cmj sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -330,7 +330,7 @@
 
   (rule
     (targets ephemeron.cmi )
-    (deps (:inputs ephemeron.mli) (alias ../../others/others) hashtbl.cmi stdlib__no_aliases.cmj)
+    (deps (:inputs ephemeron.mli) (alias ../../others/others) hashtbl.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -370,7 +370,7 @@
 
   (rule
     (targets format.cmj )
-    (deps (:inputs format.ml) (alias ../../others/others) buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj format.cmi int.cmj list.cmj queue.cmj seq.cmj stack.cmj string.cmj)
+    (deps (:inputs format.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj either.cmj format.cmi int.cmj list.cmj queue.cmj seq.cmj stack.cmj string.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -378,7 +378,7 @@
 
   (rule
     (targets format.cmi )
-    (deps (:inputs format.mli) (alias ../../others/others) buffer.cmi seq.cmi stdlib__no_aliases.cmj)
+    (deps (:inputs format.mli) (alias ../../others/others) buffer.cmi either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -434,7 +434,7 @@
 
   (rule
     (targets hashtbl.cmj )
-    (deps (:inputs hashtbl.ml) (alias ../../others/others) array.cmj hashtbl.cmi lazy.cmj random.cmj seq.cmj string.cmj sys.cmj)
+    (deps (:inputs hashtbl.ml) (alias ../../others/others) array.cmj hashtbl.cmi int.cmj lazy.cmj random.cmj seq.cmj string.cmj sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -443,6 +443,22 @@
   (rule
     (targets hashtbl.cmi )
     (deps (:inputs hashtbl.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
+
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+
+
+  (rule
+    (targets in_channel.cmj )
+    (deps (:inputs in_channel.ml) (alias ../../others/others) bytes.cmj fun.cmj in_channel.cmi sys.cmj)
+
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+
+
+  (rule
+    (targets in_channel.cmi )
+    (deps (:inputs in_channel.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -514,7 +530,7 @@
 
   (rule
     (targets lexing.cmj )
-    (deps (:inputs lexing.ml) (alias ../../others/others) array.cmj bytes.cmj lexing.cmi string.cmj sys.cmj)
+    (deps (:inputs lexing.ml) (alias ../../others/others) array.cmj bytes.cmj int.cmj lexing.cmi string.cmj sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -610,7 +626,7 @@
 
   (rule
     (targets obj.cmj )
-    (deps (:inputs obj.ml) (alias ../../others/others) int32.cmj marshal.cmj obj.cmi sys.cmj)
+    (deps (:inputs obj.ml) (alias ../../others/others) int32.cmj obj.cmi sys.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -651,6 +667,22 @@
   (rule
     (targets option.cmi )
     (deps (:inputs option.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
+
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+
+
+  (rule
+    (targets out_channel.cmj )
+    (deps (:inputs out_channel.ml) (alias ../../others/others) fun.cmj out_channel.cmi)
+
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+
+
+  (rule
+    (targets out_channel.cmi )
+    (deps (:inputs out_channel.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -762,7 +794,7 @@
 
   (rule
     (targets scanf.cmj )
-    (deps (:inputs scanf.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj list.cmj printf.cmj scanf.cmi string.cmj)
+    (deps (:inputs scanf.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj int.cmj list.cmj printf.cmj scanf.cmi string.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -778,7 +810,7 @@
 
   (rule
     (targets seq.cmj )
-    (deps (:inputs seq.ml) (alias ../../others/others) seq.cmi)
+    (deps (:inputs seq.ml) (alias ../../others/others) camlinternalAtomic.cmj either.cmj lazy.cmj seq.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -786,7 +818,7 @@
 
   (rule
     (targets seq.cmi )
-    (deps (:inputs seq.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
+    (deps (:inputs seq.mli) (alias ../../others/others) either.cmi stdlib__no_aliases.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -874,7 +906,7 @@
 
   (rule
     (targets string.cmi )
-    (deps (:inputs string.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
+    (deps (:inputs string.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -890,7 +922,7 @@
 
   (rule
     (targets stringLabels.cmi )
-    (deps (:inputs stringLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
+    (deps (:inputs stringLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
@@ -946,7 +978,7 @@
 
   (rule
     (targets weak.cmj )
-    (deps (:inputs weak.ml) (alias ../../others/others) array.cmj hashtbl.cmj obj.cmj sys.cmj weak.cmi)
+    (deps (:inputs weak.ml) (alias ../../others/others) array.cmj hashtbl.cmj int.cmj obj.cmj sys.cmj weak.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
@@ -962,5 +994,5 @@
 
     (alias
       (name stdlib)
-      (deps camlinternalFormatBasics.cmi camlinternalFormatBasics.cmj stdlib__no_aliases.cmi arg.cmi arg.cmj array.cmi array.cmj arrayLabels.cmi arrayLabels.cmj atomic.cmi atomic.cmj bool.cmi bool.cmj buffer.cmi buffer.cmj bytes.cmi bytes.cmj bytesLabels.cmi bytesLabels.cmj callback.cmi callback.cmj camlinternalFormat.cmi camlinternalFormat.cmj camlinternalLazy.cmi camlinternalLazy.cmj camlinternalMod.cmi camlinternalMod.cmj camlinternalOO.cmi camlinternalOO.cmj char.cmi char.cmj complex.cmi complex.cmj digest.cmi digest.cmj either.cmi either.cmj ephemeron.cmi ephemeron.cmj filename.cmi filename.cmj float.cmi float.cmj format.cmi format.cmj fun.cmi fun.cmj gc.cmi gc.cmj genlex.cmi genlex.cmj hashtbl.cmi hashtbl.cmj int.cmi int.cmj int32.cmi int32.cmj int64.cmi int64.cmj lazy.cmi lazy.cmj lexing.cmi lexing.cmj list.cmi list.cmj listLabels.cmi listLabels.cmj map.cmi map.cmj marshal.cmi marshal.cmj moreLabels.cmi moreLabels.cmj obj.cmi obj.cmj oo.cmi oo.cmj option.cmi option.cmj parsing.cmi parsing.cmj pervasives.cmi pervasives.cmj printexc.cmi printexc.cmj printf.cmi printf.cmj queue.cmi queue.cmj random.cmi random.cmj result.cmi result.cmj scanf.cmi scanf.cmj seq.cmi seq.cmj set.cmi set.cmj stack.cmi stack.cmj stdLabels.cmi stdLabels.cmj std_exit.cmi std_exit.cmj stream.cmi stream.cmj string.cmi string.cmj stringLabels.cmi stringLabels.cmj sys.cmi sys.cmj uchar.cmi uchar.cmj unit.cmi unit.cmj weak.cmi weak.cmj))
+      (deps camlinternalFormatBasics.cmi camlinternalFormatBasics.cmj stdlib__no_aliases.cmi arg.cmi arg.cmj array.cmi array.cmj arrayLabels.cmi arrayLabels.cmj atomic.cmi atomic.cmj bool.cmi bool.cmj buffer.cmi buffer.cmj bytes.cmi bytes.cmj bytesLabels.cmi bytesLabels.cmj callback.cmi callback.cmj camlinternalFormat.cmi camlinternalFormat.cmj camlinternalLazy.cmi camlinternalLazy.cmj camlinternalMod.cmi camlinternalMod.cmj camlinternalOO.cmi camlinternalOO.cmj char.cmi char.cmj complex.cmi complex.cmj digest.cmi digest.cmj either.cmi either.cmj ephemeron.cmi ephemeron.cmj filename.cmi filename.cmj float.cmi float.cmj format.cmi format.cmj fun.cmi fun.cmj gc.cmi gc.cmj genlex.cmi genlex.cmj hashtbl.cmi hashtbl.cmj in_channel.cmi in_channel.cmj int.cmi int.cmj int32.cmi int32.cmj int64.cmi int64.cmj lazy.cmi lazy.cmj lexing.cmi lexing.cmj list.cmi list.cmj listLabels.cmi listLabels.cmj map.cmi map.cmj marshal.cmi marshal.cmj moreLabels.cmi moreLabels.cmj obj.cmi obj.cmj oo.cmi oo.cmj option.cmi option.cmj out_channel.cmi out_channel.cmj parsing.cmi parsing.cmj pervasives.cmi pervasives.cmj printexc.cmi printexc.cmj printf.cmi printf.cmj queue.cmi queue.cmj random.cmi random.cmj result.cmi result.cmj scanf.cmi scanf.cmj seq.cmi seq.cmj set.cmi set.cmj stack.cmi stack.cmj stdLabels.cmi stdLabels.cmj std_exit.cmi std_exit.cmj stream.cmi stream.cmj string.cmi string.cmj stringLabels.cmi stringLabels.cmj sys.cmi sys.cmj uchar.cmi uchar.cmj unit.cmi unit.cmj weak.cmi weak.cmj))
   

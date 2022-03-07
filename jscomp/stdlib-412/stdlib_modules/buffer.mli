@@ -109,6 +109,8 @@ val truncate : t -> int -> unit
 val add_char : t -> char -> unit
 (** [add_char b c] appends the character [c] at the end of buffer [b]. *)
 
+#if BS then
+#else
 val add_utf_8_uchar : t -> Uchar.t -> unit
 (** [add_utf_8_uchar b u] appends the {{:https://tools.ietf.org/html/rfc3629}
     UTF-8} encoding of [u] at the end of buffer [b].
@@ -128,6 +130,7 @@ val add_utf_16be_uchar : t -> Uchar.t -> unit
     at the end of buffer [b].
 
     @since 4.06.0 *)
+#end
 
 val add_string : t -> string -> unit
 (** [add_string b s] appends the string [s] at the end of buffer [b]. *)

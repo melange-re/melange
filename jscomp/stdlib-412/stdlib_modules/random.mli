@@ -86,11 +86,13 @@ val bits64 : unit -> Int64.t
     {!Int64.min_int} and {!Int64.max_int}.
     @since 4.14.0 *)
 
+#if 0 then
 val nativebits : unit -> Nativeint.t
 (** [Random.nativebits ()] returns 32 or 64 random bits (depending on
     the bit width of the platform) as an integer between
     {!Nativeint.min_int} and {!Nativeint.max_int}.
     @since 4.14.0 *)
+#end
 
 (** {1 Advanced functions} *)
 
@@ -127,7 +129,9 @@ module State : sig
   val bool : t -> bool
   val bits32 : t -> Int32.t
   val bits64 : t -> Int64.t
+#if 0 then
   val nativebits : t -> Nativeint.t
+#end
   (** These functions are the same as the basic functions, except that they
       use (and update) the given PRNG state instead of the default one.
   *)

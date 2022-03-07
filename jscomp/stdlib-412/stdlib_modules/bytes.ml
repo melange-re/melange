@@ -543,6 +543,8 @@ let set_uint16_le = set_int16_le
 #end
 
 (* UTF codecs and validations *)
+#if BS then
+#else
 
 let dec_invalid = Uchar.utf_decode_invalid
 let[@inline] dec_ret n u = Uchar.utf_decode n (Uchar.unsafe_of_int u)
@@ -837,3 +839,4 @@ let is_valid_utf_16le b =
         | _lo -> loop max b (i + 4)
   in
   loop (length b - 1) b 0
+#end
