@@ -2,16 +2,17 @@
   "name": "melange",
   "version": "7.2.0",
   "dependencies": {
-    "ocaml": "4.12.0",
+    "ocaml": "4.14.0",
     "@opam/cmdliner": ">= 1.1.0",
     "@opam/reason": "reasonml/reason:reason.opam#3.8.0",
     "@opam/dune": ">= 3.0",
-    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#4.12.0+mel"
+    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam"
+  },
+  "resolutions": {
+    "ocaml": "esy-ocaml/ocaml#81dcfe8622668f5c1046f1e1e99553b93b627478"
   },
   "devDependencies": {
-    "@opam/ocaml-lsp-server": "*",
     "web-tree-sitter": "0.18.0",
-    "@opam/merlin": "*",
     "@opam/ounit2": "*"
   },
   "scripts": {
