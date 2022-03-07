@@ -42,6 +42,7 @@ let transform_under_supply n ap_info fn args =
   begin match Ext_list.fold_right (fn::args) ([],[])  (fun (lam : Lam.t) (acc, bind) ->
       match lam with
       | Lvar _
+      | Lmutvar _
       | Lconst (Const_int _
         | Const_char _ | Const_string _
         | Const_float _
@@ -144,7 +145,8 @@ let unsafe_adjust_to_arity loc ~(to_:int) ?(from : int option) (fn : Lam.t) : La
           let wrapper, new_fn  =
             match fn with
             | Lvar _
-            | Lprim{primitive = Pfield (_,Fld_module _) ; args = [Lglobal_module _ | Lvar _]; _ }
+            | Lmutvar _
+            | Lprim{primitive = Pfield (_,Fld_module _) ; args = [Lglobal_module _ | Lvar _ | Lmutvar _]; _ }
               ->
               None, fn
             | _ ->
@@ -182,7 +184,8 @@ let unsafe_adjust_to_arity loc ~(to_:int) ?(from : int option) (fn : Lam.t) : La
           let wrapper, new_fn =
             match fn with
             | Lvar _
-            | Lprim {primitive = Pfield (_,Fld_module _) ; args = [ Lglobal_module _ | Lvar _] ; _}  ->
+            | Lmutvar _
+            | Lprim {primitive = Pfield (_,Fld_module _) ; args = [ Lglobal_module _ | Lvar _ | Lmutvar _] ; _}  ->
               None, fn
             | _ ->
               let partial_arg = Ext_ident.create Literals.partial_arg in
@@ -231,7 +234,8 @@ let unsafe_adjust_to_arity loc ~(to_:int) ?(from : int option) (fn : Lam.t) : La
             let wrapper, new_fn =
               match fn with
               | Lvar _
-              | Lprim {primitive = Pfield (_, Fld_module _) ; args = [ Lglobal_module _ | Lvar _] ; _}  ->
+              | Lmutvar _
+              | Lprim {primitive = Pfield (_, Fld_module _) ; args = [ Lglobal_module _ | Lvar _ | Lmutvar _ ] ; _}  ->
                 None, fn
               | _ ->
                 let partial_arg = Ext_ident.create Literals.partial_arg in
@@ -262,7 +266,8 @@ let unsafe_adjust_to_arity loc ~(to_:int) ?(from : int option) (fn : Lam.t) : La
         let wrapper, new_fn  =
           match fn with
           | Lvar _
-          | Lprim{primitive = Pfield (_, Fld_module _) ; args = [Lglobal_module _ | Lvar _]; _ }
+          | Lmutvar _
+          | Lprim{primitive = Pfield (_, Fld_module _) ; args = [Lglobal_module _ | Lvar _ | Lmutvar _]; _ }
             ->
             None, fn
           | _ ->

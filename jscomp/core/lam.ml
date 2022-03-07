@@ -344,6 +344,8 @@ let rec apply fn args (ap_info : ap_info) : t =
       ) params args body *) (* TODO: more rigirous analysis on [let_kind] *)
   | Llet (kind,id, e, (Lfunction _ as fn)) ->
     Llet (kind, id, e, apply fn args ap_info )
+  | Lmutlet (id, e, (Lfunction _ as fn)) ->
+    Lmutlet (id, e, apply fn args ap_info )
   (* | Llet (kind0, id0, e0, Llet (kind,id, e, (Lfunction _ as fn))) ->
     Llet(kind0,id0,e0,Llet (kind, id, e, apply fn args loc status))       *)
   | _ ->

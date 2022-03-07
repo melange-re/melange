@@ -561,6 +561,21 @@ let rec rename_optional_parameters map params  (body : Lambda.lambda) =
     (Lifthenelse(
       Lprim(p,[Lvar new_id],p_loc),
         Lprim(p1,[Lvar new_id],x_loc), f)),rest)
+  | Lmutlet(value_kind,id, (Lifthenelse(
+      Lprim(p,[Lvar opt],p_loc),
+        Lprim(p1,[Lvar opt2],x_loc), f)),rest)
+    when Ident.name opt = "*opt*" &&
+         Ident.name opt2 = "*opt*" &&
+         Ident.same opt opt2 && List.mem opt params
+    ->
+    let map, rest = rename_optional_parameters map params rest in
+    let new_id = Ident.create_local (Ident.name id ^ "Opt") in
+    Map_ident.add map opt new_id,
+    Lambda.Lmutlet(value_kind,id,
+    (Lifthenelse(
+      Lprim(p,[Lvar new_id],p_loc),
+        Lprim(p1,[Lvar new_id],x_loc), f)),rest)
+
   | _ ->
     map, body
 
