@@ -1,5 +1,5 @@
 {
-  "checksum": "100b5b499704ac57481e466e9790266e",
+  "checksum": "bec0fae501ddcc3b19fff4e042975420",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -37,7 +37,8 @@
       "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
       "overrides": [],
       "dependencies": [
-        "ocaml@4.12.0@d41d8cd9", "@opam/reason@opam:3.7.0@5ea7a0b2",
+        "ocaml@4.12.0@d41d8cd9",
+        "@opam/reason@github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f@d41d8cd9",
         "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#83e3017d2e7a058385f71d1d9a4c4ab52dc1c008@d41d8cd9",
         "@opam/dune@opam:3.0.3@2d9f4d6b",
         "@opam/cmdliner@opam:1.1.0@643a0e00"
@@ -197,21 +198,17 @@
         "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:3.0.3@2d9f4d6b"
       ]
     },
-    "@opam/reason@opam:3.7.0@5ea7a0b2": {
-      "id": "@opam/reason@opam:3.7.0@5ea7a0b2",
+    "@opam/reason@github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f@d41d8cd9": {
+      "id":
+        "@opam/reason@github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f@d41d8cd9",
       "name": "@opam/reason",
-      "version": "opam:3.7.0",
+      "version":
+        "github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://opam.ocaml.org/cache/md5/7e/7eb8cbbff8565b93ebfabf4eca7254d4#md5:7eb8cbbff8565b93ebfabf4eca7254d4",
-          "archive:https://registry.npmjs.org/@esy-ocaml/reason/-/reason-3.7.0.tgz#md5:7eb8cbbff8565b93ebfabf4eca7254d4"
-        ],
-        "opam": {
-          "name": "reason",
-          "version": "3.7.0",
-          "path": "esy.lock/opam/reason.3.7.0"
-        }
+          "github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f"
+        ]
       },
       "overrides": [],
       "dependencies": [
