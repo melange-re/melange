@@ -25,7 +25,7 @@ jobs:
 
       - name: Install esy
         if: ${{ matrix.system != 'macos-arm64' }}
-        run: npm install -g esy
+        run: npm install -g esy@beta
 
       - uses: esy/github-action@master
         with:
