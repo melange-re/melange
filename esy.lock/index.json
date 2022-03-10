@@ -1,5 +1,5 @@
 {
-  "checksum": "bec0fae501ddcc3b19fff4e042975420",
+  "checksum": "3b50f5b758695eb9ed90e5df88f70680",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -37,8 +37,7 @@
       "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
       "overrides": [],
       "dependencies": [
-        "ocaml@4.12.0@d41d8cd9",
-        "@opam/reason@github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f@d41d8cd9",
+        "ocaml@4.12.0@d41d8cd9", "@opam/reason@opam:3.8.0@0af856e0",
         "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#83e3017d2e7a058385f71d1d9a4c4ab52dc1c008@d41d8cd9",
         "@opam/dune@opam:3.0.3@2d9f4d6b",
         "@opam/cmdliner@opam:1.1.0@643a0e00"
@@ -198,17 +197,21 @@
         "ocaml@4.12.0@d41d8cd9", "@opam/dune@opam:3.0.3@2d9f4d6b"
       ]
     },
-    "@opam/reason@github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f@d41d8cd9": {
-      "id":
-        "@opam/reason@github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f@d41d8cd9",
+    "@opam/reason@opam:3.8.0@0af856e0": {
+      "id": "@opam/reason@opam:3.8.0@0af856e0",
       "name": "@opam/reason",
-      "version":
-        "github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f",
+      "version": "opam:3.8.0",
       "source": {
         "type": "install",
         "source": [
-          "github:reasonml/reason:reason.opam#f1848950060f035c0c9458d69c87ecfedc98d47f"
-        ]
+          "archive:https://opam.ocaml.org/cache/sha256/94/9478724b01767320064ba950ddea24c5df0eefdcdd8ff1324ba9ccd646258979#sha256:9478724b01767320064ba950ddea24c5df0eefdcdd8ff1324ba9ccd646258979",
+          "archive:https://github.com/reasonml/reason/releases/download/3.8.0/reason-3.8.0.tbz#sha256:9478724b01767320064ba950ddea24c5df0eefdcdd8ff1324ba9ccd646258979"
+        ],
+        "opam": {
+          "name": "reason",
+          "version": "3.8.0",
+          "path": "esy.lock/opam/reason.3.8.0"
+        }
       },
       "overrides": [],
       "dependencies": [
