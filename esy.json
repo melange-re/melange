@@ -4,7 +4,7 @@
   "dependencies": {
     "ocaml": "4.12.0",
     "@opam/cmdliner": ">= 1.1.0",
-    "@opam/reason": "reasonml/reason:reason.opam#3.8.0",
+    "@opam/reason": ">= 3.8.0",
     "@opam/dune": ">= 3.0",
     "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#4.12.0+mel"
   },
