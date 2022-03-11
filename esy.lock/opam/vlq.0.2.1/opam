@@ -1,0 +1,30 @@
+opam-version: "2.0"
+synopsis: "A simple library for encoding variable-length quantities"
+maintainer: "Marshall Roch <mroch@fb.com>"
+authors: "Marshall Roch <mroch@fb.com>"
+license: "MIT"
+homepage: "https://github.com/flowtype/ocaml-vlq"
+doc: "https://github.com/flowtype/ocaml-vlq"
+bug-reports: "https://github.com/flowtype/ocaml-vlq/issues"
+depends: [
+  "ocaml"
+  "dune" {>= "2.0"}
+  "ounit2" {with-test}
+]
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
+]
+dev-repo: "git+https://github.com/flowtype/ocaml-vlq.git"
+description: """
+A simple library for encoding variable-length quantities.
+"""
+x-commit-hash: "d162cbae7032660c1235051933d1b6aa83210428"
+url {
+  src:
+    "https://github.com/flowtype/ocaml-vlq/releases/download/v0.2.1/vlq-v0.2.1.tbz"
+  checksum: [
+    "sha256=b16745cd826a30fa44cdb314b3d26eb9c262826bfe18b61eaedd024ce04d990b"
+    "sha512=f8bc74970009c685315d641358f7a6a6b959c9ba621a98c3149335199c9e0c59233f60add59f025c20f26a02c30ca9b3a18790614110d39c6960c40013dc63fc"
+  ]
+}

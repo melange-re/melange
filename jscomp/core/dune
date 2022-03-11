@@ -14,7 +14,8 @@
   melange-compiler-libs
   outcome_printer
   js_parser
-  napkin))
+  napkin
+  vlq))
 
 (rule
  (targets js_fold.ml)

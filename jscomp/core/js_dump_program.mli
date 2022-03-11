@@ -26,15 +26,10 @@ val dump_program : J.program -> out_channel -> unit
 (** only used for debugging purpose *)
 
 val pp_deps_program :
+  ?sourcemap:Js_sourcemap.t ->
   output_prefix:string ->
   Js_packages_info.module_system ->
   J.deps_program ->
   Ext_pp.t ->
   unit
 
-val dump_deps_program :
-  output_prefix:string ->
-  Js_packages_info.module_system ->
-  J.deps_program ->
-  out_channel ->
-  unit

@@ -293,12 +293,15 @@ js
 let (//) = Filename.concat
 
 let lambda_as_module
+    ~sourcemap
     (lambda_output : J.deps_program)
     (output_prefix : string)
   : unit =
   let write_to_file module_system file  =
     Ext_pervasives.with_file_as_chan file (fun chan ->
-    Js_dump_program.dump_deps_program ~output_prefix
+    Js_dump_program.dump_deps_program
+      ~sourcemap
+      ~output_prefix
       module_system
       lambda_output
       chan) in
@@ -309,8 +312,12 @@ let lambda_as_module
   let package_info = Js_packages_state.get_packages_info () in
   let are_packages_empty = Js_packages_info.is_empty package_info in
   match (are_packages_empty, !Js_config.js_stdout, !Clflags.output_name) with
-  | (true, true, None) ->
-    Js_dump_program.dump_deps_program ~output_prefix NodeJS lambda_output stdout
+  | (true, true, None) -> 
+    Js_dump_program.dump_deps_program
+      ~output_prefix
+      NodeJS
+      lambda_output
+      stdout
   | (true, _, Some _) ->
     (* TODO: try this on windows *)
     let basename = make_basename Js in

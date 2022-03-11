@@ -6,14 +6,29 @@
     "@opam/cmdliner": ">= 1.1.0",
     "@opam/reason": "reasonml/reason:reason.opam#3.8.0",
     "@opam/dune": ">= 3.0",
-    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam"
+    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam",
+    "@opam/vlq": "*"
   },
   "resolutions": {
-    "ocaml": "esy-ocaml/ocaml#81dcfe8622668f5c1046f1e1e99553b93b627478"
+    "ocaml": "esy-ocaml/ocaml#81dcfe8622668f5c1046f1e1e99553b93b627478",
+    "@opam/dune": "EduardoRFS/dune:dune.opam#b9d9eb13366d1edcdfbdb3afe3afa5c08ff87e54",
+    "@opam/ocaml-lsp-server": {
+      "source": "EduardoRFS/ocaml-lsp:ocaml-lsp-server.opam#24fcebcec9f1e99815b036a6d45c0f912e8e8a19",
+      "override": {
+        "dependencies": {
+          "@opam/ocamlformat-rpc-lib": "*"
+        }
+      }
+    },
+    "@opam/ocamlformat": "EduardoRFS/ocamlformat:ocamlformat.opam#832e0a33d5cc05a77a335e6b6fa369172c742c95",
+    "@opam/ocamlformat-rpc": "EduardoRFS/ocamlformat:ocamlformat-rpc.opam#832e0a33d5cc05a77a335e6b6fa369172c742c95",
+    "@opam/ocamlformat-rpc-lib": "EduardoRFS/ocamlformat:ocamlformat-rpc-lib.opam#832e0a33d5cc05a77a335e6b6fa369172c742c95"
   },
   "devDependencies": {
     "web-tree-sitter": "0.18.0",
-    "@opam/ounit2": "*"
+    "@opam/ounit2": "*",
+    "@opam/ocamlformat": "*",
+    "@opam/ocaml-lsp-server": "*"
   },
   "scripts": {
     "test": "esy b dune runtest --disable-promotion --ignore-promoted-rules",

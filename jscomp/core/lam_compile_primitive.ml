@@ -52,9 +52,9 @@ let translate  loc
     ->
     E.make_exception s
   | Pwrap_exn ->
-    E.runtime_call Js_runtime_modules.caml_js_exceptions "internalToOCamlException" args
+    E.runtime_call ~loc Js_runtime_modules.caml_js_exceptions "internalToOCamlException" args
   | Praw_js_code {code; code_info} ->
-    E.raw_js_code code_info code
+    E.raw_js_code ~loc code_info code
     (* FIXME: save one allocation
        trim can not be done before syntax checking
        otherwise location is incorrect
@@ -62,12 +62,12 @@ let translate  loc
   | Pjs_runtime_apply ->
     (match args with
      | [f ;  args] ->
-       E.flat_call f args
+       E.flat_call ~loc f args
      | _ -> assert false)
   | Pjs_apply ->
     (match args with
      | fn :: rest ->
-       E.call ~info:{arity=Full; call_info =  Call_na} fn rest
+       E.call ~loc ~info:{arity=Full; call_info =  Call_na} fn rest
      | _ -> assert false)
   | Pnull_to_opt ->
     (match args with
@@ -76,7 +76,7 @@ let translate  loc
         | Var _ | Undefined | Null ->
           Js_of_lam_option.null_to_opt e
         | _ ->
-          E.runtime_call Js_runtime_modules.option
+          E.runtime_call ~loc Js_runtime_modules.option
             "null_to_opt" args)
      | _ -> assert false )
 
@@ -87,7 +87,7 @@ let translate  loc
         | Var _ | Undefined | Null ->
           Js_of_lam_option.undef_to_opt e
         | _ ->
-          E.runtime_call Js_runtime_modules.option
+          E.runtime_call ~loc Js_runtime_modules.option
             "undefined_to_opt" args )
      | _ -> assert false )
 
@@ -98,24 +98,24 @@ let translate  loc
           | Var _ | Undefined | Null   ->
             Js_of_lam_option.null_undef_to_opt e
           | _ ->
-            E.runtime_call
+            E.runtime_call ~loc
               Js_runtime_modules.option
               "nullable_to_opt" args
         end
       | _ -> assert false
     end
   | Pjs_function_length ->
-    E.function_length (Ext_list.singleton_exn args)
+    E.function_length ~loc (Ext_list.singleton_exn args)
   | Pcaml_obj_length ->
-    E.obj_length (Ext_list.singleton_exn args)
+    E.obj_length ~loc (Ext_list.singleton_exn args)
   | Pis_null ->
-    E.is_null (Ext_list.singleton_exn args)
+    E.is_null ~loc (Ext_list.singleton_exn args)
   | Pis_undefined ->
-    E.is_undef (Ext_list.singleton_exn args)
+    E.is_undef ~loc (Ext_list.singleton_exn args)
   | Pis_null_undefined ->
-    E.is_null_undefined (Ext_list.singleton_exn args)
+    E.is_null_undefined ~loc (Ext_list.singleton_exn args)
   | Pjs_typeof ->
-    E.typeof (Ext_list.singleton_exn args)
+    E.typeof ~loc (Ext_list.singleton_exn args)
 
   | Pjs_unsafe_downgrade _
   | Pdebugger
@@ -127,13 +127,13 @@ let translate  loc
   | Pstringadd ->
     begin match args with
       | [a;b] ->
-        E.string_append a b
+        E.string_append ~loc a b
       | _ -> assert false
     end
   | Pinit_mod ->
-    E.runtime_call Js_runtime_modules.module_ "init_mod" args
+    E.runtime_call ~loc Js_runtime_modules.module_ "init_mod" args
   | Pupdate_mod ->
-    E.runtime_call Js_runtime_modules.module_ "update_mod" args
+    E.runtime_call ~loc Js_runtime_modules.module_ "update_mod" args
   | Psome ->
     let arg = Ext_list.singleton_exn args in
     (match arg.expression_desc with
@@ -149,7 +149,7 @@ let translate  loc
           site, and inline recovered it
        *)
        E.optional_not_nest_block arg
-     | _ -> E.optional_block arg)
+     | _ -> E.optional_block ~loc arg)
   | Psome_not_nest ->
     E.optional_not_nest_block (Ext_list.singleton_exn args)
   | Pmakeblock(tag, tag_info, mutable_flag ) ->  (* RUNTIME *)
@@ -174,7 +174,7 @@ let translate  loc
   | Pnegint
     ->
       (* #977 *)
-      E.int32_minus (E.zero_int_literal)  (Ext_list.singleton_exn args)
+      E.int32_minus ~loc (E.zero_int_literal)  (Ext_list.singleton_exn args)
   | Pnegint64
     ->
     Js_long.neg args
@@ -182,14 +182,14 @@ let translate  loc
 
   | Pnegfloat
     ->
-      E.float_minus (E.zero_float_lit) (Ext_list.singleton_exn args)
+      E.float_minus ~loc (E.zero_float_lit) (Ext_list.singleton_exn args)
   (** Negate boxed int end*)
   (* Int addition and subtraction *)
   | Paddint
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_add  e1  e2
+        E.int32_add ~loc  e1  e2
       | _ -> assert false
     end
   | Paddint64
@@ -201,14 +201,14 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.float_add  e1  e2
+        E.float_add ~loc e1  e2
       | _ -> assert false
     end
   | Psubint
     ->
     begin match args with
       | [e1; e2] ->
-        E.int32_minus e1 e2
+        E.int32_minus ~loc e1 e2
       | _ -> assert false
     end
   | Psubint64
@@ -218,14 +218,14 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.float_minus   e1  e2
+        E.float_minus ~loc e1  e2
       | _ -> assert false
     end
   | Pmulint
     ->
     begin match args with
       | [e1; e2]  ->
-        E.int32_mul  e1  e2
+        E.int32_mul ~loc e1  e2
       | _ -> assert false
     end
   | Pmulint64
@@ -235,19 +235,19 @@ let translate  loc
     ->
     begin match args with
       | [e1; e2]  ->
-        E.float_mul  e1  e2
+        E.float_mul ~loc e1  e2
       | _ -> assert false
     end
   | Pdivfloat ->
     begin match args with
-      | [e1;e2] -> E.float_div  e1  e2
+      | [e1;e2] -> E.float_div ~loc e1  e2
       | _ -> assert false
     end
   | Pdivint
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_div ~checked:(!Js_config.check_div_by_zero) e1 e2
+        E.int32_div ~loc ~checked:(!Js_config.check_div_by_zero) e1 e2
       | _ -> assert false
     end
 
@@ -257,7 +257,7 @@ let translate  loc
     ->
     begin match args with
       | [e1; e2] ->
-        E.int32_mod   ~checked:(!Js_config.check_div_by_zero) e1  e2
+        E.int32_mod ~loc ~checked:(!Js_config.check_div_by_zero) e1  e2
       | _ -> assert false
     end
   | Pmodint64
@@ -266,7 +266,7 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_lsl e1  e2
+        E.int32_lsl ~loc e1  e2
       | _ -> assert false
     end
   | Plslint64
@@ -278,7 +278,7 @@ let translate  loc
         ->
         e1
       | [e1; e2] ->
-        E.to_int32 @@ E.int32_lsr   e1  e2
+        E.to_int32 ~loc @@ E.int32_lsr ~loc  e1  e2
       | _ -> assert false
     end
   | Plsrint64
@@ -287,7 +287,7 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_asr  e1  e2
+        E.int32_asr ~loc e1  e2
       | _ -> assert false
     end
   | Pasrint64
@@ -296,7 +296,7 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_band  e1  e2
+        E.int32_band ~loc e1  e2
       | _ -> assert false
     end
   | Pandint64
@@ -305,7 +305,7 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_bor  e1  e2
+        E.int32_bor ~loc e1  e2
       | _ -> assert false
     end
   | Porint64
@@ -314,7 +314,7 @@ let translate  loc
     ->
     begin match args with
       | [e1;e2] ->
-        E.int32_bxor  e1  e2
+        E.int32_bxor ~loc e1  e2
       | _ -> assert false
     end
   | Pxorint64
@@ -322,13 +322,13 @@ let translate  loc
     Js_long.xor args
   | Pjscomp cmp ->
     begin match args with
-      | [l;r] -> E.js_comp cmp l r
+      | [l;r] -> E.js_comp ~loc cmp l r
       | _ -> assert false
     end
 
   | Pfloatcomp cmp ->
     (match args with
-     | [e1;e2] -> E.float_comp cmp e1 e2
+     | [e1;e2] -> E.float_comp ~loc cmp e1 e2
      | _ -> assert false )
 
   | Pintcomp cmp
@@ -337,7 +337,7 @@ let translate  loc
        [Not_found] or [Invalid_argument] ?
     *)
     (match args with
-     | [e1;e2] -> E.int_comp cmp e1 e2
+     | [e1;e2] -> E.int_comp ~loc cmp e1 e2
      | _ -> assert false )
   (* List --> stamp = 0
      Assert_false --> stamp = 26
@@ -349,7 +349,7 @@ let translate  loc
   | Pintoffloat ->
     begin
       match args with
-      | [e] -> E.to_int32 e
+      | [e] -> E.to_int32 ~loc e
       | _ -> assert false
     end
   | Pint64ofint
@@ -359,22 +359,22 @@ let translate  loc
   | Pintofint64
     -> Js_long.to_int32 args
   | Pnot ->
-    E.not  (Ext_list.singleton_exn args)
+    E.not (Ext_list.singleton_exn args)
   | Poffsetint n ->
     E.offset (Ext_list.singleton_exn args) n
   | Poffsetref n ->
     let v = Js_of_lam_block.field Lambda.ref_field_info (Ext_list.singleton_exn args) 0l in
-    E.seq (E.assign  v (E.offset v n)) E.unit
+    E.seq ~loc (E.assign ~loc v (E.offset v n)) E.unit
   | Psequand -> (* TODO: rhs is possibly a tail call *)
     begin match args with
       | [e1;e2] ->
-        E.and_   e1  e2
+        E.and_ ~loc e1  e2
       | _ -> assert false
     end
   | Psequor -> (* TODO: rhs is possibly a tail call *)
     begin match args with
       | [e1;e2] ->
-        E.or_  e1  e2
+        E.or_ ~loc e1  e2
       | _ -> assert false
     end
   | Pisout off ->
@@ -401,9 +401,9 @@ let translate  loc
   | Pbytes_to_string  ->
     Js_of_lam_string.bytes_to_string (Ext_list.singleton_exn args)
   | Pstringlength ->
-    E.string_length (Ext_list.singleton_exn args)
+    E.string_length ~loc (Ext_list.singleton_exn args)
   | Pbyteslength  ->
-    E.bytes_length (Ext_list.singleton_exn args)
+    E.bytes_length ~loc (Ext_list.singleton_exn args)
   (* This should only be Pbyteset(u|s), which in js, is an int array
      Bytes is an int array in javascript
   *)
@@ -414,15 +414,15 @@ let translate  loc
                       (Js_of_lam_string.set_byte e e0 e1)
      | _ -> assert false)
   | Pbytessets ->
-    E.runtime_call Js_runtime_modules.bytes "set" args
+    E.runtime_call ~loc Js_runtime_modules.bytes "set" args
   | Pbytesrefu ->
     (match args with
      | [e;e1] -> Js_of_lam_string.ref_byte e e1
      | _ -> assert false)
   | Pbytesrefs ->
-    E.runtime_call Js_runtime_modules.bytes "get" args
+    E.runtime_call ~loc Js_runtime_modules.bytes "get" args
   | Pstringrefs ->
-    E.runtime_call Js_runtime_modules.string "get" args
+    E.runtime_call ~loc Js_runtime_modules.string "get" args
 
   (* For bytes and string, they both return [int] in ocaml
       we need tell Pbyteref from Pstringref
@@ -438,7 +438,7 @@ let translate  loc
   | Praise  -> assert false (* handled before here *)
   (* Runtime encoding relevant *)
   | Parraylength ->
-    E.array_length (Ext_list.singleton_exn args)
+    E.array_length ~loc (Ext_list.singleton_exn args)
   | Psetfield (i, field_info) ->
     (match args with
      | [e0;e1] ->  (** RUNTIME *)
@@ -458,9 +458,9 @@ let translate  loc
      | [e;e1] -> Js_of_lam_array.ref_array e e1 (* Todo: Constant Folding *)
      | _ -> assert false)
   | Parrayrefs ->
-    E.runtime_call Js_runtime_modules.array "get" args
+    E.runtime_call ~loc Js_runtime_modules.array "get" args
   | Parraysets  ->
-    E.runtime_call Js_runtime_modules.array "set" args
+    E.runtime_call ~loc Js_runtime_modules.array "set" args
   | Pmakearray  ->
     Js_of_lam_array.make_array Mutable  args
   | Parraysetu  ->
@@ -480,32 +480,32 @@ let translate  loc
        cxt arg_types ffi args
   (** FIXME, this can be removed later *)
   | Pisint ->
-    E.is_type_number (Ext_list.singleton_exn args)
+    E.is_type_number ~loc (Ext_list.singleton_exn args)
   | Pis_poly_var_const ->
-    E.is_type_string (Ext_list.singleton_exn args)
+    E.is_type_string ~loc (Ext_list.singleton_exn args)
   | Pctconst ct ->
     (match ct with
      | Big_endian -> E.bool Sys.big_endian
      | Ostype ->
-      (E.runtime_call Js_runtime_modules.sys "os_type" args)
+      (E.runtime_call ~loc Js_runtime_modules.sys "os_type" args)
      | Ostype_unix ->
        E.string_equal
-       (E.runtime_call Js_runtime_modules.sys "os_type" args)
-         (E.str "Unix")
+       (E.runtime_call ~loc Js_runtime_modules.sys "os_type" args)
+         (E.str ~loc "Unix")
      | Ostype_win32 ->
        E.string_equal
          (E.runtime_call Js_runtime_modules.sys "os_type" args)
-         (E.str "Win32")
+         (E.str ~loc "Win32")
      (* | Max_wosize ->
       (* max_array_length*)
        E.int 2147483647l (* 2 ^ 31 - 1 *)  *)
         (* 4_294_967_295l  not representable*)
         (* 2 ^ 32 - 1*)
      | Backend_type  ->
-      E.make_block
+      E.make_block ~loc
         E.zero_int_literal
         (Blk_constructor {name = "Other"; num_nonconst = 1})
-        [E.str "BS"] Immutable
+        [E.str ~loc "BS"] Immutable
      )
   | Pduprecord (Record_regular| Record_extension| Record_inlined _ ) ->
       Lam_dispatch_primitive.translate loc "caml_obj_dup" args

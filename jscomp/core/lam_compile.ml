@@ -1367,6 +1367,7 @@ and compile_apply
          1. check arity, can be simplified for pure expression
          2. no need create names
       *)
+      let loc = appinfo.ap_info.ap_loc in
       let ap_func = appinfo.ap_func in
       let new_cxt = {lambda_cxt with continuation = NeedValue Not_tail} in
       let [@warning "-8" (* non-exhaustive pattern*)] (args_code, fn_code:: args) =
@@ -1415,7 +1416,7 @@ and compile_apply
         Js_output.make  ~output_finished:True (Ext_list.append args_code block)
       | _ ->
         Js_output.output_of_block_and_expression lambda_cxt.continuation args_code
-          (E.call ~info:(call_info_of_ap_status  appinfo.ap_info.ap_status) fn_code args)
+          (E.call ~loc ~info:(call_info_of_ap_status  appinfo.ap_info.ap_status) fn_code args)
 and compile_prim (prim_info : Lam.prim_info) (lambda_cxt : Lam_compile_context.t) =
     match prim_info with
     | {primitive = Pfield (_, fld_info); args = [ Lglobal_module id ]; _}
@@ -1579,11 +1580,11 @@ and compile_prim (prim_info : Lam.prim_info) (lambda_cxt : Lam_compile_context.t
 and compile_lambda
     (lambda_cxt : Lam_compile_context.t)
     (cur_lam : Lam.t)  : Js_output.t  =
-
     match cur_lam with
-    | Lfunction{ params; body; attr = { return_unit; _ }; _ } ->
+    | Lfunction{ params; body; attr = { return_unit; _ }; loc } ->
       Js_output.output_of_expression lambda_cxt.continuation  ~no_effects:no_effects_const
         (E.ocaml_fun
+           ~loc
            params
            ~return_unit
            (* Invariant:  jmp_table can not across function boundary,

@@ -65,18 +65,20 @@ val external_var : ?loc:Location.t -> ?comment:string -> external_name:string ->
 val ml_module_as_var : ?loc:Location.t -> ?comment:string -> Ident.t -> t
 
 val runtime_call :
+  ?loc:Location.t -> 
   string -> (* module_name *)
             string -> (* fn_name *)
                       t list -> (* args *)
                                 t
 
 val pure_runtime_call :
+  ?loc:Location.t -> 
   string -> (* module_name *)
             string -> (* fn_name *)
                       t list -> (* args *)
                                 t
 
-val runtime_ref : string -> string -> t
+val runtime_ref : ?loc:Location.t -> string -> string -> t
 val public_method_call : string -> t -> t -> Int32.t -> t list -> t
 val str : ?pure:bool -> ?loc:Location.t -> ?comment:string -> string -> t
 val unicode : ?loc:Location.t -> ?comment:string -> string -> t
@@ -209,7 +211,7 @@ val call : ?loc:Location.t -> ?comment:string -> info:Js_call_info.t -> t -> t l
 val flat_call : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val new_ : ?loc:Location.t -> ?comment:string -> J.expression -> J.expression list -> t
 val array : ?loc:Location.t -> ?comment:string -> J.mutable_flag -> J.expression list -> t
-val optional_block : J.expression -> J.expression
+val optional_block : ?loc:Location.t -> J.expression -> J.expression
 val optional_not_nest_block : J.expression -> J.expression
 
 val make_block :

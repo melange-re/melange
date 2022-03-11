@@ -114,20 +114,20 @@ let ml_module_as_var ?loc ?comment (id : Ident.t) : t  =
   make_expression ?loc ?comment (Var (Qualified ({id; kind = Ml}, None)))
 
 (* Static_index .....................**)
-let runtime_call module_name fn_name args =
-  call
+let runtime_call ?loc module_name fn_name args =
+  call ?loc
     ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot  module_name fn_name) args
 
-let pure_runtime_call module_name fn_name args =
-  call ~comment:Literals.pure
+let pure_runtime_call ?loc module_name fn_name args =
+  call ?loc ~comment:Literals.pure
     ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot  module_name fn_name) args
 
-let runtime_ref module_name fn_name =
-  runtime_var_dot  module_name fn_name
+let runtime_ref ?loc module_name fn_name =
+  runtime_var_dot ?loc module_name fn_name
 
-let str ?(pure=true)  ?loc ?comment s : t =
+let str ?(pure=true) ?loc ?comment s : t =
   make_expression ?loc ?comment (Str (pure,s))
 
 let unicode ?loc ?comment s : t =
@@ -142,8 +142,8 @@ let array ?loc ?comment mt es : t  =
 
 let some_comment = None
 
-let optional_block e  : J.expression =
-  make_expression ?comment:some_comment (Optional_block (e,false))
+let optional_block ?loc e  : J.expression =
+  make_expression ?loc ?comment:some_comment (Optional_block (e,false))
 
 
 let optional_not_nest_block e : J.expression =

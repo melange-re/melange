@@ -8,3 +8,7 @@ _opam
 node_modules
 lib/melange
 .vscode/settings.json
+dune-hack
+melange-dune-hack
+x
+lib_math

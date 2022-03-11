@@ -41,5 +41,8 @@
   "bugs": {
     "url": "https://github.com/rescript-lang/rescript-compiler/issues"
   },
-  "homepage": "https://github.com/rescript-lang/rescript-compiler#readme"
+  "homepage": "https://github.com/rescript-lang/rescript-compiler#readme",
+  "dependencies": {
+    "web-tree-sitter": "0.18.0"
+  }
 }

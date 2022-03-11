@@ -1,0 +1,43 @@
+opam-version: "2.0"
+synopsis: """Unicode text segmentation for OCaml"""
+maintainer: ["Daniel Bünzli <daniel.buenzl i@erratique.ch>"]
+authors: ["The uuseg programmers"]
+homepage: "https://erratique.ch/software/uuseg"
+doc: "https://erratique.ch/software/uuseg/doc/"
+dev-repo: "git+https://erratique.ch/repos/uuseg.git"
+bug-reports: "https://github.com/dbuenzli/uuseg/issues"
+license: ["ISC"]
+tags: ["unicode" "text" "segmentation" "org:erratique"]
+depends: ["ocaml" {>= "4.03.0"}
+          "ocamlfind" {build}
+          "ocamlbuild" {build}
+          "topkg" {build & >= "1.0.3"}
+          "uucp" {>= "14.0.0" & < "15.0.0"}]
+depopts: ["uutf"
+          "cmdliner"]
+conflicts: ["uutf" {< "1.0.0"}]
+build: [["ocaml" "pkg/pkg.ml" "build" "--dev-pkg" "%{dev}%"
+         "--with-uutf" "%{uutf:installed}%"
+         "--with-cmdliner" "%{cmdliner:installed}%" ]]
+url {
+  src: "https://erratique.ch/software/uuseg/releases/uuseg-14.0.0.tbz"
+  checksum: "sha512=3f089baf95f010663a0c2f060b2911395d9b396f478efb10fd979815f527c9e61e0a70b3192f2e921f59287bfde0da6e25109d4a1825554e2e4a50c0535e97aa"}
+description: """
+Uuseg is an OCaml library for segmenting Unicode text. It implements
+the locale independent [Unicode text segmentation algorithms][1] to
+detect grapheme cluster, word and sentence boundaries and the
+[Unicode line breaking algorithm][2] to detect line break
+opportunities.
+
+The library is independent from any IO mechanism or Unicode text data
+structure and it can process text without a complete in-memory
+representation.
+
+Uuseg depends on [Uucp](http://erratique.ch/software/uucp) and
+optionally on [Uutf](http://erratique.ch/software/uutf) for support on
+OCaml UTF-X encoded strings. It is distributed under the ISC license.
+
+[1]: http://www.unicode.org/reports/tr29/
+[2]: http://www.unicode.org/reports/tr14/
+
+Homepage: http://erratique.ch/software/uuseg"""
