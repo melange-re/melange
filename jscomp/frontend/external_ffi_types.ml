@@ -73,6 +73,7 @@ type external_spec =
   | Js_new of {
       name : string ;
       external_module_name : external_module_name option;
+      splice : bool;
       scopes : string list;
     }
   | Js_set of
