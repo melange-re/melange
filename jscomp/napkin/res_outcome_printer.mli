@@ -6,7 +6,7 @@
  *  - editor tooling, e.g. show type on hover
  *
  * In general it represent messages to show results or errors to the user. *)
-open Reason_migrate_parsetree
+open Reason_omp
 open Ast_406
 
 val parenthesized_ident : string -> bool [@@live]

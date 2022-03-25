@@ -114,7 +114,7 @@ let ppf = Format.err_formatter
 
 (* Error messages to standard error formatter *)
 open struct
-  open Reason_migrate_parsetree
+  open Reason_omp
   module To_current = Convert(OCaml_406)(OCaml_current)
   module From_current = Convert(OCaml_current)(OCaml_406)
 

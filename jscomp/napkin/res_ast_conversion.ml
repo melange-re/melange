@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree.Ast_406
+open Reason_omp.Ast_406
 
 let concatLongidents l1 l2 =
   let parts1 = Longident.flatten l1 in

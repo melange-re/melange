@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree.Ast_406
+open Reason_omp.Ast_406
 
 type kind = Parenthesized | Braced of Location.t | Nothing
 
