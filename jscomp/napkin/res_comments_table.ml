@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree.Ast_406
+open Reason_omp.Ast_406
 
 module Comment = Res_comment
 module Doc = Res_doc

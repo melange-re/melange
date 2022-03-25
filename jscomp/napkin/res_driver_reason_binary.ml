@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree
+open Reason_omp
 module IO = Res_io
 
 let isReasonDocComment (comment: Res_comment.t) =

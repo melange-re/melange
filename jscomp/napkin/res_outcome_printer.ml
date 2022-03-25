@@ -7,7 +7,7 @@
  *
  * In general it represent messages to show results or errors to the user. *)
 
-open Reason_migrate_parsetree
+open Reason_omp
 open Ast_406
 module Doc = Res_doc
 module Token = Res_token
