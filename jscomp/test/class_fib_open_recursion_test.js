@@ -8,12 +8,7 @@ var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
 
-var shared = [
-  "calc",
-  "*dummy method*"
-];
-
-var shared$1 = ["calc"];
+var shared = ["calc"];
 
 var suites = {
   contents: /* [] */0
@@ -41,8 +36,7 @@ function eq(loc, x, y) {
 }
 
 function fib_init($$class) {
-  var ids = CamlinternalOO.get_method_labels($$class, shared);
-  var calc = ids[0];
+  var calc = CamlinternalOO.get_method_label($$class, "calc");
   CamlinternalOO.set_method($$class, calc, (function (self$1, x) {
           if (x === 0 || x === 1) {
             return 1;
@@ -55,13 +49,13 @@ function fib_init($$class) {
   };
 }
 
-var fib = CamlinternalOO.make_class(shared$1, fib_init);
+var fib = CamlinternalOO.make_class(shared, fib_init);
 
 function memo_fib_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, shared, ["cache"]);
   var calc = ids[0];
-  var cache = ids[2];
-  var inh = CamlinternalOO.inherits($$class, 0, 0, shared$1, fib, true);
+  var cache = ids[1];
+  var inh = CamlinternalOO.inherits($$class, 0, 0, shared, fib, true);
   var obj_init = inh[0];
   var calc$1 = inh[1];
   CamlinternalOO.set_method($$class, calc, (function (self$2, x) {
@@ -86,7 +80,7 @@ function memo_fib_init($$class) {
   };
 }
 
-var memo_fib = CamlinternalOO.make_class(shared$1, memo_fib_init);
+var memo_fib = CamlinternalOO.make_class(shared, memo_fib_init);
 
 var tmp = Curry._1(memo_fib[0], undefined);
 

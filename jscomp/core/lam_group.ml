@@ -22,15 +22,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** This is not a recursive type definition *)
-type t =
-  | Single of Lam_compat.let_kind * Ident.t * Lam.t
+type let_kind = Strict | Alias | StrictOpt | Variable
+
+type nonrec t =
+  | Single of let_kind * Ident.t * Lam.t
   | Recursive of (Ident.t * Lam.t) list
   | Nop of Lam.t
 
-let single (kind : Lam_compat.let_kind) id (body : Lam.t) =
+let to_lam_kind = function
+  | Strict -> Lam_compat.Strict
+  | Alias -> Lam_compat.Alias
+  | StrictOpt -> Lam_compat.StrictOpt
+  | Variable -> assert false
+
+let of_lam_kind = function
+  | Lam_compat.Strict -> Strict
+  | Lam_compat.Alias -> Alias
+  | Lam_compat.StrictOpt -> StrictOpt
+
+let single (kind : let_kind) id (body : Lam.t) =
   match (kind, body) with
   | (Strict | StrictOpt), (Lvar _ | Lconst _) -> Single (Alias, id, body)
+  (* | _, (Lmutvar _ | Lmutlet _) -> Single (Variable, id, body) *)
   | _ -> Single (kind, id, body)
 
 let nop_cons (x : Lam.t) acc =
@@ -38,8 +51,7 @@ let nop_cons (x : Lam.t) acc =
 
 (* let pp = Format.fprintf *)
 
-let str_of_kind (kind : Lam_compat.let_kind) =
-  match kind with
+let str_of_kind = function
   | Alias -> "a"
   | Strict -> ""
   | StrictOpt -> "o"

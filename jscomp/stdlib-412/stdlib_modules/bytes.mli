@@ -182,6 +182,27 @@ val mapi : (int -> char -> char) -> bytes -> bytes
     index (in increasing index order) and stores the resulting bytes
     in a new sequence that is returned as the result. *)
 
+val fold_left : ('a -> char -> 'a) -> 'a -> bytes -> 'a
+(** [fold_left f x s] computes
+    [f (... (f (f x (get s 0)) (get s 1)) ...) (get s (n-1))],
+    where [n] is the length of [s].
+    @since 4.13.0 *)
+
+val fold_right : (char -> 'a -> 'a) -> bytes -> 'a -> 'a
+(** [fold_right f s x] computes
+    [f (get s 0) (f (get s 1) ( ... (f (get s (n-1)) x) ...))],
+    where [n] is the length of [s].
+    @since 4.13.0 *)
+
+val for_all : (char -> bool) -> bytes -> bool
+(** [for_all p s] checks if all characters in [s] satisfy the predicate [p].
+    @since 4.13.0 *)
+
+val exists : (char -> bool) -> bytes -> bool
+(** [exists p s] checks if at least one character of [s] satisfies the predicate
+    [p].
+    @since 4.13.0 *)
+
 val trim : bytes -> bytes
 (** Return a copy of the argument, without leading and trailing
     whitespace. The bytes regarded as whitespace are the ASCII
@@ -323,6 +344,19 @@ val equal: t -> t -> bool
 (** The equality function for byte sequences.
     @since 4.03.0 (4.05.0 in BytesLabels) *)
 
+val starts_with :
+  prefix (* comment thwarts tools/sync_stdlib_docs *) :bytes -> bytes -> bool
+(** [starts_with ][~][prefix s] is [true] if and only if [s] starts with
+    [prefix].
+
+    @since 4.13.0 *)
+
+val ends_with :
+  suffix (* comment thwarts tools/sync_stdlib_docs *) :bytes -> bytes -> bool
+(** [ends_with suffix s] is [true] if and only if [s] ends with [suffix].
+
+    @since 4.13.0 *)
+
 (** {1:unsafe Unsafe conversions (for advanced users)}
 
     This section describes unsafe, low-level conversion functions
@@ -453,11 +487,26 @@ let s = Bytes.of_string "hello"
 *)
 
 
+val split_on_char: char -> bytes -> bytes list
+(** [split_on_char sep s] returns the list of all (possibly empty)
+    subsequences of [s] that are delimited by the [sep] character.
+
+    The function's output is specified by the following invariants:
+
+    - The list is not empty.
+    - Concatenating its elements using [sep] as a separator returns a
+      byte sequence equal to the input ([Bytes.concat (Bytes.make 1 sep)
+      (Bytes.split_on_char sep s) = s]).
+    - No byte sequence in the result contains the [sep] character.
+
+    @since 4.13.0
+*)
+
 (** {1 Iterators} *)
 
 val to_seq : t -> char Seq.t
 (** Iterate on the string, in increasing index order. Modifications of the
-    string during iteration will be reflected in the iterator.
+    string during iteration will be reflected in the sequence.
     @since 4.07 *)
 
 val to_seqi : t -> (int * char) Seq.t
@@ -470,6 +519,61 @@ val of_seq : char Seq.t -> t
 
 #if BS then
 #else
+(** {1:utf UTF codecs and validations}
+
+    @since 4.14 *)
+
+(** {2:utf_8 UTF-8} *)
+
+val get_utf_8_uchar : t -> int -> Uchar.utf_decode
+(** [get_utf_8_uchar b i] decodes an UTF-8 character at index [i] in
+    [b]. *)
+
+val set_utf_8_uchar : t -> int -> Uchar.t -> int
+(** [set_utf_8_uchar b i u] UTF-8 encodes [u] at index [i] in [b]
+    and returns the number of bytes [n] that were written starting
+    at [i]. If [n] is [0] there was not enough space to encode [u]
+    at [i] and [b] was left untouched. Otherwise a new character can
+    be encoded at [i + n]. *)
+
+val is_valid_utf_8 : t -> bool
+(** [is_valid_utf_8 b] is [true] if and only if [b] contains valid
+    UTF-8 data. *)
+
+(** {2:utf_16be UTF-16BE} *)
+
+val get_utf_16be_uchar : t -> int -> Uchar.utf_decode
+(** [get_utf_16be_uchar b i] decodes an UTF-16BE character at index
+    [i] in [b]. *)
+
+val set_utf_16be_uchar : t -> int -> Uchar.t -> int
+(** [set_utf_16be_uchar b i u] UTF-16BE encodes [u] at index [i] in [b]
+    and returns the number of bytes [n] that were written starting
+    at [i]. If [n] is [0] there was not enough space to encode [u]
+    at [i] and [b] was left untouched. Otherwise a new character can
+    be encoded at [i + n]. *)
+
+val is_valid_utf_16be : t -> bool
+(** [is_valid_utf_16be b] is [true] if and only if [b] contains valid
+    UTF-16BE data. *)
+
+(** {2:utf_16le UTF-16LE} *)
+
+val get_utf_16le_uchar : t -> int -> Uchar.utf_decode
+(** [get_utf_16le_uchar b i] decodes an UTF-16LE character at index
+    [i] in [b]. *)
+
+val set_utf_16le_uchar : t -> int -> Uchar.t -> int
+(** [set_utf_16le_uchar b i u] UTF-16LE encodes [u] at index [i] in [b]
+    and returns the number of bytes [n] that were written starting
+    at [i]. If [n] is [0] there was not enough space to encode [u]
+    at [i] and [b] was left untouched. Otherwise a new character can
+    be encoded at [i + n]. *)
+
+val is_valid_utf_16le : t -> bool
+(** [is_valid_utf_16le b] is [true] if and only if [b] contains valid
+    UTF-16LE data. *)
+
 (** {1 Binary encoding/decoding of integers} *)
 
 (** The functions in this section binary encode and decode integers to
@@ -490,13 +594,14 @@ val of_seq : char Seq.t -> t
 
     8-bit and 16-bit integers are represented by the [int] type,
     which has more bits than the binary encoding.  These extra bits
-    are handled as follows: {ul
+    are handled as follows:
+    {ul
     {- Functions that decode signed (resp. unsigned) 8-bit or 16-bit
-    integers represented by [int] values sign-extend
-    (resp. zero-extend) their result.}
+       integers represented by [int] values sign-extend
+       (resp. zero-extend) their result.}
     {- Functions that encode 8-bit or 16-bit integers represented by
-    [int] values truncate their input to their least significant
-    bytes.}}
+       [int] values truncate their input to their least significant
+       bytes.}}
 *)
 
 val get_uint8 : bytes -> int -> int

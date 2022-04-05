@@ -27,10 +27,7 @@ function eq(loc, x, y) {
 }
 
 function comparable_1($$class) {
-  CamlinternalOO.get_method_labels($$class, [
-        "leq",
-        "*dummy method*"
-      ]);
+  CamlinternalOO.get_method_label($$class, "leq");
   return function (env, self) {
     return CamlinternalOO.create_object_opt(self, $$class);
   };
@@ -47,12 +44,11 @@ function money_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
   var ids = CamlinternalOO.new_methods_variables($$class, [
         "value",
-        "leq",
-        "*dummy method*"
+        "leq"
       ], shared);
   var value = ids[0];
   var leq = ids[1];
-  var repr = ids[3];
+  var repr = ids[2];
   var inh = CamlinternalOO.inherits($$class, 0, ["leq"], 0, comparable, true);
   var obj_init = inh[0];
   CamlinternalOO.set_methods($$class, [
@@ -81,8 +77,7 @@ function money2_init($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, [
         "value",
         "times",
-        "leq",
-        "*dummy method*"
+        "leq"
       ]);
   var times = ids[1];
   var inh = CamlinternalOO.inherits($$class, shared, 0, shared$1, money, true);

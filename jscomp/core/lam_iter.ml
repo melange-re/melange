@@ -27,12 +27,12 @@ type ident = Ident.t
 
 let inner_iter (l : t) (f : t -> unit) : unit =
   match l with
-  | Lvar (_ : ident) | Lconst (_ : Lam_constant.t) -> ()
+  | Lvar (_ : ident) | Lmutvar _ | Lconst (_ : Lam_constant.t) -> ()
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func;
       List.iter f ap_args
   | Lfunction { body; arity = _; params = _ } -> f body
-  | Llet (_str, _id, arg, body) ->
+  | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
       f arg;
       f body
   | Lletrec (decl, body) ->
@@ -86,11 +86,14 @@ let inner_iter (l : t) (f : t -> unit) : unit =
 
 let inner_exists (l : t) (f : t -> bool) : bool =
   match l with
-  | Lvar (_ : ident) | Lglobal_module _ | Lconst (_ : Lam_constant.t) -> false
+  | Lvar (_ : ident)
+  | Lmutvar _ | Lglobal_module _
+  | Lconst (_ : Lam_constant.t) ->
+      false
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func || Ext_list.exists ap_args f
   | Lfunction { body; arity = _; params = _ } -> f body
-  | Llet (_str, _id, arg, body) -> f arg || f body
+  | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> f arg || f body
   | Lletrec (decl, body) -> f body || Ext_list.exists_snd decl f
   | Lswitch
       ( arg,

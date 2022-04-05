@@ -20,17 +20,18 @@
         to inline directly since if it contains bounded variables it
         must be rebounded before inlining
 *)
-let rec 
-  no_list args = Ext_list.for_all args no_bounded_variables 
+let rec
+  no_list args = Ext_list.for_all args no_bounded_variables
   and no_list_snd : 'a. ('a * Lam.t ) list -> bool  = fun args ->
     Ext_list.for_all_snd  args no_bounded_variables
-  and no_opt x =   
-    match x with 
-    | None -> true 
-    | Some a -> no_bounded_variables a 
+  and no_opt x =
+    match x with
+    | None -> true
+    | Some a -> no_bounded_variables a
   and no_bounded_variables (l : Lam.t) =
   match l with
-  | Lvar _ -> true
+  | Lvar _
+  | Lmutvar _ -> true
   | Lconst _ -> true
   | Lassign(_id, e) ->
     no_bounded_variables e
@@ -65,12 +66,12 @@ let rec
     params = [] && no_bounded_variables body;
   | Lfor _  -> false
   | Ltrywith _ -> false
-  | Llet _ ->false
+  | Llet _ | Lmutlet _ -> false
   | Lletrec(decl, body) -> decl = [] && no_bounded_variables body
 
 
 (*
-   TODO: 
+   TODO:
    we should have a pass called, always inlinable
    as long as its length is smaller than [exit=exit_id], for example
 
@@ -92,15 +93,15 @@ let rec
   when do the substitution, if its occurence is > 1,
   we should refresh
  *)
-type lam_subst = 
+type lam_subst =
   | Id of Lam.t [@@unboxed]
   (* | Refresh of Lam.t *)
 
 type subst_tbl = (Ident.t list * lam_subst ) Hash_int.t
 
-let to_lam x = 
-  match x with 
-  | Id x -> x 
+let to_lam x =
+  match x with
+  | Id x -> x
   (* | Refresh x -> Lam_bounded_vars.refresh x  *)
 
 (**
@@ -121,9 +122,9 @@ let to_lam x =
      (No alpha conversion of ``handler'' is presently needed, since
      substitution of several ``(exit i ...)''
      occurs only when ``handler'' is a variable.)
-  Note that 
-           for [query] result = 2, 
-           the non-inline cost is 
+  Note that
+           for [query] result = 2,
+           the non-inline cost is
            {[
              var exit ;
 
@@ -135,33 +136,33 @@ let to_lam x =
              }
 
            ]}
-           the inline cost is 
+           the inline cost is
 
            {[
              body;
              body;
            ]}
 
-           when [i] is negative, we can not inline in general, 
-           since the outer is a traditional [try .. catch] body, 
+           when [i] is negative, we can not inline in general,
+           since the outer is a traditional [try .. catch] body,
            if it is guaranteed to be non throw, then we can inline
         *)
 
-(** TODO: better heuristics, also if we can group same exit code [j] 
-       in a very early stage -- maybe we can define our enhanced [Lambda] 
-       representation and counter can be more precise, for example [apply] 
+(** TODO: better heuristics, also if we can group same exit code [j]
+       in a very early stage -- maybe we can define our enhanced [Lambda]
+       representation and counter can be more precise, for example [apply]
        does not need patch from the compiler
 
        FIXME:   when inlining, need refresh local bound identifiers
-       #1438 when the action containes bounded variable 
+       #1438 when the action containes bounded variable
          to keep the invariant, everytime, we do an inlining,
          we need refresh, just refreshing once is not enough
     We need to decide whether inline or not based on post-simplification
-       code, since when we do the substitution 
+       code, since when we do the substitution
        we use the post-simplified expression, it is more consistent
-       TODO: when we do the case merging on the js side, 
-       the j is not very indicative                
-*)             
+       TODO: when we do the case merging on the js side,
+       the j is not very indicative
+*)
 
 let subst_helper ~try_depth (subst : subst_tbl) (query : int -> Lam_exit_count.exit) (lam : Lam.t) : Lam.t =
   let rec simplif (lam : Lam.t) =
@@ -202,47 +203,49 @@ let subst_helper ~try_depth (subst : subst_tbl) (query : int -> Lam_exit_count.e
     | Lstaticraise (i,[])  ->
       (match Hash_int.find_opt subst i with
        | Some (_,handler) -> to_lam handler
-       | None -> lam)      
+       | None -> lam)
     | Lstaticraise (i,ls) ->
       let ls = Ext_list.map  ls simplif in
       (match Hash_int.find_opt subst i with
-       | Some (xs, handler) -> 
-         let handler = to_lam handler in 
+       | Some (xs, handler) ->
+         let handler = to_lam handler in
          let ys = Ext_list.map xs Ident.rename in
          let env =
-           Ext_list.fold_right2 xs ys Map_ident.empty 
+           Ext_list.fold_right2 xs ys Map_ident.empty
              (fun x y t -> Map_ident.add t x (Lam.var y) ) in
-         Ext_list.fold_right2 ys ls 
+         Ext_list.fold_right2 ys ls
            (Lam_subst.subst  env  handler)
            (fun y l r -> Lam.let_ Strict y l r)
        | None -> Lam.staticraise i ls
       )
-    | Lvar _|Lconst _  -> lam
-    | Lapply {ap_func; ap_args;  ap_info } -> 
+    | Lvar _ | Lmutvar _ | Lconst _  -> lam
+    | Lapply {ap_func; ap_args;  ap_info } ->
       Lam.apply (simplif ap_func) (Ext_list.map ap_args simplif) ap_info
-    | Lfunction {arity; params; body; attr} -> 
+    | Lfunction {arity; params; body; attr} ->
       Lam.function_ ~arity  ~params ~body:(simplif body) ~attr
-    | Llet (kind, v, l1, l2) -> 
+    | Llet (kind, v, l1, l2) ->
       Lam.let_ kind v (simplif l1) (simplif l2)
+    | Lmutlet (v, l1, l2) ->
+      Lam.mutlet v (simplif l1) (simplif l2)
     | Lletrec (bindings, body) ->
       Lam.letrec
-        (Ext_list.map_snd  bindings simplif) 
+        (Ext_list.map_snd  bindings simplif)
         (simplif body)
-    | Lglobal_module _ -> lam 
-    | Lprim {primitive; args; loc} -> 
+    | Lglobal_module _ -> lam
+    | Lprim {primitive; args; loc} ->
       let args = Ext_list.map args simplif in
       Lam.prim ~primitive ~args loc
     | Lswitch(l, sw) ->
-      let new_l = simplif l in 
-      let new_consts =  Ext_list.map_snd  sw.sw_consts simplif in 
-      let new_blocks =  Ext_list.map_snd  sw.sw_blocks simplif in 
-      let new_fail = Ext_option.map sw.sw_failaction simplif in       
+      let new_l = simplif l in
+      let new_consts =  Ext_list.map_snd  sw.sw_consts simplif in
+      let new_blocks =  Ext_list.map_snd  sw.sw_blocks simplif in
+      let new_fail = Ext_option.map sw.sw_failaction simplif in
       Lam.switch
         new_l
-        { 
-          sw with 
+        {
+          sw with
           sw_consts = new_consts ;
-          sw_blocks = new_blocks; 
+          sw_blocks = new_blocks;
           sw_failaction = new_fail}
     | Lstringswitch(l,sw,d) ->
       Lam.stringswitch
@@ -259,12 +262,12 @@ let subst_helper ~try_depth (subst : subst_tbl) (query : int -> Lam_exit_count.e
     | Lwhile (l1, l2) -> Lam.while_ (simplif l1) (simplif l2)
     | Lfor (v, l1, l2, dir, l3) ->
       Lam.for_ v (simplif l1) (simplif l2) dir (simplif l3)
-    | Lassign (v, l) -> 
+    | Lassign (v, l) ->
       Lam.assign v (simplif l)
     | Lsend (k, m, o, ll, loc) ->
       Lam.send k (simplif m) (simplif o) (Ext_list.map ll simplif ) loc
-  in 
-  simplif lam 
+  in
+  simplif lam
 
 let simplify_exits (lam : Lam.t) =
   let try_depth = ref 0 in

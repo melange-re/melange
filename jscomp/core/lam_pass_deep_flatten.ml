@@ -132,7 +132,15 @@ let deep_flatten
                          | Pnull_undefined_to_opt)
                    ; args  =  [Lvar _]} as arg), body)
       ->
-      flatten (Single(str, id, aux arg ) :: acc) body
+      flatten (Single(Lam_group.of_lam_kind str, id, aux arg ) :: acc) body
+    | Lmutlet (id,
+            (Lprim {primitive = (
+                          Pnull_to_opt
+                         | Pundefined_to_opt
+                         | Pnull_undefined_to_opt)
+                   ; args  =  [Lvar _]} as arg), body)
+      ->
+      flatten (Single(Variable, id, aux arg ) :: acc) body
     | Llet (str, id,
             Lprim {primitive = (
                           Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt as primitive );
@@ -145,9 +153,22 @@ let deep_flatten
                   (Lam.prim
                      ~primitive
                      ~args: [Lam.var newId] Location.none (* FIXME*))
-                  body)
-              )
-    | Llet (str,id,arg,body) ->
+                  body))
+    | Lmutlet (id,
+            Lprim {primitive = (
+                          Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt as primitive );
+                   args = [arg]}, body)
+      ->
+      let newId = Ident.rename id in
+      flatten acc
+        (Lam.mutlet newId arg
+               (Lam.let_ Alias id
+                  (Lam.prim
+                     ~primitive
+                     ~args: [Lam.var newId] Location.none (* FIXME*))
+                  body))
+    | Llet (_,id,arg,body)
+    | Lmutlet (id,arg,body) ->
       (*
         {[ let match = (a,b,c)
            let d = (match/1)
@@ -156,7 +177,12 @@ let deep_flatten
         ]}
       *)
       let (res,accux) = flatten acc arg  in
-      begin match Ident.name id, str, res with
+      let kind =
+        match lam with
+        | Llet (kind, _, _, _) -> Lam_group.of_lam_kind kind
+        | _ -> Variable
+      in
+      begin match Ident.name id, kind, res with
         | ("match" | "include"| "param"),
           (Alias | Strict | StrictOpt),
           Lprim {primitive = Pmakeblock(_,_, Immutable); args} ->
@@ -169,15 +195,15 @@ let deep_flatten
                      | None ->
                         Lam_group.nop_cons arg acc
                      | Some key ->
-                       Lam_group.single str key arg :: acc
+                       Lam_group.single kind key arg :: acc
                   )
 
 
               ) body
             | None ->
-              flatten (Single(str, id, res ) :: accux) body
+              flatten (Single(kind, id, res ) :: accux) body
           end
-        | _ -> flatten (Single(str, id, res ) :: accux) body
+        | _ -> flatten (Single(kind, id, res ) :: accux) body
       end
     | Lletrec (bind_args, body) ->
 
@@ -196,7 +222,7 @@ let deep_flatten
 
   and aux  (lam : Lam.t) : Lam.t=
     match lam with
-    | Llet _ ->
+    | Llet _ | Lmutlet _ ->
       let res, groups = flatten [] lam
       in lambda_of_groups res ~rev_bindings:groups
     | Lletrec (bind_args, body) ->
@@ -229,7 +255,7 @@ let deep_flatten
         (Lam.letrec  (List.rev rev_bindings)  (aux body))
     | Lsequence (l,r) -> Lam.seq (aux l) (aux r)
     | Lconst _ -> lam
-    | Lvar _ -> lam
+    | Lvar _ | Lmutvar _ -> lam
     (* | Lapply(Lfunction(Curried, params, body), args, _) *)
     (*   when  List.length params = List.length args -> *)
     (*     aux (beta_reduce  params body args) *)

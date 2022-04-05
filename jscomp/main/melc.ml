@@ -305,7 +305,8 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "-I", string_list_add  Clflags.include_dirs ,
     "<dir>  Add <dir> to the list of include directories" ;
 
-    "-w", string_call (Warnings.parse_options false),
+    "-w", string_call (fun w ->
+      Warnings.parse_options false w |> Option.iter Location.(prerr_alert none) ),
     "<list>  Enable or disable warnings according to <list>:\n\
      +<spec>   enable warnings in <spec>\n\
      -<spec>   disable warnings in <spec>\n\
@@ -534,7 +535,7 @@ let buckle_script_flags : (string * Bsc_args.spec * string) array =
     "*internal* keep the compatibility with RLS";
     "-c", Unit_dummy,
     "*internal* keep the compatibility with RLS";
-    "-warn-error", string_call (Warnings.parse_options true),
+    "-warn-error", string_call (fun s -> Warnings.parse_options true s |> Option.iter Location.(prerr_alert none) ),
     "<list>  Enable or disable error status for warnings according\n\
      to <list>.  See option -w for the syntax of <list>.\n\
      Default setting is " ^ Bsc_warnings.defaults_warn_error;

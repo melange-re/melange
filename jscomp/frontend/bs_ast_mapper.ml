@@ -72,6 +72,7 @@ type mapper = {
     mapper -> type_declaration list -> type_declaration list;
   (* #end *)
   type_extension : mapper -> type_extension -> type_extension;
+  type_exception : mapper -> type_exception -> type_exception;
   type_kind : mapper -> type_kind -> type_kind;
   value_binding : mapper -> value_binding -> value_binding;
   (* #if true then    *)
@@ -200,9 +201,17 @@ module T = struct
       ~priv:ptyext_private
       ~attrs:(sub.attributes sub ptyext_attributes)
 
+  let map_type_exception sub
+      { ptyexn_constructor; ptyexn_loc; ptyexn_attributes } =
+    let loc = sub.location sub ptyexn_loc in
+    let attrs = sub.attributes sub ptyexn_attributes in
+    Te.mk_exception ~loc ~attrs
+      (sub.extension_constructor sub ptyexn_constructor)
+
   let map_extension_constructor_kind sub = function
-    | Pext_decl (ctl, cto) ->
-        Pext_decl (map_constructor_arguments sub ctl, map_opt (sub.typ sub) cto)
+    | Pext_decl (cts, ctl, cto) ->
+        Pext_decl
+          (cts, map_constructor_arguments sub ctl, map_opt (sub.typ sub) cto)
     | Pext_rebind li -> Pext_rebind (map_loc sub li)
 
   let map_extension_constructor sub
@@ -281,42 +290,39 @@ module MT = struct
         Pwith_type (map_loc sub lid, sub.type_declaration sub d)
     | Pwith_module (lid, lid2) ->
         Pwith_module (map_loc sub lid, map_loc sub lid2)
+    | Pwith_modtype (lid, mty) ->
+        Pwith_modtype (map_loc sub lid, sub.module_type sub mty)
     | Pwith_typesubst (lid, d) ->
         Pwith_typesubst (map_loc sub lid, sub.type_declaration sub d)
     | Pwith_modsubst (s, lid) -> Pwith_modsubst (map_loc sub s, map_loc sub lid)
+    | Pwith_modtypesubst (lid, mty) ->
+        Pwith_modtypesubst (map_loc sub lid, sub.module_type sub mty)
 
   let map_signature_item sub { psig_desc = desc; psig_loc = loc } =
     let open Sig in
     let loc = sub.location sub loc in
     match desc with
     | Psig_value vd -> value ~loc (sub.value_description sub vd)
-    | Psig_type (rf, l) ->
-        (* #if false then
-                 type_ ~loc rf (List.map (sub.type_declaration sub) l)
-           #else *)
-        type_ ~loc rf (sub.type_declaration_list sub l)
-    (* #end *)
+    | Psig_type (rf, l) -> type_ ~loc rf (List.map (sub.type_declaration sub) l)
+    | Psig_typesubst l ->
+        type_subst ~loc (List.map (sub.type_declaration sub) l)
     | Psig_typext te -> type_extension ~loc (sub.type_extension sub te)
-    | Psig_exception ({ ptyexn_constructor } as ed) ->
-        exception_ ~loc
-          {
-            ed with
-            ptyexn_constructor =
-              sub.extension_constructor sub ptyexn_constructor;
-          }
+    | Psig_exception ed -> exception_ ~loc (sub.type_exception sub ed)
     | Psig_module x -> module_ ~loc (sub.module_declaration sub x)
+    | Psig_modsubst x -> mod_subst ~loc (sub.module_substitution sub x)
     | Psig_recmodule l ->
         rec_module ~loc (List.map (sub.module_declaration sub) l)
     | Psig_modtype x -> modtype ~loc (sub.module_type_declaration sub x)
+    | Psig_modtypesubst x ->
+        modtype_subst ~loc (sub.module_type_declaration sub x)
     | Psig_open x -> open_ ~loc (sub.open_description sub x)
     | Psig_include x -> include_ ~loc (sub.include_description sub x)
-    | Psig_typesubst ts -> type_subst (List.map (sub.type_declaration sub) ts)
-    | Psig_modsubst ms -> mod_subst (sub.module_substitution sub ms)
     | Psig_class l -> class_ ~loc (List.map (sub.class_description sub) l)
     | Psig_class_type l ->
         class_type ~loc (List.map (sub.class_type_declaration sub) l)
     | Psig_extension (x, attrs) ->
-        extension ~loc (sub.extension sub x) ~attrs:(sub.attributes sub attrs)
+        let attrs = sub.attributes sub attrs in
+        extension ~loc ~attrs (sub.extension sub x)
     | Psig_attribute x -> attribute ~loc (sub.attribute sub x)
 end
 
@@ -506,7 +512,10 @@ module P = struct
     | Ppat_interval (c1, c2) -> interval ~loc ~attrs c1 c2
     | Ppat_tuple pl -> tuple ~loc ~attrs (List.map (sub.pat sub) pl)
     | Ppat_construct (l, p) ->
-        construct ~loc ~attrs (map_loc sub l) (map_opt (sub.pat sub) p)
+        construct ~loc ~attrs (map_loc sub l)
+          (map_opt
+             (fun (vl, p) -> (List.map (map_loc sub) vl, sub.pat sub p))
+             p)
     | Ppat_variant (l, p) -> variant ~loc ~attrs l (map_opt (sub.pat sub) p)
     | Ppat_record (lpl, cf) ->
         record ~loc ~attrs
@@ -624,6 +633,7 @@ let default_mapper =
     type_kind = T.map_type_kind;
     typ = T.map;
     type_extension = T.map_type_extension;
+    type_exception = T.map_type_exception;
     extension_constructor = T.map_extension_constructor;
     value_description =
       (fun this { pval_name; pval_type; pval_prim; pval_loc; pval_attributes } ->

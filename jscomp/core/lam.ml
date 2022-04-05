@@ -94,11 +94,13 @@ module Types = struct
 
   and t =
     | Lvar of ident
+    | Lmutvar of ident
     | Lglobal_module of ident
     | Lconst of Lam_constant.t
     | Lapply of apply
     | Lfunction of lfunction
     | Llet of Lam_compat.let_kind * ident * t * t
+    | Lmutlet of ident * t * t
     | Lletrec of (ident * t) list * t
     | Lprim of prim_info
     | Lswitch of t * lambda_switch
@@ -150,11 +152,13 @@ module X = struct
     = Types.t
     =
       | Lvar of ident
+      | Lmutvar of ident
       | Lglobal_module of ident
       | Lconst of Lam_constant.t
       | Lapply of apply
       | Lfunction of lfunction
       | Llet of Lam_compat.let_kind * ident * t * t
+      | Lmutlet of ident * t * t
       | Lletrec of (ident * t) list * t
       | Lprim of prim_info
       | Lswitch of t * lambda_switch
@@ -180,6 +184,7 @@ let inner_map
    (l : t) (f : t -> X.t ) : X.t =
   match l  with
   | Lvar (_ : ident)
+  | Lmutvar (_ : ident)
   | Lconst (_ : Lam_constant.t) ->
     ( (* Obj.magic *) l : X.t)
   | Lapply ({ap_func; ap_args; ap_info} )  ->
@@ -192,6 +197,9 @@ let inner_map
   | Llet(str, id, arg, body) ->
     let arg = f arg in let body =  f body in
     Llet(str,id,arg,body)
+  | Lmutlet(id, arg, body) ->
+    let arg = f arg in let body =  f body in
+    Lmutlet(id,arg,body)
   | Lletrec(decl, body) ->
     let body = f body in
     let decl = Ext_list.map_snd decl f in
@@ -336,6 +344,8 @@ let rec apply fn args (ap_info : ap_info) : t =
       ) params args body *) (* TODO: more rigirous analysis on [let_kind] *)
   | Llet (kind,id, e, (Lfunction _ as fn)) ->
     Llet (kind, id, e, apply fn args ap_info )
+  | Lmutlet (id, e, (Lfunction _ as fn)) ->
+    Lmutlet (id, e, apply fn args ap_info )
   (* | Llet (kind0, id0, e0, Llet (kind,id, e, (Lfunction _ as fn))) ->
     Llet(kind0,id0,e0,Llet (kind, id, e, apply fn args loc status))       *)
   | _ ->
@@ -349,6 +359,8 @@ let rec
     (match l2 with  Lglobal_module i2 -> Ident.same i1  i2  | _ -> false)
   | Lvar i1 ->
     (match l2 with  Lvar i2 ->  Ident.same i1 i2 | _ -> false)
+  | Lmutvar i1 ->
+    (match l2 with  Lmutvar i2 ->  Ident.same i1 i2 | _ -> false)
   | Lconst c1 ->
     (match l2 with  Lconst c2 -> Lam_constant.eq_approx c1 c2  | _ -> false)
   | Lapply app1 ->
@@ -390,6 +402,7 @@ let rec
     end
   | Lfunction _
   | Llet (_,_,_,_)
+  | Lmutlet (_,_,_)
   | Lletrec _
   | Lswitch _
   | Lstaticcatch _
@@ -448,6 +461,7 @@ let rec seq (a : t) b : t =
 
 
 let var id : t = Lvar id
+let mutvar id : t = Lmutvar id
 let global_module id = Lglobal_module id
 let const ct : t = Lconst ct
 let function_ ~attr ~arity  ~params ~body : t =
@@ -455,6 +469,8 @@ let function_ ~attr ~arity  ~params ~body : t =
 
 let let_ kind id e body :  t
   = Llet (kind,id,e,body)
+let mutlet id e body :  t
+  = Lmutlet (id,e,body)
 let letrec bindings body : t =
   Lletrec(bindings,body)
 let while_ a b : t  =

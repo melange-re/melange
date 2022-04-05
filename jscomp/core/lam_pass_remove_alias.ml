@@ -44,12 +44,12 @@ let id_is_for_sure_true_in_boolean (tbl : Lam_stats.ident_tbl) id =
 let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
   let rec simpl (lam : Lam.t) : Lam.t =
     match lam with
-    | Lvar _ -> lam
+    | Lvar _ | Lmutvar _ -> lam
     | Lprim {primitive = (Pfield (i,info) as primitive); args =  [arg]; loc} ->
       (* ATTENTION:
          Main use case, we should detect inline all immutable block .. *)
       begin match  simpl  arg with
-        | Lvar v as l->
+        | Lvar v | Lmutvar v as l->
           Lam_util.field_flatten_get (fun _ -> Lam.prim ~primitive ~args:[l] loc )
             v  i info meta.ident_tbl
         | l ->
@@ -93,7 +93,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     *)
     | Lifthenelse (l1, l2, l3) -> (
         match l1 with
-        | Lvar id -> (
+        | Lvar id
+        | Lmutvar id -> (
             match id_is_for_sure_true_in_boolean meta.ident_tbl id with
             | Eval_true -> simpl l2
             | Eval_false -> simpl l3
@@ -102,6 +103,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | Lconst _ -> lam
     | Llet(str, v, l1, l2) ->
       Lam.let_ str v (simpl l1) (simpl l2 )
+    | Lmutlet(v, l1, l2) ->
+      Lam.mutlet v (simpl l1) (simpl l2 )
     | Lletrec(bindings, body) ->
       let bindings = Ext_list.map_snd  bindings simpl in
       Lam.letrec bindings (simpl body)
@@ -127,7 +130,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             Ext_list.same_length params args &&
             Ext_list.for_all args (fun arg ->
                 match arg with
-                | Lvar p ->
+                | Lvar p
+                | Lmutvar p ->
                   begin
                     match Hash_ident.find_opt meta.ident_tbl p with
                     | Some v  -> v <> Parameter
@@ -148,7 +152,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         - scope issues
         - code bloat
     *)
-    | Lapply{ap_func = (Lvar v as fn);  ap_args; ap_info } ->
+    | Lapply{ap_func = ((Lvar v | Lmutvar v) as fn);  ap_args; ap_info } ->
       (* Check info for always inlining *)
 
       (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
@@ -253,7 +257,8 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | Lstringswitch (l, sw, d) ->
         let l =
           match l with
-          | Lvar s -> (
+          | Lvar s
+          | Lmutvar s -> (
               match Hash_ident.find_opt meta.ident_tbl s with
               | Some (Constant s) -> Lam.const s
               | Some _ | None -> simpl l)

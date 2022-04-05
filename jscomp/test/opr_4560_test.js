@@ -32,11 +32,7 @@ var object_tables$1 = /* Cons */{
 };
 
 function c1_init($$class) {
-  var ids = CamlinternalOO.get_method_labels($$class, [
-        "b",
-        "*dummy method*"
-      ]);
-  var b = ids[0];
+  var b = CamlinternalOO.get_method_label($$class, "b");
   CamlinternalOO.set_method($$class, b, (function (self$1) {
           if (!object_tables.key) {
             var $$class = CamlinternalOO.create_table([
@@ -104,8 +100,7 @@ var c1 = CamlinternalOO.make_class(shared, c1_init);
 function c2_init($$class) {
   var ids = CamlinternalOO.get_method_labels($$class, [
         "b",
-        "a",
-        "*dummy method*"
+        "a"
       ]);
   var a = ids[1];
   var inh = CamlinternalOO.inherits($$class, 0, 0, shared, c1, true);

@@ -13,8 +13,7 @@ var shared = [
 var shared$1 = [
   "move",
   "get_x",
-  "get_offset",
-  "*dummy method*"
+  "get_offset"
 ];
 
 var shared$2 = ["x"];
@@ -49,13 +48,12 @@ function restricted_point_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, [
         "move",
         "get_x",
-        "bump",
-        "*dummy method*"
+        "bump"
       ], shared$2);
   var move = ids[0];
   var get_x = ids[1];
   var bump = ids[2];
-  var x = ids[4];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
@@ -131,7 +129,7 @@ function point_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, shared$1, shared$2);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[4];
+  var x = ids[3];
   var inh = CamlinternalOO.inherits($$class, 0, [
         "move",
         "get_x"
@@ -169,11 +167,10 @@ function colored_point_init($$class) {
         "move",
         "get_x",
         "get_offset",
-        "color",
-        "*dummy method*"
+        "color"
       ], ["c"]);
   var color = ids[3];
-  var c$1 = ids[5];
+  var c$1 = ids[4];
   var inh = CamlinternalOO.inherits($$class, shared$2, 0, [
         "get_offset",
         "get_x",

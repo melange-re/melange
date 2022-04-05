@@ -92,7 +92,8 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t): bool  =
     | Lprim {primitive = Praise ; args = [Lvar _]} -> false
     | Lprim {primitive = _; args; _} ->
       hit_list args
-    | Lvar id ->
+    | Lvar id
+    | Lmutvar id ->
       Ident.same id fv
     | Lassign(id, e) ->
       Ident.same id fv || hit e
@@ -102,7 +103,8 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t): bool  =
       hit e1 || hit e2
     | Lfunction{body;params=_} ->
       hit body;
-    | Llet(_str, _id, arg, body) ->
+    | Llet(_, _id, arg, body)
+    | Lmutlet (_id, arg, body) ->
       hit arg || hit body
     | Lletrec(decl, body) ->
       hit body ||
@@ -141,7 +143,7 @@ let no_over_flow x  = abs_int x < 0x1fff_ffff
 
 let lam_is_var (x : Lam.t) (y : Ident.t) =
   match x with
-  | Lvar y2 -> Ident.same y2 y
+  | Lvar y2 | Lmutvar y2 -> Ident.same y2 y
   | _ -> false
 
 (** Make sure no int range overflow happens
@@ -207,10 +209,8 @@ let convert_record_repr ( x : Types.record_representation)
 let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
   match p with
   | Pint_as_pointer
-  | Pidentity -> Ext_list.singleton_exn args
+  (* | Pidentity -> Ext_list.singleton_exn args *)
   | Pccall _ -> assert false
-  | Prevapply -> assert false
-  | Pdirapply -> assert false
 
   | Pbytes_to_string (* handled very early *)
     -> prim ~primitive:Pbytes_to_string ~args loc
@@ -293,7 +293,7 @@ let lam_prim ~primitive:( p : Lambda.primitive) ~args loc : Lam.t =
     | Blk_lazy_general
       ->
       begin match args with
-      | [Lvar _ | Lconst _ | Lfunction _ as result ] ->
+      | [Lvar _ | Lmutvar _ | Lconst _ | Lfunction _ as result ] ->
         let args =
           [ Lam.const Const_js_true ;
            result
@@ -561,6 +561,21 @@ let rec rename_optional_parameters map params  (body : Lambda.lambda) =
     (Lifthenelse(
       Lprim(p,[Lvar new_id],p_loc),
         Lprim(p1,[Lvar new_id],x_loc), f)),rest)
+  | Lmutlet(value_kind,id, (Lifthenelse(
+      Lprim(p,[Lvar opt],p_loc),
+        Lprim(p1,[Lvar opt2],x_loc), f)),rest)
+    when Ident.name opt = "*opt*" &&
+         Ident.name opt2 = "*opt*" &&
+         Ident.same opt opt2 && List.mem opt params
+    ->
+    let map, rest = rename_optional_parameters map params rest in
+    let new_id = Ident.create_local (Ident.name id ^ "Opt") in
+    Map_ident.add map opt new_id,
+    Lambda.Lmutlet(value_kind,id,
+    (Lifthenelse(
+      Lprim(p,[Lvar new_id],p_loc),
+        Lprim(p1,[Lvar new_id],x_loc), f)),rest)
+
   | _ ->
     map, body
 
@@ -719,6 +734,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
     match lam with
     | Lvar x ->
       Lam.var (Hash_ident.find_default alias_tbl x x)
+    | Lmutvar x ->
+      Lam.mutvar (Hash_ident.find_default alias_tbl x x)
     | Lconst x ->
       Lam.const (Lam_constant_convert.convert_constant x )
     | Lapply
@@ -744,6 +761,9 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
     | Llet
       (kind,_value_kind, id,e,body) (*FIXME*)
       -> convert_let kind id e body
+    | Lmutlet
+      (_value_kind, id,e,body) (*FIXME*)
+      -> convert_mutlet id e body
 
     | Lletrec (bindings,body)
       ->
@@ -752,11 +772,11 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
       let lam = Lam.letrec bindings body in
       Lam_scc.scc bindings lam body
     (* inlining will affect how mututal recursive behave *)
-    | Lprim(Prevapply, [x ; f ],  outer_loc)
-    | Lprim(Pdirapply, [f ; x],  outer_loc) ->
-      convert_pipe f x outer_loc
-    | Lprim (Prevapply, _, _ ) -> assert false
-    | Lprim(Pdirapply, _, _) -> assert false
+    (* | Lprim(Prevapply, [x ; f ],  outer_loc) *)
+    (* | Lprim(Pdirapply, [f ; x],  outer_loc) -> *)
+      (* convert_pipe f x outer_loc *)
+    (* | Lprim (Prevapply, _, _ ) -> assert false *)
+    (* | Lprim(Pdirapply, _, _) -> assert false *)
     | Lprim(Pccall a, args, loc)  ->
       convert_ccall a  args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
@@ -886,7 +906,13 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
           }
       | _ ->
         Lam.let_ kind id new_e new_body
-  and convert_pipe (f : Lambda.lambda) (x : Lambda.lambda) outer_loc =
+
+  and convert_mutlet id (e : Lambda.lambda) body : Lam.t =
+    let new_e = convert_aux e in
+    let new_body = convert_aux body in
+    Lam.mutlet id new_e new_body
+
+  and _convert_pipe (f : Lambda.lambda) (x : Lambda.lambda) outer_loc =
       let x  = convert_aux x in
       let f =  convert_aux f in
       match  f with

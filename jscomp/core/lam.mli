@@ -62,11 +62,13 @@ and prim_info = private
   }
 and  t =  private
   | Lvar of ident
+  | Lmutvar of ident
   | Lglobal_module of ident
   | Lconst of Lam_constant.t
   | Lapply of apply
   | Lfunction of lfunction
   | Llet of Lam_compat.let_kind * ident * t * t
+  | Lmutlet of ident * t * t
   | Lletrec of (ident * t) list * t
   | Lprim of prim_info
   | Lswitch of t * lambda_switch
@@ -103,6 +105,7 @@ val handle_bs_non_obj_ffi:
 (**************************************************************)
 (** Smart constructors *)
 val var : ident -> t
+val mutvar : ident -> t
 val global_module : ident -> t
 val const : Lam_constant.t -> t
 
@@ -119,6 +122,7 @@ val function_ :
   body:t -> t
 
 val let_ : Lam_compat.let_kind -> ident -> t -> t -> t
+val mutlet : ident -> t -> t -> t
 val letrec : (ident * t) list -> t -> t
 
 (**  constant folding *)

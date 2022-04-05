@@ -164,20 +164,25 @@ external hypot : float -> float -> float
 #if BS then
 external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
 external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
+external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
 external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
 external log10 : float -> float = "log10"[@@bs.val] [@@bs.scope "Math"]
 external log1p : float -> float = "log1p" [@@bs.val] [@@bs.scope "Math"]
 external sin : float -> float =  "sin" [@@bs.val] [@@bs.scope "Math"]
 external sinh : float -> float = "sinh" [@@bs.val] [@@bs.scope "Math"]
+external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
 external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
 external tan : float -> float =  "tan" [@@bs.val] [@@bs.scope "Math"]
 external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
+external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
 external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
 external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
 external abs_float : float -> float = "abs"[@@bs.val] [@@bs.scope "Math"]
 #else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 external cosh : float -> float = "caml_cosh_float" "cosh"
+  [@@unboxed] [@@noalloc]
+external acosh : float -> float = "caml_acosh_float" "caml_acosh"
   [@@unboxed] [@@noalloc]
 external log : float -> float = "caml_log_float" "log" [@@unboxed] [@@noalloc]
 external log10 : float -> float = "caml_log10_float" "log10"
@@ -187,10 +192,14 @@ external log1p : float -> float = "caml_log1p_float" "caml_log1p"
 external sin : float -> float = "caml_sin_float" "sin" [@@unboxed] [@@noalloc]
 external sinh : float -> float = "caml_sinh_float" "sinh"
   [@@unboxed] [@@noalloc]
+external asinh : float -> float = "caml_asinh_float" "caml_asinh"
+  [@@unboxed] [@@noalloc]
 external sqrt : float -> float = "caml_sqrt_float" "sqrt"
   [@@unboxed] [@@noalloc]
 external tan : float -> float = "caml_tan_float" "tan" [@@unboxed] [@@noalloc]
 external tanh : float -> float = "caml_tanh_float" "tanh"
+  [@@unboxed] [@@noalloc]
+external atanh : float -> float = "caml_atanh_float" "caml_atanh"
   [@@unboxed] [@@noalloc]
 external ceil : float -> float = "caml_ceil_float" "ceil"
   [@@unboxed] [@@noalloc]

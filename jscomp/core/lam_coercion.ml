@@ -100,7 +100,7 @@ let handle_exports (meta : Lam_stats.t)
          if not @@ Hash_set_string.check_add tbl original_name then
            Bs_exception.error (Bs_duplicate_exports original_name);
          (match lam  with
-          | Lvar id ->
+          | Lvar id | Lmutvar id ->
             if
              Ident.name id = original_name then
             { acc with
@@ -116,7 +116,9 @@ let handle_exports (meta : Lam_stats.t)
               { acc with
               export_list = newid :: acc.export_list;
               export_map = Map_ident.add acc.export_map newid lam ;
-              groups = Single(kind, newid, lam) :: acc.groups
+              groups = Single(
+                (match lam with | Lmutvar _ -> Variable | _ -> Lam_group.of_lam_kind kind),
+                newid, lam) :: acc.groups
               }
           | _ ->
             (*
@@ -178,9 +180,12 @@ let rec flatten
     (acc :  Lam_group.t list )
     (lam : Lam.t) :  Lam.t *  Lam_group.t list =
   match lam with
-  | Llet (str,id,arg,body) ->
+  | Llet (kind,id,arg,body) ->
     let (res,l) = flatten acc arg  in
-    flatten (Single(str, id, res ) :: l) body
+    flatten (Single(Lam_group.of_lam_kind kind, id, res ) :: l) body
+  | Lmutlet (id,arg,body) ->
+    let (res,l) = flatten acc arg  in
+    flatten (Single(Variable, id, res ) :: l) body
   | Lletrec (bind_args, body) ->
     flatten
       (

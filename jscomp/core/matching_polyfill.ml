@@ -42,9 +42,10 @@ let names_from_construct_pattern
   in
   let rec resolve_path n (path : Path.t) =
     match Env.find_type path pat.pat_env with
-    | { type_kind = Type_variant cstrs; _ } -> names_from_type_variant cstrs
+    | { type_kind = Type_variant (cstrs, _repr); _ } ->
+        names_from_type_variant cstrs
     | { type_kind = Type_abstract; type_manifest = Some t; _ } -> (
-        match (Ctype.unalias t).desc with
+        match Types.get_desc (Ctype.unalias t) with
         | Tconstr (pathn, _, _) ->
             (* Format.eprintf "XXX path%d:%s path%d:%s@." n (Path.name path) (n+1) (Path.name pathn); *)
             resolve_path (n + 1) pathn
@@ -53,6 +54,6 @@ let names_from_construct_pattern
     | { type_kind = Type_record _ | Type_open (* Exceptions *); _ } -> None
   in
 
-  match (Btype.repr pat.pat_type).desc with
+  match Types.get_desc pat.pat_type with
   | Tconstr (path, _, _) -> resolve_path 0 path
   | _ -> assert false

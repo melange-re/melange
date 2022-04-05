@@ -42,6 +42,17 @@ val int : int -> int
      and [bound] (exclusive).  [bound] must be greater than 0 and less
      than 2{^30}. *)
 
+val full_int : int -> int
+(** [Random.full_int bound] returns a random integer between 0 (inclusive)
+     and [bound] (exclusive). [bound] may be any positive integer.
+
+     If [bound] is less than 2{^30}, [Random.full_int bound] is equal to
+     {!Random.int}[ bound]. If [bound] is greater than 2{^30} (on 64-bit systems
+     or non-standard environments, such as JavaScript), [Random.full_int]
+     returns a value, where {!Random.int} raises {!Invalid_argument}.
+
+    @since 4.13.0 *)
+
 val int32 : Int32.t -> Int32.t
 (** [Random.int32 bound] returns a random integer between 0 (inclusive)
      and [bound] (exclusive).  [bound] must be greater than 0. *)
@@ -65,6 +76,23 @@ val float : float -> float
 val bool : unit -> bool
 (** [Random.bool ()] returns [true] or [false] with probability 0.5 each. *)
 
+val bits32 : unit -> Int32.t
+(** [Random.bits32 ()] returns 32 random bits as an integer between
+    {!Int32.min_int} and {!Int32.max_int}.
+    @since 4.14.0 *)
+
+val bits64 : unit -> Int64.t
+(** [Random.bits64 ()] returns 64 random bits as an integer between
+    {!Int64.min_int} and {!Int64.max_int}.
+    @since 4.14.0 *)
+
+#if 0 then
+val nativebits : unit -> Nativeint.t
+(** [Random.nativebits ()] returns 32 or 64 random bits (depending on
+    the bit width of the platform) as an integer between
+    {!Nativeint.min_int} and {!Nativeint.max_int}.
+    @since 4.14.0 *)
+#end
 
 (** {1 Advanced functions} *)
 
@@ -91,6 +119,7 @@ module State : sig
 
   val bits : t -> int
   val int : t -> int -> int
+  val full_int : t -> int -> int
   val int32 : t -> Int32.t -> Int32.t
 #if 0 then
   val nativeint : t -> Nativeint.t -> Nativeint.t
@@ -98,6 +127,11 @@ module State : sig
   val int64 : t -> Int64.t -> Int64.t
   val float : t -> float -> float
   val bool : t -> bool
+  val bits32 : t -> Int32.t
+  val bits64 : t -> Int64.t
+#if 0 then
+  val nativebits : t -> Nativeint.t
+#end
   (** These functions are the same as the basic functions, except that they
       use (and update) the given PRNG state instead of the default one.
   *)

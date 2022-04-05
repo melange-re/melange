@@ -9,9 +9,8 @@ var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 
 var shared = [
-  "fold",
-  "empty",
-  "*dummy method*"
+  "move",
+  "get_x"
 ];
 
 var shared$1 = [
@@ -51,13 +50,12 @@ function printable_point_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, [
         "print",
         "move",
-        "get_x",
-        "*dummy method*"
+        "get_x"
       ], shared$2);
   var print = ids[0];
   var move = ids[1];
   var get_x = ids[2];
-  var x = ids[4];
+  var x = ids[3];
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$1) {
@@ -93,12 +91,11 @@ function printable_colored_point_init($$class) {
         "print",
         "move",
         "get_x",
-        "color",
-        "*dummy method*"
+        "color"
       ], ["c"]);
   var print = ids[0];
   var color = ids[3];
-  var c$1 = ids[5];
+  var c$1 = ids[4];
   CamlinternalOO.set_method($$class, color, (function (self$2) {
           return self$2[c$1];
         }));
@@ -137,12 +134,11 @@ function ref_init($$class) {
   var x_init = CamlinternalOO.new_variable($$class, "");
   var ids = CamlinternalOO.new_methods_variables($$class, [
         "set",
-        "get",
-        "*dummy method*"
+        "get"
       ], shared$2);
   var set = ids[0];
   var get = ids[1];
-  var x = ids[3];
+  var x = ids[2];
   CamlinternalOO.set_methods($$class, [
         get,
         (function (self$3) {
@@ -176,7 +172,7 @@ eq("File \"class5_test.ml\", line 43, characters 12-19", v, 2);
 
 function intlist_init($$class) {
   var l = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.get_method_labels($$class, shared);
+  var ids = CamlinternalOO.get_method_labels($$class, shared$1);
   var fold = ids[0];
   var empty = ids[1];
   CamlinternalOO.set_methods($$class, [
@@ -215,7 +211,7 @@ eq("File \"class5_test.ml\", line 54, characters 5-12", 6, Caml_oo_curry.js3(-10
 
 function intlist2_init($$class) {
   var l = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.get_method_labels($$class, shared);
+  var ids = CamlinternalOO.get_method_labels($$class, shared$1);
   var fold = ids[0];
   var empty = ids[1];
   CamlinternalOO.set_methods($$class, [
@@ -262,14 +258,10 @@ eq("File \"class5_test.ml\", line 67, characters 5-12", [
 
 function point_init($$class) {
   var x_init = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, [
-        "move",
-        "get_x",
-        "*dummy method*"
-      ], shared$2);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
   var move = ids[0];
   var get_x = ids[1];
-  var x = ids[3];
+  var x = ids[2];
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$6) {
@@ -288,18 +280,14 @@ function point_init($$class) {
   };
 }
 
-var point = CamlinternalOO.make_class([
-      "move",
-      "get_x"
-    ], point_init);
+var point = CamlinternalOO.make_class(shared, point_init);
 
 function distance_point_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
   var ids = CamlinternalOO.get_method_labels($$class, [
         "move",
         "get_x",
-        "distance",
-        "*dummy method*"
+        "distance"
       ]);
   var distance = ids[2];
   var inh = CamlinternalOO.inherits($$class, shared$2, 0, [

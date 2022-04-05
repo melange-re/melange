@@ -7,23 +7,18 @@ var Caml_obj = require("../../lib/js/caml_obj.js");
 var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
 
-var shared = [
-  "incr",
-  "get_money"
-];
+var shared = ["get_x"];
 
 var shared$1 = [
   "incr",
-  "get_money",
-  "*dummy method*"
+  "get_money"
 ];
 
 var shared$2 = ["x"];
 
 function x0_init($$class) {
   var v = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, ["*dummy method*"], shared$2);
-  var x = ids[1];
+  var x = CamlinternalOO.new_variable($$class, "x");
   return function (env, self, v$1) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
     self$1[v] = v$1;
@@ -36,12 +31,9 @@ var x0 = CamlinternalOO.make_class(0, x0_init);
 
 function x_init($$class) {
   var v = CamlinternalOO.new_variable($$class, "");
-  var ids = CamlinternalOO.new_methods_variables($$class, [
-        "get_x",
-        "*dummy method*"
-      ], shared$2);
+  var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
   var get_x = ids[0];
-  var x = ids[2];
+  var x = ids[1];
   CamlinternalOO.set_method($$class, get_x, (function (self$2) {
           return self$2[x];
         }));
@@ -53,7 +45,7 @@ function x_init($$class) {
   };
 }
 
-var x = CamlinternalOO.make_class(["get_x"], x_init);
+var x = CamlinternalOO.make_class(shared, x_init);
 
 var v = Curry._2(x[0], undefined, 3);
 
@@ -88,7 +80,7 @@ function xx_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, shared$1, ["money"]);
   var incr = ids[0];
   var get_money = ids[1];
-  var money = ids[3];
+  var money = ids[2];
   CamlinternalOO.set_methods($$class, [
         get_money,
         (function (self$3) {
@@ -109,7 +101,7 @@ function xx_init($$class) {
   };
 }
 
-var xx = CamlinternalOO.make_class(shared, xx_init);
+var xx = CamlinternalOO.make_class(shared$1, xx_init);
 
 var v1 = Curry._2(xx[0], undefined, 3);
 
@@ -149,12 +141,11 @@ if (Caml_oo_curry.js1(-804710761, 9, v2) !== 9) {
 function point_init($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, [
         "get_x5",
-        "get_x",
-        "*dummy method*"
+        "get_x"
       ], shared$2);
   var get_x5 = ids[0];
   var get_x = ids[1];
-  var x = ids[3];
+  var x = ids[2];
   CamlinternalOO.set_methods($$class, [
         get_x,
         (function (self$4) {
@@ -201,10 +192,10 @@ function xx0_init($$class) {
       ]);
   var incr = ids[0];
   var get_money = ids[1];
-  var money = ids[3];
-  var a0 = ids[4];
-  var a1 = ids[5];
-  var a2 = ids[6];
+  var money = ids[2];
+  var a0 = ids[3];
+  var a1 = ids[4];
+  var a2 = ids[5];
   CamlinternalOO.set_methods($$class, [
         get_money,
         (function (self$5) {
@@ -229,7 +220,7 @@ function xx0_init($$class) {
   };
 }
 
-var xx0 = CamlinternalOO.make_class(shared, xx0_init);
+var xx0 = CamlinternalOO.make_class(shared$1, xx0_init);
 
 exports.x0 = x0;
 exports.x = x;

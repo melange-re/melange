@@ -5,7 +5,13 @@ let
     inherit (lock.nodes.nixpkgs.locked) rev;
     # inherit (lock.nodes.nixpkgs.original) ref;
   };
-  pkgs = import "${src}/boot.nix" { };
+  pkgs = import "${src}/boot.nix" {
+    extraOverlays = [
+      (self: super: {
+        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
+      })
+    ];
+  };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
   melange = pkgs.callPackage ./.. { };
   inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);

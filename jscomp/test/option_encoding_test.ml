@@ -1,7 +1,7 @@
 [@@@config {
   flags = [|
     "-w";
-       "@A";
+       "@A-70";
     "-drawlambda";
     "-dtypedtree";
     "-bs-diagnose";
@@ -11,11 +11,11 @@
 }]
 
 
-module N = struct 
-  type 'a t = 'a option = 
-    | None    
+module N = struct
+  type 'a t = 'a option =
+    | None
     | Some of 'a
-end   
+end
 
 
 let u = N.(None, Some 3)

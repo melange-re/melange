@@ -27,7 +27,7 @@ stdenv.mkDerivation rec {
     mv runtime/* .
     mv stdlib-412/stdlib_modules/* .
     mv stdlib-412/* .
-    rm -rf others runtime stdlib-412
+    rm -rf others runtime stdlib-412 stdlib_modules
 
     runHook postInstall
   '';

@@ -51,7 +51,7 @@ let check file lam =
    fun xs cxt -> Ext_list.iter_snd xs (fun x -> check_staticfails x cxt)
   and check_staticfails (l : Lam.t) (cxt : Set_int.t) =
     match l with
-    | Lvar _ | Lconst _ | Lglobal_module _ -> ()
+    | Lvar _ | Lmutvar _ | Lconst _ | Lglobal_module _ -> ()
     | Lprim { args; _ } -> check_list args cxt
     | Lapply { ap_func; ap_args; _ } ->
         check_list (ap_func :: ap_args) cxt
@@ -64,7 +64,8 @@ let check file lam =
         check_staticfails e1 cxt;
         check_staticfails e2 cxt;
         check_staticfails e3 Set_int.empty
-    | Llet (_str, _id, arg, body) -> check_list [ arg; body ] cxt
+    | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
+        check_list [ arg; body ] cxt
     | Lletrec (decl, body) ->
         check_list_snd decl cxt;
         check_staticfails body cxt
@@ -96,7 +97,7 @@ let check file lam =
    fun xs -> Ext_list.iter_snd xs iter
   and iter (l : Lam.t) =
     match l with
-    | Lvar id -> use id
+    | Lvar id | Lmutvar id -> use id
     | Lglobal_module _ -> ()
     | Lprim { args; _ } -> iter_list args
     | Lconst _ -> ()
@@ -106,7 +107,7 @@ let check file lam =
     | Lfunction { body; params } ->
         List.iter def params;
         iter body
-    | Llet (_str, id, arg, body) ->
+    | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
         iter arg;
         def id;
         iter body

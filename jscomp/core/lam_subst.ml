@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -31,7 +31,7 @@
 let subst (s : Lam.t Map_ident.t) lam =
   let rec subst_aux (x : Lam.t) : Lam.t =
     match x with
-    | Lvar id -> Map_ident.find_default s id x
+    | Lvar id | Lmutvar id -> Map_ident.find_default s id x
     | Lconst _ -> x
     | Lapply { ap_func; ap_args; ap_info } ->
         Lam.apply (subst_aux ap_func) (Ext_list.map ap_args subst_aux) ap_info
@@ -39,6 +39,7 @@ let subst (s : Lam.t Map_ident.t) lam =
         Lam.function_ ~arity ~params ~body:(subst_aux body) ~attr
     | Llet (str, id, arg, body) ->
         Lam.let_ str id (subst_aux arg) (subst_aux body)
+    | Lmutlet (id, arg, body) -> Lam.mutlet id (subst_aux arg) (subst_aux body)
     | Lletrec (decl, body) ->
         Lam.letrec (Ext_list.map decl subst_decl) (subst_aux body)
     | Lprim { primitive; args; loc } ->

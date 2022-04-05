@@ -7062,7 +7062,7 @@ function mkexp_constraint(e, param) {
       return ghexp({
                   TAG: /* Pexp_constraint */19,
                   _0: e,
-                  _1: Caml_option.valFromOption(t1)
+                  _1: t1
                 });
     }
   }
@@ -16073,6 +16073,10 @@ function string(lexbuf) {
   };
 }
 
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
+}
+
 function __ocaml_lex_quoted_string_rec(delim, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
@@ -16295,10 +16299,6 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
         continue ;
     }
   };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
 }
 
 function skip_sharp_bang(lexbuf) {

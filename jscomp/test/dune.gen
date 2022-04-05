@@ -6136,6 +6136,19 @@
 
 
   (rule
+    (targets ocaml_414_upgrade_test.cmi ocaml_414_upgrade_test.cmj ocaml_414_upgrade_test.js)
+    (deps (:inputs ocaml_414_upgrade_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only ocaml_414_upgrade_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets ocaml_parsetree_test.cmj ocaml_parsetree_test.js)
     (deps (:inputs ocaml_parsetree_test.ml) ../stdlib-412/stdlib.cmj nativeint.cmj ocaml_parsetree_test.cmi)
 

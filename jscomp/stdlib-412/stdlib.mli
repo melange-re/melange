@@ -45,7 +45,9 @@ module Format       = Format
 module Fun          = Fun
 module Gc           = Gc
 module Genlex       = Genlex
+[@@deprecated "Use the camlp-streams library instead."]
 module Hashtbl      = Hashtbl
+module In_channel   = In_channel
 module Int          = Int
 module Int32        = Int32
 module Int64        = Int64
@@ -59,6 +61,7 @@ module MoreLabels   = MoreLabels
 module Obj          = Obj
 module Oo           = Oo
 module Option       = Option
+module Out_channel  = Out_channel
 module Parsing      = Parsing
 module Pervasives   = Pervasives
 [@@deprecated "Use Stdlib instead.\n\
@@ -76,6 +79,7 @@ module Set          = Set
 module Stack        = Stack
 module StdLabels    = StdLabels
 module Stream       = Stream
+[@@deprecated "Use the camlp-streams library instead."]
 module String       = String
 module StringLabels = StringLabels
 module Sys          = Sys
