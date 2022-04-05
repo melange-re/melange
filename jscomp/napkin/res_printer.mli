@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree.Ast_406
+open Reason_omp.Ast_406
 val convertBsExternalAttribute : string -> string
 val convertBsExtension : string -> string
 

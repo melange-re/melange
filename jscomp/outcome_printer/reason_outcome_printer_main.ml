@@ -1,6 +1,6 @@
 (* This is used by js_main.ml *)
 
-open Reason_migrate_parsetree
+open Reason_omp
 module From_current = Convert (OCaml_current) (OCaml_411)
 
 let wrap f g fmt x = g fmt (f x)

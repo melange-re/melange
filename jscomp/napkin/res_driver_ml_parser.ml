@@ -47,7 +47,7 @@ let extractOcamlConcreteSyntax filename =
   (List.rev !stringLocs, List.rev !commentData)
 
 open struct
-  open Reason_migrate_parsetree
+  open Reason_omp
   module To_current = Convert(OCaml_406)(OCaml_current)
   module From_current = Convert(OCaml_current)(OCaml_406)
 end

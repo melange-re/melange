@@ -818,12 +818,12 @@ let external_desc_of_non_obj
      val_send_pipe = None;
      set_name = `Nm_na ;
      get_name = `Nm_na ;
-     splice = false;
+     splice;
      scopes;
      mk_obj = _ ;
      return_wrapper = _ ;
     }
-    -> Js_new {name; external_module_name;  scopes}
+    -> Js_new {name; external_module_name; splice; scopes}
   | {new_name = #bundle_source ; _ } ->
     Bs_syntaxerr.err loc (Conflict_ffi_attribute "Attribute found that conflicts with %@new")
   | {set_name = (`Nm_val lazy name | `Nm_external name | `Nm_payload name);

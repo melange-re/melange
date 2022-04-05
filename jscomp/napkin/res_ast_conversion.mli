@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree.Ast_406
+open Reason_omp.Ast_406
 
 (* The purpose of this module is to convert a parsetree coming from the reason
  * or ocaml parser, into something consumable by the rescript printer. *)

@@ -1,5 +1,5 @@
 (* Copyright (C) 2019- Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -25,7 +25,7 @@
 type obj = Obj.t
 
 let spliceApply : obj -> obj -> obj = [%raw{|function(fn,args){
-  var i, argLen; 
+  var i, argLen;
   argLen = args.length
   var applied = []
   for(i = 0; i < argLen - 1; ++i){
@@ -36,10 +36,24 @@ let spliceApply : obj -> obj -> obj = [%raw{|function(fn,args){
     applied.push(lastOne[i])
   }
   return fn.apply(null,applied)
-}|}] 
+}|}]
+
+let spliceNewApply : obj -> obj -> obj = [%raw{|function (ctor,args){
+  var i, argLen;
+  argLen = args.length
+  var applied = []
+  for(i = 0; i < argLen - 1; ++i){
+    applied.push(args[i])
+  }
+  var lastOne = args[argLen - 1]
+  for(i = 0; i < lastOne.length; ++i ){
+    applied.push(lastOne[i])
+  }
+  return new ctor(...applied)
+}|}]
 
 let spliceObjApply : obj -> obj -> obj -> obj = [%raw{|function(obj,name,args){
-  var i, argLen; 
+  var i, argLen;
   argLen = args.length
   var applied = []
   for(i = 0; i < argLen - 1; ++i){

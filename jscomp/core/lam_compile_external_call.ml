@@ -33,6 +33,11 @@ let splice_fn_apply fn args =
     Js_runtime_modules.caml_splice_call
     "spliceApply"
     [fn; E.array Immutable args]
+let splice_fn_new_apply fn args =
+  E.runtime_call
+    Js_runtime_modules.caml_splice_call
+    "spliceNewApply"
+    [fn; E.array Immutable args]
 let splice_obj_fn_apply obj name args =
   E.runtime_call
     Js_runtime_modules.caml_splice_call
@@ -308,6 +313,7 @@ let translate_ffi
 
   | Js_new { external_module_name = module_name;
              name = fn;
+             splice;
              scopes
            } -> (* handle [@@new]*)
     (* This has some side effect, it will
@@ -318,18 +324,26 @@ let translate_ffi
        TODO: we should propagate this property
        as much as we can(in alias table)
     *)
-    let args, eff = assemble_args_no_splice   arg_types args in
     let fn =  translate_scoped_module_val module_name fn scopes in
-    add_eff eff
-      begin
-        (* (match cxt.continuation with *)
-         (* | Declare (let_kind, id) -> *)
-           (* cxt.continuation <- Declare (let_kind, Ext_ident.make_js_object id) *)
-         (* | Assign id  -> *)
-           (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
-         (* | EffectCall _ | NeedValue _ -> ()); *)
-        E.new_ fn args
-      end
+    if splice then
+      let args, eff, dynamic = assemble_args_has_splice  arg_types args in
+      add_eff eff
+        begin
+          if dynamic then splice_fn_new_apply fn args
+          else E.new_ fn args
+        end
+    else
+      let args, eff = assemble_args_no_splice   arg_types args in
+      add_eff eff
+        begin
+          (* (match cxt.continuation with *)
+          (* | Declare (let_kind, id) -> *)
+            (* cxt.continuation <- Declare (let_kind, Ext_ident.make_js_object id) *)
+          (* | Assign id  -> *)
+            (* cxt.continuation <- Assign (Ext_ident.make_js_object id) *)
+          (* | EffectCall _ | NeedValue _ -> ()); *)
+          E.new_ fn args
+        end
 
   | Js_send {splice ; name ; pipe ; js_send_scopes } ->
     if pipe then

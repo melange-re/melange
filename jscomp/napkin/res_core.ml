@@ -1,4 +1,4 @@
-open Reason_migrate_parsetree.Ast_406
+open Reason_omp.Ast_406
 module Doc = Res_doc
 module Grammar = Res_grammar
 module Token = Res_token
