@@ -14,8 +14,8 @@
  (depends
   (ocaml
    (and
-    (>= "4.12.0")
-    (< "4.13.0")))
+    (>= "4.14.0")
+    (< "4.15.0")))
   melange-compiler-libs
   reason
   cmdliner))
