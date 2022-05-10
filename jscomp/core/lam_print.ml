@@ -390,7 +390,11 @@ let lambda ppf v =
           List.iter (fun l -> fprintf ppf "@ %a" lam l) largs
         in
         let kind =
-          if k = Self then "self" else if k = Cached then "cache" else ""
+          match k with
+          | Self -> "self"
+          | Cached -> "cache"
+          | Public (Some x) -> x
+          | Public None -> ""
         in
         fprintf ppf "@[<2>(send%s@ %a@ %a%a)@]" kind lam obj lam met args largs
   and sequence ppf = function

@@ -5590,6 +5590,19 @@
 
 
   (rule
+    (targets mel_267_test.cmi mel_267_test.cmj mel_267_test.js)
+    (deps (:inputs mel_267_test.ml) ../stdlib-412/stdlib.cmj)
+
+  (mode
+   (promote
+    (until-clean)
+    (only mel_267_test.js)))
+
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others -I . %{inputs})))
+
+
+  (rule
     (targets method_chain.cmi method_chain.cmj method_chain.js)
     (deps (:inputs method_chain.ml) ../stdlib-412/stdlib.cmj)
 

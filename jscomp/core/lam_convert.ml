@@ -838,8 +838,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
         (match convert_aux b with
         | Lprim {primitive =  Pjs_unsafe_downgrade {loc};  args}
           ->
-          begin match kind, ls with
-            | Public (Some name), [] ->
+            begin match kind with
+            | Public (Some name) ->
               let setter = Ext_string.ends_with name Literals.setter_suffix in
               let property =
                 if setter then
@@ -847,8 +847,20 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) : Lam.t * Lam_module_i
                     (String.sub name 0
                        (String.length name - Literals.setter_suffix_len))
                 else Lam_methname.translate  name in
-              prim ~primitive:(Pjs_unsafe_downgrade {name = property;loc; setter})
+              let lam = prim ~primitive:(Pjs_unsafe_downgrade {name = property;loc; setter})
                 ~args loc
+              in
+              begin match ls with
+              | [] -> lam
+              | [ arg ] ->
+                (* Since https://github.com/ocaml/ocaml/pull/10081, `b |> a` gets
+                   turned into `a b` by the typechecker. So this actually means
+                   `(x ## y) z` rather than `x#y z` *)
+                Lam.apply lam [convert_aux arg]
+              {ap_loc = loc; ap_inlined= Default_inline; ap_status =  App_na}
+
+              | _ -> assert false
+              end
             | _ -> assert false
           end
         | b ->
