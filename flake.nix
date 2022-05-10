@@ -3,7 +3,7 @@
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.nixpkgs.url = "github:anmonteiro/nix-overlays";
-  # inputs.nixpkgs.url = "/Users/anmonteiro/monorepo/nix-overlays";
+  inputs.nixpkgs.inputs.flake-utils.follows = "flake-utils";
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -13,6 +13,7 @@
         });
       in
       {
+        packages.default = pkgs.callPackage ./nix { };
         devShell = pkgs.callPackage ./shell.nix { };
       });
 }
