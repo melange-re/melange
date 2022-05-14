@@ -35,7 +35,6 @@ let bs_external_includes = "bs-external-includes"
 let bs_lib_dir = "bs-lib-dir"
 let bs_dependencies = "bs-dependencies"
 let bs_dev_dependencies = "bs-dev-dependencies"
-
 let sources = "sources"
 let dir = "dir"
 let files = "files"
