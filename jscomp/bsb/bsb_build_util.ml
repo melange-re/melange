@@ -224,7 +224,8 @@ let rec walk_all_deps_aux (visited : string Hash_string.t) (paths : string list)
                          walk_all_deps_aux visited package_stacks  ~top:(Expect_name new_package) package_dir queue;
                        | _ ->
                          Bsb_exception.errorf ~loc "%s expect an array" deps)))
-        |> ignore in
+          |> ignore 
+       in
        explore_deps Bsb_build_schemas.bs_dependencies;
         (match top with
         | Expect_none -> explore_deps Bsb_build_schemas.bs_dev_dependencies
