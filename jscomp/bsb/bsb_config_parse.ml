@@ -295,7 +295,11 @@ let rec interpret_json
      1. if [build.ninja] does use [ninja] we need set a variable
      2. we need store it so that we can call ninja correctly
   *)
-  match  Ext_json_parse.parse_json_from_file (per_proj_dir // Literals.bsconfig_json) with
+  let json = 
+    Ext_json_parse.parse_json_from_file (per_proj_dir // Literals.bsconfig_json)
+  in
+  Bsb_path_resolver.extract_paths_from_importmap per_proj_dir json;
+  match json with
   | Obj { map } ->
     let package_name, namespace =
       extract_package_name_and_namespace  map in

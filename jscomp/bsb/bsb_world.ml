@@ -54,7 +54,6 @@ let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
 
 let make_world_deps ~cwd ~buf =
   Bsb_log.info "Making the dependency world!@.";
-  Bsb_path_resolver.extract_paths_from_importmap cwd;
   let config : Bsb_config_types.t =
     Bsb_config_parse.interpret_json ~package_kind:Toplevel ~per_proj_dir:cwd
   in

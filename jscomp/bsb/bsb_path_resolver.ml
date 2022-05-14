@@ -1,9 +1,11 @@
+open Ext_json_types
+
 let ( // ) = Ext_path.combine
 
 let cache: string Hash_string.t = Hash_string.create 0
 
-let extract_paths_from_importmap cwd =
-  match Ext_json_parse.parse_json_from_file (cwd // Literals.importmap_json) with
+let extract_paths_from_importmap cwd json =
+  match json with
   | Obj {map} ->
     (match Map_string.find_opt map "imports" with
     | Some (Obj {map}) ->
