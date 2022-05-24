@@ -49,6 +49,9 @@ let suites =
                OUnit.assert_equal offset 2
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
+           Ast_utf8_string.transform_test {|\h\e\l\lo \"world\"!|}
+           =~ {|\h\e\l\lo \"world\"!|} );
+         ( __LOC__ >:: fun _ ->
            match Ast_utf8_string.transform_test {|你BuckleScript,好啊\uffff\|} with
            | exception Ast_utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 23
