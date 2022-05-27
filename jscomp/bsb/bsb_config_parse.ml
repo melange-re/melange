@@ -274,7 +274,7 @@ let extract_js_post_build (map : json_map) cwd : string option =
     With a given [cwd] it works anywhere*)
 let rec interpret_json
     ~(package_kind : Bsb_package_kind.t)
-    ~per_proj_dir:(per_proj_dir:string)
+    ~per_proj_dir
 
   : Bsb_config_types.t =
 
@@ -295,7 +295,7 @@ let rec interpret_json
      1. if [build.ninja] does use [ninja] we need set a variable
      2. we need store it so that we can call ninja correctly
   *)
-  let json = 
+  let json =
     Ext_json_parse.parse_json_from_file (per_proj_dir // Literals.bsconfig_json)
   in
   Bsb_path_resolver.extract_paths_from_importmap per_proj_dir json;

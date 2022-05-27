@@ -4,7 +4,5 @@
   "sources": {
     "dir": "src",
     "subdirs": true
-  },
-  "bs-dependencies": [],
-  "pinned-dependencies": []
+  }
 }

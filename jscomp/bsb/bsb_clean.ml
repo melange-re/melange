@@ -59,7 +59,14 @@ let clean_self ~dune_args proj_dir =
   dune_clean ~dune_args proj_dir;
   clean_bs_garbage proj_dir
 
+let load_import_map proj_dir =
+  let json =
+    Ext_json_parse.parse_json_from_file (proj_dir // Literals.bsconfig_json)
+  in
+  Bsb_path_resolver.extract_paths_from_importmap proj_dir json
+
 let clean ~dune_args proj_dir =
+  load_import_map proj_dir;
   clean_self ~dune_args proj_dir;
   let queue = Bsb_build_util.walk_all_deps proj_dir in
   Queue.iter
