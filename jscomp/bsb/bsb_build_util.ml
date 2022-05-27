@@ -217,8 +217,14 @@ let rec walk_all_deps_aux (visited : string Hash_string.t) (paths : string list)
                        match js with
                        | Str { str = new_package } ->
                            let package_dir =
-                             Bsb_pkg.resolve_bs_package ~cwd:dir
-                               (Bsb_pkg_types.string_as_package new_package)
+                             match
+                               Bsb_path_resolver.resolve_import_map_package
+                                 new_package
+                             with
+                             | Some path -> path
+                             | None ->
+                                 Bsb_pkg.resolve_bs_package ~cwd:dir
+                                   (Bsb_pkg_types.string_as_package new_package)
                            in
                            walk_all_deps_aux visited package_stacks
                              ~top:(Expect_name new_package) package_dir queue
