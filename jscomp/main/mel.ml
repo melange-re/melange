@@ -33,8 +33,7 @@ let output_dune_project_if_does_not_exist proj_dir =
   if Sys.file_exists dune_project then ()
   else
     let ochan = open_out_bin dune_project in
-    output_string ochan "(lang dune 2.8)\n";
-    output_string ochan "(using action-plugin 0.1)\n";
+    output_string ochan "(lang dune 3.1)\n";
     close_out ochan
 
 let output_dune_file buf =

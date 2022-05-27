@@ -1,7 +1,6 @@
 {
   "devDependencies": {
-    "mocha": "^7.2.0",
-    "nyc": "^15.0.0"
+    "mocha": "^10.0.0"
   },
   "bin": {
     "bsb": "bsb",
@@ -14,8 +13,7 @@
     "test": "node scripts/ciTest.js  -all",
     "test-theme": "node scripts/ciTest.js -theme",
     "test-bsb": "node scripts/ciTest.js -bsb",
-    "test-ocaml": "node scripts/ciTest.js -ounit",
-    "coverage": "nyc --timeout=3000 --reporter=html mocha jscomp/test/*test.js && open ./coverage/index.html"
+    "test-ocaml": "node scripts/ciTest.js -ounit"
   },
   "name": "bs-platform",
   "version": "9.1.0",
