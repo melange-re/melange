@@ -6,7 +6,7 @@ let cache : string Hash_string.t = Hash_string.create 0
 let extract_paths_from_importmap cwd json =
   match json with
   | Obj { map } -> (
-      match Map_string.find_opt map "imports" with
+      match Map_string.find_opt map Bsb_build_schemas.workspace with
       | Some (Obj { map }) ->
           Map_string.bindings map
           |> List.iter (fun (key, value) ->
