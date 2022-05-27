@@ -9,7 +9,8 @@ with pkgs;
 mkShell {
   inputsFrom = [ melange ];
   buildInputs = [
-    nodejs_latest
+    python3
+    nodejs-16_x
     yarn
   ] ++ (with ocamlPackages; [
     merlin
