@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val install_dir : string
+val install_dir : string lazy_t
 val stdlib_path : string lazy_t
 val include_dirs : string list
 
