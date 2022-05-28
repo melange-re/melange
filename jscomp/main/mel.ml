@@ -56,7 +56,12 @@ let dune_command_exit dune_args =
   let args = Array.append common_args dune_args in
   Bsb_log.info "@{<info>Running:@} %s@."
     (String.concat " " (Array.to_list args));
-  Unix.execvp Literals.dune args
+  try Unix.execvp Literals.dune args
+  with Unix.Unix_error (ENOENT, _, _) ->
+    Bsb_log.error
+      "@{<error>Error:@} @{<filename>`dune`@} not found.@\n\
+       Dune is required to build Melange projects.@.";
+    exit 2
 
 let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
