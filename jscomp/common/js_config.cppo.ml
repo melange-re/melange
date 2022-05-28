@@ -26,7 +26,7 @@
 
 let (//) = Ext_path.combine
 
-let install_dir =
+let install_dir = lazy (
 #ifdef BS_RELEASE_BUILD
   (* we start in `<install-dir>/bin/bsc.exe`.
      (dirname (dirname executable)) == <install-dir> *)
@@ -35,11 +35,12 @@ let install_dir =
   (* <root>/jscomp/main/bsc.exe -> <root> *)
   Filename.(dirname (dirname (Ext_path.normalize_absolute_path Sys.executable_name)))
 #endif
+)
 
 let stdlib_path =
   lazy (match Sys.getenv "BSLIB" with
   | value -> value
-  | exception _ -> install_dir // Literals.lib // "melange" )
+  | exception _ -> Lazy.force install_dir // Literals.lib // "melange" )
 
 let include_dirs =
 
