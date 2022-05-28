@@ -9,8 +9,8 @@
     "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam"
   },
   "resolutions": {
-    "@opam/reason": "reasonml/reason:reason.opam#4f6ff7616bfa699059d642a3d16d8905d83555f6",
-    "ocaml": "esy-ocaml/ocaml#81dcfe8622668f5c1046f1e1e99553b93b627478"
+    "@opam/reason": "reasonml/reason:reason.opam#a93c4c3fbf36d32360a64f9b7a3f64b0ef35b903",
+    "ocaml": "4.14.0"
   },
   "devDependencies": {
     "web-tree-sitter": "0.18.0",

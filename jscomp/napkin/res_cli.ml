@@ -105,28 +105,33 @@ module Color = struct
   let color_enabled = ref true
 
   (* either prints the tag of [s] or delegates to [or_else] *)
-  let mark_open_tag ~or_else s =
-    try
-      let style = style_of_tag s in
-      if !color_enabled then ansi_of_style_l style else ""
-    with Not_found -> or_else s
+  let mark_open_tag ~or_else =
+    function
+    | Format.String_tag s ->
+      (try
+        let style = style_of_tag s in
+        if !color_enabled then ansi_of_style_l style else ""
+      with Not_found -> or_else (Format.String_tag s))
+    | stag -> or_else stag
 
-  let mark_close_tag ~or_else s =
-    try
-      let _ = style_of_tag s in
-      if !color_enabled then ansi_of_style_l [Reset] else ""
-    with Not_found -> or_else s
+  let mark_close_tag ~or_else = function
+    | Format.String_tag s ->
+      (try
+        let _ = style_of_tag s in
+        if !color_enabled then ansi_of_style_l [Reset] else ""
+      with Not_found -> or_else (Format.String_tag s))
+    | stag -> or_else stag
 
   (* add color handling to formatter [ppf] *)
-  let[@ocaml.warning "-deprecated"] set_color_tag_handling ppf =
+  let set_color_tag_handling ppf =
     let open Format in
-    let functions = pp_get_formatter_tag_functions ppf () in
+    let functions = pp_get_formatter_stag_functions ppf () in
     let functions' = {functions with
-      mark_open_tag=(mark_open_tag ~or_else:functions.mark_open_tag);
-      mark_close_tag=(mark_close_tag ~or_else:functions.mark_close_tag);
+      mark_open_stag=(mark_open_tag ~or_else:functions.mark_open_stag);
+      mark_close_stag=(mark_close_tag ~or_else:functions.mark_close_stag);
     } in
     pp_set_mark_tags ppf true; (* enable tags *)
-    pp_set_formatter_tag_functions ppf functions';
+    pp_set_formatter_stag_functions ppf functions';
     (* also setup margins *)
     pp_set_margin ppf (pp_get_margin std_formatter());
     ()

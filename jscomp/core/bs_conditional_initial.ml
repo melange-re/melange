@@ -51,7 +51,6 @@ let setup_env () =
      otherwise [bsc -I sc src/hello.ml ] will include current directory to search path
   *)
   Bs_clflags.assume_no_mli := Bs_clflags.Mli_non_exists;
-  Clflags.unsafe_string := false;
   Clflags.debug := true;
   Bs_clflags.record_event_when_debug := false;
   Clflags.binary_annotations := true;
