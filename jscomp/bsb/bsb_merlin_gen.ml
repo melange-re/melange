@@ -124,6 +124,12 @@ let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency)
     Buffer.add_string buffer merlin_b;
     Buffer.add_string buffer package_install_path)
 
+let as_ppx arg =
+  let fmt : _ format = if Ext_sys.is_windows_or_cygwin then
+              "\"%s -as-ppx \""
+            else  "'%s -as-ppx '"  in
+  Printf.sprintf fmt arg
+
 let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     ({file_groups = res_files ;
       generate_merlin;
@@ -143,9 +149,10 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
   if generate_merlin then begin
     let buffer = Buffer.create 1024 in
     output_merlin_namespace buffer namespace;
+    let dune_build_dir = Lazy.force Bsb_config.dune_build_dir in
     if ppx_config.ppxlib <> [] then begin
       Buffer.add_string buffer merlin_flg_ppx;
-      Buffer.add_string buffer (Literals.melange_eobjs_dir // Bsb_config.ppx_exe)
+      Buffer.add_string buffer (as_ppx (dune_build_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe))
     end;
     Ext_list.iter ppx_config.ppx_files (fun ppx ->
         Buffer.add_string buffer merlin_flg_ppx;
@@ -165,11 +172,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     Buffer.add_string buffer
       (merlin_flg_ppx  ^
        (match reason_react_jsx with
-        | None ->
-          let fmt : _ format =
-            if Ext_sys.is_windows_or_cygwin then
-              "\"%s -as-ppx \""
-            else  "'%s -as-ppx '"  in Printf.sprintf fmt Bsb_global_paths.vendor_bsc
+        | None -> as_ppx Bsb_global_paths.vendor_bsc
         | Some opt ->
           let fmt : _ format =
             if Ext_sys.is_windows_or_cygwin then
@@ -201,7 +204,6 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     let bsc_string_flag = bsc_flg_to_merlin_ocamlc_flg bsc_flags in
     Buffer.add_string buffer bsc_string_flag ;
     Buffer.add_string buffer (warning_to_merlin_flg  warning);
-    let dune_build_dir = Lazy.force Bsb_config.dune_build_dir in
     Ext_list.iter bs_dependencies (package_merlin buffer ~dune_build_dir);
     (**TODO: shall we generate .merlin for dev packages ?*)
     Ext_list.iter bs_dev_dependencies (package_merlin buffer ~dune_build_dir);
