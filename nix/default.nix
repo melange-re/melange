@@ -34,7 +34,7 @@ stdenv.mkDerivation rec {
 
   src = lib.filterGitSource {
     src = ./..;
-    dirs = [ "jscomp" "lib" "scripts" ];
+    dirs = [ "jscomp" "lib" "ppx_rescript_compat" "scripts" ];
     files = [
       "dune-project"
       "dune"
