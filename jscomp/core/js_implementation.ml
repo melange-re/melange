@@ -99,9 +99,15 @@ let after_parsing_sig ppf outputprefix ast =
         initial_env sg;
       process_with_gentype (outputprefix ^ ".cmti"))
 
-let interface ~parser ppf fname =
+let interface ~parser ~lang ppf fname =
   Res_compmisc.init_path ();
-  parser fname |> Ast_deriving_compat.signature
+  let sig_ = parser fname |> Ast_deriving_compat.signature in
+  let sig_ =
+    match lang with
+    | `rescript -> Ppx_rescript_compat.signature sig_
+    | _ -> sig_
+  in
+  sig_
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
   |> Ppx_entry.rewrite_signature
@@ -185,9 +191,14 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
         Lam_compile_main.lambda_as_module js_program outputprefix);
     process_with_gentype (outputprefix ^ ".cmt")
 
-let implementation ~parser ppf fname =
+let implementation ~parser ~lang ppf fname =
   Res_compmisc.init_path ();
-  parser fname |> Ast_deriving_compat.structure
+
+  let str = parser fname |> Ast_deriving_compat.structure in
+  let str =
+    match lang with `rescript -> Ppx_rescript_compat.structure str | _ -> str
+  in
+  str
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
   |> Ppx_entry.rewrite_implementation

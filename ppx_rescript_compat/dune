@@ -1,0 +1,3 @@
+(library
+ (name ppx_rescript_compat)
+ (libraries frontend))
