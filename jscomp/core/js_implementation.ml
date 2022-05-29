@@ -99,14 +99,9 @@ let after_parsing_sig ppf outputprefix ast =
         initial_env sg;
       process_with_gentype (outputprefix ^ ".cmti"))
 
-let interface ~parser ~lang ppf fname =
+let interface ~parser ~lang:_ ppf fname =
   Res_compmisc.init_path ();
   let sig_ = parser fname |> Ast_deriving_compat.signature in
-  let sig_ =
-    match lang with
-    | `rescript -> Ppx_rescript_compat.signature sig_
-    | _ -> sig_
-  in
   sig_
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
