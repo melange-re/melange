@@ -49,7 +49,7 @@
 
 
   (rule
-    (targets arg.cmj )
+    (targets arg.cmj arg.cmt )
     (deps (:inputs arg.ml) (alias ../../others/others) arg.cmi array.cmj buffer.cmj int.cmj list.cmj printf.cmj string.cmj sys.cmj)
 
     (action
@@ -57,7 +57,7 @@
 
 
   (rule
-    (targets arg.cmi )
+    (targets arg.cmi arg.cmti )
     (deps (:inputs arg.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -65,7 +65,7 @@
 
 
   (rule
-    (targets array.cmj )
+    (targets array.cmj array.cmt )
     (deps (:inputs array.ml) (alias ../../others/others) array.cmi seq.cmj)
 
     (action
@@ -73,7 +73,7 @@
 
 
   (rule
-    (targets array.cmi )
+    (targets array.cmi array.cmti )
     (deps (:inputs array.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -81,7 +81,7 @@
 
 
   (rule
-    (targets arrayLabels.cmj )
+    (targets arrayLabels.cmj arrayLabels.cmt )
     (deps (:inputs arrayLabels.ml) (alias ../../others/others) array.cmj arrayLabels.cmi)
 
     (action
@@ -89,7 +89,7 @@
 
 
   (rule
-    (targets arrayLabels.cmi )
+    (targets arrayLabels.cmi arrayLabels.cmti )
     (deps (:inputs arrayLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -97,7 +97,7 @@
 
 
   (rule
-    (targets atomic.cmj )
+    (targets atomic.cmj atomic.cmt )
     (deps (:inputs atomic.ml) (alias ../../others/others) atomic.cmi camlinternalAtomic.cmj)
 
     (action
@@ -105,7 +105,7 @@
 
 
   (rule
-    (targets atomic.cmi )
+    (targets atomic.cmi atomic.cmti )
     (deps (:inputs atomic.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -113,7 +113,7 @@
 
 
   (rule
-    (targets bool.cmj )
+    (targets bool.cmj bool.cmt )
     (deps (:inputs bool.ml) (alias ../../others/others) bool.cmi)
 
     (action
@@ -121,7 +121,7 @@
 
 
   (rule
-    (targets bool.cmi )
+    (targets bool.cmi bool.cmti )
     (deps (:inputs bool.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -129,7 +129,7 @@
 
 
   (rule
-    (targets buffer.cmj )
+    (targets buffer.cmj buffer.cmt )
     (deps (:inputs buffer.ml) (alias ../../others/others) buffer.cmi bytes.cmj seq.cmj string.cmj sys.cmj)
 
     (action
@@ -137,7 +137,7 @@
 
 
   (rule
-    (targets buffer.cmi )
+    (targets buffer.cmi buffer.cmti )
     (deps (:inputs buffer.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
@@ -145,7 +145,7 @@
 
 
   (rule
-    (targets bytes.cmj )
+    (targets bytes.cmj bytes.cmt )
     (deps (:inputs bytes.ml) (alias ../../others/others) bytes.cmi char.cmj int.cmj seq.cmj sys.cmj uchar.cmj)
 
     (action
@@ -153,7 +153,7 @@
 
 
   (rule
-    (targets bytes.cmi )
+    (targets bytes.cmi bytes.cmti )
     (deps (:inputs bytes.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
@@ -161,7 +161,7 @@
 
 
   (rule
-    (targets bytesLabels.cmj )
+    (targets bytesLabels.cmj bytesLabels.cmt )
     (deps (:inputs bytesLabels.ml) (alias ../../others/others) bytes.cmj bytesLabels.cmi)
 
     (action
@@ -169,7 +169,7 @@
 
 
   (rule
-    (targets bytesLabels.cmi )
+    (targets bytesLabels.cmi bytesLabels.cmti )
     (deps (:inputs bytesLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
@@ -177,7 +177,7 @@
 
 
   (rule
-    (targets callback.cmj )
+    (targets callback.cmj callback.cmt )
     (deps (:inputs callback.ml) (alias ../../others/others) callback.cmi obj.cmj)
 
     (action
@@ -185,7 +185,7 @@
 
 
   (rule
-    (targets callback.cmi )
+    (targets callback.cmi callback.cmti )
     (deps (:inputs callback.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -193,7 +193,7 @@
 
 
   (rule
-    (targets camlinternalFormat.cmj )
+    (targets camlinternalFormat.cmj camlinternalFormat.cmt )
     (deps (:inputs camlinternalFormat.ml) (alias ../../others/others) bool.cmj buffer.cmj bytes.cmj camlinternalFormat.cmi camlinternalFormatBasics.cmj char.cmj float.cmj int.cmj int32.cmj int64.cmj string.cmj sys.cmj)
 
     (action
@@ -201,7 +201,7 @@
 
 
   (rule
-    (targets camlinternalFormat.cmi )
+    (targets camlinternalFormat.cmi camlinternalFormat.cmti )
     (deps (:inputs camlinternalFormat.mli) (alias ../../others/others) buffer.cmi camlinternalFormatBasics.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -209,7 +209,7 @@
 
 
   (rule
-    (targets camlinternalLazy.cmj )
+    (targets camlinternalLazy.cmj camlinternalLazy.cmt )
     (deps (:inputs camlinternalLazy.ml) (alias ../../others/others) camlinternalLazy.cmi sys.cmj)
 
     (action
@@ -217,7 +217,7 @@
 
 
   (rule
-    (targets camlinternalLazy.cmi )
+    (targets camlinternalLazy.cmi camlinternalLazy.cmti )
     (deps (:inputs camlinternalLazy.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -225,7 +225,7 @@
 
 
   (rule
-    (targets camlinternalMod.cmj )
+    (targets camlinternalMod.cmj camlinternalMod.cmt )
     (deps (:inputs camlinternalMod.ml) (alias ../../others/others) array.cmj camlinternalMod.cmi camlinternalOO.cmj lazy.cmj obj.cmj)
 
     (action
@@ -233,7 +233,7 @@
 
 
   (rule
-    (targets camlinternalMod.cmi )
+    (targets camlinternalMod.cmi camlinternalMod.cmti )
     (deps (:inputs camlinternalMod.mli) (alias ../../others/others) lazy.cmi obj.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -241,7 +241,7 @@
 
 
   (rule
-    (targets camlinternalOO.cmj )
+    (targets camlinternalOO.cmj camlinternalOO.cmt )
     (deps (:inputs camlinternalOO.ml) (alias ../../others/others) array.cmj camlinternalOO.cmi char.cmj list.cmj map.cmj obj.cmj string.cmj sys.cmj)
 
     (action
@@ -249,7 +249,7 @@
 
 
   (rule
-    (targets camlinternalOO.cmi )
+    (targets camlinternalOO.cmi camlinternalOO.cmti )
     (deps (:inputs camlinternalOO.mli) (alias ../../others/others) obj.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -257,7 +257,7 @@
 
 
   (rule
-    (targets char.cmj )
+    (targets char.cmj char.cmt )
     (deps (:inputs char.ml) (alias ../../others/others) char.cmi)
 
     (action
@@ -265,7 +265,7 @@
 
 
   (rule
-    (targets char.cmi )
+    (targets char.cmi char.cmti )
     (deps (:inputs char.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -273,7 +273,7 @@
 
 
   (rule
-    (targets complex.cmj )
+    (targets complex.cmj complex.cmt )
     (deps (:inputs complex.ml) (alias ../../others/others) complex.cmi)
 
     (action
@@ -281,7 +281,7 @@
 
 
   (rule
-    (targets complex.cmi )
+    (targets complex.cmi complex.cmti )
     (deps (:inputs complex.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -289,7 +289,7 @@
 
 
   (rule
-    (targets digest.cmj )
+    (targets digest.cmj digest.cmt )
     (deps (:inputs digest.ml) (alias ../../others/others) bytes.cmj char.cmj digest.cmi string.cmj)
 
     (action
@@ -297,7 +297,7 @@
 
 
   (rule
-    (targets digest.cmi )
+    (targets digest.cmi digest.cmti )
     (deps (:inputs digest.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -305,7 +305,7 @@
 
 
   (rule
-    (targets either.cmj )
+    (targets either.cmj either.cmt )
     (deps (:inputs either.ml) (alias ../../others/others) either.cmi)
 
     (action
@@ -313,7 +313,7 @@
 
 
   (rule
-    (targets either.cmi )
+    (targets either.cmi either.cmti )
     (deps (:inputs either.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -321,7 +321,7 @@
 
 
   (rule
-    (targets ephemeron.cmj )
+    (targets ephemeron.cmj ephemeron.cmt )
     (deps (:inputs ephemeron.ml) (alias ../../others/others) array.cmj ephemeron.cmi hashtbl.cmj int.cmj lazy.cmj list.cmj obj.cmj random.cmj seq.cmj sys.cmj)
 
     (action
@@ -329,7 +329,7 @@
 
 
   (rule
-    (targets ephemeron.cmi )
+    (targets ephemeron.cmi ephemeron.cmti )
     (deps (:inputs ephemeron.mli) (alias ../../others/others) hashtbl.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -337,7 +337,7 @@
 
 
   (rule
-    (targets filename.cmj )
+    (targets filename.cmj filename.cmt )
     (deps (:inputs filename.ml) (alias ../../others/others) buffer.cmj filename.cmi lazy.cmj list.cmj printf.cmj random.cmj string.cmj sys.cmj)
 
     (action
@@ -345,7 +345,7 @@
 
 
   (rule
-    (targets filename.cmi )
+    (targets filename.cmi filename.cmti )
     (deps (:inputs filename.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -353,7 +353,7 @@
 
 
   (rule
-    (targets float.cmj )
+    (targets float.cmj float.cmt )
     (deps (:inputs float.ml) (alias ../../others/others) array.cmj arrayLabels.cmj float.cmi list.cmj seq.cmj)
 
     (action
@@ -361,7 +361,7 @@
 
 
   (rule
-    (targets float.cmi )
+    (targets float.cmi float.cmti )
     (deps (:inputs float.mli) (alias ../../others/others) array.cmi arrayLabels.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -369,7 +369,7 @@
 
 
   (rule
-    (targets format.cmj )
+    (targets format.cmj format.cmt )
     (deps (:inputs format.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj either.cmj format.cmi int.cmj list.cmj queue.cmj seq.cmj stack.cmj string.cmj)
 
     (action
@@ -377,7 +377,7 @@
 
 
   (rule
-    (targets format.cmi )
+    (targets format.cmi format.cmti )
     (deps (:inputs format.mli) (alias ../../others/others) buffer.cmi either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -385,7 +385,7 @@
 
 
   (rule
-    (targets fun.cmj )
+    (targets fun.cmj fun.cmt )
     (deps (:inputs fun.ml) (alias ../../others/others) fun.cmi printexc.cmj)
 
     (action
@@ -393,7 +393,7 @@
 
 
   (rule
-    (targets fun.cmi )
+    (targets fun.cmi fun.cmti )
     (deps (:inputs fun.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -401,7 +401,7 @@
 
 
   (rule
-    (targets gc.cmj )
+    (targets gc.cmj gc.cmt )
     (deps (:inputs gc.ml) (alias ../../others/others) gc.cmi printexc.cmj printf.cmj string.cmj sys.cmj)
 
     (action
@@ -409,7 +409,7 @@
 
 
   (rule
-    (targets gc.cmi )
+    (targets gc.cmi gc.cmti )
     (deps (:inputs gc.mli) (alias ../../others/others) printexc.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -417,7 +417,7 @@
 
 
   (rule
-    (targets genlex.cmj )
+    (targets genlex.cmj genlex.cmt )
     (deps (:inputs genlex.ml) (alias ../../others/others) bytes.cmj char.cmj genlex.cmi hashtbl.cmj list.cmj stream.cmj string.cmj)
 
     (action
@@ -425,7 +425,7 @@
 
 
   (rule
-    (targets genlex.cmi )
+    (targets genlex.cmi genlex.cmti )
     (deps (:inputs genlex.mli) (alias ../../others/others) stdlib__no_aliases.cmj stream.cmi)
 
     (action
@@ -433,7 +433,7 @@
 
 
   (rule
-    (targets hashtbl.cmj )
+    (targets hashtbl.cmj hashtbl.cmt )
     (deps (:inputs hashtbl.ml) (alias ../../others/others) array.cmj hashtbl.cmi int.cmj lazy.cmj random.cmj seq.cmj string.cmj sys.cmj)
 
     (action
@@ -441,7 +441,7 @@
 
 
   (rule
-    (targets hashtbl.cmi )
+    (targets hashtbl.cmi hashtbl.cmti )
     (deps (:inputs hashtbl.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -449,7 +449,7 @@
 
 
   (rule
-    (targets in_channel.cmj )
+    (targets in_channel.cmj in_channel.cmt )
     (deps (:inputs in_channel.ml) (alias ../../others/others) bytes.cmj fun.cmj in_channel.cmi sys.cmj)
 
     (action
@@ -457,7 +457,7 @@
 
 
   (rule
-    (targets in_channel.cmi )
+    (targets in_channel.cmi in_channel.cmti )
     (deps (:inputs in_channel.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -465,7 +465,7 @@
 
 
   (rule
-    (targets int.cmj )
+    (targets int.cmj int.cmt )
     (deps (:inputs int.ml) (alias ../../others/others) int.cmi)
 
     (action
@@ -473,7 +473,7 @@
 
 
   (rule
-    (targets int.cmi )
+    (targets int.cmi int.cmti )
     (deps (:inputs int.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -481,7 +481,7 @@
 
 
   (rule
-    (targets int32.cmj )
+    (targets int32.cmj int32.cmt )
     (deps (:inputs int32.ml) (alias ../../others/others) int32.cmi sys.cmj)
 
     (action
@@ -489,7 +489,7 @@
 
 
   (rule
-    (targets int32.cmi )
+    (targets int32.cmi int32.cmti )
     (deps (:inputs int32.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -497,7 +497,7 @@
 
 
   (rule
-    (targets int64.cmj )
+    (targets int64.cmj int64.cmt )
     (deps (:inputs int64.ml) (alias ../../others/others) int64.cmi)
 
     (action
@@ -505,7 +505,7 @@
 
 
   (rule
-    (targets int64.cmi )
+    (targets int64.cmi int64.cmti )
     (deps (:inputs int64.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -513,7 +513,7 @@
 
 
   (rule
-    (targets lazy.cmj )
+    (targets lazy.cmj lazy.cmt )
     (deps (:inputs lazy.ml) (alias ../../others/others) camlinternalLazy.cmj lazy.cmi)
 
     (action
@@ -521,7 +521,7 @@
 
 
   (rule
-    (targets lazy.cmi )
+    (targets lazy.cmi lazy.cmti )
     (deps (:inputs lazy.mli) (alias ../../others/others) camlinternalLazy.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -529,7 +529,7 @@
 
 
   (rule
-    (targets lexing.cmj )
+    (targets lexing.cmj lexing.cmt )
     (deps (:inputs lexing.ml) (alias ../../others/others) array.cmj bytes.cmj int.cmj lexing.cmi string.cmj sys.cmj)
 
     (action
@@ -537,7 +537,7 @@
 
 
   (rule
-    (targets lexing.cmi )
+    (targets lexing.cmi lexing.cmti )
     (deps (:inputs lexing.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -545,7 +545,7 @@
 
 
   (rule
-    (targets list.cmj )
+    (targets list.cmj list.cmt )
     (deps (:inputs list.ml) (alias ../../others/others) either.cmj list.cmi seq.cmj sys.cmj)
 
     (action
@@ -553,7 +553,7 @@
 
 
   (rule
-    (targets list.cmi )
+    (targets list.cmi list.cmti )
     (deps (:inputs list.mli) (alias ../../others/others) either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -561,7 +561,7 @@
 
 
   (rule
-    (targets listLabels.cmj )
+    (targets listLabels.cmj listLabels.cmt )
     (deps (:inputs listLabels.ml) (alias ../../others/others) list.cmj listLabels.cmi)
 
     (action
@@ -569,7 +569,7 @@
 
 
   (rule
-    (targets listLabels.cmi )
+    (targets listLabels.cmi listLabels.cmti )
     (deps (:inputs listLabels.mli) (alias ../../others/others) either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -577,7 +577,7 @@
 
 
   (rule
-    (targets map.cmj )
+    (targets map.cmj map.cmt )
     (deps (:inputs map.ml) (alias ../../others/others) map.cmi seq.cmj)
 
     (action
@@ -585,7 +585,7 @@
 
 
   (rule
-    (targets map.cmi )
+    (targets map.cmi map.cmti )
     (deps (:inputs map.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -593,7 +593,7 @@
 
 
   (rule
-    (targets marshal.cmj )
+    (targets marshal.cmj marshal.cmt )
     (deps (:inputs marshal.ml) (alias ../../others/others) bytes.cmj marshal.cmi)
 
     (action
@@ -601,7 +601,7 @@
 
 
   (rule
-    (targets marshal.cmi )
+    (targets marshal.cmi marshal.cmti )
     (deps (:inputs marshal.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -609,7 +609,7 @@
 
 
   (rule
-    (targets moreLabels.cmj )
+    (targets moreLabels.cmj moreLabels.cmt )
     (deps (:inputs moreLabels.ml) (alias ../../others/others) hashtbl.cmj map.cmj moreLabels.cmi set.cmj)
 
     (action
@@ -617,7 +617,7 @@
 
 
   (rule
-    (targets moreLabels.cmi )
+    (targets moreLabels.cmi moreLabels.cmti )
     (deps (:inputs moreLabels.mli) (alias ../../others/others) hashtbl.cmi map.cmi seq.cmi set.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -625,7 +625,7 @@
 
 
   (rule
-    (targets obj.cmj )
+    (targets obj.cmj obj.cmt )
     (deps (:inputs obj.ml) (alias ../../others/others) int32.cmj obj.cmi sys.cmj)
 
     (action
@@ -633,7 +633,7 @@
 
 
   (rule
-    (targets obj.cmi )
+    (targets obj.cmi obj.cmti )
     (deps (:inputs obj.mli) (alias ../../others/others) ephemeron.cmi int32.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -641,7 +641,7 @@
 
 
   (rule
-    (targets oo.cmj )
+    (targets oo.cmj oo.cmt )
     (deps (:inputs oo.ml) (alias ../../others/others) camlinternalOO.cmj oo.cmi)
 
     (action
@@ -649,7 +649,7 @@
 
 
   (rule
-    (targets oo.cmi )
+    (targets oo.cmi oo.cmti )
     (deps (:inputs oo.mli) (alias ../../others/others) camlinternalOO.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -657,7 +657,7 @@
 
 
   (rule
-    (targets option.cmj )
+    (targets option.cmj option.cmt )
     (deps (:inputs option.ml) (alias ../../others/others) option.cmi seq.cmj)
 
     (action
@@ -665,7 +665,7 @@
 
 
   (rule
-    (targets option.cmi )
+    (targets option.cmi option.cmti )
     (deps (:inputs option.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -673,7 +673,7 @@
 
 
   (rule
-    (targets out_channel.cmj )
+    (targets out_channel.cmj out_channel.cmt )
     (deps (:inputs out_channel.ml) (alias ../../others/others) fun.cmj out_channel.cmi)
 
     (action
@@ -681,7 +681,7 @@
 
 
   (rule
-    (targets out_channel.cmi )
+    (targets out_channel.cmi out_channel.cmti )
     (deps (:inputs out_channel.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -689,7 +689,7 @@
 
 
   (rule
-    (targets parsing.cmj )
+    (targets parsing.cmj parsing.cmt )
     (deps (:inputs parsing.ml) (alias ../../others/others) array.cmj lexing.cmj obj.cmj parsing.cmi)
 
     (action
@@ -697,7 +697,7 @@
 
 
   (rule
-    (targets parsing.cmi )
+    (targets parsing.cmi parsing.cmti )
     (deps (:inputs parsing.mli) (alias ../../others/others) lexing.cmi obj.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -705,7 +705,7 @@
 
 
   (rule
-    (targets pervasives.cmi pervasives.cmj )
+    (targets pervasives.cmi pervasives.cmj pervasives.cmt )
     (deps (:inputs pervasives.ml) (alias ../../others/others) camlinternalFormatBasics.cmj stdlib__no_aliases.cmj)
 
     (action
@@ -713,7 +713,7 @@
 
 
   (rule
-    (targets printexc.cmj )
+    (targets printexc.cmj printexc.cmt )
     (deps (:inputs printexc.ml) (alias ../../others/others) array.cmj atomic.cmj buffer.cmj printexc.cmi printf.cmj)
 
     (action
@@ -721,7 +721,7 @@
 
 
   (rule
-    (targets printexc.cmi )
+    (targets printexc.cmi printexc.cmti )
     (deps (:inputs printexc.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -729,7 +729,7 @@
 
 
   (rule
-    (targets printf.cmj )
+    (targets printf.cmj printf.cmt )
     (deps (:inputs printf.ml) (alias ../../others/others) buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj printf.cmi)
 
     (action
@@ -737,7 +737,7 @@
 
 
   (rule
-    (targets printf.cmi )
+    (targets printf.cmi printf.cmti )
     (deps (:inputs printf.mli) (alias ../../others/others) buffer.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -745,7 +745,7 @@
 
 
   (rule
-    (targets queue.cmj )
+    (targets queue.cmj queue.cmt )
     (deps (:inputs queue.ml) (alias ../../others/others) queue.cmi seq.cmj)
 
     (action
@@ -753,7 +753,7 @@
 
 
   (rule
-    (targets queue.cmi )
+    (targets queue.cmi queue.cmti )
     (deps (:inputs queue.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -761,7 +761,7 @@
 
 
   (rule
-    (targets random.cmj )
+    (targets random.cmj random.cmt )
     (deps (:inputs random.ml) (alias ../../others/others) array.cmj char.cmj digest.cmj int.cmj int32.cmj int64.cmj random.cmi)
 
     (action
@@ -769,7 +769,7 @@
 
 
   (rule
-    (targets random.cmi )
+    (targets random.cmi random.cmti )
     (deps (:inputs random.mli) (alias ../../others/others) int32.cmi int64.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -777,7 +777,7 @@
 
 
   (rule
-    (targets result.cmj )
+    (targets result.cmj result.cmt )
     (deps (:inputs result.ml) (alias ../../others/others) result.cmi seq.cmj)
 
     (action
@@ -785,7 +785,7 @@
 
 
   (rule
-    (targets result.cmi )
+    (targets result.cmi result.cmti )
     (deps (:inputs result.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -793,7 +793,7 @@
 
 
   (rule
-    (targets scanf.cmj )
+    (targets scanf.cmj scanf.cmt )
     (deps (:inputs scanf.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj int.cmj list.cmj printf.cmj scanf.cmi string.cmj)
 
     (action
@@ -801,7 +801,7 @@
 
 
   (rule
-    (targets scanf.cmi )
+    (targets scanf.cmi scanf.cmti )
     (deps (:inputs scanf.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -809,7 +809,7 @@
 
 
   (rule
-    (targets seq.cmj )
+    (targets seq.cmj seq.cmt )
     (deps (:inputs seq.ml) (alias ../../others/others) camlinternalAtomic.cmj either.cmj lazy.cmj seq.cmi)
 
     (action
@@ -817,7 +817,7 @@
 
 
   (rule
-    (targets seq.cmi )
+    (targets seq.cmi seq.cmti )
     (deps (:inputs seq.mli) (alias ../../others/others) either.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -825,7 +825,7 @@
 
 
   (rule
-    (targets set.cmj )
+    (targets set.cmj set.cmt )
     (deps (:inputs set.ml) (alias ../../others/others) list.cmj seq.cmj set.cmi)
 
     (action
@@ -833,7 +833,7 @@
 
 
   (rule
-    (targets set.cmi )
+    (targets set.cmi set.cmti )
     (deps (:inputs set.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -841,7 +841,7 @@
 
 
   (rule
-    (targets stack.cmj )
+    (targets stack.cmj stack.cmt )
     (deps (:inputs stack.ml) (alias ../../others/others) list.cmj seq.cmj stack.cmi)
 
     (action
@@ -849,7 +849,7 @@
 
 
   (rule
-    (targets stack.cmi )
+    (targets stack.cmi stack.cmti )
     (deps (:inputs stack.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
@@ -857,7 +857,7 @@
 
 
   (rule
-    (targets stdLabels.cmj )
+    (targets stdLabels.cmj stdLabels.cmt )
     (deps (:inputs stdLabels.ml) (alias ../../others/others) arrayLabels.cmj bytesLabels.cmj listLabels.cmj stdLabels.cmi stringLabels.cmj)
 
     (action
@@ -865,7 +865,7 @@
 
 
   (rule
-    (targets stdLabels.cmi )
+    (targets stdLabels.cmi stdLabels.cmti )
     (deps (:inputs stdLabels.mli) (alias ../../others/others) arrayLabels.cmi bytesLabels.cmi listLabels.cmi stdlib__no_aliases.cmj stringLabels.cmi)
 
     (action
@@ -873,7 +873,7 @@
 
 
   (rule
-    (targets std_exit.cmi std_exit.cmj )
+    (targets std_exit.cmi std_exit.cmj std_exit.cmt )
     (deps (:inputs std_exit.ml) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -881,7 +881,7 @@
 
 
   (rule
-    (targets stream.cmj )
+    (targets stream.cmj stream.cmt )
     (deps (:inputs stream.ml) (alias ../../others/others) bytes.cmj lazy.cmj list.cmj stream.cmi string.cmj)
 
     (action
@@ -889,7 +889,7 @@
 
 
   (rule
-    (targets stream.cmi )
+    (targets stream.cmi stream.cmti )
     (deps (:inputs stream.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -897,7 +897,7 @@
 
 
   (rule
-    (targets string.cmj )
+    (targets string.cmj string.cmt )
     (deps (:inputs string.ml) (alias ../../others/others) bytes.cmj string.cmi)
 
     (action
@@ -905,7 +905,7 @@
 
 
   (rule
-    (targets string.cmi )
+    (targets string.cmi string.cmti )
     (deps (:inputs string.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
@@ -913,7 +913,7 @@
 
 
   (rule
-    (targets stringLabels.cmj )
+    (targets stringLabels.cmj stringLabels.cmt )
     (deps (:inputs stringLabels.ml) (alias ../../others/others) string.cmj stringLabels.cmi)
 
     (action
@@ -921,7 +921,7 @@
 
 
   (rule
-    (targets stringLabels.cmi )
+    (targets stringLabels.cmi stringLabels.cmti )
     (deps (:inputs stringLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
@@ -929,7 +929,7 @@
 
 
   (rule
-    (targets sys.cmj )
+    (targets sys.cmj sys.cmt )
     (deps (:inputs sys.ml) (alias ../../others/others) sys.cmi)
 
     (action
@@ -937,7 +937,7 @@
 
 
   (rule
-    (targets sys.cmi )
+    (targets sys.cmi sys.cmti )
     (deps (:inputs sys.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -945,7 +945,7 @@
 
 
   (rule
-    (targets uchar.cmj )
+    (targets uchar.cmj uchar.cmt )
     (deps (:inputs uchar.ml) (alias ../../others/others) char.cmj uchar.cmi)
 
     (action
@@ -953,7 +953,7 @@
 
 
   (rule
-    (targets uchar.cmi )
+    (targets uchar.cmi uchar.cmti )
     (deps (:inputs uchar.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -961,7 +961,7 @@
 
 
   (rule
-    (targets unit.cmj )
+    (targets unit.cmj unit.cmt )
     (deps (:inputs unit.ml) (alias ../../others/others) unit.cmi)
 
     (action
@@ -969,7 +969,7 @@
 
 
   (rule
-    (targets unit.cmi )
+    (targets unit.cmi unit.cmti )
     (deps (:inputs unit.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
@@ -977,7 +977,7 @@
 
 
   (rule
-    (targets weak.cmj )
+    (targets weak.cmj weak.cmt )
     (deps (:inputs weak.ml) (alias ../../others/others) array.cmj hashtbl.cmj int.cmj obj.cmj sys.cmj weak.cmi)
 
     (action
@@ -985,7 +985,7 @@
 
 
   (rule
-    (targets weak.cmi )
+    (targets weak.cmi weak.cmti )
     (deps (:inputs weak.mli) (alias ../../others/others) hashtbl.cmi stdlib__no_aliases.cmj)
 
     (action

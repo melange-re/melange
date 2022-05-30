@@ -22,9 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
 let (//) = Ext_path.combine
+
+#ifndef BS_RELEASE_BUILD
+let executable_name =
+  lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
+#endif
 
 let install_dir = lazy (
 #ifdef BS_RELEASE_BUILD
@@ -33,7 +36,7 @@ let install_dir = lazy (
   Filename.(dirname (dirname Sys.executable_name))
 #else
   (* <root>/jscomp/main/bsc.exe -> <root> *)
-  Filename.(dirname (dirname (Ext_path.normalize_absolute_path Sys.executable_name)))
+  Filename.(dirname (dirname (Lazy.force executable_name)))
 #endif
 )
 
@@ -48,7 +51,7 @@ let include_dirs =
   let jscomp =
     (* jscomp/main/bsc.exe -> jscomp *)
     Filename.dirname
-      (Filename.dirname (Ext_path.real_path Sys.executable_name))
+      (Filename.dirname (Lazy.force executable_name))
   in
   [ (jscomp//"others")
   ; (jscomp//"stdlib-412/stdlib_modules")
