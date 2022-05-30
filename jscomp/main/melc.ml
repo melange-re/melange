@@ -58,34 +58,40 @@ let process_file sourcefile
     setup_error_printer `reason;
     Js_implementation.implementation
       ~parser:Ast_reason_pp.RE.parse_implementation
+      ~lang:`reason
       ppf sourcefile
   | Rei ->
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `reason;
     Js_implementation.interface
       ~parser:Ast_reason_pp.RE.parse_interface
+      ~lang:`reason
       ppf sourcefile
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
       ~parser:Pparse_driver.parse_implementation
+      ~lang:`ml
       ppf sourcefile
   | Mli  ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.interface
       ~parser:Pparse_driver.parse_interface
+      ~lang:`ml
       ppf sourcefile
   | Res ->
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `rescript;
     Js_implementation.implementation
       ~parser:Napkin.Res_driver.parse_implementation
+      ~lang:`rescript
       ppf sourcefile
   | Resi ->
     let sourcefile = set_abs_input_name  sourcefile in
     setup_error_printer `rescript;
     Js_implementation.interface
       ~parser:Napkin.Res_driver.parse_interface
+      ~lang:`rescript
       ppf sourcefile
   | Intf_ast
     ->
