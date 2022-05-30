@@ -606,6 +606,17 @@ function scanFileTargets(allTargets, collIn) {
   return coll;
 }
 
+/* These test files have a `-bs-no-bin-annot` flag */
+const bin_annot_exclusions = [
+  'mario_game',
+  'ocaml_re_test',
+  'ocaml_proto_test',
+  'flow_parser_reg_test',
+  'parser_api',
+  'ocaml_parsetree_test',
+  'ocaml_typedtree_test'
+]
+
 function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = null) {
   /**
    * @type {string[]}
@@ -614,6 +625,8 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
   allTargets.forEach((x, mod) => {
     let output_cmj = mod + ".cmj";
     let output_cmi = mod + ".cmi";
+    let output_cmt = bin_annot_exclusions.includes(mod) ? "" : mod + ".cmt";
+    let output_cmti = bin_annot_exclusions.includes(mod) ? "" : mod + ".cmti";
     let input_ml = mod + ".ml";
     let input_mli = mod + ".mli";
     let input_re = mod + ".re";
@@ -636,33 +649,33 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
     };
     switch (x) {
       case "HAS_BOTH":
-        mk([output_cmj], [input_ml], ruleCC_cmi);
-        mk([output_cmi], [input_mli]);
+        mk([output_cmj, output_cmt], [input_ml], ruleCC_cmi);
+        mk([output_cmi, output_cmti], [input_mli]);
         break;
       case "HAS_BOTH_RE":
-        mk([output_cmj], [input_re], ruleCC_cmi);
-        mk([output_cmi], [input_rei], ruleCC);
+        mk([output_cmj, output_cmt], [input_re], ruleCC_cmi);
+        mk([output_cmi, output_cmti], [input_rei], ruleCC);
         break;
       case "HAS_BOTH_RES":
-        mk([output_cmj], [input_res], ruleCC_cmi);
-        mk([output_cmi], [input_resi], ruleCC);
+        mk([output_cmj, output_cmt], [input_res], ruleCC_cmi);
+        mk([output_cmi, output_cmti], [input_resi], ruleCC);
         break;
       case "HAS_RE":
-        mk([output_cmi, output_cmj], [input_re], ruleCC);
+        mk([output_cmi, output_cmj, output_cmt], [input_re], ruleCC);
         break;
       case "HAS_RES":
-        mk([output_cmi, output_cmj], [input_res], ruleCC);
+        mk([output_cmi, output_cmj, output_cmt], [input_res], ruleCC);
         break;
       case "HAS_ML":
-        mk([output_cmi, output_cmj], [input_ml]);
+        mk([output_cmi, output_cmj, output_cmt], [input_ml], ruleCC);
         break;
       case "HAS_REI":
-        mk([output_cmi], [input_rei], ruleCC);
+        mk([output_cmi, output_cmti], [input_rei], ruleCC);
       case "HAS_RESI":
-        mk([output_cmi], [input_resi], ruleCC);
+        mk([output_cmi, output_cmti], [input_resi], ruleCC);
         break;
       case "HAS_MLI":
-        mk([output_cmi], [input_mli]);
+        mk([output_cmi, output_cmti], [input_mli], ruleCC);
         break;
     }
   });

@@ -18,7 +18,7 @@
 
 
   (rule
-    (targets caml.cmj )
+    (targets caml.cmj caml.cmt )
     (deps (:inputs caml.ml) caml.cmi caml_int64_extern.cmj)
 
     (action
@@ -26,7 +26,7 @@
 
 
   (rule
-    (targets caml.cmi )
+    (targets caml.cmi caml.cmti )
     (deps (:inputs caml.mli) bs_stdlib_mini.cmi caml_int64_extern.cmj js.cmi js.cmj)
 
     (action
@@ -34,7 +34,7 @@
 
 
   (rule
-    (targets caml_array.cmj )
+    (targets caml_array.cmj caml_array.cmt )
     (deps (:inputs caml_array.ml) caml_array.cmi caml_array_extern.cmj)
 
     (action
@@ -42,7 +42,7 @@
 
 
   (rule
-    (targets caml_array.cmi )
+    (targets caml_array.cmi caml_array.cmti )
     (deps (:inputs caml_array.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -50,7 +50,7 @@
 
 
   (rule
-    (targets caml_bytes.cmj )
+    (targets caml_bytes.cmj caml_bytes.cmt )
     (deps (:inputs caml_bytes.ml) caml_bytes.cmi caml_string_extern.cmj)
 
     (action
@@ -58,7 +58,7 @@
 
 
   (rule
-    (targets caml_bytes.cmi )
+    (targets caml_bytes.cmi caml_bytes.cmti )
     (deps (:inputs caml_bytes.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -66,7 +66,7 @@
 
 
   (rule
-    (targets caml_float.cmj )
+    (targets caml_float.cmj caml_float.cmt )
     (deps (:inputs caml_float.ml) caml_float.cmi caml_float_extern.cmj)
 
     (action
@@ -74,7 +74,7 @@
 
 
   (rule
-    (targets caml_float.cmi )
+    (targets caml_float.cmi caml_float.cmti )
     (deps (:inputs caml_float.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -82,7 +82,7 @@
 
 
   (rule
-    (targets caml_format.cmj )
+    (targets caml_format.cmj caml_format.cmt )
     (deps (:inputs caml_format.ml) caml_float.cmj caml_float_extern.cmj caml_format.cmi caml_int64.cmj caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj)
 
     (action
@@ -90,7 +90,7 @@
 
 
   (rule
-    (targets caml_format.cmi )
+    (targets caml_format.cmi caml_format.cmti )
     (deps (:inputs caml_format.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -98,7 +98,7 @@
 
 
   (rule
-    (targets caml_gc.cmj )
+    (targets caml_gc.cmj caml_gc.cmt )
     (deps (:inputs caml_gc.ml) caml_gc.cmi)
 
     (action
@@ -106,7 +106,7 @@
 
 
   (rule
-    (targets caml_gc.cmi )
+    (targets caml_gc.cmi caml_gc.cmti )
     (deps (:inputs caml_gc.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -114,7 +114,7 @@
 
 
   (rule
-    (targets caml_hash.cmj )
+    (targets caml_hash.cmj caml_hash.cmt )
     (deps (:inputs caml_hash.ml) caml_hash.cmi caml_hash_primitive.cmj caml_nativeint_extern.cmj js.cmj)
 
     (action
@@ -122,7 +122,7 @@
 
 
   (rule
-    (targets caml_hash.cmi )
+    (targets caml_hash.cmi caml_hash.cmti )
     (deps (:inputs caml_hash.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -130,7 +130,7 @@
 
 
   (rule
-    (targets caml_hash_primitive.cmj )
+    (targets caml_hash_primitive.cmj caml_hash_primitive.cmt )
     (deps (:inputs caml_hash_primitive.ml) caml_hash_primitive.cmi caml_string_extern.cmj)
 
     (action
@@ -138,7 +138,7 @@
 
 
   (rule
-    (targets caml_hash_primitive.cmi )
+    (targets caml_hash_primitive.cmi caml_hash_primitive.cmti )
     (deps (:inputs caml_hash_primitive.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -146,7 +146,7 @@
 
 
   (rule
-    (targets caml_int32.cmj )
+    (targets caml_int32.cmj caml_int32.cmt )
     (deps (:inputs caml_int32.ml) caml_int32.cmi caml_nativeint_extern.cmj)
 
     (action
@@ -154,7 +154,7 @@
 
 
   (rule
-    (targets caml_int32.cmi )
+    (targets caml_int32.cmi caml_int32.cmti )
     (deps (:inputs caml_int32.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -162,7 +162,7 @@
 
 
   (rule
-    (targets caml_int64.cmj )
+    (targets caml_int64.cmj caml_int64.cmt )
     (deps (:inputs caml_int64.ml) caml.cmj caml_float.cmj caml_float_extern.cmj caml_int64.cmi caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj js.cmj)
 
     (action
@@ -170,7 +170,7 @@
 
 
   (rule
-    (targets caml_int64.cmi )
+    (targets caml_int64.cmi caml_int64.cmti )
     (deps (:inputs caml_int64.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -178,7 +178,7 @@
 
 
   (rule
-    (targets caml_io.cmj )
+    (targets caml_io.cmj caml_io.cmt )
     (deps (:inputs caml_io.ml) caml_io.cmi caml_string_extern.cmj caml_undefined_extern.cmj js.cmj)
 
     (action
@@ -186,7 +186,7 @@
 
 
   (rule
-    (targets caml_io.cmi )
+    (targets caml_io.cmi caml_io.cmti )
     (deps (:inputs caml_io.mli) bs_stdlib_mini.cmi caml_undefined_extern.cmj js.cmi js.cmj)
 
     (action
@@ -194,7 +194,7 @@
 
 
   (rule
-    (targets caml_lexer.cmj )
+    (targets caml_lexer.cmj caml_lexer.cmt )
     (deps (:inputs caml_lexer.ml) caml_lexer.cmi)
 
     (action
@@ -202,7 +202,7 @@
 
 
   (rule
-    (targets caml_lexer.cmi )
+    (targets caml_lexer.cmi caml_lexer.cmti )
     (deps (:inputs caml_lexer.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -210,7 +210,7 @@
 
 
   (rule
-    (targets caml_md5.cmj )
+    (targets caml_md5.cmj caml_md5.cmt )
     (deps (:inputs caml_md5.ml) caml_array_extern.cmj caml_int32_extern.cmj caml_md5.cmi caml_string_extern.cmj)
 
     (action
@@ -218,7 +218,7 @@
 
 
   (rule
-    (targets caml_md5.cmi )
+    (targets caml_md5.cmi caml_md5.cmti )
     (deps (:inputs caml_md5.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -226,7 +226,7 @@
 
 
   (rule
-    (targets caml_module.cmj )
+    (targets caml_module.cmj caml_module.cmt )
     (deps (:inputs caml_module.ml) caml_array_extern.cmj caml_module.cmi caml_obj.cmj)
 
     (action
@@ -234,7 +234,7 @@
 
 
   (rule
-    (targets caml_module.cmi )
+    (targets caml_module.cmi caml_module.cmti )
     (deps (:inputs caml_module.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -242,7 +242,7 @@
 
 
   (rule
-    (targets caml_obj.cmj )
+    (targets caml_obj.cmj caml_obj.cmt )
     (deps (:inputs caml_obj.ml) caml_array_extern.cmj caml_obj.cmi caml_option.cmj js.cmj)
 
     (action
@@ -250,7 +250,7 @@
 
 
   (rule
-    (targets caml_obj.cmi )
+    (targets caml_obj.cmi caml_obj.cmti )
     (deps (:inputs caml_obj.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -258,7 +258,7 @@
 
 
   (rule
-    (targets caml_oo.cmj )
+    (targets caml_oo.cmj caml_oo.cmt )
     (deps (:inputs caml_oo.ml) caml_array_extern.cmj caml_exceptions.cmj caml_oo.cmi)
 
     (action
@@ -266,7 +266,7 @@
 
 
   (rule
-    (targets caml_oo.cmi )
+    (targets caml_oo.cmi caml_oo.cmti )
     (deps (:inputs caml_oo.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -274,7 +274,7 @@
 
 
   (rule
-    (targets caml_option.cmj )
+    (targets caml_option.cmj caml_option.cmt )
     (deps (:inputs caml_option.ml) caml_option.cmi caml_undefined_extern.cmj js.cmj)
 
     (action
@@ -282,7 +282,7 @@
 
 
   (rule
-    (targets caml_option.cmi )
+    (targets caml_option.cmi caml_option.cmti )
     (deps (:inputs caml_option.mli) bs_stdlib_mini.cmi caml_undefined_extern.cmj js.cmi js.cmj)
 
     (action
@@ -290,7 +290,7 @@
 
 
   (rule
-    (targets caml_parser.cmj )
+    (targets caml_parser.cmj caml_parser.cmt )
     (deps (:inputs caml_parser.ml) caml_parser.cmi)
 
     (action
@@ -298,7 +298,7 @@
 
 
   (rule
-    (targets caml_parser.cmi )
+    (targets caml_parser.cmi caml_parser.cmti )
     (deps (:inputs caml_parser.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -306,7 +306,7 @@
 
 
   (rule
-    (targets caml_splice_call.cmj )
+    (targets caml_splice_call.cmj caml_splice_call.cmt )
     (deps (:inputs caml_splice_call.ml) caml_splice_call.cmi)
 
     (action
@@ -314,7 +314,7 @@
 
 
   (rule
-    (targets caml_splice_call.cmi )
+    (targets caml_splice_call.cmi caml_splice_call.cmti )
     (deps (:inputs caml_splice_call.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -322,7 +322,7 @@
 
 
   (rule
-    (targets caml_string.cmj )
+    (targets caml_string.cmj caml_string.cmt )
     (deps (:inputs caml_string.ml) caml_string.cmi caml_string_extern.cmj)
 
     (action
@@ -330,7 +330,7 @@
 
 
   (rule
-    (targets caml_string.cmi )
+    (targets caml_string.cmi caml_string.cmti )
     (deps (:inputs caml_string.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -338,7 +338,7 @@
 
 
   (rule
-    (targets caml_sys.cmj )
+    (targets caml_sys.cmj caml_sys.cmt )
     (deps (:inputs caml_sys.ml) caml_array_extern.cmj caml_sys.cmi caml_undefined_extern.cmj js.cmj)
 
     (action
@@ -346,7 +346,7 @@
 
 
   (rule
-    (targets caml_sys.cmi )
+    (targets caml_sys.cmi caml_sys.cmti )
     (deps (:inputs caml_sys.mli) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -354,7 +354,7 @@
 
 
   (rule
-    (targets caml_array_extern.cmi caml_array_extern.cmj )
+    (targets caml_array_extern.cmi caml_array_extern.cmj caml_array_extern.cmt )
     (deps (:inputs caml_array_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -362,7 +362,7 @@
 
 
   (rule
-    (targets caml_exceptions.cmi caml_exceptions.cmj )
+    (targets caml_exceptions.cmi caml_exceptions.cmj caml_exceptions.cmt )
     (deps (:inputs caml_exceptions.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -370,7 +370,7 @@
 
 
   (rule
-    (targets caml_external_polyfill.cmi caml_external_polyfill.cmj )
+    (targets caml_external_polyfill.cmi caml_external_polyfill.cmj caml_external_polyfill.cmt )
     (deps (:inputs caml_external_polyfill.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -378,7 +378,7 @@
 
 
   (rule
-    (targets caml_float_extern.cmi caml_float_extern.cmj )
+    (targets caml_float_extern.cmi caml_float_extern.cmj caml_float_extern.cmt )
     (deps (:inputs caml_float_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -386,7 +386,7 @@
 
 
   (rule
-    (targets caml_int32_extern.cmi caml_int32_extern.cmj )
+    (targets caml_int32_extern.cmi caml_int32_extern.cmj caml_int32_extern.cmt )
     (deps (:inputs caml_int32_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -394,7 +394,7 @@
 
 
   (rule
-    (targets caml_int64_extern.cmi caml_int64_extern.cmj )
+    (targets caml_int64_extern.cmi caml_int64_extern.cmj caml_int64_extern.cmt )
     (deps (:inputs caml_int64_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -402,7 +402,7 @@
 
 
   (rule
-    (targets caml_js_exceptions.cmi caml_js_exceptions.cmj )
+    (targets caml_js_exceptions.cmi caml_js_exceptions.cmj caml_js_exceptions.cmt )
     (deps (:inputs caml_js_exceptions.ml) bs_stdlib_mini.cmi caml_exceptions.cmj js.cmi js.cmj)
 
     (action
@@ -410,7 +410,7 @@
 
 
   (rule
-    (targets caml_nativeint_extern.cmi caml_nativeint_extern.cmj )
+    (targets caml_nativeint_extern.cmi caml_nativeint_extern.cmj caml_nativeint_extern.cmt )
     (deps (:inputs caml_nativeint_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -418,7 +418,7 @@
 
 
   (rule
-    (targets caml_oo_curry.cmi caml_oo_curry.cmj )
+    (targets caml_oo_curry.cmi caml_oo_curry.cmj caml_oo_curry.cmt )
     (deps (:inputs caml_oo_curry.ml) bs_stdlib_mini.cmi caml_oo.cmj curry.cmj js.cmi js.cmj)
 
     (action
@@ -426,7 +426,7 @@
 
 
   (rule
-    (targets caml_string_extern.cmi caml_string_extern.cmj )
+    (targets caml_string_extern.cmi caml_string_extern.cmj caml_string_extern.cmt )
     (deps (:inputs caml_string_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -434,7 +434,7 @@
 
 
   (rule
-    (targets caml_undefined_extern.cmi caml_undefined_extern.cmj )
+    (targets caml_undefined_extern.cmi caml_undefined_extern.cmj caml_undefined_extern.cmt )
     (deps (:inputs caml_undefined_extern.ml) bs_stdlib_mini.cmi js.cmi js.cmj)
 
     (action
@@ -442,7 +442,7 @@
 
 
   (rule
-    (targets curry.cmi curry.cmj )
+    (targets curry.cmi curry.cmj curry.cmt )
     (deps (:inputs curry.ml) bs_stdlib_mini.cmi caml_array.cmi caml_array_extern.cmj js.cmi js.cmj)
 
     (action
