@@ -21,13 +21,15 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
 let separator = "--"
+let is_number = function '0' .. '9' -> true | _ -> false
 
 let normalize_argv argv =
   Array.map
     (fun s ->
       if String.length s <= 2 then s
-      else if s.[0] = '-' && s.[1] <> '-' then "-" ^ s
+      else if s.[0] = '-' && s.[1] <> '-' && not (is_number s.[1]) then "-" ^ s
       else s)
     argv
 
