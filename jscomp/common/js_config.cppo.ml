@@ -79,14 +79,7 @@ let get_diagnose () =
   || Sys.getenv_opt "RES_DEBUG_FILE" <> None
 #endif
 
-(* let (//) = Filename.concat *)
-
-(* let get_packages_info () = !packages_info *)
-
 let no_builtin_ppx = ref false
-
-
-
 
 let tool_name = "Melange"
 
