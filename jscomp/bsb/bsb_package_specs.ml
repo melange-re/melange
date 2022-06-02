@@ -159,7 +159,7 @@ let get_list_of_output_js (package_specs : t)
         Ext_namespace.change_ext_ns_suffix output_file_sans_extension
           (Ext_js_suffix.to_string spec.suffix)
       in
-      (Bsb_config.rev_lib_bs_prefix basename, spec.in_source) :: acc)
+      (basename, spec.in_source) :: acc)
     package_specs.modules []
 
 type json_map = Ext_json_types.t Map_string.t
