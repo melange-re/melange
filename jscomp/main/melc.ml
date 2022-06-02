@@ -493,7 +493,7 @@ end
 
 let melc_cmd =
   let open Cmdliner in
-  let doc = "TODO: melc" in
+  let doc = "the Melange compiler" in
   let info = Cmd.info "melc" ~doc in
   Cmd.v info Term.(ret (const main $ Melc_cli.cmd))
 
