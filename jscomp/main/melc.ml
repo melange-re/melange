@@ -501,7 +501,7 @@ let melc_cmd =
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
-  | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
+  | Some { pexp_desc = Pexp_array args; _ } ->
     let args =
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with
