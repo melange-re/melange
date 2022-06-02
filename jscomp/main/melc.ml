@@ -394,11 +394,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
 
     Ext_option.iter bs_cross_module_opt (fun bs_cross_module_opt ->
       Js_config.cross_module_inline := bs_cross_module_opt);
-    Ext_option.iter runtime setup_runtime_path;
-    if make_runtime then Js_packages_state.make_runtime ();
-    if make_runtime_test then Js_packages_state.make_runtime_test ();
-    Ext_option.iter bs_package_output Js_packages_state.update_npm_package_path;
-
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
     if bs_ast then (
@@ -408,7 +403,12 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.debug := bs_g;
       Rescript_cpp.replace_directive_bool "DEBUG" true);
 
+    Ext_option.iter runtime setup_runtime_path;
+    if make_runtime then Js_packages_state.make_runtime ();
+    if make_runtime_test then Js_packages_state.make_runtime_test ();
+
     Ext_option.iter bs_package_name Js_packages_state.set_package_name;
+    Ext_option.iter bs_package_output Js_packages_state.update_npm_package_path;
     Ext_option.iter bs_ns Js_packages_state.set_package_map;
 
     if as_ppx then Js_config.as_ppx := as_ppx;

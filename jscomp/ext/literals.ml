@@ -34,12 +34,9 @@ let param = "param"
 let partial_arg = "partial_arg"
 let tmp = "tmp"
 let create = "create" (* {!Caml_exceptions.create}*)
-
 let runtime = "runtime" (* runtime directory *)
-
 let stdlib = "stdlib"
 let imul = "imul" (* signed int32 mul *)
-
 let setter_suffix = "#="
 let setter_suffix_len = String.length setter_suffix
 let debugger = "debugger"

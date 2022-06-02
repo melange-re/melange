@@ -453,6 +453,15 @@ let help =
   in
   Arg.(value & flag & info [ "h" ] ~doc)
 
+module Compat = struct
+  (* The args in this module are accepted by the CLI but ignored. They exist
+   * for compatibility with currently published packages. *)
+
+  let doc = "Ignored. Kept for compatibility"
+  let bs_super_errors = Arg.(value & flag & info [ "bs-super-errors" ] ~doc)
+  let c = Arg.(value & flag & info [ "c" ] ~doc)
+end
+
 let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
     bs_jsx bs_package_output bs_ast bs_syntax_only bs_g bs_package_name bs_ns
     as_ppx as_pp no_alias_deps bs_gentype unboxed_types bs_re_out bs_D
@@ -463,7 +472,7 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
     dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
     nopervasives modules nolabels principal short_paths unsafe warn_help
     warn_error bs_stop_after_cmj runtime make_runtime make_runtime_test
-    filenames =
+    filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -552,7 +561,7 @@ let cmd =
     $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
     $ Internal.principal $ Internal.short_paths $ unsafe $ warn_help
     $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ Internal.make_runtime
-    $ Internal.make_runtime_test $ filenames)
+    $ Internal.make_runtime_test $ filenames $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to
  * `-w=-foo` *)
