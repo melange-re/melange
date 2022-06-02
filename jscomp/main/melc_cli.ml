@@ -31,7 +31,7 @@ type t = {
   bs_read_cmi : bool;
   ppx : string list;
   open_modules : string list;
-  bs_jsx : int;
+  bs_jsx : int option;
   bs_package_output : string option;
   bs_ast : bool;
   bs_syntax_only : bool;
@@ -281,7 +281,7 @@ module Internal = struct
 
   let bs_jsx =
     let doc = "*internal* Set jsx version" in
-    Arg.(value & opt int 3 & info [ "bs-jsx" ] ~doc)
+    Arg.(value & opt (some int) None & info [ "bs-jsx" ] ~doc)
 
   let bs_package_output =
     let doc =
@@ -563,16 +563,19 @@ let normalize_argv argv =
       || (s.[0] = '-' && s.[1] = 'w' && s = "-warn-error")
       || (s.[0] = '-' && s.[1] = '-' && s.[2] = 'w' && s = "-warn-error")
     then (
-      (* TODO: check exists *)
       let s =
-        if s.[0] = '-' && s.[1] != '-' && String.length s > 2 then "-" ^ s
-        else s
-      in
-      let s =
-        if is_w then
-          (* https://github.com/dbuenzli/cmdliner/issues/157 *)
-          Format.asprintf "%s%s" s argv.(!idx + 1)
-        else Format.asprintf "%s=%s" s argv.(!idx + 1)
+        if !idx >= len - 1 then
+          if s.[0] = '-' && s.[1] != '-' && String.length s > 2 then "-" ^ s
+          else s
+        else
+          let s =
+            if s.[0] = '-' && s.[1] != '-' && String.length s > 2 then "-" ^ s
+            else s
+          in
+          if is_w then
+            (* https://github.com/dbuenzli/cmdliner/issues/157 *)
+            Format.asprintf "%s%s" s argv.(!idx + 1)
+          else Format.asprintf "%s=%s" s argv.(!idx + 1)
       in
       incr idx;
       normalized.(!nidx) <- s;

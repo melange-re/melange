@@ -234,17 +234,13 @@ let anonymous ~(rev_args : string list) =
           `Ok ()
           end else
 
-
       match rev_args with
       | [filename] ->
         begin match !Js_config.format with
         | Some syntax_kind -> `Ok (format_file ~kind:syntax_kind filename)
         | None -> `Ok (process_file filename ppf)
         end
-      | [] ->
-          Format.eprintf "ME???@.";
-          `Ok ()
-          (* `Help (`Plain, None) *)
+      | [] -> `Ok ()
       | _ ->
           `Error (false, "can not handle multiple files")
     end
@@ -374,11 +370,11 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
   Clflags.all_ppx := !Clflags.all_ppx @ ppx;
   Clflags.open_modules := !Clflags.open_modules @ open_modules;
 
-  if bs_jsx <> 3 then begin
-    raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
-  end;
-  Js_config.jsx_version := 3;
-
+  Ext_option.iter bs_jsx (fun bs_jsx ->
+    if bs_jsx <> 3 then begin
+      raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
+    end;
+    Js_config.jsx_version := 3);
 
   Ext_option.iter bs_cross_module_opt (fun bs_cross_module_opt ->
     Js_config.cross_module_inline := bs_cross_module_opt);
@@ -405,20 +401,14 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Js_config.syntax_only := true);
 
   if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
-  (* Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype); *)
+  Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
   if unboxed_types then Clflags.unboxed_types := unboxed_types;
-  (* if bs_re_out then Lazy.force Outcome_printer.Reason_outcome_printer_main.setup; *)
+  if bs_re_out then Lazy.force Outcome_printer.Reason_outcome_printer_main.setup;
   Ext_list.iter bs_D define_variable;
+  if bs_list_conditionals then Pp.list_variables Format.err_formatter;
   if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
   if nostdlib then Js_config.no_stdlib := nostdlib;
   Ext_option.iter color set_color_option;
-  if bs_list_conditionals then Pp.list_variables Format.err_formatter;
-  Ext_option.iter bs_eval (fun s ->
-    let _: _ Cmdliner.Term.ret = eval ~suffix:Literals.suffix_ml s in
-    ());
-  Ext_option.iter bs_e (fun s ->
-    let _: _ Cmdliner.Term.ret = eval ~suffix:Literals.suffix_res s in
-    ());
 
   if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
   if bs_cmi then Js_config.force_cmi := bs_cmi;
@@ -426,40 +416,48 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
   if bs_no_version_header then
     Js_config.no_version_header := bs_no_version_header;
 
-  (* if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx; *)
+  if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
   if bs_diagnose then Js_config.diagnose := bs_diagnose;
-  (* Ext_option.iter format (fun format -> Js_config.format := Some format); *)
-  (* if where then print_standard_library (); *)
-  (* if verbose then Clflags.verbose := verbose; *)
-  (* Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs); *)
-  (* if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false; *)
-  (* if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse; *)
-  (* if noassert then Clflags.noassert := noassert; *)
-  (* if bs_loc then Clflags.locations := bs_loc; *)
-  (* Ext_option.iter impl_source_file impl; *)
-  (* Ext_option.iter intf_source_file intf; *)
+  Ext_option.iter format (fun format -> Js_config.format := Some format);
+  if where then print_standard_library ();
+  if verbose then Clflags.verbose := verbose;
+  Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);
+  if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
+  if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;
+  if noassert then Clflags.noassert := noassert;
+  if bs_loc then Clflags.locations := bs_loc;
   if dtypedtree then Clflags.dump_typedtree := dtypedtree;
   if dparsetree then Clflags.dump_parsetree := dparsetree;
   if drawlambda then Clflags.dump_rawlambda := drawlambda;
   if dsource then Clflags.dump_source := dsource;
-  (* if version then print_version_string (); *)
-  (* Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp); *)
+  if version then print_version_string ();
+  Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp);
   if absname then Clflags.absname := absname;
   Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := not bin_annot);
-  (* if i then Clflags.print_types := i; *)
+  if i then Clflags.print_types := i;
   if nopervasives then Clflags.nopervasives := nopervasives;
-  (* if modules then Js_config.modules := modules; *)
+  if modules then Js_config.modules := modules;
   if nolabels then Clflags.classic := nolabels;
-  (* if principal then Clflags.principal := principal; *)
-  (* if short_paths then Clflags.real_paths := false; *)
+  if principal then Clflags.principal := principal;
+  if short_paths then Clflags.real_paths := false;
   if unsafe then Clflags.unsafe := unsafe;
-  (* if warn_help then Warnings.help_warnings (); *)
+  if warn_help then Warnings.help_warnings ();
   Ext_list.iter warn_error (fun w ->
       Ext_option.iter
         (Warnings.parse_options true w)
         Location.(prerr_alert none));
   if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
-  Format.eprintf "WAT %d@." (List.length filenames);
+
+  Ext_option.iter bs_eval (fun s ->
+    let _: _ Cmdliner.Term.ret = eval ~suffix:Literals.suffix_ml s in
+    ());
+  Ext_option.iter bs_e (fun s ->
+    let _: _ Cmdliner.Term.ret = eval ~suffix:Literals.suffix_res s in
+    ());
+
+  Ext_option.iter impl_source_file impl;
+  Ext_option.iter intf_source_file intf;
+
   try
    anonymous ~rev_args:(List.rev filenames)
   with
@@ -487,13 +485,12 @@ let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
   | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
-    let args = Array.of_list
+    let args =
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with
               | Pexp_constant (Pconst_string(name,_,_)) -> name
               | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
-    let argv = Melc_cli.normalize_argv args in
-    Format.eprintf "MANY?@.";
+    let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()
     | c ->Location.raise_errorf ~loc:pexp_loc "lol?: %d@." c )
@@ -509,5 +506,4 @@ let _ : unit =
     flags file_level_flags_handler;
 
   let argv = Melc_cli.normalize_argv Sys.argv in
-  Format.eprintf "args: %s@." (argv |> Array.to_list |> String.concat "; ");
   exit (Cmdliner.Cmd.eval ~argv melc_cmd)
