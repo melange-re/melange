@@ -156,7 +156,7 @@ end
 
 module Commands = struct
   let watch_mode_flag =
-    let doc = "Watch source files rebuild on change" in
+    let doc = "Rebuild the project when files change" in
     Arg.(value & flag & info [ "w"; "watch" ] ~doc)
 
   let build dune_args =
