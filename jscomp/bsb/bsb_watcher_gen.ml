@@ -22,6 +22,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type source_meta = {
+  dirs : string list;
+  generated : string list;
+  pkgs : (string * string) list;
+}
+
 let kvs = Ext_json_noloc.kvs
 let arr = Ext_json_noloc.arr
 let str = Ext_json_noloc.str
@@ -62,4 +68,5 @@ let generate_sourcedirs_meta ~name
                   pkgs [])) );
       ]
   in
-  Ext_json_noloc.to_file name v
+  Ext_json_noloc.to_file name v;
+  { dirs; generated; pkgs = Hashtbl.to_seq pkgs |> List.of_seq }

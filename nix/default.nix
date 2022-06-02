@@ -52,5 +52,6 @@ stdenv.mkDerivation rec {
     melange-compiler-libs
     reason
     cmdliner
+    luv
   ];
 }

@@ -51,17 +51,34 @@ let output_dune_file buf =
   Bsb_ninja_targets.revise_dune dune buf;
   output_dune_project_if_does_not_exist proj_dir
 
-let dune_command_exit dune_args =
+let redirect =
+  Luv.Process.
+    [
+      inherit_fd ~fd:stdout ~from_parent_fd:stdout ();
+      inherit_fd ~fd:stderr ~from_parent_fd:stderr ();
+      inherit_fd ~fd:stdin ~from_parent_fd:stdin ();
+    ]
+
+let dune_command ?on_exit dune_args =
   let common_args = [| Literals.dune; "build"; "@" ^ Literals.bsb_world |] in
   let args = Array.append common_args dune_args in
   Bsb_log.info "@{<info>Running:@} %s@."
     (String.concat " " (Array.to_list args));
-  try Unix.execvp Literals.dune args
-  with Unix.Unix_error (ENOENT, _, _) ->
-    Bsb_log.error
-      "@{<error>Error:@} @{<filename>`dune`@} not found.@\n\
-       Dune is required to build Melange projects.@.";
-    exit 2
+  match
+    Luv.Process.spawn ?on_exit ~redirect Literals.dune (Array.to_list args)
+  with
+  | Ok process -> process
+  | Error `ENOENT ->
+      Bsb_log.error
+        "@{<error>Error:@} @{<filename>`dune`@} not found.@\n\
+         Dune is required to build Melange projects.@.";
+      exit 2
+  | Error e ->
+      Bsb_log.error
+        "@{<error>Internal Error:@} @{<error>%s@} (%s). Please report this \
+         message.@."
+        (Luv.Error.err_name e) (Luv.Error.strerror e);
+      exit 2
 
 let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
@@ -111,14 +128,22 @@ module Actions = struct
     Bsb_world.install_targets Bsb_global_paths.cwd configs
 
   let build opts watch_mode dune_args =
-    wrap_bsb ~opts ~f:(fun () ->
-        do_output_rules ();
-        if watch_mode then (
-          prerr_endline "watch mode not supported yet";
-          exit 0)
-        else dune_command_exit dune_args)
+    let job ?on_exit () =
+      wrap_bsb ~opts ~f:(fun () ->
+          ignore (do_output_rules () : Bsb_watcher_gen.source_meta);
+          dune_command ?on_exit dune_args)
+    in
+    if watch_mode then
+      let { Bsb_watcher_gen.dirs; _ } =
+        wrap_bsb ~opts ~f:(fun () -> do_output_rules ())
+      in
+      Mel_watcher.watch ~job dirs
+    else ignore (job () : _ Luv.Handle.t);
+    ignore (Luv.Loop.run () : bool)
 
-  let rules opts = wrap_bsb ~opts ~f:do_output_rules
+  let rules opts =
+    wrap_bsb ~opts ~f:(fun () ->
+        ignore (do_output_rules () : Bsb_watcher_gen.source_meta))
 
   let clean opts dune_args =
     wrap_bsb ~opts ~f:(fun () ->
@@ -131,8 +156,8 @@ end
 
 module Commands = struct
   let watch_mode_flag =
-    let doc = "Currently does nothing. Enabled for compatibility." in
-    Arg.(value & flag & info [ "w" ] ~doc)
+    let doc = "Watch source files rebuild on change" in
+    Arg.(value & flag & info [ "w"; "watch" ] ~doc)
 
   let build dune_args =
     let doc = "build the project in the current directory" in

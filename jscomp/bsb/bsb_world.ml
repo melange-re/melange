@@ -31,10 +31,13 @@ let install_targets cwd dep_configs =
   Ext_list.iter dep_configs (fun (dep_config : Bsb_config_types.t) ->
       file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
   Bsb_build_util.mkp artifacts_dir;
-  Bsb_watcher_gen.generate_sourcedirs_meta
-    ~name:(artifacts_dir // Literals.sourcedirs_meta)
-    !file_groups;
-  Bsb_log.info "@{<info>Installing finished@} @."
+  let source_meta =
+    Bsb_watcher_gen.generate_sourcedirs_meta
+      ~name:(artifacts_dir // Literals.sourcedirs_meta)
+      !file_groups
+  in
+  Bsb_log.info "@{<info>Installing finished@} @.";
+  source_meta
 
 let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
   let queue = Bsb_build_util.walk_all_deps cwd in
