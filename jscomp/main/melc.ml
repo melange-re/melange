@@ -510,7 +510,10 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()
-    | c ->Location.raise_errorf ~loc:pexp_loc "lol?: %d@." c )
+    | _c ->
+        (* Errors are caught in `main`, which in turn calls `exit`. This code
+         * shouldn't be reachable. *)
+        assert false )
   | Some e ->
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
