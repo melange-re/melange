@@ -78,7 +78,7 @@ let rel_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
   let source_dirs = Ext_list.map source_dirs relativize_single in
   let dirs =
     if namespace = None then source_dirs
-    else relativize_single Bsb_config.lib_bs :: source_dirs
+    else relativize_single Bsb_config.artifacts_dir :: source_dirs
     (*working dir is [lib/bs] we include this path to have namespace mapping*)
   in
   include_dirs dirs

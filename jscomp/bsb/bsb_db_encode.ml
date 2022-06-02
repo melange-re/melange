@@ -104,9 +104,9 @@ let encode (dbs : Bsb_db.t) buf =
    this operation seems affordable
 *)
 let write_build_cache ~proj_dir (bs_files : Bsb_db.t) : unit =
-  let lib_artifacts_dir = Bsb_config.lib_bs in
   let oc =
-    open_out_bin Ext_path.(proj_dir // lib_artifacts_dir // bsbuild_cache)
+    open_out_bin
+      Ext_path.(proj_dir // Bsb_config.artifacts_dir // bsbuild_cache)
   in
   let buf = Ext_buffer.create 100_000 in
   encode bs_files buf;

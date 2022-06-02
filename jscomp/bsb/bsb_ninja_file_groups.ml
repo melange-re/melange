@@ -91,10 +91,10 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   let filename_sans_extension = module_info.name_sans_extension in
   let input_impl =
-    Bsb_config.proj_rel (filename_sans_extension ^ config.impl)
+    Format.asprintf "%s%s" (basename filename_sans_extension) config.impl
   in
   let input_intf =
-    Bsb_config.proj_rel (filename_sans_extension ^ config.intf)
+    Format.asprintf "%s%s" (basename filename_sans_extension) config.intf
   in
   let output_ast = filename_sans_extension ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension ^ Literals.suffix_iast in
@@ -106,7 +106,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ppx_deps =
     if ppx_config.Bsb_config_types.ppxlib <> [] then
-      [ rel_proj_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe ]
+      [ rel_proj_dir // Bsb_config.artifacts_dir // Bsb_config.ppx_exe ]
     else []
   in
   let output_d =
@@ -123,7 +123,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let maybe_gentype_deps =
     Option.map
       (fun _ ->
-        [ rel_proj_dir // Bsb_config.lib_bs // Literals.sourcedirs_meta ])
+        [ rel_proj_dir // Bsb_config.artifacts_dir // Literals.sourcedirs_meta ])
       gentype_config
   in
   let output_js =
@@ -133,9 +133,8 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   if which <> `intf then (
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps @ ppx_deps)
-      ~outputs:[ output_ast ]
-      ~inputs:[ basename input_impl ]
-      ~rule:rules.build_ast ~error_syntax_kind;
+      ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:rules.build_ast
+      ~error_syntax_kind;
 
     Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_d ]
       ~inputs:
@@ -146,7 +145,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
     | Some ns ->
         [
           Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
-            (per_proj_dir // Bsb_config.lib_bs)
+            (per_proj_dir // Bsb_config.artifacts_dir)
           // (ns ^ Literals.suffix_cmi);
         ]
     | None -> []
@@ -166,9 +165,8 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   if has_intf_file && which <> `impl then (
     Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_iast ]
-      ~implicit_deps:ppx_deps
-      ~inputs:[ basename input_intf ]
-      ~rule:rules.build_ast ~error_syntax_kind;
+      ~implicit_deps:ppx_deps ~inputs:[ input_intf ] ~rule:rules.build_ast
+      ~error_syntax_kind;
 
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:[ output_d_as_dep ] ~outputs:[ output_cmi ]
