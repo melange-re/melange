@@ -1,11 +1,5 @@
 open Bsb
 
-module O = struct
-  let ( let* ) x f = f x
-end
-
-open O
-
 let extensions =
   Literals.
     [
@@ -67,7 +61,7 @@ let register_fs_events ~job paths =
       | Error e ->
           Bsb_log.error "Error starting watcher: %s@." (Luv.Error.strerror e)
       | Ok watcher -> (
-          let* stat = Luv.File.Sync.stat path in
+          let stat = Luv.File.Sync.stat path in
           match stat with
           | Error e ->
               Bsb_log.error "Error starting watcher: %s@."
