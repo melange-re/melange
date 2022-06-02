@@ -84,6 +84,7 @@ type t = {
   short_paths : bool;
   unsafe : bool;
   warn_help : bool;
+  help : bool;
   warn_error : string list;
   bs_stop_after_cmj : bool;
   runtime : string option;
@@ -445,9 +446,16 @@ let filenames =
   let docv = "filenames" in
   Arg.(value & pos_all string [] & info [] ~docv)
 
-let parse include_dirs warnings output_name bs_read_cmi ppx open_modules bs_jsx
-    bs_package_output bs_ast bs_syntax_only bs_g bs_package_name bs_ns as_ppx
-    as_pp no_alias_deps bs_gentype unboxed_types bs_re_out bs_D
+let help =
+  let doc =
+    "Show this help. The format is pager or plain whenever the TERM env var is \
+     dumb or undefined."
+  in
+  Arg.(value & flag & info [ "h" ] ~doc)
+
+let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
+    bs_jsx bs_package_output bs_ast bs_syntax_only bs_g bs_package_name bs_ns
+    as_ppx as_pp no_alias_deps bs_gentype unboxed_types bs_re_out bs_D
     bs_unsafe_empty_array nostdlib color bs_list_conditionals bs_eval bs_e
     bs_cmi_only bs_cmi bs_cmj bs_no_version_header bs_no_builtin_ppx
     bs_cross_module_opt bs_diagnose format where verbose keep_locs
@@ -457,6 +465,7 @@ let parse include_dirs warnings output_name bs_read_cmi ppx open_modules bs_jsx
     warn_error bs_stop_after_cmj runtime make_runtime make_runtime_test
     filenames =
   {
+    help;
     include_dirs;
     warnings;
     output_name;
@@ -526,12 +535,12 @@ let parse include_dirs warnings output_name bs_read_cmi ppx open_modules bs_jsx
 
 let cmd =
   Term.(
-    const parse $ include_dirs $ warnings $ output_name $ Internal.bs_read_cmi
-    $ ppx $ open_modules $ Internal.bs_jsx $ Internal.bs_package_output
-    $ Internal.bs_ast $ bs_syntax_only $ bs_g $ bs_package_name $ bs_ns
-    $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
-    $ Internal.bs_gentype $ unboxed_types $ bs_re_out $ bs_D
-    $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
+    const parse $ help $ include_dirs $ warnings $ output_name
+    $ Internal.bs_read_cmi $ ppx $ open_modules $ Internal.bs_jsx
+    $ Internal.bs_package_output $ Internal.bs_ast $ bs_syntax_only $ bs_g
+    $ bs_package_name $ bs_ns $ Internal.as_ppx $ Internal.as_pp
+    $ Internal.no_alias_deps $ Internal.bs_gentype $ unboxed_types $ bs_re_out
+    $ bs_D $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
     $ bs_list_conditionals $ Internal.bs_eval $ bs_e $ Internal.bs_cmi_only
     $ Internal.bs_cmi $ Internal.bs_cmj $ Internal.bs_no_version_header
     $ Internal.bs_no_builtin_ppx $ Internal.bs_cross_module_opt

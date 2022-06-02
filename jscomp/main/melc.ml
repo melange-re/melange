@@ -265,6 +265,20 @@ let eval (s : string) ~suffix =
   Ast_reason_pp.clean tmpfile;
   ret
 
+let try_eval ~f =
+    try f ()
+    with
+    | Arg.Bad msg ->
+        Format.eprintf "%s@." msg;
+        exit 2
+    | x ->
+      begin
+#ifndef BS_RELEASE_BUILD
+        Ext_obj.bt ();
+#endif
+        Location.report_exception ppf x;
+        exit 2
+      end
 
 module Pp = Rescript_cpp
 let define_variable s =
@@ -358,120 +372,123 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       make_runtime;
       make_runtime_test;
       filenames;
-      _;
+      help
     } ->
-  Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
-  Ext_list.iter warnings (fun w ->
-      Ext_option.iter
-        (Warnings.parse_options false w)
-        Location.(prerr_alert none));
-  Ext_option.iter output_name (fun output_name -> Clflags.output_name := Some output_name);
-  if bs_read_cmi then Bs_clflags.assume_no_mli := Mli_exists;
-  Clflags.all_ppx := !Clflags.all_ppx @ ppx;
-  Clflags.open_modules := !Clflags.open_modules @ open_modules;
+  if help then `Help (`Auto, None)
+  else begin
+    Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
+    Ext_list.iter warnings (fun w ->
+        Ext_option.iter
+          (Warnings.parse_options false w)
+          Location.(prerr_alert none));
+    Ext_option.iter output_name (fun output_name -> Clflags.output_name := Some output_name);
+    if bs_read_cmi then Bs_clflags.assume_no_mli := Mli_exists;
+    Clflags.all_ppx := !Clflags.all_ppx @ ppx;
+    Clflags.open_modules := !Clflags.open_modules @ open_modules;
 
-  Ext_option.iter bs_jsx (fun bs_jsx ->
-    if bs_jsx <> 3 then begin
-      raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
-    end;
-    Js_config.jsx_version := 3);
+    Ext_option.iter bs_jsx (fun bs_jsx ->
+      if bs_jsx <> 3 then begin
+        raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
+      end;
+      Js_config.jsx_version := 3);
 
-  Ext_option.iter bs_cross_module_opt (fun bs_cross_module_opt ->
-    Js_config.cross_module_inline := bs_cross_module_opt);
-  Ext_option.iter runtime setup_runtime_path;
-  if make_runtime then Js_packages_state.make_runtime ();
-  if make_runtime_test then Js_packages_state.make_runtime_test ();
-  Ext_option.iter bs_package_output Js_packages_state.update_npm_package_path;
+    Ext_option.iter bs_cross_module_opt (fun bs_cross_module_opt ->
+      Js_config.cross_module_inline := bs_cross_module_opt);
+    Ext_option.iter runtime setup_runtime_path;
+    if make_runtime then Js_packages_state.make_runtime ();
+    if make_runtime_test then Js_packages_state.make_runtime_test ();
+    Ext_option.iter bs_package_output Js_packages_state.update_npm_package_path;
 
-  if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
+    if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
-  if bs_ast then (
-    Js_config.binary_ast := true;
-    Js_config.syntax_only := true);
-  if bs_g then (
-    Js_config.debug := bs_g;
-    Rescript_cpp.replace_directive_bool "DEBUG" true);
+    if bs_ast then (
+      Js_config.binary_ast := true;
+      Js_config.syntax_only := true);
+    if bs_g then (
+      Js_config.debug := bs_g;
+      Rescript_cpp.replace_directive_bool "DEBUG" true);
 
-  Ext_option.iter bs_package_name Js_packages_state.set_package_name;
-  Ext_option.iter bs_ns Js_packages_state.set_package_map;
+    Ext_option.iter bs_package_name Js_packages_state.set_package_name;
+    Ext_option.iter bs_ns Js_packages_state.set_package_map;
 
-  if as_ppx then Js_config.as_ppx := as_ppx;
-  if as_pp then (
-    Js_config.as_pp := true;
-    Js_config.syntax_only := true);
+    if as_ppx then Js_config.as_ppx := as_ppx;
+    if as_pp then (
+      Js_config.as_pp := true;
+      Js_config.syntax_only := true);
 
-  if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
-  Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
-  if unboxed_types then Clflags.unboxed_types := unboxed_types;
-  if bs_re_out then Lazy.force Outcome_printer.Reason_outcome_printer_main.setup;
-  Ext_list.iter bs_D define_variable;
-  if bs_list_conditionals then Pp.list_variables Format.err_formatter;
-  if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
-  if nostdlib then Js_config.no_stdlib := nostdlib;
-  Ext_option.iter color set_color_option;
+    if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
+    Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
+    if unboxed_types then Clflags.unboxed_types := unboxed_types;
+    if bs_re_out then Lazy.force Outcome_printer.Reason_outcome_printer_main.setup;
+    Ext_list.iter bs_D define_variable;
+    if bs_list_conditionals then Pp.list_variables Format.err_formatter;
+    if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
+    if nostdlib then Js_config.no_stdlib := nostdlib;
+    Ext_option.iter color set_color_option;
 
-  if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
-  if bs_cmi then Js_config.force_cmi := bs_cmi;
-  if bs_cmj then Js_config.force_cmj := bs_cmj;
-  if bs_no_version_header then
-    Js_config.no_version_header := bs_no_version_header;
+    if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
+    if bs_cmi then Js_config.force_cmi := bs_cmi;
+    if bs_cmj then Js_config.force_cmj := bs_cmj;
+    if bs_no_version_header then
+      Js_config.no_version_header := bs_no_version_header;
 
-  if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
-  if bs_diagnose then Js_config.diagnose := bs_diagnose;
-  Ext_option.iter format (fun format -> Js_config.format := Some format);
-  if where then print_standard_library ();
-  if verbose then Clflags.verbose := verbose;
-  Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);
-  if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
-  if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;
-  if noassert then Clflags.noassert := noassert;
-  if bs_loc then Clflags.locations := bs_loc;
-  if dtypedtree then Clflags.dump_typedtree := dtypedtree;
-  if dparsetree then Clflags.dump_parsetree := dparsetree;
-  if drawlambda then Clflags.dump_rawlambda := drawlambda;
-  if dsource then Clflags.dump_source := dsource;
-  if version then print_version_string ();
-  Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp);
-  if absname then Clflags.absname := absname;
-  Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := not bin_annot);
-  if i then Clflags.print_types := i;
-  if nopervasives then Clflags.nopervasives := nopervasives;
-  if modules then Js_config.modules := modules;
-  if nolabels then Clflags.classic := nolabels;
-  if principal then Clflags.principal := principal;
-  if short_paths then Clflags.real_paths := false;
-  if unsafe then Clflags.unsafe := unsafe;
-  if warn_help then Warnings.help_warnings ();
-  Ext_list.iter warn_error (fun w ->
-      Ext_option.iter
-        (Warnings.parse_options true w)
-        Location.(prerr_alert none));
-  if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
+    if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
+    if bs_diagnose then Js_config.diagnose := bs_diagnose;
+    Ext_option.iter format (fun format -> Js_config.format := Some format);
+    if where then print_standard_library ();
+    if verbose then Clflags.verbose := verbose;
+    Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);
+    if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
+    if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;
+    if noassert then Clflags.noassert := noassert;
+    if bs_loc then Clflags.locations := bs_loc;
+    if dtypedtree then Clflags.dump_typedtree := dtypedtree;
+    if dparsetree then Clflags.dump_parsetree := dparsetree;
+    if drawlambda then Clflags.dump_rawlambda := drawlambda;
+    if dsource then Clflags.dump_source := dsource;
+    if version then print_version_string ();
+    Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp);
+    if absname then Clflags.absname := absname;
+    Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := not bin_annot);
+    if i then Clflags.print_types := i;
+    if nopervasives then Clflags.nopervasives := nopervasives;
+    if modules then Js_config.modules := modules;
+    if nolabels then Clflags.classic := nolabels;
+    if principal then Clflags.principal := principal;
+    if short_paths then Clflags.real_paths := false;
+    if unsafe then Clflags.unsafe := unsafe;
+    if warn_help then Warnings.help_warnings ();
+    Ext_list.iter warn_error (fun w ->
+        Ext_option.iter
+          (Warnings.parse_options true w)
+          Location.(prerr_alert none));
+    if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
-  Ext_option.iter bs_eval (fun s ->
-    let _: _ Cmdliner.Term.ret = eval ~suffix:Literals.suffix_ml s in
-    ());
-  Ext_option.iter bs_e (fun s ->
-    let _: _ Cmdliner.Term.ret = eval ~suffix:Literals.suffix_res s in
-    ());
+    Ext_option.iter bs_eval (fun s ->
+      try_eval ~f:(fun () ->
+        ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret )));
+    Ext_option.iter bs_e (fun s ->
+      try_eval ~f:(fun () ->
+        ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )));
 
-  Ext_option.iter impl_source_file impl;
-  Ext_option.iter intf_source_file intf;
+    Ext_option.iter impl_source_file impl;
+    Ext_option.iter intf_source_file intf;
 
-  try
-   anonymous ~rev_args:(List.rev filenames)
-  with
-  | Arg.Bad msg ->
-      Format.eprintf "%s@." msg;
-      exit 2
-  | x ->
-    begin
+    try
+     anonymous ~rev_args:(List.rev filenames)
+    with
+    | Arg.Bad msg ->
+        Format.eprintf "%s@." msg;
+        exit 2
+    | x ->
+      begin
 #ifndef BS_RELEASE_BUILD
         Ext_obj.bt ();
 #endif
-      Location.report_exception ppf x;
-      exit 2
-    end
+        Location.report_exception ppf x;
+        exit 2
+      end
+end
 
 
 let melc_cmd =
