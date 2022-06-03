@@ -80,15 +80,6 @@ type builtin = {
   customs : t Map_string.t
 }
 
-let external_includes (global_config : Bsb_ninja_global_vars.t) =
-  (* for external includes, if it is absolute path, leave it as is
-     for relative path './xx', we need '../.././x' since we are in
-     [lib/bs], [build] is different from merlin though
-  *)
-  Ext_list.map
-    global_config.external_incls
-    (fun x -> if Filename.is_relative x then Bsb_config.rev_lib_bs_prefix x else x)
-
 let make_custom_rules
   ~(global_config : Bsb_ninja_global_vars.t)
   ~(has_postbuild : string option)
@@ -138,8 +129,6 @@ let make_custom_rules
     Buffer.add_string buf (rel_incls global_config.g_sourcedirs_incls);
     Buffer.add_string buf " ";
     Buffer.add_string buf (rel_incls ?namespace:global_config.namespace global_config.g_lib_incls);
-    Buffer.add_string buf " ";
-    Buffer.add_string buf (rel_incls (external_includes global_config));
     if is_dev then begin
       Buffer.add_string buf " ";
       Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);

@@ -351,13 +351,20 @@ let rec interpret_json
             ~cut_generators
             ~namespace
             sources in
+
+        begin match map.?(Bsb_build_schemas.bs_external_includes) with
+        | Some _ ->
+          Bsb_log.warn "@{<warning>Warning:@} `%s` is not supported in Melange and will be ignored@."
+          Bsb_build_schemas.bs_external_includes;
+        | None -> ()
+        end;
+
         {
           dir = per_proj_dir;
           gentype_config;
           package_name ;
           namespace ;
           warning = extract_warning map;
-          external_includes = extract_string_list map Bsb_build_schemas.bs_external_includes;
           bsc_flags = extract_string_list map Bsb_build_schemas.bsc_flags ;
           ppx_config = extract_ppx map ~cwd:per_proj_dir Bsb_build_schemas.ppx_flags;
           pp_file = pp_flags ;
@@ -401,7 +408,7 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
        interpret_json ~package_kind ~per_proj_dir:dep.package_path
      in
      let ns_incl =
-       Ext_option.map namespace (fun _ -> dep.package_path // Bsb_config.lib_bs)
+       Ext_option.map namespace (fun _ -> dep.package_path // Bsb_config.artifacts_dir)
      in
      let dirs = Ext_list.filter_map files (fun ({ Bsb_file_groups.dir; is_dev; _ } as group) ->
         if not is_dev && not (Bsb_file_groups.is_empty group) then

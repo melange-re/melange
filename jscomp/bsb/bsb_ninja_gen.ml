@@ -53,7 +53,6 @@ let output_ninja_and_namespace_map
     ~package_kind
     ({
       package_name;
-      external_includes;
       bsc_flags ;
       pp_file;
       ppx_config ;
@@ -73,7 +72,6 @@ let output_ninja_and_namespace_map
 
     } : Bsb_config_types.t) : unit
   =
-  let lib_artifacts_dir = Bsb_config.lib_bs in
   let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
   let bsc_flags = (get_bsc_flags bsc_flags) in
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
@@ -100,7 +98,6 @@ let output_ninja_and_namespace_map
       ~g_dev_incls:source_dirs.dev
       ~g_sourcedirs_incls:source_dirs.lib
       ~g_lib_incls:(bsc_lib_includes bs_dependencies)
-      ~external_incls:external_includes
       ~gentypeconfig:(Ext_option.map gentype_config (fun x ->
           ("-bs-gentype " ^ x.path)))
       ~ppx_config
@@ -151,7 +148,7 @@ let output_ninja_and_namespace_map
   Buffer.add_char buf '\n';
   Ext_option.iter namespace (fun ns ->
       let namespace_dir =
-        Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // lib_artifacts_dir)
+        Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // Bsb_config.artifacts_dir)
       in
       Bsb_namespace_map_gen.output
         ~dir:namespace_dir ns

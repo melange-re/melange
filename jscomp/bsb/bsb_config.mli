@@ -22,20 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val ocaml_bin_install_prefix : string -> string
-val proj_rel : string -> string
-val lib_lit : string
-val lib_js : string
-val lib_bs : string
-val lib_es6 : string
-val lib_es6_global : string
-val all_lib_artifacts : string list
-
-(* we need generate path relative to [lib/bs] directory in the opposite direction *)
-val rev_lib_bs_prefix : string -> string
-
-val top_prefix_of_format : Ext_module_system.t -> string
-(** default not install, only when -make-world, its dependencies will be installed  *)
-
+val artifacts_dir : string
+val all_intermediate_artifacts : string list
 val dune_build_dir : string Lazy.t
 val ppx_exe : string

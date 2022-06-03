@@ -25,7 +25,7 @@
 let ( // ) = Ext_path.combine
 
 let install_targets cwd dep_configs =
-  let artifacts_dir = cwd // Bsb_config.lib_bs in
+  let artifacts_dir = cwd // Bsb_config.artifacts_dir in
   Bsb_log.info "@{<info>Installing started@}@.";
   let file_groups = ref [] in
   Ext_list.iter dep_configs (fun (dep_config : Bsb_config_types.t) ->

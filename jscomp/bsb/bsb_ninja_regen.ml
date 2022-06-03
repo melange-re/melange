@@ -30,7 +30,7 @@ let ( // ) = Ext_path.combine
 *)
 let regenerate_ninja ~config ~(package_kind : Bsb_package_kind.t) ~buf ~root_dir
     per_proj_dir : unit =
-  let artifacts_dir = per_proj_dir // Bsb_config.lib_bs in
+  let artifacts_dir = per_proj_dir // Bsb_config.artifacts_dir in
   (* create directory, lib/bs, lib/js, lib/es6 etc *)
   Bsb_build_util.mkp artifacts_dir;
   (* PR2184: we still need record empty dir

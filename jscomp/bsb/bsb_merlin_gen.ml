@@ -80,9 +80,8 @@ let output_merlin_namespace buffer ns=
   match ns with
   | None -> ()
   | Some x ->
-    let lib_artifacts_dir = Bsb_config.lib_bs in
     Buffer.add_string buffer merlin_b ;
-    Buffer.add_string buffer lib_artifacts_dir ;
+    Buffer.add_string buffer Bsb_config.artifacts_dir ;
     Buffer.add_string buffer merlin_flg ;
     Buffer.add_string buffer "-open ";
     Buffer.add_string buffer x
@@ -139,7 +138,6 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
       bs_dev_dependencies;
       bsc_flags;
       built_in_dependency;
-      external_includes;
       reason_react_jsx ;
       namespace;
       package_name = _;
@@ -183,12 +181,6 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
             (match opt with Jsx_v3 -> 3)
        )
       );
-    Ext_list.iter external_includes (fun path ->
-        Buffer.add_string buffer merlin_s ;
-        Buffer.add_string buffer path ;
-        Buffer.add_string buffer merlin_b;
-        Buffer.add_string buffer path ;
-      );
     if built_in_dependency then (
       let paths =
 #ifndef BS_RELEASE_BUILD
@@ -207,7 +199,6 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     Ext_list.iter bs_dependencies (package_merlin buffer ~dune_build_dir);
     (**TODO: shall we generate .merlin for dev packages ?*)
     Ext_list.iter bs_dev_dependencies (package_merlin buffer ~dune_build_dir);
-    let lib_artifacts_dir = Bsb_config.lib_bs in
     Ext_list.iter res_files.files (fun x ->
         if not (Bsb_file_groups.is_empty x) then
           begin
@@ -218,7 +209,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
           end;
       ) ;
     Buffer.add_string buffer merlin_b;
-    Buffer.add_string buffer (per_proj_dir // dune_build_dir // lib_artifacts_dir) ;
+    Buffer.add_string buffer (per_proj_dir // dune_build_dir // Bsb_config.artifacts_dir) ;
     Buffer.add_string buffer "\n";
     revise_merlin (per_proj_dir // merlin) buffer
   end
