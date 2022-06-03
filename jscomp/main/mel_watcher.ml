@@ -30,35 +30,16 @@ let debounce ~f ms =
       | Error e ->
           Bsb_log.warn "Error starting the timer: %s@." (Luv.Error.strerror e))
 
-module Job : sig
-  module Task : sig
-    type info = { fd : Luv.Process.t; paths : string list }
+module Task = struct
+  type info = { fd : Luv.Process.t; paths : string list }
 
-    type t =
-      ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
-      unit ->
-      info
-  end
+  type t =
+    ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
+    unit ->
+    info
+end
 
-  type t = {
-    mutable fd : Luv.Process.t option;
-    mutable watchers : (string, Luv.FS_event.t) Hashtbl.t;
-    task : Task.t;
-  }
-
-  val create : task:Task.t -> t
-  val stop : t -> unit
-  val restart : ?started:(Task.info -> unit) -> t -> unit
-end = struct
-  module Task = struct
-    type info = { fd : Luv.Process.t; paths : string list }
-
-    type t =
-      ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
-      unit ->
-      info
-  end
-
+module Job = struct
   type t = {
     mutable fd : Luv.Process.t option;
     mutable watchers : (string, Luv.FS_event.t) Hashtbl.t;
@@ -117,7 +98,7 @@ let rec watch ~(job : Job.t) paths =
                     let file_extension = Filename.extension file in
                     if List.mem file_extension extensions then
                       Job.restart
-                        ~started:(fun { Job.Task.paths; _ } ->
+                        ~started:(fun { Task.paths; _ } ->
                           let new_watchers = Hashtbl.create 64 in
 
                           let new_paths =

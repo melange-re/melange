@@ -132,7 +132,7 @@ module Actions = struct
       wrap_bsb ~opts ~f:(fun () ->
           let { Bsb_watcher_gen.dirs; _ } = do_output_rules () in
           {
-            Mel_watcher.Job.Task.fd = dune_command ?on_exit dune_args;
+            Mel_watcher.Task.fd = dune_command ?on_exit dune_args;
             paths = dirs;
           })
     in
@@ -150,7 +150,7 @@ module Actions = struct
               dune_args)
       in
       ()
-    else ignore (task () : Mel_watcher.Job.Task.info);
+    else ignore (task () : Mel_watcher.Task.info);
     ignore (Luv.Loop.run () : bool)
 
   let rules opts =
