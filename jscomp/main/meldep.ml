@@ -38,7 +38,7 @@ let cwd =
 let namespace =
   let doc = "Melange namespace for the current dependency" in
   let docv = "namespace" in
-  Arg.(value & opt (some string) None & info [ "n"; "namespace" ] ~doc ~docv)
+  Arg.(value & opt (some string) None & info [ "n"; "bs-ns" ] ~doc ~docv)
 
 let dev =
   let doc = "Whether we're building in dev mode" in
