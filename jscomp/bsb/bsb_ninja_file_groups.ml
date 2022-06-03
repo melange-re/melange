@@ -30,7 +30,7 @@ let rel_dependencies_alias ~proj_dir ~cur_dir deps =
       let rel_dir =
         Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) dir
       in
-      rel_dir // Literals.bsb_world)
+      rel_dir // Literals.mel_dune_alias)
 
 let handle_generators buf (group : Bsb_file_groups.file_group) custom_rules =
   Ext_list.iter group.generators (fun { output; input; command } ->
@@ -245,7 +245,7 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
           in
           List.map fst js_outputs :: acc_js)
     in
-    Bsb_ninja_targets.output_alias buf ~name:Literals.bsb_world
+    Bsb_ninja_targets.output_alias buf ~name:Literals.mel_dune_alias
       ~deps:(List.concat js_targets);
     Buffer.add_string buf ")";
     Buffer.add_string buf "\n")

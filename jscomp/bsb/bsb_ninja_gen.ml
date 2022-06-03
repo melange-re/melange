@@ -171,7 +171,17 @@ let output_ninja_and_namespace_map
     (* for the edge case of empty sources (either in user config or because a
        source dir is empty), we emit an empty `bsb_world` alias. This avoids
        showing the user an error when they haven't done anything. *)
-    Buffer.add_string buf ")\n(alias (name bsb_world))\n";
+    Buffer.add_string buf ")\n(alias (name mel) (deps ";
+
+    (* Build the dependencies in case `"sources"` == []. *)
+    Ext_list.iter
+      (Bsb_ninja_file_groups.rel_dependencies_alias
+        ~proj_dir:root_dir
+        ~cur_dir:root_dir
+        bs_dependencies)
+      (fun dep ->
+        Buffer.add_string buf (Format.asprintf "(alias %s)" dep));
+    Buffer.add_string buf "))\n" ;
   | Dependency _ ->
     let subd =
       Ext_path.rel_normalized_absolute_path ~from:root_dir per_proj_dir
