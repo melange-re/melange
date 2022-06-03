@@ -128,10 +128,13 @@ module Actions = struct
     Bsb_world.install_targets Bsb_global_paths.cwd configs
 
   let build opts watch_mode dune_args =
-    let job ?on_exit () =
+    let task ?on_exit () =
       wrap_bsb ~opts ~f:(fun () ->
-          ignore (do_output_rules () : Bsb_watcher_gen.source_meta);
-          dune_command ?on_exit dune_args)
+          let { Bsb_watcher_gen.dirs; _ } = do_output_rules () in
+          {
+            Mel_watcher.Job.Task.fd = dune_command ?on_exit dune_args;
+            paths = dirs;
+          })
     in
     if watch_mode then
       let { Bsb_watcher_gen.dirs; _ } =
@@ -143,11 +146,11 @@ module Actions = struct
               ~on_exit:(fun _ ~exit_status ~term_signal:_ ->
                 if exit_status = 0L then (
                   Format.eprintf "Waiting for filesystem changes...@.";
-                  Mel_watcher.watch ~job dirs))
+                  Mel_watcher.watch ~task dirs))
               dune_args)
       in
       ()
-    else ignore (job () : _ Luv.Handle.t);
+    else ignore (task () : Mel_watcher.Job.Task.info);
     ignore (Luv.Loop.run () : bool)
 
   let rules opts =

@@ -30,36 +30,67 @@ let debounce ~f ms =
       | Error e ->
           Bsb_log.warn "Error starting the timer: %s@." (Luv.Error.strerror e))
 
-module Job = struct
-  type t =
-    ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
-    unit ->
-    Luv.Process.t
+module Job : sig
+  module Task : sig
+    type info = { fd : Luv.Process.t; paths : string list }
 
-  let singleton : _ Luv.Handle.t option ref = ref None
+    type t =
+      ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
+      unit ->
+      info
+  end
 
-  let stop fd =
-    match Luv.Process.kill fd Luv.Signal.sigterm with
-    | Ok () -> ()
-    | Error e ->
-        Bsb_log.warn "Error trying to stop program:@\n  %s"
-          (Luv.Error.strerror e)
+  type t = {
+    mutable fd : Luv.Process.t option;
+    mutable watchers : (string, Luv.FS_event.t) Hashtbl.t;
+    task : Task.t;
+  }
 
-  let restart ~job =
+  val create : task:Task.t -> t
+  val stop : t -> unit
+  val restart : ?started:(Task.info -> unit) -> t -> unit
+end = struct
+  module Task = struct
+    type info = { fd : Luv.Process.t; paths : string list }
+
+    type t =
+      ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
+      unit ->
+      info
+  end
+
+  type t = {
+    mutable fd : Luv.Process.t option;
+    mutable watchers : (string, Luv.FS_event.t) Hashtbl.t;
+    task : Task.t;
+  }
+
+  let create ~task = { task; fd = None; watchers = Hashtbl.create 64 }
+
+  let stop { fd; _ } =
+    Ext_option.iter fd (fun fd ->
+        match Luv.Process.kill fd Luv.Signal.sigterm with
+        | Ok () -> ()
+        | Error e ->
+            Bsb_log.warn "Error trying to stop program:@\n  %s"
+              (Luv.Error.strerror e))
+
+  let restart ?started t =
     debounce 150 ~f:(fun () ->
-        let new_fd =
-          match !singleton with
-          | None -> job ()
+        let new_task_info =
+          match t.fd with
+          | None -> t.task ()
           | Some fd ->
               if Luv.Handle.is_active fd then (
-                stop fd;
-                job ())
-              else job ()
+                stop t;
+                t.task ())
+              else t.task ()
         in
-        singleton := Some new_fd)
+        Ext_option.iter started (fun f -> f new_task_info);
+        t.fd <- Some new_task_info.fd)
 end
 
-let watch ~job paths =
+let rec watch ~(job : Job.t) paths =
   List.iter
     (fun path ->
       match Luv.FS_event.init () with
@@ -73,6 +104,7 @@ let watch ~job paths =
               Bsb_log.error "Error starting watcher for %s: %s@." path
                 (Luv.Error.strerror e)
           | Ok stat ->
+              Hashtbl.replace job.watchers path watcher;
               let recursive = Luv.File.Mode.test [ `IFDIR ] stat.mode in
 
               Luv.FS_event.start ~recursive ~stat:true watcher path (function
@@ -83,6 +115,37 @@ let watch ~job paths =
                     Luv.Handle.close watcher ignore
                 | Ok (file, _events) ->
                     let file_extension = Filename.extension file in
-                    if List.mem file_extension extensions then Job.restart ~job)
-          ))
+                    if List.mem file_extension extensions then
+                      Job.restart
+                        ~started:(fun { Job.Task.paths; _ } ->
+                          let new_watchers = Hashtbl.create 64 in
+
+                          let new_paths =
+                            List.fold_left
+                              (fun acc path ->
+                                match Hashtbl.find job.watchers path with
+                                | prev_watcher ->
+                                    (* Remove existing watchers from the Hashtbl
+                                       and add them to the new table *)
+                                    Hashtbl.remove job.watchers path;
+                                    Hashtbl.replace new_watchers path
+                                      prev_watcher;
+                                    acc
+                                | exception Not_found ->
+                                    (* New watchers will be added on the recursive call *)
+                                    path :: acc)
+                              [] paths
+                          in
+                          (* Drop the old watchers before creating the new ones *)
+                          Hashtbl.iter
+                            (fun _path watcher ->
+                              let (_ : _ result) = Luv.FS_event.stop watcher in
+                              ())
+                            job.watchers;
+                          job.watchers <- new_watchers;
+
+                          watch ~job new_paths)
+                        job)))
     paths
+
+let watch ~task paths = watch ~job:(Job.create ~task) paths
