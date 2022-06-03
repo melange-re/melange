@@ -37,8 +37,8 @@
 (executable
  (public_name mel)
  (modes native)
- (modules mel)
- (libraries bs_hash_stubs ext common bsb cmdliner))
+ (modules mel mel_watcher)
+ (libraries bs_hash_stubs ext common bsb cmdliner luv))
 
 (executable
  (name cmjdump_main)

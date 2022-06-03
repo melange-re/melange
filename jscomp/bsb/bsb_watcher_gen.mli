@@ -22,8 +22,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type source_meta = private {
+  dirs : string list;
+  generated : string list;
+  pkgs : (string * string) list;
+}
+
 val generate_sourcedirs_meta :
-  name:string -> (string * Bsb_file_groups.t) list -> unit
+  name:string -> (string * Bsb_file_groups.t) list -> source_meta
 (** This module try to generate some meta data so that
   everytime [bsconfig.json] is reload, we can re-read
   such meta data changes in the watcher.
