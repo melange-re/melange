@@ -16,55 +16,61 @@ let timer = ref None
 
 let debounce ~f ms =
   match !timer with
-  | Some t -> (
-      let due_in = Luv.Timer.get_due_in t in
-      if due_in > 0 then Bsb_log.info "Waiting... next run in %ims" due_in
-      else
-        match Luv.Timer.again t with
-        | Ok () -> ()
-        | Error e ->
-            Bsb_log.error "Error restarting the timer: %s"
-              (Luv.Error.strerror e))
+  | Some t ->
+      Bsb_log.debug "Waiting... next run in %ims@." (Luv.Timer.get_due_in t)
   | None -> (
       let ti = Result.get_ok (Luv.Timer.init ()) in
       timer := Some ti;
-      match Luv.Timer.start ti ms f with
-      | Ok () -> Bsb_log.info "Started timer, running in %ims" ms
+      match
+        Luv.Timer.start ti ms (fun () ->
+            f ();
+            timer := None)
+      with
+      | Ok () -> Bsb_log.debug "Started timer, running in %ims@." ms
       | Error e ->
-          Bsb_log.error "Error restarting the timer: %s" (Luv.Error.strerror e))
+          Bsb_log.warn "Error starting the timer: %s@." (Luv.Error.strerror e))
 
 module Job = struct
+  type t =
+    ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
+    unit ->
+    Luv.Process.t
+
   let singleton : _ Luv.Handle.t option ref = ref None
 
-  let stop () =
-    let fd = Option.get !singleton in
-    if not (Luv.Handle.is_closing fd) then
-      match Luv.Process.kill fd Luv.Signal.sigterm with
-      | Ok () -> ()
-      | Error e ->
-          Bsb_log.error "Error trying to stop program:@\n  %s"
-            (Luv.Error.strerror e)
+  let stop fd =
+    match Luv.Process.kill fd Luv.Signal.sigterm with
+    | Ok () -> ()
+    | Error e ->
+        Bsb_log.warn "Error trying to stop program:@\n  %s"
+          (Luv.Error.strerror e)
 
   let restart ~job =
     debounce 150 ~f:(fun () ->
-        let fd = Option.get !singleton in
-        if Luv.Handle.is_closing fd then singleton := Some (job ())
-        else (
-          stop ();
-          singleton := Some (job ())))
+        let new_fd =
+          match !singleton with
+          | None -> job ()
+          | Some fd ->
+              if Luv.Handle.is_active fd then (
+                stop fd;
+                job ())
+              else job ()
+        in
+        singleton := Some new_fd)
 end
 
-let register_fs_events ~job paths =
+let watch ~job paths =
   List.iter
     (fun path ->
       match Luv.FS_event.init () with
       | Error e ->
-          Bsb_log.error "Error starting watcher: %s@." (Luv.Error.strerror e)
+          Bsb_log.error "Error starting watcher for %s: %s@." path
+            (Luv.Error.strerror e)
       | Ok watcher -> (
           let stat = Luv.File.Sync.stat path in
           match stat with
           | Error e ->
-              Bsb_log.error "Error starting watcher: %s@."
+              Bsb_log.error "Error starting watcher for %s: %s@." path
                 (Luv.Error.strerror e)
           | Ok stat ->
               let recursive = Luv.File.Mode.test [ `IFDIR ] stat.mode in
@@ -80,17 +86,3 @@ let register_fs_events ~job paths =
                     if List.mem file_extension extensions then Job.restart ~job)
           ))
     paths
-
-let watch
-    ~(job :
-       ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
-       unit ->
-       Luv.Process.t) paths =
-  let fd =
-    job
-      ~on_exit:(fun _t ~exit_status:_ ~term_signal:_ ->
-        Format.eprintf "Waiting for filesystem changes...@.")
-      ()
-  in
-  Job.singleton := Some fd;
-  register_fs_events ~job paths

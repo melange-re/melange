@@ -137,7 +137,16 @@ module Actions = struct
       let { Bsb_watcher_gen.dirs; _ } =
         wrap_bsb ~opts ~f:(fun () -> do_output_rules ())
       in
-      Mel_watcher.watch ~job dirs
+      let _p : Luv.Process.t =
+        wrap_bsb ~opts ~f:(fun () ->
+            dune_command
+              ~on_exit:(fun _ ~exit_status ~term_signal:_ ->
+                if exit_status = 0L then (
+                  Format.eprintf "Waiting for filesystem changes...@.";
+                  Mel_watcher.watch ~job dirs))
+              dune_args)
+      in
+      ()
     else ignore (job () : _ Luv.Handle.t);
     ignore (Luv.Loop.run () : bool)
 

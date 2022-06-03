@@ -165,6 +165,8 @@ let output_ninja_and_namespace_map
 
   match package_kind with
   | Bsb_package_kind.Toplevel ->
+    (* Add `(data_only_dirs node_modules)` because they could contain native
+     * OCaml code that we do not want to build. *)
     generate_ppxlib_source ~subdir:"" ~ppx_config buf;
     Buffer.add_string buf "\n(data_only_dirs node_modules ";
     Buffer.add_string buf Literals.melange_eobjs_dir;

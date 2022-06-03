@@ -354,7 +354,8 @@ let rec interpret_json
 
         begin match map.?(Bsb_build_schemas.bs_external_includes) with
         | Some _ ->
-          Bsb_log.warn "@{<warning>Warning:@} `%s` is not supported in Melange and will be ignored@."
+          Bsb_log.warn "@{<warning>Warning(%s):@} `%s` is not supported in Melange and will be ignored@."
+          package_name
           Bsb_build_schemas.bs_external_includes;
         | None -> ()
         end;
