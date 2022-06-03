@@ -93,6 +93,36 @@ let node_rebase_file ~from ~to_ file =
       else node_relative_path ~from:(Dir from) (Dir to_))
     file
 
+let strip_trailing_slashes p =
+  let len = String.length p in
+  if String.unsafe_get p (len - 1) == '/' && len > 1 then (
+    let idx = ref 0 in
+    while String.unsafe_get p (len - 1 - !idx) == '/' && len - 1 - !idx > 0 do
+      incr idx
+    done;
+    Bytes.(unsafe_to_string (sub (unsafe_of_string p) 0 (len - !idx))))
+  else p
+
+let concat dirname filename =
+  if Ext_string.is_empty filename then dirname
+  else
+    let filename =
+      if Filename.is_implicit filename then filename
+      else if
+        String.length filename > 2
+        && String.unsafe_get filename 0 == '.'
+        && String.unsafe_get filename 1 == '/'
+      then String.sub filename 2 (String.length filename - 2)
+      else filename
+    in
+
+    if strip_trailing_slashes filename = Filename.current_dir_name then dirname
+    else if strip_trailing_slashes dirname = Filename.current_dir_name then
+      filename
+    else if strip_trailing_slashes filename = Filename.current_dir_name then
+      filename
+    else Filename.concat dirname filename
+
 (***
    {[
      Filename.concat "." "";;
@@ -100,17 +130,9 @@ let node_rebase_file ~from ~to_ file =
    ]}
 *)
 let combine path1 path2 =
-  if Filename.is_relative path2 then
-    if Ext_string.is_empty path2 then path1
-    else if path1 = Filename.current_dir_name then path2
-    else if path2 = Filename.current_dir_name then path1
-    else Filename.concat path1 path2
-  else path2
+  if Filename.is_relative path2 then concat path1 path2 else path2
 
-let ( // ) x y =
-  if x = Filename.current_dir_name then y
-  else if y = Filename.current_dir_name then x
-  else Filename.concat x y
+let ( // ) = concat
 
 (**
    {[
@@ -259,11 +281,6 @@ let absolute_cwd_path s = absolute_path cwd s
    match s with
    | File x -> File (absolute_path cwd x )
    | Dir x -> Dir (absolute_path cwd x) *)
-
-let concat dirname filename =
-  if filename = Filename.current_dir_name then dirname
-  else if dirname = Filename.current_dir_name then filename
-  else Filename.concat dirname filename
 
 let check_suffix_case = Ext_string.ends_with
 

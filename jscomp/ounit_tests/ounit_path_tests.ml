@@ -153,5 +153,18 @@ let suites =
         ~to_:"lib/js/src/a/"
         ~from:"lib/js/src/a/" "b"
       =~ "./b"
-    end
+   end;
+
+
+    __LOC__ >:: begin fun _ ->
+      Ext_path.strip_trailing_slashes "hello" =~ "hello" ;
+      Ext_path.strip_trailing_slashes "hello/" =~ "hello" ;
+      Ext_path.strip_trailing_slashes "hello///" =~ "hello" ;
+      Ext_path.strip_trailing_slashes "///" =~ "/" ;
+      Ext_path.strip_trailing_slashes "/" =~ "/" ;
+    end;
+
+    __LOC__ >:: begin fun _ ->
+      Ext_path.concat "foo" "./bar" =~ "foo/bar";
+    end;
   ]
