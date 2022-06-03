@@ -202,7 +202,7 @@ let make_custom_rules
   let build_bin_deps =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s -root %s %s %%{inputs}))"
+        let s = Format.asprintf "(action (run %s -cwd %s -proj-dir %s %s %%{inputs}))"
           global_config.bsdep
           cur_dir
           global_config.per_proj_dir
@@ -213,7 +213,7 @@ let make_custom_rules
   let build_bin_deps_dev =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
-        let s = Format.asprintf "(action (run %s -g -cwd %s -root %s %s %%{inputs}))"
+        let s = Format.asprintf "(action (run %s -g -cwd %s -proj-dir %s %s %%{inputs}))"
           global_config.bsdep
           cur_dir
           global_config.per_proj_dir

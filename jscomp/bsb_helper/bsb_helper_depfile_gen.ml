@@ -115,15 +115,16 @@ let oc_deps ~deps (ast_file : string) (is_dev : bool) (db : Bsb_db_decode.t)
     offset := next_tab + 1
   done
 
-let process_deps_for_dune ~root ~cwd deps =
+let process_deps_for_dune ~proj_dir ~cur_dir deps =
   let rel_deps =
     Ext_list.map deps (fun dep ->
-        Ext_path.rel_normalized_absolute_path ~from:(root // cwd) (root // dep))
+        Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir)
+          (proj_dir // dep))
   in
   String.concat " " rel_deps
 
-let emit_d ~cwd ~root (is_dev : bool) (namespace : string option)
-    (mlast : string) (mliast : string) =
+let emit_d ~cur_dir ~proj_dir ~(* ~rel_root *) (is_dev : bool)
+    (namespace : string option) (mlast : string) (mliast : string) =
   let data = Bsb_db_decode.read_build_cache ~dir:(root // lib_bs) in
   let deps = ref Set_string.empty in
   let filename = Ext_filename.new_extension mlast Literals.suffix_d in
@@ -132,6 +133,6 @@ let emit_d ~cwd ~root (is_dev : bool) (namespace : string option)
   let deps = Set_string.elements !deps in
   let buf = Ext_buffer.create 2048 in
   Ext_buffer.add_string buf "(";
-  Ext_buffer.add_string buf (process_deps_for_dune ~root ~cwd deps);
+  Ext_buffer.add_string buf (process_deps_for_dune ~proj_dir ~cur_dir deps);
   Ext_buffer.add_string buf ")";
   write_file filename buf

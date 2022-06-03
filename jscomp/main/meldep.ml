@@ -23,51 +23,46 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Bsb_helper
+open Cmdliner
+
+let proj_dir =
+  let doc = "Directory for the current dependency being built" in
+  let docv = "dir" in
+  Arg.(required & opt (some string) None & info [ "proj-dir" ] ~doc ~docv)
+
+let cwd =
+  let doc = "Current working directory (i.e. which source dir)" in
+  let docv = "dir" in
+  Arg.(required & opt (some string) None & info [ "cwd" ] ~doc ~docv)
+
+let namespace =
+  let doc = "Melange namespace for the current dependency" in
+  let docv = "namespace" in
+  Arg.(value & opt (some string) None & info [ "n"; "namespace" ] ~doc ~docv)
+
+let dev =
+  let doc = "Whether we're building in dev mode" in
+  Arg.(value & flag & info [ "g" ] ~doc)
+
+let filenames =
+  let docv = "filenames" in
+  Arg.(value & pos_all string [] & info [] ~docv)
+
+let main proj_dir cwd namespace is_dev filenames =
+  let impl, intf =
+    match filenames with
+    | [ impl; intf ] -> (impl, intf)
+    | [ impl ] -> (impl, "")
+    | _ -> assert false
+  in
+  Bsb_helper_depfile_gen.emit_d ~proj_dir ~cur_dir:cwd ~is_dev namespace impl
+    intf
+
+let cmd =
+  let term = Term.(const main $ proj_dir $ cwd $ namespace $ dev $ filenames) in
+  let info = Cmd.info "meldep" in
+  Cmd.v info term
 
 let () =
-  let namespace = ref None in
-  let root = ref None in
-  let cwd = ref None in
-  let dev_group = ref false in
-  let argv = Sys.argv in
-  let l = Array.length argv in
-  let current = ref 1 in
-  let rev_list = ref [] in
-  while !current < l do
-    let s = argv.(!current) in
-    incr current;
-    if s <> "" && s.[0] = '-' then (
-      match s with
-      | "-root" ->
-          let root_arg = argv.(!current) in
-          root := Some root_arg;
-          incr current
-      | "-cwd" ->
-          let cwd_arg = argv.(!current) in
-          cwd := Some cwd_arg;
-          incr current
-      | "-bs-ns" ->
-          let ns = argv.(!current) in
-          namespace := Some ns;
-          incr current
-      | "-g" -> dev_group := true
-      | s ->
-          prerr_endline ("unknown options: " ^ s);
-          prerr_endline "available options: -bs-ns [ns]; -g; -cwd; -root";
-          exit 2)
-    else rev_list := s :: !rev_list
-  done;
-  match (!cwd, !root) with
-  | Some cwd, Some root -> (
-      match !rev_list with
-      | [ x ] ->
-          Bsb_helper_depfile_gen.emit_d ~root ~cwd !dev_group !namespace x ""
-      | [ y; x ] (* reverse order *) ->
-          Bsb_helper_depfile_gen.emit_d ~root ~cwd !dev_group !namespace x y
-      | _ -> ())
-  | None, Some _ ->
-      prerr_endline "-cwd is a required option";
-      exit 2
-  | _ ->
-      prerr_endline "-root is a required option";
-      exit 2
+  let argv = Ext_cli_args.normalize_argv Sys.argv in
+  exit (Cmdliner.Cmd.eval ~argv cmd)
