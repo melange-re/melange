@@ -48,13 +48,14 @@ module Job = struct
 
   let create ~task = { task; fd = None; watchers = Hashtbl.create 64 }
 
-  let stop { fd; _ } =
-    Ext_option.iter fd (fun fd ->
-        match Luv.Process.kill fd Luv.Signal.sigterm with
-        | Ok () -> ()
-        | Error e ->
-            Bsb_log.warn "Error trying to stop program:@\n  %s"
-              (Luv.Error.strerror e))
+  let interrupt t =
+    Ext_option.iter t.fd (fun fd ->
+        if Luv.Handle.is_active fd then
+          match Luv.Process.kill fd Luv.Signal.sigterm with
+          | Ok () -> t.fd <- None
+          | Error e ->
+              Bsb_log.warn "Error trying to stop program:@\n  %s"
+                (Luv.Error.strerror e))
 
   let restart ?started t =
     debounce 150 ~f:(fun () ->
@@ -63,14 +64,26 @@ module Job = struct
           | None -> t.task ()
           | Some fd ->
               if Luv.Handle.is_active fd then (
-                stop t;
+                interrupt t;
                 t.task ())
               else t.task ()
         in
         Ext_option.iter started (fun f -> f new_task_info);
         t.fd <- Some new_task_info.fd)
+
+  let stop_watchers t =
+    Hashtbl.iter
+      (fun _path watcher ->
+        let (_ : _ result) = Luv.FS_event.stop watcher in
+        ())
+      t.watchers
+
+  let stop t =
+    interrupt t;
+    stop_watchers t
 end
 
+(* TODO: bail and exit on errors *)
 let rec watch ~(job : Job.t) paths =
   Ext_list.iter paths (fun path ->
       match Luv.FS_event.init () with
@@ -115,14 +128,20 @@ let rec watch ~(job : Job.t) paths =
                                     path :: acc)
                           in
                           (* Drop the old watchers before creating the new ones *)
-                          Hashtbl.iter
-                            (fun _path watcher ->
-                              let (_ : _ result) = Luv.FS_event.stop watcher in
-                              ())
-                            job.watchers;
                           job.watchers <- new_watchers;
 
                           watch ~job new_paths)
                         job)))
 
-let watch ~task paths = watch ~job:(Job.create ~task) paths
+let watch ~task paths =
+  let job = Job.create ~task in
+  watch ~job paths;
+  match Luv.Signal.init () with
+  | Ok handle -> (
+      let handler () =
+        prerr_endline "Exiting";
+        Job.stop job;
+        Luv.Handle.close handle ignore
+      in
+      match Luv.Signal.start handle Luv.Signal.sigint handler with _ -> ())
+  | Error _ -> ()
