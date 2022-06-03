@@ -52,7 +52,9 @@ let output_dune_file buf =
   output_dune_project_if_does_not_exist proj_dir
 
 let dune_command_exit dune_args =
-  let common_args = [| Literals.dune; "build"; "@" ^ Literals.bsb_world |] in
+  let common_args =
+    [| Literals.dune; "build"; "@" ^ Literals.mel_dune_alias |]
+  in
   let args = Array.append common_args dune_args in
   Bsb_log.info "@{<info>Running:@} %s@."
     (String.concat " " (Array.to_list args));
