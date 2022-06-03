@@ -72,8 +72,7 @@ module Job = struct
 end
 
 let rec watch ~(job : Job.t) paths =
-  List.iter
-    (fun path ->
+  Ext_list.iter paths (fun path ->
       match Luv.FS_event.init () with
       | Error e ->
           Bsb_log.error "Error starting watcher for %s: %s@." path
@@ -96,14 +95,13 @@ let rec watch ~(job : Job.t) paths =
                     Luv.Handle.close watcher ignore
                 | Ok (file, _events) ->
                     let file_extension = Filename.extension file in
-                    if List.mem file_extension extensions then
+                    if Ext_list.mem_string extensions file_extension then
                       Job.restart
                         ~started:(fun { Task.paths; _ } ->
                           let new_watchers = Hashtbl.create 64 in
 
                           let new_paths =
-                            List.fold_left
-                              (fun acc path ->
+                            Ext_list.fold_left paths [] (fun acc path ->
                                 match Hashtbl.find job.watchers path with
                                 | prev_watcher ->
                                     (* Remove existing watchers from the Hashtbl
@@ -115,7 +113,6 @@ let rec watch ~(job : Job.t) paths =
                                 | exception Not_found ->
                                     (* New watchers will be added on the recursive call *)
                                     path :: acc)
-                              [] paths
                           in
                           (* Drop the old watchers before creating the new ones *)
                           Hashtbl.iter
@@ -127,6 +124,5 @@ let rec watch ~(job : Job.t) paths =
 
                           watch ~job new_paths)
                         job)))
-    paths
 
 let watch ~task paths = watch ~job:(Job.create ~task) paths
