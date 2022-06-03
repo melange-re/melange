@@ -529,6 +529,5 @@ let suites =
         f "bcdef" "abcdef";
         f "" "A";
         f "Abcdef" "abcdef";
-    end
+    end;
   ]
-
