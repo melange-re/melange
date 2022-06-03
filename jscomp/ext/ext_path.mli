@@ -43,6 +43,7 @@ val combine : string -> string -> string
 *)
 
 val ( // ) : string -> string -> string
+val strip_trailing_slashes : string -> string
 
 (**
    {[
