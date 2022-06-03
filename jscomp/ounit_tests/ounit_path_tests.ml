@@ -29,7 +29,8 @@ let suites =
             "/a/";
             "/a";
             "/a.txt/";
-            "/a.txt"
+            "/a.txt";
+            "/foo/bar/./baz"
           |] in
       OUnit.assert_equal norm
         [|
@@ -42,7 +43,8 @@ let suites =
           "/a";
           "/a";
           "/a.txt";
-          "/a.txt"
+          "/a.txt";
+          "/foo/bar/baz"
         |]
     end;
     __LOC__ >:: begin fun _ ->
@@ -165,6 +167,7 @@ let suites =
     end;
 
     __LOC__ >:: begin fun _ ->
-      Ext_path.concat "foo" "./bar" =~ "foo/bar";
+      Ext_path.concat "/foo" "./bar" |> Ext_path.normalize_absolute_path =~ "/foo/bar";
+      Ext_path.concat "foo" "./bar" |> Ext_path.normalize_absolute_path =~ "./foo/bar";
     end;
   ]

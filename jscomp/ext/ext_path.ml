@@ -105,23 +105,13 @@ let strip_trailing_slashes p =
 
 let concat dirname filename =
   if Ext_string.is_empty filename then dirname
-  else
-    let filename =
-      if Filename.is_implicit filename then filename
-      else if
-        String.length filename > 2
-        && String.unsafe_get filename 0 == '.'
-        && String.unsafe_get filename 1 == '/'
-      then String.sub filename 2 (String.length filename - 2)
-      else filename
-    in
-
-    if strip_trailing_slashes filename = Filename.current_dir_name then dirname
-    else if strip_trailing_slashes dirname = Filename.current_dir_name then
-      filename
-    else if strip_trailing_slashes filename = Filename.current_dir_name then
-      filename
-    else Filename.concat dirname filename
+  else if strip_trailing_slashes filename = Filename.current_dir_name then
+    dirname
+  else if strip_trailing_slashes dirname = Filename.current_dir_name then
+    filename
+  else if strip_trailing_slashes filename = Filename.current_dir_name then
+    filename
+  else Filename.concat dirname filename
 
 (***
    {[
