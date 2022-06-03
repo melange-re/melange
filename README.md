@@ -19,6 +19,14 @@ most workflows).
 Please reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
 can't figure it out!
 
+#### A note on OCaml versions
+
+The current Melange distribution works on OCaml 4.14 and OCaml 5.00+trunk. If
+you need to use Melange with OCaml 4.12 (the only formerly supported version),
+you can consume the [0.1.0 tag](https://github.com/melange-re/melange/releases/tag/0.1.0)
+for this repo (make sure to similarly use the [`4.12.0+mel` tag](https://github.com/melange-re/melange-compiler-libs/releases/tag/4.12.0%2Bmel)
+for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs)).
+
 ## FAQ
 
 ### How does this project relate to other tools?

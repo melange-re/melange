@@ -189,12 +189,12 @@ let get_output_dir (info : t) ~package_dir module_system =
 
 let add_npm_package_path (packages_info : t) (s : string) : t =
   if is_empty packages_info then
-    Bsc_args.bad_arg "please set package name first using -bs-package-name "
+    raise (Arg.Bad "please set package name first using -bs-package-name")
   else
     let handle_module_system module_system =
       match module_system_of_string module_system with
       | Some x -> x
-      | None -> Bsc_args.bad_arg ("invalid module system " ^ module_system)
+      | None -> raise (Arg.Bad ("invalid module system " ^ module_system))
     in
     let m =
       match Ext_string.split ~keep_empty:true s ':' with
@@ -211,7 +211,7 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
             path;
             suffix = Ext_js_suffix.of_string suffix;
           }
-      | _ -> Bsc_args.bad_arg ("invalid npm package path: " ^ s)
+      | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
     in
     { packages_info with module_systems = m :: packages_info.module_systems }
 

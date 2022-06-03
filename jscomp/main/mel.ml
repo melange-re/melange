@@ -90,8 +90,6 @@ let build_whole_project () =
   config :: dep_configs
 
 module Common_opts = struct
-  open Cmdliner
-
   type t = { verbose : bool }
 
   let make verbose = { verbose }

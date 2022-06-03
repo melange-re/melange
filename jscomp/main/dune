@@ -15,8 +15,9 @@
   melange-compiler-libs
   core
   napkin
+  cmdliner
   reason)
- (modules melc)
+ (modules melc melc_cli)
  (preprocessor_deps
   melc.ml
   ../../package.json

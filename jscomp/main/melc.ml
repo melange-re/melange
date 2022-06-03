@@ -113,8 +113,8 @@ let process_file sourcefile
   | Cmj ->
     Js_implementation.implementation_cmj ppf sourcefile
   | Unknown ->
-    Bsc_args.bad_arg ("don't know what to do with " ^ sourcefile)
-let usage = "Usage: bsc <options> <files>\nOptions are:"
+    raise (Arg.Bad ("don't know what to do with " ^ sourcefile))
+
 
 let ppf = Format.err_formatter
 
@@ -157,7 +157,7 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
       Ast_reason_pp.RE.format_implementation_with_comments std ~comments ast
     | Reason, `Res _ ->
       Ast_reason_pp.RE.format_implementation_with_comments std ~comments:[] ast
-    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+    | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
   in
   let intf_format_fn ~comments ast =
     let std = Format.std_formatter in
@@ -176,7 +176,7 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
       Ast_reason_pp.RE.format_interface_with_comments std ~comments ast
     | Reason, `Res _ ->
       Ast_reason_pp.RE.format_interface_with_comments std ~comments:[] ast
-    | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+    | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
   in
   begin match ext with
   | Ml ->
@@ -208,7 +208,7 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
   | Rei ->
     let ast, comments = Ast_reason_pp.RE.parse_interface_with_comments input in
     intf_format_fn ~comments:(`Re comments) ast
-  | _ -> Bsc_args.bad_arg ("don't know what to do with " ^ input)
+  | _ -> (raise (Arg.Bad ("don't know what to do with " ^ input)))
   end
 
 let anonymous ~(rev_args : string list) =
@@ -216,31 +216,33 @@ let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then
     match rev_args with
     | [output; input] ->
-      Ppx_apply.apply_lazy
+      `Ok (Ppx_apply.apply_lazy
         ~source:input
         ~target:output
         Ppx_entry.rewrite_implementation
-        Ppx_entry.rewrite_signature
-    | _ -> Bsc_args.bad_arg "Wrong format when use -as-ppx"
+        Ppx_entry.rewrite_signature)
+    | _ -> `Error(false, "Wrong format when use -as-ppx")
   else
     begin
-      match rev_args with
-      | [filename] ->
-        begin match !Js_config.format with
-        | Some syntax_kind -> format_file ~kind:syntax_kind filename
-        | None -> process_file filename ppf
-        end
-      | [] -> ()
-      | _ ->
-        if !Js_config.syntax_only then
+        if !Js_config.syntax_only then begin
           Ext_list.rev_iter rev_args (fun filename ->
               begin
                 (* Clflags.reset_dump_state (); *)
                 (* Warnings.reset (); *)
                 process_file filename ppf
-              end )
-        else
-          Bsc_args.bad_arg "can not handle multiple files"
+              end );
+          `Ok ()
+          end else
+
+      match rev_args with
+      | [filename] ->
+        begin match !Js_config.format with
+        | Some syntax_kind -> `Ok (format_file ~kind:syntax_kind filename)
+        | None -> `Ok (process_file filename ppf)
+        end
+      | [] -> `Ok ()
+      | _ ->
+          `Error (false, "can not handle multiple files")
     end
 
 (** used by -impl -intf *)
@@ -259,29 +261,39 @@ let set_color_option option =
 let eval (s : string) ~suffix =
   let tmpfile = Filename.temp_file "eval" suffix in
   Ext_io.write_file tmpfile s;
-  anonymous  ~rev_args:[tmpfile];
-  Ast_reason_pp.clean tmpfile
+  let ret = anonymous  ~rev_args:[tmpfile] in
+  Ast_reason_pp.clean tmpfile;
+  ret
 
-
-(* let (//) = Filename.concat *)
-
-
-
+let try_eval ~f =
+    try f ()
+    with
+    | Arg.Bad msg ->
+        Format.eprintf "%s@." msg;
+        exit 2
+    | x ->
+      begin
+#ifndef BS_RELEASE_BUILD
+        Ext_obj.bt ();
+#endif
+        Location.report_exception ppf x;
+        exit 2
+      end
 
 module Pp = Rescript_cpp
 let define_variable s =
   match Ext_string.split ~keep_empty:true s '=' with
   | [key; v] ->
     if not (Pp.define_key_value key v)  then
-       Bsc_args.bad_arg ("illegal definition: " ^ s)
-  | _ -> Bsc_args.bad_arg ("illegal definition: " ^ s)
+       raise  (Arg.Bad("illegal definition: " ^ s))
+  | _ -> raise (Arg.Bad ("illegal definition: " ^ s))
 
 let print_standard_library () =
   print_endline (Lazy.force Js_config.stdlib_path);
   exit 0
 
 let bs_version_string =
-  "ReScript " ^ Bs_version.version ^
+  "Melange " ^ Bs_version.version ^
   " ( Using OCaml:" ^ Config.version ^ " )"
 
 let print_version_string () =
@@ -291,286 +303,217 @@ let print_version_string () =
     print_endline bs_version_string;
     exit 0
 
-let [@inline] set s : Bsc_args.spec = Unit (Unit_set s)
-let [@inline] clear s : Bsc_args.spec = Unit (Unit_clear s)
-let [@inline] unit_lazy s : Bsc_args.spec = Unit(Unit_lazy s)
-let [@inline] string_call s : Bsc_args.spec =
-  String (String_call s)
-let [@inline] string_optional_set s : Bsc_args.spec =
-  String (String_optional_set s)
-
-let [@inline] unit_call s : Bsc_args.spec =
-  Unit (Unit_call s)
-let [@inline] string_list_add s : Bsc_args.spec =
-  String (String_list_add s)
-
-(* mostly common used to list in the beginning to make search fast
-*)
-let buckle_script_flags : (string * Bsc_args.spec * string) array =
-  [|
-    "-I", string_list_add  Clflags.include_dirs ,
-    "<dir>  Add <dir> to the list of include directories" ;
-
-    "-w", string_call (fun w ->
-      Warnings.parse_options false w |> Option.iter Location.(prerr_alert none) ),
-    "<list>  Enable or disable warnings according to <list>:\n\
-     +<spec>   enable warnings in <spec>\n\
-     -<spec>   disable warnings in <spec>\n\
-     @<spec>   enable warnings in <spec> and treat them as errors\n\
-     <spec> can be:\n\
-     <num>             a single warning number\n\
-     <num1>..<num2>    a range of consecutive warning numbers\n\
-     default setting is " ^ Bsc_warnings.defaults_w;
-
-
-    "-o", string_optional_set Clflags.output_name,
-    "<file>  set output file name to <file>";
-
-    "-bs-read-cmi",  unit_call (fun _ -> Bs_clflags.assume_no_mli := Mli_exists),
-    "*internal* Assume mli always exist ";
-
-    "-ppx", string_list_add Clflags.all_ppx,
-    "<command>  Pipe abstract syntax trees through preprocessor <command>";
-
-    "-open", string_list_add Clflags.open_modules,
-    "<module>  Opens the module <module> before typing";
-
-    "-bs-jsx", string_call (fun i ->
-        (if i <> "3" then Bsc_args.bad_arg (" Not supported jsx version : " ^  i));
-        Js_config.jsx_version := 3),
-    "*internal* Set jsx version";
-
-    "-bs-package-output", string_call Js_packages_state.update_npm_package_path,
-    "*internal* Set npm-output-path: [opt_module]:path, for example: 'lib/cjs', 'amdjs:lib/amdjs', 'es6:lib/es6' ";
-
-    "-bs-ast", unit_call(fun _ ->  Js_config.binary_ast := true; Js_config.syntax_only := true),
-    "*internal* Generate binary .mli_ast and ml_ast and stop";
-
-    "-bs-syntax-only", set Js_config.syntax_only,
-    "Only check syntax";
-
-    "-bs-g", unit_call (fun _ -> Js_config.debug := true; Pp.replace_directive_bool "DEBUG" true),
-    "Debug mode";
-
-    "-bs-v", string_call ignore,
-    "*internal* version check to force a rebuild";
-    "-bs-package-name", string_call Js_packages_state.set_package_name,
-    "Set package name, useful when you want to produce npm packages";
-
-    "-bs-ns", string_call Js_packages_state.set_package_map,
-    "Set package map, not only set package name but also use it as a namespace" ;
-
-    "-as-ppx", set Js_config.as_ppx,
-    "*internal*As ppx for editor integration";
-    "-as-pp", unit_call(fun _ ->  Js_config.as_pp := true ; Js_config.syntax_only := true),
-    "*internal*As pp to interact with native tools";
-    "-no-alias-deps", set Clflags.transparent_modules,
-    "*internal*Do not record dependencies for module aliases";
-
-    "-bs-gentype", string_optional_set Bs_clflags.bs_gentype ,
-    "*internal* Pass gentype command";
-
-    (******************************************************************************)
-
-
-    (* XXX(anmonteiro): flag kept for compatibility. *)
-    "-bs-super-errors", unit_call ignore,
-    "Better error message combined with other tools ";
-
-    "-unboxed-types", set Clflags.unboxed_types,
-    "Unannotated unboxable types will be unboxed";
-
-    "-bs-re-out", unit_lazy Outcome_printer.Reason_outcome_printer_main.setup,
-    "Print compiler output in Reason syntax";
-
-    "-bs-refmt", string_optional_set Js_config.refmt,
-    "*internal* set customized refmt path";
-
-    "-bs-D",  string_call define_variable,
-    "Define conditional variable e.g, -D DEBUG=true";
-
-    "-bs-unsafe-empty-array",  set Config.unsafe_empty_array,
-    "*internal* Allow [||] to be polymorphic";
-
-    "-nostdlib",  set Js_config.no_stdlib,
-    "*internal* Don't use stdlib";
-
-    (* XXX(anmonteiro): flag kept for compatibility. *)
-    "-bs-internal-check",  unit_call ignore,
-    "*internal* Built in check corrupted data";
-
-    "-color", string_call set_color_option,
-    "Enable or disable colors in compiler messages\n\
-     The following settings are supported:\n\
-     auto    use heuristics to enable colors only if supported\n\
-     always  enable colors\n\
-     never   disable colors\n\
-     The default setting is 'always'\n\
-     The current heuristic for 'auto'\n\
-     checks that the TERM environment variable exists and is\n\
-     not empty or \"dumb\", and that isatty(stderr) holds.";
-
-    "-bs-list-conditionals", unit_call (fun () -> Pp.list_variables Format.err_formatter),
-    "List existing conditional variables";
-
-    "-bs-eval", string_call (fun  s -> eval s ~suffix:Literals.suffix_ml),
-    "*internal* (experimental) set the string to be evaluated in OCaml syntax";
-
-    "-e",  string_call (fun  s -> eval s ~suffix:Literals.suffix_res),
-    "(experimental) set the string to be evaluated in ReScript syntax";
-
-    "-bs-cmi-only", set Js_config.cmi_only,
-    "*internal* Stop after generating cmi file";
-
-    "-bs-cmi", set Js_config.force_cmi,
-    "*internal*  Not using cached cmi, always generate cmi";
-
-    "-bs-cmj", set Js_config.force_cmj,
-    "*internal*  Not using cached cmj, always generate cmj";
-
-    "-bs-no-version-header", set Js_config.no_version_header,
-    "*internal*Don't print version header";
-
-    "-bs-no-builtin-ppx", set Js_config.no_builtin_ppx,
-    "*internal* Disable built-in ppx";
-
-    "-bs-cross-module-opt", set Js_config.cross_module_inline,
-    "*internal* Enable cross module inlining(experimental), default(false)";
-
-    "-bs-no-cross-module-opt", clear Js_config.cross_module_inline,
-    "*internal* Disable cross module inlining(experimental)";
-
-    "-bs-diagnose", set Js_config.diagnose,
-    "*internal* More verbose output";
-
-    "-bs-no-check-div-by-zero", clear Js_config.check_div_by_zero,
-    "*internal* unsafe mode, don't check div by zero and mod by zero";
-
-    "-bs-noassertfalse", set Bs_clflags.no_assert_false,
-    "*internal*  no code for assert false";
-
-    "-noassert", set Clflags.noassert,
-    "*internal* Do not compile assertion checks";
-
-    "-bs-loc", set Clflags.locations,
-    "*internal*  dont display location with -dtypedtree, -dparsetree";
-
-    "-impl",  string_call impl,
-    "*internal* <file>  Compile <file> as a .ml file";
-
-    "-intf", string_call intf,
-    "*internal* <file>  Compile <file> as a .mli file";
-
-    "-dtypedtree", set Clflags.dump_typedtree,
-    "*internal* debug typedtree";
-
-    "-dparsetree", set Clflags.dump_parsetree,
-    "*internal* debug parsetree";
-
-    "-drawlambda", set Clflags.dump_rawlambda,
-    "*internal* debug raw lambda";
-
-    "-dsource", set Clflags.dump_source,
-    "*internal* print source";
-
-    "-format", string_call (fun ext ->
-      let syntax: Ext_file_extensions.syntax_kind = match Ext_string.trim ext with
-      | "re" -> Reason
-      | "res" -> Res
-      | "ml" -> Ml
-      | x ->
-        Location.raise_errorf
-          "invalid option `%s` passed to -format, expected `re`, `res` or `ml`"
-          x
-      in
-      Js_config.format := Some syntax),
-    "Format as Res syntax";
-
-    "-where", unit_call print_standard_library,
-    "Print location of standard library and exit";
-
-    "-verbose", set Clflags.verbose,
-    "Print calls to external commands";
-
-    "-keep-locs", set Clflags.keep_locs,
-    "Keep locations in .cmi files";
-
-    "-no-keep-locs", clear Clflags.keep_locs,
-    "Do not keep locations in .cmi files";
-
-    "-nopervasives", set Clflags.nopervasives,
-    "*internal*";
-
-    "-v", unit_call print_version_string,
-    " Print compiler version and location of standard library and exit";
-
-    "-version", unit_call print_version_string,
-    "Print version and exit";
-
-    "-pp", string_optional_set Clflags.preprocessor,
-    "<command>  Pipe sources through preprocessor <command>";
-
-    "-absname", set Clflags.absname,
-    "Show absolute filenames in error messages";
-    (* Not used, the build system did the expansion *)
-
-    "-bs-no-bin-annot",  clear Clflags.binary_annotations,
-    "Disable binary annotations (by default on)";
-
-    "-i", set Clflags.print_types,
-    "Print inferred interface";
-
-    "-modules", set Js_config.modules,
-    "*internal* serve similar to ocamldep";
-
-    "-nolabels", set Clflags.classic,
-    "*internal* Ignore non-optional labels in types";
-
-    "-principal", set Clflags.principal,
-    "*internal* Check principality of type inference";
-
-    "-short-paths", clear Clflags.real_paths,
-    "*internal* Shorten paths in types";
-
-    "-unsafe", set Clflags.unsafe,
-    "Do not compile bounds checking on array and string access";
-
-    "-warn-help", unit_call Warnings.help_warnings,
-    "Show description of warning numbers";
-    "-bin-annot", Unit_dummy,
-    "*internal* keep the compatibility with RLS";
-    "-c", Unit_dummy,
-    "*internal* keep the compatibility with RLS";
-    "-warn-error", string_call (fun s -> Warnings.parse_options true s |> Option.iter Location.(prerr_alert none) ),
-    "<list>  Enable or disable error status for warnings according\n\
-     to <list>.  See option -w for the syntax of <list>.\n\
-     Default setting is " ^ Bsc_warnings.defaults_warn_error;
-    "-runtime",string_call setup_runtime_path,
-    "*internal* Set the runtime directory";
-    "-make-runtime", unit_call Js_packages_state.make_runtime,
-    "*internal* make runtime library";
-    "-make-runtime-test", unit_call Js_packages_state.make_runtime_test,
-    "*internal* make runtime test library";
-
-    "-bs-stop-after-cmj", set Js_config.cmj_only,
-    "Stop after generating the cmj"
-  |]
-
-
+(* NOTE(anmonteiro): This function needs to be reentrant, as it might be called
+ * multiple times (`-w` CLI flag, [@@@bs.config { flags = ... }] attribute) .*)
+let main: Melc_cli.t -> _ Cmdliner.Term.ret
+    = fun {
+      Melc_cli.include_dirs;
+      warnings;
+      output_name;
+      bs_read_cmi;
+      ppx;
+      open_modules;
+      bs_jsx;
+      bs_package_output;
+      bs_ast;
+      bs_syntax_only;
+      bs_g;
+      bs_package_name;
+      bs_ns;
+      as_ppx;
+      as_pp;
+      no_alias_deps;
+      bs_gentype;
+      unboxed_types;
+      bs_re_out;
+      bs_D;
+      bs_unsafe_empty_array;
+      nostdlib;
+      color;
+      bs_list_conditionals;
+      bs_eval;
+      bs_e;
+      bs_cmi_only;
+      bs_cmi;
+      bs_cmj;
+      bs_no_version_header;
+      bs_no_builtin_ppx;
+      bs_cross_module_opt;
+      bs_diagnose;
+      format;
+      where;
+      verbose;
+      keep_locs;
+      bs_no_check_div_by_zero;
+      bs_noassertfalse;
+      noassert;
+      bs_loc;
+      impl = impl_source_file;
+      intf = intf_source_file;
+      dtypedtree;
+      dparsetree;
+      drawlambda;
+      dsource;
+      version;
+      pp;
+      absname;
+      bin_annot;
+      i;
+      nopervasives;
+      modules;
+      nolabels;
+      principal;
+      short_paths;
+      unsafe;
+      warn_help;
+      warn_error;
+      bs_stop_after_cmj;
+      runtime;
+      make_runtime;
+      make_runtime_test;
+      filenames;
+      help
+    } ->
+  if help then `Help (`Auto, None)
+  else begin
+    Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
+    Ext_list.iter warnings (fun w ->
+        Ext_option.iter
+          (Warnings.parse_options false w)
+          Location.(prerr_alert none));
+    Ext_option.iter output_name (fun output_name -> Clflags.output_name := Some output_name);
+    if bs_read_cmi then Bs_clflags.assume_no_mli := Mli_exists;
+    Clflags.all_ppx := !Clflags.all_ppx @ ppx;
+    Clflags.open_modules := !Clflags.open_modules @ open_modules;
+
+    Ext_option.iter bs_jsx (fun bs_jsx ->
+      if bs_jsx <> 3 then begin
+        raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
+      end;
+      Js_config.jsx_version := 3);
+
+    Ext_option.iter bs_cross_module_opt (fun bs_cross_module_opt ->
+      Js_config.cross_module_inline := bs_cross_module_opt);
+    if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
+
+    if bs_ast then (
+      Js_config.binary_ast := true;
+      Js_config.syntax_only := true);
+    if bs_g then (
+      Js_config.debug := bs_g;
+      Rescript_cpp.replace_directive_bool "DEBUG" true);
+
+    Ext_option.iter runtime setup_runtime_path;
+    if make_runtime then Js_packages_state.make_runtime ();
+    if make_runtime_test then Js_packages_state.make_runtime_test ();
+
+    Ext_option.iter bs_package_name Js_packages_state.set_package_name;
+    Ext_option.iter bs_package_output Js_packages_state.update_npm_package_path;
+    Ext_option.iter bs_ns Js_packages_state.set_package_map;
+
+    if as_ppx then Js_config.as_ppx := as_ppx;
+    if as_pp then (
+      Js_config.as_pp := true;
+      Js_config.syntax_only := true);
+
+    if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
+    Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
+    if unboxed_types then Clflags.unboxed_types := unboxed_types;
+    if bs_re_out then Lazy.force Outcome_printer.Reason_outcome_printer_main.setup;
+    Ext_list.iter bs_D define_variable;
+    if bs_list_conditionals then Pp.list_variables Format.err_formatter;
+    if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
+    if nostdlib then Js_config.no_stdlib := nostdlib;
+    Ext_option.iter color set_color_option;
+
+    if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
+    if bs_cmi then Js_config.force_cmi := bs_cmi;
+    if bs_cmj then Js_config.force_cmj := bs_cmj;
+    if bs_no_version_header then
+      Js_config.no_version_header := bs_no_version_header;
+
+    if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
+    if bs_diagnose then Js_config.diagnose := bs_diagnose;
+    Ext_option.iter format (fun format -> Js_config.format := Some format);
+    if where then print_standard_library ();
+    if verbose then Clflags.verbose := verbose;
+    Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);
+    if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
+    if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;
+    if noassert then Clflags.noassert := noassert;
+    if bs_loc then Clflags.locations := bs_loc;
+    if dtypedtree then Clflags.dump_typedtree := dtypedtree;
+    if dparsetree then Clflags.dump_parsetree := dparsetree;
+    if drawlambda then Clflags.dump_rawlambda := drawlambda;
+    if dsource then Clflags.dump_source := dsource;
+    if version then print_version_string ();
+    Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp);
+    if absname then Clflags.absname := absname;
+    Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := not bin_annot);
+    if i then Clflags.print_types := i;
+    if nopervasives then Clflags.nopervasives := nopervasives;
+    if modules then Js_config.modules := modules;
+    if nolabels then Clflags.classic := nolabels;
+    if principal then Clflags.principal := principal;
+    if short_paths then Clflags.real_paths := false;
+    if unsafe then Clflags.unsafe := unsafe;
+    if warn_help then Warnings.help_warnings ();
+    Ext_list.iter warn_error (fun w ->
+        Ext_option.iter
+          (Warnings.parse_options true w)
+          Location.(prerr_alert none));
+    if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
+
+    Ext_option.iter bs_eval (fun s ->
+      try_eval ~f:(fun () ->
+        ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret )));
+    Ext_option.iter bs_e (fun s ->
+      try_eval ~f:(fun () ->
+        ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )));
+
+    Ext_option.iter impl_source_file impl;
+    Ext_option.iter intf_source_file intf;
+
+    try
+     anonymous ~rev_args:(List.rev filenames)
+    with
+    | Arg.Bad msg ->
+        Format.eprintf "%s@." msg;
+        exit 2
+    | x ->
+      begin
+#ifndef BS_RELEASE_BUILD
+        Ext_obj.bt ();
+#endif
+        Location.report_exception ppf x;
+        exit 2
+      end
+end
+
+
+let melc_cmd =
+  let open Cmdliner in
+  let doc = "the Melange compiler" in
+  let info = Cmd.info "melc" ~doc in
+  Cmd.v info Term.(ret (const main $ Melc_cli.cmd))
 
 (** parse flags in bs.config *)
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
-  | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
-    let args = Array.of_list
+  | Some { pexp_desc = Pexp_array args; _ } ->
+    let args =
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with
               | Pexp_constant (Pconst_string(name,_,_)) -> name
               | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
-    (try Bsc_args.parse_exn ~start:0
-           ~argv:args buckle_script_flags (fun ~rev_args:_ -> ()) ~usage
-     with _ -> Location.prerr_warning pexp_loc (Preprocessor "invalid flags for bsc"))
+    let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
+    (match Cmdliner.Cmd.eval ~argv melc_cmd with
+    | c when c = Cmdliner.Cmd.Exit.ok -> ()
+    | _c ->
+        (* Errors are caught in `main`, which in turn calls `exit`. This code
+         * shouldn't be reachable. *)
+        assert false )
   | Some e ->
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
@@ -581,20 +524,6 @@ let _ : unit =
     flags file_level_flags_handler;
   Ast_config.add_signature
     flags file_level_flags_handler;
-  try
-    Bsc_args.parse_exn
-      ~argv:Sys.argv
-      buckle_script_flags anonymous ~usage;
-  with
-  | Bsc_args.Bad msg ->
-    Format.eprintf "%s@." msg ;
-    exit 2
-  | x ->
-    begin
-#if false
-(* undefined BS_RELEASE_BUILD *)
-        Ext_obj.bt ();
-#endif
-      Location.report_exception ppf x;
-      exit 2
-    end
+
+  let argv = Melc_cli.normalize_argv Sys.argv in
+  exit (Cmdliner.Cmd.eval ~argv melc_cmd)
