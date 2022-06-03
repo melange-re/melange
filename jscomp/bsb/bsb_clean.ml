@@ -46,7 +46,6 @@ let clean_bs_garbage proj_dir =
       Bsb_ninja_targets.revise_dune dune_file buf
   in
   try
-    Bsb_parse_sources.clean_re_js proj_dir;
     (* clean re.js files*)
     Ext_list.iter Bsb_config.all_intermediate_artifacts try_remove;
 
