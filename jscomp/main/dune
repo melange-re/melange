@@ -58,7 +58,7 @@
  (public_name meldep)
  (modes native)
  (modules meldep)
- (libraries bsb_helper ext common core))
+ (libraries bsb_helper ext common core cmdliner))
 
 (test
  (name ounit_tests_main)
