@@ -22,6 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+val rel_dependencies_alias :
+  proj_dir:string -> cur_dir:string -> string list -> string list
+
 val handle_files_per_dir :
   Buffer.t ->
   global_config:Bsb_ninja_global_vars.t ->

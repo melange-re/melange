@@ -57,7 +57,7 @@ let build_ninja = "build.ninja"
 let dune = "dune"
 let dune_mel = "dune.mel"
 let dune_project = "dune-project"
-let bsb_world = "bsb_world"
+let mel_dune_alias = "mel"
 
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"
