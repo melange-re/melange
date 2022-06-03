@@ -125,7 +125,7 @@ let process_deps_for_dune ~proj_dir ~cur_dir deps =
 
 let emit_d ~cur_dir ~proj_dir ~(* ~rel_root *) (is_dev : bool)
     (namespace : string option) (mlast : string) (mliast : string) =
-  let data = Bsb_db_decode.read_build_cache ~dir:(root // lib_bs) in
+  let data = Bsb_db_decode.read_build_cache ~dir:(proj_dir // lib_bs) in
   let deps = ref Set_string.empty in
   let filename = Ext_filename.new_extension mlast Literals.suffix_d in
   oc_deps ~deps mlast is_dev data namespace `impl;
