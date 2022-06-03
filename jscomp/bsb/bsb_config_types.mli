@@ -44,7 +44,6 @@ type t = {
   (* [captial-package] *)
   namespace : string option;
   (* CapitalPackage *)
-  external_includes : string list;
   bsc_flags : string list;
   ppx_config : ppx_config;
   pp_file : string option;

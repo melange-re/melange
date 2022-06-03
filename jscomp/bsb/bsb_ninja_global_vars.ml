@@ -33,7 +33,6 @@ type t = {
   g_dpkg_incls : string list;
   g_dev_incls : string list;
   g_lib_incls : string list;
-  external_incls : string list;
   g_sourcedirs_incls : string list;
   gentypeconfig : string option;
   pp_flags : string option;
@@ -42,8 +41,8 @@ type t = {
 }
 
 let make ~db ~package_name ~per_proj_dir ~bsc ~bsdep ~warnings ~bsc_flags
-    ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~external_incls ~g_sourcedirs_incls
-    ~gentypeconfig ~pp_flags ~ppx_config ~namespace =
+    ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~g_sourcedirs_incls ~gentypeconfig
+    ~pp_flags ~ppx_config ~namespace =
   {
     db;
     package_name;
@@ -55,7 +54,6 @@ let make ~db ~package_name ~per_proj_dir ~bsc ~bsdep ~warnings ~bsc_flags
     g_dpkg_incls;
     g_dev_incls;
     g_lib_incls;
-    external_incls;
     g_sourcedirs_incls;
     gentypeconfig;
     pp_flags;
