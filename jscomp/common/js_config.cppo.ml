@@ -41,7 +41,7 @@ let install_dir = lazy (
 )
 
 let stdlib_path =
-  lazy (match Sys.getenv "BSLIB" with
+  lazy (match Sys.getenv "MELANGELIB" with
   | value -> value
   | exception _ -> Lazy.force install_dir // Literals.lib // "melange" )
 
