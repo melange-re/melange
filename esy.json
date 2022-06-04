@@ -3,11 +3,12 @@
   "version": "7.2.0",
   "dependencies": {
     "ocaml": "4.14.0",
+    "@opam/dune": ">= 3.0",
+    "@opam/base64": "3.5.0",
     "@opam/cmdliner": ">= 1.1.0",
     "@opam/luv": "*",
-    "@opam/reason": ">= 3.8.0",
-    "@opam/dune": ">= 3.0",
-    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam"
+    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam",
+    "@opam/reason": ">= 3.8.0"
   },
   "resolutions": {
     "@opam/reason": "reasonml/reason:reason.opam#a93c4c3fbf36d32360a64f9b7a3f64b0ef35b903",
