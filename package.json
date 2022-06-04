@@ -15,7 +15,7 @@
     "test-bsb": "node scripts/ciTest.js -bsb",
     "test-ocaml": "node scripts/ciTest.js -ounit"
   },
-  "name": "bs-platform",
+  "name": "melange",
   "version": "9.1.0",
   "description": "ReScript toolchain",
   "repository": {

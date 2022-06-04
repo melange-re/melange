@@ -33,4 +33,4 @@ install: [
   [ "./fix-install-opam.sh" "%{_:lib}%" "%{_:build}%" ]
 ]
 
-setenv: [ BSLIB = "%{_:lib}%/melange" ]
+setenv: [ MELANGELIB = "%{_:lib}%/melange" ]

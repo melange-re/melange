@@ -36,7 +36,7 @@
       "CAML_LD_LIBRARY_PATH": "#{self.target_dir / 'default' / 'jscomp' / 'stubs' : $CAML_LD_LIBRARY_PATH }"
     },
     "exportedEnv": {
-      "BSLIB": {
+      "MELANGELIB": {
         "val": "#{self.lib / 'melange'}",
         "scope": "global"
       }
