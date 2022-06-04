@@ -94,8 +94,10 @@ let encode_single (db : Bsb_db.map) (buf : Ext_buffer.t) =
     nl buf
 
 let encode (dbs : Bsb_db.t) buf =
-  encode_single dbs.lib buf;
-  encode_single dbs.dev buf
+  let tmpbuf = Ext_buffer.create 100_000 in
+  encode_single dbs.lib tmpbuf;
+  encode_single dbs.dev tmpbuf;
+  Ext_buffer.add_string buf (Base64.encode_string (Ext_buffer.contents tmpbuf))
 
 (* shall we avoid writing such file (checking the digest)?
    It is expensive to start scanning the whole code base,
@@ -106,8 +108,9 @@ let write_build_cache buf (bs_files : Bsb_db.t) : unit =
   let bsbuild_cache =
     let buf = Ext_buffer.create 100_000 in
     encode bs_files buf;
-    Base64.encode_string (Ext_buffer.contents buf)
+    Ext_buffer.contents buf
   in
+
   let bsbuild_rule =
     Format.asprintf "@\n(rule (with-stdout-to %s (run echo -n \"%s\")))"
       Literals.bsbuild_cache bsbuild_cache

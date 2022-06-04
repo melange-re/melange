@@ -146,7 +146,6 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
       built_in_dependency;
       reason_react_jsx ;
       namespace;
-      package_name = _;
       warning;
      } : Bsb_config_types.t)
   =
