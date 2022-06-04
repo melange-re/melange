@@ -22,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let bsbuild_cache = Literals.bsbuild_cache
 let nl buf = Ext_buffer.add_char buf '\n'
 
 (* IDEAS:
@@ -103,12 +102,14 @@ let encode (dbs : Bsb_db.t) buf =
    we should we avoid it in the first place, if we do start scanning,
    this operation seems affordable
 *)
-let write_build_cache ~proj_dir (bs_files : Bsb_db.t) : unit =
-  let oc =
-    open_out_bin
-      Ext_path.(proj_dir // Bsb_config.artifacts_dir // bsbuild_cache)
+let write_build_cache buf (bs_files : Bsb_db.t) : unit =
+  let bsbuild_cache =
+    let buf = Ext_buffer.create 100_000 in
+    encode bs_files buf;
+    Base64.encode_string (Ext_buffer.contents buf)
   in
-  let buf = Ext_buffer.create 100_000 in
-  encode bs_files buf;
-  Ext_buffer.output_buffer oc buf;
-  close_out oc
+  let bsbuild_rule =
+    Format.asprintf "@\n(rule (with-stdout-to %s (run echo -n \"%s\")))"
+      Literals.bsbuild_cache bsbuild_cache
+  in
+  Buffer.add_string buf bsbuild_rule

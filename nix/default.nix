@@ -53,5 +53,6 @@ stdenv.mkDerivation rec {
     reason
     cmdliner
     luv
+    base64
   ];
 }

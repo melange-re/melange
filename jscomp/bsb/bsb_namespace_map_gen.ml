@@ -22,18 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let (//) = Ext_path.combine
+let pp_module_set fmt xs =
+  Set_string.iter xs (fun x -> Format.fprintf fmt "%s@\n" x)
 
-
-
-
-
-let write_file fname digest contents =
-  let oc = open_out_bin fname in
-  Digest.output oc digest;
-  output_char oc '\n';
-  Ext_buffer.output_buffer oc contents;
-  close_out oc
 (**
   TODO:
   sort filegroupts to ensure deterministic behavior
@@ -42,26 +33,14 @@ let write_file fname digest contents =
   [.mlmap] does not need to be changed too
 
 *)
-let output
-    ~dir
-    (namespace : string)
-    (file_groups : Bsb_file_groups.file_groups )
-  =
-  let fname = namespace ^ Literals.suffix_mlmap in
-  let buf = Ext_buffer.create 10000 in
-  let module_set = Ext_list.fold_left file_groups Set_string.empty (fun acc x ->
-    Map_string.fold x.sources acc (fun k _ acc -> Set_string.add acc k))
+let output buf (namespace : string) (file_groups : Bsb_file_groups.file_groups)
+    =
+  let module_set =
+    Ext_list.fold_left file_groups Set_string.empty (fun acc x ->
+        Map_string.fold x.sources acc (fun k _ acc -> Set_string.add acc k))
   in
-  Set_string.iter module_set (fun  x -> Ext_buffer.add_string_char buf x '\n');
-  let digest = Ext_buffer.digest buf in
-  let fname = (dir// fname ) in
-  if Sys.file_exists fname then
-    let ic = open_in_bin fname in
-    let old_digest = really_input_string ic Ext_digest.length in
-    close_in ic ;
-    (if old_digest <> digest then
-      write_file fname digest buf)
-  else
-    write_file fname digest buf
-
-
+  let mlmap_rule =
+    Format.asprintf "@\n(rule (with-stdout-to %s%s (run echo \"%a\")))"
+      namespace Literals.suffix_mlmap pp_module_set module_set
+  in
+  Buffer.add_string buf mlmap_rule

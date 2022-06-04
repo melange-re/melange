@@ -21,9 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-let ( // ) = Ext_path.combine
-let artifacts_dir = Literals.melange_eobjs_dir
-let all_intermediate_artifacts = [ artifacts_dir ]
+let ( // ) = Ext_path.concat
 
 let dune_build_dir =
   lazy
@@ -32,3 +30,23 @@ let dune_build_dir =
     | None -> "_build" // "default")
 
 let ppx_exe = "ppx.exe"
+
+let absolute_artifacts_dir ?(include_dune_build_dir = false) ~root_dir proj_dir
+    =
+  let rel_package_dir_from_root =
+    Ext_path.rel_normalized_absolute_path ~from:root_dir proj_dir
+  in
+  let path =
+    if include_dune_build_dir then
+      root_dir // Lazy.force dune_build_dir // Literals.melange_eobjs_dir
+      // rel_package_dir_from_root
+    else root_dir // Literals.melange_eobjs_dir // rel_package_dir_from_root
+  in
+  Ext_path.normalize_absolute_path path
+
+let rel_artifacts_dir ?include_dune_build_dir ~root_dir ~proj_dir from =
+  let absolute =
+    absolute_artifacts_dir ?include_dune_build_dir ~root_dir proj_dir
+  in
+  let from = if Filename.is_relative from then proj_dir // from else from in
+  Ext_path.rel_normalized_absolute_path ~from absolute

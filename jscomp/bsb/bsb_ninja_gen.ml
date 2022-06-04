@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let (//) = Ext_path.combine
-
 (* we need copy package.json into [_build] since it does affect build output
    it is a bad idea to copy package.json which requires to copy js files
 *)
@@ -39,12 +37,6 @@ let get_bsc_flags
 
 let bsc_lib_includes (bs_dependencies : Bsb_config_types.dependencies) =
   (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs))
-
-let generate_ppxlib_source ~subdir ~ppx_config buf =
-  Buffer.add_string buf "(subdir ";
-  Buffer.add_string buf (subdir // Literals.melange_eobjs_dir);
-  Bsb_ppxlib.ppxlib buf ~ppx_config;
-  Buffer.add_string buf ")\n"
 
 let output_ninja_and_namespace_map
     ~buf
@@ -89,6 +81,7 @@ let output_ninja_and_namespace_map
     Bsb_ninja_global_vars.make
       ~package_name
       ~db:bs_groups
+      ~root_dir
       ~per_proj_dir
       ~bsc:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc)
       ~bsdep:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsdep)
@@ -111,7 +104,6 @@ let output_ninja_and_namespace_map
        if Map_string.mem lib k  then
          raise (Bsb_db_util.conflict_module_info k a (Map_string.find_exn lib k))
     ) ;
-  Bsb_db_encode.write_build_cache ~proj_dir:per_proj_dir bs_groups;
   let rules : Bsb_ninja_rule.builtin =
       Bsb_ninja_rule.make_custom_rules
       ~global_config
@@ -141,34 +133,39 @@ let output_ninja_and_namespace_map
          ~js_post_build_cmd
          ~bs_dev_dependencies
          ~bs_dependencies
-         ~root_dir
          files_per_dir)
   ;
 
   Buffer.add_char buf '\n';
+
+  let artifacts_dir =
+    Bsb_config.rel_artifacts_dir
+      ~root_dir ~proj_dir:per_proj_dir root_dir
+  in
+  Buffer.add_string buf "(subdir ";
+  Buffer.add_string buf artifacts_dir;
+
+  Bsb_ppxlib.ppxlib buf ~ppx_config;
+
   Ext_option.iter namespace (fun ns ->
-      let namespace_dir =
-        Ext_path.rel_normalized_absolute_path ~from:root_dir (per_proj_dir // Bsb_config.artifacts_dir)
-      in
-      Bsb_namespace_map_gen.output
-        ~dir:namespace_dir ns
-        bs_file_groups;
-      Buffer.add_string buf "(subdir ";
-      Buffer.add_string buf namespace_dir;
-      Bsb_ninja_targets.output_build namespace_dir buf
+      Bsb_namespace_map_gen.output buf ns bs_file_groups;
+
+      Bsb_ninja_targets.output_build artifacts_dir buf
         ~outputs:[ns ^ Literals.suffix_cmi]
         ~inputs:[ns ^ Literals.suffix_mlmap]
         ~rule:rules.build_package;
-      Buffer.add_string buf ")";
     );
-  Buffer.add_char buf '\n';
+
+  Bsb_db_encode.write_build_cache buf bs_groups;
+  Buffer.add_string buf "\n)\n";
 
   match package_kind with
   | Bsb_package_kind.Toplevel ->
     (* Add `(data_only_dirs node_modules)` because they could contain native
      * OCaml code that we do not want to build. *)
-    generate_ppxlib_source ~subdir:"" ~ppx_config buf;
-    Buffer.add_string buf "\n(data_only_dirs node_modules ";
+    Buffer.add_string buf "\n(data_only_dirs ";
+    Buffer.add_string buf Literals.node_modules;
+    Buffer.add_char buf ' ';
     Buffer.add_string buf Literals.melange_eobjs_dir;
     (* for the edge case of empty sources (either in user config or because a
        source dir is empty), we emit an empty `bsb_world` alias. This avoids
@@ -184,15 +181,6 @@ let output_ninja_and_namespace_map
       (fun dep ->
         Buffer.add_string buf (Format.asprintf "(alias %s)" dep));
     Buffer.add_string buf "))\n" ;
-  | Dependency _ ->
-    let subd =
-      Ext_path.rel_normalized_absolute_path ~from:root_dir per_proj_dir
-    in
-    Buffer.add_string buf "(subdir ";
-    Buffer.add_string buf subd;
-    Buffer.add_string buf "(data_only_dirs ";
-    Buffer.add_string buf Literals.melange_eobjs_dir;
-    Buffer.add_string buf "))\n";
+  | Dependency _ -> ()
 
-    generate_ppxlib_source ~subdir:subd ~ppx_config buf
 
