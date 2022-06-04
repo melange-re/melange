@@ -13,7 +13,7 @@ more details on the motivation behind this project can be found in this
 This project is currently unreleased. There are, however, a few ways to try it
 out.
 
-## [Esy](https://esy.sh)
+### [Esy](https://esy.sh)
 
 The easiest way to get started is to
 clone the [basic template](https://github.com/melange-re/melange-basic-template)
@@ -21,7 +21,7 @@ and run `esy` in the project root. To install [Esy](https://esy.sh), `npm
 install -g esy` should cover most workflows. If you have NodeJS / `npm`
 available, `npx esy` is even shorter.
 
-## [Nix](https://nixos.org/learn.html)
+### [Nix](https://nixos.org/learn.html)
 
 Melange has good support for Nix:
 
