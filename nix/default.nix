@@ -54,4 +54,6 @@ stdenv.mkDerivation rec {
     cmdliner
     luv
   ];
+
+  meta.mainProgram = "mel";
 }

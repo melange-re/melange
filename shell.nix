@@ -31,5 +31,6 @@ mkShell {
 
   shellHook = ''
     PATH=$PWD/bin:$PATH
+    ln -sfn _build/install/default/bin ./bin
   '';
 }
