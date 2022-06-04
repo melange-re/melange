@@ -1,11 +1,14 @@
 # Melange
 
-A _mixture_ of tooling combined to produce JS from OCaml / Reason.
+**Tools for producing JS from OCaml / Reason.**
 
-This project is a fork of the
-[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) with
-a focus on compatibility with the wider OCaml ecosystem. A small write-up with
-more details on the motivation behind this project can be found in this
+This project is forked from the
+[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) focussing
+on compatibility with the wider OCaml ecosystem while maintaining compatibility 
+with the ReScript ecosystem is preserved by a compatibility layer. 
+
+A small write-up withmore details on the motivation behind this project can be 
+found in this 
 [blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
 ## Installation
@@ -58,9 +61,9 @@ for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-lib
 
 ### Can I use ReScript syntax?
 
-Yes! ReScript syntax is supported, but beware that it's stuck on an ancient
-OCaml version (4.06, released in 2018), and it won't have as many features as
-the OCaml or Reason syntaxes
+Yes! ReScript syntax is supported, but ReScript won't have as many features as
+the OCaml or Reason syntaxes due to ReScript being built on top of an old OCaml
+version (4.06 - Released 2018). 
 (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
 [generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
 or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
