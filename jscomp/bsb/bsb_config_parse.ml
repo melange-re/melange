@@ -27,12 +27,8 @@
 let (//) = Ext_path.combine
 
 let resolve_package cwd package_name =
+  let path = Bsb_pkg.resolve_package ~cwd package_name in
   let package = Bsb_pkg_types.string_as_package package_name in
-  let path =
-    match Bsb_path_resolver.resolve_import_map_package package_name with
-    | Some path -> path
-    | None -> Bsb_pkg.resolve_bs_package ~cwd package
-  in
   {
     Bsb_config_types.package_name = package;
     package_path = path;
@@ -229,7 +225,8 @@ let extract_ppx
     let resolve s =
       if s = "" then Bsb_exception.invalid_spec "invalid ppx, empty string found"
       else
-        (Bsb_build_util.resolve_bsb_magic_file ~cwd ~desc:Bsb_build_schemas.ppx_flags s) in
+        (Bsb_build_util.resolve_bsb_magic_file ~cwd ~desc:Bsb_build_schemas.ppx_flags s)
+    in
     Ext_array.fold_left
       content
       empty
@@ -409,7 +406,9 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
        interpret_json ~package_kind ~per_proj_dir:dep.package_path
      in
      let ns_incl =
-       Ext_option.map namespace (fun _ -> dep.package_path // Bsb_config.artifacts_dir)
+       Ext_option.map namespace (fun _ ->
+         let artifacts_dir = Bsb_config.absolute_artifacts_dir ~root_dir:cwd dep.package_path  in
+         artifacts_dir)
      in
      let dirs = Ext_list.filter_map files (fun ({ Bsb_file_groups.dir; is_dev; _ } as group) ->
         if not is_dev && not (Bsb_file_groups.is_empty group) then

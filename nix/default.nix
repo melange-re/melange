@@ -53,6 +53,7 @@ stdenv.mkDerivation rec {
     reason
     cmdliner
     luv
+    base64
   ];
 
   meta.mainProgram = "mel";

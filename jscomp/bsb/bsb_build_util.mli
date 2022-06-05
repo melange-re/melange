@@ -30,7 +30,7 @@ val flag_concat : string -> string list -> string
   ]}
   *)
 
-val ppx_flags : rel_proj_dir:string -> Bsb_config_types.ppx_config -> string
+val ppx_flags : artifacts_dir:string -> Bsb_config_types.ppx_config -> string
 (**
 Build quoted commandline arguments for bsc.exe for the given ppx flags
 
@@ -55,6 +55,7 @@ include_dirs [dirs]
 val include_dirs_by : 'a list -> ('a -> string) -> string
 
 val rel_include_dirs :
+  root_dir:string ->
   per_proj_dir:string ->
   cur_dir:string ->
   ?namespace:string ->

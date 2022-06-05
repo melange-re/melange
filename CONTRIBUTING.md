@@ -9,19 +9,28 @@ Melange can be set up with [#nix](Nix) or [#esy](Esy). Instructions for both are
 
 ### Nix
 
-Obtaining the [Nix](https://nixos.org/) package manager is a prerequisite.
+**Prerequisites**:
+- Obtaining the [Nix](https://nixos.org/) package manager
+- Installing [Nix flakes](https://nixos.wiki/wiki/Flakes)
 
 
 The best way to get started is to get a `nix` shell running:
 
 ```sh
 # Opens a shell with the necessary environment.
-nix-shell --pure
+make nix-zsh
 ```
 
-> **Note**: You can also run `nix-shell --command $EDITOR` to get merlin support
-
 Once you're in the shell, you have access to `dune`, `node`, `yarn`, and all the other executables you need to get down to business.
+
+You can also use `make nix-*` to execute arbitrary commands in the nix environment.
+
+```sh
+make nix-nvim # Runs nvim in the nix environment
+make nix-vscode # Opens vscode in the nix environment
+make nix-fish # Opens fish shell
+# etc.
+```
 
 ### Esy
 

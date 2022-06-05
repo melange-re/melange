@@ -46,9 +46,7 @@ let clean_bs_garbage proj_dir =
       Bsb_ninja_targets.revise_dune dune_file buf
   in
   try
-    (* clean re.js files*)
-    Ext_list.iter Bsb_config.all_intermediate_artifacts try_remove;
-
+    (* TODO: revise merlin too *)
     try_revise_dune (proj_dir // Literals.dune);
     try_remove (proj_dir // Literals.dune_mel)
   with e ->

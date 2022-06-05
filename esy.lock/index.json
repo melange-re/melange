@@ -1,5 +1,5 @@
 {
-  "checksum": "b9f7dca43c710bd4e6ef68d7dae656eb",
+  "checksum": "29bfd6fe8db19932b949c4a6bb6cb53d",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -41,7 +41,8 @@
         "@opam/reason@github:reasonml/reason:reason.opam#a93c4c3fbf36d32360a64f9b7a3f64b0ef35b903@d41d8cd9",
         "@opam/melange-compiler-libs@github:melange-re/melange-compiler-libs:melange-compiler-libs.opam#029354b208335c6aafb3c483ef425c3a4afd1dc1@d41d8cd9",
         "@opam/luv@opam:0.5.11@ad29ad88", "@opam/dune@opam:3.2.0@586e8442",
-        "@opam/cmdliner@opam:1.1.1@03763729"
+        "@opam/cmdliner@opam:1.1.1@03763729",
+        "@opam/base64@opam:3.5.0@827395e3"
       ],
       "devDependencies": [
         "web-tree-sitter@0.18.0@d41d8cd9", "@opam/ounit2@opam:2.2.6@a5a48cd6"
@@ -560,6 +561,31 @@
           "name": "bigarray-compat",
           "version": "1.1.0",
           "path": "esy.lock/opam/bigarray-compat.1.1.0"
+        }
+      },
+      "overrides": [],
+      "dependencies": [
+        "ocaml@4.14.0@d41d8cd9", "@opam/dune@opam:3.2.0@586e8442",
+        "@esy-ocaml/substs@0.0.1@d41d8cd9"
+      ],
+      "devDependencies": [
+        "ocaml@4.14.0@d41d8cd9", "@opam/dune@opam:3.2.0@586e8442"
+      ]
+    },
+    "@opam/base64@opam:3.5.0@827395e3": {
+      "id": "@opam/base64@opam:3.5.0@827395e3",
+      "name": "@opam/base64",
+      "version": "opam:3.5.0",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://opam.ocaml.org/cache/sha256/58/589de9c00578ebfe784198ac9818d3586c474b2316b6cd3e1c46ccb1f62ae3a4#sha256:589de9c00578ebfe784198ac9818d3586c474b2316b6cd3e1c46ccb1f62ae3a4",
+          "archive:https://github.com/mirage/ocaml-base64/releases/download/v3.5.0/base64-v3.5.0.tbz#sha256:589de9c00578ebfe784198ac9818d3586c474b2316b6cd3e1c46ccb1f62ae3a4"
+        ],
+        "opam": {
+          "name": "base64",
+          "version": "3.5.0",
+          "path": "esy.lock/opam/base64.3.5.0"
         }
       },
       "overrides": [],

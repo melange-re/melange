@@ -70,6 +70,7 @@ let decode_single (x : string) (offset : cursor) : group =
 
 (*TODO: special case when module_count is zero *)
 let decode (x : string) : t =
+  let x = Base64.decode_exn x in
   let (offset : cursor) = ref 0 in
   let lib = decode_single x offset in
   let dev = decode_single x offset in

@@ -36,14 +36,12 @@ let maybe_quote_for_dune (s : string) =
        instead. *)
     Format.asprintf "%S" s
 
-let ppx_flags ~rel_proj_dir { Bsb_config_types.ppxlib; ppx_files } =
+let ppx_flags ~artifacts_dir { Bsb_config_types.ppxlib; ppx_files } =
   let ppxlib =
     if ppxlib <> [] then
       (* We don't need to grab the name from `ppx.ppxlib` because it'll always
-         be same everytime (`.melange.eobjs/ppx.exe`). *)
-      let path_to_ppx =
-        rel_proj_dir // Literals.melange_eobjs_dir // Bsb_config.ppx_exe
-      in
+         be same everytime (`.melange.ppx/ppx.exe`). *)
+      let path_to_ppx = artifacts_dir // Bsb_config.ppx_exe in
       let args =
         String.concat " "
           (List.concat_map (fun (x : Bsb_config_types.ppx) -> x.args) ppxlib)
@@ -70,7 +68,7 @@ let include_dirs_by dirs fn =
 
 let include_dirs dirs = include_dirs_by dirs Fun.id
 
-let rel_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
+let rel_include_dirs ~root_dir ~per_proj_dir ~cur_dir ?namespace source_dirs =
   let relativize_single dir =
     Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
       (per_proj_dir // dir)
@@ -78,7 +76,11 @@ let rel_include_dirs ~per_proj_dir ~cur_dir ?namespace source_dirs =
   let source_dirs = Ext_list.map source_dirs relativize_single in
   let dirs =
     if namespace = None then source_dirs
-    else relativize_single Bsb_config.artifacts_dir :: source_dirs
+    else
+      let rel_artifacts =
+        Bsb_config.rel_artifacts_dir ~root_dir ~proj_dir:per_proj_dir cur_dir
+      in
+      rel_artifacts :: source_dirs
     (*working dir is [lib/bs] we include this path to have namespace mapping*)
   in
   include_dirs dirs
@@ -124,7 +126,8 @@ let resolve_bsb_magic_file ~cwd ~desc p : result =
         else rest
       in
       (* let p = if Ext_sys.is_windows_or_cygwin then Ext_string.replace_slash_backward p else p in *)
-      let package_dir = Bsb_pkg.resolve_bs_package ~cwd package_name in
+      (* TODO: it's unclear whether we should be calling Bsb_pkg.resolve_package here instead. Let's discuss in PR #304 *)
+      let package_dir = Bsb_pkg.resolve_package ~cwd (Bsb_pkg_types.to_string package_name) in
       let path = package_dir // relative_path in
       if Sys.file_exists path then { path; checked = true }
       else (
@@ -216,16 +219,7 @@ let rec walk_all_deps_aux (visited : string Hash_string.t) (paths : string list)
                    Ext_array.iter new_packages (fun js ->
                        match js with
                        | Str { str = new_package } ->
-                           let package_dir =
-                             match
-                               Bsb_path_resolver.resolve_import_map_package
-                                 new_package
-                             with
-                             | Some path -> path
-                             | None ->
-                                 Bsb_pkg.resolve_bs_package ~cwd:dir
-                                   (Bsb_pkg_types.string_as_package new_package)
-                           in
+                           let package_dir = Bsb_pkg.resolve_package ~cwd:dir new_package in
                            walk_all_deps_aux visited package_stacks
                              ~top:(Expect_name new_package) package_dir queue
                        | _ ->
