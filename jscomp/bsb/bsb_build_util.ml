@@ -124,7 +124,8 @@ let resolve_bsb_magic_file ~cwd ~desc p : result =
         else rest
       in
       (* let p = if Ext_sys.is_windows_or_cygwin then Ext_string.replace_slash_backward p else p in *)
-      let package_dir = Bsb_pkg.resolve_bs_package ~cwd package_name in
+      (* TODO: it's unclear whether we should be calling Bsb_pkg.resolve_package here instead. Let's discuss in PR #304 *)
+      let package_dir = Bsb_pkg.resolve_package ~cwd (Bsb_pkg_types.to_string package_name) in
       let path = package_dir // relative_path in
       if Sys.file_exists path then { path; checked = true }
       else (
@@ -216,16 +217,7 @@ let rec walk_all_deps_aux (visited : string Hash_string.t) (paths : string list)
                    Ext_array.iter new_packages (fun js ->
                        match js with
                        | Str { str = new_package } ->
-                           let package_dir =
-                             match
-                               Bsb_path_resolver.resolve_import_map_package
-                                 new_package
-                             with
-                             | Some path -> path
-                             | None ->
-                                 Bsb_pkg.resolve_bs_package ~cwd:dir
-                                   (Bsb_pkg_types.string_as_package new_package)
-                           in
+                           let package_dir = Bsb_pkg.resolve_package ~cwd:dir new_package in
                            walk_all_deps_aux visited package_stacks
                              ~top:(Expect_name new_package) package_dir queue
                        | _ ->
