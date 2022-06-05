@@ -32,7 +32,7 @@ type dependency = {
   package_name : Bsb_pkg_types.t;
   package_path : string;
   package_dirs : string list;
-  package_install_dirs : install_dir list; (* ns_install_dir : string option; *)
+  package_install_dirs : install_dir list;
 }
 
 type dependencies = dependency list

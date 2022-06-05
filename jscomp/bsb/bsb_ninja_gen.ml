@@ -37,15 +37,10 @@ let bsc_lib_includes ~root_dir (bs_dependencies : Bsb_config_types.dependencies)
   Ext_list.flat_map bs_dependencies (fun { package_install_dirs; _ } ->
     Ext_list.map package_install_dirs
       (fun { Bsb_config_types.package_path; package_name; dir } ->
-          if
-            Bsb_config.is_dep_inside_workspace ~root_dir
-              ~package_dir:package_path
-          then (package_path // dir)
-          else
-            let virtual_proj_dir =
-              root_dir // Bsb_config.to_workspace_proj_dir ~package_name
-            in
-            (virtual_proj_dir // dir)))
+        let virtual_proj_dir =
+          Bsb_config.virtual_proj_dir ~root_dir ~package_dir:package_path ~package_name
+        in
+        (virtual_proj_dir // dir)))
 
 let output_ninja_and_namespace_map
     ~buf
@@ -150,18 +145,9 @@ let output_ninja_and_namespace_map
   Buffer.add_char buf '\n';
 
   let artifacts_dir =
-    if Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir
-    then
     Bsb_config.rel_artifacts_dir
       ~package_name
       ~root_dir ~proj_dir:per_proj_dir root_dir
-    else
-      let virtual_proj_dir =
-        root_dir // Bsb_config.to_workspace_proj_dir ~package_name
-      in
-    Bsb_config.rel_artifacts_dir
-      ~package_name
-      ~root_dir ~proj_dir:virtual_proj_dir root_dir
   in
 
   Buffer.add_string buf "(subdir ";

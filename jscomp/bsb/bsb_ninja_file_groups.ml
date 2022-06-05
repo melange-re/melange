@@ -119,21 +119,12 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let output_ast = filename_sans_extension ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension ^ Literals.suffix_iast in
   let rel_proj_dir, rel_artifacts_dir =
-    if Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir
-    then
-      ( Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
-          per_proj_dir,
-        Bsb_config.rel_artifacts_dir ~root_dir ~package_name
-          ~proj_dir:per_proj_dir cur_dir )
-    else
-      let virtual_proj_dir =
-        root_dir // Bsb_config.to_workspace_proj_dir ~package_name
-      in
-      ( Ext_path.rel_normalized_absolute_path
-          ~from:(virtual_proj_dir // cur_dir)
-          virtual_proj_dir,
-        Bsb_config.rel_artifacts_dir ~root_dir ~package_name
-          ~proj_dir:virtual_proj_dir cur_dir )
+    let proj_dir =
+      Bsb_config.virtual_proj_dir ~package_name ~root_dir
+        ~package_dir:per_proj_dir
+    in
+    ( Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) proj_dir,
+      Bsb_config.rel_artifacts_dir ~root_dir ~package_name ~proj_dir cur_dir )
   in
 
   let output_ast = rel_proj_dir // (impl_dir // basename output_ast) in
@@ -243,13 +234,13 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
       ~package_dir:per_proj_dir
   in
   let rel_group_dir =
-    if is_dep_inside_workspace then
-      Ext_path.rel_normalized_absolute_path ~from:global_config.root_dir
-        (per_proj_dir // group.dir)
-    else
-      (* For out-of source builds, mimic `node_modules/<package>` *)
-      Bsb_config.to_workspace_proj_dir ~package_name:global_config.package_name
-      // group.dir
+    (* For out-of source builds, mimic `node_modules/<package>` *)
+    let virtual_proj_dir =
+      Bsb_config.virtual_proj_dir ~root_dir:global_config.root_dir
+        ~package_dir:per_proj_dir ~package_name:global_config.package_name
+    in
+    Ext_path.rel_normalized_absolute_path ~from:global_config.root_dir
+      (virtual_proj_dir // group.dir)
   in
 
   if not (Bsb_file_groups.is_empty group) then (

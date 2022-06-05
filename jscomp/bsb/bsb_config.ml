@@ -36,6 +36,10 @@ let is_dep_inside_workspace ~root_dir ~package_dir =
 
 let to_workspace_proj_dir ~package_name = Literals.node_modules // package_name
 
+let virtual_proj_dir ~root_dir ~package_dir ~package_name =
+  if is_dep_inside_workspace ~root_dir ~package_dir then package_dir
+  else root_dir // to_workspace_proj_dir ~package_name
+
 let absolute_artifacts_dir ?(include_dune_build_dir = false) ~package_name
     ~root_dir proj_dir =
   if not (is_dep_inside_workspace ~root_dir ~package_dir:proj_dir) then
@@ -59,13 +63,12 @@ let absolute_artifacts_dir ?(include_dune_build_dir = false) ~package_name
 
 let rel_artifacts_dir ?include_dune_build_dir ~package_name ~root_dir ~proj_dir
     from =
-  if not (is_dep_inside_workspace ~root_dir ~package_dir:proj_dir) then
-    Ext_path.rel_normalized_absolute_path ~from
-      (root_dir // to_workspace_proj_dir ~package_name)
-  else
-    let absolute =
-      absolute_artifacts_dir ?include_dune_build_dir ~package_name ~root_dir
-        proj_dir
-    in
-    let from = if Filename.is_relative from then proj_dir // from else from in
-    Ext_path.rel_normalized_absolute_path ~from absolute
+  let proj_dir =
+    virtual_proj_dir ~root_dir ~package_dir:proj_dir ~package_name
+  in
+  let absolute =
+    absolute_artifacts_dir ?include_dune_build_dir ~package_name ~root_dir
+      proj_dir
+  in
+  let from = if Filename.is_relative from then proj_dir // from else from in
+  Ext_path.rel_normalized_absolute_path ~from absolute

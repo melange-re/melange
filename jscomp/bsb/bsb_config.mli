@@ -25,6 +25,9 @@
 val is_dep_inside_workspace : root_dir:string -> package_dir:string -> bool
 val to_workspace_proj_dir : package_name:string -> string
 
+val virtual_proj_dir :
+  root_dir:string -> package_dir:string -> package_name:string -> string
+
 val absolute_artifacts_dir :
   ?include_dune_build_dir:bool ->
   package_name:string ->
