@@ -27,12 +27,8 @@
 let (//) = Ext_path.combine
 
 let resolve_package cwd package_name =
+  let path = Bsb_pkg.resolve_package ~cwd package_name in
   let package = Bsb_pkg_types.string_as_package package_name in
-  let path =
-    match Bsb_path_resolver.resolve_import_map_package package_name with
-    | Some path -> path
-    | None -> Bsb_pkg.resolve_bs_package ~cwd package
-  in
   {
     Bsb_config_types.package_name = package;
     package_path = path;
