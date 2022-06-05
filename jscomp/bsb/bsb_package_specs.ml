@@ -41,6 +41,9 @@ type t = {
       *)
 }
 
+let has_in_source t =
+  Spec_set.exists (fun { in_source; _ } -> in_source) t.modules
+
 let ( .?() ) = Map_string.find_opt
 
 let bad_module_format_message_exn ~loc format =

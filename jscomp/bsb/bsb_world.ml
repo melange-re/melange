@@ -58,11 +58,31 @@ let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
           config :: acc)
     [] queue
 
+let maybe_warn_about_dependencies_outside_workspace ~cwd
+    (config : Bsb_config_types.t) =
+  let is_path_outside_workspace { Bsb_config_types.package_path; _ } =
+    not
+      (Bsb_config.is_dep_inside_workspace ~root_dir:cwd
+         ~package_dir:package_path)
+  in
+  let has_in_source = Bsb_package_specs.has_in_source config.package_specs in
+  if
+    has_in_source
+    && (Ext_list.exists config.bs_dependencies is_path_outside_workspace
+       || Ext_list.exists config.bs_dev_dependencies is_path_outside_workspace)
+  then
+    raise
+      (Bsb_exception.invalid_spec
+         "Found `in-source: true` and dependencies outside the workspace. This \
+          is not currently supported.")
+
 let make_world_deps ~cwd ~buf =
   Bsb_log.info "Making the dependency world!@.";
   let config : Bsb_config_types.t =
     Bsb_config_parse.interpret_json ~package_kind:Toplevel ~per_proj_dir:cwd
   in
+  maybe_warn_about_dependencies_outside_workspace ~cwd config;
+
   Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:cwd config;
   let deps = config.package_specs in
   let dep_configs = build_bs_deps cwd ~buf deps in
