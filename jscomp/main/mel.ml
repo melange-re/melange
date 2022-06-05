@@ -86,8 +86,9 @@ let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
   let buf = Buffer.create 0x1000 in
   let config, dep_configs = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
-  Bsb_ninja_regen.regenerate_ninja ~package_kind:Toplevel ~buf ~root_dir ~config
-    root_dir;
+  Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:root_dir config;
+  Bsb_ninja_gen.output_ninja_and_namespace_map ~buf ~per_proj_dir:root_dir
+    ~root_dir ~package_kind:Toplevel config;
   output_dune_file buf;
   config :: dep_configs
 

@@ -164,7 +164,7 @@ let get_list_string_acc (s : Ext_json_types.t array) acc =
 let get_list_string s = get_list_string_acc s []
 
 (* Key is the path *)
-let ( |? ) m (key, cb) = m |> Ext_json.test key cb
+let ( |? ) m (key, cb) = Ext_json.test key cb m
 
 type top = Expect_none | Expect_name of string
 type package_context = { proj_dir : string; top : top }
