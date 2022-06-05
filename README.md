@@ -10,11 +10,28 @@ more details on the motivation behind this project can be found in this
 
 ## Installation
 
-This project is currently unreleased. Currently, the easiest way to get started
-is to clone the
-[basic template](https://github.com/melange-re/melange-basic-template). Before
-you do, make sure you have Esy installed (`npm install -g esy` should cover
-most workflows).
+This project is currently unreleased. There are, however, a few ways to try it
+out.
+
+### [Esy](https://esy.sh)
+
+The easiest way to get started is to
+clone the [basic template](https://github.com/melange-re/melange-basic-template)
+and run `esy` in the project root. To install [Esy](https://esy.sh), `npm
+install -g esy` should cover most workflows. If you have NodeJS / `npm`
+available, `npx esy` is even shorter.
+
+### [Nix](https://nixos.org/learn.html)
+
+Melange has good support for Nix:
+
+- `nix run github:melange-re/melange -- build` runs melange.
+- `nix shell github:melange-re/melange -c $SHELL` enters a shell with `mel` and
+  `melc` in `$PATH`. Try out `mel --help`, for example.
+  for available options.
+- Adding `github:melange-re/melange` as a
+  [flake](https://nixos.wiki/wiki/Flakes) input exports melange as the default
+  package
 
 Please reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
 can't figure it out!

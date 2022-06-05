@@ -55,4 +55,6 @@ stdenv.mkDerivation rec {
     luv
     base64
   ];
+
+  meta.mainProgram = "mel";
 }
