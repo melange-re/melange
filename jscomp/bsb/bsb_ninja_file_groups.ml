@@ -51,8 +51,9 @@ let res_suffixes = { impl = Literals.suffix_res; intf = Literals.suffix_resi }
 
 let emit_module_build (rules : Bsb_ninja_rule.builtin)
     (package_specs : Bsb_package_specs.t) (is_dev : bool) buf ?gentype_config
-    ~per_proj_dir ~bs_dependencies ~bs_dev_dependencies _js_post_build_cmd
-    namespace ~cur_dir ~ppx_config (module_info : Bsb_db.module_info) =
+    ~global_config:{ Bsb_ninja_global_vars.per_proj_dir; root_dir; _ }
+    ~bs_dependencies ~bs_dev_dependencies _js_post_build_cmd namespace ~cur_dir
+    ~ppx_config (module_info : Bsb_db.module_info) =
   let impl_dir, intf_dir =
     match module_info.dir with
     | Same dir -> (dir, dir)
@@ -98,6 +99,9 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   let output_ast = filename_sans_extension ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension ^ Literals.suffix_iast in
+  let rel_artifacts_dir =
+    Bsb_config.rel_artifacts_dir ~root_dir ~proj_dir:per_proj_dir cur_dir
+  in
   let rel_proj_dir =
     Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
       per_proj_dir
@@ -106,7 +110,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ppx_deps =
     if ppx_config.Bsb_config_types.ppxlib <> [] then
-      [ rel_proj_dir // Bsb_config.artifacts_dir // Bsb_config.ppx_exe ]
+      [ rel_artifacts_dir // Bsb_config.ppx_exe ]
     else []
   in
   let output_d =
@@ -122,8 +126,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let output_cmti = output_filename_sans_extension ^ Literals.suffix_cmti in
   let maybe_gentype_deps =
     Option.map
-      (fun _ ->
-        [ rel_proj_dir // Bsb_config.artifacts_dir // Literals.sourcedirs_meta ])
+      (fun _ -> [ rel_artifacts_dir // Literals.sourcedirs_meta ])
       gentype_config
   in
   let output_js =
@@ -132,7 +135,9 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   if which <> `intf then (
     Bsb_ninja_targets.output_build cur_dir buf
-      ~implicit_deps:(Option.value ~default:[] maybe_gentype_deps @ ppx_deps)
+      ~implicit_deps:
+        ((rel_artifacts_dir // Literals.bsbuild_cache)
+        :: (Option.value ~default:[] maybe_gentype_deps @ ppx_deps))
       ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:rules.build_ast
       ~error_syntax_kind;
 
@@ -142,12 +147,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
       ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps));
   let relative_ns_cmi =
     match namespace with
-    | Some ns ->
-        [
-          Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
-            (per_proj_dir // Bsb_config.artifacts_dir)
-          // (ns ^ Literals.suffix_cmi);
-        ]
+    | Some ns -> [ rel_artifacts_dir // (ns ^ Literals.suffix_cmi) ]
     | None -> []
   in
   let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
@@ -202,12 +202,12 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   if which <> `intf then output_js else []
 
 let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
-    ~root_dir ~(rules : Bsb_ninja_rule.builtin) ~package_specs
-    ~js_post_build_cmd ~files_to_install ~bs_dependencies ~bs_dev_dependencies
+    ~(rules : Bsb_ninja_rule.builtin) ~package_specs ~js_post_build_cmd
+    ~files_to_install ~bs_dependencies ~bs_dev_dependencies
     (group : Bsb_file_groups.file_group) : unit =
   let per_proj_dir = global_config.per_proj_dir in
   let rel_group_dir =
-    Ext_path.rel_normalized_absolute_path ~from:root_dir
+    Ext_path.rel_normalized_absolute_path ~from:global_config.root_dir
       (per_proj_dir // group.dir)
   in
 
@@ -237,7 +237,7 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
           in
           if installable module_name then Queue.add module_info files_to_install;
           let js_outputs =
-            emit_module_build rules package_specs is_dev buf ~per_proj_dir
+            emit_module_build rules package_specs is_dev buf ~global_config
               ~bs_dependencies ~bs_dev_dependencies
               ?gentype_config:global_config.gentypeconfig ~cur_dir:group.dir
               ~ppx_config:global_config.ppx_config js_post_build_cmd

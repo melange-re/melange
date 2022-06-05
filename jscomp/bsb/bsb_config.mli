@@ -22,7 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val artifacts_dir : string
-val all_intermediate_artifacts : string list
+val absolute_artifacts_dir :
+  ?include_dune_build_dir:bool -> root_dir:string -> string -> string
+
+val rel_artifacts_dir :
+  ?include_dune_build_dir:bool ->
+  root_dir:string ->
+  proj_dir:string ->
+  string ->
+  string
+
 val dune_build_dir : string Lazy.t
 val ppx_exe : string

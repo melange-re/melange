@@ -23,8 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-let (//) = Ext_path.combine
-
 module Generators = struct
   let regexp = Str.regexp "\\(\\$in\\)\\|\\(\\$out\\)"
 
@@ -105,6 +103,7 @@ let make_custom_rules
       cur_dir =
     let rel_incls ?namespace dirs =
       Bsb_build_util.rel_include_dirs
+        ~root_dir:global_config.root_dir
         ~per_proj_dir:global_config.per_proj_dir
         ~cur_dir
         ?namespace
@@ -159,9 +158,11 @@ let make_custom_rules
     end ;
   in
   let mk_ast buf ?error_syntax_kind:_ ?target:_ cur_dir : unit =
-    let rel_proj_dir = Ext_path.rel_normalized_absolute_path
-      ~from:(global_config.per_proj_dir // cur_dir)
-      global_config.per_proj_dir
+    let rel_artifacts_dir =
+      Bsb_config.rel_artifacts_dir
+        ~root_dir:global_config.root_dir
+        ~proj_dir:global_config.per_proj_dir
+      cur_dir
     in
     Buffer.add_string buf "(action\n (run ";
     Buffer.add_string buf global_config.bsc;
@@ -171,7 +172,9 @@ let make_custom_rules
      | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
      | _not_empty ->
        Buffer.add_char buf ' ';
-       Buffer.add_string buf (Bsb_build_util.ppx_flags ~rel_proj_dir global_config.ppx_config));
+       Buffer.add_string
+         buf
+         (Bsb_build_util.ppx_flags ~artifacts_dir:rel_artifacts_dir global_config.ppx_config));
     (match pp_file with
      | None -> ()
      | Some flag ->
@@ -202,22 +205,26 @@ let make_custom_rules
   let build_bin_deps =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
-        let s = Format.asprintf "(action (run %s -cwd %s -proj-dir %s %s %%{inputs}))"
-          global_config.bsdep
-          cur_dir
-          global_config.per_proj_dir
-          ns_flag
+        let s =
+          Format.asprintf "(action (run %s -root-dir %s -cwd %s -proj-dir %s %s %%{inputs}))"
+            global_config.bsdep
+            global_config.root_dir
+            cur_dir
+            global_config.per_proj_dir
+            ns_flag
         in
         Buffer.add_string buf s)
       "deps" in
   let build_bin_deps_dev =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
-        let s = Format.asprintf "(action (run %s -g -cwd %s -proj-dir %s %s %%{inputs}))"
-          global_config.bsdep
-          cur_dir
-          global_config.per_proj_dir
-          ns_flag
+        let s =
+          Format.asprintf "(action (run %s -root-dir %s -g -cwd %s -proj-dir %s %s %%{inputs}))"
+            global_config.bsdep
+            global_config.root_dir
+            cur_dir
+            global_config.per_proj_dir
+            ns_flag
         in
         Buffer.add_string buf s)
       "deps_dev"
