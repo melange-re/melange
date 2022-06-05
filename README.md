@@ -8,6 +8,21 @@ a focus on compatibility with the wider OCaml ecosystem. A small write-up with
 more details on the motivation behind this project can be found in this
 [blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
+- [Melange](#melange)
+  - [Installation](#installation)
+    - [Esy](#esy)
+    - [Nix](#nix)
+    - [Editor support](#editor-support)
+      - [VSCode](#vscode)
+    - [A note on OCaml versions](#a-note-on-ocaml-versions)
+  - [FAQ](#faq)
+    - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
+    - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
+    - [Where has the `refmt` flag gone?](#where-has-the-refmt-flag-gone)
+  - [Contributing](#contributing)
+  - [Acknowledgments](#acknowledgments)
+  - [Licensing](#licensing)
+
 ## Installation
 
 This project is currently unreleased. There are, however, a few ways to try it
@@ -73,7 +88,7 @@ template:
 }
 ```
 
-#### A note on OCaml versions
+### A note on OCaml versions
 
 The current Melange distribution works on OCaml 4.14 and OCaml 5.00+trunk. If
 you need to use Melange with OCaml 4.12 (the only formerly supported version),
