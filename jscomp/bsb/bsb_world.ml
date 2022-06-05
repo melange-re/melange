@@ -52,8 +52,8 @@ let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
           let config : Bsb_config_types.t =
             Bsb_config_parse.interpret_json ~package_kind ~per_proj_dir:proj_dir
           in
-          Bsb_ninja_regen.regenerate_ninja ~buf ~config ~package_kind
-            ~root_dir:cwd proj_dir;
+          Bsb_ninja_gen.output_ninja_and_namespace_map ~buf
+            ~per_proj_dir:proj_dir ~root_dir:cwd ~package_kind config;
           config :: acc)
     [] queue
 
@@ -62,6 +62,7 @@ let make_world_deps ~cwd ~buf =
   let config : Bsb_config_types.t =
     Bsb_config_parse.interpret_json ~package_kind:Toplevel ~per_proj_dir:cwd
   in
+  Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:cwd config;
   let deps = config.package_specs in
   let dep_configs = build_bs_deps cwd ~buf deps in
   (config, dep_configs)

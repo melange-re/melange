@@ -12,7 +12,8 @@ let extract_paths_from_importmap cwd json =
           |> List.iter (fun (key, value) ->
                  match value with
                  | Ext_json_types.Str { str } ->
-                     Hash_string.add cache key (cwd // str)
+                     Hash_string.add cache key
+                       (Ext_path.normalize_absolute_path (cwd // str))
                  | _ -> ())
       | _ -> ())
   | _ -> ()
