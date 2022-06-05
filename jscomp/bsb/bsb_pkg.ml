@@ -81,8 +81,6 @@ let cache : string Coll.t = Coll.create 0
 
 let to_list cb  =   
   Coll.to_list cache  cb 
-  
-
 
 (** TODO: collect all warnings and print later *)
 let resolve_bs_package ~cwd (package : t) =
@@ -102,6 +100,11 @@ let resolve_bs_package ~cwd (package : t) =
               Bsb_pkg_types.print package x result cwd;
         end;
       x
+
+let resolve_package ~cwd (package_name) =
+  match Bsb_path_resolver.resolve_import_map_package package_name with
+  | Some path -> path
+  | None -> resolve_bs_package ~cwd (Bsb_pkg_types.string_as_package package_name)
 
 
 (** The package does not need to be a bspackage

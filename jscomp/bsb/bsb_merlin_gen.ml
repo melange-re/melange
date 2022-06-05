@@ -76,12 +76,10 @@ let merlin_b = "\nB "
 let merlin_flg = "\nFLG "
 let bs_flg_prefix = "-bs-"
 
-let output_merlin_namespace buffer ns=
+let output_merlin_namespace  buffer ns=
   match ns with
   | None -> ()
   | Some x ->
-    Buffer.add_string buffer merlin_b ;
-    Buffer.add_string buffer Bsb_config.artifacts_dir ;
     Buffer.add_string buffer merlin_flg ;
     Buffer.add_string buffer "-open ";
     Buffer.add_string buffer x
@@ -121,7 +119,15 @@ let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency)
     Buffer.add_string buffer merlin_s ;
     Buffer.add_string buffer path ;
     Buffer.add_string buffer merlin_b;
-    Buffer.add_string buffer package_install_path)
+    Buffer.add_string buffer package_install_path);
+
+    Buffer.add_string buffer merlin_b ;
+    Buffer.add_string buffer
+      (Bsb_config.absolute_artifacts_dir
+      ~include_dune_build_dir:true
+        ~root_dir:Bsb_global_paths.cwd
+        package.package_path)
+
 
 let as_ppx arg =
   let fmt : _ format = if Ext_sys.is_windows_or_cygwin then
@@ -140,7 +146,6 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
       built_in_dependency;
       reason_react_jsx ;
       namespace;
-      package_name = _;
       warning;
      } : Bsb_config_types.t)
   =
@@ -209,7 +214,10 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
           end;
       ) ;
     Buffer.add_string buffer merlin_b;
-    Buffer.add_string buffer (per_proj_dir // dune_build_dir // Bsb_config.artifacts_dir) ;
+    Buffer.add_string
+      buffer
+      (dune_build_dir //
+        (Bsb_config.rel_artifacts_dir ~root_dir:per_proj_dir ~proj_dir:per_proj_dir per_proj_dir));
     Buffer.add_string buffer "\n";
     revise_merlin (per_proj_dir // merlin) buffer
   end
