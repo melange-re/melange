@@ -102,10 +102,17 @@ let process_deps_for_dune ~proj_dir ~cur_dir deps =
   in
   String.concat " " rel_deps
 
-let emit_d ~root_dir ~cur_dir ~proj_dir ~(is_dev : bool)
+let emit_d ~package_name ~root_dir ~cur_dir ~proj_dir ~(is_dev : bool)
     (namespace : string option) (mlast : string) (mliast : string) =
   let rel_artifacts_dir =
-    Bsb_config.rel_artifacts_dir ~root_dir ~proj_dir cur_dir
+    if Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:proj_dir then
+      Bsb_config.rel_artifacts_dir ~package_name ~root_dir ~proj_dir cur_dir
+    else
+      let virtual_proj_dir =
+        root_dir // Bsb_config.to_workspace_proj_dir ~package_name
+      in
+      Bsb_config.rel_artifacts_dir ~root_dir ~package_name
+        ~proj_dir:virtual_proj_dir cur_dir
   in
   let data = Bsb_db_decode.read_build_cache ~dir:rel_artifacts_dir in
   let deps = ref Set_string.empty in

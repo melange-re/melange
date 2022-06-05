@@ -23,7 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val rel_dependencies_alias :
-  proj_dir:string -> cur_dir:string -> string list -> string list
+  root_dir:string ->
+  proj_dir:string ->
+  cur_dir:string ->
+  Bsb_config_types.dependency list ->
+  string list
 
 val handle_files_per_dir :
   Buffer.t ->
@@ -32,7 +36,7 @@ val handle_files_per_dir :
   package_specs:Bsb_package_specs.t ->
   js_post_build_cmd:string option ->
   files_to_install:Bsb_db.module_info Queue.t ->
-  bs_dependencies:string list ->
-  bs_dev_dependencies:string list ->
+  bs_dependencies:Bsb_config_types.dependency list ->
+  bs_dev_dependencies:Bsb_config_types.dependency list ->
   Bsb_file_groups.file_group ->
   unit

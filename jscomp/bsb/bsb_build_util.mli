@@ -55,6 +55,7 @@ include_dirs [dirs]
 val include_dirs_by : 'a list -> ('a -> string) -> string
 
 val rel_include_dirs :
+  package_name:string ->
   root_dir:string ->
   per_proj_dir:string ->
   cur_dir:string ->

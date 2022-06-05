@@ -106,24 +106,34 @@ let warning_to_merlin_flg (warning: Bsb_warning.t ) : string=
   merlin_flg ^ Bsb_warning.to_merlin_string warning
 
 let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency) =
-  Ext_list.iter package.package_install_dirs (fun dir ->
+  Ext_list.iter package.package_install_dirs (fun {Bsb_config_types.dir; package_path; package_name;_} ->
+    let source_path, package_install_path =
+      if
+          Bsb_config.is_dep_inside_workspace
+            ~root_dir:Bsb_global_paths.cwd
+            ~package_dir:package_path then
+        (
     let rel =
       Ext_path.rel_normalized_absolute_path
         ~from:Bsb_global_paths.cwd
-        dir
+        (package_path // dir)
     in
-    let path = Bsb_global_paths.cwd // rel in
-    let package_install_path =
-      Bsb_global_paths.cwd // dune_build_dir // rel
+    Bsb_global_paths.cwd // rel, Bsb_global_paths.cwd // dune_build_dir // rel)
+      else
+        (let source_path = package_path // dir
+          and build_path = Bsb_global_paths.cwd // dune_build_dir // (Bsb_config.to_workspace_proj_dir ~package_name // dir)
+          in
+          source_path, build_path)
     in
     Buffer.add_string buffer merlin_s ;
-    Buffer.add_string buffer path ;
+    Buffer.add_string buffer source_path ;
     Buffer.add_string buffer merlin_b;
     Buffer.add_string buffer package_install_path);
 
     Buffer.add_string buffer merlin_b ;
     Buffer.add_string buffer
       (Bsb_config.absolute_artifacts_dir
+      ~package_name:(Bsb_pkg_types.to_string package.package_name)
       ~include_dune_build_dir:true
         ~root_dir:Bsb_global_paths.cwd
         package.package_path)
@@ -147,6 +157,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
       reason_react_jsx ;
       namespace;
       warning;
+      package_name
      } : Bsb_config_types.t)
   =
   if generate_merlin then begin
@@ -217,7 +228,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     Buffer.add_string
       buffer
       (dune_build_dir //
-        (Bsb_config.rel_artifacts_dir ~root_dir:per_proj_dir ~proj_dir:per_proj_dir per_proj_dir));
+        (Bsb_config.rel_artifacts_dir ~package_name ~root_dir:per_proj_dir ~proj_dir:per_proj_dir per_proj_dir));
     Buffer.add_string buffer "\n";
     revise_merlin (per_proj_dir // merlin) buffer
   end

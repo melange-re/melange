@@ -27,16 +27,16 @@ let (//) = Filename.concat
 
 type t = Bsb_pkg_types.t
 
-(* TODO: be more restrict 
-  [bsconfig.json] does not always make sense, 
+(* TODO: be more restrict
+  [bsconfig.json] does not always make sense,
   when resolving [ppx-flags]
 *)
-let make_sub_path (x : t) : string = 
+let make_sub_path (x : t) : string =
   Literals.node_modules // Bsb_pkg_types.to_string x
 
-let node_paths : string list Lazy.t =     
+let node_paths : string list Lazy.t =
   lazy (try Ext_string.split (Sys.getenv "NODE_PATH")
-              (if Sys.win32 then ';' else ':')   
+              (if Sys.win32 then ';' else ':')
         with _ -> [])
 (** It makes sense to have this function raise, when [bsb] could not resolve a package, it used to mean
     a failure
@@ -50,7 +50,8 @@ let  resolve_bs_package_aux  ~cwd (pkg : t) =
   (* First try to resolve recursively from the current working directory  *)
   let sub_path = make_sub_path pkg   in
   let rec aux  cwd  =
-    let abs_marker =  cwd // sub_path in
+    let abs_marker = Ext_path.normalize_absolute_path (cwd // sub_path) in
+
     if Sys.file_exists abs_marker then abs_marker
     else
       let another_cwd = Filename.dirname cwd in (* TODO: may non-terminating when see symlinks *)
@@ -59,28 +60,29 @@ let  resolve_bs_package_aux  ~cwd (pkg : t) =
       else (* To the end try other possiblilities [NODE_PATH]*)
         (match Ext_list.find_opt (Lazy.force node_paths)
                  (fun dir -> check_dir (dir // Bsb_pkg_types.to_string pkg))  with
-        | Some(resolved_dir) -> resolved_dir
-        | None -> Bsb_exception.package_not_found ~pkg ~json:None)    
+        | Some(resolved_dir) ->
+            resolved_dir
+        | None -> Bsb_exception.package_not_found ~pkg ~json:None)
   in
-   aux cwd 
-    
-    
-    
-    
-    
+   aux cwd
+
+
+
+
+
 
 module Coll = Hash.Make(struct
-  type nonrec t = t 
+  type nonrec t = t
   let equal = Bsb_pkg_types.equal
-  let hash (x : t) = Hashtbl.hash x     
+  let hash (x : t) = Hashtbl.hash x
 end)
 
 
 let cache : string Coll.t = Coll.create 0
 
 
-let to_list cb  =   
-  Coll.to_list cache  cb 
+let to_list cb  =
+  Coll.to_list cache  cb
 
 (** TODO: collect all warnings and print later *)
 let resolve_bs_package ~cwd (package : t) =
@@ -96,7 +98,7 @@ let resolve_bs_package ~cwd (package : t) =
       if not (Bsb_real_path.is_same_paths_via_io result x) then
         begin
           Bsb_log.warn
-            "@{<warning>Duplicated package:@} %a %s (chosen) vs %s in %s @." 
+            "@{<warning>Duplicated package:@} %a %s (chosen) vs %s in %s @."
               Bsb_pkg_types.print package x result cwd;
         end;
       x
@@ -116,7 +118,7 @@ let resolve_package ~cwd (package_name) =
     It also returns the path name
     Note the input [sub_path] is already converted to physical meaning path according to OS
 *)
-(* let resolve_npm_package_file ~cwd sub_path = *) 
+(* let resolve_npm_package_file ~cwd sub_path = *)
 (*   let rec aux  cwd  =  *)
 (*     let abs_marker =  cwd // Literals.node_modules // sub_path in  *)
 (*     if Sys.file_exists abs_marker then Some abs_marker *)

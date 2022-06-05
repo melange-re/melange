@@ -31,22 +31,41 @@ let dune_build_dir =
 
 let ppx_exe = "ppx.exe"
 
-let absolute_artifacts_dir ?(include_dune_build_dir = false) ~root_dir proj_dir
-    =
-  let rel_package_dir_from_root =
-    Ext_path.rel_normalized_absolute_path ~from:root_dir proj_dir
-  in
-  let path =
+let is_dep_inside_workspace ~root_dir ~package_dir =
+  Ext_string.starts_with package_dir root_dir
+
+let to_workspace_proj_dir ~package_name = Literals.node_modules // package_name
+
+let absolute_artifacts_dir ?(include_dune_build_dir = false) ~package_name
+    ~root_dir proj_dir =
+  if not (is_dep_inside_workspace ~root_dir ~package_dir:proj_dir) then
     if include_dune_build_dir then
       root_dir // Lazy.force dune_build_dir // Literals.melange_eobjs_dir
-      // rel_package_dir_from_root
-    else root_dir // Literals.melange_eobjs_dir // rel_package_dir_from_root
-  in
-  Ext_path.normalize_absolute_path path
+      // to_workspace_proj_dir ~package_name
+    else
+      root_dir // Literals.melange_eobjs_dir
+      // to_workspace_proj_dir ~package_name
+  else
+    let rel_package_dir_from_root =
+      Ext_path.rel_normalized_absolute_path ~from:root_dir proj_dir
+    in
+    let path =
+      if include_dune_build_dir then
+        root_dir // Lazy.force dune_build_dir // Literals.melange_eobjs_dir
+        // rel_package_dir_from_root
+      else root_dir // Literals.melange_eobjs_dir // rel_package_dir_from_root
+    in
+    Ext_path.normalize_absolute_path path
 
-let rel_artifacts_dir ?include_dune_build_dir ~root_dir ~proj_dir from =
-  let absolute =
-    absolute_artifacts_dir ?include_dune_build_dir ~root_dir proj_dir
-  in
-  let from = if Filename.is_relative from then proj_dir // from else from in
-  Ext_path.rel_normalized_absolute_path ~from absolute
+let rel_artifacts_dir ?include_dune_build_dir ~package_name ~root_dir ~proj_dir
+    from =
+  if not (is_dep_inside_workspace ~root_dir ~package_dir:proj_dir) then
+    Ext_path.rel_normalized_absolute_path ~from
+      (root_dir // to_workspace_proj_dir ~package_name)
+  else
+    let absolute =
+      absolute_artifacts_dir ?include_dune_build_dir ~package_name ~root_dir
+        proj_dir
+    in
+    let from = if Filename.is_relative from then proj_dir // from else from in
+    Ext_path.rel_normalized_absolute_path ~from absolute

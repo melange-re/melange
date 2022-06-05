@@ -68,7 +68,8 @@ let include_dirs_by dirs fn =
 
 let include_dirs dirs = include_dirs_by dirs Fun.id
 
-let rel_include_dirs ~root_dir ~per_proj_dir ~cur_dir ?namespace source_dirs =
+let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
+    source_dirs =
   let relativize_single dir =
     Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
       (per_proj_dir // dir)
@@ -78,12 +79,25 @@ let rel_include_dirs ~root_dir ~per_proj_dir ~cur_dir ?namespace source_dirs =
     if namespace = None then source_dirs
     else
       let rel_artifacts =
-        Bsb_config.rel_artifacts_dir ~root_dir ~proj_dir:per_proj_dir cur_dir
+        Bsb_config.rel_artifacts_dir ~package_name ~root_dir
+          ~proj_dir:per_proj_dir cur_dir
       in
       rel_artifacts :: source_dirs
     (*working dir is [lib/bs] we include this path to have namespace mapping*)
   in
   include_dirs dirs
+
+let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
+    source_dirs =
+  if Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir then
+    rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
+      source_dirs
+  else
+    let virtual_proj_dir =
+      root_dir // Bsb_config.to_workspace_proj_dir ~package_name
+    in
+    rel_include_dirs ~package_name ~root_dir ~per_proj_dir:virtual_proj_dir
+      ~cur_dir ?namespace source_dirs
 
 (* we use lazy $src_root_dir *)
 
@@ -127,7 +141,9 @@ let resolve_bsb_magic_file ~cwd ~desc p : result =
       in
       (* let p = if Ext_sys.is_windows_or_cygwin then Ext_string.replace_slash_backward p else p in *)
       (* TODO: it's unclear whether we should be calling Bsb_pkg.resolve_package here instead. Let's discuss in PR #304 *)
-      let package_dir = Bsb_pkg.resolve_package ~cwd (Bsb_pkg_types.to_string package_name) in
+      let package_dir =
+        Bsb_pkg.resolve_package ~cwd (Bsb_pkg_types.to_string package_name)
+      in
       let path = package_dir // relative_path in
       if Sys.file_exists path then { path; checked = true }
       else (
@@ -219,7 +235,9 @@ let rec walk_all_deps_aux (visited : string Hash_string.t) (paths : string list)
                    Ext_array.iter new_packages (fun js ->
                        match js with
                        | Str { str = new_package } ->
-                           let package_dir = Bsb_pkg.resolve_package ~cwd:dir new_package in
+                           let package_dir =
+                             Bsb_pkg.resolve_package ~cwd:dir new_package
+                           in
                            walk_all_deps_aux visited package_stacks
                              ~top:(Expect_name new_package) package_dir queue
                        | _ ->

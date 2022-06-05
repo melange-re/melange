@@ -22,11 +22,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type install_dir = {
+  package_name : string;
+  package_path : string;
+  dir : string;
+}
+
 type dependency = {
   package_name : Bsb_pkg_types.t;
   package_path : string;
   package_dirs : string list;
-  package_install_dirs : string list;
+  package_install_dirs : install_dir list; (* ns_install_dir : string option; *)
 }
 
 type dependencies = dependency list

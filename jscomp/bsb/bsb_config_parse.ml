@@ -407,8 +407,9 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
      in
      let ns_incl =
        Ext_option.map namespace (fun _ ->
-         let artifacts_dir = Bsb_config.absolute_artifacts_dir ~root_dir:cwd dep.package_path  in
-         artifacts_dir)
+           { Bsb_config_types.package_path = Bsb_global_paths.cwd;
+             dir = Literals.melange_eobjs_dir // Bsb_config.to_workspace_proj_dir ~package_name:(Bsb_pkg_types.to_string dep.package_name);
+             package_name = Bsb_pkg_types.to_string dep.package_name })
      in
      let dirs = Ext_list.filter_map files (fun ({ Bsb_file_groups.dir; is_dev; _ } as group) ->
         if not is_dev && not (Bsb_file_groups.is_empty group) then
@@ -417,10 +418,17 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
           None)
      in
      let install_dirs = Ext_list.filter_map files (fun { Bsb_file_groups.dir; is_dev; _ } ->
-        if not is_dev then Some (dep.package_path // dir) else None)
+       if not is_dev then
+         Some {
+           Bsb_config_types.package_path = dep.package_path;
+           dir;
+           package_name  = Bsb_pkg_types.to_string dep.package_name}
+        else None)
      in
      { dep with
-       package_install_dirs = (match ns_incl with Some ns_incl -> ns_incl :: install_dirs | None -> install_dirs);
+       package_install_dirs = (match ns_incl with
+       | None -> install_dirs
+       | Some ns -> ns :: install_dirs);
        package_dirs = dirs
      })
   | Some config ->

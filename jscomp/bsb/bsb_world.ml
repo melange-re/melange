@@ -26,7 +26,8 @@ let ( // ) = Ext_path.combine
 
 let install_targets cwd dep_configs =
   let artifacts_dir =
-    Bsb_config.rel_artifacts_dir ~root_dir:cwd ~proj_dir:cwd cwd
+    Bsb_config.rel_artifacts_dir ~package_name:"root"
+      ~include_dune_build_dir:true ~root_dir:cwd ~proj_dir:cwd cwd
   in
   Bsb_log.info "@{<info>Installing started@}@.";
   let file_groups = ref [] in

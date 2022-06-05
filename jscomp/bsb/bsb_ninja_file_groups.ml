@@ -25,12 +25,30 @@
 let basename = Filename.basename
 let ( // ) = Ext_path.combine
 
-let rel_dependencies_alias ~proj_dir ~cur_dir deps =
-  Ext_list.map deps (fun dir ->
-      let rel_dir =
-        Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) dir
-      in
-      rel_dir // Literals.mel_dune_alias)
+let rel_dependencies_alias ~root_dir ~proj_dir ~cur_dir deps =
+  Ext_list.flat_map deps
+    (fun ({ package_install_dirs; _ } : Bsb_config_types.dependency) ->
+      Ext_list.filter_map package_install_dirs
+        (fun { Bsb_config_types.package_path; package_name; dir } ->
+          if Ext_string.starts_with dir Literals.melange_eobjs_dir then
+            (* We don't emit the `mel` alias for the artifacts directory *)
+            None
+          else
+            let rel_dir =
+              if
+                Bsb_config.is_dep_inside_workspace ~root_dir
+                  ~package_dir:package_path
+              then
+                Ext_path.rel_normalized_absolute_path
+                  ~from:(proj_dir // cur_dir) (package_path // dir)
+              else
+                let virtual_package_dir =
+                  root_dir // Bsb_config.to_workspace_proj_dir ~package_name
+                in
+                Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir)
+                  (virtual_package_dir // dir)
+            in
+            Some (rel_dir // Literals.mel_dune_alias)))
 
 let handle_generators buf (group : Bsb_file_groups.file_group) custom_rules =
   Ext_list.iter group.generators (fun { output; input; command } ->
@@ -51,7 +69,8 @@ let res_suffixes = { impl = Literals.suffix_res; intf = Literals.suffix_resi }
 
 let emit_module_build (rules : Bsb_ninja_rule.builtin)
     (package_specs : Bsb_package_specs.t) (is_dev : bool) buf ?gentype_config
-    ~global_config:{ Bsb_ninja_global_vars.per_proj_dir; root_dir; _ }
+    ~global_config:
+      { Bsb_ninja_global_vars.per_proj_dir; root_dir; package_name; _ }
     ~bs_dependencies ~bs_dev_dependencies _js_post_build_cmd namespace ~cur_dir
     ~ppx_config (module_info : Bsb_db.module_info) =
   let impl_dir, intf_dir =
@@ -99,13 +118,24 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   let output_ast = filename_sans_extension ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension ^ Literals.suffix_iast in
-  let rel_artifacts_dir =
-    Bsb_config.rel_artifacts_dir ~root_dir ~proj_dir:per_proj_dir cur_dir
+  let rel_proj_dir, rel_artifacts_dir =
+    if Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir
+    then
+      ( Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
+          per_proj_dir,
+        Bsb_config.rel_artifacts_dir ~root_dir ~package_name
+          ~proj_dir:per_proj_dir cur_dir )
+    else
+      let virtual_proj_dir =
+        root_dir // Bsb_config.to_workspace_proj_dir ~package_name
+      in
+      ( Ext_path.rel_normalized_absolute_path
+          ~from:(virtual_proj_dir // cur_dir)
+          virtual_proj_dir,
+        Bsb_config.rel_artifacts_dir ~root_dir ~package_name
+          ~proj_dir:virtual_proj_dir cur_dir )
   in
-  let rel_proj_dir =
-    Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
-      per_proj_dir
-  in
+
   let output_ast = rel_proj_dir // (impl_dir // basename output_ast) in
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ppx_deps =
@@ -151,13 +181,15 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
     | None -> []
   in
   let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
+
   let bs_dependencies =
-    rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir bs_dependencies
+    rel_dependencies_alias ~root_dir ~proj_dir:per_proj_dir ~cur_dir
+      bs_dependencies
   in
   let bs_dependencies =
     if is_dev then
       let dev_dependencies =
-        rel_dependencies_alias ~proj_dir:per_proj_dir ~cur_dir
+        rel_dependencies_alias ~root_dir ~proj_dir:per_proj_dir ~cur_dir
           bs_dev_dependencies
       in
       dev_dependencies @ bs_dependencies
@@ -206,9 +238,18 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
     ~files_to_install ~bs_dependencies ~bs_dev_dependencies
     (group : Bsb_file_groups.file_group) : unit =
   let per_proj_dir = global_config.per_proj_dir in
+  let is_dep_inside_workspace =
+    Bsb_config.is_dep_inside_workspace ~root_dir:global_config.root_dir
+      ~package_dir:per_proj_dir
+  in
   let rel_group_dir =
-    Ext_path.rel_normalized_absolute_path ~from:global_config.root_dir
-      (per_proj_dir // group.dir)
+    if is_dep_inside_workspace then
+      Ext_path.rel_normalized_absolute_path ~from:global_config.root_dir
+        (per_proj_dir // group.dir)
+    else
+      (* For out-of source builds, mimic `node_modules/<package>` *)
+      Bsb_config.to_workspace_proj_dir ~package_name:global_config.package_name
+      // group.dir
   in
 
   if not (Bsb_file_groups.is_empty group) then (
@@ -221,6 +262,12 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
           Buffer.add_char buf ' ';
           Buffer.add_string buf subdir);
       Buffer.add_string buf ")\n");
+    if not is_dep_inside_workspace then (
+      Buffer.add_string buf
+        "(copy_files (alias mel_copy_out_of_source_dir)\n (files ";
+      Buffer.add_string buf (per_proj_dir // group.dir);
+      Buffer.add_string buf Filename.dir_sep;
+      Buffer.add_string buf "*))");
     let is_dev = group.is_dev in
     handle_generators buf group rules.customs;
     let installable =
