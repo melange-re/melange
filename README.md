@@ -1,11 +1,23 @@
 # Melange
 
-**Tools for producing JS from OCaml / Reason.**
+### Tools for producing JS from Reason/OCaml.
+
+Melange is a compiler for producing performant Javascript from Reason and Ocaml.
+Powered by a strong static type system with best-in-class type inference based 
+on the OCaml compiler, Melange facilitates robust code.
+
+### Positioning in the broader OCaml ecosystem
 
 This project is forked from the
-[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) focussing
-on compatibility with the wider OCaml ecosystem while maintaining compatibility 
-with the ReScript ecosystem is preserved by a compatibility layer. 
+[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) shifting
+focus on integration with the OCaml ecosystem. This enables code sharing between
+backend and frontend using Dune's virtual libraries.
+
+Melange also introduces a ReScript compatibility layer to maintain compatibility
+with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
+
+Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
+your project! 
 
 A small write-up withmore details on the motivation behind this project can be 
 found in this 
