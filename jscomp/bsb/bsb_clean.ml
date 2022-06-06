@@ -24,16 +24,6 @@
 
 let ( // ) = Ext_path.combine
 
-let dune_clean ~dune_args proj_dir =
-  try
-    let cmd = Literals.dune in
-    let common_args = [| cmd; "clean" |] in
-    let args = Array.append common_args dune_args in
-    let eid = Bsb_unix.run_command_execvp { cmd; args; cwd = proj_dir } in
-    if eid <> 0 then Bsb_log.warn "@{<warning>dune clean failed@}@."
-  with e ->
-    Bsb_log.warn "@{<warning>dune clean failed@} : %s @." (Printexc.to_string e)
-
 let clean_bs_garbage proj_dir =
   Bsb_log.info "@{<info>Cleaning:@} in %s@." proj_dir;
   let try_remove x =
@@ -53,8 +43,10 @@ let clean_bs_garbage proj_dir =
     Bsb_log.warn "@{<warning>Failed@} to clean due to %s" (Printexc.to_string e)
 
 let clean_self ~dune_args proj_dir =
-  dune_clean ~dune_args proj_dir;
-  clean_bs_garbage proj_dir
+  let args = "clean" :: dune_args in
+  Bsb_unix.dune_command args
+    ~on_exit:(fun _process ~exit_status:_ ~term_signal:_ ->
+      clean_bs_garbage proj_dir)
 
 let load_import_map proj_dir =
   let json =
@@ -64,10 +56,4 @@ let load_import_map proj_dir =
 
 let clean ~dune_args proj_dir =
   load_import_map proj_dir;
-  clean_self ~dune_args proj_dir;
-  let queue = Bsb_build_util.walk_all_deps proj_dir in
-  Queue.iter
-    (fun (pkg_cxt : Bsb_build_util.package_context) ->
-      (* whether top or not always do the cleaning *)
-      clean_bs_garbage pkg_cxt.proj_dir)
-    queue
+  clean_self ~dune_args proj_dir

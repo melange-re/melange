@@ -26,4 +26,4 @@
   TODO: clean staled in source js artifacts
 *)
 
-val clean : dune_args:string array -> string -> unit
+val clean : dune_args:string list -> string -> Luv.Process.t
