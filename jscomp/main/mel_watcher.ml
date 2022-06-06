@@ -129,6 +129,14 @@ let rec watch ~(job : Job.t) paths =
                                       (* New watchers will be added on the recursive call *)
                                       path :: acc)
                             in
+                            (* Stop the previous watchers *)
+                            Hashtbl.iter
+                              (fun _ watcher ->
+                                let (_ : _ result) =
+                                  Luv.FS_event.stop watcher
+                                in
+                                ())
+                              job.watchers;
                             (* Drop the old watchers before creating the new ones *)
                             job.watchers <- new_watchers;
 
