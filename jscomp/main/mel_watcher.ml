@@ -84,32 +84,56 @@ module Job = struct
 end
 
 (* TODO: bail and exit on errors *)
-let watch ~(job : Job.t) paths =
+let rec watch ~(job : Job.t) paths =
   Ext_list.iter paths (fun path ->
-      match Luv.FS_event.init () with
-      | Error e ->
-          Bsb_log.error "Error starting watcher for %s: %s@." path
-            (Luv.Error.strerror e)
-      | Ok watcher -> (
-          let stat = Luv.File.Sync.stat path in
-          match stat with
-          | Error e ->
-              Bsb_log.error "Error starting watcher for %s: %s@." path
-                (Luv.Error.strerror e)
-          | Ok stat ->
-              Hashtbl.replace job.watchers path watcher;
-              let recursive = Luv.File.Mode.test [ `IFDIR ] stat.mode in
+      if Hashtbl.mem job.watchers path then ( (* Already being watched *) )
+      else
+        match Luv.FS_event.init () with
+        | Error e ->
+            Bsb_log.error "Error starting watcher for %s: %s@." path
+              (Luv.Error.strerror e)
+        | Ok watcher -> (
+            let stat = Luv.File.Sync.stat path in
+            match stat with
+            | Error e ->
+                Bsb_log.error "Error starting watcher for %s: %s@." path
+                  (Luv.Error.strerror e)
+            | Ok stat ->
+                Hashtbl.replace job.watchers path watcher;
+                let recursive = Luv.File.Mode.test [ `IFDIR ] stat.mode in
 
-              Luv.FS_event.start ~recursive ~stat:true watcher path (function
-                | Error e ->
-                    Bsb_log.error "Error watching %s: %s@." path
-                      (Luv.Error.strerror e);
-                    ignore (Luv.FS_event.stop watcher);
-                    Luv.Handle.close watcher ignore
-                | Ok (file, _events) ->
-                    let file_extension = Filename.extension file in
-                    if Ext_list.mem_string extensions file_extension then
-                      Job.restart job)))
+                Luv.FS_event.start ~recursive ~stat:true watcher path (function
+                  | Error e ->
+                      Bsb_log.error "Error watching %s: %s@." path
+                        (Luv.Error.strerror e);
+                      ignore (Luv.FS_event.stop watcher);
+                      Luv.Handle.close watcher ignore
+                  | Ok (file, _events) ->
+                      let file_extension = Filename.extension file in
+                      if Ext_list.mem_string extensions file_extension then
+                        Job.restart
+                          ~started:(fun { Task.paths; _ } ->
+                            let new_watchers = Hashtbl.create 64 in
+
+                            let new_paths =
+                              Ext_list.fold_left paths [] (fun acc path ->
+                                  match Hashtbl.find job.watchers path with
+                                  | prev_watcher ->
+                                      (* Remove existing watchers from the Hashtbl
+                                         and add them to the new table *)
+                                      Hashtbl.remove job.watchers path;
+                                      Hashtbl.replace new_watchers path
+                                        prev_watcher;
+                                      acc
+                                  | exception Not_found ->
+                                      (* New watchers will be added on the recursive call *)
+                                      path :: acc)
+                            in
+                            (* Drop the old watchers before creating the new ones *)
+                            job.watchers <- new_watchers;
+
+                            watch ~job new_paths)
+                          job)))
 
 let watch ~task paths =
   let job = Job.create ~task in
