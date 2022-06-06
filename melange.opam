@@ -6,6 +6,8 @@ depends: [
   "melange-compiler-libs"
   "reason"
   "cmdliner"
+  "base64"
+  "luv"
   "odoc" {with-doc}
 ]
 build: [

@@ -18,4 +18,6 @@
     (< "4.15.0")))
   melange-compiler-libs
   reason
-  cmdliner))
+  cmdliner
+  base64
+  luv))
