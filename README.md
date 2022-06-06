@@ -19,7 +19,7 @@ with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
 Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
 your project! 
 
-A small write-up withmore details on the motivation behind this project can be 
+A small write-up with more details on the motivation behind this project can be 
 found in this 
 [blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
