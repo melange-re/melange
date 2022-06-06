@@ -2,9 +2,21 @@
 
 ### Tools for producing JS from Reason/OCaml.
 
-Melange is a compiler for producing performant Javascript from Reason and Ocaml.
+Melange is a compiler for producing performant JavaScript from Reason and Ocaml.
 Powered by a strong static type system with best-in-class type inference based 
 on the OCaml compiler, Melange facilitates robust code.
+
++ [Melange](#melange)
+  * [Installation](#installation)
+    - [Esy](#esy)
+    - [Nix](#esy)
+  * [FAQ](#faq)
+    - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
+    - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
+    - [Where has the `refmt` flag gone?](#where-has-the-refmt-flag-gone)
+  * [Contributing](#contributing)
+  * [Acknowledgments](#acknowledgments)
+  * [Licensing](#licensing)
 
 ### Positioning in the broader OCaml ecosystem
 
@@ -68,7 +80,7 @@ for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-lib
 | [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
 | [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy`                                          | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
 | [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy`                                          | a library that implements an alternative syntax to OCaml                                                                     |
-| [Melange](https://melange.re)          | Compiler that emits JavaScript                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+| [Melange](https://melange.re)          | Compiler that emits Script                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
 | [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                                     |
 
 ### Can I use ReScript syntax?
