@@ -34,19 +34,13 @@ let rel_dependencies_alias ~root_dir ~proj_dir ~cur_dir deps =
             (* We don't emit the `mel` alias for the artifacts directory *)
             None
           else
+            let virtual_package_dir =
+              Bsb_config.virtual_proj_dir ~root_dir ~package_dir:package_path
+                ~package_name
+            in
             let rel_dir =
-              if
-                Bsb_config.is_dep_inside_workspace ~root_dir
-                  ~package_dir:package_path
-              then
-                Ext_path.rel_normalized_absolute_path
-                  ~from:(proj_dir // cur_dir) (package_path // dir)
-              else
-                let virtual_package_dir =
-                  root_dir // Bsb_config.to_workspace_proj_dir ~package_name
-                in
-                Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir)
-                  (virtual_package_dir // dir)
+              Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir)
+                (virtual_package_dir // dir)
             in
             Some (rel_dir // Literals.mel_dune_alias)))
 

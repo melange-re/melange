@@ -71,7 +71,7 @@ let print (fmt : Format.formatter) (x : error) =
          https://rescript-lang.org/docs/manual/latest/build-configuration-schema"
         pos.pos_fname pos.pos_lnum s
   | Invalid_spec s ->
-      Format.fprintf fmt "@{<error>Error: Invalid bsconfig.json %s@}" s
+      Format.fprintf fmt "@{<error>Error: Invalid bsconfig.json. %s@}" s
   | Invalid_json s ->
       Format.fprintf fmt
         "File %S, line 1\n@{<error>Error: Invalid json format@}" s
