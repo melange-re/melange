@@ -124,7 +124,7 @@ let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
       Buffer.add_string buf s);
   if bs_dependencies <> [] then
     Ext_list.iter bs_dependencies (fun dir ->
-        Buffer.add_string buf "(alias ";
+        Buffer.add_string buf "(alias_rec ";
         Buffer.add_string buf dir;
         Buffer.add_string buf ")");
   Buffer.add_string buf ")";
