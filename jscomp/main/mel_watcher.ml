@@ -84,7 +84,7 @@ module Job = struct
 end
 
 (* TODO: bail and exit on errors *)
-let rec watch ~(job : Job.t) paths =
+let watch ~(job : Job.t) paths =
   Ext_list.iter paths (fun path ->
       match Luv.FS_event.init () with
       | Error e ->
@@ -109,29 +109,7 @@ let rec watch ~(job : Job.t) paths =
                 | Ok (file, _events) ->
                     let file_extension = Filename.extension file in
                     if Ext_list.mem_string extensions file_extension then
-                      Job.restart
-                        ~started:(fun { Task.paths; _ } ->
-                          let new_watchers = Hashtbl.create 64 in
-
-                          let new_paths =
-                            Ext_list.fold_left paths [] (fun acc path ->
-                                match Hashtbl.find job.watchers path with
-                                | prev_watcher ->
-                                    (* Remove existing watchers from the Hashtbl
-                                       and add them to the new table *)
-                                    Hashtbl.remove job.watchers path;
-                                    Hashtbl.replace new_watchers path
-                                      prev_watcher;
-                                    acc
-                                | exception Not_found ->
-                                    (* New watchers will be added on the recursive call *)
-                                    path :: acc)
-                          in
-                          (* Drop the old watchers before creating the new ones *)
-                          job.watchers <- new_watchers;
-
-                          watch ~job new_paths)
-                        job)))
+                      Job.restart job)))
 
 let watch ~task paths =
   let job = Job.create ~task in
