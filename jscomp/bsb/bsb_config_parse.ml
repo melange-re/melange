@@ -407,9 +407,19 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
      in
      let ns_incl =
        Ext_option.map namespace (fun _ ->
-           { Bsb_config_types.package_path = Bsb_global_paths.cwd;
-             dir = Literals.melange_eobjs_dir // Bsb_config.to_workspace_proj_dir ~package_name:(Bsb_pkg_types.to_string dep.package_name);
-             package_name = Bsb_pkg_types.to_string dep.package_name })
+         let artifacts_dir =
+           Bsb_config.absolute_artifacts_dir
+             ~package_name:(Bsb_pkg_types.to_string dep.package_name)
+             ~root_dir:Bsb_global_paths.cwd dep.package_path
+         in
+         let rel_dir =
+           Ext_path.rel_normalized_absolute_path
+             ~from:Bsb_global_paths.cwd
+             artifacts_dir
+         in
+         { Bsb_config_types.package_path = Bsb_global_paths.cwd;
+           dir = rel_dir;
+           package_name = Bsb_pkg_types.to_string dep.package_name })
      in
      let dirs = Ext_list.filter_map files (fun ({ Bsb_file_groups.dir; is_dev; _ } as group) ->
         if not is_dev && not (Bsb_file_groups.is_empty group) then

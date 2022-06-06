@@ -237,10 +237,13 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
       (virtual_proj_dir // group.dir)
   in
 
-  if not (Bsb_file_groups.is_empty group) then (
-    Buffer.add_string buf "(subdir ";
-    Buffer.add_string buf rel_group_dir;
-    Buffer.add_char buf '\n';
+  Buffer.add_string buf "(subdir ";
+  Buffer.add_string buf rel_group_dir;
+  Buffer.add_char buf '\n';
+  if Bsb_file_groups.is_empty group then
+    (* Still need to emit an alias or dune will complain it's empty in other deps. *)
+    Bsb_ninja_targets.output_alias buf ~name:Literals.mel_dune_alias ~deps:[]
+  else (
     if group.subdirs <> [] then (
       Buffer.add_string buf "(dirs :standard";
       Ext_list.iter group.subdirs (fun subdir ->
@@ -278,6 +281,6 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
           List.map fst js_outputs :: acc_js)
     in
     Bsb_ninja_targets.output_alias buf ~name:Literals.mel_dune_alias
-      ~deps:(List.concat js_targets);
-    Buffer.add_string buf ")";
-    Buffer.add_string buf "\n")
+      ~deps:(List.concat js_targets));
+  Buffer.add_string buf ")";
+  Buffer.add_string buf "\n"

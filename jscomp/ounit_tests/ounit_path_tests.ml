@@ -77,10 +77,10 @@ let suites =
       in
       aux
         "/a/b/c/"
-        "/a/b/c/d/"  (os_adapt "./d");
+        "/a/b/c/d/"  (os_adapt "d");
       aux
         "/a/b/c/"
-        "/a/b/c/d/e/f/" (os_adapt "./d/e/f") ;
+        "/a/b/c/d/e/f/" (os_adapt "d/e/f") ;
       aux
         "/a/b/c/d/"
         "/a/b/c/"  ".."  ;
