@@ -1,11 +1,38 @@
 # Melange
 
-A _mixture_ of tooling combined to produce JS from OCaml / Reason.
+### Tools for producing JS from Reason/OCaml.
 
-This project is a fork of the
-[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) with
-a focus on compatibility with the wider OCaml ecosystem. A small write-up with
-more details on the motivation behind this project can be found in this
+Melange is a compiler for producing performant JavaScript from Reason and OCaml.
+Powered by a strong static type system with best-in-class type inference based 
+on the OCaml compiler, Melange facilitates producing robust JavaScript code.
+
++ [Melange](#melange)
+  * [Installation](#installation)
+    - [Esy](#esy)
+    - [Nix](#esy)
+  * [FAQ](#faq)
+    - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
+    - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
+    - [Where has the `refmt` flag gone?](#where-has-the-refmt-flag-gone)
+  * [Contributing](#contributing)
+  * [Acknowledgments](#acknowledgments)
+  * [Licensing](#licensing)
+
+### Positioning in the broader OCaml ecosystem
+
+This project is forked from the
+[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) shifting
+focus to integrating with the OCaml ecosystem. This enables code sharing between
+backend and frontend using Dune's virtual libraries.
+
+Melange also introduces a ReScript compatibility layer to maintain compatibility
+with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
+
+Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
+your project! 
+
+A small write-up with more details on the motivation behind this project can be 
+found in this 
 [blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
 ## Installation
@@ -53,14 +80,14 @@ for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-lib
 | [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
 | [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy`                                          | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
 | [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy`                                          | a library that implements an alternative syntax to OCaml                                                                     |
-| [Melange](https://melange.re)          | Compiler that emits JavaScript                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+| [Melange](https://melange.re)          | Compiler that emits Script                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
 | [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                                     |
 
 ### Can I use ReScript syntax?
 
-Yes! ReScript syntax is supported, but beware that it's stuck on an ancient
-OCaml version (4.06, released in 2018), and it won't have as many features as
-the OCaml or Reason syntaxes
+Yes! ReScript syntax is supported, but ReScript won't have as many features as
+the OCaml or Reason syntaxes due to ReScript being built on top of an old OCaml
+version (4.06 - Released 2018). 
 (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
 [generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
 or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
