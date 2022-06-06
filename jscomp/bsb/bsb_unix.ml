@@ -22,57 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type command = { cmd : string; cwd : string; args : string array }
-
-let log cmd =
-  Bsb_log.info "@{<info>Entering@} %s @." cmd.cwd;
-  Bsb_log.info "@{<info>Cmd:@} ";
-  Bsb_log.info_args cmd.args
-
-let command_fatal_error cmd eid =
-  Bsb_log.error "@{<error>Failure:@} %s \nLocation: %s@." cmd.cmd cmd.cwd;
-  exit eid
-
-let run_command_execv_unix ?(execv = Unix.execv) cmd : int =
-  match Unix.fork () with
-  | 0 ->
-      log cmd;
-      Unix.chdir cmd.cwd;
-      execv cmd.cmd cmd.args
-  | pid -> (
-      match Unix.waitpid [] pid with
-      | _, process_status -> (
-          match process_status with
-          | Unix.WEXITED eid -> eid
-          | Unix.WSIGNALED _ | Unix.WSTOPPED _ ->
-              Bsb_log.error "@{<error>Interrupted:@} %s@." cmd.cmd;
-              2))
-
-(** TODO: the args are not quoted, here
-    we are calling a very limited set of `bsb` commands, so that
-    we are safe
-*)
-let run_command_execv_win (cmd : command) =
-  let old_cwd = Unix.getcwd () in
-  log cmd;
-  Unix.chdir cmd.cwd;
-  let eid =
-    Sys.command
-      (String.concat Ext_string.single_space
-         (Filename.quote cmd.cmd :: (List.tl @@ Array.to_list cmd.args)))
-  in
-  Bsb_log.info "@{<info>Leaving@} %s => %s  @." cmd.cwd old_cwd;
-  Unix.chdir old_cwd;
-  eid
-
-let run_command_execv =
-  if Ext_sys.is_windows_or_cygwin then run_command_execv_win
-  else run_command_execv_unix ~execv:Unix.execv
-
-let run_command_execvp =
-  if Ext_sys.is_windows_or_cygwin then run_command_execv_win
-  else run_command_execv_unix ~execv:Unix.execvp
-
 (** it assume you have permissions, so always catch it to fail
     gracefully
 *)
@@ -87,3 +36,29 @@ let rec remove_dir_recursive dir =
       Unix.rmdir dir
   | false -> Sys.remove dir
   | exception _ -> ()
+
+let redirect =
+  Luv.Process.
+    [
+      inherit_fd ~fd:stdout ~from_parent_fd:stdout ();
+      inherit_fd ~fd:stderr ~from_parent_fd:stderr ();
+      inherit_fd ~fd:stdin ~from_parent_fd:stdin ();
+    ]
+
+let dune_command ?on_exit args =
+  Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " args);
+  match
+    Luv.Process.spawn ?on_exit ~redirect Literals.dune (Literals.dune :: args)
+  with
+  | Ok process -> process
+  | Error `ENOENT ->
+      Bsb_log.error
+        "@{<error>Error:@} @{<filename>`dune`@} not found.@\n\
+         Dune is required to build Melange projects.@.";
+      exit 2
+  | Error e ->
+      Bsb_log.error
+        "@{<error>Internal Error:@} @{<error>%s@} (%s). Please report this \
+         message.@."
+        (Luv.Error.err_name e) (Luv.Error.strerror e);
+      exit 2
