@@ -206,7 +206,8 @@ let rel_normalized_absolute_path ~from to_ =
       || Ext_string.starts_with v (curd ^ Filename.dir_sep)
       || Ext_string.starts_with v (pard ^ Filename.dir_sep)
     then v
-    else (curd ^ Filename.dir_sep) ^ v
+    else if Filename.is_relative from then (curd ^ Filename.dir_sep) ^ v
+    else v
 
 (*TODO: could be hgighly optimized later
   {[
