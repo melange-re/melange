@@ -70,6 +70,10 @@ let include_dirs dirs = include_dirs_by dirs Fun.id
 
 let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
     source_dirs =
+  let per_proj_dir =
+    Bsb_config.virtual_proj_dir ~root_dir ~package_dir:per_proj_dir
+      ~package_name
+  in
   let relativize_single dir =
     Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
       (per_proj_dir // dir)
@@ -86,18 +90,6 @@ let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
     (*working dir is [lib/bs] we include this path to have namespace mapping*)
   in
   include_dirs dirs
-
-let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
-    source_dirs =
-  if Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir then
-    rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
-      source_dirs
-  else
-    let virtual_proj_dir =
-      root_dir // Bsb_config.to_workspace_proj_dir ~package_name
-    in
-    rel_include_dirs ~package_name ~root_dir ~per_proj_dir:virtual_proj_dir
-      ~cur_dir ?namespace source_dirs
 
 (* we use lazy $src_root_dir *)
 
