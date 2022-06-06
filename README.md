@@ -63,7 +63,44 @@ Melange has good support for Nix:
 Please reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
 can't figure it out!
 
-#### A note on OCaml versions
+### Editor support
+
+Until Melange has first-class support in Dune, `ocaml-lsp` support relies on
+having Melange generate a `.merlin` file to provide the language server with
+information about your project.
+
+To enable editor support via `ocaml-lsp`, add the following to your `esy.json`:
+
+```json
+// esy.json
+{
+  "devDependencies": {
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#c275140",
+    "@opam/dot-merlin-reader": "*"
+  }
+}
+```
+
+Then use the `--fallback-read-dot-merlin` flag when running `ocaml-lsp`.
+
+#### VSCode
+
+If using the [VSCode OCaml
+Platform](https://github.com/ocamllabs/vscode-ocaml-platform) extension, use the
+`Custom` sandbox option and provide the flag to `ocaml-lsp` via the command
+template:
+
+```json
+// .vscode/settings.json
+{
+  "ocaml.sandbox": {
+    "kind": "custom",
+    "template": "esy $prog $args --fallback-read-dot-merlin"
+  }
+}
+```
+
+### A note on OCaml versions
 
 The current Melange distribution works on OCaml 4.14 and OCaml 5.00+trunk. If
 you need to use Melange with OCaml 4.12 (the only formerly supported version),
