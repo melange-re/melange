@@ -26,17 +26,21 @@
    it is a bad idea to copy package.json which requires to copy js files
 *)
 
-let dependencies_directories deps =
-  Ext_list.flat_map deps (fun { Bsb_config_types.package_dirs; _ } -> package_dirs)
-
+let (//) = Ext_path.concat
 
 let get_bsc_flags
     (bsc_flags : string list)
   : string =
   String.concat Ext_string.single_space bsc_flags
 
-let bsc_lib_includes (bs_dependencies : Bsb_config_types.dependencies) =
-  (Ext_list.flat_map bs_dependencies (fun x -> x.package_install_dirs))
+let bsc_lib_includes ~root_dir (bs_dependencies : Bsb_config_types.dependencies) =
+  Ext_list.flat_map bs_dependencies (fun { package_install_dirs; _ } ->
+    Ext_list.map package_install_dirs
+      (fun { Bsb_config_types.package_path; package_name; dir } ->
+        let virtual_proj_dir =
+          Bsb_config.virtual_proj_dir ~root_dir ~package_dir:package_path ~package_name
+        in
+        (virtual_proj_dir // dir)))
 
 let output_ninja_and_namespace_map
     ~buf
@@ -87,10 +91,10 @@ let output_ninja_and_namespace_map
       ~bsdep:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsdep)
       ~warnings
       ~bsc_flags
-      ~g_dpkg_incls:(bsc_lib_includes bs_dev_dependencies)
+      ~g_dpkg_incls:(bsc_lib_includes ~root_dir bs_dev_dependencies)
       ~g_dev_incls:source_dirs.dev
       ~g_sourcedirs_incls:source_dirs.lib
-      ~g_lib_incls:(bsc_lib_includes bs_dependencies)
+      ~g_lib_incls:(bsc_lib_includes ~root_dir bs_dependencies)
       ~gentypeconfig:(Ext_option.map gentype_config (fun x ->
           ("-bs-gentype " ^ x.path)))
       ~ppx_config
@@ -113,12 +117,6 @@ let output_ninja_and_namespace_map
       ~reason_react_jsx
       ~package_specs
       generators in
-  let bs_dependencies =
-    dependencies_directories bs_dependencies
-  in
-  let bs_dev_dependencies =
-    dependencies_directories bs_dev_dependencies
-  in
   Buffer.add_char buf '\n';
 
   (* output_static_resources static_resources rules.copy_resources oc ; *)
@@ -133,15 +131,25 @@ let output_ninja_and_namespace_map
          ~js_post_build_cmd
          ~bs_dev_dependencies
          ~bs_dependencies
-         files_per_dir)
-  ;
+         files_per_dir);
+
+  if not (Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir) then (
+    Buffer.add_string buf "(subdir ";
+    Buffer.add_string buf (Bsb_config.to_workspace_proj_dir ~package_name);
+    Buffer.add_string buf
+      "\n (copy_files (alias mel_copy_out_of_source_dir)\n (files ";
+    Buffer.add_string buf (per_proj_dir);
+    Buffer.add_string buf Filename.dir_sep;
+    Buffer.add_string buf "*)))");
 
   Buffer.add_char buf '\n';
 
   let artifacts_dir =
     Bsb_config.rel_artifacts_dir
+      ~package_name
       ~root_dir ~proj_dir:per_proj_dir root_dir
   in
+
   Buffer.add_string buf "(subdir ";
   Buffer.add_string buf artifacts_dir;
 
@@ -175,6 +183,7 @@ let output_ninja_and_namespace_map
     (* Build the dependencies in case `"sources"` == []. *)
     Ext_list.iter
       (Bsb_ninja_file_groups.rel_dependencies_alias
+        ~root_dir:root_dir
         ~proj_dir:root_dir
         ~cur_dir:root_dir
         bs_dependencies)

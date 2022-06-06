@@ -22,11 +22,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+val is_dep_inside_workspace : root_dir:string -> package_dir:string -> bool
+val to_workspace_proj_dir : package_name:string -> string
+
+val virtual_proj_dir :
+  root_dir:string -> package_dir:string -> package_name:string -> string
+
 val absolute_artifacts_dir :
-  ?include_dune_build_dir:bool -> root_dir:string -> string -> string
+  ?include_dune_build_dir:bool ->
+  package_name:string ->
+  root_dir:string ->
+  string ->
+  string
 
 val rel_artifacts_dir :
   ?include_dune_build_dir:bool ->
+  package_name:string ->
   root_dir:string ->
   proj_dir:string ->
   string ->

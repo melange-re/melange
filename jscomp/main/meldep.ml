@@ -45,6 +45,12 @@ let namespace =
   let docv = "namespace" in
   Arg.(value & opt (some string) None & info [ "n"; "bs-ns" ] ~doc ~docv)
 
+let package_name =
+  let doc = "Melange namespace for the current dependency" in
+  let docv = "namespace" in
+  Arg.(
+    required & opt (some string) None & info [ "p"; "package-name" ] ~doc ~docv)
+
 let dev =
   let doc = "Whether we're building in dev mode" in
   Arg.(value & flag & info [ "g" ] ~doc)
@@ -53,19 +59,21 @@ let filenames =
   let docv = "filenames" in
   Arg.(value & pos_all string [] & info [] ~docv)
 
-let main root_dir proj_dir cwd namespace is_dev filenames =
+let main root_dir proj_dir cwd namespace package_name is_dev filenames =
   let impl, intf =
     match filenames with
     | [ impl; intf ] -> (impl, intf)
     | [ impl ] -> (impl, "")
     | _ -> assert false
   in
-  Bsb_helper_depfile_gen.emit_d ~root_dir ~proj_dir ~cur_dir:cwd ~is_dev
-    namespace impl intf
+  Bsb_helper_depfile_gen.emit_d ~package_name ~root_dir ~proj_dir ~cur_dir:cwd
+    ~is_dev namespace impl intf
 
 let cmd =
   let term =
-    Term.(const main $ root_dir $ proj_dir $ cwd $ namespace $ dev $ filenames)
+    Term.(
+      const main $ root_dir $ proj_dir $ cwd $ namespace $ package_name $ dev
+      $ filenames)
   in
   let info = Cmd.info "meldep" in
   Cmd.v info term

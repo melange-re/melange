@@ -68,7 +68,12 @@ let include_dirs_by dirs fn =
 
 let include_dirs dirs = include_dirs_by dirs Fun.id
 
-let rel_include_dirs ~root_dir ~per_proj_dir ~cur_dir ?namespace source_dirs =
+let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
+    source_dirs =
+  let per_proj_dir =
+    Bsb_config.virtual_proj_dir ~root_dir ~package_dir:per_proj_dir
+      ~package_name
+  in
   let relativize_single dir =
     Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
       (per_proj_dir // dir)
@@ -78,7 +83,8 @@ let rel_include_dirs ~root_dir ~per_proj_dir ~cur_dir ?namespace source_dirs =
     if namespace = None then source_dirs
     else
       let rel_artifacts =
-        Bsb_config.rel_artifacts_dir ~root_dir ~proj_dir:per_proj_dir cur_dir
+        Bsb_config.rel_artifacts_dir ~package_name ~root_dir
+          ~proj_dir:per_proj_dir cur_dir
       in
       rel_artifacts :: source_dirs
     (*working dir is [lib/bs] we include this path to have namespace mapping*)

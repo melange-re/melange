@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val emit_d :
+  package_name:string ->
   root_dir:string ->
   cur_dir:string ->
   proj_dir:string ->

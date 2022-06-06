@@ -90,6 +90,7 @@ let make_custom_rules
   (** FIXME: We don't need set [-o ${out}] when building ast
       since the default is already good -- it does not*)
   (** NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
+let package_name = global_config.package_name in
   let ns_flag =
     match global_config.namespace with None -> ""
     | Some n -> " -bs-ns " ^ n in
@@ -102,12 +103,15 @@ let make_custom_rules
       ?(target="%{targets}")
       cur_dir =
     let rel_incls ?namespace dirs =
-      Bsb_build_util.rel_include_dirs
+      let ret = Bsb_build_util.rel_include_dirs
+        ~package_name
         ~root_dir:global_config.root_dir
         ~per_proj_dir:global_config.per_proj_dir
         ~cur_dir
         ?namespace
         dirs
+      in
+      ret
     in
     Buffer.add_string buf "(action\n ";
     Buffer.add_string buf " (run ";
@@ -160,6 +164,7 @@ let make_custom_rules
   let mk_ast buf ?error_syntax_kind:_ ?target:_ cur_dir : unit =
     let rel_artifacts_dir =
       Bsb_config.rel_artifacts_dir
+        ~package_name
         ~root_dir:global_config.root_dir
         ~proj_dir:global_config.per_proj_dir
       cur_dir
@@ -206,10 +211,11 @@ let make_custom_rules
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
         let s =
-          Format.asprintf "(action (run %s -root-dir %s -cwd %s -proj-dir %s %s %%{inputs}))"
+          Format.asprintf "(action (run %s -root-dir %s -cwd %s -p %s -proj-dir %s %s %%{inputs}))"
             global_config.bsdep
             global_config.root_dir
             cur_dir
+            package_name
             global_config.per_proj_dir
             ns_flag
         in
@@ -219,10 +225,11 @@ let make_custom_rules
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
         let s =
-          Format.asprintf "(action (run %s -root-dir %s -g -cwd %s -proj-dir %s %s %%{inputs}))"
+          Format.asprintf "(action (run %s -root-dir %s -g -cwd %s -p %s -proj-dir %s %s %%{inputs}))"
             global_config.bsdep
             global_config.root_dir
             cur_dir
+            package_name
             global_config.per_proj_dir
             ns_flag
         in
