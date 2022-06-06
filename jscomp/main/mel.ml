@@ -51,36 +51,10 @@ let output_dune_file buf =
   Bsb_ninja_targets.revise_dune dune buf;
   output_dune_project_if_does_not_exist proj_dir
 
-let redirect =
-  Luv.Process.
-    [
-      inherit_fd ~fd:stdout ~from_parent_fd:stdout ();
-      inherit_fd ~fd:stderr ~from_parent_fd:stderr ();
-      inherit_fd ~fd:stdin ~from_parent_fd:stdin ();
-    ]
-
 let dune_command ?on_exit dune_args =
-  let common_args =
-    [| Literals.dune; "build"; "@" ^ Literals.mel_dune_alias |]
-  in
-  let args = Array.append common_args dune_args in
-  Bsb_log.info "@{<info>Running:@} %s@."
-    (String.concat " " (Array.to_list args));
-  match
-    Luv.Process.spawn ?on_exit ~redirect Literals.dune (Array.to_list args)
-  with
-  | Ok process -> process
-  | Error `ENOENT ->
-      Bsb_log.error
-        "@{<error>Error:@} @{<filename>`dune`@} not found.@\n\
-         Dune is required to build Melange projects.@.";
-      exit 2
-  | Error e ->
-      Bsb_log.error
-        "@{<error>Internal Error:@} @{<error>%s@} (%s). Please report this \
-         message.@."
-        (Luv.Error.err_name e) (Luv.Error.strerror e);
-      exit 2
+  let args = "build" :: ("@" ^ Literals.mel_dune_alias) :: dune_args in
+  Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " args);
+  Bsb_unix.dune_command ?on_exit args
 
 let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
@@ -159,8 +133,11 @@ module Actions = struct
         ignore (do_output_rules () : Bsb_watcher_gen.source_meta))
 
   let clean opts dune_args =
-    wrap_bsb ~opts ~f:(fun () ->
-        Bsb_clean.clean ~dune_args Bsb_global_paths.cwd)
+    let _p : Luv.Process.t =
+      wrap_bsb ~opts ~f:(fun () ->
+          Bsb_clean.clean ~dune_args Bsb_global_paths.cwd)
+    in
+    ignore (Luv.Loop.run () : bool)
 
   let default opts { where } dune_args =
     if where then print_endline (Filename.dirname Sys.executable_name)
@@ -186,7 +163,7 @@ module Commands = struct
         const Actions.build $ Common_opts.copts_t $ watch_mode_flag
         $ const dune_args)
 
-  let rules (_dune_args : string array) =
+  let rules (_dune_args : string list) =
     let doc = "Output the dune rules necessary to build the project" in
     let man =
       [
@@ -239,4 +216,6 @@ end
 let () =
   let bsb_args, dune_args = Ext_cli_args.split_argv_at_separator Sys.argv in
   exit
-    (Cmd.eval ~argv:(Ext_cli_args.normalize_argv bsb_args) (CLI.run dune_args))
+    (Cmd.eval
+       ~argv:(Ext_cli_args.normalize_argv bsb_args)
+       (CLI.run (Array.to_list dune_args)))
