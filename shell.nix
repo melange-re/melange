@@ -27,6 +27,7 @@ mkShell {
     utop
     ounit2
     ocamlformat
+    ocaml-lsp
   ]);
 
   shellHook = ''

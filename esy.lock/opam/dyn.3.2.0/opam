@@ -1,0 +1,41 @@
+opam-version: "2.0"
+synopsis: "Dynamic type"
+description: "Dynamic type"
+maintainer: ["Jane Street Group, LLC <opensource@janestreet.com>"]
+authors: ["Jane Street Group, LLC <opensource@janestreet.com>"]
+license: "MIT"
+homepage: "https://github.com/ocaml/dune"
+doc: "https://dune.readthedocs.io/"
+bug-reports: "https://github.com/ocaml/dune/issues"
+depends: [
+  "dune" {>= "3.0"}
+  "ocaml" {>= "4.08.0"}
+  "ordering" {= version}
+  "pp" {>= "1.1.0"}
+  "odoc" {with-doc}
+]
+dev-repo: "git+https://github.com/ocaml/dune.git"
+build: [
+  ["dune" "subst"] {dev}
+  ["rm" "-rf" "vendor/csexp"]
+  ["rm" "-rf" "vendor/pp"]
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "@install"
+    "@doc" {with-doc}
+  ]
+]
+url {
+  src:
+    "https://github.com/ocaml/dune/releases/download/3.2.0/chrome-trace-3.2.0.tbz"
+  checksum: [
+    "sha256=bd1fbce6ae79ed1eb26fa89bb2e2e23978afceb3f53f5578cf1bdab08a1ad5bc"
+    "sha512=b99e82d7e2233a9dd8c1fae591a03f9470fcdf9750d0e428cee2d4c8bcfa4da1595e9e10af2f234279a6ca8a120a773b247d4761d2c39210fc6101076631690e"
+  ]
+}
+x-commit-hash: "43af00f79e41ce9101d42b36dab13e1f68d49a7a"
