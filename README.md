@@ -10,7 +10,7 @@ on the OCaml compiler, Melange facilitates robust code.
 
 This project is forked from the
 [ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) shifting
-focus on integration with the OCaml ecosystem. This enables code sharing between
+focus to integrating with the OCaml ecosystem. This enables code sharing between
 backend and frontend using Dune's virtual libraries.
 
 Melange also introduces a ReScript compatibility layer to maintain compatibility
