@@ -103,15 +103,13 @@ let package_name = global_config.package_name in
       ?(target="%{targets}")
       cur_dir =
     let rel_incls ?namespace dirs =
-      let ret = Bsb_build_util.rel_include_dirs
+      Bsb_build_util.rel_include_dirs
         ~package_name
         ~root_dir:global_config.root_dir
         ~per_proj_dir:global_config.per_proj_dir
         ~cur_dir
         ?namespace
         dirs
-      in
-      ret
     in
     Buffer.add_string buf "(action\n ";
     Buffer.add_string buf " (run ";
