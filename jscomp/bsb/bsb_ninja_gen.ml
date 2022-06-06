@@ -119,7 +119,6 @@ let output_ninja_and_namespace_map
       generators in
   Buffer.add_char buf '\n';
 
-  (* output_static_resources static_resources rules.copy_resources oc ; *)
   (** Generate build statement for each file *)
   Ext_list.iter bs_file_groups
     (fun files_per_dir ->
