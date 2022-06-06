@@ -118,10 +118,9 @@ module Actions = struct
       let _p : Luv.Process.t =
         wrap_bsb ~opts ~f:(fun () ->
             dune_command
-              ~on_exit:(fun _ ~exit_status ~term_signal:_ ->
-                if exit_status = 0L then (
-                  Format.eprintf "Waiting for filesystem changes...@.";
-                  Mel_watcher.watch ~task dirs))
+              ~on_exit:(fun _ ~exit_status:_ ~term_signal:_ ->
+                Format.eprintf "Waiting for filesystem changes...@.";
+                Mel_watcher.watch ~task dirs)
               dune_args)
       in
       ()
