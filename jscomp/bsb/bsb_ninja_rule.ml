@@ -134,6 +134,8 @@ let package_name = global_config.package_name in
       Buffer.add_string buf " ";
       Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);
     end;
+    Buffer.add_char buf ' ';
+    Buffer.add_string buf global_config.bsc_flags;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
     if read_cmi <> `is_cmi then begin
