@@ -71,7 +71,7 @@ information about your project.
 
 To enable editor support via `ocaml-lsp`, add the following to your `esy.json`:
 
-```json
+```jsonc
 // esy.json
 {
   "devDependencies": {
@@ -90,7 +90,7 @@ Platform](https://github.com/ocamllabs/vscode-ocaml-platform) extension, use the
 `Custom` sandbox option and provide the flag to `ocaml-lsp` via the command
 template:
 
-```json
+```jsonc
 // .vscode/settings.json
 {
   "ocaml.sandbox": {
