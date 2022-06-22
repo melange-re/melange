@@ -87,10 +87,6 @@ var c = [
 
 console.log(" " + Stdlib__Format.std_formatter + " " + a + " " + c + " ");
 
-var a_0 = "";
-
-var a_1 = "a";
-
 var a_2 = "" + 3;
 
 var a_3 = "" + 3 + 3;
@@ -100,8 +96,8 @@ var a_4 = "" + 3 + 3 + 3;
 var a_5 = " " + 3;
 
 var a$1 = [
-  a_0,
-  a_1,
+  "",
+  "a",
   a_2,
   a_3,
   a_4,
