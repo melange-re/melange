@@ -75,7 +75,7 @@ To enable editor support via `ocaml-lsp`, add the following to your `esy.json`:
 // esy.json
 {
   "devDependencies": {
-    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#c275140",
+    "@opam/ocaml-lsp-server": ">= 1.12.0",
     "@opam/dot-merlin-reader": "*"
   }
 }
