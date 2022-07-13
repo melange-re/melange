@@ -9,6 +9,7 @@ on the OCaml compiler, Melange facilitates producing robust JavaScript code.
 + [Melange](#melange)
   * [Installation](#installation)
     - [Esy](#esy)
+    - [Opam](#opam)
     - [Nix](#nix)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
@@ -47,6 +48,32 @@ clone the [basic template](https://github.com/melange-re/melange-basic-template)
 and run `esy` in the project root. To install [Esy](https://esy.sh), `npm
 install -g esy` should cover most workflows. If you have NodeJS / `npm`
 available, `npx esy` is even shorter.
+
+### [Opam](https://opam.ocaml.org/)
+
+You can also install melange with `opam`. To do so, it's recommended to set up a new switch for `melange`:
+
+    opam switch create melange --empty
+
+Check the `esy.json` file to see if any dependencies are expected to be at particular commits. For example, you may need to pin `reason` to a particular version:
+
+    opam pin reason https://github.com/reasonml/reason.git#SOME_GIT_SHA_FROM_THE_ESY_JSON -y -n
+
+Then pin melange to the version on github (there is currently no officially released verison of melange in the opam repositories themselves):
+
+    opam pin melange https://github.com/melange-re/melange.git
+
+You should now be able to run melange from your new switch:
+
+    opam exec --switch melange -- mel --help
+
+Melange also has some runtime dependencies that need to be symlinked into `node_modules` to be discoverable by bundlers like webpack:
+
+    rm -rf node_modules/melange
+    mkdir -p node_modules/melange
+    ln -sfn $(opam var prefix --switch melange)/lib/melange node_modules/melange/lib
+
+(adapted from the equivalent step in the esy build for `melange-basic-template`: https://github.com/melange-re/melange-basic-template/blob/3605fb491d45e74472be58f653482e15e21c9159/esy.json#L15).
 
 ### [Nix](https://nixos.org/learn.html)
 
