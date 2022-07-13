@@ -51,11 +51,7 @@ available, `npx esy` is even shorter.
 
 ### [Opam](https://opam.ocaml.org/)
 
-You can also install melange with `opam`. To do so, it's recommended to set up a new switch for `melange`:
-
-    opam switch create melange --empty
-
-Check the `esy.json` file to see if any dependencies are expected to be at particular commits. For example, you may need to pin `reason` to a particular version:
+You can also install melange with `opam`. First, have a look at the `esy.json` file to see if any dependencies are expected to be at particular commits. For example, you may need to pin `reason` to a particular version:
 
     opam pin reason https://github.com/reasonml/reason.git#SOME_GIT_SHA_FROM_THE_ESY_JSON -y -n
 
@@ -65,13 +61,13 @@ Then pin melange to the version on github (there is currently no officially rele
 
 You should now be able to run melange from your new switch:
 
-    opam exec --switch melange -- mel --help
+    opam exec -- mel --help
 
 Melange also has some runtime dependencies that need to be symlinked into `node_modules` to be discoverable by bundlers like webpack:
 
     rm -rf node_modules/melange
     mkdir -p node_modules/melange
-    ln -sfn $(opam var prefix --switch melange)/lib/melange node_modules/melange/lib
+    ln -sfn $(opam var prefix)/lib/melange node_modules/melange/lib
 
 (adapted from the equivalent step in the esy build for `melange-basic-template`: https://github.com/melange-re/melange-basic-template/blob/3605fb491d45e74472be58f653482e15e21c9159/esy.json#L15).
 
