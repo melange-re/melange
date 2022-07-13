@@ -9,7 +9,7 @@ on the OCaml compiler, Melange facilitates producing robust JavaScript code.
 + [Melange](#melange)
   * [Installation](#installation)
     - [Esy](#esy)
-    - [Nix](#esy)
+    - [Nix](#nix)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
     - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
