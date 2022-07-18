@@ -9,7 +9,7 @@ on the OCaml compiler, Melange facilitates producing robust JavaScript code.
 + [Melange](#melange)
   * [Installation](#installation)
     - [Esy](#esy)
-    - [Opam](#opam)
+    - [OPAM](#opam)
     - [Nix](#nix)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
@@ -49,17 +49,15 @@ and run `esy` in the project root. To install [Esy](https://esy.sh), `npm
 install -g esy` should cover most workflows. If you have NodeJS / `npm`
 available, `npx esy` is even shorter.
 
-### [Opam](https://opam.ocaml.org/)
+### [OPAM](https://opam.ocaml.org/)
 
-You can also install melange with `opam`. First, have a look at the `esy.json` file to see if any dependencies are expected to be at particular commits. For example, you may need to pin `reason` to a particular version:
+You can also install melange with `opam`:
 
-    opam pin reason https://github.com/reasonml/reason.git#SOME_GIT_SHA_FROM_THE_ESY_JSON -y -n
-
-Then pin melange to the version on github (there is currently no officially released verison of melange in the opam repositories themselves):
+- Pin melange to the version on GitHub:
 
     opam pin melange https://github.com/melange-re/melange.git
 
-You should now be able to run melange from your new switch:
+You should now be able to run melange from your switch:
 
     opam exec -- mel --help
 
@@ -138,7 +136,7 @@ for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-lib
 | Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
 | -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
-| [Opam](https://opam.ocaml.org)         | Package manager                                                | None                                                          | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
+| [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                                                          | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
 | [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy` or `opam`                                | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
 | [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy` or `opam`                                | a library that implements an alternative syntax to OCaml                                                                     |
 | [Melange](https://melange.re)          | Compiler that emits Script                                     | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
