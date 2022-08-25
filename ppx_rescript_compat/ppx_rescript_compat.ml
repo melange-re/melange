@@ -36,11 +36,12 @@ let default_mapper = Bs_ast_mapper.default_mapper
 
 let expr_mapper (self : mapper) (expr : Parsetree.expression) =
   match expr.pexp_desc with
-  | Pexp_send (({ pexp_desc = Pexp_ident _; _ } as ident), { txt = name; loc })
-    ->
+  | Pexp_send
+      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _; _ } as expr),
+        { txt = name; loc } ) ->
       (* ReScript removed the OCaml object system and abuses `Pexp_send` for
          `obj##property`. Here, we make that conversion. *)
-      { expr with pexp_desc = Ast_util.js_property loc ident name }
+      { expr with pexp_desc = Ast_util.js_property loc expr name }
   | _ -> default_mapper.expr self expr
 
 let mapper : mapper = { default_mapper with expr = expr_mapper }
