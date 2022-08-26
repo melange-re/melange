@@ -3,13 +3,14 @@
 ### Tools for producing JS from Reason/OCaml.
 
 Melange is a compiler for producing performant JavaScript from Reason and OCaml.
-Powered by a strong static type system with best-in-class type inference based 
+Powered by a strong static type system with best-in-class type inference based
 on the OCaml compiler, Melange facilitates producing robust JavaScript code.
 
 + [Melange](#melange)
   * [Installation](#installation)
     - [Esy](#esy)
-    - [Nix](#esy)
+    - [OPAM](#opam)
+    - [Nix](#nix)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
     - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
@@ -29,10 +30,10 @@ Melange also introduces a ReScript compatibility layer to maintain compatibility
 with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
 
 Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
-your project! 
+your project!
 
-A small write-up with more details on the motivation behind this project can be 
-found in this 
+A small write-up with more details on the motivation behind this project can be
+found in this
 [blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
 ## Installation
@@ -47,6 +48,26 @@ clone the [basic template](https://github.com/melange-re/melange-basic-template)
 and run `esy` in the project root. To install [Esy](https://esy.sh), `npm
 install -g esy` should cover most workflows. If you have NodeJS / `npm`
 available, `npx esy` is even shorter.
+
+### [OPAM](https://opam.ocaml.org/)
+
+You can also install melange with `opam`:
+
+- Pin melange to the version on GitHub:
+
+    opam pin melange https://github.com/melange-re/melange.git
+
+You should now be able to run melange from your switch:
+
+    opam exec -- mel --help
+
+Melange also has some runtime dependencies that need to be symlinked into `node_modules` to be discoverable by bundlers like webpack:
+
+    rm -rf node_modules/melange
+    mkdir -p node_modules/melange
+    ln -sfn $(opam var prefix)/lib/melange node_modules/melange/lib
+
+(adapted from the equivalent step in the esy build for `melange-basic-template`: https://github.com/melange-re/melange-basic-template/blob/3605fb491d45e74472be58f653482e15e21c9159/esy.json#L15).
 
 ### [Nix](https://nixos.org/learn.html)
 
@@ -115,16 +136,17 @@ for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-lib
 | Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
 | -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
-| [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy`                                          | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
-| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy`                                          | a library that implements an alternative syntax to OCaml                                                                     |
-| [Melange](https://melange.re)          | Compiler that emits Script                                 | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
+| [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                                                          | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
+| [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy` or `opam`                                | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
+| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy` or `opam`                                | a library that implements an alternative syntax to OCaml                                                                     |
+| [Melange](https://melange.re)          | Compiler that emits Script                                     | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
 | [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                                     |
 
 ### Can I use ReScript syntax?
 
 Yes! ReScript syntax is supported, but ReScript won't have as many features as
 the OCaml or Reason syntaxes due to ReScript being built on top of an old OCaml
-version (4.06 - Released 2018). 
+version (4.06 - Released 2018).
 (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
 [generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
 or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
