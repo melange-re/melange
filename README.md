@@ -53,7 +53,7 @@ available, `npx esy` is even shorter.
 
 You can also install melange with `opam`:
 
-- Pin melange to the version on GitHub:
+Pin melange to the version on GitHub:
 
     opam pin melange https://github.com/melange-re/melange.git
 
