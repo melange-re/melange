@@ -289,7 +289,7 @@ module Internal = struct
       "*internal* Set npm-output-path: [opt_module]:path, for example: \
        'lib/cjs', 'amdjs:lib/amdjs', 'es6:lib/es6' "
     in
-    Arg.(value & opt_all (string) [] & info [ "bs-package-output" ] ~doc)
+    Arg.(value & opt_all string [] & info [ "bs-package-output" ] ~doc)
 
   let bs_ast =
     let doc = "*internal* Generate binary .mli_ast and ml_ast and stop" in
