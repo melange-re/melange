@@ -5,15 +5,22 @@ let
     inherit (lock.nodes.nixpkgs.locked) rev;
     # inherit (lock.nodes.nixpkgs.original) ref;
   };
+  nix-filter-src = fetchGit {
+    url = with lock.nodes.nix-filter.locked; "https://github.com/${owner}/${repo}";
+    inherit (lock.nodes.nix-filter.locked) rev;
+    # inherit (lock.nodes.nixpkgs.original) ref;
+    allRefs = true;
+  };
+  nix-filter = import "${nix-filter-src}";
+
+
   pkgs = import src {
     extraOverlays = [
-      (self: super: {
-        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
-      })
+      (self: super: { ocamlPackages = super.ocaml-ng.ocamlPackages_4_14; })
     ];
   };
   inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
-  melange = pkgs.callPackage ./.. { };
+  melange = pkgs.callPackage ./.. { inherit nix-filter; };
   inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 

@@ -1,4 +1,4 @@
-{ stdenv, ocamlPackages, lib, opaline, gnutar }:
+{ stdenv, ocamlPackages, lib, opaline, gnutar, nix-filter }:
 
 with ocamlPackages;
 
@@ -32,10 +32,9 @@ stdenv.mkDerivation rec {
     runHook postInstall
   '';
 
-  src = lib.filterGitSource {
-    src = ./..;
-    dirs = [ "jscomp" "lib" "ppx_rescript_compat" "scripts" ];
-    files = [
+  src = with nix-filter; filter {
+    root = ./..;
+    include = [
       "dune-project"
       "dune"
       "dune-workspace"
@@ -43,6 +42,10 @@ stdenv.mkDerivation rec {
       "melange.opam.template"
       "bsconfig.json"
       "package.json"
+      "jscomp"
+      "lib"
+      "ppx_rescript_compat"
+      "scripts"
     ];
   };
 
