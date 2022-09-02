@@ -1,6 +1,6 @@
 
 nix-%:
-	nix develop '.?submodules=1#' --impure --command $*
+	nix develop '.?submodules=1#' --command $*
 vim:
 	$(MAKE) nix-n$@
 
