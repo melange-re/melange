@@ -1,7 +1,16 @@
-{ pkgs }:
+{ pkgs, dream2nix, system, nodejs_latest, melange }:
+
 
 let
-  melange = pkgs.callPackage ./nix { };
+
+
+  outputs = dream2nix.makeFlakeOutputs {
+    systems = [ system ];
+    config.projectRoot = ./jscomp/build_tests/monorepo;
+    source = ./jscomp/build_tests/monorepo;
+  };
+
+  npmPackages = lib.trace "${builtins.toJSON( ( outputs))}" outputs.packages."${system}".monorepo;
   inherit (pkgs) stdenv lib;
 
   pnpm = pkgs.writeScriptBin "pnpm" ''

@@ -1,19 +1,29 @@
 {
   description = "Melange Nix Flake";
 
-  inputs.flake-utils.url = "github:numtide/flake-utils";
-  inputs.nixpkgs.url = "github:anmonteiro/nix-overlays";
-  inputs.nixpkgs.inputs.flake-utils.follows = "flake-utils";
+  inputs = {
+    nix-filter.url = "github:numtide/nix-filter";
+    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:anmonteiro/nix-overlays";
+    # nixpkgs.url = "/Users/anmonteiro/monorepo/nix-overlays";
+    nixpkgs.inputs.flake-utils.follows = "flake-utils";
 
-  outputs = { self, nixpkgs, flake-utils }:
+    dream2nix.url = "github:nix-community/dream2nix";
+    dream2nix.inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  outputs = { self, nixpkgs, flake-utils, dream2nix, nix-filter }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
           ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
         });
       in
-      {
-        packages.default = pkgs.callPackage ./nix { };
-        devShell = pkgs.callPackage ./shell.nix { };
+      rec {
+        packages.default = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; };
+        devShell = pkgs.callPackage ./shell.nix {
+          dream2nix = dream2nix.lib2;
+          melange = packages.default;
+        };
       });
 }
