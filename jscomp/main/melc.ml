@@ -408,7 +408,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if make_runtime_test then Js_packages_state.make_runtime_test ();
 
     Ext_option.iter bs_package_name Js_packages_state.set_package_name;
-    Ext_option.iter bs_package_output Js_packages_state.update_npm_package_path;
+    Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
     Ext_option.iter bs_ns Js_packages_state.set_package_map;
 
     if as_ppx then Js_config.as_ppx := as_ppx;
