@@ -111,24 +111,8 @@ let write_build_cache buf (bs_files : Bsb_db.t) : unit =
     Ext_buffer.contents buf
   in
 
-  let ic = Unix.open_process_in "mktemp" in
-  let all_input = ref [] in
-  let file_path = try
-    let () = while true do
-      all_input := input_line ic :: !all_input
-    done in 
-    String.concat "\n" !all_input
-  with
-    End_of_file ->
-    close_in ic;
-    String.concat "\n" !all_input in
-
-  let oc = open_out file_path in
-  Printf.fprintf oc "%s" bsbuild_cache;
-  close_out oc;
-
   let bsbuild_rule =
-    Format.asprintf "@\n(rule (with-stdout-to %s (cat \"%s\")))"
-      Literals.bsbuild_cache file_path
+    Format.asprintf "@\n(rule (with-stdout-to %s (bash \"cat <<EOF\n%s\nEOF\")))"
+      Literals.bsbuild_cache bsbuild_cache
   in
   Buffer.add_string buf bsbuild_rule
