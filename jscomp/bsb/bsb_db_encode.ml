@@ -111,8 +111,23 @@ let write_build_cache buf (bs_files : Bsb_db.t) : unit =
     Ext_buffer.contents buf
   in
 
+  let split_string b =
+    let chunk_size = 65534 in
+    let rec isplit sofar ib =
+        let iblen = String.length ib in
+        if iblen > chunk_size then
+            let chunk = String.sub ib 0 chunk_size in
+            let rest = String.sub ib chunk_size (iblen - chunk_size) in
+            isplit (chunk :: sofar) rest
+        else
+            ib :: sofar
+    in
+    List.rev (isplit [] b) in
+
+  let run_stanzas = List.map (fun chunk -> Printf.sprintf "(run echo -n \"%s\")" chunk) (split_string bsbuild_cache) in
+
   let bsbuild_rule =
-    Format.asprintf "@\n(rule (with-stdout-to %s (bash \"cat <<EOF\n%s\nEOF\")))"
-      Literals.bsbuild_cache bsbuild_cache
+    Format.asprintf "@\n(rule (with-stdout-to %s (progn %s)))"
+      Literals.bsbuild_cache (String.concat "" run_stanzas)
   in
   Buffer.add_string buf bsbuild_rule
