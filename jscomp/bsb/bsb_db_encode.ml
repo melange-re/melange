@@ -112,7 +112,7 @@ let write_build_cache buf (bs_files : Bsb_db.t) : unit =
   in
 
   let bsbuild_rule =
-    Format.asprintf "@\n(rule (with-stdout-to %s (run echo -n \"%s\")))"
+    Format.asprintf "@\n(rule (write-file %s %s))"
       Literals.bsbuild_cache bsbuild_cache
   in
   Buffer.add_string buf bsbuild_rule
