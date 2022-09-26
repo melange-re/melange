@@ -471,11 +471,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       try_eval ~f:(fun () ->
         ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )));
 
-    Ext_option.iter impl_source_file impl;
-    Ext_option.iter intf_source_file intf;
-
     try
-     anonymous ~rev_args:(List.rev filenames)
+      Ext_option.iter impl_source_file impl;
+      Ext_option.iter intf_source_file intf;
+      anonymous ~rev_args:(List.rev filenames)
     with
     | Arg.Bad msg ->
         Format.eprintf "%s@." msg;
