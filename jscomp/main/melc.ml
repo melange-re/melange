@@ -350,6 +350,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_loc;
       impl = impl_source_file;
       intf = intf_source_file;
+      intf_suffix;
       dtypedtree;
       dparsetree;
       drawlambda;
@@ -470,6 +471,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Ext_option.iter bs_e (fun s ->
       try_eval ~f:(fun () ->
         ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )));
+    Ext_option.iter intf_suffix (fun suffix -> Config.interface_suffix := suffix);
 
     Ext_option.iter impl_source_file impl;
     Ext_option.iter intf_source_file intf;
