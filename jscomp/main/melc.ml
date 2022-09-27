@@ -481,11 +481,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
 
-    Ext_option.iter impl_source_file impl;
-    Ext_option.iter intf_source_file intf;
-
     try
-     anonymous ~rev_args:(List.rev filenames)
+      Ext_option.iter impl_source_file impl;
+      Ext_option.iter intf_source_file intf;
+      anonymous ~rev_args:(List.rev filenames)
     with
     | Arg.Bad msg ->
         Format.eprintf "%s@." msg;
