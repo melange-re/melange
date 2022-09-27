@@ -69,6 +69,10 @@ type t = {
   impl : string option;
   intf : string option;
   intf_suffix : string option;
+  g : bool;
+  opaque : bool;
+  strict_sequence : bool;
+  strict_formats : bool;
   dtypedtree : bool;
   dparsetree : bool;
   drawlambda : bool;
@@ -398,6 +402,27 @@ module Internal = struct
     let doc = "*internal* <file> Suffix for interface files (default: .mli)" in
     Arg.(value & opt (some string) None & info [ "intf-suffix" ] ~doc)
 
+  let g =
+    let doc = "*internal* Save debugging information" in
+    Arg.(value & flag & info [ "g" ] ~doc)
+
+  let opaque =
+    let doc =
+      "*internal* <file> Does not generate cross-module optimization \
+       information (reduces necessary recompilation on module change)"
+    in
+    Arg.(value & flag & info [ "opaque" ] ~doc)
+
+  let strict_sequence =
+    let doc = "*internal* Left-hand part of a sequence must have type unit" in
+    Arg.(value & flag & info [ "strict-sequence" ] ~doc)
+
+  let strict_formats =
+    let doc =
+      "*internal* Reject invalid formats accepted by legacy implementations"
+    in
+    Arg.(value & flag & info [ "strict-formats" ] ~doc)
+
   let dtypedtree =
     let doc = "*internal* debug typedtree" in
     Arg.(value & flag & info [ "dtypedtree" ] ~doc)
@@ -474,10 +499,10 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
     bs_cmi_only bs_cmi bs_cmj bs_no_version_header bs_no_builtin_ppx
     bs_cross_module_opt bs_diagnose format where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix dtypedtree dparsetree drawlambda dsource version pp absname
-    bin_annot i nopervasives modules nolabels principal short_paths unsafe
-    warn_help warn_error bs_stop_after_cmj runtime make_runtime
-    make_runtime_test filenames _bs_super_errors _c =
+    intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
+    drawlambda dsource version pp absname bin_annot i nopervasives modules
+    nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
+    runtime make_runtime make_runtime_test filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -524,6 +549,10 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
     impl;
     intf;
     intf_suffix;
+    g;
+    opaque;
+    strict_sequence;
+    strict_formats;
     dtypedtree;
     dparsetree;
     drawlambda;
@@ -562,9 +591,10 @@ let cmd =
     $ Internal.bs_diagnose $ format $ where $ verbose $ keep_locs
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
-    $ Internal.intf_suffix $ Internal.dtypedtree $ Internal.dparsetree
-    $ Internal.drawlambda $ Internal.dsource $ version $ pp $ absname
-    $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
+    $ Internal.intf_suffix $ Internal.g $ Internal.opaque
+    $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
+    $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
+    $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
     $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
     $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime
     $ Internal.make_runtime $ Internal.make_runtime_test $ filenames

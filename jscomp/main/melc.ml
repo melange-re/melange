@@ -351,6 +351,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       impl = impl_source_file;
       intf = intf_source_file;
       intf_suffix;
+      g;
+      opaque;
+      strict_sequence;
+      strict_formats;
       dtypedtree;
       dparsetree;
       drawlambda;
@@ -472,6 +476,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       try_eval ~f:(fun () ->
         ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )));
     Ext_option.iter intf_suffix (fun suffix -> Config.interface_suffix := suffix);
+    if g then Clflags.debug := g;
+    if opaque then Clflags.opaque := opaque;
+    if strict_sequence then Clflags.strict_sequence := strict_sequence;
+    if strict_formats then Clflags.strict_formats := strict_formats;
 
     try
       Ext_option.iter impl_source_file impl;
