@@ -68,6 +68,7 @@ type t = {
   bs_loc : bool;
   impl : string option;
   intf : string option;
+  intf_suffix : string option;
   dtypedtree : bool;
   dparsetree : bool;
   drawlambda : bool;
@@ -393,6 +394,10 @@ module Internal = struct
     let doc = "*internal* <file>  Compile <file> as a .mli file" in
     Arg.(value & opt (some string) None & info [ "intf" ] ~doc)
 
+  let intf_suffix =
+    let doc = "*internal* <file> Suffix for interface files (default: .mli)" in
+    Arg.(value & opt (some string) None & info [ "intf-suffix" ] ~doc)
+
   let dtypedtree =
     let doc = "*internal* debug typedtree" in
     Arg.(value & flag & info [ "dtypedtree" ] ~doc)
@@ -469,10 +474,10 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
     bs_cmi_only bs_cmi bs_cmj bs_no_version_header bs_no_builtin_ppx
     bs_cross_module_opt bs_diagnose format where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
-    nopervasives modules nolabels principal short_paths unsafe warn_help
-    warn_error bs_stop_after_cmj runtime make_runtime make_runtime_test
-    filenames _bs_super_errors _c =
+    intf_suffix dtypedtree dparsetree drawlambda dsource version pp absname
+    bin_annot i nopervasives modules nolabels principal short_paths unsafe
+    warn_help warn_error bs_stop_after_cmj runtime make_runtime
+    make_runtime_test filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -518,6 +523,7 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
     bs_loc;
     impl;
     intf;
+    intf_suffix;
     dtypedtree;
     dparsetree;
     drawlambda;
@@ -556,12 +562,13 @@ let cmd =
     $ Internal.bs_diagnose $ format $ where $ verbose $ keep_locs
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
-    $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
-    $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
-    $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
-    $ Internal.principal $ Internal.short_paths $ unsafe $ warn_help
-    $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ Internal.make_runtime
-    $ Internal.make_runtime_test $ filenames $ Compat.bs_super_errors $ Compat.c)
+    $ Internal.intf_suffix $ Internal.dtypedtree $ Internal.dparsetree
+    $ Internal.drawlambda $ Internal.dsource $ version $ pp $ absname
+    $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
+    $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
+    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime
+    $ Internal.make_runtime $ Internal.make_runtime_test $ filenames
+    $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to
  * `-w=-foo` *)
