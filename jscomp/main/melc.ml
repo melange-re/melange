@@ -454,7 +454,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if version then print_version_string ();
     Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp);
     if absname then Clflags.absname := absname;
-    Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := not bin_annot);
+    Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := bin_annot);
     if i then Clflags.print_types := i;
     if nopervasives then Clflags.nopervasives := nopervasives;
     if modules then Js_config.modules := modules;
