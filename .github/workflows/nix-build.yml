@@ -10,13 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: cachix/install-nix-action@v17
+    - uses: cachix/install-nix-action@v18
       with:
         extra_nix_config: |
-          experimental-features = nix-command
-    - uses: cachix/cachix-action@v10
-      with:
-        name: anmonteiro
-        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+          extra-substituters = https://anmonteiro.nix-cache.workers.dev
+          extra-trusted-public-keys = ocaml.nix-cache.com-1:/xI2h2+56rwFfKyyFVbkJSeGqSIYMC/Je+7XXqGKDIY=
     - name: "Run nix-build"
       run: nix-build ./nix/ci/test.nix
