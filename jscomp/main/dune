@@ -4,7 +4,7 @@
 
 (executable
  (public_name melc)
- (modes byte native)
+ (modes byte_complete native)
  (flags :standard -open Melange_compiler_libs)
  (libraries
   js_parser

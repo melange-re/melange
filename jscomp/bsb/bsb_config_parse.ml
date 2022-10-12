@@ -408,7 +408,7 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string )
      let ns_incl =
        Ext_option.map namespace (fun _ ->
          let artifacts_dir =
-           Bsb_config.absolute_artifacts_dir
+           Mel_workspace.absolute_artifacts_dir
              ~package_name:(Bsb_pkg_types.to_string dep.package_name)
              ~root_dir:Bsb_global_paths.cwd dep.package_path
          in

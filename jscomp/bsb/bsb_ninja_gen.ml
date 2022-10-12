@@ -38,7 +38,7 @@ let bsc_lib_includes ~root_dir (bs_dependencies : Bsb_config_types.dependencies)
     Ext_list.map package_install_dirs
       (fun { Bsb_config_types.package_path; package_name; dir } ->
         let virtual_proj_dir =
-          Bsb_config.virtual_proj_dir ~root_dir ~package_dir:package_path ~package_name
+          Mel_workspace.virtual_proj_dir ~root_dir ~package_dir:package_path ~package_name
         in
         (virtual_proj_dir // dir)))
 
@@ -46,7 +46,7 @@ let output_ninja_and_namespace_map
     ~buf
     ~per_proj_dir
     ~root_dir
-    ~package_kind
+    ~(package_kind: Bsb_package_kind.Source_info.t)
     ({
       package_name;
       bsc_flags ;
@@ -68,7 +68,11 @@ let output_ninja_and_namespace_map
 
     } : Bsb_config_types.t) : unit
   =
-  let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
+  let warnings =
+    Bsb_warning.to_bsb_string
+    ~package_kind:(Bsb_package_kind.Source_info.to_package_kind package_kind)
+    warning
+  in
   let bsc_flags = (get_bsc_flags bsc_flags) in
   let bs_groups : Bsb_db.t = {lib = Map_string.empty; dev = Map_string.empty} in
   let source_dirs : string list Bsb_db.cat = {lib = []; dev = []} in
@@ -132,9 +136,9 @@ let output_ninja_and_namespace_map
          ~bs_dependencies
          files_per_dir);
 
-  if not (Bsb_config.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir) then (
+  if not (Mel_workspace.is_dep_inside_workspace ~root_dir ~package_dir:per_proj_dir) then (
     Buffer.add_string buf "(subdir ";
-    Buffer.add_string buf (Bsb_config.to_workspace_proj_dir ~package_name);
+    Buffer.add_string buf (Mel_workspace.to_workspace_proj_dir ~package_name);
     Buffer.add_string buf
       "\n (copy_files (alias mel_copy_out_of_source_dir)\n (files ";
     Buffer.add_string buf (per_proj_dir);
@@ -144,7 +148,7 @@ let output_ninja_and_namespace_map
   Buffer.add_char buf '\n';
 
   let artifacts_dir =
-    Bsb_config.rel_artifacts_dir
+    Mel_workspace.rel_artifacts_dir
       ~package_name
       ~root_dir ~proj_dir:per_proj_dir root_dir
   in
@@ -164,10 +168,14 @@ let output_ninja_and_namespace_map
     );
 
   Bsb_db_encode.write_build_cache buf bs_groups;
-  Buffer.add_string buf "\n)\n";
 
   match package_kind with
-  | Bsb_package_kind.Toplevel ->
+  | Bsb_package_kind.Source_info.Toplevel source_meta ->
+    Buffer.add_string buf
+      (Format.asprintf "\n(rule (write-file %s %S)) "
+        Literals.sourcedirs_meta
+        (source_meta |> Source_metadata.to_json  |> Ext_json_noloc.to_string));
+    Buffer.add_string buf "\n)\n";
     (* Add `(data_only_dirs node_modules)` because they could contain native
      * OCaml code that we do not want to build. *)
     Buffer.add_string buf "\n(data_only_dirs ";
@@ -177,7 +185,10 @@ let output_ninja_and_namespace_map
     (* for the edge case of empty sources (either in user config or because a
        source dir is empty), we emit an empty `bsb_world` alias. This avoids
        showing the user an error when they haven't done anything. *)
-    Buffer.add_string buf ")\n(alias (name mel) (deps ";
+    Buffer.add_string buf
+      (Format.asprintf
+        ")\n(alias (name mel) (deps %s "
+        (artifacts_dir // Literals.sourcedirs_meta));
 
     (* Build the dependencies in case `"sources"` == []. *)
     Ext_list.iter
@@ -189,6 +200,6 @@ let output_ninja_and_namespace_map
       (fun dep ->
         Buffer.add_string buf (Format.asprintf "(alias %s)" dep));
     Buffer.add_string buf "))\n" ;
-  | Dependency _ -> ()
-
+  | Dependency _ ->
+    Buffer.add_string buf "\n)\n"
 

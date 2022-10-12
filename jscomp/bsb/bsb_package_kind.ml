@@ -1,4 +1,4 @@
-(* Copyright (C) 2020 - Hongbo Zhang, Authors of ReScript 
+(* Copyright (C) 2020 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,3 +26,12 @@ type t = Toplevel | Dependency of Bsb_package_specs.t
 (* This package specs comes from the toplevel to
    override the current settings
 *)
+
+module Source_info = struct
+  type package_kind = t
+  type t = Toplevel of Source_metadata.t | Dependency of Bsb_package_specs.t
+
+  let to_package_kind : t -> package_kind = function
+    | Toplevel _ -> Toplevel
+    | Dependency d -> Dependency d
+end

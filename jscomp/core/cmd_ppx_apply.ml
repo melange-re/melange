@@ -42,7 +42,7 @@ let read_ast (type a) (kind : a Ml_binary.kind) fn : a =
 
   ast
 
-(** [ppxs] are a stack, 
+(** [ppxs] are a stack,
     [-ppx1 -ppx2  -ppx3]
     are stored as [-ppx3; -ppx2; -ppx1]
     [fold_right] happens to process the first one *)

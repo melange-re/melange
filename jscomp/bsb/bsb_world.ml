@@ -24,23 +24,17 @@
 
 let ( // ) = Ext_path.combine
 
-let install_targets cwd dep_configs =
-  let artifacts_dir =
-    Bsb_config.rel_artifacts_dir ~package_name:"root"
-      ~include_dune_build_dir:true ~root_dir:cwd ~proj_dir:cwd cwd
-  in
+let install_targets dune_args =
   Bsb_log.info "@{<info>Installing started@}@.";
-  let file_groups = ref [] in
-  Ext_list.iter dep_configs (fun (dep_config : Bsb_config_types.t) ->
-      file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
-  Bsb_build_util.mkp artifacts_dir;
-  let source_meta =
-    Bsb_watcher_gen.generate_sourcedirs_meta
-      ~name:(artifacts_dir // Literals.sourcedirs_meta)
-      !file_groups
+  let _p =
+    Bsb_unix.dune_command
+      ~on_exit:(fun _ ~exit_status:_ ~term_signal:_ ->
+        Bsb_log.info "@{<info>Installing finished@} @.")
+      ("build"
+      :: (Literals.melange_eobjs_dir // Literals.sourcedirs_meta)
+      :: dune_args)
   in
-  Bsb_log.info "@{<info>Installing finished@} @.";
-  source_meta
+  ()
 
 (* Don't use package specs from config because it could be a dependency, which
    gets the root's package specs. *)
@@ -48,7 +42,7 @@ let maybe_warn_about_dependencies_outside_workspace ~cwd
     (config : Bsb_config_types.t) ~package_specs =
   let is_path_outside_workspace { Bsb_config_types.package_path; _ } =
     not
-      (Bsb_config.is_dep_inside_workspace ~root_dir:cwd
+      (Mel_workspace.is_dep_inside_workspace ~root_dir:cwd
          ~package_dir:package_path)
   in
   let has_in_source = Bsb_package_specs.has_in_source package_specs in
@@ -69,14 +63,15 @@ let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
       match top with
       | Expect_none -> acc
       | Expect_name _ ->
-          let package_kind = Bsb_package_kind.Dependency deps in
           let config : Bsb_config_types.t =
-            Bsb_config_parse.interpret_json ~package_kind ~per_proj_dir:proj_dir
+            Bsb_config_parse.interpret_json ~package_kind:(Dependency deps)
+              ~per_proj_dir:proj_dir
           in
           maybe_warn_about_dependencies_outside_workspace ~cwd config
             ~package_specs:deps;
           Bsb_ninja_gen.output_ninja_and_namespace_map ~buf
-            ~per_proj_dir:proj_dir ~root_dir:cwd ~package_kind config;
+            ~per_proj_dir:proj_dir ~root_dir:cwd ~package_kind:(Dependency deps)
+            config;
           config :: acc)
     [] queue
 
@@ -91,4 +86,9 @@ let make_world_deps ~cwd ~buf =
   Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:cwd config;
   let deps = config.package_specs in
   let dep_configs = build_bs_deps cwd ~buf deps in
-  (config, dep_configs)
+  let file_groups = ref [] in
+  Ext_list.iter (config :: dep_configs)
+    (fun (dep_config : Bsb_config_types.t) ->
+      file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
+  let source_meta = Source_metadata.create !file_groups in
+  (config, source_meta)
