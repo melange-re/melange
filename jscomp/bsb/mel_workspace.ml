@@ -1,5 +1,5 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * Copyright (C) 2017 - Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2022- Authors of Melange
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
 let ( // ) = Ext_path.concat
 
 let dune_build_dir =
@@ -72,3 +73,6 @@ let rel_artifacts_dir ?include_dune_build_dir ~package_name ~root_dir ~proj_dir
   in
   let from = if Filename.is_relative from then proj_dir // from else from in
   Ext_path.rel_normalized_absolute_path ~from absolute
+
+let rel_root_artifacts_dir ~root_dir from =
+  rel_artifacts_dir ~package_name:"root" ~root_dir ~proj_dir:root_dir from

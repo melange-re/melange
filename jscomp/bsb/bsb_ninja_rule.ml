@@ -163,7 +163,7 @@ let package_name = global_config.package_name in
   in
   let mk_ast buf ?error_syntax_kind:_ ?target:_ cur_dir : unit =
     let rel_artifacts_dir =
-      Bsb_config.rel_artifacts_dir
+      Mel_workspace.rel_artifacts_dir
         ~package_name
         ~root_dir:global_config.root_dir
         ~proj_dir:global_config.per_proj_dir

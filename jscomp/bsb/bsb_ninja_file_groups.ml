@@ -35,7 +35,7 @@ let rel_dependencies_alias ~root_dir ~proj_dir ~cur_dir deps =
             None
           else
             let virtual_package_dir =
-              Bsb_config.virtual_proj_dir ~root_dir ~package_dir:package_path
+              Mel_workspace.virtual_proj_dir ~root_dir ~package_dir:package_path
                 ~package_name
             in
             let rel_dir =
@@ -112,20 +112,23 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   in
   let output_ast = filename_sans_extension ^ Literals.suffix_ast in
   let output_iast = filename_sans_extension ^ Literals.suffix_iast in
+  let virtual_proj_dir =
+    Mel_workspace.virtual_proj_dir ~package_name ~root_dir
+      ~package_dir:per_proj_dir
+  in
   let rel_proj_dir, rel_artifacts_dir =
-    let proj_dir =
-      Bsb_config.virtual_proj_dir ~package_name ~root_dir
-        ~package_dir:per_proj_dir
-    in
-    ( Ext_path.rel_normalized_absolute_path ~from:(proj_dir // cur_dir) proj_dir,
-      Bsb_config.rel_artifacts_dir ~root_dir ~package_name ~proj_dir cur_dir )
+    ( Ext_path.rel_normalized_absolute_path
+        ~from:(virtual_proj_dir // cur_dir)
+        virtual_proj_dir,
+      Mel_workspace.rel_artifacts_dir ~root_dir ~package_name
+        ~proj_dir:virtual_proj_dir cur_dir )
   in
 
   let output_ast = rel_proj_dir // (impl_dir // basename output_ast) in
   let output_iast = rel_proj_dir // (intf_dir // basename output_iast) in
   let ppx_deps =
     if ppx_config.Bsb_config_types.ppxlib <> [] then
-      [ rel_artifacts_dir // Bsb_config.ppx_exe ]
+      [ rel_artifacts_dir // Mel_workspace.ppx_exe ]
     else []
   in
   let output_d =
@@ -141,7 +144,12 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let output_cmti = output_filename_sans_extension ^ Literals.suffix_cmti in
   let maybe_gentype_deps =
     Option.map
-      (fun _ -> [ rel_artifacts_dir // Literals.sourcedirs_meta ])
+      (fun _ ->
+        let root_artifacts_dir =
+          Mel_workspace.rel_root_artifacts_dir ~root_dir
+            (virtual_proj_dir // cur_dir)
+        in
+        [ root_artifacts_dir // Literals.sourcedirs_meta ])
       gentype_config
   in
   let output_js =
@@ -224,13 +232,13 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
     (group : Bsb_file_groups.file_group) : unit =
   let per_proj_dir = global_config.per_proj_dir in
   let is_dep_inside_workspace =
-    Bsb_config.is_dep_inside_workspace ~root_dir:global_config.root_dir
+    Mel_workspace.is_dep_inside_workspace ~root_dir:global_config.root_dir
       ~package_dir:per_proj_dir
   in
   let rel_group_dir =
     (* For out-of source builds, mimic `node_modules/<package>` *)
     let virtual_proj_dir =
-      Bsb_config.virtual_proj_dir ~root_dir:global_config.root_dir
+      Mel_workspace.virtual_proj_dir ~root_dir:global_config.root_dir
         ~package_dir:per_proj_dir ~package_name:global_config.package_name
     in
     Ext_path.rel_normalized_absolute_path ~from:global_config.root_dir

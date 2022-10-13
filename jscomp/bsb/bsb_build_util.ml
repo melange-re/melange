@@ -41,7 +41,7 @@ let ppx_flags ~artifacts_dir { Bsb_config_types.ppxlib; ppx_files } =
     if ppxlib <> [] then
       (* We don't need to grab the name from `ppx.ppxlib` because it'll always
          be same everytime (`.melange.ppx/ppx.exe`). *)
-      let path_to_ppx = artifacts_dir // Bsb_config.ppx_exe in
+      let path_to_ppx = artifacts_dir // Mel_workspace.ppx_exe in
       let args =
         String.concat " "
           (List.concat_map (fun (x : Bsb_config_types.ppx) -> x.args) ppxlib)
@@ -71,7 +71,7 @@ let include_dirs dirs = include_dirs_by dirs Fun.id
 let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
     source_dirs =
   let per_proj_dir =
-    Bsb_config.virtual_proj_dir ~root_dir ~package_dir:per_proj_dir
+    Mel_workspace.virtual_proj_dir ~root_dir ~package_dir:per_proj_dir
       ~package_name
   in
   let relativize_single dir =
@@ -83,7 +83,7 @@ let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
     if namespace = None then source_dirs
     else
       let rel_artifacts =
-        Bsb_config.rel_artifacts_dir ~package_name ~root_dir
+        Mel_workspace.rel_artifacts_dir ~package_name ~root_dir
           ~proj_dir:per_proj_dir cur_dir
       in
       rel_artifacts :: source_dirs

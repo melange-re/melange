@@ -3,12 +3,12 @@
  (preprocess
   (action
    (run %{bin:cppo} %{env:CPPO_FLAGS=} %{input-file})))
- (modules :standard \ bsb_config)
+ (modules :standard \ mel_workspace)
  (modules_without_implementation bsb_config_types)
  (flags
   (:standard -w -9-50))
  (libraries
-  bsb_config
+  mel_workspace
   bsb_helper
   bs_hash_stubs
   ext
@@ -19,9 +19,9 @@
   luv))
 
 (library
- (name bsb_config)
+ (name mel_workspace)
  (preprocess
   (action
    (run %{bin:cppo} %{env:CPPO_FLAGS=} %{input-file})))
- (modules bsb_config)
+ (modules mel_workspace)
  (libraries ext unix))

@@ -1,4 +1,4 @@
-(* Copyright (C) 2022- Authors of Melange
+(* Copyright (C) 2020 - Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,19 +16,20 @@
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Task : sig
-  type info = { fd : Luv.Process.t; paths : string list }
+type t = Toplevel | Dependency of Bsb_package_specs.t
+(* This package specs comes from the toplevel to
+   override the current settings
+*)
 
-  type t =
-    ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
-    unit ->
-    info
+module Source_info : sig
+  type package_kind := t
+  type t = Toplevel of Source_metadata.t | Dependency of Bsb_package_specs.t
+
+  val to_package_kind : t -> package_kind
 end
-
-val watch : task:Task.t -> string list -> unit

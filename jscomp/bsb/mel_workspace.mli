@@ -1,4 +1,4 @@
-(* Copyright (C) 2017- Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2022- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,19 +22,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type source_meta = private {
-  dirs : string list;
-  generated : string list;
-  pkgs : (string * string) list;
-}
+val is_dep_inside_workspace : root_dir:string -> package_dir:string -> bool
+val to_workspace_proj_dir : package_name:string -> string
 
-val generate_sourcedirs_meta :
-  name:string -> (string * Bsb_file_groups.t) list -> source_meta
-(** This module try to generate some meta data so that
-  everytime [bsconfig.json] is reload, we can re-read
-  such meta data changes in the watcher.
+val virtual_proj_dir :
+  root_dir:string -> package_dir:string -> package_name:string -> string
 
-  Another way of doing it is processing [bsconfig.json]
-  directly in [watcher] but that would
-  mean the duplication of logic in [bsb] and [bsb_watcher]
-*)
+val absolute_artifacts_dir :
+  ?include_dune_build_dir:bool ->
+  package_name:string ->
+  root_dir:string ->
+  string ->
+  string
+
+val rel_artifacts_dir :
+  ?include_dune_build_dir:bool ->
+  package_name:string ->
+  root_dir:string ->
+  proj_dir:string ->
+  string ->
+  string
+
+val rel_root_artifacts_dir : root_dir:string -> string -> string
+val dune_build_dir : string Lazy.t
+val ppx_exe : string

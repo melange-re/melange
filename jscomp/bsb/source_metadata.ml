@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type source_meta = {
+type t = {
   dirs : string list;
   generated : string list;
   pkgs : (string * string) list;
@@ -32,8 +32,7 @@ let kvs = Ext_json_noloc.kvs
 let arr = Ext_json_noloc.arr
 let str = Ext_json_noloc.str
 
-let generate_sourcedirs_meta ~name
-    (file_groups : (string * Bsb_file_groups.t) list) =
+let create (file_groups : (string * Bsb_file_groups.t) list) =
   let pkgs = Hashtbl.create 10 in
   let dirs, generated =
     Ext_list.fold_left file_groups ([], [])
@@ -55,18 +54,19 @@ let generate_sourcedirs_meta ~name
         in
         (dirs, generated))
   in
-  let v =
-    kvs
-      [
-        ("dirs", arr (Ext_array.of_list_map dirs str));
-        ("generated", arr (Ext_array.of_list_map generated str));
-        ( "pkgs",
-          arr
-            (Array.of_list
-               (Hashtbl.fold
-                  (fun pkg path acc -> arr [| str pkg; str path |] :: acc)
-                  pkgs [])) );
-      ]
-  in
-  Ext_json_noloc.to_file name v;
   { dirs; generated; pkgs = Hashtbl.to_seq pkgs |> List.of_seq }
+
+let to_json t =
+  let { dirs; generated; pkgs } = t in
+  kvs
+    [
+      ("dirs", arr (Ext_array.of_list_map dirs str));
+      ("generated", arr (Ext_array.of_list_map generated str));
+      ( "pkgs",
+        arr
+          (Array.of_list
+             (Ext_list.fold_left pkgs [] (fun acc (pkg, path) ->
+                  arr [| str pkg; str path |] :: acc))) );
+    ]
+
+let to_file ~name t = Ext_json_noloc.to_file name (to_json t)

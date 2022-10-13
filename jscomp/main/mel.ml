@@ -59,12 +59,12 @@ let dune_command ?on_exit dune_args =
 let build_whole_project () =
   let root_dir = Bsb_global_paths.cwd in
   let buf = Buffer.create 0x1000 in
-  let config, dep_configs = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
+  let config, source_meta = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
   Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:root_dir config;
   Bsb_ninja_gen.output_ninja_and_namespace_map ~buf ~per_proj_dir:root_dir
-    ~root_dir ~package_kind:Toplevel config;
+    ~root_dir ~package_kind:(Toplevel source_meta) config;
   output_dune_file buf;
-  config :: dep_configs
+  source_meta
 
 module Common_opts = struct
   type t = { verbose : bool }
@@ -98,22 +98,18 @@ module Actions = struct
         exit 2
     | e -> Ext_pervasives.reraise e
 
-  let do_output_rules () =
-    let configs = build_whole_project () in
-    Bsb_world.install_targets Bsb_global_paths.cwd configs
-
   let build opts watch_mode dune_args =
     let task ?on_exit () =
       wrap_bsb ~opts ~f:(fun () ->
-          let { Bsb_watcher_gen.dirs; _ } = do_output_rules () in
+          let { Source_metadata.dirs; _ } = build_whole_project () in
           {
             Mel_watcher.Task.fd = dune_command ?on_exit dune_args;
             paths = dirs;
           })
     in
     if watch_mode then
-      let { Bsb_watcher_gen.dirs; _ } =
-        wrap_bsb ~opts ~f:(fun () -> do_output_rules ())
+      let { Source_metadata.dirs; _ } =
+        wrap_bsb ~opts ~f:(fun () -> build_whole_project ())
       in
       let _p : Luv.Process.t =
         wrap_bsb ~opts ~f:(fun () ->
@@ -127,9 +123,10 @@ module Actions = struct
     else ignore (task () : Mel_watcher.Task.info);
     ignore (Luv.Loop.run () : bool)
 
-  let rules opts =
+  let rules opts dune_args =
     wrap_bsb ~opts ~f:(fun () ->
-        ignore (do_output_rules () : Bsb_watcher_gen.source_meta))
+        let _source_meta : Source_metadata.t = build_whole_project () in
+        Bsb_world.install_targets dune_args)
 
   let clean opts dune_args =
     let _p : Luv.Process.t =
@@ -162,7 +159,7 @@ module Commands = struct
         const Actions.build $ Common_opts.copts_t $ watch_mode_flag
         $ const dune_args)
 
-  let rules (_dune_args : string list) =
+  let rules dune_args =
     let doc = "Output the dune rules necessary to build the project" in
     let man =
       [
@@ -174,7 +171,8 @@ module Commands = struct
       ]
     in
     let info = Cmd.info "rules" ~doc ~man in
-    Cmd.v info Term.(const Actions.rules $ Common_opts.copts_t)
+    Cmd.v info
+      Term.(const Actions.rules $ Common_opts.copts_t $ const dune_args)
 
   let clean dune_args =
     let doc = "Clean the project" in
