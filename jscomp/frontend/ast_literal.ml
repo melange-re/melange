@@ -36,9 +36,7 @@ module Lid = struct
   let type_unit : t = Lident "unit"
   let type_string : t = Lident "string"
   let type_int : t = Lident "int" (* use *predef* *)
-
   let type_exn : t = Lident "exn" (* use *predef* *)
-
   let type_bool : t = Lident "bool" (* use *predef* *)
 
   (* TODO should be renamed in to {!Js.fn} *)

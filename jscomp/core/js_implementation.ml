@@ -203,6 +203,7 @@ let implementation ~parser ~lang ppf fname =
 
 let implementation_mlast ppf fname setup =
   Res_compmisc.init_path ();
+
   Binary_ast.read_ast_exn ~fname Ml setup
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure

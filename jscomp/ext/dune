@@ -2,7 +2,7 @@
  (name ext)
  (wrapped false)
  (flags
-  (:standard -w -9-50 -open Melange_compiler_libs))
+  (:standard -w -9 -open Melange_compiler_libs))
  (libraries unix bs_hash_stubs melange-compiler-libs))
 
 (rule

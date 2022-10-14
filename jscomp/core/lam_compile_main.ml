@@ -43,7 +43,7 @@ let compile_group (meta : Lam_stats.t)
         3. [E.mldot]
      *)
   (* ATTENTION: check {!Lam_compile_global} for consistency  *)
-  (** Special handling for values in [Pervasives] *)
+  (* Special handling for values in [Pervasives] *)
   (*
          we delegate [stdout, stderr, and stdin] into [caml_io] module,
          the motivation is to help dead code eliminatiion, it's helpful
@@ -80,7 +80,7 @@ let compile_group (meta : Lam_stats.t)
 
 ;;
 
-(** Also need analyze its depenency is pure or not *)
+(* Also need analyze its depenency is pure or not *)
 let no_side_effects (rest : Lam_group.t list) : string option =
   Ext_list.find_opt rest (fun x ->
       match x with
@@ -118,7 +118,7 @@ let _d  = fun  s lam ->
 
 let _j = Js_pass_debug.dump
 
-(** Actually simplify_lets is kind of global optimization since it requires you to know whether
+(* Actually simplify_lets is kind of global optimization since it requires you to know whether
     it's used or not
 *)
 let compile
@@ -325,6 +325,7 @@ let lambda_as_module
            basename
            (* #913 only generate little-case js file *)
           ) in
+        Format.eprintf "heh %s %s %B@." (Lazy.force Ext_path.package_dir) target_file !Clflags.dont_write_files;
         (if not !Clflags.dont_write_files then
           write_to_file module_system target_file );
         if !Warnings.has_warnings  then begin

@@ -266,7 +266,8 @@ and statement_desc =
   (* Function declaration and Variable declaration  *)
   | Exp of expression
   | If of expression * block * block
-  | While of label option * expression * block * Js_closure.t (* check if it contains loop mutable values, happens in nested loop *)
+  | While of label option * expression * block * Js_closure.t
+    (* check if it contains loop mutable values, happens in nested loop *)
   | ForRange of
       for_ident_expression option
       * finish_ident_expression
@@ -276,8 +277,9 @@ and statement_desc =
       * Js_closure.t
   | Continue of label
   | Break (* only used when inline a fucntion *)
-  | Return of expression (* Here we need track back a bit ?, move Return to Function ...
-                            Then we can only have one Return, which is not good *)
+  | Return of expression
+  (* Here we need track back a bit ?, move Return to Function ...
+     Then we can only have one Return, which is not good *)
   (* since in ocaml, it's expression oriented langauge, [return] in
      general has no jumps, it only happens when we do
      tailcall conversion, in that case there is a jump.

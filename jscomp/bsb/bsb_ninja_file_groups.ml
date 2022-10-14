@@ -30,7 +30,12 @@ let rel_dependencies_alias ~root_dir ~proj_dir ~cur_dir deps =
     (fun ({ package_install_dirs; _ } : Bsb_config_types.dependency) ->
       Ext_list.filter_map package_install_dirs
         (fun { Bsb_config_types.package_path; package_name; dir } ->
-          if Ext_string.starts_with dir Literals.melange_eobjs_dir then
+          if
+            Ext_string.starts_with dir Literals.melange_eobjs_dir
+            || Ext_string.starts_with dir
+                 (Filename.current_dir_name ^ Filename.dir_sep
+                ^ Literals.melange_eobjs_dir)
+          then
             (* We don't emit the `mel` alias for the artifacts directory *)
             None
           else

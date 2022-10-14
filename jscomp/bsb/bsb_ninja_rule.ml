@@ -22,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
 module Generators = struct
   let regexp = Str.regexp "\\(\\$in\\)\\|\\(\\$out\\)"
 
@@ -32,7 +31,6 @@ module Generators = struct
     | exception Not_found -> None
 end
 
-
 type t = {
   rule_name : string;
   name :
@@ -40,249 +38,212 @@ type t = {
     ?error_syntax_kind:Bsb_db.syntax_kind ->
     ?target:string ->
     string ->
-    unit
+    unit;
 }
 
 let output_rule (x : t) buf ?error_syntax_kind ?target cur_dir =
- let _name = x.name buf ?error_syntax_kind ?target cur_dir in
- ()
+  let _name = x.name buf ?error_syntax_kind ?target cur_dir in
+  ()
 
-(** allocate an unique name for such rule*)
+(* allocate an unique name for such rule*)
 let define ~command rule_name : t =
-  let self = {
-    rule_name ;
-    name = command
-  } in
+  let self = { rule_name; name = command } in
   self
 
 type command = string
 
 type builtin = {
-  build_ast : t;
-  (** TODO: Implement it on top of pp_flags *)
-
-
-  (** platform dependent, on Win32,
+  build_ast : t; (* TODO: Implement it on top of pp_flags *)
+  (* platform dependent, on Win32,
       invoking cmd.exe
   *)
-  build_bin_deps : t ;
+  build_bin_deps : t;
   build_bin_deps_dev : t;
   mj : t;
   mj_dev : t;
-  mij : t ;
-  mij_dev : t ;
+  mij : t;
+  mij_dev : t;
   mi : t;
-  mi_dev : t ;
-
-  build_package : t ;
-  customs : t Map_string.t
+  mi_dev : t;
+  build_package : t;
+  customs : t Map_string.t;
 }
 
-let make_custom_rules
-  ~(global_config : Bsb_ninja_global_vars.t)
-  ~(has_postbuild : string option)
-  ~(pp_file: string option)
-  ~(has_builtin : bool)
-  ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
-  ~package_specs
-  (custom_rules : command Map_string.t) :
-  builtin =
-  (** FIXME: We don't need set [-o ${out}] when building ast
+let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
+    ~(has_postbuild : string option) ~(pp_file : string option)
+    ~(has_builtin : bool)
+    ~(reason_react_jsx : Bsb_config_types.reason_react_jsx option)
+    ~package_specs (custom_rules : command Map_string.t) : builtin =
+  (* FIXME: We don't need set [-o ${out}] when building ast
       since the default is already good -- it does not*)
-  (** NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
-let package_name = global_config.package_name in
+  (* NOTE(anmonteiro): The above comment is false, namespace needs `-o` *)
+  let package_name = global_config.package_name in
   let ns_flag =
-    match global_config.namespace with None -> ""
-    | Some n -> " -bs-ns " ^ n in
-  let mk_ml_cmj_cmd
-      ~(read_cmi : [`yes | `is_cmi | `no])
-      ~is_dev
-      ~postbuild
-      buf
-      ?error_syntax_kind
-      ?(target="%{targets}")
-      cur_dir =
+    match global_config.namespace with None -> "" | Some n -> " -bs-ns " ^ n
+  in
+  let mk_ml_cmj_cmd ~(read_cmi : [ `yes | `is_cmi | `no ]) ~is_dev ~postbuild
+      buf ?error_syntax_kind ?(target = "%{targets}") cur_dir =
     let rel_incls ?namespace dirs =
-      Bsb_build_util.rel_include_dirs
-        ~package_name
+      Bsb_build_util.rel_include_dirs ~package_name
         ~root_dir:global_config.root_dir
-        ~per_proj_dir:global_config.per_proj_dir
-        ~cur_dir
-        ?namespace
-        dirs
+        ~per_proj_dir:global_config.per_proj_dir ~cur_dir ?namespace dirs
     in
     Buffer.add_string buf "(action\n ";
     Buffer.add_string buf " (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf ns_flag;
-    if not has_builtin then
-      Buffer.add_string buf " -nostdlib";
-    if read_cmi = `yes then
-      Buffer.add_string buf " -bs-read-cmi";
-    if is_dev && global_config.g_dev_incls <> [] then begin
-       let dev_incls = rel_incls global_config.g_dev_incls in
-        Buffer.add_string buf " ";
-        Buffer.add_string buf dev_incls;
-    end;
+    if not has_builtin then Buffer.add_string buf " -nostdlib";
+    if read_cmi = `yes then Buffer.add_string buf " -bs-read-cmi";
+    if is_dev && global_config.g_dev_incls <> [] then (
+      let dev_incls = rel_incls global_config.g_dev_incls in
+      Buffer.add_string buf " ";
+      Buffer.add_string buf dev_incls);
     if error_syntax_kind = Some Bsb_db.Reason then
       Buffer.add_string buf " -bs-re-out";
     Buffer.add_string buf " ";
     Buffer.add_string buf (rel_incls global_config.g_sourcedirs_incls);
     Buffer.add_string buf " ";
-    Buffer.add_string buf (rel_incls ?namespace:global_config.namespace global_config.g_lib_incls);
-    if is_dev then begin
+    Buffer.add_string buf
+      (rel_incls ?namespace:global_config.namespace global_config.g_lib_incls);
+    if is_dev then (
       Buffer.add_string buf " ";
-      Buffer.add_string buf (rel_incls global_config.g_dpkg_incls);
-    end;
+      Buffer.add_string buf (rel_incls global_config.g_dpkg_incls));
     Buffer.add_char buf ' ';
     Buffer.add_string buf global_config.bsc_flags;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
-    if read_cmi <> `is_cmi then begin
+    if read_cmi <> `is_cmi then (
       Buffer.add_string buf " -bs-package-name ";
-      Buffer.add_string buf (Ext_filename.maybe_quote global_config.package_name);
       Buffer.add_string buf
-        (Bsb_package_specs.package_flag_of_package_specs package_specs ~dirname:cur_dir)
-    end;
-
+        (Ext_filename.maybe_quote global_config.package_name);
+      Buffer.add_string buf
+        (Bsb_package_specs.package_flag_of_package_specs package_specs
+           ~dirname:cur_dir));
 
     Ext_option.iter global_config.gentypeconfig (fun gentypeconfig ->
-      Buffer.add_string buf " ";
-      Buffer.add_string buf gentypeconfig);
+        Buffer.add_string buf " ";
+        Buffer.add_string buf gentypeconfig);
     Buffer.add_string buf " -o ";
     Buffer.add_string buf target;
     Buffer.add_string buf " %{inputs}";
     Buffer.add_string buf "))";
-    begin match postbuild with
+    match postbuild with
     | None -> ()
     | Some cmd ->
-      Buffer.add_string buf " && ";
-      Buffer.add_string buf cmd ;
-      Buffer.add_string buf " $out_last"
-    end ;
+        Buffer.add_string buf " && ";
+        Buffer.add_string buf cmd;
+        Buffer.add_string buf " $out_last"
   in
   let mk_ast buf ?error_syntax_kind:_ ?target:_ cur_dir : unit =
     let rel_artifacts_dir =
-      Mel_workspace.rel_artifacts_dir
-        ~package_name
-        ~root_dir:global_config.root_dir
-        ~proj_dir:global_config.per_proj_dir
-      cur_dir
+      Mel_workspace.rel_artifacts_dir ~package_name
+        ~root_dir:global_config.root_dir ~proj_dir:global_config.per_proj_dir
+        cur_dir
     in
     Buffer.add_string buf "(action\n (run ";
     Buffer.add_string buf global_config.bsc;
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
     (match global_config.ppx_config with
-     | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
-     | _not_empty ->
-       Buffer.add_char buf ' ';
-       Buffer.add_string
-         buf
-         (Bsb_build_util.ppx_flags ~artifacts_dir:rel_artifacts_dir global_config.ppx_config));
+    | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
+    | _not_empty ->
+        Buffer.add_char buf ' ';
+        Buffer.add_string buf
+          (Bsb_build_util.ppx_flags ~artifacts_dir:rel_artifacts_dir
+             global_config.ppx_config));
     (match pp_file with
-     | None -> ()
-     | Some flag ->
-       Buffer.add_char buf ' ';
-       Buffer.add_string buf (Bsb_build_util.pp_flag flag)
-    );
+    | None -> ()
+    | Some flag ->
+        Buffer.add_char buf ' ';
+        Buffer.add_string buf (Bsb_build_util.pp_flag flag));
     (match reason_react_jsx with
-     | None -> ()
-     | Some Jsx_v3 -> Buffer.add_string buf " -bs-jsx 3"
-    );
+    | None -> ()
+    | Some Jsx_v3 -> Buffer.add_string buf " -bs-jsx 3");
 
     Buffer.add_char buf ' ';
     Buffer.add_string buf global_config.bsc_flags;
     Buffer.add_string buf " -absname -bs-ast -o %{targets} %{inputs}";
     Buffer.add_string buf "))"
   in
-  let build_ast =
-    define
-      ~command:mk_ast
-      "ast" in
+  let build_ast = define ~command:mk_ast "ast" in
 
   let aux ~name ~read_cmi ~postbuild =
-    define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:false ~postbuild) name,
-    define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild) (name ^ "_dev")
-
+    ( define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:false ~postbuild) name,
+      define
+        ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild)
+        (name ^ "_dev") )
   in
 
   let build_bin_deps =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
         let s =
-          Format.asprintf "(action (run %s -root-dir %s -cwd %s -p %s -proj-dir %s %s %%{inputs}))"
-            global_config.bsdep
-            global_config.root_dir
-            cur_dir
-            package_name
-            global_config.per_proj_dir
-            ns_flag
+          Format.asprintf
+            "(action (run %s -root-dir %s -cwd %s -p %s -proj-dir %s %s \
+             %%{inputs}))"
+            global_config.bsdep global_config.root_dir cur_dir package_name
+            global_config.per_proj_dir ns_flag
         in
         Buffer.add_string buf s)
-      "deps" in
+      "deps"
+  in
   let build_bin_deps_dev =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
         let s =
-          Format.asprintf "(action (run %s -root-dir %s -g -cwd %s -p %s -proj-dir %s %s %%{inputs}))"
-            global_config.bsdep
-            global_config.root_dir
-            cur_dir
-            package_name
-            global_config.per_proj_dir
-            ns_flag
+          Format.asprintf
+            "(action (run %s -root-dir %s -g -cwd %s -p %s -proj-dir %s %s \
+             %%{inputs}))"
+            global_config.bsdep global_config.root_dir cur_dir package_name
+            global_config.per_proj_dir ns_flag
         in
         Buffer.add_string buf s)
       "deps_dev"
   in
 
-  let mj, mj_dev =
-    aux ~name:"mj" ~read_cmi:`yes ~postbuild:has_postbuild in
-  let mij, mij_dev =
-    aux
-      ~read_cmi:`no
-      ~name:"mij" ~postbuild:has_postbuild in
-  let mi, mi_dev =
-    aux
-       ~read_cmi:`is_cmi  ~postbuild:None
-      ~name:"mi" in
+  let mj, mj_dev = aux ~name:"mj" ~read_cmi:`yes ~postbuild:has_postbuild in
+  let mij, mij_dev = aux ~read_cmi:`no ~name:"mij" ~postbuild:has_postbuild in
+  let mi, mi_dev = aux ~read_cmi:`is_cmi ~postbuild:None ~name:"mi" in
   let build_package =
     define
       ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
-         let s = global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}" in
+        let s =
+          global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}"
+        in
         Buffer.add_string buf "(action (run ";
         Buffer.add_string buf s;
         Buffer.add_string buf "))")
       "build_package"
   in
   {
-    build_ast ;
-    build_bin_deps ;
+    build_ast;
+    build_bin_deps;
     build_bin_deps_dev;
-    mj  ;
-    mj_dev  ;
-    mij  ;
-    mi  ;
-
+    mj;
+    mj_dev;
+    mij;
+    mi;
     mij_dev;
-    mi_dev ;
-
-    build_package ;
+    mi_dev;
+    build_package;
     customs =
-      Map_string.mapi custom_rules begin fun name command ->
-        define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
-          let actual_command =
-            Str.global_substitute Generators.regexp (fun match_ ->
-              match Generators.(maybe_match ~group:1 match_, maybe_match ~group:2 match_) with
-              | Some _, None -> "%{inputs}"
-              | None, Some _ -> "%{targets}"
-              | _ -> assert false)
-            command
-          in
-          let s = Format.asprintf "(action (system %S))" actual_command in
-          Buffer.add_string buf s)
-        ("custom_" ^ name)
-      end
+      Map_string.mapi custom_rules (fun name command ->
+          define
+            ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
+              let actual_command =
+                Str.global_substitute Generators.regexp
+                  (fun match_ ->
+                    match
+                      Generators.
+                        ( maybe_match ~group:1 match_,
+                          maybe_match ~group:2 match_ )
+                    with
+                    | Some _, None -> "%{inputs}"
+                    | None, Some _ -> "%{targets}"
+                    | _ -> assert false)
+                  command
+              in
+              let s = Format.asprintf "(action (system %S))" actual_command in
+              Buffer.add_string buf s)
+            ("custom_" ^ name));
   }
-

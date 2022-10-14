@@ -59,7 +59,8 @@ type external_spec =
       splice : bool;
       pipe : pipe;
       js_send_scopes : string list;
-    } (* we know it is a js send, but what will happen if you pass an ocaml objct *)
+    }
+    (* we know it is a js send, but what will happen if you pass an ocaml objct *)
   | Js_new of {
       name : string;
       external_module_name : external_module_name option;

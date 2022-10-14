@@ -67,9 +67,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
     : External_arg_spec.attr =
   let has_bs_as = ref false in
   let case, result =
-    Ext_list.fold_right row_fields
-      (`Nothing, [])
-      (fun tag (nullary, acc) ->
+    Ext_list.fold_right row_fields (`Nothing, []) (fun tag (nullary, acc) ->
         match (nullary, tag.prf_desc) with
         | (`Nothing | `Null), Rtag ({ txt }, true, []) ->
             let name =

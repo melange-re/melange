@@ -60,7 +60,7 @@ let refine_let
     (* don't inline inside a block *)
     ->  Lam.prim ~primitive ~args:[arg]  loc
   (* we can not do this substitution when capttured *)
-  (* | _, Lvar _, _ -> (\** let u = h in xxx*\) *)
+  (* | _, Lvar _, _ -> (\* let u = h in xxx*\) *)
   (*     (\* assert false *\) *)
   (*     Ext_log.err "@[substitution >> @]@."; *)
   (*     let v= subst_lambda (Map_ident.singleton param arg ) l in *)
@@ -70,7 +70,7 @@ let refine_let
    Ident.same w param &&
     (not (Lam_hit.hit_variable param fn ))
    ->
-    (** does not work for multiple args since
+    (* does not work for multiple args since
         evaluation order unspecified, does not apply
         for [js] in general, since the scope of js ir is loosen
 
@@ -121,7 +121,7 @@ let refine_let
 
 let alias_ident_or_global (meta : Lam_stats.t) (k:Ident.t) (v:Ident.t)
     (v_kind : Lam_id_kind.t)  =
-  (** treat rec as Strict, k is assigned to v
+  (* treat rec as Strict, k is assigned to v
       {[ let k = v ]}
   *)
   match v_kind with

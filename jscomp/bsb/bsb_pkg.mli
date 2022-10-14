@@ -32,6 +32,7 @@
 *)
 
 val resolve_package : cwd:string -> string -> string
+
 val resolve_bs_package : cwd:string -> Bsb_pkg_types.t -> string
 (** @raise  when not found *)
 

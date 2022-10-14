@@ -25,10 +25,11 @@
 (** Define some basic types used in JS IR *)
 
 type binop =
-  | Eq (* acutally assignment ..
-          TODO: move it into statement, so that all expressions
-          are side efffect free (except function calls)
-       *)
+  | Eq
+    (* acutally assignment ..
+       TODO: move it into statement, so that all expressions
+       are side efffect free (except function calls)
+    *)
   | Or
   | And
   | EqEqEq
@@ -159,7 +160,8 @@ type used_stats =
      pass, you can not do it in a single pass, however, some simple
      dead code can be detected in a single pass
   *)
-  | Once_pure (* used only once so that, if we do the inlining, it will be [Dead] *)
+  | Once_pure
+    (* used only once so that, if we do the inlining, it will be [Dead] *)
   | Used (**)
   | Scanning_pure
   | Scanning_non_pure
