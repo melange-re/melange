@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -43,7 +43,7 @@ type exn += Error of int (* offset *) * error
 
 let error ~loc error = raise (Error (loc, error))
 
-(** Note the [loc] really should be the utf8-offset, it has nothing to do with our 
+(* Note the [loc] really should be the utf8-offset, it has nothing to do with our
     escaping mechanism
 *)
 (* we can not just print new line in ES5

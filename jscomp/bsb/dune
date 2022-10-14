@@ -6,7 +6,7 @@
  (modules :standard \ mel_workspace)
  (modules_without_implementation bsb_config_types)
  (flags
-  (:standard -w -9-50))
+  (:standard -w -9))
  (libraries
   mel_workspace
   bsb_helper

@@ -1,5 +1,5 @@
 (* Copyright (C) 2020- Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,34 +17,33 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
- (** TODO: the interface is not reusable, it depends on too much context *)
-(** syntax: {[f arg0 arg1 [@bs]]}*)
-val uncurry_fn_apply : 
-  Location.t -> 
-  Bs_ast_mapper.mapper -> 
+(* TODO: the interface is not reusable, it depends on too much context *)
+(* syntax: {[f arg0 arg1 [@bs]]}*)
+val uncurry_fn_apply :
+  Location.t ->
+  Bs_ast_mapper.mapper ->
   Parsetree.expression ->
-  Ast_compatible.args  ->
-  Parsetree.expression_desc 
+  Ast_compatible.args ->
+  Parsetree.expression_desc
 
-(** syntax : {[f## arg0 arg1 ]}*)
-val method_apply : 
-  Location.t -> 
-  Bs_ast_mapper.mapper -> 
+(* syntax : {[f## arg0 arg1 ]}*)
+val method_apply :
+  Location.t ->
+  Bs_ast_mapper.mapper ->
   Parsetree.expression ->
   string ->
   Ast_compatible.args ->
   Parsetree.expression_desc
 
-(** syntax {[f#@ arg0 arg1 ]}*)
-val property_apply : 
-  Location.t -> 
-  Bs_ast_mapper.mapper -> 
+(* syntax {[f#@ arg0 arg1 ]}*)
+val property_apply :
+  Location.t ->
+  Bs_ast_mapper.mapper ->
   Parsetree.expression ->
   string ->
   Ast_compatible.args ->

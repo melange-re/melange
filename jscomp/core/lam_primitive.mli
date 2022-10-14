@@ -26,7 +26,8 @@ type ident = Ident.t
 
 type record_representation =
   | Record_regular
-  | Record_inlined of { tag : int; name : string; num_nonconsts : int } (* Inlined record *)
+  | Record_inlined of { tag : int; name : string; num_nonconsts : int }
+    (* Inlined record *)
   | Record_extension
 (* Inlined record under extension *)
 
@@ -134,7 +135,8 @@ type t =
   | Pjs_typeof
   | Pjs_function_length
   | Pcaml_obj_length
-  | Pwrap_exn (* convert either JS exception or OCaml exception into OCaml format *)
+  | Pwrap_exn
+    (* convert either JS exception or OCaml exception into OCaml format *)
   | Pcreate_extension of string
   | Pis_not_none
   | Pval_from_option

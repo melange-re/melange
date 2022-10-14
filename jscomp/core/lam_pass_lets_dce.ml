@@ -1,4 +1,4 @@
-(***********************************************************************)
+(************************************)
 (*                                                                     *)
 (*                                OCaml                                *)
 (*                                                                     *)
@@ -8,7 +8,7 @@
 (*  en Automatique.  All rights reserved.  This file is distributed    *)
 (*  under the terms of the Q Public License version 1.0.               *)
 (*                                                                     *)
-(***********************************************************************)
+(************************************)
 (* Adapted for Javascript backend : Hongbo Zhang,  *)
 
 
@@ -32,7 +32,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
       let slinit = simplif linit in
       let slbody = simplif lbody in
       begin
-        try (** TODO: record all references variables *)
+        try (* TODO: record all references variables *)
           Lam_util.refine_let
             ~kind:Variable v slinit
              (Lam_pass_eliminate_ref.eliminate_ref v slbody)
@@ -42,7 +42,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
             slbody
       end
     | Llet(Alias, v, l1, l2) ->
-      (** For alias, [l1] is pure, we can always inline,
+      (* For alias, [l1] is pure, we can always inline,
           when captured, we should avoid recomputation
       *)
       begin
@@ -68,7 +68,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
           ->
           Hash_ident.add subst v (simplif l1); simplif l2
         | _, Lconst (Const_string s ) ->
-          (** only "" added for later inlining *)
+          (* only "" added for later inlining *)
           Hash_ident.add string_table v s;
           Lam.let_ Alias v l1 (simplif l2)
           (* we need move [simplif l2] later, since adding Hash does have side effect *)
@@ -76,7 +76,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
         (* for Alias, in most cases [l1] is already simplified *)
       end
     | Llet(StrictOpt as kind, v, l1, lbody) ->
-      (** can not be inlined since [l1] depend on the store
+      (* can not be inlined since [l1] depend on the store
           {[
             let v = [|1;2;3|]
           ]}
@@ -103,7 +103,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
           let slinit = simplif linit in
           let slbody = simplif lbody in
           begin
-            try (** TODO: record all references variables *)
+            try (* TODO: record all references variables *)
               Lam_util.refine_let
                 ~kind:Variable v slinit
                 (Lam_pass_eliminate_ref.eliminate_ref v slbody)
@@ -164,7 +164,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
       simplif (Lam_beta_reduce.no_names_beta_reduce  params body args)
     (* | Lapply{ fn = Lfunction{function_kind = Tupled; params; body}; *)
     (*           args = [Lprim {primitive = Pmakeblock _;  args; _}]; _} *)
-    (*   (\** TODO: keep track of this parameter in ocaml trunk, *)
+    (*   (\* TODO: keep track of this parameter in ocaml trunk, *)
     (*       can we switch to the tupled backend? *)
     (*   *\) *)
     (*   when  Ext_list.same_length params  args -> *)

@@ -4,6 +4,9 @@ nix-%:
 vim:
 	$(MAKE) nix-n$@
 
+generate-dune-files:
+	node scripts/ninja.js
+
 dev:
 	dune build @install
 

@@ -4,7 +4,6 @@ jscomp/build_tests/*/*/*
 jscomp/build_tests/*/*/*/*
 jscomp/build_tests/*/*/*/*/*
 jscomp/build_tests/*/*/*/*/*/*
-jscomp/ounit_tests/*
 jscomp/test/*
 jscomp/test/*/*
 jscomp/test/*/*/*
@@ -12,7 +11,5 @@ jscomp/stdlib-412/*
 jscomp/stdlib-412/*/*
 jscomp/runtime/*
 jscomp/others/*
-
 jscomp/napkin/*
 jscomp/js_parser/*
-

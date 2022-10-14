@@ -47,14 +47,6 @@
  (libraries bs_hash_stubs ext common core))
 
 (executable
- (name cmij_main)
- (modes native)
- (modules cmij_main)
- (flags
-  (:standard -w -9))
- (libraries bs_hash_stubs ext common core))
-
-(executable
  (public_name meldep)
  (modes native)
  (modules meldep)

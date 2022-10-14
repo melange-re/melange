@@ -36,9 +36,7 @@ module type S = sig
   val add : 'value t -> key -> 'value -> unit
   val mem : 'value t -> key -> bool
   val rank : 'value t -> key -> int (* -1 if not found*)
-
   val find_value : 'value t -> key -> 'value (* raise if not found*)
-
   val iter : 'value t -> (key -> 'value -> int -> unit) -> unit
   val fold : 'value t -> 'b -> (key -> 'value -> int -> 'b -> 'b) -> 'b
   val length : 'value t -> int

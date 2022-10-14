@@ -29,7 +29,7 @@ let merlin_trailer = "####BSB GENERATED: NO EDIT}"
 let merlin_trailer_length = String.length merlin_trailer
 let (//) = Ext_path.combine
 
-(** [new_content] should start end finish with newline *)
+(* [new_content] should start end finish with newline *)
 let revise_merlin merlin new_content =
   if Sys.file_exists merlin then
     let s = Ext_io.load_file merlin in
@@ -213,7 +213,7 @@ let merlin_file_gen ~per_proj_dir:(per_proj_dir:string)
     Buffer.add_string buffer bsc_string_flag ;
     Buffer.add_string buffer (warning_to_merlin_flg  warning);
     Ext_list.iter bs_dependencies (package_merlin buffer ~dune_build_dir);
-    (**TODO: shall we generate .merlin for dev packages ?*)
+    (* TODO: shall we generate .merlin for dev packages? *)
     Ext_list.iter bs_dev_dependencies (package_merlin buffer ~dune_build_dir);
     Ext_list.iter res_files.files (fun x ->
         if not (Bsb_file_groups.is_empty x) then

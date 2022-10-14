@@ -25,34 +25,27 @@
 type tdcls = Parsetree.type_declaration list
 
 type gen = {
-  structure_gen : tdcls -> Asttypes.rec_flag -> Ast_structure.t ;
-  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t ;
-  expression_gen : (Parsetree.core_type -> Parsetree.expression) option ;
+  structure_gen : tdcls -> Asttypes.rec_flag -> Ast_structure.t;
+  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t;
+  expression_gen : (Parsetree.core_type -> Parsetree.expression) option;
 }
 
-val is_builtin_deriver: string -> bool
-(**
+val is_builtin_deriver : string -> bool
+
+(*
    [register name cb]
    example: [register "accessors" cb]
 *)
-val register :
-  string ->
-  (Parsetree.expression option -> gen) ->
-  unit
+val register : string -> (Parsetree.expression option -> gen) -> unit
 
 (* val gen_structure:
-  tdcls  ->
-  Ast_payload.action list ->
-  bool ->
-  Ast_structure.t *)
+   tdcls  ->
+   Ast_payload.action list ->
+   bool ->
+   Ast_structure.t *)
 
-val gen_signature:
-  tdcls ->
-  Ast_payload.action list ->
-  Asttypes.rec_flag ->
-  Ast_signature.t
-
-
+val gen_signature :
+  tdcls -> Ast_payload.action list -> Asttypes.rec_flag -> Ast_signature.t
 
 val gen_structure_signature :
   Location.t ->
