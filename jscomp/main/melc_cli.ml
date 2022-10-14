@@ -26,6 +26,7 @@ open Cmdliner
 
 type t = {
   include_dirs : string list;
+  alerts : string list;
   warnings : string list;
   output_name : string option;
   bs_read_cmi : bool;
@@ -102,6 +103,19 @@ let include_dirs =
   let doc = "Add $(docv) to the list of include directories" in
   let docv = "dir" in
   Arg.(value & opt_all string [] & info [ "I" ] ~doc ~docv)
+
+let alerts =
+  let doc =
+    "$(docv)  Enable or disable alerts according to $(docv):\n\
+    \        +<alertname>  enable alert <alertname>\n\
+    \        -<alertname>  disable alert <alertname>\n\
+    \        ++<alertname> treat <alertname> as fatal error\n\
+    \        --<alertname> treat <alertname> as non-fatal\n\
+    \        @<alertname>  enable <alertname> and treat it as fatal error\n\
+    \    <alertname> can be 'all' to refer to all alert names"
+  in
+  let docv = "list" in
+  Arg.(value & opt_all string [] & info [ "alert" ] ~doc ~docv)
 
 let warnings =
   let doc =
@@ -492,13 +506,13 @@ module Compat = struct
   let c = Arg.(value & flag & info [ "c" ] ~doc)
 end
 
-let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
-    bs_jsx bs_package_output bs_ast bs_syntax_only bs_g bs_package_name bs_ns
-    as_ppx as_pp no_alias_deps bs_gentype unboxed_types bs_re_out bs_D
-    bs_unsafe_empty_array nostdlib color bs_list_conditionals bs_eval bs_e
-    bs_cmi_only bs_cmi bs_cmj bs_no_version_header bs_no_builtin_ppx
-    bs_cross_module_opt bs_diagnose format where verbose keep_locs
-    bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
+let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
+    open_modules bs_jsx bs_package_output bs_ast bs_syntax_only bs_g
+    bs_package_name bs_ns as_ppx as_pp no_alias_deps bs_gentype unboxed_types
+    bs_re_out bs_D bs_unsafe_empty_array nostdlib color bs_list_conditionals
+    bs_eval bs_e bs_cmi_only bs_cmi bs_cmj bs_no_version_header
+    bs_no_builtin_ppx bs_cross_module_opt bs_diagnose format where verbose
+    keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
     drawlambda dsource version pp absname bin_annot i nopervasives modules
     nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
@@ -506,6 +520,7 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
   {
     help;
     include_dirs;
+    alerts;
     warnings;
     output_name;
     bs_read_cmi;
@@ -579,7 +594,7 @@ let parse help include_dirs warnings output_name bs_read_cmi ppx open_modules
 
 let cmd =
   Term.(
-    const parse $ help $ include_dirs $ warnings $ output_name
+    const parse $ help $ include_dirs $ alerts $ warnings $ output_name
     $ Internal.bs_read_cmi $ ppx $ open_modules $ Internal.bs_jsx
     $ Internal.bs_package_output $ Internal.bs_ast $ bs_syntax_only $ bs_g
     $ bs_package_name $ bs_ns $ Internal.as_ppx $ Internal.as_pp
@@ -617,6 +632,8 @@ let normalize_argv argv =
       is_w
       || (s.[0] = '-' && s.[1] = 'w' && s = "-warn-error")
       || (s.[0] = '-' && s.[1] = '-' && s.[2] = 'w' && s = "-warn-error")
+      || (s.[0] = '-' && s.[1] = 'a' && s = "-alert")
+      || (s.[0] = '-' && s.[1] = '-' && s.[2] = 'a' && s = "-alert")
     then (
       let s =
         if !idx >= len - 1 then

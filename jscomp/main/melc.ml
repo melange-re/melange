@@ -308,6 +308,7 @@ let print_version_string () =
 let main: Melc_cli.t -> _ Cmdliner.Term.ret
     = fun {
       Melc_cli.include_dirs;
+      alerts;
       warnings;
       output_name;
       bs_read_cmi;
@@ -382,6 +383,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
   if help then `Help (`Auto, None)
   else begin
     Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
+    Ext_list.iter alerts Warnings.parse_alert_option;
     Ext_list.iter warnings (fun w ->
         Ext_option.iter
           (Warnings.parse_options false w)

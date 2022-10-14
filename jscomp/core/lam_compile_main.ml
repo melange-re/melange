@@ -325,7 +325,6 @@ let lambda_as_module
            basename
            (* #913 only generate little-case js file *)
           ) in
-        Format.eprintf "heh %s %s %B@." (Lazy.force Ext_path.package_dir) target_file !Clflags.dont_write_files;
         (if not !Clflags.dont_write_files then
           write_to_file module_system target_file );
         if !Warnings.has_warnings  then begin
