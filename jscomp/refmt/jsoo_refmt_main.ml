@@ -71,9 +71,8 @@ let implementation ~use_super_errors impl str : Js.Unsafe.obj =
     |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam } ->
     let buffer = Buffer.create 1000 in
     let () =
-      Js_dump_program.pp_deps_program
-        ~output_prefix:"" (* does not matter here *)
-        NodeJS
+      Js_dump_program.pp_deps_program ~output_prefix:""
+        (* does not matter here *) NodeJS
         (Lam_compile_main.compile "" lam)
         (Ext_pp.from_buffer buffer)
     in

@@ -13,62 +13,90 @@ let
   };
   nix-filter = import "${nix-filter-src}";
 
-
   pkgs = import src {
     extraOverlays = [
       (self: super: { ocamlPackages = super.ocaml-ng.ocamlPackages_4_14; })
     ];
   };
-  inherit (pkgs) stdenv nodejs-14_x yarn git lib ocamlPackages;
+  inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages;
   melange = pkgs.callPackage ./.. { inherit nix-filter; };
   inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 
-stdenv.mkDerivation {
-  name = "melange-tests-${inputString}";
-  inherit (melange) nativeBuildInputs propagatedBuildInputs;
+{
+  melange-runtime-tests = stdenv.mkDerivation {
+    name = "melange-tests-${inputString}";
+    inherit (melange) nativeBuildInputs propagatedBuildInputs;
 
-  src = ../..;
+    src = ../../jscomp/test;
 
-  # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-  # the dream of running fixed-output-derivations is dead -- somehow after
-  # Nix 2.4 it results in `error: unexpected end-of-file`.
-  # Example: https://github.com/melange-re/melange/runs/4132970590
+    # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
+    # the dream of running fixed-output-derivations is dead -- somehow after
+    # Nix 2.4 it results in `error: unexpected end-of-file`.
+    # Example: https://github.com/melange-re/melange/runs/4132970590
 
-  outputHashMode = "flat";
-  outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" "melange";
-  installPhase = ''
-    echo -n melange > $out
-  '';
+    outputHashMode = "flat";
+    outputHashAlgo = "sha256";
+    outputHash = builtins.hashString "sha256" "${melange}";
+    installPhase = ''
+      echo -n ${melange} > $out
+    '';
 
-  phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+    phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
-  checkInputs = with ocamlPackages; [ ounit2 ];
-  doCheck = true;
+    checkInputs = with ocamlPackages; [ ounit2 ];
+    doCheck = true;
 
-  buildInputs = melange.buildInputs ++ [
-    git
-    yarn
-    nodejs-14_x
-    melange
-  ];
+    buildInputs = melange.buildInputs ++ [
+      git
+      yarn
+      nodejs
+      melange
+    ];
 
-  checkPhase = ''
-    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
-    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+    NIX_NODE_MODULES_POSTINSTALL = ''
+      ln -sfn ${melange} node_modules/melange
+    '';
 
-    # `--release` to avoid promotion
-    rm -rf _build && dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
+    checkPhase = ''
+      # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
+      yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
 
-    # check that running `node scripts/ninja.js config` produces an empty diff.
-    # dune build jscomp/main/js_main.exe
-    node scripts/ninja.js config
+      # `--release` to avoid promotion
+      rm -rf _build && dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
 
-    git diff --exit-code
+      node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
+    '';
+  };
 
-    node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
+  melange-lint-checks = stdenv.mkDerivation {
+    name = "melange-tests-${inputString}";
+    src = ../..;
 
-    dune runtest -p ${melange.name} -j $NIX_BUILD_CORES --display=short
-  '';
+    # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
+    # the dream of running fixed-output-derivations is dead -- somehow after
+    # Nix 2.4 it results in `error: unexpected end-of-file`.
+    # Example: https://github.com/melange-re/melange/runs/4132970590
+
+    outputHashMode = "flat";
+    outputHashAlgo = "sha256";
+    outputHash = builtins.hashString "sha256" "melange";
+    installPhase = ''
+      echo -n melange > $out
+    '';
+
+    phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+
+    nativeBuildInputs = with ocamlPackages; [ ocaml ];
+    buildInputs = [ git nodejs melange ];
+    doCheck = true;
+
+    checkPhase = ''
+      # check that running `node scripts/ninja.js config` produces an empty diff.
+      node scripts/ninja.js config
+
+      git diff --exit-code
+    '';
+  };
+
 }

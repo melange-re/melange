@@ -32,8 +32,7 @@ module Generators = struct
 end
 
 type t = {
-  rule_name : string;
-  name :
+  rule :
     Buffer.t ->
     ?error_syntax_kind:Bsb_db.syntax_kind ->
     ?target:string ->
@@ -42,12 +41,12 @@ type t = {
 }
 
 let output_rule (x : t) buf ?error_syntax_kind ?target cur_dir =
-  let _name = x.name buf ?error_syntax_kind ?target cur_dir in
+  let _name = x.rule buf ?error_syntax_kind ?target cur_dir in
   ()
 
 (* allocate an unique name for such rule*)
-let define ~command rule_name : t =
-  let self = { rule_name; name = command } in
+let define ~command : t =
+  let self = { rule = command } in
   self
 
 type command = string
@@ -165,18 +164,15 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
     Buffer.add_string buf " -absname -bs-ast -o %{targets} %{inputs}";
     Buffer.add_string buf "))"
   in
-  let build_ast = define ~command:mk_ast "ast" in
+  let build_ast = define ~command:mk_ast in
 
-  let aux ~name ~read_cmi ~postbuild =
-    ( define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:false ~postbuild) name,
-      define
-        ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild)
-        (name ^ "_dev") )
+  let aux ~read_cmi ~postbuild =
+    ( define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:false ~postbuild),
+      define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild) )
   in
 
   let build_bin_deps =
-    define
-      ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
+    define ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
         let s =
           Format.asprintf
             "(action (run %s -root-dir %s -cwd %s -p %s -proj-dir %s %s \
@@ -185,11 +181,9 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
             global_config.per_proj_dir ns_flag
         in
         Buffer.add_string buf s)
-      "deps"
   in
   let build_bin_deps_dev =
-    define
-      ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
+    define ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
         let s =
           Format.asprintf
             "(action (run %s -root-dir %s -g -cwd %s -p %s -proj-dir %s %s \
@@ -198,22 +192,19 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
             global_config.per_proj_dir ns_flag
         in
         Buffer.add_string buf s)
-      "deps_dev"
   in
 
-  let mj, mj_dev = aux ~name:"mj" ~read_cmi:`yes ~postbuild:has_postbuild in
-  let mij, mij_dev = aux ~read_cmi:`no ~name:"mij" ~postbuild:has_postbuild in
-  let mi, mi_dev = aux ~read_cmi:`is_cmi ~postbuild:None ~name:"mi" in
+  let mj, mj_dev = aux ~read_cmi:`yes ~postbuild:has_postbuild in
+  let mij, mij_dev = aux ~read_cmi:`no ~postbuild:has_postbuild in
+  let mi, mi_dev = aux ~read_cmi:`is_cmi ~postbuild:None in
   let build_package =
-    define
-      ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
+    define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
         let s =
           global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}"
         in
         Buffer.add_string buf "(action (run ";
         Buffer.add_string buf s;
         Buffer.add_string buf "))")
-      "build_package"
   in
   {
     build_ast;
@@ -227,9 +218,8 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
     mi_dev;
     build_package;
     customs =
-      Map_string.mapi custom_rules (fun name command ->
-          define
-            ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
+      Map_string.mapi custom_rules (fun _name command ->
+          define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
               let actual_command =
                 Str.global_substitute Generators.regexp
                   (fun match_ ->
@@ -244,6 +234,5 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
                   command
               in
               let s = Format.asprintf "(action (system %S))" actual_command in
-              Buffer.add_string buf s)
-            ("custom_" ^ name));
+              Buffer.add_string buf s));
   }

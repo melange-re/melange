@@ -39,51 +39,51 @@ var getOcamldepFile = () => {
   return "ocamldep.opt";
 };
 
+function checkInPATH(command) {
+  const paths = process.env.PATH.split(path.delimiter);
+  const found = paths.find(x => fs.existsSync(path.join(x, command)));
+
+  if (found != null) {
+    return path.join(found, command)
+  }
+}
+
 var getBsc = () => {
-  // TODO(anmonteiro): fix for CI
-  return "./_build/default/jscomp/main/melc.exe";
+  return checkInPATH('melc') || path.join(root, './_build/default/jscomp/main/melc.exe');
+}
+
+function ruleCCPriv({flags, src, target, deps = [], promoteExts, readCmi}) {
+  var cmj =
+    Array.isArray(target)
+      ? target.find(x => x.endsWith(".cmj"))
+      : target;
+  cmj = cmj && cmj.endsWith(".cmj") ? cmj : undefined;
+  var promoteTarget = promoteExts != null
+    ? (target.filter(x => x.endsWith("cmj")).flatMap(x =>
+      promoteExts.map(promoteExt => `${path.parse(x).name}${promoteExt}`)
+    ))
+    : null;
+  return `
+  (rule
+    (targets ${Array.isArray(target) ? target.join(' ') : target} ${promoteTarget != null ? promoteTarget.join(' ') : ""} ${cmj != null? `${replaceExt(cmj, ".js")} ${replaceExt(cmj, ".mjs")}`: ''})
+    (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
+${promoteTarget ? `
+  (mode
+   (promote
+    (until-clean)
+    (only ${promoteTarget.join(' ')})))
+` : ""}
+    (action
+     (run %{workspace_root}/jscomp/main/melc.exe ${readCmi ? '-bs-read-cmi' : ''} -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
+`;
 }
 
 function ruleCC(flags, src, target, deps = [], promoteExts) {
-  var promoteTarget = promoteExts != null
-    ? (target.filter(x => x.endsWith("cmj")).flatMap(x =>
-      promoteExts.map(promoteExt => `${path.parse(x).name}${promoteExt}`)
-    ))
-    : null;
-  return `
-  (rule
-    (targets ${Array.isArray(target) ? target.join(' ') : target} ${promoteTarget != null ? promoteTarget.join(' ') : ""})
-    (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
-${promoteTarget ? `
-  (mode
-   (promote
-    (until-clean)
-    (only ${promoteTarget.join(' ')})))
-` : ""}
-    (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
-`;
+  return ruleCCPriv({flags, src, target, deps, promoteExts})
 }
 
 function ruleCC_cmi(flags, src, target, deps = [], promoteExts) {
-  var promoteTarget = promoteExts != null
-    ? (target.filter(x => x.endsWith("cmj")).flatMap(x =>
-      promoteExts.map(promoteExt => `${path.parse(x).name}${promoteExt}`)
-    ))
-    : null;
-  return `
-  (rule
-    (targets ${Array.isArray(target) ? target.join(' ') : target} ${promoteTarget ? promoteTarget.join(' ') : ""})
-    (deps (:inputs ${Array.isArray(src) ? src.join(' ') : src}) ${deps.join(' ')})
-${promoteTarget ? `
-  (mode
-   (promote
-    (until-clean)
-    (only ${promoteTarget.join(' ')})))
-` : ""}
-    (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj ${flags} -I . %{inputs})))
-`;
+  return ruleCCPriv({flags, src, target, deps, promoteExts, readCmi: true})
 }
 
 /**
@@ -494,7 +494,7 @@ function depModulesForBscAsync(files, dir, depsMap) {
     }),
     new Promise((resolve, reject) => {
       cp.exec(
-        `${path.join(path.relative(dir, root), getBsc())} -modules -bs-syntax-only ${resFiles.join(
+        `${getBsc()} -modules -bs-syntax-only ${resFiles.join(
           " "
         )}`,
         config,
@@ -685,7 +685,9 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
-  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt -make-runtime -nopervasives -unsafe -w +50-20 -warn-error A`;
+  var runtimePackageSpecs = '-bs-package-output es6:jscomp/runtime:.mjs -bs-package-output commonjs:jscomp/runtime:.js';
+
+  var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} -nopervasives -unsafe -w +50-20 -warn-error A`;
   var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
   var templateRuntimeRules = `
 
@@ -766,7 +768,8 @@ async function othersNinja() {
   var externalDeps = [runtimeTarget].map(x => `(alias ../runtime/${x.name})`);
   var ninjaOutput = 'dune.gen';
   var ninjaCwd = "others";
-  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime   -nopervasives  -unsafe  -w +50-9-20 -warn-error A  -open Bs_stdlib_mini -I ../runtime`;
+  var runtimePackageSpecs = '-bs-package-output es6:jscomp/others:.mjs -bs-package-output commonjs:jscomp/others:.js';
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} -nopervasives -unsafe -w +50-9-20 -warn-error A -open Bs_stdlib_mini -I ../runtime`;
 
   var belt_extraDeps = {
     belt_HashSet: ['belt_HashSetString', 'belt_HashSetInt'],
@@ -915,7 +918,8 @@ async function stdlibNinja() {
   var externalDeps = [othersTarget].map(x => `(alias ../../others/${x.name})`);
   var ninjaOutput = 'dune.gen';
   var warnings = "-w -9-106 -warn-error A";
-  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime ${warnings} -I ../../runtime -I ../../others `
+  var runtimePackageSpecs = '-bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js';
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} ${warnings} -I ../../runtime -I ../../others `
   /**
    * @type [string,string][]
    */
@@ -1024,7 +1028,8 @@ async function stdlibNinja() {
     templateStdlibRules + output.join("\n") + "\n"
   );
 
-  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt -make-runtime ${warnings}  -I ../runtime  -I ../others  -I ./stdlib_modules -nopervasives `
+  var runtimePackageSpecs = '-bs-package-output es6:jscomp/stdlib-412:.mjs -bs-package-output commonjs:jscomp/stdlib-412:.js';
+  var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} ${warnings}  -I ../runtime  -I ../others  -I ./stdlib_modules -nopervasives `
   writeFileAscii(
     path.join(stdlibDir, ninjaOutput),
     `
@@ -1100,7 +1105,7 @@ function baseName(x) {
 async function testNinja() {
   var ninjaOutput = "dune.gen";
   var ninjaCwd = `test`;
-  var bsc_flags = `-bs-no-version-header  -bs-cross-module-opt -make-runtime-test -bs-package-output commonjs:jscomp/test  -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A  -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others`
+  var bsc_flags = `-bs-no-version-header -bs-cross-module-opt -bs-package-output commonjs:jscomp/test -w -3-6-9-20-26-27-29-30-32..40-44-45-52-60-67-68-106+104 -warn-error A -I ../runtime -I ../stdlib-412/stdlib_modules -I ../stdlib-412 -I ../others`
   var testDirFiles = fs.readdirSync(testDir, "ascii");
   var tempIgnoredFiles = new Set([
     'res_debug.res',

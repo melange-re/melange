@@ -375,8 +375,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       warn_error;
       bs_stop_after_cmj;
       runtime;
-      make_runtime;
-      make_runtime_test;
       filenames;
       help
     } ->
@@ -411,8 +409,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Rescript_cpp.replace_directive_bool "DEBUG" true);
 
     Ext_option.iter runtime setup_runtime_path;
-    if make_runtime then Js_packages_state.make_runtime ();
-    if make_runtime_test then Js_packages_state.make_runtime_test ();
 
     Ext_option.iter bs_package_name Js_packages_state.set_package_name;
     Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;

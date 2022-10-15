@@ -41,11 +41,11 @@ type package_info = {
   suffix : Ext_js_suffix.t;
 }
 
-type package_name = Pkg_empty | Pkg_runtime | Pkg_normal of string
+type package_name = string option
 
 let ( // ) = Filename.concat
 
-(* in runtime lib, [es6] and [es6] are treated the same wway *)
+(* in runtime lib, [es6] and [es6] are treated the same way *)
 let runtime_dir_of_module_system (ms : module_system) =
   match ms with NodeJS -> "js" | Es6 | Es6_global -> "es6"
 
@@ -56,31 +56,12 @@ let runtime_package_path (ms : module_system) js_file =
 
 type t = { name : package_name; module_systems : package_info list }
 
-let runtime_package_specs : t =
-  {
-    name = Pkg_runtime;
-    module_systems =
-      [
-        { module_system = Es6; path = "lib/es6"; suffix = Js };
-        { module_system = NodeJS; path = "lib/js"; suffix = Js };
-      ];
-  }
-
-(**
-  populated by the command line
-*)
-let runtime_test_package_specs : t = { name = Pkg_runtime; module_systems = [] }
-
 let same_package_by_name (x : t) (y : t) =
-  match x.name with
-  | Pkg_empty -> y.name = Pkg_empty
-  | Pkg_runtime -> y.name = Pkg_runtime
-  | Pkg_normal s -> (
-      match y.name with
-      | Pkg_normal y -> s = y
-      | Pkg_empty | Pkg_runtime -> false)
+  match (x.name, y.name) with
+  | None, None -> true
+  | None, Some _ | Some _, None -> false
+  | Some s1, Some s2 -> s1 = s2
 
-let is_runtime_package (x : t) = x.name = Pkg_runtime
 let iter (x : t) cb = Ext_list.iter x.module_systems cb
 
 (* let equal (x : t) ({name; module_systems}) =
@@ -96,12 +77,10 @@ let iter (x : t) cb = Ext_list.iter x.module_systems cb
    For empty package, [-bs-package-output] does not make sense
    it is only allowed to generate commonjs file in the same directory
 *)
-let empty : t = { name = Pkg_empty; module_systems = [] }
+let empty : t = { name = None; module_systems = [] }
 
-let from_name (name : string) : t =
-  { name = Pkg_normal name; module_systems = [] }
-
-let is_empty (x : t) = x.name = Pkg_empty
+let from_name (name : string) : t = { name = Some name; module_systems = [] }
+let is_empty (x : t) = match x.module_systems with [] -> true | _ -> false
 
 let string_of_module_system (ms : module_system) =
   match ms with NodeJS -> "NodeJS" | Es6 -> "Es6" | Es6_global -> "Es6_global"
@@ -122,9 +101,8 @@ let dump_package_info (fmt : Format.formatter)
 
 let dump_package_name fmt (x : package_name) =
   match x with
-  | Pkg_empty -> Format.fprintf fmt "@empty_pkg@"
-  | Pkg_normal s -> Format.pp_print_string fmt s
-  | Pkg_runtime -> Format.pp_print_string fmt "@runtime"
+  | None -> Format.fprintf fmt "@empty_pkg@"
+  | Some s -> Format.pp_print_string fmt s
 
 let dump_packages_info (fmt : Format.formatter)
     ({ name; module_systems = ls } : t) =
@@ -150,8 +128,7 @@ type info_query =
 let query_package_infos ({ name; module_systems } : t)
     (module_system : module_system) : info_query =
   match name with
-  | Pkg_empty -> Package_script
-  | Pkg_normal name -> (
+  | Some name -> (
       match
         Ext_list.find_first module_systems (fun k ->
             compatible k.module_system module_system)
@@ -161,7 +138,7 @@ let query_package_infos ({ name; module_systems } : t)
           let pkg_rel_path = name // rel_path in
           Package_found { rel_path; pkg_rel_path; suffix = k.suffix }
       | None -> Package_not_found)
-  | Pkg_runtime -> (
+  | None -> (
       (*FIXME: [compatible] seems not correct *)
       match
         Ext_list.find_first module_systems (fun k ->
@@ -171,7 +148,7 @@ let query_package_infos ({ name; module_systems } : t)
           let rel_path = k.path in
           let pkg_rel_path = !Bs_version.package_name // rel_path in
           Package_found { rel_path; pkg_rel_path; suffix = k.suffix }
-      | None -> Package_not_found)
+      | None -> Package_script (*  Package_not_found *))
 
 let get_js_path (x : t) (module_system : module_system) : string =
   match
@@ -188,32 +165,29 @@ let get_output_dir (info : t) ~package_dir module_system =
   Filename.concat package_dir (get_js_path info module_system)
 
 let add_npm_package_path (packages_info : t) (s : string) : t =
-  if is_empty packages_info then
-    raise (Arg.Bad "please set package name first using -bs-package-name")
-  else
-    let handle_module_system module_system =
-      match module_system_of_string module_system with
-      | Some x -> x
-      | None -> raise (Arg.Bad ("invalid module system " ^ module_system))
-    in
-    let m =
-      match Ext_string.split ~keep_empty:true s ':' with
-      | [ path ] -> { module_system = NodeJS; path; suffix = Js }
-      | [ module_system; path ] ->
-          {
-            module_system = handle_module_system module_system;
-            path;
-            suffix = Js;
-          }
-      | [ module_system; path; suffix ] ->
-          {
-            module_system = handle_module_system module_system;
-            path;
-            suffix = Ext_js_suffix.of_string suffix;
-          }
-      | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
-    in
-    { packages_info with module_systems = m :: packages_info.module_systems }
+  let handle_module_system module_system =
+    match module_system_of_string module_system with
+    | Some x -> x
+    | None -> raise (Arg.Bad ("invalid module system " ^ module_system))
+  in
+  let m =
+    match Ext_string.split ~keep_empty:true s ':' with
+    | [ path ] -> { module_system = NodeJS; path; suffix = Js }
+    | [ module_system; path ] ->
+        {
+          module_system = handle_module_system module_system;
+          path;
+          suffix = Js;
+        }
+    | [ module_system; path; suffix ] ->
+        {
+          module_system = handle_module_system module_system;
+          path;
+          suffix = Ext_js_suffix.of_string suffix;
+        }
+    | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
+  in
+  { packages_info with module_systems = m :: packages_info.module_systems }
 
 (* support es6 modules instead
    TODO: enrich ast to support import export

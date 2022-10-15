@@ -15,7 +15,7 @@ let
 
   pnpm = pkgs.writeScriptBin "pnpm" ''
     #!${pkgs.runtimeShell}
-    ${pkgs.nodejs_latest}/bin/node \
+    ${pkgs.nodejs}/bin/node \
       ${pkgs.nodePackages_latest.pnpm}/lib/node_modules/pnpm/bin/pnpm.cjs \
       "$@"
   '';

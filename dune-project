@@ -1,4 +1,6 @@
-(lang dune 2.9)
+(lang dune 3.5)
+
+(using directory-targets 0.1)
 
 (executables_implicit_empty_intf true)
 

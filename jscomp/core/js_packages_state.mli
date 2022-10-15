@@ -23,8 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val set_package_name : string -> unit
-val make_runtime : unit -> unit
-val make_runtime_test : unit -> unit
 val set_package_map : string -> unit
 val get_packages_info : unit -> Js_packages_info.t
 val update_npm_package_path : string -> unit

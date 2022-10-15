@@ -47,6 +47,7 @@ type cxt = {
   namespace : string option;
   ignored_dirs : Set_string.t;
 }
+[@@ocaml.warning "-unused-field"]
 
 (* [public] has a list of modules, we do a sanity check to see if all the listed
    modules are indeed valid module components

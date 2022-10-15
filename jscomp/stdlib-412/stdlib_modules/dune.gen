@@ -1,995 +1,995 @@
 
   
   (rule
-    (targets camlinternalFormatBasics.cmi )
+    (targets camlinternalFormatBasics.cmi  )
     (deps (:inputs camlinternalFormatBasics.mli) (alias ../../others/others))
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalFormatBasics.cmj )
+    (targets camlinternalFormatBasics.cmj  camlinternalFormatBasics.js camlinternalFormatBasics.mjs)
     (deps (:inputs camlinternalFormatBasics.ml) camlinternalFormatBasics.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalAtomic.cmi )
+    (targets camlinternalAtomic.cmi  )
     (deps (:inputs camlinternalAtomic.mli) (alias ../../others/others))
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalAtomic.cmj )
+    (targets camlinternalAtomic.cmj  camlinternalAtomic.js camlinternalAtomic.mjs)
     (deps (:inputs camlinternalAtomic.ml) camlinternalAtomic.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
-    (targets stdlib__no_aliases.cmi )
+    (targets stdlib__no_aliases.cmi  )
     (deps (:inputs stdlib__no_aliases.mli) (alias ../../others/others) camlinternalFormatBasics.cmi camlinternalAtomic.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
-    (targets stdlib__no_aliases.cmj )
+    (targets stdlib__no_aliases.cmj  stdlib__no_aliases.js stdlib__no_aliases.mjs)
     (deps (:inputs stdlib__no_aliases.ml) stdlib__no_aliases.cmi camlinternalFormatBasics.cmj camlinternalAtomic.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -I . %{inputs})))
 
 
   (rule
-    (targets arg.cmj arg.cmt )
+    (targets arg.cmj arg.cmt  arg.js arg.mjs)
     (deps (:inputs arg.ml) (alias ../../others/others) arg.cmi array.cmj buffer.cmj int.cmj list.cmj printf.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets arg.cmi arg.cmti )
+    (targets arg.cmi arg.cmti  )
     (deps (:inputs arg.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets array.cmj array.cmt )
+    (targets array.cmj array.cmt  array.js array.mjs)
     (deps (:inputs array.ml) (alias ../../others/others) array.cmi seq.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets array.cmi array.cmti )
+    (targets array.cmi array.cmti  )
     (deps (:inputs array.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets arrayLabels.cmj arrayLabels.cmt )
+    (targets arrayLabels.cmj arrayLabels.cmt  arrayLabels.js arrayLabels.mjs)
     (deps (:inputs arrayLabels.ml) (alias ../../others/others) array.cmj arrayLabels.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets arrayLabels.cmi arrayLabels.cmti )
+    (targets arrayLabels.cmi arrayLabels.cmti  )
     (deps (:inputs arrayLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets atomic.cmj atomic.cmt )
+    (targets atomic.cmj atomic.cmt  atomic.js atomic.mjs)
     (deps (:inputs atomic.ml) (alias ../../others/others) atomic.cmi camlinternalAtomic.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets atomic.cmi atomic.cmti )
+    (targets atomic.cmi atomic.cmti  )
     (deps (:inputs atomic.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets bool.cmj bool.cmt )
+    (targets bool.cmj bool.cmt  bool.js bool.mjs)
     (deps (:inputs bool.ml) (alias ../../others/others) bool.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets bool.cmi bool.cmti )
+    (targets bool.cmi bool.cmti  )
     (deps (:inputs bool.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets buffer.cmj buffer.cmt )
+    (targets buffer.cmj buffer.cmt  buffer.js buffer.mjs)
     (deps (:inputs buffer.ml) (alias ../../others/others) buffer.cmi bytes.cmj seq.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets buffer.cmi buffer.cmti )
+    (targets buffer.cmi buffer.cmti  )
     (deps (:inputs buffer.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets bytes.cmj bytes.cmt )
+    (targets bytes.cmj bytes.cmt  bytes.js bytes.mjs)
     (deps (:inputs bytes.ml) (alias ../../others/others) bytes.cmi char.cmj int.cmj seq.cmj sys.cmj uchar.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets bytes.cmi bytes.cmti )
+    (targets bytes.cmi bytes.cmti  )
     (deps (:inputs bytes.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets bytesLabels.cmj bytesLabels.cmt )
+    (targets bytesLabels.cmj bytesLabels.cmt  bytesLabels.js bytesLabels.mjs)
     (deps (:inputs bytesLabels.ml) (alias ../../others/others) bytes.cmj bytesLabels.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets bytesLabels.cmi bytesLabels.cmti )
+    (targets bytesLabels.cmi bytesLabels.cmti  )
     (deps (:inputs bytesLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets callback.cmj callback.cmt )
+    (targets callback.cmj callback.cmt  callback.js callback.mjs)
     (deps (:inputs callback.ml) (alias ../../others/others) callback.cmi obj.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets callback.cmi callback.cmti )
+    (targets callback.cmi callback.cmti  )
     (deps (:inputs callback.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalFormat.cmj camlinternalFormat.cmt )
+    (targets camlinternalFormat.cmj camlinternalFormat.cmt  camlinternalFormat.js camlinternalFormat.mjs)
     (deps (:inputs camlinternalFormat.ml) (alias ../../others/others) bool.cmj buffer.cmj bytes.cmj camlinternalFormat.cmi camlinternalFormatBasics.cmj char.cmj float.cmj int.cmj int32.cmj int64.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalFormat.cmi camlinternalFormat.cmti )
+    (targets camlinternalFormat.cmi camlinternalFormat.cmti  )
     (deps (:inputs camlinternalFormat.mli) (alias ../../others/others) buffer.cmi camlinternalFormatBasics.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalLazy.cmj camlinternalLazy.cmt )
+    (targets camlinternalLazy.cmj camlinternalLazy.cmt  camlinternalLazy.js camlinternalLazy.mjs)
     (deps (:inputs camlinternalLazy.ml) (alias ../../others/others) camlinternalLazy.cmi sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalLazy.cmi camlinternalLazy.cmti )
+    (targets camlinternalLazy.cmi camlinternalLazy.cmti  )
     (deps (:inputs camlinternalLazy.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalMod.cmj camlinternalMod.cmt )
+    (targets camlinternalMod.cmj camlinternalMod.cmt  camlinternalMod.js camlinternalMod.mjs)
     (deps (:inputs camlinternalMod.ml) (alias ../../others/others) array.cmj camlinternalMod.cmi camlinternalOO.cmj lazy.cmj obj.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalMod.cmi camlinternalMod.cmti )
+    (targets camlinternalMod.cmi camlinternalMod.cmti  )
     (deps (:inputs camlinternalMod.mli) (alias ../../others/others) lazy.cmi obj.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalOO.cmj camlinternalOO.cmt )
+    (targets camlinternalOO.cmj camlinternalOO.cmt  camlinternalOO.js camlinternalOO.mjs)
     (deps (:inputs camlinternalOO.ml) (alias ../../others/others) array.cmj camlinternalOO.cmi char.cmj list.cmj map.cmj obj.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets camlinternalOO.cmi camlinternalOO.cmti )
+    (targets camlinternalOO.cmi camlinternalOO.cmti  )
     (deps (:inputs camlinternalOO.mli) (alias ../../others/others) obj.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets char.cmj char.cmt )
+    (targets char.cmj char.cmt  char.js char.mjs)
     (deps (:inputs char.ml) (alias ../../others/others) char.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets char.cmi char.cmti )
+    (targets char.cmi char.cmti  )
     (deps (:inputs char.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets complex.cmj complex.cmt )
+    (targets complex.cmj complex.cmt  complex.js complex.mjs)
     (deps (:inputs complex.ml) (alias ../../others/others) complex.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets complex.cmi complex.cmti )
+    (targets complex.cmi complex.cmti  )
     (deps (:inputs complex.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets digest.cmj digest.cmt )
+    (targets digest.cmj digest.cmt  digest.js digest.mjs)
     (deps (:inputs digest.ml) (alias ../../others/others) bytes.cmj char.cmj digest.cmi string.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets digest.cmi digest.cmti )
+    (targets digest.cmi digest.cmti  )
     (deps (:inputs digest.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets either.cmj either.cmt )
+    (targets either.cmj either.cmt  either.js either.mjs)
     (deps (:inputs either.ml) (alias ../../others/others) either.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets either.cmi either.cmti )
+    (targets either.cmi either.cmti  )
     (deps (:inputs either.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets ephemeron.cmj ephemeron.cmt )
+    (targets ephemeron.cmj ephemeron.cmt  ephemeron.js ephemeron.mjs)
     (deps (:inputs ephemeron.ml) (alias ../../others/others) array.cmj ephemeron.cmi hashtbl.cmj int.cmj lazy.cmj list.cmj obj.cmj random.cmj seq.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets ephemeron.cmi ephemeron.cmti )
+    (targets ephemeron.cmi ephemeron.cmti  )
     (deps (:inputs ephemeron.mli) (alias ../../others/others) hashtbl.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets filename.cmj filename.cmt )
+    (targets filename.cmj filename.cmt  filename.js filename.mjs)
     (deps (:inputs filename.ml) (alias ../../others/others) buffer.cmj filename.cmi lazy.cmj list.cmj printf.cmj random.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets filename.cmi filename.cmti )
+    (targets filename.cmi filename.cmti  )
     (deps (:inputs filename.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets float.cmj float.cmt )
+    (targets float.cmj float.cmt  float.js float.mjs)
     (deps (:inputs float.ml) (alias ../../others/others) array.cmj arrayLabels.cmj float.cmi list.cmj seq.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets float.cmi float.cmti )
+    (targets float.cmi float.cmti  )
     (deps (:inputs float.mli) (alias ../../others/others) array.cmi arrayLabels.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets format.cmj format.cmt )
+    (targets format.cmj format.cmt  format.js format.mjs)
     (deps (:inputs format.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj either.cmj format.cmi int.cmj list.cmj queue.cmj seq.cmj stack.cmj string.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets format.cmi format.cmti )
+    (targets format.cmi format.cmti  )
     (deps (:inputs format.mli) (alias ../../others/others) buffer.cmi either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets fun.cmj fun.cmt )
+    (targets fun.cmj fun.cmt  fun.js fun.mjs)
     (deps (:inputs fun.ml) (alias ../../others/others) fun.cmi printexc.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets fun.cmi fun.cmti )
+    (targets fun.cmi fun.cmti  )
     (deps (:inputs fun.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets gc.cmj gc.cmt )
+    (targets gc.cmj gc.cmt  gc.js gc.mjs)
     (deps (:inputs gc.ml) (alias ../../others/others) gc.cmi printexc.cmj printf.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets gc.cmi gc.cmti )
+    (targets gc.cmi gc.cmti  )
     (deps (:inputs gc.mli) (alias ../../others/others) printexc.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets genlex.cmj genlex.cmt )
+    (targets genlex.cmj genlex.cmt  genlex.js genlex.mjs)
     (deps (:inputs genlex.ml) (alias ../../others/others) bytes.cmj char.cmj genlex.cmi hashtbl.cmj list.cmj stream.cmj string.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets genlex.cmi genlex.cmti )
+    (targets genlex.cmi genlex.cmti  )
     (deps (:inputs genlex.mli) (alias ../../others/others) stdlib__no_aliases.cmj stream.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets hashtbl.cmj hashtbl.cmt )
+    (targets hashtbl.cmj hashtbl.cmt  hashtbl.js hashtbl.mjs)
     (deps (:inputs hashtbl.ml) (alias ../../others/others) array.cmj hashtbl.cmi int.cmj lazy.cmj random.cmj seq.cmj string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets hashtbl.cmi hashtbl.cmti )
+    (targets hashtbl.cmi hashtbl.cmti  )
     (deps (:inputs hashtbl.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets in_channel.cmj in_channel.cmt )
+    (targets in_channel.cmj in_channel.cmt  in_channel.js in_channel.mjs)
     (deps (:inputs in_channel.ml) (alias ../../others/others) bytes.cmj fun.cmj in_channel.cmi sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets in_channel.cmi in_channel.cmti )
+    (targets in_channel.cmi in_channel.cmti  )
     (deps (:inputs in_channel.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets int.cmj int.cmt )
+    (targets int.cmj int.cmt  int.js int.mjs)
     (deps (:inputs int.ml) (alias ../../others/others) int.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets int.cmi int.cmti )
+    (targets int.cmi int.cmti  )
     (deps (:inputs int.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets int32.cmj int32.cmt )
+    (targets int32.cmj int32.cmt  int32.js int32.mjs)
     (deps (:inputs int32.ml) (alias ../../others/others) int32.cmi sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets int32.cmi int32.cmti )
+    (targets int32.cmi int32.cmti  )
     (deps (:inputs int32.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets int64.cmj int64.cmt )
+    (targets int64.cmj int64.cmt  int64.js int64.mjs)
     (deps (:inputs int64.ml) (alias ../../others/others) int64.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets int64.cmi int64.cmti )
+    (targets int64.cmi int64.cmti  )
     (deps (:inputs int64.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets lazy.cmj lazy.cmt )
+    (targets lazy.cmj lazy.cmt  lazy.js lazy.mjs)
     (deps (:inputs lazy.ml) (alias ../../others/others) camlinternalLazy.cmj lazy.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets lazy.cmi lazy.cmti )
+    (targets lazy.cmi lazy.cmti  )
     (deps (:inputs lazy.mli) (alias ../../others/others) camlinternalLazy.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets lexing.cmj lexing.cmt )
+    (targets lexing.cmj lexing.cmt  lexing.js lexing.mjs)
     (deps (:inputs lexing.ml) (alias ../../others/others) array.cmj bytes.cmj int.cmj lexing.cmi string.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets lexing.cmi lexing.cmti )
+    (targets lexing.cmi lexing.cmti  )
     (deps (:inputs lexing.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets list.cmj list.cmt )
+    (targets list.cmj list.cmt  list.js list.mjs)
     (deps (:inputs list.ml) (alias ../../others/others) either.cmj list.cmi seq.cmj sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets list.cmi list.cmti )
+    (targets list.cmi list.cmti  )
     (deps (:inputs list.mli) (alias ../../others/others) either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets listLabels.cmj listLabels.cmt )
+    (targets listLabels.cmj listLabels.cmt  listLabels.js listLabels.mjs)
     (deps (:inputs listLabels.ml) (alias ../../others/others) list.cmj listLabels.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets listLabels.cmi listLabels.cmti )
+    (targets listLabels.cmi listLabels.cmti  )
     (deps (:inputs listLabels.mli) (alias ../../others/others) either.cmi seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets map.cmj map.cmt )
+    (targets map.cmj map.cmt  map.js map.mjs)
     (deps (:inputs map.ml) (alias ../../others/others) map.cmi seq.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets map.cmi map.cmti )
+    (targets map.cmi map.cmti  )
     (deps (:inputs map.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets marshal.cmj marshal.cmt )
+    (targets marshal.cmj marshal.cmt  marshal.js marshal.mjs)
     (deps (:inputs marshal.ml) (alias ../../others/others) bytes.cmj marshal.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets marshal.cmi marshal.cmti )
+    (targets marshal.cmi marshal.cmti  )
     (deps (:inputs marshal.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets moreLabels.cmj moreLabels.cmt )
+    (targets moreLabels.cmj moreLabels.cmt  moreLabels.js moreLabels.mjs)
     (deps (:inputs moreLabels.ml) (alias ../../others/others) hashtbl.cmj map.cmj moreLabels.cmi set.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets moreLabels.cmi moreLabels.cmti )
+    (targets moreLabels.cmi moreLabels.cmti  )
     (deps (:inputs moreLabels.mli) (alias ../../others/others) hashtbl.cmi map.cmi seq.cmi set.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets obj.cmj obj.cmt )
+    (targets obj.cmj obj.cmt  obj.js obj.mjs)
     (deps (:inputs obj.ml) (alias ../../others/others) int32.cmj obj.cmi sys.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets obj.cmi obj.cmti )
+    (targets obj.cmi obj.cmti  )
     (deps (:inputs obj.mli) (alias ../../others/others) ephemeron.cmi int32.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets oo.cmj oo.cmt )
+    (targets oo.cmj oo.cmt  oo.js oo.mjs)
     (deps (:inputs oo.ml) (alias ../../others/others) camlinternalOO.cmj oo.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets oo.cmi oo.cmti )
+    (targets oo.cmi oo.cmti  )
     (deps (:inputs oo.mli) (alias ../../others/others) camlinternalOO.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets option.cmj option.cmt )
+    (targets option.cmj option.cmt  option.js option.mjs)
     (deps (:inputs option.ml) (alias ../../others/others) option.cmi seq.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets option.cmi option.cmti )
+    (targets option.cmi option.cmti  )
     (deps (:inputs option.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets out_channel.cmj out_channel.cmt )
+    (targets out_channel.cmj out_channel.cmt  out_channel.js out_channel.mjs)
     (deps (:inputs out_channel.ml) (alias ../../others/others) fun.cmj out_channel.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets out_channel.cmi out_channel.cmti )
+    (targets out_channel.cmi out_channel.cmti  )
     (deps (:inputs out_channel.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets parsing.cmj parsing.cmt )
+    (targets parsing.cmj parsing.cmt  parsing.js parsing.mjs)
     (deps (:inputs parsing.ml) (alias ../../others/others) array.cmj lexing.cmj obj.cmj parsing.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets parsing.cmi parsing.cmti )
+    (targets parsing.cmi parsing.cmti  )
     (deps (:inputs parsing.mli) (alias ../../others/others) lexing.cmi obj.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets pervasives.cmi pervasives.cmj pervasives.cmt )
+    (targets pervasives.cmi pervasives.cmj pervasives.cmt  pervasives.js pervasives.mjs)
     (deps (:inputs pervasives.ml) (alias ../../others/others) camlinternalFormatBasics.cmj stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets printexc.cmj printexc.cmt )
+    (targets printexc.cmj printexc.cmt  printexc.js printexc.mjs)
     (deps (:inputs printexc.ml) (alias ../../others/others) array.cmj atomic.cmj buffer.cmj printexc.cmi printf.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets printexc.cmi printexc.cmti )
+    (targets printexc.cmi printexc.cmti  )
     (deps (:inputs printexc.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets printf.cmj printf.cmt )
+    (targets printf.cmj printf.cmt  printf.js printf.mjs)
     (deps (:inputs printf.ml) (alias ../../others/others) buffer.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj printf.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets printf.cmi printf.cmti )
+    (targets printf.cmi printf.cmti  )
     (deps (:inputs printf.mli) (alias ../../others/others) buffer.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets queue.cmj queue.cmt )
+    (targets queue.cmj queue.cmt  queue.js queue.mjs)
     (deps (:inputs queue.ml) (alias ../../others/others) queue.cmi seq.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets queue.cmi queue.cmti )
+    (targets queue.cmi queue.cmti  )
     (deps (:inputs queue.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets random.cmj random.cmt )
+    (targets random.cmj random.cmt  random.js random.mjs)
     (deps (:inputs random.ml) (alias ../../others/others) array.cmj char.cmj digest.cmj int.cmj int32.cmj int64.cmj random.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets random.cmi random.cmti )
+    (targets random.cmi random.cmti  )
     (deps (:inputs random.mli) (alias ../../others/others) int32.cmi int64.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets result.cmj result.cmt )
+    (targets result.cmj result.cmt  result.js result.mjs)
     (deps (:inputs result.ml) (alias ../../others/others) result.cmi seq.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets result.cmi result.cmti )
+    (targets result.cmi result.cmti  )
     (deps (:inputs result.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets scanf.cmj scanf.cmt )
+    (targets scanf.cmj scanf.cmt  scanf.js scanf.mjs)
     (deps (:inputs scanf.ml) (alias ../../others/others) buffer.cmj bytes.cmj camlinternalFormat.cmj camlinternalFormatBasics.cmj int.cmj list.cmj printf.cmj scanf.cmi string.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets scanf.cmi scanf.cmti )
+    (targets scanf.cmi scanf.cmti  )
     (deps (:inputs scanf.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets seq.cmj seq.cmt )
+    (targets seq.cmj seq.cmt  seq.js seq.mjs)
     (deps (:inputs seq.ml) (alias ../../others/others) camlinternalAtomic.cmj either.cmj lazy.cmj seq.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets seq.cmi seq.cmti )
+    (targets seq.cmi seq.cmti  )
     (deps (:inputs seq.mli) (alias ../../others/others) either.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets set.cmj set.cmt )
+    (targets set.cmj set.cmt  set.js set.mjs)
     (deps (:inputs set.ml) (alias ../../others/others) list.cmj seq.cmj set.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets set.cmi set.cmti )
+    (targets set.cmi set.cmti  )
     (deps (:inputs set.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets stack.cmj stack.cmt )
+    (targets stack.cmj stack.cmt  stack.js stack.mjs)
     (deps (:inputs stack.ml) (alias ../../others/others) list.cmj seq.cmj stack.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets stack.cmi stack.cmti )
+    (targets stack.cmi stack.cmti  )
     (deps (:inputs stack.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets stdLabels.cmj stdLabels.cmt )
+    (targets stdLabels.cmj stdLabels.cmt  stdLabels.js stdLabels.mjs)
     (deps (:inputs stdLabels.ml) (alias ../../others/others) arrayLabels.cmj bytesLabels.cmj listLabels.cmj stdLabels.cmi stringLabels.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets stdLabels.cmi stdLabels.cmti )
+    (targets stdLabels.cmi stdLabels.cmti  )
     (deps (:inputs stdLabels.mli) (alias ../../others/others) arrayLabels.cmi bytesLabels.cmi listLabels.cmi stdlib__no_aliases.cmj stringLabels.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets std_exit.cmi std_exit.cmj std_exit.cmt )
+    (targets std_exit.cmi std_exit.cmj std_exit.cmt  std_exit.js std_exit.mjs)
     (deps (:inputs std_exit.ml) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets stream.cmj stream.cmt )
+    (targets stream.cmj stream.cmt  stream.js stream.mjs)
     (deps (:inputs stream.ml) (alias ../../others/others) bytes.cmj lazy.cmj list.cmj stream.cmi string.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets stream.cmi stream.cmti )
+    (targets stream.cmi stream.cmti  )
     (deps (:inputs stream.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets string.cmj string.cmt )
+    (targets string.cmj string.cmt  string.js string.mjs)
     (deps (:inputs string.ml) (alias ../../others/others) bytes.cmj string.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets string.cmi string.cmti )
+    (targets string.cmi string.cmti  )
     (deps (:inputs string.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets stringLabels.cmj stringLabels.cmt )
+    (targets stringLabels.cmj stringLabels.cmt  stringLabels.js stringLabels.mjs)
     (deps (:inputs stringLabels.ml) (alias ../../others/others) string.cmj stringLabels.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets stringLabels.cmi stringLabels.cmti )
+    (targets stringLabels.cmi stringLabels.cmti  )
     (deps (:inputs stringLabels.mli) (alias ../../others/others) seq.cmi stdlib__no_aliases.cmj uchar.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -nolabels -I . %{inputs})))
 
 
   (rule
-    (targets sys.cmj sys.cmt )
+    (targets sys.cmj sys.cmt  sys.js sys.mjs)
     (deps (:inputs sys.ml) (alias ../../others/others) sys.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets sys.cmi sys.cmti )
+    (targets sys.cmi sys.cmti  )
     (deps (:inputs sys.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets uchar.cmj uchar.cmt )
+    (targets uchar.cmj uchar.cmt  uchar.js uchar.mjs)
     (deps (:inputs uchar.ml) (alias ../../others/others) char.cmj uchar.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets uchar.cmi uchar.cmti )
+    (targets uchar.cmi uchar.cmti  )
     (deps (:inputs uchar.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets unit.cmj unit.cmt )
+    (targets unit.cmj unit.cmt  unit.js unit.mjs)
     (deps (:inputs unit.ml) (alias ../../others/others) unit.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets unit.cmi unit.cmti )
+    (targets unit.cmi unit.cmti  )
     (deps (:inputs unit.mli) (alias ../../others/others) stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets weak.cmj weak.cmt )
+    (targets weak.cmj weak.cmt  weak.js weak.mjs)
     (deps (:inputs weak.ml) (alias ../../others/others) array.cmj hashtbl.cmj int.cmj obj.cmj sys.cmj weak.cmi)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
   (rule
-    (targets weak.cmi weak.cmti )
+    (targets weak.cmi weak.cmti  )
     (deps (:inputs weak.mli) (alias ../../others/others) hashtbl.cmi stdlib__no_aliases.cmj)
 
     (action
-     (run %{workspace_root}/jscomp/main/melc.exe -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -make-runtime -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
+     (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js -w -9-106 -warn-error A -I ../../runtime -I ../../others  -nopervasives -open Stdlib__no_aliases  -I . %{inputs})))
 
 
     (alias

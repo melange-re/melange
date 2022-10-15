@@ -94,8 +94,6 @@ type t = {
   warn_error : string list;
   bs_stop_after_cmj : bool;
   runtime : string option;
-  make_runtime : bool;
-  make_runtime_test : bool;
   filenames : string list;
 }
 
@@ -476,14 +474,6 @@ module Internal = struct
   let runtime =
     let doc = "*internal* Set the runtime directory" in
     Arg.(value & opt (some string) None & info [ "runtime" ] ~doc)
-
-  let make_runtime =
-    let doc = "*internal* make runtime library" in
-    Arg.(value & flag & info [ "make-runtime" ] ~doc)
-
-  let make_runtime_test =
-    let doc = "*internal* make runtime test library" in
-    Arg.(value & flag & info [ "make-runtime-test" ] ~doc)
 end
 
 let filenames =
@@ -516,7 +506,7 @@ let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
     drawlambda dsource version pp absname bin_annot i nopervasives modules
     nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
-    runtime make_runtime make_runtime_test filenames _bs_super_errors _c =
+    runtime filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -587,8 +577,6 @@ let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     warn_error;
     bs_stop_after_cmj;
     runtime;
-    make_runtime;
-    make_runtime_test;
     filenames;
   }
 
@@ -611,8 +599,7 @@ let cmd =
     $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
     $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
     $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
-    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime
-    $ Internal.make_runtime $ Internal.make_runtime_test $ filenames
+    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
     $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to

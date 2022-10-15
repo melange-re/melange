@@ -23,6 +23,23 @@
         "type": "github"
       }
     },
+    "all-cabal-json": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1665552503,
+        "narHash": "sha256-r14RmRSwzv5c+bWKUDaze6pXM7nOsiz1H8nvFHJvufc=",
+        "owner": "nix-community",
+        "repo": "all-cabal-json",
+        "rev": "d7c0434eebffb305071404edcf9d5cd99703878e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "hackage",
+        "repo": "all-cabal-json",
+        "type": "github"
+      }
+    },
     "crane": {
       "flake": false,
       "locked": {
@@ -58,6 +75,7 @@
     "dream2nix": {
       "inputs": {
         "alejandra": "alejandra",
+        "all-cabal-json": "all-cabal-json",
         "crane": "crane",
         "devshell": "devshell",
         "flake-utils-pre-commit": "flake-utils-pre-commit",
@@ -70,11 +88,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1665754710,
-        "narHash": "sha256-s6QL4cvL/tIyKoJ8CZni973F/EWJgjRi+92dZSnW0t4=",
+        "lastModified": 1665786447,
+        "narHash": "sha256-JMU62aMWGTbD3PT16ACL+7So3GUqmnAm3zPhZckJyfs=",
         "owner": "nix-community",
         "repo": "dream2nix",
-        "rev": "0cf54836453069707272c0994a0c7a064d172b85",
+        "rev": "19b63ebd0a4a8d3bd3096b0d7dbe80d2b06f1cc2",
         "type": "github"
       },
       "original": {
@@ -206,11 +224,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1665785476,
-        "narHash": "sha256-LwZJcatJBt+jcSni//JZ72smkkTqBUUeHdd4TLW+ByQ=",
+        "lastModified": 1665804426,
+        "narHash": "sha256-moNLigmZPL5N+i/JOuYxIb7BrPhH1H1A1OSSuS0U6+c=",
         "owner": "anmonteiro",
         "repo": "nix-overlays",
-        "rev": "60eb9f59072262a687734ff6a3b6243af4c041f0",
+        "rev": "f0d315f21664a20803254cdb730d7958106f12a4",
         "type": "github"
       },
       "original": {
