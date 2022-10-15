@@ -317,7 +317,7 @@ let lambda_as_module
     let target_file = (Filename.dirname output_prefix) // basename in
     write_to_file NodeJS target_file
   |  _ ->
-    Js_packages_info.iter package_info (fun {module_system; path = _; suffix} ->
+    Js_packages_info.iter package_info (fun {module_system; suffix; _ } ->
         let target_file = make_basename suffix in
         (if not !Clflags.dont_write_files then
           write_to_file module_system target_file );

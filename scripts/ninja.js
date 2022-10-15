@@ -23,6 +23,7 @@ var runtimeMliFiles = runtimeFiles.filter(
 var runtimeSourceFiles = runtimeMlFiles.concat(runtimeMliFiles);
 var runtimeJsFiles = [...new Set(runtimeSourceFiles.map(baseName))];
 
+var runtimePackageSpecs = '-bs-package-name melange -bs-package-output es6:lib/es6:.mjs -bs-package-output commonjs:lib/js:.js';
 var commonBsFlags = `-no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib `;
 var js_package = pseudoTarget("js_pkg");
 var runtimeTarget = pseudoTarget("runtime");
@@ -685,7 +686,6 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
 async function runtimeNinja() {
   var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
-  var runtimePackageSpecs = '-bs-package-output es6:jscomp/runtime:.mjs -bs-package-output commonjs:jscomp/runtime:.js';
 
   var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} -nopervasives -unsafe -w +50-20 -warn-error A`;
   var bsc_flags = `${bsc_no_open_flags} -open Bs_stdlib_mini`;
@@ -768,7 +768,6 @@ async function othersNinja() {
   var externalDeps = [runtimeTarget].map(x => `(alias ../runtime/${x.name})`);
   var ninjaOutput = 'dune.gen';
   var ninjaCwd = "others";
-  var runtimePackageSpecs = '-bs-package-output es6:jscomp/others:.mjs -bs-package-output commonjs:jscomp/others:.js';
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} -nopervasives -unsafe -w +50-9-20 -warn-error A -open Bs_stdlib_mini -I ../runtime`;
 
   var belt_extraDeps = {
@@ -918,7 +917,6 @@ async function stdlibNinja() {
   var externalDeps = [othersTarget].map(x => `(alias ../../others/${x.name})`);
   var ninjaOutput = 'dune.gen';
   var warnings = "-w -9-106 -warn-error A";
-  var runtimePackageSpecs = '-bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js';
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} ${warnings} -I ../../runtime -I ../../others `
   /**
    * @type [string,string][]
@@ -1028,7 +1026,6 @@ async function stdlibNinja() {
     templateStdlibRules + output.join("\n") + "\n"
   );
 
-  var runtimePackageSpecs = '-bs-package-output es6:jscomp/stdlib-412:.mjs -bs-package-output commonjs:jscomp/stdlib-412:.js';
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} ${warnings}  -I ../runtime  -I ../others  -I ./stdlib_modules -nopervasives `
   writeFileAscii(
     path.join(stdlibDir, ninjaOutput),
