@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Stream = require("../../lib/js/stream.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 function classify(chr) {
   if ((chr & 128) === 0) {

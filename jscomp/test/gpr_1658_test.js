@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_types = require("../../lib/js/js_types.js");
+var Js_types = require("melange/jscomp/others/js_types.js");
 
 var suites = {
   contents: /* [] */0

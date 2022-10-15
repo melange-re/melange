@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("../../lib/js/stdlib.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
 
 var suites_0 = [
   "string_of_float_1",

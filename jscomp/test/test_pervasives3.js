@@ -1,7 +1,7 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Pervasives = require("melange/jscomp/stdlib-412/stdlib_modules/pervasives.js");
 
 var Pervasives$1 = {
   invalid_arg: Pervasives.invalid_arg,

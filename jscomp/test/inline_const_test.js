@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("../../lib/js/int64.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
+var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
 var Inline_const = require("./inline_const.js");
 
 var suites = {
@@ -17,7 +17,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-var H = {};
+var H = Inline_const.N1({});
 
 var f = "hello";
 
@@ -71,4 +71,4 @@ exports.f5 = f5;
 exports.f6 = f6;
 exports.f7 = f7;
 exports.h = h;
-/*  Not a pure module */
+/* H Not a pure module */

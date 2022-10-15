@@ -1,11 +1,11 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 var Ext_string_test = require("./ext_string_test.js");
 
 function filter_map(f, _xs) {
@@ -806,7 +806,7 @@ function assoc_by_string(def, k, _lst) {
     var lst = _lst;
     if (lst) {
       var match = lst.hd;
-      if (match[0] === k) {
+      if (Ext_string_test.equal(match[0], k)) {
         return match[1];
       }
       _lst = lst.tl;

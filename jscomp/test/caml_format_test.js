@@ -1,16 +1,16 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var Int64 = require("../../lib/js/int64.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Format = require("../../lib/js/format.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
+var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
+var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var CamlinternalFormatBasics = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalFormatBasics.js");
 
 var of_string = [
   [
@@ -2255,7 +2255,7 @@ var int64_suites_1 = {
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
-                              _0: Caml_format.caml_int64_format("%d", [
+                              _0: Int64.to_string([
                                     0,
                                     3333
                                   ]),

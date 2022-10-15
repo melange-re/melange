@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
+var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 var suites = {
   contents: /* [] */0

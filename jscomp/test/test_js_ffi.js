@@ -1,6 +1,6 @@
 'use strict';
 
-var $$String = require("../../lib/js/string.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 
 function v(u) {
   t({

@@ -1,6 +1,6 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function u(f, a, b) {
   console.log(f(a, b));

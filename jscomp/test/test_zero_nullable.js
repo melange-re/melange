@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 var suites = {
   contents: /* [] */0

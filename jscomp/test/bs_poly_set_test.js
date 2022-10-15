@@ -1,14 +1,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var Belt_Id = require("../../lib/js/belt_Id.js");
-var Belt_Set = require("../../lib/js/belt_Set.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Belt_List = require("../../lib/js/belt_List.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
-var Belt_SetDict = require("../../lib/js/belt_SetDict.js");
-var Belt_SortArray = require("../../lib/js/belt_SortArray.js");
+var Caml = require("melange/lib/js/caml.js");
+var Belt_Id = require("melange/jscomp/others/belt_Id.js");
+var Belt_Set = require("melange/jscomp/others/belt_Set.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Belt_List = require("melange/jscomp/others/belt_List.js");
+var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_SetDict = require("melange/jscomp/others/belt_SetDict.js");
+var Belt_SortArray = require("melange/jscomp/others/belt_SortArray.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {
@@ -83,43 +83,43 @@ b("File \"bs_poly_set_test.ml\", line 35, characters 4-11", u0 !== u1);
 
 b("File \"bs_poly_set_test.ml\", line 36, characters 4-11", u2 === u1);
 
-eq("File \"bs_poly_set_test.ml\", line 37, characters 5-12", Belt_SetDict.size(u4.data), 28);
+eq("File \"bs_poly_set_test.ml\", line 37, characters 5-12", Belt_Set.size(u4), 28);
 
-b("File \"bs_poly_set_test.ml\", line 38, characters 4-11", 29 === Belt_SetDict.maxUndefined(u4.data));
+b("File \"bs_poly_set_test.ml\", line 38, characters 4-11", 29 === Belt_Set.maxUndefined(u4));
 
-b("File \"bs_poly_set_test.ml\", line 39, characters 4-11", 1 === Belt_SetDict.minUndefined(u4.data));
+b("File \"bs_poly_set_test.ml\", line 39, characters 4-11", 1 === Belt_Set.minUndefined(u4));
 
 b("File \"bs_poly_set_test.ml\", line 40, characters 4-11", u4 === u5);
 
-b("File \"bs_poly_set_test.ml\", line 41, characters 4-11", Belt_SetDict.isEmpty(u6.data));
+b("File \"bs_poly_set_test.ml\", line 41, characters 4-11", Belt_Set.isEmpty(u6));
 
-eq("File \"bs_poly_set_test.ml\", line 42, characters 6-13", Belt_SetDict.size(u7.data), 3);
+eq("File \"bs_poly_set_test.ml\", line 42, characters 6-13", Belt_Set.size(u7), 3);
 
-b("File \"bs_poly_set_test.ml\", line 43, characters 4-11", !Belt_SetDict.isEmpty(u7.data));
+b("File \"bs_poly_set_test.ml\", line 43, characters 4-11", !Belt_Set.isEmpty(u7));
 
-b("File \"bs_poly_set_test.ml\", line 44, characters 4-11", Belt_SetDict.isEmpty(u8.data));
+b("File \"bs_poly_set_test.ml\", line 44, characters 4-11", Belt_Set.isEmpty(u8));
 
 b("File \"bs_poly_set_test.ml\", line 47, characters 4-11", Belt_Set.has(u10, 20));
 
 b("File \"bs_poly_set_test.ml\", line 48, characters 4-11", Belt_Set.has(u10, 21));
 
-eq("File \"bs_poly_set_test.ml\", line 49, characters 5-12", Belt_SetDict.size(u10.data), 20001);
+eq("File \"bs_poly_set_test.ml\", line 49, characters 5-12", Belt_Set.size(u10), 20001);
 
-eq("File \"bs_poly_set_test.ml\", line 50, characters 5-12", Belt_SetDict.size(u11.data), 19800);
+eq("File \"bs_poly_set_test.ml\", line 50, characters 5-12", Belt_Set.size(u11), 19800);
 
-eq("File \"bs_poly_set_test.ml\", line 51, characters 5-12", Belt_SetDict.size(u12.data), 19000);
+eq("File \"bs_poly_set_test.ml\", line 51, characters 5-12", Belt_Set.size(u12), 19000);
 
-eq("File \"bs_poly_set_test.ml\", line 53, characters 5-12", Belt_SetDict.size(u13.data), Belt_SetDict.size(u12.data));
+eq("File \"bs_poly_set_test.ml\", line 53, characters 5-12", Belt_Set.size(u13), Belt_Set.size(u12));
 
-eq("File \"bs_poly_set_test.ml\", line 54, characters 5-12", Belt_SetDict.size(u14.data), 10000);
+eq("File \"bs_poly_set_test.ml\", line 54, characters 5-12", Belt_Set.size(u14), 10000);
 
-eq("File \"bs_poly_set_test.ml\", line 55, characters 5-12", Belt_SetDict.size(u15.data), 1);
+eq("File \"bs_poly_set_test.ml\", line 55, characters 5-12", Belt_Set.size(u15), 1);
 
 b("File \"bs_poly_set_test.ml\", line 56, characters 4-11", Belt_Set.has(u15, 20000));
 
 b("File \"bs_poly_set_test.ml\", line 57, characters 4-11", !Belt_Set.has(u15, 2000));
 
-b("File \"bs_poly_set_test.ml\", line 58, characters 4-11", Belt_SetDict.isEmpty(u16.data));
+b("File \"bs_poly_set_test.ml\", line 58, characters 4-11", Belt_Set.isEmpty(u16));
 
 var u17 = Belt_Set.fromArray(Array_data_util.randomRange(0, 100), IntCmp);
 
@@ -139,10 +139,7 @@ var u24 = Belt_Set.union(u18, u17);
 
 var u25 = Belt_Set.add(u22, 59);
 
-var u26 = Belt_Set.add({
-      cmp: IntCmp.cmp,
-      data: undefined
-    }, 3);
+var u26 = Belt_Set.add(Belt_Set.make(IntCmp), 3);
 
 var ss = Belt_Array.makeByAndShuffle(100, (function (i) {
         return (i << 1);
@@ -156,17 +153,17 @@ var u29 = Belt_Set.union(u26, u27);
 
 b("File \"bs_poly_set_test.ml\", line 72, characters 4-11", Belt_Set.eq(u28, u29));
 
-b("File \"bs_poly_set_test.ml\", line 73, characters 4-11", Caml_obj.caml_equal(Belt_SetDict.toArray(u29.data), Belt_SortArray.stableSortBy(Belt_Array.concat(ss, [3]), Caml.caml_int_compare)));
+b("File \"bs_poly_set_test.ml\", line 73, characters 4-11", Caml_obj.caml_equal(Belt_Set.toArray(u29), Belt_SortArray.stableSortBy(Belt_Array.concat(ss, [3]), Caml.caml_int_compare)));
 
 b("File \"bs_poly_set_test.ml\", line 74, characters 4-11", Belt_Set.eq(u19, u20));
 
-eq("File \"bs_poly_set_test.ml\", line 75, characters 5-12", Belt_SetDict.toArray(u21.data), Array_data_util.range(59, 100));
+eq("File \"bs_poly_set_test.ml\", line 75, characters 5-12", Belt_Set.toArray(u21), Array_data_util.range(59, 100));
 
-eq("File \"bs_poly_set_test.ml\", line 76, characters 5-12", Belt_SetDict.toArray(u22.data), Array_data_util.range(0, 58));
+eq("File \"bs_poly_set_test.ml\", line 76, characters 5-12", Belt_Set.toArray(u22), Array_data_util.range(0, 58));
 
 b("File \"bs_poly_set_test.ml\", line 77, characters 4-11", Belt_Set.eq(u24, u19));
 
-eq("File \"bs_poly_set_test.ml\", line 78, characters 5-12", Belt_SetDict.toArray(u23.data), Array_data_util.range(101, 200));
+eq("File \"bs_poly_set_test.ml\", line 78, characters 5-12", Belt_Set.toArray(u23), Array_data_util.range(101, 200));
 
 b("File \"bs_poly_set_test.ml\", line 79, characters 4-11", Belt_Set.subset(u23, u18));
 
@@ -184,15 +181,15 @@ b("File \"bs_poly_set_test.ml\", line 85, characters 4-11", Belt_Set.getUndefine
 
 b("File \"bs_poly_set_test.ml\", line 86, characters 4-11", undefined === Belt_Set.get(u22, 59));
 
-eq("File \"bs_poly_set_test.ml\", line 88, characters 5-12", Belt_SetDict.size(u25.data), 60);
+eq("File \"bs_poly_set_test.ml\", line 88, characters 5-12", Belt_Set.size(u25), 60);
 
-b("File \"bs_poly_set_test.ml\", line 89, characters 4-11", Belt_SetDict.minimum(undefined) === undefined);
+b("File \"bs_poly_set_test.ml\", line 89, characters 4-11", Belt_Set.minimum(Belt_Set.make(IntCmp)) === undefined);
 
-b("File \"bs_poly_set_test.ml\", line 90, characters 4-11", Belt_SetDict.maximum(undefined) === undefined);
+b("File \"bs_poly_set_test.ml\", line 90, characters 4-11", Belt_Set.maximum(Belt_Set.make(IntCmp)) === undefined);
 
-b("File \"bs_poly_set_test.ml\", line 91, characters 4-11", Belt_SetDict.minUndefined(undefined) === undefined);
+b("File \"bs_poly_set_test.ml\", line 91, characters 4-11", Belt_Set.minUndefined(Belt_Set.make(IntCmp)) === undefined);
 
-b("File \"bs_poly_set_test.ml\", line 92, characters 4-11", Belt_SetDict.maxUndefined(undefined) === undefined);
+b("File \"bs_poly_set_test.ml\", line 92, characters 4-11", Belt_Set.maxUndefined(Belt_Set.make(IntCmp)) === undefined);
 
 function testIterToList(xs) {
   var v = {
@@ -211,7 +208,7 @@ function testIterToList2(xs) {
   var v = {
     contents: /* [] */0
   };
-  Belt_SetDict.forEach(xs.data, (function (x) {
+  Belt_SetDict.forEach(Belt_Set.getData(xs), (function (x) {
           v.contents = {
             hd: x,
             tl: v.contents
@@ -238,7 +235,7 @@ b("File \"bs_poly_set_test.ml\", line 110, characters 4-11", Belt_List.every2(te
             return x === y;
           })));
 
-b("File \"bs_poly_set_test.ml\", line 111, characters 4-11", Belt_List.every2(testIterToList(u0$1), Belt_SetDict.toList(u0$1.data), (function (x, y) {
+b("File \"bs_poly_set_test.ml\", line 111, characters 4-11", Belt_List.every2(testIterToList(u0$1), Belt_Set.toList(u0$1), (function (x, y) {
             return x === y;
           })));
 
@@ -254,7 +251,7 @@ b("File \"bs_poly_set_test.ml\", line 114, characters 4-11", Belt_Set.every(u0$1
             return x < 24;
           })));
 
-b("File \"bs_poly_set_test.ml\", line 115, characters 4-11", Belt_SetDict.every(u0$1.data, (function (x) {
+b("File \"bs_poly_set_test.ml\", line 115, characters 4-11", Belt_SetDict.every(Belt_Set.getData(u0$1), (function (x) {
             return x < 24;
           })));
 
@@ -308,9 +305,9 @@ t("File \"bs_poly_set_test.ml\", line 134, characters 4-11", (function (param) {
         Belt_Set.getExn(a0, -1);
       }));
 
-eq("File \"bs_poly_set_test.ml\", line 135, characters 5-12", Belt_SetDict.size(a0.data), 1001);
+eq("File \"bs_poly_set_test.ml\", line 135, characters 5-12", Belt_Set.size(a0), 1001);
 
-b("File \"bs_poly_set_test.ml\", line 136, characters 4-11", !Belt_SetDict.isEmpty(a0.data));
+b("File \"bs_poly_set_test.ml\", line 136, characters 4-11", !Belt_Set.isEmpty(a0));
 
 var match$1 = Belt_Set.split(a0, 200);
 
@@ -318,11 +315,11 @@ var match$2 = match$1[0];
 
 b("File \"bs_poly_set_test.ml\", line 138, characters 4-11", match$1[1]);
 
-eq("File \"bs_poly_set_test.ml\", line 139, characters 5-12", Belt_SetDict.toArray(match$2[0].data), Belt_Array.makeBy(200, (function (i) {
+eq("File \"bs_poly_set_test.ml\", line 139, characters 5-12", Belt_Set.toArray(match$2[0]), Belt_Array.makeBy(200, (function (i) {
             return i;
           })));
 
-eq("File \"bs_poly_set_test.ml\", line 140, characters 5-12", Belt_SetDict.toList(match$2[1].data), Belt_List.makeBy(800, (function (i) {
+eq("File \"bs_poly_set_test.ml\", line 140, characters 5-12", Belt_Set.toList(match$2[1]), Belt_List.makeBy(800, (function (i) {
             return i + 201 | 0;
           })));
 
@@ -338,17 +335,17 @@ var a8 = match$4[0];
 
 b("File \"bs_poly_set_test.ml\", line 143, characters 4-11", !match$3[1]);
 
-eq("File \"bs_poly_set_test.ml\", line 144, characters 5-12", Belt_SetDict.toArray(a8.data), Belt_Array.makeBy(200, (function (i) {
+eq("File \"bs_poly_set_test.ml\", line 144, characters 5-12", Belt_Set.toArray(a8), Belt_Array.makeBy(200, (function (i) {
             return i;
           })));
 
-eq("File \"bs_poly_set_test.ml\", line 145, characters 5-12", Belt_SetDict.toList(a9.data), Belt_List.makeBy(800, (function (i) {
+eq("File \"bs_poly_set_test.ml\", line 145, characters 5-12", Belt_Set.toList(a9), Belt_List.makeBy(800, (function (i) {
             return i + 201 | 0;
           })));
 
-eq("File \"bs_poly_set_test.ml\", line 146, characters 5-12", Belt_SetDict.minimum(a8.data), 0);
+eq("File \"bs_poly_set_test.ml\", line 146, characters 5-12", Belt_Set.minimum(a8), 0);
 
-eq("File \"bs_poly_set_test.ml\", line 147, characters 5-12", Belt_SetDict.minimum(a9.data), 201);
+eq("File \"bs_poly_set_test.ml\", line 147, characters 5-12", Belt_Set.minimum(a9), 201);
 
 Belt_List.forEach({
       hd: a0,
@@ -365,28 +362,21 @@ Belt_List.forEach({
           }
         }
       }
-    }, (function (x) {
-        Belt_SetDict.checkInvariantInternal(x.data);
-      }));
+    }, Belt_Set.checkInvariantInternal);
 
 var a = Belt_Set.fromArray([], IntCmp);
 
-var m = Belt_Set.keep(a, (function (x) {
-        return x % 2 === 0;
-      }));
+b("File \"bs_poly_set_test.ml\", line 153, characters 4-11", Belt_Set.isEmpty(Belt_Set.keep(a, (function (x) {
+                return x % 2 === 0;
+              }))));
 
-b("File \"bs_poly_set_test.ml\", line 153, characters 4-11", Belt_SetDict.isEmpty(m.data));
-
-var match$5 = Belt_Set.split({
-      cmp: IntCmp.cmp,
-      data: undefined
-    }, 0);
+var match$5 = Belt_Set.split(Belt_Set.make(IntCmp), 0);
 
 var match$6 = match$5[0];
 
-b("File \"bs_poly_set_test.ml\", line 157, characters 4-11", Belt_SetDict.isEmpty(match$6[0].data));
+b("File \"bs_poly_set_test.ml\", line 157, characters 4-11", Belt_Set.isEmpty(match$6[0]));
 
-b("File \"bs_poly_set_test.ml\", line 158, characters 4-11", Belt_SetDict.isEmpty(match$6[1].data));
+b("File \"bs_poly_set_test.ml\", line 158, characters 4-11", Belt_Set.isEmpty(match$6[1]));
 
 b("File \"bs_poly_set_test.ml\", line 159, characters 4-11", !match$5[1]);
 

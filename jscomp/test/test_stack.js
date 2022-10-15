@@ -1,10 +1,8 @@
 'use strict';
 
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
 
-function v(x) {
-  return Caml_obj.caml_equal(x.c, /* [] */0);
-}
+var v = Stack.is_empty;
 
 exports.v = v;
 /* No side effect */

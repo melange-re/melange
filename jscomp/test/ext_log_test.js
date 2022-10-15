@@ -1,8 +1,8 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
+var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var CamlinternalFormatBasics = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalFormatBasics.js");
 
 function $caret$caret(param, param$1) {
   return /* Format */{

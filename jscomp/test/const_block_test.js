@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 var a = [
   0,

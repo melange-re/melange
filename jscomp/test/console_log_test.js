@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 
 function min_int(prim0, prim1) {
   return Math.min(prim0, prim1);

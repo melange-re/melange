@@ -1,9 +1,9 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 
 function length_aux(_len, _param) {
   while(true) {

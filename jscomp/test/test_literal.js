@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var Custom_inline = /* @__PURE__ */Caml_exceptions.create("Test_literal.Custom_inline");
 

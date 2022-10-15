@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a";"-bs-no-bin-annot"|]}]
+[@@@bs.config {flags = [|"-w";"a"|]}]
 module Loc
 = struct
 #1 "loc.ml"

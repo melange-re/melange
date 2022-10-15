@@ -1,8 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_list = require("../../lib/js/js_list.js");
-var Js_vector = require("../../lib/js/js_vector.js");
+var Js_list = require("melange/jscomp/others/js_list.js");
 
 var suites = {
   contents: /* [] */0
@@ -172,22 +171,15 @@ eq("File \"js_list_test.ml\", line 20, characters 7-14", Js_list.countBy((functi
           }
         }), 3);
 
-function f(i) {
-  return i;
-}
-
-var v = Js_vector.toList(Js_vector.init(100000, f));
+var v = Js_list.init(100000, (function (i) {
+        return i;
+      }));
 
 eq("File \"js_list_test.ml\", line 23, characters 7-14", Js_list.countBy((function (x) {
             return x % 2 === 0;
           }), v), 50000);
 
-var vv = Js_list.foldRight((function (x, y) {
-        return {
-                hd: x,
-                tl: y
-              };
-      }), v, /* [] */0);
+var vv = Js_list.foldRight(Js_list.cons, v, /* [] */0);
 
 eq("File \"js_list_test.ml\", line 27, characters 7-14", true, Js_list.equal((function (x, y) {
             return x === y;
@@ -199,13 +191,11 @@ var vvv = Js_list.filter((function (x) {
 
 eq("File \"js_list_test.ml\", line 31, characters 7-14", Js_list.length(vvv), 10000);
 
-function f$1(x) {
-  return Math.imul(x, 10);
-}
-
 eq("File \"js_list_test.ml\", line 32, characters 7-14", true, Js_list.equal((function (x, y) {
             return x === y;
-          }), vvv, Js_vector.toList(Js_vector.init(10000, f$1))));
+          }), vvv, Js_list.init(10000, (function (x) {
+                return Math.imul(x, 10);
+              }))));
 
 Mt.from_pair_suites("Js_list_test", suites.contents);
 

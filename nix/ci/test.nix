@@ -26,7 +26,6 @@ in
 {
   melange-runtime-tests = stdenv.mkDerivation {
     name = "melange-tests-${inputString}";
-    inherit (melange) nativeBuildInputs propagatedBuildInputs;
 
     src = ../../jscomp/test;
 
@@ -44,28 +43,22 @@ in
 
     phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
-    checkInputs = with ocamlPackages; [ ounit2 ];
     doCheck = true;
 
-    buildInputs = melange.buildInputs ++ [
-      git
-      yarn
-      nodejs
-      melange
-    ];
+    nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
+    buildInputs = [ yarn nodejs melange ];
 
     NIX_NODE_MODULES_POSTINSTALL = ''
+      set -x
       ln -sfn ${melange} node_modules/melange
     '';
 
     checkPhase = ''
       # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
       yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+      mel build -- --display=short
 
-      # `--release` to avoid promotion
-      rm -rf _build && dune build --release --display=short -j $NIX_BUILD_CORES @jscomp/test/all
-
-      node ./node_modules/.bin/mocha "_build/default/jscomp/test/**/*_test.js"
+      node ./node_modules/.bin/mocha "./*_test.js"
     '';
   };
 

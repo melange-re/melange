@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Lexing = require("../../lib/js/lexing.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");

@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
 
 var x = {};
 

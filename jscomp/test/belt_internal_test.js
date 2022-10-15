@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_option = require("../../lib/js/caml_option.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 function treeHeight(n) {
   if (n !== undefined) {

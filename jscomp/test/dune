@@ -1,5 +1,3 @@
-(include dune.gen)
-
 (ocamllex
  (modules arith_lexer)
  (mode

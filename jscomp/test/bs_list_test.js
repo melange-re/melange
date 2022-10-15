@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Belt_List = require("../../lib/js/belt_List.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
+var Caml = require("melange/lib/js/caml.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Belt_List = require("melange/jscomp/others/belt_List.js");
+var Belt_Array = require("melange/jscomp/others/belt_Array.js");
 
 var suites = {
   contents: /* [] */0
@@ -2094,13 +2094,7 @@ function makeTest(n) {
             })));
 }
 
-eq("File \"bs_list_test.ml\", line 304, characters 5-12", {
-      hd: 2,
-      tl: {
-        hd: 3,
-        tl: /* [] */0
-      }
-    }, {
+eq("File \"bs_list_test.ml\", line 304, characters 5-12", Belt_List.add(Belt_List.add(/* [] */0, 3), 2), {
       hd: 2,
       tl: {
         hd: 3,

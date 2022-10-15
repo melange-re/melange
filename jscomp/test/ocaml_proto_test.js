@@ -1,26 +1,24 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Char = require("../../lib/js/char.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Lexing = require("../../lib/js/lexing.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var Parsing = require("../../lib/js/parsing.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Filename = require("../../lib/js/filename.js");
-var Printexc = require("../../lib/js/printexc.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var $$Map = require("melange/jscomp/stdlib-412/stdlib_modules/map.js");
+var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
+var Parsing = require("melange/jscomp/stdlib-412/stdlib_modules/parsing.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
+var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function field(optionsOpt, label, number, type_, name) {
   var options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
@@ -2020,7 +2018,7 @@ function string_of_payload_kind(capitalize, payload_kind, packed) {
     s = packed ? "bytes" : "varint";
   }
   if (capitalize !== undefined) {
-    return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
+    return $$String.capitalize(s);
   } else {
     return s;
   }
@@ -2071,7 +2069,7 @@ function indentation_prefix(n) {
     case 8 :
         return "                ";
     default:
-      return Caml_bytes.bytes_to_string(Bytes.make(n, /* ' ' */32));
+      return $$String.make(n, /* ' ' */32);
   }
 }
 
@@ -3813,182 +3811,11 @@ var Codegen_pp = {
 
 var compare = Caml_obj.caml_compare;
 
-var funarg = {
-  compare: compare
-};
+var Int_map = $$Map.Make({
+      compare: compare
+    });
 
-function height(param) {
-  if (param) {
-    return param.h;
-  } else {
-    return 0;
-  }
-}
-
-function create(l, x, d, r) {
-  var hl = height(l);
-  var hr = height(r);
-  return /* Node */{
-          l: l,
-          v: x,
-          d: d,
-          r: r,
-          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-        };
-}
-
-function bal(l, x, d, r) {
-  var hl = l ? l.h : 0;
-  var hr = r ? r.h : 0;
-  if (hl > (hr + 2 | 0)) {
-    if (l) {
-      var lr = l.r;
-      var ld = l.d;
-      var lv = l.v;
-      var ll = l.l;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, ld, create(lr, x, d, r));
-      }
-      if (lr) {
-        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
-      }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
-  }
-  if (hr <= (hl + 2 | 0)) {
-    return /* Node */{
-            l: l,
-            v: x,
-            d: d,
-            r: r,
-            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
-          };
-  }
-  if (r) {
-    var rr = r.r;
-    var rd = r.d;
-    var rv = r.v;
-    var rl = r.l;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, x, d, rl), rv, rd, rr);
-    }
-    if (rl) {
-      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
-  }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
-}
-
-function add(x, data, m) {
-  if (!m) {
-    return /* Node */{
-            l: /* Empty */0,
-            v: x,
-            d: data,
-            r: /* Empty */0,
-            h: 1
-          };
-  }
-  var r = m.r;
-  var d = m.d;
-  var v = m.v;
-  var l = m.l;
-  var c = Curry._2(funarg.compare, x, v);
-  if (c === 0) {
-    if (d === data) {
-      return m;
-    } else {
-      return /* Node */{
-              l: l,
-              v: x,
-              d: data,
-              r: r,
-              h: m.h
-            };
-    }
-  }
-  if (c < 0) {
-    var ll = add(x, data, l);
-    if (l === ll) {
-      return m;
-    } else {
-      return bal(ll, v, d, r);
-    }
-  }
-  var rr = add(x, data, r);
-  if (r === rr) {
-    return m;
-  } else {
-    return bal(l, v, d, rr);
-  }
-}
-
-function find(x, _param) {
-  while(true) {
-    var param = _param;
-    if (param) {
-      var c = Curry._2(funarg.compare, x, param.v);
-      if (c === 0) {
-        return param.d;
-      }
-      _param = c < 0 ? param.l : param.r;
-      continue ;
-    }
-    throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
-          Error: new Error()
-        };
-  };
-}
-
-function map$1(f, param) {
-  if (!param) {
-    return /* Empty */0;
-  }
-  var l$p = map$1(f, param.l);
-  var d$p = Curry._1(f, param.d);
-  var r$p = map$1(f, param.r);
-  return /* Node */{
-          l: l$p,
-          v: param.v,
-          d: d$p,
-          r: r$p,
-          h: param.h
-        };
-}
-
-function fold(f, _m, _accu) {
-  while(true) {
-    var accu = _accu;
-    var m = _m;
-    if (!m) {
-      return accu;
-    }
-    _accu = Curry._3(f, m.v, m.d, fold(f, m.l, accu));
-    _m = m.r;
-    continue ;
-  };
-}
-
-var empty_graph = /* Empty */0;
+var empty_graph = Int_map.empty;
 
 function min_value(param) {
   var x = param[0];
@@ -4040,7 +3867,7 @@ function string_of_option(f, x) {
 }
 
 function reset(g) {
-  return Curry._2(map$1, (function (core) {
+  return Curry._2(Int_map.map, (function (core) {
                 return {
                         core: core,
                         index: undefined,
@@ -4090,7 +3917,7 @@ function strong_connect(g, sccs, stack, index, v) {
           var index = param[2];
           var stack = param[1];
           var sccs = param[0];
-          var w = Curry._2(find, id, g);
+          var w = Curry._2(Int_map.find, id, g);
           Curry._2(log(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
@@ -4269,7 +4096,7 @@ function strong_connect(g, sccs, stack, index, v) {
 
 function tarjan(g) {
   var g$1 = reset(g);
-  return Curry._3(fold, (function (param, n, param$1) {
+  return Curry._3(Int_map.fold, (function (param, n, param$1) {
                   var index = param$1[2];
                   var stack = param$1[1];
                   var sccs = param$1[0];
@@ -5131,7 +4958,7 @@ function node_of_proto_type(param) {
 function group(proto) {
   var g = List.map(node_of_proto_type, proto);
   var g$1 = List.fold_left((function (m, n) {
-          return Curry._3(add, n.id, n, m);
+          return Curry._3(Int_map.add, n.id, n, m);
         }), empty_graph, g);
   var sccs = tarjan(g$1);
   return List.map((function (l) {
@@ -5384,7 +5211,6 @@ var Codegen_type = {
 
 function gen_encode_field_key(sc, number, pk, is_packed) {
   var s = string_of_payload_kind(undefined, pk, is_packed);
-  var s$1 = Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s)));
   line$1(sc, Curry._2(Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
@@ -5410,7 +5236,7 @@ function gen_encode_field_key(sc, number, pk, is_packed) {
                   }
                 },
                 _1: "Pbrt.Encoder.key (%i, Pbrt.%s) encoder; "
-              }), number, Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s$1)))));
+              }), number, $$String.capitalize($$String.lowercase(s))));
 }
 
 function encode_basic_type(bt, pk) {
@@ -6983,14 +6809,11 @@ function fix_ocaml_keyword_conflict(s) {
 }
 
 function constructor_name(s) {
-  var s$1 = $$String.concat("_", List.rev(rev_split_by_naming_convention(s)));
-  var s$2 = Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s$1)));
-  return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s$2)));
+  return $$String.capitalize($$String.lowercase($$String.concat("_", List.rev(rev_split_by_naming_convention(s)))));
 }
 
 function label_name_of_field_name(s) {
-  var s$1 = $$String.concat("_", List.rev(rev_split_by_naming_convention(s)));
-  return fix_ocaml_keyword_conflict(Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s$1))));
+  return fix_ocaml_keyword_conflict($$String.lowercase($$String.concat("_", List.rev(rev_split_by_naming_convention(s)))));
 }
 
 function module_of_file_name(file_name) {
@@ -7705,9 +7528,9 @@ function eq(loc, x, y) {
   };
 }
 
-eq("File \"ocaml_protc_test.ml\", line 10, characters 5-12", match[0], "(** tmp.proto Generated Types and Encoding *)\n\n(** {2 Types} *)\n\ntype t = {\n  j : int32;\n}\n\n\n(** {2 Default values} *)\n\nval default_t : \n  ?j:int32 ->\n  unit ->\n  t\n(** [default_t ()] is the default value for type [t] *)\n\n\n(** {2 Protobuf Decoding} *)\n\nval decode_t : Pbrt.Decoder.t -> t\n(** [decode_t decoder] decodes a [t] value from [decoder] *)\n\n\n(** {2 Protobuf Toding} *)\n\nval encode_t : t -> Pbrt.Encoder.t -> unit\n(** [encode_t v encoder] encodes [v] with the given [encoder] *)\n\n\n(** {2 Formatters} *)\n\nval pp_t : Format.formatter -> t -> unit \n(** [pp_t v] formats v] *)\n");
+eq("File \"ocaml_protc_test.ml\", line 10, characters 5-12", match[0], "(** tmp.proto Generated Types and Encoding *)\n\n(** {2 Types} *)\n\ntype t = {\n  j : int32;\n}\n\n\n(** {2 Default values} *)\n\nval default_t :\n  ?j:int32 ->\n  unit ->\n  t\n(** [default_t ()] is the default value for type [t] *)\n\n\n(** {2 Protobuf Decoding} *)\n\nval decode_t : Pbrt.Decoder.t -> t\n(** [decode_t decoder] decodes a [t] value from [decoder] *)\n\n\n(** {2 Protobuf Toding} *)\n\nval encode_t : t -> Pbrt.Encoder.t -> unit\n(** [encode_t v encoder] encodes [v] with the given [encoder] *)\n\n\n(** {2 Formatters} *)\n\nval pp_t : Format.formatter -> t -> unit\n(** [pp_t v] formats v] *)\n");
 
-eq("File \"ocaml_protc_test.ml\", line 46, characters 5-12", match[1], "[@@@ocaml.warning \"-30\"]\n\ntype t = {\n  j : int32;\n}\n\nand t_mutable = {\n  mutable j : int32;\n}\n\nlet rec default_t \n  ?j:((j:int32) = 0l)\n  () : t  = {\n  j;\n}\n\nand default_t_mutable () : t_mutable = {\n  j = 0l;\n}\n\nlet rec decode_t d =\n  let v = default_t_mutable () in\n  let rec loop () = \n    match Pbrt.Decoder.key d with\n    | None -> (\n    )\n    | Some (1, Pbrt.Varint) -> (\n      v.j <- Pbrt.Decoder.int32_as_varint d;\n      loop ()\n    )\n    | Some (1, pk) -> raise (\n      Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (\"Message(t), field(1)\", pk))\n    )\n    | Some (n, payload_kind) -> Pbrt.Decoder.skip d payload_kind; loop ()\n  in\n  loop ();\n  let v:t = Obj.magic v in\n  v\n\nlet rec encode_t (v:t) encoder = \n  Pbrt.Encoder.key (1, Pbrt.Varint) encoder; \n  Pbrt.Encoder.int32_as_varint v.j encoder;\n  ()\n\nlet rec pp_t fmt (v:t) = \n  let pp_i fmt () =\n    Format.pp_open_vbox fmt 1;\n    Pbrt.Pp.pp_record_field \"j\" Pbrt.Pp.pp_int32 fmt v.j;\n    Format.pp_close_box fmt ()\n  in\n  Pbrt.Pp.pp_brk pp_i fmt ()\n");
+eq("File \"ocaml_protc_test.ml\", line 46, characters 5-12", match[1], "[@@@ocaml.warning \"-30\"]\n\ntype t = {\n  j : int32;\n}\n\nand t_mutable = {\n  mutable j : int32;\n}\n\nlet rec default_t\n  ?j:((j:int32) = 0l)\n  () : t  = {\n  j;\n}\n\nand default_t_mutable () : t_mutable = {\n  j = 0l;\n}\n\nlet rec decode_t d =\n  let v = default_t_mutable () in\n  let rec loop () =\n    match Pbrt.Decoder.key d with\n    | None -> (\n    )\n    | Some (1, Pbrt.Varint) -> (\n      v.j <- Pbrt.Decoder.int32_as_varint d;\n      loop ()\n    )\n    | Some (1, pk) -> raise (\n      Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (\"Message(t), field(1)\", pk))\n    )\n    | Some (n, payload_kind) -> Pbrt.Decoder.skip d payload_kind; loop ()\n  in\n  loop ();\n  let v:t = Obj.magic v in\n  v\n\nlet rec encode_t (v:t) encoder =\n  Pbrt.Encoder.key (1, Pbrt.Varint) encoder;\n  Pbrt.Encoder.int32_as_varint v.j encoder;\n  ()\n\nlet rec pp_t fmt (v:t) =\n  let pp_i fmt () =\n    Format.pp_open_vbox fmt 1;\n    Pbrt.Pp.pp_record_field \"j\" Pbrt.Pp.pp_int32 fmt v.j;\n    Format.pp_close_box fmt ()\n  in\n  Pbrt.Pp.pp_brk pp_i fmt ()\n");
 
 Mt.from_pair_suites("Ocaml_proto_test", suites.contents);
 

@@ -1,7 +1,7 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Filename = require("../../lib/js/filename.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
 
 var u = Filename.chop_extension;
 

@@ -1,8 +1,8 @@
 'use strict';
 
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 function for_(x) {
   for(var i = 0 ,i_finish = (console.log("hi"), x.length); i <= i_finish; ++i){

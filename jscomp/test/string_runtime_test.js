@@ -1,10 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var Test_char = require("./test_char.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 var suites_0 = [
   "caml_is_printable",
@@ -26,9 +27,9 @@ var suites_1 = {
                     Bytes.fill(b, 0, x, /* 'c' */99);
                     return [
                             Bytes.to_string(b),
-                            Caml_bytes.bytes_to_string(Bytes.init(x, (function (param) {
-                                        return /* 'c' */99;
-                                      })))
+                            $$String.init(x, (function (param) {
+                                    return /* 'c' */99;
+                                  }))
                           ];
                   }), {
                   hd: 1000,

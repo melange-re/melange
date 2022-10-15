@@ -21,6 +21,7 @@ buildDunePackage rec {
       "ppx_rescript_compat"
       "scripts"
     ];
+    exclude = [ "jscomp/test" ];
   };
 
   buildPhase = ''

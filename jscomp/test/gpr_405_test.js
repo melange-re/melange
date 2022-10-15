@@ -1,10 +1,10 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Caml = require("melange/lib/js/caml.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function Make(funarg) {
   var $$let = funarg.V;

@@ -1,6 +1,6 @@
 'use strict';
 
-var Js_math = require("../../lib/js/js_math.js");
+var Js_math = require("melange/jscomp/others/js_math.js");
 
 var match = 1;
 

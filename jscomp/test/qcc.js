@@ -1,19 +1,19 @@
 'use strict';
 
-var Char = require("../../lib/js/char.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_sys = require("../../lib/js/caml_sys.js");
-var Caml_array = require("../../lib/js/caml_array.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_sys = require("melange/lib/js/caml_sys.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var dbg = {
   contents: true
@@ -305,7 +305,7 @@ function next(param) {
       if (!param$1) {
         return {
                 TAG: /* Op */0,
-                _0: Caml_bytes.bytes_to_string(Bytes.make(1, c))
+                _0: $$String.make(1, c)
               };
       }
       var lop = param$1.hd;

@@ -1,13 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var Ext_string_test = require("./ext_string_test.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function ff(x) {
   var a;
@@ -340,7 +339,7 @@ Mt.from_pair_suites("String_test", {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: String.fromCharCode(/* '0' */48),
-                                                    _1: Caml_bytes.bytes_to_string(Bytes.make(1, /* '0' */48))
+                                                    _1: $$String.make(1, /* '0' */48)
                                                   };
                                           })
                                       ],

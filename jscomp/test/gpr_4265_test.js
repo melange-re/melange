@@ -1,8 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_MutableMapInt = require("../../lib/js/belt_MutableMapInt.js");
-var Belt_internalMapInt = require("../../lib/js/belt_internalMapInt.js");
+var Belt_MutableMapInt = require("melange/jscomp/others/belt_MutableMapInt.js");
 
 var suites = {
   contents: /* [] */0
@@ -16,9 +15,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-var mockMap = {
-  data: undefined
-};
+var mockMap = Belt_MutableMapInt.make(undefined);
 
 function add(id) {
   Belt_MutableMapInt.set(mockMap, id, id);
@@ -37,7 +34,7 @@ add(486);
 
 Belt_MutableMapInt.remove(mockMap, 1726);
 
-var n1 = Belt_internalMapInt.getExn(mockMap.data, 6667);
+var n1 = Belt_MutableMapInt.getExn(mockMap, 6667);
 
 eq("File \"gpr_4265_test.ml\", line 17, characters 6-13", n, n1);
 
@@ -51,4 +48,4 @@ exports.add = add;
 exports.remove = remove;
 exports.n = n;
 exports.n1 = n1;
-/*  Not a pure module */
+/* mockMap Not a pure module */

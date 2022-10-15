@@ -1,8 +1,8 @@
-[@@@bs.config {flags = [|"-w";"a";"-bs-no-bin-annot"|]}]
+[@@@bs.config {flags = [|"-w";"a"|]}]
 
-module Actors : sig 
+module Actors : sig
 #1 "actors.mli"
-type dir_1d = | Left | Right 
+type dir_1d = | Left | Right
 type dir_2d = | North | South | East | West
 
 (* Generic xy record for easy position access *)
@@ -174,7 +174,7 @@ external windowToJsObj : Dom.window -> < .. > Js.t = "%identity"
 
 
 end
-module Sprite : sig 
+module Sprite : sig
 #1 "sprite.mli"
 open Actors
 
@@ -415,7 +415,7 @@ let update_animation (spr: sprite) =
   end else spr.ticks := curr_ticks + 1
 
 end
-module Particle : sig 
+module Particle : sig
 #1 "particle.mli"
 open Actors
 open Sprite
@@ -478,7 +478,7 @@ let pair_to_xy pair = {
 
 (* Function wrapper to assist in generating the template paramss for a
  * particle. *)
-let make_params sprite rot lifetime = 
+let make_params sprite rot lifetime =
   {
     sprite;
     rot;
@@ -499,10 +499,10 @@ let make_type typ ctx =
   | Score2000 as t -> make_params (Sprite.make_particle t ctx) 0. 30
   | Score4000 as t -> make_params (Sprite.make_particle t ctx) 0. 30
   | Score8000 as t -> make_params (Sprite.make_particle t ctx) 0. 30
-  
+
 let make ?vel:(vel=(0.,0.)) ?acc:(acc=(0.,0.)) part_type pos ctx =
   let params = make_type part_type ctx in
-  let pos = pair_to_xy pos and vel = pair_to_xy vel 
+  let pos = pair_to_xy pos and vel = pair_to_xy vel
                            and acc = pair_to_xy acc in
   {
     params;
@@ -513,8 +513,8 @@ let make ?vel:(vel=(0.,0.)) ?acc:(acc=(0.,0.)) part_type pos ctx =
     kill = false;
     life = params.lifetime;
   }
-   
-let make_score score pos ctx = 
+
+let make_score score pos ctx =
   let t = match score with
   | 100 -> Score100
   | 200 -> Score200
@@ -530,21 +530,21 @@ let make_score score pos ctx =
 (* Mutably update the velocity of a particle *)
 let update_vel part =
   part.vel.x <- (part.vel.x +. part.acc.x);
-  part.vel.y <- (part.vel.y +. part.acc.y) 
+  part.vel.y <- (part.vel.y +. part.acc.y)
 
 (* Mutably update the position of a particle *)
 let update_pos part =
   part.pos.x <- (part.vel.x +. part.pos.x);
   part.pos.y <- (part.vel.y +. part.pos.y)
-  
+
 let process part =
   part.life <- part.life - 1;
   if part.life = 0 then (part.kill <- true);
   update_vel part;
-  update_pos part 
+  update_pos part
 
 end
-module Object : sig 
+module Object : sig
 #1 "object.mli"
 open Sprite
 open Actors
@@ -1025,7 +1025,7 @@ let kill collid ctx =
   | _ -> []
 
 end
-module Draw : sig 
+module Draw : sig
 #1 "draw.mli"
 
 (* Renders a given object on the canvas *)
@@ -1138,7 +1138,7 @@ let draw_background_color canvas = failwith "todo"
 
 
 end
-module Viewport : sig 
+module Viewport : sig
 #1 "viewport.mli"
 open Actors
 
@@ -1176,7 +1176,7 @@ type viewport = {
   m_dim: Actors.xy;
 }
 
-let make (vx,vy) (mx,my) = 
+let make (vx,vy) (mx,my) =
   {
     pos = {x = 0.; y = 0.;};
     v_dim = {x = vx; y = vy};
@@ -1187,29 +1187,29 @@ let make (vx,vy) (mx,my) =
  * [cc], the canvas coordinate [vc], and the map coordinate [mc]. This function
  * works for both x and y. At the extreme points, it will ensure that the
  * viewport is always within bounds of the map, even if it is no longer
- * centered about the origin point. *) 
-let calc_viewport_point cc vc mc = 
+ * centered about the origin point. *)
+let calc_viewport_point cc vc mc =
   let vc_half = vc /. 2. in
   min ( max (cc -. vc_half) 0. ) ( min (mc -. vc) (abs_float(cc -. vc_half)) )
 
 (* Returns whether a coordinate pair [pos] is inside the viewport [v] *)
-let in_viewport v pos = 
+let in_viewport v pos =
   let margin = 32. in
   let (v_min_x,v_max_x) = (v.pos.x -. margin, v.pos.x +. v.v_dim.x) in
   let (v_min_y,v_max_y) = (v.pos.y -. margin, v.pos.y +. v.v_dim.y) in
-  let (x,y) = (pos.x, pos.y) in 
+  let (x,y) = (pos.x, pos.y) in
   x >= v_min_x && x <= v_max_x && y >= v_min_y && y<= v_max_y
 
 (* Returns whether an object is outside of the viewport and below it. This is
  * useful for determining whether to process falling out of screen normally. *)
-let out_of_viewport_below v y = 
+let out_of_viewport_below v y =
   let v_max_y = v.pos.y +. v.v_dim.y in
   y >= v_max_y
 
 (* Converts a x,y [coord] pair in absolute coordinates to coordinates relative
  * to the viewport *)
-let coord_to_viewport viewport coord = 
-  { 
+let coord_to_viewport viewport coord =
+  {
     x = coord.x -. viewport.pos.x;
     y = coord.y -. viewport.pos.y;
   }
@@ -1223,7 +1223,7 @@ let update vpt ctr =
 
 
 end
-module Director : sig 
+module Director : sig
 #1 "director.mli"
 (* Initiates the main game loop *)
 val update_loop : Dom_html.canvasElement
@@ -1675,7 +1675,7 @@ let keyup evt =
   in true
 
 end
-module Procedural_generator : sig 
+module Procedural_generator : sig
 #1 "procedural_generator.mli"
 open Object
 open Actors

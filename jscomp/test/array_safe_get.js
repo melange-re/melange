@@ -1,8 +1,8 @@
 'use strict';
 
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_array = require("../../lib/js/caml_array.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var x = [
   1,

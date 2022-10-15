@@ -1,8 +1,8 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 function eq_A(x, y) {
   if (x.TAG === /* A */0 && y.TAG === /* A */0) {

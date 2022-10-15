@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

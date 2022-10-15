@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Lazy = require("../../lib/js/lazy.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Lazy = require("melange/jscomp/stdlib-412/stdlib_modules/lazy.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var u = {
   contents: 3
@@ -100,12 +100,9 @@ CamlinternalLazy.force(u$1);
 
 var exotic = CamlinternalLazy.force;
 
-var l_from_fun = {
-  LAZY_DONE: false,
-  VAL: (function () {
+var l_from_fun = Lazy.from_fun(function (param) {
       return 3;
-    })
-};
+    });
 
 var forward_test = {
   LAZY_DONE: false,
@@ -235,10 +232,7 @@ Mt.from_pair_suites("Lazy_test", {
                 (function (param) {
                     return {
                             TAG: /* Eq */0,
-                            _0: CamlinternalLazy.force({
-                                  LAZY_DONE: true,
-                                  VAL: 3
-                                }),
+                            _0: CamlinternalLazy.force(Lazy.from_val(3)),
                             _1: 3
                           };
                   })
@@ -249,13 +243,10 @@ Mt.from_pair_suites("Lazy_test", {
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
-                              _0: CamlinternalLazy.force(CamlinternalLazy.force({
-                                        LAZY_DONE: true,
-                                        VAL: {
-                                          LAZY_DONE: true,
-                                          VAL: 3
-                                        }
-                                      })),
+                              _0: CamlinternalLazy.force(CamlinternalLazy.force(Lazy.from_val({
+                                            LAZY_DONE: true,
+                                            VAL: 3
+                                          }))),
                               _1: 3
                             };
                     })
@@ -267,10 +258,7 @@ Mt.from_pair_suites("Lazy_test", {
                         debugger;
                         return {
                                 TAG: /* Eq */0,
-                                _0: CamlinternalLazy.force(CamlinternalLazy.force({
-                                          LAZY_DONE: true,
-                                          VAL: forward_test
-                                        })),
+                                _0: CamlinternalLazy.force(CamlinternalLazy.force(Lazy.from_val(forward_test))),
                                 _1: 4
                               };
                       })

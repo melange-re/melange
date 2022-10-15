@@ -1,6 +1,6 @@
 'use strict';
 
-var Stdlib = require("../../lib/js/stdlib.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
 
 var u = 3;
 

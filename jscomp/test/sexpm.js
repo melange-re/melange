@@ -1,19 +1,19 @@
 'use strict';
 
-var Sys = require("../../lib/js/sys.js");
-var Caml = require("../../lib/js/caml.js");
-var Char = require("../../lib/js/char.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Format = require("../../lib/js/format.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Printexc = require("../../lib/js/printexc.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
+var Caml = require("melange/lib/js/caml.js");
+var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
+var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function _with_in(filename, f) {
   var ic = Stdlib.open_in_bin(filename);
@@ -641,7 +641,7 @@ function expr_list(acc, k, t) {
 
 function _return_atom(last, k, t) {
   var s = $$Buffer.contents(t.atom);
-  t.atom.position = 0;
+  $$Buffer.clear(t.atom);
   return Curry._2(k, last, {
               NAME: "Atom",
               VAL: s
@@ -1247,7 +1247,7 @@ function MakeDecode(funarg) {
   };
   var _return_atom = function (last, k, t) {
     var s = $$Buffer.contents(t.atom);
-    t.atom.position = 0;
+    $$Buffer.clear(t.atom);
     return Curry._2(k, last, {
                 NAME: "Atom",
                 VAL: s

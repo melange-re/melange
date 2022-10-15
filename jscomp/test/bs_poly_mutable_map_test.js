@@ -1,13 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var Belt_Id = require("../../lib/js/belt_Id.js");
-var Belt_Set = require("../../lib/js/belt_Set.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
+var Caml = require("melange/lib/js/caml.js");
+var Belt_Id = require("melange/jscomp/others/belt_Id.js");
+var Belt_Set = require("melange/jscomp/others/belt_Set.js");
+var Belt_Array = require("melange/jscomp/others/belt_Array.js");
 var Array_data_util = require("./array_data_util.js");
-var Belt_MutableMap = require("../../lib/js/belt_MutableMap.js");
-var Belt_internalAVLtree = require("../../lib/js/belt_internalAVLtree.js");
+var Belt_MutableMap = require("melange/jscomp/others/belt_MutableMap.js");
 
 var suites = {
   contents: /* [] */0
@@ -64,7 +63,7 @@ Belt_MutableMap.removeMany(a0, [
       6
     ]);
 
-eq("File \"bs_poly_mutable_map_test.ml\", line 31, characters 5-12", Belt_internalAVLtree.keysToArray(a0.data), [
+eq("File \"bs_poly_mutable_map_test.ml\", line 31, characters 5-12", Belt_MutableMap.keysToArray(a0), [
       9,
       10
     ]);
@@ -85,7 +84,7 @@ Belt_MutableMap.removeMany(a0$1, Belt_Array.map(randomRange(2002, 11000), (funct
             return prim[0];
           })));
 
-eq("File \"bs_poly_mutable_map_test.ml\", line 41, characters 6-13", Belt_internalAVLtree.toArray(a0$1.data), [
+eq("File \"bs_poly_mutable_map_test.ml\", line 41, characters 6-13", Belt_MutableMap.toArray(a0$1), [
       [
         1999,
         1999

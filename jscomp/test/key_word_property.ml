@@ -1,11 +1,11 @@
 (* [@@@bs.config {flags = [|
-  "-bs-package-output"; "es6:jscomp/test"
-|]}] 
+  "-bs-package-output"; "es6:."
+|]}]
 *)
 (* FIXME it does not work*)
 
 
-type t 
+type t
 
 
 external default :   t = "default" [@@bs.module "some-es6-module"]

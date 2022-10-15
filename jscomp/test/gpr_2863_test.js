@@ -1,10 +1,8 @@
 'use strict';
 
-var Belt_MutableSetInt = require("../../lib/js/belt_MutableSetInt.js");
+var Belt_MutableSetInt = require("melange/jscomp/others/belt_MutableSetInt.js");
 
-var mySet = {
-  data: undefined
-};
+var mySet = Belt_MutableSetInt.make(undefined);
 
 Belt_MutableSetInt.add(mySet, 1);
 
@@ -16,4 +14,4 @@ var a = 3;
 
 exports.mySet = mySet;
 exports.a = a;
-/*  Not a pure module */
+/* mySet Not a pure module */

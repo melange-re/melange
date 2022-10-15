@@ -1,23 +1,19 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Queue = require("../../lib/js/queue.js");
-var Genlex = require("../../lib/js/genlex.js");
-var Stream = require("../../lib/js/stream.js");
-var Caml_int32 = require("../../lib/js/caml_int32.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Curry = require("melange/lib/js/curry.js");
+var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
+var Genlex = require("melange/jscomp/stdlib-412/stdlib_modules/genlex.js");
+var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
+var Caml_int32 = require("melange/lib/js/caml_int32.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Stream_parser_test.Parse_error");
 
 function parse(token) {
-  var look_ahead = {
-    length: 0,
-    first: /* Nil */0,
-    last: /* Nil */0
-  };
+  var look_ahead = Queue.create(undefined);
   var token$1 = function (param) {
-    if (look_ahead.length !== 0) {
+    if (!Queue.is_empty(look_ahead)) {
       return Queue.pop(look_ahead);
     }
     try {
@@ -144,13 +140,9 @@ function token(chars) {
 }
 
 function l_parse(token) {
-  var look_ahead = {
-    length: 0,
-    first: /* Nil */0,
-    last: /* Nil */0
-  };
+  var look_ahead = Queue.create(undefined);
   var token$1 = function (param) {
-    if (look_ahead.length !== 0) {
+    if (!Queue.is_empty(look_ahead)) {
       return Queue.pop(look_ahead);
     }
     try {

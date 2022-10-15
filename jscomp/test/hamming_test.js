@@ -1,13 +1,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Printf = require("../../lib/js/printf.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
 
 var n0 = Caml_int64.zero;
 

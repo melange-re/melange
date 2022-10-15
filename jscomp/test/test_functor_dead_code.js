@@ -1,16 +1,14 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var $$Map = require("melange/jscomp/stdlib-412/stdlib_modules/map.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 
-function is_empty(param) {
-  if (param) {
-    return false;
-  } else {
-    return true;
-  }
-}
+var M = $$Map.Make({
+      compare: $$String.compare
+    });
 
-var v = Curry._1(is_empty, /* Empty */0);
+var v = Curry._1(M.is_empty, M.empty);
 
 exports.v = v;
 /* M Not a pure module */

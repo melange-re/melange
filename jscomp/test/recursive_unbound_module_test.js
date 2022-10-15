@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_module = require("../../lib/js/caml_module.js");
+var Caml_module = require("melange/lib/js/caml_module.js");
 
 function Make(X) {
   var f = function (param) {

@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var Queue = require("../../lib/js/queue.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 function Test(Queue) {
   var to_array = function (q) {
@@ -29,7 +29,7 @@ function Test(Queue) {
 }
 
 function to_array(q) {
-  var v = Caml_array.make(q.length, 0);
+  var v = Caml_array.make(Queue.length(q), 0);
   Queue.fold((function (i, e) {
           Caml_array.set(v, i, e);
           return i + 1 | 0;
@@ -38,11 +38,7 @@ function to_array(q) {
 }
 
 function queue_1(x) {
-  var q = {
-    length: 0,
-    first: /* Nil */0,
-    last: /* Nil */0
-  };
+  var q = Queue.create(undefined);
   $$Array.iter((function (x) {
           Queue.add(x, q);
         }), x);

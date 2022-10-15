@@ -1,6 +1,6 @@
 'use strict';
 
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
+var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
 
 function fix(param) {
   return /* Fix */{

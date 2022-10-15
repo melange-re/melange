@@ -1,37 +1,37 @@
 'use strict';
 
-var Arg = require("../../lib/js/arg.js");
-var Sys = require("../../lib/js/sys.js");
-var Caml = require("../../lib/js/caml.js");
-var Char = require("../../lib/js/char.js");
-var List = require("../../lib/js/list.js");
+var Arg = require("melange/jscomp/stdlib-412/stdlib_modules/arg.js");
+var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
+var Caml = require("melange/lib/js/caml.js");
+var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Path = require("path");
-var $$Array = require("../../lib/js/array.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Format = require("../../lib/js/format.js");
-var Lexing = require("../../lib/js/lexing.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
+var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var Assert = require("assert");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var Parsing = require("../../lib/js/parsing.js");
+var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
+var Parsing = require("melange/jscomp/stdlib-412/stdlib_modules/parsing.js");
 var Process = require("process");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_sys = require("../../lib/js/caml_sys.js");
-var Filename = require("../../lib/js/filename.js");
-var Caml_array = require("../../lib/js/caml_array.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_sys = require("melange/lib/js/caml_sys.js");
+var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 try {
   Caml_sys.caml_sys_getenv("BSLIB");
@@ -265,7 +265,7 @@ function set_color_tag_handling(ppf) {
     print_open_tag: functions$p_print_open_tag,
     print_close_tag: functions$p_print_close_tag
   };
-  ppf.pp_mark_tags = true;
+  Format.pp_set_mark_tags(ppf, true);
   Format.pp_set_formatter_tag_functions(ppf, functions$p);
 }
 
@@ -13064,7 +13064,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
 }
 
 function at_bol(lexbuf) {
-  var pos = lexbuf.lex_start_p;
+  var pos = Lexing.lexeme_start_p(lexbuf);
   return pos.pos_cnum === pos.pos_bol;
 }
 
@@ -13078,7 +13078,7 @@ function token_with_comments(lexbuf) {
 }
 
 function token$1(lexbuf) {
-  var post_pos = lexbuf.lex_curr_p;
+  var post_pos = Lexing.lexeme_end_p(lexbuf);
   var attach = function (lines, docs, pre_pos) {
     if (typeof docs === "number") {
       return ;
@@ -13371,7 +13371,7 @@ function token$1(lexbuf) {
             
         }
       }
-      attach(lines, docs, lexbuf.lex_start_p);
+      attach(lines, docs, Lexing.lexeme_start_p(lexbuf));
       return doc;
     };
   };
@@ -13518,7 +13518,7 @@ function eq(loc, x, y) {
   };
 }
 
-var match = wrap(implementation, Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
+var match = wrap(implementation, Lexing.from_string(undefined, "let v str =\n  str\n  |> Lexing.from_string\n  |> Parse.implementation\n"));
 
 if (match) {
   var match$1 = match.hd.pstr_desc;

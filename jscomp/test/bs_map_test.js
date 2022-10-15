@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
-var Belt_MapInt = require("../../lib/js/belt_MapInt.js");
-var Belt_SetInt = require("../../lib/js/belt_SetInt.js");
+var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_MapInt = require("melange/jscomp/others/belt_MapInt.js");
+var Belt_SetInt = require("melange/jscomp/others/belt_SetInt.js");
 
 var suites = {
   contents: /* [] */0

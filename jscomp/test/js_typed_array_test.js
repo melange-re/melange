@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function mkI8(a) {
   return new Int8Array(a);

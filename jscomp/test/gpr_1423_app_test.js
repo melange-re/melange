@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 var Gpr_1423_nav = require("./gpr_1423_nav.js");
 
 var suites = {
@@ -43,7 +43,7 @@ function foo2(f) {
   return Curry._2(f, "a1", undefined);
 }
 
-eq("File \"gpr_1423_app_test.ml\", line 18, characters 7-14", "a1a2", "a1a2");
+eq("File \"gpr_1423_app_test.ml\", line 18, characters 7-14", Gpr_1423_nav.busted("a1", "a2", undefined), "a1a2");
 
 Mt.from_pair_suites("Gpr_1423_app_test", suites.contents);
 

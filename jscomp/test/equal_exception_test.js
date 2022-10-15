@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var v = "gso";
 

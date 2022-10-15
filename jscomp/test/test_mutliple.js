@@ -1,6 +1,6 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 
 var f = List.length(/* [] */0);
 

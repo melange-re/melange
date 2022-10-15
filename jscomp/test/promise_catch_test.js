@@ -1,11 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_exn = require("../../lib/js/js_exn.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Js_option = require("../../lib/js/js_option.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Js_exn = require("melange/jscomp/others/js_exn.js");
+var Js_int = require("melange/jscomp/others/js_int.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Js_option = require("melange/jscomp/others/js_option.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -79,9 +80,7 @@ try {
 }
 catch (raw_e){
   var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-  eq("File \"promise_catch_test.ml\", line 36, characters 7-14", true, Js_option.isSomeValue((function (xxx, y) {
-              return xxx === y;
-            }), 2, myHandler(e)));
+  eq("File \"promise_catch_test.ml\", line 36, characters 7-14", true, Js_option.isSomeValue(Js_int.equal, 2, myHandler(e)));
 }
 
 if (exit === 1) {

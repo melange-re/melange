@@ -1,12 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
-var Belt_SetInt = require("../../lib/js/belt_SetInt.js");
+var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_SetInt = require("melange/jscomp/others/belt_SetInt.js");
 var Array_data_util = require("./array_data_util.js");
-var Belt_HashSetInt = require("../../lib/js/belt_HashSetInt.js");
-var Belt_SortArrayInt = require("../../lib/js/belt_SortArrayInt.js");
-var Belt_internalBucketsType = require("../../lib/js/belt_internalBucketsType.js");
+var Belt_HashSetInt = require("melange/jscomp/others/belt_HashSetInt.js");
+var Belt_SortArrayInt = require("melange/jscomp/others/belt_SortArrayInt.js");
 
 var suites = {
   contents: /* [] */0
@@ -42,7 +41,7 @@ var u = Belt_Array.concat(Array_data_util.randomRange(30, 100), Array_data_util.
 
 var v = Belt_HashSetInt.fromArray(u);
 
-eq("File \"bs_hashset_int_test.ml\", line 19, characters 5-12", v.size, 91);
+eq("File \"bs_hashset_int_test.ml\", line 19, characters 5-12", Belt_HashSetInt.size(v), 91);
 
 var xs = Belt_SetInt.toArray(Belt_SetInt.fromArray(Belt_HashSetInt.toArray(v)));
 
@@ -54,23 +53,23 @@ eq("File \"bs_hashset_int_test.ml\", line 24, characters 5-12", sum2(v), 6825);
 
 var u$1 = Belt_Array.concat(Array_data_util.randomRange(0, 100000), Array_data_util.randomRange(0, 100));
 
-var v$1 = Belt_internalBucketsType.make(undefined, undefined, 40);
+var v$1 = Belt_HashSetInt.make(40);
 
 Belt_HashSetInt.mergeMany(v$1, u$1);
 
-eq("File \"bs_hashset_int_test.ml\", line 30, characters 5-12", v$1.size, 100001);
+eq("File \"bs_hashset_int_test.ml\", line 30, characters 5-12", Belt_HashSetInt.size(v$1), 100001);
 
 for(var i = 0; i <= 1000; ++i){
   Belt_HashSetInt.remove(v$1, i);
 }
 
-eq("File \"bs_hashset_int_test.ml\", line 34, characters 5-12", v$1.size, 99000);
+eq("File \"bs_hashset_int_test.ml\", line 34, characters 5-12", Belt_HashSetInt.size(v$1), 99000);
 
 for(var i$1 = 0; i$1 <= 2000; ++i$1){
   Belt_HashSetInt.remove(v$1, i$1);
 }
 
-eq("File \"bs_hashset_int_test.ml\", line 38, characters 5-12", v$1.size, 98000);
+eq("File \"bs_hashset_int_test.ml\", line 38, characters 5-12", Belt_HashSetInt.size(v$1), 98000);
 
 var u0 = Belt_HashSetInt.fromArray(Array_data_util.randomRange(0, 100000));
 

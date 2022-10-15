@@ -1,14 +1,14 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Printf = require("../../lib/js/printf.js");
-var Random = require("../../lib/js/random.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_int32 = require("../../lib/js/caml_int32.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Random = require("melange/jscomp/stdlib-412/stdlib_modules/random.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_int32 = require("melange/lib/js/caml_int32.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 var Actors = {};
 

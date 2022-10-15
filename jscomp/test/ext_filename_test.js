@@ -1,21 +1,18 @@
 'use strict';
 
-var Sys = require("../../lib/js/sys.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Caml_sys = require("../../lib/js/caml_sys.js");
-var Filename = require("../../lib/js/filename.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Caml_sys = require("melange/lib/js/caml_sys.js");
+var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
 var Test_literals = require("./test_literals.js");
 var Ext_string_test = require("./ext_string_test.js");
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 var Ext_pervasives_test = require("./ext_pervasives_test.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
+var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 var node_sep = "/";
 
@@ -70,7 +67,7 @@ function chop_extension(locOpt, name) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
-      return Curry._2(Format.ksprintf(Stdlib.invalid_arg, /* Format */{
+      return Curry._2(Ext_pervasives_test.invalid_argf(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Filename.chop_extension ( ",
@@ -234,13 +231,11 @@ var package_dir = {
 };
 
 function module_name_of_file(file) {
-  var s = Filename.chop_extension(Curry._1(Filename.basename, file));
-  return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
+  return $$String.capitalize(Filename.chop_extension(Curry._1(Filename.basename, file)));
 }
 
 function module_name_of_file_if_any(file) {
-  var s = chop_extension_if_any(Curry._1(Filename.basename, file));
-  return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
+  return $$String.capitalize(chop_extension_if_any(Curry._1(Filename.basename, file)));
 }
 
 function combine(p1, p2) {
@@ -269,7 +264,7 @@ function split_aux(p) {
             ];
     }
     var new_path = Curry._1(Filename.basename, p$1);
-    if (new_path === Filename.dir_sep) {
+    if (Ext_string_test.equal(new_path, Filename.dir_sep)) {
       _p = dir;
       continue ;
     }
@@ -307,7 +302,7 @@ function rel_normalized_absolute_path(from, to_) {
                     return Filename.concat(acc, Ext_string_test.parent_dir_lit);
                   }), Ext_string_test.parent_dir_lit, xs);
     }
-    if (xss.hd === yss.hd) {
+    if (Ext_string_test.equal(xss.hd, yss.hd)) {
       _yss = yss.tl;
       _xss = xs;
       continue ;
@@ -336,11 +331,11 @@ function normalize_absolute_path(x) {
       }
       var xs = paths.tl;
       var x = paths.hd;
-      if (x === Ext_string_test.current_dir_lit) {
+      if (Ext_string_test.equal(x, Ext_string_test.current_dir_lit)) {
         _paths = xs;
         continue ;
       }
-      if (x === Ext_string_test.parent_dir_lit) {
+      if (Ext_string_test.equal(x, Ext_string_test.parent_dir_lit)) {
         _paths = xs;
         _acc = drop_if_exist(acc);
         continue ;

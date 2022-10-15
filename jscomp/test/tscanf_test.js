@@ -1,24 +1,22 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Int32 = require("../../lib/js/int32.js");
-var Scanf = require("../../lib/js/scanf.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
+var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
+var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
+var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var Testing = require("./testing.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Mt_global = require("./mt_global.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -1826,7 +1824,7 @@ function scan_elems$2(ib, accu) {
                                 tl: accu
                               });
                   }
-                  console.log(Caml_bytes.bytes_to_string(Bytes.make(1, c)));
+                  console.log($$String.make(1, c));
                   return Stdlib.failwith("scan_elems");
                 }));
   }
@@ -4322,7 +4320,7 @@ function next_char(ob, param) {
         };
   }
   var c = Caml_string.get(s, 0);
-  ob.position = 0;
+  $$Buffer.clear(ob);
   $$Buffer.add_string(ob, $$String.sub(s, 1, len - 1 | 0));
   return c;
 }
@@ -4879,7 +4877,7 @@ function test53(param) {
               },
               _1: "%ld"
             }), (function (i) {
-            return (i + 1 | 0) === 125;
+            return Int32.succ(i) === 125;
           })) && Caml.i64_eq(Curry._1(Scanf.sscanf("123", /* Format */{
                   _0: {
                     TAG: /* Int64 */7,
@@ -4903,7 +4901,7 @@ function test53(param) {
                     },
                     _1: "%Ld"
                   }), (function (i) {
-                  return Caml.i64_eq(Caml_int64.sub(i, Caml_int64.one), [
+                  return Caml.i64_eq(Int64.pred(i), [
                               0,
                               123
                             ]);

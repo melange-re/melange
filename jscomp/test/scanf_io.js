@@ -1,16 +1,15 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Scanf = require("../../lib/js/scanf.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Digest = require("../../lib/js/digest.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
+var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
+var Digest = require("melange/jscomp/stdlib-412/stdlib_modules/digest.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var tscanf_data_file = "tscanf_data";
 
@@ -161,8 +160,7 @@ function add_digest_ib(ob, ib) {
   var output_line_digest = function (s) {
     $$Buffer.add_string(ob, s);
     $$Buffer.add_char(ob, /* '#' */35);
-    var s$1 = Digest.to_hex(Digest.string(s));
-    $$Buffer.add_string(ob, Caml_bytes.bytes_to_string(Bytes.uppercase(Caml_bytes.bytes_of_string(s$1))));
+    $$Buffer.add_string(ob, $$String.uppercase(Digest.to_hex(Digest.string(s))));
     $$Buffer.add_char(ob, /* '\n' */10);
   };
   try {
@@ -195,7 +193,7 @@ function test55(param) {
   var ob = $$Buffer.create(42);
   create_tscanf_data(ob, tscanf_data_file_lines);
   var s = $$Buffer.contents(ob);
-  ob.position = 0;
+  $$Buffer.clear(ob);
   var ib = Scanf.Scanning.from_string(s);
   add_digest_ib(ob, ib);
   var tscanf_data_file_lines_digest = $$Buffer.contents(ob);

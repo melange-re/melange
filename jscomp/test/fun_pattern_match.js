@@ -1,7 +1,7 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var Curry = require("../../lib/js/curry.js");
+var Caml = require("melange/lib/js/caml.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function f(param, v) {
   return ((((param.x0 + param.x1 | 0) + param.x2 | 0) + param.x3 | 0) + param.x4 | 0) + v | 0;

@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Scanf = require("../../lib/js/scanf.js");
+var Curry = require("melange/lib/js/curry.js");
+var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
 var Mt_global = require("./mt_global.js");
 
 var suites = {

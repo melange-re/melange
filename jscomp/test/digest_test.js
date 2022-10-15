@@ -1,14 +1,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Digest = require("../../lib/js/digest.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_array = require("../../lib/js/caml_array.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Digest = require("melange/jscomp/stdlib-412/stdlib_modules/digest.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 var Ext_array_test = require("./ext_array_test.js");
 
 function f(x) {
@@ -235,7 +234,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                             (function (param) {
                                 return {
                                         TAG: /* Eq */0,
-                                        _0: Digest.to_hex(Digest.string(Caml_bytes.bytes_to_string(Bytes.make(i, /* 'a' */97)))),
+                                        _0: Digest.to_hex(Digest.string($$String.make(i, /* 'a' */97))),
                                         _1: Caml_array.get(ref, i)
                                       };
                               })

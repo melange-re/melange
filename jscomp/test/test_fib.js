@@ -1,6 +1,6 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function fib(n) {
   if (n === 0 || n === 1) {

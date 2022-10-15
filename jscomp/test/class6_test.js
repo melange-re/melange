@@ -1,12 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_oo = require("../../lib/js/caml_oo.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
-var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
+var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
 
 var shared = [
   "move",
@@ -213,7 +212,7 @@ function functional_point_init($$class) {
           }),
         move,
         (function (self$6, d) {
-            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$6));
+            var copy = CamlinternalOO.copy(self$6);
             copy[x] = self$6[x] + d | 0;
             return copy;
           })

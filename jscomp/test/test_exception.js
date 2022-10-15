@@ -1,8 +1,8 @@
 'use strict';
 
-var Stdlib = require("../../lib/js/stdlib.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
 var Test_common = require("./test_common.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 

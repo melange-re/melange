@@ -1,7 +1,7 @@
 'use strict';
 
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 function caml_array_sub(x, offset, len) {
   var result = new Array(len);

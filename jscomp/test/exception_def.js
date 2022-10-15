@@ -1,9 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Printexc = require("../../lib/js/printexc.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
+var Test_other_exn = require("./test_other_exn.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -25,7 +26,7 @@ var U = {
   A: A$1
 };
 
-var H = {};
+var H = Test_other_exn.Make({});
 
 var Bx = /* @__PURE__ */Caml_exceptions.create("Exception_def.Bx");
 
@@ -150,4 +151,4 @@ exports.h4 = h4;
 exports.H4 = H4;
 exports.h5 = h5;
 exports.p = p;
-/*  Not a pure module */
+/* H Not a pure module */

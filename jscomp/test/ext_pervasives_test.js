@@ -1,12 +1,12 @@
 'use strict';
 
-var Arg = require("../../lib/js/arg.js");
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Arg = require("melange/jscomp/stdlib-412/stdlib_modules/arg.js");
+var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function $$finally(v, action, f) {
   var e;

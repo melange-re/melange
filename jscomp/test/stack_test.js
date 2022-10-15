@@ -1,13 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Stack = require("../../lib/js/stack.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
 
 function to_list(v) {
   var acc = /* [] */0;
-  while(!Caml_obj.caml_equal(v.c, /* [] */0)) {
+  while(!Stack.is_empty(v)) {
     acc = {
       hd: Stack.pop(v),
       tl: acc
@@ -17,10 +16,7 @@ function to_list(v) {
 }
 
 function v(param) {
-  var v$1 = {
-    c: /* [] */0,
-    len: 0
-  };
+  var v$1 = Stack.create(undefined);
   Stack.push(3, v$1);
   Stack.push(4, v$1);
   Stack.push(1, v$1);

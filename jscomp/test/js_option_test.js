@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_option = require("../../lib/js/js_option.js");
+var Js_option = require("melange/jscomp/others/js_option.js");
 
 function simpleEq(a, b) {
   return a === b;
@@ -13,7 +13,7 @@ var option_suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: true,
-              _1: true
+              _1: Js_option.isSome(1)
             };
     })
 ];
@@ -25,7 +25,7 @@ var option_suites_1 = {
         return {
                 TAG: /* Eq */0,
                 _0: false,
-                _1: false
+                _1: Js_option.isSome(undefined)
               };
       })
   ],
@@ -36,7 +36,7 @@ var option_suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: false,
-                  _1: false
+                  _1: Js_option.isNone(1)
                 };
         })
     ],
@@ -47,7 +47,7 @@ var option_suites_1 = {
             return {
                     TAG: /* Eq */0,
                     _0: true,
-                    _1: true
+                    _1: Js_option.isNone(undefined)
                   };
           })
       ],

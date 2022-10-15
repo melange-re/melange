@@ -1,7 +1,7 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Caml_splice_call = require("../../lib/js/caml_splice_call.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_splice_call = require("melange/lib/js/caml_splice_call.js");
 
 var Curry$1 = {};
 

@@ -1,8 +1,22 @@
 {
-  "name": "bs-platform",
-  "version": "7.0.0",
+  "name": "melange-runtime-tests",
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "bsc-flags": [
+    "-w",
+    "-6-32-34",
+    "-bs-no-version-header"
+  ],
   "sources": {
-    "dir": "jscomp/test/"
+    "dir": ".",
+    "files": {
+      "excludes": [
+        "res_debug.res",
+        "record_regression.res"
+      ]
+    }
   },
   "generate-merlin": true
 }

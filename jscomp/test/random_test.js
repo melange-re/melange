@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Int64 = require("../../lib/js/int64.js");
-var Printf = require("../../lib/js/printf.js");
-var Random = require("../../lib/js/random.js");
+var Curry = require("melange/lib/js/curry.js");
+var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
+var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Random = require("melange/jscomp/stdlib-412/stdlib_modules/random.js");
 var Mt_global = require("./mt_global.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 var id = {
   contents: 0
