@@ -62,6 +62,11 @@ let same_package_by_name (x : t) (y : t) =
   | None, Some _ | Some _, None -> false
   | Some s1, Some s2 -> s1 = s2
 
+let is_runtime_package (x : t) =
+  match x.name with
+  | Some name -> name = !Bs_version.package_name
+  | None -> false
+
 let iter (x : t) cb = Ext_list.iter x.module_systems cb
 
 (* let equal (x : t) ({name; module_systems}) =

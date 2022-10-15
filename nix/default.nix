@@ -4,7 +4,7 @@ with ocamlPackages;
 
 buildDunePackage rec {
   pname = "melange";
-  version = "9.0.0-dev";
+  version = "dev";
 
   src = with nix-filter; filter {
     root = ./..;

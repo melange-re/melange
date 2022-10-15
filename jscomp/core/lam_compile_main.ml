@@ -317,14 +317,8 @@ let lambda_as_module
     let target_file = (Filename.dirname output_prefix) // basename in
     write_to_file NodeJS target_file
   |  _ ->
-    Js_packages_info.iter package_info (fun {module_system; path; suffix} ->
-        let basename = make_basename suffix in
-        let target_file =
-          (Lazy.force Ext_path.package_dir //
-           path //
-           basename
-           (* #913 only generate little-case js file *)
-          ) in
+    Js_packages_info.iter package_info (fun {module_system; path = _; suffix} ->
+        let target_file = make_basename suffix in
         (if not !Clflags.dont_write_files then
           write_to_file module_system target_file );
         if !Warnings.has_warnings  then begin

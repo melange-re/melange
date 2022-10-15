@@ -36,9 +36,9 @@ in
 
     outputHashMode = "flat";
     outputHashAlgo = "sha256";
-    outputHash = builtins.hashString "sha256" "${melange}";
+    outputHash = builtins.hashString "sha256" "melange";
     installPhase = ''
-      echo -n ${melange} > $out
+      echo -n melange > $out
     '';
 
     phases = [ "unpackPhase" "checkPhase" "installPhase" ];
@@ -49,7 +49,6 @@ in
     buildInputs = [ yarn nodejs melange ];
 
     NIX_NODE_MODULES_POSTINSTALL = ''
-      set -x
       ln -sfn ${melange} node_modules/melange
     '';
 
