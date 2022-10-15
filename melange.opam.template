@@ -4,7 +4,6 @@ pin-depends: [
 
 install: [
   [ "dune" "install" "-p" "%{name}%" ]
-  [ "./fix-install-opam.sh" "%{_:lib}%" "%{_:build}%" ]
 ]
 
 setenv: [ MELANGELIB = "%{_:lib}%/melange" ]

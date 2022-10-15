@@ -38,8 +38,7 @@ buildDunePackage rec {
 
     mv $out/lib/melange/js $out/lib/js
     mv $out/lib/melange/es6 $out/lib/es6
-
-    find $out/lib/melange/melange -exec mv {} $out/lib/melange \;
+    mv $out/lib/melange/melange/* $out/lib/melange
     rm -rf $out/lib/melange/melange
 
     runHook postInstall

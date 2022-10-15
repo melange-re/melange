@@ -26,8 +26,10 @@
   "esy": {
     "build": "dune build -p #{self.name} --disable-promotion",
     "install": [
-      ["esy-installer", "$cur__target_dir/default/melange.install"],
-      ["$cur__root/fix-install.sh"]
+      [
+        "esy-installer",
+        "$cur__target_dir/default/melange.install"
+      ]
     ],
     "buildEnv": {
       "CAML_LD_LIBRARY_PATH": "#{self.target_dir / 'default' / 'jscomp' / 'stubs' : $CAML_LD_LIBRARY_PATH }"
@@ -44,7 +46,12 @@
     "type": "git",
     "url": "git+https://github.com/melange-re/melange.git"
   },
-  "keywords": ["ocaml", "rescript", "stdlib", "functional programming"],
+  "keywords": [
+    "ocaml",
+    "rescript",
+    "stdlib",
+    "functional programming"
+  ],
   "author": {
     "name": "Hongbo Zhang"
   },
