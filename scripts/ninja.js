@@ -40,19 +40,6 @@ var getOcamldepFile = () => {
   return "ocamldep.opt";
 };
 
-function checkInPATH(command) {
-  const paths = process.env.PATH.split(path.delimiter);
-  const found = paths.find(x => fs.existsSync(path.join(x, command)));
-
-  if (found != null) {
-    return path.join(found, command)
-  }
-}
-
-var getBsc = () => {
-  return checkInPATH('melc') || path.join(root, './_build/default/jscomp/main/melc.exe');
-}
-
 function ruleCCPriv({flags, src, target, deps = [], promoteExts, readCmi}) {
   var cmj =
     Array.isArray(target)
@@ -425,84 +412,6 @@ function ocamlDepForBscAsync(files, dir, depsMap) {
       }
     );
   });
-}
-
-/**
- *
- * @param {string[]} files
- * @param {string} dir
- * @param {DepsMap} depsMap
- * @return { Promise<void> []}
- * Note `bsdep.exe` does not need post processing and -one-line flag
- * By default `ocamldep.opt` only list dependencies in its args
- */
-function depModulesForBscAsync(files, dir, depsMap) {
-  let ocamlFiles = files.filter((x) => x.endsWith(".ml") || x.endsWith(".mli"));
-  let reFiles = files.filter((x) => x.endsWith(".re") || x.endsWith(".rei"));
-  let resFiles = files.filter((x) => x.endsWith(".res") || x.endsWith(".resi"));
-  /**
-   *
-   * @param {(value:void) =>void} resolve
-   * @param {(value:any)=>void} reject
-   */
-  let cb = (resolve, reject) => {
-    /**
-     * @param {any} error
-     * @param {string} stdout
-     * @param {string} stderr
-     */
-    let fn = function (error, stdout, stderr) {
-      if (error !== null) {
-        return reject(error);
-      } else {
-        var pairs = stdout.split("\n").map((x) => x.split(":"));
-        pairs.forEach((x) => {
-          var modules;
-          let source = sourceToTarget(x[0].trim());
-          if (x[1] !== undefined && (modules = x[1].trim())) {
-            modules = modules.split(" ");
-            updateDepsKVsByModule(source, modules, depsMap);
-          }
-        });
-        return resolve();
-      }
-    };
-    return fn;
-  };
-  let config = {
-    cwd: dir,
-    encoding: "ascii",
-  };
-  return [
-    new Promise((resolve, reject) => {
-      cp.exec(
-        `${getOcamldepFile()} -allow-approx -modules -one-line -native ${ocamlFiles.join(
-          " "
-        )}`,
-        config,
-        cb(resolve, reject)
-      );
-    }),
-
-    new Promise((resolve, reject) => {
-      cp.exec(
-        `${getOcamldepFile()} -pp 'refmt --print=binary' -modules -one-line -native -ml-synonym .re -mli-synonym .rei ${reFiles.join(
-          " "
-        )}`,
-        config,
-        cb(resolve, reject)
-      );
-    }),
-    new Promise((resolve, reject) => {
-      cp.exec(
-        `${getBsc()} -modules -bs-syntax-only ${resFiles.join(
-          " "
-        )}`,
-        config,
-        cb(resolve, reject)
-      );
-    }),
-  ];
 }
 
 /**

@@ -83,7 +83,7 @@
 
   (rule
     (targets caml_format.cmj caml_format.cmt  caml_format.js caml_format.mjs)
-    (deps (:inputs caml_format.ml) caml.cmj caml_float.cmj caml_float_extern.cmj caml_format.cmi caml_int64.cmj caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj)
+    (deps (:inputs caml_format.ml) caml_float.cmj caml_float_extern.cmj caml_format.cmi caml_int64.cmj caml_int64_extern.cmj caml_nativeint_extern.cmj caml_string_extern.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name melange -bs-package-output es6:lib/es6:.mjs -bs-package-output commonjs:lib/js:.js -nopervasives -unsafe -w +50-20 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
@@ -243,7 +243,7 @@
 
   (rule
     (targets caml_obj.cmj caml_obj.cmt  caml_obj.js caml_obj.mjs)
-    (deps (:inputs caml_obj.ml) caml.cmj caml_array_extern.cmj caml_obj.cmi caml_option.cmj js.cmj)
+    (deps (:inputs caml_obj.ml) caml_array_extern.cmj caml_obj.cmi caml_option.cmj js.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name melange -bs-package-output es6:lib/es6:.mjs -bs-package-output commonjs:lib/js:.js -nopervasives -unsafe -w +50-20 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
@@ -259,7 +259,7 @@
 
   (rule
     (targets caml_oo.cmj caml_oo.cmt  caml_oo.js caml_oo.mjs)
-    (deps (:inputs caml_oo.ml) caml_array.cmj caml_array_extern.cmj caml_exceptions.cmj caml_oo.cmi)
+    (deps (:inputs caml_oo.ml) caml_array_extern.cmj caml_exceptions.cmj caml_oo.cmi)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe -bs-read-cmi -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name melange -bs-package-output es6:lib/es6:.mjs -bs-package-output commonjs:lib/js:.js -nopervasives -unsafe -w +50-20 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
@@ -403,7 +403,7 @@
 
   (rule
     (targets caml_js_exceptions.cmi caml_js_exceptions.cmj caml_js_exceptions.cmt  caml_js_exceptions.js caml_js_exceptions.mjs)
-    (deps (:inputs caml_js_exceptions.ml) bs_stdlib_mini.cmi caml_exceptions.cmj caml_option.cmj js.cmi js.cmj)
+    (deps (:inputs caml_js_exceptions.ml) bs_stdlib_mini.cmi caml_exceptions.cmj js.cmi js.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name melange -bs-package-output es6:lib/es6:.mjs -bs-package-output commonjs:lib/js:.js -nopervasives -unsafe -w +50-20 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
@@ -443,7 +443,7 @@
 
   (rule
     (targets curry.cmi curry.cmj curry.cmt  curry.js curry.mjs)
-    (deps (:inputs curry.ml) bs_stdlib_mini.cmi caml_array.cmi caml_array.cmj caml_array_extern.cmj js.cmi js.cmj)
+    (deps (:inputs curry.ml) bs_stdlib_mini.cmi caml_array.cmi caml_array_extern.cmj js.cmi js.cmj)
 
     (action
      (run %{workspace_root}/jscomp/main/melc.exe  -bs-cmi -bs-cmj -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib  -bs-cross-module-opt -bs-package-name melange -bs-package-output es6:lib/es6:.mjs -bs-package-output commonjs:lib/js:.js -nopervasives -unsafe -w +50-20 -warn-error A -open Bs_stdlib_mini -I . %{inputs})))
