@@ -1,5 +1,5 @@
 {
-  "checksum": "647fae1f255250424d3c3ec77145dd46",
+  "checksum": "5175fea2633976456f726ac2bbcbbc6f",
   "root": "melange@link-dev:./esy.json",
   "node": {
     "web-tree-sitter@0.18.0@d41d8cd9": {
@@ -80,21 +80,17 @@
         "@opam/dune@github:ocaml/dune:dune.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9"
       ]
     },
-    "@opam/xdg@opam:3.4.1@c8939e21": {
-      "id": "@opam/xdg@opam:3.4.1@c8939e21",
+    "@opam/xdg@github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9": {
+      "id":
+        "@opam/xdg@github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
       "name": "@opam/xdg",
-      "version": "opam:3.4.1",
+      "version":
+        "github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://opam.ocaml.org/cache/sha256/29/299fa33cffc108cc26ff59d5fc9d09f6cb0ab3ac280bf23a0114cfdc0b40c6c5#sha256:299fa33cffc108cc26ff59d5fc9d09f6cb0ab3ac280bf23a0114cfdc0b40c6c5",
-          "archive:https://github.com/ocaml/dune/releases/download/3.4.1/dune-3.4.1.tbz#sha256:299fa33cffc108cc26ff59d5fc9d09f6cb0ab3ac280bf23a0114cfdc0b40c6c5"
-        ],
-        "opam": {
-          "name": "xdg",
-          "version": "3.4.1",
-          "path": "esy.lock/opam/xdg.3.4.1"
-        }
+          "github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e"
+        ]
       },
       "overrides": [],
       "dependencies": [
@@ -648,8 +644,8 @@
       "overrides": [],
       "dependencies": [
         "ocaml@4.14.0@d41d8cd9", "@opam/yojson@opam:2.0.2@eb65f292",
-        "@opam/xdg@opam:3.4.1@c8939e21", "@opam/uutf@opam:1.0.3@47c95a18",
-        "@opam/stdune@opam:3.4.1@7f6c026f",
+        "@opam/xdg@github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
+        "@opam/uutf@opam:1.0.3@47c95a18", "@opam/stdune@opam:3.4.1@7f6c026f",
         "@opam/spawn@opam:v0.15.1@85e9d6f1", "@opam/re@opam:1.10.4@c4910ba6",
         "@opam/ppx_yojson_conv_lib@opam:v0.15.0@773058a7",
         "@opam/pp@opam:1.1.2@89ad03b5", "@opam/ordering@opam:3.4.1@15998879",
@@ -666,8 +662,8 @@
       ],
       "devDependencies": [
         "ocaml@4.14.0@d41d8cd9", "@opam/yojson@opam:2.0.2@eb65f292",
-        "@opam/xdg@opam:3.4.1@c8939e21", "@opam/uutf@opam:1.0.3@47c95a18",
-        "@opam/stdune@opam:3.4.1@7f6c026f",
+        "@opam/xdg@github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
+        "@opam/uutf@opam:1.0.3@47c95a18", "@opam/stdune@opam:3.4.1@7f6c026f",
         "@opam/spawn@opam:v0.15.1@85e9d6f1", "@opam/re@opam:1.10.4@c4910ba6",
         "@opam/ppx_yojson_conv_lib@opam:v0.15.0@773058a7",
         "@opam/pp@opam:1.1.2@89ad03b5", "@opam/ordering@opam:3.4.1@15998879",
@@ -976,15 +972,17 @@
       },
       "overrides": [],
       "dependencies": [
-        "@opam/xdg@opam:3.4.1@c8939e21", "@opam/stdune@opam:3.4.1@7f6c026f",
-        "@opam/pp@opam:1.1.2@89ad03b5", "@opam/ordering@opam:3.4.1@15998879",
+        "@opam/xdg@github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
+        "@opam/stdune@opam:3.4.1@7f6c026f", "@opam/pp@opam:1.1.2@89ad03b5",
+        "@opam/ordering@opam:3.4.1@15998879",
         "@opam/dyn@opam:3.4.1@06f14652",
         "@opam/dune@github:ocaml/dune:dune.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
         "@opam/csexp@opam:1.5.1@8a8fb3a7", "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
       "devDependencies": [
-        "@opam/xdg@opam:3.4.1@c8939e21", "@opam/stdune@opam:3.4.1@7f6c026f",
-        "@opam/pp@opam:1.1.2@89ad03b5", "@opam/ordering@opam:3.4.1@15998879",
+        "@opam/xdg@github:ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
+        "@opam/stdune@opam:3.4.1@7f6c026f", "@opam/pp@opam:1.1.2@89ad03b5",
+        "@opam/ordering@opam:3.4.1@15998879",
         "@opam/dyn@opam:3.4.1@06f14652",
         "@opam/dune@github:ocaml/dune:dune.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e@d41d8cd9",
         "@opam/csexp@opam:1.5.1@8a8fb3a7"

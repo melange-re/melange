@@ -14,6 +14,7 @@
   "resolutions": {
     "@opam/reason": "reasonml/reason:reason.opam#a93c4c3fbf36d32360a64f9b7a3f64b0ef35b903",
     "@opam/dune": "ocaml/dune:dune.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
+    "@opam/xdg": "ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
     "ocaml": "4.14.0"
   },
   "devDependencies": {
@@ -31,6 +32,9 @@
       [
         "esy-installer",
         "$cur__target_dir/default/melange.install"
+      ],
+      [
+        "$cur__root/fix-install.sh"
       ]
     ],
     "buildEnv": {
