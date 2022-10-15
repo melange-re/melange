@@ -65,14 +65,6 @@ in
     name = "melange-tests-${inputString}";
     src = ../..;
 
-    # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-    # the dream of running fixed-output-derivations is dead -- somehow after
-    # Nix 2.4 it results in `error: unexpected end-of-file`.
-    # Example: https://github.com/melange-re/melange/runs/4132970590
-
-    outputHashMode = "flat";
-    outputHashAlgo = "sha256";
-    outputHash = builtins.hashString "sha256" "melange";
     installPhase = ''
       echo -n melange > $out
     '';
