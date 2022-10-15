@@ -11,8 +11,6 @@ var runtimeDir = path.join(jscompDir, "runtime");
 var othersDir = path.join(jscompDir, "others");
 var testDir = path.join(jscompDir, "test");
 
-var jsDir = path.join(__dirname, "..", "lib", "js");
-
 var runtimeFiles = fs.readdirSync(runtimeDir, "ascii");
 var runtimeMlFiles = runtimeFiles.filter(
   (x) => !x.startsWith("bs_stdlib_mini") && x.endsWith(".ml") && x !== "js.ml"
@@ -593,7 +591,6 @@ function generateDune(depsMap, allTargets, bscFlags, deps = [], promoteExt = nul
 }
 
 async function runtimeNinja() {
-  var ninjaCwd = "runtime";
   var ninjaOutput = "dune.gen";
 
   var bsc_no_open_flags =  `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} -nopervasives -unsafe -w +50-20 -warn-error A`;
@@ -640,10 +637,7 @@ ${ccRuleList([
   // FIXME: in dev mode, it should not rely on reading js file
   // since it may cause a bootstrapping issues
   try {
-    await Promise.all([
-      runJSCheckAsync(depsMap),
-      ocamlDepForBscAsync(runtimeSourceFiles, runtimeDir, depsMap),
-    ]);
+    await ocamlDepForBscAsync(runtimeSourceFiles, runtimeDir, depsMap);
     var stmts = generateDune(depsMap, allTargets, bsc_flags);
     stmts.push(
       duneAlias(runtimeTarget, allFileTargetsInRuntime)
@@ -676,7 +670,6 @@ var cppoRule = (src, target, flags = "") => `
 async function othersNinja() {
   var externalDeps = [runtimeTarget].map(x => `(alias ../runtime/${x.name})`);
   var ninjaOutput = 'dune.gen';
-  var ninjaCwd = "others";
   var bsc_flags = `${commonBsFlags} -bs-cross-module-opt ${runtimePackageSpecs} -nopervasives -unsafe -w +50-9-20 -warn-error A -open Bs_stdlib_mini -I ../runtime`;
 
   var belt_extraDeps = {
@@ -1004,92 +997,6 @@ function baseName(x) {
   return x.substr(0, x.indexOf("."));
 }
 
-/**
- *
- * @param {DepsMap} depsMap
- */
-function runJSCheckAsync(depsMap) {
-  return new Promise((resolve) => {
-    var count = 0;
-    var tasks = runtimeJsFiles.length;
-    var updateTick = () => {
-      count++;
-      if (count === tasks) {
-        resolve(count);
-      }
-    };
-    runtimeJsFiles.forEach((name) => {
-      var jsFile = path.join(jsDir, name + ".js");
-      fs.readFile(jsFile, "utf8", function (err, fileContent) {
-        if (err === null) {
-          var deps = getDeps(fileContent).map(
-            (x) => path.parse(x).name + ".cmj"
-          );
-          fs.exists(path.join(runtimeDir, name + ".mli"), (exist) => {
-            if (exist) {
-              deps.push(name + ".cmi");
-            }
-            updateDepsKVsByFile(`${name}.cmj`, deps, depsMap);
-            updateTick();
-          });
-        } else {
-          // file non exist or reading error ignore
-          updateTick();
-        }
-      });
-    });
-  });
-}
-
-function checkEffect() {
-  var jsPaths = runtimeJsFiles.map((x) => path.join(jsDir, x + ".js"));
-  var effect = jsPaths
-    .map((x) => {
-      return {
-        file: x,
-        content: fs.readFileSync(x, "utf8"),
-      };
-    })
-    .map(({ file, content: x }) => {
-      if (/No side effect|This output is empty/.test(x)) {
-        return {
-          file,
-          effect: "pure",
-        };
-      } else if (/Not a pure module/.test(x)) {
-        return {
-          file,
-          effect: "false",
-        };
-      } else {
-        return {
-          file,
-          effect: "unknown",
-        };
-      }
-    })
-    .filter(({ effect }) => effect !== "pure")
-    .map(({ file, effect }) => {
-      return { file: path.basename(file), effect };
-    });
-
-  var black_list = new Set([
-    "caml_int32.js",
-    "caml_int64.js",
-    "caml_lexer.js",
-    "caml_parser.js",
-  ]);
-
-  var assert = require("assert");
-  // @ts-ignore
-  assert(
-    effect.length === black_list.size &&
-      effect.every((x) => black_list.has(x.file))
-  );
-
-  console.log(effect);
-}
-
 function genDuneFiles() {
   runtimeNinja();
   stdlibNinja();
@@ -1100,9 +1007,6 @@ function main() {
   var emptyCount = 2;
   var isPlayground = false;
   if (require.main === module) {
-    if (process.argv.includes("-check")) {
-      checkEffect();
-    }
     if (process.argv.includes("-playground")) {
       isPlayground = true;
       emptyCount++;
