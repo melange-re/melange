@@ -3,7 +3,7 @@
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
 var Sexpm = require("./sexpm.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var Format = require("melange/lib/js/format.js");
 
 var suites = {
   contents: /* [] */0

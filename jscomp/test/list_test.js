@@ -2,8 +2,8 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var List = require("melange/lib/js/list.js");
+var $$Array = require("melange/lib/js/array.js");
 
 var list_suites_0 = [
   "length",

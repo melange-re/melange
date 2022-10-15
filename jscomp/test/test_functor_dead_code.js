@@ -1,8 +1,8 @@
 'use strict';
 
-var $$Map = require("melange/jscomp/stdlib-412/stdlib_modules/map.js");
+var $$Map = require("melange/lib/js/map.js");
 var Curry = require("melange/lib/js/curry.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var $$String = require("melange/lib/js/string.js");
 
 var M = $$Map.Make({
       compare: $$String.compare

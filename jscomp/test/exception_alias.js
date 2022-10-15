@@ -1,7 +1,7 @@
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var List = require("melange/lib/js/list.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 var a0 = {
   RE_EXN_ID: Stdlib.Not_found

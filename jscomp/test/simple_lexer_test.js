@@ -2,8 +2,8 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
-var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Lexing = require("melange/lib/js/lexing.js");
+var $$String = require("melange/lib/js/string.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xfd\xff\xfe\xff\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\x04\0\x01\0\x04\0\x03\0\0\0\x06\0\0\0\xff\xff",

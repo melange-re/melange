@@ -1,7 +1,7 @@
 'use strict';
 
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Char = require("melange/lib/js/char.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
 
 function l(prim) {

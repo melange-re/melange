@@ -2,7 +2,7 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Printf = require("melange/lib/js/printf.js");
 var Mt_global = require("./mt_global.js");
 
 var suites = {

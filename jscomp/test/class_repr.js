@@ -1,9 +1,9 @@
 'use strict';
 
-var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
+var Sys = require("melange/lib/js/sys.js");
 var Curry = require("melange/lib/js/curry.js");
 var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
-var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
+var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
 var shared = ["get_x"];
 

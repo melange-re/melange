@@ -1,6 +1,6 @@
 'use strict';
 
-var Belt_MutableSetInt = require("melange/jscomp/others/belt_MutableSetInt.js");
+var Belt_MutableSetInt = require("melange/lib/js/belt_MutableSetInt.js");
 
 var mySet = Belt_MutableSetInt.make(undefined);
 

@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Scanf = require("melange/lib/js/scanf.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 
 var suites = {

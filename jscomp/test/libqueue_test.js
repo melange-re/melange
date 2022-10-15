@@ -1,8 +1,8 @@
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
+var Queue = require("melange/lib/js/queue.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 

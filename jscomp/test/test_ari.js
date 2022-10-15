@@ -2,7 +2,7 @@
 
 var U = require("U");
 var VV = require("VV");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
 
 function f(x) {

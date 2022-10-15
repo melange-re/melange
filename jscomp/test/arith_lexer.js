@@ -1,8 +1,8 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Lexing = require("melange/lib/js/lexing.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_format = require("melange/lib/js/caml_format.js");
 
 var __ocaml_lex_tables = {

@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_dict = require("melange/jscomp/others/js_dict.js");
+var Js_dict = require("melange/lib/js/js_dict.js");
 
 function obj(param) {
   return {

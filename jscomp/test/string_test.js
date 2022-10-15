@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require("react");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var ReactDom = require("react-dom");
 
 function renderToElementWithClassName(reactElement, className) {

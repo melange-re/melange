@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
-var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
+var Queue = require("melange/lib/js/queue.js");
 var Caml_array = require("melange/lib/js/caml_array.js");
 
 function Test(Queue) {

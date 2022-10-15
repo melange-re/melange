@@ -1,6 +1,6 @@
 'use strict';
 
-var Js_exn = require("melange/jscomp/others/js_exn.js");
+var Js_exn = require("melange/lib/js/js_exn.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 

@@ -1,7 +1,7 @@
 'use strict';
 
-var Js_exn = require("melange/jscomp/others/js_exn.js");
-var Belt_MapInt = require("melange/jscomp/others/belt_MapInt.js");
+var Js_exn = require("melange/lib/js/js_exn.js");
+var Belt_MapInt = require("melange/lib/js/belt_MapInt.js");
 
 function should(b) {
   if (!b) {

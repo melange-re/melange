@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");

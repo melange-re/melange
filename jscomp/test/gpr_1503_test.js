@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
+var Int64 = require("melange/lib/js/int64.js");
 var Caml_format = require("melange/lib/js/caml_format.js");
 
 var suites = {

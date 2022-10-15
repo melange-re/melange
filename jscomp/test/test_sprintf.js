@@ -1,7 +1,7 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Printf = require("melange/lib/js/printf.js");
 
 console.error(Curry._2(Printf.sprintf(/* Format */{
               _0: {

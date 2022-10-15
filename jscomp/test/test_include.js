@@ -1,7 +1,7 @@
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var List = require("melange/lib/js/list.js");
+var $$String = require("melange/lib/js/string.js");
 var Test_order = require("./test_order.js");
 
 function Make(U) {

@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
-var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Int32 = require("melange/lib/js/int32.js");
+var Int64 = require("melange/lib/js/int64.js");
+var Format = require("melange/lib/js/format.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_int64 = require("melange/lib/js/caml_int64.js");
 var Ext_array_test = require("./ext_array_test.js");

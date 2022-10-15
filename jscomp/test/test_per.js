@@ -1,7 +1,7 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_io = require("melange/lib/js/caml_io.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_sys = require("melange/lib/js/caml_sys.js");
@@ -11,7 +11,7 @@ var Caml_format = require("melange/lib/js/caml_format.js");
 var Caml_string = require("melange/lib/js/caml_string.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
-var CamlinternalFormatBasics = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalFormatBasics.js");
+var CamlinternalFormatBasics = require("melange/lib/js/camlinternalFormatBasics.js");
 
 function failwith(s) {
   throw {

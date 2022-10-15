@@ -1,7 +1,7 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
+var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
 var shared = [
   "move",

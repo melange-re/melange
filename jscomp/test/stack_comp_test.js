@@ -2,7 +2,7 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
+var Stack = require("melange/lib/js/stack.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Mt_global = require("./mt_global.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");

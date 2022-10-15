@@ -2,10 +2,10 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Caml_float = require("melange/lib/js/caml_float.js");
 var Caml_int64 = require("melange/lib/js/caml_int64.js");

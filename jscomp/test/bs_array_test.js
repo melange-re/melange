@@ -3,11 +3,11 @@
 var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
 var Curry = require("melange/lib/js/curry.js");
-var Js_list = require("melange/jscomp/others/js_list.js");
+var Js_list = require("melange/lib/js/js_list.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Belt_List = require("melange/jscomp/others/belt_List.js");
-var Js_vector = require("melange/jscomp/others/js_vector.js");
-var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_List = require("melange/lib/js/belt_List.js");
+var Js_vector = require("melange/lib/js/js_vector.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 var Caml_array = require("melange/lib/js/caml_array.js");
 
 var suites = {

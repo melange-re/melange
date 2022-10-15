@@ -1,6 +1,6 @@
 'use strict';
 
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
+var Int64 = require("melange/lib/js/int64.js");
 var Caml_int64 = require("melange/lib/js/caml_int64.js");
 
 console.time("Int64.to_string");

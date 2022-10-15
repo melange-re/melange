@@ -1,6 +1,6 @@
 'use strict';
 
-var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 
 function range(i, j) {
   return Belt_Array.makeBy((j - i | 0) + 1 | 0, (function (k) {

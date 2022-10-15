@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Stream = require("melange/lib/js/stream.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 function classify(chr) {

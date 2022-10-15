@@ -2,11 +2,11 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
-var Belt_Id = require("melange/jscomp/others/belt_Id.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var Belt_Array = require("melange/jscomp/others/belt_Array.js");
-var Belt_HashMap = require("melange/jscomp/others/belt_HashMap.js");
-var Belt_SortArray = require("melange/jscomp/others/belt_SortArray.js");
+var Belt_Id = require("melange/lib/js/belt_Id.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
+var Belt_HashMap = require("melange/lib/js/belt_HashMap.js");
+var Belt_SortArray = require("melange/lib/js/belt_SortArray.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {

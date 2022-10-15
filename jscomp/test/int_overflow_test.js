@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
+var Int32 = require("melange/lib/js/int32.js");
 var Caml_string = require("melange/lib/js/caml_string.js");
 
 function hash_variant(s) {

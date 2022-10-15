@@ -1,13 +1,13 @@
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
-var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
-var Digest = require("melange/jscomp/stdlib-412/stdlib_modules/digest.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Scanf = require("melange/lib/js/scanf.js");
+var $$Buffer = require("melange/lib/js/buffer.js");
+var Digest = require("melange/lib/js/digest.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 

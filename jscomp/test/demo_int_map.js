@@ -1,6 +1,6 @@
 'use strict';
 
-var $$Map = require("melange/jscomp/stdlib-412/stdlib_modules/map.js");
+var $$Map = require("melange/lib/js/map.js");
 var Curry = require("melange/lib/js/curry.js");
 
 function compare(x, y) {

@@ -1,7 +1,7 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 function f0(x) {
   var tmp;

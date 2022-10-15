@@ -4,7 +4,7 @@
 // hello
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 
 var x0 = null;
 

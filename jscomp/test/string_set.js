@@ -1,9 +1,9 @@
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var List = require("melange/lib/js/list.js");
+var $$Array = require("melange/lib/js/array.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
 var Set_gen = require("./set_gen.js");
 
 function split(x, tree) {

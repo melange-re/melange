@@ -2,9 +2,9 @@
 
 var Mt = require("./mt.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
-var Js_undefined = require("melange/jscomp/others/js_undefined.js");
-var Belt_MutableQueue = require("melange/jscomp/others/belt_MutableQueue.js");
-var Belt_MutableStack = require("melange/jscomp/others/belt_MutableStack.js");
+var Js_undefined = require("melange/lib/js/js_undefined.js");
+var Belt_MutableQueue = require("melange/lib/js/belt_MutableQueue.js");
+var Belt_MutableStack = require("melange/lib/js/belt_MutableStack.js");
 
 var suites = {
   contents: /* [] */0

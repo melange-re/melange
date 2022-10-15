@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_vector = require("melange/jscomp/others/js_vector.js");
+var Js_vector = require("melange/lib/js/js_vector.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 
 var suites_0 = [

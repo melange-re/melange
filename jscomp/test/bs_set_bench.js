@@ -1,6 +1,6 @@
 'use strict';
 
-var Belt_SetInt = require("melange/jscomp/others/belt_SetInt.js");
+var Belt_SetInt = require("melange/lib/js/belt_SetInt.js");
 
 function bench(param) {
   var data;

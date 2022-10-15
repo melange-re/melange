@@ -1,11 +1,11 @@
 'use strict';
 
 var Caml = require("melange/lib/js/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Random = require("melange/jscomp/stdlib-412/stdlib_modules/random.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Printf = require("melange/lib/js/printf.js");
+var Random = require("melange/lib/js/random.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_int32 = require("melange/lib/js/caml_int32.js");
 var Caml_option = require("melange/lib/js/caml_option.js");

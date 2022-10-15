@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
+var List = require("melange/lib/js/list.js");
+var Stack = require("melange/lib/js/stack.js");
 
 function to_list(v) {
   var acc = /* [] */0;

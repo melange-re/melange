@@ -1,9 +1,9 @@
 'use strict';
 
-var Arg = require("melange/jscomp/stdlib-412/stdlib_modules/arg.js");
+var Arg = require("melange/lib/js/arg.js");
 var Curry = require("melange/lib/js/curry.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Format = require("melange/lib/js/format.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_string = require("melange/lib/js/caml_string.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");

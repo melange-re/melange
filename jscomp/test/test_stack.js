@@ -1,6 +1,6 @@
 'use strict';
 
-var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
+var Stack = require("melange/lib/js/stack.js");
 
 var v = Stack.is_empty;
 

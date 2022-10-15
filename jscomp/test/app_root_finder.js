@@ -2,7 +2,7 @@
 
 var Fs = require("fs");
 var Path = require("path");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 var package_json = "package.json";
 

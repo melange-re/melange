@@ -2,11 +2,11 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var List = require("melange/lib/js/list.js");
+var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var MoreLabels = require("melange/jscomp/stdlib-412/stdlib_modules/moreLabels.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var MoreLabels = require("melange/lib/js/moreLabels.js");
 
 function to_list(tbl) {
   return Hashtbl.fold((function (k, v, acc) {

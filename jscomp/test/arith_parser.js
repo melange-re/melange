@@ -1,7 +1,7 @@
 'use strict';
 
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var Parsing = require("melange/jscomp/stdlib-412/stdlib_modules/parsing.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Parsing = require("melange/lib/js/parsing.js");
 
 var yytransl_const = [
   259,

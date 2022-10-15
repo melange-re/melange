@@ -1,8 +1,8 @@
 'use strict';
 
-var $$Map = require("melange/jscomp/stdlib-412/stdlib_modules/map.js");
+var $$Map = require("melange/lib/js/map.js");
 var Caml = require("melange/lib/js/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
 
 var compare = Caml.caml_int_compare;

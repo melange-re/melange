@@ -1,17 +1,17 @@
 'use strict';
 
-var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
+var Sys = require("melange/lib/js/sys.js");
 var Caml = require("melange/lib/js/caml.js");
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Char = require("melange/lib/js/char.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
 var Curry = require("melange/lib/js/curry.js");
-var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
+var $$Buffer = require("melange/lib/js/buffer.js");
+var Format = require("melange/lib/js/format.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
+var Printexc = require("melange/lib/js/printexc.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 

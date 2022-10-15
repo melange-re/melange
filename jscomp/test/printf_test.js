@@ -2,8 +2,8 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Format = require("melange/lib/js/format.js");
+var Printf = require("melange/lib/js/printf.js");
 
 function print_pair(fmt, param) {
   Curry._2(Format.fprintf(fmt)(/* Format */{

@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_types = require("melange/jscomp/others/js_types.js");
+var Js_types = require("melange/lib/js/js_types.js");
 
 function string_or_number(x) {
   var ty = Js_types.classify(x);

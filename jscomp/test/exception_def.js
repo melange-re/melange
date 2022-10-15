@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Printexc = require("melange/lib/js/printexc.js");
 var Test_other_exn = require("./test_other_exn.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 

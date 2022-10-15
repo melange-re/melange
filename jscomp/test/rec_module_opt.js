@@ -1,6 +1,6 @@
 'use strict';
 
-var $$Set = require("melange/jscomp/stdlib-412/stdlib_modules/set.js");
+var $$Set = require("melange/lib/js/set.js");
 var Caml = require("melange/lib/js/caml.js");
 var Curry = require("melange/lib/js/curry.js");
 

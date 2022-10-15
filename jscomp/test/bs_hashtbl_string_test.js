@@ -1,14 +1,14 @@
 'use strict';
 
 var Caml = require("melange/lib/js/caml.js");
-var Belt_Id = require("melange/jscomp/others/belt_Id.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var Belt_Map = require("melange/jscomp/others/belt_Map.js");
-var Belt_HashMap = require("melange/jscomp/others/belt_HashMap.js");
-var Belt_MapDict = require("melange/jscomp/others/belt_MapDict.js");
-var Belt_HashMapInt = require("melange/jscomp/others/belt_HashMapInt.js");
-var Belt_HashSetInt = require("melange/jscomp/others/belt_HashSetInt.js");
-var Belt_HashMapString = require("melange/jscomp/others/belt_HashMapString.js");
+var Belt_Id = require("melange/lib/js/belt_Id.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var Belt_Map = require("melange/lib/js/belt_Map.js");
+var Belt_HashMap = require("melange/lib/js/belt_HashMap.js");
+var Belt_MapDict = require("melange/lib/js/belt_MapDict.js");
+var Belt_HashMapInt = require("melange/lib/js/belt_HashMapInt.js");
+var Belt_HashSetInt = require("melange/lib/js/belt_HashSetInt.js");
+var Belt_HashMapString = require("melange/lib/js/belt_HashMapString.js");
 var Caml_hash_primitive = require("melange/lib/js/caml_hash_primitive.js");
 
 function hash_string(s) {

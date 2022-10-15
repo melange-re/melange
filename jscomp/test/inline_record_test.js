@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var List = require("melange/lib/js/list.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var suites = {

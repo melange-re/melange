@@ -1,7 +1,7 @@
 'use strict';
 
 var Caml = require("melange/lib/js/caml.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 function getcompare(x) {
   return x;

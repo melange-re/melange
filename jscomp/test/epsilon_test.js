@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 var v = (Number.EPSILON?Number.EPSILON:2.220446049250313e-16);
 

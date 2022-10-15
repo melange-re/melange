@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
+var Char = require("melange/lib/js/char.js");
+var $$Array = require("melange/lib/js/array.js");
+var $$String = require("melange/lib/js/string.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
 var Mt_global = require("./mt_global.js");
 
 var suites = {

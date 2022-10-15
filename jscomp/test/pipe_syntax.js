@@ -1,7 +1,7 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 
 function t0(x, f) {

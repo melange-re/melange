@@ -1,15 +1,15 @@
 'use strict';
 
-var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Sys = require("melange/lib/js/sys.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
 var Caml_sys = require("melange/lib/js/caml_sys.js");
-var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
+var Filename = require("melange/lib/js/filename.js");
 var Test_literals = require("./test_literals.js");
 var Ext_string_test = require("./ext_string_test.js");
-var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var CamlinternalLazy = require("melange/lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 var Ext_pervasives_test = require("./ext_pervasives_test.js");
 var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");

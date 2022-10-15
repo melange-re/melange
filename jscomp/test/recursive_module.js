@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Lazy = require("melange/jscomp/stdlib-412/stdlib_modules/lazy.js");
+var Lazy = require("melange/lib/js/lazy.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_module = require("melange/lib/js/caml_module.js");
-var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var CamlinternalLazy = require("melange/lib/js/camlinternalLazy.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 

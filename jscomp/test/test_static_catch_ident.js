@@ -1,6 +1,6 @@
 'use strict';
 
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var Scan_failure = /* @__PURE__ */Caml_exceptions.create("Test_static_catch_ident.Scan_failure");

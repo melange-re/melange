@@ -1,9 +1,9 @@
 'use strict';
 
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_array = require("melange/lib/js/caml_array.js");
-var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var CamlinternalLazy = require("melange/lib/js/camlinternalLazy.js");
 
 function a4(prim) {
   return [

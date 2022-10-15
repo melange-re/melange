@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_null = require("melange/jscomp/others/js_null.js");
+var Js_null = require("melange/lib/js/js_null.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 
 var suites_0 = [

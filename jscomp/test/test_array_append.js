@@ -1,6 +1,6 @@
 'use strict';
 
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var $$Array = require("melange/lib/js/array.js");
 
 var const_v = $$Array.append([
       1,

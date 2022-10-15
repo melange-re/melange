@@ -1,6 +1,6 @@
 'use strict';
 
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 function to_buffer(buff, ofs, len, v, flags) {

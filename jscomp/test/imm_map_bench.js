@@ -1,9 +1,9 @@
 'use strict';
 
-var Js_exn = require("melange/jscomp/others/js_exn.js");
+var Js_exn = require("melange/lib/js/js_exn.js");
 var Immutable = require("immutable");
-var Belt_Array = require("melange/jscomp/others/belt_Array.js");
-var Belt_MapInt = require("melange/jscomp/others/belt_MapInt.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
+var Belt_MapInt = require("melange/lib/js/belt_MapInt.js");
 
 var empty = new Immutable.OrderedMap();
 

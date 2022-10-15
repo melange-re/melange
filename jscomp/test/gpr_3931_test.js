@@ -1,6 +1,6 @@
 'use strict';
 
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
 var Caml_module = require("melange/lib/js/caml_module.js");
 

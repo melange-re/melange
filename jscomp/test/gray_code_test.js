@@ -1,6 +1,6 @@
 'use strict';
 
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
+var Bytes = require("melange/lib/js/bytes.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 function gray_encode(b) {

@@ -2,7 +2,7 @@
 
 var Mt = require("./mt.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Belt_List = require("melange/jscomp/others/belt_List.js");
+var Belt_List = require("melange/lib/js/belt_List.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 
 var suites = {

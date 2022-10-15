@@ -2,10 +2,10 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
-var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
+var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
 var shared = [
   "move",

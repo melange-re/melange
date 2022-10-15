@@ -1,6 +1,6 @@
 'use strict';
 
-var $$Node = require("melange/jscomp/others/node.js");
+var $$Node = require("melange/lib/js/node.js");
 
 function f(str) {
   var match = $$Node.test(str);

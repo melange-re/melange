@@ -3,8 +3,8 @@
 var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Belt_List = require("melange/jscomp/others/belt_List.js");
-var Belt_Array = require("melange/jscomp/others/belt_Array.js");
+var Belt_List = require("melange/lib/js/belt_List.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 
 var suites = {
   contents: /* [] */0

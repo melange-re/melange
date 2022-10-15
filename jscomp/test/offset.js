@@ -1,7 +1,7 @@
 'use strict';
 
-var $$Set = require("melange/jscomp/stdlib-412/stdlib_modules/set.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var $$Set = require("melange/lib/js/set.js");
+var $$String = require("melange/lib/js/string.js");
 
 var $$Set$1 = $$Set.Make({
       compare: $$String.compare

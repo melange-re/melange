@@ -2,7 +2,7 @@
 
 var Curry = require("melange/lib/js/curry.js");
 var React = require("react");
-var Stdlib = require("melange/jscomp/stdlib-412/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 var ReasonReactOptimizedCreateClass = require("./reasonReactOptimizedCreateClass.js");
 
