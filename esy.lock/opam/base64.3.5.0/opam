@@ -20,6 +20,7 @@ depends: [
   "bos" {with-test}
   "rresult" {with-test}
   "alcotest" {with-test}
+  "base-bytes"
 ]
 build: [
   ["dune" "subst"] {dev}
