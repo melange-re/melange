@@ -9,6 +9,7 @@ var Format = require("melange/lib/js/format.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
 var Ext_array_test = require("./ext_array_test.js");
 
 function f(u, v) {
@@ -1061,10 +1062,10 @@ var suites = Stdlib.$at({
                                                   -1,
                                                   4294967293
                                                 ],
-                                                _1: Int64.lognot([
-                                                      0,
-                                                      2
-                                                    ])
+                                                _1: [
+                                                  -1,
+                                                  4294967293
+                                                ]
                                               };
                                       })
                                   ],
@@ -2239,7 +2240,7 @@ eq("File \"int64_test.ml\", line 209, characters 5-12", Caml_int64.div(Int64.min
       858993460
     ]);
 
-eq("File \"int64_test.ml\", line 210, characters 5-12", Int64.to_string(Caml_int64.div(Int64.min_int, [
+eq("File \"int64_test.ml\", line 210, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.div(Int64.min_int, [
               0,
               10
             ])), "-922337203685477580");
@@ -2264,17 +2265,17 @@ eq("File \"int64_test.ml\", line 214, characters 5-12", Caml_int64.mul(Int64.max
       4294967286
     ]);
 
-eq("File \"int64_test.ml\", line 215, characters 5-12", Int64.succ(Int64.max_int), Int64.min_int);
+eq("File \"int64_test.ml\", line 215, characters 5-12", Caml_int64.add(Int64.max_int, Caml_int64.one), Int64.min_int);
 
-eq("File \"int64_test.ml\", line 216, characters 5-12", Int64.succ(Int64.min_int), [
+eq("File \"int64_test.ml\", line 216, characters 5-12", Caml_int64.add(Int64.min_int, Caml_int64.one), [
       -2147483648,
       1
     ]);
 
-eq("File \"int64_test.ml\", line 217, characters 5-12", Int64.succ([
-          0,
-          4294967295
-        ]), [
+eq("File \"int64_test.ml\", line 217, characters 5-12", [
+      1,
+      0
+    ], [
       1,
       0
     ]);

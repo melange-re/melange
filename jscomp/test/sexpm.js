@@ -11,20 +11,22 @@ var Format = require("melange/lib/js/format.js");
 var Printf = require("melange/lib/js/printf.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var $$String = require("melange/lib/js/string.js");
+var Caml_io = require("melange/lib/js/caml_io.js");
 var Printexc = require("melange/lib/js/printexc.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 function _with_in(filename, f) {
   var ic = Stdlib.open_in_bin(filename);
   try {
     var x = Curry._1(f, ic);
-    Stdlib.close_in(ic);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return x;
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    Stdlib.close_in(ic);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return {
             NAME: "Error",
             VAL: Printexc.to_string(e)
@@ -354,17 +356,19 @@ function to_file_seq(filename, seq) {
   var f = function (oc) {
     return Curry._1(seq, (function (t) {
                   to_chan(oc, t);
-                  Stdlib.output_char(oc, /* '\n' */10);
+                  Caml_io.caml_ml_output_char(oc, /* '\n' */10);
                 }));
   };
   var oc = Stdlib.open_out(filename);
   try {
     var x = Curry._1(f, oc);
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     return x;
   }
   catch (e){
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     throw e;
   }
 }
@@ -641,7 +645,7 @@ function expr_list(acc, k, t) {
 
 function _return_atom(last, k, t) {
   var s = $$Buffer.contents(t.atom);
-  $$Buffer.clear(t.atom);
+  t.atom.position = 0;
   return Curry._2(k, last, {
               NAME: "Atom",
               VAL: s
@@ -1247,7 +1251,7 @@ function MakeDecode(funarg) {
   };
   var _return_atom = function (last, k, t) {
     var s = $$Buffer.contents(t.atom);
-    $$Buffer.clear(t.atom);
+    t.atom.position = 0;
     return Curry._2(k, last, {
                 NAME: "Atom",
                 VAL: s

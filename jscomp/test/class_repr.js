@@ -2,6 +2,8 @@
 
 var Sys = require("melange/lib/js/sys.js");
 var Curry = require("melange/lib/js/curry.js");
+var Caml_oo = require("melange/lib/js/caml_oo.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
@@ -47,7 +49,7 @@ var x = CamlinternalOO.make_class(shared, x_init);
 
 var v = Curry._2(x[0], undefined, 3);
 
-var u = CamlinternalOO.copy(v);
+var u = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(v));
 
 if (Caml_oo_curry.js1(291546447, 1, v) !== 3) {
   throw {
@@ -86,7 +88,7 @@ function xx_init($$class) {
           }),
         incr,
         (function (self$3) {
-            var copy = CamlinternalOO.copy(self$3);
+            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
             copy[money] = 2 * self$3[x] + Curry._1(self$3[0][get_money], self$3);
             return copy;
           })
@@ -201,7 +203,7 @@ function xx0_init($$class) {
           }),
         incr,
         (function (self$5) {
-            var copy = CamlinternalOO.copy(self$5);
+            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$5));
             copy[money] = 2 * self$5[x] + Curry._1(self$5[0][get_money], self$5);
             copy[a0] = 2;
             return copy;

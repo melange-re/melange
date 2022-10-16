@@ -13,7 +13,7 @@ var option_suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: true,
-              _1: Js_option.isSome(1)
+              _1: true
             };
     })
 ];
@@ -25,7 +25,7 @@ var option_suites_1 = {
         return {
                 TAG: /* Eq */0,
                 _0: false,
-                _1: Js_option.isSome(undefined)
+                _1: false
               };
       })
   ],
@@ -36,7 +36,7 @@ var option_suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: false,
-                  _1: Js_option.isNone(1)
+                  _1: false
                 };
         })
     ],
@@ -47,7 +47,7 @@ var option_suites_1 = {
             return {
                     TAG: /* Eq */0,
                     _0: true,
-                    _1: Js_option.isNone(undefined)
+                    _1: true
                   };
           })
       ],

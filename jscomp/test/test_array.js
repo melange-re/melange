@@ -5,7 +5,7 @@ var Caml_array = require("melange/lib/js/caml_array.js");
 
 var v = Caml_array.make(6, 5);
 
-$$Array.make_float(30);
+Caml_array.make_float(30);
 
 var h = $$Array.sub(v, 0, 2);
 
@@ -21,7 +21,7 @@ var hhh = $$Array.append([
       5
     ]);
 
-var u = $$Array.concat({
+var u = Caml_array.concat({
       hd: [
         1,
         2

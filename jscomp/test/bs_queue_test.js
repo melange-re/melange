@@ -37,9 +37,13 @@ function $plus$plus(q, x) {
   return q;
 }
 
-var q = Belt_MutableQueue.make(undefined);
+var q = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), []) && Belt_MutableQueue.size(q) === 0)) {
+if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), []) && q.length === 0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -51,7 +55,7 @@ if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), []) && Belt_MutableQueue
       };
 }
 
-if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray((Belt_MutableQueue.add(q, 1), q)), [1]) && Belt_MutableQueue.size(q) === 1)) {
+if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray((Belt_MutableQueue.add(q, 1), q)), [1]) && q.length === 1)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -66,7 +70,7 @@ if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray((Belt_MutableQueue.add(q, 1)
 if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray((Belt_MutableQueue.add(q, 2), q)), [
           1,
           2
-        ]) && Belt_MutableQueue.size(q) === 2)) {
+        ]) && q.length === 2)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -82,7 +86,7 @@ if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray((Belt_MutableQueue.add(q, 3)
           1,
           2,
           3
-        ]) && Belt_MutableQueue.size(q) === 3)) {
+        ]) && q.length === 3)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -99,7 +103,7 @@ if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray((Belt_MutableQueue.add(q, 4)
           2,
           3,
           4
-        ]) && Belt_MutableQueue.size(q) === 4)) {
+        ]) && q.length === 4)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -127,7 +131,7 @@ if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), [
           2,
           3,
           4
-        ]) && Belt_MutableQueue.size(q) === 3)) {
+        ]) && q.length === 3)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -154,7 +158,7 @@ if (Belt_MutableQueue.popExn(q) !== 2) {
 if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), [
           3,
           4
-        ]) && Belt_MutableQueue.size(q) === 2)) {
+        ]) && q.length === 2)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -178,7 +182,7 @@ if (Belt_MutableQueue.popExn(q) !== 3) {
       };
 }
 
-if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), [4]) && Belt_MutableQueue.size(q) === 1)) {
+if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), [4]) && q.length === 1)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -202,7 +206,7 @@ if (Belt_MutableQueue.popExn(q) !== 4) {
       };
 }
 
-if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), []) && Belt_MutableQueue.size(q) === 0)) {
+if (!(Caml_obj.caml_equal(Belt_MutableQueue.toArray(q), []) && q.length === 0)) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -226,7 +230,11 @@ if (!does_raise(Belt_MutableQueue.popExn, q)) {
       };
 }
 
-var q$1 = Belt_MutableQueue.make(undefined);
+var q$1 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 if (Belt_MutableQueue.popExn((Belt_MutableQueue.add(q$1, 1), q$1)) !== 1) {
   throw {
@@ -276,7 +284,7 @@ if (!does_raise(Belt_MutableQueue.popExn, q$1)) {
       };
 }
 
-if (Belt_MutableQueue.size(q$1) !== 0) {
+if (q$1.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -288,7 +296,11 @@ if (Belt_MutableQueue.size(q$1) !== 0) {
       };
 }
 
-var q$2 = Belt_MutableQueue.make(undefined);
+var q$2 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 if (Belt_MutableQueue.peekExn((Belt_MutableQueue.add(q$2, 1), q$2)) !== 1) {
   throw {
@@ -422,7 +434,11 @@ if (!does_raise(Belt_MutableQueue.peekExn, q$2)) {
       };
 }
 
-var q$3 = Belt_MutableQueue.make(undefined);
+var q$3 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 for(var i = 1; i <= 10; ++i){
   Belt_MutableQueue.add(q$3, i);
@@ -430,7 +446,7 @@ for(var i = 1; i <= 10; ++i){
 
 Belt_MutableQueue.clear(q$3);
 
-if (Belt_MutableQueue.size(q$3) !== 0) {
+if (q$3.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -454,7 +470,11 @@ if (!does_raise(Belt_MutableQueue.popExn, q$3)) {
       };
 }
 
-if (!Caml_obj.caml_equal(q$3, Belt_MutableQueue.make(undefined))) {
+if (!Caml_obj.caml_equal(q$3, {
+        length: 0,
+        first: undefined,
+        last: undefined
+      })) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -480,7 +500,11 @@ if (Belt_MutableQueue.popExn(q$3) !== 42) {
       };
 }
 
-var q1 = Belt_MutableQueue.make(undefined);
+var q1 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 for(var i$1 = 1; i$1 <= 10; ++i$1){
   Belt_MutableQueue.add(q1, i$1);
@@ -534,7 +558,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2), [
       };
 }
 
-if (Belt_MutableQueue.size(q1) !== 10) {
+if (q1.length !== 10) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -546,7 +570,7 @@ if (Belt_MutableQueue.size(q1) !== 10) {
       };
 }
 
-if (Belt_MutableQueue.size(q2) !== 10) {
+if (q2.length !== 10) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -588,9 +612,13 @@ for(var i$3 = 1; i$3 <= 10; ++i$3){
   
 }
 
-var q$4 = Belt_MutableQueue.make(undefined);
+var q$4 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-if (!Belt_MutableQueue.isEmpty(q$4)) {
+if (q$4.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -604,7 +632,7 @@ if (!Belt_MutableQueue.isEmpty(q$4)) {
 
 for(var i$4 = 1; i$4 <= 10; ++i$4){
   Belt_MutableQueue.add(q$4, i$4);
-  if (Belt_MutableQueue.size(q$4) !== i$4) {
+  if (q$4.length !== i$4) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
@@ -615,7 +643,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
           Error: new Error()
         };
   }
-  if (Belt_MutableQueue.isEmpty(q$4)) {
+  if (q$4.length === 0) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
@@ -630,7 +658,7 @@ for(var i$4 = 1; i$4 <= 10; ++i$4){
 }
 
 for(var i$5 = 10; i$5 >= 1; --i$5){
-  if (Belt_MutableQueue.size(q$4) !== i$5) {
+  if (q$4.length !== i$5) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
@@ -641,7 +669,7 @@ for(var i$5 = 10; i$5 >= 1; --i$5){
           Error: new Error()
         };
   }
-  if (Belt_MutableQueue.isEmpty(q$4)) {
+  if (q$4.length === 0) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
@@ -655,7 +683,7 @@ for(var i$5 = 10; i$5 >= 1; --i$5){
   Belt_MutableQueue.popExn(q$4);
 }
 
-if (Belt_MutableQueue.size(q$4) !== 0) {
+if (q$4.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -667,7 +695,7 @@ if (Belt_MutableQueue.size(q$4) !== 0) {
       };
 }
 
-if (!Belt_MutableQueue.isEmpty(q$4)) {
+if (q$4.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -679,7 +707,11 @@ if (!Belt_MutableQueue.isEmpty(q$4)) {
       };
 }
 
-var q$5 = Belt_MutableQueue.make(undefined);
+var q$5 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 for(var i$6 = 1; i$6 <= 10; ++i$6){
   Belt_MutableQueue.add(q$5, i$6);
@@ -704,11 +736,19 @@ Belt_MutableQueue.forEach(q$5, (function (j) {
         i$7.contents = i$7.contents + 1 | 0;
       }));
 
-var q1$1 = Belt_MutableQueue.make(undefined);
+var q1$1 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-var q2$1 = Belt_MutableQueue.make(undefined);
+var q2$1 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-if (Belt_MutableQueue.size(q1$1) !== 0) {
+if (q1$1.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -732,7 +772,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$1), [])) {
       };
 }
 
-if (Belt_MutableQueue.size(q2$1) !== 0) {
+if (q2$1.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -758,7 +798,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$1), [])) {
 
 Belt_MutableQueue.transfer(q1$1, q2$1);
 
-if (Belt_MutableQueue.size(q1$1) !== 0) {
+if (q1$1.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -782,7 +822,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$1), [])) {
       };
 }
 
-if (Belt_MutableQueue.size(q2$1) !== 0) {
+if (q2$1.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -806,15 +846,23 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$1), [])) {
       };
 }
 
-var q1$2 = Belt_MutableQueue.make(undefined);
+var q1$2 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-var q2$2 = Belt_MutableQueue.make(undefined);
+var q2$2 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 for(var i$8 = 1; i$8 <= 4; ++i$8){
   Belt_MutableQueue.add(q1$2, i$8);
 }
 
-if (Belt_MutableQueue.size(q1$2) !== 4) {
+if (q1$2.length !== 4) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -843,7 +891,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$2), [
       };
 }
 
-if (Belt_MutableQueue.size(q2$2) !== 0) {
+if (q2$2.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -869,7 +917,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$2), [])) {
 
 Belt_MutableQueue.transfer(q1$2, q2$2);
 
-if (Belt_MutableQueue.size(q1$2) !== 0) {
+if (q1$2.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -893,7 +941,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$2), [])) {
       };
 }
 
-if (Belt_MutableQueue.size(q2$2) !== 4) {
+if (q2$2.length !== 4) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -922,15 +970,23 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$2), [
       };
 }
 
-var q1$3 = Belt_MutableQueue.make(undefined);
+var q1$3 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-var q2$3 = Belt_MutableQueue.make(undefined);
+var q2$3 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 for(var i$9 = 5; i$9 <= 8; ++i$9){
   Belt_MutableQueue.add(q2$3, i$9);
 }
 
-if (Belt_MutableQueue.size(q1$3) !== 0) {
+if (q1$3.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -954,7 +1010,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$3), [])) {
       };
 }
 
-if (Belt_MutableQueue.size(q2$3) !== 4) {
+if (q2$3.length !== 4) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -985,7 +1041,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$3), [
 
 Belt_MutableQueue.transfer(q1$3, q2$3);
 
-if (Belt_MutableQueue.size(q1$3) !== 0) {
+if (q1$3.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1009,7 +1065,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$3), [])) {
       };
 }
 
-if (Belt_MutableQueue.size(q2$3) !== 4) {
+if (q2$3.length !== 4) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1038,9 +1094,17 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$3), [
       };
 }
 
-var q1$4 = Belt_MutableQueue.make(undefined);
+var q1$4 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
-var q2$4 = Belt_MutableQueue.make(undefined);
+var q2$4 = {
+  length: 0,
+  first: undefined,
+  last: undefined
+};
 
 for(var i$10 = 1; i$10 <= 4; ++i$10){
   Belt_MutableQueue.add(q1$4, i$10);
@@ -1050,7 +1114,7 @@ for(var i$11 = 5; i$11 <= 8; ++i$11){
   Belt_MutableQueue.add(q2$4, i$11);
 }
 
-if (Belt_MutableQueue.size(q1$4) !== 4) {
+if (q1$4.length !== 4) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1079,7 +1143,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q1$4), [
       };
 }
 
-if (Belt_MutableQueue.size(q2$4) !== 4) {
+if (q2$4.length !== 4) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1110,7 +1174,7 @@ if (!Caml_obj.caml_equal(Belt_MutableQueue.toArray(q2$4), [
 
 Belt_MutableQueue.transfer(q1$4, q2$4);
 
-if (Belt_MutableQueue.size(q1$4) !== 0) {
+if (q1$4.length !== 0) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1145,7 +1209,7 @@ var v = [
   4
 ];
 
-if (Belt_MutableQueue.size(q2$4) !== 8) {
+if (q2$4.length !== 8) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
@@ -1205,11 +1269,15 @@ eq("File \"bs_queue_test.ml\", line 154, characters 5-12", Belt_MutableQueue.toA
       3
     ]);
 
-b("File \"bs_queue_test.ml\", line 155, characters 4-11", Belt_MutableQueue.isEmpty(Belt_MutableQueue.fromArray([])));
+var q$7 = Belt_MutableQueue.fromArray([]);
 
-b("File \"bs_queue_test.ml\", line 156, characters 4-11", Belt_MutableQueue.isEmpty(Belt_MutableQueue.map(Belt_MutableQueue.fromArray([]), (function (x) {
-                return x + 1 | 0;
-              }))));
+b("File \"bs_queue_test.ml\", line 155, characters 4-11", q$7.length === 0);
+
+var q$8 = Belt_MutableQueue.map(Belt_MutableQueue.fromArray([]), (function (x) {
+        return x + 1 | 0;
+      }));
+
+b("File \"bs_queue_test.ml\", line 156, characters 4-11", q$8.length === 0);
 
 Mt.from_pair_suites("Bs_queue_test", suites.contents);
 
@@ -1219,4 +1287,4 @@ exports.eq = eq;
 exports.b = b;
 exports.does_raise = does_raise;
 exports.$plus$plus = $plus$plus;
-/* q Not a pure module */
+/*  Not a pure module */

@@ -3,13 +3,13 @@
 var Caml = require("melange/lib/js/caml.js");
 var Belt_Id = require("melange/lib/js/belt_Id.js");
 var Hashtbl = require("melange/lib/js/hashtbl.js");
-var Belt_Map = require("melange/lib/js/belt_Map.js");
 var Belt_HashMap = require("melange/lib/js/belt_HashMap.js");
 var Belt_MapDict = require("melange/lib/js/belt_MapDict.js");
 var Belt_HashMapInt = require("melange/lib/js/belt_HashMapInt.js");
 var Belt_HashSetInt = require("melange/lib/js/belt_HashSetInt.js");
 var Belt_HashMapString = require("melange/lib/js/belt_HashMapString.js");
 var Caml_hash_primitive = require("melange/lib/js/caml_hash_primitive.js");
+var Belt_internalBucketsType = require("melange/lib/js/belt_internalBucketsType.js");
 
 function hash_string(s) {
   return Caml_hash_primitive.caml_hash_final_mix(Caml_hash_primitive.caml_hash_mix_string(0, s));
@@ -42,7 +42,7 @@ var Int = Belt_Id.hashable(Hashtbl.hash, (function (x, y) {
         return x === y;
       }));
 
-var empty = Belt_HashMap.make(500000, Int);
+var empty = Belt_internalBucketsType.make(Int.hash, Int.eq, 500000);
 
 function bench(param) {
   for(var i = 0; i <= 1000000; ++i){
@@ -66,7 +66,7 @@ function bench(param) {
 }
 
 function bench2(m) {
-  var empty = Belt_HashMap.make(1000000, m);
+  var empty = Belt_internalBucketsType.make(m.hash, m.eq, 1000000);
   for(var i = 0; i <= 1000000; ++i){
     Belt_HashMap.set(empty, String(i), i);
   }
@@ -87,7 +87,7 @@ function bench2(m) {
   for(var i$2 = 0; i$2 <= 1000000; ++i$2){
     Belt_HashMap.remove(empty, String(i$2));
   }
-  if (Belt_HashMap.size(empty) === 0) {
+  if (empty.size === 0) {
     return ;
   }
   throw {
@@ -102,9 +102,9 @@ function bench2(m) {
 }
 
 function bench3(m) {
-  var empty = Belt_Map.make(m);
+  var empty_cmp = m.cmp;
   var cmp = m.cmp;
-  var table = Belt_Map.getData(empty);
+  var table = undefined;
   for(var i = 0; i <= 1000000; ++i){
     table = Belt_MapDict.set(table, String(i), i, cmp);
   }
@@ -142,7 +142,7 @@ function bench3(m) {
 var Sx = Belt_Id.comparable(Caml.caml_string_compare);
 
 function bench4(param) {
-  var table = Belt_HashMapString.make(1000000);
+  var table = Belt_internalBucketsType.make(undefined, undefined, 1000000);
   for(var i = 0; i <= 1000000; ++i){
     Belt_HashMapString.set(table, String(i), i);
   }
@@ -178,7 +178,7 @@ function bench4(param) {
 }
 
 function bench5(param) {
-  var table = Belt_HashMap.make(1000000, Int);
+  var table = Belt_internalBucketsType.make(Int.hash, Int.eq, 1000000);
   console.time("bs_hashtbl_string_test.ml 133");
   for(var i = 0; i <= 1000000; ++i){
     Belt_HashMap.set(table, i, i);
@@ -220,7 +220,7 @@ function bench5(param) {
 }
 
 function bench6(param) {
-  var table = Belt_HashMapInt.make(1000000);
+  var table = Belt_internalBucketsType.make(undefined, undefined, 1000000);
   for(var i = 0; i <= 1000000; ++i){
     Belt_HashMapInt.set(table, i, i);
   }
@@ -241,7 +241,7 @@ function bench6(param) {
   for(var i$2 = 0; i$2 <= 1000000; ++i$2){
     Belt_HashMapInt.remove(table, i$2);
   }
-  if (Belt_HashMapInt.size(table) === 0) {
+  if (table.size === 0) {
     return ;
   }
   throw {
@@ -256,7 +256,7 @@ function bench6(param) {
 }
 
 function bench7(param) {
-  var table = Belt_HashSetInt.make(2000000);
+  var table = Belt_internalBucketsType.make(undefined, undefined, 2000000);
   for(var i = 0; i <= 1000000; ++i){
     Belt_HashSetInt.add(table, i);
   }
@@ -277,7 +277,7 @@ function bench7(param) {
   for(var i$2 = 0; i$2 <= 1000000; ++i$2){
     Belt_HashSetInt.remove(table, i$2);
   }
-  if (Belt_HashSetInt.size(table) === 0) {
+  if (table.size === 0) {
     return ;
   }
   throw {

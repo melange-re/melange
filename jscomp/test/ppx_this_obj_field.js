@@ -1,7 +1,6 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_vector = require("melange/lib/js/js_vector.js");
 
 var suites = {
   contents: /* [] */0
@@ -118,11 +117,13 @@ var eventObj = {
   events: [],
   empty: (function () {
       var self = this ;
-      Js_vector.empty(self.events);
+      var a = self.events;
+      a.splice(0);
     }),
   push: (function (a) {
       var self = this ;
-      Js_vector.pushBack(a, self.events);
+      var xs = self.events;
+      xs.push(a);
     }),
   needRebuild: (function () {
       var self = this ;

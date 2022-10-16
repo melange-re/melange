@@ -3,7 +3,6 @@
 var List = require("melange/lib/js/list.js");
 var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_array = require("melange/lib/js/caml_array.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
 
@@ -106,23 +105,29 @@ function filter_map(f, a) {
 
 function range(from, to_) {
   if (from > to_) {
-    return Stdlib.invalid_arg("Ext_array_test.range");
-  } else {
-    return $$Array.init((to_ - from | 0) + 1 | 0, (function (i) {
-                  return i + from | 0;
-                }));
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_array_test.range",
+          Error: new Error()
+        };
   }
+  return $$Array.init((to_ - from | 0) + 1 | 0, (function (i) {
+                return i + from | 0;
+              }));
 }
 
 function map2i(f, a, b) {
   var len = a.length;
   if (len !== b.length) {
-    return Stdlib.invalid_arg("Ext_array_test.map2i");
-  } else {
-    return $$Array.mapi((function (i, a) {
-                  return Curry._3(f, i, a, b[i]);
-                }), a);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_array_test.map2i",
+          Error: new Error()
+        };
   }
+  return $$Array.mapi((function (i, a) {
+                return Curry._3(f, i, a, b[i]);
+              }), a);
 }
 
 function tolist_aux(a, f, _i, _res) {

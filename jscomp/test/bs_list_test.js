@@ -2094,7 +2094,13 @@ function makeTest(n) {
             })));
 }
 
-eq("File \"bs_list_test.ml\", line 304, characters 5-12", Belt_List.add(Belt_List.add(/* [] */0, 3), 2), {
+eq("File \"bs_list_test.ml\", line 304, characters 5-12", {
+      hd: 2,
+      tl: {
+        hd: 3,
+        tl: /* [] */0
+      }
+    }, {
       hd: 2,
       tl: {
         hd: 3,

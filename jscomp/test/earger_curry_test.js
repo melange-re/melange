@@ -24,7 +24,11 @@ function init(l, f) {
     return [];
   }
   if (l < 0) {
-    return Stdlib.invalid_arg("Array.init");
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Array.init",
+          Error: new Error()
+        };
   }
   var res = Caml_array.make(l, f$1(0));
   for(var i = 1; i < l; ++i){

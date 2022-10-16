@@ -8,7 +8,6 @@ var Format = require("melange/lib/js/format.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Float_array = require("./float_array.js");
-var Float_record = require("./float_record.js");
 
 var buf = $$Buffer.create(50);
 
@@ -37,10 +36,10 @@ function print_newline(param) {
 }
 
 var s = {
-  f: Float_record.make(1.0)
+  f: 1.0
 };
 
-print_float(Float_record.from(s.f));
+print_float(1.0);
 
 print_newline(undefined);
 

@@ -11,9 +11,13 @@ var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Stream_parser_test.Parse_error");
 
 function parse(token) {
-  var look_ahead = Queue.create(undefined);
+  var look_ahead = {
+    length: 0,
+    first: /* Nil */0,
+    last: /* Nil */0
+  };
   var token$1 = function (param) {
-    if (!Queue.is_empty(look_ahead)) {
+    if (look_ahead.length !== 0) {
       return Queue.pop(look_ahead);
     }
     try {
@@ -140,9 +144,13 @@ function token(chars) {
 }
 
 function l_parse(token) {
-  var look_ahead = Queue.create(undefined);
+  var look_ahead = {
+    length: 0,
+    first: /* Nil */0,
+    last: /* Nil */0
+  };
   var token$1 = function (param) {
-    if (!Queue.is_empty(look_ahead)) {
+    if (look_ahead.length !== 0) {
       return Queue.pop(look_ahead);
     }
     try {

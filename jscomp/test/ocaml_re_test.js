@@ -1,8 +1,6 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Map = require("melange/lib/js/map.js");
-var $$Set = require("melange/lib/js/set.js");
 var Caml = require("melange/lib/js/caml.js");
 var Char = require("melange/lib/js/char.js");
 var List = require("melange/lib/js/list.js");
@@ -295,9 +293,151 @@ function compare(param, param$1) {
   }
 }
 
-var CSetMap = $$Map.Make({
-      compare: compare
-    });
+var funarg = {
+  compare: compare
+};
+
+function height(param) {
+  if (param) {
+    return param.h;
+  } else {
+    return 0;
+  }
+}
+
+function create(l, x, d, r) {
+  var hl = height(l);
+  var hr = height(r);
+  return /* Node */{
+          l: l,
+          v: x,
+          d: d,
+          r: r,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+        };
+}
+
+function bal(l, x, d, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height(ll) >= height(lr)) {
+        return create(ll, lv, ld, create(lr, x, d, r));
+      }
+      if (lr) {
+        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return /* Node */{
+            l: l,
+            v: x,
+            d: d,
+            r: r,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          };
+  }
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height(rr) >= height(rl)) {
+      return create(create(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
+}
+
+function add(x, data, m) {
+  if (!m) {
+    return /* Node */{
+            l: /* Empty */0,
+            v: x,
+            d: data,
+            r: /* Empty */0,
+            h: 1
+          };
+  }
+  var r = m.r;
+  var d = m.d;
+  var v = m.v;
+  var l = m.l;
+  var c = Curry._2(funarg.compare, x, v);
+  if (c === 0) {
+    if (d === data) {
+      return m;
+    } else {
+      return /* Node */{
+              l: l,
+              v: x,
+              d: data,
+              r: r,
+              h: m.h
+            };
+    }
+  }
+  if (c < 0) {
+    var ll = add(x, data, l);
+    if (l === ll) {
+      return m;
+    } else {
+      return bal(ll, v, d, r);
+    }
+  }
+  var rr = add(x, data, r);
+  if (r === rr) {
+    return m;
+  } else {
+    return bal(l, v, d, rr);
+  }
+}
+
+function find(x, _param) {
+  while(true) {
+    var param = _param;
+    if (param) {
+      var c = Curry._2(funarg.compare, x, param.v);
+      if (c === 0) {
+        return param.d;
+      }
+      _param = c < 0 ? param.l : param.r;
+      continue ;
+    }
+    throw {
+          RE_EXN_ID: Stdlib.Not_found,
+          Error: new Error()
+        };
+  };
+}
 
 var cany = {
   hd: [
@@ -361,15 +501,123 @@ function from_char(param) {
 
 var compare$1 = Caml.caml_int_compare;
 
-var PmarkSet = $$Set.Make({
-      compare: compare$1
-    });
+var funarg$1 = {
+  compare: compare$1
+};
+
+function height$1(param) {
+  if (param) {
+    return param.h;
+  } else {
+    return 0;
+  }
+}
+
+function create$1(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  return /* Node */{
+          l: l,
+          v: v,
+          r: r,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+        };
+}
+
+function bal$1(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$1(ll) >= height$1(lr)) {
+        return create$1(ll, lv, create$1(lr, v, r));
+      }
+      if (lr) {
+        return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return /* Node */{
+            l: l,
+            v: v,
+            r: r,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          };
+  }
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$1(rr) >= height$1(rl)) {
+      return create$1(create$1(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
+}
+
+function add$1(x, t) {
+  if (!t) {
+    return /* Node */{
+            l: /* Empty */0,
+            v: x,
+            r: /* Empty */0,
+            h: 1
+          };
+  }
+  var r = t.r;
+  var v = t.v;
+  var l = t.l;
+  var c = Curry._2(funarg$1.compare, x, v);
+  if (c === 0) {
+    return t;
+  }
+  if (c < 0) {
+    var ll = add$1(x, l);
+    if (l === ll) {
+      return t;
+    } else {
+      return bal$1(ll, v, r);
+    }
+  }
+  var rr = add$1(x, r);
+  if (r === rr) {
+    return t;
+  } else {
+    return bal$1(l, v, rr);
+  }
+}
 
 function hash_combine(h, accu) {
   return Math.imul(accu, 65599) + h | 0;
 }
 
-var empty_pmarks = PmarkSet.empty;
+var empty_pmarks = /* Empty */0;
 
 var empty = {
   marks: /* [] */0,
@@ -729,7 +977,7 @@ function mk(idx, cat, desc) {
         };
 }
 
-function create(cat, e) {
+function create$2(cat, e) {
   return mk(0, cat, {
               hd: {
                 TAG: /* TExp */1,
@@ -1095,7 +1343,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
         }
     case /* Pmark */8 :
         var marks_marks$1 = marks.marks;
-        var marks_pmarks$1 = Curry._2(PmarkSet.add, s._0, marks.pmarks);
+        var marks_pmarks$1 = Curry._2(add$1, s._0, marks.pmarks);
         var marks$2 = {
           marks: marks_marks$1,
           pmarks: marks_pmarks$1
@@ -1228,7 +1476,7 @@ var Re_automata_Category = {
 
 var Re_automata_State = {
   dummy: dummy,
-  create: create,
+  create: create$2,
   Table: Table
 };
 
@@ -1489,7 +1737,7 @@ function trans_set(cache, cm, s) {
     s
   ];
   try {
-    return Curry._2(CSetMap.find, v, cache.contents);
+    return Curry._2(find, v, cache.contents);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -1497,7 +1745,7 @@ function trans_set(cache, cm, s) {
       var l = List.fold_right((function (param, l) {
               return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
             }), s, /* [] */0);
-      cache.contents = Curry._3(CSetMap.add, v, l, cache.contents);
+      cache.contents = Curry._3(add, v, l, cache.contents);
       return l;
     }
     throw exn;
@@ -2519,10 +2767,18 @@ var epsilon = {
 
 function repn(r, i, j) {
   if (i < 0) {
-    Stdlib.invalid_arg("Re.repn");
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Re.repn",
+          Error: new Error()
+        };
   }
   if (j !== undefined && j < i) {
-    Stdlib.invalid_arg("Re.repn");
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Re.repn",
+          Error: new Error()
+        };
   }
   return {
           TAG: /* Repeat */3,
@@ -2550,9 +2806,12 @@ function compl(l) {
   };
   if (is_charset(r)) {
     return r;
-  } else {
-    return Stdlib.invalid_arg("Re.compl");
   }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Re.compl",
+        Error: new Error()
+      };
 }
 
 var any = {
@@ -2878,7 +3137,7 @@ function compile(r) {
     contents: 0
   };
   var match$1 = translate(ids, "First", false, false, "Greedy", pos, {
-        contents: CSetMap.empty
+        contents: /* Empty */0
       }, col, regexp$1);
   var r$1 = enforce_kind(ids, "First", match$1[1], match$1[0]);
   var col_repr = match[1];
@@ -2902,7 +3161,11 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
   var pos = posOpt !== undefined ? posOpt : 0;
   var len = lenOpt !== undefined ? lenOpt : -1;
   if (pos < 0 || len < -1 || (pos + len | 0) > s.length) {
-    Stdlib.invalid_arg(name);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: name,
+          Error: new Error()
+        };
   }
   var partial = false;
   var slen = s.length;
@@ -3026,7 +3289,12 @@ function posix_class_of_string(class_) {
     case "xdigit" :
         return xdigit;
     default:
-      return Stdlib.invalid_arg("Invalid pcre class: " + class_);
+      var s = "Invalid pcre class: " + class_;
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: s,
+            Error: new Error()
+          };
   }
 }
 
@@ -3903,7 +4171,7 @@ function exec(rex, pos, s) {
   return substr._0;
 }
 
-var s = $$String.make(1048575, /* 'a' */97) + "b";
+var s = Caml_bytes.bytes_to_string(Bytes.make(1048575, /* 'a' */97)) + "b";
 
 eq("File \"xx.ml\", line 7, characters 3-10", get(exec(compile(re(undefined, "aa?b")), undefined, s), 0), "aab");
 

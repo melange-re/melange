@@ -3,7 +3,6 @@
 var Mt = require("./mt.js");
 var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/lib/js/stdlib.js");
 var Stream = require("melange/lib/js/stream.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
@@ -131,7 +130,11 @@ function utf8_list(s) {
 function decode(bytes, offset) {
   var c = classify(Caml_bytes.get(bytes, offset));
   if (typeof c === "number") {
-    return Stdlib.invalid_arg("decode");
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "decode",
+          Error: new Error()
+        };
   }
   switch (c.TAG | 0) {
     case /* Single */0 :
@@ -140,7 +143,11 @@ function decode(bytes, offset) {
                 offset + 1 | 0
               ];
     case /* Cont */1 :
-        return Stdlib.invalid_arg("decode");
+        throw {
+              RE_EXN_ID: "Invalid_argument",
+              _1: "decode",
+              Error: new Error()
+            };
     case /* Leading */2 :
         var _n = c._0;
         var _c = c._1;
@@ -157,15 +164,23 @@ function decode(bytes, offset) {
           }
           var cc = classify(Caml_bytes.get(bytes, offset$1));
           if (typeof cc === "number") {
-            return Stdlib.invalid_arg("decode");
+            throw {
+                  RE_EXN_ID: "Invalid_argument",
+                  _1: "decode",
+                  Error: new Error()
+                };
           }
-          if (cc.TAG !== /* Cont */1) {
-            return Stdlib.invalid_arg("decode");
+          if (cc.TAG === /* Cont */1) {
+            _offset = offset$1 + 1 | 0;
+            _c = (c$1 << 6) | cc._0 & 63;
+            _n = n - 1 | 0;
+            continue ;
           }
-          _offset = offset$1 + 1 | 0;
-          _c = (c$1 << 6) | cc._0 & 63;
-          _n = n - 1 | 0;
-          continue ;
+          throw {
+                RE_EXN_ID: "Invalid_argument",
+                _1: "decode",
+                Error: new Error()
+              };
         };
     
   }

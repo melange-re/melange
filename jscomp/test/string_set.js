@@ -1,5 +1,6 @@
 'use strict';
 
+var Caml = require("melange/lib/js/caml.js");
 var List = require("melange/lib/js/list.js");
 var $$Array = require("melange/lib/js/array.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
@@ -17,7 +18,7 @@ function split(x, tree) {
   var r = tree._2;
   var v = tree._1;
   var l = tree._0;
-  var c = $$String.compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return [
             l,
@@ -53,7 +54,7 @@ function add(x, tree) {
   var r = tree._2;
   var v = tree._1;
   var l = tree._0;
-  var c = $$String.compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return tree;
   } else if (c < 0) {
@@ -132,7 +133,7 @@ function mem(x, _tree) {
     if (!tree) {
       return false;
     }
-    var c = $$String.compare(x, tree._1);
+    var c = Caml.caml_string_compare(x, tree._1);
     if (c === 0) {
       return true;
     }
@@ -148,7 +149,7 @@ function remove(x, tree) {
   var r = tree._2;
   var v = tree._1;
   var l = tree._0;
-  var c = $$String.compare(x, v);
+  var c = Caml.caml_string_compare(x, v);
   if (c === 0) {
     return Set_gen.internal_merge(l, r);
   } else if (c < 0) {
@@ -181,7 +182,7 @@ function subset(_s1, _s2) {
     var r1 = s1._2;
     var v1 = s1._1;
     var l1 = s1._0;
-    var c = $$String.compare(v1, s2._1);
+    var c = Caml.caml_string_compare(v1, s2._1);
     if (c === 0) {
       if (!subset(l1, l2)) {
         return false;
@@ -220,7 +221,7 @@ function find(x, _tree) {
     var tree = _tree;
     if (tree) {
       var v = tree._1;
-      var c = $$String.compare(x, v);
+      var c = Caml.caml_string_compare(x, v);
       if (c === 0) {
         return v;
       }
@@ -236,7 +237,7 @@ function find(x, _tree) {
 
 function of_list(l) {
   if (!l) {
-    return Set_gen.empty;
+    return /* Empty */0;
   }
   var match = l.tl;
   var x0 = l.hd;
@@ -269,7 +270,7 @@ function of_list(l) {
 function of_array(l) {
   return $$Array.fold_left((function (acc, x) {
                 return add(x, acc);
-              }), Set_gen.empty, l);
+              }), /* Empty */0, l);
 }
 
 function invariant(t) {
@@ -279,7 +280,7 @@ function invariant(t) {
 
 var compare_elt = $$String.compare;
 
-var empty = Set_gen.empty;
+var empty = /* Empty */0;
 
 var is_empty = Set_gen.is_empty;
 

@@ -1,6 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
 var Stack = require("melange/lib/js/stack.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
@@ -30,12 +31,12 @@ function to_list(s) {
   var l = {
     contents: /* [] */0
   };
-  Stack.iter((function (x) {
+  List.iter((function (x) {
           l.contents = {
             hd: x,
             tl: l.contents
           };
-        }), s);
+        }), s.c);
   return l.contents;
 }
 
@@ -73,16 +74,19 @@ function does_raise(f, s) {
   }
 }
 
-var s = Stack.create(undefined);
+var s = {
+  c: /* [] */0,
+  len: 0
+};
 
-assert_("File \"stack_comp_test.ml\", line 33, characters 32-39", Caml_obj.caml_equal(to_list(s), /* [] */0) && Stack.length(s) === 0);
+assert_("File \"stack_comp_test.ml\", line 33, characters 32-39", Caml_obj.caml_equal(to_list(s), /* [] */0) && s.len === 0);
 
 Stack.push(1, s);
 
 assert_("File \"stack_comp_test.ml\", line 34, characters 32-39", Caml_obj.caml_equal(to_list(s), {
           hd: 1,
           tl: /* [] */0
-        }) && Stack.length(s) === 1);
+        }) && s.len === 1);
 
 Stack.push(2, s);
 
@@ -92,7 +96,7 @@ assert_("File \"stack_comp_test.ml\", line 35, characters 32-39", Caml_obj.caml_
             hd: 2,
             tl: /* [] */0
           }
-        }) && Stack.length(s) === 2);
+        }) && s.len === 2);
 
 Stack.push(3, s);
 
@@ -105,7 +109,7 @@ assert_("File \"stack_comp_test.ml\", line 36, characters 32-39", Caml_obj.caml_
               tl: /* [] */0
             }
           }
-        }) && Stack.length(s) === 3);
+        }) && s.len === 3);
 
 Stack.push(4, s);
 
@@ -121,7 +125,7 @@ assert_("File \"stack_comp_test.ml\", line 37, characters 32-39", Caml_obj.caml_
               }
             }
           }
-        }) && Stack.length(s) === 4);
+        }) && s.len === 4);
 
 assert_("File \"stack_comp_test.ml\", line 38, characters 10-17", Stack.pop(s) === 4);
 
@@ -134,7 +138,7 @@ assert_("File \"stack_comp_test.ml\", line 38, characters 41-48", Caml_obj.caml_
               tl: /* [] */0
             }
           }
-        }) && Stack.length(s) === 3);
+        }) && s.len === 3);
 
 assert_("File \"stack_comp_test.ml\", line 39, characters 10-17", Stack.pop(s) === 3);
 
@@ -144,22 +148,25 @@ assert_("File \"stack_comp_test.ml\", line 39, characters 41-48", Caml_obj.caml_
             hd: 2,
             tl: /* [] */0
           }
-        }) && Stack.length(s) === 2);
+        }) && s.len === 2);
 
 assert_("File \"stack_comp_test.ml\", line 40, characters 10-17", Stack.pop(s) === 2);
 
 assert_("File \"stack_comp_test.ml\", line 40, characters 41-48", Caml_obj.caml_equal(to_list(s), {
           hd: 1,
           tl: /* [] */0
-        }) && Stack.length(s) === 1);
+        }) && s.len === 1);
 
 assert_("File \"stack_comp_test.ml\", line 41, characters 10-17", Stack.pop(s) === 1);
 
-assert_("File \"stack_comp_test.ml\", line 41, characters 41-48", Caml_obj.caml_equal(to_list(s), /* [] */0) && Stack.length(s) === 0);
+assert_("File \"stack_comp_test.ml\", line 41, characters 41-48", Caml_obj.caml_equal(to_list(s), /* [] */0) && s.len === 0);
 
 assert_("File \"stack_comp_test.ml\", line 42, characters 10-17", does_raise(Stack.pop, s));
 
-var s$1 = Stack.create(undefined);
+var s$1 = {
+  c: /* [] */0,
+  len: 0
+};
 
 Stack.push(1, s$1);
 
@@ -173,9 +180,12 @@ assert_("File \"stack_comp_test.ml\", line 48, characters 22-29", Stack.pop(s$1)
 
 assert_("File \"stack_comp_test.ml\", line 48, characters 53-60", does_raise(Stack.pop, s$1));
 
-assert_("File \"stack_comp_test.ml\", line 49, characters 10-17", Stack.length(s$1) === 0);
+assert_("File \"stack_comp_test.ml\", line 49, characters 10-17", s$1.len === 0);
 
-var s$2 = Stack.create(undefined);
+var s$2 = {
+  c: /* [] */0,
+  len: 0
+};
 
 Stack.push(1, s$2);
 
@@ -205,7 +215,10 @@ assert_("File \"stack_comp_test.ml\", line 60, characters 10-17", does_raise(Sta
 
 assert_("File \"stack_comp_test.ml\", line 61, characters 10-17", does_raise(Stack.top, s$2));
 
-var s$3 = Stack.create(undefined);
+var s$3 = {
+  c: /* [] */0,
+  len: 0
+};
 
 for(var i = 1; i <= 10; ++i){
   Stack.push(i, s$3);
@@ -213,17 +226,23 @@ for(var i = 1; i <= 10; ++i){
 
 Stack.clear(s$3);
 
-assert_("File \"stack_comp_test.ml\", line 68, characters 10-17", Stack.length(s$3) === 0);
+assert_("File \"stack_comp_test.ml\", line 68, characters 10-17", s$3.len === 0);
 
 assert_("File \"stack_comp_test.ml\", line 69, characters 10-17", does_raise(Stack.pop, s$3));
 
-assert_("File \"stack_comp_test.ml\", line 70, characters 10-17", Caml_obj.caml_equal(s$3, Stack.create(undefined)));
+assert_("File \"stack_comp_test.ml\", line 70, characters 10-17", Caml_obj.caml_equal(s$3, {
+          c: /* [] */0,
+          len: 0
+        }));
 
 Stack.push(42, s$3);
 
 assert_("File \"stack_comp_test.ml\", line 72, characters 10-17", Stack.pop(s$3) === 42);
 
-var s1 = Stack.create(undefined);
+var s1 = {
+  c: /* [] */0,
+  len: 0
+};
 
 for(var i$1 = 1; i$1 <= 10; ++i$1){
   Stack.push(i$1, s1);
@@ -295,9 +314,9 @@ assert_("File \"stack_comp_test.ml\", line 80, characters 10-17", Caml_obj.caml_
           }
         }));
 
-assert_("File \"stack_comp_test.ml\", line 81, characters 10-17", Stack.length(s1) === 10);
+assert_("File \"stack_comp_test.ml\", line 81, characters 10-17", s1.len === 10);
 
-assert_("File \"stack_comp_test.ml\", line 82, characters 10-17", Stack.length(s2) === 10);
+assert_("File \"stack_comp_test.ml\", line 82, characters 10-17", s2.len === 10);
 
 for(var i$2 = 10; i$2 >= 1; --i$2){
   assert_("File \"stack_comp_test.ml\", line 84, characters 12-19", Stack.pop(s1) === i$2);
@@ -307,27 +326,33 @@ for(var i$3 = 10; i$3 >= 1; --i$3){
   assert_("File \"stack_comp_test.ml\", line 87, characters 12-19", Stack.pop(s2) === i$3);
 }
 
-var s$4 = Stack.create(undefined);
+var s$4 = {
+  c: /* [] */0,
+  len: 0
+};
 
-assert_("File \"stack_comp_test.ml\", line 93, characters 10-17", Stack.is_empty(s$4));
+assert_("File \"stack_comp_test.ml\", line 93, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
 
 for(var i$4 = 1; i$4 <= 10; ++i$4){
   Stack.push(i$4, s$4);
-  assert_("File \"stack_comp_test.ml\", line 96, characters 12-19", Stack.length(s$4) === i$4);
-  assert_("File \"stack_comp_test.ml\", line 97, characters 12-19", !Stack.is_empty(s$4));
+  assert_("File \"stack_comp_test.ml\", line 96, characters 12-19", s$4.len === i$4);
+  assert_("File \"stack_comp_test.ml\", line 97, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
 }
 
 for(var i$5 = 10; i$5 >= 1; --i$5){
-  assert_("File \"stack_comp_test.ml\", line 100, characters 12-19", Stack.length(s$4) === i$5);
-  assert_("File \"stack_comp_test.ml\", line 101, characters 12-19", !Stack.is_empty(s$4));
+  assert_("File \"stack_comp_test.ml\", line 100, characters 12-19", s$4.len === i$5);
+  assert_("File \"stack_comp_test.ml\", line 101, characters 12-19", !Caml_obj.caml_equal(s$4.c, /* [] */0));
   Stack.pop(s$4);
 }
 
-assert_("File \"stack_comp_test.ml\", line 104, characters 10-17", Stack.length(s$4) === 0);
+assert_("File \"stack_comp_test.ml\", line 104, characters 10-17", s$4.len === 0);
 
-assert_("File \"stack_comp_test.ml\", line 105, characters 10-17", Stack.is_empty(s$4));
+assert_("File \"stack_comp_test.ml\", line 105, characters 10-17", Caml_obj.caml_equal(s$4.c, /* [] */0));
 
-var s$5 = Stack.create(undefined);
+var s$5 = {
+  c: /* [] */0,
+  len: 0
+};
 
 for(var i$6 = 10; i$6 >= 1; --i$6){
   Stack.push(i$6, s$5);
@@ -337,36 +362,40 @@ var i$7 = {
   contents: 1
 };
 
-Stack.iter((function (j) {
+List.iter((function (j) {
         assert_("File \"stack_comp_test.ml\", line 112, characters 27-34", i$7.contents === j);
         i$7.contents = i$7.contents + 1 | 0;
-      }), s$5);
+      }), s$5.c);
 
-var s1$1 = Stack.create(undefined);
+var s1$1 = {
+  c: /* [] */0,
+  len: 0
+};
 
-assert_("File \"stack_comp_test.ml\", line 117, characters 10-17", Stack.length(s1$1) === 0);
+assert_("File \"stack_comp_test.ml\", line 117, characters 10-17", s1$1.len === 0);
 
 assert_("File \"stack_comp_test.ml\", line 117, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */0));
 
 var s2$1 = Stack.copy(s1$1);
 
-assert_("File \"stack_comp_test.ml\", line 119, characters 10-17", Stack.length(s1$1) === 0);
+assert_("File \"stack_comp_test.ml\", line 119, characters 10-17", s1$1.len === 0);
 
 assert_("File \"stack_comp_test.ml\", line 119, characters 45-52", Caml_obj.caml_equal(to_list(s1$1), /* [] */0));
 
-assert_("File \"stack_comp_test.ml\", line 120, characters 10-17", Stack.length(s2$1) === 0);
+assert_("File \"stack_comp_test.ml\", line 120, characters 10-17", s2$1.len === 0);
 
 assert_("File \"stack_comp_test.ml\", line 120, characters 45-52", Caml_obj.caml_equal(to_list(s2$1), /* [] */0));
 
-var s1$2 = Stack.create(undefined);
-
-Stack.create(undefined);
+var s1$2 = {
+  c: /* [] */0,
+  len: 0
+};
 
 for(var i$8 = 1; i$8 <= 4; ++i$8){
   Stack.push(i$8, s1$2);
 }
 
-assert_("File \"stack_comp_test.ml\", line 126, characters 10-17", Stack.length(s1$2) === 4);
+assert_("File \"stack_comp_test.ml\", line 126, characters 10-17", s1$2.len === 4);
 
 assert_("File \"stack_comp_test.ml\", line 126, characters 45-52", Caml_obj.caml_equal(to_list(s1$2), {
           hd: 1,
@@ -384,7 +413,7 @@ assert_("File \"stack_comp_test.ml\", line 126, characters 45-52", Caml_obj.caml
 
 var s2$2 = Stack.copy(s1$2);
 
-assert_("File \"stack_comp_test.ml\", line 128, characters 10-17", Stack.length(s1$2) === 4);
+assert_("File \"stack_comp_test.ml\", line 128, characters 10-17", s1$2.len === 4);
 
 assert_("File \"stack_comp_test.ml\", line 128, characters 45-52", Caml_obj.caml_equal(to_list(s1$2), {
           hd: 1,
@@ -400,7 +429,7 @@ assert_("File \"stack_comp_test.ml\", line 128, characters 45-52", Caml_obj.caml
           }
         }));
 
-assert_("File \"stack_comp_test.ml\", line 129, characters 10-17", Stack.length(s2$2) === 4);
+assert_("File \"stack_comp_test.ml\", line 129, characters 10-17", s2$2.len === 4);
 
 assert_("File \"stack_comp_test.ml\", line 129, characters 45-52", Caml_obj.caml_equal(to_list(s2$2), {
           hd: 1,

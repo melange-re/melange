@@ -100,9 +100,12 @@ CamlinternalLazy.force(u$1);
 
 var exotic = CamlinternalLazy.force;
 
-var l_from_fun = Lazy.from_fun(function (param) {
+var l_from_fun = {
+  LAZY_DONE: false,
+  VAL: (function () {
       return 3;
-    });
+    })
+};
 
 var forward_test = {
   LAZY_DONE: false,
@@ -232,7 +235,10 @@ Mt.from_pair_suites("Lazy_test", {
                 (function (param) {
                     return {
                             TAG: /* Eq */0,
-                            _0: CamlinternalLazy.force(Lazy.from_val(3)),
+                            _0: CamlinternalLazy.force({
+                                  LAZY_DONE: true,
+                                  VAL: 3
+                                }),
                             _1: 3
                           };
                   })
@@ -243,10 +249,13 @@ Mt.from_pair_suites("Lazy_test", {
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
-                              _0: CamlinternalLazy.force(CamlinternalLazy.force(Lazy.from_val({
-                                            LAZY_DONE: true,
-                                            VAL: 3
-                                          }))),
+                              _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                                        LAZY_DONE: true,
+                                        VAL: {
+                                          LAZY_DONE: true,
+                                          VAL: 3
+                                        }
+                                      })),
                               _1: 3
                             };
                     })
@@ -258,7 +267,10 @@ Mt.from_pair_suites("Lazy_test", {
                         debugger;
                         return {
                                 TAG: /* Eq */0,
-                                _0: CamlinternalLazy.force(CamlinternalLazy.force(Lazy.from_val(forward_test))),
+                                _0: CamlinternalLazy.force(CamlinternalLazy.force({
+                                          LAZY_DONE: true,
+                                          VAL: forward_test
+                                        })),
                                 _1: 4
                               };
                       })

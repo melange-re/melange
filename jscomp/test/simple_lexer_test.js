@@ -1,9 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Bytes = require("melange/lib/js/bytes.js");
 var Curry = require("melange/lib/js/curry.js");
 var Lexing = require("melange/lib/js/lexing.js");
-var $$String = require("melange/lib/js/string.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xfd\xff\xfe\xff\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\x04\0\x01\0\x04\0\x03\0\0\0\x06\0\0\0\xff\xff",
@@ -27,8 +28,8 @@ function __ocaml_lex_translate_rec(lexbuf, ___ocaml_lex_state) {
       case 0 :
           return "." + __ocaml_lex_translate_rec(lexbuf, 0);
       case 1 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
-          return $$String.make(1, c) + __ocaml_lex_translate_rec(lexbuf, 0);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          return Caml_bytes.bytes_to_string(Bytes.make(1, c)) + __ocaml_lex_translate_rec(lexbuf, 0);
       case 2 :
           return "";
       default:

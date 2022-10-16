@@ -5,6 +5,7 @@ var List = require("melange/lib/js/list.js");
 var Bytes = require("melange/lib/js/bytes.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var $$String = require("melange/lib/js/string.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
@@ -339,7 +340,7 @@ Mt.from_pair_suites("String_test", {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: String.fromCharCode(/* '0' */48),
-                                                    _1: $$String.make(1, /* '0' */48)
+                                                    _1: Caml_bytes.bytes_to_string(Bytes.make(1, /* '0' */48))
                                                   };
                                           })
                                       ],

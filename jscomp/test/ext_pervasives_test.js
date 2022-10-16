@@ -70,7 +70,12 @@ function is_pos_pow(n) {
 
 function failwithf(loc, fmt) {
   return Format.ksprintf((function (s) {
-                return Stdlib.failwith(loc + s);
+                var s$1 = loc + s;
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: s$1,
+                      Error: new Error()
+                    };
               }), fmt);
 }
 

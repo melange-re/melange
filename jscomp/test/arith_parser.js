@@ -1,6 +1,5 @@
 'use strict';
 
-var Stdlib = require("melange/lib/js/stdlib.js");
 var Parsing = require("melange/lib/js/parsing.js");
 
 var yytransl_const = [
@@ -45,7 +44,11 @@ var yynames_block = "NUMERAL\0IDENT\0";
 
 var yyact = [
   (function (param) {
-      return Stdlib.failwith("parser");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "parser",
+            Error: new Error()
+          };
     }),
   (function (__caml_parser_env) {
       return Parsing.peek_val(__caml_parser_env, 1);

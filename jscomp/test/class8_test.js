@@ -2,6 +2,8 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
+var Caml_oo = require("melange/lib/js/caml_oo.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
@@ -82,7 +84,7 @@ function money2_init($$class) {
   var obj_init = inh[0];
   var repr = inh[1];
   CamlinternalOO.set_method($$class, times, (function (self$3, k) {
-          var copy = CamlinternalOO.copy(self$3);
+          var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$3));
           copy[repr] = k * self$3[repr];
           return copy;
         }));

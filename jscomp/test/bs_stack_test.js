@@ -20,14 +20,20 @@ function eq(loc, x, y) {
 
 function inOrder(v) {
   var current = v;
-  var s = Belt_MutableStack.make(undefined);
-  var q = Belt_MutableQueue.make(undefined);
+  var s = {
+    root: undefined
+  };
+  var q = {
+    length: 0,
+    first: undefined,
+    last: undefined
+  };
   while(current !== undefined) {
     var v$1 = current;
     Belt_MutableStack.push(s, v$1);
     current = v$1.left;
   };
-  while(!Belt_MutableStack.isEmpty(s)) {
+  while(s.root !== undefined) {
     current = Belt_MutableStack.popUndefined(s);
     var v$2 = current;
     Belt_MutableQueue.add(q, v$2.value);
@@ -43,8 +49,14 @@ function inOrder(v) {
 
 function inOrder3(v) {
   var current = v;
-  var s = Belt_MutableStack.make(undefined);
-  var q = Belt_MutableQueue.make(undefined);
+  var s = {
+    root: undefined
+  };
+  var q = {
+    length: 0,
+    first: undefined,
+    last: undefined
+  };
   while(current !== undefined) {
     var v$1 = current;
     Belt_MutableStack.push(s, v$1);
@@ -65,20 +77,26 @@ function inOrder3(v) {
 function inOrder2(v) {
   var todo = true;
   var cursor = v;
-  var s = Belt_MutableStack.make(undefined);
-  var q = Belt_MutableQueue.make(undefined);
+  var s = {
+    root: undefined
+  };
+  var q = {
+    length: 0,
+    first: undefined,
+    last: undefined
+  };
   while(todo) {
     if (cursor !== undefined) {
       var v$1 = cursor;
       Belt_MutableStack.push(s, v$1);
       cursor = v$1.left;
-    } else if (Belt_MutableStack.isEmpty(s)) {
-      todo = false;
-    } else {
+    } else if (s.root !== undefined) {
       cursor = Belt_MutableStack.popUndefined(s);
       var current = cursor;
       Belt_MutableQueue.add(q, current.value);
       cursor = current.right;
+    } else {
+      todo = false;
     }
   };
 }

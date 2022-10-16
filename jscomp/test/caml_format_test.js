@@ -2255,7 +2255,7 @@ var int64_suites_1 = {
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
-                              _0: Int64.to_string([
+                              _0: Caml_format.caml_int64_format("%d", [
                                     0,
                                     3333
                                   ]),

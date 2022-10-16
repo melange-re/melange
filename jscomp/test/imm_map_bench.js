@@ -1,6 +1,5 @@
 'use strict';
 
-var Js_exn = require("melange/lib/js/js_exn.js");
 var Immutable = require("immutable");
 var Belt_Array = require("melange/lib/js/belt_Array.js");
 var Belt_MapInt = require("melange/lib/js/belt_MapInt.js");
@@ -17,10 +16,10 @@ function fromArray(kvs) {
 }
 
 function should(b) {
-  if (!b) {
-    return Js_exn.raiseError("impossible");
+  if (b) {
+    return ;
   }
-  
+  throw new Error("impossible");
 }
 
 var shuffledDataAdd = Belt_Array.makeByAndShuffle(1000001, (function (i) {

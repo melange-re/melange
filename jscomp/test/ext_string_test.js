@@ -3,7 +3,6 @@
 var List = require("melange/lib/js/list.js");
 var Bytes = require("melange/lib/js/bytes.js");
 var Curry = require("melange/lib/js/curry.js");
-var Stdlib = require("melange/lib/js/stdlib.js");
 var $$String = require("melange/lib/js/string.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Caml_string = require("melange/lib/js/caml_string.js");
@@ -195,7 +194,7 @@ function escaped(s) {
     };
   };
   if (needs_escape(0)) {
-    return Bytes.unsafe_to_string(Ext_bytes_test.escaped(Bytes.unsafe_of_string(s)));
+    return Caml_bytes.bytes_to_string(Ext_bytes_test.escaped(Caml_bytes.bytes_of_string(s)));
   } else {
     return s;
   }
@@ -218,10 +217,13 @@ function unsafe_for_all_range(s, _start, finish, p) {
 function for_all_range(s, start, finish, p) {
   var len = s.length;
   if (start < 0 || finish >= len) {
-    return Stdlib.invalid_arg("Ext_string_test.for_all_range");
-  } else {
-    return unsafe_for_all_range(s, start, finish, p);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_string_test.for_all_range",
+          Error: new Error()
+        };
   }
+  return unsafe_for_all_range(s, start, finish, p);
 }
 
 function for_all(p, s) {
@@ -295,22 +297,25 @@ function contain_substring(s, sub) {
 function non_overlap_count(sub, s) {
   var sub_len = sub.length;
   if (sub.length === 0) {
-    return Stdlib.invalid_arg("Ext_string_test.non_overlap_count");
-  } else {
-    var _acc = 0;
-    var _off = 0;
-    while(true) {
-      var off = _off;
-      var acc = _acc;
-      var i = find(off, sub, s);
-      if (i < 0) {
-        return acc;
-      }
-      _off = i + sub_len | 0;
-      _acc = acc + 1 | 0;
-      continue ;
-    };
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_string_test.non_overlap_count",
+          Error: new Error()
+        };
   }
+  var _acc = 0;
+  var _off = 0;
+  while(true) {
+    var off = _off;
+    var acc = _acc;
+    var i = find(off, sub, s);
+    if (i < 0) {
+      return acc;
+    }
+    _off = i + sub_len | 0;
+    _acc = acc + 1 | 0;
+    continue ;
+  };
 }
 
 function rfind(sub, s) {
@@ -339,11 +344,15 @@ function rfind(sub, s) {
 
 function tail_from(s, x) {
   var len = s.length;
-  if (x > len) {
-    return Stdlib.invalid_arg("Ext_string_test.tail_from " + (s + (" : " + String(x))));
-  } else {
+  if (x <= len) {
     return $$String.sub(s, x, len - x | 0);
   }
+  var s$1 = "Ext_string_test.tail_from " + (s + (" : " + String(x)));
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: s$1,
+        Error: new Error()
+      };
 }
 
 function digits_of_str(s, offset, x) {
@@ -402,7 +411,7 @@ function unsafe_concat_with_length(len, sep, l) {
           Caml_bytes.caml_blit_string(s, 0, r, pos.contents, s_len);
           pos.contents = pos.contents + s_len | 0;
         }), l.tl);
-  return Bytes.unsafe_to_string(r);
+  return Caml_bytes.bytes_to_string(r);
 }
 
 function rindex_rec(s, _i, c) {
@@ -558,10 +567,13 @@ function unsafe_no_char_idx(x, ch, _i, last_idx) {
 function no_char(x, ch, i, len) {
   var str_len = x.length;
   if (i < 0 || i >= str_len || len >= str_len) {
-    return Stdlib.invalid_arg("Ext_string_test.no_char");
-  } else {
-    return unsafe_no_char(x, ch, i, len);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_string_test.no_char",
+          Error: new Error()
+        };
   }
+  return unsafe_no_char(x, ch, i, len);
 }
 
 function no_slash(x) {
@@ -632,7 +644,7 @@ function concat_array(sep, s) {
     Caml_bytes.caml_blit_string(cur, 0, target, new_off_set, cur_len);
     current_offset = new_off_set + cur_len | 0;
   }
-  return Bytes.unsafe_to_string(target);
+  return Caml_bytes.bytes_to_string(target);
 }
 
 function concat3(a, b, c) {
@@ -644,7 +656,7 @@ function concat3(a, b, c) {
   Caml_bytes.caml_blit_string(a, 0, target, 0, a_len);
   Caml_bytes.caml_blit_string(b, 0, target, a_len, b_len);
   Caml_bytes.caml_blit_string(c, 0, target, a_len + b_len | 0, c_len);
-  return Bytes.unsafe_to_string(target);
+  return Caml_bytes.bytes_to_string(target);
 }
 
 function concat4(a, b, c, d) {
@@ -658,7 +670,7 @@ function concat4(a, b, c, d) {
   Caml_bytes.caml_blit_string(b, 0, target, a_len, b_len);
   Caml_bytes.caml_blit_string(c, 0, target, a_len + b_len | 0, c_len);
   Caml_bytes.caml_blit_string(d, 0, target, (a_len + b_len | 0) + c_len | 0, d_len);
-  return Bytes.unsafe_to_string(target);
+  return Caml_bytes.bytes_to_string(target);
 }
 
 function concat5(a, b, c, d, e) {
@@ -674,7 +686,7 @@ function concat5(a, b, c, d, e) {
   Caml_bytes.caml_blit_string(c, 0, target, a_len + b_len | 0, c_len);
   Caml_bytes.caml_blit_string(d, 0, target, (a_len + b_len | 0) + c_len | 0, d_len);
   Caml_bytes.caml_blit_string(e, 0, target, ((a_len + b_len | 0) + c_len | 0) + d_len | 0, e_len);
-  return Bytes.unsafe_to_string(target);
+  return Caml_bytes.bytes_to_string(target);
 }
 
 function inter2(a, b) {

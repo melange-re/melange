@@ -4,6 +4,7 @@ var Curry = require("melange/lib/js/curry.js");
 var Scanf = require("melange/lib/js/scanf.js");
 var Printf = require("melange/lib/js/printf.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_io = require("melange/lib/js/caml_io.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
@@ -29,7 +30,7 @@ var test_num = {
 function print_test_number(param) {
   Stdlib.print_string(" ");
   Stdlib.print_int(test_num.contents);
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
 }
 
 function print_failure_test_fail(param) {

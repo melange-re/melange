@@ -17,7 +17,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-var H = Inline_const.N1({});
+var H = {};
 
 var f = "hello";
 
@@ -71,4 +71,4 @@ exports.f5 = f5;
 exports.f6 = f6;
 exports.f7 = f7;
 exports.h = h;
-/* H Not a pure module */
+/*  Not a pure module */

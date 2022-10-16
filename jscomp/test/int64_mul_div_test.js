@@ -8,6 +8,7 @@ var Int64 = require("melange/lib/js/int64.js");
 var Printf = require("melange/lib/js/printf.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
 
 function commutative_mul(result, a, b) {
   return {
@@ -1616,7 +1617,7 @@ function from_compare(xs) {
                             return {
                                     TAG: /* Eq */0,
                                     _0: c,
-                                    _1: Int64.compare(a, b)
+                                    _1: Caml_int64.compare(a, b)
                                   };
                           })
                       ];
@@ -1644,7 +1645,7 @@ function from_to_string(xs) {
                             return {
                                     TAG: /* Eq */0,
                                     _0: str_a,
-                                    _1: Int64.to_string(a)
+                                    _1: Caml_format.caml_int64_format("%d", a)
                                   };
                           })
                       ];

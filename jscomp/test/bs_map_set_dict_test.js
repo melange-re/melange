@@ -4,7 +4,6 @@ var Mt = require("./mt.js");
 var Caml = require("melange/lib/js/caml.js");
 var Belt_Id = require("melange/lib/js/belt_Id.js");
 var Belt_Map = require("melange/lib/js/belt_Map.js");
-var Belt_Set = require("melange/lib/js/belt_Set.js");
 var Belt_List = require("melange/lib/js/belt_List.js");
 var Belt_Array = require("melange/lib/js/belt_Array.js");
 var Belt_MapDict = require("melange/lib/js/belt_MapDict.js");
@@ -33,19 +32,39 @@ var Icmp2 = Belt_Id.comparable(Caml.caml_int_compare);
 
 var Ic3 = Belt_Id.comparable(Caml.caml_int_compare);
 
-var m0 = Belt_Map.make(Icmp);
+var m0_cmp = Icmp.cmp;
 
-var m00 = Belt_Set.make(Ic3);
+var m0 = {
+  cmp: m0_cmp,
+  data: undefined
+};
+
+var m00_cmp = Ic3.cmp;
+
+var m00 = {
+  cmp: m00_cmp,
+  data: undefined
+};
 
 var I2 = Belt_Id.comparable(function (x, y) {
       return Caml.caml_int_compare(y, x);
     });
 
-var m = Belt_Map.make(Icmp2);
+var m_cmp = Icmp2.cmp;
 
-var m2 = Belt_Map.make(I2);
+var m = {
+  cmp: m_cmp,
+  data: undefined
+};
 
-var data = Belt_Map.getData(m);
+var m2_cmp = I2.cmp;
+
+var m2 = {
+  cmp: m2_cmp,
+  data: undefined
+};
+
+var data;
 
 Belt_Map.getId(m2);
 
@@ -55,29 +74,32 @@ for(var i = 0; i <= 100000; ++i){
   data = Belt_MapDict.set(data, i, i, m_dict.cmp);
 }
 
-var newm = Belt_Map.packIdData(m_dict, data);
+var data$1 = data;
+
+var newm_cmp = m_dict.cmp;
+
+var newm = {
+  cmp: newm_cmp,
+  data: data$1
+};
 
 console.log(newm);
 
 var m11 = Belt_MapDict.set(undefined, 1, 1, Icmp.cmp);
 
-Belt_Map.make(Icmp);
-
 console.log(m11);
-
-var v = Belt_Set.make(Icmp2);
 
 var m_dict$1 = Belt_Map.getId(m);
 
 var cmp = m_dict$1.cmp;
 
-var data$1 = Belt_Set.getData(v);
+var data$2;
 
 for(var i$1 = 0; i$1 <= 100000; ++i$1){
-  data$1 = Belt_SetDict.add(data$1, i$1, cmp);
+  data$2 = Belt_SetDict.add(data$2, i$1, cmp);
 }
 
-console.log(data$1);
+console.log(data$2);
 
 function f(param) {
   return Belt_Map.fromArray(param, Icmp);
@@ -98,7 +120,7 @@ var u0 = f(Belt_Array.map(Array_data_util.randomRange(0, 39), (function (x) {
 
 var u1 = Belt_Map.set(u0, 39, 120);
 
-b("File \"bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt_Array.every2(Belt_Map.toArray(u0), Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
+b("File \"bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt_Array.every2(Belt_MapDict.toArray(u0.data), Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
                 return [
                         x,
                         x
@@ -111,7 +133,7 @@ b("File \"bs_map_set_dict_test.ml\", line 80, characters 4-11", Belt_Array.every
             }
           })));
 
-b("File \"bs_map_set_dict_test.ml\", line 85, characters 4-11", Belt_List.every2(Belt_Map.toList(u0), Belt_List.fromArray(Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
+b("File \"bs_map_set_dict_test.ml\", line 85, characters 4-11", Belt_List.every2(Belt_MapDict.toList(u0.data), Belt_List.fromArray(Belt_Array.map(Array_data_util.range(0, 39), (function (x) {
                     return [
                             x,
                             x
@@ -140,7 +162,7 @@ eq("File \"bs_map_set_dict_test.ml\", line 97, characters 4-11", Belt_Array.make
                     x,
                     x
                   ];
-          })), Belt_Map.toArray(u));
+          })), Belt_MapDict.toArray(u.data));
 
 Mt.from_pair_suites("Bs_map_set_dict_test", suites.contents);
 

@@ -3,6 +3,7 @@
 var Mt = require("./mt.js");
 var Curry = require("melange/lib/js/curry.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_oo = require("melange/lib/js/caml_oo.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
 var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
@@ -212,7 +213,7 @@ function functional_point_init($$class) {
           }),
         move,
         (function (self$6, d) {
-            var copy = CamlinternalOO.copy(self$6);
+            var copy = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(self$6));
             copy[x] = self$6[x] + d | 0;
             return copy;
           })

@@ -2,11 +2,14 @@
 
 var Sys = require("melange/lib/js/sys.js");
 var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
 var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/lib/js/format.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var $$String = require("melange/lib/js/string.js");
 var Caml_sys = require("melange/lib/js/caml_sys.js");
 var Filename = require("melange/lib/js/filename.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Test_literals = require("./test_literals.js");
 var Ext_string_test = require("./ext_string_test.js");
 var CamlinternalLazy = require("melange/lib/js/camlinternalLazy.js");
@@ -67,7 +70,7 @@ function chop_extension(locOpt, name) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
-      return Curry._2(Ext_pervasives_test.invalid_argf(/* Format */{
+      return Curry._2(Format.ksprintf(Stdlib.invalid_arg, /* Format */{
                       _0: {
                         TAG: /* String_literal */11,
                         _0: "Filename.chop_extension ( ",
@@ -231,11 +234,13 @@ var package_dir = {
 };
 
 function module_name_of_file(file) {
-  return $$String.capitalize(Filename.chop_extension(Curry._1(Filename.basename, file)));
+  var s = Filename.chop_extension(Curry._1(Filename.basename, file));
+  return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
 }
 
 function module_name_of_file_if_any(file) {
-  return $$String.capitalize(chop_extension_if_any(Curry._1(Filename.basename, file)));
+  var s = chop_extension_if_any(Curry._1(Filename.basename, file));
+  return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
 }
 
 function combine(p1, p2) {
@@ -264,7 +269,7 @@ function split_aux(p) {
             ];
     }
     var new_path = Curry._1(Filename.basename, p$1);
-    if (Ext_string_test.equal(new_path, Filename.dir_sep)) {
+    if (new_path === Filename.dir_sep) {
       _p = dir;
       continue ;
     }
@@ -302,7 +307,7 @@ function rel_normalized_absolute_path(from, to_) {
                     return Filename.concat(acc, Ext_string_test.parent_dir_lit);
                   }), Ext_string_test.parent_dir_lit, xs);
     }
-    if (Ext_string_test.equal(xss.hd, yss.hd)) {
+    if (xss.hd === yss.hd) {
       _yss = yss.tl;
       _xss = xs;
       continue ;
@@ -331,11 +336,11 @@ function normalize_absolute_path(x) {
       }
       var xs = paths.tl;
       var x = paths.hd;
-      if (Ext_string_test.equal(x, Ext_string_test.current_dir_lit)) {
+      if (x === Ext_string_test.current_dir_lit) {
         _paths = xs;
         continue ;
       }
-      if (Ext_string_test.equal(x, Ext_string_test.parent_dir_lit)) {
+      if (x === Ext_string_test.parent_dir_lit) {
         _paths = xs;
         _acc = drop_if_exist(acc);
         continue ;
@@ -378,11 +383,22 @@ function get_extension(x) {
   }
 }
 
-var simple_convert_node_path_to_os_path = Sys.unix ? (function (x) {
+var simple_convert_node_path_to_os_path;
+
+if (Sys.unix) {
+  simple_convert_node_path_to_os_path = (function (x) {
       return x;
-    }) : (
-    Sys.win32 || false ? Ext_string_test.replace_slash_backward : Stdlib.failwith("Unknown OS : " + Sys.os_type)
-  );
+    });
+} else if (Sys.win32 || false) {
+  simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
+} else {
+  var s = "Unknown OS : " + Sys.os_type;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: s,
+        Error: new Error()
+      };
+}
 
 var $slash$slash = Filename.concat;
 

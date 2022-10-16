@@ -1480,7 +1480,11 @@ function game_win(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("You win!", 180, 128);
-  return Stdlib.failwith("Game over.");
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "Game over.",
+        Error: new Error()
+      };
 }
 
 function game_loss(ctx) {
@@ -1490,7 +1494,11 @@ function game_loss(ctx) {
   ctx.fillStyle = "white";
   ctx.font = "20px 'Press Start 2P'";
   ctx.fillText("GAME OVER. You lose!", 60, 128);
-  return Stdlib.failwith("Game over.");
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "Game over.",
+        Error: new Error()
+      };
 }
 
 var Draw = {
@@ -2382,7 +2390,11 @@ function choose_enemy_typ(typ) {
     case 2 :
         return /* Goomba */0;
     default:
-      return Stdlib.failwith("Shouldn't reach here");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Shouldn't reach here",
+            Error: new Error()
+          };
   }
 }
 
@@ -2401,7 +2413,11 @@ function choose_sblock_typ(typ) {
     case 4 :
         return /* Ground */5;
     default:
-      return Stdlib.failwith("Shouldn't reach here");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Shouldn't reach here",
+            Error: new Error()
+          };
   }
 }
 
@@ -2912,7 +2928,11 @@ function choose_block_pattern(blockw, blockh, cbx, cby, prob) {
                 tl: /* [] */0
               };
     default:
-      return Stdlib.failwith("Shouldn't reach here");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Shouldn't reach here",
+            Error: new Error()
+          };
   }
 }
 
@@ -3176,22 +3196,32 @@ function load(param) {
   Random.self_init(undefined);
   var canvas_id = "canvas";
   var el = document.getElementById(canvas_id);
-  var canvas = el !== null ? el : (Curry._1(Printf.printf(/* Format */{
-                _0: {
-                  TAG: /* String_literal */11,
-                  _0: "cant find canvas ",
+  var canvas;
+  if (el !== null) {
+    canvas = el;
+  } else {
+    Curry._1(Printf.printf(/* Format */{
+              _0: {
+                TAG: /* String_literal */11,
+                _0: "cant find canvas ",
+                _1: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
                   _1: {
-                    TAG: /* String */2,
-                    _0: /* No_padding */0,
-                    _1: {
-                      TAG: /* String_literal */11,
-                      _0: " \n",
-                      _1: /* End_of_format */0
-                    }
+                    TAG: /* String_literal */11,
+                    _0: " \n",
+                    _1: /* End_of_format */0
                   }
-                },
-                _1: "cant find canvas %s \n"
-              }), canvas_id), Stdlib.failwith("fail"));
+                }
+              },
+              _1: "cant find canvas %s \n"
+            }), canvas_id);
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "fail",
+          Error: new Error()
+        };
+  }
   var context = canvas.getContext("2d");
   document.addEventListener("keydown", keydown, true);
   document.addEventListener("keyup", keyup, true);

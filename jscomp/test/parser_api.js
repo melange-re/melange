@@ -14,6 +14,7 @@ var Lexing = require("melange/lib/js/lexing.js");
 var Printf = require("melange/lib/js/printf.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var $$String = require("melange/lib/js/string.js");
+var Caml_io = require("melange/lib/js/caml_io.js");
 var Hashtbl = require("melange/lib/js/hashtbl.js");
 var Parsing = require("melange/lib/js/parsing.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
@@ -209,7 +210,7 @@ function print_config(oc) {
   p("ast_intf_magic_number", ast_intf_magic_number);
   p("cmxs_magic_number", cmxs_magic_number);
   p("cmt_magic_number", cmt_magic_number);
-  Stdlib.flush(oc);
+  Caml_io.caml_ml_flush(oc);
 }
 
 var Config = {
@@ -995,7 +996,7 @@ function find_in_path_rel(path, name) {
 }
 
 function find_in_path_uncap(path, name) {
-  var uname = $$String.uncapitalize(name);
+  var uname = Caml_bytes.bytes_to_string(Bytes.uncapitalize(Caml_bytes.bytes_of_string(name)));
   var _param = path;
   while(true) {
     var param = _param;
@@ -1115,11 +1116,11 @@ function align(n, a) {
 }
 
 function no_overflow_add(a, b) {
-  return (a ^ b | a ^ Stdlib.lnot(a + b | 0)) < 0;
+  return (a ^ b | a ^ (a + b | 0) ^ -1) < 0;
 }
 
 function no_overflow_sub(a, b) {
-  return (a ^ Stdlib.lnot(b) | b ^ (a - b | 0)) < 0;
+  return (a ^ b ^ -1 | b ^ (a - b | 0)) < 0;
 }
 
 function no_overflow_lsl(a) {
@@ -1337,7 +1338,7 @@ function blit(src, srcoff, dst, dstoff, len) {
 
 function output(oc, tbl, pos, len) {
   for(var i = pos ,i_finish = pos + len | 0; i < i_finish; ++i){
-    Stdlib.output_char(oc, get(tbl, i));
+    Caml_io.caml_ml_output_char(oc, get(tbl, i));
   }
 }
 
@@ -1633,7 +1634,7 @@ function set_color_tag_handling(ppf) {
     print_open_tag: functions$p_print_open_tag,
     print_close_tag: functions$p_print_close_tag
   };
-  Format.pp_set_mark_tags(ppf, true);
+  ppf.pp_mark_tags = true;
   Format.pp_set_formatter_tag_functions(ppf, functions$p);
 }
 
@@ -3265,7 +3266,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
           Error: new Error()
         };
   }
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   var bol = false;
   Stdlib.print_string("# ");
@@ -3294,7 +3295,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
@@ -7612,7 +7613,11 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      return Stdlib.failwith("parser");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "parser",
+            Error: new Error()
+          };
     }),
   (function (__caml_parser_env) {
       var _1 = Parsing.peek_val(__caml_parser_env, 1);
@@ -16322,7 +16327,7 @@ function skip_sharp_bang(lexbuf) {
 }
 
 function at_bol(lexbuf) {
-  var pos = Lexing.lexeme_start_p(lexbuf);
+  var pos = lexbuf.lex_start_p;
   return pos.pos_cnum === pos.pos_bol;
 }
 
@@ -16497,7 +16502,7 @@ function interpret_directive(lexbuf, cont, look_ahead) {
 }
 
 function token$1(lexbuf) {
-  var post_pos = Lexing.lexeme_end_p(lexbuf);
+  var post_pos = lexbuf.lex_curr_p;
   var attach = function (lines, docs, pre_pos) {
     if (typeof docs === "number") {
       return ;
@@ -16631,7 +16636,7 @@ function token$1(lexbuf) {
             
         }
       }
-      attach(lines, docs, Lexing.lexeme_start_p(lexbuf));
+      attach(lines, docs, lexbuf.lex_start_p);
       return doc;
     };
   };
@@ -16665,7 +16670,7 @@ function filter_directive(pos, acc, lexbuf) {
         return {
                 hd: [
                   pos,
-                  Lexing.lexeme_end(lexbuf)
+                  lexbuf.lex_curr_p.pos_cnum
                 ],
                 tl: acc
               };
@@ -16674,10 +16679,10 @@ function filter_directive(pos, acc, lexbuf) {
         continue ;
       }
       if (at_bol(lexbuf)) {
-        var start_pos = Lexing.lexeme_start(lexbuf);
+        var start_pos = lexbuf.lex_start_p.pos_cnum;
         return interpret_directive(lexbuf, (function(start_pos){
                   return function (lexbuf) {
-                    return filter_directive(Lexing.lexeme_end(lexbuf), {
+                    return filter_directive(lexbuf.lex_curr_p.pos_cnum, {
                                 hd: [
                                   pos,
                                   start_pos

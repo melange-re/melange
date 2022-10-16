@@ -1,7 +1,6 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_exn = require("melange/lib/js/js_exn.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
@@ -73,7 +72,7 @@ eq("File \"exn_error_pattern.ml\", line 37, characters 5-12", f({
 var tmp;
 
 try {
-  tmp = Js_exn.raiseError("x");
+  throw new Error("x");
 }
 catch (raw_e){
   tmp = Caml_js_exceptions.internalToOCamlException(raw_e);

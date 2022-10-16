@@ -2,8 +2,6 @@
 
 var Mt = require("./mt.js");
 var Fs = require("fs");
-var $$Map = require("melange/lib/js/map.js");
-var $$Set = require("melange/lib/js/set.js");
 var Sys = require("melange/lib/js/sys.js");
 var Caml = require("melange/lib/js/caml.js");
 var Char = require("melange/lib/js/char.js");
@@ -59,8 +57,8 @@ function from_lb_p(source, start, _end) {
 }
 
 function from_lb(source, lb) {
-  var start = Lexing.lexeme_start_p(lb);
-  var _end = Lexing.lexeme_end_p(lb);
+  var start = lb.lex_start_p;
+  var _end = lb.lex_curr_p;
   return from_lb_p(source, start, _end);
 }
 
@@ -122,7 +120,7 @@ function source_cmp(a, b) {
   if (k !== 0) {
     return k;
   } else {
-    return $$String.compare(string_of_filename(a), string_of_filename(b));
+    return Caml.caml_string_compare(string_of_filename(a), string_of_filename(b));
   }
 }
 
@@ -1951,7 +1949,7 @@ function yyback(n, lexbuf) {
 }
 
 function back(lb) {
-  var n = Lexing.lexeme_end(lb) - Lexing.lexeme_start(lb) | 0;
+  var n = lb.lex_curr_p.pos_cnum - lb.lex_start_p.pos_cnum | 0;
   yyback(n, lb);
 }
 
@@ -2991,7 +2989,7 @@ function token(env, lexbuf) {
           var match$3 = line_comment(env, $$Buffer.create(127), lexbuf);
           return token(match$3[0], lexbuf);
       case 8 :
-          var quote = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           var start$3 = from_lb(env.lex_source, lexbuf);
           var buf$3 = $$Buffer.create(127);
           var raw = $$Buffer.create(127);
@@ -3482,7 +3480,7 @@ function __ocaml_lex_jsx_tag_rec(_env, lexbuf, ___ocaml_lex_state) {
                   /* T_JSX_IDENTIFIER */106
                 ];
       case 13 :
-          var quote = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           var start$2 = from_lb(env.lex_source, lexbuf);
           var buf$2 = $$Buffer.create(127);
           var raw = $$Buffer.create(127);
@@ -3528,11 +3526,11 @@ function regexp_class(env, buf, lexbuf) {
       case 2 :
           break;
       case 3 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c);
           return env;
       case 4 :
-          var c$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c$1);
           return regexp_class(env, buf, lexbuf);
       default:
@@ -3583,7 +3581,7 @@ function comment(env, buf, lexbuf) {
             return comment(env, buf, lexbuf);
           }
       case 4 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c);
           return comment(env, buf, lexbuf);
       default:
@@ -3673,7 +3671,7 @@ function type_token(env, lexbuf) {
           var env$6 = save_comment(match$2[0], start$2, match$2[1], buf$2, true);
           return type_token(env$6, lexbuf);
       case 6 :
-          var quote = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var quote = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           var start$3 = from_lb(env.lex_source, lexbuf);
           var buf$3 = $$Buffer.create(127);
           var raw = $$Buffer.create(127);
@@ -3969,7 +3967,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
     var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          var q$p = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var q$p = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, q$p);
           if (q === q$p) {
             return [
@@ -3982,7 +3980,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
             return string_quote(env, q, buf, raw, octal, lexbuf);
           }
       case 1 :
-          var e = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var e = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, e);
           var match = string_escape(env, buf, lexbuf);
           var octal$1 = match[1] || octal;
@@ -4002,7 +4000,7 @@ function string_quote(env, q, buf, raw, octal, lexbuf) {
                   octal
                 ];
       case 3 :
-          var x$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var x$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, x$1);
           $$Buffer.add_char(buf, x$1);
           return string_quote(env, q, buf, raw, octal, lexbuf);
@@ -4046,7 +4044,7 @@ function line_comment(env, buf, lexbuf) {
                   }
                 ];
       case 2 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c);
           return line_comment(env, buf, lexbuf);
       default:
@@ -4103,14 +4101,14 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
           Lexing.new_line(lexbuf);
           return template_part(env, start, cooked, raw, literal, lexbuf);
       case 5 :
-          var lf$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var lf$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, lf$1);
           $$Buffer.add_char(literal, lf$1);
           $$Buffer.add_char(cooked, /* '\n' */10);
           Lexing.new_line(lexbuf);
           return template_part(env, start, cooked, raw, literal, lexbuf);
       case 6 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, c);
           $$Buffer.add_char(literal, c);
           $$Buffer.add_char(cooked, c);
@@ -4141,8 +4139,8 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 2 :
-          var a = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 1 | 0);
-          var b = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 2 | 0);
+          var a = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          var b = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
           var code = (hexa_to_int(a) << 4) + hexa_to_int(b) | 0;
           List.iter((function (param) {
                   return $$Buffer.add_char(buf, param);
@@ -4152,9 +4150,9 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 3 :
-          var a$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
-          var b$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 1 | 0);
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 2 | 0);
+          var a$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          var b$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
           var code$1 = ((oct_to_int(a$1) << 6) + (oct_to_int(b$1) << 3) | 0) + oct_to_int(c) | 0;
           if (code$1 < 256) {
             List.iter((function (param) {
@@ -4172,8 +4170,8 @@ function string_escape(env, buf, lexbuf) {
                   true
                 ];
       case 4 :
-          var a$2 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
-          var b$2 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 1 | 0);
+          var a$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          var b$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
           var code$3 = (oct_to_int(a$2) << 3) + oct_to_int(b$2) | 0;
           List.iter((function (param) {
                   return $$Buffer.add_char(buf, param);
@@ -4225,7 +4223,7 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 12 :
-          var a$3 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var a$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           var code$4 = oct_to_int(a$3);
           List.iter((function (param) {
                   return $$Buffer.add_char(buf, param);
@@ -4235,10 +4233,10 @@ function string_escape(env, buf, lexbuf) {
                   true
                 ];
       case 13 :
-          var a$4 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 1 | 0);
-          var b$3 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 2 | 0);
-          var c$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 3 | 0);
-          var d = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos + 4 | 0);
+          var a$4 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 1 | 0);
+          var b$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 2 | 0);
+          var c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 3 | 0);
+          var d = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos + 4 | 0);
           var code$5 = (((hexa_to_int(a$4) << 12) + (hexa_to_int(b$3) << 8) | 0) + (hexa_to_int(c$1) << 4) | 0) + hexa_to_int(d) | 0;
           List.iter((function (param) {
                   return $$Buffer.add_char(buf, param);
@@ -4262,7 +4260,7 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 15 :
-          var c$2 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c$2 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           var env$2 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
@@ -4279,7 +4277,7 @@ function string_escape(env, buf, lexbuf) {
                   false
                 ];
       case 17 :
-          var c$3 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c$3 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c$3);
           return [
                   env,
@@ -4329,7 +4327,7 @@ function regexp_body(env, buf, lexbuf) {
                   ""
                 ];
       case 5 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c);
           var env$3 = regexp_class(env, buf, lexbuf);
           return regexp_body(env$3, buf, lexbuf);
@@ -4341,7 +4339,7 @@ function regexp_body(env, buf, lexbuf) {
                   ""
                 ];
       case 7 :
-          var c$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(buf, c$1);
           return regexp_body(env, buf, lexbuf);
       default:
@@ -4509,7 +4507,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
     var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           switch (mode) {
             case /* JSX_SINGLE_QUOTED_TEXT */0 :
                 if (c === 39) {
@@ -5355,7 +5353,7 @@ function jsx_text(env, mode, buf, raw, lexbuf) {
           }
           return jsx_text(env, mode, buf, raw, lexbuf);
       case 6 :
-          var c$1 = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, c$1);
           $$Buffer.add_char(buf, c$1);
           return jsx_text(env, mode, buf, raw, lexbuf);
@@ -5408,7 +5406,7 @@ function jsx_child(env, start, buf, raw, lexbuf) {
                   /* T_LCURLY */1
                 ];
       case 4 :
-          var c = Lexing.sub_lexeme_char(lexbuf, lexbuf.lex_start_pos);
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
           $$Buffer.add_char(raw, c);
           $$Buffer.add_char(buf, c);
           var match$1 = jsx_text(env, /* JSX_CHILD_TEXT */2, buf, raw, lexbuf);
@@ -5464,15 +5462,134 @@ function token$1(env) {
   return get_result_and_clear_state(token(env, env.lex_lb));
 }
 
-var SSet = $$Set.Make({
-      compare: $$String.compare
-    });
+var funarg = {
+  compare: $$String.compare
+};
 
-$$Map.Make({
-      compare: $$String.compare
-    });
+function height(param) {
+  if (param) {
+    return param.h;
+  } else {
+    return 0;
+  }
+}
 
-function create(lex_env, mode) {
+function create(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  return /* Node */{
+          l: l,
+          v: v,
+          r: r,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+        };
+}
+
+function bal(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height(ll) >= height(lr)) {
+        return create(ll, lv, create(lr, v, r));
+      }
+      if (lr) {
+        return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return /* Node */{
+            l: l,
+            v: v,
+            r: r,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          };
+  }
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height(rr) >= height(rl)) {
+      return create(create(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
+}
+
+function add(x, t) {
+  if (!t) {
+    return /* Node */{
+            l: /* Empty */0,
+            v: x,
+            r: /* Empty */0,
+            h: 1
+          };
+  }
+  var r = t.r;
+  var v = t.v;
+  var l = t.l;
+  var c = Curry._2(funarg.compare, x, v);
+  if (c === 0) {
+    return t;
+  }
+  if (c < 0) {
+    var ll = add(x, l);
+    if (l === ll) {
+      return t;
+    } else {
+      return bal(ll, v, r);
+    }
+  }
+  var rr = add(x, r);
+  if (r === rr) {
+    return t;
+  } else {
+    return bal(l, v, rr);
+  }
+}
+
+function mem(x, _param) {
+  while(true) {
+    var param = _param;
+    if (!param) {
+      return false;
+    }
+    var c = Curry._2(funarg.compare, x, param.v);
+    if (c === 0) {
+      return true;
+    }
+    _param = c < 0 ? param.l : param.r;
+    continue ;
+  };
+}
+
+function create$1(lex_env, mode) {
   var lexbuf = lex_env.lex_lb;
   var lexbuf$1 = {
     refill_buff: lexbuf.refill_buff,
@@ -5614,9 +5731,9 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
           comments: {
             contents: /* [] */0
           },
-          labels: SSet.empty,
+          labels: /* Empty */0,
           exports: {
-            contents: SSet.empty
+            contents: /* Empty */0
           },
           last_loc: {
             contents: undefined
@@ -5642,7 +5759,7 @@ function init_env(token_sinkOpt, parse_optionsOpt, source, content) {
             contents: lex_env
           },
           lookahead: {
-            contents: create(lex_env, /* NORMAL */0)
+            contents: create$1(lex_env, /* NORMAL */0)
           },
           token_sink: {
             contents: token_sink
@@ -5682,7 +5799,7 @@ function comment_list(env) {
 function record_export(env, param) {
   var export_name = param[1];
   var $$exports = env.exports.contents;
-  if (Curry._2(SSet.mem, export_name, $$exports)) {
+  if (Curry._2(mem, export_name, $$exports)) {
     return error_at(env, [
                 param[0],
                 {
@@ -5691,7 +5808,7 @@ function record_export(env, param) {
                 }
               ]);
   } else {
-    env.exports.contents = Curry._2(SSet.add, export_name, env.exports.contents);
+    env.exports.contents = Curry._2(add, export_name, env.exports.contents);
     return ;
   }
 }
@@ -5714,9 +5831,12 @@ function lookahead(iOpt, env) {
   var match = Caml_array.get(t.la_results, i);
   if (match !== undefined) {
     return match[1];
-  } else {
-    return Stdlib.failwith("Lookahead.peek failed");
   }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "Lookahead.peek failed",
+        Error: new Error()
+      };
 }
 
 function with_strict(in_strict_mode, env) {
@@ -5795,7 +5915,7 @@ function without_error_callback(env) {
 
 function add_label(env, label) {
   var newrecord = Caml_obj.caml_obj_dup(env);
-  newrecord.labels = Curry._2(SSet.add, label, env.labels);
+  newrecord.labels = Curry._2(add, label, env.labels);
   return newrecord;
 }
 
@@ -5806,7 +5926,7 @@ function enter_function(env, async, generator) {
   newrecord.in_function = true;
   newrecord.in_switch = false;
   newrecord.in_loop = false;
-  newrecord.labels = SSet.empty;
+  newrecord.labels = /* Empty */0;
   return newrecord;
 }
 
@@ -5876,9 +5996,12 @@ function lex_env(iOpt, env) {
   var match = Caml_array.get(t.la_results, i);
   if (match !== undefined) {
     return match[0];
-  } else {
-    return Stdlib.failwith("Lookahead.peek failed");
   }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "Lookahead.peek failed",
+        Error: new Error()
+      };
 }
 
 function is_line_terminator(env) {
@@ -6069,14 +6192,23 @@ function push_lex_mode(env, mode) {
     hd: mode,
     tl: env.lex_mode_stack.contents
   };
-  env.lookahead.contents = create(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
+  env.lookahead.contents = create$1(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
 }
 
 function pop_lex_mode(env) {
   var match = env.lex_mode_stack.contents;
-  var new_stack = match ? match.tl : Stdlib.failwith("Popping lex mode from empty stack");
+  var new_stack;
+  if (match) {
+    new_stack = match.tl;
+  } else {
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "Popping lex mode from empty stack",
+          Error: new Error()
+        };
+  }
   env.lex_mode_stack.contents = new_stack;
-  env.lookahead.contents = create(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
+  env.lookahead.contents = create$1(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
 }
 
 function double_pop_lex_mode(env) {
@@ -6084,12 +6216,24 @@ function double_pop_lex_mode(env) {
   var new_stack;
   if (match) {
     var match$1 = match.tl;
-    new_stack = match$1 ? match$1.tl : Stdlib.failwith("Popping lex mode from empty stack");
+    if (match$1) {
+      new_stack = match$1.tl;
+    } else {
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Popping lex mode from empty stack",
+            Error: new Error()
+          };
+    }
   } else {
-    new_stack = Stdlib.failwith("Popping lex mode from empty stack");
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "Popping lex mode from empty stack",
+          Error: new Error()
+        };
   }
   env.lex_mode_stack.contents = new_stack;
-  env.lookahead.contents = create(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
+  env.lookahead.contents = create$1(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
 }
 
 function semicolon(env) {
@@ -6132,7 +6276,11 @@ function save_state(env) {
   var orig_token_sink = env.token_sink.contents;
   var token_buffer;
   if (orig_token_sink !== undefined) {
-    var buffer = Queue.create(undefined);
+    var buffer = {
+      length: 0,
+      first: /* Nil */0,
+      last: /* Nil */0
+    };
     env.token_sink.contents = (function (token_data) {
         Queue.add(token_data, buffer);
       });
@@ -6183,7 +6331,7 @@ function to_parse(env, parse) {
       env.last_loc.contents = saved_state.saved_last_loc;
       env.lex_mode_stack.contents = saved_state.saved_lex_mode_stack;
       env.lex_env.contents = saved_state.saved_lex_env;
-      env.lookahead.contents = create(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
+      env.lookahead.contents = create$1(env.lex_env.contents, List.hd(env.lex_mode_stack.contents));
       return /* FailedToParse */0;
     }
     throw exn;
@@ -6209,13 +6357,278 @@ var Parser_env_Try = {
   to_parse: to_parse
 };
 
-var SSet$1 = $$Set.Make({
-      compare: $$String.compare
-    });
+var funarg$1 = {
+  compare: $$String.compare
+};
 
-var SMap = $$Map.Make({
-      compare: $$String.compare
-    });
+function height$1(param) {
+  if (param) {
+    return param.h;
+  } else {
+    return 0;
+  }
+}
+
+function create$2(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  return /* Node */{
+          l: l,
+          v: v,
+          r: r,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+        };
+}
+
+function bal$1(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$1(ll) >= height$1(lr)) {
+        return create$2(ll, lv, create$2(lr, v, r));
+      }
+      if (lr) {
+        return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return /* Node */{
+            l: l,
+            v: v,
+            r: r,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          };
+  }
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$1(rr) >= height$1(rl)) {
+      return create$2(create$2(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
+}
+
+function add$1(x, t) {
+  if (!t) {
+    return /* Node */{
+            l: /* Empty */0,
+            v: x,
+            r: /* Empty */0,
+            h: 1
+          };
+  }
+  var r = t.r;
+  var v = t.v;
+  var l = t.l;
+  var c = Curry._2(funarg$1.compare, x, v);
+  if (c === 0) {
+    return t;
+  }
+  if (c < 0) {
+    var ll = add$1(x, l);
+    if (l === ll) {
+      return t;
+    } else {
+      return bal$1(ll, v, r);
+    }
+  }
+  var rr = add$1(x, r);
+  if (r === rr) {
+    return t;
+  } else {
+    return bal$1(l, v, rr);
+  }
+}
+
+function mem$1(x, _param) {
+  while(true) {
+    var param = _param;
+    if (!param) {
+      return false;
+    }
+    var c = Curry._2(funarg$1.compare, x, param.v);
+    if (c === 0) {
+      return true;
+    }
+    _param = c < 0 ? param.l : param.r;
+    continue ;
+  };
+}
+
+var funarg$2 = {
+  compare: $$String.compare
+};
+
+function height$2(param) {
+  if (param) {
+    return param.h;
+  } else {
+    return 0;
+  }
+}
+
+function create$3(l, x, d, r) {
+  var hl = height$2(l);
+  var hr = height$2(r);
+  return /* Node */{
+          l: l,
+          v: x,
+          d: d,
+          r: r,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+        };
+}
+
+function bal$2(l, x, d, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$2(ll) >= height$2(lr)) {
+        return create$3(ll, lv, ld, create$3(lr, x, d, r));
+      }
+      if (lr) {
+        return create$3(create$3(ll, lv, ld, lr.l), lr.v, lr.d, create$3(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return /* Node */{
+            l: l,
+            v: x,
+            d: d,
+            r: r,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          };
+  }
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$2(rr) >= height$2(rl)) {
+      return create$3(create$3(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$3(create$3(l, x, d, rl.l), rl.v, rl.d, create$3(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
+}
+
+function add$2(x, data, m) {
+  if (!m) {
+    return /* Node */{
+            l: /* Empty */0,
+            v: x,
+            d: data,
+            r: /* Empty */0,
+            h: 1
+          };
+  }
+  var r = m.r;
+  var d = m.d;
+  var v = m.v;
+  var l = m.l;
+  var c = Curry._2(funarg$2.compare, x, v);
+  if (c === 0) {
+    if (d === data) {
+      return m;
+    } else {
+      return /* Node */{
+              l: l,
+              v: x,
+              d: data,
+              r: r,
+              h: m.h
+            };
+    }
+  }
+  if (c < 0) {
+    var ll = add$2(x, data, l);
+    if (l === ll) {
+      return m;
+    } else {
+      return bal$2(ll, v, d, r);
+    }
+  }
+  var rr = add$2(x, data, r);
+  if (r === rr) {
+    return m;
+  } else {
+    return bal$2(l, v, d, rr);
+  }
+}
+
+function find(x, _param) {
+  while(true) {
+    var param = _param;
+    if (param) {
+      var c = Curry._2(funarg$2.compare, x, param.v);
+      if (c === 0) {
+        return param.d;
+      }
+      _param = c < 0 ? param.l : param.r;
+      continue ;
+    }
+    throw {
+          RE_EXN_ID: Stdlib.Not_found,
+          Error: new Error()
+        };
+  };
+}
 
 function compare$1(param, param$1) {
   var loc = compare(param[0], param$1[0]);
@@ -6226,23 +6639,146 @@ function compare$1(param, param$1) {
   }
 }
 
-var ErrorSet = $$Set.Make({
-      compare: compare$1
-    });
+var funarg$3 = {
+  compare: compare$1
+};
+
+function height$3(param) {
+  if (param) {
+    return param.h;
+  } else {
+    return 0;
+  }
+}
+
+function create$4(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  return /* Node */{
+          l: l,
+          v: v,
+          r: r,
+          h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+        };
+}
+
+function bal$3(l, v, r) {
+  var hl = l ? l.h : 0;
+  var hr = r ? r.h : 0;
+  if (hl > (hr + 2 | 0)) {
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$3(ll) >= height$3(lr)) {
+        return create$4(ll, lv, create$4(lr, v, r));
+      }
+      if (lr) {
+        return create$4(create$4(ll, lv, lr.l), lr.v, create$4(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  if (hr <= (hl + 2 | 0)) {
+    return /* Node */{
+            l: l,
+            v: v,
+            r: r,
+            h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
+          };
+  }
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$3(rr) >= height$3(rl)) {
+      return create$4(create$4(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$4(create$4(l, v, rl.l), rl.v, create$4(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
+  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
+}
+
+function add$3(x, t) {
+  if (!t) {
+    return /* Node */{
+            l: /* Empty */0,
+            v: x,
+            r: /* Empty */0,
+            h: 1
+          };
+  }
+  var r = t.r;
+  var v = t.v;
+  var l = t.l;
+  var c = Curry._2(funarg$3.compare, x, v);
+  if (c === 0) {
+    return t;
+  }
+  if (c < 0) {
+    var ll = add$3(x, l);
+    if (l === ll) {
+      return t;
+    } else {
+      return bal$3(ll, v, r);
+    }
+  }
+  var rr = add$3(x, r);
+  if (r === rr) {
+    return t;
+  } else {
+    return bal$3(l, v, rr);
+  }
+}
+
+function mem$2(x, _param) {
+  while(true) {
+    var param = _param;
+    if (!param) {
+      return false;
+    }
+    var c = Curry._2(funarg$3.compare, x, param.v);
+    if (c === 0) {
+      return true;
+    }
+    _param = c < 0 ? param.l : param.r;
+    continue ;
+  };
+}
 
 function filter_duplicate_errors(errs) {
   var errs$1 = List.rev(errs);
   var match = List.fold_left((function (param, err) {
           var deduped = param[1];
           var set = param[0];
-          if (Curry._2(ErrorSet.mem, err, set)) {
+          if (Curry._2(mem$2, err, set)) {
             return [
                     set,
                     deduped
                   ];
           } else {
             return [
-                    Curry._2(ErrorSet.add, err, set),
+                    Curry._2(add$3, err, set),
                     {
                       hd: err,
                       tl: deduped
@@ -6250,7 +6786,7 @@ function filter_duplicate_errors(errs) {
                   ];
           }
         }), [
-        ErrorSet.empty,
+        /* Empty */0,
         /* [] */0
       ], errs$1);
   return List.rev(match[1]);
@@ -7491,7 +8027,7 @@ function pattern(check_env, _param) {
           var name = id[1].name;
           var param_names = check_env[1];
           var env = check_env[0];
-          if (Curry._2(SSet$1.mem, name, param_names)) {
+          if (Curry._2(mem$1, name, param_names)) {
             error_at(env, [
                   id[0],
                   /* StrictParamDupe */29
@@ -7503,7 +8039,7 @@ function pattern(check_env, _param) {
               ], id);
           return [
                   match[0],
-                  Curry._2(SSet$1.add, name, match[1])
+                  Curry._2(add$1, name, match[1])
                 ];
       case /* Expression */4 :
           error_at(check_env[0], [
@@ -7598,7 +8134,7 @@ function strict_post_check(env, strict, simple, id, params) {
   }
   List.fold_left(pattern, [
         env$1,
-        SSet$1.empty
+        /* Empty */0
       ], params);
 }
 
@@ -10355,14 +10891,18 @@ function check_property(env, prop_map, prop) {
                   key = s._0;
                   break;
               case /* Boolean */1 :
-                  key = Stdlib.string_of_bool(s._0);
+                  var b = s._0;
+                  key = b ? "true" : "false";
                   break;
               case /* Number */2 :
                   key = Stdlib.string_of_float(s._0);
                   break;
               case /* RegExp */3 :
-                  key = Stdlib.failwith("RegExp cannot be property key");
-                  break;
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "RegExp cannot be property key",
+                        Error: new Error()
+                      };
               
             }
           }
@@ -10384,12 +10924,12 @@ function check_property(env, prop_map, prop) {
     }
     var prev_kinds;
     try {
-      prev_kinds = Curry._2(SMap.find, key, prop_map);
+      prev_kinds = Curry._2(find, key, prop_map);
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.RE_EXN_ID === Stdlib.Not_found) {
-        prev_kinds = SSet$1.empty;
+        prev_kinds = /* Empty */0;
       } else {
         throw exn;
       }
@@ -10411,12 +10951,12 @@ function check_property(env, prop_map, prop) {
     var exit$1 = 0;
     switch (kind_string) {
       case "Init" :
-          if (Curry._2(SSet$1.mem, "Init", prev_kinds)) {
+          if (Curry._2(mem$1, "Init", prev_kinds)) {
             strict_error_at(env, [
                   prop_loc,
                   /* StrictDuplicateProperty */33
                 ]);
-          } else if (Curry._2(SSet$1.mem, "Set", prev_kinds) || Curry._2(SSet$1.mem, "Get", prev_kinds)) {
+          } else if (Curry._2(mem$1, "Set", prev_kinds) || Curry._2(mem$1, "Get", prev_kinds)) {
             error_at(env, [
                   prop_loc,
                   /* AccessorDataProperty */34
@@ -10431,12 +10971,12 @@ function check_property(env, prop_map, prop) {
         
     }
     if (exit$1 === 2) {
-      if (Curry._2(SSet$1.mem, "Init", prev_kinds)) {
+      if (Curry._2(mem$1, "Init", prev_kinds)) {
         error_at(env, [
               prop_loc,
               /* AccessorDataProperty */34
             ]);
-      } else if (Curry._2(SSet$1.mem, kind_string, prev_kinds)) {
+      } else if (Curry._2(mem$1, kind_string, prev_kinds)) {
         error_at(env, [
               prop_loc,
               /* AccessorGetSet */35
@@ -10444,8 +10984,8 @@ function check_property(env, prop_map, prop) {
       }
       
     }
-    var kinds = Curry._2(SSet$1.add, kind_string, prev_kinds);
-    return Curry._3(SMap.add, key, kinds, prop_map);
+    var kinds = Curry._2(add$1, kind_string, prev_kinds);
+    return Curry._3(add$2, key, kinds, prop_map);
   }
   
 }
@@ -10484,7 +11024,7 @@ function _initializer(env) {
   var start_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_LCURLY */1);
   var props = properties$1(env, [
-        SMap.empty,
+        /* Empty */0,
         /* [] */0
       ]);
   var end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
@@ -11878,7 +12418,11 @@ function fold(acc) {
                   tl: acc
                 };
       case /* Expression */4 :
-          return Stdlib.failwith("Parser error: No such thing as an expression pattern!");
+          throw {
+                RE_EXN_ID: "Failure",
+                _1: "Parser error: No such thing as an expression pattern!",
+                Error: new Error()
+              };
       
     }
   };
@@ -13283,7 +13827,7 @@ function statement(env) {
                 } else {
                   var label$1 = Curry._2(Parse.identifier, undefined, env);
                   var name = label$1[1].name;
-                  if (!Curry._2(SSet$1.mem, name, env.labels)) {
+                  if (!Curry._2(mem$1, name, env.labels)) {
                     error$1(env, {
                           TAG: /* UnknownLabel */4,
                           _0: name
@@ -13321,7 +13865,7 @@ function statement(env) {
                 } else {
                   var label$3 = Curry._2(Parse.identifier, undefined, env);
                   var name$1 = label$3[1].name;
-                  if (!Curry._2(SSet$1.mem, name$1, env.labels)) {
+                  if (!Curry._2(mem$1, name$1, env.labels)) {
                     error$1(env, {
                           TAG: /* UnknownLabel */4,
                           _0: name$1
@@ -13630,7 +14174,7 @@ function statement(env) {
           var match$13 = label$5[1];
           var name$2 = match$13.name;
           token$4(env, /* T_COLON */77);
-          if (Curry._2(SSet$1.mem, name$2, env.labels)) {
+          if (Curry._2(mem$1, name$2, env.labels)) {
             error_at(env, [
                   loc$11,
                   {
@@ -13763,13 +14307,24 @@ function module_item(env) {
                       }
                       var $$interface$1 = $$interface(env$1);
                       var match$2 = $$interface$1[1];
-                      if (typeof match$2 === "number" || match$2.TAG !== /* InterfaceDeclaration */21) {
-                        Stdlib.failwith("Internal Flow Error! Parsed `export interface` into something other than an interface declaration!");
-                      } else {
+                      if (typeof match$2 === "number") {
+                        throw {
+                              RE_EXN_ID: "Failure",
+                              _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!",
+                              Error: new Error()
+                            };
+                      }
+                      if (match$2.TAG === /* InterfaceDeclaration */21) {
                         record_export(env$1, [
                               $$interface$1[0],
                               extract_ident_name(match$2._0.id)
                             ]);
+                      } else {
+                        throw {
+                              RE_EXN_ID: "Failure",
+                              _1: "Internal Flow Error! Parsed `export interface` into something other than an interface declaration!",
+                              Error: new Error()
+                            };
                       }
                       var end_loc = $$interface$1[0];
                       return [
@@ -13795,13 +14350,24 @@ function module_item(env) {
                         }
                         var type_alias$1 = type_alias(env$1);
                         var match$3 = type_alias$1[1];
-                        if (typeof match$3 === "number" || match$3.TAG !== /* TypeAlias */7) {
-                          Stdlib.failwith("Internal Flow Error! Parsed `export type` into something other than a type alias!");
-                        } else {
+                        if (typeof match$3 === "number") {
+                          throw {
+                                RE_EXN_ID: "Failure",
+                                _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!",
+                                Error: new Error()
+                              };
+                        }
+                        if (match$3.TAG === /* TypeAlias */7) {
                           record_export(env$1, [
                                 type_alias$1[0],
                                 extract_ident_name(match$3._0.id)
                               ]);
+                        } else {
+                          throw {
+                                RE_EXN_ID: "Failure",
+                                _1: "Internal Flow Error! Parsed `export type` into something other than a type alias!",
+                                Error: new Error()
+                              };
                         }
                         var end_loc$1 = type_alias$1[0];
                         return [
@@ -13998,58 +14564,65 @@ function module_item(env) {
               var loc$4 = stmt[0];
               var names;
               if (typeof match$8 === "number") {
-                names = Stdlib.failwith("Internal Flow Error! Unexpected export statement declaration!");
-              } else {
-                switch (match$8.TAG | 0) {
-                  case /* FunctionDeclaration */18 :
-                      var id = match$8._0.id;
-                      if (id !== undefined) {
-                        names = {
-                          hd: [
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: "Internal Flow Error! Unexpected export statement declaration!",
+                      Error: new Error()
+                    };
+              }
+              switch (match$8.TAG | 0) {
+                case /* FunctionDeclaration */18 :
+                    var id = match$8._0.id;
+                    if (id !== undefined) {
+                      names = {
+                        hd: [
+                          loc$4,
+                          extract_ident_name(id)
+                        ],
+                        tl: /* [] */0
+                      };
+                    } else {
+                      error_at(env$1, [
                             loc$4,
-                            extract_ident_name(id)
-                          ],
-                          tl: /* [] */0
-                        };
-                      } else {
-                        error_at(env$1, [
-                              loc$4,
-                              /* ExportNamelessFunction */56
-                            ]);
-                        names = /* [] */0;
-                      }
-                      break;
-                  case /* VariableDeclaration */19 :
-                      names = List.fold_left((function (names, param) {
-                              var id = param[1].id;
-                              var param$1 = {
-                                hd: id,
-                                tl: /* [] */0
-                              };
-                              return List.fold_left(fold, names, param$1);
-                            }), /* [] */0, match$8._0.declarations);
-                      break;
-                  case /* ClassDeclaration */20 :
-                      var id$1 = match$8._0.id;
-                      if (id$1 !== undefined) {
-                        names = {
-                          hd: [
+                            /* ExportNamelessFunction */56
+                          ]);
+                      names = /* [] */0;
+                    }
+                    break;
+                case /* VariableDeclaration */19 :
+                    names = List.fold_left((function (names, param) {
+                            var id = param[1].id;
+                            var param$1 = {
+                              hd: id,
+                              tl: /* [] */0
+                            };
+                            return List.fold_left(fold, names, param$1);
+                          }), /* [] */0, match$8._0.declarations);
+                    break;
+                case /* ClassDeclaration */20 :
+                    var id$1 = match$8._0.id;
+                    if (id$1 !== undefined) {
+                      names = {
+                        hd: [
+                          loc$4,
+                          extract_ident_name(id$1)
+                        ],
+                        tl: /* [] */0
+                      };
+                    } else {
+                      error_at(env$1, [
                             loc$4,
-                            extract_ident_name(id$1)
-                          ],
-                          tl: /* [] */0
-                        };
-                      } else {
-                        error_at(env$1, [
-                              loc$4,
-                              /* ExportNamelessClass */55
-                            ]);
-                        names = /* [] */0;
-                      }
-                      break;
-                  default:
-                    names = Stdlib.failwith("Internal Flow Error! Unexpected export statement declaration!");
-                }
+                            /* ExportNamelessClass */55
+                          ]);
+                      names = /* [] */0;
+                    }
+                    break;
+                default:
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "Internal Flow Error! Unexpected export statement declaration!",
+                        Error: new Error()
+                      };
               }
               List.iter((function (param) {
                       return record_export(env$1, param);
@@ -14470,7 +15043,12 @@ function directives(env, term_fn, item_fn) {
               return ;
             }
           }
-          return Stdlib.failwith("Nooo: " + (token_to_string(token) + "\n"));
+          var s = "Nooo: " + (token_to_string(token) + "\n");
+          throw {
+                RE_EXN_ID: "Failure",
+                _1: s,
+                Error: new Error()
+              };
         }), List.rev(match[1]));
   return [
           env$1,
@@ -14979,6 +15557,544 @@ function parse(content, options) {
                   ]
                 ]);
     };
+    var class_implements = function (param) {
+      var $$implements = param[1];
+      return node("ClassImplements", param[0], [
+                  [
+                    "id",
+                    identifier($$implements.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_instantiation, $$implements.typeParameters)
+                  ]
+                ]);
+    };
+    var type_parameter_declaration = function (param) {
+      return node("TypeParameterDeclaration", param[0], [[
+                    "params",
+                    array_of_list(type_param, param[1].params)
+                  ]]);
+    };
+    var class_body = function (param) {
+      return node("ClassBody", param[0], [[
+                    "body",
+                    array_of_list(class_element, param[1].body)
+                  ]]);
+    };
+    var expression = function (param) {
+      var arr = param[1];
+      var loc = param[0];
+      if (typeof arr === "number") {
+        return node("ThisExpression", loc, []);
+      }
+      switch (arr.TAG | 0) {
+        case /* Array */0 :
+            return node("ArrayExpression", loc, [[
+                          "elements",
+                          array_of_list((function (param) {
+                                  return option(expression_or_spread, param);
+                                }), arr._0.elements)
+                        ]]);
+        case /* Object */1 :
+            return node("ObjectExpression", loc, [[
+                          "properties",
+                          array_of_list(object_property, arr._0.properties)
+                        ]]);
+        case /* Function */2 :
+            return function_expression([
+                        loc,
+                        arr._0
+                      ]);
+        case /* ArrowFunction */3 :
+            var arrow = arr._0;
+            var b = arrow.body;
+            var body;
+            body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
+            return node("ArrowFunctionExpression", loc, [
+                        [
+                          "id",
+                          option(identifier, arrow.id)
+                        ],
+                        [
+                          "params",
+                          array_of_list(pattern, arrow.params)
+                        ],
+                        [
+                          "defaults",
+                          array_of_list((function (param) {
+                                  return option(expression, param);
+                                }), arrow.defaults)
+                        ],
+                        [
+                          "rest",
+                          option(identifier, arrow.rest)
+                        ],
+                        [
+                          "body",
+                          body
+                        ],
+                        [
+                          "async",
+                          bool(arrow.async)
+                        ],
+                        [
+                          "generator",
+                          bool(arrow.generator)
+                        ],
+                        [
+                          "expression",
+                          bool(arrow.expression)
+                        ],
+                        [
+                          "returnType",
+                          option(type_annotation, arrow.returnType)
+                        ],
+                        [
+                          "typeParameters",
+                          option(type_parameter_declaration, arrow.typeParameters)
+                        ]
+                      ]);
+        case /* Sequence */4 :
+            return node("SequenceExpression", loc, [[
+                          "expressions",
+                          array_of_list(expression, arr._0.expressions)
+                        ]]);
+        case /* Unary */5 :
+            var unary = arr._0;
+            var match = unary.operator;
+            if (match >= 7) {
+              return node("AwaitExpression", loc, [[
+                            "argument",
+                            expression(unary.argument)
+                          ]]);
+            }
+            var match$1 = unary.operator;
+            var operator;
+            switch (match$1) {
+              case /* Minus */0 :
+                  operator = "-";
+                  break;
+              case /* Plus */1 :
+                  operator = "+";
+                  break;
+              case /* Not */2 :
+                  operator = "!";
+                  break;
+              case /* BitNot */3 :
+                  operator = "~";
+                  break;
+              case /* Typeof */4 :
+                  operator = "typeof";
+                  break;
+              case /* Void */5 :
+                  operator = "void";
+                  break;
+              case /* Delete */6 :
+                  operator = "delete";
+                  break;
+              case /* Await */7 :
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "matched above",
+                        Error: new Error()
+                      };
+              
+            }
+            return node("UnaryExpression", loc, [
+                        [
+                          "operator",
+                          string(operator)
+                        ],
+                        [
+                          "prefix",
+                          bool(unary.prefix)
+                        ],
+                        [
+                          "argument",
+                          expression(unary.argument)
+                        ]
+                      ]);
+        case /* Binary */6 :
+            var binary = arr._0;
+            var match$2 = binary.operator;
+            var operator$1;
+            switch (match$2) {
+              case /* Equal */0 :
+                  operator$1 = "==";
+                  break;
+              case /* NotEqual */1 :
+                  operator$1 = "!=";
+                  break;
+              case /* StrictEqual */2 :
+                  operator$1 = "===";
+                  break;
+              case /* StrictNotEqual */3 :
+                  operator$1 = "!==";
+                  break;
+              case /* LessThan */4 :
+                  operator$1 = "<";
+                  break;
+              case /* LessThanEqual */5 :
+                  operator$1 = "<=";
+                  break;
+              case /* GreaterThan */6 :
+                  operator$1 = ">";
+                  break;
+              case /* GreaterThanEqual */7 :
+                  operator$1 = ">=";
+                  break;
+              case /* LShift */8 :
+                  operator$1 = "<<";
+                  break;
+              case /* RShift */9 :
+                  operator$1 = ">>";
+                  break;
+              case /* RShift3 */10 :
+                  operator$1 = ">>>";
+                  break;
+              case /* Plus */11 :
+                  operator$1 = "+";
+                  break;
+              case /* Minus */12 :
+                  operator$1 = "-";
+                  break;
+              case /* Mult */13 :
+                  operator$1 = "*";
+                  break;
+              case /* Exp */14 :
+                  operator$1 = "**";
+                  break;
+              case /* Div */15 :
+                  operator$1 = "/";
+                  break;
+              case /* Mod */16 :
+                  operator$1 = "%";
+                  break;
+              case /* BitOr */17 :
+                  operator$1 = "|";
+                  break;
+              case /* Xor */18 :
+                  operator$1 = "^";
+                  break;
+              case /* BitAnd */19 :
+                  operator$1 = "&";
+                  break;
+              case /* In */20 :
+                  operator$1 = "in";
+                  break;
+              case /* Instanceof */21 :
+                  operator$1 = "instanceof";
+                  break;
+              
+            }
+            return node("BinaryExpression", loc, [
+                        [
+                          "operator",
+                          string(operator$1)
+                        ],
+                        [
+                          "left",
+                          expression(binary.left)
+                        ],
+                        [
+                          "right",
+                          expression(binary.right)
+                        ]
+                      ]);
+        case /* Assignment */7 :
+            var assignment = arr._0;
+            var match$3 = assignment.operator;
+            var operator$2;
+            switch (match$3) {
+              case /* Assign */0 :
+                  operator$2 = "=";
+                  break;
+              case /* PlusAssign */1 :
+                  operator$2 = "+=";
+                  break;
+              case /* MinusAssign */2 :
+                  operator$2 = "-=";
+                  break;
+              case /* MultAssign */3 :
+                  operator$2 = "*=";
+                  break;
+              case /* ExpAssign */4 :
+                  operator$2 = "**=";
+                  break;
+              case /* DivAssign */5 :
+                  operator$2 = "/=";
+                  break;
+              case /* ModAssign */6 :
+                  operator$2 = "%=";
+                  break;
+              case /* LShiftAssign */7 :
+                  operator$2 = "<<=";
+                  break;
+              case /* RShiftAssign */8 :
+                  operator$2 = ">>=";
+                  break;
+              case /* RShift3Assign */9 :
+                  operator$2 = ">>>=";
+                  break;
+              case /* BitOrAssign */10 :
+                  operator$2 = "|=";
+                  break;
+              case /* BitXorAssign */11 :
+                  operator$2 = "^=";
+                  break;
+              case /* BitAndAssign */12 :
+                  operator$2 = "&=";
+                  break;
+              
+            }
+            return node("AssignmentExpression", loc, [
+                        [
+                          "operator",
+                          string(operator$2)
+                        ],
+                        [
+                          "left",
+                          pattern(assignment.left)
+                        ],
+                        [
+                          "right",
+                          expression(assignment.right)
+                        ]
+                      ]);
+        case /* Update */8 :
+            var update = arr._0;
+            var match$4 = update.operator;
+            var operator$3 = match$4 ? "--" : "++";
+            return node("UpdateExpression", loc, [
+                        [
+                          "operator",
+                          string(operator$3)
+                        ],
+                        [
+                          "argument",
+                          expression(update.argument)
+                        ],
+                        [
+                          "prefix",
+                          bool(update.prefix)
+                        ]
+                      ]);
+        case /* Logical */9 :
+            var logical = arr._0;
+            var match$5 = logical.operator;
+            var operator$4 = match$5 ? "&&" : "||";
+            return node("LogicalExpression", loc, [
+                        [
+                          "operator",
+                          string(operator$4)
+                        ],
+                        [
+                          "left",
+                          expression(logical.left)
+                        ],
+                        [
+                          "right",
+                          expression(logical.right)
+                        ]
+                      ]);
+        case /* Conditional */10 :
+            var conditional = arr._0;
+            return node("ConditionalExpression", loc, [
+                        [
+                          "test",
+                          expression(conditional.test)
+                        ],
+                        [
+                          "consequent",
+                          expression(conditional.consequent)
+                        ],
+                        [
+                          "alternate",
+                          expression(conditional.alternate)
+                        ]
+                      ]);
+        case /* New */11 :
+            var _new = arr._0;
+            return node("NewExpression", loc, [
+                        [
+                          "callee",
+                          expression(_new.callee)
+                        ],
+                        [
+                          "arguments",
+                          array_of_list(expression_or_spread, _new.arguments)
+                        ]
+                      ]);
+        case /* Call */12 :
+            var call = arr._0;
+            return node("CallExpression", loc, [
+                        [
+                          "callee",
+                          expression(call.callee)
+                        ],
+                        [
+                          "arguments",
+                          array_of_list(expression_or_spread, call.arguments)
+                        ]
+                      ]);
+        case /* Member */13 :
+            var member = arr._0;
+            var id = member.property;
+            var property;
+            property = id.TAG === /* PropertyIdentifier */0 ? identifier(id._0) : expression(id._0);
+            return node("MemberExpression", loc, [
+                        [
+                          "object",
+                          expression(member._object)
+                        ],
+                        [
+                          "property",
+                          property
+                        ],
+                        [
+                          "computed",
+                          bool(member.computed)
+                        ]
+                      ]);
+        case /* Yield */14 :
+            var $$yield = arr._0;
+            return node("YieldExpression", loc, [
+                        [
+                          "argument",
+                          option(expression, $$yield.argument)
+                        ],
+                        [
+                          "delegate",
+                          bool($$yield.delegate)
+                        ]
+                      ]);
+        case /* Comprehension */15 :
+            var comp = arr._0;
+            return node("ComprehensionExpression", loc, [
+                        [
+                          "blocks",
+                          array_of_list(comprehension_block, comp.blocks)
+                        ],
+                        [
+                          "filter",
+                          option(expression, comp.filter)
+                        ]
+                      ]);
+        case /* Generator */16 :
+            var gen = arr._0;
+            return node("GeneratorExpression", loc, [
+                        [
+                          "blocks",
+                          array_of_list(comprehension_block, gen.blocks)
+                        ],
+                        [
+                          "filter",
+                          option(expression, gen.filter)
+                        ]
+                      ]);
+        case /* Let */17 :
+            var _let = arr._0;
+            return node("LetExpression", loc, [
+                        [
+                          "head",
+                          array_of_list(let_assignment, _let.head)
+                        ],
+                        [
+                          "body",
+                          expression(_let.body)
+                        ]
+                      ]);
+        case /* Identifier */18 :
+            return identifier(arr._0);
+        case /* Literal */19 :
+            return literal([
+                        loc,
+                        arr._0
+                      ]);
+        case /* TemplateLiteral */20 :
+            return template_literal([
+                        loc,
+                        arr._0
+                      ]);
+        case /* TaggedTemplate */21 :
+            var param$1 = [
+              loc,
+              arr._0
+            ];
+            var tagged = param$1[1];
+            return node("TaggedTemplateExpression", param$1[0], [
+                        [
+                          "tag",
+                          expression(tagged.tag)
+                        ],
+                        [
+                          "quasi",
+                          template_literal(tagged.quasi)
+                        ]
+                      ]);
+        case /* JSXElement */22 :
+            return jsx_element([
+                        loc,
+                        arr._0
+                      ]);
+        case /* Class */23 :
+            var param$2 = [
+              loc,
+              arr._0
+            ];
+            var c = param$2[1];
+            return node("ClassExpression", param$2[0], [
+                        [
+                          "id",
+                          option(identifier, c.id)
+                        ],
+                        [
+                          "body",
+                          class_body(c.body)
+                        ],
+                        [
+                          "superClass",
+                          option(expression, c.superClass)
+                        ],
+                        [
+                          "typeParameters",
+                          option(type_parameter_declaration, c.typeParameters)
+                        ],
+                        [
+                          "superTypeParameters",
+                          option(type_parameter_instantiation, c.superTypeParameters)
+                        ],
+                        [
+                          "implements",
+                          array_of_list(class_implements, c.implements)
+                        ],
+                        [
+                          "decorators",
+                          array_of_list(expression, c.classDecorators)
+                        ]
+                      ]);
+        case /* TypeCast */24 :
+            var typecast = arr._0;
+            return node("TypeCastExpression", loc, [
+                        [
+                          "expression",
+                          expression(typecast.expression)
+                        ],
+                        [
+                          "typeAnnotation",
+                          type_annotation(typecast.typeAnnotation)
+                        ]
+                      ]);
+        
+      }
+    };
+    var type_parameter_instantiation = function (param) {
+      return node("TypeParameterInstantiation", param[0], [[
+                    "params",
+                    array_of_list(_type, param[1].params)
+                  ]]);
+    };
     var _type = function (param) {
       var t = param[1];
       var loc = param[0];
@@ -15131,11 +16247,222 @@ function parse(content, options) {
         }
       }
     };
-    var type_parameter_declaration = function (param) {
-      return node("TypeParameterDeclaration", param[0], [[
-                    "params",
-                    array_of_list(type_param, param[1].params)
+    var class_element = function (m) {
+      if (m.TAG === /* Method */0) {
+        var param = m._0;
+        var method_ = param[1];
+        var key = method_.key;
+        var match;
+        switch (key.TAG | 0) {
+          case /* Literal */0 :
+              match = [
+                literal(key._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match = [
+                identifier(key._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match = [
+                expression(key._0),
+                true
+              ];
+              break;
+          
+        }
+        var kind;
+        switch (method_.kind) {
+          case /* Constructor */0 :
+              kind = "constructor";
+              break;
+          case /* Method */1 :
+              kind = "method";
+              break;
+          case /* Get */2 :
+              kind = "get";
+              break;
+          case /* Set */3 :
+              kind = "set";
+              break;
+          
+        }
+        return node("MethodDefinition", param[0], [
+                    [
+                      "key",
+                      match[0]
+                    ],
+                    [
+                      "value",
+                      function_expression(method_.value)
+                    ],
+                    [
+                      "kind",
+                      string(kind)
+                    ],
+                    [
+                      "static",
+                      bool(method_.static)
+                    ],
+                    [
+                      "computed",
+                      bool(match[1])
+                    ],
+                    [
+                      "decorators",
+                      array_of_list(expression, method_.decorators)
+                    ]
+                  ]);
+      } else {
+        var param$1 = m._0;
+        var prop = param$1[1];
+        var lit = prop.key;
+        var match$1;
+        switch (lit.TAG | 0) {
+          case /* Literal */0 :
+              match$1 = [
+                literal(lit._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match$1 = [
+                identifier(lit._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match$1 = [
+                expression(lit._0),
+                true
+              ];
+              break;
+          
+        }
+        return node("ClassProperty", param$1[0], [
+                    [
+                      "key",
+                      match$1[0]
+                    ],
+                    [
+                      "value",
+                      option(expression, prop.value)
+                    ],
+                    [
+                      "typeAnnotation",
+                      option(type_annotation, prop.typeAnnotation)
+                    ],
+                    [
+                      "computed",
+                      bool(match$1[1])
+                    ],
+                    [
+                      "static",
+                      bool(prop.static)
+                    ]
+                  ]);
+      }
+    };
+    var function_type_param = function (param) {
+      var param$1 = param[1];
+      return node("FunctionTypeParam", param[0], [
+                  [
+                    "name",
+                    identifier(param$1.name)
+                  ],
+                  [
+                    "typeAnnotation",
+                    _type(param$1.typeAnnotation)
+                  ],
+                  [
+                    "optional",
+                    bool(param$1.optional)
+                  ]
+                ]);
+    };
+    var type_annotation = function (param) {
+      return node("TypeAnnotation", param[0], [[
+                    "typeAnnotation",
+                    _type(param[1])
                   ]]);
+    };
+    var template_literal = function (param) {
+      var value = param[1];
+      return node("TemplateLiteral", param[0], [
+                  [
+                    "quasis",
+                    array_of_list(template_element, value.quasis)
+                  ],
+                  [
+                    "expressions",
+                    array_of_list(expression, value.expressions)
+                  ]
+                ]);
+    };
+    var let_assignment = function (assignment) {
+      return obj([
+                  [
+                    "id",
+                    pattern(assignment.id)
+                  ],
+                  [
+                    "init",
+                    option(expression, assignment.init)
+                  ]
+                ]);
+    };
+    var function_expression = function (param) {
+      var _function = param[1];
+      var b = _function.body;
+      var body;
+      body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
+      return node("FunctionExpression", param[0], [
+                  [
+                    "id",
+                    option(identifier, _function.id)
+                  ],
+                  [
+                    "params",
+                    array_of_list(pattern, _function.params)
+                  ],
+                  [
+                    "defaults",
+                    array_of_list((function (param) {
+                            return option(expression, param);
+                          }), _function.defaults)
+                  ],
+                  [
+                    "rest",
+                    option(identifier, _function.rest)
+                  ],
+                  [
+                    "body",
+                    body
+                  ],
+                  [
+                    "async",
+                    bool(_function.async)
+                  ],
+                  [
+                    "generator",
+                    bool(_function.generator)
+                  ],
+                  [
+                    "expression",
+                    bool(_function.expression)
+                  ],
+                  [
+                    "returnType",
+                    option(type_annotation, _function.returnType)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, _function.typeParameters)
+                  ]
+                ]);
     };
     var literal = function (param) {
       var lit = param[1];
@@ -15208,6 +16535,179 @@ function parse(content, options) {
       }
       return node("Literal", loc, props);
     };
+    var comprehension_block = function (param) {
+      var b = param[1];
+      return node("ComprehensionBlock", param[0], [
+                  [
+                    "left",
+                    pattern(b.left)
+                  ],
+                  [
+                    "right",
+                    expression(b.right)
+                  ],
+                  [
+                    "each",
+                    bool(b.each)
+                  ]
+                ]);
+    };
+    var block = function (param) {
+      return node("BlockStatement", param[0], [[
+                    "body",
+                    array_of_list(statement, param[1].body)
+                  ]]);
+    };
+    var jsx_element = function (param) {
+      var element = param[1];
+      return node("JSXElement", param[0], [
+                  [
+                    "openingElement",
+                    jsx_opening(element.openingElement)
+                  ],
+                  [
+                    "closingElement",
+                    option(jsx_closing, element.closingElement)
+                  ],
+                  [
+                    "children",
+                    array_of_list(jsx_child, element.children)
+                  ]
+                ]);
+    };
+    var pattern = function (param) {
+      var obj = param[1];
+      var loc = param[0];
+      switch (obj.TAG | 0) {
+        case /* Object */0 :
+            var obj$1 = obj._0;
+            return node("ObjectPattern", loc, [
+                        [
+                          "properties",
+                          array_of_list(object_pattern_property, obj$1.properties)
+                        ],
+                        [
+                          "typeAnnotation",
+                          option(type_annotation, obj$1.typeAnnotation)
+                        ]
+                      ]);
+        case /* Array */1 :
+            var arr = obj._0;
+            return node("ArrayPattern", loc, [
+                        [
+                          "elements",
+                          array_of_list((function (param) {
+                                  return option(array_pattern_element, param);
+                                }), arr.elements)
+                        ],
+                        [
+                          "typeAnnotation",
+                          option(type_annotation, arr.typeAnnotation)
+                        ]
+                      ]);
+        case /* Assignment */2 :
+            var match = obj._0;
+            return node("AssignmentPattern", loc, [
+                        [
+                          "left",
+                          pattern(match.left)
+                        ],
+                        [
+                          "right",
+                          expression(match.right)
+                        ]
+                      ]);
+        case /* Identifier */3 :
+            return identifier(obj._0);
+        case /* Expression */4 :
+            return expression(obj._0);
+        
+      }
+    };
+    var object_property = function (param) {
+      if (param.TAG === /* Property */0) {
+        var match = param._0;
+        var prop = match[1];
+        var lit = prop.key;
+        var match$1;
+        switch (lit.TAG | 0) {
+          case /* Literal */0 :
+              match$1 = [
+                literal(lit._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match$1 = [
+                identifier(lit._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match$1 = [
+                expression(lit._0),
+                true
+              ];
+              break;
+          
+        }
+        var match$2 = prop.kind;
+        var kind;
+        switch (match$2) {
+          case /* Init */0 :
+              kind = "init";
+              break;
+          case /* Get */1 :
+              kind = "get";
+              break;
+          case /* Set */2 :
+              kind = "set";
+              break;
+          
+        }
+        return node("Property", match[0], [
+                    [
+                      "key",
+                      match$1[0]
+                    ],
+                    [
+                      "value",
+                      expression(prop.value)
+                    ],
+                    [
+                      "kind",
+                      string(kind)
+                    ],
+                    [
+                      "method",
+                      bool(prop._method)
+                    ],
+                    [
+                      "shorthand",
+                      bool(prop.shorthand)
+                    ],
+                    [
+                      "computed",
+                      bool(match$1[1])
+                    ]
+                  ]);
+      }
+      var match$3 = param._0;
+      return node("SpreadProperty", match$3[0], [[
+                    "argument",
+                    expression(match$3[1].argument)
+                  ]]);
+    };
+    var expression_or_spread = function (expr) {
+      if (expr.TAG === /* Expression */0) {
+        return expression(expr._0);
+      }
+      var match = expr._0;
+      return node("SpreadElement", match[0], [[
+                    "argument",
+                    expression(match[1].argument)
+                  ]]);
+    };
     var jsx_expression_container = function (param) {
       var expr = param[1].expression;
       var expression$1;
@@ -15216,6 +16716,22 @@ function parse(content, options) {
                     "expression",
                     expression$1
                   ]]);
+    };
+    var generic_type_qualified_identifier = function (param) {
+      var q = param[1];
+      var id = q.qualification;
+      var qualification;
+      qualification = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      return node("QualifiedTypeIdentifier", param[0], [
+                  [
+                    "qualification",
+                    qualification
+                  ],
+                  [
+                    "id",
+                    identifier(q.id)
+                  ]
+                ]);
     };
     var statement = function (param) {
       var b = param[1];
@@ -15737,604 +17253,6 @@ function parse(content, options) {
         
       }
     };
-    var type_parameter_instantiation = function (param) {
-      return node("TypeParameterInstantiation", param[0], [[
-                    "params",
-                    array_of_list(_type, param[1].params)
-                  ]]);
-    };
-    var generic_type_qualified_identifier = function (param) {
-      var q = param[1];
-      var id = q.qualification;
-      var qualification;
-      qualification = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-      return node("QualifiedTypeIdentifier", param[0], [
-                  [
-                    "qualification",
-                    qualification
-                  ],
-                  [
-                    "id",
-                    identifier(q.id)
-                  ]
-                ]);
-    };
-    var expression = function (param) {
-      var arr = param[1];
-      var loc = param[0];
-      if (typeof arr === "number") {
-        return node("ThisExpression", loc, []);
-      }
-      switch (arr.TAG | 0) {
-        case /* Array */0 :
-            return node("ArrayExpression", loc, [[
-                          "elements",
-                          array_of_list((function (param) {
-                                  return option(expression_or_spread, param);
-                                }), arr._0.elements)
-                        ]]);
-        case /* Object */1 :
-            return node("ObjectExpression", loc, [[
-                          "properties",
-                          array_of_list(object_property, arr._0.properties)
-                        ]]);
-        case /* Function */2 :
-            return function_expression([
-                        loc,
-                        arr._0
-                      ]);
-        case /* ArrowFunction */3 :
-            var arrow = arr._0;
-            var b = arrow.body;
-            var body;
-            body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
-            return node("ArrowFunctionExpression", loc, [
-                        [
-                          "id",
-                          option(identifier, arrow.id)
-                        ],
-                        [
-                          "params",
-                          array_of_list(pattern, arrow.params)
-                        ],
-                        [
-                          "defaults",
-                          array_of_list((function (param) {
-                                  return option(expression, param);
-                                }), arrow.defaults)
-                        ],
-                        [
-                          "rest",
-                          option(identifier, arrow.rest)
-                        ],
-                        [
-                          "body",
-                          body
-                        ],
-                        [
-                          "async",
-                          bool(arrow.async)
-                        ],
-                        [
-                          "generator",
-                          bool(arrow.generator)
-                        ],
-                        [
-                          "expression",
-                          bool(arrow.expression)
-                        ],
-                        [
-                          "returnType",
-                          option(type_annotation, arrow.returnType)
-                        ],
-                        [
-                          "typeParameters",
-                          option(type_parameter_declaration, arrow.typeParameters)
-                        ]
-                      ]);
-        case /* Sequence */4 :
-            return node("SequenceExpression", loc, [[
-                          "expressions",
-                          array_of_list(expression, arr._0.expressions)
-                        ]]);
-        case /* Unary */5 :
-            var unary = arr._0;
-            var match = unary.operator;
-            if (match >= 7) {
-              return node("AwaitExpression", loc, [[
-                            "argument",
-                            expression(unary.argument)
-                          ]]);
-            }
-            var match$1 = unary.operator;
-            var operator;
-            switch (match$1) {
-              case /* Minus */0 :
-                  operator = "-";
-                  break;
-              case /* Plus */1 :
-                  operator = "+";
-                  break;
-              case /* Not */2 :
-                  operator = "!";
-                  break;
-              case /* BitNot */3 :
-                  operator = "~";
-                  break;
-              case /* Typeof */4 :
-                  operator = "typeof";
-                  break;
-              case /* Void */5 :
-                  operator = "void";
-                  break;
-              case /* Delete */6 :
-                  operator = "delete";
-                  break;
-              case /* Await */7 :
-                  operator = Stdlib.failwith("matched above");
-                  break;
-              
-            }
-            return node("UnaryExpression", loc, [
-                        [
-                          "operator",
-                          string(operator)
-                        ],
-                        [
-                          "prefix",
-                          bool(unary.prefix)
-                        ],
-                        [
-                          "argument",
-                          expression(unary.argument)
-                        ]
-                      ]);
-        case /* Binary */6 :
-            var binary = arr._0;
-            var match$2 = binary.operator;
-            var operator$1;
-            switch (match$2) {
-              case /* Equal */0 :
-                  operator$1 = "==";
-                  break;
-              case /* NotEqual */1 :
-                  operator$1 = "!=";
-                  break;
-              case /* StrictEqual */2 :
-                  operator$1 = "===";
-                  break;
-              case /* StrictNotEqual */3 :
-                  operator$1 = "!==";
-                  break;
-              case /* LessThan */4 :
-                  operator$1 = "<";
-                  break;
-              case /* LessThanEqual */5 :
-                  operator$1 = "<=";
-                  break;
-              case /* GreaterThan */6 :
-                  operator$1 = ">";
-                  break;
-              case /* GreaterThanEqual */7 :
-                  operator$1 = ">=";
-                  break;
-              case /* LShift */8 :
-                  operator$1 = "<<";
-                  break;
-              case /* RShift */9 :
-                  operator$1 = ">>";
-                  break;
-              case /* RShift3 */10 :
-                  operator$1 = ">>>";
-                  break;
-              case /* Plus */11 :
-                  operator$1 = "+";
-                  break;
-              case /* Minus */12 :
-                  operator$1 = "-";
-                  break;
-              case /* Mult */13 :
-                  operator$1 = "*";
-                  break;
-              case /* Exp */14 :
-                  operator$1 = "**";
-                  break;
-              case /* Div */15 :
-                  operator$1 = "/";
-                  break;
-              case /* Mod */16 :
-                  operator$1 = "%";
-                  break;
-              case /* BitOr */17 :
-                  operator$1 = "|";
-                  break;
-              case /* Xor */18 :
-                  operator$1 = "^";
-                  break;
-              case /* BitAnd */19 :
-                  operator$1 = "&";
-                  break;
-              case /* In */20 :
-                  operator$1 = "in";
-                  break;
-              case /* Instanceof */21 :
-                  operator$1 = "instanceof";
-                  break;
-              
-            }
-            return node("BinaryExpression", loc, [
-                        [
-                          "operator",
-                          string(operator$1)
-                        ],
-                        [
-                          "left",
-                          expression(binary.left)
-                        ],
-                        [
-                          "right",
-                          expression(binary.right)
-                        ]
-                      ]);
-        case /* Assignment */7 :
-            var assignment = arr._0;
-            var match$3 = assignment.operator;
-            var operator$2;
-            switch (match$3) {
-              case /* Assign */0 :
-                  operator$2 = "=";
-                  break;
-              case /* PlusAssign */1 :
-                  operator$2 = "+=";
-                  break;
-              case /* MinusAssign */2 :
-                  operator$2 = "-=";
-                  break;
-              case /* MultAssign */3 :
-                  operator$2 = "*=";
-                  break;
-              case /* ExpAssign */4 :
-                  operator$2 = "**=";
-                  break;
-              case /* DivAssign */5 :
-                  operator$2 = "/=";
-                  break;
-              case /* ModAssign */6 :
-                  operator$2 = "%=";
-                  break;
-              case /* LShiftAssign */7 :
-                  operator$2 = "<<=";
-                  break;
-              case /* RShiftAssign */8 :
-                  operator$2 = ">>=";
-                  break;
-              case /* RShift3Assign */9 :
-                  operator$2 = ">>>=";
-                  break;
-              case /* BitOrAssign */10 :
-                  operator$2 = "|=";
-                  break;
-              case /* BitXorAssign */11 :
-                  operator$2 = "^=";
-                  break;
-              case /* BitAndAssign */12 :
-                  operator$2 = "&=";
-                  break;
-              
-            }
-            return node("AssignmentExpression", loc, [
-                        [
-                          "operator",
-                          string(operator$2)
-                        ],
-                        [
-                          "left",
-                          pattern(assignment.left)
-                        ],
-                        [
-                          "right",
-                          expression(assignment.right)
-                        ]
-                      ]);
-        case /* Update */8 :
-            var update = arr._0;
-            var match$4 = update.operator;
-            var operator$3 = match$4 ? "--" : "++";
-            return node("UpdateExpression", loc, [
-                        [
-                          "operator",
-                          string(operator$3)
-                        ],
-                        [
-                          "argument",
-                          expression(update.argument)
-                        ],
-                        [
-                          "prefix",
-                          bool(update.prefix)
-                        ]
-                      ]);
-        case /* Logical */9 :
-            var logical = arr._0;
-            var match$5 = logical.operator;
-            var operator$4 = match$5 ? "&&" : "||";
-            return node("LogicalExpression", loc, [
-                        [
-                          "operator",
-                          string(operator$4)
-                        ],
-                        [
-                          "left",
-                          expression(logical.left)
-                        ],
-                        [
-                          "right",
-                          expression(logical.right)
-                        ]
-                      ]);
-        case /* Conditional */10 :
-            var conditional = arr._0;
-            return node("ConditionalExpression", loc, [
-                        [
-                          "test",
-                          expression(conditional.test)
-                        ],
-                        [
-                          "consequent",
-                          expression(conditional.consequent)
-                        ],
-                        [
-                          "alternate",
-                          expression(conditional.alternate)
-                        ]
-                      ]);
-        case /* New */11 :
-            var _new = arr._0;
-            return node("NewExpression", loc, [
-                        [
-                          "callee",
-                          expression(_new.callee)
-                        ],
-                        [
-                          "arguments",
-                          array_of_list(expression_or_spread, _new.arguments)
-                        ]
-                      ]);
-        case /* Call */12 :
-            var call = arr._0;
-            return node("CallExpression", loc, [
-                        [
-                          "callee",
-                          expression(call.callee)
-                        ],
-                        [
-                          "arguments",
-                          array_of_list(expression_or_spread, call.arguments)
-                        ]
-                      ]);
-        case /* Member */13 :
-            var member = arr._0;
-            var id = member.property;
-            var property;
-            property = id.TAG === /* PropertyIdentifier */0 ? identifier(id._0) : expression(id._0);
-            return node("MemberExpression", loc, [
-                        [
-                          "object",
-                          expression(member._object)
-                        ],
-                        [
-                          "property",
-                          property
-                        ],
-                        [
-                          "computed",
-                          bool(member.computed)
-                        ]
-                      ]);
-        case /* Yield */14 :
-            var $$yield = arr._0;
-            return node("YieldExpression", loc, [
-                        [
-                          "argument",
-                          option(expression, $$yield.argument)
-                        ],
-                        [
-                          "delegate",
-                          bool($$yield.delegate)
-                        ]
-                      ]);
-        case /* Comprehension */15 :
-            var comp = arr._0;
-            return node("ComprehensionExpression", loc, [
-                        [
-                          "blocks",
-                          array_of_list(comprehension_block, comp.blocks)
-                        ],
-                        [
-                          "filter",
-                          option(expression, comp.filter)
-                        ]
-                      ]);
-        case /* Generator */16 :
-            var gen = arr._0;
-            return node("GeneratorExpression", loc, [
-                        [
-                          "blocks",
-                          array_of_list(comprehension_block, gen.blocks)
-                        ],
-                        [
-                          "filter",
-                          option(expression, gen.filter)
-                        ]
-                      ]);
-        case /* Let */17 :
-            var _let = arr._0;
-            return node("LetExpression", loc, [
-                        [
-                          "head",
-                          array_of_list(let_assignment, _let.head)
-                        ],
-                        [
-                          "body",
-                          expression(_let.body)
-                        ]
-                      ]);
-        case /* Identifier */18 :
-            return identifier(arr._0);
-        case /* Literal */19 :
-            return literal([
-                        loc,
-                        arr._0
-                      ]);
-        case /* TemplateLiteral */20 :
-            return template_literal([
-                        loc,
-                        arr._0
-                      ]);
-        case /* TaggedTemplate */21 :
-            var param$1 = [
-              loc,
-              arr._0
-            ];
-            var tagged = param$1[1];
-            return node("TaggedTemplateExpression", param$1[0], [
-                        [
-                          "tag",
-                          expression(tagged.tag)
-                        ],
-                        [
-                          "quasi",
-                          template_literal(tagged.quasi)
-                        ]
-                      ]);
-        case /* JSXElement */22 :
-            return jsx_element([
-                        loc,
-                        arr._0
-                      ]);
-        case /* Class */23 :
-            var param$2 = [
-              loc,
-              arr._0
-            ];
-            var c = param$2[1];
-            return node("ClassExpression", param$2[0], [
-                        [
-                          "id",
-                          option(identifier, c.id)
-                        ],
-                        [
-                          "body",
-                          class_body(c.body)
-                        ],
-                        [
-                          "superClass",
-                          option(expression, c.superClass)
-                        ],
-                        [
-                          "typeParameters",
-                          option(type_parameter_declaration, c.typeParameters)
-                        ],
-                        [
-                          "superTypeParameters",
-                          option(type_parameter_instantiation, c.superTypeParameters)
-                        ],
-                        [
-                          "implements",
-                          array_of_list(class_implements, c.implements)
-                        ],
-                        [
-                          "decorators",
-                          array_of_list(expression, c.classDecorators)
-                        ]
-                      ]);
-        case /* TypeCast */24 :
-            var typecast = arr._0;
-            return node("TypeCastExpression", loc, [
-                        [
-                          "expression",
-                          expression(typecast.expression)
-                        ],
-                        [
-                          "typeAnnotation",
-                          type_annotation(typecast.typeAnnotation)
-                        ]
-                      ]);
-        
-      }
-    };
-    var export_specifier = function (param) {
-      var specifier = param[1];
-      return node("ExportSpecifier", param[0], [
-                  [
-                    "id",
-                    identifier(specifier.id)
-                  ],
-                  [
-                    "name",
-                    option(identifier, specifier.name)
-                  ]
-                ]);
-    };
-    var jsx_identifier = function (param) {
-      return node("JSXIdentifier", param[0], [[
-                    "name",
-                    string(param[1].name)
-                  ]]);
-    };
-    var type_annotation = function (param) {
-      return node("TypeAnnotation", param[0], [[
-                    "typeAnnotation",
-                    _type(param[1])
-                  ]]);
-    };
-    var jsx_attribute_value = function (param) {
-      if (param.TAG === /* Literal */0) {
-        return literal([
-                    param._0,
-                    param._1
-                  ]);
-      } else {
-        return jsx_expression_container([
-                    param._0,
-                    param._1
-                  ]);
-      }
-    };
-    var jsx_namespaced_name = function (param) {
-      var namespaced_name = param[1];
-      return node("JSXNamespacedName", param[0], [
-                  [
-                    "namespace",
-                    jsx_identifier(namespaced_name.namespace)
-                  ],
-                  [
-                    "name",
-                    jsx_identifier(namespaced_name.name)
-                  ]
-                ]);
-    };
-    var function_type = function (param) {
-      var fn = param[1];
-      return node("FunctionTypeAnnotation", param[0], [
-                  [
-                    "params",
-                    array_of_list(function_type_param, fn.params)
-                  ],
-                  [
-                    "returnType",
-                    _type(fn.returnType)
-                  ],
-                  [
-                    "rest",
-                    option(function_type_param, fn.rest)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, fn.typeParameters)
-                  ]
-                ]);
-    };
     var object_type = function (param) {
       var o = param[1];
       return node("ObjectTypeAnnotation", param[0], [
@@ -16349,29 +17267,6 @@ function parse(content, options) {
                   [
                     "callProperties",
                     array_of_list(object_type_call_property, o.callProperties)
-                  ]
-                ]);
-    };
-    var template_element = function (param) {
-      var element = param[1];
-      var value = obj([
-            [
-              "raw",
-              string(element.value.raw)
-            ],
-            [
-              "cooked",
-              string(element.value.cooked)
-            ]
-          ]);
-      return node("TemplateElement", param[0], [
-                  [
-                    "value",
-                    value
-                  ],
-                  [
-                    "tail",
-                    bool(element.tail)
                   ]
                 ]);
     };
@@ -16391,330 +17286,20 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    var template_literal = function (param) {
-      var value = param[1];
-      return node("TemplateLiteral", param[0], [
-                  [
-                    "quasis",
-                    array_of_list(template_element, value.quasis)
-                  ],
-                  [
-                    "expressions",
-                    array_of_list(expression, value.expressions)
-                  ]
-                ]);
-    };
-    var class_body = function (param) {
-      return node("ClassBody", param[0], [[
-                    "body",
-                    array_of_list(class_element, param[1].body)
-                  ]]);
-    };
-    var class_implements = function (param) {
-      var $$implements = param[1];
-      return node("ClassImplements", param[0], [
-                  [
-                    "id",
-                    identifier($$implements.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_instantiation, $$implements.typeParameters)
-                  ]
-                ]);
-    };
-    var pattern = function (param) {
-      var obj = param[1];
-      var loc = param[0];
-      switch (obj.TAG | 0) {
-        case /* Object */0 :
-            var obj$1 = obj._0;
-            return node("ObjectPattern", loc, [
-                        [
-                          "properties",
-                          array_of_list(object_pattern_property, obj$1.properties)
-                        ],
-                        [
-                          "typeAnnotation",
-                          option(type_annotation, obj$1.typeAnnotation)
-                        ]
-                      ]);
-        case /* Array */1 :
-            var arr = obj._0;
-            return node("ArrayPattern", loc, [
-                        [
-                          "elements",
-                          array_of_list((function (param) {
-                                  return option(array_pattern_element, param);
-                                }), arr.elements)
-                        ],
-                        [
-                          "typeAnnotation",
-                          option(type_annotation, arr.typeAnnotation)
-                        ]
-                      ]);
-        case /* Assignment */2 :
-            var match = obj._0;
-            return node("AssignmentPattern", loc, [
-                        [
-                          "left",
-                          pattern(match.left)
-                        ],
-                        [
-                          "right",
-                          expression(match.right)
-                        ]
-                      ]);
-        case /* Identifier */3 :
-            return identifier(obj._0);
-        case /* Expression */4 :
-            return expression(obj._0);
-        
-      }
-    };
-    var $$catch = function (param) {
+    var comment = function (param) {
       var c = param[1];
-      return node("CatchClause", param[0], [
-                  [
-                    "param",
-                    pattern(c.param)
-                  ],
-                  [
-                    "guard",
-                    option(expression, c.guard)
-                  ],
-                  [
-                    "body",
-                    block(c.body)
-                  ]
-                ]);
-    };
-    var interface_declaration = function (param) {
-      var i = param[1];
-      return node("InterfaceDeclaration", param[0], [
-                  [
-                    "id",
-                    identifier(i.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, i.typeParameters)
-                  ],
-                  [
-                    "body",
-                    object_type(i.body)
-                  ],
-                  [
-                    "extends",
-                    array_of_list(interface_extends, i.extends)
-                  ]
-                ]);
-    };
-    var type_alias = function (param) {
-      var alias = param[1];
-      return node("TypeAlias", param[0], [
-                  [
-                    "id",
-                    identifier(alias.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, alias.typeParameters)
-                  ],
-                  [
-                    "right",
-                    _type(alias.right)
-                  ]
-                ]);
-    };
-    var variable_declaration = function (param) {
-      var $$var = param[1];
-      var match = $$var.kind;
-      var kind;
-      switch (match) {
-        case /* Var */0 :
-            kind = "var";
-            break;
-        case /* Let */1 :
-            kind = "let";
-            break;
-        case /* Const */2 :
-            kind = "const";
-            break;
-        
-      }
-      return node("VariableDeclaration", param[0], [
-                  [
-                    "declarations",
-                    array_of_list(variable_declarator, $$var.declarations)
-                  ],
-                  [
-                    "kind",
-                    string(kind)
-                  ]
-                ]);
-    };
-    var declare_class = function (param) {
-      var d = param[1];
-      return node("DeclareClass", param[0], [
-                  [
-                    "id",
-                    identifier(d.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, d.typeParameters)
-                  ],
-                  [
-                    "body",
-                    object_type(d.body)
-                  ],
-                  [
-                    "extends",
-                    array_of_list(interface_extends, d.extends)
-                  ]
-                ]);
-    };
-    var $$case = function (param) {
-      var c = param[1];
-      return node("SwitchCase", param[0], [
-                  [
-                    "test",
-                    option(expression, c.test)
-                  ],
-                  [
-                    "consequent",
-                    array_of_list(statement, c.consequent)
-                  ]
-                ]);
-    };
-    var declare_function = function (param) {
-      return node("DeclareFunction", param[0], [[
-                    "id",
-                    identifier(param[1].id)
+      var match;
+      match = c.TAG === /* Block */0 ? [
+          "Block",
+          c._0
+        ] : [
+          "Line",
+          c._0
+        ];
+      return node(match[0], param[0], [[
+                    "value",
+                    string(match[1])
                   ]]);
-    };
-    var declare_variable = function (param) {
-      return node("DeclareVariable", param[0], [[
-                    "id",
-                    identifier(param[1].id)
-                  ]]);
-    };
-    var let_assignment = function (assignment) {
-      return obj([
-                  [
-                    "id",
-                    pattern(assignment.id)
-                  ],
-                  [
-                    "init",
-                    option(expression, assignment.init)
-                  ]
-                ]);
-    };
-    var block = function (param) {
-      return node("BlockStatement", param[0], [[
-                    "body",
-                    array_of_list(statement, param[1].body)
-                  ]]);
-    };
-    var export_specifiers = function (param) {
-      if (param !== undefined) {
-        if (param.TAG === /* ExportSpecifiers */0) {
-          return array_of_list(export_specifier, param._0);
-        } else {
-          return array([node("ExportBatchSpecifier", param._0, [[
-                              "name",
-                              option(identifier, param._1)
-                            ]])]);
-        }
-      } else {
-        return array([]);
-      }
-    };
-    var jsx_name = function (id) {
-      switch (id.TAG | 0) {
-        case /* Identifier */0 :
-            return jsx_identifier(id._0);
-        case /* NamespacedName */1 :
-            return jsx_namespaced_name(id._0);
-        case /* MemberExpression */2 :
-            return jsx_member_expression(id._0);
-        
-      }
-    };
-    var jsx_closing = function (param) {
-      return node("JSXClosingElement", param[0], [[
-                    "name",
-                    jsx_name(param[1].name)
-                  ]]);
-    };
-    var jsx_opening = function (param) {
-      var opening = param[1];
-      return node("JSXOpeningElement", param[0], [
-                  [
-                    "name",
-                    jsx_name(opening.name)
-                  ],
-                  [
-                    "attributes",
-                    array_of_list(jsx_opening_attribute, opening.attributes)
-                  ],
-                  [
-                    "selfClosing",
-                    bool(opening.selfClosing)
-                  ]
-                ]);
-    };
-    var jsx_child = function (param) {
-      var element = param[1];
-      var loc = param[0];
-      switch (element.TAG | 0) {
-        case /* Element */0 :
-            return jsx_element([
-                        loc,
-                        element._0
-                      ]);
-        case /* ExpressionContainer */1 :
-            return jsx_expression_container([
-                        loc,
-                        element._0
-                      ]);
-        case /* Text */2 :
-            var param$1 = [
-              loc,
-              element._0
-            ];
-            var text = param$1[1];
-            return node("JSXText", param$1[0], [
-                        [
-                          "value",
-                          string(text.value)
-                        ],
-                        [
-                          "raw",
-                          string(text.raw)
-                        ]
-                      ]);
-        
-      }
-    };
-    var jsx_element = function (param) {
-      var element = param[1];
-      return node("JSXElement", param[0], [
-                  [
-                    "openingElement",
-                    jsx_opening(element.openingElement)
-                  ],
-                  [
-                    "closingElement",
-                    option(jsx_closing, element.closingElement)
-                  ],
-                  [
-                    "children",
-                    array_of_list(jsx_child, element.children)
-                  ]
-                ]);
     };
     var object_pattern_property = function (param) {
       if (param.TAG === /* Property */0) {
@@ -16778,125 +17363,6 @@ function parse(content, options) {
                     pattern(match[1].argument)
                   ]]);
     };
-    var object_type_indexer = function (param) {
-      var indexer = param[1];
-      return node("ObjectTypeIndexer", param[0], [
-                  [
-                    "id",
-                    identifier(indexer.id)
-                  ],
-                  [
-                    "key",
-                    _type(indexer.key)
-                  ],
-                  [
-                    "value",
-                    _type(indexer.value)
-                  ],
-                  [
-                    "static",
-                    bool(indexer.static)
-                  ]
-                ]);
-    };
-    var object_type_call_property = function (param) {
-      var callProperty = param[1];
-      return node("ObjectTypeCallProperty", param[0], [
-                  [
-                    "value",
-                    function_type(callProperty.value)
-                  ],
-                  [
-                    "static",
-                    bool(callProperty.static)
-                  ]
-                ]);
-    };
-    var object_type_property = function (param) {
-      var prop = param[1];
-      var lit = prop.key;
-      var key;
-      switch (lit.TAG | 0) {
-        case /* Literal */0 :
-            key = literal(lit._0);
-            break;
-        case /* Identifier */1 :
-            key = identifier(lit._0);
-            break;
-        case /* Computed */2 :
-            key = Stdlib.failwith("There should not be computed object type property keys");
-            break;
-        
-      }
-      return node("ObjectTypeProperty", param[0], [
-                  [
-                    "key",
-                    key
-                  ],
-                  [
-                    "value",
-                    _type(prop.value)
-                  ],
-                  [
-                    "optional",
-                    bool(prop.optional)
-                  ],
-                  [
-                    "static",
-                    bool(prop.static)
-                  ]
-                ]);
-    };
-    var function_expression = function (param) {
-      var _function = param[1];
-      var b = _function.body;
-      var body;
-      body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
-      return node("FunctionExpression", param[0], [
-                  [
-                    "id",
-                    option(identifier, _function.id)
-                  ],
-                  [
-                    "params",
-                    array_of_list(pattern, _function.params)
-                  ],
-                  [
-                    "defaults",
-                    array_of_list((function (param) {
-                            return option(expression, param);
-                          }), _function.defaults)
-                  ],
-                  [
-                    "rest",
-                    option(identifier, _function.rest)
-                  ],
-                  [
-                    "body",
-                    body
-                  ],
-                  [
-                    "async",
-                    bool(_function.async)
-                  ],
-                  [
-                    "generator",
-                    bool(_function.generator)
-                  ],
-                  [
-                    "expression",
-                    bool(_function.expression)
-                  ],
-                  [
-                    "returnType",
-                    option(type_annotation, _function.returnType)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, _function.typeParameters)
-                  ]
-                ]);
-    };
     var jsx_opening_attribute = function (attribute) {
       if (attribute.TAG === /* Attribute */0) {
         var param = attribute._0;
@@ -16922,239 +17388,27 @@ function parse(content, options) {
                     ]]);
       }
     };
-    var class_element = function (m) {
-      if (m.TAG === /* Method */0) {
-        var param = m._0;
-        var method_ = param[1];
-        var key = method_.key;
-        var match;
-        switch (key.TAG | 0) {
-          case /* Literal */0 :
-              match = [
-                literal(key._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match = [
-                identifier(key._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match = [
-                expression(key._0),
-                true
-              ];
-              break;
-          
-        }
-        var kind;
-        switch (method_.kind) {
-          case /* Constructor */0 :
-              kind = "constructor";
-              break;
-          case /* Method */1 :
-              kind = "method";
-              break;
-          case /* Get */2 :
-              kind = "get";
-              break;
-          case /* Set */3 :
-              kind = "set";
-              break;
-          
-        }
-        return node("MethodDefinition", param[0], [
-                    [
-                      "key",
-                      match[0]
-                    ],
-                    [
-                      "value",
-                      function_expression(method_.value)
-                    ],
-                    [
-                      "kind",
-                      string(kind)
-                    ],
-                    [
-                      "static",
-                      bool(method_.static)
-                    ],
-                    [
-                      "computed",
-                      bool(match[1])
-                    ],
-                    [
-                      "decorators",
-                      array_of_list(expression, method_.decorators)
-                    ]
-                  ]);
-      } else {
-        var param$1 = m._0;
-        var prop = param$1[1];
-        var lit = prop.key;
-        var match$1;
-        switch (lit.TAG | 0) {
-          case /* Literal */0 :
-              match$1 = [
-                literal(lit._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match$1 = [
-                identifier(lit._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match$1 = [
-                expression(lit._0),
-                true
-              ];
-              break;
-          
-        }
-        return node("ClassProperty", param$1[0], [
-                    [
-                      "key",
-                      match$1[0]
-                    ],
-                    [
-                      "value",
-                      option(expression, prop.value)
-                    ],
-                    [
-                      "typeAnnotation",
-                      option(type_annotation, prop.typeAnnotation)
-                    ],
-                    [
-                      "computed",
-                      bool(match$1[1])
-                    ],
-                    [
-                      "static",
-                      bool(prop.static)
-                    ]
-                  ]);
+    var jsx_name = function (id) {
+      switch (id.TAG | 0) {
+        case /* Identifier */0 :
+            return jsx_identifier(id._0);
+        case /* NamespacedName */1 :
+            return jsx_namespaced_name(id._0);
+        case /* MemberExpression */2 :
+            return jsx_member_expression(id._0);
+        
       }
     };
-    var jsx_member_expression = function (param) {
-      var member_expression = param[1];
-      var id = member_expression._object;
-      var _object;
-      _object = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
-      return node("JSXMemberExpression", param[0], [
+    var export_specifier = function (param) {
+      var specifier = param[1];
+      return node("ExportSpecifier", param[0], [
                   [
-                    "object",
-                    _object
+                    "id",
+                    identifier(specifier.id)
                   ],
                   [
-                    "property",
-                    jsx_identifier(member_expression.property)
-                  ]
-                ]);
-    };
-    var expression_or_spread = function (expr) {
-      if (expr.TAG === /* Expression */0) {
-        return expression(expr._0);
-      }
-      var match = expr._0;
-      return node("SpreadElement", match[0], [[
-                    "argument",
-                    expression(match[1].argument)
-                  ]]);
-    };
-    var object_property = function (param) {
-      if (param.TAG === /* Property */0) {
-        var match = param._0;
-        var prop = match[1];
-        var lit = prop.key;
-        var match$1;
-        switch (lit.TAG | 0) {
-          case /* Literal */0 :
-              match$1 = [
-                literal(lit._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match$1 = [
-                identifier(lit._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match$1 = [
-                expression(lit._0),
-                true
-              ];
-              break;
-          
-        }
-        var match$2 = prop.kind;
-        var kind;
-        switch (match$2) {
-          case /* Init */0 :
-              kind = "init";
-              break;
-          case /* Get */1 :
-              kind = "get";
-              break;
-          case /* Set */2 :
-              kind = "set";
-              break;
-          
-        }
-        return node("Property", match[0], [
-                    [
-                      "key",
-                      match$1[0]
-                    ],
-                    [
-                      "value",
-                      expression(prop.value)
-                    ],
-                    [
-                      "kind",
-                      string(kind)
-                    ],
-                    [
-                      "method",
-                      bool(prop._method)
-                    ],
-                    [
-                      "shorthand",
-                      bool(prop.shorthand)
-                    ],
-                    [
-                      "computed",
-                      bool(match$1[1])
-                    ]
-                  ]);
-      }
-      var match$3 = param._0;
-      return node("SpreadProperty", match$3[0], [[
-                    "argument",
-                    expression(match$3[1].argument)
-                  ]]);
-    };
-    var comprehension_block = function (param) {
-      var b = param[1];
-      return node("ComprehensionBlock", param[0], [
-                  [
-                    "left",
-                    pattern(b.left)
-                  ],
-                  [
-                    "right",
-                    expression(b.right)
-                  ],
-                  [
-                    "each",
-                    bool(b.each)
+                    "name",
+                    option(identifier, specifier.name)
                   ]
                 ]);
     };
@@ -17171,37 +17425,147 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    var function_type_param = function (param) {
-      var param$1 = param[1];
-      return node("FunctionTypeParam", param[0], [
+    var type_alias = function (param) {
+      var alias = param[1];
+      return node("TypeAlias", param[0], [
                   [
-                    "name",
-                    identifier(param$1.name)
+                    "id",
+                    identifier(alias.id)
                   ],
                   [
-                    "typeAnnotation",
-                    _type(param$1.typeAnnotation)
+                    "typeParameters",
+                    option(type_parameter_declaration, alias.typeParameters)
                   ],
                   [
-                    "optional",
-                    bool(param$1.optional)
+                    "right",
+                    _type(alias.right)
                   ]
                 ]);
     };
-    var comment = function (param) {
-      var c = param[1];
-      var match;
-      match = c.TAG === /* Block */0 ? [
-          "Block",
-          c._0
-        ] : [
-          "Line",
-          c._0
-        ];
-      return node(match[0], param[0], [[
-                    "value",
-                    string(match[1])
+    var declare_class = function (param) {
+      var d = param[1];
+      return node("DeclareClass", param[0], [
+                  [
+                    "id",
+                    identifier(d.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, d.typeParameters)
+                  ],
+                  [
+                    "body",
+                    object_type(d.body)
+                  ],
+                  [
+                    "extends",
+                    array_of_list(interface_extends, d.extends)
+                  ]
+                ]);
+    };
+    var variable_declaration = function (param) {
+      var $$var = param[1];
+      var match = $$var.kind;
+      var kind;
+      switch (match) {
+        case /* Var */0 :
+            kind = "var";
+            break;
+        case /* Let */1 :
+            kind = "let";
+            break;
+        case /* Const */2 :
+            kind = "const";
+            break;
+        
+      }
+      return node("VariableDeclaration", param[0], [
+                  [
+                    "declarations",
+                    array_of_list(variable_declarator, $$var.declarations)
+                  ],
+                  [
+                    "kind",
+                    string(kind)
+                  ]
+                ]);
+    };
+    var declare_variable = function (param) {
+      return node("DeclareVariable", param[0], [[
+                    "id",
+                    identifier(param[1].id)
                   ]]);
+    };
+    var $$catch = function (param) {
+      var c = param[1];
+      return node("CatchClause", param[0], [
+                  [
+                    "param",
+                    pattern(c.param)
+                  ],
+                  [
+                    "guard",
+                    option(expression, c.guard)
+                  ],
+                  [
+                    "body",
+                    block(c.body)
+                  ]
+                ]);
+    };
+    var interface_declaration = function (param) {
+      var i = param[1];
+      return node("InterfaceDeclaration", param[0], [
+                  [
+                    "id",
+                    identifier(i.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, i.typeParameters)
+                  ],
+                  [
+                    "body",
+                    object_type(i.body)
+                  ],
+                  [
+                    "extends",
+                    array_of_list(interface_extends, i.extends)
+                  ]
+                ]);
+    };
+    var declare_function = function (param) {
+      return node("DeclareFunction", param[0], [[
+                    "id",
+                    identifier(param[1].id)
+                  ]]);
+    };
+    var $$case = function (param) {
+      var c = param[1];
+      return node("SwitchCase", param[0], [
+                  [
+                    "test",
+                    option(expression, c.test)
+                  ],
+                  [
+                    "consequent",
+                    array_of_list(statement, c.consequent)
+                  ]
+                ]);
+    };
+    var export_specifiers = function (param) {
+      if (param !== undefined) {
+        if (param.TAG === /* ExportSpecifiers */0) {
+          return array_of_list(export_specifier, param._0);
+        } else {
+          return array([node("ExportBatchSpecifier", param._0, [[
+                              "name",
+                              option(identifier, param._1)
+                            ]])]);
+        }
+      } else {
+        return array([]);
+      }
     };
     var type_param = function (param) {
       var tp = param[1];
@@ -17230,6 +17594,226 @@ function parse(content, options) {
                     option(_type, tp.default)
                   ]
                 ]);
+    };
+    var function_type = function (param) {
+      var fn = param[1];
+      return node("FunctionTypeAnnotation", param[0], [
+                  [
+                    "params",
+                    array_of_list(function_type_param, fn.params)
+                  ],
+                  [
+                    "returnType",
+                    _type(fn.returnType)
+                  ],
+                  [
+                    "rest",
+                    option(function_type_param, fn.rest)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, fn.typeParameters)
+                  ]
+                ]);
+    };
+    var jsx_identifier = function (param) {
+      return node("JSXIdentifier", param[0], [[
+                    "name",
+                    string(param[1].name)
+                  ]]);
+    };
+    var jsx_member_expression = function (param) {
+      var member_expression = param[1];
+      var id = member_expression._object;
+      var _object;
+      _object = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
+      return node("JSXMemberExpression", param[0], [
+                  [
+                    "object",
+                    _object
+                  ],
+                  [
+                    "property",
+                    jsx_identifier(member_expression.property)
+                  ]
+                ]);
+    };
+    var jsx_namespaced_name = function (param) {
+      var namespaced_name = param[1];
+      return node("JSXNamespacedName", param[0], [
+                  [
+                    "namespace",
+                    jsx_identifier(namespaced_name.namespace)
+                  ],
+                  [
+                    "name",
+                    jsx_identifier(namespaced_name.name)
+                  ]
+                ]);
+    };
+    var template_element = function (param) {
+      var element = param[1];
+      var value = obj([
+            [
+              "raw",
+              string(element.value.raw)
+            ],
+            [
+              "cooked",
+              string(element.value.cooked)
+            ]
+          ]);
+      return node("TemplateElement", param[0], [
+                  [
+                    "value",
+                    value
+                  ],
+                  [
+                    "tail",
+                    bool(element.tail)
+                  ]
+                ]);
+    };
+    var jsx_closing = function (param) {
+      return node("JSXClosingElement", param[0], [[
+                    "name",
+                    jsx_name(param[1].name)
+                  ]]);
+    };
+    var jsx_child = function (param) {
+      var element = param[1];
+      var loc = param[0];
+      switch (element.TAG | 0) {
+        case /* Element */0 :
+            return jsx_element([
+                        loc,
+                        element._0
+                      ]);
+        case /* ExpressionContainer */1 :
+            return jsx_expression_container([
+                        loc,
+                        element._0
+                      ]);
+        case /* Text */2 :
+            var param$1 = [
+              loc,
+              element._0
+            ];
+            var text = param$1[1];
+            return node("JSXText", param$1[0], [
+                        [
+                          "value",
+                          string(text.value)
+                        ],
+                        [
+                          "raw",
+                          string(text.raw)
+                        ]
+                      ]);
+        
+      }
+    };
+    var jsx_opening = function (param) {
+      var opening = param[1];
+      return node("JSXOpeningElement", param[0], [
+                  [
+                    "name",
+                    jsx_name(opening.name)
+                  ],
+                  [
+                    "attributes",
+                    array_of_list(jsx_opening_attribute, opening.attributes)
+                  ],
+                  [
+                    "selfClosing",
+                    bool(opening.selfClosing)
+                  ]
+                ]);
+    };
+    var object_type_call_property = function (param) {
+      var callProperty = param[1];
+      return node("ObjectTypeCallProperty", param[0], [
+                  [
+                    "value",
+                    function_type(callProperty.value)
+                  ],
+                  [
+                    "static",
+                    bool(callProperty.static)
+                  ]
+                ]);
+    };
+    var object_type_indexer = function (param) {
+      var indexer = param[1];
+      return node("ObjectTypeIndexer", param[0], [
+                  [
+                    "id",
+                    identifier(indexer.id)
+                  ],
+                  [
+                    "key",
+                    _type(indexer.key)
+                  ],
+                  [
+                    "value",
+                    _type(indexer.value)
+                  ],
+                  [
+                    "static",
+                    bool(indexer.static)
+                  ]
+                ]);
+    };
+    var object_type_property = function (param) {
+      var prop = param[1];
+      var lit = prop.key;
+      var key;
+      switch (lit.TAG | 0) {
+        case /* Literal */0 :
+            key = literal(lit._0);
+            break;
+        case /* Identifier */1 :
+            key = identifier(lit._0);
+            break;
+        case /* Computed */2 :
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "There should not be computed object type property keys",
+                  Error: new Error()
+                };
+        
+      }
+      return node("ObjectTypeProperty", param[0], [
+                  [
+                    "key",
+                    key
+                  ],
+                  [
+                    "value",
+                    _type(prop.value)
+                  ],
+                  [
+                    "optional",
+                    bool(prop.optional)
+                  ],
+                  [
+                    "static",
+                    bool(prop.static)
+                  ]
+                ]);
+    };
+    var jsx_attribute_value = function (param) {
+      if (param.TAG === /* Literal */0) {
+        return literal([
+                    param._0,
+                    param._1
+                  ]);
+      } else {
+        return jsx_expression_container([
+                    param._0,
+                    param._1
+                  ]);
+      }
     };
     var program$2 = function (param) {
       return node("Program", param[0], [

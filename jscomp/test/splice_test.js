@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/lib/js/array.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 var Caml_splice_call = require("melange/lib/js/caml_splice_call.js");
 
 var suites = {
@@ -41,7 +41,7 @@ function dynamic(arr) {
         1,
         arr
       ]);
-  eq("File \"splice_test.ml\", line 34, characters 5-12", a, $$Array.concat({
+  eq("File \"splice_test.ml\", line 34, characters 5-12", a, Caml_array.concat({
             hd: [1],
             tl: {
               hd: arr,
@@ -79,7 +79,7 @@ function dynamicNew(arr) {
         2,
         arr
       ]);
-  eq("File \"splice_test.ml\", line 53, characters 5-12", a, $$Array.concat({
+  eq("File \"splice_test.ml\", line 53, characters 5-12", a, Caml_array.concat({
             hd: [
               1,
               2
@@ -120,7 +120,7 @@ function dynamic$1(arr) {
         1,
         arr
       ]);
-  eq("File \"splice_test.ml\", line 75, characters 7-14", a, $$Array.concat({
+  eq("File \"splice_test.ml\", line 75, characters 7-14", a, Caml_array.concat({
             hd: [1],
             tl: {
               hd: arr,

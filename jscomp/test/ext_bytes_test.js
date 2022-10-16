@@ -5,7 +5,6 @@ var Caml = require("melange/lib/js/caml.js");
 var Char = require("melange/lib/js/char.js");
 var Bytes = require("melange/lib/js/bytes.js");
 var Curry = require("melange/lib/js/curry.js");
-var $$String = require("melange/lib/js/string.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
@@ -167,7 +166,9 @@ Bytes.blit(a$1, 10, a$1, 5, 10);
 
 eq("File \"ext_bytes_test.ml\", line 102, characters 7-14", a$1, Bytes.of_string("\0\x01\x02\x03\x04\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
 
-var a$2 = $$String.init(100, Char.chr);
+var f = Char.chr;
+
+var a$2 = Caml_bytes.bytes_to_string(Bytes.init(100, f));
 
 var b = Bytes.init(100, (function (i) {
         return /* '\000' */0;
@@ -187,7 +188,7 @@ var s2 = Bytes.of_string(s1);
 
 eq("File \"ext_bytes_test.ml\", line 115, characters 7-14", s, s2);
 
-function f(a, b) {
+function f$1(a, b) {
   return [
           Caml_bytes.caml_bytes_greaterthan(a, b),
           Caml_bytes.caml_bytes_greaterequal(a, b),
@@ -214,6 +215,6 @@ exports.test_id = test_id;
 exports.eq = eq;
 exports.escaped = escaped;
 exports.starts_with = starts_with;
-exports.f = f;
+exports.f = f$1;
 exports.f_0 = f_0;
 /* a Not a pure module */

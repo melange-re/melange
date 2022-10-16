@@ -1,14 +1,16 @@
 'use strict';
 
-var $$Map = require("melange/lib/js/map.js");
 var Curry = require("melange/lib/js/curry.js");
-var $$String = require("melange/lib/js/string.js");
 
-var M = $$Map.Make({
-      compare: $$String.compare
-    });
+function is_empty(param) {
+  if (param) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
-var v = Curry._1(M.is_empty, M.empty);
+var v = Curry._1(is_empty, /* Empty */0);
 
 exports.v = v;
 /* M Not a pure module */

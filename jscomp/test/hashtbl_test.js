@@ -90,7 +90,7 @@ var suites_1 = {
           Hashtbl.add(tbl, 3, 3);
           return {
                   TAG: /* Eq */0,
-                  _0: Hashtbl.length(tbl),
+                  _0: tbl.size,
                   _1: 1
                 };
         })

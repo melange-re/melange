@@ -1,6 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Lexing = require("melange/lib/js/lexing.js");
 var Parser_api = require("./parser_api.js");
 
 var suites = {
@@ -15,7 +16,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-var match = Parser_api.implementation(Parser_api.from_string("let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
+var match = Parser_api.implementation(Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
 
 if (match) {
   var match$1 = match.hd.pstr_desc;

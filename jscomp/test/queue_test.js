@@ -29,7 +29,7 @@ function Test(Queue) {
 }
 
 function to_array(q) {
-  var v = Caml_array.make(Queue.length(q), 0);
+  var v = Caml_array.make(q.length, 0);
   Queue.fold((function (i, e) {
           Caml_array.set(v, i, e);
           return i + 1 | 0;
@@ -38,7 +38,11 @@ function to_array(q) {
 }
 
 function queue_1(x) {
-  var q = Queue.create(undefined);
+  var q = {
+    length: 0,
+    first: /* Nil */0,
+    last: /* Nil */0
+  };
   $$Array.iter((function (x) {
           Queue.add(x, q);
         }), x);

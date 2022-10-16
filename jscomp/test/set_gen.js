@@ -309,15 +309,19 @@ function internal_bal(l, v, r) {
 }
 
 function remove_min_elt(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Set.remove_min_elt");
+  if (param) {
+    var l = param._0;
+    if (l) {
+      return internal_bal(remove_min_elt(l), param._1, param._2);
+    } else {
+      return param._2;
+    }
   }
-  var l = param._0;
-  if (l) {
-    return internal_bal(remove_min_elt(l), param._1, param._2);
-  } else {
-    return param._2;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function singleton(x) {
