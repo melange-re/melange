@@ -12,7 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        system: [windows, ubuntu, macos]
+        # https://github.com/melange-re/melange/issues/165
+        system: [ ubuntu, macos] # windows,
 
     runs-on: ${{ matrix.system }}-latest
 
