@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+val cwd : string
 val is_dep_inside_workspace : root_dir:string -> package_dir:string -> bool
 val to_workspace_proj_dir : package_name:string -> string
 

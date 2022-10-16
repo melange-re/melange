@@ -147,24 +147,6 @@ let resolve_bsb_magic_file ~cwd ~desc p : result =
 
 (** converting a file from Linux path format to Windows *)
 
-(**
-   {[
-     mkp "a/b/c/d";;
-     mkp "/a/b/c/d"
-   ]}
-*)
-let rec mkp dir =
-  if not (Sys.file_exists dir) then
-    let parent_dir = Filename.dirname dir in
-    if parent_dir = Filename.current_dir_name then Unix.mkdir dir 0o777
-      (* leaf node *)
-    else (
-      mkp parent_dir;
-      Unix.mkdir dir 0o777)
-  else if not @@ Sys.is_directory dir then
-    failwith (dir ^ " exists but it is not a directory, plz remove it first")
-  else ()
-
 let get_list_string_acc (s : Ext_json_types.t array) acc =
   Ext_array.to_list_map_acc s acc (fun x ->
       match x with Str x -> Some x.str | _ -> None)

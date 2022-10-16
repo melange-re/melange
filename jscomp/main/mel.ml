@@ -38,7 +38,7 @@ let output_dune_project_if_does_not_exist proj_dir =
 
 let output_dune_file buf =
   (* <root>/dune.bsb generation *)
-  let proj_dir = Bsb_global_paths.cwd in
+  let proj_dir = Mel_workspace.cwd in
   let dune_bsb = proj_dir // Literals.dune_mel in
   Bsb_ninja_targets.revise_dune dune_bsb buf;
 
@@ -57,7 +57,7 @@ let dune_command ?on_exit dune_args =
   Bsb_unix.dune_command ?on_exit args
 
 let build_whole_project () =
-  let root_dir = Bsb_global_paths.cwd in
+  let root_dir = Mel_workspace.cwd in
   let buf = Buffer.create 0x1000 in
   let config, source_meta = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
   if config.generate_merlin then
@@ -131,8 +131,7 @@ module Actions = struct
 
   let clean opts dune_args =
     let _p : Luv.Process.t =
-      wrap_bsb ~opts ~f:(fun () ->
-          Bsb_clean.clean ~dune_args Bsb_global_paths.cwd)
+      wrap_bsb ~opts ~f:(fun () -> Bsb_clean.clean ~dune_args Mel_workspace.cwd)
     in
     ignore (Luv.Loop.run () : bool)
 

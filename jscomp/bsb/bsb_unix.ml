@@ -22,10 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** it assume you have permissions, so always catch it to fail
-    gracefully
-*)
-
+(* it assume you have permissions, so always catch it to fail
+    gracefully *)
 let rec remove_dir_recursive dir =
   match Sys.is_directory dir with
   | true ->
