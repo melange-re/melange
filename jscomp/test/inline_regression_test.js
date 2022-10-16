@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var $$String = require("../../lib/js/string.js");
-var Filename = require("../../lib/js/filename.js");
-var Caml_string = require("../../lib/js/caml_string.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$String = require("melange/lib/js/string.js");
+var Filename = require("melange/lib/js/filename.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
 
 function generic_basename(is_dir_sep, current_dir_name, name) {
   if (name === "") {

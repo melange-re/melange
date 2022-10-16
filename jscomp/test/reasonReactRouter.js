@@ -1,6 +1,6 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 var React = require("react");
 
 function safeMakeEvent(eventName) {

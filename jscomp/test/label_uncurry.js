@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_format = require("../../lib/js/caml_format.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
 
 function f(x) {
   return x;

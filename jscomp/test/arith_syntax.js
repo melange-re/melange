@@ -1,6 +1,6 @@
 'use strict';
 
-var Stdlib = require("../../lib/js/stdlib.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 function str(e) {
   switch (e.TAG | 0) {

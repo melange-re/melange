@@ -6,12 +6,15 @@
     "@opam/dune": ">= 3.0",
     "@opam/base64": "3.5.0",
     "@opam/cmdliner": ">= 1.1.0",
+    "@opam/ocamlfind": "1.9.5",
     "@opam/luv": "*",
     "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam",
     "@opam/reason": ">= 3.8.0"
   },
   "resolutions": {
     "@opam/reason": "reasonml/reason:reason.opam#a93c4c3fbf36d32360a64f9b7a3f64b0ef35b903",
+    "@opam/dune": "ocaml/dune:dune.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
+    "@opam/xdg": "ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
     "ocaml": "4.14.0"
   },
   "devDependencies": {
@@ -26,8 +29,10 @@
   "esy": {
     "build": "dune build -p #{self.name} --disable-promotion",
     "install": [
-      ["esy-installer", "$cur__target_dir/default/melange.install"],
-      ["$cur__root/fix-install.sh"]
+      [
+        "esy-installer",
+        "$cur__target_dir/default/melange.install"
+      ]
     ],
     "buildEnv": {
       "CAML_LD_LIBRARY_PATH": "#{self.target_dir / 'default' / 'jscomp' / 'stubs' : $CAML_LD_LIBRARY_PATH }"
@@ -44,7 +49,12 @@
     "type": "git",
     "url": "git+https://github.com/melange-re/melange.git"
   },
-  "keywords": ["ocaml", "rescript", "stdlib", "functional programming"],
+  "keywords": [
+    "ocaml",
+    "rescript",
+    "stdlib",
+    "functional programming"
+  ],
   "author": {
     "name": "Hongbo Zhang"
   },

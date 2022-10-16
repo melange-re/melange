@@ -1,15 +1,15 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var Belt_Id = require("../../lib/js/belt_Id.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var Belt_HashMap = require("../../lib/js/belt_HashMap.js");
-var Belt_MapDict = require("../../lib/js/belt_MapDict.js");
-var Belt_HashMapInt = require("../../lib/js/belt_HashMapInt.js");
-var Belt_HashSetInt = require("../../lib/js/belt_HashSetInt.js");
-var Belt_HashMapString = require("../../lib/js/belt_HashMapString.js");
-var Caml_hash_primitive = require("../../lib/js/caml_hash_primitive.js");
-var Belt_internalBucketsType = require("../../lib/js/belt_internalBucketsType.js");
+var Caml = require("melange/lib/js/caml.js");
+var Belt_Id = require("melange/lib/js/belt_Id.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var Belt_HashMap = require("melange/lib/js/belt_HashMap.js");
+var Belt_MapDict = require("melange/lib/js/belt_MapDict.js");
+var Belt_HashMapInt = require("melange/lib/js/belt_HashMapInt.js");
+var Belt_HashSetInt = require("melange/lib/js/belt_HashSetInt.js");
+var Belt_HashMapString = require("melange/lib/js/belt_HashMapString.js");
+var Caml_hash_primitive = require("melange/lib/js/caml_hash_primitive.js");
+var Belt_internalBucketsType = require("melange/lib/js/belt_internalBucketsType.js");
 
 function hash_string(s) {
   return Caml_hash_primitive.caml_hash_final_mix(Caml_hash_primitive.caml_hash_mix_string(0, s));

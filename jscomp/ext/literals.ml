@@ -59,6 +59,9 @@ let dune_mel = "dune.mel"
 let dune_project = "dune-project"
 let mel_dune_alias = "mel"
 
+(* Prefix of all melange runtime packages *)
+let mel_runtime_package_prefix = "@melange/runtime"
+
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"
 let suffix_a = ".a"

@@ -1,8 +1,8 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/lib/js/list.js");
+var Curry = require("melange/lib/js/curry.js");
 
 var compare = Caml.caml_int_compare;
 

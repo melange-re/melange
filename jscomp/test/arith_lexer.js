@@ -1,9 +1,9 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Lexing = require("../../lib/js/lexing.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_format = require("../../lib/js/caml_format.js");
+var Curry = require("melange/lib/js/curry.js");
+var Lexing = require("melange/lib/js/lexing.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff:\0\x85\0\xff\xff",

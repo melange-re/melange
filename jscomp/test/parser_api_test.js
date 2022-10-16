@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Lexing = require("../../lib/js/lexing.js");
+var Lexing = require("melange/lib/js/lexing.js");
 var Parser_api = require("./parser_api.js");
 
 var suites = {

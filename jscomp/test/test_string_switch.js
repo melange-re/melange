@@ -1,6 +1,6 @@
 'use strict';
 
-var Sys = require("../../lib/js/sys.js");
+var Sys = require("melange/lib/js/sys.js");
 
 var os_version;
 

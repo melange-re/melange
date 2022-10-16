@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Char = require("../../lib/js/char.js");
-var $$Array = require("../../lib/js/array.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
+var Char = require("melange/lib/js/char.js");
+var $$Array = require("melange/lib/js/array.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
 var Mt_global = require("./mt_global.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 var suites = {
   contents: /* [] */0

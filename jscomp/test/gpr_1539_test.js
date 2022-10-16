@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_module = require("../../lib/js/caml_module.js");
+var Caml_module = require("melange/lib/js/caml_module.js");
 
 var Point = Caml_module.init_mod([
       "gpr_1539_test.ml",

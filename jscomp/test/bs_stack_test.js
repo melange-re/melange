@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Js_undefined = require("../../lib/js/js_undefined.js");
-var Belt_MutableQueue = require("../../lib/js/belt_MutableQueue.js");
-var Belt_MutableStack = require("../../lib/js/belt_MutableStack.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Js_undefined = require("melange/lib/js/js_undefined.js");
+var Belt_MutableQueue = require("melange/lib/js/belt_MutableQueue.js");
+var Belt_MutableStack = require("melange/lib/js/belt_MutableStack.js");
 
 var suites = {
   contents: /* [] */0

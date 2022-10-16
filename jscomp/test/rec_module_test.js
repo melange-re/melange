@@ -1,13 +1,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Seq = require("../../lib/js/seq.js");
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Seq = require("melange/lib/js/seq.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/lib/js/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 function even(n) {
   if (n === 0) {
@@ -260,7 +260,7 @@ function min_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -292,7 +292,7 @@ function max_elt(_param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -808,7 +808,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -842,7 +842,7 @@ function find_first(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -907,7 +907,7 @@ function find_last(f, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };

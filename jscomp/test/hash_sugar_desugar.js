@@ -1,7 +1,7 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
 
 function h1(u) {
   return u.p;

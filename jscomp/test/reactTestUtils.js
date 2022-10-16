@@ -1,9 +1,9 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
-var Belt_Option = require("../../lib/js/belt_Option.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var Curry = require("melange/lib/js/curry.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
+var Belt_Option = require("melange/lib/js/belt_Option.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 var TestUtils = require("react-dom/test-utils");
 
 function act(func) {

@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
+var List = require("melange/lib/js/list.js");
 
 function length(param) {
   return 3;

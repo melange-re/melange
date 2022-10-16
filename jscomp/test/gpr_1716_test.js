@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 
 var suites = {
   contents: /* [] */0

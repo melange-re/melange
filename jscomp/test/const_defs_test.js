@@ -1,11 +1,14 @@
 'use strict';
 
-var Stdlib = require("../../lib/js/stdlib.js");
 
 var u = 3;
 
 function f(param) {
-  return Stdlib.invalid_arg("hi");
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "hi",
+        Error: new Error()
+      };
 }
 
 exports.u = u;

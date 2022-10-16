@@ -1,26 +1,25 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Char = require("../../lib/js/char.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Lexing = require("../../lib/js/lexing.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var Parsing = require("../../lib/js/parsing.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Filename = require("../../lib/js/filename.js");
-var Printexc = require("../../lib/js/printexc.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Char = require("melange/lib/js/char.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var Lexing = require("melange/lib/js/lexing.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var Parsing = require("melange/lib/js/parsing.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Filename = require("melange/lib/js/filename.js");
+var Printexc = require("melange/lib/js/printexc.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function field(optionsOpt, label, number, type_, name) {
   var options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
@@ -238,9 +237,12 @@ function pop_last(param) {
     } else {
       return /* [] */0;
     }
-  } else {
-    return Stdlib.failwith("Invalid argument [] for pop_last");
   }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "Invalid argument [] for pop_last",
+        Error: new Error()
+      };
 }
 
 function apply_until(f, _param) {
@@ -822,7 +824,11 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      return Stdlib.failwith("parser");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "parser",
+            Error: new Error()
+          };
     }),
   (function (__caml_parser_env) {
       return Parsing.peek_val(__caml_parser_env, 1);
@@ -1589,6 +1595,41 @@ var __ocaml_lex_tables = {
   lex_code: ""
 };
 
+function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var l = _l;
+    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          var c = Lexing.lexeme_char(lexbuf, 1);
+          ___ocaml_lex_state = 55;
+          _l = {
+            hd: Char.escaped(c),
+            tl: l
+          };
+          continue ;
+      case 1 :
+          return /* String_value */{
+                  _0: $$String.concat("", List.rev(l))
+                };
+      case 2 :
+          ___ocaml_lex_state = 55;
+          _l = {
+            hd: Lexing.lexeme(lexbuf),
+            tl: l
+          };
+          continue ;
+      case 3 :
+          return /* String_eof */0;
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
 function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
@@ -1641,41 +1682,6 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
           continue ;
       case 2 :
           return /* Comment_eof */0;
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
-function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var l = _l;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          var c = Lexing.lexeme_char(lexbuf, 1);
-          ___ocaml_lex_state = 55;
-          _l = {
-            hd: Char.escaped(c),
-            tl: l
-          };
-          continue ;
-      case 1 :
-          return /* String_value */{
-                  _0: $$String.concat("", List.rev(l))
-                };
-      case 2 :
-          ___ocaml_lex_state = 55;
-          _l = {
-            hd: Lexing.lexeme(lexbuf),
-            tl: l
-          };
-          continue ;
-      case 3 :
-          return /* String_eof */0;
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -1812,18 +1818,23 @@ function lexer(lexbuf) {
       case 20 :
           return /* EOF */25;
       case 21 :
-          return Stdlib.failwith(Curry._1(Printf.sprintf(/* Format */{
-                              _0: {
-                                TAG: /* String_literal */11,
-                                _0: "Unknown character found ",
-                                _1: {
-                                  TAG: /* String */2,
-                                  _0: /* No_padding */0,
-                                  _1: /* End_of_format */0
-                                }
-                              },
-                              _1: "Unknown character found %s"
-                            }), Lexing.lexeme(lexbuf)));
+          var s$1 = Curry._1(Printf.sprintf(/* Format */{
+                    _0: {
+                      TAG: /* String_literal */11,
+                      _0: "Unknown character found ",
+                      _1: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: /* End_of_format */0
+                      }
+                    },
+                    _1: "Unknown character found %s"
+                  }), Lexing.lexeme(lexbuf));
+          throw {
+                RE_EXN_ID: "Failure",
+                _1: s$1,
+                Error: new Error()
+              };
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -2120,7 +2131,11 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "Invalid encoding/OCaml type combination",
+                        Error: new Error()
+                      };
               
             }
         case /* Pk_bits64 */1 :
@@ -2135,20 +2150,26 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "Invalid encoding/OCaml type combination",
+                        Error: new Error()
+                      };
               
             }
         case /* Pk_bytes */2 :
             var match$2 = param[2];
-            if (match$2 !== 5) {
-              if (match$2) {
-                return Stdlib.failwith("Invalid encoding/OCaml type combination");
-              } else {
-                return "Pbrt.Decoder.string";
-              }
-            } else {
+            if (match$2 === 5) {
               return "Pbrt.Decoder.bytes";
             }
+            if (!match$2) {
+              return "Pbrt.Decoder.string";
+            }
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid encoding/OCaml type combination",
+                  Error: new Error()
+                };
         
       }
     } else if (match$1._0) {
@@ -2163,7 +2184,11 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            return Stdlib.failwith("Invalid encoding/OCaml type combination");
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid encoding/OCaml type combination",
+                  Error: new Error()
+                };
         
       }
     } else {
@@ -2177,16 +2202,17 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            return Stdlib.failwith("Invalid encoding/OCaml type combination");
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid encoding/OCaml type combination",
+                  Error: new Error()
+                };
         case /* Bt_bool */6 :
             return "Pbrt.Decoder.bool";
         
       }
     }
-  } else {
-    if (match !== "Encode") {
-      return Stdlib.failwith("Invalid encoding/OCaml type combination");
-    }
+  } else if (match === "Encode") {
     var match$3 = param[1];
     if (typeof match$3 === "number") {
       switch (match$3) {
@@ -2202,7 +2228,11 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "Invalid encoding/OCaml type combination",
+                        Error: new Error()
+                      };
               
             }
         case /* Pk_bits64 */1 :
@@ -2217,20 +2247,26 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "Invalid encoding/OCaml type combination",
+                        Error: new Error()
+                      };
               
             }
         case /* Pk_bytes */2 :
             var match$4 = param[2];
-            if (match$4 !== 5) {
-              if (match$4) {
-                return Stdlib.failwith("Invalid encoding/OCaml type combination");
-              } else {
-                return "Pbrt.Encoder.string";
-              }
-            } else {
+            if (match$4 === 5) {
               return "Pbrt.Encoder.bytes";
             }
+            if (!match$4) {
+              return "Pbrt.Encoder.string";
+            }
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid encoding/OCaml type combination",
+                  Error: new Error()
+                };
         
       }
     } else if (match$3._0) {
@@ -2245,7 +2281,11 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            return Stdlib.failwith("Invalid encoding/OCaml type combination");
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid encoding/OCaml type combination",
+                  Error: new Error()
+                };
         
       }
     } else {
@@ -2259,12 +2299,22 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            return Stdlib.failwith("Invalid encoding/OCaml type combination");
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid encoding/OCaml type combination",
+                  Error: new Error()
+                };
         case /* Bt_bool */6 :
             return "Pbrt.Encoder.bool";
         
       }
     }
+  } else {
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "Invalid encoding/OCaml type combination",
+          Error: new Error()
+        };
   }
 }
 
@@ -3953,7 +4003,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };
@@ -3992,28 +4042,42 @@ var empty_graph = /* Empty */0;
 
 function min_value(param) {
   var x = param[0];
-  if (x === undefined) {
-    return Stdlib.failwith("min_value error");
+  if (x !== undefined) {
+    var y = param[1];
+    if (y !== undefined) {
+      return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
+    }
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "min_value error",
+          Error: new Error()
+        };
   }
-  var y = param[1];
-  if (y !== undefined) {
-    return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
-  } else {
-    return Stdlib.failwith("min_value error");
-  }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "min_value error",
+        Error: new Error()
+      };
 }
 
 function eq_value(param) {
   var x = param[0];
-  if (x === undefined) {
-    return Stdlib.failwith("eq_value error");
+  if (x !== undefined) {
+    var y = param[1];
+    if (y !== undefined) {
+      return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
+    }
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "eq_value error",
+          Error: new Error()
+        };
   }
-  var y = param[1];
-  if (y !== undefined) {
-    return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
-  } else {
-    return Stdlib.failwith("eq_value error");
-  }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "eq_value error",
+        Error: new Error()
+      };
 }
 
 function string_of_option(f, x) {
@@ -6275,12 +6339,15 @@ function default_value_of_field_type(field_name, field_type, field_default) {
             return "Bytes.create 64";
           }
       case /* Bt_bool */6 :
-          if (field_default !== undefined) {
-            if (field_default.TAG === /* Constant_bool */1) {
-              return Stdlib.string_of_bool(field_default._0);
-            } else {
-              return invalid_default_value(field_name, "invalid default type", undefined);
-            }
+          if (field_default === undefined) {
+            return "false";
+          }
+          if (field_default.TAG !== /* Constant_bool */1) {
+            return invalid_default_value(field_name, "invalid default type", undefined);
+          }
+          var b = field_default._0;
+          if (b) {
+            return "true";
           } else {
             return "false";
           }
@@ -6555,15 +6622,47 @@ function gen_default_record(mutable_, and_, param, sc) {
 function gen_default_variant(and_, param, sc) {
   var v_constructors = param.v_constructors;
   var v_name = param.v_name;
-  if (!v_constructors) {
-    return Stdlib.failwith("programmatic TODO error");
-  }
-  var match = v_constructors.hd;
-  var vc_field_type = match.vc_field_type;
-  var vc_constructor = match.vc_constructor;
-  var decl = let_decl_of_and(and_);
-  if (!vc_field_type) {
-    return line$1(sc, Curry._4(Printf.sprintf(/* Format */{
+  if (v_constructors) {
+    var match = v_constructors.hd;
+    var vc_field_type = match.vc_field_type;
+    var vc_constructor = match.vc_constructor;
+    var decl = let_decl_of_and(and_);
+    if (!vc_field_type) {
+      return line$1(sc, Curry._4(Printf.sprintf(/* Format */{
+                          _0: {
+                            TAG: /* String */2,
+                            _0: /* No_padding */0,
+                            _1: {
+                              TAG: /* String_literal */11,
+                              _0: " default_",
+                              _1: {
+                                TAG: /* String */2,
+                                _0: /* No_padding */0,
+                                _1: {
+                                  TAG: /* String_literal */11,
+                                  _0: " (): ",
+                                  _1: {
+                                    TAG: /* String */2,
+                                    _0: /* No_padding */0,
+                                    _1: {
+                                      TAG: /* String_literal */11,
+                                      _0: " = ",
+                                      _1: {
+                                        TAG: /* String */2,
+                                        _0: /* No_padding */0,
+                                        _1: /* End_of_format */0
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          _1: "%s default_%s (): %s = %s"
+                        }), decl, v_name, v_name, vc_constructor));
+    }
+    var default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
+    return line$1(sc, Curry._5(Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -6575,7 +6674,7 @@ function gen_default_variant(and_, param, sc) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* String_literal */11,
-                                _0: " (): ",
+                                _0: " () : ",
                                 _1: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
@@ -6585,7 +6684,19 @@ function gen_default_variant(and_, param, sc) {
                                     _1: {
                                       TAG: /* String */2,
                                       _0: /* No_padding */0,
-                                      _1: /* End_of_format */0
+                                      _1: {
+                                        TAG: /* String_literal */11,
+                                        _0: " (",
+                                        _1: {
+                                          TAG: /* String */2,
+                                          _0: /* No_padding */0,
+                                          _1: {
+                                            TAG: /* Char_literal */12,
+                                            _0: /* ')' */41,
+                                            _1: /* End_of_format */0
+                                          }
+                                        }
+                                      }
                                     }
                                   }
                                 }
@@ -6593,60 +6704,29 @@ function gen_default_variant(and_, param, sc) {
                             }
                           }
                         },
-                        _1: "%s default_%s (): %s = %s"
-                      }), decl, v_name, v_name, vc_constructor));
+                        _1: "%s default_%s () : %s = %s (%s)"
+                      }), decl, v_name, v_name, vc_constructor, default_value));
   }
-  var default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
-  line$1(sc, Curry._5(Printf.sprintf(/* Format */{
-                _0: {
-                  TAG: /* String */2,
-                  _0: /* No_padding */0,
-                  _1: {
-                    TAG: /* String_literal */11,
-                    _0: " default_",
-                    _1: {
-                      TAG: /* String */2,
-                      _0: /* No_padding */0,
-                      _1: {
-                        TAG: /* String_literal */11,
-                        _0: " () : ",
-                        _1: {
-                          TAG: /* String */2,
-                          _0: /* No_padding */0,
-                          _1: {
-                            TAG: /* String_literal */11,
-                            _0: " = ",
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* String_literal */11,
-                                _0: " (",
-                                _1: {
-                                  TAG: /* String */2,
-                                  _0: /* No_padding */0,
-                                  _1: {
-                                    TAG: /* Char_literal */12,
-                                    _0: /* ')' */41,
-                                    _1: /* End_of_format */0
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                _1: "%s default_%s () : %s = %s (%s)"
-              }), decl, v_name, v_name, vc_constructor, default_value));
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "programmatic TODO error",
+        Error: new Error()
+      };
 }
 
 function gen_default_const_variant(and_, param, sc) {
   var cv_constructors = param.cv_constructors;
   var cv_name = param.cv_name;
-  var first_constructor_name = cv_constructors ? cv_constructors.hd[0] : Stdlib.failwith("programmatic TODO error");
+  var first_constructor_name;
+  if (cv_constructors) {
+    first_constructor_name = cv_constructors.hd[0];
+  } else {
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "programmatic TODO error",
+          Error: new Error()
+        };
+  }
   line$1(sc, Curry._4(Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
@@ -7031,9 +7111,12 @@ function type_name(message_scope, name) {
     } else {
       return fix_ocaml_keyword_conflict(all_names$2.hd);
     }
-  } else {
-    return Stdlib.failwith("Programmatic error");
   }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "Programmatic error",
+        Error: new Error()
+      };
 }
 
 function encoding_info_of_field_type(all_types, field_type) {
@@ -7438,9 +7521,20 @@ function compile(proto_definition) {
                                           };
                                         } else {
                                           var match$2 = ocaml_container(field_options$1);
-                                          var repeated_type = match$2 !== undefined ? (
-                                              match$2 === "repeated_field" ? /* Rt_repeated_field */1 : Stdlib.failwith("Invalid ocaml_container attribute value")
-                                            ) : /* Rt_list */0;
+                                          var repeated_type;
+                                          if (match$2 !== undefined) {
+                                            if (match$2 === "repeated_field") {
+                                              repeated_type = /* Rt_repeated_field */1;
+                                            } else {
+                                              throw {
+                                                    RE_EXN_ID: "Failure",
+                                                    _1: "Invalid ocaml_container attribute value",
+                                                    Error: new Error()
+                                                  };
+                                            }
+                                          } else {
+                                            repeated_type = /* Rt_list */0;
+                                          }
                                           record_field_type = {
                                             TAG: /* Rft_repeated_field */2,
                                             _0: [
@@ -7521,7 +7615,22 @@ function compile(proto_definition) {
                                                     }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_key_type);
                                         var key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
                                         var key_type$1;
-                                        key_type$1 = typeof key_type === "number" || key_type.TAG !== /* Ft_basic_type */0 ? Stdlib.failwith("Only Basic Types are supported for map keys") : key_type._0;
+                                        if (typeof key_type === "number") {
+                                          throw {
+                                                RE_EXN_ID: "Failure",
+                                                _1: "Only Basic Types are supported for map keys",
+                                                Error: new Error()
+                                              };
+                                        }
+                                        if (key_type.TAG === /* Ft_basic_type */0) {
+                                          key_type$1 = key_type._0;
+                                        } else {
+                                          throw {
+                                                RE_EXN_ID: "Failure",
+                                                _1: "Only Basic Types are supported for map keys",
+                                                Error: new Error()
+                                              };
+                                        }
                                         var value_type = compile_field_type(Curry._1(Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
@@ -7536,9 +7645,20 @@ function compile(proto_definition) {
                                                     }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_value_type);
                                         var value_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_value_type);
                                         var match$3 = ocaml_container(map_options);
-                                        var associative_type = match$3 !== undefined ? (
-                                            match$3 === "hashtbl" ? /* At_hashtable */1 : Stdlib.failwith("Invalid ocaml_container attribute value for map")
-                                          ) : /* At_list */0;
+                                        var associative_type;
+                                        if (match$3 !== undefined) {
+                                          if (match$3 === "hashtbl") {
+                                            associative_type = /* At_hashtable */1;
+                                          } else {
+                                            throw {
+                                                  RE_EXN_ID: "Failure",
+                                                  _1: "Invalid ocaml_container attribute value for map",
+                                                  Error: new Error()
+                                                };
+                                          }
+                                        } else {
+                                          associative_type = /* At_list */0;
+                                        }
                                         var record_field_type$1 = {
                                           TAG: /* Rft_associative_field */3,
                                           _0: [

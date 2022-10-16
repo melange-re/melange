@@ -1,9 +1,9 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
+var List = require("melange/lib/js/list.js");
 var Path = require("path");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
+var $$Array = require("melange/lib/js/array.js");
+var Curry = require("melange/lib/js/curry.js");
 var Assert = require("assert");
 var Process = require("process");
 

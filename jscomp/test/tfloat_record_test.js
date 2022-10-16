@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Format = require("../../lib/js/format.js");
-var Stdlib = require("../../lib/js/stdlib.js");
+var $$Array = require("melange/lib/js/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$Buffer = require("melange/lib/js/buffer.js");
+var Format = require("melange/lib/js/format.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Float_array = require("./float_array.js");
 

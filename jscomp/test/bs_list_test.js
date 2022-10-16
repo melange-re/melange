@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Belt_List = require("../../lib/js/belt_List.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
+var Caml = require("melange/lib/js/caml.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Belt_List = require("melange/lib/js/belt_List.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 
 var suites = {
   contents: /* [] */0

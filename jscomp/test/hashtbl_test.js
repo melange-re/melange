@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var MoreLabels = require("../../lib/js/moreLabels.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/lib/js/list.js");
+var $$Array = require("melange/lib/js/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var MoreLabels = require("melange/lib/js/moreLabels.js");
 
 function to_list(tbl) {
   return Hashtbl.fold((function (k, v, acc) {

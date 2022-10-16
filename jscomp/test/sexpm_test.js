@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 var Sexpm = require("./sexpm.js");
-var Format = require("../../lib/js/format.js");
+var Format = require("melange/lib/js/format.js");
 
 var suites = {
   contents: /* [] */0

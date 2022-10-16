@@ -1,17 +1,5 @@
+(dirs :standard \ test)
+
 (executable
  (name build_version)
  (libraries ext))
-
-(rule
- (deps
-  (alias runtime/runtime)
-  (alias others/others)
-  stdlib-412/stdlib.cmj)
- (target libocaml.tar.gz)
- (action
-  (bash
-   "tar -czf libocaml.tar.gz runtime/*.{ml,cm}* others/*.{ml,cm}* stdlib-412/*.{ml,cm}* stdlib-412/stdlib_modules/*.{ml,cm}*")))
-
-(install
- (files libocaml.tar.gz)
- (section lib))

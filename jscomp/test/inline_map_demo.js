@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var Stdlib = require("../../lib/js/stdlib.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/lib/js/list.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 function height(x) {
   if (x) {

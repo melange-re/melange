@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("../../lib/js/int64.js");
-var Belt_List = require("../../lib/js/belt_List.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Caml_format = require("../../lib/js/caml_format.js");
+var Int64 = require("melange/lib/js/int64.js");
+var Belt_List = require("melange/lib/js/belt_List.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
 
 var suites = {
   contents: /* [] */0

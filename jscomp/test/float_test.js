@@ -1,14 +1,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
+var Caml = require("melange/lib/js/caml.js");
+var $$Array = require("melange/lib/js/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 var Mt_global = require("./mt_global.js");
-var Caml_float = require("../../lib/js/caml_float.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
+var Caml_float = require("melange/lib/js/caml_float.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
 
 var test_id = {
   contents: 0

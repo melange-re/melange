@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var Printf = require("../../lib/js/printf.js");
+var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/lib/js/format.js");
+var Printf = require("melange/lib/js/printf.js");
 
 function print_pair(fmt, param) {
   Curry._2(Format.fprintf(fmt)(/* Format */{

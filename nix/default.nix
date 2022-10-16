@@ -2,42 +2,16 @@
 
 with ocamlPackages;
 
-stdenv.mkDerivation rec {
-  name = "melange";
-  version = "9.0.0-dev";
-
-  buildPhase = ''
-    runHook preBuild
-    dune build -p ${name} -j $NIX_BUILD_CORES --display=short
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-    ${opaline}/bin/opaline -prefix $out -libdir $OCAMLFIND_DESTDIR
-
-    cp package.json bsconfig.json $out
-    cp -r ./_build/default/lib/es6 ./_build/default/lib/js $out/lib
-
-    mkdir -p $out/lib/melange
-    cd $out/lib/melange
-
-    tar xvf $OCAMLFIND_DESTDIR/melange/libocaml.tar.gz
-    mv others/* .
-    mv runtime/* .
-    mv stdlib-412/stdlib_modules/* .
-    mv stdlib-412/* .
-    rm -rf others runtime stdlib-412 stdlib_modules
-
-    runHook postInstall
-  '';
+buildDunePackage rec {
+  pname = "melange";
+  version = "dev";
 
   src = with nix-filter; filter {
     root = ./..;
     include = [
       "dune-project"
       "dune"
-      "dune-workspace"
+      "dune.mel"
       "melange.opam"
       "melange.opam.template"
       "bsconfig.json"
@@ -47,10 +21,33 @@ stdenv.mkDerivation rec {
       "ppx_rescript_compat"
       "scripts"
     ];
+    exclude = [ "jscomp/test" ];
   };
 
-  nativeBuildInputs = [ gnutar dune ocaml findlib cppo ];
+  buildPhase = ''
+    runHook preBuild
+    dune build -p ${pname} -j $NIX_BUILD_CORES --display=short
+    runHook postBuild
+  '';
 
+  installPhase = ''
+    runHook preInstall
+    dune install --prefix $out --libdir $out/lib ${pname}
+
+    cp package.json bsconfig.json $out
+
+    mv $out/lib/melange/js $out/lib/js
+    mv $out/lib/melange/es6 $out/lib/es6
+    mv $out/lib/melange/melange/* $out/lib/melange
+    rm -rf $out/lib/melange/melange
+
+    runHook postInstall
+  '';
+
+  doCheck = true;
+  checkInputs = [ ounit2 ];
+
+  nativeBuildInputs = [ gnutar cppo ];
   propagatedBuildInputs = [
     melange-compiler-libs
     reason

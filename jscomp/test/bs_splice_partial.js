@@ -1,6 +1,6 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function test(g) {
   g.xx(22, 3, "xxx", 1, 2, 3);

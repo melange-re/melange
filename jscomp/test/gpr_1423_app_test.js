@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 var Gpr_1423_nav = require("./gpr_1423_nav.js");
 
 var suites = {

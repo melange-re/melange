@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Caml_oo = require("../../lib/js/caml_oo.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
-var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_oo = require("melange/lib/js/caml_oo.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
+var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
 var shared = ["copy"];
 

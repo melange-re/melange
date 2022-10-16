@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
+var List = require("melange/lib/js/list.js");
 var Ext_string_test = require("./ext_string_test.js");
 
 var suites_0 = [

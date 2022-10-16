@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_MutableMapInt = require("../../lib/js/belt_MutableMapInt.js");
-var Belt_internalMapInt = require("../../lib/js/belt_internalMapInt.js");
+var Belt_MutableMapInt = require("melange/lib/js/belt_MutableMapInt.js");
+var Belt_internalMapInt = require("melange/lib/js/belt_internalMapInt.js");
 
 var suites = {
   contents: /* [] */0

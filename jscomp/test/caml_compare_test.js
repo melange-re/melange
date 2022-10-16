@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var function_equal_test;
 

@@ -1,11 +1,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var Printexc = require("../../lib/js/printexc.js");
+var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/lib/js/format.js");
+var Printexc = require("melange/lib/js/printexc.js");
 var Exception_def = require("./exception_def.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0

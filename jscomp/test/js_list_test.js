@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_list = require("../../lib/js/js_list.js");
-var Js_vector = require("../../lib/js/js_vector.js");
+var Js_list = require("melange/lib/js/js_list.js");
+var Js_vector = require("melange/lib/js/js_vector.js");
 
 var suites = {
   contents: /* [] */0

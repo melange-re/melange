@@ -1,6 +1,6 @@
 'use strict';
 
-var Hashtbl = require("../../lib/js/hashtbl.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
 
 function bench(param) {
   var table = Hashtbl.create(undefined, 1000000);

@@ -1,13 +1,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var Char = require("../../lib/js/char.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Caml = require("melange/lib/js/caml.js");
+var Char = require("melange/lib/js/char.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

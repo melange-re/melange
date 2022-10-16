@@ -1,9 +1,9 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 var React = require("react");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 var ReasonReactOptimizedCreateClass = require("./reasonReactOptimizedCreateClass.js");
 
 function createDomElement(s, props, children) {

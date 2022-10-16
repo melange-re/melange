@@ -1,6 +1,6 @@
 'use strict';
 
-var Belt_Array = require("../../lib/js/belt_Array.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 
 var b = Belt_Array.eq([
       1,

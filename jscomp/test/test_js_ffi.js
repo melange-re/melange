@@ -1,6 +1,6 @@
 'use strict';
 
-var $$String = require("../../lib/js/string.js");
+var $$String = require("melange/lib/js/string.js");
 
 function v(u) {
   t({

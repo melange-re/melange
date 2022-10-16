@@ -6,7 +6,7 @@ authors: ["Antonio Nuno Monteiro <anmonteiro@gmail.com>"]
 homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
-  "dune" {>= "2.9"}
+  "dune" {>= "3.5"}
   "ocaml" {>= "4.14.0" & < "4.15.0"}
   "melange-compiler-libs"
   "reason"
@@ -24,12 +24,10 @@ build: [
     name
     "-j"
     jobs
-    "--promote-install-files=false"
     "@install"
     "@runtest" {with-test}
     "@doc" {with-doc}
   ]
-  ["dune" "install" "-p" name "--create-install-files" name]
 ]
 pin-depends: [
   [ "melange-compiler-libs.dev" "git+https://github.com/melange-re/melange-compiler-libs.git"]
@@ -37,7 +35,6 @@ pin-depends: [
 
 install: [
   [ "dune" "install" "-p" "%{name}%" ]
-  [ "./fix-install-opam.sh" "%{_:lib}%" "%{_:build}%" ]
 ]
 
 setenv: [ MELANGELIB = "%{_:lib}%/melange" ]

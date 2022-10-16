@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 
 function bool_equal(x, y) {
   if (x) {

@@ -1,15 +1,14 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_string = require("../../lib/js/caml_string.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$String = require("melange/lib/js/string.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
 var Ext_bytes_test = require("./ext_bytes_test.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function split_by(keep_emptyOpt, is_delim, str) {
   var keep_empty = keep_emptyOpt !== undefined ? keep_emptyOpt : false;
@@ -218,10 +217,13 @@ function unsafe_for_all_range(s, _start, finish, p) {
 function for_all_range(s, start, finish, p) {
   var len = s.length;
   if (start < 0 || finish >= len) {
-    return Stdlib.invalid_arg("Ext_string_test.for_all_range");
-  } else {
-    return unsafe_for_all_range(s, start, finish, p);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_string_test.for_all_range",
+          Error: new Error()
+        };
   }
+  return unsafe_for_all_range(s, start, finish, p);
 }
 
 function for_all(p, s) {
@@ -295,22 +297,25 @@ function contain_substring(s, sub) {
 function non_overlap_count(sub, s) {
   var sub_len = sub.length;
   if (sub.length === 0) {
-    return Stdlib.invalid_arg("Ext_string_test.non_overlap_count");
-  } else {
-    var _acc = 0;
-    var _off = 0;
-    while(true) {
-      var off = _off;
-      var acc = _acc;
-      var i = find(off, sub, s);
-      if (i < 0) {
-        return acc;
-      }
-      _off = i + sub_len | 0;
-      _acc = acc + 1 | 0;
-      continue ;
-    };
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_string_test.non_overlap_count",
+          Error: new Error()
+        };
   }
+  var _acc = 0;
+  var _off = 0;
+  while(true) {
+    var off = _off;
+    var acc = _acc;
+    var i = find(off, sub, s);
+    if (i < 0) {
+      return acc;
+    }
+    _off = i + sub_len | 0;
+    _acc = acc + 1 | 0;
+    continue ;
+  };
 }
 
 function rfind(sub, s) {
@@ -339,11 +344,15 @@ function rfind(sub, s) {
 
 function tail_from(s, x) {
   var len = s.length;
-  if (x > len) {
-    return Stdlib.invalid_arg("Ext_string_test.tail_from " + (s + (" : " + String(x))));
-  } else {
+  if (x <= len) {
     return $$String.sub(s, x, len - x | 0);
   }
+  var s$1 = "Ext_string_test.tail_from " + (s + (" : " + String(x)));
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: s$1,
+        Error: new Error()
+      };
 }
 
 function digits_of_str(s, offset, x) {
@@ -558,10 +567,13 @@ function unsafe_no_char_idx(x, ch, _i, last_idx) {
 function no_char(x, ch, i, len) {
   var str_len = x.length;
   if (i < 0 || i >= str_len || len >= str_len) {
-    return Stdlib.invalid_arg("Ext_string_test.no_char");
-  } else {
-    return unsafe_no_char(x, ch, i, len);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_string_test.no_char",
+          Error: new Error()
+        };
   }
+  return unsafe_no_char(x, ch, i, len);
 }
 
 function no_slash(x) {

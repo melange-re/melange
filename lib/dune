@@ -1,0 +1,44 @@
+(rule
+ (targets
+  (dir melange))
+ (mode
+  (promote (until-clean)))
+ (deps
+  (:artifacts
+   (glob_files ../jscomp/runtime/*.{ml,mli,cmi,cmj})
+   (glob_files ../jscomp/others/*.{ml,mli,cmi,cmj})
+   (glob_files_rec ../jscomp/stdlib-412/*.{ml,mli,cmi,cmj})))
+ (action
+  (progn
+   (run mkdir -p %{targets})
+   (run cp %{artifacts} %{targets}))))
+
+(rule
+ (targets
+  (dir js))
+ (mode
+  (promote (until-clean)))
+ (deps
+  (:runtime-js
+   (glob_files ../jscomp/runtime/*.js)
+   (glob_files ../jscomp/others/*.js)
+   (glob_files_rec ../jscomp/stdlib-412/*.js)))
+ (action
+  (progn
+   (run mkdir -p %{targets})
+   (run cp %{runtime-js} %{targets}))))
+
+(rule
+ (targets
+  (dir es6))
+ (mode
+  (promote (until-clean)))
+ (deps
+  (:runtime-mjs
+   (glob_files ../jscomp/runtime/*.mjs)
+   (glob_files ../jscomp/others/*.mjs)
+   (glob_files_rec ../jscomp/stdlib-412/*.mjs)))
+ (action
+  (progn
+   (run mkdir -p %{targets})
+   (run cp %{runtime-mjs} %{targets}))))

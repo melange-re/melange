@@ -1,12 +1,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
-var Queue = require("../../lib/js/queue.js");
-var Genlex = require("../../lib/js/genlex.js");
-var Stream = require("../../lib/js/stream.js");
-var Caml_int32 = require("../../lib/js/caml_int32.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var Curry = require("melange/lib/js/curry.js");
+var Queue = require("melange/lib/js/queue.js");
+var Genlex = require("melange/lib/js/genlex.js");
+var Stream = require("melange/lib/js/stream.js");
+var Caml_int32 = require("melange/lib/js/caml_int32.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Stream_parser_test.Parse_error");
 

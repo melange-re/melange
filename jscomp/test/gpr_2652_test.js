@@ -1,6 +1,6 @@
 'use strict';
 
-var $$Buffer = require("../../lib/js/buffer.js");
+var $$Buffer = require("melange/lib/js/buffer.js");
 
 var foo = $$Buffer.contents;
 

@@ -1,8 +1,8 @@
 'use strict';
 
-var Char = require("../../lib/js/char.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
+var Char = require("melange/lib/js/char.js");
+var List = require("melange/lib/js/list.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function l(prim) {
   console.log(prim);

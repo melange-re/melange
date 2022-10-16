@@ -1,16 +1,18 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Scanf = require("../../lib/js/scanf.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Digest = require("../../lib/js/digest.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var Scanf = require("melange/lib/js/scanf.js");
+var $$Buffer = require("melange/lib/js/buffer.js");
+var Digest = require("melange/lib/js/digest.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_io = require("melange/lib/js/caml_io.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 var tscanf_data_file = "tscanf_data";
 
@@ -51,7 +53,8 @@ function write_tscanf_data_file(fname, lines) {
   var ob = $$Buffer.create(42);
   create_tscanf_data(ob, lines);
   $$Buffer.output_buffer(oc, ob);
-  Stdlib.close_out(oc);
+  Caml_io.caml_ml_flush(oc);
+  Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
 }
 
 function get_lines(fname) {
@@ -99,44 +102,54 @@ function get_lines(fname) {
   catch (raw_s){
     var s = Caml_js_exceptions.internalToOCamlException(raw_s);
     if (s.RE_EXN_ID === Scanf.Scan_failure) {
-      return Stdlib.failwith(Curry._2(Printf.sprintf(/* Format */{
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "in file ",
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* String_literal */11,
-                                _0: ", ",
-                                _1: {
-                                  TAG: /* String */2,
-                                  _0: /* No_padding */0,
-                                  _1: /* End_of_format */0
-                                }
-                              }
-                            }
-                          },
-                          _1: "in file %s, %s"
-                        }), fname, s._1));
+      var s$1 = Curry._2(Printf.sprintf(/* Format */{
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "in file ",
+                  _1: {
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* String_literal */11,
+                      _0: ", ",
+                      _1: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: /* End_of_format */0
+                      }
+                    }
+                  }
+                },
+                _1: "in file %s, %s"
+              }), fname, s._1);
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: s$1,
+            Error: new Error()
+          };
     }
     if (s.RE_EXN_ID === Stdlib.End_of_file) {
-      return Stdlib.failwith(Curry._1(Printf.sprintf(/* Format */{
-                          _0: {
-                            TAG: /* String_literal */11,
-                            _0: "in file ",
-                            _1: {
-                              TAG: /* String */2,
-                              _0: /* No_padding */0,
-                              _1: {
-                                TAG: /* String_literal */11,
-                                _0: ", unexpected end of file",
-                                _1: /* End_of_format */0
-                              }
-                            }
-                          },
-                          _1: "in file %s, unexpected end of file"
-                        }), fname));
+      var s$2 = Curry._1(Printf.sprintf(/* Format */{
+                _0: {
+                  TAG: /* String_literal */11,
+                  _0: "in file ",
+                  _1: {
+                    TAG: /* String */2,
+                    _0: /* No_padding */0,
+                    _1: {
+                      TAG: /* String_literal */11,
+                      _0: ", unexpected end of file",
+                      _1: /* End_of_format */0
+                    }
+                  }
+                },
+                _1: "in file %s, unexpected end of file"
+              }), fname);
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: s$2,
+            Error: new Error()
+          };
     }
     throw s;
   }

@@ -1,21 +1,21 @@
 'use strict';
 
-var Sys = require("../../lib/js/sys.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
-var Caml_sys = require("../../lib/js/caml_sys.js");
-var Filename = require("../../lib/js/filename.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Sys = require("melange/lib/js/sys.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/lib/js/format.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
+var Caml_sys = require("melange/lib/js/caml_sys.js");
+var Filename = require("melange/lib/js/filename.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 var Test_literals = require("./test_literals.js");
 var Ext_string_test = require("./ext_string_test.js");
-var CamlinternalLazy = require("../../lib/js/camlinternalLazy.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var CamlinternalLazy = require("melange/lib/js/camlinternalLazy.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 var Ext_pervasives_test = require("./ext_pervasives_test.js");
-var Caml_external_polyfill = require("../../lib/js/caml_external_polyfill.js");
+var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
 
 var node_sep = "/";
 
@@ -383,11 +383,22 @@ function get_extension(x) {
   }
 }
 
-var simple_convert_node_path_to_os_path = Sys.unix ? (function (x) {
+var simple_convert_node_path_to_os_path;
+
+if (Sys.unix) {
+  simple_convert_node_path_to_os_path = (function (x) {
       return x;
-    }) : (
-    Sys.win32 || false ? Ext_string_test.replace_slash_backward : Stdlib.failwith("Unknown OS : " + Sys.os_type)
-  );
+    });
+} else if (Sys.win32 || false) {
+  simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
+} else {
+  var s = "Unknown OS : " + Sys.os_type;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: s,
+        Error: new Error()
+      };
+}
 
 var $slash$slash = Filename.concat;
 

@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Option = require("../../lib/js/belt_Option.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var Belt_Option = require("melange/lib/js/belt_Option.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 var suites_0 = [
   "make",

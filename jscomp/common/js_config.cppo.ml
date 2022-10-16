@@ -48,15 +48,14 @@ let stdlib_path =
 let include_dirs =
 
 #ifndef BS_RELEASE_BUILD
-  let jscomp =
-    (* jscomp/main/bsc.exe -> jscomp *)
-    Filename.dirname
-      (Filename.dirname (Lazy.force executable_name))
+  let root =
+    (* ./jscomp/main/melc.exe -> ./ *)
+    (Lazy.force executable_name)
+    |> Filename.dirname
+    |> Filename.dirname
+    |> Filename.dirname
   in
-  [ (jscomp//"others")
-  ; (jscomp//"stdlib-412/stdlib_modules")
-  ; (jscomp//"stdlib-412")
-  ; (jscomp//"runtime")
+  [ (root // Literals.lib // !Bs_version.package_name)
   ; (Lazy.force stdlib_path)
   ]
 #else

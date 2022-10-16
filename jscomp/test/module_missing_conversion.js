@@ -1,9 +1,9 @@
 'use strict';
 
-var $$Array = require("../../lib/js/array.js");
-var Curry = require("../../lib/js/curry.js");
-var $$String = require("../../lib/js/string.js");
-var MoreLabels = require("../../lib/js/moreLabels.js");
+var $$Array = require("melange/lib/js/array.js");
+var Curry = require("melange/lib/js/curry.js");
+var $$String = require("melange/lib/js/string.js");
+var MoreLabels = require("melange/lib/js/moreLabels.js");
 
 function f(x) {
   return x;

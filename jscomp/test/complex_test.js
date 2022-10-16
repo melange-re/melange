@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Complex = require("../../lib/js/complex.js");
+var Complex = require("melange/lib/js/complex.js");
 
 var suites_0 = [
   "basic_add",

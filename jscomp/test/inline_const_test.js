@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("../../lib/js/int64.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
+var Int64 = require("melange/lib/js/int64.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
 var Inline_const = require("./inline_const.js");
 
 var suites = {

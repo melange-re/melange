@@ -1,24 +1,24 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Curry = require("../../lib/js/curry.js");
-var Int32 = require("../../lib/js/int32.js");
-var Scanf = require("../../lib/js/scanf.js");
-var $$Buffer = require("../../lib/js/buffer.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var $$String = require("../../lib/js/string.js");
+var Caml = require("melange/lib/js/caml.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Curry = require("melange/lib/js/curry.js");
+var Int32 = require("melange/lib/js/int32.js");
+var Scanf = require("melange/lib/js/scanf.js");
+var $$Buffer = require("melange/lib/js/buffer.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var $$String = require("melange/lib/js/string.js");
 var Testing = require("./testing.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Mt_global = require("./mt_global.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
-var Caml_int64 = require("../../lib/js/caml_int64.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -1731,21 +1731,23 @@ function scan_elems$1(ib, accu) {
                   },
                   _1: " %i %c"
                 }), (function (i, c) {
-                if (c !== 59) {
-                  if (c !== 93) {
-                    return Stdlib.failwith("scan_elems");
-                  } else {
-                    return List.rev({
-                                hd: i,
-                                tl: accu
-                              });
-                  }
-                } else {
+                if (c === 59) {
                   return scan_elems$1(ib, {
                               hd: i,
                               tl: accu
                             });
                 }
+                if (c !== 93) {
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_elems",
+                        Error: new Error()
+                      };
+                }
+                return List.rev({
+                            hd: i,
+                            tl: accu
+                          });
               }));
 }
 
@@ -1827,7 +1829,11 @@ function scan_elems$2(ib, accu) {
                               });
                   }
                   console.log(Caml_bytes.bytes_to_string(Bytes.make(1, c)));
-                  return Stdlib.failwith("scan_elems");
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_elems",
+                        Error: new Error()
+                      };
                 }));
   }
   catch (raw_exn){
@@ -2010,13 +2016,7 @@ function scan_rest(ib, accu) {
                   },
                   _1: " %c "
                 }), (function (c) {
-                if (c !== 59) {
-                  if (c !== 93) {
-                    return Stdlib.failwith("scan_rest");
-                  } else {
-                    return accu;
-                  }
-                } else {
+                if (c === 59) {
                   return Curry._1(Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2055,6 +2055,14 @@ function scan_rest(ib, accu) {
                                 }
                               }));
                 }
+                if (c !== 93) {
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_rest",
+                        Error: new Error()
+                      };
+                }
+                return accu;
               }));
 }
 
@@ -2074,9 +2082,14 @@ function scan_elems$4(ib, accu) {
                   },
                   _1: " %c "
                 }), (function (c) {
-                if (c !== 91 || !Caml_obj.caml_equal(accu, /* [] */0)) {
-                  return Stdlib.failwith("scan_elems");
-                } else {
+                if (c !== 91) {
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_elems",
+                        Error: new Error()
+                      };
+                }
+                if (Caml_obj.caml_equal(accu, /* [] */0)) {
                   return Curry._1(Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2115,6 +2128,11 @@ function scan_elems$4(ib, accu) {
                                 }
                               }));
                 }
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: "scan_elems",
+                      Error: new Error()
+                    };
               }));
 }
 
@@ -2233,14 +2251,19 @@ function scan_rest$1(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  return Stdlib.failwith(Printf.sprintf(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "scan_int_list",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "scan_int_list"
-                                                                }));
+                                                  var s = Printf.sprintf(/* Format */{
+                                                        _0: {
+                                                          TAG: /* String_literal */11,
+                                                          _0: "scan_int_list",
+                                                          _1: /* End_of_format */0
+                                                        },
+                                                        _1: "scan_int_list"
+                                                      });
+                                                  throw {
+                                                        RE_EXN_ID: "Failure",
+                                                        _1: s,
+                                                        Error: new Error()
+                                                      };
                                               }
                                             }));
                               }));

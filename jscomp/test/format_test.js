@@ -1,14 +1,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Scanf = require("../../lib/js/scanf.js");
-var Format = require("../../lib/js/format.js");
-var Printf = require("../../lib/js/printf.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var CamlinternalFormatBasics = require("../../lib/js/camlinternalFormatBasics.js");
+var List = require("melange/lib/js/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Scanf = require("melange/lib/js/scanf.js");
+var Format = require("melange/lib/js/format.js");
+var Printf = require("melange/lib/js/printf.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var CamlinternalFormatBasics = require("melange/lib/js/camlinternalFormatBasics.js");
 
 var suites = {
   contents: /* [] */0

@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,22 +51,22 @@ let rec copy n =
   | Some n ->
     Some { left = copy n.left ; right = copy n.right;
       value = n.value; height = n.height}
-    
+
 (* Creates a new node with leftGet son l, value v and right son r.
    We must have all elements of l < v < all elements of r.
    l and r must be balanced and | treeHeight l - treeHeight r | <= 2.
    Inline expansion of treeHeight for better speed. *)
 
-let [@inline] calcHeight (hl : int) hr = 
+let [@inline] calcHeight (hl : int) hr =
   (if hl >= hr then hl  else hr) + 1
 
 let create (l : _ t) v (r : _ t) =
   let hl = height l in
   let hr = height r in
   Some { left = l; value = v; right = r; height = calcHeight hl hr}
-  
-  
-let singleton x = Some { left = None; value = x; right = None; height = 1} 
+
+
+let singleton x = Some { left = None; value = x; right = None; height = 1}
 
 let heightGe l r =
   match l, r with
@@ -80,20 +79,20 @@ let heightGe l r =
    where no rebalancing is required. *)
 (* TODO: inline all [create] operation, save duplicated [heightGet] calcuation *)
 let bal l v r =
-  let hl,hr = height l, height r in 
+  let hl,hr = height l, height r in
   if hl > hr + 2 then begin
     match l with None -> assert false | Some ({left = ll;  right = lr} as l) ->
       if heightGe ll  lr then
         create ll l.value (create lr v r)
-      else 
-        match lr with None -> assert false | Some lr -> 
-          create (create ll l.value lr.left) lr.value (create lr.right v r)    
-  end else if hr > hl + 2 then 
+      else
+        match lr with None -> assert false | Some lr ->
+          create (create ll l.value lr.left) lr.value (create lr.right v r)
+  end else if hr > hl + 2 then
     match r with None -> assert false | Some ({left = rl; right = rr} as r) ->
       if heightGe rr  rl then
         create (create l v rl) r.value rr
-      else 
-        match rl with None -> assert false | Some rl -> 
+      else
+        match rl with None -> assert false | Some rl ->
           create (create l v rl.left) rl.value (create rl.right r.value rr)
   else
     Some {left = l ; value = v ; right = r; height = calcHeight hl hr}
@@ -114,7 +113,7 @@ let  minimum n =
 let minUndefined n =
   match n with
   | None -> Js.undefined
-  | Some n -> Js.Undefined.return (min0Aux n)
+  | Some n -> Js_undefined.return (min0Aux n)
 
 let rec max0Aux n =
   match n.right with
@@ -129,7 +128,7 @@ let maximum n =
 let maxUndefined n =
   match n with
   | None -> Js.undefined
-  | Some n -> Js.Undefined.return (max0Aux n)
+  | Some n -> Js_undefined.return (max0Aux n)
 
 let rec removeMinAuxWithRef n v =
   match n.left with
@@ -308,7 +307,7 @@ let rec fillArray n i arr =
     fillArray r rnext arr
 
 type cursor =
-  { mutable forward : int; mutable backward : int } 
+  { mutable forward : int; mutable backward : int }
 
 let rec fillArrayWithPartition n cursor arr p =
   let {left = l; value = v; right = r} = n  in
@@ -520,11 +519,11 @@ let rec get  (n : _ t) x ~cmp =
 
 let rec getUndefined (n : _ t) x ~cmp  =
   match n with
-    None -> Js.Undefined.empty
+    None -> Js_undefined.empty
   | Some t (* Node(l, v, r, _) *) ->
     let v = t.value in
     let c = (Belt_Id.getCmpInternal cmp) x v [@bs] in
-    if c = 0 then  Js.Undefined.return v
+    if c = 0 then  Js_undefined.return v
     else getUndefined ~cmp  (if c < 0 then t.left else t.right) x
 
 let rec getExn  (n : _ t) x ~cmp =
@@ -543,9 +542,9 @@ let rec getExn  (n : _ t) x ~cmp =
   L rotation, Some root node
 *)
 let rotateWithLeftChild k2 =
-  match k2 .left with 
-  | None -> assert false 
-  | Some k1 -> 
+  match k2 .left with
+  | None -> assert false
+  | Some k1 ->
     k2 .left <- k1 .right;
     k1 .right <-  Some k2 ;
     let hlk2, hrk2 = k2 .left|. height , k2 .right |. height in
@@ -555,8 +554,8 @@ let rotateWithLeftChild k2 =
     k1
 (* right rotation *)
 let rotateWithRightChild k1 =
-  match k1 .right with None -> assert false 
-  | Some k2 -> 
+  match k1 .right with None -> assert false
+  | Some k2 ->
   k1 .right <- k2 .left;
   k2 .left <-  Some k1;
   let hlk1, hrk1 = k1.left |. height, k1 .right |. height in
@@ -569,18 +568,18 @@ let rotateWithRightChild k1 =
   double l rotation
 *)
 let doubleWithLeftChild k3 =
-  match k3.left with 
-  | None -> assert false 
-  | Some k3l ->   
+  match k3.left with
+  | None -> assert false
+  | Some k3l ->
     let v = k3l  |. rotateWithRightChild |. Some in
     k3 .left <-  v;
     k3 |. rotateWithLeftChild
 (** *)
 
 let doubleWithRightChild k2 =
-  match k2.right with 
-  | None -> assert false 
-  | Some k2r ->   
+  match k2.right with
+  | None -> assert false
+  | Some k2r ->
     let v = k2r |. rotateWithLeftChild |. Some in
     k2 .right <-  v;
     rotateWithRightChild k2
@@ -594,8 +593,8 @@ let balMutate nt  =
   let {left = l; right = r} = nt  in
   let hl, hr =  (height l, height r) in
   if hl > 2 +  hr then
-    match l with None -> assert false 
-    | Some {left = ll; right = lr} -> 
+    match l with None -> assert false
+    | Some {left = ll; right = lr} ->
     (if heightGe ll lr then
        heightUpdateMutate (rotateWithLeftChild nt)
      else
@@ -603,8 +602,8 @@ let balMutate nt  =
     )
   else
   if hr > 2 + hl  then
-    match r with None -> assert false 
-    | Some {left = rl; right = rr} -> 
+    match r with None -> assert false
+    | Some {left = rl; right = rr} ->
     (if heightGe rr rl then
        heightUpdateMutate (rotateWithRightChild nt)
      else
@@ -661,5 +660,4 @@ let rec removeMinAuxWithRootMutate nt n =
   | Some ln ->
     n.left <- (removeMinAuxWithRootMutate nt ln);
     Some (balMutate n)
-
 

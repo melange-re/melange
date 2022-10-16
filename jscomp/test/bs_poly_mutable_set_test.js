@@ -1,13 +1,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("../../lib/js/caml.js");
-var Belt_Id = require("../../lib/js/belt_Id.js");
-var Belt_List = require("../../lib/js/belt_List.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
+var Caml = require("melange/lib/js/caml.js");
+var Belt_Id = require("melange/lib/js/belt_Id.js");
+var Belt_List = require("melange/lib/js/belt_List.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 var Array_data_util = require("./array_data_util.js");
-var Belt_MutableSet = require("../../lib/js/belt_MutableSet.js");
-var Belt_internalAVLset = require("../../lib/js/belt_internalAVLset.js");
+var Belt_MutableSet = require("melange/lib/js/belt_MutableSet.js");
+var Belt_internalAVLset = require("melange/lib/js/belt_internalAVLset.js");
 
 var suites = {
   contents: /* [] */0

@@ -1,12 +1,12 @@
 'use strict';
 
-var Arg = require("../../lib/js/arg.js");
-var Curry = require("../../lib/js/curry.js");
-var Format = require("../../lib/js/format.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_string = require("../../lib/js/caml_string.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Arg = require("melange/lib/js/arg.js");
+var Curry = require("melange/lib/js/curry.js");
+var Format = require("melange/lib/js/format.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function $$finally(v, action, f) {
   var e;
@@ -70,7 +70,12 @@ function is_pos_pow(n) {
 
 function failwithf(loc, fmt) {
   return Format.ksprintf((function (s) {
-                return Stdlib.failwith(loc + s);
+                var s$1 = loc + s;
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: s$1,
+                      Error: new Error()
+                    };
               }), fmt);
 }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
+var $$Array = require("melange/lib/js/array.js");
 var Ext_filename_test = require("./ext_filename_test.js");
 
 var suites = {

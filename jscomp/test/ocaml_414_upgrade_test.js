@@ -1,7 +1,7 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Belt_Array = require("../../lib/js/belt_Array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Belt_Array = require("melange/lib/js/belt_Array.js");
 
 var N = {};
 

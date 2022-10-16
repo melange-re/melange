@@ -1,7 +1,7 @@
 'use strict';
 
-var $$Array = require("../../lib/js/array.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var $$Array = require("melange/lib/js/array.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 var v = Caml_array.make(6, 5);
 

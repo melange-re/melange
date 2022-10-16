@@ -21,7 +21,7 @@
       in
       rec {
         packages.default = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; };
-        devShell = pkgs.callPackage ./shell.nix {
+        devShell = pkgs.callPackage ./nix/shell.nix {
           dream2nix = dream2nix.lib2;
           melange = packages.default;
         };

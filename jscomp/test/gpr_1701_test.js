@@ -1,9 +1,9 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var List = require("melange/lib/js/list.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var Foo = /* @__PURE__ */Caml_exceptions.create("Gpr_1701_test.Foo");
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var Arg = require("../../lib/js/arg.js");
+var Arg = require("melange/lib/js/arg.js");
 
 function anno_fun(arg) {
   

@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_math = require("../../lib/js/js_math.js");
+var Js_math = require("melange/lib/js/js_math.js");
 
 var suites_0 = [
   "_E",

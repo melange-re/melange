@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_array = require("../../lib/js/caml_array.js");
-var Caml_splice_call = require("../../lib/js/caml_splice_call.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
+var Caml_splice_call = require("melange/lib/js/caml_splice_call.js");
 
 var suites = {
   contents: /* [] */0

@@ -1,9 +1,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Stack = require("../../lib/js/stack.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
+var List = require("melange/lib/js/list.js");
+var Stack = require("melange/lib/js/stack.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
 
 function to_list(v) {
   var acc = /* [] */0;

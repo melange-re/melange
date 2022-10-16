@@ -1,7 +1,7 @@
 'use strict';
 
-var Caml_oo_curry = require("../../lib/js/caml_oo_curry.js");
-var CamlinternalOO = require("../../lib/js/camlinternalOO.js");
+var Caml_oo_curry = require("melange/lib/js/caml_oo_curry.js");
+var CamlinternalOO = require("melange/lib/js/camlinternalOO.js");
 
 var shared = ["add"];
 

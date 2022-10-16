@@ -1,8 +1,8 @@
 'use strict';
 
-var Js_exn = require("../../lib/js/js_exn.js");
-var Caml_option = require("../../lib/js/caml_option.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Js_exn = require("melange/lib/js/js_exn.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 function test_js_error(param) {
   var e;

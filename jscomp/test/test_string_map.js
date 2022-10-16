@@ -1,8 +1,8 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib__no_aliases = require("../../lib/js/stdlib__no_aliases.js");
+var Caml = require("melange/lib/js/caml.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
 
 var compare = Caml.caml_string_compare;
 
@@ -146,7 +146,7 @@ function find(x, _param) {
       continue ;
     }
     throw {
-          RE_EXN_ID: Stdlib__no_aliases.Not_found,
+          RE_EXN_ID: Stdlib.Not_found,
           Error: new Error()
         };
   };

@@ -35,18 +35,17 @@ type package_info = {
 
 type t
 
-val runtime_package_specs : t
-val runtime_test_package_specs : t
+val for_cmj : t -> t
 val is_runtime_package : t -> bool
 val same_package_by_name : t -> t -> bool
 val iter : t -> (package_info -> unit) -> unit
 val empty : t
-val from_name : string -> t
+val from_name : ?t:t -> string -> t
 val is_empty : t -> bool
 val dump_packages_info : Format.formatter -> t -> unit
 
 val add_npm_package_path : t -> string -> t
-(** used by command line option 
+(** used by command line option
   e.g [-bs-package-output commonjs:xx/path]
 *)
 

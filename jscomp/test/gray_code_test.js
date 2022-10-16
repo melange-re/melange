@@ -1,7 +1,7 @@
 'use strict';
 
-var Bytes = require("../../lib/js/bytes.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 function gray_encode(b) {
   return b ^ (b >>> 1);

@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Caml_string = require("../../lib/js/caml_string.js");
+var $$Array = require("melange/lib/js/array.js");
+var Caml_string = require("melange/lib/js/caml_string.js");
 
 var suites = {
   contents: /* [] */0

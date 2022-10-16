@@ -25,15 +25,7 @@
 let packages_info = ref Js_packages_info.empty
 
 let set_package_name name =
-  if Js_packages_info.is_empty !packages_info then
-    packages_info := Js_packages_info.from_name name
-  else raise (Arg.Bad "duplicated flag for -bs-package-name")
-
-let make_runtime () : unit =
-  packages_info := Js_packages_info.runtime_package_specs
-
-let make_runtime_test () : unit =
-  packages_info := Js_packages_info.runtime_test_package_specs
+  packages_info := Js_packages_info.from_name ~t:!packages_info name
 
 let set_package_map module_name =
   (* set_package_name name ;
@@ -45,3 +37,4 @@ let update_npm_package_path s =
   packages_info := Js_packages_info.add_npm_package_path !packages_info s
 
 let get_packages_info () = !packages_info
+let get_packages_info_for_cmj () = Js_packages_info.for_cmj !packages_info

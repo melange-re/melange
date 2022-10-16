@@ -1,6 +1,6 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 
 function foo(x) {
   if (typeof x === "string" || !(x.NAME === "Foo" && x.VAL === 3)) {

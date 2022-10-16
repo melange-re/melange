@@ -1,8 +1,8 @@
 'use strict';
 
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_array = require("../../lib/js/caml_array.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_array = require("melange/lib/js/caml_array.js");
 
 function map(f, a) {
   var f$1 = Curry.__1(f);
@@ -23,7 +23,11 @@ function init(l, f) {
     return [];
   }
   if (l < 0) {
-    return Stdlib.invalid_arg("Array.init");
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Array.init",
+          Error: new Error()
+        };
   }
   var res = Caml_array.make(l, f$1(0));
   for(var i = 1; i < l; ++i){

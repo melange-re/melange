@@ -1,8 +1,8 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Stack = require("../../lib/js/stack.js");
-var Pervasives = require("../../lib/js/pervasives.js");
+var List = require("melange/lib/js/list.js");
+var Stack = require("melange/lib/js/stack.js");
+var Pervasives = require("melange/lib/js/pervasives.js");
 
 var List$1 = {
   length: List.length,

@@ -1,43 +1,20 @@
 {
-  "devDependencies": {
-    "mocha": "^10.0.0"
-  },
-  "bin": {
-    "bsb": "bsb",
-    "bsc": "bsc",
-    "bsrefmt": "bsrefmt",
-    "bstracing": "lib/bstracing",
-    "rescript": "rescript"
-  },
-  "scripts": {
-    "test": "node scripts/ciTest.js  -all",
-    "test-theme": "node scripts/ciTest.js -theme",
-    "test-bsb": "node scripts/ciTest.js -bsb",
-    "test-ocaml": "node scripts/ciTest.js -ounit"
-  },
   "name": "melange",
-  "version": "9.1.0",
-  "description": "ReScript toolchain",
+  "version": "n/a",
+  "description": "Melange toolchain",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rescript-lang/rescript-compiler.git"
+    "url": "git+https://github.com/melange-re/melange.git"
   },
   "keywords": [
-    "ReScript",
+    "Melange",
+    "OCaml",
+    "JavaScript",
     "Functional Programming"
-  ],
-  "author": {
-    "name": "Hongbo Zhang"
-  },
-  "maintainers": [
-    {
-      "name": "hongbo_zhang",
-      "email": "bobzhang1988@gmail.com"
-    }
   ],
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/rescript-lang/rescript-compiler/issues"
+    "url": "https://github.com/melange-re/melange/issues"
   },
-  "homepage": "https://github.com/rescript-lang/rescript-compiler#readme"
+  "homepage": "https://github.com/melange-re/melange#README.md"
 }

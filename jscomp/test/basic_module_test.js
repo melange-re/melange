@@ -1,7 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("../../lib/js/curry.js");
+var Curry = require("melange/lib/js/curry.js");
 var Offset = require("./offset.js");
 var Mt_global = require("./mt_global.js");
 

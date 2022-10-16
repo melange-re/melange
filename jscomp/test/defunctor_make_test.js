@@ -1,7 +1,6 @@
 'use strict';
 
-var Caml = require("../../lib/js/caml.js");
-var Stdlib = require("../../lib/js/stdlib.js");
+var Caml = require("melange/lib/js/caml.js");
 
 function getcompare(x) {
   return x;
@@ -40,20 +39,28 @@ function bal(l, x, d, r) {
   var hl = l ? l._4 : 0;
   var hr = r ? r._4 : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l._3;
+      var ld = l._2;
+      var lv = l._1;
+      var ll = l._0;
+      if (height(ll) >= height(lr)) {
+        return create(ll, lv, ld, create(lr, x, d, r));
+      }
+      if (lr) {
+        return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l._3;
-    var ld = l._2;
-    var lv = l._1;
-    var ll = l._0;
-    if (height(ll) >= height(lr)) {
-      return create(ll, lv, ld, create(lr, x, d, r));
-    } else if (lr) {
-      return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -64,20 +71,28 @@ function bal(l, x, d, r) {
             _4: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r._3;
+    var rd = r._2;
+    var rv = r._1;
+    var rl = r._0;
+    if (height(rr) >= height(rl)) {
+      return create(create(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r._3;
-  var rd = r._2;
-  var rv = r._1;
-  var rl = r._0;
-  if (height(rr) >= height(rl)) {
-    return create(create(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function add(x, data, compare, param) {

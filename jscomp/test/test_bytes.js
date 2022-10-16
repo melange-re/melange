@@ -1,6 +1,6 @@
 'use strict';
 
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 var f = Caml_bytes.bytes_to_string;
 

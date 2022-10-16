@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("../../lib/js/array.js");
-var Js_mapperRt = require("../../lib/js/js_mapperRt.js");
+var $$Array = require("melange/lib/js/array.js");
+var Js_mapperRt = require("melange/lib/js/js_mapperRt.js");
 
 var suites = {
   contents: /* [] */0

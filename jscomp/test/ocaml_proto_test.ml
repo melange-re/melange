@@ -1,5 +1,5 @@
-[@@@bs.config {flags = [|"-w";"a";"-bs-no-bin-annot"|]}]
-module 
+[@@@bs.config {flags = [|"-w";"a"|]}]
+module
 Pbpt
 = struct
 #1 "pbpt.ml"

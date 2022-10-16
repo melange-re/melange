@@ -1,10 +1,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("../../lib/js/list.js");
-var Bytes = require("../../lib/js/bytes.js");
+var List = require("melange/lib/js/list.js");
+var Bytes = require("melange/lib/js/bytes.js");
 var Test_char = require("./test_char.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 var suites_0 = [
   "caml_is_printable",

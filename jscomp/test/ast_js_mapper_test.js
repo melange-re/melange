@@ -1,6 +1,6 @@
 'use strict';
 
-var Js_mapperRt = require("../../lib/js/js_mapperRt.js");
+var Js_mapperRt = require("melange/lib/js/js_mapperRt.js");
 
 function tToJs(param) {
   return {

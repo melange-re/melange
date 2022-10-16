@@ -1,6 +1,6 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
+var List = require("melange/lib/js/list.js");
 var List$1 = require("List");
 var List$2 = require("reactV");
 var List$3 = require("reactX");

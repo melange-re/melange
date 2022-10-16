@@ -1,10 +1,10 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_exceptions = require("../../lib/js/caml_exceptions.js");
+var List = require("melange/lib/js/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
 
 function cons_enum(_s, _e) {
   while(true) {
@@ -309,15 +309,19 @@ function internal_bal(l, v, r) {
 }
 
 function remove_min_elt(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Set.remove_min_elt");
+  if (param) {
+    var l = param._0;
+    if (l) {
+      return internal_bal(remove_min_elt(l), param._1, param._2);
+    } else {
+      return param._2;
+    }
   }
-  var l = param._0;
-  if (l) {
-    return internal_bal(remove_min_elt(l), param._1, param._2);
-  } else {
-    return param._2;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function singleton(x) {

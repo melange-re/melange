@@ -1,12 +1,12 @@
 'use strict';
 
-var List = require("../../lib/js/list.js");
-var Curry = require("../../lib/js/curry.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Hashtbl = require("../../lib/js/hashtbl.js");
-var Caml_obj = require("../../lib/js/caml_obj.js");
-var Caml_format = require("../../lib/js/caml_format.js");
-var Caml_option = require("../../lib/js/caml_option.js");
+var List = require("melange/lib/js/list.js");
+var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Hashtbl = require("melange/lib/js/hashtbl.js");
+var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 var equal = Caml_obj.caml_equal;
 
@@ -31,7 +31,7 @@ function of_float(x) {
 function of_bool(x) {
   return {
           NAME: "Atom",
-          VAL: Stdlib.string_of_bool(x)
+          VAL: x ? "true" : "false"
         };
 }
 
@@ -484,9 +484,12 @@ function get_variant(l, e) {
 function get_exn(e) {
   if (e !== undefined) {
     return Caml_option.valFromOption(e);
-  } else {
-    return Stdlib.failwith("CCSexp.Traverse.get_exn");
   }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "CCSexp.Traverse.get_exn",
+        Error: new Error()
+      };
 }
 
 var of_unit = {

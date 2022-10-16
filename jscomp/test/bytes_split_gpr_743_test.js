@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("../../lib/js/bytes.js");
-var Caml_bytes = require("../../lib/js/caml_bytes.js");
+var Bytes = require("melange/lib/js/bytes.js");
+var Caml_bytes = require("melange/lib/js/caml_bytes.js");
 
 var suites = {
   contents: /* [] */0

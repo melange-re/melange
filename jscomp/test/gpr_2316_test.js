@@ -1,8 +1,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("../../lib/js/stdlib.js");
-var Caml_js_exceptions = require("../../lib/js/caml_js_exceptions.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -32,8 +32,11 @@ function eq(loc, x, y) {
 var y;
 
 try {
-  Stdlib.failwith("boo");
-  y = undefined;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "boo",
+        Error: new Error()
+      };
 }
 catch (raw_msg){
   var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
@@ -48,11 +51,12 @@ var x;
 
 var exit = 0;
 
-var e;
-
 try {
-  e = Stdlib.failwith("boo");
-  exit = 1;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "boo",
+        Error: new Error()
+      };
 }
 catch (raw_msg$1){
   var msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);
