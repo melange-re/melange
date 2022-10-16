@@ -379,7 +379,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       help
     } ->
   if help then `Help (`Auto, None)
-  else begin
+  else begin try
     Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
     Ext_list.iter alerts Warnings.parse_alert_option;
     Ext_list.iter warnings (fun w ->
@@ -479,10 +479,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
 
-    try
-      Ext_option.iter impl_source_file impl;
-      Ext_option.iter intf_source_file intf;
-      anonymous ~rev_args:(List.rev filenames)
+    Ext_option.iter impl_source_file impl;
+    Ext_option.iter intf_source_file intf;
+    anonymous ~rev_args:(List.rev filenames)
     with
     | Arg.Bad msg ->
         Format.eprintf "%s@." msg;

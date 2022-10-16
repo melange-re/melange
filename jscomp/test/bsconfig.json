@@ -4,10 +4,13 @@
     "module": "commonjs",
     "in-source": true
   },
+  "warnings": {
+    "number": "-3-6-9-20-26-27-30-32..39-52-106+104",
+    "error": "+A"
+  },
   "bsc-flags": [
-    "-w",
-    "-6-32-34",
-    "-bs-no-version-header"
+    "-bs-no-version-header",
+    "-bs-cross-module-opt"
   ],
   "sources": {
     "dir": ".",

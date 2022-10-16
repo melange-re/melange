@@ -25,9 +25,7 @@
 let packages_info = ref Js_packages_info.empty
 
 let set_package_name name =
-  if Js_packages_info.is_empty !packages_info then
-    packages_info := Js_packages_info.from_name name
-  else raise (Arg.Bad "duplicated flag for -bs-package-name")
+  packages_info := Js_packages_info.from_name ~t:!packages_info name
 
 let set_package_map module_name =
   (* set_package_name name ;

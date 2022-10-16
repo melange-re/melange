@@ -97,7 +97,7 @@ let iter (x : t) cb = Ext_list.iter x.module_systems cb
 *)
 let empty : t = { name = None; module_systems = [] }
 
-let from_name (name : string) : t = { name = Some name; module_systems = [] }
+let from_name ?(t = empty) (name : string) : t = { t with name = Some name }
 let is_empty (x : t) = Option.is_none x.name
 
 let string_of_module_system (ms : module_system) =
