@@ -5,7 +5,7 @@ set -u
 
 cd $cur__lib
 
-mv melange/js js
-mv melange/es6 es6
+ln -sfn melange/js js
+ln -sfn melange/es6 es6
 mv melange/melange/* melange
 rm -rf melange/melange
