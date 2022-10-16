@@ -83,7 +83,6 @@ let make_world_deps ~cwd ~buf =
   maybe_warn_about_dependencies_outside_workspace ~cwd config
     ~package_specs:config.package_specs;
 
-  Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:cwd config;
   let deps = config.package_specs in
   let dep_configs = build_bs_deps cwd ~buf deps in
   let file_groups = ref [] in
