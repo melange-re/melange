@@ -205,6 +205,7 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
   let mj, mj_dev = aux ~read_cmi:`yes ~postbuild:has_postbuild in
   let mij, mij_dev = aux ~read_cmi:`no ~postbuild:has_postbuild in
   let mi, mi_dev = aux ~read_cmi:`is_cmi ~postbuild:None in
+
   let build_package =
     define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
         let s =
