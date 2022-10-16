@@ -23,64 +23,39 @@ let
   inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
 in
 
-{
-  melange-runtime-tests = stdenv.mkDerivation {
-    name = "melange-tests-${inputString}";
+stdenv.mkDerivation {
+  name = "melange-tests-${inputString}";
 
-    src = ../../jscomp/test;
+  src = ../../jscomp/test;
 
-    # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-    # the dream of running fixed-output-derivations is dead -- somehow after
-    # Nix 2.4 it results in `error: unexpected end-of-file`.
-    # Example: https://github.com/melange-re/melange/runs/4132970590
+  # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
+  # the dream of running fixed-output-derivations is dead -- somehow after
+  # Nix 2.4 it results in `error: unexpected end-of-file`.
+  # Example: https://github.com/melange-re/melange/runs/4132970590
 
-    outputHashMode = "flat";
-    outputHashAlgo = "sha256";
-    outputHash = builtins.hashString "sha256" "melange";
-    installPhase = ''
-      echo -n melange > $out
-    '';
+  outputHashMode = "flat";
+  outputHashAlgo = "sha256";
+  outputHash = builtins.hashString "sha256" "melange";
+  installPhase = ''
+    echo -n melange > $out
+  '';
 
-    phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+  phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
-    doCheck = true;
+  doCheck = true;
 
-    nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-    buildInputs = [ yarn nodejs melange ];
+  nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
+  buildInputs = [ yarn nodejs melange ];
 
-    NIX_NODE_MODULES_POSTINSTALL = ''
-      ln -sfn ${melange} node_modules/melange
-    '';
+  NIX_NODE_MODULES_POSTINSTALL = ''
+    ln -sfn ${melange} node_modules/melange
+  '';
 
-    checkPhase = ''
-      # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
-      yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
-      mel build -- --display=short
+  checkPhase = ''
+    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
+    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+    mel build -- --display=short
 
-      node ./node_modules/.bin/mocha "./*_test.js"
-    '';
-  };
-
-  melange-lint-checks = stdenv.mkDerivation {
-    name = "melange-tests-${inputString}";
-    src = ../..;
-
-    installPhase = ''
-      echo -n melange > $out
-    '';
-
-    phases = [ "unpackPhase" "checkPhase" "installPhase" ];
-
-    nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-    buildInputs = [ git melange ];
-    doCheck = true;
-
-    checkPhase = ''
-      # check that the runtime / stdlib rules didn't change.
-      mel rules
-
-      git diff --exit-code
-    '';
-  };
-
+    node ./node_modules/.bin/mocha "./*_test.js"
+  '';
 }
