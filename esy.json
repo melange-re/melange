@@ -32,9 +32,6 @@
       [
         "esy-installer",
         "$cur__target_dir/default/melange.install"
-      ],
-      [
-        "$cur__root/fix-install.sh"
       ]
     ],
     "buildEnv": {
