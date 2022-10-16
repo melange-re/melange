@@ -37,7 +37,7 @@ let lazy_block_info : Lam_tag_info.t =
 let unbox_extension info (args : Lam.t list) mutable_flag loc =
   prim ~primitive:(Pmakeblock (0, info, mutable_flag)) ~args loc
 
-(** A conservative approach to avoid packing exceptions
+(* A conservative approach to avoid packing exceptions
     for lambda expression like {[
       try { ... }catch(id){body}
     ]}
@@ -116,7 +116,7 @@ let no_over_flow_int32 x = Int32.abs x < 0x1fff_ffffl
 let lam_is_var (x : Lam.t) (y : Ident.t) =
   match x with Lvar y2 | Lmutvar y2 -> Ident.same y2 y | _ -> false
 
-(** Make sure no int range overflow happens
+(* Make sure no int range overflow happens
     also we only check [int]
 *)
 let happens_to_be_diff (sw_consts : (int * Lam.t) list) : int32 option =
@@ -145,9 +145,9 @@ let happens_to_be_diff (sw_consts : (int * Lam.t) list) : int32 option =
 
 (* type required_modules = Lam_module_ident.Hash_set.t *)
 
-(** drop Lseq (List! ) etc
-  see #3852, we drop all these required global modules
-  but added it back based on our own module analysis
+(* drop Lseq (List! ) etc
+   see #3852, we drop all these required global modules
+   but added it back based on our own module analysis
 *)
 let rec drop_global_marker (lam : Lam.t) =
   match lam with
@@ -847,7 +847,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
   in
   (convert_aux lam, may_depends)
 
-(** FIXME: more precise analysis of [id], if it is not
+(* FIXME: more precise analysis of [id], if it is not
     used, we can remove it
         only two places emit [Lifused],
         {[
@@ -863,7 +863,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
 
         | Lifused(v, l) ->
           if count_var v > 0 then simplif l else lambda_unit
-      *)
+*)
 
 (*
         | Lfunction(kind,params,Lprim(prim,inner_args,inner_loc))
