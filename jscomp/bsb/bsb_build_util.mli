@@ -63,8 +63,6 @@ val rel_include_dirs :
   string list ->
   string
 
-val mkp : string -> unit
-
 (* The path of [bsc] and [bsdep] is normalized so that the invokation of [./jscomp/bin/bsb.exe]
    and [bsb.exe] (combined with a dirty bsconfig.json) will not trigger unnecessary rebuild.
 

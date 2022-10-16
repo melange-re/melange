@@ -102,8 +102,11 @@ let process_deps_for_dune ~proj_dir ~cur_dir deps =
   in
   String.concat " " rel_deps
 
-let emit_d ~package_name ~root_dir ~cur_dir ~proj_dir ~(is_dev : bool)
+let emit_d ~package_name ~root_dir ~proj_dir ~(is_dev : bool)
     (namespace : string option) (mlast : string) (mliast : string) =
+  let cur_dir = Mel_workspace.cwd in
+  let root_dir = Ext_path.normalize_absolute_path (cur_dir // root_dir) in
+  let proj_dir = Ext_path.normalize_absolute_path (cur_dir // proj_dir) in
   let rel_artifacts_dir =
     Mel_workspace.rel_artifacts_dir ~package_name ~root_dir ~proj_dir cur_dir
   in

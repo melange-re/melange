@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+let ( // ) = Ext_path.combine
+
 module Generators = struct
   let regexp = Str.regexp "\\(\\$in\\)\\|\\(\\$out\\)"
 
@@ -171,28 +173,34 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
       define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild) )
   in
 
-  let build_bin_deps =
-    define ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
-        let s =
-          Format.asprintf
-            "(action (run %s -root-dir %s -cwd %s -p %s -proj-dir %s %s \
-             %%{inputs}))"
-            global_config.bsdep global_config.root_dir cur_dir package_name
-            global_config.per_proj_dir ns_flag
-        in
-        Buffer.add_string buf s)
+  let meldep ~is_dev buf ?error_syntax_kind:_ ?target:_ cur_dir =
+    let virtual_proj_dir =
+      Mel_workspace.virtual_proj_dir ~root_dir:global_config.root_dir
+        ~package_dir:global_config.per_proj_dir
+        ~package_name:global_config.package_name
+    in
+    let root =
+      Ext_path.rel_normalized_absolute_path
+        ~from:(virtual_proj_dir // cur_dir)
+        global_config.root_dir
+    in
+    let rel_proj_dir =
+      Ext_path.rel_normalized_absolute_path
+        ~from:(virtual_proj_dir // cur_dir)
+        virtual_proj_dir
+    in
+    let s =
+      Format.asprintf
+        "(action (run %s %s -root-dir %s -p %s -proj-dir %s %s %%{inputs}))"
+        global_config.bsdep
+        (if is_dev then "-g" else "")
+        root package_name rel_proj_dir ns_flag
+    in
+    Buffer.add_string buf s
   in
-  let build_bin_deps_dev =
-    define ~command:(fun buf ?error_syntax_kind:_ ?target:_ cur_dir ->
-        let s =
-          Format.asprintf
-            "(action (run %s -root-dir %s -g -cwd %s -p %s -proj-dir %s %s \
-             %%{inputs}))"
-            global_config.bsdep global_config.root_dir cur_dir package_name
-            global_config.per_proj_dir ns_flag
-        in
-        Buffer.add_string buf s)
-  in
+
+  let build_bin_deps = define ~command:(meldep ~is_dev:false) in
+  let build_bin_deps_dev = define ~command:(meldep ~is_dev:true) in
 
   let mj, mj_dev = aux ~read_cmi:`yes ~postbuild:has_postbuild in
   let mij, mij_dev = aux ~read_cmi:`no ~postbuild:has_postbuild in

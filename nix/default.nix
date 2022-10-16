@@ -11,7 +11,7 @@ buildDunePackage rec {
     include = [
       "dune-project"
       "dune"
-      "dune-workspace"
+      "dune.mel"
       "melange.opam"
       "melange.opam.template"
       "bsconfig.json"

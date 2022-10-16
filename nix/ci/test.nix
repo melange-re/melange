@@ -71,13 +71,13 @@ in
 
     phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
-    nativeBuildInputs = with ocamlPackages; [ ocaml ];
-    buildInputs = [ git nodejs melange ];
+    nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
+    buildInputs = [ git melange ];
     doCheck = true;
 
     checkPhase = ''
-      # check that running `node scripts/ninja.js config` produces an empty diff.
-      node scripts/ninja.js config
+      # check that the runtime / stdlib rules didn't change.
+      mel rules
 
       git diff --exit-code
     '';

@@ -261,7 +261,7 @@ let set_color_option option =
 let eval (s : string) ~suffix =
   let tmpfile = Filename.temp_file "eval" suffix in
   Ext_io.write_file tmpfile s;
-  let ret = anonymous  ~rev_args:[tmpfile] in
+  let ret = anonymous ~rev_args:[tmpfile] in
   Ast_reason_pp.clean tmpfile;
   ret
 

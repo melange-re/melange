@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let ( // ) = Ext_path.concat
+let cwd = Sys.getcwd ()
 
 let dune_build_dir =
   lazy

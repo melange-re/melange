@@ -41,6 +41,4 @@
  (action
   (progn
    (run mkdir -p %{targets})
-   (run cp %{runtime-mjs} %{targets})
-   (bash
-    "for file in %{targets}/*.mjs; do mv -- \"$file\" \"${file%.mjs}.js\"; done"))))
+   (run cp %{runtime-mjs} %{targets}))))

@@ -110,18 +110,18 @@ let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency)
     let source_path, package_install_path =
       if
           Mel_workspace.is_dep_inside_workspace
-            ~root_dir:Bsb_global_paths.cwd
+            ~root_dir:Mel_workspace.cwd
             ~package_dir:package_path then
         (
     let rel =
       Ext_path.rel_normalized_absolute_path
-        ~from:Bsb_global_paths.cwd
+        ~from:Mel_workspace.cwd
         (package_path // dir)
     in
-    Bsb_global_paths.cwd // rel, Bsb_global_paths.cwd // dune_build_dir // rel)
+    Mel_workspace.cwd // rel, Mel_workspace.cwd // dune_build_dir // rel)
       else
         (let source_path = package_path // dir
-          and build_path = Bsb_global_paths.cwd // dune_build_dir // (Mel_workspace.to_workspace_proj_dir ~package_name // dir)
+          and build_path = Mel_workspace.cwd // dune_build_dir // (Mel_workspace.to_workspace_proj_dir ~package_name // dir)
           in
           source_path, build_path)
     in
@@ -135,7 +135,7 @@ let package_merlin buffer ~dune_build_dir (package: Bsb_config_types.dependency)
       (Mel_workspace.absolute_artifacts_dir
       ~package_name:(Bsb_pkg_types.to_string package.package_name)
       ~include_dune_build_dir:true
-        ~root_dir:Bsb_global_paths.cwd
+        ~root_dir:Mel_workspace.cwd
         package.package_path)
 
 

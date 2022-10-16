@@ -53,7 +53,7 @@
  (modules ounit_tests_main)
  (deps
   melc.exe
-  (alias ../runtime/all)
-  (alias ../others/all)
-  (alias ../stdlib-412/all))
+  (alias ../runtime/mel)
+  (alias ../others/mel)
+  (alias ../stdlib-412/mel))
  (libraries ounit2 bs_hash_stubs ext common bsb bsb_helper core ounit_tests))

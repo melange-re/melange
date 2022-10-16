@@ -13,3 +13,7 @@
 (install
  (dirs lib/es6 lib/melange lib/js)
  (section lib))
+
+;;;;{BSB GENERATED: NO EDIT
+(include dune.mel)
+;;;;BSB GENERATED: NO EDIT}
