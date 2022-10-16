@@ -36,6 +36,12 @@ let default_mapper = Bs_ast_mapper.default_mapper
 
 let expr_mapper (self : mapper) (expr : Parsetree.expression) =
   match expr.pexp_desc with
+  | Pexp_apply ({ pexp_desc = Pexp_send (obj, { txt = name; loc }); _ }, args)
+    ->
+      {
+        expr with
+        pexp_desc = Ast_uncurry_apply.property_apply loc self obj name args;
+      }
   | Pexp_send
       ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _; _ } as subexpr),
         { txt = name; loc } ) ->
