@@ -133,7 +133,7 @@ let export_to_cmj meta effect export_map case =
   let values = values_of_export meta export_map in
 
   Js_cmj_format.make ~values ~effect
-    ~package_spec:(Js_packages_state.get_packages_info ())
+    ~package_spec:(Js_packages_state.get_packages_info_for_cmj ())
     ~case
 (* FIXME: make sure [-o] would not change its case
    add test for ns/non-ns

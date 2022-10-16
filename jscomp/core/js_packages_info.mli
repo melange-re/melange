@@ -35,6 +35,7 @@ type package_info = {
 
 type t
 
+val for_cmj : t -> t
 val is_runtime_package : t -> bool
 val same_package_by_name : t -> t -> bool
 val iter : t -> (package_info -> unit) -> unit

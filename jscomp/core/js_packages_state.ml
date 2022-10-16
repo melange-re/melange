@@ -39,3 +39,4 @@ let update_npm_package_path s =
   packages_info := Js_packages_info.add_npm_package_path !packages_info s
 
 let get_packages_info () = !packages_info
+let get_packages_info_for_cmj () = Js_packages_info.for_cmj !packages_info
