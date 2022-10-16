@@ -111,6 +111,7 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
 
 let abs_int x = if x < 0 then -x else x
 let no_over_flow x = abs_int x < 0x1fff_ffff
+let no_over_flow_int32 x = Int32.abs x < 0x1fff_ffffl
 
 let lam_is_var (x : Lam.t) (y : Ident.t) =
   match x with Lvar y2 | Lmutvar y2 -> Ident.same y2 y | _ -> false
@@ -118,29 +119,24 @@ let lam_is_var (x : Lam.t) (y : Ident.t) =
 (* Make sure no int range overflow happens
     also we only check [int]
 *)
-let happens_to_be_diff (sw_consts : (int * Lambda.lambda) list) : int option =
+let happens_to_be_diff (sw_consts : (int * Lam.t) list) : int32 option =
   match sw_consts with
-  | ( a,
-      Lconst
-        ( Const_base (Const_int a0, Pt_constructor _)
-        | Const_base (Const_int a0, _) ) )
-    :: ( b,
-         Lconst
-           ( Const_base (Const_int b0, Pt_constructor _)
-           | Const_base (Const_int b0, _) ) )
+  | (a, Lconst (Const_int { i = a0; comment = _ }))
+    :: (b, Lconst (Const_int { i = b0; comment = _ }))
     :: rest
-    when no_over_flow a && no_over_flow a0 && no_over_flow b && no_over_flow b0
-    ->
-      let diff = a0 - a in
-      if b0 - b = diff then
+    when no_over_flow a && no_over_flow_int32 a0 && no_over_flow b
+         && no_over_flow_int32 b0 ->
+      let a = Int32.of_int a in
+      let b = Int32.of_int b in
+      let diff = Int32.sub a0 a in
+      if Int32.sub b0 b = diff then
         if
           Ext_list.for_all rest (fun (x, lam) ->
               match lam with
-              | Lconst
-                  ( Const_base (Const_int x0, Pt_constructor _)
-                  | Const_base (Const_int x0, _) )
-                when no_over_flow x0 && no_over_flow x ->
-                  x0 - x = diff
+              | Lconst (Const_int { i = x0; comment = _ })
+                when no_over_flow_int32 x0 && no_over_flow x ->
+                  let x = Int32.of_int x in
+                  Int32.sub x0 x = diff
               | _ -> false)
         then Some diff
         else None
@@ -416,14 +412,15 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
 
 let may_depend = Lam_module_ident.Hash_set.add
 
-let rec rename_optional_parameters map params (body : Lambda.lambda) =
+let rec rename_optional_parameters map params (body : Lam.t) =
   match body with
   | Llet
       ( k,
-        value_kind,
         id,
         Lifthenelse
-          (Lprim (p, [ Lvar opt ], p_loc), Lprim (p1, [ Lvar opt2 ], x_loc), f),
+          ( Lprim { primitive = p; args = [ Lvar opt ]; loc = p_loc },
+            Lprim { primitive = p1; args = [ Lvar opt2 ]; loc = x_loc },
+            f ),
         rest )
     when Ident.name opt = "*opt*"
          && Ident.name opt2 = "*opt*"
@@ -431,20 +428,18 @@ let rec rename_optional_parameters map params (body : Lambda.lambda) =
       let map, rest = rename_optional_parameters map params rest in
       let new_id = Ident.create_local (Ident.name id ^ "Opt") in
       ( Map_ident.add map opt new_id,
-        Lambda.Llet
-          ( k,
-            value_kind,
-            id,
-            Lifthenelse
-              ( Lprim (p, [ Lvar new_id ], p_loc),
-                Lprim (p1, [ Lvar new_id ], x_loc),
-                f ),
-            rest ) )
+        Lam.let_ k id
+          (Lam.if_
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             f)
+          rest )
   | Lmutlet
-      ( value_kind,
-        id,
+      ( id,
         Lifthenelse
-          (Lprim (p, [ Lvar opt ], p_loc), Lprim (p1, [ Lvar opt2 ], x_loc), f),
+          ( Lprim { primitive = p; args = [ Lvar opt ]; loc = p_loc },
+            Lprim { primitive = p1; args = [ Lvar opt2 ]; loc = x_loc },
+            f ),
         rest )
     when Ident.name opt = "*opt*"
          && Ident.name opt2 = "*opt*"
@@ -452,15 +447,14 @@ let rec rename_optional_parameters map params (body : Lambda.lambda) =
       let map, rest = rename_optional_parameters map params rest in
       let new_id = Ident.create_local (Ident.name id ^ "Opt") in
       ( Map_ident.add map opt new_id,
-        Lambda.Lmutlet
-          ( value_kind,
-            id,
-            Lifthenelse
-              ( Lprim (p, [ Lvar new_id ], p_loc),
-                Lprim (p1, [ Lvar new_id ], x_loc),
-                f ),
-            rest ) )
+        Lam.mutlet id
+          (Lam.if_
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             f)
+          rest )
   | _ -> (map, body)
+  [@@warning "-27"]
 
 let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     Lam.t * Lam_module_ident.Hash_set.t =
@@ -494,23 +488,19 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
   and convert_js_primitive (p : Primitive.description)
       (args : Lambda.lambda list) loc =
     let s = p.prim_name in
+    let args = Ext_list.map args convert_aux in
     match () with
-    | _ when s = "#is_not_none" ->
-        prim ~primitive:Pis_not_none ~args:(Ext_list.map args convert_aux) loc
+    | _ when s = "#is_not_none" -> prim ~primitive:Pis_not_none ~args loc
     | _ when s = "#val_from_unnest_option" ->
-        let v = convert_aux (Ext_list.singleton_exn args) in
+        let v = Ext_list.singleton_exn args in
         prim ~primitive:Pval_from_option_not_nest ~args:[ v ] loc
     | _ when s = "#val_from_option" ->
-        prim ~primitive:Pval_from_option
-          ~args:(Ext_list.map args convert_aux)
-          loc
+        prim ~primitive:Pval_from_option ~args loc
     | _ when s = "#is_poly_var_const" ->
-        prim ~primitive:Pis_poly_var_const
-          ~args:(Ext_list.map args convert_aux)
-          loc
+        prim ~primitive:Pis_poly_var_const ~args loc
     | _ when s = "#raw_expr" -> (
         match args with
-        | [ Lconst (Const_base (Const_string (code, _, _), _)) ] ->
+        | [ Lconst (Const_string code) ] ->
             (* js parsing here *)
             let kind = Classify_function.classify code in
             prim
@@ -519,7 +509,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         | _ -> assert false)
     | _ when s = "#raw_stmt" -> (
         match args with
-        | [ Lconst (Const_base (Const_string (code, _, _), _)) ] ->
+        | [ Lconst (Const_string code) ] ->
             let kind = Classify_function.classify_stmt code in
             prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
@@ -533,19 +523,17 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         prim ~primitive:(Pctconst Ostype) ~args:[ unit ] loc
     | _ when s = "#undefined" -> Lam.const Const_js_undefined
     | _ when s = "#init_mod" -> (
-        let args = Ext_list.map args convert_aux in
         match args with
         | [ _loc; Lconst (Const_block (0, _, [ Const_block (0, _, []) ])) ] ->
             Lam.unit
         | _ -> prim ~primitive:Pinit_mod ~args loc)
     | _ when s = "#update_mod" -> (
-        let args = Ext_list.map args convert_aux in
         match args with
         | [ Lconst (Const_block (0, _, [ Const_block (0, _, []) ])); _; _ ] ->
             Lam.unit
         | _ -> prim ~primitive:Pupdate_mod ~args loc)
     | _ when s = "#extension_slot_eq" -> (
-        match Ext_list.map args convert_aux with
+        match args with
         | [ lhs; rhs ] ->
             prim
               ~primitive:(Pccall { prim_name = "caml_string_equal" })
@@ -592,16 +580,12 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         in
         if primitive = Pfull_apply then
           match args with
-          | [ Lapply { ap_func = Lprim (Popaque, [ ap_func ], _); ap_args } ] ->
-              let ap_func = convert_aux ap_func in
-              let ap_args = Ext_list.map ap_args convert_aux in
+          | [ Lapply { ap_func; ap_args } ] ->
               prim ~primitive ~args:(ap_func :: ap_args) loc
               (* There may be some optimization opportunities here
                  for cases like `(fun [@bs] a b -> a + b ) 1 2 [@bs]` *)
           | _ -> assert false
-        else
-          let args = Ext_list.map args convert_aux in
-          prim ~primitive ~args loc
+        else prim ~primitive ~args loc
   and convert_aux (lam : Lambda.lambda) : Lam.t =
     match lam with
     | Lvar x -> Lam.var (Hash_ident.find_default alias_tbl x x)
@@ -617,20 +601,18 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
             ap_status = App_na;
           }
     | Lfunction { params; body; attr } ->
-        let just_params = List.map fst params in
+        let just_params = Ext_list.map params fst in
+        let body = convert_aux body in
         let new_map, body =
           rename_optional_parameters Map_ident.empty just_params body
         in
-        if Map_ident.is_empty new_map then
-          Lam.function_ ~attr ~arity:(List.length params) ~params:just_params
-            ~body:(convert_aux body)
-        else
-          let params =
+        let params =
+          if Map_ident.is_empty new_map then just_params
+          else
             Ext_list.map just_params (fun x ->
                 Map_ident.find_default new_map x x)
-          in
-          Lam.function_ ~attr ~arity:(List.length params) ~params
-            ~body:(convert_aux body)
+        in
+        Lam.function_ ~attr ~arity:(List.length params) ~params ~body
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
         convert_let kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body
@@ -672,7 +654,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         convert_aux b
     | Lstaticcatch (b, (i, ids), handler) ->
         Lam.staticcatch (convert_aux b)
-          (i, List.map fst ids)
+          (i, Ext_list.map ids fst)
           (convert_aux handler)
     | Ltrywith (b, id, handler) ->
         let body = convert_aux b in
@@ -692,8 +674,11 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         Lam.for_ id (convert_aux from_) (convert_aux to_) dir (convert_aux loop)
     | Lassign (id, body) -> Lam.assign id (convert_aux body)
     | Lsend (kind, a, b, ls, loc) -> (
+        let a = convert_aux a in
+        let b = convert_aux b in
+        let ls = Ext_list.map ls convert_aux in
         (* Format.fprintf Format.err_formatter "%a@." Printlambda.lambda b ; *)
-        match convert_aux b with
+        match b with
         | Lprim { primitive = Pjs_unsafe_downgrade { loc }; args } -> (
             match kind with
             | Public (Some name) -> (
@@ -717,8 +702,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                     (* Since https://github.com/ocaml/ocaml/pull/10081, `b |> a` gets
                        turned into `a b` by the typechecker. So this actually means
                        `(x ## y) z` rather than `x#y z` *)
-                    Lam.apply lam
-                      [ convert_aux arg ]
+                    Lam.apply lam [ arg ]
                       {
                         ap_loc = loc;
                         ap_inlined = Default_inline;
@@ -726,16 +710,12 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                       }
                 | _ -> assert false)
             | _ -> assert false)
-        | b ->
-            Lam.send kind (convert_aux a) b
-              (Ext_list.map ls convert_aux)
-              (Debuginfo.Scoped_location.to_location loc))
-    | Levent _ ->
-        (* disabled by upstream*)
-        assert false
+        | b -> Lam.send kind a b ls (Debuginfo.Scoped_location.to_location loc))
+    | Levent (e, _ev) -> convert_aux e
     | Lifused (_, e) -> convert_aux e (* TODO: remove it ASAP *)
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
       Lam.t =
+    let e = convert_aux e in
     match (kind, e) with
     | Alias, Lvar u ->
         let new_u = Hash_ident.find_default alias_tbl u u in
@@ -744,7 +724,6 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
           Lam.let_ kind id (Lam.var new_u) (convert_aux body)
         else convert_aux body
     | _, _ -> (
-        let new_e = convert_aux e in
         let new_body = convert_aux body in
         (*
             reverse engineering cases as {[
@@ -760,7 +739,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
 
          To advance this case, when [sw_failaction] is None
       *)
-        match (kind, new_e, new_body) with
+        match (kind, e, new_body) with
         | ( Alias,
             Lprim
               { primitive = Poffsetint offset; args = [ (Lvar _ as matcher) ] },
@@ -783,7 +762,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                 sw_consts =
                   Ext_list.map sw_consts (fun (i, act) -> (i - offset, act));
               }
-        | _ -> Lam.let_ kind id new_e new_body)
+        | _ -> Lam.let_ kind id e new_body)
   and convert_mutlet id (e : Lambda.lambda) body : Lam.t =
     let new_e = convert_aux e in
     let new_body = convert_aux body in
@@ -836,15 +815,14 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
      sw_consts;
      sw_numconsts;
     } -> (
+        let sw_consts =
+          Ext_list.map sw_consts (fun (i, lam) -> (i, convert_aux lam))
+        in
         match happens_to_be_diff sw_consts with
-        | Some 0 -> e
+        | Some 0l -> e
         | Some i ->
             prim ~primitive:Paddint
-              ~args:
-                [
-                  e;
-                  Lam.const (Const_int { i = Int32.of_int i; comment = None });
-                ]
+              ~args:[ e; Lam.const (Const_int { i; comment = None }) ]
               Location.none
         | None ->
             Lam.switch e
@@ -852,7 +830,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                 sw_failaction = None;
                 sw_blocks = [];
                 sw_blocks_full = true;
-                sw_consts = Ext_list.map_snd sw_consts convert_aux;
+                sw_consts;
                 sw_consts_full = Ext_list.length_ge sw_consts sw_numconsts;
                 sw_names = s.sw_names;
               })
