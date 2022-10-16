@@ -6,8 +6,8 @@ let
 
   outputs = dream2nix.makeFlakeOutputs {
     systems = [ system ];
-    config.projectRoot = ./jscomp/build_tests/monorepo;
-    source = ./jscomp/build_tests/monorepo;
+    config.projectRoot = ../jscomp/build_tests/monorepo;
+    source = ../jscomp/build_tests/monorepo;
   };
 
   npmPackages = lib.trace "${builtins.toJSON( ( outputs))}" outputs.packages."${system}".monorepo;
