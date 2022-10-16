@@ -57,6 +57,7 @@ val starts_with : string -> string -> bool
 val ends_with_index : string -> string -> int
 
 val ends_with : string -> string -> bool
+val ends_with_char : string -> char -> bool
 
 (**
   [ends_with_then_chop name ext]

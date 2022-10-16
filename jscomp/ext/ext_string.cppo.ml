@@ -112,6 +112,10 @@ let ends_with_then_chop s beg =
   if i >= 0 then Some (String.sub s 0 i)
   else None
 
+let ends_with_char s c =
+  let len = String.length s in
+  len <> 0 && s.[len - 1] = c
+
 (* let check_suffix_case = ends_with  *)
 (* let check_suffix_case_then_chop = ends_with_then_chop *)
 
