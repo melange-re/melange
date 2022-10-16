@@ -25,7 +25,6 @@
 val emit_d :
   package_name:string ->
   root_dir:string ->
-  cur_dir:string ->
   proj_dir:string ->
   is_dev:bool ->
   string option ->

@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let cwd = Sys.getcwd ()
-
 (**
    If [Sys.executable_name] gives an absolute path,
    nothing needs to be done.
@@ -47,7 +45,7 @@ let cwd = Sys.getcwd ()
 let bsc_dir =
   Filename.dirname
     (Ext_path.normalize_absolute_path
-       (Ext_path.combine cwd Sys.executable_name))
+       (Ext_path.combine Mel_workspace.cwd Sys.executable_name))
 
 let vendor_bsc = "melc"
 let vendor_bsdep = "meldep"

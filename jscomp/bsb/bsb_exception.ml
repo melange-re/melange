@@ -61,8 +61,10 @@ let print (fmt : Format.formatter) (x : error) =
         Format.fprintf fmt
           "File \"bsconfig.json\", line 1\n\
            @{<error>Error:@} package @{<error>%s@} not found or built %s\n\
-           - Did you install it?\n\
-           - If you did, did you run `bsb -make-world`?" name in_json
+           - If it's a dependency, did you install it?\n\
+           - Is it a workspace library, did you list it in the `workspace` \
+           config?\n\
+           - If you did, did you run `mel build`?" name in_json
   | Json_config (pos, s) ->
       Format.fprintf fmt
         "File %S, line %d:\n\

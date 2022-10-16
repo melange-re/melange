@@ -376,14 +376,14 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string) :
                 let artifacts_dir =
                   Mel_workspace.absolute_artifacts_dir
                     ~package_name:(Bsb_pkg_types.to_string dep.package_name)
-                    ~root_dir:Bsb_global_paths.cwd dep.package_path
+                    ~root_dir:Mel_workspace.cwd dep.package_path
                 in
                 let rel_dir =
-                  Ext_path.rel_normalized_absolute_path
-                    ~from:Bsb_global_paths.cwd artifacts_dir
+                  Ext_path.rel_normalized_absolute_path ~from:Mel_workspace.cwd
+                    artifacts_dir
                 in
                 {
-                  Bsb_config_types.package_path = Bsb_global_paths.cwd;
+                  Bsb_config_types.package_path = Mel_workspace.cwd;
                   dir = rel_dir;
                   package_name = Bsb_pkg_types.to_string dep.package_name;
                 })
@@ -419,5 +419,5 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string) :
 let package_specs_from_bsconfig () =
   let json = Ext_json_parse.parse_json_from_file Literals.bsconfig_json in
   match json with
-  | Obj { map } -> Bsb_package_specs.from_map ~cwd:Bsb_global_paths.cwd map
+  | Obj { map } -> Bsb_package_specs.from_map ~cwd:Mel_workspace.cwd map
   | _ -> assert false
