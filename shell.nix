@@ -30,7 +30,7 @@ mkShell {
     pnpm
     python3
     nodejs-16_x
-    yarn
+    (yarn.override { nodejs = nodejs-16_x; })
   ] ++ (with ocamlPackages; [
     merlin
     utop
