@@ -11,6 +11,11 @@
 
 (package
  (name melange)
+ (homepage "https://github.com/melange-re/melange")
+ (maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+ (authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+ (bug_reports "https://github.com/melange-re/melange/issues")
+ (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
    (and
