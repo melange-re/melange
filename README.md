@@ -1,6 +1,6 @@
 # Melange
 
-### Tools for producing JS from Reason/OCaml.
+### Toolchain to produce JS from Reason/OCaml.
 
 Melange is a compiler for producing performant JavaScript from Reason and OCaml.
 Powered by a strong static type system with best-in-class type inference based
