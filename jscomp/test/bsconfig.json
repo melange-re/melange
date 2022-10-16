@@ -16,7 +16,39 @@
         "res_debug.res",
         "record_regression.res"
       ]
-    }
+    },
+    "generators": [
+      {
+        "name": "lex",
+        "edge": [
+          "arith_lexer.ml",
+          ":",
+          "arith_lexer.mll"
+        ]
+      },
+      {
+        "name": "lex",
+        "edge": [
+          "number_lexer.ml",
+          ":",
+          "number_lexer.mll"
+        ]
+      },
+      {
+        "name": "lex",
+        "edge": [
+          "simple_lexer_test.ml",
+          ":",
+          "simple_lexer_test.mll"
+        ]
+      }
+    ]
   },
+  "generators": [
+    {
+      "name": "lex",
+      "command": "ocamllex -o $out $in"
+    }
+  ],
   "generate-merlin": true
 }

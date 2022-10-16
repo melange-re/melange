@@ -1,17 +1,6 @@
 {
-  "name": "warnerror",
-  "version": "0.1.0",
+  "name": "monorepo",
   "scripts": {
-    "clean": "rescript clean -with-deps",
-    "build": "rescript build",
-    "watch": "rescript build -w"
-  },
-  "keywords": [
-    "BuckleScript"
-  ],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "bs-platform": "^8.4.0-dev.1"
+    "bash": "zsh"
   }
 }
