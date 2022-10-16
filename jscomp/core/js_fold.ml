@@ -183,7 +183,7 @@ let _self = option (fun _self -> fun ( _x0,_x1) -> let _self = _self#exception_i
 let _self = option (fun _self -> _self#block) _self _x2 in
  _self
 |Debugger -> _self   
-method expression : expression -> 'self_type = fun { expression_desc = _x0;comment = _x1} -> let _self = _self#expression_desc _x0 in _self  
+method expression : expression -> 'self_type = fun { expression_desc = _x0;comment = _x1;loc = _x2} -> let _self = _self#expression_desc _x0 in _self  
 method statement : statement -> 'self_type = fun { statement_desc = _x0;comment = _x1} -> let _self = _self#statement_desc _x0 in _self  
 method variable_declaration : variable_declaration -> 'self_type = fun { ident = _x0;value = _x1;property = _x2;ident_info = _x3} -> let _self = _self#ident _x0 in
 let _self = option (fun _self -> _self#expression) _self _x1 in _self  
