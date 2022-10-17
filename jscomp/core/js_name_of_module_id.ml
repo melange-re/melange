@@ -41,10 +41,15 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
   match current_info_query with
   | Package_script | Package_not_found -> assert false
   | Package_found pkg -> (
+      let suffix =
+        match module_system with
+        | NodeJS -> Ext_js_suffix.Js
+        | Es6 | Es6_global -> Mjs
+      in
       let js_file =
         Ext_namespace.js_name_of_modulename
           (Ident.name dep_module_id.id)
-          Little pkg.suffix
+          Little suffix
       in
       if Js_packages_info.is_runtime_package current_package_info then
         Ext_path.node_rebase_file ~from:pkg.rel_path ~to_:"." js_file
