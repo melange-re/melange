@@ -80,13 +80,14 @@ let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~cur_dir ?namespace
   in
   let source_dirs = Ext_list.map source_dirs relativize_single in
   let dirs =
-    if namespace = None then source_dirs
-    else
-      let rel_artifacts =
-        Mel_workspace.rel_artifacts_dir ~package_name ~root_dir
-          ~proj_dir:per_proj_dir cur_dir
-      in
-      rel_artifacts :: source_dirs
+    match namespace with
+    | None -> source_dirs
+    | Some _namespace ->
+        let rel_artifacts =
+          Mel_workspace.rel_artifacts_dir ~package_name ~root_dir
+            ~proj_dir:per_proj_dir cur_dir
+        in
+        rel_artifacts :: source_dirs
     (*working dir is [lib/bs] we include this path to have namespace mapping*)
   in
   include_dirs dirs

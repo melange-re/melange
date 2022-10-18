@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type t = {
-  db : Bsb_db.t;
   package_name : string;
   root_dir : string;
   per_proj_dir : string;
@@ -41,11 +40,10 @@ type t = {
   namespace : string option;
 }
 
-let make ~db ~package_name ~root_dir ~per_proj_dir ~bsc ~bsdep ~warnings
-    ~bsc_flags ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~g_sourcedirs_incls
-    ~gentypeconfig ~pp_flags ~ppx_config ~namespace =
+let make ~package_name ~root_dir ~per_proj_dir ~bsc ~bsdep ~warnings ~bsc_flags
+    ~g_dpkg_incls ~g_dev_incls ~g_lib_incls ~g_sourcedirs_incls ~gentypeconfig
+    ~pp_flags ~ppx_config ~namespace =
   {
-    db;
     package_name;
     root_dir;
     per_proj_dir;
@@ -70,4 +68,3 @@ let make ~db ~package_name ~root_dir ~per_proj_dir ~bsc ~bsdep ~warnings
 (* let src_root_dir = "g_root"
 
    let lazy_src_root_dir = "$g_root" *)
-let g_finger = "g_finger"

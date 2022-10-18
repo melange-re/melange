@@ -66,8 +66,8 @@ let re_suffixes = { impl = Literals.suffix_re; intf = Literals.suffix_rei }
 let ml_suffixes = { impl = Literals.suffix_ml; intf = Literals.suffix_mli }
 let res_suffixes = { impl = Literals.suffix_res; intf = Literals.suffix_resi }
 
-let emit_module_build (rules : Bsb_ninja_rule.builtin)
-    (package_specs : Bsb_package_specs.t) (is_dev : bool) buf ?gentype_config
+let emit_module_build (rules : Bsb_ninja_rule.builtin) (is_dev : bool) buf
+    ?gentype_config
     ~global_config:
       { Bsb_ninja_global_vars.per_proj_dir; root_dir; package_name; _ }
     ~bs_dependencies ~bs_dev_dependencies _js_post_build_cmd namespace ~cur_dir
@@ -157,14 +157,11 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
         [ root_artifacts_dir // Literals.sourcedirs_meta ])
       gentype_config
   in
-  let output_js =
-    Bsb_package_specs.get_list_of_output_js package_specs
-      output_filename_sans_extension
-  in
   if which <> `intf then (
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:
         ((rel_artifacts_dir // Literals.bsbuild_cache)
+        :: "(source_tree .)"
         :: (Option.value ~default:[] maybe_gentype_deps @ ppx_deps))
       ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:rules.build_ast
       ~error_syntax_kind;
@@ -181,10 +178,10 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
   let rel_bs_config_json = rel_proj_dir // Literals.bsconfig_json in
 
   let bs_dependencies =
-    rel_dependencies_alias ~root_dir ~proj_dir:per_proj_dir ~cur_dir
-      bs_dependencies
-  in
-  let bs_dependencies =
+    let bs_dependencies =
+      rel_dependencies_alias ~root_dir ~proj_dir:per_proj_dir ~cur_dir
+        bs_dependencies
+    in
     if is_dev then
       let dev_dependencies =
         rel_dependencies_alias ~root_dir ~proj_dir:per_proj_dir ~cur_dir
@@ -221,7 +218,6 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
    Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_cmj ]
      ~implicit_outputs:
        (if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
-     ~js_outputs:output_js
      ~inputs:[ basename output_ast ]
      ~implicit_deps:
        (if has_intf_file then [ output_cmi; output_d_as_dep ]
@@ -229,12 +225,12 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
      ~bs_dependencies
      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
      ~rule ~error_syntax_kind);
-  if which <> `intf then output_js else []
+  if which <> `intf then Some output_cmj else None
 
 let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
-    ~(rules : Bsb_ninja_rule.builtin) ~package_specs ~js_post_build_cmd
-    ~files_to_install ~bs_dependencies ~bs_dev_dependencies
-    (group : Bsb_file_groups.file_group) : unit =
+    ~(db : Bsb_db.t) ~(rules : Bsb_ninja_rule.builtin) ~js_post_build_cmd
+    ~bs_dependencies ~bs_dev_dependencies (group : Bsb_file_groups.file_group) :
+    unit =
   let per_proj_dir = global_config.per_proj_dir in
   let is_dep_inside_workspace =
     Mel_workspace.is_dep_inside_workspace ~root_dir:global_config.root_dir
@@ -271,29 +267,20 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
       Buffer.add_string buf "*))");
     let is_dev = group.is_dev in
     handle_generators buf group rules.customs;
-    let installable =
-      match group.public with
-      | Export_all -> fun _ -> true
-      | Export_none -> fun _ -> false
-      | Export_set set -> fun module_name -> Set_string.mem set module_name
-    in
-    let db = global_config.db in
-    let js_targets =
-      Map_string.fold group.sources [] (fun module_name _ acc_js ->
+    let cmj_targets =
+      Map_string.fold group.sources [] (fun module_name _ acc ->
           let module_info =
             Map_string.find_exn (if is_dev then db.dev else db.lib) module_name
           in
-          if installable module_name then Queue.add module_info files_to_install;
-          let js_outputs =
-            emit_module_build rules package_specs is_dev buf ~global_config
-              ~bs_dependencies ~bs_dev_dependencies
-              ?gentype_config:global_config.gentypeconfig ~cur_dir:group.dir
-              ~ppx_config:global_config.ppx_config js_post_build_cmd
-              global_config.namespace module_info
+          let cmj_name =
+            emit_module_build rules is_dev buf ~global_config ~bs_dependencies
+              ~bs_dev_dependencies ?gentype_config:global_config.gentypeconfig
+              ~cur_dir:group.dir ~ppx_config:global_config.ppx_config
+              js_post_build_cmd global_config.namespace module_info
           in
-          List.map fst js_outputs :: acc_js)
+          match cmj_name with None -> acc | Some cmj_name -> cmj_name :: acc)
     in
     Bsb_ninja_targets.output_alias buf ~name:Literals.mel_dune_alias
-      ~deps:(List.concat js_targets));
+      ~deps:cmj_targets);
   Buffer.add_string buf ")";
   Buffer.add_string buf "\n"

@@ -33,7 +33,7 @@ type package_info = {
   suffix : Ext_js_suffix.t;
 }
 
-type t
+type t = { name : string option; module_systems : package_info list }
 
 val for_cmj : t -> t
 val is_runtime_package : t -> bool

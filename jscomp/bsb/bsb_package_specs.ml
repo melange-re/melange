@@ -41,6 +41,8 @@ type t = {
       *)
 }
 
+let specs t = t.modules |> Spec_set.to_seq |> List.of_seq
+
 let has_in_source t =
   Spec_set.exists (fun { in_source; _ } -> in_source) t.modules
 
@@ -63,6 +65,9 @@ let string_of_format (x : format) =
   | NodeJS -> Literals.commonjs
   | Es6 -> Literals.es6
   | Es6_global -> Literals.es6_global
+
+let output_dir_of_spec (x : spec) =
+  Literals.melange_output_prefix ^ "." ^ string_of_format x.format
 
 let rec from_array suffix (arr : Ext_json_types.t array) : Spec_set.t =
   let spec = ref Spec_set.empty in
@@ -96,7 +101,7 @@ and from_json_single suffix (x : Ext_json_types.t) : spec =
             | Some (Str { str = suffix; loc }) ->
                 let s = Ext_js_suffix.of_string suffix in
                 if s = Unknown_extension then
-                  Bsb_exception.errorf ~loc "expect .js,.bs.js,.mjs or .cjs"
+                  Bsb_exception.errorf ~loc "expect .js, .bs.js,. mjs or .cjs"
                 else s
             | Some _ ->
                 Bsb_exception.errorf ~loc:(Ext_json.loc_of x)
@@ -149,21 +154,6 @@ let package_flag_of_package_specs (package_specs : t) ~(dirname : string) :
 
 let default_package_specs suffix =
   Spec_set.singleton { format = NodeJS; in_source = false; suffix }
-
-(**
-    [get_list_of_output_js specs "src/hi/hello"]
-
-*)
-let get_list_of_output_js (package_specs : t)
-    (output_file_sans_extension : string) =
-  Spec_set.fold
-    (fun (spec : spec) acc ->
-      let basename =
-        Ext_namespace.change_ext_ns_suffix output_file_sans_extension
-          (Ext_js_suffix.to_string spec.suffix)
-      in
-      (basename, spec.in_source) :: acc)
-    package_specs.modules []
 
 type json_map = Ext_json_types.t Map_string.t
 

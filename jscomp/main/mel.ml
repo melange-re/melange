@@ -59,11 +59,17 @@ let dune_command ?on_exit dune_args =
 let build_whole_project () =
   let root_dir = Mel_workspace.cwd in
   let buf = Buffer.create 0x1000 in
-  let config, source_meta = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
+  let (config, dep_configs), source_meta =
+    Bsb_world.make_world_deps ~buf ~cwd:root_dir
+  in
   if config.generate_merlin then
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:root_dir config;
   Bsb_ninja_gen.output_ninja_and_namespace_map ~buf ~per_proj_dir:root_dir
     ~root_dir ~package_kind:(Toplevel source_meta) config;
+  Ext_list.iter (Bsb_package_specs.specs config.package_specs)
+    (fun package_spec ->
+      Bsb_ninja_gen.output_virtual_package ~root_dir ~package_spec ~buf
+        (config, dep_configs));
   output_dune_file buf;
   source_meta
 

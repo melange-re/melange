@@ -22,14 +22,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type spec = {
+  format : Ext_module_system.t;
+  in_source : bool;
+  suffix : Ext_js_suffix.t;
+}
+
 type t
 
 val from_map : cwd:string -> Ext_json_types.t Map_string.t -> t
-val get_list_of_output_js : t -> string -> (string * bool) list (* in-source *)
-
 val package_flag_of_package_specs : t -> dirname:string -> string
+
+val string_of_format : Ext_module_system.t -> string
 (**
   Sample output: {[ -bs-package-output commonjs:lib/js/jscomp/test]}
 *)
 
 val has_in_source : t -> bool
+val specs : t -> spec list
+val output_dir_of_spec : spec -> string

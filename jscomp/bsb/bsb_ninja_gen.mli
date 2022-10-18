@@ -32,3 +32,10 @@ val output_ninja_and_namespace_map :
 (**
   generate ninja file based on [cwd]
 *)
+
+val output_virtual_package :
+  root_dir:string ->
+  package_spec:Bsb_package_specs.spec ->
+  buf:Buffer.t ->
+  Bsb_config_types.t * Bsb_config_types.t list ->
+  unit

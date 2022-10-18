@@ -90,4 +90,4 @@ let make_world_deps ~cwd ~buf =
     (fun (dep_config : Bsb_config_types.t) ->
       file_groups := (dep_config.dir, dep_config.file_groups) :: !file_groups);
   let source_meta = Source_metadata.create !file_groups in
-  (config, source_meta)
+  ((config, dep_configs), source_meta)

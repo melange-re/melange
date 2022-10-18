@@ -349,7 +349,6 @@ let rec interpret_json ~(package_kind : Bsb_package_kind.t) ~per_proj_dir :
             js_post_build_cmd = extract_js_post_build map per_proj_dir;
             package_specs;
             file_groups = groups;
-            files_to_install = Queue.create ();
             built_in_dependency = built_in_package;
             generate_merlin =
               extract_boolean map Bsb_build_schemas.generate_merlin true;
