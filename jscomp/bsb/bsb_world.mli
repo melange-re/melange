@@ -25,4 +25,6 @@
 val install_targets : string list -> unit
 
 val make_world_deps :
-  cwd:string -> buf:Buffer.t -> Bsb_config_types.t * Source_metadata.t
+  cwd:string ->
+  buf:Buffer.t ->
+  (Bsb_config_types.t * Bsb_config_types.t list) * Source_metadata.t

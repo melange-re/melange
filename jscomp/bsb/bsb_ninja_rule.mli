@@ -25,7 +25,14 @@
 (* The complexity comes from the fact that we allow custom rules which could
    conflict with our custom built-in rules
 *)
-type t
+type t = {
+  rule :
+    Buffer.t ->
+    ?error_syntax_kind:Bsb_db.syntax_kind ->
+    ?target:string ->
+    string ->
+    unit;
+}
 
 val output_rule :
   t ->

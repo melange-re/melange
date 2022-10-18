@@ -41,6 +41,8 @@ type t = {
       *)
 }
 
+let specs t = t.modules |> Spec_set.to_seq |> List.of_seq
+
 let has_in_source t =
   Spec_set.exists (fun { in_source; _ } -> in_source) t.modules
 
@@ -63,6 +65,9 @@ let string_of_format (x : format) =
   | NodeJS -> Literals.commonjs
   | Es6 -> Literals.es6
   | Es6_global -> Literals.es6_global
+
+let output_dir_of_spec (x : spec) =
+  Literals.melange_output_prefix ^ "." ^ string_of_format x.format
 
 let rec from_array suffix (arr : Ext_json_types.t array) : Spec_set.t =
   let spec = ref Spec_set.empty in
@@ -96,7 +101,7 @@ and from_json_single suffix (x : Ext_json_types.t) : spec =
             | Some (Str { str = suffix; loc }) ->
                 let s = Ext_js_suffix.of_string suffix in
                 if s = Unknown_extension then
-                  Bsb_exception.errorf ~loc "expect .js,.bs.js,.mjs or .cjs"
+                  Bsb_exception.errorf ~loc "expect .js, .bs.js,. mjs or .cjs"
                 else s
             | Some _ ->
                 Bsb_exception.errorf ~loc:(Ext_json.loc_of x)

@@ -34,6 +34,7 @@ val output_build :
   ?implicit_deps:string list ->
   ?rel_deps:string list ->
   ?bs_dependencies:string list ->
+  ?alias:string ->
   ?implicit_outputs:string list ->
   ?js_outputs:(string * bool) list ->
   ?error_syntax_kind:Bsb_db.syntax_kind ->

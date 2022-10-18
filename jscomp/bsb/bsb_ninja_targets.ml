@@ -87,8 +87,8 @@ let output_alias ?action buf ~name ~deps =
   Buffer.add_string buf ")"
 
 let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
-    ?(implicit_outputs = []) ?(js_outputs = []) ?error_syntax_kind ~outputs
-    ~inputs ~rule cur_dir buf =
+    ?alias ?(implicit_outputs = []) ?(js_outputs = []) ?error_syntax_kind
+    ~outputs ~inputs ~rule cur_dir buf =
   let just_js_outputs = List.map fst js_outputs in
   Buffer.add_string buf "(rule\n(targets ";
   Ext_list.iter outputs (fun s ->
@@ -99,6 +99,10 @@ let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
         Buffer.add_string buf Ext_string.single_space;
         Buffer.add_string buf (Filename.basename s));
   Buffer.add_string buf ")\n ";
+  Ext_option.iter alias (fun alias ->
+      Buffer.add_string buf "(alias ";
+      Buffer.add_string buf alias;
+      Buffer.add_string buf ")\n ");
   let in_source_outputs =
     List.filter_map
       (fun (js, in_source) -> if in_source then Some js else None)
