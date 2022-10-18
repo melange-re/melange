@@ -1,4 +1,4 @@
-;;;;{BSB GENERATED: NO EDIT
+
 (subdir jscomp/runtime/bs_stdlib_mini
 (rule
 (targets  bs_stdlib_mini.ast)
@@ -6000,4 +6000,3 @@
 (:sources-3 (glob_files jscomp/others/*))
 (:sources-4 (glob_files jscomp/runtime/*))
 (:sources-5 (glob_files jscomp/runtime/bs_stdlib_mini/*))))
-;;;;BSB GENERATED: NO EDIT}

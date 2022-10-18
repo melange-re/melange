@@ -23,4 +23,4 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val encode : Bsb_db.t -> Ext_buffer.t -> unit
-val write_build_cache : Buffer.t -> Bsb_db.t -> unit
+val write_build_cache : Out_channel.t -> Bsb_db.t -> unit

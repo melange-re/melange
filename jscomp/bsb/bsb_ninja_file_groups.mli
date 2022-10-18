@@ -30,7 +30,7 @@ val rel_dependencies_alias :
   string list
 
 val handle_files_per_dir :
-  Buffer.t ->
+  Out_channel.t ->
   global_config:Bsb_ninja_global_vars.t ->
   db:Bsb_db.t ->
   rules:Bsb_ninja_rule.builtin ->

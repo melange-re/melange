@@ -56,7 +56,7 @@ let maybe_warn_about_dependencies_outside_workspace ~cwd
          "`in-source: true` is not currently supported when dependencies exist \
           outside the workspace.")
 
-let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
+let build_bs_deps cwd ~oc (deps : Bsb_package_specs.t) =
   let queue = Bsb_build_util.walk_all_deps cwd in
   Queue.fold
     (fun (acc : _ list) ({ top; proj_dir } : Bsb_build_util.package_context) ->
@@ -69,13 +69,13 @@ let build_bs_deps cwd ~buf (deps : Bsb_package_specs.t) =
           in
           maybe_warn_about_dependencies_outside_workspace ~cwd config
             ~package_specs:deps;
-          Bsb_ninja_gen.output_ninja_and_namespace_map ~buf
+          Bsb_ninja_gen.output_ninja_and_namespace_map ~oc
             ~per_proj_dir:proj_dir ~root_dir:cwd ~package_kind:(Dependency deps)
             config;
           config :: acc)
     [] queue
 
-let make_world_deps ~cwd ~buf =
+let make_world_deps ~cwd ~oc =
   Bsb_log.info "Making the dependency world!@.";
   let config : Bsb_config_types.t =
     Bsb_config_parse.interpret_json ~package_kind:Toplevel ~per_proj_dir:cwd
@@ -84,7 +84,7 @@ let make_world_deps ~cwd ~buf =
     ~package_specs:config.package_specs;
 
   let deps = config.package_specs in
-  let dep_configs = build_bs_deps cwd ~buf deps in
+  let dep_configs = build_bs_deps cwd ~oc deps in
   let file_groups = ref [] in
   Ext_list.iter (config :: dep_configs)
     (fun (dep_config : Bsb_config_types.t) ->

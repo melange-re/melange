@@ -33,8 +33,7 @@ let pp_module_set fmt xs =
   [.mlmap] does not need to be changed too
 
 *)
-let output buf (namespace : string) (file_groups : Bsb_file_groups.file_groups)
-    =
+let output oc (namespace : string) (file_groups : Bsb_file_groups.file_groups) =
   let module_set =
     Ext_list.fold_left file_groups Set_string.empty (fun acc x ->
         Map_string.fold x.sources acc (fun k _ acc -> Set_string.add acc k))
@@ -43,4 +42,4 @@ let output buf (namespace : string) (file_groups : Bsb_file_groups.file_groups)
     Format.asprintf "@\n(rule (with-stdout-to %s%s (run echo \"%a\")))"
       namespace Literals.suffix_mlmap pp_module_set module_set
   in
-  Buffer.add_string buf mlmap_rule
+  output_string oc mlmap_rule
