@@ -161,7 +161,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin) (is_dev : bool) buf
     Bsb_ninja_targets.output_build cur_dir buf
       ~implicit_deps:
         ((rel_artifacts_dir // Literals.bsbuild_cache)
-        :: "(source_tree .)"
+         (* :: "(source_tree .)" *)
         :: (Option.value ~default:[] maybe_gentype_deps @ ppx_deps))
       ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:rules.build_ast
       ~error_syntax_kind;
