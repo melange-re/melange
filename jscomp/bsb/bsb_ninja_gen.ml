@@ -187,7 +187,6 @@ let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~install_dir ~cur_dir
     | None -> source_dirs
     | Some _namespace ->
         let rel_artifacts =
-          (* XXX(anmonteiro): wrong *)
           Mel_workspace.rel_artifacts_dir ~package_name ~root_dir
             ~proj_dir:per_proj_dir (install_dir // cur_dir)
         in
@@ -206,6 +205,13 @@ let output_virtual_package ~root_dir ~package_spec ~buf
   Buffer.add_string buf Literals.mel_dune_alias;
   Buffer.add_string buf ")\n(action (chdir %{targets} (progn \n";
 
+  let idx =
+    let idx = ref 0 in
+    fun () ->
+      let r = !idx in
+      incr idx;
+      r
+  in
   let dirs =
     List.concat
       (Ext_list.map
@@ -229,12 +235,12 @@ let output_virtual_package ~root_dir ~package_spec ~buf
              Mel_workspace.virtual_proj_dir ~root_dir
                ~package_dir:config_proj_dir ~package_name
            in
-           Ext_list.mapi file_groups.files (fun idx group ->
+           let install_dir = root_dir // package_spec_dir in
+           Ext_list.map file_groups.files (fun group ->
                let rel_group_dir =
                  Ext_path.rel_normalized_absolute_path ~from:root_dir
                    (virtual_proj_dir // group.dir)
                in
-               let install_dir = root_dir // package_spec_dir in
                let rel_source_dir =
                  Ext_path.rel_normalized_absolute_path ~from:install_dir
                    (root_dir // rel_group_dir)
@@ -243,85 +249,76 @@ let output_virtual_package ~root_dir ~package_spec ~buf
                Buffer.add_string buf
                  (Format.asprintf "(run mkdir -p %s)\n" rel_group_dir);
                Buffer.add_string buf
-                 (Format.asprintf "(run cp %%{sources-%d} %s)\n" idx
+                 (Format.asprintf "(run cp %%{sources-%d} %s)\n" (idx ())
                     rel_group_dir);
-               let _js_targets =
-                 Map_string.fold group.sources []
-                   (fun _module_name { Bsb_db.name_sans_extension; _ } acc ->
-                     let output_filename_sans_extension =
-                       Filename.basename
-                         (Ext_namespace_encode.make ?ns:namespace
-                            name_sans_extension)
-                     in
-                     let input_cmj =
-                       output_filename_sans_extension ^ Literals.suffix_cmj
-                     in
-                     let output_js =
-                       output_filename_sans_extension ^ package_spec_suffix
-                     in
+               Map_string.iter group.sources
+                 (fun _module_name { Bsb_db.name_sans_extension; _ } ->
+                   let output_filename_sans_extension =
+                     Filename.basename
+                       (Ext_namespace_encode.make ?ns:namespace
+                          name_sans_extension)
+                   in
+                   let input_cmj =
+                     output_filename_sans_extension ^ Literals.suffix_cmj
+                   in
 
-                     let rel_cmj = rel_source_dir // input_cmj in
-                     let ns_flag =
-                       match namespace with
-                       | None -> " "
-                       | Some n -> " -bs-ns " ^ n
-                     in
-                     let rel_incls ?namespace dirs =
-                       rel_include_dirs ~package_name ~root_dir
-                         ~per_proj_dir:virtual_proj_dir ~install_dir
-                         ~cur_dir:group.dir ?namespace dirs
-                     in
-                     let source_dirs : string list Bsb_db.cat =
-                       { lib = []; dev = [] }
-                     in
+                   let rel_cmj = rel_source_dir // input_cmj in
+                   let ns_flag =
+                     match namespace with
+                     | None -> ""
+                     | Some n -> " -bs-ns " ^ n
+                   in
+                   let rel_incls ?namespace dirs =
+                     rel_include_dirs ~package_name ~root_dir
+                       ~per_proj_dir:virtual_proj_dir ~install_dir
+                       ~cur_dir:group.dir ?namespace dirs
+                   in
+                   let source_dirs : string list Bsb_db.cat =
+                     { lib = []; dev = [] }
+                   in
 
-                     Ext_list.iter file_groups.files (fun { dir; is_dev } ->
-                         if is_dev then
-                           source_dirs.dev <- dir :: source_dirs.dev
-                         else source_dirs.lib <- dir :: source_dirs.lib);
+                   Ext_list.iter file_groups.files (fun { dir; is_dev } ->
+                       if is_dev then source_dirs.dev <- dir :: source_dirs.dev
+                       else source_dirs.lib <- dir :: source_dirs.lib);
 
-                     Buffer.add_string buf " (run ";
-                     Buffer.add_string buf
-                       (Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc);
-                     Buffer.add_string buf ns_flag;
-                     if group.is_dev && source_dirs.dev <> [] then (
-                       let dev_incls = rel_incls ?namespace source_dirs.dev in
-                       Buffer.add_string buf " ";
-                       Buffer.add_string buf dev_incls);
-                     Buffer.add_string buf (rel_incls source_dirs.lib);
+                   Buffer.add_string buf " (run ";
+                   Buffer.add_string buf
+                     (Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc);
+                   Buffer.add_string buf ns_flag;
+                   Buffer.add_char buf ' ';
+                   if group.is_dev && source_dirs.dev <> [] then (
+                     let dev_incls = rel_incls ?namespace source_dirs.dev in
+                     Buffer.add_string buf " ";
+                     Buffer.add_string buf dev_incls);
+                   Buffer.add_string buf (rel_incls ?namespace source_dirs.lib);
+                   Buffer.add_string buf " ";
+                   Buffer.add_string buf
+                     (Bsb_build_util.include_dirs
+                        (Ext_list.map
+                           (bsc_lib_includes ~root_dir bs_dependencies)
+                           (fun dir ->
+                             Ext_path.rel_normalized_absolute_path
+                               ~from:install_dir dir)));
+                   if group.is_dev then (
                      Buffer.add_string buf " ";
                      Buffer.add_string buf
                        (Bsb_build_util.include_dirs
                           (Ext_list.map
-                             (bsc_lib_includes ~root_dir bs_dependencies)
+                             (bsc_lib_includes ~root_dir bs_dev_dependencies)
                              (fun dir ->
                                Ext_path.rel_normalized_absolute_path
-                                 ~from:install_dir dir)));
-                     if group.is_dev then (
-                       Buffer.add_string buf " ";
-                       Buffer.add_string buf
-                         (Bsb_build_util.include_dirs
-                            (Ext_list.map
-                               (bsc_lib_includes ~root_dir bs_dev_dependencies)
-                               (fun dir ->
-                                 Ext_path.rel_normalized_absolute_path
-                                   ~from:install_dir dir))));
+                                 ~from:install_dir dir))));
 
-                     Buffer.add_string buf " -bs-package-name ";
-                     Buffer.add_string buf
-                       (Ext_filename.maybe_quote package_name);
+                   Buffer.add_string buf " -bs-package-name ";
+                   Buffer.add_string buf (Ext_filename.maybe_quote package_name);
 
-                     Buffer.add_string buf
-                       (Format.asprintf " -bs-package-output %s:%s:%s"
-                          (Bsb_package_specs.string_of_format
-                             package_spec.format)
-                          rel_group_dir package_spec_suffix);
-                     Buffer.add_char buf ' ';
-                     Buffer.add_string buf rel_cmj;
-                     Buffer.add_string buf ")\n";
-
-                     output_js :: acc)
-               in
+                   Buffer.add_string buf
+                     (Format.asprintf " -bs-package-output %s:%s:%s"
+                        (Bsb_package_specs.string_of_format package_spec.format)
+                        rel_group_dir package_spec_suffix);
+                   Buffer.add_char buf ' ';
+                   Buffer.add_string buf rel_cmj;
+                   Buffer.add_string buf ")\n");
                rel_group_dir)))
   in
 
