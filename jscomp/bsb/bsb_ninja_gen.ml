@@ -157,8 +157,6 @@ let output_ninja_and_namespace_map ~buf ~per_proj_dir ~root_dir
       Buffer.add_string buf "\n(data_only_dirs ";
       Buffer.add_string buf Literals.node_modules;
       Buffer.add_char buf ' ';
-      (* Ext_list.iter (Bsb_package_specs.specs package_specs) (fun spec -> *)
-      (* Buffer.add_string buf (Bsb_package_specs.output_dir_of_spec spec)); *)
       Buffer.add_char buf ' ';
       Buffer.add_string buf Literals.melange_eobjs_dir;
       (* for the edge case of empty sources (either in user config or because a
@@ -191,7 +189,6 @@ let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~install_dir ~cur_dir
             ~proj_dir:per_proj_dir (install_dir // cur_dir)
         in
         rel_artifacts :: source_dirs
-    (*working dir is [lib/bs] we include this path to have namespace mapping*)
   in
   Bsb_build_util.include_dirs dirs
 
