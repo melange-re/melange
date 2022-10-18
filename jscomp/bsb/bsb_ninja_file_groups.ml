@@ -49,7 +49,7 @@ let rel_dependencies_alias ~root_dir ~proj_dir ~cur_dir deps =
             in
             Some (rel_dir // Literals.mel_dune_alias)))
 
-let handle_generators buf (group : Bsb_file_groups.file_group) custom_rules =
+let handle_generators oc (group : Bsb_file_groups.file_group) custom_rules =
   Ext_list.iter group.generators (fun { output; input; command } ->
       (* TODO: add a loc for better error message *)
       match Map_string.find_opt custom_rules command with
@@ -57,7 +57,7 @@ let handle_generators buf (group : Bsb_file_groups.file_group) custom_rules =
           Ext_fmt.failwithf ~loc:__LOC__ "custom rule %s used but  not defined"
             command
       | Some rule ->
-          Bsb_ninja_targets.output_build group.dir buf ~outputs:output
+          Bsb_ninja_targets.output_build group.dir oc ~outputs:output
             ~inputs:input ~rule)
 
 type suffixes = { impl : string; intf : string }
@@ -67,7 +67,7 @@ let ml_suffixes = { impl = Literals.suffix_ml; intf = Literals.suffix_mli }
 let res_suffixes = { impl = Literals.suffix_res; intf = Literals.suffix_resi }
 
 let emit_module_build (rules : Bsb_ninja_rule.builtin)
-    (package_specs : Bsb_package_specs.t) (is_dev : bool) buf ?gentype_config
+    (package_specs : Bsb_package_specs.t) (is_dev : bool) oc ?gentype_config
     ~global_config:
       { Bsb_ninja_global_vars.per_proj_dir; root_dir; package_name; _ }
     ~bs_dependencies ~bs_dev_dependencies _js_post_build_cmd namespace ~cur_dir
@@ -162,14 +162,14 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
       output_filename_sans_extension
   in
   if which <> `intf then (
-    Bsb_ninja_targets.output_build cur_dir buf
+    Bsb_ninja_targets.output_build cur_dir oc
       ~implicit_deps:
         ((rel_artifacts_dir // Literals.bsbuild_cache)
         :: (Option.value ~default:[] maybe_gentype_deps @ ppx_deps))
       ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:rules.build_ast
       ~error_syntax_kind;
 
-    Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_d ]
+    Bsb_ninja_targets.output_build cur_dir oc ~outputs:[ output_d ]
       ~inputs:
         (if has_intf_file then [ output_ast; output_iast ] else [ output_ast ])
       ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps));
@@ -194,13 +194,12 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
     else bs_dependencies
   in
   if has_intf_file && which <> `impl then (
-    Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_iast ]
+    Bsb_ninja_targets.output_build cur_dir oc ~outputs:[ output_iast ]
       ~implicit_deps:ppx_deps ~inputs:[ input_intf ] ~rule:rules.build_ast
       ~error_syntax_kind;
 
-    Bsb_ninja_targets.output_build cur_dir buf
-      ~implicit_deps:[ output_d_as_dep ] ~outputs:[ output_cmi ]
-      ~alias:Literals.mel_dune_alias
+    Bsb_ninja_targets.output_build cur_dir oc ~implicit_deps:[ output_d_as_dep ]
+      ~outputs:[ output_cmi ] ~alias:Literals.mel_dune_alias
       ~inputs:[ basename output_iast ]
       ~implicit_outputs:[ output_cmti ]
       ~rule:(if is_dev then rules.mi_dev else rules.mi)
@@ -219,7 +218,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
         (per_proj_dir // intf_dir)
       // basename output_cmi
     in
-    Bsb_ninja_targets.output_build cur_dir buf ~outputs:[ output_cmj ]
+    Bsb_ninja_targets.output_build cur_dir oc ~outputs:[ output_cmj ]
       ~implicit_outputs:
         (if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
       ~js_outputs:output_js
@@ -232,7 +231,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
       ~rule ~error_syntax_kind
 
-let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
+let handle_files_per_dir oc ~(global_config : Bsb_ninja_global_vars.t)
     ~(db : Bsb_db.t) ~(rules : Bsb_ninja_rule.builtin) ~package_specs
     ~js_post_build_cmd ~bs_dependencies ~bs_dev_dependencies
     (group : Bsb_file_groups.file_group) : unit =
@@ -251,35 +250,35 @@ let handle_files_per_dir buf ~(global_config : Bsb_ninja_global_vars.t)
       (virtual_proj_dir // group.dir)
   in
 
-  Buffer.add_string buf "(subdir ";
-  Buffer.add_string buf rel_group_dir;
-  Buffer.add_char buf '\n';
+  output_string oc "(subdir ";
+  output_string oc rel_group_dir;
+  output_char oc '\n';
   if Bsb_file_groups.is_empty group then
     (* Still need to emit an alias or dune will complain it's empty in other deps. *)
-    Bsb_ninja_targets.output_alias buf ~name:Literals.mel_dune_alias ~deps:[]
+    Bsb_ninja_targets.output_alias oc ~name:Literals.mel_dune_alias ~deps:[]
   else (
     if group.subdirs <> [] then (
-      Buffer.add_string buf "(dirs :standard";
+      output_string oc "(dirs :standard";
       Ext_list.iter group.subdirs (fun subdir ->
-          Buffer.add_char buf ' ';
-          Buffer.add_string buf subdir);
-      Buffer.add_string buf ")\n");
+          output_char oc ' ';
+          output_string oc subdir);
+      output_string oc ")\n");
     if not is_dep_inside_workspace then (
-      Buffer.add_string buf
+      output_string oc
         "(copy_files (alias mel_copy_out_of_source_dir)\n (files ";
-      Buffer.add_string buf (per_proj_dir // group.dir);
-      Buffer.add_string buf Filename.dir_sep;
-      Buffer.add_string buf "*))");
+      output_string oc (per_proj_dir // group.dir);
+      output_string oc Filename.dir_sep;
+      output_string oc "*))");
     let is_dev = group.is_dev in
-    handle_generators buf group rules.customs;
+    handle_generators oc group rules.customs;
     Map_string.iter group.sources (fun module_name _ ->
         let module_info =
           Map_string.find_exn (if is_dev then db.dev else db.lib) module_name
         in
-        emit_module_build rules package_specs is_dev buf ~global_config
+        emit_module_build rules package_specs is_dev oc ~global_config
           ~bs_dependencies ~bs_dev_dependencies
           ?gentype_config:global_config.gentypeconfig ~cur_dir:group.dir
           ~ppx_config:global_config.ppx_config js_post_build_cmd
           global_config.namespace module_info));
-  Buffer.add_string buf ")";
-  Buffer.add_string buf "\n"
+  output_string oc ")";
+  output_string oc "\n"

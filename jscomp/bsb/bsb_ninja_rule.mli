@@ -27,7 +27,7 @@
 *)
 type t = {
   rule :
-    Buffer.t ->
+    Out_channel.t ->
     ?error_syntax_kind:Bsb_db.syntax_kind ->
     ?target:string ->
     string ->
@@ -36,7 +36,7 @@ type t = {
 
 val output_rule :
   t ->
-  Buffer.t ->
+  Out_channel.t ->
   ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->

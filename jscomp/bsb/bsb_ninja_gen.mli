@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val output_ninja_and_namespace_map :
-  buf:Buffer.t ->
+  oc:Out_channel.t ->
   per_proj_dir:string ->
   root_dir:string ->
   package_kind:Bsb_package_kind.Source_info.t ->
@@ -36,6 +36,6 @@ val output_ninja_and_namespace_map :
 val output_virtual_package :
   root_dir:string ->
   package_spec:Bsb_package_specs.spec ->
-  buf:Buffer.t ->
+  oc:Out_channel.t ->
   Bsb_config_types.t * Bsb_config_types.t list ->
   unit

@@ -35,15 +35,15 @@ end
 
 type t = {
   rule :
-    Buffer.t ->
+    Out_channel.t ->
     ?error_syntax_kind:Bsb_db.syntax_kind ->
     ?target:string ->
     string ->
     unit;
 }
 
-let output_rule (x : t) buf ?error_syntax_kind ?target cur_dir =
-  let _name = x.rule buf ?error_syntax_kind ?target cur_dir in
+let output_rule (x : t) oc ?error_syntax_kind ?target cur_dir =
+  let _name = x.rule oc ?error_syntax_kind ?target cur_dir in
   ()
 
 (* allocate an unique name for such rule*)
@@ -82,89 +82,88 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
   let ns_flag =
     match global_config.namespace with None -> "" | Some n -> " -bs-ns " ^ n
   in
-  let mk_ml_cmj_cmd ~(read_cmi : [ `yes | `is_cmi | `no ]) ~is_dev ~postbuild
-      buf ?error_syntax_kind ?(target = "%{targets}") cur_dir =
+  let mk_ml_cmj_cmd ~(read_cmi : [ `yes | `is_cmi | `no ]) ~is_dev ~postbuild oc
+      ?error_syntax_kind ?(target = "%{targets}") cur_dir =
     let rel_incls ?namespace dirs =
       Bsb_build_util.rel_include_dirs ~package_name
         ~root_dir:global_config.root_dir
         ~per_proj_dir:global_config.per_proj_dir ~cur_dir ?namespace dirs
     in
-    Buffer.add_string buf "(action\n ";
-    Buffer.add_string buf " (run ";
-    Buffer.add_string buf global_config.bsc;
-    Buffer.add_string buf ns_flag;
-    if not has_builtin then Buffer.add_string buf " -nostdlib";
-    if read_cmi = `yes then Buffer.add_string buf " -bs-read-cmi";
+    output_string oc "(action\n ";
+    output_string oc " (run ";
+    output_string oc global_config.bsc;
+    output_string oc ns_flag;
+    if not has_builtin then output_string oc " -nostdlib";
+    if read_cmi = `yes then output_string oc " -bs-read-cmi";
     if is_dev && global_config.g_dev_incls <> [] then (
       let dev_incls = rel_incls global_config.g_dev_incls in
-      Buffer.add_string buf " ";
-      Buffer.add_string buf dev_incls);
+      output_string oc " ";
+      output_string oc dev_incls);
     if error_syntax_kind = Some Bsb_db.Reason then
-      Buffer.add_string buf " -bs-re-out";
-    Buffer.add_string buf " ";
-    Buffer.add_string buf (rel_incls global_config.g_sourcedirs_incls);
-    Buffer.add_string buf " ";
-    Buffer.add_string buf
+      output_string oc " -bs-re-out";
+    output_string oc " ";
+    output_string oc (rel_incls global_config.g_sourcedirs_incls);
+    output_string oc " ";
+    output_string oc
       (rel_incls ?namespace:global_config.namespace global_config.g_lib_incls);
     if is_dev then (
-      Buffer.add_string buf " ";
-      Buffer.add_string buf (rel_incls global_config.g_dpkg_incls));
-    Buffer.add_char buf ' ';
-    Buffer.add_string buf global_config.bsc_flags;
-    Buffer.add_string buf " ";
-    Buffer.add_string buf global_config.warnings;
+      output_string oc " ";
+      output_string oc (rel_incls global_config.g_dpkg_incls));
+    output_char oc ' ';
+    output_string oc global_config.bsc_flags;
+    output_string oc " ";
+    output_string oc global_config.warnings;
     if read_cmi <> `is_cmi then (
-      Buffer.add_string buf " -bs-package-name ";
-      Buffer.add_string buf
-        (Ext_filename.maybe_quote global_config.package_name);
-      Buffer.add_string buf
+      output_string oc " -bs-package-name ";
+      output_string oc (Ext_filename.maybe_quote global_config.package_name);
+      output_string oc
         (Bsb_package_specs.package_flag_of_package_specs package_specs
            ~dirname:cur_dir));
 
     Ext_option.iter global_config.gentypeconfig (fun gentypeconfig ->
-        Buffer.add_string buf " ";
-        Buffer.add_string buf gentypeconfig);
-    Buffer.add_string buf " -o ";
-    Buffer.add_string buf target;
-    Buffer.add_string buf " %{inputs}";
-    Buffer.add_string buf "))";
+        output_string oc " ";
+        output_string oc gentypeconfig);
+    output_string oc " -o ";
+    output_string oc target;
+    output_string oc " %{inputs}";
+    output_string oc "))";
     match postbuild with
     | None -> ()
     | Some cmd ->
-        Buffer.add_string buf " && ";
-        Buffer.add_string buf cmd;
-        Buffer.add_string buf " $out_last"
+        output_string oc " && ";
+        output_string oc cmd;
+        output_string oc " $out_last"
   in
-  let mk_ast buf ?error_syntax_kind:_ ?target:_ cur_dir : unit =
+  let mk_ast oc ?error_syntax_kind:_ ?target:_ cur_dir : unit =
     let rel_artifacts_dir =
       Mel_workspace.rel_artifacts_dir ~package_name
         ~root_dir:global_config.root_dir ~proj_dir:global_config.per_proj_dir
         cur_dir
     in
-    Buffer.add_string buf "(action\n (run ";
-    Buffer.add_string buf global_config.bsc;
-    Buffer.add_string buf " ";
-    Buffer.add_string buf global_config.warnings;
+    output_string oc "(action\n (run ";
+    output_string oc global_config.bsc;
+    output_string oc " ";
+    output_string oc global_config.warnings;
     (match global_config.ppx_config with
     | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
     | _not_empty ->
-        Buffer.add_char buf ' ';
-        Buffer.add_string buf
+        output_char oc ' ';
+        output_string oc
           (Bsb_build_util.ppx_flags ~artifacts_dir:rel_artifacts_dir
              global_config.ppx_config));
     (match pp_file with
     | None -> ()
     | Some flag ->
-        Buffer.add_char buf ' ';
-        Buffer.add_string buf (Bsb_build_util.pp_flag flag));
+        output_char oc ' ';
+        output_string oc (Bsb_build_util.pp_flag flag));
     (match reason_react_jsx with
     | None -> ()
-    | Some Jsx_v3 -> Buffer.add_string buf " -bs-jsx 3");
+    | Some Jsx_v3 -> output_string oc " -bs-jsx 3");
 
-    Buffer.add_char buf ' ';
-    Buffer.add_string buf global_config.bsc_flags;
-    Buffer.add_string buf " -absname -bs-ast -o %{targets} %{inputs}";
-    Buffer.add_string buf "))"
+    output_char oc ' ';
+    output_string oc global_config.bsc_flags;
+    output_string oc " -absname -bs-ast -o %{targets} %{inputs}";
+    output_string oc "))"
   in
   let build_ast = define ~command:mk_ast in
 
@@ -173,7 +172,7 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
       define ~command:(mk_ml_cmj_cmd ~read_cmi ~is_dev:true ~postbuild) )
   in
 
-  let meldep ~is_dev buf ?error_syntax_kind:_ ?target:_ cur_dir =
+  let meldep ~is_dev oc ?error_syntax_kind:_ ?target:_ cur_dir =
     let virtual_proj_dir =
       Mel_workspace.virtual_proj_dir ~root_dir:global_config.root_dir
         ~package_dir:global_config.per_proj_dir
@@ -196,7 +195,7 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
         (if is_dev then "-g" else "")
         root package_name rel_proj_dir ns_flag
     in
-    Buffer.add_string buf s
+    output_string oc s
   in
 
   let build_bin_deps = define ~command:(meldep ~is_dev:false) in
@@ -207,13 +206,13 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
   let mi, mi_dev = aux ~read_cmi:`is_cmi ~postbuild:None in
 
   let build_package =
-    define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
+    define ~command:(fun oc ?error_syntax_kind:_ ?target:_ _cur_dir ->
         let s =
           global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}"
         in
-        Buffer.add_string buf "(action (run ";
-        Buffer.add_string buf s;
-        Buffer.add_string buf "))")
+        output_string oc "(action (run ";
+        output_string oc s;
+        output_string oc "))")
   in
   {
     build_ast;
@@ -228,7 +227,7 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
     build_package;
     customs =
       Map_string.mapi custom_rules (fun _name command ->
-          define ~command:(fun buf ?error_syntax_kind:_ ?target:_ _cur_dir ->
+          define ~command:(fun oc ?error_syntax_kind:_ ?target:_ _cur_dir ->
               let actual_command =
                 Str.global_substitute Generators.regexp
                   (fun match_ ->
@@ -243,5 +242,5 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
                   command
               in
               let s = Format.asprintf "(action (system %S))" actual_command in
-              Buffer.add_string buf s));
+              output_string oc s));
   }

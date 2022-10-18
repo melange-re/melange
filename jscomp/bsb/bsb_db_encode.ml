@@ -104,7 +104,7 @@ let encode (dbs : Bsb_db.t) buf =
    we should we avoid it in the first place, if we do start scanning,
    this operation seems affordable
 *)
-let write_build_cache buf (bs_files : Bsb_db.t) : unit =
+let write_build_cache oc (bs_files : Bsb_db.t) : unit =
   let bsbuild_cache =
     let buf = Ext_buffer.create 100_000 in
     encode bs_files buf;
@@ -115,4 +115,4 @@ let write_build_cache buf (bs_files : Bsb_db.t) : unit =
     Format.asprintf "@\n(rule (write-file %s %s))" Literals.bsbuild_cache
       bsbuild_cache
   in
-  Buffer.add_string buf bsbuild_rule
+  output_string oc bsbuild_rule

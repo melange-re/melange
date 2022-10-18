@@ -28,7 +28,7 @@
 *)
 
 val output_alias :
-  ?action:string -> Buffer.t -> name:string -> deps:string list -> unit
+  ?action:string -> Out_channel.t -> name:string -> deps:string list -> unit
 
 val output_build :
   ?implicit_deps:string list ->
@@ -42,7 +42,7 @@ val output_build :
   inputs:string list ->
   rule:Bsb_ninja_rule.t ->
   string ->
-  Buffer.t ->
+  Out_channel.t ->
   unit
 
 val revise_dune : string -> Buffer.t -> unit
