@@ -114,7 +114,7 @@ let make_custom_rules ~(global_config : Bsb_ninja_global_vars.t)
     Buffer.add_string buf " ";
     Buffer.add_string buf global_config.warnings;
     if read_cmi <> `is_cmi then (
-      Buffer.add_string buf " -bs-stop-after-cmj -bs-package-name ";
+      Buffer.add_string buf " -bs-package-name ";
       Buffer.add_string buf
         (Ext_filename.maybe_quote global_config.package_name);
       Buffer.add_string buf

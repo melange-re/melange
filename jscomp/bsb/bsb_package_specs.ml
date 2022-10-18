@@ -155,6 +155,21 @@ let package_flag_of_package_specs (package_specs : t) ~(dirname : string) :
 let default_package_specs suffix =
   Spec_set.singleton { format = NodeJS; in_source = false; suffix }
 
+(**
+    [get_list_of_output_js specs "src/hi/hello"]
+
+*)
+let get_list_of_output_js (package_specs : t)
+    (output_file_sans_extension : string) =
+  Spec_set.fold
+    (fun (spec : spec) acc ->
+      let basename =
+        Ext_namespace.change_ext_ns_suffix output_file_sans_extension
+          (Ext_js_suffix.to_string spec.suffix)
+      in
+      (basename, spec.in_source) :: acc)
+    package_specs.modules []
+
 type json_map = Ext_json_types.t Map_string.t
 
 let extract_bs_suffix_exn (map : json_map) : Ext_js_suffix.t =

@@ -32,6 +32,7 @@ type t
 
 val from_map : cwd:string -> Ext_json_types.t Map_string.t -> t
 val package_flag_of_package_specs : t -> dirname:string -> string
+val get_list_of_output_js : t -> string -> (string * bool) list (* in-source *)
 
 val string_of_format : Ext_module_system.t -> string
 (**

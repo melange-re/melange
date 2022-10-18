@@ -108,8 +108,8 @@ let output_ninja_and_namespace_map ~buf ~per_proj_dir ~root_dir
   (* Generate build statement for each file *)
   Ext_list.iter bs_file_groups (fun files_per_dir ->
       Bsb_ninja_file_groups.handle_files_per_dir buf ~global_config ~rules
-        ~db:bs_groups ~js_post_build_cmd ~bs_dev_dependencies ~bs_dependencies
-        files_per_dir);
+        ~package_specs ~db:bs_groups ~js_post_build_cmd ~bs_dev_dependencies
+        ~bs_dependencies files_per_dir);
 
   if
     not
@@ -165,7 +165,7 @@ let output_ninja_and_namespace_map ~buf ~per_proj_dir ~root_dir
          source dir is empty), we emit an empty `bsb_world` alias. This avoids
          showing the user an error when they haven't done anything. *)
       Buffer.add_string buf
-        (Format.asprintf ")\n(alias (name mel) (deps %s "
+        (Format.asprintf ")\n(alias (name %s) (deps %s " Literals.mel_dune_alias
            (artifacts_dir // Literals.sourcedirs_meta));
 
       (* Build the dependencies in case `"sources"` == []. *)
@@ -201,7 +201,7 @@ let output_virtual_package ~root_dir ~package_spec ~buf
   let package_spec_suffix = Ext_js_suffix.to_string package_spec.suffix in
   Buffer.add_string buf "\n(rule (targets (dir ";
   Buffer.add_string buf package_spec_dir;
-  Buffer.add_string buf "))\n (alias ";
+  Buffer.add_string buf "))\n (alias UNSTABLE_";
   Buffer.add_string buf Literals.mel_dune_alias;
   Buffer.add_string buf ")\n(action (chdir %{targets} (progn \n";
 
@@ -283,7 +283,15 @@ let output_virtual_package ~root_dir ~package_spec ~buf
                        if is_dev then source_dirs.dev <- dir :: source_dirs.dev
                        else source_dirs.lib <- dir :: source_dirs.lib);
 
-                   Buffer.add_string buf " (run ";
+                   let js_name =
+                     Ext_namespace.change_ext_ns_suffix
+                       output_filename_sans_extension
+                       (Ext_js_suffix.to_string package_spec.suffix)
+                   in
+
+                   Buffer.add_string buf " (run rm -f ";
+                   Buffer.add_string buf (rel_group_dir // js_name);
+                   Buffer.add_string buf ")\n (run ";
                    Buffer.add_string buf
                      (Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc);
                    Buffer.add_string buf ns_flag;
@@ -320,6 +328,8 @@ let output_virtual_package ~root_dir ~package_spec ~buf
                         rel_group_dir package_spec_suffix);
                    Buffer.add_char buf ' ';
                    Buffer.add_string buf rel_cmj;
+                   Buffer.add_string buf " -o ";
+                   Buffer.add_string buf (rel_group_dir // js_name);
                    Buffer.add_string buf ")\n");
                rel_group_dir)))
   in
