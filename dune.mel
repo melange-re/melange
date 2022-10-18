@@ -2,7 +2,7 @@
 (subdir jscomp/runtime/bs_stdlib_mini
 (rule
 (targets  bs_stdlib_mini.ast)
- (deps (:inputs  bs_stdlib_mini.ml)  ../../../.melange.eobjs/jscomp/runtime/bs_stdlib_mini/.bsbuild (source_tree .))
+ (deps (:inputs  bs_stdlib_mini.ml)  ../../../.melange.eobjs/jscomp/runtime/bs_stdlib_mini/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -40,7 +40,7 @@
 (subdir jscomp/runtime
 (rule
 (targets  js.ast)
- (deps (:inputs  js.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  js.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -57,7 +57,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml.ast)
- (deps (:inputs  caml.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -86,7 +86,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  curry.ast)
- (deps (:inputs  curry.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  curry.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -103,7 +103,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_gc.ast)
- (deps (:inputs  caml_gc.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_gc.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -132,7 +132,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_io.ast)
- (deps (:inputs  caml_io.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_io.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -161,7 +161,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_oo.ast)
- (deps (:inputs  caml_oo.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_oo.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -190,7 +190,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_md5.ast)
- (deps (:inputs  caml_md5.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_md5.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -219,7 +219,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_obj.ast)
- (deps (:inputs  caml_obj.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_obj.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -248,7 +248,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_sys.ast)
- (deps (:inputs  caml_sys.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_sys.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -277,7 +277,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_hash.ast)
- (deps (:inputs  caml_hash.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_hash.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -306,7 +306,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_array.ast)
- (deps (:inputs  caml_array.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_array.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -335,7 +335,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_bytes.ast)
- (deps (:inputs  caml_bytes.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_bytes.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -364,7 +364,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_float.ast)
- (deps (:inputs  caml_float.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_float.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -393,7 +393,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_int32.ast)
- (deps (:inputs  caml_int32.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_int32.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -422,7 +422,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_int64.ast)
- (deps (:inputs  caml_int64.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_int64.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -451,7 +451,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_lexer.ast)
- (deps (:inputs  caml_lexer.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_lexer.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -480,7 +480,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_format.ast)
- (deps (:inputs  caml_format.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_format.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -509,7 +509,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_module.ast)
- (deps (:inputs  caml_module.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_module.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -538,7 +538,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_option.ast)
- (deps (:inputs  caml_option.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_option.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -567,7 +567,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_parser.ast)
- (deps (:inputs  caml_parser.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_parser.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -596,7 +596,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_string.ast)
- (deps (:inputs  caml_string.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_string.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -625,7 +625,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_oo_curry.ast)
- (deps (:inputs  caml_oo_curry.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_oo_curry.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -642,7 +642,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_exceptions.ast)
- (deps (:inputs  caml_exceptions.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_exceptions.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -659,7 +659,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_splice_call.ast)
- (deps (:inputs  caml_splice_call.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_splice_call.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -688,7 +688,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_array_extern.ast)
- (deps (:inputs  caml_array_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_array_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -705,7 +705,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_float_extern.ast)
- (deps (:inputs  caml_float_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_float_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -722,7 +722,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_int32_extern.ast)
- (deps (:inputs  caml_int32_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_int32_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -739,7 +739,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_int64_extern.ast)
- (deps (:inputs  caml_int64_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_int64_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -756,7 +756,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_js_exceptions.ast)
- (deps (:inputs  caml_js_exceptions.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_js_exceptions.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -773,7 +773,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_string_extern.ast)
- (deps (:inputs  caml_string_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_string_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -790,7 +790,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_hash_primitive.ast)
- (deps (:inputs  caml_hash_primitive.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_hash_primitive.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -819,7 +819,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_nativeint_extern.ast)
- (deps (:inputs  caml_nativeint_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_nativeint_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -836,7 +836,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_undefined_extern.ast)
- (deps (:inputs  caml_undefined_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_undefined_extern.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -853,7 +853,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_external_polyfill.ast)
- (deps (:inputs  caml_external_polyfill.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild (source_tree .))
+ (deps (:inputs  caml_external_polyfill.ml)  ../../.melange.eobjs/jscomp/runtime/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1049,7 +1049,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom.ast)
- (deps (:inputs  dom.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  dom.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1066,7 +1066,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt.ast)
- (deps (:inputs  belt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1083,7 +1083,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node.ast)
- (deps (:inputs  node.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1100,7 +1100,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_OO.ast)
- (deps (:inputs  js_OO.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_OO.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1117,7 +1117,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_re.ast)
- (deps (:inputs  js_re.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_re.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1134,7 +1134,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_exn.ast)
- (deps (:inputs  js_exn.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_exn.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1163,7 +1163,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_int.ast)
- (deps (:inputs  js_int.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_int.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1180,7 +1180,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_obj.ast)
- (deps (:inputs  js_obj.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_obj.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1197,7 +1197,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Id.ast)
- (deps (:inputs  belt_Id.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Id.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1226,7 +1226,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_cast.ast)
- (deps (:inputs  js_cast.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_cast.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1255,7 +1255,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_date.ast)
- (deps (:inputs  js_date.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_date.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1272,7 +1272,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_dict.ast)
- (deps (:inputs  js_dict.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_dict.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1301,7 +1301,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_json.ast)
- (deps (:inputs  js_json.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_json.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1330,7 +1330,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_list.ast)
- (deps (:inputs  js_list.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_list.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1359,7 +1359,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_math.ast)
- (deps (:inputs  js_math.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_math.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1376,7 +1376,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_null.ast)
- (deps (:inputs  js_null.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_null.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1405,7 +1405,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_fs.ast)
- (deps (:inputs  node_fs.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node_fs.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1422,7 +1422,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Int.ast)
- (deps (:inputs  belt_Int.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Int.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1451,7 +1451,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Map.ast)
- (deps (:inputs  belt_Map.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Map.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1480,7 +1480,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Set.ast)
- (deps (:inputs  belt_Set.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Set.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1509,7 +1509,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_array.ast)
- (deps (:inputs  js_array.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_array.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1526,7 +1526,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_float.ast)
- (deps (:inputs  js_float.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_float.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1543,7 +1543,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_types.ast)
- (deps (:inputs  js_types.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_types.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1572,7 +1572,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_List.ast)
- (deps (:inputs  belt_List.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_List.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1601,7 +1601,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_array2.ast)
- (deps (:inputs  js_array2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_array2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1618,7 +1618,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_global.ast)
- (deps (:inputs  js_global.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_global.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1635,7 +1635,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_option.ast)
- (deps (:inputs  js_option.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_option.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1664,7 +1664,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_result.ast)
- (deps (:inputs  js_result.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_result.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1693,7 +1693,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_string.ast)
- (deps (:inputs  js_string.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_string.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1710,7 +1710,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_vector.ast)
- (deps (:inputs  js_vector.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_vector.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1739,7 +1739,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_path.ast)
- (deps (:inputs  node_path.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node_path.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1756,7 +1756,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Array.ast)
- (deps (:inputs  belt_Array.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Array.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1785,7 +1785,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Float.ast)
- (deps (:inputs  belt_Float.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Float.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1814,7 +1814,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Range.ast)
- (deps (:inputs  belt_Range.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Range.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1843,7 +1843,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_console.ast)
- (deps (:inputs  js_console.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_console.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1860,7 +1860,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_promise.ast)
- (deps (:inputs  js_promise.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_promise.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1877,7 +1877,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_string2.ast)
- (deps (:inputs  js_string2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_string2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1894,7 +1894,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MapInt.ast)
- (deps (:inputs  belt_MapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1923,7 +1923,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Option.ast)
- (deps (:inputs  belt_Option.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Option.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1952,7 +1952,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Result.ast)
- (deps (:inputs  belt_Result.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_Result.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -1981,7 +1981,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SetInt.ast)
- (deps (:inputs  belt_SetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_SetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2010,7 +2010,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_storage.ast)
- (deps (:inputs  dom_storage.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  dom_storage.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2027,7 +2027,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_mapperRt.ast)
- (deps (:inputs  js_mapperRt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_mapperRt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2056,7 +2056,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_buffer.ast)
- (deps (:inputs  node_buffer.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node_buffer.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2073,7 +2073,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_module.ast)
- (deps (:inputs  node_module.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node_module.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2090,7 +2090,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashMap.ast)
- (deps (:inputs  belt_HashMap.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_HashMap.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2119,7 +2119,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashSet.ast)
- (deps (:inputs  belt_HashSet.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_HashSet.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2148,7 +2148,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MapDict.ast)
- (deps (:inputs  belt_MapDict.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MapDict.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2177,7 +2177,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SetDict.ast)
- (deps (:inputs  belt_SetDict.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_SetDict.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2206,7 +2206,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_storage2.ast)
- (deps (:inputs  dom_storage2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  dom_storage2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2223,7 +2223,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_undefined.ast)
- (deps (:inputs  js_undefined.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_undefined.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2252,7 +2252,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_process.ast)
- (deps (:inputs  node_process.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node_process.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2281,7 +2281,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MapString.ast)
- (deps (:inputs  belt_MapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2310,7 +2310,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SetString.ast)
- (deps (:inputs  belt_SetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_SetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2339,7 +2339,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SortArray.ast)
- (deps (:inputs  belt_SortArray.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_SortArray.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2368,7 +2368,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_typed_array.ast)
- (deps (:inputs  js_typed_array.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_typed_array.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2385,7 +2385,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashMapInt.ast)
- (deps (:inputs  belt_HashMapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_HashMapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2414,7 +2414,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashSetInt.ast)
- (deps (:inputs  belt_HashSetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_HashSetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2443,7 +2443,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableMap.ast)
- (deps (:inputs  belt_MutableMap.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableMap.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2472,7 +2472,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableSet.ast)
- (deps (:inputs  belt_MutableSet.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableSet.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2501,7 +2501,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_typed_array2.ast)
- (deps (:inputs  js_typed_array2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_typed_array2.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2518,7 +2518,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node__no_aliases.ast)
- (deps (:inputs  node__no_aliases.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node__no_aliases.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2535,7 +2535,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableQueue.ast)
- (deps (:inputs  belt_MutableQueue.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableQueue.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2564,7 +2564,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableStack.ast)
- (deps (:inputs  belt_MutableStack.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableStack.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2593,7 +2593,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SortArrayInt.ast)
- (deps (:inputs  belt_SortArrayInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_SortArrayInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2622,7 +2622,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_null_undefined.ast)
- (deps (:inputs  js_null_undefined.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  js_null_undefined.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2651,7 +2651,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashMapString.ast)
- (deps (:inputs  belt_HashMapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_HashMapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2680,7 +2680,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashSetString.ast)
- (deps (:inputs  belt_HashSetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_HashSetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2709,7 +2709,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableMapInt.ast)
- (deps (:inputs  belt_MutableMapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableMapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2738,7 +2738,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableSetInt.ast)
- (deps (:inputs  belt_MutableSetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableSetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2767,7 +2767,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_child_process.ast)
- (deps (:inputs  node_child_process.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  node_child_process.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2784,7 +2784,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalAVLset.ast)
- (deps (:inputs  belt_internalAVLset.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalAVLset.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2813,7 +2813,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalMapInt.ast)
- (deps (:inputs  belt_internalMapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalMapInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2830,7 +2830,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalSetInt.ast)
- (deps (:inputs  belt_internalSetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalSetInt.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2847,7 +2847,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SortArrayString.ast)
- (deps (:inputs  belt_SortArrayString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_SortArrayString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2876,7 +2876,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalAVLtree.ast)
- (deps (:inputs  belt_internalAVLtree.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalAVLtree.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2905,7 +2905,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalBuckets.ast)
- (deps (:inputs  belt_internalBuckets.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalBuckets.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2934,7 +2934,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableMapString.ast)
- (deps (:inputs  belt_MutableMapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableMapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2963,7 +2963,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableSetString.ast)
- (deps (:inputs  belt_MutableSetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_MutableSetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -2992,7 +2992,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalMapString.ast)
- (deps (:inputs  belt_internalMapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalMapString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3009,7 +3009,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalSetString.ast)
- (deps (:inputs  belt_internalSetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalSetString.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3026,7 +3026,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalSetBuckets.ast)
- (deps (:inputs  belt_internalSetBuckets.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalSetBuckets.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3055,7 +3055,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalBucketsType.ast)
- (deps (:inputs  belt_internalBucketsType.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild (source_tree .))
+ (deps (:inputs  belt_internalBucketsType.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3093,7 +3093,7 @@
 (subdir jscomp/stdlib-412
 (rule
 (targets  stdlib.ast)
- (deps (:inputs  stdlib.ml)  ../../.melange.eobjs/jscomp/stdlib-412/.bsbuild (source_tree .))
+ (deps (:inputs  stdlib.ml)  ../../.melange.eobjs/jscomp/stdlib-412/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3122,7 +3122,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalAtomic.ast)
- (deps (:inputs  camlinternalAtomic.ml)  ../../.melange.eobjs/jscomp/stdlib-412/.bsbuild (source_tree .))
+ (deps (:inputs  camlinternalAtomic.ml)  ../../.melange.eobjs/jscomp/stdlib-412/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3151,7 +3151,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalFormatBasics.ast)
- (deps (:inputs  camlinternalFormatBasics.ml)  ../../.melange.eobjs/jscomp/stdlib-412/.bsbuild (source_tree .))
+ (deps (:inputs  camlinternalFormatBasics.ml)  ../../.melange.eobjs/jscomp/stdlib-412/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3189,7 +3189,7 @@
 (subdir jscomp/stdlib-412/stdlib_modules
 (rule
 (targets  gc.ast)
- (deps (:inputs  gc.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  gc.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3218,7 +3218,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  oo.ast)
- (deps (:inputs  oo.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  oo.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3247,7 +3247,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arg.ast)
- (deps (:inputs  arg.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  arg.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3276,7 +3276,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  fun.ast)
- (deps (:inputs  fun.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  fun.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3305,7 +3305,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int.ast)
- (deps (:inputs  int.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  int.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3334,7 +3334,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  map.ast)
- (deps (:inputs  map.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  map.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3363,7 +3363,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  obj.ast)
- (deps (:inputs  obj.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  obj.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3392,7 +3392,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  seq.ast)
- (deps (:inputs  seq.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  seq.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3421,7 +3421,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  set.ast)
- (deps (:inputs  set.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  set.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3450,7 +3450,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  sys.ast)
- (deps (:inputs  sys.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  sys.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3479,7 +3479,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bool.ast)
- (deps (:inputs  bool.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  bool.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3508,7 +3508,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  char.ast)
- (deps (:inputs  char.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  char.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3537,7 +3537,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lazy.ast)
- (deps (:inputs  lazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  lazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3566,7 +3566,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  list.ast)
- (deps (:inputs  list.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  list.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3595,7 +3595,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  unit.ast)
- (deps (:inputs  unit.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  unit.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3624,7 +3624,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  weak.ast)
- (deps (:inputs  weak.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  weak.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3653,7 +3653,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  array.ast)
- (deps (:inputs  array.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  array.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3682,7 +3682,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytes.ast)
- (deps (:inputs  bytes.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  bytes.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3711,7 +3711,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  float.ast)
- (deps (:inputs  float.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  float.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3740,7 +3740,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int32.ast)
- (deps (:inputs  int32.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  int32.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3769,7 +3769,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int64.ast)
- (deps (:inputs  int64.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  int64.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3798,7 +3798,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  queue.ast)
- (deps (:inputs  queue.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  queue.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3827,7 +3827,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  scanf.ast)
- (deps (:inputs  scanf.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  scanf.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3856,7 +3856,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stack.ast)
- (deps (:inputs  stack.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  stack.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3885,7 +3885,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  uchar.ast)
- (deps (:inputs  uchar.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  uchar.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3914,7 +3914,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  atomic.ast)
- (deps (:inputs  atomic.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  atomic.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3943,7 +3943,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  buffer.ast)
- (deps (:inputs  buffer.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  buffer.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -3972,7 +3972,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  digest.ast)
- (deps (:inputs  digest.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  digest.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4001,7 +4001,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  either.ast)
- (deps (:inputs  either.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  either.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4030,7 +4030,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  format.ast)
- (deps (:inputs  format.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  format.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4059,7 +4059,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  genlex.ast)
- (deps (:inputs  genlex.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  genlex.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4088,7 +4088,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lexing.ast)
- (deps (:inputs  lexing.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  lexing.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4117,7 +4117,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  option.ast)
- (deps (:inputs  option.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  option.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4146,7 +4146,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printf.ast)
- (deps (:inputs  printf.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  printf.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4175,7 +4175,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  random.ast)
- (deps (:inputs  random.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  random.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4204,7 +4204,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  result.ast)
- (deps (:inputs  result.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  result.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4233,7 +4233,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stream.ast)
- (deps (:inputs  stream.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  stream.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4262,7 +4262,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  string.ast)
- (deps (:inputs  string.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  string.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4291,7 +4291,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  complex.ast)
- (deps (:inputs  complex.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  complex.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4320,7 +4320,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  hashtbl.ast)
- (deps (:inputs  hashtbl.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  hashtbl.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4349,7 +4349,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  marshal.ast)
- (deps (:inputs  marshal.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  marshal.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4378,7 +4378,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  parsing.ast)
- (deps (:inputs  parsing.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  parsing.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4407,7 +4407,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  callback.ast)
- (deps (:inputs  callback.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  callback.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4436,7 +4436,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  filename.ast)
- (deps (:inputs  filename.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  filename.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4465,7 +4465,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printexc.ast)
- (deps (:inputs  printexc.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  printexc.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4494,7 +4494,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  std_exit.ast)
- (deps (:inputs  std_exit.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  std_exit.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4511,7 +4511,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ephemeron.ast)
- (deps (:inputs  ephemeron.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  ephemeron.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4540,7 +4540,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  in_channel.ast)
- (deps (:inputs  in_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  in_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4569,7 +4569,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  pervasives.ast)
- (deps (:inputs  pervasives.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  pervasives.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4586,7 +4586,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  out_channel.ast)
- (deps (:inputs  out_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  out_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4615,7 +4615,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalOO.ast)
- (deps (:inputs  camlinternalOO.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  camlinternalOO.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4644,7 +4644,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalMod.ast)
- (deps (:inputs  camlinternalMod.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  camlinternalMod.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4673,7 +4673,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalLazy.ast)
- (deps (:inputs  camlinternalLazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  camlinternalLazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4702,7 +4702,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalFormat.ast)
- (deps (:inputs  camlinternalFormat.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild (source_tree .))
+ (deps (:inputs  camlinternalFormat.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4740,7 +4740,7 @@
 (subdir jscomp/stdlib-412/stdlib_labels
 (rule
 (targets  stdLabels.ast)
- (deps (:inputs  stdLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild (source_tree .))
+ (deps (:inputs  stdLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4769,7 +4769,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  listLabels.ast)
- (deps (:inputs  listLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild (source_tree .))
+ (deps (:inputs  listLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4798,7 +4798,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  moreLabels.ast)
- (deps (:inputs  moreLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild (source_tree .))
+ (deps (:inputs  moreLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4827,7 +4827,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arrayLabels.ast)
- (deps (:inputs  arrayLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild (source_tree .))
+ (deps (:inputs  arrayLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4856,7 +4856,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytesLabels.ast)
- (deps (:inputs  bytesLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild (source_tree .))
+ (deps (:inputs  bytesLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4885,7 +4885,7 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stringLabels.ast)
- (deps (:inputs  stringLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild (source_tree .))
+ (deps (:inputs  stringLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
@@ -4933,7 +4933,7 @@
  (alias mel)
 (action (chdir %{targets} (progn 
 (run mkdir -p jscomp/stdlib-412/stdlib_labels)
-(run cp %{sources-0} jscomp/stdlib-412/stdlib_labels)
+(run cp %{sources-0} jscomp/stdlib-412/stdlib_labels) (system "rm -f jscomp/stdlib-412/stdlib_labels/*.{ast,cm*,d}")
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:jscomp/stdlib-412/stdlib_labels:.js ../jscomp/stdlib-412/stdlib_labels/stdLabels.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:jscomp/stdlib-412/stdlib_labels:.js ../jscomp/stdlib-412/stdlib_labels/listLabels.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:jscomp/stdlib-412/stdlib_labels:.js ../jscomp/stdlib-412/stdlib_labels/moreLabels.cmj)
@@ -4941,7 +4941,7 @@
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:jscomp/stdlib-412/stdlib_labels:.js ../jscomp/stdlib-412/stdlib_labels/bytesLabels.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:jscomp/stdlib-412/stdlib_labels:.js ../jscomp/stdlib-412/stdlib_labels/stringLabels.cmj)
 (run mkdir -p jscomp/stdlib-412/stdlib_modules)
-(run cp %{sources-0} jscomp/stdlib-412/stdlib_modules)
+(run cp %{sources-1} jscomp/stdlib-412/stdlib_modules) (system "rm -f jscomp/stdlib-412/stdlib_modules/*.{ast,cm*,d}")
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js ../jscomp/stdlib-412/stdlib_modules/gc.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js ../jscomp/stdlib-412/stdlib_modules/oo.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js ../jscomp/stdlib-412/stdlib_modules/arg.cmj)
@@ -4997,12 +4997,12 @@
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js ../jscomp/stdlib-412/stdlib_modules/camlinternalLazy.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:jscomp/stdlib-412/stdlib_modules:.js ../jscomp/stdlib-412/stdlib_modules/camlinternalFormat.cmj)
 (run mkdir -p jscomp/stdlib-412)
-(run cp %{sources-0} jscomp/stdlib-412)
+(run cp %{sources-2} jscomp/stdlib-412) (system "rm -f jscomp/stdlib-412/*.{ast,cm*,d}")
  (run melc -I ../jscomp/stdlib-412 -I ../jscomp/runtime -I ../jscomp/others -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:jscomp/stdlib-412:.js ../jscomp/stdlib-412/stdlib.cmj)
  (run melc -I ../jscomp/stdlib-412 -I ../jscomp/runtime -I ../jscomp/others -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:jscomp/stdlib-412:.js ../jscomp/stdlib-412/camlinternalAtomic.cmj)
  (run melc -I ../jscomp/stdlib-412 -I ../jscomp/runtime -I ../jscomp/others -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:jscomp/stdlib-412:.js ../jscomp/stdlib-412/camlinternalFormatBasics.cmj)
 (run mkdir -p jscomp/others)
-(run cp %{sources-0} jscomp/others)
+(run cp %{sources-3} jscomp/others) (system "rm -f jscomp/others/*.{ast,cm*,d}")
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output commonjs:jscomp/others:.js ../jscomp/others/dom.cmj)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output commonjs:jscomp/others:.js ../jscomp/others/belt.cmj)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output commonjs:jscomp/others:.js ../jscomp/others/node.cmj)
@@ -5087,7 +5087,7 @@
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output commonjs:jscomp/others:.js ../jscomp/others/belt_internalSetBuckets.cmj)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output commonjs:jscomp/others:.js ../jscomp/others/belt_internalBucketsType.cmj)
 (run mkdir -p jscomp/runtime)
-(run cp %{sources-0} jscomp/runtime)
+(run cp %{sources-4} jscomp/runtime) (system "rm -f jscomp/runtime/*.{ast,cm*,d}")
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output commonjs:jscomp/runtime:.js ../jscomp/runtime/js.cmj)
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output commonjs:jscomp/runtime:.js ../jscomp/runtime/caml.cmj)
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output commonjs:jscomp/runtime:.js ../jscomp/runtime/curry.cmj)
@@ -5123,7 +5123,7 @@
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output commonjs:jscomp/runtime:.js ../jscomp/runtime/caml_undefined_extern.cmj)
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output commonjs:jscomp/runtime:.js ../jscomp/runtime/caml_external_polyfill.cmj)
 (run mkdir -p jscomp/runtime/bs_stdlib_mini)
-(run cp %{sources-0} jscomp/runtime/bs_stdlib_mini)
+(run cp %{sources-5} jscomp/runtime/bs_stdlib_mini) (system "rm -f jscomp/runtime/bs_stdlib_mini/*.{ast,cm*,d}")
  (run melc -I ../jscomp/runtime/bs_stdlib_mini  -bs-package-name @melange/runtime-stdlib-mini -bs-package-output commonjs:jscomp/runtime/bs_stdlib_mini:.js ../jscomp/runtime/bs_stdlib_mini/bs_stdlib_mini.cmj)
  ))) (deps (:sources-0 (glob_files jscomp/stdlib-412/stdlib_labels/*))
 (:sources-1 (glob_files jscomp/stdlib-412/stdlib_modules/*))
@@ -5136,7 +5136,7 @@
  (alias mel)
 (action (chdir %{targets} (progn 
 (run mkdir -p jscomp/stdlib-412/stdlib_labels)
-(run cp %{sources-0} jscomp/stdlib-412/stdlib_labels)
+(run cp %{sources-0} jscomp/stdlib-412/stdlib_labels) (system "rm -f jscomp/stdlib-412/stdlib_labels/*.{ast,cm*,d}")
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output es6:jscomp/stdlib-412/stdlib_labels:.mjs ../jscomp/stdlib-412/stdlib_labels/stdLabels.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output es6:jscomp/stdlib-412/stdlib_labels:.mjs ../jscomp/stdlib-412/stdlib_labels/listLabels.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output es6:jscomp/stdlib-412/stdlib_labels:.mjs ../jscomp/stdlib-412/stdlib_labels/moreLabels.cmj)
@@ -5144,7 +5144,7 @@
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output es6:jscomp/stdlib-412/stdlib_labels:.mjs ../jscomp/stdlib-412/stdlib_labels/bytesLabels.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-package-output es6:jscomp/stdlib-412/stdlib_labels:.mjs ../jscomp/stdlib-412/stdlib_labels/stringLabels.cmj)
 (run mkdir -p jscomp/stdlib-412/stdlib_modules)
-(run cp %{sources-0} jscomp/stdlib-412/stdlib_modules)
+(run cp %{sources-1} jscomp/stdlib-412/stdlib_modules) (system "rm -f jscomp/stdlib-412/stdlib_modules/*.{ast,cm*,d}")
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs ../jscomp/stdlib-412/stdlib_modules/gc.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs ../jscomp/stdlib-412/stdlib_modules/oo.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs ../jscomp/stdlib-412/stdlib_modules/arg.cmj)
@@ -5200,12 +5200,12 @@
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs ../jscomp/stdlib-412/stdlib_modules/camlinternalLazy.cmj)
  (run melc -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-package-output es6:jscomp/stdlib-412/stdlib_modules:.mjs ../jscomp/stdlib-412/stdlib_modules/camlinternalFormat.cmj)
 (run mkdir -p jscomp/stdlib-412)
-(run cp %{sources-0} jscomp/stdlib-412)
+(run cp %{sources-2} jscomp/stdlib-412) (system "rm -f jscomp/stdlib-412/*.{ast,cm*,d}")
  (run melc -I ../jscomp/stdlib-412 -I ../jscomp/runtime -I ../jscomp/others -bs-package-name @melange/runtime-stdlib -bs-package-output es6:jscomp/stdlib-412:.mjs ../jscomp/stdlib-412/stdlib.cmj)
  (run melc -I ../jscomp/stdlib-412 -I ../jscomp/runtime -I ../jscomp/others -bs-package-name @melange/runtime-stdlib -bs-package-output es6:jscomp/stdlib-412:.mjs ../jscomp/stdlib-412/camlinternalAtomic.cmj)
  (run melc -I ../jscomp/stdlib-412 -I ../jscomp/runtime -I ../jscomp/others -bs-package-name @melange/runtime-stdlib -bs-package-output es6:jscomp/stdlib-412:.mjs ../jscomp/stdlib-412/camlinternalFormatBasics.cmj)
 (run mkdir -p jscomp/others)
-(run cp %{sources-0} jscomp/others)
+(run cp %{sources-3} jscomp/others) (system "rm -f jscomp/others/*.{ast,cm*,d}")
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output es6:jscomp/others:.mjs ../jscomp/others/dom.cmj)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output es6:jscomp/others:.mjs ../jscomp/others/belt.cmj)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output es6:jscomp/others:.mjs ../jscomp/others/node.cmj)
@@ -5290,7 +5290,7 @@
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output es6:jscomp/others:.mjs ../jscomp/others/belt_internalSetBuckets.cmj)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-package-output es6:jscomp/others:.mjs ../jscomp/others/belt_internalBucketsType.cmj)
 (run mkdir -p jscomp/runtime)
-(run cp %{sources-0} jscomp/runtime)
+(run cp %{sources-4} jscomp/runtime) (system "rm -f jscomp/runtime/*.{ast,cm*,d}")
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output es6:jscomp/runtime:.mjs ../jscomp/runtime/js.cmj)
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output es6:jscomp/runtime:.mjs ../jscomp/runtime/caml.cmj)
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output es6:jscomp/runtime:.mjs ../jscomp/runtime/curry.cmj)
@@ -5326,7 +5326,7 @@
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output es6:jscomp/runtime:.mjs ../jscomp/runtime/caml_undefined_extern.cmj)
  (run melc -I ../jscomp/runtime -I ../jscomp/runtime/bs_stdlib_mini -bs-package-name @melange/runtime -bs-package-output es6:jscomp/runtime:.mjs ../jscomp/runtime/caml_external_polyfill.cmj)
 (run mkdir -p jscomp/runtime/bs_stdlib_mini)
-(run cp %{sources-0} jscomp/runtime/bs_stdlib_mini)
+(run cp %{sources-5} jscomp/runtime/bs_stdlib_mini) (system "rm -f jscomp/runtime/bs_stdlib_mini/*.{ast,cm*,d}")
  (run melc -I ../jscomp/runtime/bs_stdlib_mini  -bs-package-name @melange/runtime-stdlib-mini -bs-package-output es6:jscomp/runtime/bs_stdlib_mini:.mjs ../jscomp/runtime/bs_stdlib_mini/bs_stdlib_mini.cmj)
  ))) (deps (:sources-0 (glob_files jscomp/stdlib-412/stdlib_labels/*))
 (:sources-1 (glob_files jscomp/stdlib-412/stdlib_modules/*))

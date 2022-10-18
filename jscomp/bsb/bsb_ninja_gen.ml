@@ -249,8 +249,10 @@ let output_virtual_package ~root_dir ~package_spec ~buf
                Buffer.add_string buf
                  (Format.asprintf "(run mkdir -p %s)\n" rel_group_dir);
                Buffer.add_string buf
-                 (Format.asprintf "(run cp %%{sources-%d} %s)\n" (idx ())
-                    rel_group_dir);
+                 (Format.asprintf
+                    "(run cp %%{sources-%d} %s) (system \"rm -f \
+                     %s/*.{ast,cm*,d}\")\n"
+                    (idx ()) rel_group_dir rel_group_dir);
                Map_string.iter group.sources
                  (fun _module_name { Bsb_db.name_sans_extension; _ } ->
                    let output_filename_sans_extension =

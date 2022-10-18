@@ -54,10 +54,8 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
       Js_packages_info.runtime_package_path module_system js_file
   | Package_found pkg -> (
       if Js_packages_info.is_runtime_package current_package_info then
-        Ext_path.node_rebase_file ~from:pkg.rel_path ~to_:"." js_file
-        (* TODO: we assume that both [x] and [path] could only be relative path
-            which is guaranteed by [-bs-package-output]
-        *)
+        (* Runtime files end up in the same directory, `lib/js` or `lib/es6` *)
+        Ext_path.node_rebase_file ~from:pkg.rel_path ~to_:pkg.rel_path js_file
       else
         match module_system with
         | NodeJS | Es6 ->
