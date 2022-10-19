@@ -39,7 +39,7 @@
     },
     "exportedEnv": {
       "MELANGELIB": {
-        "val": "#{self.lib / 'melange'}",
+        "val": "#{self.lib / 'melange' / 'melange'}",
         "scope": "global"
       }
     }
