@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - fork
+      - test-basic-template
 
 jobs:
   build:
