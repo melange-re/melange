@@ -87,8 +87,8 @@ let output_alias ?action oc ~name ~deps =
   output_string oc ")"
 
 let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
-    ?alias ?(implicit_outputs = []) ?(js_outputs = []) ?error_syntax_kind
-    ~outputs ~inputs ~rule cur_dir oc =
+    ?alias ?(implicit_outputs = []) ?(js_outputs = []) ~outputs ~inputs
+    ~(rule : Mel_rule.fn) oc =
   let just_js_outputs = List.map fst js_outputs in
   output_string oc "(rule\n(targets ";
   Ext_list.iter outputs (fun s ->
@@ -133,11 +133,11 @@ let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
         output_string oc ")");
   output_string oc ")";
   output_string oc "\n";
-  Bsb_ninja_rule.output_rule
+  rule
     ~target:
       (String.concat Ext_string.single_space
          (Ext_list.map outputs Filename.basename))
-    ?error_syntax_kind rule oc cur_dir;
+    oc;
   output_char oc '\n';
   output_string oc enabled_if;
   output_string oc " )\n "

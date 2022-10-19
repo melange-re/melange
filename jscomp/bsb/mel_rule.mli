@@ -25,60 +25,65 @@
 (* The complexity comes from the fact that we allow custom rules which could
    conflict with our custom built-in rules
 *)
-type t = {
-  rule :
-    Out_channel.t ->
-    ?error_syntax_kind:Bsb_db.syntax_kind ->
-    ?target:string ->
-    string ->
-    unit;
-}
+type fn = ?target:string -> Out_channel.t -> unit
 
-val output_rule :
-  t ->
-  Out_channel.t ->
+(******************************)
+val cmj :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  out_channel ->
   ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
 
-(******************************)
-(* A list of existing rules *)
-type builtin = {
-  build_ast : t;
-  (* platform dependent, on Win32,
-      invoking cmd.exe
-  *)
-  build_bin_deps : t;
-  build_bin_deps_dev : t;
-  mj : t;
-  mj_dev : t;
-  mij : t;
-  mij_dev : t;
-  mi : t;
-  mi_dev : t;
-  build_package : t;
-  customs : t Map_string.t;
-}
-(******************************)
-
-(* rules are generally composed of built-in rules and customized rules, there are two design choices:
-    1. respect custom rules with the same name, then we need adjust our built-in
-    rules dynamically in case the conflict.
-    2. respect our built-in rules, then we only need re-load custom rules for each bsconfig.json
-*)
-
-type command = string
-
-(* Since now we generate ninja files per bsconfig.json in a single process,
-    we must make sure it is re-entrant
-*)
-val make_custom_rules :
+val cmj_dev :
   global_config:Bsb_ninja_global_vars.t ->
-  has_postbuild:string option ->
-  pp_file:string option ->
-  has_builtin:bool ->
-  reason_react_jsx:Bsb_config_types.reason_react_jsx option ->
   package_specs:Bsb_package_specs.t ->
-  command Map_string.t ->
-  builtin
+  out_channel ->
+  ?error_syntax_kind:Bsb_db.syntax_kind ->
+  ?target:string ->
+  string ->
+  unit
+
+val cmij :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  out_channel ->
+  ?error_syntax_kind:Bsb_db.syntax_kind ->
+  ?target:string ->
+  string ->
+  unit
+
+val cmij_dev :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  out_channel ->
+  ?error_syntax_kind:Bsb_db.syntax_kind ->
+  ?target:string ->
+  string ->
+  unit
+
+val cmi :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  out_channel ->
+  ?error_syntax_kind:Bsb_db.syntax_kind ->
+  ?target:string ->
+  string ->
+  unit
+
+val cmi_dev :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  out_channel ->
+  ?error_syntax_kind:Bsb_db.syntax_kind ->
+  ?target:string ->
+  string ->
+  unit
+
+val ast : Bsb_ninja_global_vars.t -> out_channel -> string -> unit
+val meldep : Bsb_ninja_global_vars.t -> out_channel -> string -> unit
+val meldep_dev : Bsb_ninja_global_vars.t -> out_channel -> string -> unit
+val namespace : Bsb_ninja_global_vars.t -> out_channel -> unit
+val generators : string Map_string.t -> (out_channel -> unit) Map_string.t

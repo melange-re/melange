@@ -33,7 +33,6 @@ val handle_files_per_dir :
   Out_channel.t ->
   global_config:Bsb_ninja_global_vars.t ->
   db:Bsb_db.t ->
-  rules:Bsb_ninja_rule.builtin ->
   package_specs:Bsb_package_specs.t ->
   js_post_build_cmd:string option ->
   bs_dependencies:Bsb_config_types.dependency list ->

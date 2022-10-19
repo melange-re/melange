@@ -79,6 +79,7 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
       else (
         bs_groups.lib <- Bsb_db_util.merge bs_groups.lib sources;
         source_dirs.lib <- dir :: source_dirs.lib));
+
   let global_config =
     Bsb_ninja_global_vars.make ~package_name ~root_dir ~per_proj_dir
       ~bsc:(Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc)
@@ -92,22 +93,20 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
       ~ppx_config
       ~pp_flags:(Ext_option.map pp_file Bsb_build_util.pp_flag)
       ~namespace
+      ~generators:(Mel_rule.generators generators)
+      ~pp_file ~has_builtin:built_in_dependency ~reason_react_jsx
   in
+
   let lib = bs_groups.lib in
   let dev = bs_groups.dev in
   Map_string.iter dev (fun k a ->
       if Map_string.mem lib k then
         raise (Bsb_db_util.conflict_module_info k a (Map_string.find_exn lib k)));
-  let rules : Bsb_ninja_rule.builtin =
-    Bsb_ninja_rule.make_custom_rules ~global_config
-      ~has_postbuild:js_post_build_cmd ~pp_file ~has_builtin:built_in_dependency
-      ~reason_react_jsx ~package_specs generators
-  in
   output_char oc '\n';
 
   (* Generate build statement for each file *)
   Ext_list.iter bs_file_groups (fun files_per_dir ->
-      Bsb_ninja_file_groups.handle_files_per_dir oc ~global_config ~rules
+      Bsb_ninja_file_groups.handle_files_per_dir oc ~global_config
         ~package_specs ~db:bs_groups ~js_post_build_cmd ~bs_dev_dependencies
         ~bs_dependencies files_per_dir);
 
@@ -138,10 +137,11 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
   Ext_option.iter namespace (fun ns ->
       Bsb_namespace_map_gen.output oc ns bs_file_groups;
 
-      Bsb_ninja_targets.output_build artifacts_dir oc
+      Bsb_ninja_targets.output_build
         ~outputs:[ ns ^ Literals.suffix_cmi ]
         ~inputs:[ ns ^ Literals.suffix_mlmap ]
-        ~rule:rules.build_package);
+        ~rule:(fun ?target:_ oc -> Mel_rule.namespace global_config oc)
+        oc);
 
   Bsb_db_encode.write_build_cache oc bs_groups;
 

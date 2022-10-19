@@ -57,8 +57,8 @@ let handle_generators oc (group : Bsb_file_groups.file_group) custom_rules =
           Ext_fmt.failwithf ~loc:__LOC__ "custom rule %s used but  not defined"
             command
       | Some rule ->
-          Bsb_ninja_targets.output_build group.dir oc ~outputs:output
-            ~inputs:input ~rule)
+          Bsb_ninja_targets.output_build oc ~outputs:output ~inputs:input
+            ~rule:(fun ?target:_ oc -> rule oc))
 
 type suffixes = { impl : string; intf : string }
 
@@ -66,12 +66,13 @@ let re_suffixes = { impl = Literals.suffix_re; intf = Literals.suffix_rei }
 let ml_suffixes = { impl = Literals.suffix_ml; intf = Literals.suffix_mli }
 let res_suffixes = { impl = Literals.suffix_res; intf = Literals.suffix_resi }
 
-let emit_module_build (rules : Bsb_ninja_rule.builtin)
-    (package_specs : Bsb_package_specs.t) (is_dev : bool) oc ?gentype_config
-    ~global_config:
-      { Bsb_ninja_global_vars.per_proj_dir; root_dir; package_name; _ }
-    ~bs_dependencies ~bs_dev_dependencies _js_post_build_cmd namespace ~cur_dir
-    ~ppx_config (module_info : Bsb_db.module_info) =
+let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
+    ?gentype_config ~global_config ~bs_dependencies ~bs_dev_dependencies
+    _js_post_build_cmd namespace ~cur_dir ~ppx_config
+    (module_info : Bsb_db.module_info) =
+  let { Bsb_ninja_global_vars.per_proj_dir; root_dir; package_name; _ } =
+    global_config
+  in
   let impl_dir, intf_dir =
     match module_info.dir with
     | Same dir -> (dir, dir)
@@ -161,18 +162,20 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
     Bsb_package_specs.get_list_of_output_js package_specs
       output_filename_sans_extension
   in
+  let ast_rule ?target:_ oc = Mel_rule.ast global_config oc cur_dir in
   if which <> `intf then (
-    Bsb_ninja_targets.output_build cur_dir oc
+    Bsb_ninja_targets.output_build oc
       ~implicit_deps:
         ((rel_artifacts_dir // Literals.bsbuild_cache)
         :: (Option.value ~default:[] maybe_gentype_deps @ ppx_deps))
-      ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:rules.build_ast
-      ~error_syntax_kind;
+      ~outputs:[ output_ast ] ~inputs:[ input_impl ] ~rule:ast_rule;
 
-    Bsb_ninja_targets.output_build cur_dir oc ~outputs:[ output_d ]
+    Bsb_ninja_targets.output_build oc ~outputs:[ output_d ]
       ~inputs:
         (if has_intf_file then [ output_ast; output_iast ] else [ output_ast ])
-      ~rule:(if is_dev then rules.build_bin_deps_dev else rules.build_bin_deps));
+      ~rule:(fun ?target:_ oc ->
+        (if is_dev then Mel_rule.meldep_dev else Mel_rule.meldep)
+          global_config oc cur_dir));
   let relative_ns_cmi =
     match namespace with
     | Some ns -> [ rel_artifacts_dir // (ns ^ Literals.suffix_cmi) ]
@@ -194,23 +197,26 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
     else bs_dependencies
   in
   if has_intf_file && which <> `impl then (
-    Bsb_ninja_targets.output_build cur_dir oc ~outputs:[ output_iast ]
-      ~implicit_deps:ppx_deps ~inputs:[ input_intf ] ~rule:rules.build_ast
-      ~error_syntax_kind;
+    Bsb_ninja_targets.output_build oc ~outputs:[ output_iast ]
+      ~implicit_deps:ppx_deps ~inputs:[ input_intf ] ~rule:ast_rule;
 
-    Bsb_ninja_targets.output_build cur_dir oc ~implicit_deps:[ output_d_as_dep ]
+    Bsb_ninja_targets.output_build oc ~implicit_deps:[ output_d_as_dep ]
       ~outputs:[ output_cmi ] ~alias:Literals.mel_dune_alias
       ~inputs:[ basename output_iast ]
       ~implicit_outputs:[ output_cmti ]
-      ~rule:(if is_dev then rules.mi_dev else rules.mi)
+      ~rule:(fun ?target oc ->
+        (if is_dev then Mel_rule.cmi_dev else Mel_rule.cmi)
+          ?target ~global_config ~package_specs ~error_syntax_kind oc cur_dir)
       ~bs_dependencies
-      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-      ~error_syntax_kind);
+      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi));
 
-  let rule =
-    if has_intf_file then if is_dev then rules.mj_dev else rules.mj
-    else if is_dev then rules.mij_dev
-    else rules.mij
+  let rule ?target oc =
+    let rule =
+      if has_intf_file then if is_dev then Mel_rule.cmj_dev else Mel_rule.cmj
+      else if is_dev then Mel_rule.cmij_dev
+      else Mel_rule.cmij
+    in
+    rule ~global_config ~package_specs ?target ~error_syntax_kind oc cur_dir
   in
   if which <> `intf then
     let output_cmi =
@@ -218,7 +224,7 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
         (per_proj_dir // intf_dir)
       // basename output_cmi
     in
-    Bsb_ninja_targets.output_build cur_dir oc ~outputs:[ output_cmj ]
+    Bsb_ninja_targets.output_build oc ~outputs:[ output_cmj ]
       ~implicit_outputs:
         (if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
       ~js_outputs:output_js
@@ -229,12 +235,11 @@ let emit_module_build (rules : Bsb_ninja_rule.builtin)
         else [ output_d_as_dep ])
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-      ~rule ~error_syntax_kind
+      ~rule
 
 let handle_files_per_dir oc ~(global_config : Bsb_ninja_global_vars.t)
-    ~(db : Bsb_db.t) ~(rules : Bsb_ninja_rule.builtin) ~package_specs
-    ~js_post_build_cmd ~bs_dependencies ~bs_dev_dependencies
-    (group : Bsb_file_groups.file_group) : unit =
+    ~(db : Bsb_db.t) ~package_specs ~js_post_build_cmd ~bs_dependencies
+    ~bs_dev_dependencies (group : Bsb_file_groups.file_group) : unit =
   let per_proj_dir = global_config.per_proj_dir in
   let is_dep_inside_workspace =
     Mel_workspace.is_dep_inside_workspace ~root_dir:global_config.root_dir
@@ -270,12 +275,12 @@ let handle_files_per_dir oc ~(global_config : Bsb_ninja_global_vars.t)
       output_string oc Filename.dir_sep;
       output_string oc "*))");
     let is_dev = group.is_dev in
-    handle_generators oc group rules.customs;
+    handle_generators oc group global_config.generators;
     Map_string.iter group.sources (fun module_name _ ->
         let module_info =
           Map_string.find_exn (if is_dev then db.dev else db.lib) module_name
         in
-        emit_module_build rules package_specs is_dev oc ~global_config
+        emit_module_build package_specs is_dev oc ~global_config
           ~bs_dependencies ~bs_dev_dependencies
           ?gentype_config:global_config.gentypeconfig ~cur_dir:group.dir
           ~ppx_config:global_config.ppx_config js_post_build_cmd
