@@ -64,6 +64,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         run: |
           cd melange-basic-template
+          cat esy.json
           esy install
           npm install
           esy
