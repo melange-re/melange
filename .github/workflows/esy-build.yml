@@ -42,11 +42,11 @@ jobs:
           cd ocaml-tree && npm install && cd ..
           git clone -b directory-targets https://github.com/jchavarri/melange-basic-template.git
 
-      - name: Build basic template 2
-        if: ${{ matrix.system == 'ubuntu' }}
-        run: |
-          cd melange-basic-template
-          sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
+      # - name: Build basic template 2
+      #   if: ${{ matrix.system == 'ubuntu' }}
+      #   run: |
+      #     cd melange-basic-template
+      #     sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
 
       - name: Build basic template 3
         if: ${{ matrix.system == 'ubuntu' }}
