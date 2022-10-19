@@ -23,7 +23,8 @@
    (and
     (>= "4.14.0")
     (< "4.15.0")))
-  melange-compiler-libs
+  (melange-compiler-libs
+   (>= "0.0.1-414"))
   reason
   cmdliner
   base64
