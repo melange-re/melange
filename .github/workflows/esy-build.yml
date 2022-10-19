@@ -36,15 +36,34 @@ jobs:
         if: ${{ matrix.system != 'windows' }}
         run: esy test
 
-      - name: Build basic template
+      - name: Clone basic template 1
         if: ${{ matrix.system == 'ubuntu' }}
         run: |
           cd ocaml-tree && npm install && cd ..
           git clone -b directory-targets https://github.com/jchavarri/melange-basic-template.git
+
+      - name: Build basic template 2
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: |
           cd melange-basic-template
           sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
+
+      - name: Build basic template 3
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: |
+          cd melange-basic-template
           sed -i 's/"melange": "melange-re\/melange"/"melange": "*"/' esy.json
+
+      - name: Build basic template 4
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: |
+          cd melange-basic-template
           sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
+
+      - name: Build basic template 5
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: |
+          cd melange-basic-template
           esy install
           npm install
           esy
