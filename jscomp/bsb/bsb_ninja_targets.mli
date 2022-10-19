@@ -37,11 +37,9 @@ val output_build :
   ?alias:string ->
   ?implicit_outputs:string list ->
   ?js_outputs:(string * bool) list ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   outputs:string list ->
   inputs:string list ->
-  rule:Bsb_ninja_rule.t ->
-  string ->
+  rule:Mel_rule.fn ->
   Out_channel.t ->
   unit
 
