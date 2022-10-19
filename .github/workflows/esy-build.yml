@@ -35,7 +35,7 @@ jobs:
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
         run: |
-          git clone https://github.com/melange-re/melange-basic-template.git
+          git clone -b directory-targets https://github.com/jchavarri/melange-basic-template.git
           cd melange-basic-template
           sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
           sed -i 's/"melange": "melange-re\/melange"/"melange": "*"/' esy.json
