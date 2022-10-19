@@ -35,9 +35,9 @@ jobs:
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
         run: |
-        git clone https://github.com/melange-re/melange-basic-template.git
-        cd melange-basic-template
-        sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
-        sed -i 's/"melange": "melange-re\/melange"/"melange": "*"/' esy.json
-        sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
-        esy
+          git clone https://github.com/melange-re/melange-basic-template.git
+          cd melange-basic-template
+          sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
+          sed -i 's/"melange": "melange-re\/melange"/"melange": "*"/' esy.json
+          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
+          esy
