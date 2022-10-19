@@ -815,9 +815,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
      sw_consts;
      sw_numconsts;
     } -> (
-        let sw_consts =
-          Ext_list.map sw_consts (fun (i, lam) -> (i, convert_aux lam))
-        in
+        let sw_consts = Ext_list.map_snd sw_consts convert_aux in
         match happens_to_be_diff sw_consts with
         | Some 0l -> e
         | Some i ->

@@ -211,12 +211,7 @@ let output_virtual_package ~root_dir ~package_spec ~oc
   in
   let dirs =
     List.concat
-      (Ext_list.map
-         ((Bsb_package_kind.Toplevel, config)
-         :: List.map
-              (fun c -> (Bsb_package_kind.Dependency config.package_specs, c))
-              configs)
-         (fun (_package_kind, config) ->
+      (Ext_list.map (config :: configs) (fun config ->
            let {
              Bsb_config_types.dir = config_proj_dir;
              package_name;
@@ -331,6 +326,7 @@ let output_virtual_package ~root_dir ~package_spec ~oc
                rel_group_dir)))
   in
 
+  output_string oc "(run cp -f ../bsconfig.json .)";
   output_string oc
     (Format.asprintf " ))) (deps %s"
        (String.concat "\n"
