@@ -130,9 +130,12 @@ module Actions = struct
     ignore (Luv.Loop.run () : bool)
 
   let rules opts dune_args =
-    wrap_bsb ~opts ~f:(fun () ->
-        let _source_meta : Source_metadata.t = build_whole_project () in
-        Bsb_world.install_targets dune_args)
+    let _p : Luv.Process.t =
+      wrap_bsb ~opts ~f:(fun () ->
+          let _source_meta : Source_metadata.t = build_whole_project () in
+          Bsb_world.install_targets dune_args)
+    in
+    ignore (Luv.Loop.run () : bool)
 
   let clean opts dune_args =
     let _p : Luv.Process.t =
