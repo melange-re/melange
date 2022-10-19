@@ -5,7 +5,6 @@
     nix-filter.url = "github:numtide/nix-filter";
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:anmonteiro/nix-overlays";
-    # nixpkgs.url = "/Users/anmonteiro/monorepo/nix-overlays";
     nixpkgs.inputs.flake-utils.follows = "flake-utils";
 
     dream2nix.url = "github:nix-community/dream2nix";

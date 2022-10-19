@@ -26,15 +26,13 @@ let ( // ) = Ext_path.combine
 
 let install_targets dune_args =
   Bsb_log.info "@{<info>Installing started@}@.";
-  let _p =
-    Bsb_unix.dune_command
-      ~on_exit:(fun _ ~exit_status:_ ~term_signal:_ ->
-        Bsb_log.info "@{<info>Installing finished@} @.")
-      ("build"
-      :: (Literals.melange_eobjs_dir // Literals.sourcedirs_meta)
-      :: dune_args)
-  in
-  ()
+  Bsb_unix.dune_command
+    ~on_exit:(fun _ ~exit_status ~term_signal:_ ->
+      Bsb_log.info "@{<info>Installing finished@} @.";
+      exit (Int64.to_int exit_status))
+    ("build"
+    :: (Literals.melange_eobjs_dir // Literals.sourcedirs_meta)
+    :: dune_args)
 
 (* Don't use package specs from config because it could be a dependency, which
    gets the root's package specs. *)
