@@ -1,11 +1,6 @@
 name: Build using esy
 
-on:
-  pull_request:
-  push:
-    branches:
-      - fork
-      - test-basic-template
+on: [push, pull_request]
 
 jobs:
   build:
