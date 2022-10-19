@@ -52440,12 +52440,12 @@ function is_runtime_component(param) {
         } else {
           return false;
         }
-    case /* Sig_typext */2 :
-    case /* Sig_module */3 :
-    case /* Sig_class */5 :
-        return true;
+    case /* Sig_type */1 :
+    case /* Sig_modtype */4 :
+    case /* Sig_class_type */6 :
+        return false;
     default:
-      return false;
+      return true;
   }
 }
 
