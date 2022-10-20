@@ -1,4 +1,4 @@
-name: Build using esy
+name: Build using opam
 
 on:
   pull_request:
