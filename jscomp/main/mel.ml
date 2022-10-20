@@ -33,15 +33,11 @@ let output_dune_project_if_does_not_exist proj_dir =
   if Sys.file_exists dune_project then ()
   else
     let ochan = open_out_bin dune_project in
-    output_string ochan "(lang dune 3.1)\n";
+    output_string ochan "(lang dune 3.5)\n(using directory-targets 0.1)";
     close_out ochan
 
-let output_dune_file buf =
-  (* <root>/dune.bsb generation *)
+let output_dune_file () =
   let proj_dir = Mel_workspace.cwd in
-  let dune_bsb = proj_dir // Literals.dune_mel in
-  Bsb_ninja_targets.revise_dune dune_bsb buf;
-
   (* <root>/dune generation *)
   let dune = proj_dir // Literals.dune in
   let buf = Buffer.create 256 in
@@ -58,13 +54,22 @@ let dune_command ?on_exit dune_args =
 
 let build_whole_project () =
   let root_dir = Mel_workspace.cwd in
-  let buf = Buffer.create 0x1000 in
-  let config, source_meta = Bsb_world.make_world_deps ~buf ~cwd:root_dir in
+  let dune_mel = root_dir // Literals.dune_mel in
+  let oc = open_out_bin dune_mel in
+  let (config, dep_configs), source_meta =
+    Bsb_world.make_world_deps ~oc ~cwd:root_dir
+  in
   if config.generate_merlin then
     Bsb_merlin_gen.merlin_file_gen ~per_proj_dir:root_dir config;
-  Bsb_ninja_gen.output_ninja_and_namespace_map ~buf ~per_proj_dir:root_dir
+  Bsb_ninja_gen.output_ninja_and_namespace_map ~oc ~per_proj_dir:root_dir
     ~root_dir ~package_kind:(Toplevel source_meta) config;
-  output_dune_file buf;
+  Ext_list.iter (Bsb_package_specs.specs config.package_specs)
+    (fun package_spec ->
+      Bsb_ninja_gen.output_virtual_package ~root_dir ~package_spec ~oc
+        (config, dep_configs));
+  close_out oc;
+
+  output_dune_file ();
   source_meta
 
 module Common_opts = struct
@@ -125,9 +130,12 @@ module Actions = struct
     ignore (Luv.Loop.run () : bool)
 
   let rules opts dune_args =
-    wrap_bsb ~opts ~f:(fun () ->
-        let _source_meta : Source_metadata.t = build_whole_project () in
-        Bsb_world.install_targets dune_args)
+    let _p : Luv.Process.t =
+      wrap_bsb ~opts ~f:(fun () ->
+          let _source_meta : Source_metadata.t = build_whole_project () in
+          Bsb_world.install_targets dune_args)
+    in
+    ignore (Luv.Loop.run () : bool)
 
   let clean opts dune_args =
     let _p : Luv.Process.t =

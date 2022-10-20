@@ -28,20 +28,19 @@
 *)
 
 val output_alias :
-  ?action:string -> Buffer.t -> name:string -> deps:string list -> unit
+  ?action:string -> Out_channel.t -> name:string -> deps:string list -> unit
 
 val output_build :
   ?implicit_deps:string list ->
   ?rel_deps:string list ->
   ?bs_dependencies:string list ->
+  ?alias:string ->
   ?implicit_outputs:string list ->
   ?js_outputs:(string * bool) list ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   outputs:string list ->
   inputs:string list ->
-  rule:Bsb_ninja_rule.t ->
-  string ->
-  Buffer.t ->
+  rule:Mel_rule.fn ->
+  Out_channel.t ->
   unit
 
 val revise_dune : string -> Buffer.t -> unit

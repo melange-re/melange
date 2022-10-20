@@ -34,6 +34,5 @@ let generate_rules (ppx_config : Bsb_config_types.ppx_config) =
   in
   Format.asprintf "%s@\n%s" ppx_ml executable
 
-let ppxlib ~(ppx_config : Bsb_config_types.ppx_config) buf =
-  if ppx_config.ppxlib <> [] then
-    Buffer.add_string buf (generate_rules ppx_config)
+let ppxlib ~(ppx_config : Bsb_config_types.ppx_config) oc =
+  if ppx_config.ppxlib <> [] then output_string oc (generate_rules ppx_config)

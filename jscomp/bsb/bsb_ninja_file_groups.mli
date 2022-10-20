@@ -30,12 +30,11 @@ val rel_dependencies_alias :
   string list
 
 val handle_files_per_dir :
-  Buffer.t ->
+  Out_channel.t ->
   global_config:Bsb_ninja_global_vars.t ->
-  rules:Bsb_ninja_rule.builtin ->
+  db:Bsb_db.t ->
   package_specs:Bsb_package_specs.t ->
   js_post_build_cmd:string option ->
-  files_to_install:Bsb_db.module_info Queue.t ->
   bs_dependencies:Bsb_config_types.dependency list ->
   bs_dev_dependencies:Bsb_config_types.dependency list ->
   Bsb_file_groups.file_group ->

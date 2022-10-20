@@ -43,10 +43,13 @@ let redirect =
       inherit_fd ~fd:stdin ~from_parent_fd:stdin ();
     ]
 
-let dune_command ?on_exit args =
+let default_on_exit (_ : Luv.Process.t) ~exit_status ~term_signal:(_ : int) =
+  exit (Int64.to_int exit_status)
+
+let dune_command ?(on_exit = default_on_exit) args =
   Bsb_log.info "@{<info>Running:@} %s@." (String.concat " " args);
   match
-    Luv.Process.spawn ?on_exit ~redirect Literals.dune (Literals.dune :: args)
+    Luv.Process.spawn ~on_exit ~redirect Literals.dune (Literals.dune :: args)
   with
   | Ok process -> process
   | Error `ENOENT ->

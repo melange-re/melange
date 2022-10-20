@@ -67,8 +67,8 @@ let for_cmj t =
       t with
       module_systems =
         [
-          { module_system = Es6; path = "lib/es6"; suffix = Js };
-          { module_system = NodeJS; path = "lib/js"; suffix = Mjs };
+          { module_system = NodeJS; path = "lib/js"; suffix = Js };
+          { module_system = Es6; path = "lib/es6"; suffix = Mjs };
         ];
     }
   else t

@@ -65,75 +65,79 @@ let revise_dune dune new_content =
     output_string ochan "\n";
     close_out ochan
 
-let output_alias ?action buf ~name ~deps =
+let output_alias ?action oc ~name ~deps =
   (match action with
   | Some action ->
-      Buffer.add_string buf "\n(rule (alias ";
-      Buffer.add_string buf name;
-      Buffer.add_string buf ")\n (action ";
-      Buffer.add_string buf action
+      output_string oc "\n(rule (alias ";
+      output_string oc name;
+      output_string oc ")\n (action ";
+      output_string oc action
   | None ->
-      Buffer.add_string buf "\n(alias (name ";
-      Buffer.add_string buf name);
-  Buffer.add_string buf ")";
+      output_string oc "\n(alias (name ";
+      output_string oc name);
+  output_string oc ")";
   if deps <> [] then (
-    Buffer.add_string buf "(deps ";
+    output_string oc "(deps ";
     Ext_list.iter deps (fun x ->
-        Buffer.add_string buf Ext_string.single_space;
-        Buffer.add_string buf (Filename.basename x));
-    Buffer.add_string buf ")");
-  Buffer.add_char buf '\n';
-  Buffer.add_string buf enabled_if;
-  Buffer.add_string buf ")"
+        output_string oc Ext_string.single_space;
+        output_string oc (Filename.basename x));
+    output_string oc ")");
+  output_char oc '\n';
+  output_string oc enabled_if;
+  output_string oc ")"
 
 let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
-    ?(implicit_outputs = []) ?(js_outputs = []) ?error_syntax_kind ~outputs
-    ~inputs ~rule cur_dir buf =
+    ?alias ?(implicit_outputs = []) ?(js_outputs = []) ~outputs ~inputs
+    ~(rule : Mel_rule.fn) oc =
   let just_js_outputs = List.map fst js_outputs in
-  Buffer.add_string buf "(rule\n(targets ";
+  output_string oc "(rule\n(targets ";
   Ext_list.iter outputs (fun s ->
-      Buffer.add_string buf Ext_string.single_space;
-      Buffer.add_string buf (Filename.basename s));
+      output_string oc Ext_string.single_space;
+      output_string oc (Filename.basename s));
   if implicit_outputs <> [] || js_outputs <> [] then
     Ext_list.iter (implicit_outputs @ just_js_outputs) (fun s ->
-        Buffer.add_string buf Ext_string.single_space;
-        Buffer.add_string buf (Filename.basename s));
-  Buffer.add_string buf ")\n ";
+        output_string oc Ext_string.single_space;
+        output_string oc (Filename.basename s));
+  output_string oc ")\n ";
+  Ext_option.iter alias (fun alias ->
+      output_string oc "(alias ";
+      output_string oc alias;
+      output_string oc ")\n ");
   let in_source_outputs =
     List.filter_map
       (fun (js, in_source) -> if in_source then Some js else None)
       js_outputs
   in
   if in_source_outputs <> [] then (
-    Buffer.add_string buf "(mode (promote (until-clean) (only";
+    output_string oc "(mode (promote (until-clean) (only";
     Ext_list.iter in_source_outputs (fun s ->
-        Buffer.add_string buf Ext_string.single_space;
-        Buffer.add_string buf (Filename.basename s));
-    Buffer.add_string buf ")))");
-  Buffer.add_string buf "(deps (:inputs ";
+        output_string oc Ext_string.single_space;
+        output_string oc (Filename.basename s));
+    output_string oc ")))");
+  output_string oc "(deps (:inputs ";
   Ext_list.iter inputs (fun s ->
-      Buffer.add_string buf Ext_string.single_space;
-      Buffer.add_string buf s);
-  Buffer.add_string buf ") ";
+      output_string oc Ext_string.single_space;
+      output_string oc s);
+  output_string oc ") ";
   if implicit_deps <> [] then
     Ext_list.iter implicit_deps (fun s ->
-        Buffer.add_string buf Ext_string.single_space;
-        Buffer.add_string buf s);
+        output_string oc Ext_string.single_space;
+        output_string oc s);
   Ext_list.iter rel_deps (fun s ->
-      Buffer.add_string buf Ext_string.single_space;
-      Buffer.add_string buf s);
+      output_string oc Ext_string.single_space;
+      output_string oc s);
   if bs_dependencies <> [] then
     Ext_list.iter bs_dependencies (fun dir ->
-        Buffer.add_string buf "(alias ";
-        Buffer.add_string buf dir;
-        Buffer.add_string buf ")");
-  Buffer.add_string buf ")";
-  Buffer.add_string buf "\n";
-  Bsb_ninja_rule.output_rule
+        output_string oc "(alias ";
+        output_string oc dir;
+        output_string oc ")");
+  output_string oc ")";
+  output_string oc "\n";
+  rule
     ~target:
       (String.concat Ext_string.single_space
          (Ext_list.map outputs Filename.basename))
-    ?error_syntax_kind rule buf cur_dir;
-  Buffer.add_char buf '\n';
-  Buffer.add_string buf enabled_if;
-  Buffer.add_string buf " )\n "
+    oc;
+  output_char oc '\n';
+  output_string oc enabled_if;
+  output_string oc " )\n "

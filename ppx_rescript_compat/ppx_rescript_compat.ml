@@ -48,6 +48,39 @@ let expr_mapper (self : mapper) (expr : Parsetree.expression) =
       (* ReScript removed the OCaml object system and abuses `Pexp_send` for
          `obj##property`. Here, we make that conversion. *)
       { expr with pexp_desc = Ast_util.js_property loc subexpr name }
+  | Pexp_let
+      ( Nonrecursive,
+        [
+          {
+            pvb_pat =
+              ( { ppat_desc = Ppat_record _; _ }
+              | {
+                  ppat_desc = Ppat_alias ({ ppat_desc = Ppat_record _; _ }, _);
+                  _;
+                } ) as p;
+            pvb_expr;
+            pvb_attributes;
+            _;
+          };
+        ],
+        body ) -> (
+      match pvb_expr.pexp_desc with
+      | Pexp_pack _ -> default_mapper.expr self expr
+      | _ ->
+          default_mapper.expr self
+            {
+              expr with
+              pexp_desc =
+                Pexp_match
+                  (pvb_expr, [ { pc_lhs = p; pc_guard = None; pc_rhs = body } ]);
+              pexp_attributes = expr.pexp_attributes @ pvb_attributes;
+            }
+          (* let [@warning "a"] {a;b} = c in body
+             The attribute is attached to value binding,
+             after the transformation value binding does not exist so we attach
+             the attribute to the whole expression, in general, when shuffuling the ast
+             it is very hard to place attributes correctly
+          *))
   | _ -> default_mapper.expr self expr
 
 let mapper : mapper = { default_mapper with expr = expr_mapper }

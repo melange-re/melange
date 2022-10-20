@@ -20,9 +20,11 @@
   (promote (until-clean)))
  (deps
   (:runtime-js
-   (glob_files ../jscomp/runtime/*.js)
-   (glob_files ../jscomp/others/*.js)
-   (glob_files_rec ../jscomp/stdlib-412/*.js)))
+   (glob_files ../melange.commonjs/jscomp/runtime/*.js)
+   (glob_files ../melange.commonjs/jscomp/others/*.js)
+   (glob_files ../melange.commonjs/jscomp/stdlib-412/*.js)
+   (glob_files ../melange.commonjs/jscomp/stdlib-412/stdlib_labels/*.js)
+   (glob_files ../melange.commonjs/jscomp/stdlib-412/stdlib_modules/*.js)))
  (action
   (progn
    (run mkdir -p %{targets})
@@ -35,9 +37,11 @@
   (promote (until-clean)))
  (deps
   (:runtime-mjs
-   (glob_files ../jscomp/runtime/*.mjs)
-   (glob_files ../jscomp/others/*.mjs)
-   (glob_files_rec ../jscomp/stdlib-412/*.mjs)))
+   (glob_files ../melange.es6/jscomp/runtime/*.mjs)
+   (glob_files ../melange.es6/jscomp/others/*.mjs)
+   (glob_files ../melange.es6/jscomp/stdlib-412/*.mjs)
+   (glob_files ../melange.es6/jscomp/stdlib-412/stdlib_labels/*.mjs)
+   (glob_files ../melange.es6/jscomp/stdlib-412/stdlib_modules/*.mjs)))
  (action
   (progn
    (run mkdir -p %{targets})
