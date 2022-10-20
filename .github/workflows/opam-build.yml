@@ -1,0 +1,39 @@
+name: Build using esy
+
+on:
+  pull_request:
+  push:
+    branches:
+      - fork
+  schedule:
+    # Prime the caches every Monday
+    - cron: 0 1 * * MON
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+        ocaml-compiler:
+          - 4.14.x
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - run: opam install ./melange.opam --deps-only --with-test
+
+      - run: opam exec -- dune build -p melange
+
+      - run: opam exec -- dune runtest
