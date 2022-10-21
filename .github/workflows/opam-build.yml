@@ -38,12 +38,15 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
-      - run: opam install ./melange.opam --deps-only --with-test
+      - name: Install melange.opam dependencies
+        run: opam install ./melange.opam --deps-only --with-test
 
       - name: Install ocaml-tree
         working-directory: ./ocaml-tree
         run: npm install
 
-      - run: opam exec -- dune build -p melange
+      - name: Build melange project
+        run: opam exec -- dune build -p melange
 
-      - run: opam exec -- dune runtest
+      - name: Run tests
+        run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
