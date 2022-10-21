@@ -1,4 +1,4 @@
-name: Build using esy
+name: Esy Pipeline
 
 on:
   pull_request:

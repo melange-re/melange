@@ -1,4 +1,4 @@
-name: Build using opam
+name: Opam Pipeline
 
 on:
   pull_request:
