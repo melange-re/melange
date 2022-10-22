@@ -31,9 +31,8 @@ jobs:
 
       - name: Use Node
         uses: actions/setup-node@v3
-        if: ${{ matrix.system != 'macos-arm64' }}
         with:
-          node-version: 14
+          node-version: 18
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
         uses: ocaml/setup-ocaml@v2
@@ -54,14 +53,11 @@ jobs:
         run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
 
       - name: Clone opam fork of melange-basic-template
-        if: ${{ matrix.system == 'ubuntu' }}
         run: git clone -b main https://github.com/jchavarri/melange-basic-template.git
 
       - name: Pin melange to current
-        if: ${{ matrix.system == 'ubuntu' }}
         run: opam pin melange .
 
       - name: Build basic template
-        if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: opam exec -- mel
