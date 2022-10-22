@@ -49,15 +49,18 @@ jobs:
 
       - name: Replace dune dep in template esy.json
         working-directory: melange-basic-template
-        run: sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
+        run: |
+          sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
 
       - name: Replace melange dep in template esy.json
         working-directory: melange-basic-template
-        run: sed -i 's/"melange": "melange-re\/melange"/"melange": "*"/' esy.json
+        run: |
+          sed -i 's/"melange": "melange-re\/melange"/"melange": "*"/' esy.json
 
       - name: Add resolutions to template esy.json
         working-directory: melange-basic-template
-        run: sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
+        run: |
+          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
 
       - name: Build basic template
         working-directory: melange-basic-template
