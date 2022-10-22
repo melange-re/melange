@@ -28,4 +28,5 @@
   reason
   cmdliner
   base64
-  luv))
+  luv
+  (ounit :with-test)))

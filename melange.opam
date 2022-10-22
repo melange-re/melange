@@ -13,6 +13,7 @@ depends: [
   "cmdliner"
   "base64"
   "luv"
+  "ounit" {with-test}
   "odoc" {with-doc}
 ]
 build: [

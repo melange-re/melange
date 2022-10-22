@@ -1,0 +1,67 @@
+name: Opam Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - fork
+  schedule:
+    # Prime the caches every Monday
+    - cron: 0 1 * * MON
+
+jobs:
+  build:
+    name: Build and test
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          # - windows-latest # for some reason windows build is not picking dune 3.5
+        ocaml-compiler:
+          - 4.14.x
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - name: Install melange.opam dependencies
+        run: opam install ./melange.opam --deps-only --with-test
+
+      - name: Install ocaml-tree
+        working-directory: ocaml-tree
+        run: npm install
+
+      - name: Build melange project
+        run: opam exec -- dune build -p melange
+
+      - name: Run tests
+        run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
+
+      - name: Clone opam fork of melange-basic-template
+        run: git clone -b main https://github.com/jchavarri/melange-basic-template.git
+
+      - name: Pin melange to current
+        run: opam pin melange .
+
+      - name: Install js deps
+        working-directory: melange-basic-template
+        run: yarn
+
+      - name: Build basic template
+        working-directory: melange-basic-template
+        run: opam exec -- mel
