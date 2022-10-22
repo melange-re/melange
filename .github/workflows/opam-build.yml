@@ -44,7 +44,7 @@ jobs:
         run: opam install ./melange.opam --deps-only --with-test
 
       - name: Install ocaml-tree
-        working-directory: ./ocaml-tree
+        working-directory: ocaml-tree
         run: npm install
 
       - name: Build melange project
@@ -52,3 +52,16 @@ jobs:
 
       - name: Run tests
         run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
+
+      - name: Clone opam fork of melange-basic-template
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: git clone -b main https://github.com/jchavarri/melange-basic-template.git
+
+      - name: Pin melange to current
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: opam pin melange .
+
+      - name: Build basic template
+        if: ${{ matrix.system == 'ubuntu' }}
+        working-directory: melange-basic-template
+        run: opam exec -- mel
