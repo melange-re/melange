@@ -53,7 +53,7 @@ jobs:
         run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
 
       - name: Clone opam fork of melange-basic-template
-        run: git clone -b main https://github.com/jchavarri/melange-basic-template.git
+        run: git clone -b opam https://github.com/jchavarri/melange-basic-template.git
 
       - name: Pin melange to current
         run: opam pin melange .
