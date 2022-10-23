@@ -30,4 +30,3 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-setenv: [ MELANGELIB = "%{_:lib}%/melange" ]

@@ -212,7 +212,6 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
   end
 
 let anonymous ~(rev_args : string list) =
-  Ext_log.dwarn ~__POS__ "Compiler include dirs: %s@." (String.concat "; " !Clflags.include_dirs);
   if !Js_config.as_ppx then
     match rev_args with
     | [output; input] ->
