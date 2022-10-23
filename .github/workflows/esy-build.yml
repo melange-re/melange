@@ -33,7 +33,7 @@ jobs:
 
       - uses: esy/github-action@master
         with:
-          cache-key: ${{ hashFiles('melange/esy.lock/index.json') }}
+          cache-key: ${{ hashFiles('melange/esy.lock/index.json', 'melange-basic-template/esy.lock/index.json') }}
           manifest: melange/esy.json
 
       - name: Run tests.
@@ -71,7 +71,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
+          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:../melange", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
 
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
