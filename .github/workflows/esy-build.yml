@@ -55,12 +55,6 @@ jobs:
         working-directory: melange-basic-template
         run: rm -rf esy.lock
 
-      - name: Replace dune dep in template esy.json
-        if: ${{ matrix.system == 'ubuntu' }}
-        working-directory: melange-basic-template
-        run: |
-          sed -i 's/"\@opam\/dune": ".*"/"\@opam\/dune": "*"/' esy.json
-
       - name: Replace melange dep in template esy.json
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
@@ -71,7 +65,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:../melange", "\@opam\/dune": "ocaml\/dune:dune.opam#72e8088"}/' esy.json
+          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..\/melange"}/' esy.json
 
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
