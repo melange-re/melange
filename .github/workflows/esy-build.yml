@@ -76,6 +76,7 @@ jobs:
           esy install
           npm install
           esy
+          esy build
           ls -la .
           tree -l 2 _build/
           npm run bundle
