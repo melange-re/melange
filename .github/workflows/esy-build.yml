@@ -76,3 +76,4 @@ jobs:
           esy install
           npm install
           esy
+          npm run bundle

@@ -64,4 +64,6 @@ jobs:
 
       - name: Build basic template
         working-directory: melange-basic-template
-        run: opam exec -- mel
+        run: |
+          opam exec -- mel
+          npm run bundle
