@@ -36,7 +36,7 @@ jobs:
           cache-key: ${{ hashFiles('melange/esy.lock/index.json', 'melange-basic-template/esy.lock/index.json') }}
           manifest: melange/esy.json
 
-      - name: Run tests.
+      - name: Run tests
         if: ${{ matrix.system != 'windows' }}
         working-directory: melange
         run: esy test
@@ -75,6 +75,4 @@ jobs:
           esy install
           npm install
           esy
-          ls -la .
-          tree -l 2 _build/
           npm run bundle
