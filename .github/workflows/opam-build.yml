@@ -59,14 +59,16 @@ jobs:
       - name: Clone opam fork of melange-basic-template
         run: git clone -b opam https://github.com/jchavarri/melange-basic-template.git
 
+      - name: Install all deps
+        working-directory: melange-basic-template
+        run: make install
+
       - name: Pin melange to current
         working-directory: melange
         run: opam pin melange .
 
-      - name: Install js deps
-        working-directory: melange-basic-template
-        run: yarn
-
       - name: Build basic template
         working-directory: melange-basic-template
-        run: opam exec -- mel
+        run: |
+          opam exec -- mel
+          npm run bundle
