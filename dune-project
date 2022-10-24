@@ -27,7 +27,6 @@
    (>= "0.0.1-414"))
   reason
   cmdliner
-  base64
   (ounit :with-test)))
 
 (package
@@ -42,4 +41,5 @@
   melange
   cmdliner
   luv
+  base64
   (ounit :with-test)))
