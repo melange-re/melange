@@ -42,7 +42,8 @@ jobs:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - name: Install melange.opam dependencies
-        run: opam install ./melange/melange.opam --deps-only --with-test
+        working-directory: melange
+        run: opam install ./melange.opam ./mel.opam --deps-only --with-test
 
       - name: Install ocaml-tree
         working-directory: melange/ocaml-tree
