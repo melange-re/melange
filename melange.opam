@@ -29,3 +29,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
+dev-repo: "git+https://github.com/melange-re/melange.git"

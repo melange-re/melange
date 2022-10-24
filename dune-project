@@ -11,12 +11,19 @@
 
 (name melange)
 
+(source
+ (github melange-re/melange))
+
+(authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+
+(maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+
+(homepage "https://github.com/melange-re/melange")
+
+(bug_reports "https://github.com/melange-re/melange/issues")
+
 (package
  (name melange)
- (homepage "https://github.com/melange-re/melange")
- (maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
- (authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
- (bug_reports "https://github.com/melange-re/melange/issues")
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
@@ -32,11 +39,8 @@
 
 (package
  (name mel)
- (homepage "https://github.com/melange-re/melange")
- (maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
- (authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
- (bug_reports "https://github.com/melange-re/melange/issues")
- (synopsis "Toolchain to produce JS from Reason/OCaml")
+ (synopsis
+  "Build system for Melange that defers to Dune for build orchestration")
  (depends
   ocaml
   melange
