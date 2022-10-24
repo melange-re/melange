@@ -27,6 +27,18 @@
    (>= "0.0.1-414"))
   reason
   cmdliner
-  base64
+  base64))
+
+(package
+ (name mel)
+ (homepage "https://github.com/melange-re/melange")
+ (maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+ (authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+ (bug_reports "https://github.com/melange-re/melange/issues")
+ (synopsis "Toolchain to produce JS from Reason/OCaml")
+ (depends
+  ocaml
+  melange
+  cmdliner
   luv
   (ounit :with-test)))

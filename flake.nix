@@ -19,10 +19,12 @@
         });
       in
       rec {
-        packages.default = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; };
+        packages = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; } //
+          { default = packages.melange; };
+
         devShell = pkgs.callPackage ./nix/shell.nix {
           dream2nix = dream2nix.lib2;
-          melange = packages.default;
+          inherit packages;
         };
       });
 }
