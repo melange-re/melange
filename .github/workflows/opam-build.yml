@@ -28,6 +28,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: melange
 
       - name: Use Node
         uses: actions/setup-node@v3
@@ -40,22 +42,25 @@ jobs:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - name: Install melange.opam dependencies
-        run: opam install ./melange.opam --deps-only --with-test
+        run: opam install ./melange/melange.opam --deps-only --with-test
 
       - name: Install ocaml-tree
-        working-directory: ocaml-tree
+        working-directory: melange/ocaml-tree
         run: npm install
 
       - name: Build melange project
+        working-directory: melange
         run: opam exec -- dune build -p melange
 
       - name: Run tests
+        working-directory: melange
         run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
 
       - name: Clone opam fork of melange-basic-template
-        run: git clone -b main https://github.com/jchavarri/melange-basic-template.git
+        run: git clone -b opam https://github.com/jchavarri/melange-basic-template.git
 
       - name: Pin melange to current
+        working-directory: melange
         run: opam pin melange .
 
       - name: Install js deps

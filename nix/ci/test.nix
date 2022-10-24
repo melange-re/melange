@@ -48,7 +48,7 @@ stdenv.mkDerivation {
   buildInputs = [ yarn nodejs melange ];
 
   NIX_NODE_MODULES_POSTINSTALL = ''
-    ln -sfn ${melange} node_modules/melange
+    ln -sfn ${melange}/lib/melange/runtime node_modules/melange
   '';
 
   checkPhase = ''
