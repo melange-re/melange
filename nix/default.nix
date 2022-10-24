@@ -79,7 +79,6 @@ rec {
       melange
       cmdliner
       luv
-      base64
     ];
 
     meta.mainProgram = "mel";
