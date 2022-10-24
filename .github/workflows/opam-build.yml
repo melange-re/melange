@@ -56,7 +56,7 @@ jobs:
         working-directory: melange
         run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
 
-      - name: Clone opam fork of melange-opam-template
+      - name: Clone melange-opam-template
         run: git clone https://github.com/melange-re/melange-opam-template.git
 
       - name: Install all deps
