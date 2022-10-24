@@ -42,7 +42,8 @@ jobs:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - name: Install melange.opam dependencies
-        run: opam install ./melange/melange.opam --deps-only --with-test
+        working-directory: melange
+        run: opam install ./melange.opam ./mel.opam --deps-only --with-test
 
       - name: Install ocaml-tree
         working-directory: melange/ocaml-tree
@@ -65,7 +66,9 @@ jobs:
 
       - name: Pin melange to current
         working-directory: melange
-        run: opam pin melange .
+        run: |
+          opam pin add melange .
+          opam pin add mel .
 
       - name: Build basic template
         working-directory: melange-opam-template

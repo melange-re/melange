@@ -11,6 +11,7 @@
    (:standard -O3 -unbox-closures))))
 
 (install
+ (package melange)
  (dirs
   (lib/es6 as runtime/lib/es6)
   (lib/js as runtime/lib/js))

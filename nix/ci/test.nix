@@ -19,8 +19,11 @@ let
     ];
   };
   inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages;
-  melange = pkgs.callPackage ./.. { inherit nix-filter; };
-  inputString = builtins.substring 11 32 (builtins.unsafeDiscardStringContext melange.outPath);
+  packages = pkgs.callPackage ./.. { inherit nix-filter; };
+  inputString =
+    builtins.substring
+      11 32
+      (builtins.unsafeDiscardStringContext packages.melange.outPath);
 in
 
 stdenv.mkDerivation {
@@ -45,10 +48,10 @@ stdenv.mkDerivation {
   doCheck = true;
 
   nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-  buildInputs = [ yarn nodejs melange ];
+  buildInputs = [ yarn nodejs packages.melange packages.mel ];
 
   NIX_NODE_MODULES_POSTINSTALL = ''
-    ln -sfn ${melange}/lib/melange/runtime node_modules/melange
+    ln -sfn ${packages.melange}/lib/melange/runtime node_modules/melange
   '';
 
   checkPhase = ''

@@ -1,9 +1,7 @@
-{ pkgs, dream2nix, system, nodejs_latest, melange }:
-
+{ pkgs, dream2nix, system, nodejs_latest, packages }:
 
 let
-
-
+  derivations = lib.filterAttrs (_: value: lib.isDerivation value) packages;
   outputs = dream2nix.makeFlakeOutputs {
     systems = [ system ];
     config.projectRoot = ../jscomp/build_tests/monorepo;
@@ -25,7 +23,7 @@ in
 with pkgs;
 
 mkShell {
-  inputsFrom = [ melange ];
+  inputsFrom = lib.attrValues derivations;
   buildInputs = [
     pnpm
     python3

@@ -1,9 +1,6 @@
 (executable
- (public_name bsc)
- (modules bsc))
-
-(executable
  (public_name melc)
+ (package melange)
  (modes byte_complete native)
  (flags :standard -open Melange_compiler_libs)
  (libraries
@@ -24,16 +21,11 @@
    (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
 
 (executable
- (public_name bsb)
- (modes native)
- (modules bsb)
- (libraries bs_hash_stubs ext common bsb cmdliner))
-
-(executable
  (public_name mel)
+ (package mel)
  (modes native)
  (modules mel mel_watcher)
- (libraries bs_hash_stubs ext common bsb cmdliner luv))
+ (libraries mellib cmdliner luv))
 
 (executable
  (name cmjdump_main)
@@ -43,12 +35,14 @@
 
 (executable
  (public_name meldep)
+ (package melange)
  (modes native)
  (modules meldep)
  (libraries bsb_helper ext common core cmdliner))
 
 (test
  (name ounit_tests_main)
+ (package melange)
  (modes native)
  (modules ounit_tests_main)
  (deps
@@ -56,4 +50,4 @@
   (alias ../runtime/mel)
   (alias ../others/mel)
   (alias ../stdlib-412/mel))
- (libraries ounit2 bs_hash_stubs ext common bsb bsb_helper core ounit_tests))
+ (libraries ounit2 str ounit_tests))

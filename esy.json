@@ -21,11 +21,15 @@
     "clean": "node ./scripts/ninja.js clean"
   },
   "esy": {
-    "build": "dune build -p #{self.name} --disable-promotion",
+    "build": "dune build -p #{self.name},mel --disable-promotion",
     "install": [
       [
         "esy-installer",
         "$cur__target_dir/default/melange.install"
+      ],
+      [
+        "esy-installer",
+        "$cur__target_dir/default/mel.install"
       ]
     ],
     "buildEnv": {

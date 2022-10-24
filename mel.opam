@@ -7,11 +7,10 @@ homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.5"}
-  "ocaml" {>= "4.14.0" & < "4.15.0"}
-  "melange-compiler-libs" {>= "0.0.1-414"}
-  "reason"
+  "ocaml"
+  "melange"
   "cmdliner"
-  "base64"
+  "luv"
   "ounit" {with-test}
   "odoc" {with-doc}
 ]
