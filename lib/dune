@@ -1,17 +1,33 @@
 (rule
+ (targets artifacts.sexp)
+ (deps melange)
+ (mode
+  (promote (until-clean)))
+ (action
+  (with-stdout-to
+   artifacts.sexp
+   (progn
+    (echo "(")
+    (chdir
+     ..
+     (run find %{deps} -type f))
+    (echo ")")))))
+
+(rule
  (targets
   (dir melange))
  (mode
   (promote (until-clean)))
  (deps
   (:artifacts
-   (glob_files ../jscomp/runtime/*.{ml,mli,cmi,cmj})
-   (glob_files ../jscomp/others/*.{ml,mli,cmi,cmj})
-   (glob_files_rec ../jscomp/stdlib-412/*.{ml,mli,cmi,cmj})))
+   (glob_files ../jscomp/runtime/*.{ml,mli,cmi,cmj,cmt,cmti})
+   (glob_files ../jscomp/others/*.{ml,mli,cmi,cmj,cmt,cmti})
+   (glob_files_rec ../jscomp/stdlib-412/*.{ml,mli,cmi,cmj,cmt,cmti})))
  (action
   (progn
-   (run mkdir -p %{targets})
-   (run cp %{artifacts} %{targets}))))
+   (chdir
+    %{targets}
+    (run cp %{artifacts} .)))))
 
 (rule
  (targets

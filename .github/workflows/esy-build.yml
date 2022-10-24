@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         # https://github.com/melange-re/melange/issues/165
-        system: [ ubuntu, macos] # windows,
+        system: [ ubuntu, macos ] # windows
 
     runs-on: ${{ matrix.system }}-latest
 
@@ -48,7 +48,7 @@ jobs:
 
       - name: Clone basic template
         if: ${{ matrix.system == 'ubuntu' }}
-        run: git clone -b directory-targets https://github.com/jchavarri/melange-basic-template.git
+        run: git clone https://github.com/melange-re/melange-basic-template.git
 
       - name: Remove esy.lock in template
         if: ${{ matrix.system == 'ubuntu' }}
@@ -65,7 +65,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's/"installConfig": { "pnp": false }/"installConfig": { "pnp": false },"resolutions": { "melange": "link:..\/melange"}/' esy.json
+          sed -i 's@"installConfig": { "pnp": false }@"installConfig": { "pnp": false },"resolutions": { "melange": "melange-re/melange#'"$GITHUB_SHA"'"}@' esy.json
 
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}

@@ -1,1 +1,0 @@
-setenv: [ MELANGELIB = "%{_:lib}%/melange" ]
