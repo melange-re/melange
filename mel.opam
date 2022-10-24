@@ -11,7 +11,6 @@ depends: [
   "melange"
   "cmdliner"
   "luv"
-  "base64"
   "ounit" {with-test}
   "odoc" {with-doc}
 ]

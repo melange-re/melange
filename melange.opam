@@ -11,6 +11,7 @@ depends: [
   "melange-compiler-libs" {>= "0.0.1-414"}
   "reason"
   "cmdliner"
+  "base64"
   "ounit" {with-test}
   "odoc" {with-doc}
 ]

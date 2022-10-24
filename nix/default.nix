@@ -46,6 +46,7 @@ rec {
       melange-compiler-libs
       reason
       cmdliner
+      base64
     ];
   };
 
