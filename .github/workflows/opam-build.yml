@@ -56,11 +56,11 @@ jobs:
         working-directory: melange
         run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
 
-      - name: Clone opam fork of melange-basic-template
-        run: git clone -b opam https://github.com/jchavarri/melange-basic-template.git
+      - name: Clone opam fork of melange-opam-template
+        run: git clone https://github.com/melange-re/melange-opam-template.git
 
       - name: Install all deps
-        working-directory: melange-basic-template
+        working-directory: melange-opam-template
         run: make install
 
       - name: Pin melange to current
@@ -68,7 +68,13 @@ jobs:
         run: opam pin melange .
 
       - name: Build basic template
-        working-directory: melange-basic-template
+        working-directory: melange-opam-template
         run: |
           opam exec -- mel
           npm run bundle
+
+      - name: Run resulting .js files
+        working-directory: melange-opam-template
+        run: |
+          node _build/default/src/Hello.bs.js
+          node _build/default/src/Main.bs.js
