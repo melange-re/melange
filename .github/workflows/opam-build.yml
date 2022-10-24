@@ -61,7 +61,7 @@ jobs:
 
       - name: Pin melange to current
         working-directory: melange
-        run: opam pin melange .
+        run: opam pin melange mel .
 
       - name: Install js deps
         working-directory: melange-basic-template
