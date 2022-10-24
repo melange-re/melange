@@ -32,7 +32,8 @@
     (< "4.15.0")))
   (melange-compiler-libs
    (>= "0.0.1-414"))
-  reason
+  (reason
+   (>= "3.8.1"))
   cmdliner
   base64
   (ounit :with-test)))
