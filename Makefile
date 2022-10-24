@@ -1,6 +1,10 @@
+SHELL := $(shell echo $$SHELL)
 
 nix-%:
 	nix develop '.?submodules=1#' --command $*
+
+release-shell:
+	nix develop '.?submodules=1#release' --command $(SHELL)
 vim:
 	$(MAKE) nix-n$@
 
