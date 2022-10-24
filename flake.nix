@@ -22,9 +22,16 @@
         packages = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; } //
           { default = packages.melange; };
 
-        devShell = pkgs.callPackage ./nix/shell.nix {
-          dream2nix = dream2nix.lib2;
-          inherit packages;
+        devShells = {
+          default = pkgs.callPackage ./nix/shell.nix {
+            dream2nix = dream2nix.lib2;
+            inherit packages;
+          };
+          release = pkgs.callPackage ./nix/shell.nix {
+            dream2nix = dream2nix.lib2;
+            release-mode = true;
+            inherit packages;
+          };
         };
       });
 }
