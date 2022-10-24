@@ -12,6 +12,7 @@ depends: [
   "reason"
   "cmdliner"
   "base64"
+  "ounit" {with-test}
   "odoc" {with-doc}
 ]
 build: [

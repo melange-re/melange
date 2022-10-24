@@ -27,7 +27,8 @@
    (>= "0.0.1-414"))
   reason
   cmdliner
-  base64))
+  base64
+  (ounit :with-test)))
 
 (package
  (name mel)
