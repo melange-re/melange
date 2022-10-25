@@ -5,7 +5,7 @@ Thanks for your interest! Below we describe Melange's development setup for a fe
 
 ## Installation
 
-Melange can be set up with [#nix](Nix) or [#esy](Esy). Instructions for both are detailed below.
+Melange can be set up with [Nix](#Nix), [Esy](#Esy) or [opam](#opam). Instructions for each are detailed below.
 
 ### Nix
 
@@ -38,6 +38,10 @@ In order to develop using [Esy](https://esy.sh/), you need to install it first. 
 
 1. `esy install` to get all the project's dependencies
 2. `esy build` to build the project.
+
+### opam
+
+To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
 
 ## Developing
 
