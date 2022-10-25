@@ -48,6 +48,7 @@ rec {
       cmdliner
       base64
     ];
+    meta.mainProgram = "melc";
   };
 
   mel = buildDunePackage rec {
