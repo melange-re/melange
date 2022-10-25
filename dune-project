@@ -22,6 +22,8 @@
 
 (bug_reports "https://github.com/melange-re/melange/issues")
 
+(license "LGPL-2.1-or-later")
+
 (package
  (name melange)
  (synopsis "Toolchain to produce JS from Reason/OCaml")
@@ -32,9 +34,12 @@
     (< "4.15.0")))
   (melange-compiler-libs
    (>= "0.0.1-414"))
-  reason
-  cmdliner
-  base64
+  (reason
+   (>= "3.8.1"))
+  (cmdliner
+   (>= "1.1.0"))
+  (base64
+   (>= "3.1.0"))
   (ounit :with-test)))
 
 (package
@@ -44,6 +49,8 @@
  (depends
   ocaml
   melange
-  cmdliner
-  luv
+  (cmdliner
+   (>= "1.1.0"))
+  (luv
+   (>= "0.5.11"))
   (ounit :with-test)))
