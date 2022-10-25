@@ -49,5 +49,6 @@
   melange
   (cmdliner
    (>= "1.1.0"))
-  luv
+  (luv
+   (>= "0.5.11"))
   (ounit :with-test)))
