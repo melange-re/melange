@@ -1,0 +1,3 @@
+(cram
+ (package melange)
+ (deps %{bin:melc}))

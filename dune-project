@@ -4,6 +4,8 @@
 
 (executables_implicit_empty_intf true)
 
+(cram enable)
+
 (formatting
  (enabled_for ocaml))
 

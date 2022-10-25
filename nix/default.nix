@@ -19,6 +19,7 @@ rec {
         "package.json"
         "jscomp"
         "lib"
+        "test"
         "mel_workspace"
         "ppx_rescript_compat"
         "scripts"
