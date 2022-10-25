@@ -37,7 +37,7 @@
   (cmdliner
    (>= "1.1.0"))
   (base64
-   (>= "3.0.0"))
+   (>= "3.1.0"))
   (ounit :with-test)))
 
 (package
