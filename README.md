@@ -19,63 +19,55 @@ on the OCaml compiler, Melange facilitates producing robust JavaScript code.
   * [Acknowledgments](#acknowledgments)
   * [Licensing](#licensing)
 
-### Positioning in the broader OCaml ecosystem
-
-This project is forked from the
-[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) shifting
-focus to integrating with the OCaml ecosystem. This enables code sharing between
-backend and frontend using Dune's virtual libraries.
-
-Melange also introduces a ReScript compatibility layer to maintain compatibility
-with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
-
-Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
-your project!
-
-A small write-up with more details on the motivation behind this project can be
-found in this
-[blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
-
 ## Installation
 
-This project is currently unreleased. There are, however, a few ways to try it
-out.
-
-### [Esy](https://esy.sh)
-
-The easiest way to get started is to
-clone the [basic template](https://github.com/melange-re/melange-basic-template)
-and run `esy` in the project root. To install [Esy](https://esy.sh), `npm
-install -g esy` should cover most workflows. If you have NodeJS / `npm`
-available, `npx esy` is even shorter.
+Melange is released to OPAM. You can obtain it in multiple ways:
 
 ### [OPAM](https://opam.ocaml.org/)
 
-You can also install melange with `opam`:
+Get Melange from OPAM:
 
-Pin melange to the version on GitHub:
+    opam install mel
 
-    opam pin melange https://github.com/melange-re/melange.git
+#### Template
 
-You should now be able to run melange from your switch:
+There's an available project starter at
+[melange-re/melange-opam-template](https://github.com/melange-re/melange-opam-template)
+to get up and running with Melange on OPAM.
 
-    opam exec -- mel --help
+#### Manual setup
+
+After installing Melange, you should now be able to run `mel` from your switch:
+
+```shell
+$ opam exec -- mel --help
+```
 
 Melange also has some runtime dependencies that need to be symlinked into `node_modules` to be discoverable by bundlers like webpack:
 
-    rm -rf node_modules/melange
-    mkdir -p node_modules/melange
-    ln -sfn $(opam var prefix)/lib/melange node_modules/melange/lib
+``` shell
+rm -rf node_modules/melange
+ln -sfn $(opam var prefix)/lib/melange/runtime node_modules/melange
+```
 
-(adapted from the equivalent step in the esy build for `melange-basic-template`: https://github.com/melange-re/melange-basic-template/blob/3605fb491d45e74472be58f653482e15e21c9159/esy.json#L15).
+### [Esy](https://esy.sh)
+
+The easiest way to get started with Esy is to
+clone the [Esy project starter](https://github.com/melange-re/melange-basic-template)
+and run `esy` in the project root.
+
+To install [Esy](https://esy.sh):
+
+- `npm install -g esy` should cover most workflows.
+- If you have NodeJS / `npm` available, `npx esy` is even shorter.
 
 ### [Nix](https://nixos.org/learn.html)
 
 Melange has good support for Nix:
 
-- `nix run github:melange-re/melange -- build` runs melange.
-- `nix shell github:melange-re/melange -c $SHELL` enters a shell with `mel` and
-  `melc` in `$PATH`. Try out `mel --help`, for example.
+- `nix run github:melange-re/melange#mel -- build` runs melange.
+- `nix shell github:melange-re/melange#mel -c $SHELL` enters a shell with `mel`
+  and `melc` in `$PATH`. Try out `mel --help`, for example.
   for available options.
 - Adding `github:melange-re/melange` as a
   [flake](https://nixos.wiki/wiki/Flakes) input exports melange as the default
@@ -132,6 +124,24 @@ for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-lib
 ## FAQ
 
 ### How does this project relate to other tools?
+
+This project is forked from the
+[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) shifting
+focus to integrating with the OCaml ecosystem. This enables code sharing between
+backend and frontend using Dune's virtual libraries.
+
+Melange also introduces a ReScript compatibility layer to maintain compatibility
+with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
+
+Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
+your project!
+
+A small write-up with more details on the motivation behind this project can be
+found in this
+[blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
+
+Here's a quick comparison between Melange and other tools:
+
 
 | Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
 | -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
