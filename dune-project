@@ -34,8 +34,10 @@
    (>= "0.0.1-414"))
   (reason
    (>= "3.8.1"))
-  cmdliner
-  base64
+  (cmdliner
+   (>= "1.1.0"))
+  (base64
+   (>= "3.0.0"))
   (ounit :with-test)))
 
 (package
@@ -45,6 +47,7 @@
  (depends
   ocaml
   melange
-  cmdliner
+  (cmdliner
+   (>= "1.1.0"))
   luv
   (ounit :with-test)))

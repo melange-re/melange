@@ -10,7 +10,7 @@ depends: [
   "dune" {>= "3.5"}
   "ocaml"
   "melange"
-  "cmdliner"
+  "cmdliner" {>= "1.1.0"}
   "luv"
   "ounit" {with-test}
   "odoc" {with-doc}
