@@ -16,12 +16,12 @@ Here, the package specs don't matter because:
 2. we'll decide the layout at linking time
 
   $ cd lib/
-  $ melc $PKG_NAME $DUMMY_SPECS -bs-stop-after-cmj a.ml
+  $ melc $PKG_NAME $DUMMY_SPECS -bs-stop-after-cmj -nopervasives a.ml
   $ cd -
   $TESTCASE_ROOT
 
   $ cd app/
-  $ melc $PKG_NAME $DUMMY_SPECS -I ../lib b.ml -bs-stop-after-cmj
+  $ melc $PKG_NAME $DUMMY_SPECS -I ../lib b.ml -nopervasives -bs-stop-after-cmj
   $ cd -
   $TESTCASE_ROOT
 
@@ -32,12 +32,12 @@ the extension via `-o `
 Just used for the module system and extension in this phase
 
   $ cd output/lib
-  $ melc $PKG_NAME -bs-package-output commonjs:./lib:.js ../../lib/a.cmj -o a.js
+  $ melc $PKG_NAME -bs-package-output commonjs:./lib:.js -nopervasives ../../lib/a.cmj -o a.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $PKG_NAME -bs-package-output commonjs:./app:.js -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $PKG_NAME -bs-package-output commonjs:./app:.js -nopervasives -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
