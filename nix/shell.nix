@@ -1,7 +1,7 @@
 { dream2nix
 , lib
 , mkShell
-, nodejs-16_x
+, nodejs_latest
 , packages
 , python3
 , stdenv
@@ -32,8 +32,8 @@ mkShell {
   inputsFrom = lib.attrValues derivations;
   buildInputs = [
     python3
-    nodejs-16_x
-    (yarn.override { nodejs = nodejs-16_x; })
+    nodejs_latest
+    yarn
   ]
   ++ (with ocamlPackages; [
     merlin
