@@ -5,7 +5,7 @@ Thanks for your interest! Below we describe Melange's development setup for a fe
 
 ## Installation
 
-Melange can be set up with [nix](#Nix), [esy](#Esy) or [opam](#opam). Instructions for each are detailed below.
+Melange can be set up with [Nix](#Nix), [Esy](#Esy) or [opam](#opam). Instructions for each are detailed below.
 
 ### Nix
 
