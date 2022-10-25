@@ -17,10 +17,11 @@
     "@opam/ocaml-lsp-server": "*"
   },
   "scripts": {
-    "test": "esy b dune runtest --disable-promotion --ignore-promoted-rules",
-    "clean": "node ./scripts/ninja.js clean"
+    "test": "dune runtest -p mel,#{self.name} --disable-promotion",
+    "clean": "dune clean"
   },
   "esy": {
+    "buildsInSource": "_build",
     "build": "dune build -p #{self.name},mel --disable-promotion",
     "install": [
       [
