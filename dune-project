@@ -22,6 +22,8 @@
 
 (bug_reports "https://github.com/melange-re/melange/issues")
 
+(license "LGPL-2.1-or-later")
+
 (package
  (name melange)
  (synopsis "Toolchain to produce JS from Reason/OCaml")

@@ -4,6 +4,7 @@ synopsis:
   "Build system for Melange that defers to Dune for build orchestration"
 maintainer: ["Antonio Nuno Monteiro <anmonteiro@gmail.com>"]
 authors: ["Antonio Nuno Monteiro <anmonteiro@gmail.com>"]
+license: "LGPL-2.1-or-later"
 homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
