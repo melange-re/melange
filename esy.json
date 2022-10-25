@@ -21,16 +21,13 @@
     "clean": "dune clean"
   },
   "esy": {
-    "buildsInSource": "_build",
-    "build": "dune build -p #{self.name},mel --disable-promotion",
+    "buildsInSource": "unsafe",
+    "build": "dune build -p #{self.name},mel",
     "install": [
       [
         "esy-installer",
-        "$cur__target_dir/default/melange.install"
-      ],
-      [
-        "esy-installer",
-        "$cur__target_dir/default/mel.install"
+        "melange.install",
+        "mel.install"
       ]
     ],
     "buildEnv": {
