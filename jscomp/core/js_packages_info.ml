@@ -223,8 +223,10 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
   in
   { packages_info with module_systems = m :: packages_info.module_systems }
 
+let bs_module_type_sentinel = "MELANGE_INVALID_PACKAGE_OUTPUT"
+
 let add_npm_module_system (packages_info : t) module_system =
-  let m = { module_system; path = "."; suffix = Js } in
+  let m = { module_system; path = bs_module_type_sentinel; suffix = Js } in
   { packages_info with module_systems = m :: packages_info.module_systems }
 
 (* support es6 modules instead

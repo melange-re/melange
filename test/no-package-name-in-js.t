@@ -29,17 +29,16 @@ Now compile for real
   $ cd -
   $TESTCASE_ROOT
 
-The linking step doesn't need `package-name`
-
-Just used for the module system and extension in this phase
+The linking step just needs `-bs-module-type`, it already knows the package
+paths
 
   $ cd output/lib
-  $ melc -bs-package-output commonjs:./lib:.js -nopervasives ../../lib/a.cmj -o a.js
+  $ melc -bs-module-type commonjs -nopervasives ../../lib/a.cmj -o a.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc -bs-package-output commonjs:./app:.js -nopervasives -I ../../lib ../../app/b.cmj -o b.js
+  $ melc -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
