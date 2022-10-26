@@ -195,7 +195,6 @@ let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~install_dir ~cur_dir
 let output_virtual_package ~root_dir ~package_spec ~oc
     ((config, configs) : Bsb_config_types.t * Bsb_config_types.t list) =
   let package_spec_dir = Bsb_package_specs.output_dir_of_spec package_spec in
-  let package_spec_suffix = Ext_js_suffix.to_string package_spec.suffix in
   output_string oc "\n(rule (targets (dir ";
   output_string oc package_spec_dir;
   output_string oc "))\n (alias UNSTABLE_";
@@ -315,9 +314,8 @@ let output_virtual_package ~root_dir ~package_spec ~oc
                    output_string oc (Ext_filename.maybe_quote package_name);
 
                    output_string oc
-                     (Format.asprintf " -bs-package-output %s:%s:%s"
-                        (Bsb_package_specs.string_of_format package_spec.format)
-                        rel_group_dir package_spec_suffix);
+                     (Format.asprintf " -bs-module-type %s"
+                        (Bsb_package_specs.string_of_format package_spec.format));
                    output_char oc ' ';
                    output_string oc rel_cmj;
                    output_string oc " -o ";

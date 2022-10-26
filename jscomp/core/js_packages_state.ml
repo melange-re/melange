@@ -36,8 +36,9 @@ let set_package_map module_name =
 let update_npm_package_path s =
   packages_info := Js_packages_info.add_npm_package_path !packages_info s
 
-let update_npm_module_system s =
-  packages_info := Js_packages_info.add_npm_module_system !packages_info s
+let update_npm_module_system ~suffix s =
+  packages_info :=
+    Js_packages_info.add_npm_module_system ~suffix !packages_info s
 
 let get_packages_info () = !packages_info
 let get_packages_info_for_cmj () = Js_packages_info.for_cmj !packages_info

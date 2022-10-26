@@ -111,9 +111,9 @@ let module_system_of_string package_name : module_system option =
   | _ -> None
 
 let module_system_to_string = function
-  | NodeJS -> "commonjs"
-  | Es6 -> "es6"
-  | Es6_global -> "es6-global"
+  | NodeJS -> Literals.commonjs
+  | Es6 -> Literals.es6
+  | Es6_global -> Literals.es6_global
 
 let dump_package_info (fmt : Format.formatter)
     ({ module_system = ms; path = name; suffix } : package_info) =
@@ -223,11 +223,15 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
   in
   { packages_info with module_systems = m :: packages_info.module_systems }
 
-let bs_module_type_sentinel = "MELANGE_INVALID_PACKAGE_OUTPUT"
+let bs_module_type_sentinel = "//MELANGE_INVALID_PACKAGE_OUTPUT//"
 
-let add_npm_module_system (packages_info : t) module_system =
-  let m = { module_system; path = bs_module_type_sentinel; suffix = Js } in
-  { packages_info with module_systems = m :: packages_info.module_systems }
+let add_npm_module_system ~suffix (packages_info : t) module_system =
+  let m = { module_system; path = bs_module_type_sentinel; suffix } in
+  { packages_info with module_systems = [ m ] }
+
+let is_module_type_flag = function
+  | { module_systems = [ ms ]; _ } -> ms.path = bs_module_type_sentinel
+  | _ -> false
 
 (* support es6 modules instead
    TODO: enrich ast to support import export

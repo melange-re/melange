@@ -213,7 +213,8 @@ let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
   Res_compmisc.init_path ();
   let cmj = Js_cmj_format.from_file fname in
-  Lam_compile_main.lambda_as_module cmj.delayed_program
+  Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
+    cmj.delayed_program
     (Config_util.output_prefix fname)
 
 let make_structure_item ~ns cunit : Parsetree.structure_item =

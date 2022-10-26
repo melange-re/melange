@@ -414,7 +414,20 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     begin match bs_module_type, bs_package_output with
     | None, [] -> ()
     | Some bs_module_type, [] ->
-      Js_packages_state.update_npm_module_system bs_module_type
+      let suffix = match output_name with
+        | Some output_name ->
+          let ext = Filename.extension output_name in
+          if String.length ext = 0 then
+            raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
+          else
+          (match Ext_js_suffix.of_string (Filename.extension output_name) with
+          | Unknown_extension ->
+            raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
+          | other -> other)
+        | None ->
+          raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
+      in
+      Js_packages_state.update_npm_module_system ~suffix bs_module_type
     | None, bs_package_output ->
       Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
     | Some _, _ :: _ ->

@@ -51,7 +51,7 @@ val add_npm_package_path : t -> string -> t
   e.g [-bs-package-output commonjs:xx/path]
 *)
 
-val add_npm_module_system : t -> module_system -> t
+val add_npm_module_system : suffix:Ext_js_suffix.t -> t -> module_system -> t
 
 type package_found_info = {
   rel_path : string;
@@ -65,8 +65,10 @@ type info_query =
   | Package_found of package_found_info
 
 val get_output_dir : t -> package_dir:string -> module_system -> string
-
 val query_package_infos : t -> module_system -> info_query
-(** Note here we compare the package info by order
-  in theory, we can compare it by set semantics
+
+(* Note here we compare the package info by order
+   in theory, we can compare it by set semantics
 *)
+
+val is_module_type_flag : t -> bool
