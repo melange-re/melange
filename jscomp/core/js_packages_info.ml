@@ -110,6 +110,11 @@ let module_system_of_string package_name : module_system option =
   | "es6-global" -> Some Es6_global
   | _ -> None
 
+let module_system_to_string = function
+  | NodeJS -> "commonjs"
+  | Es6 -> "es6"
+  | Es6_global -> "es6-global"
+
 let dump_package_info (fmt : Format.formatter)
     ({ module_system = ms; path = name; suffix } : package_info) =
   Format.fprintf fmt "@[%s@ %s@ %s@]"
@@ -166,7 +171,18 @@ let query_package_infos ({ name; module_systems } as t : t)
           let pkg_rel_path = name // rel_path in
           Package_found { rel_path; pkg_rel_path; suffix = k.suffix }
       | None -> Package_not_found)
-  | None -> Package_script
+  | None -> (
+      (* This represents the "implicit package flow". if `-bs-package-name` is
+         not present, assume we're all in the same package, and produce
+         relative imports *)
+      match
+        Ext_list.find_first module_systems (fun k ->
+            compatible k.module_system module_system)
+      with
+      | Some k ->
+          Package_found
+            { rel_path = k.path; pkg_rel_path = k.path; suffix = k.suffix }
+      | None -> Package_script)
 
 let get_js_path (x : t) (module_system : module_system) : string =
   match
@@ -183,32 +199,33 @@ let get_output_dir (info : t) ~package_dir module_system =
   Filename.concat package_dir (get_js_path info module_system)
 
 let add_npm_package_path (packages_info : t) (s : string) : t =
-  if is_empty packages_info then
-    raise (Arg.Bad "please set package name first using -bs-package-name")
-  else
-    let handle_module_system module_system =
-      match module_system_of_string module_system with
-      | Some x -> x
-      | None -> raise (Arg.Bad ("invalid module system " ^ module_system))
-    in
-    let m =
-      match Ext_string.split ~keep_empty:true s ':' with
-      | [ path ] -> { module_system = NodeJS; path; suffix = Js }
-      | [ module_system; path ] ->
-          {
-            module_system = handle_module_system module_system;
-            path;
-            suffix = Js;
-          }
-      | [ module_system; path; suffix ] ->
-          {
-            module_system = handle_module_system module_system;
-            path;
-            suffix = Ext_js_suffix.of_string suffix;
-          }
-      | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
-    in
-    { packages_info with module_systems = m :: packages_info.module_systems }
+  let handle_module_system module_system =
+    match module_system_of_string module_system with
+    | Some x -> x
+    | None -> raise (Arg.Bad ("invalid module system " ^ module_system))
+  in
+  let m =
+    match Ext_string.split ~keep_empty:true s ':' with
+    | [ path ] -> { module_system = NodeJS; path; suffix = Js }
+    | [ module_system; path ] ->
+        {
+          module_system = handle_module_system module_system;
+          path;
+          suffix = Js;
+        }
+    | [ module_system; path; suffix ] ->
+        {
+          module_system = handle_module_system module_system;
+          path;
+          suffix = Ext_js_suffix.of_string suffix;
+        }
+    | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
+  in
+  { packages_info with module_systems = m :: packages_info.module_systems }
+
+let add_npm_module_system (packages_info : t) module_system =
+  let m = { module_system; path = "."; suffix = Js } in
+  { packages_info with module_systems = m :: packages_info.module_systems }
 
 (* support es6 modules instead
    TODO: enrich ast to support import export

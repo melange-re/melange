@@ -24,6 +24,8 @@
 
 type module_system = NodeJS | Es6 | Es6_global
 
+val module_system_of_string : string -> module_system option
+val module_system_to_string : module_system -> string
 val runtime_dir_of_module_system : module_system -> string
 val runtime_package_path : module_system -> string -> string
 
@@ -48,6 +50,8 @@ val add_npm_package_path : t -> string -> t
 (** used by command line option
   e.g [-bs-package-output commonjs:xx/path]
 *)
+
+val add_npm_module_system : t -> module_system -> t
 
 type package_found_info = {
   rel_path : string;

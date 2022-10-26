@@ -315,6 +315,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       open_modules;
       bs_jsx;
       bs_package_output;
+      bs_module_type;
       bs_ast;
       bs_syntax_only;
       bs_g;
@@ -410,7 +411,16 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Ext_option.iter runtime setup_runtime_path;
 
     Ext_option.iter bs_package_name Js_packages_state.set_package_name;
-    Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
+    begin match bs_module_type, bs_package_output with
+    | None, [] -> ()
+    | Some bs_module_type, [] ->
+      Js_packages_state.update_npm_module_system bs_module_type
+    | None, bs_package_output ->
+      Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
+    | Some _, _ :: _ ->
+      raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
+    end;
+
     Ext_option.iter bs_ns Js_packages_state.set_package_map;
 
     if as_ppx then Js_config.as_ppx := as_ppx;
