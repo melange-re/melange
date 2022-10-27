@@ -1,5 +1,6 @@
 Set up a few directories we'll need
 
+  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
   $ mkdir -p lib
   $ mkdir -p app
   $ mkdir -p output/lib
@@ -13,12 +14,12 @@ Test that `-bs-package-name` works with `-bs-module-type` and not setting
 
   $ cd lib/
   $ export BSPKG="-bs-package-name myPackage"
-  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj -nopervasives a.ml
+  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj a.ml
   $ cd -
   $TESTCASE_ROOT
 
   $ cd app/
-  $ melc $BSPKG -bs-package-output app/ -I ../lib b.ml -nopervasives -bs-stop-after-cmj
+  $ melc $BSPKG -bs-package-output app/ -I ../lib b.ml -bs-stop-after-cmj
   $ cd -
   $TESTCASE_ROOT
 
@@ -26,17 +27,17 @@ The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
   $ cd output/lib
-  $ melc $BSPKG -bs-module-type commonjs -nopervasives ../../lib/a.cmj -o a.js
+  $ melc $BSPKG -bs-module-type commonjs ../../lib/a.cmj -o a.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $BSPKG -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $BSPKG -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $BSPKG -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $BSPKG -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
