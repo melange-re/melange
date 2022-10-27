@@ -2,6 +2,8 @@ Set up a few directories we'll need
 
   $ mkdir -p lib
   $ mkdir -p app
+  $ mkdir -p lib/.objs/melange
+  $ mkdir -p app/.objs/melange
   $ mkdir -p output/lib
   $ mkdir -p output/app
 
@@ -11,34 +13,19 @@ Set up a few directories we'll need
 Test that `-bs-package-name` works with `-bs-module-type` and not setting
 `-bs-package-output`
 
-  $ cd lib/
   $ export BSPKG="-bs-package-name myPackage"
-  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj -nopervasives a.ml
-  $ cd -
-  $TESTCASE_ROOT
+  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj -nopervasives lib/a.ml -o lib/.objs/melange/a.cmj
 
-  $ cd app/
-  $ melc $BSPKG -bs-package-output app/ -I ../lib b.ml -nopervasives -bs-stop-after-cmj
-  $ cd -
-  $TESTCASE_ROOT
+  $ melc $BSPKG -bs-package-output app/ -I lib/.objs/melange app/b.ml -nopervasives -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
-  $ cd output/lib
-  $ melc $BSPKG -bs-module-type commonjs -nopervasives ../../lib/a.cmj -o a.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ melc $BSPKG -bs-module-type commonjs -nopervasives lib/.objs/melange/a.cmj -o output/lib/a.js
 
-  $ cd output/app/
-  $ melc $BSPKG -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ melc $BSPKG -bs-module-type commonjs -nopervasives -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
-  $ cd output/app/
-  $ melc $BSPKG -bs-package-output commonjs:lol -nopervasives -I ../../lib ../../app/b.cmj -o b.js
-  $ cd -
-  $TESTCASE_ROOT
+  $ melc $BSPKG -bs-package-output commonjs:lol -nopervasives -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
 B depends on A, so it should import a.js in the right path
 
