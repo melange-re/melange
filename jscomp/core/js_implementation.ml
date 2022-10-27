@@ -142,7 +142,6 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
   | _ -> rest
 
 let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
-  let package_info = Js_packages_state.get_packages_info () in
   Js_config.all_module_aliases :=
     !Bs_clflags.assume_no_mli = Mli_non_exists && all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
@@ -184,6 +183,10 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
         |> Lam_compile_main.compile outputprefix
       in
       if not !Js_config.cmj_only then
+        (* XXX(anmonteiro): important that we get package_info after
+           processing, as `[@@@config {flags = [| ... |]}]` could have added to
+           package specs. *)
+        let package_info = Js_packages_state.get_packages_info () in
         Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
     process_with_gentype (outputprefix ^ ".cmt")
 
@@ -225,9 +228,8 @@ let make_structure_item ~ns cunit : Parsetree.structure_item =
     (Mb.mk { txt = Some cunit; loc }
        (Mod.ident { txt = Lident (Ext_namespace_encode.make ~ns cunit); loc }))
 
-(** decoding [.mlmap]
-  keep in sync {!Bsb_namespace_map_gen.output}
-*)
+(* decoding [.mlmap]
+   keep in sync {!Bsb_namespace_map_gen.output} *)
 let implementation_map ppf sourcefile =
   let () = Js_config.cmj_only := true in
   let ichan = open_in_bin sourcefile in
