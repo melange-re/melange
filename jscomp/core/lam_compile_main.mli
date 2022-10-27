@@ -33,4 +33,4 @@ val compile : string -> Lambda.lambda -> J.deps_program
  *)
 
 val lambda_as_module :
-  ?package_info:Js_packages_info.t -> J.deps_program -> string -> unit
+  package_info:Js_packages_info.t -> J.deps_program -> string -> unit

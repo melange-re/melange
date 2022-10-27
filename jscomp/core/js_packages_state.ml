@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let packages_info = ref Js_packages_info.empty
+let output_info = ref None
 
 let set_package_name name =
   packages_info := Js_packages_info.from_name ~t:!packages_info name
@@ -36,9 +37,12 @@ let set_package_map module_name =
 let update_npm_package_path s =
   packages_info := Js_packages_info.add_npm_package_path !packages_info s
 
-let update_npm_module_system ~suffix s =
-  packages_info :=
-    Js_packages_info.add_npm_module_system ~suffix !packages_info s
+let set_output_info ~suffix module_system =
+  output_info := Some { Js_packages_info.suffix; module_system }
 
 let get_packages_info () = !packages_info
+
+let get_output_info () =
+  Js_packages_info.assemble_output_info ?output_info:!output_info !packages_info
+
 let get_packages_info_for_cmj () = Js_packages_info.for_cmj !packages_info

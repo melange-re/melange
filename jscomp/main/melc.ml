@@ -427,7 +427,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         | None ->
           raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
       in
-      Js_packages_state.update_npm_module_system ~suffix bs_module_type
+      Js_packages_state.set_output_info ~suffix bs_module_type
     | None, bs_package_output ->
       Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
     | Some _, _ :: _ ->

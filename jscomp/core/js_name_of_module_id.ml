@@ -52,10 +52,12 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
   | Package_not_found -> assert false
   | Package_script ->
       Js_packages_info.runtime_package_path module_system js_file
-  | Package_found pkg -> (
+  | Package_found (Separate _) -> assert false
+  | Package_found (Batch pkg) -> (
       if Js_packages_info.is_runtime_package current_package_info then
         (* Runtime files end up in the same directory, `lib/js` or `lib/es6` *)
-        Ext_path.node_rebase_file ~from:pkg.rel_path ~to_:pkg.rel_path js_file
+        Ext_path.node_rebase_file ~from:pkg.path_info.rel_path
+          ~to_:pkg.path_info.rel_path js_file
       else
         match module_system with
         | NodeJS | Es6 ->
@@ -84,10 +86,9 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
               | Some path -> path // dep_path // js_file))
 
 (* [output_dir] is decided by the command line argument *)
-let string_of_module_id ~package_info (dep_module_id : Lam_module_ident.t)
-    ~(output_dir : string) (module_system : Js_packages_info.module_system) :
-    string =
-  let current_package_info = package_info in
+let string_of_module_id ~package_info:current_package_info ~suffix
+    (dep_module_id : Lam_module_ident.t) ~(output_dir : string)
+    (module_system : Js_packages_info.module_system) : string =
   fix_path_for_windows
     (match dep_module_id.kind with
     | External { name } -> name (* the literal string for external package *)
@@ -120,28 +121,42 @@ let string_of_module_id ~package_info (dep_module_id : Lam_module_ident.t)
               (Dependency_script_module_dependent_not
                  (Ident.name dep_module_id.id))
         | (Package_script | Package_found _), Package_not_found -> assert false
-        | Package_found ({ suffix } as pkg), Package_script ->
+        | Package_found pkg, Package_script ->
+            let path_info, suffix =
+              match pkg with
+              | Batch { path_info; suffix } -> (path_info, suffix)
+              | Separate path_info -> (path_info, suffix)
+            in
             let js_file =
               Ext_namespace.js_name_of_modulename
                 (Ident.name dep_module_id.id)
                 case suffix
             in
-            pkg.pkg_rel_path // js_file
-        | Package_found ({ suffix } as dep_pkg), Package_found cur_pkg -> (
+            path_info.pkg_rel_path // js_file
+        | Package_found dep_pkg, Package_found cur_pkg -> (
+            let ( dep,
+                  cur,
+                  ({ suffix; module_system } : Js_packages_info.output_info) ) =
+              match (dep_pkg, cur_pkg) with
+              | ( Batch { path_info = dep; suffix },
+                  (Batch { path_info = cur } | Separate cur) ) ->
+                  (dep, cur, { module_system; suffix })
+              | Separate dep, (Batch { path_info = cur } | Separate cur) ->
+                  (dep, cur, { suffix; module_system })
+            in
             let js_file =
               Ext_namespace.js_name_of_modulename
                 (Ident.name dep_module_id.id)
                 case suffix
             in
-
             match
               ( Js_packages_info.same_package_by_name current_package_info
                   dep_package_info,
                 Js_packages_info.is_runtime_package current_package_info )
             with
             | true, false ->
-                Ext_path.node_rebase_file ~from:cur_pkg.rel_path
-                  ~to_:dep_pkg.rel_path js_file
+                Ext_path.node_rebase_file ~from:cur.rel_path ~to_:dep.rel_path
+                  js_file
                 (* TODO: we assume that both [x] and [path] could only be relative path
                     which is guaranteed by [-bs-package-output]
                 *)
@@ -154,7 +169,7 @@ let string_of_module_id ~package_info (dep_module_id : Lam_module_ident.t)
                     module_system
                 else
                   match module_system with
-                  | NodeJS | Es6 -> dep_pkg.pkg_rel_path // js_file
+                  | NodeJS | Es6 -> dep.pkg_rel_path // js_file
                   (* Note we did a post-processing when working on Windows *)
                   | Es6_global ->
                       Ext_path.rel_normalized_absolute_path
@@ -162,7 +177,7 @@ let string_of_module_id ~package_info (dep_module_id : Lam_module_ident.t)
                           (Js_packages_info.get_output_dir current_package_info
                              ~package_dir:(Lazy.force Ext_path.package_dir)
                              module_system)
-                        (package_path // dep_pkg.rel_path // js_file)))
+                        (package_path // dep.rel_path // js_file)))
         | Package_script, Package_script -> (
             let js_file =
               Ext_namespace.js_name_of_modulename

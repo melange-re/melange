@@ -28,5 +28,7 @@ val get_packages_info : unit -> Js_packages_info.t
 val get_packages_info_for_cmj : unit -> Js_packages_info.t
 val update_npm_package_path : string -> unit
 
-val update_npm_module_system :
+val set_output_info :
   suffix:Ext_js_suffix.t -> Js_packages_info.module_system -> unit
+
+val get_output_info : unit -> Js_packages_info.output_info list

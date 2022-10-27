@@ -25,16 +25,9 @@
 val dump_program : J.program -> out_channel -> unit
 (** only used for debugging purpose *)
 
-val pp_deps_program :
-  package_info:Js_packages_info.t ->
-  output_prefix:string ->
-  Js_packages_info.module_system ->
-  J.deps_program ->
-  Ext_pp.t ->
-  unit
-
 val dump_deps_program :
   package_info:Js_packages_info.t ->
+  suffix:Ext_js_suffix.t ->
   output_prefix:string ->
   Js_packages_info.module_system ->
   J.deps_program ->

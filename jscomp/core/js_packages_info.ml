@@ -35,14 +35,6 @@ let compatible (dep : module_system) (query : module_system) =
   | Es6_global -> dep = Es6_global || dep = Es6
 (* As a dependency Leaf Node, it is the same either [global] or [not] *)
 
-type package_info = {
-  module_system : module_system;
-  path : string;
-  suffix : Ext_js_suffix.t;
-}
-
-type package_name = string option
-
 let ( // ) = Filename.concat
 
 (* in runtime lib, [es6] and [es6] are treated the same way *)
@@ -54,7 +46,20 @@ let runtime_package_path (ms : module_system) js_file =
   // runtime_dir_of_module_system ms
   // js_file
 
-type t = { name : package_name; module_systems : package_info list }
+type batch_info = {
+  module_system : module_system;
+  path : string;
+  suffix : Ext_js_suffix.t;
+}
+
+type output_info = { module_system : module_system; suffix : Ext_js_suffix.t }
+
+type package_info =
+  | Empty
+  | Batch_compilation of batch_info list
+  | Separate_emission of string
+
+type t = { name : string option; info : package_info }
 
 let is_runtime_package (x : t) =
   match x.name with
@@ -65,11 +70,12 @@ let for_cmj t =
   if is_runtime_package t then
     {
       t with
-      module_systems =
-        [
-          { module_system = NodeJS; path = "lib/js"; suffix = Js };
-          { module_system = Es6; path = "lib/es6"; suffix = Mjs };
-        ];
+      info =
+        Batch_compilation
+          [
+            { module_system = NodeJS; path = "lib/js"; suffix = Js };
+            { module_system = Es6; path = "lib/es6"; suffix = Mjs };
+          ];
     }
   else t
 
@@ -80,14 +86,6 @@ let same_package_by_name (x : t) (y : t) =
   | Some s1, Some s2 ->
       (is_runtime_package x && is_runtime_package y) || s1 = s2
 
-let iter (x : t) cb = Ext_list.iter x.module_systems cb
-
-(* let equal (x : t) ({name; module_systems}) =
-    x.name = name &&
-    Ext_list.for_all2_no_exn
-      x.module_systems module_systems
-      (fun (a0,a1) (b0,b1) -> a0 = b0 && a1 = b1) *)
-
 (* we don't want force people to use package *)
 
 (**
@@ -95,10 +93,9 @@ let iter (x : t) cb = Ext_list.iter x.module_systems cb
    For empty package, [-bs-package-output] does not make sense
    it is only allowed to generate commonjs file in the same directory
 *)
-let empty : t = { name = None; module_systems = [] }
+let empty : t = { name = None; info = Empty }
 
 let from_name ?(t = empty) (name : string) : t = { t with name = Some name }
-let is_empty (x : t) = Option.is_none x.name
 
 let string_of_module_system (ms : module_system) =
   match ms with NodeJS -> "NodeJS" | Es6 -> "Es6" | Es6_global -> "Es6_global"
@@ -116,30 +113,36 @@ let module_system_to_string = function
   | Es6_global -> Literals.es6_global
 
 let dump_package_info (fmt : Format.formatter)
-    ({ module_system = ms; path = name; suffix } : package_info) =
+    ({ module_system = ms; path = name; suffix } : batch_info) =
   Format.fprintf fmt "@[%s@ %s@ %s@]"
     (string_of_module_system ms)
     name
     (Ext_js_suffix.to_string suffix)
 
-let dump_package_name fmt (x : package_name) =
+let dump_package_name fmt (x : string option) =
   match x with
   | None -> Format.fprintf fmt "@empty_pkg@"
   | Some s -> Format.pp_print_string fmt s
 
-let dump_packages_info (fmt : Format.formatter)
-    ({ name; module_systems = ls } : t) =
-  Format.fprintf fmt "@[%a;@ @[%a@]@]" dump_package_name name
-    (Format.pp_print_list
-       ~pp_sep:(fun fmt () -> Format.pp_print_space fmt ())
-       dump_package_info)
-    ls
+let dump_packages_info (fmt : Format.formatter) ({ name; info } : t) =
+  let dump_info fmt info =
+    match info with
+    | Empty -> Format.fprintf fmt "(empty)"
+    | Separate_emission path -> Format.fprintf fmt "Separate(%s)" path
+    | Batch_compilation xs ->
+        Format.fprintf fmt "Batch %a"
+          (Format.pp_print_list
+             ~pp_sep:(fun fmt () -> Format.pp_print_space fmt ())
+             dump_package_info)
+          xs
+  in
+  Format.fprintf fmt "@[%a;@  @[%a@]@]" dump_package_name name dump_info info
 
-type package_found_info = {
-  rel_path : string;
-  pkg_rel_path : string;
-  suffix : Ext_js_suffix.t;
-}
+type path_info = { rel_path : string; pkg_rel_path : string }
+
+type package_found_info =
+  | Separate of path_info
+  | Batch of { path_info : path_info; suffix : Ext_js_suffix.t }
 
 type info_query =
   | Package_script
@@ -148,45 +151,70 @@ type info_query =
 
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
-let query_package_infos ({ name; module_systems } as t : t)
-    (module_system : module_system) : info_query =
+let query_package_infos ({ name; _ } as t : t) (module_system : module_system) :
+    info_query =
   match name with
   | Some _name when is_runtime_package t -> (
-      match
-        Ext_list.find_first module_systems (fun k ->
-            compatible k.module_system module_system)
-      with
-      | Some k ->
-          let rel_path = k.path in
-          let pkg_rel_path = !Bs_version.package_name // rel_path in
-          Package_found { rel_path; pkg_rel_path; suffix = k.suffix }
-      | None -> Package_not_found)
+      match t.info with
+      | Empty -> Package_not_found
+      | Separate_emission path ->
+          Package_found (Separate { rel_path = path; pkg_rel_path = path })
+      | Batch_compilation module_systems -> (
+          match
+            Ext_list.find_first module_systems (fun k ->
+                compatible k.module_system module_system)
+          with
+          | Some k ->
+              let rel_path = k.path in
+              let pkg_rel_path = !Bs_version.package_name // rel_path in
+              Package_found
+                (Batch
+                   { path_info = { rel_path; pkg_rel_path }; suffix = k.suffix })
+          | None -> Package_not_found))
   | Some name -> (
-      match
-        Ext_list.find_first module_systems (fun k ->
-            compatible k.module_system module_system)
-      with
-      | Some k ->
-          let rel_path = k.path in
-          let pkg_rel_path = name // rel_path in
-          Package_found { rel_path; pkg_rel_path; suffix = k.suffix }
-      | None -> Package_not_found)
+      match t.info with
+      | Empty -> Package_not_found
+      | Separate_emission path ->
+          Package_found
+            (Separate { rel_path = path; pkg_rel_path = name // path })
+      | Batch_compilation module_systems -> (
+          match
+            Ext_list.find_first module_systems (fun k ->
+                compatible k.module_system module_system)
+          with
+          | Some k ->
+              let rel_path = k.path in
+              let pkg_rel_path = name // rel_path in
+              Package_found
+                (Batch
+                   { path_info = { rel_path; pkg_rel_path }; suffix = k.suffix })
+          | None -> Package_not_found))
   | None -> (
       (* This represents the "implicit package flow". if `-bs-package-name` is
          not present, assume we're all in the same package, and produce
          relative imports *)
-      match
-        Ext_list.find_first module_systems (fun k ->
-            compatible k.module_system module_system)
-      with
-      | Some k ->
-          Package_found
-            { rel_path = k.path; pkg_rel_path = k.path; suffix = k.suffix }
-      | None -> Package_script)
+      match t.info with
+      | Empty -> Package_script
+      | Separate_emission rel_path ->
+          Package_found (Separate { rel_path; pkg_rel_path = rel_path })
+      | Batch_compilation module_systems -> (
+          match
+            Ext_list.find_first module_systems (fun k ->
+                compatible k.module_system module_system)
+          with
+          | Some k ->
+              Package_found
+                (Batch
+                   {
+                     path_info = { rel_path = k.path; pkg_rel_path = k.path };
+                     suffix = k.suffix;
+                   })
+          | None -> Package_script))
 
-let get_js_path (x : t) (module_system : module_system) : string =
+let get_js_path (module_systems : batch_info list)
+    (module_system : module_system) : string =
   match
-    Ext_list.find_first x.module_systems (fun k ->
+    Ext_list.find_first module_systems (fun k ->
         compatible k.module_system module_system)
   with
   | Some k -> k.path
@@ -195,8 +223,11 @@ let get_js_path (x : t) (module_system : module_system) : string =
 (* for a single pass compilation, [output_dir]
    can be cached
 *)
-let get_output_dir (info : t) ~package_dir module_system =
-  Filename.concat package_dir (get_js_path info module_system)
+let get_output_dir ({ info; _ } : t) ~package_dir module_system =
+  match info with
+  | Empty | Separate_emission _ -> assert false
+  | Batch_compilation specs ->
+      Filename.concat package_dir (get_js_path specs module_system)
 
 let add_npm_package_path (packages_info : t) (s : string) : t =
   let handle_module_system module_system =
@@ -204,34 +235,53 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
     | Some x -> x
     | None -> raise (Arg.Bad ("invalid module system " ^ module_system))
   in
-  let m =
-    match Ext_string.split ~keep_empty:true s ':' with
-    | [ path ] -> { module_system = NodeJS; path; suffix = Js }
-    | [ module_system; path ] ->
-        {
-          module_system = handle_module_system module_system;
-          path;
-          suffix = Js;
-        }
-    | [ module_system; path; suffix ] ->
-        {
-          module_system = handle_module_system module_system;
-          path;
-          suffix = Ext_js_suffix.of_string suffix;
-        }
-    | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
+  let existing =
+    match packages_info.info with
+    | Empty -> []
+    | Separate_emission _ -> []
+    | Batch_compilation xs -> xs
   in
-  { packages_info with module_systems = m :: packages_info.module_systems }
+  match packages_info.info with
+  | Empty (* allowed to upgrade *) | Batch_compilation _ ->
+      let new_info =
+        match Ext_string.split ~keep_empty:true s ':' with
+        | [ path ] ->
+            (* -bs-package-output just/the/path/segment *)
+            Separate_emission path
+        | [ module_system; path ] ->
+            Batch_compilation
+              ({
+                 module_system = handle_module_system module_system;
+                 path;
+                 suffix = Js;
+               }
+              :: existing)
+        | [ module_system; path; suffix ] ->
+            Batch_compilation
+              ({
+                 module_system = handle_module_system module_system;
+                 path;
+                 suffix = Ext_js_suffix.of_string suffix;
+               }
+              :: existing)
+        | _ -> raise (Arg.Bad ("invalid npm package path: " ^ s))
+      in
+      { packages_info with info = new_info }
+  | Separate_emission _ ->
+      raise
+        (Arg.Bad
+           "Can't add multiple `-bs-package-output` specs when \
+            `-bs-stop-after-cmj` is present")
 
-let bs_module_type_sentinel = "//MELANGE_INVALID_PACKAGE_OUTPUT//"
-
-let add_npm_module_system ~suffix (packages_info : t) module_system =
-  let m = { module_system; path = bs_module_type_sentinel; suffix } in
-  { packages_info with module_systems = [ m ] }
-
-let is_module_type_flag = function
-  | { module_systems = [ ms ]; _ } -> ms.path = bs_module_type_sentinel
-  | _ -> false
+let assemble_output_info ?output_info (t : t) =
+  match output_info with
+  | Some info -> [ info ]
+  | None -> (
+      match t.info with
+      | Batch_compilation infos ->
+          Ext_list.map infos (fun { module_system; suffix; _ } ->
+              { module_system; suffix })
+      | _ -> assert false)
 
 (* support es6 modules instead
    TODO: enrich ast to support import export

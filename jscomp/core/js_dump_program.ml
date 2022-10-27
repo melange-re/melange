@@ -68,25 +68,25 @@ let dump_program (x : J.program) oc =
 let[@inline] is_default (x : Js_op.kind) =
   match x with External { default } -> default | _ -> false
 
-let node_program ~package_info ~output_dir f (x : J.deps_program) =
+let node_program ~package_info ~suffix ~output_dir f (x : J.deps_program) =
   P.string f L.strict_directive;
   P.newline f;
   let cxt =
     Js_dump_import_export.requires L.require Ext_pp_scope.empty f
       (Ext_list.map x.modules (fun x ->
            ( x.id,
-             Js_name_of_module_id.string_of_module_id ~package_info x
+             Js_name_of_module_id.string_of_module_id ~package_info ~suffix x
                ~output_dir NodeJS,
              is_default x.kind )))
   in
   program f cxt x.program
 
-let es6_program ~package_info ~output_dir fmt f (x : J.deps_program) =
+let es6_program ~package_info ~suffix ~output_dir fmt f (x : J.deps_program) =
   let cxt =
     Js_dump_import_export.imports Ext_pp_scope.empty f
       (Ext_list.map x.modules (fun x ->
            ( x.id,
-             Js_name_of_module_id.string_of_module_id ~package_info x
+             Js_name_of_module_id.string_of_module_id ~package_info ~suffix x
                ~output_dir fmt,
              is_default x.kind )))
   in
@@ -101,7 +101,7 @@ let es6_program ~package_info ~output_dir fmt f (x : J.deps_program) =
     ]}
 *)
 
-let pp_deps_program ~package_info ~(output_prefix : string)
+let pp_deps_program ~package_info ~suffix ~(output_prefix : string)
     (kind : Js_packages_info.module_system) (program : J.deps_program)
     (f : Ext_pp.t) =
   if not !Js_config.no_version_header then (
@@ -117,8 +117,9 @@ let pp_deps_program ~package_info ~(output_prefix : string)
     let output_dir = Filename.dirname output_prefix in
     ignore
       (match kind with
-      | Es6 | Es6_global -> es6_program ~package_info ~output_dir kind f program
-      | NodeJS -> node_program ~package_info ~output_dir f program);
+      | Es6 | Es6_global ->
+          es6_program ~package_info ~suffix ~output_dir kind f program
+      | NodeJS -> node_program ~package_info ~suffix ~output_dir f program);
     P.newline f;
     P.string f
       (match program.side_effect with
@@ -127,5 +128,7 @@ let pp_deps_program ~package_info ~(output_prefix : string)
     P.newline f;
     P.flush f ()
 
-let dump_deps_program ~package_info ~output_prefix kind x (oc : out_channel) =
-  pp_deps_program ~package_info ~output_prefix kind x (P.from_channel oc)
+let dump_deps_program ~package_info ~suffix ~output_prefix kind x
+    (oc : out_channel) =
+  pp_deps_program ~package_info ~suffix ~output_prefix kind x
+    (P.from_channel oc)

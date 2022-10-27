@@ -142,6 +142,7 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
   | _ -> rest
 
 let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
+  let package_info = Js_packages_state.get_packages_info () in
   Js_config.all_module_aliases :=
     !Bs_clflags.assume_no_mli = Mli_non_exists && all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
@@ -183,7 +184,7 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
         |> Lam_compile_main.compile outputprefix
       in
       if not !Js_config.cmj_only then
-        Lam_compile_main.lambda_as_module js_program outputprefix);
+        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
     process_with_gentype (outputprefix ^ ".cmt")
 
 let implementation ~parser ~lang ppf fname =

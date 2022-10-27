@@ -32,6 +32,7 @@
 
 val string_of_module_id :
   package_info:Js_packages_info.t ->
+  suffix:Ext_js_suffix.t ->
   Lam_module_ident.t ->
   output_dir:string ->
   Js_packages_info.module_system ->

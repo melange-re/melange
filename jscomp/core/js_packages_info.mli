@@ -29,21 +29,14 @@ val module_system_to_string : module_system -> string
 val runtime_dir_of_module_system : module_system -> string
 val runtime_package_path : module_system -> string -> string
 
-type package_info = {
-  module_system : module_system;
-  path : string;
-  suffix : Ext_js_suffix.t;
-}
-
+type output_info = { module_system : module_system; suffix : Ext_js_suffix.t }
 type t
 
 val for_cmj : t -> t
 val is_runtime_package : t -> bool
 val same_package_by_name : t -> t -> bool
-val iter : t -> (package_info -> unit) -> unit
 val empty : t
 val from_name : ?t:t -> string -> t
-val is_empty : t -> bool
 val dump_packages_info : Format.formatter -> t -> unit
 
 val add_npm_package_path : t -> string -> t
@@ -51,13 +44,11 @@ val add_npm_package_path : t -> string -> t
   e.g [-bs-package-output commonjs:xx/path]
 *)
 
-val add_npm_module_system : suffix:Ext_js_suffix.t -> t -> module_system -> t
+type path_info = { rel_path : string; pkg_rel_path : string }
 
-type package_found_info = {
-  rel_path : string;
-  pkg_rel_path : string;
-  suffix : Ext_js_suffix.t;
-}
+type package_found_info =
+  | Separate of path_info
+  | Batch of { path_info : path_info; suffix : Ext_js_suffix.t }
 
 type info_query =
   | Package_script
@@ -71,4 +62,4 @@ val query_package_infos : t -> module_system -> info_query
    in theory, we can compare it by set semantics
 *)
 
-val is_module_type_flag : t -> bool
+val assemble_output_info : ?output_info:output_info -> t -> output_info list
