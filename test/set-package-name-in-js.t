@@ -13,7 +13,7 @@ Test that `-bs-package-name` works with `-bs-module-type` and not setting
 `-bs-package-output`
 
   $ cd lib/
-  $ export BSPKG="-bs-package-name myPackage"
+  $ BSPKG="-bs-package-name myPackage"
   $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj a.ml
   $ cd -
   $TESTCASE_ROOT

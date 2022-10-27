@@ -420,7 +420,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
           if String.length ext = 0 then
             raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
           else
-          (match Ext_js_suffix.of_string (Filename.extension output_name) with
+          (match Ext_js_suffix.of_string ext with
           | Unknown_extension ->
             raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
           | other -> other)
