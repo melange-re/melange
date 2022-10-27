@@ -36,7 +36,7 @@ paths
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $BSPKG -bs-package-output commonjs:lol -nopervasives -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $BSPKG -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
