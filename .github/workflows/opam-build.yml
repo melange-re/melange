@@ -55,7 +55,7 @@ jobs:
 
       - name: Run tests
         working-directory: melange
-        run: opam exec -- dune runtest --disable-promotion --ignore-promoted-rules
+        run: opam exec -- dune runtest -p melange --disable-promotion --ignore-promoted-rules
 
       - name: Clone melange-opam-template
         run: git clone https://github.com/melange-re/melange-opam-template.git
