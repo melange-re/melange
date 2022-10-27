@@ -65,4 +65,5 @@ val query_package_infos : t -> Ext_module_system.t -> info_query
    in theory, we can compare it by set semantics
 *)
 
+val default_output_info : output_info
 val assemble_output_info : ?output_info:output_info -> t -> output_info list
