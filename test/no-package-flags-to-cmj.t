@@ -23,16 +23,6 @@ Linking step
 If we don't pass the -I flag to the folder where the dependency .js files are placed, it will fail
 
   $ melc -bs-package-output app/ -nopervasives -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
-  File "jscomp/common/bs_exception.ml", line 40, characters 16-33
-  File "jscomp/core/js_name_of_module_id.ml", line 180, characters 22-63
-  File "jscomp/core/js_dump_program.ml", line 78, characters 13-103
-  File "jscomp/ext/ext_list.ml", line 31, characters 15-19
-  File "jscomp/core/js_dump_program.ml", line 76, characters 6-198
-  File "jscomp/core/js_dump_program.ml", line 121, characters 18-66
-  File "jscomp/ext/ext_pervasives.ml", line 28, characters 8-11
-  File "jscomp/ext/ext_pervasives.ml", line 31, characters 6-15
-  File "jscomp/main/melc.ml", line 240, characters 22-49
-  File "jscomp/main/melc.ml", line 506, characters 4-44
   File "_none_", line 1:
   Error: a.js not found, needed in script mode 
   [2]
