@@ -8,24 +8,17 @@ Set up a few directories we'll need
   $ echo "let t = 1" > lib/a.ml
   $ echo "let t = A.t" > app/b.ml
 
-If we don't have a package name, melc should allow not passing one
+Test that `-bs-package-name` works with `-bs-module-type` and not setting
+`-bs-package-output`
 
   $ cd lib/
-
-Can't `-bs-module-type` and `-bs-package-output`
-
-  $ melc -bs-module-type es6 -bs-package-output lib/ -bs-stop-after-cmj -nopervasives a.ml
-  Can't pass both `-bs-package-output` and `-bs-module-type`
-  [2]
-
-Now compile for real
-
-  $ melc -bs-package-output lib/ -bs-stop-after-cmj -nopervasives a.ml
+  $ export BSPKG="-bs-package-name myPackage"
+  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj -nopervasives a.ml
   $ cd -
   $TESTCASE_ROOT
 
   $ cd app/
-  $ melc -bs-package-output app/ -I ../lib b.ml -nopervasives -bs-stop-after-cmj
+  $ melc $BSPKG -bs-package-output app/ -I ../lib b.ml -nopervasives -bs-stop-after-cmj
   $ cd -
   $TESTCASE_ROOT
 
@@ -33,12 +26,17 @@ The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
   $ cd output/lib
-  $ melc -bs-module-type commonjs -nopervasives ../../lib/a.cmj -o a.js
+  $ melc $BSPKG -bs-module-type commonjs -nopervasives ../../lib/a.cmj -o a.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $BSPKG -bs-module-type commonjs -nopervasives -I ../../lib ../../app/b.cmj -o b.js
+  $ cd -
+  $TESTCASE_ROOT
+
+  $ cd output/app/
+  $ melc $BSPKG -bs-package-output commonjs:lol -nopervasives -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
