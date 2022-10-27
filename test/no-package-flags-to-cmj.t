@@ -12,9 +12,9 @@ Set up a few directories we'll need
 
 Build cmjs
 
-  $ melc -bs-stop-after-cmj lib/a.ml -o lib/.objs/melange/a.cmj
+  $ melc -bs-stop-after-cmj -nopervasives lib/a.ml -o lib/.objs/melange/a.cmj
 
-  $ melc -I lib/.objs/melange -bs-stop-after-cmj app/b.ml -o app/.objs/melange/b.cmj
+  $ melc -I lib/.objs/melange -bs-stop-after-cmj -nopervasives app/b.ml -o app/.objs/melange/b.cmj
 
 Linking step
 
