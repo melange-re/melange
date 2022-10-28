@@ -86,9 +86,9 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
               | Some path -> path // dep_path // js_file))
 
 (* [output_dir] is decided by the command line argument *)
-let string_of_module_id ~package_info:current_package_info
-    ~output_info:{ Js_packages_info.module_system; suffix }
+let string_of_module_id ~package_info ~output_info
     (dep_module_id : Lam_module_ident.t) ~(output_dir : string) : string =
+  let { Js_packages_info.module_system; suffix } = output_info in
   fix_path_for_windows
     (match dep_module_id.kind with
     | External { name } -> name (* the literal string for external package *)
@@ -100,19 +100,15 @@ let string_of_module_id ~package_info:current_package_info
          so having plugin may sound not that bad
     *)
     | Runtime ->
-        get_runtime_module_path dep_module_id current_package_info module_system
+        get_runtime_module_path dep_module_id package_info module_system
     | Ml -> (
-        let current_info_query =
-          Js_packages_info.query_package_infos current_package_info
-            module_system
-        in
         let package_path, dep_package_info, case =
           Lam_compile_env.get_package_path_from_cmj dep_module_id
         in
-        let dep_info_query =
-          Js_packages_info.query_package_infos dep_package_info module_system
-        in
-        match (dep_info_query, current_info_query) with
+        match
+          ( Js_packages_info.query_package_infos dep_package_info module_system,
+            Js_packages_info.query_package_infos package_info module_system )
+        with
         | _, Package_not_found ->
             (* Impossible to not find the current package. *)
             assert false
@@ -151,15 +147,14 @@ let string_of_module_id ~package_info:current_package_info
                 (Ident.name dep_module_id.id)
                 case suffix
             in
-            match Js_packages_info.is_runtime_package current_package_info with
+            match Js_packages_info.is_runtime_package package_info with
             | true ->
                 (* If we're compiling the melange runtime, get a runtime module
                    path. *)
-                get_runtime_module_path dep_module_id current_package_info
-                  module_system
+                get_runtime_module_path dep_module_id package_info module_system
             | false -> (
                 match
-                  Js_packages_info.same_package_by_name current_package_info
+                  Js_packages_info.same_package_by_name package_info
                     dep_package_info
                 with
                 | true ->
@@ -173,7 +168,7 @@ let string_of_module_id ~package_info:current_package_info
                        *   - are we importing the melange runtime / stdlib? *)
                       Js_packages_info.is_runtime_package dep_package_info
                     then
-                      get_runtime_module_path dep_module_id current_package_info
+                      get_runtime_module_path dep_module_id package_info
                         module_system
                     else
                       (* - Are we importing another package? *)
@@ -183,8 +178,7 @@ let string_of_module_id ~package_info:current_package_info
                       | Es6_global ->
                           Ext_path.rel_normalized_absolute_path
                             ~from:
-                              (Js_packages_info.get_output_dir
-                                 current_package_info
+                              (Js_packages_info.get_output_dir package_info
                                  ~package_dir:(Lazy.force Ext_path.package_dir)
                                  module_system)
                             (package_path // dep.rel_path // js_file))))
