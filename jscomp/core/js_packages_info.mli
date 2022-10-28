@@ -46,9 +46,14 @@ val add_npm_package_path : t -> string -> t
 
 type path_info = { rel_path : string; pkg_rel_path : string }
 
+type package_found_batch_info = {
+  path_info : path_info;
+  suffix : Ext_js_suffix.t;
+}
+
 type package_found_info =
   | Separate of path_info
-  | Batch of { path_info : path_info; suffix : Ext_js_suffix.t }
+  | Batch of package_found_batch_info
 
 type info_query =
   | Package_script
