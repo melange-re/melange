@@ -86,9 +86,9 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
               | Some path -> path // dep_path // js_file))
 
 (* [output_dir] is decided by the command line argument *)
-let string_of_module_id ~package_info:current_package_info ~suffix
-    (dep_module_id : Lam_module_ident.t) ~(output_dir : string)
-    (module_system : Js_packages_info.module_system) : string =
+let string_of_module_id ~package_info:current_package_info
+    ~output_info:{ Js_packages_info.module_system; suffix }
+    (dep_module_id : Lam_module_ident.t) ~(output_dir : string) : string =
   fix_path_for_windows
     (match dep_module_id.kind with
     | External { name } -> name (* the literal string for external package *)

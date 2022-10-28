@@ -292,12 +292,10 @@ js
 
 let (//) = Filename.concat
 
-let write_to_file ~package_info ~suffix ~module_system ~output_prefix lambda_output file  =
-    Ext_pervasives.with_file_as_chan file (fun chan ->
-    Js_dump_program.dump_deps_program ~package_info ~suffix ~output_prefix
-      module_system
-      lambda_output
-      chan)
+let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
+  Ext_pervasives.with_file_as_chan file (fun chan ->
+    Js_dump_program.dump_deps_program
+      ~package_info ~output_info ~output_prefix lambda_output chan)
 
 let lambda_as_module
     ~package_info
@@ -310,17 +308,21 @@ let lambda_as_module
       (Ext_js_suffix.to_string suffix) in
   match (!Js_config.js_stdout, !Clflags.output_name) with
   | (true, None) ->
-    Js_dump_program.dump_deps_program ~package_info ~suffix:Js ~output_prefix NodeJS lambda_output stdout
+    Js_dump_program.dump_deps_program
+      ~package_info
+      ~output_info:{ suffix = Js; module_system = NodeJS}
+      ~output_prefix
+      lambda_output stdout
   | false, None -> assert false
   | (_, Some _) ->
     (* We use `-bs-module-type` to emit a single JS file after `.cmj`
        generation. In this case, we don't want the `package_info` from the
        `.cmj`, because the suffix and paths will be different. *)
-    Ext_list.iter (Js_packages_state.get_output_info ()) (fun {module_system; suffix  } ->
-      let basename = make_basename suffix in
+    Ext_list.iter (Js_packages_state.get_output_info ()) (fun output_info ->
+      let basename = make_basename output_info.suffix in
       let target_file = Filename.dirname output_prefix // basename in
       (if not !Clflags.dont_write_files then
-        write_to_file ~package_info ~suffix ~module_system ~output_prefix lambda_output target_file );
+        write_to_file ~package_info ~output_info ~output_prefix lambda_output target_file );
       if !Warnings.has_warnings  then begin
         Warnings.has_warnings := false ;
         if Sys.file_exists target_file then begin
