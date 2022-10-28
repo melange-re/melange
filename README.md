@@ -1,20 +1,21 @@
 # Melange
 
-### Toolchain to produce JS from Reason/OCaml.
+### Melange compiles OCaml / Reason to JavaScript
 
-Melange is a compiler for producing performant JavaScript from Reason and OCaml.
-Powered by a strong static type system with best-in-class type inference based
-on the OCaml compiler, Melange facilitates producing robust JavaScript code.
+Powered by the versatile OCaml type system, with best-in-class type inference,
+Melange produces robust JavaScript code.
 
 + [Melange](#melange)
   * [Installation](#installation)
     - [Esy](#esy)
     - [OPAM](#opam)
     - [Nix](#nix)
+    - [OCaml version compatibility](#ocaml-version-compatibility)
+  * [Editor integration](#editor-integration)
+  * [Community](#community)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
     - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
-    - [Where has the `refmt` flag gone?](#where-has-the-refmt-flag-gone)
   * [Contributing](#contributing)
   * [Acknowledgments](#acknowledgments)
   * [Licensing](#licensing)
@@ -25,15 +26,24 @@ Melange is released to OPAM. You can obtain it in multiple ways:
 
 ### [OPAM](https://opam.ocaml.org/)
 
-Get Melange from OPAM:
-
-    opam install mel
+```shell
+$ opam install mel
+```
 
 #### Template
 
-There's an available project starter at
 [melange-re/melange-opam-template](https://github.com/melange-re/melange-opam-template)
-to get up and running with Melange on OPAM.
+provides a GitHub
+[template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
+that can be used as a project starter.
+
+**Note**: `mel build` builds a Melange project. Before running the resulting
+JavaScript, the Melange runtime library needs to be present in `node_modules`
+so that it can be found by JavaScript based tooling:
+
+``` shell
+ln -sfn $(opam var prefix)/lib/melange/runtime node_modules/melange
+```
 
 #### Manual setup
 
@@ -43,46 +53,48 @@ After installing Melange, you should now be able to run `mel` from your switch:
 $ opam exec -- mel --help
 ```
 
-Melange also has some runtime dependencies that need to be symlinked into `node_modules` to be discoverable by bundlers like webpack:
-
-``` shell
-rm -rf node_modules/melange
-ln -sfn $(opam var prefix)/lib/melange/runtime node_modules/melange
-```
-
 ### [Esy](https://esy.sh)
 
-The easiest way to get started with Esy is to
-clone the [Esy project starter](https://github.com/melange-re/melange-basic-template)
-and run `esy` in the project root.
+Get Esy on NPM:
 
-To install [Esy](https://esy.sh):
+- `npm install -g esy` installs Esy globally
+- if `npm` is installed, `npx esy` can be used to run Esy locally
 
-- `npm install -g esy` should cover most workflows.
-- If you have NodeJS / `npm` available, `npx esy` is even shorter.
+An [Esy project starter](https://github.com/melange-re/melange-basic-template)
+also exists to get started quickly with Esy.
+
+Once the repository has been cloned, run `esy` in the project root.
 
 ### [Nix](https://nixos.org/learn.html)
 
 Melange has good support for Nix:
 
-- `nix run github:melange-re/melange#mel -- build` runs melange.
+- `nix run github:melange-re/melange#mel -- --help` runs melange.
 - `nix shell github:melange-re/melange#mel -c $SHELL` enters a shell with `mel`
-  and `melc` in `$PATH`. Try out `mel --help`, for example.
-  for available options.
-- Adding `github:melange-re/melange` as a
-  [flake](https://nixos.wiki/wiki/Flakes) input exports melange as the default
-  package
+  and `melc` in `$PATH`. Try out `mel --help` for available options.
+- `github:melange-re/melange` can be added as a
+  [flake](https://nixos.wiki/wiki/Flakes) input
 
-Please reach out on the [ReasonML Discord](https://discord.gg/reasonml) if you
-can't figure it out!
+### OCaml version compatibility
 
-### Editor support
+The current Melange distribution targets OCaml 4.14. There's an
+[old version of Melange based on OCaml 4.12](https://github.com/melange-re/melange/releases/tag/0.1.0)
+that requires
+[version `4.12.0+mel`](https://github.com/melange-re/melange-compiler-libs/releases/tag/4.12.0%2Bmel)
+of [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs).
 
-Until Melange has first-class support in Dune, `ocaml-lsp` support relies on
-having Melange generate a `.merlin` file to provide the language server with
-information about your project.
+## Editor integration
 
-To enable editor support via `ocaml-lsp`, add the following to your `esy.json`:
+- Until Melange has first-class support in Dune, editor integration is based on
+a [`.merlin` file workflow](https://github.com/ocaml/merlin/wiki/project-configuration).
+  - Melange generates `.merlin` files automatically as part of the build
+
+- `ocaml-lsp` based Language Server Protocol support needs to be configured as
+  follows:
+
+### Esy
+
+Add the following to `esy.json`:
 
 ```jsonc
 // esy.json
@@ -94,14 +106,25 @@ To enable editor support via `ocaml-lsp`, add the following to your `esy.json`:
 }
 ```
 
-Then use the `--fallback-read-dot-merlin` flag when running `ocaml-lsp`.
+### OPAM
+
+Install `ocaml-lsp` and `dot-merlin-reader`:
+
+```shell
+$ opam install ocaml-lsp dot-merlin-reader
+```
+
+### Pass `--fallback-read-dot-merlin` to `ocaml-lsp`
+
+`ocaml-lsp` requires the `--fallback-read-dot-merlin` flag to look for
+`.merlin` files.
 
 #### VSCode
 
-If using the [VSCode OCaml
-Platform](https://github.com/ocamllabs/vscode-ocaml-platform) extension, use the
-`Custom` sandbox option and provide the flag to `ocaml-lsp` via the command
-template:
+- Install the [VSCode OCaml
+  Platform](https://github.com/ocamllabs/vscode-ocaml-platform) extension
+- Select the "Custom" sandbox option and provide the flag to `ocaml-lsp` via
+  the following command template:
 
 ```jsonc
 // .vscode/settings.json
@@ -113,62 +136,47 @@ template:
 }
 ```
 
-### A note on OCaml versions
+## Community
 
-The current Melange distribution works on OCaml 4.14 and OCaml 5.00+trunk. If
-you need to use Melange with OCaml 4.12 (the only formerly supported version),
-you can consume the [0.1.0 tag](https://github.com/melange-re/melange/releases/tag/0.1.0)
-for this repo (make sure to similarly use the [`4.12.0+mel` tag](https://github.com/melange-re/melange-compiler-libs/releases/tag/4.12.0%2Bmel)
-for [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs)).
+- There's a [`#melange` channel](https://discord.gg/mArvFMQKnK) in the
+  [ReasonML Discord](https://discord.gg/reasonml)
 
 ## FAQ
 
 ### How does this project relate to other tools?
 
 This project is forked from the
-[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/) shifting
-focus to integrating with the OCaml ecosystem. This enables code sharing between
-backend and frontend using Dune's virtual libraries.
+[ReScript compiler](https://github.com/rescript-lang/rescript-compiler/),
+focused on a deeper integration with the OCaml ecosystem. This allows sharing
+code between backend and frontend using Dune's virtual libraries.
 
 Melange also introduces a ReScript compatibility layer to maintain compatibility
-with ReScript's Syntax - preserving access to ReScripts ecosystem of packages.
-
-Write in Reason/OCaml, use OCaml libraries or ReScript packages to kickstart
-your project!
+with ReScript syntax - preserving access to ReScript's package ecosystem.
 
 A small write-up with more details on the motivation behind this project can be
-found in this
+found in the announcement
 [blog post](https://anmonteiro.com/2021/03/on-ocaml-and-the-js-platform/).
 
-Here's a quick comparison between Melange and other tools:
+Below is a quick comparison between Melange and other tools:
 
 
 | Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
 | -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
-| [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                                                          | Obtaining dependencies (e.g. `dune` or `reason`)                                                                             |
-| [Dune](https://dune.build/)            | Build tool                                                     | Installed with `esy` or `opam`                                | Well-known OCaml build tool; supports custom rules that can be composed to build _anything_                                  |
-| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with `esy` or `opam`                                | a library that implements an alternative syntax to OCaml                                                                     |
-| [Melange](https://melange.re)          | Compiler that emits Script                                     | Esy (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntaxes; derived from ReScript, focused on compatibility with the wider OCaml ecosystem |
-| [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                                     |
+| [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies such as `dune` or `reason` |
+| [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                                                          | Obtaining dependencies such as `dune` or `reason` |
+| [Dune](https://dune.build/)            | Build tool                                                     | Installed with e.g. `esy` or `opam`                           | Composable build tool for OCaml; supports composing custom rules to build any project |
+| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with e.g. `esy` or `opam`                           | Alternative syntax to OCaml |
+| [Melange](https://melange.re)          | Compiler that emits Script                                     | Esy / OPAM (to install), Dune (to build), Reason (used as a library) | Supports OCaml, Reason and ReScript syntax; derived from ReScript, focused on deeper integration with OCaml |
+| [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
 
 ### Can I use ReScript syntax?
 
 Yes! ReScript syntax is supported, but ReScript won't have as many features as
 the OCaml or Reason syntaxes due to ReScript being built on top of an old OCaml
-version (4.06 - Released 2018).
+version (4.06 - released in 2018).
 (e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
 [generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
 or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
-
-### Where has the `refmt` flag gone?
-
-Upstream [removed the `refmt`](https://github.com/rescript-lang/rescript-compiler/pull/4998/commits/be9b1add647859d595dc2e2cbd5552ca246d1df9)
-flag, which used to allow configuring the path to a custom Reason binary. This
-was a welcome change for this repo too, so we cherry-picked it. The rationale:
-this project uses [Reason](https://github.com/reasonml/reason) as a library,
-so you can simply depend on the Reason version that you'd like in the usual way,
-via your preferred package manager.
 
 ## Contributing
 

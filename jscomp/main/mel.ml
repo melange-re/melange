@@ -199,7 +199,7 @@ end
 
 module CLI = struct
   let where_flag =
-    let doc = "Show where bsb is located" in
+    let doc = "Print the location of the mel binary" in
     Arg.(value & flag & info [ "where" ] ~doc)
 
   let parse_options where = { where }
