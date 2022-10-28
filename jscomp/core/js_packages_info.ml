@@ -119,7 +119,8 @@ let module_system_to_string = function
   | Es6_global -> Literals.es6_global
 
 let dump_package_info (fmt : Format.formatter)
-    ({ module_system = ms; path = name; suffix } : batch_info) =
+    ({ path = name; output_info = { module_system = ms; suffix } } : batch_info)
+    =
   Format.fprintf fmt "@[%s@ %s@ %s@]"
     (string_of_module_system ms)
     name
