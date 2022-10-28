@@ -32,12 +32,8 @@ let fix_path_for_windows : string -> string =
   else fun s -> s
 
 (* dependency is runtime module *)
-let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
-    (current_package_info : Js_packages_info.t)
+let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
     (module_system : Js_packages_info.module_system) =
-  let current_info_query =
-    Js_packages_info.query_package_infos current_package_info module_system
-  in
   let suffix =
     match module_system with
     | NodeJS -> Ext_js_suffix.Js
@@ -48,42 +44,45 @@ let get_runtime_module_path (dep_module_id : Lam_module_ident.t)
       (Ident.name dep_module_id.id)
       Little suffix
   in
-  match current_info_query with
+  match Js_packages_info.query_package_infos package_info module_system with
   | Package_not_found -> assert false
   | Package_script ->
       Js_packages_info.runtime_package_path module_system js_file
-  | Package_found (Separate _) -> assert false
-  | Package_found (Batch pkg) -> (
-      if Js_packages_info.is_runtime_package current_package_info then
-        (* Runtime files end up in the same directory, `lib/js` or `lib/es6` *)
-        Ext_path.node_rebase_file ~from:pkg.path_info.rel_path
-          ~to_:pkg.path_info.rel_path js_file
-      else
-        match module_system with
-        | NodeJS | Es6 ->
-            Js_packages_info.runtime_package_path module_system js_file
-        (* Note we did a post-processing when working on Windows *)
-        | Es6_global ->
-            (* lib/ocaml/xx.cmj --
-                HACKING: FIXME
-                maybe we can caching relative package path calculation or employ package map *)
-            let dep_path =
-              Literals.lib
-              // Js_packages_info.runtime_dir_of_module_system module_system
-            in
-            Ext_path.rel_normalized_absolute_path
-              ~from:
-                (Js_packages_info.get_output_dir current_package_info
-                   ~package_dir:(Lazy.force Ext_path.package_dir)
-                   module_system)
-              (*Invariant: the package path to bs-platform, it is used to
-                calculate relative js path
-              *)
-              (match !Js_config.customize_runtime with
-              | None ->
-                  Filename.dirname (Filename.dirname Sys.executable_name)
-                  // dep_path // js_file
-              | Some path -> path // dep_path // js_file))
+  | Package_found (Separate _) ->
+      (* We never compile the runtime / stdlib with `-bs-stop-after-cmj` *)
+      assert false
+  | Package_found (Batch { path_info; _ }) -> (
+      match Js_packages_info.is_runtime_package package_info with
+      | true ->
+          (* Runtime files end up in the same directory, `lib/js` or `lib/es6` *)
+          Ext_path.node_rebase_file ~from:path_info.rel_path
+            ~to_:path_info.rel_path js_file
+      | false -> (
+          match module_system with
+          | NodeJS | Es6 ->
+              Js_packages_info.runtime_package_path module_system js_file
+          (* Note we did a post-processing when working on Windows *)
+          | Es6_global ->
+              (* lib/ocaml/xx.cmj --
+                  HACKING: FIXME
+                  maybe we can caching relative package path calculation or employ package map *)
+              let dep_path =
+                Literals.lib
+                // Js_packages_info.runtime_dir_of_module_system module_system
+              in
+              Ext_path.rel_normalized_absolute_path
+                ~from:
+                  (Js_packages_info.get_output_dir package_info
+                     ~package_dir:(Lazy.force Ext_path.package_dir)
+                     module_system)
+                (*Invariant: the package path to bs-platform, it is used to
+                  calculate relative js path
+                *)
+                (match !Js_config.customize_runtime with
+                | None ->
+                    Filename.dirname (Filename.dirname Sys.executable_name)
+                    // dep_path // js_file
+                | Some path -> path // dep_path // js_file)))
 
 (* [output_dir] is decided by the command line argument *)
 let string_of_module_id ~package_info ~output_info
@@ -100,7 +99,7 @@ let string_of_module_id ~package_info ~output_info
          so having plugin may sound not that bad
     *)
     | Runtime ->
-        get_runtime_module_path dep_module_id package_info module_system
+        get_runtime_module_path ~package_info dep_module_id module_system
     | Ml -> (
         let package_path, dep_package_info, case =
           Lam_compile_env.get_package_path_from_cmj dep_module_id
@@ -151,7 +150,8 @@ let string_of_module_id ~package_info ~output_info
             | true ->
                 (* If we're compiling the melange runtime, get a runtime module
                    path. *)
-                get_runtime_module_path dep_module_id package_info module_system
+                get_runtime_module_path ~package_info dep_module_id
+                  module_system
             | false -> (
                 match
                   Js_packages_info.same_package_by_name package_info
@@ -168,7 +168,7 @@ let string_of_module_id ~package_info ~output_info
                        *   - are we importing the melange runtime / stdlib? *)
                       Js_packages_info.is_runtime_package dep_package_info
                     then
-                      get_runtime_module_path dep_module_id package_info
+                      get_runtime_module_path ~package_info dep_module_id
                         module_system
                     else
                       (* - Are we importing another package? *)
@@ -208,8 +208,8 @@ let string_of_module_id_in_browser (x : Lam_module_ident.t) =
   | Runtime | Ml ->
       "./stdlib/" ^ Ext_string.uncapitalize_ascii x.id.name ^ ".js"
 
-let string_of_module_id (id : Lam_module_ident.t) ~output_dir:(_ : string)
-    (_module_system : Js_packages_info.module_system) =
+let string_of_module_id ~package_info:_ ~output_info:_ (id : Lam_module_ident.t)
+    ~output_dir:(_ : string) : string =
   string_of_module_id_in_browser id
 ;;
 
