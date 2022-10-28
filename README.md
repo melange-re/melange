@@ -7,11 +7,14 @@ Melange produces robust JavaScript code.
 
 + [Melange](#melange)
   * [Installation](#installation)
-    - [Esy](#esy)
     - [OPAM](#opam)
+    - [Esy](#esy)
     - [Nix](#nix)
     - [OCaml version compatibility](#ocaml-version-compatibility)
   * [Editor integration](#editor-integration)
+    - [OPAM](#opam-1)
+    - [Esy](#esy-1)
+    - [Pass `--fallback-read-dot-merlin` to `ocaml-lsp`](#pass---fallback-read-dot-merlin-to-ocaml-lsp)
   * [Community](#community)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
@@ -92,6 +95,14 @@ a [`.merlin` file workflow](https://github.com/ocaml/merlin/wiki/project-configu
 - `ocaml-lsp` based Language Server Protocol support needs to be configured as
   follows:
 
+### OPAM
+
+Install `ocaml-lsp` and `dot-merlin-reader`:
+
+```shell
+$ opam install ocaml-lsp dot-merlin-reader
+```
+
 ### Esy
 
 Add the following to `esy.json`:
@@ -104,14 +115,6 @@ Add the following to `esy.json`:
     "@opam/dot-merlin-reader": "*"
   }
 }
-```
-
-### OPAM
-
-Install `ocaml-lsp` and `dot-merlin-reader`:
-
-```shell
-$ opam install ocaml-lsp dot-merlin-reader
 ```
 
 ### Pass `--fallback-read-dot-merlin` to `ocaml-lsp`
