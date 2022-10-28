@@ -43,19 +43,15 @@ jobs:
 
       - name: Install melange.opam dependencies
         working-directory: melange
-        run: opam install ./melange.opam ./mel.opam --deps-only --with-test
+        run: |
+          opam install luv
+          opam install ./melange.opam --deps-only --with-test
 
-      - name: Install ocaml-tree
-        working-directory: melange/ocaml-tree
-        run: npm install
-
-      - name: Build melange project
+      - name: Pin melange to current
         working-directory: melange
-        run: opam exec -- dune build -p melange
-
-      - name: Run tests
-        working-directory: melange
-        run: opam exec -- dune runtest -p melange --disable-promotion
+        run: |
+          opam pin add melange . --with-test
+          opam pin add mel . --with-test
 
       - name: Clone melange-opam-template
         run: git clone https://github.com/melange-re/melange-opam-template.git
@@ -63,12 +59,6 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: make install
-
-      - name: Pin melange to current
-        working-directory: melange
-        run: |
-          opam pin add melange .
-          opam pin add mel .
 
       - name: Build basic template
         working-directory: melange-opam-template
