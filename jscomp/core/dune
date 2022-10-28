@@ -25,7 +25,15 @@
   (source_tree ../../ocaml-tree))
  (action
   ;; requires `npm install` in the `ocaml-tree` directory... what a mess
-  (run node --no-experimental-fetch ../../ocaml-tree/wasm.js -fold -i %{deps} -o %{targets})))
+  (run
+   node
+   --no-experimental-fetch
+   ../../ocaml-tree/wasm.js
+   -fold
+   -i
+   %{deps}
+   -o
+   %{targets})))
 
 (rule
  (targets js_record_iter.ml)
@@ -34,7 +42,15 @@
   j.ml
   (source_tree ../../ocaml-tree))
  (action
-  (run node --no-experimental-fetch ../../ocaml-tree/wasm.js -record-iter -i %{deps} -o %{targets})))
+  (run
+   node
+   --no-experimental-fetch
+   ../../ocaml-tree/wasm.js
+   -record-iter
+   -i
+   %{deps}
+   -o
+   %{targets})))
 
 (rule
  (targets js_record_map.ml)
@@ -43,7 +59,15 @@
   j.ml
   (source_tree ../../ocaml-tree))
  (action
-  (run node --no-experimental-fetch ../../ocaml-tree/wasm.js -record-map -i %{deps} -o %{targets})))
+  (run
+   node
+   --no-experimental-fetch
+   ../../ocaml-tree/wasm.js
+   -record-map
+   -i
+   %{deps}
+   -o
+   %{targets})))
 
 (rule
  (targets js_record_fold.ml)
@@ -52,4 +76,12 @@
   j.ml
   (source_tree ../../ocaml-tree))
  (action
-  (run node --no-experimental-fetch ../../ocaml-tree/wasm.js -record-fold -i %{deps} -o %{targets})))
+  (run
+   node
+   --no-experimental-fetch
+   ../../ocaml-tree/wasm.js
+   -record-fold
+   -i
+   %{deps}
+   -o
+   %{targets})))
