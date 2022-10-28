@@ -51,7 +51,7 @@ let print (fmt : Format.formatter) (x : error) =
         match json_opt with None -> Ext_string.empty | Some x -> " in " ^ x
       in
       let name = Bsb_pkg_types.to_string name in
-      if Ext_string.equal name !Bs_version.package_name then
+      if Ext_string.equal name Literals.package_name then
         Format.fprintf fmt
           "File \"bsconfig.json\", line 1\n\
            @{<error>Error:@} package @{<error>%s@} is not found %s\n\

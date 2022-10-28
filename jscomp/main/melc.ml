@@ -29,18 +29,18 @@ let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
 
 
 
-let setup_runtime_path path =
-  let u0 = Filename.dirname path in
-  let std = Filename.basename path in
-  let _path = Filename.dirname u0 in
-  let rescript = Filename.basename u0 in
-  (match rescript.[0] with
-   | '@' -> (* scoped package *)
-     Bs_version.package_name := rescript ^ "/" ^ std;
-   | _ -> Bs_version.package_name := std
-   | exception _ ->
-     Bs_version.package_name := std);
-  Js_config.customize_runtime := Some path
+(* let setup_runtime_path path = *)
+  (* let u0 = Filename.dirname path in *)
+  (* let std = Filename.basename path in *)
+  (* let _path = Filename.dirname u0 in *)
+  (* let rescript = Filename.basename u0 in *)
+  (* (match rescript.[0] with *)
+   (* | '@' -> (* scoped package *) *)
+     (* Bs_version.package_name := rescript ^ "/" ^ std; *)
+   (* | _ -> Bs_version.package_name := std *)
+   (* | exception _ -> *)
+     (* Bs_version.package_name := std); *)
+  (* Js_config.customize_runtime := Some path *)
 
 let process_file sourcefile
   ?(kind ) ppf =
@@ -374,7 +374,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       warn_help;
       warn_error;
       bs_stop_after_cmj;
-      runtime;
+      runtime = _;
       filenames;
       help
     } ->
@@ -408,7 +408,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.debug := bs_g;
       Rescript_cpp.replace_directive_bool "DEBUG" true);
 
-    Ext_option.iter runtime setup_runtime_path;
+    (* Ext_option.iter runtime setup_runtime_path; *)
 
     Ext_option.iter bs_package_name Js_packages_state.set_package_name;
     begin match bs_module_type, bs_package_output with

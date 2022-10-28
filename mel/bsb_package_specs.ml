@@ -22,9 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* TODO: sync up with {!Js_packages_info.module_system}  *)
-type format = Ext_module_system.t = NodeJS | Es6 | Es6_global
-type spec = { format : format; in_source : bool; suffix : Ext_js_suffix.t }
+type spec = {
+  module_system : Ext_module_system.t;
+  in_source : bool;
+  suffix : Ext_js_suffix.t;
+}
 
 (*FIXME: use assoc list instead *)
 module Spec_set = Set.Make (struct
@@ -54,20 +56,14 @@ let bad_module_format_message_exn ~loc format =
      of:  %s, %s or %s"
     format Literals.commonjs Literals.es6 Literals.es6_global
 
-let supported_format (x : string) loc =
-  if x = Literals.commonjs then NodeJS
-  else if x = Literals.es6 then Es6
-  else if x = Literals.es6_global then Es6_global
-  else bad_module_format_message_exn ~loc x
-
-let string_of_format (x : format) =
-  match x with
-  | NodeJS -> Literals.commonjs
-  | Es6 -> Literals.es6
-  | Es6_global -> Literals.es6_global
-
 let output_dir_of_spec (x : spec) =
-  Literals.melange_output_prefix ^ "." ^ string_of_format x.format
+  Literals.melange_output_prefix ^ "."
+  ^ Ext_module_system.to_string x.module_system
+
+let supported_module_system (x : string) loc : Ext_module_system.t =
+  match Ext_module_system.of_string x with
+  | Some t -> t
+  | None -> bad_module_format_message_exn ~loc x
 
 let rec from_array suffix (arr : Ext_json_types.t array) : Spec_set.t =
   let spec = ref Spec_set.empty in
@@ -86,8 +82,12 @@ let rec from_array suffix (arr : Ext_json_types.t array) : Spec_set.t =
 (* TODO: FIXME: better API without mutating *)
 and from_json_single suffix (x : Ext_json_types.t) : spec =
   match x with
-  | Str { str = format; loc } ->
-      { format = supported_format format loc; in_source = false; suffix }
+  | Str { str = module_system; loc } ->
+      {
+        module_system = supported_module_system module_system loc;
+        in_source = false;
+        suffix;
+      }
   | Obj { map; loc } -> (
       match map.?("module") with
       | Some (Str { str = format }) ->
@@ -108,7 +108,11 @@ and from_json_single suffix (x : Ext_json_types.t) : spec =
                   "expect a string field"
             | None -> suffix
           in
-          { format = supported_format format loc; in_source; suffix }
+          {
+            module_system = supported_module_system format loc;
+            in_source;
+            suffix;
+          }
       | Some _ ->
           Bsb_exception.errorf ~loc
             "package-specs: when the configuration is an object, `module` \
@@ -134,10 +138,11 @@ let bs_package_output = "-bs-package-output"
     coordinate with command line flag
     {[ -bs-package-output commonjs:lib/js/jscomp/test:.js ]}
 *)
-let package_flag ({ format; suffix } : spec) dir =
+let package_flag ({ module_system; suffix } : spec) dir =
   Ext_string.inter2 bs_package_output
-    (Ext_string.concat5 (string_of_format format) Ext_string.single_colon dir
-       Ext_string.single_colon
+    (Ext_string.concat5
+       (Ext_module_system.to_string module_system)
+       Ext_string.single_colon dir Ext_string.single_colon
        (Ext_js_suffix.to_string suffix))
 
 (* FIXME: we should adapt it *)
@@ -153,7 +158,7 @@ let package_flag_of_package_specs (package_specs : t) ~(dirname : string) :
   | Some x -> res ^ " -runtime " ^ x
 
 let default_package_specs suffix =
-  Spec_set.singleton { format = NodeJS; in_source = false; suffix }
+  Spec_set.singleton { module_system = NodeJS; in_source = false; suffix }
 
 (**
     [get_list_of_output_js specs "src/hi/hello"]

@@ -116,7 +116,7 @@ let pp_deps_program ~package_info ~(output_info : Js_packages_info.output_info)
     let output_dir = Filename.dirname output_prefix in
     ignore
       (match output_info.module_system with
-      | Js_packages_info.Es6 | Es6_global ->
+      | Es6 | Es6_global ->
           es6_program ~package_info ~output_dir ~output_info f program
       | NodeJS -> node_program ~package_info ~output_info ~output_dir f program);
     P.newline f;

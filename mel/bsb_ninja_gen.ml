@@ -315,7 +315,7 @@ let output_virtual_package ~root_dir ~package_spec ~oc
 
                    output_string oc
                      (Format.asprintf " -bs-module-type %s"
-                        (Bsb_package_specs.string_of_format package_spec.format));
+                        (Ext_module_system.to_string package_spec.module_system));
                    output_char oc ' ';
                    output_string oc rel_cmj;
                    output_string oc " -o ";

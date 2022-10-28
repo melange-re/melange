@@ -47,9 +47,8 @@ let fn_method = "fn_method"
 let fn_mk = "fn_mk"
 (*let js_fn_runmethod = "js_fn_runmethod"*)
 
-(** nodejs *)
+(* nodejs *)
 let node_modules = "node_modules"
-
 let node_modules_length = String.length "node_modules"
 let package_json = "package.json"
 let bsconfig_json = "bsconfig.json"
@@ -58,6 +57,7 @@ let dune = "dune"
 let dune_mel = "dune.mel"
 let dune_project = "dune-project"
 let mel_dune_alias = "mel"
+let package_name = "melange"
 
 (* Prefix of all melange runtime packages *)
 let mel_runtime_package_prefix = "@melange/runtime"
