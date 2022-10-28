@@ -153,6 +153,8 @@ let string_of_module_id ~package_info:current_package_info ~suffix
             in
             match Js_packages_info.is_runtime_package current_package_info with
             | true ->
+                (* If we're compiling the melange runtime, get a runtime module
+                   path. *)
                 get_runtime_module_path dep_module_id current_package_info
                   module_system
             | false -> (
@@ -161,14 +163,20 @@ let string_of_module_id ~package_info:current_package_info ~suffix
                     dep_package_info
                 with
                 | true ->
+                    (* If this is the same package, we know all imports are
+                       relative. *)
                     Ext_path.node_rebase_file ~from:cur.rel_path
                       ~to_:dep.rel_path js_file
                 | false -> (
-                    if Js_packages_info.is_runtime_package dep_package_info then
-                      assert false
-                      (* get_runtime_module_path dep_module_id current_package_info *)
-                      (* module_system *)
+                    if
+                      (* Importing a dependency:
+                       *   - are we importing the melange runtime / stdlib? *)
+                      Js_packages_info.is_runtime_package dep_package_info
+                    then
+                      get_runtime_module_path dep_module_id current_package_info
+                        module_system
                     else
+                      (* - Are we importing another package? *)
                       match module_system with
                       | NodeJS | Es6 -> dep.pkg_rel_path // js_file
                       (* Note we did a post-processing when working on Windows *)
