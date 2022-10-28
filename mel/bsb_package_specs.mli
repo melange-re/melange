@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type spec = {
-  format : Ext_module_system.t;
+  module_system : Ext_module_system.t;
   in_source : bool;
   suffix : Ext_js_suffix.t;
 }
@@ -34,7 +34,6 @@ val from_map : cwd:string -> Ext_json_types.t Map_string.t -> t
 val package_flag_of_package_specs : t -> dirname:string -> string
 val get_list_of_output_js : t -> string -> (string * bool) list (* in-source *)
 
-val string_of_format : Ext_module_system.t -> string
 (**
   Sample output: {[ -bs-package-output commonjs:lib/js/jscomp/test]}
 *)

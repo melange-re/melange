@@ -24,29 +24,13 @@
 
 [@@@warning "+9"]
 
-type module_system = NodeJS | Es6 | Es6_global
-(* ignore node_modules, just calcluating relative path *)
-
-(* ocamlopt could not optimize such simple case..*)
-let compatible (dep : module_system) (query : module_system) =
-  match query with
-  | NodeJS -> dep = NodeJS
-  | Es6 -> dep = Es6
-  | Es6_global -> dep = Es6_global || dep = Es6
-(* As a dependency Leaf Node, it is the same either [global] or [not] *)
-
 let ( // ) = Filename.concat
 
-(* in runtime lib, [es6] and [es6] are treated the same way *)
-let runtime_dir_of_module_system (ms : module_system) =
-  match ms with NodeJS -> "js" | Es6 | Es6_global -> "es6"
+type output_info = {
+  module_system : Ext_module_system.t;
+  suffix : Ext_js_suffix.t;
+}
 
-let runtime_package_path (ms : module_system) js_file =
-  !Bs_version.package_name // Literals.lib
-  // runtime_dir_of_module_system ms
-  // js_file
-
-type output_info = { module_system : module_system; suffix : Ext_js_suffix.t }
 type batch_info = { path : string; output_info : output_info }
 
 type package_info =
@@ -99,30 +83,11 @@ let empty : t = { name = None; info = Empty }
 
 let from_name ?(t = empty) (name : string) : t = { t with name = Some name }
 
-let string_of_module_system (ms : module_system) =
-  match ms with NodeJS -> "NodeJS" | Es6 -> "Es6" | Es6_global -> "Es6_global"
-
-let module_system_of_string = function
-  | "commonjs" -> Some NodeJS
-  | "es6" -> Some Es6
-  | "es6-global" -> Some Es6_global
-  | _ -> None
-
-let module_system_of_string_exn s =
-  match module_system_of_string s with
-  | Some x -> x
-  | None -> raise (Arg.Bad ("invalid module system " ^ s))
-
-let module_system_to_string = function
-  | NodeJS -> Literals.commonjs
-  | Es6 -> Literals.es6
-  | Es6_global -> Literals.es6_global
-
 let dump_package_info (fmt : Format.formatter)
     ({ path = name; output_info = { module_system = ms; suffix } } : batch_info)
     =
   Format.fprintf fmt "@[%s@ %s@ %s@]"
-    (string_of_module_system ms)
+    (Ext_module_system.to_string ms)
     name
     (Ext_js_suffix.to_string suffix)
 
@@ -162,7 +127,7 @@ type info_query =
   | Package_found of package_found_info
 
 let runtime_package_name = function
-  | Some name when is_runtime_name name -> Some !Bs_version.package_name
+  | Some name when is_runtime_name name -> Some Literals.package_name
   | Some name -> Some name
   | None -> None
 
@@ -171,7 +136,8 @@ let path_info = function
 
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
-let query_package_infos (t : t) (module_system : module_system) : info_query =
+let query_package_infos (t : t) (module_system : Ext_module_system.t) :
+    info_query =
   match t.info with
   | Empty -> (
       match t.name with Some _ -> Package_not_found | None -> Package_script)
@@ -185,7 +151,8 @@ let query_package_infos (t : t) (module_system : module_system) : info_query =
   | Batch_compilation module_systems -> (
       match
         Ext_list.find_first_exn module_systems (fun k ->
-            compatible k.output_info.module_system module_system)
+            Ext_module_system.compatible ~dep:k.output_info.module_system
+              module_system)
       with
       | k ->
           let pkg_rel_path =
@@ -205,10 +172,11 @@ let query_package_infos (t : t) (module_system : module_system) : info_query =
           | None -> Package_script))
 
 let get_js_path (module_systems : batch_info list)
-    (module_system : module_system) : string =
+    (module_system : Ext_module_system.t) : string =
   let k =
     Ext_list.find_first_exn module_systems (fun k ->
-        compatible k.output_info.module_system module_system)
+        Ext_module_system.compatible ~dep:k.output_info.module_system
+          module_system)
   in
   k.path
 
@@ -241,7 +209,8 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
                  path;
                  output_info =
                    {
-                     module_system = module_system_of_string_exn module_system;
+                     module_system =
+                       Ext_module_system.of_string_exn module_system;
                      suffix = Js;
                    };
                }
@@ -252,7 +221,8 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
                  path;
                  output_info =
                    {
-                     module_system = module_system_of_string_exn module_system;
+                     module_system =
+                       Ext_module_system.of_string_exn module_system;
                      suffix = Ext_js_suffix.of_string suffix;
                    };
                }

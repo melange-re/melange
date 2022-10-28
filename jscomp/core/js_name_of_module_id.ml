@@ -33,7 +33,7 @@ let fix_path_for_windows : string -> string =
 
 (* dependency is runtime module *)
 let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
-    (module_system : Js_packages_info.module_system) =
+    (module_system : Ext_module_system.t) =
   let suffix =
     match module_system with
     | NodeJS -> Ext_js_suffix.Js
@@ -47,7 +47,7 @@ let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
   match Js_packages_info.query_package_infos package_info module_system with
   | Package_not_found -> assert false
   | Package_script ->
-      Js_packages_info.runtime_package_path module_system js_file
+      Ext_module_system.runtime_package_path module_system js_file
   | Package_found (Separate _) ->
       (* We never compile the runtime / stdlib with `-bs-stop-after-cmj` *)
       assert false
@@ -60,15 +60,14 @@ let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
       | false -> (
           match module_system with
           | NodeJS | Es6 ->
-              Js_packages_info.runtime_package_path module_system js_file
+              Ext_module_system.runtime_package_path module_system js_file
           (* Note we did a post-processing when working on Windows *)
           | Es6_global ->
               (* lib/ocaml/xx.cmj --
                   HACKING: FIXME
                   maybe we can caching relative package path calculation or employ package map *)
               let dep_path =
-                Literals.lib
-                // Js_packages_info.runtime_dir_of_module_system module_system
+                Literals.lib // Ext_module_system.runtime_dir module_system
               in
               Ext_path.rel_normalized_absolute_path
                 ~from:

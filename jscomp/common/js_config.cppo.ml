@@ -55,7 +55,7 @@ let include_dirs =
     |> Filename.dirname
     |> Filename.dirname
   in
-  [ (root // Literals.lib // !Bs_version.package_name)
+  [ (root // Literals.lib // Literals.package_name)
   ; (Lazy.force stdlib_path)
   ]
 #else

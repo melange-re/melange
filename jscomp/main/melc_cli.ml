@@ -34,7 +34,7 @@ type t = {
   open_modules : string list;
   bs_jsx : int option;
   bs_package_output : string list;
-  bs_module_type : Js_packages_info.module_system option;
+  bs_module_type : Ext_module_system.t option;
   bs_ast : bool;
   bs_syntax_only : bool;
   bs_g : bool;
@@ -312,12 +312,12 @@ module Internal = struct
   let bs_module_type =
     let module_system_conv =
       let parse m =
-        match Js_packages_info.module_system_of_string m with
+        match Ext_module_system.of_string m with
         | Some module_system -> Ok module_system
         | None -> Error (`Msg (Format.asprintf "Invalid module system %s" m))
       in
       let print fmt ms =
-        Format.fprintf fmt "%s" (Js_packages_info.module_system_to_string ms)
+        Format.fprintf fmt "%s" (Ext_module_system.to_string ms)
       in
       Arg.conv ~docv:"method" (parse, print)
     in
