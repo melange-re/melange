@@ -12,7 +12,11 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, dream2nix, nix-filter }:
-    flake-utils.lib.eachDefaultSystem (system:
+
+    {
+      fromPkgs = pkgs: pkgs.callPackage ./nix { nix-filter = nix-filter.lib; };
+    } //
+    (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
           ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
@@ -20,7 +24,7 @@
       in
       rec {
         packages = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; } //
-          { default = packages.melange; };
+        { default = packages.melange; };
 
         devShells = {
           default = pkgs.callPackage ./nix/shell.nix {
@@ -33,5 +37,5 @@
             inherit packages;
           };
         };
-      });
+      }));
 }
