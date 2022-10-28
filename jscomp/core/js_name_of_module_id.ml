@@ -113,6 +113,9 @@ let string_of_module_id ~package_info:current_package_info ~suffix
           Js_packages_info.query_package_infos dep_package_info module_system
         in
         match (dep_info_query, current_info_query) with
+        | _, Package_not_found ->
+            (* Impossible to not find the current package. *)
+            assert false
         | Package_not_found, _ ->
             Bs_exception.error
               (Missing_ml_dependency (Ident.name dep_module_id.id))
@@ -120,19 +123,18 @@ let string_of_module_id ~package_info:current_package_info ~suffix
             Bs_exception.error
               (Dependency_script_module_dependent_not
                  (Ident.name dep_module_id.id))
-        | (Package_script | Package_found _), Package_not_found -> assert false
         | Package_found pkg, Package_script ->
-            let path_info, suffix =
+            let batch_info =
               match pkg with
-              | Batch { path_info; suffix } -> (path_info, suffix)
-              | Separate path_info -> (path_info, suffix)
+              | Batch batch_info -> batch_info
+              | Separate path_info -> { Js_packages_info.path_info; suffix }
             in
             let js_file =
               Ext_namespace.js_name_of_modulename
                 (Ident.name dep_module_id.id)
                 case suffix
             in
-            path_info.pkg_rel_path // js_file
+            batch_info.path_info.pkg_rel_path // js_file
         | Package_found dep_pkg, Package_found cur_pkg -> (
             let ( dep,
                   cur,
@@ -149,35 +151,43 @@ let string_of_module_id ~package_info:current_package_info ~suffix
                 (Ident.name dep_module_id.id)
                 case suffix
             in
-            match
-              ( Js_packages_info.same_package_by_name current_package_info
-                  dep_package_info,
-                Js_packages_info.is_runtime_package current_package_info )
-            with
-            | true, false ->
-                Ext_path.node_rebase_file ~from:cur.rel_path ~to_:dep.rel_path
-                  js_file
-                (* TODO: we assume that both [x] and [path] could only be relative path
-                    which is guaranteed by [-bs-package-output]
-                *)
-            | true, true ->
+            match Js_packages_info.is_runtime_package current_package_info with
+            | true ->
+                (* If we're compiling the melange runtime, get a runtime module
+                   path. *)
                 get_runtime_module_path dep_module_id current_package_info
                   module_system
-            | _ -> (
-                if Js_packages_info.is_runtime_package dep_package_info then
-                  get_runtime_module_path dep_module_id current_package_info
-                    module_system
-                else
-                  match module_system with
-                  | NodeJS | Es6 -> dep.pkg_rel_path // js_file
-                  (* Note we did a post-processing when working on Windows *)
-                  | Es6_global ->
-                      Ext_path.rel_normalized_absolute_path
-                        ~from:
-                          (Js_packages_info.get_output_dir current_package_info
-                             ~package_dir:(Lazy.force Ext_path.package_dir)
-                             module_system)
-                        (package_path // dep.rel_path // js_file)))
+            | false -> (
+                match
+                  Js_packages_info.same_package_by_name current_package_info
+                    dep_package_info
+                with
+                | true ->
+                    (* If this is the same package, we know all imports are
+                       relative. *)
+                    Ext_path.node_rebase_file ~from:cur.rel_path
+                      ~to_:dep.rel_path js_file
+                | false -> (
+                    if
+                      (* Importing a dependency:
+                       *   - are we importing the melange runtime / stdlib? *)
+                      Js_packages_info.is_runtime_package dep_package_info
+                    then
+                      get_runtime_module_path dep_module_id current_package_info
+                        module_system
+                    else
+                      (* - Are we importing another package? *)
+                      match module_system with
+                      | NodeJS | Es6 -> dep.pkg_rel_path // js_file
+                      (* Note we did a post-processing when working on Windows *)
+                      | Es6_global ->
+                          Ext_path.rel_normalized_absolute_path
+                            ~from:
+                              (Js_packages_info.get_output_dir
+                                 current_package_info
+                                 ~package_dir:(Lazy.force Ext_path.package_dir)
+                                 module_system)
+                            (package_path // dep.rel_path // js_file))))
         | Package_script, Package_script -> (
             let js_file =
               Ext_namespace.js_name_of_modulename
