@@ -28,12 +28,6 @@
  (libraries mellib cmdliner luv))
 
 (executable
- (name cmjdump_main)
- (modes native)
- (modules cmjdump_main)
- (libraries bs_hash_stubs ext common core))
-
-(executable
  (public_name meldep)
  (package melange)
  (modes native)
