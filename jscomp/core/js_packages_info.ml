@@ -83,13 +83,14 @@ let empty : t = { name = None; info = Empty }
 
 let from_name ?(t = empty) (name : string) : t = { t with name = Some name }
 
-let dump_package_info (fmt : Format.formatter)
-    ({ path = name; output_info = { module_system = ms; suffix } } : batch_info)
-    =
-  Format.fprintf fmt "@[%s@ %s@ %s@]"
-    (Ext_module_system.to_string ms)
-    name
+let dump_output_info fmt { module_system; suffix } =
+  Format.fprintf fmt "%s %s"
+    (Ext_module_system.to_string module_system)
     (Ext_js_suffix.to_string suffix)
+
+let dump_package_info (fmt : Format.formatter)
+    ({ path = name; output_info } : batch_info) =
+  Format.fprintf fmt "@[%s@ %a@]" name dump_output_info output_info
 
 let dump_package_name fmt (x : string option) =
   match x with
