@@ -48,10 +48,7 @@ let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
   | Package_not_found -> assert false
   | Package_script ->
       Ext_module_system.runtime_package_path module_system js_file
-  | Package_found (Separate _) ->
-      (* We never compile the runtime / stdlib with `-bs-stop-after-cmj` *)
-      assert false
-  | Package_found (Batch { path_info; _ }) -> (
+  | Package_found (Separate path_info | Batch { path_info; _ }) -> (
       match Js_packages_info.is_runtime_package package_info with
       | true ->
           (* Runtime files end up in the same directory, `lib/js` or `lib/es6` *)

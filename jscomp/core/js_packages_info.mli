@@ -34,6 +34,7 @@ val is_runtime_package : t -> bool
 val same_package_by_name : t -> t -> bool
 val empty : t
 val from_name : ?t:t -> string -> t
+val dump_output_info : Format.formatter -> output_info -> unit
 val dump_packages_info : Format.formatter -> t -> unit
 
 val add_npm_package_path : t -> string -> t
