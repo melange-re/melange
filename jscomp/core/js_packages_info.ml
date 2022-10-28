@@ -161,7 +161,7 @@ type info_query =
   | Package_not_found
   | Package_found of package_found_info
 
-let runtime_package = function
+let runtime_package_name = function
   | Some name when is_runtime_name name -> Some !Bs_version.package_name
   | Some name -> Some name
   | None -> None
@@ -173,7 +173,7 @@ let query_package_infos (t : t) (module_system : module_system) : info_query =
   | Empty -> (
       match t.name with Some _ -> Package_not_found | None -> Package_script)
   | Separate_emission path -> (
-      match runtime_package t.name with
+      match runtime_package_name t.name with
       | Some pkg_name ->
           Package_found
             (Separate { rel_path = path; pkg_rel_path = pkg_name // path })
@@ -186,7 +186,7 @@ let query_package_infos (t : t) (module_system : module_system) : info_query =
       with
       | k ->
           let pkg_rel_path =
-            match runtime_package t.name with
+            match runtime_package_name t.name with
             | Some pkg_name -> pkg_name // k.path
             | None -> k.path
           in
