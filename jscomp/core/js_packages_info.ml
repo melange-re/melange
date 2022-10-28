@@ -236,14 +236,20 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
            "Can't add multiple `-bs-package-output` specs when \
             `-bs-stop-after-cmj` is present")
 
+let default_output_info = { suffix = Js; module_system = NodeJS }
+
 let assemble_output_info ?output_info (t : t) =
   match output_info with
   | Some info -> [ info ]
   | None -> (
       match t.info with
+      | Empty -> []
       | Batch_compilation infos ->
           Ext_list.map infos (fun { output_info; _ } -> output_info)
-      | _ -> assert false)
+      | Separate_emission _ ->
+          (* Combination of `-bs-package-output -just-dir` and the absence of
+             `-bs-module-type` *)
+          [ default_output_info ])
 
 (* support es6 modules instead
    TODO: enrich ast to support import export

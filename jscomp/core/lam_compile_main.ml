@@ -310,7 +310,7 @@ let lambda_as_module
   | (true, None) ->
     Js_dump_program.dump_deps_program
       ~package_info
-      ~output_info:{ suffix = Js; module_system = NodeJS}
+      ~output_info:Js_packages_info.default_output_info
       ~output_prefix
       lambda_output stdout
   | false, None -> assert false
