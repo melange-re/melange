@@ -6,6 +6,7 @@ rec {
   melange = buildDunePackage rec {
     pname = "melange";
     version = "dev";
+    duneVersion = "3";
 
     src = with nix-filter; filter {
       root = ./..;
@@ -55,6 +56,7 @@ rec {
   mel = buildDunePackage rec {
     pname = "mel";
     version = "dev";
+    duneVersion = "3";
 
     src = with nix-filter; filter {
       root = ./..;
