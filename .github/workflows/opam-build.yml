@@ -50,8 +50,8 @@ jobs:
       - name: Pin melange to current
         working-directory: melange
         run: |
-          opam pin add melange .
-          opam pin add mel .
+          opam pin add melange . --with-test
+          opam pin add mel . --with-test
 
       - name: Clone melange-opam-template
         run: git clone https://github.com/melange-re/melange-opam-template.git
