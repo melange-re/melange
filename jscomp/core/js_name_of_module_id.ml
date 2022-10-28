@@ -119,27 +119,18 @@ let string_of_module_id ~package_info ~output_info
               (Dependency_script_module_dependent_not
                  (Ident.name dep_module_id.id))
         | Package_found pkg, Package_script ->
-            let batch_info =
-              match pkg with
-              | Batch batch_info -> batch_info
-              | Separate path_info -> { Js_packages_info.path_info; suffix }
-            in
+            let path_info = Js_packages_info.path_info pkg in
             let js_file =
               Ext_namespace.js_name_of_modulename
                 (Ident.name dep_module_id.id)
                 case suffix
             in
-            batch_info.path_info.pkg_rel_path // js_file
+            path_info.pkg_rel_path // js_file
         | Package_found dep_pkg, Package_found cur_pkg -> (
-            let ( dep,
-                  cur,
-                  ({ suffix; module_system } : Js_packages_info.output_info) ) =
-              match (dep_pkg, cur_pkg) with
-              | ( Batch { path_info = dep; suffix },
-                  (Batch { path_info = cur } | Separate cur) ) ->
-                  (dep, cur, { module_system; suffix })
-              | Separate dep, (Batch { path_info = cur } | Separate cur) ->
-                  (dep, cur, { suffix; module_system })
+            let ({ suffix; module_system } : Js_packages_info.output_info) =
+              match dep_pkg with
+              | Batch { suffix; _ } -> { module_system; suffix }
+              | Separate _ -> { suffix; module_system }
             in
             let js_file =
               Ext_namespace.js_name_of_modulename
@@ -153,6 +144,7 @@ let string_of_module_id ~package_info ~output_info
                 get_runtime_module_path ~package_info dep_module_id
                   module_system
             | false -> (
+                let dep = Js_packages_info.path_info dep_pkg in
                 match
                   Js_packages_info.same_package_by_name package_info
                     dep_package_info
@@ -160,6 +152,7 @@ let string_of_module_id ~package_info ~output_info
                 | true ->
                     (* If this is the same package, we know all imports are
                        relative. *)
+                    let cur = Js_packages_info.path_info cur_pkg in
                     Ext_path.node_rebase_file ~from:cur.rel_path
                       ~to_:dep.rel_path js_file
                 | false -> (

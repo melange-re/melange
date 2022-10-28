@@ -166,6 +166,9 @@ let runtime_package_name = function
   | Some name -> Some name
   | None -> None
 
+let path_info = function
+  | Batch { path_info; _ } | Separate path_info -> path_info
+
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
 let query_package_infos (t : t) (module_system : module_system) : info_query =

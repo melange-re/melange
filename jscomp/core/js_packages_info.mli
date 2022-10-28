@@ -60,6 +60,7 @@ type info_query =
   | Package_not_found
   | Package_found of package_found_info
 
+val path_info : package_found_info -> path_info
 val get_output_dir : t -> package_dir:string -> module_system -> string
 val query_package_infos : t -> module_system -> info_query
 
