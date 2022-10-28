@@ -15,17 +15,17 @@ Set up a few directories we'll need
   > let t = ["Hello"] |. Belt.List.map(fun greeting -> greeting)
   > EOF
 
-Cmjs
+Generate the `.cmj` files
 
-  $ melc -bs-package-output node_modules/ -bs-stop-after-cmj -nopervasives node_modules/a.ml -o node_modules/.objs/melange/a.cmj
+  $ melc -bs-package-output node_modules/ -bs-stop-after-cmj node_modules/a.ml -o node_modules/.objs/melange/a.cmj
 
-  $ melc -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -nopervasives -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
-Jss
+Generate the JS files
 
-  $ melc -bs-module-type commonjs -nopervasives node_modules/.objs/melange/a.cmj -o output/node_modules/a.js
+  $ melc -bs-module-type commonjs node_modules/.objs/melange/a.cmj -o output/node_modules/a.js
 
-  $ melc -bs-module-type commonjs -nopervasives -I node_modules/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc -bs-module-type commonjs -I node_modules/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
 B depends on A, so it should import a.js in the right path
 
@@ -34,8 +34,17 @@ B depends on A, so it should import a.js in the right path
   'use strict';
   
   var A = require("../node_modules/a.js");
+  var Belt_List = require("melange/lib/js/belt_List.js");
   
-  var t = A.t;
+  var t = Belt_List.map({
+        hd: "Hello",
+        tl: /* [] */0
+      }, (function (greeting) {
+          return greeting;
+        }));
   
+  var u = A.t;
+  
+  exports.u = u;
   exports.t = t;
-  /* No side effect */
+  /* t Not a pure module */
