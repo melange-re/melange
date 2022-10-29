@@ -1,6 +1,6 @@
 (library
  (name react_jsx_ppx)
- (public_name react-jsx-ppx.ppx)
+ (package react-jsx-ppx)
  (libraries ppxlib compiler-libs.common)
  ; compiler-libs.common is needed to get OCaml_location,
  ; can remove it in next releases of ppxlib https://github.com/ocaml-ppx/ppxlib/issues/377

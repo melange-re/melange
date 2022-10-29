@@ -4,7 +4,8 @@ nix-%:
 	nix develop -L .# --command $*
 
 release-shell:
-	nix develop .#release --command $(SHELL)
+	nix develop '.?submodules=1#release' --command $(SHELL)
+
 vim:
 	$(MAKE) nix-n$@
 
