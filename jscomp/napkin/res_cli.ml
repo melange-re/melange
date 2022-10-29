@@ -196,7 +196,6 @@ end = struct
     ("-print", Arg.String (fun txt -> print := txt), "Print either binary, ml, ast, sexp or res. Default: res");
     ("-width", Arg.Int (fun w -> width := w), "Specify the line length for the printer (formatter)");
     ("-interface", Arg.Unit (fun () -> interface := true), "Parse as interface");
-    ("-ppx", Arg.String (fun txt -> ppx := txt), "Apply a specific built-in ppx before parsing, none or jsx. Default: none");
   ]
 
   let parse () = Arg.parse spec (fun f -> file := f) usage
@@ -205,7 +204,7 @@ end
 module CliArgProcessor = struct
   type backend = Parser: ('diagnostics) Res_driver.parsingEngine -> backend [@@unboxed]
 
-  let processFile ~isInterface ~width ~recover ~origin ~target ~ppx filename =
+  let processFile ~isInterface ~width ~recover ~origin ~target filename =
     let len = String.length filename in
     let processInterface =
       isInterface || len > 0 && (String.get [@doesNotRaise]) filename (len - 1) = 'i'
@@ -258,12 +257,8 @@ module CliArgProcessor = struct
         else exit 1
       end
       else
-        let parsetree = match ppx with
-          | "jsx" -> Reactjs_jsx_ppx_v3.rewrite_signature parseResult.parsetree
-          | _ -> parseResult.parsetree
-        in
         printEngine.printInterface
-          ~width ~filename ~comments:parseResult.comments parsetree
+          ~width ~filename ~comments:parseResult.comments parseResult.parsetree
     else
       let parseResult = backend.parseImplementation ~forPrinter ~filename in
       if parseResult.invalid then begin
@@ -277,12 +272,8 @@ module CliArgProcessor = struct
         else exit 1
       end
       else
-        let parsetree = match ppx with
-          | "jsx" -> Reactjs_jsx_ppx_v3.rewrite_implementation parseResult.parsetree
-          | _ -> parseResult.parsetree
-        in
         printEngine.printImplementation
-          ~width ~filename ~comments:parseResult.comments parsetree
+          ~width ~filename ~comments:parseResult.comments parseResult.parsetree
   [@@raises Invalid_argument, Failure, exit]
 end
 
@@ -296,6 +287,5 @@ let [@raises Invalid_argument, Failure, exit] () =
       ~recover:!ResClflags.recover
       ~target:!ResClflags.print
       ~origin:!ResClflags.origin
-      ~ppx:!ResClflags.ppx
       !ResClflags.file
 end
