@@ -56,11 +56,7 @@ let debounce ~f ms =
 
 module Task = struct
   type info = { fd : Luv.Process.t; paths : string list }
-
-  type t =
-    ?on_exit:(Luv.Process.t -> exit_status:int64 -> term_signal:int -> unit) ->
-    unit ->
-    info
+  type t = unit -> info
 end
 
 module Job = struct
@@ -122,11 +118,13 @@ let rec watch ~(job : Job.t) paths =
             | Error e ->
                 Bsb_log.error "Error starting watcher for %s: %s@." path
                   (Luv.Error.strerror e)
-            | Ok stat ->
+            | Ok _stat ->
                 Hashtbl.replace job.watchers path watcher;
-                let recursive = Luv.File.Mode.test [ `IFDIR ] stat.mode in
-
-                Luv.FS_event.start ~recursive ~stat:true watcher path (function
+                (* Source_metadata lists all directories, and computes the
+                   entire set if `subdirs: true`, so we don't need the
+                   recursive flag. *)
+                Luv.FS_event.start ~recursive:false ~stat:true watcher path
+                  (function
                   | Error e ->
                       Bsb_log.error "Error watching %s: %s@." path
                         (Luv.Error.strerror e);
