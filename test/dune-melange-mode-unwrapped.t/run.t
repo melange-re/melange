@@ -34,5 +34,5 @@ tree. Because `(wrapped false)` was present, JS file names are not mangled
   |   `-- other.js
   `-- libB
       `-- b.js
-
+  
   2 directories, 3 files
