@@ -3,16 +3,17 @@ opam-version: "2.0"
 synopsis: "Toolchain to produce JS from Reason/OCaml"
 maintainer: ["Antonio Nuno Monteiro <anmonteiro@gmail.com>"]
 authors: ["Antonio Nuno Monteiro <anmonteiro@gmail.com>"]
+license: "LGPL-2.1-or-later"
 homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.5"}
   "ocaml" {>= "4.14.0" & < "4.15.0"}
   "melange-compiler-libs" {>= "0.0.1-414"}
-  "reason"
-  "cmdliner"
-  "base64"
-  "luv"
+  "reason" {>= "3.8.1"}
+  "cmdliner" {>= "1.1.0"}
+  "base64" {>= "3.1.0"}
+  "ounit" {with-test}
   "odoc" {with-doc}
 ]
 build: [
@@ -29,4 +30,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-setenv: [ MELANGELIB = "%{_:lib}%/melange/melange" ]
+dev-repo: "git+https://github.com/melange-re/melange.git"

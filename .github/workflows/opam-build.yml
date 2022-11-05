@@ -1,0 +1,73 @@
+name: Opam Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    # Prime the caches every Monday
+    - cron: 0 1 * * MON
+
+jobs:
+  build:
+    name: Build and test
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          # - windows-latest # for some reason windows build is not picking dune 3.5
+        ocaml-compiler:
+          - 4.14.x
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: melange
+
+      - name: Use Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+      - name: Install melange.opam dependencies
+        working-directory: melange
+        run: |
+          opam install luv
+          opam install ./melange.opam --deps-only --with-test
+
+      - name: Pin melange to current
+        working-directory: melange
+        run: |
+          opam pin add melange . --with-test
+          opam pin add mel . --with-test
+
+      - name: Clone melange-opam-template
+        run: git clone https://github.com/melange-re/melange-opam-template.git
+
+      - name: Install all deps
+        working-directory: melange-opam-template
+        run: make install
+
+      - name: Build basic template
+        working-directory: melange-opam-template
+        run: |
+          opam exec -- mel
+          npm run bundle
+
+      - name: Run resulting .js files
+        working-directory: melange-opam-template
+        run: |
+          node _build/default/src/Hello.bs.js
+          node _build/default/src/Main.bs.js

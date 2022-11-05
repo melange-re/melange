@@ -183,7 +183,11 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
         |> Lam_compile_main.compile outputprefix
       in
       if not !Js_config.cmj_only then
-        Lam_compile_main.lambda_as_module js_program outputprefix);
+        (* XXX(anmonteiro): important that we get package_info after
+           processing, as `[@@@config {flags = [| ... |]}]` could have added to
+           package specs. *)
+        let package_info = Js_packages_state.get_packages_info () in
+        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
     process_with_gentype (outputprefix ^ ".cmt")
 
 let implementation ~parser ~lang ppf fname =
@@ -213,7 +217,8 @@ let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
   Res_compmisc.init_path ();
   let cmj = Js_cmj_format.from_file fname in
-  Lam_compile_main.lambda_as_module cmj.delayed_program
+  Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
+    cmj.delayed_program
     (Config_util.output_prefix fname)
 
 let make_structure_item ~ns cunit : Parsetree.structure_item =
@@ -223,9 +228,8 @@ let make_structure_item ~ns cunit : Parsetree.structure_item =
     (Mb.mk { txt = Some cunit; loc }
        (Mod.ident { txt = Lident (Ext_namespace_encode.make ~ns cunit); loc }))
 
-(** decoding [.mlmap]
-  keep in sync {!Bsb_namespace_map_gen.output}
-*)
+(* decoding [.mlmap]
+   keep in sync {!Bsb_namespace_map_gen.output} *)
 let implementation_map ppf sourcefile =
   let () = Js_config.cmj_only := true in
   let ichan = open_in_bin sourcefile in

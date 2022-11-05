@@ -8,5 +8,8 @@ _opam
 
 node_modules
 lib/melange
+lib/es6
+lib/js
+ocaml-tree/build
 .vscode/settings.json
 bin

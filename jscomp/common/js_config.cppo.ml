@@ -43,7 +43,7 @@ let install_dir = lazy (
 let stdlib_path =
   lazy (match Sys.getenv "MELANGELIB" with
   | value -> value
-  | exception _ -> Lazy.force install_dir // Literals.lib // "melange" )
+  | exception _ -> Lazy.force install_dir // Literals.lib // "melange")
 
 let include_dirs =
 
@@ -55,7 +55,7 @@ let include_dirs =
     |> Filename.dirname
     |> Filename.dirname
   in
-  [ (root // Literals.lib // !Bs_version.package_name)
+  [ (root // Literals.lib // Literals.package_name)
   ; (Lazy.force stdlib_path)
   ]
 #else

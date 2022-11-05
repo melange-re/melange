@@ -1,12 +1,12 @@
-name: "Nix Pipeline"
+name: Nix Pipeline
 on:
   pull_request:
   push:
    branches:
-     - fork
+     - main
 jobs:
   tests:
-    name: Build with Nix
+    name: Build and test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3

@@ -30,6 +30,9 @@ let init_path () =
   Load_path.reset ();
   List.iter Load_path.add_dir
     (List.rev (Lazy.force Js_config.stdlib_path :: exp_dirs));
+  Ext_log.dwarn ~__POS__ "Compiler include dirs: %s@."
+    (String.concat "; " (Load_path.get_paths ()));
+
   Env.reset_cache ()
 
 (* Return the initial environment in which compilation proceeds. *)

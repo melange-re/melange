@@ -29,18 +29,18 @@ let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
 
 
 
-let setup_runtime_path path =
-  let u0 = Filename.dirname path in
-  let std = Filename.basename path in
-  let _path = Filename.dirname u0 in
-  let rescript = Filename.basename u0 in
-  (match rescript.[0] with
-   | '@' -> (* scoped package *)
-     Bs_version.package_name := rescript ^ "/" ^ std;
-   | _ -> Bs_version.package_name := std
-   | exception _ ->
-     Bs_version.package_name := std);
-  Js_config.customize_runtime := Some path
+(* let setup_runtime_path path = *)
+  (* let u0 = Filename.dirname path in *)
+  (* let std = Filename.basename path in *)
+  (* let _path = Filename.dirname u0 in *)
+  (* let rescript = Filename.basename u0 in *)
+  (* (match rescript.[0] with *)
+   (* | '@' -> (* scoped package *) *)
+     (* Bs_version.package_name := rescript ^ "/" ^ std; *)
+   (* | _ -> Bs_version.package_name := std *)
+   (* | exception _ -> *)
+     (* Bs_version.package_name := std); *)
+  (* Js_config.customize_runtime := Some path *)
 
 let process_file sourcefile
   ?(kind ) ppf =
@@ -212,7 +212,6 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
   end
 
 let anonymous ~(rev_args : string list) =
-  Ext_log.dwarn ~__POS__ "Compiler include dirs: %s@." (String.concat "; " !Clflags.include_dirs);
   if !Js_config.as_ppx then
     match rev_args with
     | [output; input] ->
@@ -316,6 +315,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       open_modules;
       bs_jsx;
       bs_package_output;
+      bs_module_type;
       bs_ast;
       bs_syntax_only;
       bs_g;
@@ -374,7 +374,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       warn_help;
       warn_error;
       bs_stop_after_cmj;
-      runtime;
+      runtime = _;
       filenames;
       help
     } ->
@@ -408,10 +408,32 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.debug := bs_g;
       Rescript_cpp.replace_directive_bool "DEBUG" true);
 
-    Ext_option.iter runtime setup_runtime_path;
+    (* Ext_option.iter runtime setup_runtime_path; *)
 
     Ext_option.iter bs_package_name Js_packages_state.set_package_name;
-    Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
+    begin match bs_module_type, bs_package_output with
+    | None, [] -> ()
+    | Some bs_module_type, [] ->
+      let suffix = match output_name with
+        | Some output_name ->
+          let ext = Filename.extension output_name in
+          if String.length ext = 0 then
+            raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
+          else
+          (match Ext_js_suffix.of_string ext with
+          | Unknown_extension ->
+            raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
+          | other -> other)
+        | None ->
+          raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
+      in
+      Js_packages_state.set_output_info ~suffix bs_module_type
+    | None, bs_package_output ->
+      Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
+    | Some _, _ :: _ ->
+      raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
+    end;
+
     Ext_option.iter bs_ns Js_packages_state.set_package_map;
 
     if as_ppx then Js_config.as_ppx := as_ppx;

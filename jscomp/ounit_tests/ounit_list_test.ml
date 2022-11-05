@@ -74,7 +74,7 @@ let suites =
              "z" );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_raises
-             (Assert_failure ("jscomp/ext/ext_list.ml", 661, 35))
+             (Assert_failure ("jscomp/ext/ext_list.ml", 666, 35))
              (fun _ ->
                ignore
                @@ Ext_list.assoc_by_int [ (2, "x"); (3, "y"); (1, "z") ] 11 None)

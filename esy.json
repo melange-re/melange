@@ -3,19 +3,13 @@
   "version": "7.2.0",
   "dependencies": {
     "ocaml": "4.14.0",
-    "@opam/dune": ">= 3.0",
-    "@opam/base64": "3.5.0",
+    "@opam/dune": ">= 3.5",
+    "@opam/base64": ">= 3.1.0",
     "@opam/cmdliner": ">= 1.1.0",
     "@opam/ocamlfind": "1.9.5",
     "@opam/luv": "*",
-    "@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam",
-    "@opam/reason": ">= 3.8.0"
-  },
-  "resolutions": {
-    "@opam/reason": "reasonml/reason:reason.opam#a93c4c3fbf36d32360a64f9b7a3f64b0ef35b903",
-    "@opam/dune": "ocaml/dune:dune.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
-    "@opam/xdg": "ocaml/dune:xdg.opam#bc0a0c3169dfd4aae72498c5fc5b1859dd6f870e",
-    "ocaml": "4.14.0"
+    "@opam/melange-compiler-libs": "*",
+    "@opam/reason": ">= 3.8.1"
   },
   "devDependencies": {
     "web-tree-sitter": "0.18.0",
@@ -23,25 +17,21 @@
     "@opam/ocaml-lsp-server": "*"
   },
   "scripts": {
-    "test": "esy b dune runtest --disable-promotion --ignore-promoted-rules",
-    "clean": "node ./scripts/ninja.js clean"
+    "test": "dune runtest -p mel,#{self.name} --disable-promotion",
+    "clean": "dune clean"
   },
   "esy": {
-    "build": "dune build -p #{self.name} --disable-promotion",
+    "buildsInSource": "unsafe",
+    "build": "dune build -p #{self.name},mel",
     "install": [
       [
         "esy-installer",
-        "$cur__target_dir/default/melange.install"
+        "melange.install",
+        "mel.install"
       ]
     ],
     "buildEnv": {
       "CAML_LD_LIBRARY_PATH": "#{self.target_dir / 'default' / 'jscomp' / 'stubs' : $CAML_LD_LIBRARY_PATH }"
-    },
-    "exportedEnv": {
-      "MELANGELIB": {
-        "val": "#{self.lib / 'melange' / 'melange'}",
-        "scope": "global"
-      }
     }
   },
   "description": "ReScript compiler for use in esy, ocaml standard libary by ReScript and its required runtime support",
@@ -69,7 +59,5 @@
     "url": "https://github.com/rescript-lang/rescript-compiler/issues"
   },
   "homepage": "https://github.com/rescript-lang/rescript-compiler#readme",
-  "installConfig": {
-    "pnp": false
-  }
+  "installConfig": { "pnp": false }
 }

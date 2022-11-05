@@ -34,6 +34,7 @@ type t = {
   open_modules : string list;
   bs_jsx : int option;
   bs_package_output : string list;
+  bs_module_type : Ext_module_system.t option;
   bs_ast : bool;
   bs_syntax_only : bool;
   bs_g : bool;
@@ -308,6 +309,25 @@ module Internal = struct
     in
     Arg.(value & opt_all string [] & info [ "bs-package-output" ] ~doc)
 
+  let bs_module_type =
+    let module_system_conv =
+      let parse m =
+        match Ext_module_system.of_string m with
+        | Some module_system -> Ok module_system
+        | None -> Error (`Msg (Format.asprintf "Invalid module system %s" m))
+      in
+      let print fmt ms =
+        Format.fprintf fmt "%s" (Ext_module_system.to_string ms)
+      in
+      Arg.conv ~docv:"method" (parse, print)
+    in
+    let doc = "Specify the module type for JS imports" in
+    let docv = "module-type" in
+    Arg.(
+      value
+      & opt (some module_system_conv) None
+      & info [ "bs-module-type" ] ~doc ~docv)
+
   let bs_ast =
     let doc = "*internal* Generate binary .mli_ast and ml_ast and stop" in
     Arg.(value & flag & info [ "bs-ast" ] ~doc)
@@ -497,16 +517,17 @@ module Compat = struct
 end
 
 let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
-    open_modules bs_jsx bs_package_output bs_ast bs_syntax_only bs_g
-    bs_package_name bs_ns as_ppx as_pp no_alias_deps bs_gentype unboxed_types
-    bs_re_out bs_D bs_unsafe_empty_array nostdlib color bs_list_conditionals
-    bs_eval bs_e bs_cmi_only bs_cmi bs_cmj bs_no_version_header
-    bs_no_builtin_ppx bs_cross_module_opt bs_diagnose format where verbose
-    keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
-    drawlambda dsource version pp absname bin_annot i nopervasives modules
-    nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
-    runtime filenames _bs_super_errors _c =
+    open_modules bs_jsx bs_package_output bs_module_type bs_ast bs_syntax_only
+    bs_g bs_package_name bs_ns as_ppx as_pp no_alias_deps bs_gentype
+    unboxed_types bs_re_out bs_D bs_unsafe_empty_array nostdlib color
+    bs_list_conditionals bs_eval bs_e bs_cmi_only bs_cmi bs_cmj
+    bs_no_version_header bs_no_builtin_ppx bs_cross_module_opt bs_diagnose
+    format where verbose keep_locs bs_no_check_div_by_zero bs_noassertfalse
+    noassert bs_loc impl intf intf_suffix g opaque strict_sequence
+    strict_formats dtypedtree dparsetree drawlambda dsource version pp absname
+    bin_annot i nopervasives modules nolabels principal short_paths unsafe
+    warn_help warn_error bs_stop_after_cmj runtime filenames _bs_super_errors _c
+    =
   {
     help;
     include_dirs;
@@ -518,6 +539,7 @@ let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     open_modules;
     bs_jsx;
     bs_package_output;
+    bs_module_type;
     bs_ast;
     bs_syntax_only;
     bs_g;
@@ -584,22 +606,23 @@ let cmd =
   Term.(
     const parse $ help $ include_dirs $ alerts $ warnings $ output_name
     $ Internal.bs_read_cmi $ ppx $ open_modules $ Internal.bs_jsx
-    $ Internal.bs_package_output $ Internal.bs_ast $ bs_syntax_only $ bs_g
-    $ bs_package_name $ bs_ns $ Internal.as_ppx $ Internal.as_pp
-    $ Internal.no_alias_deps $ Internal.bs_gentype $ unboxed_types $ bs_re_out
-    $ bs_D $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
-    $ bs_list_conditionals $ Internal.bs_eval $ bs_e $ Internal.bs_cmi_only
-    $ Internal.bs_cmi $ Internal.bs_cmj $ Internal.bs_no_version_header
-    $ Internal.bs_no_builtin_ppx $ Internal.bs_cross_module_opt
-    $ Internal.bs_diagnose $ format $ where $ verbose $ keep_locs
-    $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
-    $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
-    $ Internal.intf_suffix $ Internal.g $ Internal.opaque
-    $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
-    $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
-    $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
-    $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
-    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
+    $ Internal.bs_package_output $ Internal.bs_module_type $ Internal.bs_ast
+    $ bs_syntax_only $ bs_g $ bs_package_name $ bs_ns $ Internal.as_ppx
+    $ Internal.as_pp $ Internal.no_alias_deps $ Internal.bs_gentype
+    $ unboxed_types $ bs_re_out $ bs_D $ Internal.bs_unsafe_empty_array
+    $ Internal.nostdlib $ color $ bs_list_conditionals $ Internal.bs_eval $ bs_e
+    $ Internal.bs_cmi_only $ Internal.bs_cmi $ Internal.bs_cmj
+    $ Internal.bs_no_version_header $ Internal.bs_no_builtin_ppx
+    $ Internal.bs_cross_module_opt $ Internal.bs_diagnose $ format $ where
+    $ verbose $ keep_locs $ Internal.bs_no_check_div_by_zero
+    $ Internal.bs_noassertfalse $ Internal.noassert $ Internal.bs_loc
+    $ Internal.impl $ Internal.intf $ Internal.intf_suffix $ Internal.g
+    $ Internal.opaque $ Internal.strict_sequence $ Internal.strict_formats
+    $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
+    $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
+    $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
+    $ Internal.principal $ Internal.short_paths $ unsafe $ warn_help
+    $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
     $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to

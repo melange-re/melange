@@ -1,9 +1,23 @@
-{ pkgs, dream2nix, system, nodejs_latest, melange }:
-
+{ dream2nix
+, lib
+, mkShell
+, nodejs_latest
+, packages
+, python3
+, stdenv
+, system
+, yarn
+, cacert
+, curl
+, ocamlPackages
+, writeScriptBin
+, git
+, h2spec
+, release-mode ? false
+}:
 
 let
-
-
+  derivations = lib.filterAttrs (_: value: lib.isDerivation value) packages;
   outputs = dream2nix.makeFlakeOutputs {
     systems = [ system ];
     config.projectRoot = ../jscomp/build_tests/monorepo;
@@ -11,34 +25,24 @@ let
   };
 
   npmPackages = lib.trace "${builtins.toJSON( ( outputs))}" outputs.packages."${system}".monorepo;
-  inherit (pkgs) stdenv lib;
-
-  pnpm = pkgs.writeScriptBin "pnpm" ''
-    #!${pkgs.runtimeShell}
-    ${pkgs.nodejs}/bin/node \
-      ${pkgs.nodePackages_latest.pnpm}/lib/node_modules/pnpm/bin/pnpm.cjs \
-      "$@"
-  '';
 
 in
 
-with pkgs;
-
 mkShell {
-  inputsFrom = [ melange ];
+  inputsFrom = lib.attrValues derivations;
   buildInputs = [
-    pnpm
     python3
-    nodejs-16_x
-    (yarn.override { nodejs = nodejs-16_x; })
-  ] ++ (with ocamlPackages; [
+    nodejs_latest
+    yarn
+  ]
+  ++ (with ocamlPackages; [
     merlin
     utop
     ounit2
     ocamlformat
     ocaml-lsp
-  ]);
-
+  ])
+  ++ lib.optionals release-mode [ cacert curl ocamlPackages.dune-release git ];
   shellHook = ''
     PATH=$PWD/bin:$PATH
     ln -sfn _build/install/default/bin ./bin

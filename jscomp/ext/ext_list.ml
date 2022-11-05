@@ -536,6 +536,11 @@ let rec drop h n =
 let rec find_first x p =
   match x with [] -> None | x :: l -> if p x then Some x else find_first l p
 
+let rec find_first_exn x p =
+  match x with
+  | [] -> raise Not_found
+  | x :: l -> if p x then x else find_first_exn l p
+
 let rec find_first_not xs p =
   match xs with
   | [] -> None

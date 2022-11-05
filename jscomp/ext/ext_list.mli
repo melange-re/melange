@@ -142,6 +142,7 @@ val drop : 'a list -> int -> 'a list
 *)
 
 val find_first : 'a list -> ('a -> bool) -> 'a option
+val find_first_exn : 'a list -> ('a -> bool) -> 'a
 
 val find_first_not : 'a list -> ('a -> bool) -> 'a option
 (** [find_first_not p lst ]

@@ -1,7 +1,4 @@
 {
-  "engines": {
-    "node": ">=14.14.0 < 17"
-  },
   "dependencies": {
     "nan": "^2.14.2",
     "tree-sitter-cli": "^0.18.0"

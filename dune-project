@@ -4,6 +4,8 @@
 
 (executables_implicit_empty_intf true)
 
+(cram enable)
+
 (formatting
  (enabled_for ocaml))
 
@@ -11,12 +13,21 @@
 
 (name melange)
 
+(source
+ (github melange-re/melange))
+
+(authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+
+(maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
+
+(homepage "https://github.com/melange-re/melange")
+
+(bug_reports "https://github.com/melange-re/melange/issues")
+
+(license "LGPL-2.1-or-later")
+
 (package
  (name melange)
- (homepage "https://github.com/melange-re/melange")
- (maintainers "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
- (authors "Antonio Nuno Monteiro <anmonteiro@gmail.com>")
- (bug_reports "https://github.com/melange-re/melange/issues")
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
@@ -25,7 +36,23 @@
     (< "4.15.0")))
   (melange-compiler-libs
    (>= "0.0.1-414"))
-  reason
-  cmdliner
-  base64
-  luv))
+  (reason
+   (>= "3.8.1"))
+  (cmdliner
+   (>= "1.1.0"))
+  (base64
+   (>= "3.1.0"))
+  (ounit :with-test)))
+
+(package
+ (name mel)
+ (synopsis
+  "Build system for Melange that defers to Dune for build orchestration")
+ (depends
+  ocaml
+  melange
+  (cmdliner
+   (>= "1.1.0"))
+  (luv
+   (>= "0.5.11"))
+  (ounit :with-test)))

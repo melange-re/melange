@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Cmdliner
-open Bsb
+open Mellib
 
 let () = Bsb_log.setup ()
 let ( // ) = Ext_path.combine
@@ -120,9 +120,13 @@ module Actions = struct
       let _p : Luv.Process.t =
         wrap_bsb ~opts ~f:(fun () ->
             dune_command
-              ~on_exit:(fun _ ~exit_status:_ ~term_signal:_ ->
+              ~on_exit:(fun (_ : Luv.Process.t) ~exit_status:_ ~term_signal:_ ->
                 Format.eprintf "Waiting for filesystem changes...@.";
-                Mel_watcher.watch ~task dirs)
+                Mel_watcher.watch
+                  ~task:
+                    (task ~on_exit:(fun _ ~exit_status:_ ~term_signal:_ ->
+                         Format.eprintf "Waiting for filesystem changes...@."))
+                  dirs)
               dune_args)
       in
       ()
@@ -199,7 +203,7 @@ end
 
 module CLI = struct
   let where_flag =
-    let doc = "Show where bsb is located" in
+    let doc = "Print the location of the mel binary" in
     Arg.(value & flag & info [ "where" ] ~doc)
 
   let parse_options where = { where }
