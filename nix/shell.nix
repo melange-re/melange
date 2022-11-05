@@ -33,7 +33,6 @@ mkShell {
   buildInputs = [
     nodejs_latest
     yarn
-    tree
   ]
   ++ (with ocamlPackages; [
     merlin
