@@ -1,0 +1,4 @@
+(library
+ (modes melange)
+ (wrapped false)
+ (name a))
