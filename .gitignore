@@ -4,7 +4,6 @@ _opam
 *.install
 .idea
 .DS_Store
-.merlin
 
 node_modules
 lib/melange
