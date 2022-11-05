@@ -47,6 +47,11 @@ jobs:
           opam install luv
           opam install ./melange.opam --deps-only --with-test
 
+      - name: Pin dune dev version
+        working-directory: melange
+        run: |
+          opam pin add dune --dev-repo
+
       - name: Pin melange to current
         working-directory: melange
         run: |
