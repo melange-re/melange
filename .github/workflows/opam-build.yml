@@ -37,7 +37,7 @@ jobs:
           node-version: 18
 
       - name: Install Homebrew dependencies
-        if: ${{ matrix.system != 'macos-latest' }}
+        if: ${{ matrix.so == 'macos-latest' }}
         run: |
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
 
