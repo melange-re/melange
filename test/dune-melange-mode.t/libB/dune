@@ -1,0 +1,4 @@
+(library
+ (modes melange)
+ (name b)
+ (libraries a))
