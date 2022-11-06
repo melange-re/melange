@@ -69,7 +69,7 @@ jobs:
       - name: Build basic template
         working-directory: melange-opam-template
         run: |
-          opam exec -- mel
+          opam exec -- mel build -- --display=short
           npm run bundle
 
       - name: Run resulting .js files

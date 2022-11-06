@@ -1,0 +1,72 @@
+name: Esy Pipeline (melange-basic-template)
+
+on:
+  pull_request:
+  push:
+    branches:
+     - main
+
+jobs:
+  build:
+    name: Build and test
+
+    strategy:
+      matrix:
+        # https://github.com/melange-re/melange/issues/165
+        system: [ ubuntu, macos ] # windows
+
+    runs-on: ${{ matrix.system }}-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: melange
+
+      - uses: actions/setup-node@v3
+        if: ${{ matrix.system != 'macos-arm64' }}
+        with:
+          node-version: 18
+
+      - name: Install esy
+        if: ${{ matrix.system != 'macos-arm64' }}
+        run: npm install -g esy@next
+
+      - uses: esy/github-action@master
+        with:
+          cache-key: ${{ hashFiles('melange/esy.lock/index.json', 'melange-basic-template/esy.lock/index.json') }}
+          manifest: melange/esy.json
+
+      - name: Run tests
+        if: ${{ matrix.system != 'windows' }}
+        working-directory: melange
+        run: esy test
+
+      - name: Install ocaml-tree
+        if: ${{ matrix.system == 'ubuntu' }}
+        working-directory: melange/ocaml-tree
+        run: npm install
+
+      - name: Clone basic template
+        if: ${{ matrix.system == 'ubuntu' }}
+        run: git clone https://github.com/melange-re/melange-basic-template.git
+
+      - name: Remove esy.lock in template
+        if: ${{ matrix.system == 'ubuntu' }}
+        working-directory: melange-basic-template
+        run: rm -rf esy.lock
+
+      - name: Add resolutions to template esy.json
+        if: ${{ matrix.system == 'ubuntu' }}
+        working-directory: melange-basic-template
+        run: |
+          sed -i 's@"installConfig": { "pnp": false }@"installConfig": { "pnp": false },"resolutions": { "@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"}@' esy.json
+
+      - name: Build basic template
+        if: ${{ matrix.system == 'ubuntu' }}
+        working-directory: melange-basic-template
+        run: |
+          cat esy.json
+          esy install
+          npm install
+          esy
+          npm run bundle
