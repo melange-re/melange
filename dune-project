@@ -49,7 +49,8 @@
   "Build system for Melange that defers to Dune for build orchestration")
  (depends
   ocaml
-  melange
+  (melange
+   (= :version))
   (cmdliner
    (>= "1.1.0"))
   (luv

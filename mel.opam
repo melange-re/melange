@@ -10,9 +10,10 @@ bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.5"}
   "ocaml"
-  "melange"
+  "melange" {= version}
   "cmdliner" {>= "1.1.0"}
   "luv" {>= "0.5.11"}
+  "ocaml-migrate-parsetree" {>= "2.3.0"}
   "ounit" {with-test}
   "odoc" {with-doc}
 ]
