@@ -1,8 +1,5 @@
 {
   "name": "melange-runtime-tests",
-  "scripts": {
-    "postinstall": "eval $NIX_NODE_MODULES_POSTINSTALL"
-  },
   "devDependencies": {
     "mocha": "^10.0.0"
   }
