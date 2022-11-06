@@ -41,9 +41,9 @@ let output_dune_file () =
   (* <root>/dune generation *)
   let dune = proj_dir // Literals.dune in
   let buf = Buffer.create 256 in
-  Buffer.add_string buf "\n(include ";
+  Buffer.add_string buf "\n\n(include ";
   Buffer.add_string buf Literals.dune_mel;
-  Buffer.add_string buf ")\n";
+  Buffer.add_string buf ")\n\n";
   Bsb_ninja_targets.revise_dune dune buf;
   output_dune_project_if_does_not_exist proj_dir
 

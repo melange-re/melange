@@ -36,12 +36,13 @@
     (< "4.15.0")))
   (melange-compiler-libs
    (>= "0.0.1-414"))
-  (reason
-   (>= "3.8.1"))
   (cmdliner
    (>= "1.1.0"))
   (base64
    (>= "3.1.0"))
+  (ocaml-migrate-parsetree
+   (>= "2.3.0"))
+  (cppo :build)
   (ounit :with-test)))
 
 (package

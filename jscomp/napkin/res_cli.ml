@@ -1,8 +1,3 @@
-open Reason_omp
-
-module To_current = Convert(OCaml_406)(OCaml_current)
-module From_current = Convert(OCaml_current)(OCaml_406)
-
 (*
   This CLI isn't used apart for this repo's testing purposes. The syntax
   itself is used by ReScript's compiler programmatically through various other apis.

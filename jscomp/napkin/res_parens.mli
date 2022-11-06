@@ -1,4 +1,4 @@
-open Reason_omp.Ast_406
+open Import.Ast_406
 
 type kind = Parenthesized | Braced of Location.t | Nothing
 

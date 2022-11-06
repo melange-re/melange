@@ -1,4 +1,4 @@
-open Reason_omp.Ast_406
+open Import.Ast_406
 
 (* AST for js externals *)
 type scope =

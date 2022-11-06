@@ -1,4 +1,4 @@
-open Reason_omp
+open Import
 module IO = Res_io
 
 let isReasonDocComment (comment: Res_comment.t) =
@@ -44,9 +44,6 @@ let extractConcreteSyntax filename =
     |> List.rev
   in
   (comments, !stringData)
-
-module To_current = Convert(OCaml_406)(OCaml_current)
-module From_current = Convert(OCaml_current)(OCaml_406)
 
 let parsingEngine = {
   Res_driver.parseImplementation = begin fun ~forPrinter:_ ~filename ->

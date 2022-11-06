@@ -46,9 +46,9 @@ rec {
     nativeBuildInputs = [ cppo ];
     propagatedBuildInputs = [
       melange-compiler-libs
-      reason
       cmdliner
       base64
+      ocaml-migrate-parsetree-2
     ];
     meta.mainProgram = "melc";
   };

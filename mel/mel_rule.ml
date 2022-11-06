@@ -27,8 +27,8 @@ type fn = ?target:string -> Out_channel.t -> unit
 let ( // ) = Ext_path.combine
 
 let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
-    ~(read_cmi : [ `yes | `is_cmi | `no ]) ~is_dev oc ?error_syntax_kind
-    ?(target = "%{targets}") cur_dir =
+    ~(read_cmi : [ `yes | `is_cmi | `no ]) ~is_dev oc ?(target = "%{targets}")
+    cur_dir =
   let package_name = global_config.package_name in
   let ns_flag =
     match global_config.namespace with None -> "" | Some n -> " -bs-ns " ^ n
@@ -48,9 +48,6 @@ let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
     let dev_incls = rel_incls global_config.g_dev_incls in
     output_string oc " ";
     output_string oc dev_incls);
-  Ext_option.iter error_syntax_kind (function
-    | Bsb_db.Reason -> output_string oc " -bs-re-out"
-    | _ -> ());
   output_string oc " ";
   output_string oc (rel_incls global_config.g_sourcedirs_incls);
   output_string oc " ";
@@ -84,6 +81,12 @@ let aux ~read_cmi =
 let cmj, cmj_dev = aux ~read_cmi:`yes
 let cmij, cmij_dev = aux ~read_cmi:`no
 let cmi, cmi_dev = aux ~read_cmi:`is_cmi
+
+let process_reason oc =
+  output_string oc
+    {|(action
+  (with-stdout-to %{targets}
+   (run refmt --print=binary %{inputs})))|}
 
 let ast (global_config : Bsb_ninja_global_vars.t) oc cur_dir =
   let rel_artifacts_dir =
