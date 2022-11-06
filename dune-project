@@ -40,6 +40,7 @@
    (>= "1.1.0"))
   (ocaml-migrate-parsetree
    (>= "2.3.0"))
+  (cppo :build)
   (ounit :with-test)))
 
 (package
