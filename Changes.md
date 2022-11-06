@@ -1,3 +1,20 @@
+Unreleased
+---------------
+- [melange] Introduce 2 explicit modes of JavaScript compilation:
+  - "Batch compilation": produces `.cmj` and `.js` files at the same time (this
+    is the previous behavior -- using `--bs-package-output
+    MODULE_SYSTEM:REL_PATH:JS_EXTENSION`)
+  - "Separate emission": produces _only_ `.cmj` files with `--bs-stop-after-cmj
+    --bs-package-output REL_PATH_ONLY`, and allows emitting JavaScript files
+    separately, with `--bs-module-type MODULE_SYSTEM -o
+    TARGET_FILE.JS_EXTENSION`
+  ([#384](https://github.com/melange-re/melange/pull/384))
+- [mel]: Fix `mel build --watch` exiting after the first change
+  ([#401](https://github.com/melange-re/melange/pull/401))
+- [melange]: Remove dependency on `reason`. Reason syntax users should install`
+  reason` from their preferred package manager instead, and Melange / Dune will
+  find it in `$PATH` ([#409](https://github.com/melange-re/melange/pull/409))
+
 0.2.0 2022-10-24
 --------------
 
