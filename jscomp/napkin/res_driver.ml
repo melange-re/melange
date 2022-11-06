@@ -1,4 +1,4 @@
-open Reason_omp
+open Import
 
 module IO = Res_io
 
@@ -42,9 +42,6 @@ let setup ~filename ~forPrinter () =
     else ParseForTypeChecker
   in
   Res_parser.make ~mode src filename
-
-module To_current = Convert(OCaml_406)(OCaml_current)
-module From_current = Convert(OCaml_current)(OCaml_406)
 
 let parsingEngine = {
   parseImplementation = begin fun ~forPrinter ~filename ->

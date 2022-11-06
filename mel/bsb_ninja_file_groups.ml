@@ -104,11 +104,6 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
         | Res, Reason -> { impl = res_suffixes.impl; intf = re_suffixes.intf }
         | Ml, Ml | Reason, Reason | Res, Res -> assert false)
   in
-  let error_syntax_kind =
-    match module_info.syntax_kind with
-    | Same syntax_kind -> syntax_kind
-    | Different { impl } -> impl
-  in
   let filename_sans_extension = module_info.name_sans_extension in
   let input_impl =
     Format.asprintf "%s%s" (basename filename_sans_extension) config.impl
@@ -231,7 +226,7 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
       ~implicit_outputs:[ output_cmti ]
       ~rule:(fun ?target oc ->
         (if is_dev then Mel_rule.cmi_dev else Mel_rule.cmi)
-          ?target ~global_config ~package_specs ~error_syntax_kind oc cur_dir)
+          ?target ~global_config ~package_specs oc cur_dir)
       ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi));
 
@@ -241,7 +236,7 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
       else if is_dev then Mel_rule.cmij_dev
       else Mel_rule.cmij
     in
-    rule ~global_config ~package_specs ?target ~error_syntax_kind oc cur_dir
+    rule ~global_config ~package_specs ?target oc cur_dir
   in
   if which <> `intf then
     let output_cmi =

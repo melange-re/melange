@@ -2,4 +2,4 @@
  (name napkin)
  (flags
   (:standard -w -9))
- (libraries reason.ocaml-migrate-parsetree compiler-libs.common))
+ (libraries ocaml-migrate-parsetree compiler-libs.common))

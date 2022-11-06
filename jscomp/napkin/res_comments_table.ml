@@ -1,4 +1,4 @@
-open Reason_omp.Ast_406
+open Import.Ast_406
 
 module Comment = Res_comment
 module Doc = Res_doc

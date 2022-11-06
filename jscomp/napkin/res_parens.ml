@@ -1,4 +1,4 @@
-open Reason_omp.Ast_406
+open Import.Ast_406
 
 module ParsetreeViewer = Res_parsetree_viewer
 type kind = Parenthesized | Braced of Location.t | Nothing

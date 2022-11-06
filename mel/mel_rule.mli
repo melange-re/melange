@@ -32,7 +32,6 @@ val cmj :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
@@ -41,7 +40,6 @@ val cmj_dev :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
@@ -50,7 +48,6 @@ val cmij :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
@@ -59,7 +56,6 @@ val cmij_dev :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
@@ -68,7 +64,6 @@ val cmi :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
@@ -77,7 +72,6 @@ val cmi_dev :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
-  ?error_syntax_kind:Bsb_db.syntax_kind ->
   ?target:string ->
   string ->
   unit
