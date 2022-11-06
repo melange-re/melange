@@ -46,25 +46,11 @@ let process_file sourcefile
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
       ~parser:Pparse_driver.parse_implementation
-      ~lang:`ml
       ppf sourcefile
   | Mli  ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.interface
       ~parser:Pparse_driver.parse_interface
-      ~lang:`ml
-      ppf sourcefile
-  | Res ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    Js_implementation.implementation
-      ~parser:Napkin.Res_driver.parse_implementation
-      ~lang:`rescript
-      ppf sourcefile
-  | Resi ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    Js_implementation.interface
-      ~parser:Napkin.Res_driver.parse_interface
-      ~lang:`rescript
       ppf sourcefile
   | Intf_ast
     ->
@@ -89,63 +75,6 @@ let process_file sourcefile
 
 let ppf = Format.err_formatter
 
-(* Error messages to standard error formatter *)
-open struct
-  let handle_res_parse_result (parse_result : _ Napkin.Res_driver.parseResult) =
-    if parse_result.invalid then begin
-        Napkin.Res_diagnostics.printReport parse_result.diagnostics parse_result.source;
-        exit 1
-    end
-end
-
-let print_res_interface ~comments ast =
-  Napkin.Res_printer.printInterface ~width:100 ~comments ast
-
-let print_res_implementation ~comments ast =
-  Napkin.Res_printer.printImplementation ~width:100 ~comments ast
-
-(* TODO: support printing from AST too. *)
-let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
-  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
-  let impl_format_fn ~comments ast =
-    match kind, comments with
-    | Res, `Res comments ->
-      let ast = Napkin.Import.From_current.copy_structure ast in
-      output_string stdout (print_res_implementation ~comments ast)
-    | Res, `Re _ ->
-      let ast = Napkin.Import.From_current.copy_structure ast in
-      output_string stdout (print_res_implementation ~comments:[] ast)
-    | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
-  in
-  let intf_format_fn ~comments ast =
-    match kind, comments with
-    | Res, `Res comments ->
-      let ast = Napkin.Import.From_current.copy_signature ast in
-      output_string stdout (print_res_interface ~comments ast)
-    | Res, `Re _ ->
-      let ast = Napkin.Import.From_current.copy_signature ast in
-      output_string stdout (print_res_interface ~comments:[] ast)
-    | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
-  in
-  begin match ext with
-  | Res ->
-    let parse_result =
-      Napkin.Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
-    in
-    handle_res_parse_result parse_result;
-    impl_format_fn
-      ~comments:(`Res parse_result.comments)
-      parse_result.parsetree
-  | Resi ->
-    let parse_result =
-      Napkin.Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
-    in
-    intf_format_fn
-      ~comments:(`Res parse_result.comments)
-       parse_result.parsetree
-  | _ -> (raise (Arg.Bad ("don't know what to do with " ^ input)))
-  end
-
 let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then
     match rev_args with
@@ -169,11 +98,7 @@ let anonymous ~(rev_args : string list) =
           end else
 
       match rev_args with
-      | [filename] ->
-        begin match !Js_config.format with
-        | Some syntax_kind -> `Ok (format_file ~kind:syntax_kind filename)
-        | None -> `Ok (process_file filename ppf)
-        end
+      | [filename] -> `Ok (process_file filename ppf)
       | [] -> `Ok ()
       | _ ->
           `Error (false, "can not handle multiple files")
@@ -278,7 +203,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_no_builtin_ppx;
       bs_cross_module_opt;
       bs_diagnose;
-      format;
       where;
       verbose;
       keep_locs;
@@ -395,7 +319,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
 
     if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
-    Ext_option.iter format (fun format -> Js_config.format := Some format);
     if where then print_standard_library ();
     if verbose then Clflags.verbose := verbose;
     Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);

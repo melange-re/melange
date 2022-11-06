@@ -82,6 +82,12 @@ let cmj, cmj_dev = aux ~read_cmi:`yes
 let cmij, cmij_dev = aux ~read_cmi:`no
 let cmi, cmi_dev = aux ~read_cmi:`is_cmi
 
+let process_rescript oc =
+  output_string oc
+    {|(action
+  (with-stdout-to %{targets}
+   (run rescript_syntax -print=binary %{inputs})))|}
+
 let process_reason oc =
   output_string oc
     {|(action

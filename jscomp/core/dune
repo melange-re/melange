@@ -13,9 +13,7 @@
   frontend
   melange-compiler-libs
   outcome_printer
-  js_parser
-  ppx_rescript_compat
-  napkin))
+  js_parser))
 
 (rule
  (targets js_fold.ml)
