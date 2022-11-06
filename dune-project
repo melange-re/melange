@@ -38,8 +38,8 @@
    (>= "0.0.1-414"))
   (cmdliner
    (>= "1.1.0"))
-  (base64
-   (>= "3.1.0"))
+  (ocaml-migrate-parsetree
+   (>= "2.3.0"))
   (ounit :with-test)))
 
 (package
@@ -51,6 +51,8 @@
   melange
   (cmdliner
    (>= "1.1.0"))
+  (base64
+   (>= "3.1.0"))
   (luv
    (>= "0.5.11"))
   (ounit :with-test)))

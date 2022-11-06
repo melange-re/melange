@@ -36,6 +36,7 @@ mkShell {
   ]
   ++ (with ocamlPackages; [
     merlin
+    reason
     utop
     ocamlformat
     ocaml-lsp
