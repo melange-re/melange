@@ -82,6 +82,7 @@ val cmi_dev :
   string ->
   unit
 
+val process_reason : out_channel -> unit
 val ast : Bsb_ninja_global_vars.t -> out_channel -> string -> unit
 val meldep : Bsb_ninja_global_vars.t -> out_channel -> string -> unit
 val meldep_dev : Bsb_ninja_global_vars.t -> out_channel -> string -> unit

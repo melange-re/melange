@@ -53,20 +53,6 @@ let process_file sourcefile
     | None -> Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe sourcefile)
     | Some kind -> kind in
   match kind with
-  | Re ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    setup_error_printer `reason;
-    Js_implementation.implementation
-      ~parser:Ast_reason_pp.RE.parse_implementation
-      ~lang:`reason
-      ppf sourcefile
-  | Rei ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    setup_error_printer `reason;
-    Js_implementation.interface
-      ~parser:Ast_reason_pp.RE.parse_interface
-      ~lang:`reason
-      ppf sourcefile
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
@@ -141,52 +127,26 @@ let print_res_implementation ~comments ast =
 let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
   let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
   let impl_format_fn ~comments ast =
-    let std = Format.std_formatter in
     match kind, comments with
-    | Ml, `Re comments ->
-      Ast_reason_pp.ML.format_implementation_with_comments std ~comments ast
-    | Ml, `Res _ ->
-      Ast_reason_pp.ML.format_implementation_with_comments std ~comments:[] ast
     | Res, `Res comments ->
       let ast = From_current.copy_structure ast in
       output_string stdout (print_res_implementation ~comments ast)
     | Res, `Re _ ->
       let ast = From_current.copy_structure ast in
       output_string stdout (print_res_implementation ~comments:[] ast)
-    | Reason, `Re comments ->
-      Ast_reason_pp.RE.format_implementation_with_comments std ~comments ast
-    | Reason, `Res _ ->
-      Ast_reason_pp.RE.format_implementation_with_comments std ~comments:[] ast
     | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
   in
   let intf_format_fn ~comments ast =
-    let std = Format.std_formatter in
     match kind, comments with
-    | Ml, `Re comments ->
-      Ast_reason_pp.ML.format_interface_with_comments std ~comments ast
-    | Ml, `Res _ ->
-      Ast_reason_pp.ML.format_interface_with_comments std ~comments:[] ast
     | Res, `Res comments ->
       let ast = From_current.copy_signature ast in
       output_string stdout (print_res_interface ~comments ast)
     | Res, `Re _ ->
       let ast = From_current.copy_signature ast in
       output_string stdout (print_res_interface ~comments:[] ast)
-    | Reason, `Re comments ->
-      Ast_reason_pp.RE.format_interface_with_comments std ~comments ast
-    | Reason, `Res _ ->
-      Ast_reason_pp.RE.format_interface_with_comments std ~comments:[] ast
     | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
   in
   begin match ext with
-  | Ml ->
-    let ast, comments =
-      Ast_reason_pp.ML.parse_implementation_with_comments input
-    in
-    impl_format_fn ~comments:(`Re comments) ast
-  | Mli ->
-    let ast, comments = Ast_reason_pp.ML.parse_interface_with_comments input in
-    intf_format_fn ~comments:(`Re comments) ast
   | Res ->
     let parse_result =
       Napkin.Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
@@ -202,12 +162,6 @@ let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
     intf_format_fn
       ~comments:(`Res parse_result.comments)
        parse_result.parsetree
-  | Re ->
-    let ast, comments = Ast_reason_pp.RE.parse_implementation_with_comments input in
-    impl_format_fn ~comments:(`Re comments) ast
-  | Rei ->
-    let ast, comments = Ast_reason_pp.RE.parse_interface_with_comments input in
-    intf_format_fn ~comments:(`Re comments) ast
   | _ -> (raise (Arg.Bad ("don't know what to do with " ^ input)))
   end
 
@@ -257,11 +211,14 @@ let set_color_option option =
   | None -> ()
   | Some setting -> Clflags.color := Some setting
 
+let clean tmpfile =
+  if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
+
 let eval (s : string) ~suffix =
   let tmpfile = Filename.temp_file "eval" suffix in
   Ext_io.write_file tmpfile s;
   let ret = anonymous ~rev_args:[tmpfile] in
-  Ast_reason_pp.clean tmpfile;
+  clean tmpfile;
   ret
 
 let try_eval ~f =

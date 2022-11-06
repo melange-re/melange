@@ -201,9 +201,8 @@ let bs_e =
 
 let format =
   let ext_conv =
-    let parse ext =
+    let parse ext : (Ext_file_extensions.syntax_kind, _) result =
       match Ext_string.trim ext with
-      | "re" -> Ok Ext_file_extensions.Reason
       | "res" -> Ok Res
       | "ml" -> Ok Ml
       | x ->
@@ -214,13 +213,8 @@ let format =
                   or `ml`"
                  x))
     in
-    let print fmt ext =
-      let s =
-        match ext with
-        | Ext_file_extensions.Reason -> "re"
-        | Res -> "res"
-        | Ml -> "ml"
-      in
+    let print fmt (ext : Ext_file_extensions.syntax_kind) =
+      let s = match ext with Ext_file_extensions.Res -> "res" | Ml -> "ml" in
       Format.fprintf fmt "%s" s
     in
     Arg.conv ~docv:"ext" (parse, print)

@@ -163,7 +163,20 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
       output_filename_sans_extension
   in
   let ast_rule ?target:_ oc = Mel_rule.ast global_config oc cur_dir in
+  let reason_rule ?target:_ oc = Mel_rule.process_reason oc in
   if which <> `intf then (
+    let input_impl =
+      match module_info.syntax_kind with
+      | Same Reason | Different { impl = Reason; _ } ->
+          let ast_input_impl =
+            input_impl ^ Literals.suffix_pp ^ Literals.suffix_ml
+          in
+          Bsb_ninja_targets.output_build oc ~outputs:[ ast_input_impl ]
+            ~inputs:[ input_impl ] ~rule:reason_rule;
+          ast_input_impl
+      | Different _ | Same (Ml | Res) -> input_impl
+    in
+
     Bsb_ninja_targets.output_build oc
       ~implicit_deps:
         ((rel_artifacts_dir // Literals.bsbuild_cache)
