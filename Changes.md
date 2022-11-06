@@ -14,6 +14,10 @@ Unreleased
 - [melange]: Remove dependency on `reason`. Reason syntax users should install`
   reason` from their preferred package manager instead, and Melange / Dune will
   find it in `$PATH` ([#409](https://github.com/melange-re/melange/pull/409))
+- [melange]: Remove dependency on `napkin` (the ReScript syntax parser). Users
+  that depend on libraries written in ReScript syntax should install the `mel`
+  package and Melange / Dune will find the `rescript_syntax` binary in `$PATH`
+  ([#411](https://github.com/melange-re/melange/pull/411))
 
 0.2.0 2022-10-24
 --------------

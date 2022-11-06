@@ -75,7 +75,6 @@ val js_stdout : bool ref
 val all_module_aliases : bool ref
 val no_stdlib : bool ref
 val no_export : bool ref
-val format : Ext_file_extensions.syntax_kind option ref
 val as_ppx : bool ref
 val customize_runtime : string option ref
 val as_pp : bool ref

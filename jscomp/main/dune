@@ -11,7 +11,6 @@
   outcome_printer
   melange-compiler-libs
   core
-  napkin
   cmdliner)
  (modules melc melc_cli)
  (preprocessor_deps ../../package.json ../../bsconfig.json)

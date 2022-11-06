@@ -65,6 +65,8 @@ type suffixes = { impl : string; intf : string }
 let re_suffixes = { impl = Literals.suffix_re; intf = Literals.suffix_rei }
 let ml_suffixes = { impl = Literals.suffix_ml; intf = Literals.suffix_mli }
 let res_suffixes = { impl = Literals.suffix_res; intf = Literals.suffix_resi }
+let reason_rule ?target:_ oc = Mel_rule.process_reason oc
+let rescript_rule ?target:_ oc = Mel_rule.process_rescript oc
 
 let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
     ?gentype_config ~global_config ~bs_dependencies ~bs_dev_dependencies
@@ -158,7 +160,6 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
       output_filename_sans_extension
   in
   let ast_rule ?target:_ oc = Mel_rule.ast global_config oc cur_dir in
-  let reason_rule ?target:_ oc = Mel_rule.process_reason oc in
   if which <> `intf then (
     let input_impl =
       match module_info.syntax_kind with
@@ -169,7 +170,14 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
           Bsb_ninja_targets.output_build oc ~outputs:[ ast_input_impl ]
             ~inputs:[ input_impl ] ~rule:reason_rule;
           ast_input_impl
-      | Different _ | Same (Ml | Res) -> input_impl
+      | Same Res | Different { impl = Res; _ } ->
+          let ast_input_impl =
+            input_impl ^ Literals.suffix_pp ^ Literals.suffix_ml
+          in
+          Bsb_ninja_targets.output_build oc ~outputs:[ ast_input_impl ]
+            ~inputs:[ input_impl ] ~rule:rescript_rule;
+          ast_input_impl
+      | Different _ | Same Ml -> input_impl
     in
 
     Bsb_ninja_targets.output_build oc
@@ -214,7 +222,14 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
           Bsb_ninja_targets.output_build oc ~outputs:[ ast_input_intf ]
             ~inputs:[ input_intf ] ~rule:reason_rule;
           ast_input_intf
-      | Different _ | Same (Ml | Res) -> input_intf
+      | Same Res | Different { intf = Res; _ } ->
+          let ast_input_intf =
+            input_intf ^ Literals.suffix_pp ^ Literals.suffix_mli
+          in
+          Bsb_ninja_targets.output_build oc ~outputs:[ ast_input_intf ]
+            ~inputs:[ input_intf ] ~rule:rescript_rule;
+          ast_input_intf
+      | Different _ | Same Ml -> input_intf
     in
 
     Bsb_ninja_targets.output_build oc ~outputs:[ output_iast ]

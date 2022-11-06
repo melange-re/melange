@@ -59,7 +59,6 @@ type t = {
   bs_no_builtin_ppx : bool;
   bs_cross_module_opt : bool option;
   bs_diagnose : bool;
-  format : Ext_file_extensions.syntax_kind option;
   where : bool;
   verbose : bool;
   keep_locs : bool option;
@@ -193,29 +192,6 @@ let bs_e =
     "(experimental) set the string to be evaluated in ReScript syntax"
   in
   Arg.(value & opt (some string) None & info [ "e" ] ~doc)
-
-let format =
-  let ext_conv =
-    let parse ext : (Ext_file_extensions.syntax_kind, _) result =
-      match Ext_string.trim ext with
-      | "res" -> Ok Res
-      | "ml" -> Ok Ml
-      | x ->
-          Error
-            (`Msg
-              (Format.asprintf
-                 "invalid option `%s` passed to -format, expected `re`, `res` \
-                  or `ml`"
-                 x))
-    in
-    let print fmt (ext : Ext_file_extensions.syntax_kind) =
-      let s = match ext with Ext_file_extensions.Res -> "res" | Ml -> "ml" in
-      Format.fprintf fmt "%s" s
-    in
-    Arg.conv ~docv:"ext" (parse, print)
-  in
-  let doc = "Format as Res syntax" in
-  Arg.(value & opt (some ext_conv) None & info [ "format" ] ~doc)
 
 let where =
   let doc = "Print location of standard library and exit" in
@@ -510,8 +486,8 @@ let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     bs_g bs_package_name bs_ns as_ppx as_pp no_alias_deps bs_gentype
     unboxed_types bs_D bs_unsafe_empty_array nostdlib color bs_list_conditionals
     bs_eval bs_e bs_cmi_only bs_cmi bs_cmj bs_no_version_header
-    bs_no_builtin_ppx bs_cross_module_opt bs_diagnose format where verbose
-    keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
+    bs_no_builtin_ppx bs_cross_module_opt bs_diagnose where verbose keep_locs
+    bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
     drawlambda dsource version pp absname bin_annot i nopervasives modules
     nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
@@ -552,7 +528,6 @@ let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     bs_no_builtin_ppx;
     bs_cross_module_opt;
     bs_diagnose;
-    format;
     where;
     verbose;
     keep_locs;
@@ -600,16 +575,15 @@ let cmd =
     $ color $ bs_list_conditionals $ Internal.bs_eval $ bs_e
     $ Internal.bs_cmi_only $ Internal.bs_cmi $ Internal.bs_cmj
     $ Internal.bs_no_version_header $ Internal.bs_no_builtin_ppx
-    $ Internal.bs_cross_module_opt $ Internal.bs_diagnose $ format $ where
-    $ verbose $ keep_locs $ Internal.bs_no_check_div_by_zero
-    $ Internal.bs_noassertfalse $ Internal.noassert $ Internal.bs_loc
-    $ Internal.impl $ Internal.intf $ Internal.intf_suffix $ Internal.g
-    $ Internal.opaque $ Internal.strict_sequence $ Internal.strict_formats
-    $ Internal.dtypedtree $ Internal.dparsetree $ Internal.drawlambda
-    $ Internal.dsource $ version $ pp $ absname $ bin_annot $ i
-    $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
-    $ Internal.principal $ Internal.short_paths $ unsafe $ warn_help
-    $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
+    $ Internal.bs_cross_module_opt $ Internal.bs_diagnose $ where $ verbose
+    $ keep_locs $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
+    $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
+    $ Internal.intf_suffix $ Internal.g $ Internal.opaque
+    $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
+    $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
+    $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
+    $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
+    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
     $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to
