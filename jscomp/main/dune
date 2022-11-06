@@ -28,7 +28,7 @@
 
 (executable
  (public_name meldep)
- (package mel)
+ (package melange)
  (modes native)
  (modules meldep)
  (libraries bsb_helper ext common core cmdliner))
