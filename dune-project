@@ -36,8 +36,6 @@
     (< "4.15.0")))
   (melange-compiler-libs
    (>= "0.0.1-414"))
-  (reason
-   (>= "3.8.1"))
   (cmdliner
    (>= "1.1.0"))
   (base64
