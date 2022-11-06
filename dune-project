@@ -40,8 +40,6 @@
    (>= "1.1.0"))
   (base64
    (>= "3.1.0"))
-  (ocaml-migrate-parsetree
-   (>= "2.3.0"))
   (cppo :build)
   (ounit :with-test)))
 
@@ -56,4 +54,6 @@
    (>= "1.1.0"))
   (luv
    (>= "0.5.11"))
+  (ocaml-migrate-parsetree
+   (>= "2.3.0"))
   (ounit :with-test)))
