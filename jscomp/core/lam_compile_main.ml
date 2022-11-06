@@ -321,13 +321,13 @@ let lambda_as_module
     Ext_list.iter (Js_packages_state.get_output_info ()) (fun output_info ->
       let basename = make_basename output_info.suffix in
       let target_file = Filename.dirname output_prefix // basename in
-      (if not !Clflags.dont_write_files then
-        write_to_file ~package_info ~output_info ~output_prefix lambda_output target_file );
-      if !Warnings.has_warnings  then begin
-        Warnings.has_warnings := false ;
-        if Sys.file_exists target_file then begin
-          Bs_hash_stubs.set_as_old_file target_file
-        end
+      if not !Clflags.dont_write_files then begin
+        write_to_file
+          ~package_info
+          ~output_info
+          ~output_prefix
+          lambda_output
+          target_file
       end)
 
 
