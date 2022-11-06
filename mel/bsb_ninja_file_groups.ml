@@ -210,6 +210,18 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
     else bs_dependencies
   in
   if has_intf_file && which <> `impl then (
+    let input_intf =
+      match module_info.syntax_kind with
+      | Same Reason | Different { intf = Reason; _ } ->
+          let ast_input_intf =
+            input_intf ^ Literals.suffix_pp ^ Literals.suffix_mli
+          in
+          Bsb_ninja_targets.output_build oc ~outputs:[ ast_input_intf ]
+            ~inputs:[ input_intf ] ~rule:reason_rule;
+          ast_input_intf
+      | Different _ | Same (Ml | Res) -> input_intf
+    in
+
     Bsb_ninja_targets.output_build oc ~outputs:[ output_iast ]
       ~implicit_deps:ppx_deps ~inputs:[ input_intf ] ~rule:ast_rule;
 
