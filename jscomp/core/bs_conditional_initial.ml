@@ -33,14 +33,11 @@ let setup_env () =
   Matching.make_test_sequence_variant_constant := Polyvar_pattern_match.make_test_sequence_variant_constant;
   Matching.call_switcher_variant_constant := Polyvar_pattern_match.call_switcher_variant_constant;
   Matching.call_switcher_variant_constr := Polyvar_pattern_match.call_switcher_variant_constr;
-  Clflags.no_std_include := true;
-  (* TODO(anmonteiro): print alerts? *)
-  (* |> Option.iter Location.(prerr_alert none)  *)
+  Clflags.no_std_include := true; (* `-nostdlib` *)
   ignore @@ Warnings.parse_options false Bsc_warnings.defaults_w;
   ignore @@ Warnings.parse_options true Bsc_warnings.defaults_warn_error;
   Clflags.locations := false;
   Clflags.compile_only := true;
-  Config.syntax_kind := `rescript;
   Config.unsafe_empty_array := false;
   Config.bs_only := true;
 #ifdef BS_BROWSER
