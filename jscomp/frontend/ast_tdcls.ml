@@ -43,7 +43,9 @@ let disable_unused_type : Parsetree.attribute =
         [
           Str.eval
             (Exp.constant
-               (Pconst_string ("-unused-type-declaration", Location.none, None)));
+               (Pconst_string
+                  (* -unused-type-declaration -unused-field *)
+                  ("-34-69", Location.none, None)));
         ];
     attr_loc = Location.none;
   }
