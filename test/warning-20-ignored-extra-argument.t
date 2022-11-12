@@ -1,4 +1,4 @@
-Test showing unused record fields error with bs.deriving
+Test showing "ignored extra argument" warning
 
   $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
 
@@ -9,7 +9,3 @@ Test showing unused record fields error with bs.deriving
   > EOF
 
   $ melc main.ml -o main.cmj
-  File "main.ml", line 3, characters 50-56:
-  3 | let from_event evt = (clipboardData evt)##getData "text"
-                                                        ^^^^^^
-  Warning 20 [ignored-extra-argument]: this argument will not be used by the function.
