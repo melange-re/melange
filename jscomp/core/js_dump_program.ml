@@ -57,18 +57,20 @@ let extract_file_comments (x : J.deps_program) =
   let comments, new_block = extract_block_comments [] x.program.block in
   (comments, { x with program = { x.program with block = new_block } })
 
-let program f cxt (x : J.program) =
+let program f cxt sourcemap (x : J.program) =
   P.at_least_two_lines f;
-  let cxt = Js_dump.statements true cxt f x.block in
+  let cxt = Js_dump.statements true cxt f sourcemap x.block in
   Js_dump_import_export.exports cxt f x.exports
 
 let dump_program (x : J.program) oc =
-  ignore (program (P.from_channel oc) Ext_pp_scope.empty x)
+  let pp = P.from_channel oc in
+  ignore (program pp Ext_pp_scope.empty None x)
 
 let[@inline] is_default (x : Js_op.kind) =
   match x with External { default } -> default | _ -> false
 
-let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
+let node_program ~package_info ~output_info ~output_dir f sourcemap
+    (x : J.deps_program) =
   P.string f L.strict_directive;
   P.newline f;
   let cxt =
@@ -79,9 +81,10 @@ let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
                ~output_dir x,
              is_default x.kind )))
   in
-  program f cxt x.program
+  program f cxt sourcemap x.program
 
-let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
+let es6_program ~package_info ~output_info ~output_dir f sourcemap
+    (x : J.deps_program) =
   let cxt =
     Js_dump_import_export.imports Ext_pp_scope.empty f
       (Ext_list.map x.modules (fun x ->
@@ -91,7 +94,7 @@ let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
              is_default x.kind )))
   in
   let () = P.at_least_two_lines f in
-  let cxt = Js_dump.statements true cxt f x.program.block in
+  let cxt = Js_dump.statements true cxt f sourcemap x.program.block in
   Js_dump_import_export.es6_export cxt f x.program.exports
 
 (** Make sure github linguist happy
@@ -102,7 +105,8 @@ let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
 *)
 
 let pp_deps_program ~package_info ~(output_info : Js_packages_info.output_info)
-    ~(output_prefix : string) (f : Ext_pp.t) (program : J.deps_program) =
+    ~(output_prefix : string) (f : Ext_pp.t) ?sourcemap
+    (program : J.deps_program) =
   if not !Js_config.no_version_header then (
     P.string f Bs_version.header;
     P.newline f);
@@ -117,8 +121,10 @@ let pp_deps_program ~package_info ~(output_info : Js_packages_info.output_info)
     ignore
       (match output_info.module_system with
       | Es6 | Es6_global ->
-          es6_program ~package_info ~output_dir ~output_info f program
-      | NodeJS -> node_program ~package_info ~output_info ~output_dir f program);
+          es6_program ~package_info ~output_dir ~output_info f sourcemap program
+      | NodeJS ->
+          node_program ~package_info ~output_info ~output_dir f sourcemap
+            program);
     P.newline f;
     P.string f
       (match program.side_effect with
@@ -126,8 +132,3 @@ let pp_deps_program ~package_info ~(output_info : Js_packages_info.output_info)
       | Some v -> Printf.sprintf "/* %s Not a pure module */" v);
     P.newline f;
     P.flush f ()
-
-let dump_deps_program ~package_info ~output_info ~output_prefix x
-    (oc : out_channel) =
-  pp_deps_program ~package_info ~output_info ~output_prefix (P.from_channel oc)
-    x

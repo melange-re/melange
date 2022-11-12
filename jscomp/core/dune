@@ -13,7 +13,8 @@
   frontend
   melange-compiler-libs
   outcome_printer
-  js_parser))
+  js_parser
+  sourcemaps))
 
 (rule
  (targets js_fold.ml)

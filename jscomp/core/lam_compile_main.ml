@@ -292,12 +292,27 @@ js
 
 let (//) = Filename.concat
 
-let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
+let write_to_file ~sourcemap ~package_info ~output_info ~output_prefix lambda_output file  =
+  Format.printf "file: %s\n%!" file;
   Ext_pervasives.with_file_as_chan file (fun chan ->
-    Js_dump_program.dump_deps_program
-      ~package_info ~output_info ~output_prefix lambda_output chan)
+    let pp = Ext_pp.from_channel chan in
+    let sourcemap =
+      match sourcemap with
+      | Some (source_name) ->
+        let output_name = "output_name" in
+        let sourcemap = Js_sourcemap.make ~source_name ~output_name pp in
+        Some sourcemap
+      | None -> None in
+    Js_dump_program.pp_deps_program
+      ~package_info
+      ~output_info
+      ~output_prefix
+      pp
+      ?sourcemap
+      lambda_output)
 
 let lambda_as_module
+    ~sourcemap
     ~package_info
     (lambda_output : J.deps_program)
     (output_prefix : string)
@@ -308,11 +323,13 @@ let lambda_as_module
       (Ext_js_suffix.to_string suffix) in
   match (!Js_config.js_stdout, !Clflags.output_name) with
   | (true, None) ->
-    Js_dump_program.dump_deps_program
+    let stdout = Ext_pp.from_channel stdout in
+    Js_dump_program.pp_deps_program
       ~package_info
       ~output_info:Js_packages_info.default_output_info
       ~output_prefix
-      lambda_output stdout
+      stdout
+      lambda_output
   | false, None -> assert false
   | (_, Some _) ->
     (* We use `-bs-module-type` to emit a single JS file after `.cmj`
@@ -323,6 +340,7 @@ let lambda_as_module
       let target_file = Filename.dirname output_prefix // basename in
       if not !Clflags.dont_write_files then begin
         write_to_file
+          ~sourcemap
           ~package_info
           ~output_info
           ~output_prefix
@@ -331,6 +349,16 @@ let lambda_as_module
       end)
 
 
+let lambda_as_module_with_sourcemap
+  ~source_name
+  ~package_info
+  lambda_output
+  output_prefix
+=
+  let sourcemap = Some (source_name) in
+  lambda_as_module ~sourcemap ~package_info lambda_output output_prefix
+let lambda_as_module ~package_info lambda_output output_prefix =
+  lambda_as_module ~sourcemap:None ~package_info lambda_output output_prefix
 
 (* We can use {!Env.current_unit = "Pervasives"} to tell if it is some specific module,
     We need handle some definitions in standard libraries in a special way, most are io specific,
