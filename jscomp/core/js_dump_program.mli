@@ -44,5 +44,6 @@ val pp_deps_program :
   output_info:Js_packages_info.output_info ->
   output_prefix:string ->
   Js_pp.t ->
+  ?sourcemap:Js_sourcemap.t ->
   J.deps_program ->
   unit
