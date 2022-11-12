@@ -60,11 +60,12 @@ let extract_file_comments (x : J.deps_program) =
   let comments, new_block = extract_block_comments [] x.program.block in
   (comments, { x with program = { x.program with block = new_block } })
 
-let program ~output_dir ~package_info ~output_info f cxt (x : J.program) =
+let program ~output_dir ~package_info ~output_info ?sourcemap f cxt
+    (x : J.program) =
   P.at_least_two_lines f;
   let cxt =
     Js_dump.statements ~top:true ~scope:cxt ~output_dir ~package_info
-      ~output_info f x.block
+      ~output_info ?sourcemap f x.block
   in
   Js_dump_import_export.module_exports cxt f x.exports
 
@@ -90,16 +91,18 @@ let modules ~output_dir ~package_info ~output_info (x : J.deps_program) =
                 | _ -> false);
             })
 
-let node_program ~output_dir ~package_info ~output_info f (x : J.deps_program) =
+let node_program ~output_dir ~package_info ~output_info ?sourcemap f
+    (x : J.deps_program) =
   P.string f L.strict_directive;
   P.newline f;
   let cxt =
     Js_dump_import_export.requires Js_pp.Scope.empty f
       (modules ~package_info ~output_info ~output_dir x)
   in
-  program ~output_dir ~package_info ~output_info f cxt x.program
+  program ~output_dir ~package_info ~output_info ?sourcemap f cxt x.program
 
-let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
+let es6_program ~package_info ~output_info ~output_dir ?sourcemap f
+    (x : J.deps_program) =
   let cxt =
     Js_dump_import_export.imports Js_pp.Scope.empty f
       (modules ~package_info ~output_info ~output_dir x)
@@ -107,7 +110,7 @@ let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   let () = P.at_least_two_lines f in
   let cxt =
     Js_dump.statements ~top:true ~output_dir ~output_info ~package_info
-      ~scope:cxt f x.program.block
+      ~scope:cxt ?sourcemap f x.program.block
   in
   Js_dump_import_export.es6_export cxt f x.program.exports
 
@@ -119,6 +122,7 @@ let pp_deps_program =
     ~(output_info : Js_packages_info.output_info)
     ~(output_prefix : string)
     (f : Js_pp.t)
+    ?sourcemap
     (program : J.deps_program)
   ->
     Option.iter
@@ -140,9 +144,11 @@ let pp_deps_program =
       ignore
         (match output_info.module_system with
         | ESM | ESM_global ->
-            es6_program ~package_info ~output_dir ~output_info f program
+            es6_program ~package_info ~output_dir ~output_info ?sourcemap f
+              program
         | CommonJS ->
-            node_program ~package_info ~output_info ~output_dir f program);
+            node_program ~package_info ~output_info ~output_dir ?sourcemap f
+              program);
       P.newline f;
       P.string f
         (match program.side_effect with

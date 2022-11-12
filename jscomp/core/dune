@@ -6,7 +6,8 @@
   melange_compiler_libs
   melange_ffi
   ppxlib.ast
-  dune-build-info))
+  dune-build-info
+  sourcemaps))
 
 (rule
  (targets compile_letrec.ml)

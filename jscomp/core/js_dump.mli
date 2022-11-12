@@ -26,6 +26,7 @@ val statements :
   output_dir:string ->
   package_info:Js_packages_info.t ->
   output_info:Js_packages_info.output_info ->
+  ?sourcemap:Js_sourcemap.t ->
   Js_pp.t ->
   J.block ->
   Js_pp.Scope.t
