@@ -10,6 +10,13 @@ Unreleased
   - in cases such as `external x : < .. > Js.t = ""`, the typechecker doesn't
     know the arity of the function, even though Melange will emit an uncurried
     function call.
+- melc: introduce `--bs-module-name` flag to specify the original file name for
+  the current compilation unit
+  ([#413](https://github.com/melange-re/melange/pull/413))
+  - Dune's namespacing implementation generates modules such as
+    `lib__Original_name`. Passing `--bs-module-name original_name` allows
+    melange to issue correct `import` / `require` statements to the unmangled
+    JS file names.
 
 0.3.0 2022-11-06
 ---------------
