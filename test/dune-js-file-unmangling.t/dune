@@ -1,0 +1,5 @@
+(melange.emit
+ (target dist)
+ (module_system es6)
+ (entries entry_module)
+ (libraries node))

@@ -1,0 +1,4 @@
+(library
+ (modes melange)
+ (name node)
+ (libraries leaf))
