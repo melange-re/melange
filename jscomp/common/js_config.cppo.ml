@@ -113,8 +113,6 @@ let no_stdlib = ref false
 
 let no_export = ref false
 
-let format = ref None
-
 let as_ppx = ref false
 
 

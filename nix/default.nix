@@ -1,4 +1,4 @@
-{ stdenv, ocamlPackages, lib, opaline, gnutar, nix-filter }:
+{ stdenv, ocamlPackages, lib, tree, nix-filter }:
 
 with ocamlPackages;
 
@@ -22,7 +22,7 @@ rec {
         "lib"
         "test"
         "mel_workspace"
-        "ppx_rescript_compat"
+        "reactjs_jsx_ppx"
         "scripts"
       ];
       exclude = [ "jscomp/test" ];
@@ -41,12 +41,11 @@ rec {
     '';
 
     doCheck = true;
-    checkInputs = [ ounit2 ];
+    checkInputs = [ ounit2 tree ];
 
     nativeBuildInputs = [ cppo ];
     propagatedBuildInputs = [
       melange-compiler-libs
-      reason
       cmdliner
       base64
     ];
@@ -74,6 +73,11 @@ rec {
         "jscomp/bsb_helper"
         "jscomp/stubs"
         "jscomp/common"
+        "jscomp/frontend"
+        "reactjs_jsx_ppx"
+        "jscomp/napkin"
+        "jscomp/js_parser"
+        "jscomp/outcome_printer"
         "mel_workspace"
       ];
     };
@@ -83,6 +87,7 @@ rec {
       melange
       cmdliner
       luv
+      ocaml-migrate-parsetree-2
     ];
 
     meta.mainProgram = "mel";

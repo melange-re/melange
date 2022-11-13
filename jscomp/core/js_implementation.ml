@@ -99,7 +99,7 @@ let after_parsing_sig ppf outputprefix ast =
         initial_env sg;
       process_with_gentype (outputprefix ^ ".cmti"))
 
-let interface ~parser ~lang:_ ppf fname =
+let interface ~parser ppf fname =
   Res_compmisc.init_path ();
   let sig_ = parser fname |> Ast_deriving_compat.signature in
   sig_
@@ -110,9 +110,9 @@ let interface ~parser ~lang:_ ppf fname =
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
-let interface_mliast ppf fname setup =
+let interface_mliast ppf fname =
   Res_compmisc.init_path ();
-  Binary_ast.read_ast_exn ~fname Mli setup
+  Binary_ast.read_ast_exn ~fname Mli
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
@@ -190,14 +190,10 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
         Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
     process_with_gentype (outputprefix ^ ".cmt")
 
-let implementation ~parser ~lang ppf fname =
+let implementation ~parser ppf fname =
   Res_compmisc.init_path ();
 
-  let str = parser fname |> Ast_deriving_compat.structure in
-  let str =
-    match lang with `rescript -> Ppx_rescript_compat.structure str | _ -> str
-  in
-  str
+  parser fname |> Ast_deriving_compat.structure
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
   |> Ppx_entry.rewrite_implementation
@@ -205,10 +201,10 @@ let implementation ~parser ~lang ppf fname =
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf (Config_util.output_prefix fname)
 
-let implementation_mlast ppf fname setup =
+let implementation_mlast ppf fname =
   Res_compmisc.init_path ();
 
-  Binary_ast.read_ast_exn ~fname Ml setup
+  Binary_ast.read_ast_exn ~fname Ml
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf (Config_util.output_prefix fname)

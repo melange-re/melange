@@ -22,6 +22,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+(* We disable warning 61 in Melange externals since they're substantially
+   different from OCaml externals. This warning doesn't make sense for a JS
+   runtime *)
+let unboxable_type_in_prim_decl : Parsetree.attribute =
+  let open Ast_helper in
+  {
+    attr_name = Location.mknoloc "ocaml.warning";
+    attr_payload =
+      PStr
+        [
+          Str.eval
+            (Exp.constant
+               (Pconst_string
+                  ("-unboxable-type-in-prim-decl", Location.none, None)));
+        ];
+    attr_loc = Location.none;
+  }
+
 let handleExternalInSig (self : Bs_ast_mapper.mapper)
     (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
     Parsetree.signature_item =
@@ -47,7 +65,8 @@ let handleExternalInSig (self : Bs_ast_mapper.mapper)
                   prim with
                   pval_type;
                   pval_prim = (if no_inline_cross_module then [] else pval_prim);
-                  pval_attributes;
+                  pval_attributes =
+                    unboxable_type_in_prim_decl :: pval_attributes;
                 };
           })
 
@@ -73,7 +92,13 @@ let handleExternalInStru (self : Bs_ast_mapper.mapper)
               str with
               pstr_desc =
                 Pstr_primitive
-                  { prim with pval_type; pval_prim; pval_attributes };
+                  {
+                    prim with
+                    pval_type;
+                    pval_prim;
+                    pval_attributes =
+                      unboxable_type_in_prim_decl :: pval_attributes;
+                  };
             }
           in
           if not no_inline_cross_module then external_result

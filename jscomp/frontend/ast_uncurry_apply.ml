@@ -1,5 +1,5 @@
 (* Copyright (C) 2020- Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -32,6 +32,19 @@ type exp = Parsetree.expression
 *)
 let jsInternal = Ast_literal.Lid.js_internal
 
+let ignored_extra_argument : Parsetree.attribute =
+  {
+    attr_name = Location.mknoloc "ocaml.warning";
+    attr_payload =
+      PStr
+        [
+          Str.eval
+            (Exp.constant
+               (Pconst_string ("-ignored-extra-argument", Location.none, None)));
+        ];
+    attr_loc = Location.none;
+  }
+
 (* we use the trick
    [( opaque e : _) ] to avoid it being inspected,
    the type constraint is avoid some syntactic transformation, e.g ` e |. (f g [@bs])`
@@ -40,6 +53,19 @@ let jsInternal = Ast_literal.Lid.js_internal
 let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
   Pexp_constraint
     ( Exp.apply ~loc
+        ~attrs:
+          [
+            (* Ignore warning 20 (`ignored-extra-argument`) on expressions such
+             * as:
+             *
+             *   external x : < .. > Js.t = ""
+             *   let () = x##fn "hello"
+             *
+             * OCaml thinks the extra argument is unused because we're
+             * producing * an uncurried call to a JS function whose arity isn't
+             * known at compile time. *)
+            ignored_extra_argument;
+          ]
         (Exp.ident { txt = Ast_literal.Lid.js_internal_full_apply; loc })
         [ (Nolabel, e) ],
       Typ.any ~loc () )

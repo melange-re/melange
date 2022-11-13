@@ -36,12 +36,11 @@
     (< "4.15.0")))
   (melange-compiler-libs
    (>= "0.0.1-414"))
-  (reason
-   (>= "3.8.1"))
   (cmdliner
    (>= "1.1.0"))
   (base64
    (>= "3.1.0"))
+  (cppo :build)
   (ounit :with-test)))
 
 (package
@@ -50,9 +49,12 @@
   "Build system for Melange that defers to Dune for build orchestration")
  (depends
   ocaml
-  melange
+  (melange
+   (= :version))
   (cmdliner
    (>= "1.1.0"))
   (luv
    (>= "0.5.11"))
+  (ocaml-migrate-parsetree
+   (>= "2.3.0"))
   (ounit :with-test)))

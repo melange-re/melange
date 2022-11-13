@@ -1,4 +1,4 @@
-open Reason_omp.Ast_406
+open Import.Ast_406
 
 (* Restructures a nested tree of arrow types into its args & returnType
    * The parsetree contains: a => b => c => d, for printing purposes

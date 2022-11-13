@@ -18,17 +18,6 @@ let set_abs_input_name sourcefile =
   Location.set_input_name sourcefile;
   sourcefile
 
-
-let setup_error_printer (syntax_kind : [ `ml | `reason | `rescript ])=
-  Config.syntax_kind := syntax_kind ;
-  if syntax_kind = `reason then begin
-    Lazy.force Outcome_printer.Reason_outcome_printer_main.setup
-  end else if !Config.syntax_kind = `rescript then begin
-    Lazy.force Napkin.Res_outcome_printer.setup
-  end
-
-
-
 (* let setup_runtime_path path = *)
   (* let u0 = Filename.dirname path in *)
   (* let std = Filename.basename path in *)
@@ -53,54 +42,22 @@ let process_file sourcefile
     | None -> Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe sourcefile)
     | Some kind -> kind in
   match kind with
-  | Re ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    setup_error_printer `reason;
-    Js_implementation.implementation
-      ~parser:Ast_reason_pp.RE.parse_implementation
-      ~lang:`reason
-      ppf sourcefile
-  | Rei ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    setup_error_printer `reason;
-    Js_implementation.interface
-      ~parser:Ast_reason_pp.RE.parse_interface
-      ~lang:`reason
-      ppf sourcefile
   | Ml ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.implementation
       ~parser:Pparse_driver.parse_implementation
-      ~lang:`ml
       ppf sourcefile
   | Mli  ->
     let sourcefile = set_abs_input_name  sourcefile in
     Js_implementation.interface
       ~parser:Pparse_driver.parse_interface
-      ~lang:`ml
-      ppf sourcefile
-  | Res ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    setup_error_printer `rescript;
-    Js_implementation.implementation
-      ~parser:Napkin.Res_driver.parse_implementation
-      ~lang:`rescript
-      ppf sourcefile
-  | Resi ->
-    let sourcefile = set_abs_input_name  sourcefile in
-    setup_error_printer `rescript;
-    Js_implementation.interface
-      ~parser:Napkin.Res_driver.parse_interface
-      ~lang:`rescript
       ppf sourcefile
   | Intf_ast
     ->
     Js_implementation.interface_mliast ppf sourcefile
-    setup_error_printer ;
   | Impl_ast
     ->
     Js_implementation.implementation_mlast ppf sourcefile
-    setup_error_printer;
   | Mlmap
     ->
     Location.set_input_name  sourcefile;
@@ -117,99 +74,6 @@ let process_file sourcefile
 
 
 let ppf = Format.err_formatter
-
-(* Error messages to standard error formatter *)
-open struct
-  open Reason_omp
-  module To_current = Convert(OCaml_406)(OCaml_current)
-  module From_current = Convert(OCaml_current)(OCaml_406)
-
-  let handle_res_parse_result (parse_result : _ Napkin.Res_driver.parseResult) =
-    if parse_result.invalid then begin
-        Napkin.Res_diagnostics.printReport parse_result.diagnostics parse_result.source;
-        exit 1
-    end
-end
-
-let print_res_interface ~comments ast =
-  Napkin.Res_printer.printInterface ~width:100 ~comments ast
-
-let print_res_implementation ~comments ast =
-  Napkin.Res_printer.printImplementation ~width:100 ~comments ast
-
-(* TODO: support printing from AST too. *)
-let format_file ~(kind: Ext_file_extensions.syntax_kind) input =
-  let ext = Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe input) in
-  let impl_format_fn ~comments ast =
-    let std = Format.std_formatter in
-    match kind, comments with
-    | Ml, `Re comments ->
-      Ast_reason_pp.ML.format_implementation_with_comments std ~comments ast
-    | Ml, `Res _ ->
-      Ast_reason_pp.ML.format_implementation_with_comments std ~comments:[] ast
-    | Res, `Res comments ->
-      let ast = From_current.copy_structure ast in
-      output_string stdout (print_res_implementation ~comments ast)
-    | Res, `Re _ ->
-      let ast = From_current.copy_structure ast in
-      output_string stdout (print_res_implementation ~comments:[] ast)
-    | Reason, `Re comments ->
-      Ast_reason_pp.RE.format_implementation_with_comments std ~comments ast
-    | Reason, `Res _ ->
-      Ast_reason_pp.RE.format_implementation_with_comments std ~comments:[] ast
-    | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
-  in
-  let intf_format_fn ~comments ast =
-    let std = Format.std_formatter in
-    match kind, comments with
-    | Ml, `Re comments ->
-      Ast_reason_pp.ML.format_interface_with_comments std ~comments ast
-    | Ml, `Res _ ->
-      Ast_reason_pp.ML.format_interface_with_comments std ~comments:[] ast
-    | Res, `Res comments ->
-      let ast = From_current.copy_signature ast in
-      output_string stdout (print_res_interface ~comments ast)
-    | Res, `Re _ ->
-      let ast = From_current.copy_signature ast in
-      output_string stdout (print_res_interface ~comments:[] ast)
-    | Reason, `Re comments ->
-      Ast_reason_pp.RE.format_interface_with_comments std ~comments ast
-    | Reason, `Res _ ->
-      Ast_reason_pp.RE.format_interface_with_comments std ~comments:[] ast
-    | _ -> raise (Arg.Bad ("don't know what to do with " ^ input))
-  in
-  begin match ext with
-  | Ml ->
-    let ast, comments =
-      Ast_reason_pp.ML.parse_implementation_with_comments input
-    in
-    impl_format_fn ~comments:(`Re comments) ast
-  | Mli ->
-    let ast, comments = Ast_reason_pp.ML.parse_interface_with_comments input in
-    intf_format_fn ~comments:(`Re comments) ast
-  | Res ->
-    let parse_result =
-      Napkin.Res_driver.parsingEngine.parseImplementation ~forPrinter:true ~filename:input
-    in
-    handle_res_parse_result parse_result;
-    impl_format_fn
-      ~comments:(`Res parse_result.comments)
-      parse_result.parsetree
-  | Resi ->
-    let parse_result =
-      Napkin.Res_driver.parsingEngine.parseInterface ~forPrinter:true ~filename:input
-    in
-    intf_format_fn
-      ~comments:(`Res parse_result.comments)
-       parse_result.parsetree
-  | Re ->
-    let ast, comments = Ast_reason_pp.RE.parse_implementation_with_comments input in
-    impl_format_fn ~comments:(`Re comments) ast
-  | Rei ->
-    let ast, comments = Ast_reason_pp.RE.parse_interface_with_comments input in
-    intf_format_fn ~comments:(`Re comments) ast
-  | _ -> (raise (Arg.Bad ("don't know what to do with " ^ input)))
-  end
 
 let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then
@@ -234,11 +98,7 @@ let anonymous ~(rev_args : string list) =
           end else
 
       match rev_args with
-      | [filename] ->
-        begin match !Js_config.format with
-        | Some syntax_kind -> `Ok (format_file ~kind:syntax_kind filename)
-        | None -> `Ok (process_file filename ppf)
-        end
+      | [filename] -> `Ok (process_file filename ppf)
       | [] -> `Ok ()
       | _ ->
           `Error (false, "can not handle multiple files")
@@ -257,11 +117,14 @@ let set_color_option option =
   | None -> ()
   | Some setting -> Clflags.color := Some setting
 
+let clean tmpfile =
+  if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
+
 let eval (s : string) ~suffix =
   let tmpfile = Filename.temp_file "eval" suffix in
   Ext_io.write_file tmpfile s;
   let ret = anonymous ~rev_args:[tmpfile] in
-  Ast_reason_pp.clean tmpfile;
+  clean tmpfile;
   ret
 
 let try_eval ~f =
@@ -320,13 +183,13 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_syntax_only;
       bs_g;
       bs_package_name;
+      bs_module_name;
       bs_ns;
       as_ppx;
       as_pp;
       no_alias_deps;
       bs_gentype;
       unboxed_types;
-      bs_re_out;
       bs_D;
       bs_unsafe_empty_array;
       nostdlib;
@@ -341,7 +204,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_no_builtin_ppx;
       bs_cross_module_opt;
       bs_diagnose;
-      format;
       where;
       verbose;
       keep_locs;
@@ -429,7 +291,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       in
       Js_packages_state.set_output_info ~suffix bs_module_type
     | None, bs_package_output ->
-      Ext_list.iter bs_package_output Js_packages_state.update_npm_package_path;
+      Ext_list.iter bs_package_output (Js_packages_state.update_npm_package_path ?module_name:bs_module_name);
     | Some _, _ :: _ ->
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
     end;
@@ -444,7 +306,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
     Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
     if unboxed_types then Clflags.unboxed_types := unboxed_types;
-    if bs_re_out then Lazy.force Outcome_printer.Reason_outcome_printer_main.setup;
     Ext_list.iter bs_D define_variable;
     if bs_list_conditionals then Pp.list_variables Format.err_formatter;
     if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
@@ -459,7 +320,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
 
     if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
-    Ext_option.iter format (fun format -> Js_config.format := Some format);
     if where then print_standard_library ();
     if verbose then Clflags.verbose := verbose;
     Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);

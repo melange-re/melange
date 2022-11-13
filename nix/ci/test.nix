@@ -15,7 +15,16 @@ let
 
   pkgs = import src {
     extraOverlays = [
-      (self: super: { ocamlPackages = super.ocaml-ng.ocamlPackages_4_14; })
+      (self: super: {
+        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+          dune_3 = osuper.dune_3.overrideAttrs (_: {
+            src = builtins.fetchurl {
+              url = https://github.com/ocaml/dune/archive/b8250aa70.tar.gz;
+              sha256 = "0rk49ywbjjzrqk47z8sc36b68ig0vvbp1b8f2hr1bp769sj9s79n";
+            };
+          });
+        });
+      })
     ];
   };
   inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages;
@@ -48,15 +57,12 @@ stdenv.mkDerivation {
   doCheck = true;
 
   nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-  buildInputs = [ yarn nodejs packages.melange packages.mel ];
-
-  NIX_NODE_MODULES_POSTINSTALL = ''
-    ln -sfn ${packages.melange}/lib/melange/runtime node_modules/melange
-  '';
+  buildInputs = [ yarn nodejs packages.melange packages.mel ocamlPackages.reason ];
 
   checkPhase = ''
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
+    ln -sfn ${packages.melange}/lib/melange/runtime node_modules/melange
     mel build -- --display=short
 
     node ./node_modules/.bin/mocha "./*_test.js"

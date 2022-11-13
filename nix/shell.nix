@@ -3,10 +3,10 @@
 , mkShell
 , nodejs_latest
 , packages
-, python3
 , stdenv
 , system
 , yarn
+, tree
 , cacert
 , curl
 , ocamlPackages
@@ -31,14 +31,13 @@ in
 mkShell {
   inputsFrom = lib.attrValues derivations;
   buildInputs = [
-    python3
     nodejs_latest
     yarn
   ]
   ++ (with ocamlPackages; [
     merlin
+    reason
     utop
-    ounit2
     ocamlformat
     ocaml-lsp
   ])

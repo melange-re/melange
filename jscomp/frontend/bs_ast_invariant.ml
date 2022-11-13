@@ -112,19 +112,11 @@ let check_constant loc kind (const : Parsetree.constant) =
   | _ -> ()
 
 (* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead of
-   rolling our own*)
+   rolling our own *)
 let emit_external_warnings : iterator=
   {
     super with
     attribute = (fun _ attr -> warn_unused_attribute attr);
-    structure_item = (fun self str_item ->
-      match str_item.pstr_desc with
-       | Pstr_type (Nonrecursive, [{ptype_kind = Ptype_variant ({pcd_res = Some _} :: _)}])
-        when !Config.syntax_kind = `rescript ->
-          Location.raise_errorf ~loc:str_item.pstr_loc
-          "GADT has to be recursive types, please try `type rec'"
-      | _ -> super.structure_item self str_item
-    );
     expr = (fun self a ->
         match a.pexp_desc with
         | Pexp_constant(const) -> check_constant a.pexp_loc `expr const

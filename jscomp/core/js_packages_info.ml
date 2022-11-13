@@ -36,7 +36,7 @@ type batch_info = { path : string; output_info : output_info }
 type package_info =
   | Empty
   | Batch_compilation of batch_info list
-  | Separate_emission of string
+  | Separate_emission of { module_path : string; module_name : string option }
 
 type t = { name : string option; info : package_info }
 
@@ -101,7 +101,13 @@ let dump_packages_info (fmt : Format.formatter) ({ name; info } : t) =
   let dump_info fmt info =
     match info with
     | Empty -> Format.fprintf fmt "(empty)"
-    | Separate_emission path -> Format.fprintf fmt "Separate(%s)" path
+    | Separate_emission { module_path; module_name } ->
+        Format.fprintf fmt "Separate(module_path: %s, module_name: %a)"
+          module_path
+          (Format.pp_print_option
+             ~none:(fun fmt () -> Format.fprintf fmt "*none*")
+             Format.pp_print_string)
+          module_name
     | Batch_compilation xs ->
         Format.fprintf fmt "Batch %a"
           (Format.pp_print_list
@@ -111,7 +117,11 @@ let dump_packages_info (fmt : Format.formatter) ({ name; info } : t) =
   in
   Format.fprintf fmt "@[%a;@  @[%a@]@]" dump_package_name name dump_info info
 
-type path_info = { rel_path : string; pkg_rel_path : string }
+type path_info = {
+  rel_path : string;
+  pkg_rel_path : string;
+  module_name : string option;
+}
 
 type package_found_batch_info = {
   path_info : path_info;
@@ -142,13 +152,24 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
   match t.info with
   | Empty -> (
       match t.name with Some _ -> Package_not_found | None -> Package_script)
-  | Separate_emission path -> (
+  | Separate_emission { module_path; module_name } -> (
       match runtime_package_name t.name with
       | Some pkg_name ->
           Package_found
-            (Separate { rel_path = path; pkg_rel_path = pkg_name // path })
+            (Separate
+               {
+                 rel_path = module_path;
+                 pkg_rel_path = pkg_name // module_path;
+                 module_name;
+               })
       | None ->
-          Package_found (Separate { rel_path = path; pkg_rel_path = path }))
+          Package_found
+            (Separate
+               {
+                 rel_path = module_path;
+                 pkg_rel_path = module_path;
+                 module_name;
+               }))
   | Batch_compilation module_systems -> (
       match
         Ext_list.find_first_exn module_systems (fun k ->
@@ -164,7 +185,8 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
           Package_found
             (Batch
                {
-                 path_info = { rel_path = k.path; pkg_rel_path };
+                 path_info =
+                   { rel_path = k.path; pkg_rel_path; module_name = None };
                  suffix = k.output_info.suffix;
                })
       | exception Not_found -> (
@@ -190,7 +212,7 @@ let get_output_dir ({ info; _ } : t) ~package_dir module_system =
   | Batch_compilation specs ->
       Filename.concat package_dir (get_js_path specs module_system)
 
-let add_npm_package_path (packages_info : t) (s : string) : t =
+let add_npm_package_path ?module_name (packages_info : t) (s : string) : t =
   let existing =
     match packages_info.info with
     | Empty -> []
@@ -203,7 +225,7 @@ let add_npm_package_path (packages_info : t) (s : string) : t =
         match Ext_string.split ~keep_empty:true s ':' with
         | [ path ] ->
             (* -bs-package-output just/the/path/segment *)
-            Separate_emission path
+            Separate_emission { module_path = path; module_name }
         | [ module_system; path ] ->
             Batch_compilation
               ({

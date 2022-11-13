@@ -12,4 +12,4 @@
   melange-compiler-libs
   outcome_printer
   js_parser
-  napkin))
+  reactjs_jsx_ppx_v3))

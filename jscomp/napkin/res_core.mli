@@ -1,4 +1,4 @@
-open Reason_omp.Ast_406
+open Import.Ast_406
 val parseImplementation:
   Res_parser.t -> Parsetree.structure
 val parseSpecification:

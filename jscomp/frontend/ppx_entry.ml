@@ -29,14 +29,13 @@ let rewrite_signature (ast : Parsetree.signature) : Parsetree.signature =
   Ast_config.iter_on_bs_config_sigi ast;
   let ast =
     match !Js_config.jsx_version with
-    | 3 -> Napkin.Reactjs_jsx_ppx_v3.rewrite_signature ast
+    | 3 -> Reactjs_jsx_ppx_v3.rewrite_signature ast
     | _ -> ast
     (* react-jsx ppx relies on built-in ones like `##` *)
   in
   if !Js_config.no_builtin_ppx then ast
   else
     let result = unsafe_mapper.signature unsafe_mapper ast in
-    (* Keep this check, since the check is not inexpensive*)
     Bs_ast_invariant.emit_external_warnings_on_signature result;
     result
 
@@ -45,12 +44,11 @@ let rewrite_implementation (ast : Parsetree.structure) : Parsetree.structure =
   Ast_config.iter_on_bs_config_stru ast;
   let ast =
     match !Js_config.jsx_version with
-    | 3 -> Napkin.Reactjs_jsx_ppx_v3.rewrite_implementation ast
+    | 3 -> Reactjs_jsx_ppx_v3.rewrite_implementation ast
     | _ -> ast
   in
   if !Js_config.no_builtin_ppx then ast
   else
     let result = unsafe_mapper.structure unsafe_mapper ast in
-    (* Keep this check since it is not inexpensive*)
     Bs_ast_invariant.emit_external_warnings_on_structure result;
     result

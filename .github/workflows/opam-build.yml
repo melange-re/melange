@@ -36,6 +36,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install Homebrew dependencies
+        if: ${{ matrix.os == 'macos-latest' }}
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
+
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
         uses: ocaml/setup-ocaml@v2
         with:
@@ -44,7 +49,8 @@ jobs:
       - name: Install melange.opam dependencies
         working-directory: melange
         run: |
-          opam install luv
+          opam pin add dune https://github.com/ocaml/dune.git#b8250aa70c6c2dc314234c50f28d8756514d36ef
+          opam install luv reason
           opam install ./melange.opam --deps-only --with-test
 
       - name: Pin melange to current
@@ -63,7 +69,7 @@ jobs:
       - name: Build basic template
         working-directory: melange-opam-template
         run: |
-          opam exec -- mel
+          opam exec -- mel build -- --display=short
           npm run bundle
 
       - name: Run resulting .js files

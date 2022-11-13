@@ -1,9 +1,7 @@
-open Reason_omp
+open Import
 open Ast_406
 
 module Doc = Res_doc
-
-module From_current = Convert(OCaml_current)(OCaml_406)
 
 let printEngine = Res_driver.{
   printImplementation = begin fun ~width:_ ~filename:_ ~comments:_ structure ->
