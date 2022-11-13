@@ -1,4 +1,4 @@
-{ stdenv, ocamlPackages, lib, tree, nix-filter }:
+{ stdenv, ocamlPackages, lib, tree, nix-filter, nodejs }:
 
 with ocamlPackages;
 
@@ -41,7 +41,7 @@ rec {
     '';
 
     doCheck = true;
-    checkInputs = [ ounit2 tree ];
+    checkInputs = [ ounit2 tree nodejs ];
 
     nativeBuildInputs = [ cppo ];
     propagatedBuildInputs = [
