@@ -1,9 +1,7 @@
 { stdenv, ocamlPackages, lib, tree, nix-filter, nodejs }:
 
-with ocamlPackages;
-
 rec {
-  melange = buildDunePackage rec {
+  melange = ocamlPackages.buildDunePackage rec {
     pname = "melange";
     version = "dev";
     duneVersion = "3";
@@ -41,10 +39,10 @@ rec {
     '';
 
     doCheck = true;
-    checkInputs = [ ounit2 tree nodejs ];
+    checkInputs = with ocamlPackages; [ ounit2 tree nodejs ];
 
-    nativeBuildInputs = [ cppo ];
-    propagatedBuildInputs = [
+    nativeBuildInputs = with ocamlPackages; [ cppo ];
+    propagatedBuildInputs = with ocamlPackages; [
       melange-compiler-libs
       cmdliner
       base64
@@ -52,7 +50,7 @@ rec {
     meta.mainProgram = "melc";
   };
 
-  mel = buildDunePackage rec {
+  mel = ocamlPackages.buildDunePackage rec {
     pname = "mel";
     version = "dev";
     duneVersion = "3";
@@ -82,12 +80,13 @@ rec {
       ];
     };
 
-    nativeBuildInputs = [ cppo ];
-    propagatedBuildInputs = [
-      melange
+    nativeBuildInputs = with ocamlPackages; [ cppo ];
+    propagatedBuildInputs = with ocamlPackages; [
       cmdliner
       luv
       ocaml-migrate-parsetree-2
+      melange-compiler-libs
+      base64
     ];
 
     meta.mainProgram = "mel";
