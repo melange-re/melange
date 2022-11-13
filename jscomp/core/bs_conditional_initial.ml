@@ -65,7 +65,6 @@ let setup_env () =
     Matching_polyfill.names_from_construct_pattern;
 #ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
-    Clflags.include_dirs := Js_config.include_dirs @ !Clflags.include_dirs;
 #endif
 
   Rescript_cpp.replace_directive_bool "BS" true;
