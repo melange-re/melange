@@ -47,7 +47,7 @@ let output_string t s =
   let new_line, new_column =
     Ext_string.fold_left
       (fun (line, column) char ->
-        if char = '\n' then (line + 1, 0) else (line, column + 1))
+        match char with '\n' -> (line + 1, 0) | _c -> (line, column + 1))
       (t.line, t.column) s
   in
   t.line <- new_line;
