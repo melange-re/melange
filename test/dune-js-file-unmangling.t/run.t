@@ -59,5 +59,5 @@ Generated JS files are unmangled
       |-- m_a.js
       |-- m_b.js
       `-- parent.js
-
+  
   2 directories, 7 files
