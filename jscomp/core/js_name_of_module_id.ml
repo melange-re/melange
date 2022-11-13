@@ -31,6 +31,17 @@ let fix_path_for_windows : string -> string =
   if Ext_sys.is_windows_or_cygwin then Ext_string.replace_backward_slash
   else fun s -> s
 
+let js_file_name ~(pkg_info : Js_packages_info.package_found_info) ~case ~suffix
+    (dep_module_id : Lam_module_ident.t) =
+  let module_name =
+    match pkg_info with
+    | Separate path_info | Batch { path_info } -> (
+        match path_info.module_name with
+        | Some module_name -> module_name
+        | None -> Ident.name dep_module_id.id)
+  in
+  Ext_namespace.js_name_of_modulename module_name case suffix
+
 (* dependency is runtime module *)
 let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
     (module_system : Ext_module_system.t) =
@@ -117,9 +128,7 @@ let string_of_module_id ~package_info ~output_info
         | Package_found pkg, Package_script ->
             let path_info = Js_packages_info.path_info pkg in
             let js_file =
-              Ext_namespace.js_name_of_modulename
-                (Ident.name dep_module_id.id)
-                case suffix
+              js_file_name ~case ~suffix ~pkg_info:pkg dep_module_id
             in
             path_info.pkg_rel_path // js_file
         | Package_found dep_pkg, Package_found cur_pkg -> (
@@ -129,9 +138,7 @@ let string_of_module_id ~package_info ~output_info
               | Separate _ -> { suffix; module_system }
             in
             let js_file =
-              Ext_namespace.js_name_of_modulename
-                (Ident.name dep_module_id.id)
-                case suffix
+              js_file_name ~case ~suffix ~pkg_info:dep_pkg dep_module_id
             in
             match Js_packages_info.is_runtime_package package_info with
             | true ->

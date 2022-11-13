@@ -34,8 +34,9 @@ let set_package_map module_name =
   Bs_clflags.dont_record_crc_unit := Some module_name;
   Clflags.open_modules := module_name :: !Clflags.open_modules
 
-let update_npm_package_path s =
-  packages_info := Js_packages_info.add_npm_package_path !packages_info s
+let update_npm_package_path ?module_name s =
+  packages_info :=
+    Js_packages_info.add_npm_package_path ?module_name !packages_info s
 
 let set_output_info ~suffix module_system =
   output_info := Some { Js_packages_info.suffix; module_system }
