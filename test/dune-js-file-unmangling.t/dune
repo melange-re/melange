@@ -1,5 +1,6 @@
 (melange.emit
  (target dist)
- (module_system es6)
+ (alias melange-dist)
+ (module_system commonjs)
  (entries entry_module)
- (libraries node))
+ (libraries parent))

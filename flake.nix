@@ -22,8 +22,8 @@
           ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
             dune_3 = osuper.dune_3.overrideAttrs (_: {
               src = builtins.fetchurl {
-                url = https://github.com/ocaml/dune/archive/779fc36.tar.gz;
-                sha256 = "075nm4yc6g6k5xqszh6sxkcxrg17n7vad5kqc16m0ndwc9r9k9kj";
+                url = https://github.com/ocaml/dune/archive/8e72809a8.tar.gz;
+                sha256 = "0q52pna2k032fr73n8v1mhiibvxql32dx8l1n3m8dk49rqnmlsi8";
               };
             });
           });
