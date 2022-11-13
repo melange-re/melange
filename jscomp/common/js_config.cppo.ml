@@ -35,7 +35,7 @@ let install_dir = lazy (
      (dirname (dirname executable)) == <install-dir> *)
   Filename.(dirname (dirname Sys.executable_name))
 #else
-  (* <root>/jscomp/main/bsc.exe -> <root> *)
+  (* <root>/jscomp/main/melc.exe -> <root> *)
   Filename.(dirname (dirname (Lazy.force executable_name)))
 #endif
 )
@@ -43,10 +43,7 @@ let install_dir = lazy (
 let stdlib_path =
   lazy (match Sys.getenv "MELANGELIB" with
   | value -> value
-  | exception _ -> Lazy.force install_dir // Literals.lib // "melange")
-
-let include_dirs =
-
+  | exception _ ->
 #ifndef BS_RELEASE_BUILD
   let root =
     (* ./jscomp/main/melc.exe -> ./ *)
@@ -55,12 +52,11 @@ let include_dirs =
     |> Filename.dirname
     |> Filename.dirname
   in
-  [ (root // Literals.lib // Literals.package_name)
-  ; (Lazy.force stdlib_path)
-  ]
+  root // Literals.lib // Literals.package_name
 #else
-  []
+    Lazy.force install_dir // Literals.lib // "melange"
 #endif
+)
 
 (** Browser is not set via command line only for internal use *)
 
