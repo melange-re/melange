@@ -10,6 +10,10 @@ Unreleased
   - in cases such as `external x : < .. > Js.t = ""`, the typechecker doesn't
     know the arity of the function, even though Melange will emit an uncurried
     function call.
+- Disable warning 61 (`unboxable-type-in-prim-decl`) in `external` declarations
+  ([#415](https://github.com/melange-re/melange/pull/415)):
+  - Melange externals are substantially different from OCaml externals. This
+    warning doesn't make sense in a JS runtime.
 - melc: introduce `--bs-module-name` flag to specify the original file name for
   the current compilation unit
   ([#413](https://github.com/melange-re/melange/pull/413))
