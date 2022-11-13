@@ -39,6 +39,7 @@ type t = {
   bs_syntax_only : bool;
   bs_g : bool;
   bs_package_name : string option;
+  bs_module_name : string option;
   bs_ns : string option;
   as_ppx : bool;
   as_pp : bool;
@@ -154,6 +155,12 @@ let bs_g =
 let bs_package_name =
   let doc = "Set package name, useful when you want to produce npm packages" in
   Arg.(value & opt (some string) None & info [ "bs-package-name" ] ~doc)
+
+let bs_module_name =
+  let doc =
+    "Set the module name (if different than the compilation unit name)"
+  in
+  Arg.(value & opt (some string) None & info [ "bs-module-name" ] ~doc)
 
 let bs_ns =
   let doc =
@@ -483,15 +490,15 @@ end
 
 let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     open_modules bs_jsx bs_package_output bs_module_type bs_ast bs_syntax_only
-    bs_g bs_package_name bs_ns as_ppx as_pp no_alias_deps bs_gentype
-    unboxed_types bs_D bs_unsafe_empty_array nostdlib color bs_list_conditionals
-    bs_eval bs_e bs_cmi_only bs_cmi bs_cmj bs_no_version_header
-    bs_no_builtin_ppx bs_cross_module_opt bs_diagnose where verbose keep_locs
-    bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
-    drawlambda dsource version pp absname bin_annot i nopervasives modules
-    nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
-    runtime filenames _bs_super_errors _c =
+    bs_g bs_package_name bs_module_name bs_ns as_ppx as_pp no_alias_deps
+    bs_gentype unboxed_types bs_D bs_unsafe_empty_array nostdlib color
+    bs_list_conditionals bs_eval bs_e bs_cmi_only bs_cmi bs_cmj
+    bs_no_version_header bs_no_builtin_ppx bs_cross_module_opt bs_diagnose where
+    verbose keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc
+    impl intf intf_suffix g opaque strict_sequence strict_formats dtypedtree
+    dparsetree drawlambda dsource version pp absname bin_annot i nopervasives
+    modules nolabels principal short_paths unsafe warn_help warn_error
+    bs_stop_after_cmj runtime filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -508,6 +515,7 @@ let parse help include_dirs alerts warnings output_name bs_read_cmi ppx
     bs_syntax_only;
     bs_g;
     bs_package_name;
+    bs_module_name;
     bs_ns;
     as_ppx;
     as_pp;
@@ -569,14 +577,15 @@ let cmd =
     const parse $ help $ include_dirs $ alerts $ warnings $ output_name
     $ Internal.bs_read_cmi $ ppx $ open_modules $ Internal.bs_jsx
     $ Internal.bs_package_output $ Internal.bs_module_type $ Internal.bs_ast
-    $ bs_syntax_only $ bs_g $ bs_package_name $ bs_ns $ Internal.as_ppx
-    $ Internal.as_pp $ Internal.no_alias_deps $ Internal.bs_gentype
-    $ unboxed_types $ bs_D $ Internal.bs_unsafe_empty_array $ Internal.nostdlib
-    $ color $ bs_list_conditionals $ Internal.bs_eval $ bs_e
-    $ Internal.bs_cmi_only $ Internal.bs_cmi $ Internal.bs_cmj
-    $ Internal.bs_no_version_header $ Internal.bs_no_builtin_ppx
-    $ Internal.bs_cross_module_opt $ Internal.bs_diagnose $ where $ verbose
-    $ keep_locs $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
+    $ bs_syntax_only $ bs_g $ bs_package_name $ bs_module_name $ bs_ns
+    $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
+    $ Internal.bs_gentype $ unboxed_types $ bs_D
+    $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
+    $ bs_list_conditionals $ Internal.bs_eval $ bs_e $ Internal.bs_cmi_only
+    $ Internal.bs_cmi $ Internal.bs_cmj $ Internal.bs_no_version_header
+    $ Internal.bs_no_builtin_ppx $ Internal.bs_cross_module_opt
+    $ Internal.bs_diagnose $ where $ verbose $ keep_locs
+    $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
     $ Internal.intf_suffix $ Internal.g $ Internal.opaque
     $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree

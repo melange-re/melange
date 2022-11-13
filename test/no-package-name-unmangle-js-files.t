@@ -15,9 +15,9 @@ make this work with Lib.A.t
 
 Build cmjs
 
-  $ melc -bs-package-output lib/ -bs-js-name a.js -bs-stop-after-cmj lib/a.ml -o lib/.objs/melange/lib__A.cmj
+  $ melc -bs-package-output lib/ -bs-module-name A -bs-stop-after-cmj lib/a.ml -o lib/.objs/melange/lib__A.cmj
 
-  $ melc -bs-package-output app/ -bs-js-name B.js -I lib/.objs/melange -bs-stop-after-cmj app/B.ml -o app/.objs/melange/melange__B.cmj
+  $ melc -bs-package-output app/ -bs-module-name B -I lib/.objs/melange -bs-stop-after-cmj app/B.ml -o app/.objs/melange/melange__B.cmj
 
 Linking step
 

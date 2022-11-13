@@ -37,12 +37,16 @@ val from_name : ?t:t -> string -> t
 val dump_output_info : Format.formatter -> output_info -> unit
 val dump_packages_info : Format.formatter -> t -> unit
 
-val add_npm_package_path : t -> string -> t
+val add_npm_package_path : ?module_name:string -> t -> string -> t
 (** used by command line option
   e.g [-bs-package-output commonjs:xx/path]
 *)
 
-type path_info = { rel_path : string; pkg_rel_path : string }
+type path_info = {
+  rel_path : string;
+  pkg_rel_path : string;
+  module_name : string option;
+}
 
 type package_found_batch_info = {
   path_info : path_info;
