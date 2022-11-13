@@ -5,7 +5,11 @@
  (flags
   (:standard -w -9))
  (modules :standard \ res_cli)
- (libraries frontend ocaml-migrate-parsetree compiler-libs.common))
+ (libraries
+  frontend
+  ocaml-migrate-parsetree
+  compiler-libs.common
+  reactjs_jsx_ppx_v3))
 
 (executable
  (name res_cli)
