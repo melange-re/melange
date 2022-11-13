@@ -112,6 +112,10 @@ let ends_with_then_chop s beg =
   if i >= 0 then Some (String.sub s 0 i)
   else None
 
+let ends_with_char s c =
+  let len = String.length s in
+  len > 0 && String.unsafe_get s (len - 1) = c
+
 (* let check_suffix_case = ends_with  *)
 (* let check_suffix_case_then_chop = ends_with_then_chop *)
 
@@ -529,3 +533,7 @@ let first_marshal_char (x : string) =
     x <> ""   &&
     ( String.unsafe_get x  0 = '\132')
 
+let fold_left f initial x =
+  let acc = ref initial in
+  String.iter (fun c -> acc := f !acc c) x;
+  !acc

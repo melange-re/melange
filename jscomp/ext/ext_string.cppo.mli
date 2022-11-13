@@ -57,6 +57,7 @@ val starts_with : string -> string -> bool
 val ends_with_index : string -> string -> int
 
 val ends_with : string -> string -> bool
+val ends_with_char : string -> char -> bool
 
 (**
   [ends_with_then_chop name ext]
@@ -221,3 +222,4 @@ val is_valid_hash_number: string -> bool
 
 val hash_number_as_i32_exn: string -> int32
 
+val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a

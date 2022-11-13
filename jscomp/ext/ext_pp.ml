@@ -29,66 +29,88 @@ end
 
 let indent_length = String.length L.indent_str
 
+type kind = Channel of out_channel | Buffer of Buffer.t
+
 type t = {
-  output_string : string -> unit;
-  output_char : char -> unit;
-  flush : unit -> unit;
+  kind : kind;
   mutable indent_level : int;
+  mutable column : int;
+  mutable line : int;
   mutable last_new_line : bool;
       (* only when we print newline, we print the indent *)
 }
 
+let output_string t s =
+  (match t.kind with
+  | Channel chan -> output_string chan s
+  | Buffer buf -> Buffer.add_string buf s);
+  let new_line, new_column =
+    Ext_string.fold_left
+      (fun (line, column) char ->
+        match char with '\n' -> (line + 1, 0) | _c -> (line, column + 1))
+      (t.line, t.column) s
+  in
+  t.line <- new_line;
+  t.column <- new_column
+
+let output_char t c =
+  (match t.kind with
+  | Channel chan -> output_char chan c
+  | Buffer buf -> Buffer.add_char buf c);
+  if c = '\n' then (
+    t.line <- t.line + 1;
+    t.column <- 0)
+  else t.column <- t.column + 1
+
+let flush t = match t.kind with Channel chan -> flush chan | Buffer _ -> ()
+
 let from_channel chan =
   {
-    output_string = (fun s -> output_string chan s);
-    output_char = (fun c -> output_char chan c);
-    flush = (fun _ -> flush chan);
+    kind = Channel chan;
+    line = 0;
+    column = 0;
     indent_level = 0;
     last_new_line = false;
   }
 
 let from_buffer buf =
   {
-    output_string = (fun s -> Buffer.add_string buf s);
-    output_char = (fun c -> Buffer.add_char buf c);
-    flush = (fun _ -> ());
+    kind = Buffer buf;
+    line = 0;
+    column = 0;
     indent_level = 0;
     last_new_line = false;
   }
 
-(* If we have [newline] in [s],
-   all indentations will be broken
-   in the future, we can detect this in [s]
-*)
 let string t s =
-  t.output_string s;
-  t.last_new_line <- false
+  output_string t s;
+  t.last_new_line <- Ext_string.ends_with_char s '\n'
 
 let newline t =
   if not t.last_new_line then (
-    t.output_char '\n';
+    output_char t '\n';
     for _ = 0 to t.indent_level - 1 do
-      t.output_string L.indent_str
+      output_string t L.indent_str
     done;
     t.last_new_line <- true)
 
 let at_least_two_lines t =
-  if not t.last_new_line then t.output_char '\n';
-  t.output_char '\n';
+  if not t.last_new_line then output_char t '\n';
+  output_char t '\n';
   for _ = 0 to t.indent_level - 1 do
-    t.output_string L.indent_str
+    output_string t L.indent_str
   done;
   t.last_new_line <- true
 
 let force_newline t =
-  t.output_char '\n';
+  output_char t '\n';
   for _ = 0 to t.indent_level - 1 do
-    t.output_string L.indent_str
+    output_string t L.indent_str
   done;
   t.last_new_line <- true
 
-let space t = string t L.space
-let nspace t n = string t (String.make n ' ')
+let space t = output_string t L.space
+let nspace t n = output_string t (String.make n ' ')
 
 let group t i action =
   if i = 0 then action ()
@@ -166,4 +188,6 @@ let brace_group st n action = group st n (fun _ -> brace st action)
 (* let indent t n =
    t.indent_level <- t.indent_level + n *)
 
-let flush t () = t.flush ()
+let flush t () = flush t
+let current_line t = t.line
+let current_column t = t.column
