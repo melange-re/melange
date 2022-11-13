@@ -49,7 +49,7 @@ jobs:
       - name: Install melange.opam dependencies
         working-directory: melange
         run: |
-          opam pin add dune --dev-repo
+          opam pin add dune https://github.com/ocaml/dune.git#b8250aa70c6c2dc314234c50f28d8756514d36ef
           opam install luv reason
           opam install ./melange.opam --deps-only --with-test
 
