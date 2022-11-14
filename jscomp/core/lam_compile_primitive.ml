@@ -127,7 +127,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* Negate boxed int end*)
   (* Int addition and subtraction *)
   | Paddint -> (
-      match args with [ e1; e2 ] -> E.int32_add e1 e2 | _ -> assert false)
+      match args with [ e1; e2 ] -> E.int32_add ~loc e1 e2 | _ -> assert false)
   | Paddint64 -> Js_long.add args
   | Paddfloat -> (
       match args with [ e1; e2 ] -> E.float_add e1 e2 | _ -> assert false)

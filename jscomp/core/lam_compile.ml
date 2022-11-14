@@ -1569,7 +1569,7 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       | _ ->
           Js_output.output_of_block_and_expression lambda_cxt.continuation
             args_code
-            (E.call
+            (E.call ~loc:appinfo.ap_info.ap_loc
                ~info:(call_info_of_apply_status appinfo.ap_info.ap_status)
                fn_code args))
 
