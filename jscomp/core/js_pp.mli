@@ -66,6 +66,8 @@ val bracket_group : t -> int -> (unit -> 'a) -> 'a
 val bracket_vgroup : t -> int -> (unit -> 'a) -> 'a
 val newline : t -> unit
 val at_least_two_lines : t -> unit
+val current_line : t -> int
+val current_column : t -> int
 val from_fd : Unix.file_descr -> t
 val from_buffer : Buffer.t -> t
 val flush : t -> unit -> unit
