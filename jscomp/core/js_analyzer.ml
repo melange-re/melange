@@ -262,7 +262,7 @@ let rev_flatten_seq (x : J.expression) =
   let rec aux acc (x : J.expression) : J.block =
     match x.expression_desc with
     | Seq (a, b) -> aux (aux acc a) b
-    | _ -> { statement_desc = Exp x; comment = None } :: acc
+    | _ -> { statement_desc = Exp x; comment = None; loc = x.loc } :: acc
   in
   aux [] x
 
