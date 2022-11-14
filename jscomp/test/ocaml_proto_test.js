@@ -2347,20 +2347,20 @@ function gen_decode_record(and_, param, sc) {
   var r_name = param.r_name;
   var all_lists = List.fold_left((function (acc, param) {
           var rf_field_type = param.rf_field_type;
+          var rf_label = param.rf_label;
           switch (rf_field_type.TAG | 0) {
             case /* Rft_repeated_field */2 :
             case /* Rft_associative_field */3 :
-                break;
+                if (rf_field_type._0[0]) {
+                  return acc;
+                } else {
+                  return {
+                          hd: rf_label,
+                          tl: acc
+                        };
+                }
             default:
               return acc;
-          }
-          if (rf_field_type._0[0]) {
-            return acc;
-          } else {
-            return {
-                    hd: param.rf_label,
-                    tl: acc
-                  };
           }
         }), /* [] */0, r_fields);
   var process_field_common = function (sc, encoding_number, pk_as_string, f) {
@@ -7451,9 +7451,9 @@ function compile(proto_definition) {
                           var file_options = pbtt_msg.file_options;
                           var message = m._0;
                           var module_ = module_of_file_name(file_name);
-                          var message_names = scope.message_names;
                           var message_body = message.message_body;
                           var message_name = message.message_name;
+                          var message_names = scope.message_names;
                           if (!message_body) {
                             return /* [] */0;
                           }

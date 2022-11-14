@@ -419,6 +419,32 @@ let rec rename_optional_parameters map params (body : Lam.t) =
         id,
         Lifthenelse
           ( Lprim { primitive = p; args = [ Lvar opt ]; loc = p_loc },
+            Llet
+              ( _,
+                sth,
+                Lprim { primitive = p1; args = [ Lvar opt2 ]; loc = x_loc },
+                Lvar sth2 ),
+            f ),
+        rest )
+    when Ident.name sth = "*sth*"
+         && Ident.name sth2 = "*sth*"
+         && Ident.name opt = "*opt*"
+         && Ident.name opt2 = "*opt*"
+         && Ident.same opt opt2 && List.mem opt params ->
+      let map, rest = rename_optional_parameters map params rest in
+      let new_id = Ident.create_local (Ident.name id ^ "Opt") in
+      ( Map_ident.add map opt new_id,
+        Lam.let_ k id
+          (Lam.if_
+             (Lam.prim ~primitive:p ~args:[ Lam.var new_id ] p_loc)
+             (Lam.prim ~primitive:p1 ~args:[ Lam.var new_id ] x_loc)
+             f)
+          rest )
+  | Llet
+      ( k,
+        id,
+        Lifthenelse
+          ( Lprim { primitive = p; args = [ Lvar opt ]; loc = p_loc },
             Lprim { primitive = p1; args = [ Lvar opt2 ]; loc = x_loc },
             f ),
         rest )
@@ -591,6 +617,10 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lvar x -> Lam.var (Hash_ident.find_default alias_tbl x x)
     | Lmutvar x -> Lam.mutvar (Hash_ident.find_default alias_tbl x x)
     | Lconst x -> Lam.const (Lam_constant_convert.convert_constant x)
+    | Lapply { ap_func = fn; ap_args = [ arg ]; ap_loc = loc; _ } ->
+        let arg = convert_aux arg in
+        let fn = convert_aux fn in
+        convert_possible_pipe_application fn arg loc
     | Lapply { ap_func = fn; ap_args = args; ap_loc = loc; ap_inlined } ->
         (* we need do this eargly in case [aux fn] add some wrapper *)
         Lam.apply (convert_aux fn)
@@ -621,12 +651,6 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         let body = convert_aux body in
         let lam = Lam.letrec bindings body in
         Lam_scc.scc bindings lam body
-    (* inlining will affect how mututal recursive behave *)
-    (* | Lprim(Prevapply, [x ; f ],  outer_loc) *)
-    (* | Lprim(Pdirapply, [f ; x],  outer_loc) -> *)
-    (* convert_pipe f x outer_loc *)
-    (* | Lprim (Prevapply, _, _ ) -> assert false *)
-    (* | Lprim(Pdirapply, _, _) -> assert false *)
     | Lprim (Pccall a, args, loc) ->
         convert_ccall a args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
@@ -673,7 +697,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lfor (id, from_, to_, dir, loop) ->
         Lam.for_ id (convert_aux from_) (convert_aux to_) dir (convert_aux loop)
     | Lassign (id, body) -> Lam.assign id (convert_aux body)
-    | Lsend (kind, a, b, ls, loc) -> (
+    | Lsend (kind, a, b, ls, outer_loc) -> (
         let a = convert_aux a in
         let b = convert_aux b in
         let ls = Ext_list.map ls convert_aux in
@@ -702,15 +726,12 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                     (* Since https://github.com/ocaml/ocaml/pull/10081, `b |> a` gets
                        turned into `a b` by the typechecker. So this actually means
                        `(x ## y) z` rather than `x#y z` *)
-                    Lam.apply lam [ arg ]
-                      {
-                        ap_loc = loc;
-                        ap_inlined = Default_inline;
-                        ap_status = App_na;
-                      }
+                    convert_possible_pipe_application lam arg outer_loc
                 | _ -> assert false)
             | _ -> assert false)
-        | b -> Lam.send kind a b ls (Debuginfo.Scoped_location.to_location loc))
+        | b ->
+            Lam.send kind a b ls
+              (Debuginfo.Scoped_location.to_location outer_loc))
     | Levent (e, _ev) -> convert_aux e
     | Lifused (_, e) -> convert_aux e (* TODO: remove it ASAP *)
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
@@ -767,9 +788,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     let new_e = convert_aux e in
     let new_body = convert_aux body in
     Lam.mutlet id new_e new_body
-  and _convert_pipe (f : Lambda.lambda) (x : Lambda.lambda) outer_loc =
-    let x = convert_aux x in
-    let f = convert_aux f in
+  and convert_possible_pipe_application (f : Lam.t) (x : Lam.t) outer_loc =
     match f with
     | Lfunction
         {

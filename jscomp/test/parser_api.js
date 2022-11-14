@@ -14029,23 +14029,18 @@ function semver(loc, lhs, str) {
   var pred = match[0];
   var match$1 = semantic_version_parse(lhs, 0, lhs.length - 1 | 0);
   var lversion = match$1[0];
+  var l_major = lversion[0];
   if (pred === "Ge") {
     return Caml_obj.caml_greaterequal(lversion, version);
-  }
-  if (pred === "Gt") {
+  } else if (pred === "Gt") {
     return Caml_obj.caml_greaterthan(lversion, version);
-  }
-  if (pred === "Le") {
+  } else if (pred === "Le") {
     return Caml_obj.caml_lessequal(lversion, version);
-  }
-  if (pred === "Lt") {
+  } else if (pred === "Lt") {
     return Caml_obj.caml_lessthan(lversion, version);
-  }
-  if (pred === "Exact") {
+  } else if (pred === "Exact") {
     return Caml_obj.caml_equal(lversion, version);
-  }
-  var l_major = lversion[0];
-  if (pred === "Compatible") {
+  } else if (pred === "Compatible") {
     return major === l_major;
   } else if (major === l_major) {
     return version[1] === lversion[1];
@@ -16553,7 +16548,17 @@ function token$1(lexbuf) {
               }
               break;
           case /* EOL */100 :
-              var lines$p = lines ? /* BlankLine */2 : /* NewLine */1;
+              var lines$p;
+              switch (lines) {
+                case /* NoLine */0 :
+                    lines$p = /* NewLine */1;
+                    break;
+                case /* NewLine */1 :
+                case /* BlankLine */2 :
+                    lines$p = /* BlankLine */2;
+                    break;
+                
+              }
               _lines = lines$p;
               continue ;
           default:
@@ -16567,7 +16572,17 @@ function token$1(lexbuf) {
                     match[0],
                     match[1]
                   ]);
-              var lines$p$1 = lines >= 2 ? /* BlankLine */2 : /* NoLine */0;
+              var lines$p$1;
+              switch (lines) {
+                case /* NoLine */0 :
+                case /* NewLine */1 :
+                    lines$p$1 = /* NoLine */0;
+                    break;
+                case /* BlankLine */2 :
+                    lines$p$1 = /* BlankLine */2;
+                    break;
+                
+              }
               _lines = lines$p$1;
               continue ;
           case /* DOCSTRING */19 :

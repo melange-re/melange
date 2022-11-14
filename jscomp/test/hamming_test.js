@@ -48,16 +48,14 @@ function mul(n, param) {
 
 function cmp(param, param$1) {
   var ph = param$1[1];
+  var pl = param$1[0];
   var nh = param[1];
+  var nl = param[0];
   if (Caml_obj.caml_lessthan(nh, ph)) {
     return -1;
-  }
-  if (Caml_obj.caml_greaterthan(nh, ph)) {
+  } else if (Caml_obj.caml_greaterthan(nh, ph)) {
     return 1;
-  }
-  var pl = param$1[0];
-  var nl = param[0];
-  if (Caml_obj.caml_lessthan(nl, pl)) {
+  } else if (Caml_obj.caml_lessthan(nl, pl)) {
     return -1;
   } else if (Caml_obj.caml_greaterthan(nl, pl)) {
     return 1;
@@ -180,10 +178,10 @@ function iter_interval(f, _l, _param) {
     var param = _param;
     var l = _l;
     var stop = param[1];
+    var start = param[0];
     if (stop === 0) {
       return ;
     }
-    var start = param[0];
     var match = CamlinternalLazy.force(l);
     if (start <= 0) {
       Curry._1(f, match._0);

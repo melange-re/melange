@@ -729,34 +729,29 @@ function seq$1(ids, kind, x, y) {
   var match = x.def;
   var match$1 = y.def;
   var exit = 0;
-  if (typeof match === "number") {
-    return y;
-  }
-  if (match.TAG === /* Alt */1) {
+  if (typeof match === "number" || match.TAG !== /* Alt */1) {
+    exit = 2;
+  } else {
     if (!match._0) {
       return x;
     }
     exit = 2;
+  }
+  if (exit === 2 && typeof match$1 !== "number" && match$1.TAG === /* Alt */1 && !match$1._0) {
+    return y;
+  }
+  if (typeof match === "number") {
+    return y;
+  } else if (typeof match$1 === "number" && kind === "First") {
+    return x;
   } else {
-    exit = 2;
+    return mk_expr(ids, {
+                TAG: /* Seq */2,
+                _0: kind,
+                _1: x,
+                _2: y
+              });
   }
-  if (exit === 2) {
-    if (typeof match$1 === "number") {
-      if (kind === "First") {
-        return x;
-      }
-      
-    } else if (match$1.TAG === /* Alt */1 && !match$1._0) {
-      return y;
-    }
-    
-  }
-  return mk_expr(ids, {
-              TAG: /* Seq */2,
-              _0: kind,
-              _1: x,
-              _2: y
-            });
 }
 
 function is_eps(expr) {

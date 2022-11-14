@@ -49,7 +49,7 @@ let setup_env () =
   *)
   Bs_clflags.assume_no_mli := Bs_clflags.Mli_non_exists;
   Clflags.debug := true;
-  Bs_clflags.record_event_when_debug := false;
+  Bs_clflags.record_event_when_debug := true;
   Clflags.binary_annotations := true;
   Clflags.strict_sequence := true;
   Clflags.strict_formats := true;
