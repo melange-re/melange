@@ -74,7 +74,7 @@ module L = Js_dump_lit
 type cxt = {
   scope : Js_pp.Scope.t;
   pp : Js_pp.t;
-  sourcemap : Js_sourcemap.t option;
+  sourcemap : Js_sourcemap.t option ref;
   output_dir : string;
   package_info : Js_packages_info.t;
   output_info : Js_packages_info.output_info;
@@ -84,7 +84,7 @@ let from_pp ~output_dir ~package_info ~output_info ?sourcemap pp =
   {
     scope = Js_pp.Scope.empty;
     pp;
-    sourcemap;
+    sourcemap = ref sourcemap;
     output_dir;
     package_info;
     output_info;
@@ -122,8 +122,9 @@ let at_least_two_lines cxt = Js_pp.at_least_two_lines cxt.pp
 let flush cxt () = Js_pp.flush cxt.pp ()
 
 let write_sourcemap cxt loc =
-  match (loc, cxt.sourcemap) with
-  | Some loc, Some sourcemap -> Js_sourcemap.write sourcemap loc
+  match (loc, !(cxt.sourcemap)) with
+  | Some loc, Some sourcemap ->
+      cxt.sourcemap := Some (Js_sourcemap.add_mapping sourcemap ~pp:cxt.pp loc)
   | _ -> ()
 
 module Curry_gen = struct
@@ -1358,6 +1359,13 @@ let string_of_expression (e : J.expression) =
   flush cxt ();
   Buffer.contents buffer
 
+type ret_cxt = { scope : Js_pp.Scope.t; sourcemap : Js_sourcemap.t option }
+
 let statements ~top ~scope ~output_dir ~package_info ~output_info ?sourcemap pp b
     =
-  (statements ~top { scope; pp; sourcemap; output_dir; package_info; output_info } b).scope
+  let cxt =
+    statements ~top
+      { scope; pp; sourcemap = ref sourcemap; output_dir; package_info; output_info }
+      b
+  in
+  { scope = cxt.scope; sourcemap = !(cxt.sourcemap) }

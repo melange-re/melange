@@ -7,7 +7,7 @@
   melange_ffi
   ppxlib.ast
   dune-build-info
-  sourcemaps))
+  sourcemap))
 
 (rule
  (targets compile_letrec.ml)
