@@ -74,9 +74,9 @@ let alpha_conversion (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         | None -> Lam.prim ~primitive ~args:[ simpl arg ] ~loc)
     | Lprim { primitive; args; loc } ->
         Lam.prim ~primitive ~args:(List.map ~f:simpl args) ~loc
-    | Lfunction { arity; params; body; attr } ->
+    | Lfunction { arity; params; body; attr; loc } ->
         (* Lam_mk.lfunction kind params (simpl l) *)
-        Lam.function_ ~arity ~params ~body:(simpl body) ~attr
+        Lam.function_ ~arity ~params ~body:(simpl body) ~attr ~loc
     | Lswitch
         ( l,
           {

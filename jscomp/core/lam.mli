@@ -53,6 +53,7 @@ and lfunction = {
   params : ident list;
   body : t;
   attr : Lambda.function_attribute;
+  loc : Location.t;
 }
 
 and prim_info = private {
@@ -106,6 +107,7 @@ val function_ :
   arity:int ->
   params:ident list ->
   body:t ->
+  ?loc:Location.t ->
   t
 
 val let_ : Lam_compat.let_kind -> ident -> t -> t -> t
