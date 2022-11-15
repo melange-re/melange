@@ -52,7 +52,9 @@
   (base64
    (>= "3.1.0"))
   (cmdliner
-   (>= "1.1.0"))))
+   (>= "1.1.0"))
+  (melange-compiler-libs
+   (>= "0.0.1-414"))))
 
 (package
  (name mel)
