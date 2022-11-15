@@ -180,8 +180,7 @@ let merlin_file_gen ~(per_proj_dir : string)
           in
           Buffer.add_string buffer
             (Printf.sprintf fmt ppx.name (String.concat " " ppx.args)));
-    Ext_option.iter pp_file (fun x ->
-        Buffer.add_string buffer (merlin_flg_pp ^ x));
+    Option.iter (fun x -> Buffer.add_string buffer (merlin_flg_pp ^ x)) pp_file;
     Buffer.add_string buffer
       (merlin_flg_ppx
       ^

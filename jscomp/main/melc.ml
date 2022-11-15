@@ -245,22 +245,26 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
     Ext_list.iter alerts Warnings.parse_alert_option;
     Ext_list.iter warnings (fun w ->
-        Ext_option.iter
-          (Warnings.parse_options false w)
-          Location.(prerr_alert none));
-    Ext_option.iter output_name (fun output_name -> Clflags.output_name := Some output_name);
+        Option.iter
+          Location.(prerr_alert none)
+          (Warnings.parse_options false w));
+    Option.iter
+      (fun output_name -> Clflags.output_name := Some output_name)
+      output_name ;
     if bs_read_cmi then Bs_clflags.assume_no_mli := Mli_exists;
     Clflags.all_ppx := !Clflags.all_ppx @ ppx;
     Clflags.open_modules := !Clflags.open_modules @ open_modules;
 
-    Ext_option.iter bs_jsx (fun bs_jsx ->
-      if bs_jsx <> 3 then begin
-        raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
-      end;
-      Js_config.jsx_version := 3);
+    Option.iter (fun bs_jsx ->
+        if bs_jsx <> 3 then begin
+          raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
+        end;
+        Js_config.jsx_version := 3)
+      bs_jsx;
 
-    Ext_option.iter bs_cross_module_opt (fun bs_cross_module_opt ->
-      Js_config.cross_module_inline := bs_cross_module_opt);
+    Option.iter (fun bs_cross_module_opt ->
+        Js_config.cross_module_inline := bs_cross_module_opt)
+      bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
     if bs_ast then (
@@ -270,9 +274,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.debug := bs_g;
       Rescript_cpp.replace_directive_bool "DEBUG" true);
 
-    (* Ext_option.iter runtime setup_runtime_path; *)
-
-    Ext_option.iter bs_package_name Js_packages_state.set_package_name;
+    Option.iter Js_packages_state.set_package_name bs_package_name;
     begin match bs_module_type, bs_package_output with
     | None, [] -> ()
     | Some bs_module_type, [] ->
@@ -296,7 +298,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
     end;
 
-    Ext_option.iter bs_ns Js_packages_state.set_package_map;
+    Option.iter Js_packages_state.set_package_map bs_ns ;
 
     if as_ppx then Js_config.as_ppx := as_ppx;
     if as_pp then (
@@ -304,13 +306,15 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       Js_config.syntax_only := true);
 
     if no_alias_deps then Clflags.transparent_modules := no_alias_deps;
-    Ext_option.iter bs_gentype (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype);
+    Option.iter
+      (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype)
+      bs_gentype;
     if unboxed_types then Clflags.unboxed_types := unboxed_types;
     Ext_list.iter bs_D define_variable;
     if bs_list_conditionals then Pp.list_variables Format.err_formatter;
     if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
     if nostdlib then Js_config.no_stdlib := nostdlib;
-    Ext_option.iter color set_color_option;
+    Option.iter set_color_option color;
 
     if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
     if bs_cmi then Js_config.force_cmi := bs_cmi;
@@ -322,7 +326,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
     if where then print_standard_library ();
     if verbose then Clflags.verbose := verbose;
-    Ext_option.iter keep_locs (fun keep_locs -> Clflags.keep_locs := keep_locs);
+    Option.iter (fun keep_locs -> Clflags.keep_locs := keep_locs) keep_locs;
     if bs_no_check_div_by_zero then Js_config.check_div_by_zero := false;
     if bs_noassertfalse then Bs_clflags.no_assert_false := bs_noassertfalse;
     if noassert then Clflags.noassert := noassert;
@@ -332,9 +336,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if drawlambda then Clflags.dump_rawlambda := drawlambda;
     if dsource then Clflags.dump_source := dsource;
     if version then print_version_string ();
-    Ext_option.iter pp (fun pp -> Clflags.preprocessor := Some pp);
+    Option.iter (fun pp -> Clflags.preprocessor := Some pp) pp;
     if absname then Clflags.absname := absname;
-    Ext_option.iter bin_annot (fun bin_annot ->  Clflags.binary_annotations := bin_annot);
+    Option.iter (fun bin_annot ->  Clflags.binary_annotations := bin_annot) bin_annot;
     if i then Clflags.print_types := i;
     if nopervasives then Clflags.nopervasives := nopervasives;
     if modules then Js_config.modules := modules;
@@ -344,25 +348,25 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();
     Ext_list.iter warn_error (fun w ->
-        Ext_option.iter
-          (Warnings.parse_options true w)
-          Location.(prerr_alert none));
+        Option.iter Location.(prerr_alert none) (Warnings.parse_options true w));
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
-    Ext_option.iter bs_eval (fun s ->
-      try_eval ~f:(fun () ->
-        ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret )));
-    Ext_option.iter bs_e (fun s ->
-      try_eval ~f:(fun () ->
-        ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )));
-    Ext_option.iter intf_suffix (fun suffix -> Config.interface_suffix := suffix);
+    Option.iter (fun s ->
+        try_eval ~f:(fun () ->
+          ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret )))
+      bs_eval ;
+    Option.iter (fun s ->
+        try_eval ~f:(fun () ->
+          ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )))
+      bs_e ;
+    Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
 
-    Ext_option.iter impl_source_file impl;
-    Ext_option.iter intf_source_file intf;
+    Option.iter impl impl_source_file ;
+    Option.iter intf intf_source_file ;
     anonymous ~rev_args:(List.rev filenames)
     with
     | Arg.Bad msg ->

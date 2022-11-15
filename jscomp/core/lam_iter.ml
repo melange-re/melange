@@ -50,11 +50,11 @@ let inner_iter (l : t) (f : t -> unit) : unit =
       f arg;
       Ext_list.iter_snd sw_consts f;
       Ext_list.iter_snd sw_blocks f;
-      Ext_option.iter sw_failaction f
+      Option.iter f sw_failaction
   | Lstringswitch (arg, cases, default) ->
       f arg;
       Ext_list.iter_snd cases f;
-      Ext_option.iter default f
+      Option.iter f default
   | Lglobal_module _ -> ()
   | Lprim { args; primitive = _; loc = _ } -> List.iter f args
   | Lstaticraise (_id, args) -> List.iter f args
@@ -84,6 +84,8 @@ let inner_iter (l : t) (f : t -> unit) : unit =
       f obj;
       List.iter f args
 
+let option_exists v f = match v with None -> false | Some x -> f x
+
 let inner_exists (l : t) (f : t -> bool) : bool =
   match l with
   | Lvar (_ : ident)
@@ -107,9 +109,9 @@ let inner_exists (l : t) (f : t -> bool) : bool =
       f arg
       || Ext_list.exists_snd sw_consts f
       || Ext_list.exists_snd sw_blocks f
-      || Ext_option.exists sw_failaction f
+      || option_exists sw_failaction f
   | Lstringswitch (arg, cases, default) ->
-      f arg || Ext_list.exists_snd cases f || Ext_option.exists default f
+      f arg || Ext_list.exists_snd cases f || option_exists default f
   | Lprim { args; primitive = _; loc = _ } -> Ext_list.exists args f
   | Lstaticraise (_id, args) -> Ext_list.exists args f
   | Lstaticcatch (e1, _vars, e2) -> f e1 || f e2

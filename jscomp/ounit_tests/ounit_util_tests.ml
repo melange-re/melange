@@ -1,6 +1,10 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 let ( =~ ) = OUnit.assert_equal ~printer:Ext_obj.dump
 
+let add_int_3 buf (x : int) =
+  Buffer.add_int8 buf (x land 0xff);
+  Buffer.add_int16_le buf (x lsr 8)
+
 let suites =
   __FILE__
   >::: [
@@ -20,35 +24,26 @@ let suites =
            (v, !cursor) =~ (0, 0) );
          ( __LOC__ >:: fun _ ->
            for i = 0 to 0xff do
-             let buf = Ext_buffer.create 0 in
-             Ext_buffer.add_int_1 buf i;
-             let s = Ext_buffer.contents buf in
+             let buf = Buffer.create 0 in
+             Buffer.add_int8 buf i;
+             let s = Buffer.contents buf in
              s =~ String.make 1 (Char.chr i);
              Ext_string.get_int_1 s 0 =~ i
            done );
          ( __LOC__ >:: fun _ ->
            for i = 0x100 to 0xff_ff do
-             let buf = Ext_buffer.create 0 in
-             Ext_buffer.add_int_2 buf i;
-             let s = Ext_buffer.contents buf in
+             let buf = Buffer.create 0 in
+             Buffer.add_int16_le buf i;
+             let s = Buffer.contents buf in
              Ext_string.get_int_2 s 0 =~ i
            done;
-           let buf = Ext_buffer.create 0 in
-           Ext_buffer.add_int_3 buf 0x1_ff_ff;
-           Ext_string.get_int_3 (Ext_buffer.contents buf) 0 =~ 0x1_ff_ff;
-           let buf = Ext_buffer.create 0 in
-           Ext_buffer.add_int_4 buf 0x1_ff_ff_ff;
-           Ext_string.get_int_4 (Ext_buffer.contents buf) 0 =~ 0x1_ff_ff_ff );
-         ( __LOC__ >:: fun _ ->
-           let buf = Ext_buffer.create 0 in
-           Ext_buffer.add_string_char buf "hello" 'v';
-           Ext_buffer.contents buf =~ "hellov";
-           Ext_buffer.length buf =~ 6 );
-         ( __LOC__ >:: fun _ ->
-           let buf = Ext_buffer.create 0 in
-           Ext_buffer.add_char_string buf 'h' "ellov";
-           Ext_buffer.contents buf =~ "hellov";
-           Ext_buffer.length buf =~ 6 );
+           let buf = Buffer.create 0 in
+           add_int_3 buf 0x1_ff_ff;
+           Buffer.length buf =~ 3;
+           Ext_string.get_int_3 (Buffer.contents buf) 0 =~ 0x1_ff_ff;
+           let buf = Buffer.create 0 in
+           Buffer.add_int32_le buf 0x1_ff_ff_ffl;
+           Ext_string.get_int_4 (Buffer.contents buf) 0 =~ 0x1_ff_ff_ff );
          ( __LOC__ >:: fun _ ->
            String.length (Digest.to_hex (Digest.string "")) =~ 32 );
        ]

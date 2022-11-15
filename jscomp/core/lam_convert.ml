@@ -643,7 +643,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lstringswitch (e, cases, default, _) ->
         Lam.stringswitch (convert_aux e)
           (Ext_list.map_snd cases convert_aux)
-          (Ext_option.map default convert_aux)
+          (Option.map convert_aux default)
     | Lstaticraise (id, []) ->
         Lam.staticraise (Hash_int.find_default exit_map id id) []
     | Lstaticraise (id, args) ->
@@ -839,7 +839,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
             sw_consts = Ext_list.map_snd s.sw_consts convert_aux;
             sw_blocks_full = Ext_list.length_ge s.sw_blocks s.sw_numblocks;
             sw_blocks = Ext_list.map_snd s.sw_blocks convert_aux;
-            sw_failaction = Ext_option.map s.sw_failaction convert_aux;
+            sw_failaction = Option.map convert_aux s.sw_failaction;
             sw_names = s.sw_names;
           }
   in

@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -37,10 +37,10 @@ let rec collect_start buf s off len =
     let next = succ off in
     match String.unsafe_get s off with
     | 'a' .. 'z' as c ->
-        Ext_buffer.add_char buf (Char.uppercase_ascii c);
+        Buffer.add_char buf (Char.uppercase_ascii c);
         collect_next buf s next len
     | 'A' .. 'Z' as c ->
-        Ext_buffer.add_char buf c;
+        Buffer.add_char buf c;
         collect_next buf s next len
     | _ -> collect_start buf s next len
 
@@ -50,7 +50,7 @@ and collect_next buf s off len =
     let next = off + 1 in
     match String.unsafe_get s off with
     | ('a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_') as c ->
-        Ext_buffer.add_char buf c;
+        Buffer.add_char buf c;
         collect_next buf s next len
     | '.' | '-' -> collect_start buf s next len
     | _ -> collect_next buf s next len
@@ -71,14 +71,14 @@ let js_id_name_of_hint_name module_name =
       Ext_string.capitalize_ascii (Ext_string.tail_from module_name offset)
     else
       let str_len = String.length module_name in
-      let buf = Ext_buffer.create str_len in
+      let buf = Buffer.create str_len in
       collect_start buf module_name offset str_len;
-      if Ext_buffer.is_empty buf then Ext_string.capitalize_ascii module_name
-      else Ext_buffer.contents buf)
+      if Buffer.length buf = 0 then Ext_string.capitalize_ascii module_name
+      else Buffer.contents buf)
   else if good_hint_name module_name 0 then
     Ext_string.capitalize_ascii module_name
   else
     let str_len = String.length module_name in
-    let buf = Ext_buffer.create str_len in
+    let buf = Buffer.create str_len in
     collect_start buf module_name 0 str_len;
-    if Ext_buffer.is_empty buf then module_name else Ext_buffer.contents buf
+    if Buffer.length buf = 0 then module_name else Buffer.contents buf

@@ -371,7 +371,8 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string) :
             interpret_json ~package_kind ~per_proj_dir:dep.package_path
           in
           let ns_incl =
-            Ext_option.map namespace (fun _ ->
+            Option.map
+              (fun _ ->
                 let artifacts_dir =
                   Mel_workspace.absolute_artifacts_dir
                     ~package_name:(Bsb_pkg_types.to_string dep.package_name)
@@ -386,6 +387,7 @@ and extract_dependencies ~package_kind (map : json_map) cwd (field : string) :
                   dir = rel_dir;
                   package_name = Bsb_pkg_types.to_string dep.package_name;
                 })
+              namespace
           in
           let dirs =
             Ext_list.filter_map files

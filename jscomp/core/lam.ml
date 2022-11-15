@@ -203,7 +203,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       let arg = f arg in
       let sw_consts = Ext_list.map_snd sw_consts f in
       let sw_blocks = Ext_list.map_snd sw_blocks f in
-      let sw_failaction = Ext_option.map sw_failaction f in
+      let sw_failaction = Option.map f sw_failaction in
       Lswitch
         ( arg,
           {
@@ -217,7 +217,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
   | Lstringswitch (arg, cases, default) ->
       let arg = f arg in
       let cases = Ext_list.map_snd cases f in
-      let default = Ext_option.map default f in
+      let default = Option.map f default in
       Lstringswitch (arg, cases, default)
   | Lstaticraise (id, args) ->
       let args = Ext_list.map args f in

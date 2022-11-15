@@ -70,11 +70,11 @@ let pass_free_variables (l : Lam.t) : Set_ident.t =
         free arg;
         free_list_snd sw.sw_consts;
         free_list_snd sw.sw_blocks;
-        Ext_option.iter sw.sw_failaction free
+        Option.iter free sw.sw_failaction
     | Lstringswitch (arg, cases, default) ->
         free arg;
         free_list_snd cases;
-        Ext_option.iter default free
+        Option.iter free default
     | Lstaticraise (_, args) -> free_list args
     | Lifthenelse (e1, e2, e3) ->
         free e1;

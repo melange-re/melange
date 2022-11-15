@@ -508,7 +508,7 @@ let get_1_2_3_4 (x : string) ~off len : int =
 
 let unsafe_sub  x offs len =
   let b = Bytes.create len in
-  Ext_bytes.unsafe_blit_string x offs b 0 len;
+  Bytes.unsafe_blit_string x offs b 0 len;
   (Bytes.unsafe_to_string b)
 
 let is_valid_hash_number (x:string) =

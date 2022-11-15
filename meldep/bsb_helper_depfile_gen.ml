@@ -26,7 +26,7 @@ let ( // ) = Ext_path.combine
 
 let write_file name buf =
   let oc = open_out_bin name in
-  Ext_buffer.output_buffer oc buf;
+  Buffer.output_buffer oc buf;
   close_out oc
 
 (* return an non-decoded string *)
@@ -116,9 +116,9 @@ let emit_d ~package_name ~root_dir ~proj_dir ~(is_dev : bool)
   oc_deps ~deps mlast is_dev data namespace `impl;
   if mliast <> "" then oc_deps ~deps mliast is_dev data namespace `intf;
   let deps = Set_string.elements !deps in
-  let buf = Ext_buffer.create 2048 in
-  Ext_buffer.add_string buf "(";
+  let buf = Buffer.create 2048 in
+  Buffer.add_string buf "(";
   let deps = process_deps_for_dune ~proj_dir ~cur_dir deps in
-  Ext_buffer.add_string buf deps;
-  Ext_buffer.add_string buf ")";
+  Buffer.add_string buf deps;
+  Buffer.add_string buf ")";
   write_file filename buf

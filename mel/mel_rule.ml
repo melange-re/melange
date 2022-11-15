@@ -67,9 +67,11 @@ let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
       (Bsb_package_specs.package_flag_of_package_specs package_specs
          ~dirname:cur_dir));
 
-  Ext_option.iter global_config.gentypeconfig (fun gentypeconfig ->
+  Option.iter
+    (fun gentypeconfig ->
       output_string oc " ";
-      output_string oc gentypeconfig);
+      output_string oc gentypeconfig)
+    global_config.gentypeconfig;
   output_string oc " -o ";
   output_string oc target;
   output_string oc " %{inputs}";

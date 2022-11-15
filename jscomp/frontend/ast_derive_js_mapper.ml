@@ -82,19 +82,19 @@ let unsafeIndexGetExp = Exp.ident { loc = noloc; txt = Lident unsafeIndex }
    and later added them to object literals (ECMAScript 5) and most recently (ECMAScript 2017)
    to function parameters. *)
 let add_key_value buf key value last =
-  Ext_buffer.add_char_string buf '"' key;
-  Ext_buffer.add_string buf "\":\"";
-  Ext_buffer.add_string buf value;
-  if last then Ext_buffer.add_string buf "\""
-  else Ext_buffer.add_string buf "\","
+  Buffer.add_char buf '"';
+  Buffer.add_string buf key;
+  Buffer.add_string buf "\":\"";
+  Buffer.add_string buf value;
+  if last then Buffer.add_string buf "\"" else Buffer.add_string buf "\","
 
 let buildMap (row_fields : Parsetree.row_field list) =
   let has_bs_as = ref false in
   let data, revData =
-    let buf = Ext_buffer.create 50 in
-    let revBuf = Ext_buffer.create 50 in
-    Ext_buffer.add_string buf "{";
-    Ext_buffer.add_string revBuf "{";
+    let buf = Buffer.create 50 in
+    let revBuf = Buffer.create 50 in
+    Buffer.add_string buf "{";
+    Buffer.add_string revBuf "{";
     let rec aux (row_fields : Parsetree.row_field list) =
       match row_fields with
       | [] -> ()
@@ -117,9 +117,9 @@ let buildMap (row_fields : Parsetree.row_field list) =
           aux rest
     in
     aux row_fields;
-    Ext_buffer.add_string buf "}";
-    Ext_buffer.add_string revBuf "}";
-    (Ext_buffer.contents buf, Ext_buffer.contents revBuf)
+    Buffer.add_string buf "}";
+    Buffer.add_string revBuf "}";
+    (Buffer.contents buf, Buffer.contents revBuf)
   in
   (data, revData, !has_bs_as)
 

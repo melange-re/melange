@@ -59,9 +59,9 @@ let group1 =
     ]
 
 let parse_db db : Bsb_db_decode.t =
-  let buf = Ext_buffer.create 10_000 in
+  let buf = Buffer.create 10_000 in
   Bsb_db_encode.encode db buf;
-  let s = Ext_buffer.contents buf in
+  let s = Buffer.contents buf in
   Bsb_db_decode.decode s
 
 let suites =
