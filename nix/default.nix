@@ -1,4 +1,4 @@
-{ stdenv, ocamlPackages, lib, tree, nix-filter, nodejs }:
+{ stdenv, ocamlPackages, lib, tree, nix-filter, nodejs, doCheck ? true }:
 
 rec {
   melange = ocamlPackages.buildDunePackage rec {
@@ -38,7 +38,7 @@ rec {
       runHook postInstall
     '';
 
-    doCheck = true;
+    inherit doCheck;
     checkInputs = with ocamlPackages; [ ounit2 tree nodejs ];
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];

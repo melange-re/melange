@@ -12,26 +12,27 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, dream2nix, nix-filter }:
-
     {
-      fromPkgs =
-        pkgs: pkgs.callPackage ./nix { nix-filter = nix-filter.lib; };
+      overlays.default = import ./nix/overlay.nix nix-filter.lib;
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = nixpkgs.legacyPackages."${system}".extend (self: super: {
-          ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
-            dune_3 = osuper.dune_3.overrideAttrs (_: {
-              src = builtins.fetchurl {
-                url = https://github.com/ocaml/dune/archive/b8250aa70.tar.gz;
-                sha256 = "0rk49ywbjjzrqk47z8sc36b68ig0vvbp1b8f2hr1bp769sj9s79n";
-              };
+        pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
+          (self: super: {
+            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+              dune_3 = osuper.dune_3.overrideAttrs (_: {
+                src = builtins.fetchurl {
+                  url = https://github.com/ocaml/dune/archive/b8250aa70.tar.gz;
+                  sha256 = "0rk49ywbjjzrqk47z8sc36b68ig0vvbp1b8f2hr1bp769sj9s79n";
+                };
+              });
             });
-          });
-        });
+          })
+          self.outputs.overlays.default
+        ];
       in
 
       rec {
-        packages = self.fromPkgs pkgs // {
+        packages = pkgs.callPackage ./nix { nix-filter = nix-filter.lib; } // {
           default = packages.melange;
         };
 
