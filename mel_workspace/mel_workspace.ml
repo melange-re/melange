@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let ( // ) = Ext_path.concat
+let ( // ) = Filename.concat
 let cwd = Sys.getcwd ()
 
 let dune_build_dir =
@@ -34,7 +34,7 @@ let dune_build_dir =
 let ppx_exe = "ppx.exe"
 
 let is_dep_inside_workspace ~root_dir ~package_dir =
-  Ext_string.starts_with package_dir root_dir
+  String.starts_with ~prefix:root_dir package_dir
 
 let to_workspace_proj_dir ~package_name = Literals.node_modules // package_name
 
