@@ -52,7 +52,7 @@ jobs:
           env IGNORECONSTRAINTS="melange,meldep,mel"
           opam pin add dune https://github.com/ocaml/dune.git#b8250aa70c6c2dc314234c50f28d8756514d36ef
           opam install luv reason
-          opam pin add meldep . --with-test
+          opam pin add meldep.0.3.0 . --with-test
           opam pin add melange . --with-test
           opam pin add mel . --with-test
 
