@@ -13,7 +13,6 @@ rec {
         "dune"
         "dune.mel"
         "melange.opam"
-        "melange.opam.template"
         "bsconfig.json"
         "package.json"
         "jscomp"
@@ -45,7 +44,7 @@ rec {
     propagatedBuildInputs = with ocamlPackages; [
       melange-compiler-libs
       cmdliner
-      base64
+      meldep
     ];
     meta.mainProgram = "melc";
   };
@@ -64,11 +63,11 @@ rec {
         "mel.opam"
         "mel"
         "mel_test"
+        "meldep"
         "scripts"
         "jscomp/keywords.list"
         "jscomp/main"
         "jscomp/ext"
-        "jscomp/bsb_helper"
         "jscomp/stubs"
         "jscomp/common"
         "jscomp/frontend"
@@ -85,10 +84,41 @@ rec {
       cmdliner
       luv
       ocaml-migrate-parsetree-2
-      melange-compiler-libs
-      base64
+      meldep
     ];
 
     meta.mainProgram = "mel";
   };
+
+  meldep = ocamlPackages.buildDunePackage rec {
+    pname = "meldep";
+    version = "dev";
+    duneVersion = "3";
+
+    src = with nix-filter; filter {
+      root = ./..;
+      include = [
+        "dune-project"
+        "dune"
+        "dune.mel"
+        "meldep.opam"
+        "meldep"
+        "mel_workspace"
+        "jscomp/ext"
+        "jscomp/stubs"
+        "jscomp/keywords.list"
+        "scripts"
+      ];
+    };
+
+    nativeBuildInputs = with ocamlPackages; [ cppo ];
+    propagatedBuildInputs = with ocamlPackages; [
+      base64
+      cmdliner
+      melange-compiler-libs
+    ];
+
+    meta.mainProgram = "meldep";
+  };
+
 }

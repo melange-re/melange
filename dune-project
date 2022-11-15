@@ -40,8 +40,19 @@
    (>= "1.1.0"))
   (base64
    (>= "3.1.0"))
+  (meldep
+   (= :version))
   (cppo :build)
   (ounit :with-test)))
+
+(package
+ (name meldep)
+ (synopsis
+  "Melange counterpart to `ocamldep` that understands Melange-specific constructs")
+ (depends
+  ocaml
+  (cmdliner
+   (>= "1.1.0"))))
 
 (package
  (name mel)
