@@ -49,6 +49,7 @@
   "Melange counterpart to `ocamldep` that understands Melange-specific constructs")
  (depends
   ocaml
+  (cppo :build)
   (base64
    (>= "3.1.0"))
   (cmdliner

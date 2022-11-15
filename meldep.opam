@@ -10,6 +10,7 @@ bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
   "dune" {>= "3.5"}
   "ocaml"
+  "cppo" {build}
   "base64" {>= "3.1.0"}
   "cmdliner" {>= "1.1.0"}
   "melange-compiler-libs" {>= "0.0.1-414"}
