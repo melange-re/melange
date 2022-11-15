@@ -312,6 +312,7 @@ let translate_scoped_module_val
           E.dot expr fn)
 
 let translate_ffi :
+    loc:Location.t ->
     Lam_compile_context.t ->
     External_arg_spec.Arg_label.t External_arg_spec.Param.t list ->
     External_ffi_types.External_spec.t ->
@@ -360,7 +361,7 @@ let translate_ffi :
           ~info:{ arity = Full; call_info = Call_na }
           (E.dot self name) args
   in
-  fun cxt arg_types ffi args ~dynamic_import ->
+  fun ~loc cxt arg_types ffi args ~dynamic_import ->
     match ffi with
     | Js_call
         { external_module_name = module_name; name = fn; variadic; scopes } -> (
@@ -386,11 +387,12 @@ let translate_ffi :
               in
               add_eff eff
                 (if dynamic then splice_fn_apply fn args
-                 else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+                 else
+                   E.call ~loc ~info:{ arity = Full; call_info = Call_na } fn args)
             else
               let args, eff = assemble_args_no_splice args arg_types in
               add_eff eff
-              @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+              @@ E.call ~loc ~info:{ arity = Full; call_info = Call_na } fn args)
     | Js_module_as_fn { external_module_name; variadic } ->
         let fn = external_var ~dynamic_import external_module_name in
         if variadic then

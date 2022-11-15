@@ -444,6 +444,9 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
       *)
       let inner_cxt = sub_scope outer_cxt set_env in
       let param_body () : unit =
+        (* The OCaml `fun ... -> ..` location corresponds to the generated
+           function parameter list. *)
+        write_sourcemap cxt loc;
         if is_method then (
           match l with
           | [] -> assert false

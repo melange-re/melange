@@ -171,7 +171,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       match args with [ e1; e2 ] -> E.int32_band e1 e2 | _ -> assert false)
   | Pandint64 -> Js_long.and_ args
   | Porint -> (
-      match args with [ e1; e2 ] -> E.int32_bor e1 e2 | _ -> assert false)
+      match args with [ e1; e2 ] -> E.int32_bor ~loc e1 e2 | _ -> assert false)
   | Porint64 -> Js_long.or_ args
   | Pxorint -> (
       match args with [ e1; e2 ] -> E.int32_bxor e1 e2 | _ -> assert false)
