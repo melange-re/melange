@@ -25,6 +25,7 @@
 (** Utilities for creating block of lambda expression in JS IR *)
 
 val make_block :
+  ?loc:Location.t ->
   Js_op.mutable_flag ->
   Lam.Tag_info.t ->
   J.expression ->
