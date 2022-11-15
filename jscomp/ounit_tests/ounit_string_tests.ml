@@ -360,9 +360,7 @@ let suites =
            Ext_string.capitalize_sub "Ab-Ns.cmi" 2 =~ "Ab";
            Ext_string.capitalize_sub "Ab-Ns.cmi" 3 =~ "Ab-" );
          ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (String.length (Digest.string ""))
-             Ext_digest.length );
+           OUnit.assert_equal (String.length (Digest.string "")) 16 );
          ( __LOC__ >:: fun _ ->
            let bench =
              String.concat ";" (Ext_list.init 11 (fun i -> string_of_int i))

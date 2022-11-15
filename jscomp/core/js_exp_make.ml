@@ -805,19 +805,24 @@ let compare_int_aux (cmp : Lam_compat.integer_comparison) (l : int) r =
   | Cle -> l <= r
   | Cge -> l >= r
 
+let int32_unsigned_to_int n =
+  (* works only on 64 bit platform *)
+  let i = Int32.to_int n in
+  if i < 0 then i + 0x1_0000_0000 else i
+
 let rec int_comp (cmp : Lam_compat.integer_comparison) ?loc ?comment (e0 : t)
     (e1 : t) =
   match (cmp, e0.expression_desc, e1.expression_desc) with
   | _, Number ((Int _ | Uint _) as l), Number ((Int _ | Uint _) as r) ->
       let l =
         match l with
-        | Uint l -> Ext_int.int32_unsigned_to_int l
+        | Uint l -> int32_unsigned_to_int l
         | Int { i = l } -> Int32.to_int l
         | _ -> assert false
       in
       let r =
         match r with
-        | Uint l -> Ext_int.int32_unsigned_to_int l
+        | Uint l -> int32_unsigned_to_int l
         | Int { i = l } -> Int32.to_int l
         | _ -> assert false
       in

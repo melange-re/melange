@@ -272,10 +272,12 @@ let () = Oprint.map_primitive_name :=
   (fun s -> String.escaped s) (* For debugging*)
 #endif
 
+external from_bytes_unsafe : bytes -> int -> 'a = "caml_input_value_from_bytes"
+
 (* TODO:  better error message when version mismatch *)
 let from_string s : t =
   if is_bs_primitive s  then
-    Ext_marshal.from_string_uncheck s
+    from_bytes_unsafe (Bytes.unsafe_of_string s) 0
   else Ffi_normal
 
 

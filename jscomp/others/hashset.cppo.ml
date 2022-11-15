@@ -162,4 +162,3 @@ let mergeMany h arr =
   for i = 0 to len - 1 do
     add h (A.getUnsafe arr i)
   done
-
