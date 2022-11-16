@@ -51,6 +51,18 @@ end
 module W = Sourcemap.Make_json_writer (Json_writer)
 module R = Sourcemap.Make_json_reader (Json_reader)
 
+module Pos = struct
+  type t = Lexing.position
+
+  let line_col (t : t) =
+    let line = t.pos_lnum and col = t.pos_cnum - t.pos_bol in
+    { Sourcemap.line; col }
+
+  let pp fmt (t : t) =
+    let { Sourcemap.line; col } = line_col t in
+    Format.fprintf fmt "%d:%d" line col
+end
+
 (* TODO: only works up to 31bits Vlq, hopefully this will never be a problem *)
 let add_mapping (t : t) ~(pp : Js_pp.t) loc =
   let start = loc.Location.loc_start in
@@ -73,6 +85,11 @@ let add_mapping (t : t) ~(pp : Js_pp.t) loc =
   Format.eprintf "add mapping dude orig: %a; gen: %a@." Sourcemap.pp_line_col
     original.original_loc Sourcemap.pp_line_col generated;
   Sourcemap.add_mapping ~original ~generated t
+
+let add_sources_content t content =
+  Sourcemap.add_source_content t
+    ~source:(Option.get (Sourcemap.file t))
+    ~content
 
 let create ~source_name = Sourcemap.create ~file:source_name ()
 let to_string t = Ext_json_noloc.to_string (W.json_of_sourcemap t)
