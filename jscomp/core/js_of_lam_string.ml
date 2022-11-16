@@ -30,18 +30,20 @@ module E = Js_exp_make
 *)
 
 let const_char (i : char) = E.int ~c:i (Int32.of_int @@ Char.code i)
+let caml_char_of_int (v : J.expression) = v
+let caml_char_to_int v = v
 
 (* string [s[i]] expects to return a [ocaml_char] *)
-let ref_string e e1 = E.char_to_int (E.string_index e e1)
+let ref_string ?loc e e1 = E.char_to_int ?loc (E.string_index e e1)
 
 (* [s[i]] excepts to return a [ocaml_char]
    We use normal array for [bytes]
    TODO: we can use [Buffer] in the future
 *)
-let ref_byte e e0 = E.array_index e e0
+let ref_byte ?loc e e0 = E.array_index ?loc e e0
 
 (* {Bytes.set : bytes -> int -> char -> unit }*)
-let set_byte e e0 e1 = E.assign (E.array_index e e0) e1
+let set_byte ?loc e e0 e1 = E.assign ?loc (E.array_index e e0) e1
 
 (**
    Note that [String.fromCharCode] also works, but it only
@@ -59,10 +61,8 @@ let set_byte e e0 e1 = E.assign (E.array_index e e0) e1
        Maxiume call stack size exceeded
    ]}
 *)
-let bytes_to_string e =
-  E.runtime_call ~module_name:Js_runtime_modules.bytes
-    ~fn_name:"bytes_to_string" [ e ]
+let bytes_to_string ?loc e =
+  E.runtime_call ?loc Js_runtime_modules.bytes "bytes_to_string" [ e ]
 
-let bytes_of_string s =
-  E.runtime_call ~module_name:Js_runtime_modules.bytes
-    ~fn_name:"bytes_of_string" [ s ]
+let bytes_of_string ?loc s =
+  E.runtime_call ?loc Js_runtime_modules.bytes "bytes_of_string" [ s ]

@@ -47,6 +47,6 @@
 module E = Js_exp_make
 
 (* Parrayref(u|s) *)
-let make_array mt args = E.array mt args
-let set_array e e0 e1 = E.assign (E.array_index e e0) e1
-let ref_array e e0 = E.array_index e e0
+let make_array ?loc mt args = E.array ?loc mt args
+let set_array ?loc e e0 e1 = E.assign ?loc (E.array_index e e0) e1
+let ref_array ?loc e e0 = E.array_index ?loc e e0
