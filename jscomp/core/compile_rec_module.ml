@@ -13,7 +13,6 @@ let bs_update_mod (args : t list) loc : t =
       loc )
 
 type loc = t
-type shape = t
 
 type binding =
   Translmod.id_or_ignore_loc
@@ -58,6 +57,7 @@ let eval_rec_bindings_aux (bindings : binding list) (cont : t) : t =
 *)
 let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   match lam with
+  | Levent (lam, _) -> is_function_or_const_block lam acc
   | Lprim (Pmakeblock _, args, _) ->
       Ext_list.for_all args (fun x ->
           match x with
