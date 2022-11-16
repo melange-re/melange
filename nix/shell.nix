@@ -43,7 +43,6 @@ mkShell {
   ])
   ++ lib.optionals release-mode [ cacert curl ocamlPackages.dune-release git ];
   shellHook = ''
-    PATH=$PWD/bin:$PATH
-    ln -sfn _build/install/default/bin ./bin
+    PATH=$PWD/_build/install/default/bin:$PATH
   '';
 }

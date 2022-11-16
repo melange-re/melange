@@ -1,4 +1,4 @@
-Unreleased
+0.3.1 2022-11-16
 ---------------
 
 - Disable warning 69 (`unused-field` in record) for the private record
