@@ -10,6 +10,16 @@ module Sourcemap = struct
   let pp_line_col fmt { line; col } = Format.fprintf fmt "%d:%d" line col
 end
 
+module Pos = struct
+  type t = Lexing.position
+
+  let line_col (t : t) =
+    let line = t.pos_lnum and col = t.pos_cnum - t.pos_bol in
+    { Sourcemap.line; col }
+
+  let pp fmt (t : t) = Sourcemap.pp_line_col fmt (line_col t)
+end
+
 type t = Sourcemap.t
 
 module Json_writer : Sourcemap.Json_writer_intf with type t = Ext_json_noloc.t =
@@ -50,18 +60,6 @@ end
 
 module W = Sourcemap.Make_json_writer (Json_writer)
 module R = Sourcemap.Make_json_reader (Json_reader)
-
-module Pos = struct
-  type t = Lexing.position
-
-  let line_col (t : t) =
-    let line = t.pos_lnum and col = t.pos_cnum - t.pos_bol in
-    { Sourcemap.line; col }
-
-  let pp fmt (t : t) =
-    let { Sourcemap.line; col } = line_col t in
-    Format.fprintf fmt "%d:%d" line col
-end
 
 (* TODO: only works up to 31bits Vlq, hopefully this will never be a problem *)
 let add_mapping (t : t) ~(pp : Js_pp.t) loc =
