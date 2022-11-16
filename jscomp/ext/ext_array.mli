@@ -42,7 +42,6 @@ type 'a split = No_split | Split of 'a array * 'a array
 
 val find_and_split : 'a array -> ('a -> 'b -> bool) -> 'b -> 'a split
 val exists : 'a array -> ('a -> bool) -> bool
-val is_empty : 'a array -> bool
 val for_all2_no_exn : 'a array -> 'b array -> ('a -> 'b -> bool) -> bool
 val for_alli : 'a array -> (int -> 'a -> bool) -> bool
 val map : 'a array -> ('a -> 'b) -> 'b array

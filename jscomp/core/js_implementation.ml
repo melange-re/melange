@@ -222,7 +222,7 @@ let make_structure_item ~ns cunit : Parsetree.structure_item =
   let loc = Location.none in
   Str.module_
     (Mb.mk { txt = Some cunit; loc }
-       (Mod.ident { txt = Lident (Ext_namespace_encode.make ~ns cunit); loc }))
+       (Mod.ident { txt = Lident (Ext_namespace.encode ~ns cunit); loc }))
 
 (* decoding [.mlmap]
    keep in sync {!Bsb_namespace_map_gen.output} *)

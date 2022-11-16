@@ -1,5 +1,5 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let ( =~ ) = OUnit.assert_equal ~printer:Ext_obj.dump
+let ( =~ ) = OUnit.assert_equal ~printer:Ounit_test_util.dump
 let printer_string x = x
 let string_eq = OUnit.assert_equal ~printer:(fun id -> id)
 
@@ -204,8 +204,8 @@ let suites =
            in
            for _ = 0 to 3000 do
              let chars = [| 'a'; 'b'; 'c'; 'd' |] in
-             let x = Ounit_data_random.random_string chars 129 in
-             let y = Ounit_data_random.random_string chars 129 in
+             let x = Ounit_test_util.random_string chars 129 in
+             let y = Ounit_test_util.random_string chars 129 in
              let a = Ext_string.compare x y in
              let b = slow_compare x y in
              if same_sign a b then OUnit.assert_bool __LOC__ true

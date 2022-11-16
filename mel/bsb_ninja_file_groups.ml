@@ -139,7 +139,7 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
   in
   let output_d_as_dep = Format.asprintf "(include %s)" (basename output_d) in
   let output_filename_sans_extension =
-    Ext_namespace_encode.make ?ns:namespace filename_sans_extension
+    Ext_namespace.encode ?ns:namespace filename_sans_extension
   in
   let output_cmi = output_filename_sans_extension ^ Literals.suffix_cmi in
   let output_cmj = output_filename_sans_extension ^ Literals.suffix_cmj in

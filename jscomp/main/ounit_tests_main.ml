@@ -29,20 +29,16 @@ let suites =
          Ounit_scc_tests.suites;
          Ounit_list_test.suites;
          Ounit_hash_set_tests.suites;
-         Ounit_union_find_tests.suites;
          Ounit_bal_tree_tests.suites;
          Ounit_hash_stubs_test.suites;
          Ounit_map_tests.suites;
          Ounit_ordered_hash_set_tests.suites;
          Ounit_hashtbl_tests.suites;
          Ounit_string_tests.suites;
-         Ounit_topsort_tests.suites;
-         (* Ounit_sexp_tests.suites; *)
          Ounit_int_vec_tests.suites;
          Ounit_ident_mask_tests.suites;
          Ounit_cmd_tests.suites;
          Ounit_ffi_error_debug_test.suites;
-         Ounit_js_regex_checker_tests.suites;
          Ounit_utf8_test.suites;
          Ounit_unicode_tests.suites;
          Ounit_depends_format_test.suites;

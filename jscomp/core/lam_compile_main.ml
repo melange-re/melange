@@ -211,10 +211,9 @@ let () =
   if Js_config.get_diagnose () then
     let f =
       Ext_filename.new_extension !Location.input_name  ".lambda" in
-    Ext_fmt.with_file_as_pp f begin fun fmt ->
+    Ext_fmt.with_file_as_pp f (fun fmt ->
       Format.pp_print_list ~pp_sep:Format.pp_print_newline
-        Lam_group.pp_group  fmt (coerced_input.groups)
-    end;
+        Lam_group.pp_group  fmt (coerced_input.groups))
 in
 #endif
 let maybe_pure = no_side_effects groups in

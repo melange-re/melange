@@ -38,7 +38,7 @@ let suites =
       Ordered_hash_set_string.(to_sorted_array h)
       =~ [||];
       Ordered_hash_set_string.add h "1";
-      print_endline ("\n"^__LOC__ ^ "\n" ^ Ext_util.stats_to_string (Ordered_hash_set_string.stats h));
+      print_endline ("\n"^__LOC__ ^ "\n" ^ Ounit_test_util.stats_to_string (Ordered_hash_set_string.stats h));
       Ordered_hash_set_string.(to_sorted_array h)
       =~ [|"1"|];
 
@@ -50,7 +50,7 @@ let suites =
       for i = 0 to count - 1 do
         Ordered_hash_set_string.add  h (string_of_int i) ;
       done ;
-      print_endline ("\n"^__LOC__ ^ "\n" ^ Ext_util.stats_to_string (Ordered_hash_set_string.stats h));
+      print_endline ("\n"^__LOC__ ^ "\n" ^ Ounit_test_util.stats_to_string (Ordered_hash_set_string.stats h));
       Ordered_hash_set_string.(to_sorted_array h)
       =~ (Array.init count (fun i -> string_of_int i ))
     end;
@@ -73,7 +73,7 @@ let suites =
       ;
       Ordered_hash_set_string.iter (fun key rank -> assert (string_of_int rank = key))  h ;
       OUnit.assert_equal (Ordered_hash_set_string.length h) count;
-      print_endline ("\n"^__LOC__ ^ "\n" ^ Ext_util.stats_to_string (Ordered_hash_set_string.stats h));
+      print_endline ("\n"^__LOC__ ^ "\n" ^ Ounit_test_util.stats_to_string (Ordered_hash_set_string.stats h));
       Ordered_hash_set_string.clear h ;
       OUnit.assert_equal (Ordered_hash_set_string.length h) 0;
     end;
@@ -95,7 +95,7 @@ let suites =
       ;
       Ordered_hash_set_string.iter (fun key rank -> assert (string_of_int rank = key))  h ;
       OUnit.assert_equal (Ordered_hash_set_string.length h) count;
-      print_endline ("\n"^__LOC__ ^ "\n" ^ Ext_util.stats_to_string (Ordered_hash_set_string.stats h));
+      print_endline ("\n"^__LOC__ ^ "\n" ^ Ounit_test_util.stats_to_string (Ordered_hash_set_string.stats h));
       Ordered_hash_set_string.clear h ;
       OUnit.assert_equal (Ordered_hash_set_string.length h) 0;
     end;

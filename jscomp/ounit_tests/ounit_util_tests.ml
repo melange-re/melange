@@ -1,5 +1,5 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let ( =~ ) = OUnit.assert_equal ~printer:Ext_obj.dump
+let ( =~ ) = OUnit.assert_equal ~printer:Ounit_test_util.dump
 
 let add_int_3 buf (x : int) =
   Buffer.add_int8 buf (x land 0xff);

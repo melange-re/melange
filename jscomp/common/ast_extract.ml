@@ -33,9 +33,20 @@ let bound_vars = SMap.empty
 
 type 'a kind = 'a Ml_binary.kind
 
+let ref_protect r v body =
+  let old = !r in
+  try
+    r := v;
+    let res = body () in
+    r := old;
+    res
+  with x ->
+    r := old;
+    raise x
+
 let read_parse_and_extract (type t) (k : t kind) (ast : t) : Set_string.t =
   Depend.free_structure_names := Set_string.empty;
-  Ext_ref.protect Clflags.transparent_modules false (fun _ ->
+  ref_protect Clflags.transparent_modules false (fun _ ->
       List.iter (* check *)
         (fun modname ->
           ignore @@ Depend.open_module bound_vars (Longident.Lident modname))

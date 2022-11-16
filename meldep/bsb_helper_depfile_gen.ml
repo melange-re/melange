@@ -41,7 +41,7 @@ let extract_dep_raw_string (fn : string) : string =
 let magic_sep_char = '\n'
 
 let encode_cm_file ~ext ?namespace source =
-  Ext_namespace_encode.make ?ns:namespace source ^ ext
+  Ext_namespace.encode ?ns:namespace source ^ ext
 
 (* For cases with self cycle
     e.g, in b.ml

@@ -66,8 +66,8 @@ let id_parsing_x2 x =
   else (
     prerr_endline "ERROR";
     prerr_endline normal_s;
-    Format.fprintf Format.err_formatter "%a@.%a@." Ext_obj.pp_any stru
-      Ext_obj.pp_any normal_ss;
+    Format.fprintf Format.err_formatter "%a@.%a@." Ounit_test_util.pp_any stru
+      Ounit_test_util.pp_any normal_ss;
 
     prerr_endline (Ext_json_noloc.to_string normal_ss);
     false)
