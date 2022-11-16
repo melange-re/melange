@@ -36,6 +36,7 @@
   (cmdliner
    (>= "1.1.0"))
   dune-build-info
+  vlq
   (cppo :build)
   (alcotest :with-test)
   (reason :with-test)
