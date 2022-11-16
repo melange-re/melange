@@ -21,6 +21,8 @@ function fake_c2(a_type, b_type) {
           return 33;
         }
         break;
+    case "string" :
+        return 1;
     case "undefined" :
         return -1;
     default:
@@ -28,14 +30,10 @@ function fake_c2(a_type, b_type) {
   }
   if (b_type === "undefined") {
     return 1;
-  }
-  switch (a_type) {
-    case "number" :
-        return 3;
-    case "string" :
-        return 1;
-    default:
-      return 0;
+  } else if (a_type === "number") {
+    return 3;
+  } else {
+    return 0;
   }
 }
 

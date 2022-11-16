@@ -105,9 +105,8 @@ function find_ticker_by_name(all_tickers, ticker) {
 
 function print_all_composite(all_tickers) {
   List.iter((function (param) {
-          var ticker_name = param.ticker_name;
           if (param.type_) {
-            console.log(ticker_name);
+            console.log(param.ticker_name);
             return ;
           }
           

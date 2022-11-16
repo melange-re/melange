@@ -35,14 +35,15 @@ function update(tr, k, w) {
   if (tr) {
     var r = tr._2;
     var l = tr._1;
-    var v = tr._0;
     if (k === 1) {
       return /* Br */{
               _0: w,
               _1: l,
               _2: r
             };
-    } else if (k % 2 === 0) {
+    }
+    var v = tr._0;
+    if (k % 2 === 0) {
       return /* Br */{
               _0: v,
               _1: update(l, k / 2 | 0, w),
@@ -71,12 +72,13 @@ function update(tr, k, w) {
 
 function $$delete(tr, n) {
   if (tr) {
+    if (n === 1) {
+      return /* Lf */0;
+    }
     var r = tr._2;
     var l = tr._1;
     var v = tr._0;
-    if (n === 1) {
-      return /* Lf */0;
-    } else if (n % 2 === 0) {
+    if (n % 2 === 0) {
       return /* Br */{
               _0: v,
               _1: $$delete(l, n / 2 | 0),

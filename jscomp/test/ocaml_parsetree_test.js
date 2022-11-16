@@ -11138,18 +11138,23 @@ function directive_parse(token_with_comments, lexbuf) {
                   var pred = match[0];
                   var match$1 = semantic_version_parse(lhs$1, 0, lhs$1.length - 1 | 0);
                   var lversion = match$1[0];
-                  var l_major = lversion[0];
                   if (pred === "Ge") {
                     return Caml_obj.caml_greaterequal(lversion, version);
-                  } else if (pred === "Gt") {
+                  }
+                  if (pred === "Gt") {
                     return Caml_obj.caml_greaterthan(lversion, version);
-                  } else if (pred === "Le") {
+                  }
+                  if (pred === "Le") {
                     return Caml_obj.caml_lessequal(lversion, version);
-                  } else if (pred === "Lt") {
+                  }
+                  if (pred === "Lt") {
                     return Caml_obj.caml_lessthan(lversion, version);
-                  } else if (pred === "Exact") {
+                  }
+                  if (pred === "Exact") {
                     return Caml_obj.caml_equal(lversion, version);
-                  } else if (pred === "Compatible") {
+                  }
+                  var l_major = lversion[0];
+                  if (pred === "Compatible") {
                     return major === l_major;
                   } else if (major === l_major) {
                     return version[1] === lversion[1];
@@ -13288,17 +13293,7 @@ function token$1(lexbuf) {
               }
               break;
           case /* EOL */100 :
-              var lines$p;
-              switch (lines) {
-                case /* NoLine */0 :
-                    lines$p = /* NewLine */1;
-                    break;
-                case /* NewLine */1 :
-                case /* BlankLine */2 :
-                    lines$p = /* BlankLine */2;
-                    break;
-                
-              }
+              var lines$p = lines ? /* BlankLine */2 : /* NewLine */1;
               _lines = lines$p;
               continue ;
           default:
@@ -13312,17 +13307,7 @@ function token$1(lexbuf) {
                     match$1[0],
                     match$1[1]
                   ]);
-              var lines$p$1;
-              switch (lines) {
-                case /* NoLine */0 :
-                case /* NewLine */1 :
-                    lines$p$1 = /* NoLine */0;
-                    break;
-                case /* BlankLine */2 :
-                    lines$p$1 = /* BlankLine */2;
-                    break;
-                
-              }
+              var lines$p$1 = lines >= 2 ? /* BlankLine */2 : /* NoLine */0;
               _lines = lines$p$1;
               continue ;
           case /* DOCSTRING */19 :

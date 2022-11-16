@@ -700,29 +700,18 @@ function pair_to_xy(pair) {
 }
 
 function make_type$1(typ, ctx) {
-  switch (typ) {
-    case /* BrickChunkL */1 :
-    case /* BrickChunkR */2 :
-        return {
-                sprite: make_particle$1(typ, ctx),
-                rot: 0,
-                lifetime: 300
-              };
-    case /* GoombaSquish */0 :
-    case /* Score100 */3 :
-    case /* Score200 */4 :
-    case /* Score400 */5 :
-    case /* Score800 */6 :
-    case /* Score1000 */7 :
-    case /* Score2000 */8 :
-    case /* Score4000 */9 :
-    case /* Score8000 */10 :
-        return {
-                sprite: make_particle$1(typ, ctx),
-                rot: 0,
-                lifetime: 30
-              };
-    
+  if (typ === 2 || typ === 1) {
+    return {
+            sprite: make_particle$1(typ, ctx),
+            rot: 0,
+            lifetime: 300
+          };
+  } else {
+    return {
+            sprite: make_particle$1(typ, ctx),
+            rot: 0,
+            lifetime: 30
+          };
   }
 }
 
@@ -826,42 +815,20 @@ function make_type$2(t) {
         return setup_obj(undefined, 2.8, undefined);
     case /* SEnemy */1 :
         var param = t._0;
-        switch (param) {
-          case /* Goomba */0 :
-          case /* GKoopa */1 :
-          case /* RKoopa */2 :
-              return setup_obj(undefined, undefined, undefined);
-          case /* GKoopaShell */3 :
-          case /* RKoopaShell */4 :
-              return setup_obj(undefined, 3, undefined);
-          
+        if (param >= 3) {
+          return setup_obj(undefined, 3, undefined);
+        } else {
+          return setup_obj(undefined, undefined, undefined);
         }
     case /* SItem */2 :
         var param$1 = t._0;
-        switch (param$1) {
-          case /* Mushroom */0 :
-          case /* FireFlower */1 :
-          case /* Star */2 :
-              return setup_obj(undefined, undefined, undefined);
-          case /* Coin */3 :
-              return setup_obj(false, undefined, undefined);
-          
+        if (param$1 >= 3) {
+          return setup_obj(false, undefined, undefined);
+        } else {
+          return setup_obj(undefined, undefined, undefined);
         }
     case /* SBlock */3 :
-        var i = t._0;
-        if (typeof i !== "number") {
-          return setup_obj(false, undefined, undefined);
-        }
-        switch (i) {
-          case /* QBlockUsed */0 :
-          case /* Brick */1 :
-          case /* UnBBlock */2 :
-          case /* Cloud */3 :
-          case /* Panel */4 :
-          case /* Ground */5 :
-              return setup_obj(false, undefined, undefined);
-          
-        }
+        return setup_obj(false, undefined, undefined);
     
   }
 }

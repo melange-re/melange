@@ -469,12 +469,13 @@ function ins(x, s) {
           };
   }
   if (s._0) {
-    var b = s._3;
     var y = s._2;
-    var a = s._1;
     if (x === y) {
       return s;
-    } else if (x < y) {
+    }
+    var b = s._3;
+    var a = s._1;
+    if (x < y) {
       return /* Node */{
               _0: /* Red */1,
               _1: ins(x, a),
@@ -490,12 +491,13 @@ function ins(x, s) {
             };
     }
   }
-  var b$1 = s._3;
   var y$1 = s._2;
-  var a$1 = s._1;
   if (x === y$1) {
     return s;
-  } else if (x < y$1) {
+  }
+  var b$1 = s._3;
+  var a$1 = s._1;
+  if (x < y$1) {
     return lbalance(ins(x, a$1), y$1, b$1);
   } else {
     return rbalance(a$1, y$1, ins(x, b$1));

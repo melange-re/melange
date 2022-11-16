@@ -47,9 +47,6 @@ function compare(context, state, _a, _b) {
             case /* Sum */2 :
                 exit$2 = 4;
                 break;
-            case /* Pow */3 :
-                exit = 1;
-                break;
             case /* Frac */4 :
                 throw {
                       RE_EXN_ID: "Assert_failure",
@@ -60,8 +57,10 @@ function compare(context, state, _a, _b) {
                       ],
                       Error: new Error()
                     };
+            case /* Pow */3 :
             case /* Gcd */5 :
-                return -1;
+                exit = 1;
+                break;
             
           }
           break;
@@ -90,9 +89,6 @@ function compare(context, state, _a, _b) {
             case /* Sum */2 :
                 exit$2 = 4;
                 break;
-            case /* Pow */3 :
-                exit = 1;
-                break;
             case /* Frac */4 :
                 na = a._0;
                 da = a._1;
@@ -100,8 +96,10 @@ function compare(context, state, _a, _b) {
                 db = b._1;
                 exit = 2;
                 break;
+            case /* Pow */3 :
             case /* Gcd */5 :
-                return -1;
+                exit = 1;
+                break;
             
           }
           break;
@@ -113,12 +111,6 @@ function compare(context, state, _a, _b) {
             case /* Sum */2 :
                 exit$2 = 4;
                 break;
-            case /* Pow */3 :
-                exit = 1;
-                break;
-            case /* Val */0 :
-            case /* Frac */4 :
-                return 1;
             case /* Gcd */5 :
                 na = a._0;
                 da = a._1;
@@ -126,7 +118,8 @@ function compare(context, state, _a, _b) {
                 db = b._1;
                 exit = 2;
                 break;
-            
+            default:
+              exit$1 = 3;
           }
           break;
       
@@ -162,16 +155,22 @@ function compare(context, state, _a, _b) {
             break;
         case /* Pow */3 :
             return -1;
-        default:
-          return 1;
+        case /* Val */0 :
+        case /* Frac */4 :
+        case /* Gcd */5 :
+            return 1;
+        
       }
     }
     switch (exit) {
       case 1 :
-          if (b.TAG === /* Pow */3) {
-            return 1;
-          } else {
-            return -1;
+          switch (b.TAG | 0) {
+            case /* Pow */3 :
+                return 1;
+            case /* Gcd */5 :
+                return -1;
+            default:
+              return -1;
           }
       case 2 :
           var denom = compare(context, state, da, db);

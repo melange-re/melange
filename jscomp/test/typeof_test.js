@@ -9,10 +9,9 @@ function string_or_number(x) {
     switch (ty) {
       case /* JSFalse */0 :
       case /* JSTrue */1 :
-      case /* JSNull */2 :
-      case /* JSUndefined */3 :
           return false;
-      
+      default:
+        return false;
     }
   } else {
     switch (ty.TAG | 0) {
@@ -25,10 +24,8 @@ function string_or_number(x) {
       case /* JSFunction */2 :
           console.log("Function");
           return false;
-      case /* JSObject */3 :
-      case /* JSSymbol */4 :
-          return false;
-      
+      default:
+        return false;
     }
   }
 }

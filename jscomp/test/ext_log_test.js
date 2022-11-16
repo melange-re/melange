@@ -48,18 +48,18 @@ function ierr(b, str, f) {
                         _1: "%s "
                       }, f)), str);
   } else {
-    return Curry._1(Format.ifprintf(Format.err_formatter, $caret$caret(/* Format */{
-                        _0: {
-                          TAG: /* String */2,
-                          _0: /* No_padding */0,
-                          _1: {
-                            TAG: /* Char_literal */12,
-                            _0: /* ' ' */32,
-                            _1: /* End_of_format */0
-                          }
-                        },
-                        _1: "%s "
-                      }, f)), str);
+    return Format.ifprintf(Format.err_formatter, $caret$caret(/* Format */{
+                      _0: {
+                        TAG: /* String */2,
+                        _0: /* No_padding */0,
+                        _1: {
+                          TAG: /* Char_literal */12,
+                          _0: /* ' ' */32,
+                          _1: /* End_of_format */0
+                        }
+                      },
+                      _1: "%s "
+                    }, f))(str);
   }
 }
 
@@ -108,22 +108,22 @@ function iwarn(b, str, f) {
                         _1: "WARN: %s "
                       }, f)), str);
   } else {
-    return Curry._1(Format.ifprintf(Format.err_formatter, $caret$caret(/* Format */{
-                        _0: {
-                          TAG: /* String_literal */11,
-                          _0: "WARN: ",
+    return Format.ifprintf(Format.err_formatter, $caret$caret(/* Format */{
+                      _0: {
+                        TAG: /* String_literal */11,
+                        _0: "WARN: ",
+                        _1: {
+                          TAG: /* String */2,
+                          _0: /* No_padding */0,
                           _1: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: {
-                              TAG: /* Char_literal */12,
-                              _0: /* ' ' */32,
-                              _1: /* End_of_format */0
-                            }
+                            TAG: /* Char_literal */12,
+                            _0: /* ' ' */32,
+                            _1: /* End_of_format */0
                           }
-                        },
-                        _1: "WARN: %s "
-                      }, f)), str);
+                        }
+                      },
+                      _1: "WARN: %s "
+                    }, f))(str);
   }
 }
 
