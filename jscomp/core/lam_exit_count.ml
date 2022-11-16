@@ -72,7 +72,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
     | Lstringswitch (l, sw, d) ->
         count l;
         Ext_list.iter_snd sw count;
-        Ext_option.iter d count
+        Option.iter count d
     | Lglobal_module _ | Lvar _ | Lmutvar _ | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         count ap_func;

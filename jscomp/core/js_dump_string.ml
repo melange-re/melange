@@ -27,7 +27,7 @@ module P = Ext_pp
 (** Avoid to allocate single char string too many times*)
 let array_str1 = Array.init 256 (fun i -> String.make 1 (Char.chr i))
 
-(** For conveting 
+(** For converting
 
 *)
 let array_conv =
@@ -51,7 +51,7 @@ let array_conv =
   |]
 
 (* https://mathiasbynens.be/notes/javascript-escapes *)
-let ( +> ) = Ext_buffer.add_string
+let ( +> ) = Buffer.add_string
 
 let escape_to_buffer f (* ?(utf=false)*) s =
   let pp_raw_string f (* ?(utf=false)*) s =
@@ -97,9 +97,9 @@ let escape_to_buffer f (* ?(utf=false)*) s =
   f +> "\""
 
 let escape_to_string s =
-  let buf = Ext_buffer.create (String.length s * 2) in
+  let buf = Buffer.create (String.length s * 2) in
   escape_to_buffer buf s;
-  Ext_buffer.contents buf
+  Buffer.contents buf
 
 let pp_string f s = P.string f (escape_to_string s)
 (* let _best_string_quote s =

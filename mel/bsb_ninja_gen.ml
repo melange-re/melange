@@ -89,9 +89,12 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
       ~g_dev_incls:source_dirs.dev ~g_sourcedirs_incls:source_dirs.lib
       ~g_lib_incls:(bsc_lib_includes ~root_dir bs_dependencies)
       ~gentypeconfig:
-        (Ext_option.map gentype_config (fun x -> "-bs-gentype " ^ x.path))
+        (Option.map
+           (fun (x : Bsb_config_types.gentype_config) ->
+             "-bs-gentype " ^ x.path)
+           gentype_config)
       ~ppx_config
-      ~pp_flags:(Ext_option.map pp_file Bsb_build_util.pp_flag)
+      ~pp_flags:(Option.map Bsb_build_util.pp_flag pp_file)
       ~namespace
       ~generators:(Mel_rule.generators generators)
       ~pp_file ~has_builtin:built_in_dependency ~reason_react_jsx
@@ -134,14 +137,16 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
 
   Bsb_ppxlib.ppxlib oc ~ppx_config;
 
-  Ext_option.iter namespace (fun ns ->
+  Option.iter
+    (fun ns ->
       Bsb_namespace_map_gen.output oc ns bs_file_groups;
 
       Bsb_ninja_targets.output_build
         ~outputs:[ ns ^ Literals.suffix_cmi ]
         ~inputs:[ ns ^ Literals.suffix_mlmap ]
         ~rule:(fun ?target:_ oc -> Mel_rule.namespace global_config oc)
-        oc);
+        oc)
+    namespace;
 
   Bsb_db_encode.write_build_cache oc bs_groups;
 

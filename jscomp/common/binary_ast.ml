@@ -49,17 +49,18 @@ let magic_sep_char = '\n'
 let write_ast (type t) ~(sourcefile : string) ~output (kind : t kind) (pt : t) :
     unit =
   let output_set = Ast_extract.read_parse_and_extract kind pt in
-  let buf = Ext_buffer.create 1000 in
-  Ext_buffer.add_char buf magic_sep_char;
+  let buf = Buffer.create 1000 in
+  Buffer.add_char buf magic_sep_char;
   Set_string.iter
     (fun s ->
-      if s <> "" && s.[0] <> '*' then
+      if s <> "" && s.[0] <> '*' then (
         (* filter *predef* *)
-        Ext_buffer.add_string_char buf s magic_sep_char)
+        Buffer.add_string buf s;
+        Buffer.add_char buf magic_sep_char))
     output_set;
   let oc = open_out_bin output in
-  output_binary_int oc (Ext_buffer.length buf);
-  Ext_buffer.output_buffer oc buf;
+  output_binary_int oc (Buffer.length buf);
+  Buffer.output_buffer oc buf;
   output_string oc sourcefile;
   output_char oc '\n';
   output_value oc pt;

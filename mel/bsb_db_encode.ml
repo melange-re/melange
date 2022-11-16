@@ -22,7 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let nl buf = Ext_buffer.add_char buf '\n'
+let nl buf = Buffer.add_char buf '\n'
+
+let add_int_3 buf (x : int) =
+  Buffer.add_int8 buf (x land 0xff);
+  Buffer.add_int16_le buf (x lsr 8)
+
+let add_int_4 buf (x : int) = Buffer.add_int32_le buf (Int32.of_int x)
 
 (* IDEAS:
    Pros:
@@ -33,30 +39,32 @@ let nl buf = Ext_buffer.add_char buf '\n'
      - not readable
 *)
 
-let make_encoding length buf : Ext_buffer.t -> int -> unit =
+let make_encoding length buf : Buffer.t -> int -> unit =
   let max_range = (length lsl 1) + 1 in
   if max_range <= 0xff then (
-    Ext_buffer.add_char buf '1';
-    Ext_buffer.add_int_1)
+    Buffer.add_char buf '1';
+    Buffer.add_int8)
   else if max_range <= 0xff_ff then (
-    Ext_buffer.add_char buf '2';
-    Ext_buffer.add_int_2)
+    Buffer.add_char buf '2';
+    Buffer.add_int16_le)
   else if length <= 0x7f_ff_ff then (
-    Ext_buffer.add_char buf '3';
-    Ext_buffer.add_int_3)
+    Buffer.add_char buf '3';
+    add_int_3)
   else if length <= 0x7f_ff_ff_ff then (
-    Ext_buffer.add_char buf '4';
-    Ext_buffer.add_int_4)
+    Buffer.add_char buf '4';
+    add_int_4)
   else assert false
 
 (* Make sure [tmp_buf1] and [tmp_buf2] is cleared ,
    they are only used to control the order.
    Strictly speaking, [tmp_buf1] is not needed
 *)
-let encode_single (db : Bsb_db.map) (buf : Ext_buffer.t) =
+let encode_single (db : Bsb_db.map) buf =
   (* module name section *)
   let len = Map_string.cardinal db in
-  if len = 0 then Ext_buffer.add_string_char buf (string_of_int len) '\n'
+  if len = 0 then (
+    Buffer.add_string buf (string_of_int len);
+    nl buf)
   else
     let mapping = Hash_string.create 50 in
     (* Pre-processing step because the DB must be sorted with
@@ -72,18 +80,20 @@ let encode_single (db : Bsb_db.map) (buf : Ext_buffer.t) =
               in
               Map_string.add acc (name ^ Literals.suffix_intf) (intf, case))
     in
-    Ext_buffer.add_string_char buf
-      (string_of_int (Map_string.cardinal modules))
-      '\n';
+    Buffer.add_string buf (string_of_int (Map_string.cardinal modules));
+    nl buf;
     Map_string.iter modules (fun name (dir, _) ->
-        Ext_buffer.add_string_char buf name '\n';
+        Buffer.add_string buf name;
+        nl buf;
         if not (Hash_string.mem mapping dir) then
           Hash_string.add mapping dir (Hash_string.length mapping));
     let length = Hash_string.length mapping in
     let rev_mapping = Array.make length "" in
     Hash_string.iter mapping (fun k i -> Array.unsafe_set rev_mapping i k);
     (* directory name section *)
-    Ext_array.iter rev_mapping (fun s -> Ext_buffer.add_string_char buf s '\t');
+    Ext_array.iter rev_mapping (fun s ->
+        Buffer.add_string buf s;
+        Buffer.add_char buf '\t');
     nl buf;
     (* module name info section *)
     let len_encoding = make_encoding length buf in
@@ -94,10 +104,10 @@ let encode_single (db : Bsb_db.map) (buf : Ext_buffer.t) =
     nl buf
 
 let encode (dbs : Bsb_db.t) buf =
-  let tmpbuf = Ext_buffer.create 100_000 in
+  let tmpbuf = Buffer.create 100_000 in
   encode_single dbs.lib tmpbuf;
   encode_single dbs.dev tmpbuf;
-  Ext_buffer.add_string buf (Base64.encode_string (Ext_buffer.contents tmpbuf))
+  Buffer.add_string buf (Base64.encode_string (Buffer.contents tmpbuf))
 
 (* shall we avoid writing such file (checking the digest)?
    It is expensive to start scanning the whole code base,
@@ -106,9 +116,9 @@ let encode (dbs : Bsb_db.t) buf =
 *)
 let write_build_cache oc (bs_files : Bsb_db.t) : unit =
   let bsbuild_cache =
-    let buf = Ext_buffer.create 100_000 in
+    let buf = Buffer.create 100_000 in
     encode bs_files buf;
-    Ext_buffer.contents buf
+    Buffer.contents buf
   in
 
   let bsbuild_rule =

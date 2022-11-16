@@ -206,8 +206,8 @@ let check_ffi ?loc ffi : bool =
   begin match ffi with
   | Js_var {name; external_module_name} ->
     upgrade (is_package_relative_path name);
-    Ext_option.iter external_module_name (fun name ->
-    upgrade (is_package_relative_path name.bundle));
+    Option.iter (fun name -> upgrade (is_package_relative_path name.bundle))
+      external_module_name;
     valid_global_name ?loc  name
   | Js_send {name }
   | Js_set  {js_set_name = name}
@@ -226,11 +226,11 @@ let check_ffi ?loc ffi : bool =
   | Js_new {external_module_name ;  name}
   | Js_call {external_module_name ;  name ; splice = _; scopes = _ }
     ->
-    Ext_option.iter external_module_name (fun external_module_name ->
-        upgrade (is_package_relative_path external_module_name.bundle));
-    Ext_option.iter external_module_name (fun name ->
-        check_external_module_name ?loc name
-      );
+    Option.iter (fun external_module_name ->
+        upgrade (is_package_relative_path external_module_name.bundle))
+      external_module_name;
+    Option.iter (fun name -> check_external_module_name ?loc name)
+      external_module_name;
 
     valid_global_name ?loc name
   end;
@@ -272,10 +272,12 @@ let () = Oprint.map_primitive_name :=
   (fun s -> String.escaped s) (* For debugging*)
 #endif
 
+external from_bytes_unsafe : bytes -> int -> 'a = "caml_input_value_from_bytes"
+
 (* TODO:  better error message when version mismatch *)
 let from_string s : t =
   if is_bs_primitive s  then
-    Ext_marshal.from_string_uncheck s
+    from_bytes_unsafe (Bytes.unsafe_of_string s) 0
   else Ffi_normal
 
 

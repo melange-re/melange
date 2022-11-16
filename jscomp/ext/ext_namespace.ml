@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -69,9 +69,9 @@ let is_valid_npm_package_name (s : string) =
 
 let namespace_of_package_name (s : string) : string =
   let len = String.length s in
-  let buf = Ext_buffer.create len in
+  let buf = Buffer.create len in
   let add capital ch =
-    Ext_buffer.add_char buf (if capital then Char.uppercase_ascii ch else ch)
+    Buffer.add_char buf (if capital then Char.uppercase_ascii ch else ch)
   in
   let rec aux capital off len =
     if off >= len then ()
@@ -85,4 +85,4 @@ let namespace_of_package_name (s : string) : string =
       | _ -> aux capital (off + 1) len
   in
   aux true 0 len;
-  Ext_buffer.contents buf
+  Buffer.contents buf

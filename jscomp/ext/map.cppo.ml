@@ -7,7 +7,7 @@ let compare_key = Ext_string.compare
 let [@inline] eq_key (x : key) y = x = y
 #elif defined TYPE_INT
 type key = int
-let compare_key = Ext_int.compare
+let compare_key = Int.compare
 let [@inline] eq_key (x : key) y = x = y
 #elif defined TYPE_IDENT
 type key = Ident.t

@@ -360,24 +360,22 @@ let suites =
            Ext_string.capitalize_sub "Ab-Ns.cmi" 2 =~ "Ab";
            Ext_string.capitalize_sub "Ab-Ns.cmi" 3 =~ "Ab-" );
          ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (String.length (Digest.string ""))
-             Ext_digest.length );
+           OUnit.assert_equal (String.length (Digest.string "")) 16 );
          ( __LOC__ >:: fun _ ->
            let bench =
              String.concat ";" (Ext_list.init 11 (fun i -> string_of_int i))
            in
-           let buf = Ext_buffer.create 10 in
-           OUnit.assert_bool __LOC__ (Ext_buffer.not_equal buf bench);
+           let buf = Buffer.create 10 in
+           OUnit.assert_bool __LOC__ (Buffer.contents buf <> bench);
            for i = 0 to 9 do
-             Ext_buffer.add_string buf (string_of_int i);
-             Ext_buffer.add_string buf ";"
+             Buffer.add_string buf (string_of_int i);
+             Buffer.add_string buf ";"
            done;
-           OUnit.assert_bool __LOC__ (Ext_buffer.not_equal buf bench);
-           Ext_buffer.add_string buf "10";
+           OUnit.assert_bool __LOC__ (Buffer.contents buf <> bench);
+           Buffer.add_string buf "10";
            (* print_endline (Ext_buffer.contents buf);
               print_endline bench; *)
-           OUnit.assert_bool __LOC__ (not (Ext_buffer.not_equal buf bench)) );
+           OUnit.assert_bool __LOC__ (Buffer.contents buf = bench) );
          ( __LOC__ >:: fun _ ->
            string_eq (Ext_filename.new_extension "a.c" ".xx") "a.xx";
            string_eq (Ext_filename.new_extension "abb.c" ".xx") "abb.xx";

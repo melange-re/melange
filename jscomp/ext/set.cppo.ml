@@ -41,7 +41,7 @@ let [@inline] eq_elt (x : elt) y = Ident.same x y
 let print_elt = Ident.print
 #elif defined TYPE_INT
 type elt = int
-let compare_elt = Ext_int.compare
+let compare_elt = Int.compare
 let print_elt = Format.pp_print_int
 let [@inline] eq_elt (x : elt) y = x = y
 #else

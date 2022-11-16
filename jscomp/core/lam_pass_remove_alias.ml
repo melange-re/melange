@@ -243,7 +243,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
             sw_blocks = Ext_list.map_snd sw_blocks simpl;
             sw_consts_full;
             sw_blocks_full;
-            sw_failaction = Ext_option.map sw_failaction simpl;
+            sw_failaction = Option.map simpl sw_failaction;
             sw_names;
           }
     | Lstringswitch (l, sw, d) ->
@@ -255,7 +255,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               | Some _ | None -> simpl l)
           | _ -> simpl l
         in
-        Lam.stringswitch l (Ext_list.map_snd sw simpl) (Ext_option.map d simpl)
+        Lam.stringswitch l (Ext_list.map_snd sw simpl) (Option.map simpl d)
     | Lstaticraise (i, ls) -> Lam.staticraise i (Ext_list.map ls simpl)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (simpl l1) ids (simpl l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (simpl l1) v (simpl l2)

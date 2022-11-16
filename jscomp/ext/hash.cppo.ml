@@ -16,7 +16,7 @@ type key = int
 type 'a t = (key, 'a)  Hash_gen.t
 let key_index (h : _ t ) (key : key) =
   (Bs_hash_stubs.hash_int  key ) land (Array.length h.data - 1)
-let eq_key = Ext_int.equal
+let eq_key = Int.equal
 
 #elif defined TYPE_FUNCTOR
 module Make (Key : Hashtbl.HashedType) = struct

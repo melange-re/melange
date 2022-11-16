@@ -69,13 +69,15 @@ module Job = struct
   let create ~task = { task; fd = None; watchers = Hashtbl.create 64 }
 
   let interrupt t =
-    Ext_option.iter t.fd (fun fd ->
+    Option.iter
+      (fun fd ->
         if Luv.Handle.is_active fd then
           match Luv.Process.kill fd Luv.Signal.sigterm with
           | Ok () -> t.fd <- None
           | Error e ->
               Bsb_log.warn "Error trying to stop program:@\n  %s"
                 (Luv.Error.strerror e))
+      t.fd
 
   let restart ?started t =
     debounce 150 ~f:(fun () ->
@@ -88,7 +90,7 @@ module Job = struct
                 t.task ())
               else t.task ()
         in
-        Ext_option.iter started (fun f -> f new_task_info);
+        Option.iter (fun f -> f new_task_info) started;
         t.fd <- Some new_task_info.fd)
 
   let stop_watchers t =

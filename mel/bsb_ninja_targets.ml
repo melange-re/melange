@@ -99,10 +99,12 @@ let output_build ?(implicit_deps = []) ?(rel_deps = []) ?(bs_dependencies = [])
         output_string oc Ext_string.single_space;
         output_string oc (Filename.basename s));
   output_string oc ")\n ";
-  Ext_option.iter alias (fun alias ->
+  Option.iter
+    (fun alias ->
       output_string oc "(alias ";
       output_string oc alias;
-      output_string oc ")\n ");
+      output_string oc ")\n ")
+    alias;
   let in_source_outputs =
     List.filter_map
       (fun (js, in_source) -> if in_source then Some js else None)

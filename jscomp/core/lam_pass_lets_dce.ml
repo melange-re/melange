@@ -234,7 +234,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
       let new_l = simplif l
       and new_consts =  Ext_list.map_snd sw.sw_consts simplif
       and new_blocks =  Ext_list.map_snd sw.sw_blocks simplif
-      and new_fail = Ext_option.map sw.sw_failaction simplif
+      and new_fail = Option.map simplif sw.sw_failaction
       in
       Lam.switch
         new_l
@@ -243,7 +243,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
     | Lstringswitch (l,sw,d) ->
       Lam.stringswitch
         (simplif l) (Ext_list.map_snd  sw simplif)
-        (Ext_option.map d simplif)
+        (Option.map simplif d)
     | Lstaticraise (i,ls) ->
       Lam.staticraise i (Ext_list.map ls simplif)
     | Lstaticcatch(l1, (i,args), l2) ->

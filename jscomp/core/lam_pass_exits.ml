@@ -213,7 +213,7 @@ let subst_helper ~try_depth (subst : subst_tbl)
         let new_l = simplif l in
         let new_consts = Ext_list.map_snd sw.sw_consts simplif in
         let new_blocks = Ext_list.map_snd sw.sw_blocks simplif in
-        let new_fail = Ext_option.map sw.sw_failaction simplif in
+        let new_fail = Option.map simplif sw.sw_failaction in
         Lam.switch new_l
           {
             sw with
@@ -224,7 +224,7 @@ let subst_helper ~try_depth (subst : subst_tbl)
     | Lstringswitch (l, sw, d) ->
         Lam.stringswitch (simplif l)
           (Ext_list.map_snd sw simplif)
-          (Ext_option.map d simplif)
+          (Option.map simplif d)
     | Ltrywith (l1, v, l2) ->
         incr try_depth;
         let l1 = simplif l1 in

@@ -84,12 +84,13 @@ let from_file_with_digest name : t * Digest.t =
   close_in ic;
   (v, digest)
 
-let from_string s : t = Marshal.from_string s Ext_digest.length
+let digest_length = 16
+let from_string s : t = Marshal.from_string s digest_length
 
 let for_sure_not_changed (name : string) (header : string) =
   if Sys.file_exists name then (
     let ic = open_in_bin name in
-    let holder = really_input_string ic Ext_digest.length in
+    let holder = really_input_string ic digest_length in
     close_in ic;
     holder = header)
   else false
@@ -165,7 +166,7 @@ type cmj_load_info = {
   cmj_table : t;
   package_path : path;
       (*
-    Note it is the package path we want 
+    Note it is the package path we want
     for ES6_global module spec
     Maybe we can employ package map in the future
   *)
