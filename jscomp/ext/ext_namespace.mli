@@ -1,5 +1,5 @@
 (* Copyright (C) 2017- Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -48,3 +48,9 @@ val js_name_of_modulename :
 *)
 val is_valid_npm_package_name : string -> bool
 val namespace_of_package_name : string -> string
+
+val encode : ?ns:string -> string -> string
+(** [encode ~ns:"Ns" "a" ]
+    A typical example would return "a-Ns"
+    Note the namespace comes from the output of [namespace_of_package_name]
+*)

@@ -253,8 +253,7 @@ let output_virtual_package ~root_dir ~package_spec ~oc
                  (fun _module_name { Bsb_db.name_sans_extension; _ } ->
                    let output_filename_sans_extension =
                      Filename.basename
-                       (Ext_namespace_encode.make ?ns:namespace
-                          name_sans_extension)
+                       (Ext_namespace.encode ?ns:namespace name_sans_extension)
                    in
                    let input_cmj =
                      output_filename_sans_extension ^ Literals.suffix_cmj

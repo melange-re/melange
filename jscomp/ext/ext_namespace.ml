@@ -86,3 +86,7 @@ let namespace_of_package_name (s : string) : string =
   in
   aux true 0 len;
   Buffer.contents buf
+
+let encode ?ns cunit =
+  Option.value ~default:cunit
+    (Option.map (fun ns -> cunit ^ Literals.ns_sep ^ ns) ns)

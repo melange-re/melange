@@ -1,5 +1,5 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let ( =~ ) = OUnit.assert_equal ~printer:Ext_obj.dump
+let ( =~ ) = OUnit.assert_equal ~printer:Ounit_test_util.dump
 
 let suites =
   __FILE__

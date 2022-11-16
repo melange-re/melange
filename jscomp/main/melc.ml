@@ -10,6 +10,27 @@
 (*                                                                     *)
 (***********************************************************************)
 
+#ifndef BS_RELEASE_BUILD
+let print_backtrace () =
+  let raw_bt = Printexc.backtrace_slots (Printexc.get_raw_backtrace ()) in
+  match raw_bt with
+  | None -> ()
+  | Some raw_bt ->
+      let acc = ref [] in
+      for i = Array.length raw_bt - 1 downto 0 do
+        let slot = raw_bt.(i) in
+        match Printexc.Slot.location slot with
+        | None -> ()
+        | Some bt -> (
+            match !acc with
+            | [] -> acc := [ bt ]
+            | hd :: _ -> if hd <> bt then acc := bt :: !acc)
+      done;
+      Ext_list.iter !acc (fun bt ->
+          Printf.eprintf "File \"%s\", line %d, characters %d-%d\n" bt.filename
+            bt.line_number bt.start_char bt.end_char)
+#endif
+
 let set_abs_input_name sourcefile =
   let sourcefile =
     if !Clflags.absname && Filename.is_relative  sourcefile then
@@ -17,19 +38,6 @@ let set_abs_input_name sourcefile =
     else sourcefile in
   Location.set_input_name sourcefile;
   sourcefile
-
-(* let setup_runtime_path path = *)
-  (* let u0 = Filename.dirname path in *)
-  (* let std = Filename.basename path in *)
-  (* let _path = Filename.dirname u0 in *)
-  (* let rescript = Filename.basename u0 in *)
-  (* (match rescript.[0] with *)
-   (* | '@' -> (* scoped package *) *)
-     (* Bs_version.package_name := rescript ^ "/" ^ std; *)
-   (* | _ -> Bs_version.package_name := std *)
-   (* | exception _ -> *)
-     (* Bs_version.package_name := std); *)
-  (* Js_config.customize_runtime := Some path *)
 
 let process_file sourcefile
   ?(kind ) ppf =
@@ -136,7 +144,7 @@ let try_eval ~f =
     | x ->
       begin
 #ifndef BS_RELEASE_BUILD
-        Ext_obj.bt ();
+        print_backtrace ();
 #endif
         Location.report_exception ppf x;
         exit 2
@@ -375,7 +383,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     | x ->
       begin
 #ifndef BS_RELEASE_BUILD
-        Ext_obj.bt ();
+        print_backtrace ();
 #endif
         Location.report_exception ppf x;
         exit 2

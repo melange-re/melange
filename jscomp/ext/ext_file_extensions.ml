@@ -1,5 +1,3 @@
-type syntax_kind = Ml | Res
-
 type valid_input =
   | Ml
   | Mli
