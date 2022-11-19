@@ -1,11 +1,12 @@
-nix-filter:
+{ nix-filter, melange-compiler-libs }:
 
 final: prev:
 
 {
   ocamlPackages = prev.ocamlPackages.overrideScope' (oself: osuper:
-    prev.callPackage ./. {
+    (melange-compiler-libs.overlays.default final prev).ocamlPackages //
+    (prev.callPackage ./. {
       inherit nix-filter;
       doCheck = false;
-    });
+    }));
 }

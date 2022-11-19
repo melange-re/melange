@@ -89,11 +89,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1668502358,
-        "narHash": "sha256-q0JQz9SUEMN4aGnxJnuYEh89j4Txru3daJZhf5z6SzA=",
+        "lastModified": 1668851003,
+        "narHash": "sha256-X7RCQQynbxStZR2m7HW38r/msMQwVl3afD6UXOCtvx4=",
         "owner": "nix-community",
         "repo": "dream2nix",
-        "rev": "5b5313e6114db6c7b14354936e23249d95279bad",
+        "rev": "c77e8379d8fe01213ba072e40946cbfb7b58e628",
         "type": "github"
       },
       "original": {
@@ -218,6 +218,29 @@
         "type": "indirect"
       }
     },
+    "melange-compiler-libs": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1668541767,
+        "narHash": "sha256-FzNuf4AJJo2y7GXSLvfGXVgfvvIE3wYTvzQws1U5+dk=",
+        "owner": "melange-re",
+        "repo": "melange-compiler-libs",
+        "rev": "911e17f814430b5ea4c9e065884a53c323ae52bd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "melange-re",
+        "repo": "melange-compiler-libs",
+        "type": "github"
+      }
+    },
     "nix-filter": {
       "locked": {
         "lastModified": 1666547822,
@@ -241,11 +264,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1668523917,
-        "narHash": "sha256-wCQpzkTkQuytloxlVmHzk9S/T4v6xfxyloR3C6OWXfA=",
+        "lastModified": 1668874951,
+        "narHash": "sha256-M4wgAmTc+ea0ltJ5EIWeAPzlh3SDXSE/Nfbpl4B/GEk=",
         "owner": "anmonteiro",
         "repo": "nix-overlays",
-        "rev": "0ab6e67213f2e3ee9a2f0519fa763f181e385945",
+        "rev": "35e06a888597e9cd955ea62a0afa1d21123fb24e",
         "type": "github"
       },
       "original": {
@@ -256,17 +279,17 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1668448833,
-        "narHash": "sha256-dt7FB0w9B3gnpnq0FRER9VwEq/sTE7LLSa4AUQFjwtA=",
+        "lastModified": 1668829732,
+        "narHash": "sha256-T8mzu6/rN1i7kSQIOuxCPYy0BVRxfFy0CsSuXYVq+V8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a82e6b5dae5b338568dec9cbe102a7be6d52e544",
+        "rev": "c4c1866143ec02016d30eabed22cd6d0de39a10b",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a82e6b5dae5b338568dec9cbe102a7be6d52e544",
+        "rev": "c4c1866143ec02016d30eabed22cd6d0de39a10b",
         "type": "github"
       }
     },
@@ -316,6 +339,7 @@
       "inputs": {
         "dream2nix": "dream2nix",
         "flake-utils": "flake-utils",
+        "melange-compiler-libs": "melange-compiler-libs",
         "nix-filter": "nix-filter",
         "nixpkgs": "nixpkgs"
       }
