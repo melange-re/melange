@@ -6,14 +6,20 @@
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:anmonteiro/nix-overlays";
     nixpkgs.inputs.flake-utils.follows = "flake-utils";
+    melange-compiler-libs.url = "github:melange-re/melange-compiler-libs";
+    melange-compiler-libs.inputs.nixpkgs.follows = "nixpkgs";
+    melange-compiler-libs.inputs.flake-utils.follows = "flake-utils";
 
     dream2nix.url = "github:nix-community/dream2nix";
     dream2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, dream2nix, nix-filter }:
+  outputs = { self, nixpkgs, flake-utils, dream2nix, nix-filter, melange-compiler-libs }:
     {
-      overlays.default = import ./nix/overlay.nix nix-filter.lib;
+      overlays.default = import ./nix/overlay.nix {
+        nix-filter = nix-filter.lib;
+        inherit melange-compiler-libs;
+      };
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
@@ -27,7 +33,6 @@
               });
             });
           })
-          self.outputs.overlays.default
         ];
       in
 
