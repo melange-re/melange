@@ -193,11 +193,20 @@ let merlin_file_gen ~(per_proj_dir : string)
           in
           Printf.sprintf fmt Bsb_global_paths.vendor_bsc
             (match opt with Jsx_v3 -> 3));
-    (if built_in_dependency then
-     let paths = [ Lazy.force Js_config.stdlib_path ] in
-     Ext_list.iter paths (fun path ->
-         Buffer.add_string buffer (merlin_s ^ path);
-         Buffer.add_string buffer (merlin_b ^ path)));
+    if built_in_dependency then (
+      (* We can't use `Js_config.stdlib_path` because that'd try to find a
+         relative path to `mel` rather than `melc`. *)
+      let melange_path =
+        match Sys.getenv "MELANGELIB" with
+        | value -> value
+        | exception Not_found ->
+            let pin = Unix.open_process_args_in "melc" [| "melc"; "-where" |] in
+            let stdlib_path = input_line pin in
+            close_in pin;
+            stdlib_path
+      in
+      Buffer.add_string buffer (merlin_s ^ melange_path);
+      Buffer.add_string buffer (merlin_b ^ melange_path));
     let bsc_string_flag = bsc_flg_to_merlin_ocamlc_flg bsc_flags in
     Buffer.add_string buffer bsc_string_flag;
     Buffer.add_string buffer (warning_to_merlin_flg warning);

@@ -6,6 +6,8 @@ Unreleased
   ([#441](https://github.com/melange-re/melange/pull/441)):
   - These are now correctly converted to the OCaml equivalent:
     `foo##bar #= assignment`
+- [mel]: fix merlin generation, broken since `mel` was moved to its own package
+  ([#442](https://github.com/melange-re/melange/pull/442))
 
 0.3.1 2022-11-16
 ---------------
