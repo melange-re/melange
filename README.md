@@ -100,7 +100,7 @@ a [`.merlin` file workflow](https://github.com/ocaml/merlin/wiki/project-configu
 Install `ocaml-lsp` and `dot-merlin-reader`:
 
 ```shell
-$ opam install ocaml-lsp dot-merlin-reader
+$ opam install ocaml-lsp-server dot-merlin-reader
 ```
 
 ### Esy
