@@ -1,4 +1,4 @@
-Unreleased
+0.3.2 2022-11-19
 ---------------
 
 - `ppx_rescript_compat` (ReScript compatibility layer): fix conversion for
