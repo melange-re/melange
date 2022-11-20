@@ -1,6 +1,12 @@
 Unreleased
 ---------------
 
+- `ppx_rescript_compat` (ReScript compatibility layer): fix conversion for
+  cases such as `foo["bar"] = assignment`
+  ([#441](https://github.com/melange-re/melange/pull/441)):
+  - These are now correctly converted to the OCaml equivalent:
+    `foo##bar #= assignment`
+
 0.3.1 2022-11-16
 ---------------
 

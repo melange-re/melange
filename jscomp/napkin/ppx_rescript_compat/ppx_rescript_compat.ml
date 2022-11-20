@@ -43,11 +43,27 @@ let expr_mapper (self : mapper) (expr : Parsetree.expression) =
         pexp_desc = Ast_uncurry_apply.property_apply loc self obj name args;
       }
   | Pexp_send
-      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _; _ } as subexpr),
-        { txt = name; loc } ) ->
+      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _; pexp_loc; _ } as subexpr),
+        arg ) ->
       (* ReScript removed the OCaml object system and abuses `Pexp_send` for
          `obj##property`. Here, we make that conversion. *)
-      { expr with pexp_desc = Ast_util.js_property loc subexpr name }
+      {
+        expr with
+        pexp_desc =
+          Pexp_apply
+            ( {
+                subexpr with
+                pexp_desc = Pexp_ident { txt = Lident "##"; loc = pexp_loc };
+              },
+              [
+                (Nolabel, subexpr);
+                ( Nolabel,
+                  {
+                    subexpr with
+                    pexp_desc = Pexp_ident { arg with txt = Lident arg.txt };
+                  } );
+              ] );
+      }
   | Pexp_let
       ( Nonrecursive,
         [
