@@ -69,7 +69,7 @@ let setup_env () =
 
   Rescript_cpp.replace_directive_bool "BS" true;
   Rescript_cpp.replace_directive_bool "JS" true;
-  Rescript_cpp.replace_directive_string "BS_VERSION"  Bs_version.version
+  Rescript_cpp.replace_directive_string "BS_VERSION"  Melange_version.version
 ;;
 
 let () =

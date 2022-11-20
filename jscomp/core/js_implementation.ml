@@ -46,8 +46,8 @@ let process_with_gentype filename =
   | None -> ()
   | Some cmd ->
       let comm =
-        cmd ^ " -bs-version " ^ Bs_version.version ^ " -cmt-add " ^ filename
-        ^ ":" ^ !Location.input_name
+        cmd ^ " -bs-version " ^ Melange_version.version ^ " -cmt-add "
+        ^ filename ^ ":" ^ !Location.input_name
       in
       if !Clflags.verbose then (
         prerr_string "+ ";

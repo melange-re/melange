@@ -217,7 +217,7 @@ module CLI = struct
   let run dune_args =
     let open Cmdliner in
     let doc = "the Melange buildpack" in
-    let info = Cmd.info "mel" ~version:Bs_version.version ~doc in
+    let info = Cmd.info "mel" ~version:Melange_version.version ~doc in
     let default = default dune_args in
     Cmd.group info ~default (List.map (fun f -> f dune_args) Commands.commands)
 end

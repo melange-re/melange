@@ -104,7 +104,7 @@ let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
 let pp_deps_program ~package_info ~(output_info : Js_packages_info.output_info)
     ~(output_prefix : string) (f : Ext_pp.t) (program : J.deps_program) =
   if not !Js_config.no_version_header then (
-    P.string f Bs_version.header;
+    P.string f Melange_version.header;
     P.newline f);
   if deps_program_is_empty program then P.string f empty_explanation
     (* This is empty module, it won't be referred anywhere *)

@@ -163,7 +163,7 @@ let print_standard_library () =
   exit 0
 
 let bs_version_string =
-  "Melange " ^ Bs_version.version ^
+  "Melange " ^ Melange_version.version ^
   " ( Using OCaml:" ^ Config.version ^ " )"
 
 let print_version_string () =

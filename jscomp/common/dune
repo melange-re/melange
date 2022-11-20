@@ -12,10 +12,7 @@
   (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
- (targets bs_version.ml)
- (mode promote)
- (deps
-  (:ml-file ../build_version.ml)
-  ../../package.json)
+ (targets melange_version.ml)
+ (deps ../build_version.ml ../../package.json)
  (action
   (run ../build_version.exe %{targets})))
