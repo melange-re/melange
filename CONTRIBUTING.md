@@ -27,7 +27,7 @@ You can also use `make nix-*` to execute arbitrary commands in the nix environme
 
 ```sh
 make nix-nvim # Runs nvim in the nix environment
-make nix-code # Runs code in the nix environment
+make nix-code # Opens VSCode in the nix environment
 make nix-fish # Runs fish shell in the nix environment
 # etc.
 ```
