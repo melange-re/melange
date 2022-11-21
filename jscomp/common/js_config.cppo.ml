@@ -44,7 +44,7 @@ let stdlib_path =
   lazy (match Sys.getenv "MELANGELIB" with
   | value ->
     let is_dir = try Sys.is_directory value with
-      Sys_error -> raise (Arg.Bad ("`$MELANGELIB` doesn't exists")) in
+      Sys_error _ -> raise (Arg.Bad ("`$MELANGELIB` doesn't exists")) in
     match is_dir with
     | true -> value
     | false -> raise (Arg.Bad ("`$MELANGELIB` isn't a directory"))
