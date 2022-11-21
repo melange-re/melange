@@ -24,9 +24,10 @@ Once you're in the shell, you have access to `dune`, `node`, `yarn`, and all the
 - You can also use `make nix-*` to execute arbitrary commands in the nix environment. e.g. If you need a text editor running with the nix environment you can do
 
 ```sh
-$ make nix-nvim
-$ make nix-code
-$ make nix-fish
+make nix-nvim # Runs nvim in the nix environment
+make nix-code # Opens VSCode in the nix environment
+make nix-fish # Runs fish shell in the nix environment
+# etc.
 ```
 
 ### Opam
