@@ -139,6 +139,14 @@ Add the following to `esy.json`:
 }
 ```
 
+#### Neovim (Built-in LSP support available on version >= 0.8)
+
+```lua
+require('lspconfig').ocamllsp.setup {
+  cmd = { 'ocamllsp', '--fallback-read-dot-merlin' }
+}
+```
+
 ## Community
 
 - There's a [`#melange` channel](https://discord.gg/mArvFMQKnK) in the
