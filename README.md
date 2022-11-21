@@ -139,16 +139,11 @@ Add the following to `esy.json`:
 }
 ```
 
-#### Neovim >= 0.8
+#### Neovim >= 0.8 to get built-in LSP support
 
 ```lua
 require'lspconfig'.ocamllsp.setup{
-  cmd = (function()
-    local root = vim.loop.cwd()
-    return (#vim.fs.find 'bsconfig.json' > 0)
-        and { 'esy', '-P', root, 'ocamllsp', '--fallback-read-dot-merlin' }
-      or { 'opam', 'exec', '--', 'ocamllsp' }
-  end)()
+  cmd = { 'ocamllsp', '--fallback-read-dot-merlin' }
 }
 ```
 
