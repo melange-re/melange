@@ -43,11 +43,11 @@ let install_dir = lazy (
 let stdlib_path =
   lazy (match Sys.getenv "MELANGELIB" with
   | value ->
-    let is_dir = try Sys.is_directory value with
-      Sys_error _ -> raise (Arg.Bad ("`$MELANGELIB` doesn't exists")) in
-    match is_dir with
+    begin match Sys.is_directory value with
     | true -> value
-    | false -> raise (Arg.Bad ("`$MELANGELIB` isn't a directory"))
+    | false -> raise (Arg.Bad "$MELANGELIB should be a directory")
+    | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB doesn't exist")
+    end
   | exception Not_found ->
   let root =
 #ifndef BS_RELEASE_BUILD
