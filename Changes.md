@@ -1,3 +1,9 @@
+Unreleased
+---------------
+
+- [melange]: print an error message if `$MELANGELIB` is set to a directory that
+  doesn't exist ([#449](https://github.com/melange-re/melange/pull/449))
+
 0.3.2 2022-11-19
 ---------------
 
@@ -8,8 +14,6 @@
     `foo##bar #= assignment`
 - [mel]: fix merlin generation, broken since `mel` was moved to its own package
   ([#442](https://github.com/melange-re/melange/pull/442))
-- [melange]: print an error message if `$MELANGELIB` is set to a directory that
-  doesn't exist ([#449](https://github.com/melange-re/melange/pull/449))
 
 0.3.1 2022-11-16
 ---------------
