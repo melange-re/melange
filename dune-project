@@ -40,6 +40,7 @@
    (>= "1.1.0"))
   (meldep
    (= :version))
+  vlq
   (cppo :build)
   (ounit :with-test)))
 

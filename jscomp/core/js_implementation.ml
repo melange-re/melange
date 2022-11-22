@@ -141,7 +141,8 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
         ]
   | _ -> rest
 
-let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
+let after_parsing_impl ppf fname (ast : Parsetree.structure) =
+  let outputprefix = Config_util.output_prefix fname in
   Js_config.all_module_aliases :=
     !Bs_clflags.assume_no_mli = Mli_non_exists && all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
@@ -199,7 +200,7 @@ let implementation ~parser ppf fname =
   |> Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf (Config_util.output_prefix fname)
+  |> after_parsing_impl ppf fname
 
 let implementation_mlast ppf fname =
   Res_compmisc.init_path ();
@@ -207,7 +208,7 @@ let implementation_mlast ppf fname =
   Binary_ast.read_ast_exn ~fname Ml
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf (Config_util.output_prefix fname)
+  |> after_parsing_impl ppf fname
 
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
@@ -241,4 +242,4 @@ let implementation_map ppf sourcefile =
   ml_ast
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf (Config_util.output_prefix sourcefile)
+  |> after_parsing_impl ppf sourcefile

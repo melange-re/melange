@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -27,10 +27,10 @@ module E = Js_exp_make
 (* TODO: it would be even better, if the [tag_info] contains more information
    about immutablility
 *)
-let make_block mutable_flag (tag_info : Lam_tag_info.t) tag args =
+let make_block ?loc mutable_flag (tag_info : Lam_tag_info.t) tag args =
   match tag_info with
   | Blk_array -> Js_of_lam_array.make_array mutable_flag args
-  | _ -> E.make_block tag tag_info args mutable_flag
+  | _ -> E.make_block ?loc tag tag_info args mutable_flag
 (* | _, (  Tuple | Variant _ ) -> (\** TODO: check with inline record *\) *)
 (*     E.arr Immutable *)
 (*       (E.small_int  ?comment:(Lam_compile_util.comment_of_tag_info tag_info) tag   *)
@@ -40,10 +40,10 @@ let make_block mutable_flag (tag_info : Lam_tag_info.t) tag args =
 (*       (E.int  ?comment:(Lam_compile_util.comment_of_tag_info tag_info) tag   *)
 (*        :: args) *)
 
-let field (field_info : Lam_compat.field_dbg_info) e (i : int32) =
+let field ?loc (field_info : Lam_compat.field_dbg_info) e (i : int32) =
   match field_info with
   | Fld_na _ | Fld_tuple | Fld_array ->
-      E.array_index_by_int
+      E.array_index_by_int ?loc
         ?comment:(Lam_compat.str_of_field_info field_info)
         e i
   | Fld_poly_var_content -> E.poly_var_value_access e
@@ -58,9 +58,9 @@ let field (field_info : Lam_compat.field_dbg_info) e (i : int32) =
 
 let field_by_exp e i = E.array_index e i
 
-let set_field (field_info : Lam_compat.set_field_dbg_info) e i e0 =
+let set_field ?loc (field_info : Lam_compat.set_field_dbg_info) e i e0 =
   match field_info with
-  | Fld_set_na -> E.assign_by_int e i e0
+  | Fld_set_na -> E.assign_by_int ?loc e i e0
   | Fld_record_extension_set name -> E.extension_assign e i name e0
   | Fld_record_inline_set name | Fld_record_set name ->
       E.record_assign e i name e0

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -51,7 +51,7 @@ let flatten_map =
             } ->
             S.block
               (Ext_list.map args (fun arg -> self.statement self (S.exp arg)))
-        | Exp { expression_desc = Cond (a, b, c); comment } ->
+        | Exp { expression_desc = Cond (a, b, c); comment; loc } ->
             {
               statement_desc =
                 If
@@ -59,6 +59,7 @@ let flatten_map =
                     [ self.statement self (S.exp b) ],
                     [ self.statement self (S.exp c) ] );
               comment;
+              loc;
             }
         | Exp
             {
@@ -77,7 +78,7 @@ let flatten_map =
                 (* super#statement *)
                 (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
             | _ -> assert false)
-        | Return { expression_desc = Cond (a, b, c); comment } ->
+        | Return { expression_desc = Cond (a, b, c); comment; loc } ->
             {
               statement_desc =
                 If
@@ -85,6 +86,7 @@ let flatten_map =
                     [ self.statement self (S.return_stmt b) ],
                     [ self.statement self (S.return_stmt c) ] );
               comment;
+              loc;
             }
         | Return ({ expression_desc = Seq _; _ } as v) -> (
             let block = Js_analyzer.rev_flatten_seq v in

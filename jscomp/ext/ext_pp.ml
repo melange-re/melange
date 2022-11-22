@@ -57,17 +57,20 @@ let output_char t c =
   (match t.kind with
   | Channel chan -> output_char chan c
   | Buffer buf -> Buffer.add_char buf c);
-  if c = '\n' then (
-    t.line <- t.line + 1;
-    t.column <- 0)
-  else t.column <- t.column + 1
+  match c with
+  | '\n' ->
+      t.line <- t.line + 1;
+      t.column <- 0
+  | _ -> t.column <- t.column + 1
 
 let flush t = match t.kind with Channel chan -> flush chan | Buffer _ -> ()
 
+(* Sourcemaps use 0-based indexing, but the sourcemaps library takes care of
+   the translation. Files start at line 1, so we can use the original locs. *)
 let from_channel chan =
   {
     kind = Channel chan;
-    line = 0;
+    line = 1;
     column = 0;
     indent_level = 0;
     last_new_line = false;
@@ -76,7 +79,7 @@ let from_channel chan =
 let from_buffer buf =
   {
     kind = Buffer buf;
-    line = 0;
+    line = 1;
     column = 0;
     indent_level = 0;
     last_new_line = false;

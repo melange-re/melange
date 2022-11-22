@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -62,8 +62,8 @@ and translate (x : Lam_constant.t) : J.expression =
          Int64.(to_float max_int);;
          - : float = 9.22337203685477581e+18
        ]}
-       Note we should compile it to Int64 as JS's 
-       speical representation -- 
+       Note we should compile it to Int64 as JS's
+       speical representation --
        it is not representatble in JS number
     *)
       (* E.float (Int64.to_string i) *)

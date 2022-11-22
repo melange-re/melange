@@ -26,32 +26,34 @@ module E = Js_exp_make
 
 type t = J.statement
 
-let return_stmt ?comment e : t = { statement_desc = Return e; comment }
-let empty_stmt : t = { statement_desc = Block []; comment = None }
+let return_stmt ?loc ?comment e : t =
+  { statement_desc = Return e; comment; loc }
+
+let empty_stmt : t = { statement_desc = Block []; comment = None; loc = None }
 
 (* let empty_block : J.block = [] *)
-let throw_stmt ?comment v : t = { statement_desc = Throw v; comment }
+let throw_stmt ?loc ?comment v : t = { statement_desc = Throw v; comment; loc }
 
 (* avoid nested block *)
-let rec block ?comment (b : J.block) : t =
+let rec block ?loc ?comment (b : J.block) : t =
   match b with
   | [ { statement_desc = Block bs } ] -> block bs
   | [ b ] -> b
   | [] -> empty_stmt
-  | _ -> { statement_desc = Block b; comment }
+  | _ -> { statement_desc = Block b; comment; loc }
 
 (* It's a statement, we can discard some values *)
-let rec exp ?comment (e : E.t) : t =
+let rec exp ?loc ?comment (e : E.t) : t =
   match e.expression_desc with
   | Seq ({ expression_desc = Number _ | Undefined }, b)
   | Seq (b, { expression_desc = Number _ | Undefined }) ->
-      exp ?comment b
+      exp ?loc ?comment b
   | Number _ | Undefined -> block []
   (* TODO: we can do more *)
   (* | _ when is_pure e ->  block [] *)
-  | _ -> { statement_desc = Exp e; comment }
+  | _ -> { statement_desc = Exp e; comment; loc }
 
-let declare_variable ?comment ?ident_info ~kind (ident : Ident.t) : t =
+let declare_variable ?loc ?comment ?ident_info ~kind (ident : Ident.t) : t =
   let property : J.property = kind in
   let ident_info : J.ident_info =
     match ident_info with None -> { used_stats = NA } | Some x -> x
@@ -59,12 +61,13 @@ let declare_variable ?comment ?ident_info ~kind (ident : Ident.t) : t =
   {
     statement_desc = Variable { ident; value = None; property; ident_info };
     comment;
+    loc;
   }
 
-let define_variable ?comment ?ident_info ~kind (v : Ident.t)
+let define_variable ?loc ?comment ?ident_info ~kind (v : Ident.t)
     (exp : J.expression) : t =
   if exp.expression_desc = Undefined then
-    declare_variable ?comment ?ident_info ~kind v
+    declare_variable ?loc ?comment ?ident_info ~kind v
   else
     let property : J.property = kind in
     let ident_info : J.ident_info =
@@ -74,6 +77,7 @@ let define_variable ?comment ?ident_info ~kind (v : Ident.t)
       statement_desc =
         Variable { ident = v; value = Some exp; property; ident_info };
       comment;
+      loc;
     }
 
 (* let alias_variable ?comment  ~exp (v:Ident.t)  : t=
@@ -83,7 +87,7 @@ let define_variable ?comment ?ident_info ~kind (v : Ident.t)
         ident_info = {used_stats = NA }   };
     comment} *)
 
-let int_switch ?(comment : string option)
+let int_switch ?loc ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
     (e : J.expression) (clauses : (int * J.case_clause) list) : t =
   match e.expression_desc with
@@ -111,22 +115,26 @@ let int_switch ?(comment : string option)
             };
           ] )
         when Ident.same did id ->
-          define_variable ?comment ~kind id e0
+          define_variable ?loc ?comment ~kind id e0
       | Some (kind, did), _ ->
-          block (declare_variable ?comment ~kind did :: continuation)
-      | None, _ -> block continuation)
+          block ?loc (declare_variable ?loc ?comment ~kind did :: continuation)
+      | None, _ -> block ?loc continuation)
   | _ -> (
       match declaration with
       | Some (kind, did) ->
-          block
+          block ?loc
             [
-              declare_variable ?comment ~kind did;
-              { statement_desc = J.Int_switch (e, clauses, default); comment };
+              declare_variable ?loc ?comment ~kind did;
+              {
+                statement_desc = J.Int_switch (e, clauses, default);
+                comment;
+                loc;
+              };
             ]
-      | None -> { statement_desc = J.Int_switch (e, clauses, default); comment }
-      )
+      | None ->
+          { statement_desc = J.Int_switch (e, clauses, default); comment; loc })
 
-let string_switch ?(comment : string option)
+let string_switch ?loc ?(comment : string option)
     ?(declaration : (J.property * Ident.t) option) ?(default : J.block option)
     (e : J.expression) (clauses : (string * J.case_clause) list) : t =
   match e.expression_desc with
@@ -154,20 +162,25 @@ let string_switch ?(comment : string option)
             };
           ] )
         when Ident.same did id ->
-          define_variable ?comment ~kind id e0
+          define_variable ?loc ?comment ~kind id e0
       | Some (kind, did), _ ->
-          block @@ (declare_variable ?comment ~kind did :: continuation)
-      | None, _ -> block continuation)
+          block ?loc (declare_variable ?loc ?comment ~kind did :: continuation)
+      | None, _ -> block ?loc continuation)
   | _ -> (
       match declaration with
       | Some (kind, did) ->
-          block
+          block ?loc
             [
-              declare_variable ?comment ~kind did;
-              { statement_desc = String_switch (e, clauses, default); comment };
+              declare_variable ?loc ?comment ~kind did;
+              {
+                statement_desc = String_switch (e, clauses, default);
+                comment;
+                loc;
+              };
             ]
       | None ->
-          { statement_desc = String_switch (e, clauses, default); comment })
+          { statement_desc = String_switch (e, clauses, default); comment; loc }
+      )
 
 let rec block_last_is_return_throw_or_continue (x : J.block) =
   match x with
@@ -216,27 +229,31 @@ let rec block_last_is_return_throw_or_continue (x : J.block) =
    ]}
    Not clear the benefit
 *)
-let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
+let if_ ?loc ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) :
+    t =
   let declared = ref false in
   let common_prefix_blocks = ref [] in
   let add_prefix b = common_prefix_blocks := b :: !common_prefix_blocks in
   let rec aux ?comment (e : J.expression) (ifso : J.block) (ifnot : J.block) : t
       =
     match (e.expression_desc, ifnot) with
-    | Bool boolean, _ -> block (if boolean then ifso else ifnot)
+    | Bool boolean, _ -> block ?loc (if boolean then ifso else ifnot)
     | Js_not pred_not, _ :: _ -> aux ?comment pred_not ifnot ifso
     | _ -> (
         match (ifso, ifnot) with
-        | [], [] -> exp e
+        | [], [] -> exp ?loc e
         | [], _ ->
             aux ?comment (E.not e) ifnot [] (*Make sure no infinite loop*)
         | ( [ { statement_desc = Return ret_ifso; _ } ],
             [ { statement_desc = Return ret_ifnot; _ } ] ) ->
-            return_stmt (E.econd e ret_ifso ret_ifnot)
+            return_stmt ?loc (E.econd e ret_ifso ret_ifnot)
         | _, [ { statement_desc = Return _ } ] ->
-            block ({ statement_desc = If (E.not e, ifnot, []); comment } :: ifso)
+            block ?loc
+              ({ statement_desc = If (E.not e, ifnot, []); comment; loc }
+              :: ifso)
         | _, _ when block_last_is_return_throw_or_continue ifso ->
-            block ({ statement_desc = If (e, ifso, []); comment } :: ifnot)
+            block ?loc
+              ({ statement_desc = If (e, ifso, []); comment; loc } :: ifnot)
         | ( [
               {
                 statement_desc =
@@ -272,11 +289,12 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             match declaration with
             | Some (kind, id) when Ident.same id var_ifso ->
                 declared := true;
-                define_variable ~kind var_ifso (E.econd e rhs_ifso lhs_ifnot)
-            | _ -> exp (E.assign lhs_ifso (E.econd e rhs_ifso lhs_ifnot)))
+                define_variable ?loc ~kind var_ifso
+                  (E.econd e rhs_ifso lhs_ifnot)
+            | _ -> exp ?loc (E.assign lhs_ifso (E.econd e rhs_ifso lhs_ifnot)))
         | ( [ { statement_desc = Exp exp_ifso; _ } ],
             [ { statement_desc = Exp exp_ifnot; _ } ] ) ->
-            exp (E.econd e exp_ifso exp_ifnot)
+            exp ?loc (E.econd e exp_ifso exp_ifnot)
         | [ { statement_desc = If (pred1, ifso1, ifnot1) } ], _
           when Js_analyzer.eq_block ifnot1 ifnot ->
             aux ?comment (E.and_ e pred1) ifso1 ifnot1
@@ -297,7 +315,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
             *)
             add_prefix ifso1;
             aux ?comment e ifso_rest ifnot_rest
-        | _ -> { statement_desc = If (e, ifso, ifnot); comment })
+        | _ -> { statement_desc = If (e, ifso, ifnot); comment; loc })
   in
   let if_block =
     aux ?comment e then_ (match else_ with None -> [] | Some v -> v)
@@ -306,29 +324,31 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
   match (!declared, declaration) with
   | true, _ | _, None ->
       if prefix = [] then if_block
-      else block (List.rev_append prefix [ if_block ])
+      else block ?loc (List.rev_append prefix [ if_block ])
   | false, Some (kind, id) ->
-      block (declare_variable ~kind id :: List.rev_append prefix [ if_block ])
+      block ?loc
+        (declare_variable ?loc ~kind id :: List.rev_append prefix [ if_block ])
 
-let assign ?comment id e : t =
-  { statement_desc = J.Exp (E.assign (E.var id) e); comment }
+let assign ?loc ?comment id e : t =
+  { statement_desc = J.Exp (E.assign (E.var id) e); comment; loc }
 
-let while_ ?comment ?label ?env (e : E.t) (st : J.block) : t =
+let while_ ?loc ?comment ?label ?env (e : E.t) (st : J.block) : t =
   let env = match env with None -> Js_closure.empty () | Some x -> x in
-  { statement_desc = While (label, e, st, env); comment }
+  { statement_desc = While (label, e, st, env); comment; loc }
 
-let for_ ?comment ?env for_ident_expression finish_ident_expression id direction
-    (b : J.block) : t =
+let for_ ?loc ?comment ?env for_ident_expression finish_ident_expression id
+    direction (b : J.block) : t =
   let env = match env with None -> Js_closure.empty () | Some x -> x in
   {
     statement_desc =
       ForRange
         (for_ident_expression, finish_ident_expression, id, direction, b, env);
     comment;
+    loc;
   }
 
-let try_ ?comment ?with_ ?finally body : t =
-  { statement_desc = Try (body, with_, finally); comment }
+let try_ ?loc ?comment ?with_ ?finally body : t =
+  { statement_desc = Try (body, with_, finally); comment; loc }
 
 (* TODO:
     actually, only loops can be labelled
@@ -339,5 +359,7 @@ let try_ ?comment ?with_ ?finally body : t =
      comment;
    } *)
 
-let continue_ : t = { statement_desc = Continue ""; comment = None }
-let debugger_block : t list = [ { statement_desc = Debugger; comment = None } ]
+let continue_ : t = { statement_desc = Continue ""; comment = None; loc = None }
+
+let debugger_block ?loc () : t list =
+  [ { statement_desc = Debugger; comment = None; loc } ]

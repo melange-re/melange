@@ -256,7 +256,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
                   Lam.const Const_js_false;
                   (* FIXME: arity 0 does not get proper supported*)
                   Lam.function_ ~arity:0 ~params:[] ~body:computation
-                    ~attr:Lambda.default_function_attribute;
+                    ~attr:Lambda.default_function_attribute ~loc;
                 ]
               in
               prim
@@ -630,7 +630,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
             ap_inlined;
             ap_status = App_na;
           }
-    | Lfunction { params; body; attr } ->
+    | Lfunction { params; body; attr; loc } ->
         let just_params = Ext_list.map params fst in
         let body = convert_aux body in
         let new_map, body =
@@ -643,6 +643,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                 Map_ident.find_default new_map x x)
         in
         Lam.function_ ~attr ~arity:(List.length params) ~params ~body
+          ~loc:(Debuginfo.Scoped_location.to_location loc)
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
         convert_let kind id e body
     | Lmutlet (_value_kind, id, e, body) (*FIXME*) -> convert_mutlet id e body

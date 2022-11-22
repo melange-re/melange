@@ -20,8 +20,17 @@
  *)
 (* Authors: Jérôme Vouillon, Hongbo Zhang  *)
 
-val statements : bool -> Ext_pp_scope.t -> Ext_pp.t -> J.block -> Ext_pp_scope.t
-(** Print JS IR to vanilla Javascript code 
+type ret_cxt = { scope : Ext_pp_scope.t; sourcemap : Js_sourcemap.t option }
+
+val statements :
+  bool ->
+  Ext_pp_scope.t ->
+  Ext_pp.t ->
+  Js_sourcemap.t option ->
+  J.block ->
+  ret_cxt
+
+(** Print JS IR to vanilla Javascript code
     Called by module {!Js_dump_program}
 *)
 

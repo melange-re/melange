@@ -107,17 +107,18 @@ let ml_module_as_var ?loc ?comment (id : Ident.t) : t =
   make_expression ?loc ?comment (Var (Qualified ({ id; kind = Ml }, None)))
 
 (* Static_index .....................*)
-let runtime_call module_name fn_name args =
-  call ~info:Js_call_info.builtin_runtime_call
+let runtime_call ?loc module_name fn_name args =
+  call ?loc ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot module_name fn_name)
     args
 
-let pure_runtime_call module_name fn_name args =
-  call ~comment:Literals.pure ~info:Js_call_info.builtin_runtime_call
+let pure_runtime_call ?loc module_name fn_name args =
+  call ?loc ~comment:Literals.pure ~info:Js_call_info.builtin_runtime_call
     (runtime_var_dot module_name fn_name)
     args
 
-let runtime_ref module_name fn_name = runtime_var_dot module_name fn_name
+let runtime_ref ?loc module_name fn_name =
+  runtime_var_dot ?loc module_name fn_name
 
 let str ?(pure = true) ?loc ?comment s : t =
   make_expression ?loc ?comment (Str (pure, s))
@@ -133,11 +134,11 @@ let array ?loc ?comment mt es : t =
 
 let some_comment = None
 
-let optional_block e : J.expression =
-  make_expression ?comment:some_comment (Optional_block (e, false))
+let optional_block ?loc e : J.expression =
+  make_expression ?loc ?comment:some_comment (Optional_block (e, false))
 
-let optional_not_nest_block e : J.expression =
-  make_expression (Optional_block (e, true))
+let optional_not_nest_block ?loc e : J.expression =
+  make_expression ?loc (Optional_block (e, true))
 
 (* used in normal property
     like [e.length], no dependency introduced
@@ -592,7 +593,7 @@ let or_ ?loc ?comment (e1 : t) (e2 : t) =
 (* TODO:
      when comparison with Int
      it is right that !(x > 3 ) -> x <= 3 *)
-let not (e : t) : t =
+let not ?loc (e : t) : t =
   match e.expression_desc with
   | Number (Int { i; _ }) -> bool (i = 0l)
   | Js_not e -> e
@@ -603,7 +604,7 @@ let not (e : t) : t =
   | Bin (Ge, a, b) -> { e with expression_desc = Bin (Lt, a, b) }
   | Bin (Le, a, b) -> { e with expression_desc = Bin (Gt, a, b) }
   | Bin (Gt, a, b) -> { e with expression_desc = Bin (Le, a, b) }
-  | _ -> make_expression (Js_not e)
+  | _ -> make_expression ?loc (Js_not e)
 
 let not_empty_branch (x : t) =
   match x.expression_desc with
@@ -720,15 +721,15 @@ let tag ?loc ?comment e : t =
    it's reduced to 31 bits for hash
 *)
 (* FIXME: unused meth_name *)
-let public_method_call _meth_name obj label cache args =
+let public_method_call ?loc _meth_name obj label cache args =
   let len = List.length args in
   (* econd (int_equal (tag obj ) obj_int_tag_literal) *)
   if len <= 7 then
-    runtime_call Js_runtime_modules.caml_oo_curry
+    runtime_call ?loc Js_runtime_modules.caml_oo_curry
       ("js" ^ string_of_int (len + 1))
       (label :: int cache :: obj :: args)
   else
-    runtime_call Js_runtime_modules.caml_oo_curry "js"
+    runtime_call ?loc Js_runtime_modules.caml_oo_curry "js"
       [ label; int cache; obj; array NA (obj :: args) ]
 
 (* TODO: handle arbitrary length of args ..
@@ -926,10 +927,10 @@ let to_uint32 ?loc ?comment (e : J.expression) : J.expression =
    we can apply a more general optimization here,
    do some algebraic rewerite rules to rewrite [triple_equal]
 *)
-let rec is_out ?comment (e : t) (range : t) : t =
+let rec is_out ?loc ?comment (e : t) (range : t) : t =
   match (range.expression_desc, e.expression_desc) with
   | Number (Int { i = 1l }), Var _ ->
-      not
+      not ?loc
         (or_ (triple_equal e zero_int_literal) (triple_equal e one_int_literal))
   | ( Number (Int { i = 1l }),
       ( Bin
@@ -940,7 +941,7 @@ let rec is_out ?comment (e : t) (range : t) : t =
           ( Plus,
             ({ expression_desc = Var _; _ } as x),
             { expression_desc = Number (Int { i; _ }) } ) ) ) ->
-      not
+      not ?loc
         (or_
            (triple_equal x (int (Int32.neg i)))
            (triple_equal x (int (Int32.sub Int32.one i))))
@@ -949,19 +950,20 @@ let rec is_out ?comment (e : t) (range : t) : t =
         ( Minus,
           ({ expression_desc = Var _; _ } as x),
           { expression_desc = Number (Int { i; _ }) } ) ) ->
-      not (or_ (triple_equal x (int (Int32.add i 1l))) (triple_equal x (int i)))
+      not ?loc
+        (or_ (triple_equal x (int (Int32.add i 1l))) (triple_equal x (int i)))
   (* (x - i >>> 0 ) > k *)
   | ( Number (Int { i = k }),
       Bin
         ( Minus,
           ({ expression_desc = Var _; _ } as x),
           { expression_desc = Number (Int { i; _ }) } ) ) ->
-      or_ (int_comp Cgt x (int (Int32.add i k))) (int_comp Clt x (int i))
+      or_ ?loc (int_comp Cgt x (int (Int32.add i k))) (int_comp Clt x (int i))
   | Number (Int { i = k }), Var _ ->
       (* Note that js support [ 1 < x < 3],
          we can optimize it into [ not ( 0<= x <=  k)]
       *)
-      or_ (int_comp Cgt e (int k)) (int_comp Clt e zero_int_literal)
+      or_ ?loc (int_comp Cgt e (int k)) (int_comp Clt e zero_int_literal)
   | ( _,
       Bin
         ( Bor,
@@ -978,8 +980,8 @@ let rec is_out ?comment (e : t) (range : t) : t =
            } as e),
           { expression_desc = Number (Int { i = 0l } | Uint 0l); _ } ) ) ->
       (* TODO: check correctness *)
-      is_out ?comment e range
-  | _, _ -> int_comp ?comment Cgt (to_uint32 e) range
+      is_out ?loc ?comment e range
+  | _, _ -> int_comp ?loc ?comment Cgt (to_uint32 e) range
 
 let rec float_add ?loc ?comment (e1 : t) (e2 : t) =
   match (e1.expression_desc, e2.expression_desc) with
@@ -1022,8 +1024,8 @@ and float_minus ?loc ?comment (e1 : t) (e2 : t) : t =
 let unchecked_int32_add ?loc ?comment e1 e2 = float_add ?loc ?comment e1 e2
 let int32_add ?loc ?comment e1 e2 = to_int32 ?loc (float_add ?comment e1 e2)
 
-let offset e1 (offset : int) =
-  if offset = 0 then e1 else int32_add e1 (small_int offset)
+let offset ?loc e1 (offset : int) =
+  if offset = 0 then e1 else int32_add ?loc e1 (small_int offset)
 
 let int32_minus ?loc ?comment e1 e2 : J.expression =
   to_int32 ?loc (float_minus ?comment e1 e2)
@@ -1148,7 +1150,7 @@ let of_block ?loc ?comment ?e block : t =
             | None -> block
             | Some e ->
                 Ext_list.append block
-                  [ { J.statement_desc = Return e; comment } ]),
+                  [ { J.statement_desc = Return e; comment; loc = e.loc } ]),
             Js_fun_env.make 0,
             return_unit )))
     []
@@ -1196,10 +1198,10 @@ let neq_null_undefined_boolean ?loc ?comment (a : t) (b : t) =
 (* TODO: in the future add a flag
    to set globalThis
 *)
-let resolve_and_apply (s : string) (args : t list) : t =
-  call ~info:Js_call_info.builtin_runtime_call
-    (runtime_call Js_runtime_modules.external_polyfill "resolve" [ str s ])
+let resolve_and_apply ?loc (s : string) (args : t list) : t =
+  call ?loc ~info:Js_call_info.builtin_runtime_call
+    (runtime_call ?loc Js_runtime_modules.external_polyfill "resolve" [ str s ])
     args
 
-let make_exception (s : string) =
-  pure_runtime_call Js_runtime_modules.exceptions Literals.create [ str s ]
+let make_exception ~loc (s : string) =
+  pure_runtime_call ~loc Js_runtime_modules.exceptions Literals.create [ str s ]

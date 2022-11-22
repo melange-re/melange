@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -26,7 +26,7 @@ module E = Js_exp_make
 
 type option_unwrap_time = Static_unwrapped | Runtime_maybe_unwrapped
 
-(** Another way: 
+(** Another way:
     {[
       | Var _  ->
         can only bd detected at runtime thing
@@ -38,35 +38,36 @@ let none : J.expression = E.undefined
 
 let is_none_static (arg : J.expression_desc) = arg = Undefined
 
-let is_not_none (e : J.expression) : J.expression =
+let is_not_none ?loc (e : J.expression) : J.expression =
   let desc = e.expression_desc in
   if is_none_static desc then E.false_
   else
     match desc with
     | Optional_block _ -> E.true_
-    | _ -> E.not (E.triple_equal e none)
+    | _ -> E.not ?loc (E.triple_equal e none)
 
 (**
-  Invrariant: 
+  Invrariant:
   - optional encoding
   -  None encoding
 
-  when no argumet is supplied, [undefined] 
-  if we detect that all rest arguments are [null], 
+  when no argumet is supplied, [undefined]
+  if we detect that all rest arguments are [null],
   we can remove them
 
 
   - avoid duplicate evlauation of [arg] when it
    is not a variable
-  {!Js_ast_util.named_expression} does not help 
+  {!Js_ast_util.named_expression} does not help
    since we need an expression here, it might be a statement
 *)
-let val_from_option (arg : J.expression) =
+let val_from_option ?loc (arg : J.expression) =
   match arg.expression_desc with
   | Optional_block (x, _) -> x
-  | _ -> E.runtime_call Js_runtime_modules.option "valFromOption" [ arg ]
+  | _ -> E.runtime_call ?loc Js_runtime_modules.option "valFromOption" [ arg ]
 
-let get_default_undefined_from_optional (arg : J.expression) : J.expression =
+let get_default_undefined_from_optional ?loc (arg : J.expression) : J.expression
+    =
   let desc = arg.expression_desc in
   if is_none_static desc then E.undefined
   else
@@ -75,17 +76,17 @@ let get_default_undefined_from_optional (arg : J.expression) : J.expression =
     | _ ->
         if Js_analyzer.is_okay_to_duplicate arg then
           (* FIXME: no need do such inlining*)
-          E.econd (is_not_none arg) (val_from_option arg) E.undefined
-        else E.runtime_call Js_runtime_modules.option "option_get" [ arg ]
+          E.econd ?loc (is_not_none arg) (val_from_option arg) E.undefined
+        else E.runtime_call ?loc Js_runtime_modules.option "option_get" [ arg ]
 
-let option_unwrap (arg : J.expression) : J.expression =
+let option_unwrap ?loc (arg : J.expression) : J.expression =
   let desc = arg.expression_desc in
   if is_none_static desc then E.undefined
   else
     match desc with
     | Optional_block (x, _) ->
         E.poly_var_value_access x (* invariant: option encoding *)
-    | _ -> E.runtime_call Js_runtime_modules.option "option_unwrap" [ arg ]
+    | _ -> E.runtime_call ?loc Js_runtime_modules.option "option_unwrap" [ arg ]
 
 let destruct_optional ~for_sure_none ~for_sure_some ~not_sure
     (arg : J.expression) =
@@ -97,6 +98,8 @@ let destruct_optional ~for_sure_none ~for_sure_some ~not_sure
     | _ -> not_sure ()
 
 let some = E.optional_block
-let null_to_opt e = E.econd (E.is_null e) none (some e)
-let undef_to_opt e = E.econd (E.is_undef e) none (some e)
-let null_undef_to_opt e = E.econd (E.is_null_undefined e) none (some e)
+let null_to_opt ?loc e = E.econd ?loc (E.is_null e) none (some e)
+let undef_to_opt ?loc e = E.econd ?loc (E.is_undef e) none (some e)
+
+let null_undef_to_opt ?loc e =
+  E.econd ?loc (E.is_null_undefined e) none (some e)

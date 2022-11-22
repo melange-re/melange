@@ -248,7 +248,7 @@ let translate_scoped_access scopes obj =
   | [] -> obj
   | x :: xs -> Ext_list.fold_left xs (E.dot obj x) E.dot
 
-let translate_ffi (cxt : Lam_compile_context.t) arg_types
+let translate_ffi ~loc (cxt : Lam_compile_context.t) arg_types
     (ffi : External_ffi_types.external_spec) (args : J.expression list) =
   match ffi with
   | Js_call { external_module_name = module_name; name = fn; splice; scopes } ->
@@ -257,11 +257,11 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
         let args, eff, dynamic = assemble_args_has_splice arg_types args in
         add_eff eff
           (if dynamic then splice_fn_apply fn args
-          else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+          else E.call ~loc ~info:{ arity = Full; call_info = Call_na } fn args)
       else
         let args, eff = assemble_args_no_splice arg_types args in
         add_eff eff
-        @@ E.call ~info:{ arity = Full; call_info = Call_na } fn args
+        @@ E.call ~loc ~info:{ arity = Full; call_info = Call_na } fn args
   | Js_module_as_fn { external_module_name; splice } ->
       let fn = external_var external_module_name in
       if splice then

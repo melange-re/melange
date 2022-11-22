@@ -1430,7 +1430,7 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
       | _ ->
           Js_output.output_of_block_and_expression lambda_cxt.continuation
             args_code
-            (E.call
+            (E.call ~loc:appinfo.ap_info.ap_loc
                ~info:(call_info_of_ap_status appinfo.ap_info.ap_status)
                fn_code args))
 
@@ -1443,13 +1443,13 @@ and compile_prim (prim_info : Lam.prim_info)
       | Fld_module { name = field } ->
           compile_external_field lambda_cxt id field
       | _ -> assert false)
-  | { primitive = Praise; args = [ e ]; _ } -> (
+  | { primitive = Praise; args = [ e ]; loc } -> (
       match
         compile_lambda { lambda_cxt with continuation = NeedValue Not_tail } e
       with
       | { block; value = Some v } ->
           Js_output.make
-            (Ext_list.append_one block (S.throw_stmt v))
+            (Ext_list.append_one block (S.throw_stmt ~loc v))
             ~value:E.undefined ~output_finished:True
       (* FIXME -- breaks invariant when NeedValue, reason is that js [throw] is statement
          while ocaml it's an expression, we should remove such things in lambda optimizations
@@ -1458,11 +1458,11 @@ and compile_prim (prim_info : Lam.prim_info)
   | { primitive = Psequand; args = [ l; r ]; _ } ->
       compile_sequand l r lambda_cxt
   | { primitive = Psequor; args = [ l; r ] } -> compile_sequor l r lambda_cxt
-  | { primitive = Pdebugger; _ } ->
+  | { primitive = Pdebugger; loc } ->
       (* [%bs.debugger] guarantees that the expression does not matter
          TODO: make it even safer *)
       Js_output.output_of_block_and_expression lambda_cxt.continuation
-        S.debugger_block E.unit
+        (S.debugger_block ~loc ()) E.unit
       (* TODO:
          check the arity of fn before wrapping it
          we need mark something that such eta-conversion can not be simplified in some cases
@@ -1610,10 +1610,10 @@ and compile_prim (prim_info : Lam.prim_info)
 and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
     Js_output.t =
   match cur_lam with
-  | Lfunction { params; body; attr = { return_unit; _ }; _ } ->
+  | Lfunction { params; body; attr = { return_unit; _ }; loc } ->
       Js_output.output_of_expression lambda_cxt.continuation
         ~no_effects:no_effects_const
-        (E.ocaml_fun params ~return_unit
+        (E.ocaml_fun ~loc params ~return_unit
            (* Invariant:  jmp_table can not across function boundary,
               here we share env
            *)

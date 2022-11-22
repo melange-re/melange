@@ -51,32 +51,36 @@ let args_const_unbox_approx_int_two (args : J.expression list) =
    TODO: return type to be expression is ugly,
    we should allow return block
 *)
-let translate loc (prim_name : string) (args : J.expression list) : J.expression
-    =
-  let[@inline] call m = E.runtime_call m prim_name args in
+let translate ~loc (prim_name : string) (args : J.expression list) :
+    J.expression =
+  let[@inline] call m = E.runtime_call ~loc m prim_name args in
   match prim_name with
   | "caml_add_float" -> (
       match args with
-      | [ e0; e1 ] -> E.float_add e0 e1 (* TODO float plus*)
+      | [ e0; e1 ] -> E.float_add ~loc e0 e1 (* TODO float plus*)
       | _ -> assert false)
   | "caml_div_float" -> (
-      match args with [ e0; e1 ] -> E.float_div e0 e1 | _ -> assert false)
+      match args with [ e0; e1 ] -> E.float_div ~loc e0 e1 | _ -> assert false)
   | "caml_sub_float" -> (
-      match args with [ e0; e1 ] -> E.float_minus e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.float_minus ~loc e0 e1
+      | _ -> assert false)
   | "caml_eq_float" -> (
-      match args with [ e0; e1 ] -> E.float_equal e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.float_equal ~loc e0 e1
+      | _ -> assert false)
   | "caml_ge_float" -> (
       match args with
-      | [ e0; e1 ] -> E.float_comp CFge e0 e1
+      | [ e0; e1 ] -> E.float_comp ~loc CFge e0 e1
       | _ -> assert false)
   | "caml_gt_float" -> (
       match args with
-      | [ e0; e1 ] -> E.float_comp CFgt e0 e1
+      | [ e0; e1 ] -> E.float_comp ~loc CFgt e0 e1
       | _ -> assert false)
   | "caml_float_of_int" -> ( match args with [ e ] -> e | _ -> assert false)
   | "caml_int32_of_int" -> ( match args with [ e ] -> e | _ -> assert false)
   | "caml_int32_of_float" | "caml_int_of_float" -> (
-      match args with [ e ] -> E.to_int32 e | _ -> assert false)
+      match args with [ e ] -> E.to_int32 ~loc e | _ -> assert false)
   | "caml_int32_to_float" | "caml_int32_to_int" -> (
       match args with
       | [ e ] -> e (* TODO: do more checking when [to_int32]*)
@@ -86,37 +90,45 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       call Js_runtime_modules.bytes
   | "caml_int64_succ" -> E.runtime_call Js_runtime_modules.int64 "succ" args
   | "caml_int64_to_string" ->
-      E.runtime_call Js_runtime_modules.int64 "to_string" args
-  | "caml_int64_equal_null" -> Js_long.equal_null args
-  | "caml_int64_equal_undefined" -> Js_long.equal_undefined args
-  | "caml_int64_equal_nullable" -> Js_long.equal_nullable args
-  | "caml_int64_to_float" -> Js_long.to_float args
-  | "caml_int64_of_float" -> Js_long.of_float args
-  | "caml_int64_compare" -> Js_long.compare args
-  | "caml_int64_bits_of_float" -> Js_long.bits_of_float args
-  | "caml_int64_float_of_bits" -> Js_long.float_of_bits args
-  | "caml_int64_bswap" -> Js_long.swap args
-  | "caml_int64_min" -> Js_long.min args
-  | "caml_int64_max" -> Js_long.max args
+      E.runtime_call ~loc Js_runtime_modules.int64 "to_string" args
+  | "caml_int64_equal_null" -> Js_long.equal_null ~loc args
+  | "caml_int64_equal_undefined" -> Js_long.equal_undefined ~loc args
+  | "caml_int64_equal_nullable" -> Js_long.equal_nullable ~loc args
+  | "caml_int64_to_float" -> Js_long.to_float ~loc args
+  | "caml_int64_of_float" -> Js_long.of_float ~loc args
+  | "caml_int64_compare" -> Js_long.compare ~loc args
+  | "caml_int64_bits_of_float" -> Js_long.bits_of_float ~loc args
+  | "caml_int64_float_of_bits" -> Js_long.float_of_bits ~loc args
+  | "caml_int64_bswap" -> Js_long.swap ~loc args
+  | "caml_int64_min" -> Js_long.min ~loc args
+  | "caml_int64_max" -> Js_long.max ~loc args
   | "caml_int32_float_of_bits" | "caml_int32_bits_of_float" | "caml_modf_float"
   | "caml_ldexp_float" | "caml_frexp_float" | "caml_copysign_float"
   | "caml_expm1_float" | "caml_hypot_float" ->
       call Js_runtime_modules.float
   | "caml_fmod_float" (* float module like js number module *) -> (
-      match args with [ e0; e1 ] -> E.float_mod e0 e1 | _ -> assert false)
+      match args with [ e0; e1 ] -> E.float_mod ~loc e0 e1 | _ -> assert false)
   | "caml_string_equal" -> (
-      match args with [ e0; e1 ] -> E.string_equal e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.string_equal ~loc e0 e1
+      | _ -> assert false)
   | "caml_string_notequal" -> (
       match args with
-      | [ e0; e1 ] -> E.string_comp NotEqEq e0 e1
+      | [ e0; e1 ] -> E.string_comp ~loc NotEqEq e0 e1
       (* TODO: convert to ocaml ones*)
       | _ -> assert false)
   | "caml_string_lessequal" -> (
-      match args with [ e0; e1 ] -> E.string_comp Le e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.string_comp ~loc Le e0 e1
+      | _ -> assert false)
   | "caml_string_lessthan" -> (
-      match args with [ e0; e1 ] -> E.string_comp Lt e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.string_comp ~loc Lt e0 e1
+      | _ -> assert false)
   | "caml_string_greaterequal" -> (
-      match args with [ e0; e1 ] -> E.string_comp Ge e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.string_comp ~loc Ge e0 e1
+      | _ -> assert false)
   | "caml_string_repeat" -> (
       match args with
       | [ n; { expression_desc = Number (Int { i }) } ] -> (
@@ -124,41 +136,55 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           match n.expression_desc with
           | Number (Int { i = 1l }) -> E.str str
           | _ ->
-              E.call
+              E.call ~loc
                 (E.dot (E.str str) "repeat")
                 [ n ] ~info:Js_call_info.builtin_runtime_call)
-      | _ -> E.runtime_call Js_runtime_modules.string "make" args)
+      | _ -> E.runtime_call ~loc Js_runtime_modules.string "make" args)
   | "caml_string_greaterthan" -> (
-      match args with [ e0; e1 ] -> E.string_comp Gt e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.string_comp ~loc Gt e0 e1
+      | _ -> assert false)
   | "caml_bool_notequal" -> (
       match args with
-      | [ e0; e1 ] -> E.bool_comp Cne e0 e1
+      | [ e0; e1 ] -> E.bool_comp ~loc Cne e0 e1
       (* TODO: specialized in OCaml ones*)
       | _ -> assert false)
   | "caml_bool_lessequal" -> (
-      match args with [ e0; e1 ] -> E.bool_comp Cle e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.bool_comp ~loc Cle e0 e1
+      | _ -> assert false)
   | "caml_bool_lessthan" -> (
-      match args with [ e0; e1 ] -> E.bool_comp Clt e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.bool_comp ~loc Clt e0 e1
+      | _ -> assert false)
   | "caml_bool_greaterequal" -> (
-      match args with [ e0; e1 ] -> E.bool_comp Cge e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.bool_comp ~loc Cge e0 e1
+      | _ -> assert false)
   | "caml_bool_greaterthan" -> (
-      match args with [ e0; e1 ] -> E.bool_comp Cgt e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.bool_comp ~loc Cgt e0 e1
+      | _ -> assert false)
   | "caml_bool_equal" | "caml_bool_equal_null" | "caml_bool_equal_nullable"
   | "caml_bool_equal_undefined" -> (
-      match args with [ e0; e1 ] -> E.bool_comp Ceq e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.bool_comp ~loc Ceq e0 e1
+      | _ -> assert false)
   | "caml_int_equal_null" | "caml_int_equal_nullable"
   | "caml_int_equal_undefined" | "caml_int32_equal_null"
   | "caml_int32_equal_nullable" | "caml_int32_equal_undefined" -> (
-      match args with [ e0; e1 ] -> E.int_comp Ceq e0 e1 | _ -> assert false)
+      match args with
+      | [ e0; e1 ] -> E.int_comp ~loc Ceq e0 e1
+      | _ -> assert false)
   | "caml_float_equal_null" | "caml_float_equal_nullable"
   | "caml_float_equal_undefined" -> (
       match args with
-      | [ e0; e1 ] -> E.float_comp CFeq e0 e1
+      | [ e0; e1 ] -> E.float_comp ~loc CFeq e0 e1
       | _ -> assert false)
   | "caml_string_equal_null" | "caml_string_equal_nullable"
   | "caml_string_equal_undefined" -> (
       match args with
-      | [ e0; e1 ] -> E.string_comp EqEqEq e0 e1
+      | [ e0; e1 ] -> E.string_comp ~loc EqEqEq e0 e1
       | _ -> assert false)
   | "caml_create_bytes" -> (
       (* Bytes.create *)
@@ -169,18 +195,20 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       match args with
       | [ { expression_desc = Number (Int { i; _ }); _ } ] when i < 8l ->
           (*Invariants: assuming bytes are [int array]*)
-          E.array NA
+          E.array ~loc NA
             (if i = 0l then []
             else Ext_list.init (Int32.to_int i) (fun _ -> E.zero_int_literal))
-      | _ -> E.runtime_call Js_runtime_modules.bytes "caml_create_bytes" args)
+      | _ ->
+          E.runtime_call ~loc Js_runtime_modules.bytes "caml_create_bytes" args)
   | "caml_bool_compare" -> (
       match args with
       | [ { expression_desc = Bool a }; { expression_desc = Bool b } ] ->
           let c = compare (a : bool) b in
-          E.int (if c = 0 then 0l else if c > 0 then 1l else -1l)
+          E.int ~loc (if c = 0 then 0l else if c > 0 then 1l else -1l)
       | _ -> call Js_runtime_modules.caml_primitive)
   | "caml_int_compare" | "caml_int32_compare" ->
-      E.runtime_call Js_runtime_modules.caml_primitive "caml_int_compare" args
+      E.runtime_call ~loc Js_runtime_modules.caml_primitive "caml_int_compare"
+        args
   | "caml_float_compare" | "caml_string_compare" ->
       call Js_runtime_modules.caml_primitive
   | "caml_bool_min" | "caml_int_min" | "caml_float_min" | "caml_string_min"
@@ -190,7 +218,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           if
             Js_analyzer.is_okay_to_duplicate a
             && Js_analyzer.is_okay_to_duplicate b
-          then E.econd (E.js_comp Clt a b) a b
+          then E.econd ~loc (E.js_comp Clt a b) a b
           else call Js_runtime_modules.caml_primitive
       | _ -> assert false)
   | "caml_bool_max" | "caml_int_max" | "caml_float_max" | "caml_string_max"
@@ -200,10 +228,11 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           if
             Js_analyzer.is_okay_to_duplicate a
             && Js_analyzer.is_okay_to_duplicate b
-          then E.econd (E.js_comp Cgt a b) a b
+          then E.econd ~loc (E.js_comp Cgt a b) a b
           else call Js_runtime_modules.caml_primitive
       | _ -> assert false)
-  | "caml_string_get" -> E.runtime_call Js_runtime_modules.string "get" args
+  | "caml_string_get" ->
+      E.runtime_call ~loc Js_runtime_modules.string "get" args
   | "caml_fill_bytes" | "bytes_to_string" | "bytes_of_string"
   | "caml_blit_string" | "caml_blit_bytes" ->
       call Js_runtime_modules.bytes
@@ -239,13 +268,15 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       call Js_runtime_modules.parser
   | "caml_make_float_vect"
   | "caml_floatarray_create" (* TODO: compile float array into TypedArray*) ->
-      E.runtime_call Js_runtime_modules.array "make_float" args
-  | "caml_array_sub" -> E.runtime_call Js_runtime_modules.array "sub" args
-  | "caml_array_concat" -> E.runtime_call Js_runtime_modules.array "concat" args
+      E.runtime_call ~loc Js_runtime_modules.array "make_float" args
+  | "caml_array_sub" -> E.runtime_call ~loc Js_runtime_modules.array "sub" args
+  | "caml_array_concat" ->
+      E.runtime_call ~loc Js_runtime_modules.array "concat" args
   (*external concat: 'a array list -> 'a array
      Not good for inline *)
-  | "caml_array_blit" -> E.runtime_call Js_runtime_modules.array "blit" args
-  | "caml_make_vect" -> E.runtime_call Js_runtime_modules.array "make" args
+  | "caml_array_blit" ->
+      E.runtime_call ~loc Js_runtime_modules.array "blit" args
+  | "caml_make_vect" -> E.runtime_call ~loc Js_runtime_modules.array "make" args
   | "caml_ml_flush" | "caml_ml_out_channels_list" | "caml_ml_output_char"
   | "caml_ml_output" ->
       call Js_runtime_modules.io
@@ -259,7 +290,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
              and discarded it immediately
              This could be canceled
           *)
-          | _ -> E.runtime_call Js_runtime_modules.array "dup" args)
+          | _ -> E.runtime_call ~loc Js_runtime_modules.array "dup" args)
       | _ -> assert false)
   | "caml_format_float" | "caml_hexstring_of_float" | "caml_nativeint_format"
   | "caml_int32_format" | "caml_float_of_string"
@@ -275,7 +306,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       | [ a1; b1 ]
         when E.for_sure_js_null_undefined a1 || E.for_sure_js_null_undefined b1
         ->
-          E.neq_null_undefined_boolean a1 b1
+          E.neq_null_undefined_boolean ~loc a1 b1
       (* FIXME address_equal *)
       | _ ->
           Location.prerr_warning loc Warnings.Bs_polymorphic_comparison;
@@ -285,7 +316,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       | [ a1; b1 ]
         when E.for_sure_js_null_undefined a1 || E.for_sure_js_null_undefined b1
         ->
-          E.eq_null_undefined_boolean a1 b1 (* FIXME address_equal *)
+          E.eq_null_undefined_boolean ~loc a1 b1 (* FIXME address_equal *)
       | _ ->
           Location.prerr_warning loc Warnings.Bs_polymorphic_comparison;
           call Js_runtime_modules.obj_runtime)
@@ -298,40 +329,40 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       (* Note that in ocaml, [int] has tag [1000] and [string] has tag [252]
          also now we need do nullary check
       *)
-      match args with [ e ] -> E.tag e | _ -> assert false)
+      match args with [ e ] -> E.tag ~loc e | _ -> assert false)
   | "caml_get_public_method" -> call Js_runtime_modules.oo
   (* TODO: Primitives not implemented yet ...*)
   | "caml_install_signal_handler" -> (
       match args with
-      | [ num; behavior ] -> E.seq num behavior (*TODO:*)
+      | [ num; behavior ] -> E.seq ~loc num behavior (*TODO:*)
       | _ -> assert false)
   | "caml_md5_string" -> call Js_runtime_modules.md5
   | "caml_hash_mix_string" | "caml_hash_mix_int" | "caml_hash_final_mix" ->
       call Js_runtime_modules.hash_primitive
   | "caml_hash" -> call Js_runtime_modules.hash
   | "caml_ml_open_descriptor_in" when args_const_unbox_approx_int_zero args ->
-      E.runtime_ref Js_runtime_modules.io "stdin"
+      E.runtime_ref ~loc Js_runtime_modules.io "stdin"
   | "caml_ml_open_descriptor_out" when args_const_unbox_approx_int_one args ->
-      E.runtime_ref Js_runtime_modules.io "stdout"
+      E.runtime_ref ~loc Js_runtime_modules.io "stdout"
   | "caml_ml_open_descriptor_out" when args_const_unbox_approx_int_two args ->
-      E.runtime_ref Js_runtime_modules.io "stderr"
+      E.runtime_ref ~loc Js_runtime_modules.io "stderr"
   | "nativeint_add" -> (
       match args with
-      | [ e1; e2 ] -> E.unchecked_int32_add e1 e2
+      | [ e1; e2 ] -> E.unchecked_int32_add ~loc e1 e2
       | _ -> assert false)
   | "nativeint_div" -> (
       match args with
-      | [ e1; e2 ] -> E.int32_div e1 e2 ~checked:false
+      | [ e1; e2 ] -> E.int32_div ~loc e1 e2 ~checked:false
       | _ -> assert false)
   | "nativeint_mod" -> (
       match args with
-      | [ e1; e2 ] -> E.int32_mod e1 e2 ~checked:false
+      | [ e1; e2 ] -> E.int32_mod ~loc e1 e2 ~checked:false
       | _ -> assert false)
   | "nativeint_lsr" -> (
-      match args with [ e1; e2 ] -> E.int32_lsr e1 e2 | _ -> assert false)
+      match args with [ e1; e2 ] -> E.int32_lsr ~loc e1 e2 | _ -> assert false)
   | "nativeint_mul" -> (
       match args with
-      | [ e1; e2 ] -> E.unchecked_int32_mul e1 e2
+      | [ e1; e2 ] -> E.unchecked_int32_mul ~loc e1 e2
       | _ -> assert false)
   | _ ->
       Bs_warnings.warn_missing_primitive loc prim_name;

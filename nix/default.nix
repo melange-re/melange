@@ -45,6 +45,7 @@ rec {
       melange-compiler-libs
       cmdliner
       meldep
+      vlq
     ];
     meta.mainProgram = "melc";
   };

@@ -71,10 +71,13 @@ module L = Js_dump_lit
    (our call Js_fun_env.get_unbounded env) is not precise
 *)
 
-type cxt = { scope : Ext_pp_scope.t; pp : Ext_pp.t }
+type cxt = {
+  scope : Ext_pp_scope.t;
+  sourcemap : Js_sourcemap.t option ref;
+  pp : Ext_pp.t;
+}
 
-let from_pp pp = { scope = Ext_pp_scope.empty; pp }
-let from_buffer buf = from_pp (Ext_pp.from_buffer buf)
+let make pp sourcemap scope = { scope; sourcemap = ref sourcemap; pp }
 let update_scope cxt scope = { cxt with scope }
 let ident cxt id = update_scope cxt (Ext_pp_scope.ident cxt.scope cxt.pp id)
 let string cxt s = Ext_pp.string cxt.pp s
@@ -102,6 +105,12 @@ let str_of_ident cxt id =
 
 let at_least_two_lines cxt = Ext_pp.at_least_two_lines cxt.pp
 let flush cxt () = Ext_pp.flush cxt.pp ()
+
+let write_sourcemap cxt opt_loc =
+  match (opt_loc, !(cxt.sourcemap)) with
+  | Some loc, Some sourcemap ->
+      cxt.sourcemap := Some (Js_sourcemap.add_mapping sourcemap ~pp:cxt.pp loc)
+  | _ -> ()
 
 module Curry_gen = struct
   let pp_curry_dot cxt =
@@ -319,7 +328,7 @@ let rec try_optimize_curry cxt len function_id =
   Curry_gen.pp_optimize_curry cxt len;
   paren_group cxt 1 (fun _ -> expression ~level:1 cxt function_id)
 
-and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
+and pp_function ?loc ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
     (b : J.block) (env : Js_fun_env.t) : cxt =
   match b with
   | [
@@ -386,6 +395,9 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
       *)
       let inner_cxt = sub_scope outer_cxt set_env in
       let param_body () : unit =
+        (* The OCaml `fun ... -> ..` location corresponds to the generated
+           function parameter list. *)
+        write_sourcemap cxt loc;
         if is_method then (
           match l with
           | [] -> assert false
@@ -528,9 +540,10 @@ and vident cxt (v : J.vident) =
       cxt
 
 (* The higher the level, the more likely that inner has to add parens *)
-and expression ~level:l cxt (exp : J.expression) : cxt =
+and expression ~level cxt (exp : J.expression) : cxt =
   pp_comment_option cxt exp.comment;
-  expression_desc cxt ~level:l exp.expression_desc
+  write_sourcemap cxt exp.loc;
+  expression_desc cxt ~level exp.expression_desc
 
 and expression_desc cxt ~(level : int) x : cxt =
   match x with
@@ -900,7 +913,7 @@ and array_element_list cxt (el : E.t list) : cxt =
 and arguments cxt (l : E.t list) : cxt =
   iter_lst cxt l (expression ~level:1) comma_sp
 
-and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
+and variable_declaration ~top cxt (variable : J.variable_declaration) : cxt =
   (* TODO: print [const/var] for different backends  *)
   match variable with
   | { ident = i; value = None; ident_info; _ } ->
@@ -914,7 +927,7 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
       | _ -> (
           match e.expression_desc with
           | Fun (is_method, params, b, env, return_unit) ->
-              pp_function ~return_unit ~is_method cxt
+              pp_function ?loc:e.loc ~return_unit ~is_method cxt
                 ~fn_state:(if top then Name_top name else Name_non_top name)
                 params b env
           | _ ->
@@ -943,8 +956,10 @@ and pp_comment_option cxt comment =
   match comment with None -> () | Some x -> pp_comment cxt x
 
 (* and pp_loc_option f loc =  *)
-and statement top cxt ({ statement_desc = s; comment; _ } : J.statement) : cxt =
+and statement top cxt ({ statement_desc = s; comment; loc } : J.statement) : cxt
+    =
   pp_comment_option cxt comment;
+  write_sourcemap cxt loc;
   statement_desc top cxt s
 
 and statement_desc top cxt (s : J.statement_desc) : cxt =
@@ -982,7 +997,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       let cxt = statements top cxt b in
       ipp_comment cxt L.end_block;
       cxt
-  | Variable l -> variable_declaration top cxt l
+  | Variable l -> variable_declaration ~top cxt l
   | If (e, s1, s2) -> (
       (* TODO: always brace those statements *)
       string cxt L.if_;
@@ -1262,18 +1277,27 @@ and statements top cxt b =
     (fun cxt s -> statement top cxt s)
     (if top then at_least_two_lines else newline)
 
-let string_of_block (block : J.block) =
+let make_debugging () =
   let buffer = Buffer.create 50 in
-  let cxt = from_buffer buffer in
+  let pp = Ext_pp.from_buffer buffer in
+  let scope = Ext_pp_scope.empty in
+  (buffer, make pp None scope)
+
+let string_of_block (block : J.block) =
+  let buffer, cxt = make_debugging () in
   let (_ : cxt) = statements true cxt block in
   flush cxt ();
   Buffer.contents buffer
 
 let string_of_expression (e : J.expression) =
-  let buffer = Buffer.create 50 in
-  let cxt = from_buffer buffer in
+  let buffer, cxt = make_debugging () in
   let (_ : cxt) = expression ~level:0 cxt e in
   flush cxt ();
   Buffer.contents buffer
 
-let statements top scope pp b = (statements top { scope; pp } b).scope
+type ret_cxt = { scope : Ext_pp_scope.t; sourcemap : Js_sourcemap.t option }
+
+let statements top scope pp sourcemap b =
+  let cxt = make pp sourcemap scope in
+  let cxt = statements top cxt b in
+  { scope = cxt.scope; sourcemap = !(cxt.sourcemap) }

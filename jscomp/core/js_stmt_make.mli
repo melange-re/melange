@@ -30,9 +30,10 @@ type t = J.statement
 (* val empty_stmt :
    t *)
 
-val throw_stmt : ?comment:string -> J.expression -> t
+val throw_stmt : ?loc:Location.t -> ?comment:string -> J.expression -> t
 
 val if_ :
+  ?loc:Location.t ->
   ?comment:string ->
   ?declaration:Lam_group.let_kind * Ident.t ->
   (* when it's not None, we also need make a variable declaration in the
@@ -43,13 +44,14 @@ val if_ :
   J.block ->
   t
 
-val block : ?comment:string -> J.block -> t
+val block : ?loc:Location.t -> ?comment:string -> J.block -> t
 (**
   turn a block into  a single statement,
   avoid nested block
 *)
 
 val int_switch :
+  ?loc:Location.t ->
   ?comment:string ->
   ?declaration:Lam_group.let_kind * Ident.t ->
   ?default:J.block ->
@@ -73,6 +75,7 @@ val int_switch :
 *)
 
 val string_switch :
+  ?loc:Location.t ->
   ?comment:string ->
   ?declaration:Lam_group.let_kind * Ident.t ->
   ?default:J.block ->
@@ -81,6 +84,7 @@ val string_switch :
   t
 
 val declare_variable :
+  ?loc:Location.t ->
   ?comment:string ->
   ?ident_info:J.ident_info ->
   kind:Lam_group.let_kind ->
@@ -90,6 +94,7 @@ val declare_variable :
 
 (*** Declaration with initialization *)
 val define_variable :
+  ?loc:Location.t ->
   ?comment:string ->
   ?ident_info:J.ident_info ->
   kind:Lam_group.let_kind ->
@@ -104,7 +109,7 @@ val define_variable :
    Ident.t ->
    t *)
 
-val assign : ?comment:string -> J.ident -> J.expression -> t
+val assign : ?loc:Location.t -> ?comment:string -> J.ident -> J.expression -> t
 
 (** Used in cases like
   {[
@@ -131,6 +136,7 @@ val assign : ?comment:string -> J.ident -> J.expression -> t
    t *)
 
 val while_ :
+  ?loc:Location.t ->
   ?comment:string ->
   ?label:J.label ->
   ?env:Js_closure.t ->
@@ -139,6 +145,7 @@ val while_ :
   t
 
 val for_ :
+  ?loc:Location.t ->
   ?comment:string ->
   ?env:Js_closure.t ->
   J.for_ident_expression option ->
@@ -149,14 +156,15 @@ val for_ :
   t
 
 val try_ :
+  ?loc:Location.t ->
   ?comment:string ->
   ?with_:J.ident * J.block ->
   ?finally:J.block ->
   J.block ->
   t
 
-val exp : ?comment:string -> J.expression -> t
-val return_stmt : ?comment:string -> J.expression -> t
+val exp : ?loc:Location.t -> ?comment:string -> J.expression -> t
+val return_stmt : ?loc:Location.t -> ?comment:string -> J.expression -> t
 
 (* val return_unit : t list *)
 (** for ocaml function which returns unit
@@ -170,4 +178,4 @@ val return_stmt : ?comment:string -> J.expression -> t
    t *)
 
 val continue_ : t
-val debugger_block : t list
+val debugger_block : ?loc:Location.t -> unit -> t list

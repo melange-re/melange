@@ -41,7 +41,7 @@ let make ?value ?(output_finished = False) block =
 
 let dummy = { value = None; block = []; output_finished = Dummy }
 
-(** This can be merged with 
+(** This can be merged with
     {!output_of_block_and_expression} *)
 let output_of_expression (continuation : continuation) (exp : J.expression)
     ~(no_effects : bool Lazy.t) =

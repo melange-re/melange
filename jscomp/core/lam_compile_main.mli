@@ -34,3 +34,10 @@ val compile : string -> Lambda.lambda -> J.deps_program
 
 val lambda_as_module :
   package_info:Js_packages_info.t -> J.deps_program -> string -> unit
+
+val lambda_as_module_with_sourcemap :
+  source_name:string ->
+  package_info:Js_packages_info.t ->
+  J.deps_program ->
+  string ->
+  unit
