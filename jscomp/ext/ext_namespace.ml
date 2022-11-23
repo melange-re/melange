@@ -43,7 +43,9 @@ let try_split_module_name name =
 
 let js_name_of_modulename s (case : Ext_js_file_kind.case) suffix : string =
   let s =
-    match case with Little -> Ext_string.uncapitalize_ascii s | Upper -> s
+    match case with
+    | Lowercase -> Ext_string.uncapitalize_ascii s
+    | Uppercase -> s
   in
   change_ext_ns_suffix s (Ext_js_suffix.to_string suffix)
 

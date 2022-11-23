@@ -53,7 +53,7 @@ let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
   let js_file =
     Ext_namespace.js_name_of_modulename
       (Ident.name dep_module_id.id)
-      Little suffix
+      Lowercase suffix
   in
   match Js_packages_info.query_package_infos package_info module_system with
   | Package_not_found -> assert false

@@ -118,18 +118,6 @@ let _d  = fun  s lam ->
 
 let _j = Js_pass_debug.dump
 
-let cmj_case output_prefix =
-  let packages_info = Js_packages_state.get_packages_info () in
-  let module_name =
-    Option.value
-      ~default:(Filename.basename output_prefix)
-      (Js_packages_info.module_name packages_info)
-  in
-  if Ext_char.is_lower_case module_name.[0] then
-    Ext_js_file_kind.Little
-  else
-    Upper
-
 (* Actually simplify_lets is kind of global optimization since it requires you to know whether
     it's used or not
 *)
@@ -286,9 +274,14 @@ js
       modules = external_module_ids
     }
     in
+    let case =
+      Js_packages_info.module_case
+        ~output_prefix
+        (Js_packages_state.get_packages_info ())
+    in
     let cmj : Js_cmj_format.t =
       Lam_stats_export.export_to_cmj
-        ~case:(cmj_case output_prefix)
+        ~case
         ~delayed_program
         meta
         effect

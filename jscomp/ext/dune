@@ -3,7 +3,7 @@
  (wrapped false)
  (flags
   (:standard -w -9 -open Melange_compiler_libs))
- (modules_without_implementation bsb_db ext_json_types)
+ (modules_without_implementation bsb_db ext_json_types ext_js_file_kind)
  (libraries unix bs_hash_stubs melange-compiler-libs))
 
 (rule
