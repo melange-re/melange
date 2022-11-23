@@ -301,7 +301,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       in
       Js_packages_state.set_output_info ~suffix bs_module_type
     | None, bs_package_output ->
-      Ext_list.iter bs_package_output (Js_packages_state.update_npm_package_path ?module_name:bs_module_name);
+      Ext_list.iter bs_package_output
+        (Js_packages_state.update_npm_package_path ?module_name:bs_module_name);
     | Some _, _ :: _ ->
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
     end;

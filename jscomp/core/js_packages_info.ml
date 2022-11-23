@@ -259,6 +259,11 @@ let add_npm_package_path ?module_name (packages_info : t) (s : string) : t =
            "Can't add multiple `-bs-package-output` specs when \
             `-bs-stop-after-cmj` is present")
 
+let module_name t =
+  match t.info with
+  | Separate_emission { module_name; _ } -> module_name
+  | Empty | Batch_compilation _ -> None
+
 let default_output_info = { suffix = Js; module_system = NodeJS }
 
 let assemble_output_info ?output_info (t : t) =

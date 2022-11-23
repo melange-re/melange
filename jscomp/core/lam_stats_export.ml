@@ -129,7 +129,7 @@ let get_dependent_module_effect (maybe_pure : string option)
    ]}
    TODO: check that we don't do this in browser environment
 *)
-let export_to_cmj meta effect export_map case =
+let export_to_cmj ~case meta effect export_map =
   let values = values_of_export meta export_map in
 
   Js_cmj_format.make ~values ~effect
