@@ -3,6 +3,8 @@ Unreleased
 
 - [melange]: print an error message if `$MELANGELIB` is set to a directory that
   doesn't exist ([#449](https://github.com/melange-re/melange/pull/449))
+- [melange]: fix bug where `--bs-module-name` didn't always affect generated JS
+  file casing ([#446](https://github.com/melange-re/melange/pull/446))
 
 0.3.2 2022-11-19
 ---------------
