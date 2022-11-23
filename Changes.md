@@ -5,6 +5,8 @@ Unreleased
   doesn't exist ([#449](https://github.com/melange-re/melange/pull/449))
 - [melange]: fix bug where `--bs-module-name` didn't always affect generated JS
   file casing ([#446](https://github.com/melange-re/melange/pull/446))
+- [melange]: fix bug where `-o output.js` didn't always write a JavaScript file
+  ([#447](https://github.com/melange-re/melange/pull/447))
 
 0.3.2 2022-11-19
 ---------------

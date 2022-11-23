@@ -277,7 +277,7 @@ let assemble_output_info ?output_info (t : t) =
   | Some info -> [ info ]
   | None -> (
       match t.info with
-      | Empty -> []
+      | Empty -> [ default_output_info ]
       | Batch_compilation infos ->
           Ext_list.map infos (fun { output_info; _ } -> output_info)
       | Separate_emission _ ->
