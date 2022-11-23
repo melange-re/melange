@@ -259,10 +259,16 @@ let add_npm_package_path ?module_name (packages_info : t) (s : string) : t =
            "Can't add multiple `-bs-package-output` specs when \
             `-bs-stop-after-cmj` is present")
 
-let module_name t =
-  match t.info with
-  | Separate_emission { module_name; _ } -> module_name
-  | Empty | Batch_compilation _ -> None
+let module_case t ~output_prefix =
+  let module_name =
+    match t.info with
+    | Separate_emission { module_name = Some module_name; _ } -> module_name
+    | Separate_emission { module_name = None; _ } | Empty | Batch_compilation _
+      ->
+        Filename.basename output_prefix
+  in
+  if Ext_char.is_lower_case module_name.[0] then Ext_js_file_kind.Lowercase
+  else Uppercase
 
 let default_output_info = { suffix = Js; module_system = NodeJS }
 
