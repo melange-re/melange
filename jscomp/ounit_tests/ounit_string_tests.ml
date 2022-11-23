@@ -310,10 +310,10 @@ let suites =
            =~ "a-.js";
            Ext_namespace.change_ext_ns_suffix "AA-b" Literals.suffix_js
            =~ "AA.js";
-           Ext_namespace.js_name_of_modulename "AA-b" Little Js =~ "aA.js";
-           Ext_namespace.js_name_of_modulename "AA-b" Upper Js =~ "AA.js";
-           Ext_namespace.js_name_of_modulename "AA-b" Upper Bs_js =~ "AA.bs.js"
-         );
+           Ext_namespace.js_name_of_modulename "AA-b" Lowercase Js =~ "aA.js";
+           Ext_namespace.js_name_of_modulename "AA-b" Uppercase Js =~ "AA.js";
+           Ext_namespace.js_name_of_modulename "AA-b" Uppercase Bs_js
+           =~ "AA.bs.js" );
          ( __LOC__ >:: fun _ ->
            let ( =~ ) =
              OUnit.assert_equal ~printer:(fun x ->
