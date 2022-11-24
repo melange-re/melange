@@ -7,6 +7,8 @@ Unreleased
   file casing ([#446](https://github.com/melange-re/melange/pull/446))
 - [melange]: fix bug where `-o output.js` didn't always write a JavaScript file
   ([#454](https://github.com/melange-re/melange/pull/454))
+- [melange]: add a `Js.Bigint`
+  ([#457](https://github.com/melange-re/melange/pull/457))
 
 0.3.2 2022-11-19
 ---------------
