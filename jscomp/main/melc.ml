@@ -181,7 +181,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       alerts;
       warnings;
       output_name;
-      bs_read_cmi;
       ppx;
       open_modules;
       bs_jsx;
@@ -259,7 +258,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Option.iter
       (fun output_name -> Clflags.output_name := Some output_name)
       output_name ;
-    if bs_read_cmi then Bs_clflags.assume_no_mli := Mli_exists;
     Clflags.all_ppx := !Clflags.all_ppx @ ppx;
     Clflags.open_modules := !Clflags.open_modules @ open_modules;
 

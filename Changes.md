@@ -7,6 +7,9 @@ Unreleased
   file casing ([#446](https://github.com/melange-re/melange/pull/446))
 - [melange]: fix bug where `-o output.js` didn't always write a JavaScript file
   ([#454](https://github.com/melange-re/melange/pull/454))
+- [melange]: remove the `-bs-read-cmi` flag in favor of the builtin
+  `-intf-suffix` flag, standard in OCaml
+  ([#458](https://github.com/melange-re/melange/pull/458))
 
 0.3.2 2022-11-19
 ---------------

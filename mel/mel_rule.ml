@@ -27,8 +27,7 @@ type fn = ?target:string -> Out_channel.t -> unit
 let ( // ) = Ext_path.combine
 
 let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
-    ~(read_cmi : [ `yes | `is_cmi | `no ]) ~is_dev oc ?(target = "%{targets}")
-    cur_dir =
+    ?intf_suffix ~kind ~is_dev oc ?(target = "%{targets}") cur_dir =
   let package_name = global_config.package_name in
   let ns_flag =
     match global_config.namespace with None -> "" | Some n -> " -bs-ns " ^ n
@@ -43,7 +42,11 @@ let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
   output_string oc global_config.bsc;
   output_string oc ns_flag;
   if not global_config.has_builtin then output_string oc " -nostdlib";
-  if read_cmi = `yes then output_string oc " -bs-read-cmi";
+  Option.iter
+    (fun intf_suffix ->
+      output_string oc " -intf-suffix ";
+      output_string oc intf_suffix)
+    intf_suffix;
   if is_dev && global_config.g_dev_incls <> [] then (
     let dev_incls = rel_incls global_config.g_dev_incls in
     output_string oc " ";
@@ -60,12 +63,15 @@ let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
   output_string oc global_config.bsc_flags;
   output_string oc " ";
   output_string oc global_config.warnings;
-  if read_cmi <> `is_cmi then (
-    output_string oc " -bs-package-name ";
-    output_string oc (Ext_filename.maybe_quote global_config.package_name);
-    output_string oc
-      (Bsb_package_specs.package_flag_of_package_specs package_specs
-         ~dirname:cur_dir));
+
+  (match kind with
+  | `intf -> ()
+  | _ ->
+      output_string oc " -bs-package-name ";
+      output_string oc (Ext_filename.maybe_quote global_config.package_name);
+      output_string oc
+        (Bsb_package_specs.package_flag_of_package_specs package_specs
+           ~dirname:cur_dir));
 
   Option.iter
     (fun gentypeconfig ->
@@ -77,12 +83,10 @@ let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
   output_string oc " %{inputs}";
   output_string oc "))"
 
-let aux ~read_cmi =
-  (mk_ml_cmj_cmd ~read_cmi ~is_dev:false, mk_ml_cmj_cmd ~read_cmi ~is_dev:true)
-
-let cmj, cmj_dev = aux ~read_cmi:`yes
-let cmij, cmij_dev = aux ~read_cmi:`no
-let cmi, cmi_dev = aux ~read_cmi:`is_cmi
+let cm_file = mk_ml_cmj_cmd ~is_dev:false ~kind:`impl
+let cm_file_dev = mk_ml_cmj_cmd ~is_dev:true ~kind:`impl
+let cmi_file = mk_ml_cmj_cmd ~is_dev:false ~kind:`intf ?intf_suffix:None
+let cmi_file_dev = mk_ml_cmj_cmd ~is_dev:true ~kind:`intf ?intf_suffix:None
 
 let process_rescript oc =
   output_string oc

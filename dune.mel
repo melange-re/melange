@@ -29,7 +29,7 @@
  (alias mel)
  (deps (:inputs  bs_stdlib_mini.ast)  bs_stdlib_mini.cmi (include bs_stdlib_mini.d) bsconfig.json)
 (action
-  (run melc -bs-read-cmi -I .  -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe  -w a -bs-package-name @melange/runtime-stdlib-mini -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bs_stdlib_mini.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I .  -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe  -w a -bs-package-name @melange/runtime-stdlib-mini -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bs_stdlib_mini.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
@@ -85,7 +85,7 @@
  (alias mel)
  (deps (:inputs  caml.ast)  caml.cmi (include caml.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  curry.ast)
@@ -134,7 +134,7 @@
  (alias mel)
  (deps (:inputs  caml_gc.ast)  caml_gc.cmi (include caml_gc.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_gc.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_gc.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_io.ast)
@@ -165,7 +165,7 @@
  (alias mel)
  (deps (:inputs  caml_io.ast)  caml_io.cmi (include caml_io.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_io.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_io.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_oo.ast)
@@ -196,7 +196,7 @@
  (alias mel)
  (deps (:inputs  caml_oo.ast)  caml_oo.cmi (include caml_oo.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_oo.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_oo.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_md5.ast)
@@ -227,7 +227,7 @@
  (alias mel)
  (deps (:inputs  caml_md5.ast)  caml_md5.cmi (include caml_md5.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_md5.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_md5.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_obj.ast)
@@ -258,7 +258,7 @@
  (alias mel)
  (deps (:inputs  caml_obj.ast)  caml_obj.cmi (include caml_obj.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_obj.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_obj.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_sys.ast)
@@ -289,7 +289,7 @@
  (alias mel)
  (deps (:inputs  caml_sys.ast)  caml_sys.cmi (include caml_sys.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_sys.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_sys.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_hash.ast)
@@ -320,7 +320,7 @@
  (alias mel)
  (deps (:inputs  caml_hash.ast)  caml_hash.cmi (include caml_hash.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_hash.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_hash.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_array.ast)
@@ -351,7 +351,7 @@
  (alias mel)
  (deps (:inputs  caml_array.ast)  caml_array.cmi (include caml_array.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_array.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_array.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_bytes.ast)
@@ -382,7 +382,7 @@
  (alias mel)
  (deps (:inputs  caml_bytes.ast)  caml_bytes.cmi (include caml_bytes.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_bytes.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_bytes.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_float.ast)
@@ -413,7 +413,7 @@
  (alias mel)
  (deps (:inputs  caml_float.ast)  caml_float.cmi (include caml_float.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_float.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_float.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_int32.ast)
@@ -444,7 +444,7 @@
  (alias mel)
  (deps (:inputs  caml_int32.ast)  caml_int32.cmi (include caml_int32.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_int32.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_int32.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_int64.ast)
@@ -475,7 +475,7 @@
  (alias mel)
  (deps (:inputs  caml_int64.ast)  caml_int64.cmi (include caml_int64.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_int64.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_int64.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_lexer.ast)
@@ -506,7 +506,7 @@
  (alias mel)
  (deps (:inputs  caml_lexer.ast)  caml_lexer.cmi (include caml_lexer.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_lexer.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_lexer.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_format.ast)
@@ -537,7 +537,7 @@
  (alias mel)
  (deps (:inputs  caml_format.ast)  caml_format.cmi (include caml_format.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_format.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_format.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_module.ast)
@@ -568,7 +568,7 @@
  (alias mel)
  (deps (:inputs  caml_module.ast)  caml_module.cmi (include caml_module.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_module.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_module.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_option.ast)
@@ -599,7 +599,7 @@
  (alias mel)
  (deps (:inputs  caml_option.ast)  caml_option.cmi (include caml_option.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_option.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_option.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_parser.ast)
@@ -630,7 +630,7 @@
  (alias mel)
  (deps (:inputs  caml_parser.ast)  caml_parser.cmi (include caml_parser.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_parser.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_parser.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_string.ast)
@@ -661,7 +661,7 @@
  (alias mel)
  (deps (:inputs  caml_string.ast)  caml_string.cmi (include caml_string.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_string.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_string.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_oo_curry.ast)
@@ -728,7 +728,7 @@
  (alias mel)
  (deps (:inputs  caml_splice_call.ast)  caml_splice_call.cmi (include caml_splice_call.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_splice_call.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_splice_call.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_array_extern.ast)
@@ -867,7 +867,7 @@
  (alias mel)
  (deps (:inputs  caml_hash_primitive.ast)  caml_hash_primitive.cmi (include caml_hash_primitive.d) bsconfig.json(alias bs_stdlib_mini/mel))
 (action
-  (run melc -bs-read-cmi -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_hash_primitive.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I bs_stdlib_mini -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o caml_hash_primitive.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  caml_nativeint_extern.ast)
@@ -1219,7 +1219,7 @@
  (alias mel)
  (deps (:inputs  js_exn.ast)  js_exn.cmi (include js_exn.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_exn.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_exn.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_int.ast)
@@ -1286,7 +1286,7 @@
  (alias mel)
  (deps (:inputs  belt_Id.ast)  belt_Id.cmi (include belt_Id.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Id.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Id.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_cast.ast)
@@ -1317,7 +1317,7 @@
  (alias mel)
  (deps (:inputs  js_cast.ast)  js_cast.cmi (include js_cast.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_cast.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_cast.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_date.ast)
@@ -1366,7 +1366,7 @@
  (alias mel)
  (deps (:inputs  js_dict.ast)  js_dict.cmi (include js_dict.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_dict.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_dict.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_json.ast)
@@ -1397,7 +1397,7 @@
  (alias mel)
  (deps (:inputs  js_json.ast)  js_json.cmi (include js_json.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_json.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_json.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_list.ast)
@@ -1428,7 +1428,7 @@
  (alias mel)
  (deps (:inputs  js_list.ast)  js_list.cmi (include js_list.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_list.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_list.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_math.ast)
@@ -1477,7 +1477,7 @@
  (alias mel)
  (deps (:inputs  js_null.ast)  js_null.cmi (include js_null.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_null.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_null.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_fs.ast)
@@ -1526,7 +1526,7 @@
  (alias mel)
  (deps (:inputs  belt_Int.ast)  belt_Int.cmi (include belt_Int.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Int.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Int.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Map.ast)
@@ -1557,7 +1557,7 @@
  (alias mel)
  (deps (:inputs  belt_Map.ast)  belt_Map.cmi (include belt_Map.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Map.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Map.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Set.ast)
@@ -1588,7 +1588,7 @@
  (alias mel)
  (deps (:inputs  belt_Set.ast)  belt_Set.cmi (include belt_Set.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Set.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Set.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_array.ast)
@@ -1655,7 +1655,7 @@
  (alias mel)
  (deps (:inputs  js_types.ast)  js_types.cmi (include js_types.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_types.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_types.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_List.ast)
@@ -1686,7 +1686,7 @@
  (alias mel)
  (deps (:inputs  belt_List.ast)  belt_List.cmi (include belt_List.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_List.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_List.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_array2.ast)
@@ -1753,7 +1753,7 @@
  (alias mel)
  (deps (:inputs  js_option.ast)  js_option.cmi (include js_option.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_option.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_option.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_result.ast)
@@ -1784,7 +1784,7 @@
  (alias mel)
  (deps (:inputs  js_result.ast)  js_result.cmi (include js_result.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_result.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_result.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_string.ast)
@@ -1833,7 +1833,7 @@
  (alias mel)
  (deps (:inputs  js_vector.ast)  js_vector.cmi (include js_vector.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_vector.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_vector.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_path.ast)
@@ -1882,7 +1882,7 @@
  (alias mel)
  (deps (:inputs  belt_Array.ast)  belt_Array.cmi (include belt_Array.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Array.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Array.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Float.ast)
@@ -1913,7 +1913,7 @@
  (alias mel)
  (deps (:inputs  belt_Float.ast)  belt_Float.cmi (include belt_Float.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Float.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Float.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Range.ast)
@@ -1944,7 +1944,7 @@
  (alias mel)
  (deps (:inputs  belt_Range.ast)  belt_Range.cmi (include belt_Range.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Range.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Range.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_console.ast)
@@ -2029,7 +2029,7 @@
  (alias mel)
  (deps (:inputs  belt_MapInt.ast)  belt_MapInt.cmi (include belt_MapInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MapInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MapInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Option.ast)
@@ -2060,7 +2060,7 @@
  (alias mel)
  (deps (:inputs  belt_Option.ast)  belt_Option.cmi (include belt_Option.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Option.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Option.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_Result.ast)
@@ -2091,7 +2091,7 @@
  (alias mel)
  (deps (:inputs  belt_Result.ast)  belt_Result.cmi (include belt_Result.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Result.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_Result.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SetInt.ast)
@@ -2122,7 +2122,7 @@
  (alias mel)
  (deps (:inputs  belt_SetInt.ast)  belt_SetInt.cmi (include belt_SetInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SetInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SetInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_storage.ast)
@@ -2171,7 +2171,7 @@
  (alias mel)
  (deps (:inputs  js_mapperRt.ast)  js_mapperRt.cmi (include js_mapperRt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_mapperRt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_mapperRt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_buffer.ast)
@@ -2238,7 +2238,7 @@
  (alias mel)
  (deps (:inputs  belt_HashMap.ast)  belt_HashMap.cmi (include belt_HashMap.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashMap.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashMap.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashSet.ast)
@@ -2269,7 +2269,7 @@
  (alias mel)
  (deps (:inputs  belt_HashSet.ast)  belt_HashSet.cmi (include belt_HashSet.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashSet.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashSet.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MapDict.ast)
@@ -2300,7 +2300,7 @@
  (alias mel)
  (deps (:inputs  belt_MapDict.ast)  belt_MapDict.cmi (include belt_MapDict.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MapDict.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MapDict.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SetDict.ast)
@@ -2331,7 +2331,7 @@
  (alias mel)
  (deps (:inputs  belt_SetDict.ast)  belt_SetDict.cmi (include belt_SetDict.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SetDict.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SetDict.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_storage2.ast)
@@ -2380,7 +2380,7 @@
  (alias mel)
  (deps (:inputs  js_undefined.ast)  js_undefined.cmi (include js_undefined.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_undefined.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_undefined.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_process.ast)
@@ -2411,7 +2411,7 @@
  (alias mel)
  (deps (:inputs  node_process.ast)  node_process.cmi (include node_process.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o node_process.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o node_process.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MapString.ast)
@@ -2442,7 +2442,7 @@
  (alias mel)
  (deps (:inputs  belt_MapString.ast)  belt_MapString.cmi (include belt_MapString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MapString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MapString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SetString.ast)
@@ -2473,7 +2473,7 @@
  (alias mel)
  (deps (:inputs  belt_SetString.ast)  belt_SetString.cmi (include belt_SetString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SetString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SetString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SortArray.ast)
@@ -2504,7 +2504,7 @@
  (alias mel)
  (deps (:inputs  belt_SortArray.ast)  belt_SortArray.cmi (include belt_SortArray.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SortArray.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SortArray.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_typed_array.ast)
@@ -2553,7 +2553,7 @@
  (alias mel)
  (deps (:inputs  belt_HashMapInt.ast)  belt_HashMapInt.cmi (include belt_HashMapInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashMapInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashMapInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashSetInt.ast)
@@ -2584,7 +2584,7 @@
  (alias mel)
  (deps (:inputs  belt_HashSetInt.ast)  belt_HashSetInt.cmi (include belt_HashSetInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashSetInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashSetInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableMap.ast)
@@ -2615,7 +2615,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableMap.ast)  belt_MutableMap.cmi (include belt_MutableMap.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableMap.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableMap.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableSet.ast)
@@ -2646,7 +2646,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableSet.ast)  belt_MutableSet.cmi (include belt_MutableSet.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableSet.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableSet.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_typed_array2.ast)
@@ -2713,7 +2713,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableQueue.ast)  belt_MutableQueue.cmi (include belt_MutableQueue.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableQueue.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableQueue.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableStack.ast)
@@ -2744,7 +2744,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableStack.ast)  belt_MutableStack.cmi (include belt_MutableStack.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableStack.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableStack.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_SortArrayInt.ast)
@@ -2775,7 +2775,7 @@
  (alias mel)
  (deps (:inputs  belt_SortArrayInt.ast)  belt_SortArrayInt.cmi (include belt_SortArrayInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SortArrayInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SortArrayInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_null_undefined.ast)
@@ -2806,7 +2806,7 @@
  (alias mel)
  (deps (:inputs  js_null_undefined.ast)  js_null_undefined.cmi (include js_null_undefined.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_null_undefined.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_null_undefined.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashMapString.ast)
@@ -2837,7 +2837,7 @@
  (alias mel)
  (deps (:inputs  belt_HashMapString.ast)  belt_HashMapString.cmi (include belt_HashMapString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashMapString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashMapString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_HashSetString.ast)
@@ -2868,7 +2868,7 @@
  (alias mel)
  (deps (:inputs  belt_HashSetString.ast)  belt_HashSetString.cmi (include belt_HashSetString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashSetString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_HashSetString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableMapInt.ast)
@@ -2899,7 +2899,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableMapInt.ast)  belt_MutableMapInt.cmi (include belt_MutableMapInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableMapInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableMapInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableSetInt.ast)
@@ -2930,7 +2930,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableSetInt.ast)  belt_MutableSetInt.cmi (include belt_MutableSetInt.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableSetInt.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableSetInt.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  node_child_process.ast)
@@ -2979,7 +2979,7 @@
  (alias mel)
  (deps (:inputs  belt_internalAVLset.ast)  belt_internalAVLset.cmi (include belt_internalAVLset.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalAVLset.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalAVLset.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalMapInt.ast)
@@ -3046,7 +3046,7 @@
  (alias mel)
  (deps (:inputs  belt_SortArrayString.ast)  belt_SortArrayString.cmi (include belt_SortArrayString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SortArrayString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_SortArrayString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalAVLtree.ast)
@@ -3077,7 +3077,7 @@
  (alias mel)
  (deps (:inputs  belt_internalAVLtree.ast)  belt_internalAVLtree.cmi (include belt_internalAVLtree.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalAVLtree.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalAVLtree.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalBuckets.ast)
@@ -3108,7 +3108,7 @@
  (alias mel)
  (deps (:inputs  belt_internalBuckets.ast)  belt_internalBuckets.cmi (include belt_internalBuckets.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalBuckets.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalBuckets.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableMapString.ast)
@@ -3139,7 +3139,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableMapString.ast)  belt_MutableMapString.cmi (include belt_MutableMapString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableMapString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableMapString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_MutableSetString.ast)
@@ -3170,7 +3170,7 @@
  (alias mel)
  (deps (:inputs  belt_MutableSetString.ast)  belt_MutableSetString.cmi (include belt_MutableSetString.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableSetString.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_MutableSetString.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalMapString.ast)
@@ -3237,7 +3237,7 @@
  (alias mel)
  (deps (:inputs  belt_internalSetBuckets.ast)  belt_internalSetBuckets.cmi (include belt_internalSetBuckets.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalSetBuckets.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalSetBuckets.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  belt_internalBucketsType.ast)
@@ -3268,7 +3268,7 @@
  (alias mel)
  (deps (:inputs  belt_internalBucketsType.ast)  belt_internalBucketsType.cmi (include belt_internalBucketsType.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalBucketsType.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o belt_internalBucketsType.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
@@ -3306,7 +3306,7 @@
  (alias mel)
  (deps (:inputs  stdlib.ast)  stdlib.cmi (include stdlib.d) bsconfig.json(alias ../runtime/mel)(alias ../others/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime -I ../others -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stdlib.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime -I ../others -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stdlib.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalAtomic.ast)
@@ -3337,7 +3337,7 @@
  (alias mel)
  (deps (:inputs  camlinternalAtomic.ast)  camlinternalAtomic.cmi (include camlinternalAtomic.d) bsconfig.json(alias ../runtime/mel)(alias ../others/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime -I ../others -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalAtomic.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime -I ../others -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalAtomic.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalFormatBasics.ast)
@@ -3368,7 +3368,7 @@
  (alias mel)
  (deps (:inputs  camlinternalFormatBasics.ast)  camlinternalFormatBasics.cmi (include camlinternalFormatBasics.d) bsconfig.json(alias ../runtime/mel)(alias ../others/mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../runtime -I ../others -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalFormatBasics.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../runtime -I ../others -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -nopervasives -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalFormatBasics.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
@@ -3406,7 +3406,7 @@
  (alias mel)
  (deps (:inputs  gc.ast)  gc.cmi (include gc.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o gc.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o gc.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  oo.ast)
@@ -3437,7 +3437,7 @@
  (alias mel)
  (deps (:inputs  oo.ast)  oo.cmi (include oo.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o oo.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o oo.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arg.ast)
@@ -3468,7 +3468,7 @@
  (alias mel)
  (deps (:inputs  arg.ast)  arg.cmi (include arg.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arg.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  fun.ast)
@@ -3499,7 +3499,7 @@
  (alias mel)
  (deps (:inputs  fun.ast)  fun.cmi (include fun.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o fun.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o fun.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int.ast)
@@ -3530,7 +3530,7 @@
  (alias mel)
  (deps (:inputs  int.ast)  int.cmi (include int.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  map.ast)
@@ -3561,7 +3561,7 @@
  (alias mel)
  (deps (:inputs  map.ast)  map.cmi (include map.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o map.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o map.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  obj.ast)
@@ -3592,7 +3592,7 @@
  (alias mel)
  (deps (:inputs  obj.ast)  obj.cmi (include obj.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o obj.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o obj.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  seq.ast)
@@ -3623,7 +3623,7 @@
  (alias mel)
  (deps (:inputs  seq.ast)  seq.cmi (include seq.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o seq.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o seq.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  set.ast)
@@ -3654,7 +3654,7 @@
  (alias mel)
  (deps (:inputs  set.ast)  set.cmi (include set.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o set.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o set.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  sys.ast)
@@ -3685,7 +3685,7 @@
  (alias mel)
  (deps (:inputs  sys.ast)  sys.cmi (include sys.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o sys.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o sys.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bool.ast)
@@ -3716,7 +3716,7 @@
  (alias mel)
  (deps (:inputs  bool.ast)  bool.cmi (include bool.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bool.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bool.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  char.ast)
@@ -3747,7 +3747,7 @@
  (alias mel)
  (deps (:inputs  char.ast)  char.cmi (include char.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o char.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o char.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lazy.ast)
@@ -3778,7 +3778,7 @@
  (alias mel)
  (deps (:inputs  lazy.ast)  lazy.cmi (include lazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lazy.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lazy.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  list.ast)
@@ -3809,7 +3809,7 @@
  (alias mel)
  (deps (:inputs  list.ast)  list.cmi (include list.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o list.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o list.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  unit.ast)
@@ -3840,7 +3840,7 @@
  (alias mel)
  (deps (:inputs  unit.ast)  unit.cmi (include unit.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o unit.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o unit.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  weak.ast)
@@ -3871,7 +3871,7 @@
  (alias mel)
  (deps (:inputs  weak.ast)  weak.cmi (include weak.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o weak.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o weak.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  array.ast)
@@ -3902,7 +3902,7 @@
  (alias mel)
  (deps (:inputs  array.ast)  array.cmi (include array.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o array.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o array.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytes.ast)
@@ -3933,7 +3933,7 @@
  (alias mel)
  (deps (:inputs  bytes.ast)  bytes.cmi (include bytes.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytes.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytes.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  float.ast)
@@ -3964,7 +3964,7 @@
  (alias mel)
  (deps (:inputs  float.ast)  float.cmi (include float.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o float.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o float.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int32.ast)
@@ -3995,7 +3995,7 @@
  (alias mel)
  (deps (:inputs  int32.ast)  int32.cmi (include int32.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int32.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int32.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int64.ast)
@@ -4026,7 +4026,7 @@
  (alias mel)
  (deps (:inputs  int64.ast)  int64.cmi (include int64.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int64.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int64.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  queue.ast)
@@ -4057,7 +4057,7 @@
  (alias mel)
  (deps (:inputs  queue.ast)  queue.cmi (include queue.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o queue.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o queue.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  scanf.ast)
@@ -4088,7 +4088,7 @@
  (alias mel)
  (deps (:inputs  scanf.ast)  scanf.cmi (include scanf.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o scanf.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o scanf.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stack.ast)
@@ -4119,7 +4119,7 @@
  (alias mel)
  (deps (:inputs  stack.ast)  stack.cmi (include stack.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stack.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stack.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  uchar.ast)
@@ -4150,7 +4150,7 @@
  (alias mel)
  (deps (:inputs  uchar.ast)  uchar.cmi (include uchar.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o uchar.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o uchar.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  atomic.ast)
@@ -4181,7 +4181,7 @@
  (alias mel)
  (deps (:inputs  atomic.ast)  atomic.cmi (include atomic.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o atomic.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o atomic.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  buffer.ast)
@@ -4212,7 +4212,7 @@
  (alias mel)
  (deps (:inputs  buffer.ast)  buffer.cmi (include buffer.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o buffer.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o buffer.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  digest.ast)
@@ -4243,7 +4243,7 @@
  (alias mel)
  (deps (:inputs  digest.ast)  digest.cmi (include digest.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o digest.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o digest.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  either.ast)
@@ -4274,7 +4274,7 @@
  (alias mel)
  (deps (:inputs  either.ast)  either.cmi (include either.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o either.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o either.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  format.ast)
@@ -4305,7 +4305,7 @@
  (alias mel)
  (deps (:inputs  format.ast)  format.cmi (include format.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o format.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o format.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  genlex.ast)
@@ -4336,7 +4336,7 @@
  (alias mel)
  (deps (:inputs  genlex.ast)  genlex.cmi (include genlex.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o genlex.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o genlex.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lexing.ast)
@@ -4367,7 +4367,7 @@
  (alias mel)
  (deps (:inputs  lexing.ast)  lexing.cmi (include lexing.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lexing.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lexing.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  option.ast)
@@ -4398,7 +4398,7 @@
  (alias mel)
  (deps (:inputs  option.ast)  option.cmi (include option.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o option.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o option.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printf.ast)
@@ -4429,7 +4429,7 @@
  (alias mel)
  (deps (:inputs  printf.ast)  printf.cmi (include printf.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printf.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printf.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  random.ast)
@@ -4460,7 +4460,7 @@
  (alias mel)
  (deps (:inputs  random.ast)  random.cmi (include random.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o random.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o random.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  result.ast)
@@ -4491,7 +4491,7 @@
  (alias mel)
  (deps (:inputs  result.ast)  result.cmi (include result.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o result.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o result.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stream.ast)
@@ -4522,7 +4522,7 @@
  (alias mel)
  (deps (:inputs  stream.ast)  stream.cmi (include stream.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stream.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stream.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  string.ast)
@@ -4553,7 +4553,7 @@
  (alias mel)
  (deps (:inputs  string.ast)  string.cmi (include string.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o string.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o string.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  complex.ast)
@@ -4584,7 +4584,7 @@
  (alias mel)
  (deps (:inputs  complex.ast)  complex.cmi (include complex.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o complex.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o complex.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  hashtbl.ast)
@@ -4615,7 +4615,7 @@
  (alias mel)
  (deps (:inputs  hashtbl.ast)  hashtbl.cmi (include hashtbl.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o hashtbl.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o hashtbl.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  marshal.ast)
@@ -4646,7 +4646,7 @@
  (alias mel)
  (deps (:inputs  marshal.ast)  marshal.cmi (include marshal.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o marshal.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o marshal.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  parsing.ast)
@@ -4677,7 +4677,7 @@
  (alias mel)
  (deps (:inputs  parsing.ast)  parsing.cmi (include parsing.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o parsing.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o parsing.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  callback.ast)
@@ -4708,7 +4708,7 @@
  (alias mel)
  (deps (:inputs  callback.ast)  callback.cmi (include callback.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o callback.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o callback.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  filename.ast)
@@ -4739,7 +4739,7 @@
  (alias mel)
  (deps (:inputs  filename.ast)  filename.cmi (include filename.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o filename.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o filename.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printexc.ast)
@@ -4770,7 +4770,7 @@
  (alias mel)
  (deps (:inputs  printexc.ast)  printexc.cmi (include printexc.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printexc.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printexc.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  std_exit.ast)
@@ -4819,7 +4819,7 @@
  (alias mel)
  (deps (:inputs  ephemeron.ast)  ephemeron.cmi (include ephemeron.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o ephemeron.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o ephemeron.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  in_channel.ast)
@@ -4850,7 +4850,7 @@
  (alias mel)
  (deps (:inputs  in_channel.ast)  in_channel.cmi (include in_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o in_channel.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o in_channel.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  pervasives.ast)
@@ -4899,7 +4899,7 @@
  (alias mel)
  (deps (:inputs  out_channel.ast)  out_channel.cmi (include out_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o out_channel.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o out_channel.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalOO.ast)
@@ -4930,7 +4930,7 @@
  (alias mel)
  (deps (:inputs  camlinternalOO.ast)  camlinternalOO.cmi (include camlinternalOO.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalOO.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalOO.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalMod.ast)
@@ -4961,7 +4961,7 @@
  (alias mel)
  (deps (:inputs  camlinternalMod.ast)  camlinternalMod.cmi (include camlinternalMod.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalMod.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalMod.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalLazy.ast)
@@ -4992,7 +4992,7 @@
  (alias mel)
  (deps (:inputs  camlinternalLazy.ast)  camlinternalLazy.cmi (include camlinternalLazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalLazy.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalLazy.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  camlinternalFormat.ast)
@@ -5023,7 +5023,7 @@
  (alias mel)
  (deps (:inputs  camlinternalFormat.ast)  camlinternalFormat.cmi (include camlinternalFormat.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -bs-read-cmi -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalFormat.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalFormat.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
@@ -5061,7 +5061,7 @@
  (alias mel)
  (deps (:inputs  stdLabels.ast)  stdLabels.cmi (include stdLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
 (action
-  (run melc -bs-read-cmi -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stdLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stdLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  listLabels.ast)
@@ -5092,7 +5092,7 @@
  (alias mel)
  (deps (:inputs  listLabels.ast)  listLabels.cmi (include listLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
 (action
-  (run melc -bs-read-cmi -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o listLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o listLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  moreLabels.ast)
@@ -5123,7 +5123,7 @@
  (alias mel)
  (deps (:inputs  moreLabels.ast)  moreLabels.cmi (include moreLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
 (action
-  (run melc -bs-read-cmi -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o moreLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o moreLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arrayLabels.ast)
@@ -5154,7 +5154,7 @@
  (alias mel)
  (deps (:inputs  arrayLabels.ast)  arrayLabels.cmi (include arrayLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
 (action
-  (run melc -bs-read-cmi -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arrayLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arrayLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytesLabels.ast)
@@ -5185,7 +5185,7 @@
  (alias mel)
  (deps (:inputs  bytesLabels.ast)  bytesLabels.cmi (include bytesLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
 (action
-  (run melc -bs-read-cmi -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytesLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytesLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stringLabels.ast)
@@ -5216,7 +5216,7 @@
  (alias mel)
  (deps (:inputs  stringLabels.ast)  stringLabels.cmi (include stringLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
 (action
-  (run melc -bs-read-cmi -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stringLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stringLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
