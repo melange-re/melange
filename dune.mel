@@ -1707,6 +1707,24 @@
   (run melc -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_array2.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
+(targets  js_bigint.ast)
+ (deps (:inputs  js_bigint.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  js_bigint.d)
+ (deps (:inputs  js_bigint.ast) )
+(action (run meldep  -root-dir ../.. -p @melange/runtime-others -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  js_bigint.cmj js_bigint.cmi js_bigint.cmt js_bigint.mjs js_bigint.js)
+ (alias mel)
+ (deps (:inputs  js_bigint.ast)  (include js_bigint.d) bsconfig.json(alias ../runtime/bs_stdlib_mini/mel)(alias ../runtime/mel))
+(action
+  (run melc -I . -I ../runtime/bs_stdlib_mini -I ../runtime -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -nostdlib -bs-cross-module-opt -nopervasives -unsafe -open Bs_stdlib_mini  -w a -bs-package-name @melange/runtime-others -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o js_bigint.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
 (targets  js_global.ast)
  (deps (:inputs  js_global.ml)  ../../.melange.eobjs/jscomp/others/.bsbuild)
 (action
@@ -3273,7 +3291,7 @@
  )
 
 (subdir .melange.eobjs/jscomp/others
-(rule (write-file .bsbuild ODMKRG9tCkJlbHQKTm9kZQpKc19PTwpKc19yZQpKc19leG4KSnNfaW50CkpzX29iagpCZWx0X0lkCkpzX2Nhc3QKSnNfZGF0ZQpKc19kaWN0CkpzX2pzb24KSnNfbGlzdApKc19tYXRoCkpzX251bGwKTm9kZV9mcwpCZWx0X0ludApCZWx0X01hcApCZWx0X1NldApKc19hcnJheQpKc19mbG9hdApKc190eXBlcwpCZWx0X0xpc3QKSnNfYXJyYXkyCkpzX2dsb2JhbApKc19vcHRpb24KSnNfcmVzdWx0CkpzX3N0cmluZwpKc192ZWN0b3IKTm9kZV9wYXRoCkJlbHRfQXJyYXkKQmVsdF9GbG9hdApCZWx0X1JhbmdlCkpzX2NvbnNvbGUKSnNfcHJvbWlzZQpKc19zdHJpbmcyCkJlbHRfTWFwSW50CkJlbHRfT3B0aW9uCkJlbHRfUmVzdWx0CkJlbHRfU2V0SW50CkRvbV9zdG9yYWdlCkpzX21hcHBlclJ0Ck5vZGVfYnVmZmVyCk5vZGVfbW9kdWxlCkJlbHRfSGFzaE1hcApCZWx0X0hhc2hTZXQKQmVsdF9NYXBEaWN0CkJlbHRfU2V0RGljdApEb21fc3RvcmFnZTIKSnNfdW5kZWZpbmVkCk5vZGVfcHJvY2VzcwpCZWx0X01hcFN0cmluZwpCZWx0X1NldFN0cmluZwpCZWx0X1NvcnRBcnJheQpKc190eXBlZF9hcnJheQpCZWx0X0hhc2hNYXBJbnQKQmVsdF9IYXNoU2V0SW50CkJlbHRfTXV0YWJsZU1hcApCZWx0X011dGFibGVTZXQKSnNfdHlwZWRfYXJyYXkyCk5vZGVfX25vX2FsaWFzZXMKQmVsdF9NdXRhYmxlUXVldWUKQmVsdF9NdXRhYmxlU3RhY2sKQmVsdF9Tb3J0QXJyYXlJbnQKSnNfbnVsbF91bmRlZmluZWQKQmVsdF9IYXNoTWFwU3RyaW5nCkJlbHRfSGFzaFNldFN0cmluZwpCZWx0X011dGFibGVNYXBJbnQKQmVsdF9NdXRhYmxlU2V0SW50Ck5vZGVfY2hpbGRfcHJvY2VzcwpCZWx0X2ludGVybmFsQVZMc2V0CkJlbHRfaW50ZXJuYWxNYXBJbnQKQmVsdF9pbnRlcm5hbFNldEludApCZWx0X1NvcnRBcnJheVN0cmluZwpCZWx0X2ludGVybmFsQVZMdHJlZQpCZWx0X2ludGVybmFsQnVja2V0cwpCZWx0X011dGFibGVNYXBTdHJpbmcKQmVsdF9NdXRhYmxlU2V0U3RyaW5nCkJlbHRfaW50ZXJuYWxNYXBTdHJpbmcKQmVsdF9pbnRlcm5hbFNldFN0cmluZwpCZWx0X2ludGVybmFsU2V0QnVja2V0cwpCZWx0X2ludGVybmFsQnVja2V0c1R5cGUKLgkKMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACjAK))
+(rule (write-file .bsbuild ODQKRG9tCkJlbHQKTm9kZQpKc19PTwpKc19yZQpKc19leG4KSnNfaW50CkpzX29iagpCZWx0X0lkCkpzX2Nhc3QKSnNfZGF0ZQpKc19kaWN0CkpzX2pzb24KSnNfbGlzdApKc19tYXRoCkpzX251bGwKTm9kZV9mcwpCZWx0X0ludApCZWx0X01hcApCZWx0X1NldApKc19hcnJheQpKc19mbG9hdApKc190eXBlcwpCZWx0X0xpc3QKSnNfYXJyYXkyCkpzX2JpZ2ludApKc19nbG9iYWwKSnNfb3B0aW9uCkpzX3Jlc3VsdApKc19zdHJpbmcKSnNfdmVjdG9yCk5vZGVfcGF0aApCZWx0X0FycmF5CkJlbHRfRmxvYXQKQmVsdF9SYW5nZQpKc19jb25zb2xlCkpzX3Byb21pc2UKSnNfc3RyaW5nMgpCZWx0X01hcEludApCZWx0X09wdGlvbgpCZWx0X1Jlc3VsdApCZWx0X1NldEludApEb21fc3RvcmFnZQpKc19tYXBwZXJSdApOb2RlX2J1ZmZlcgpOb2RlX21vZHVsZQpCZWx0X0hhc2hNYXAKQmVsdF9IYXNoU2V0CkJlbHRfTWFwRGljdApCZWx0X1NldERpY3QKRG9tX3N0b3JhZ2UyCkpzX3VuZGVmaW5lZApOb2RlX3Byb2Nlc3MKQmVsdF9NYXBTdHJpbmcKQmVsdF9TZXRTdHJpbmcKQmVsdF9Tb3J0QXJyYXkKSnNfdHlwZWRfYXJyYXkKQmVsdF9IYXNoTWFwSW50CkJlbHRfSGFzaFNldEludApCZWx0X011dGFibGVNYXAKQmVsdF9NdXRhYmxlU2V0CkpzX3R5cGVkX2FycmF5MgpOb2RlX19ub19hbGlhc2VzCkJlbHRfTXV0YWJsZVF1ZXVlCkJlbHRfTXV0YWJsZVN0YWNrCkJlbHRfU29ydEFycmF5SW50CkpzX251bGxfdW5kZWZpbmVkCkJlbHRfSGFzaE1hcFN0cmluZwpCZWx0X0hhc2hTZXRTdHJpbmcKQmVsdF9NdXRhYmxlTWFwSW50CkJlbHRfTXV0YWJsZVNldEludApOb2RlX2NoaWxkX3Byb2Nlc3MKQmVsdF9pbnRlcm5hbEFWTHNldApCZWx0X2ludGVybmFsTWFwSW50CkJlbHRfaW50ZXJuYWxTZXRJbnQKQmVsdF9Tb3J0QXJyYXlTdHJpbmcKQmVsdF9pbnRlcm5hbEFWTHRyZWUKQmVsdF9pbnRlcm5hbEJ1Y2tldHMKQmVsdF9NdXRhYmxlTWFwU3RyaW5nCkJlbHRfTXV0YWJsZVNldFN0cmluZwpCZWx0X2ludGVybmFsTWFwU3RyaW5nCkJlbHRfaW50ZXJuYWxTZXRTdHJpbmcKQmVsdF9pbnRlcm5hbFNldEJ1Y2tldHMKQmVsdF9pbnRlcm5hbEJ1Y2tldHNUeXBlCi4JCjEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKMAo=))
 )
 
 (subdir jscomp/stdlib-412
@@ -5420,6 +5438,8 @@
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type commonjs ../jscomp/others/belt_List.cmj -o jscomp/others/belt_List.js)
  (run rm -f jscomp/others/js_array2.js)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type commonjs ../jscomp/others/js_array2.cmj -o jscomp/others/js_array2.js)
+ (run rm -f jscomp/others/js_bigint.js)
+ (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type commonjs ../jscomp/others/js_bigint.cmj -o jscomp/others/js_bigint.js)
  (run rm -f jscomp/others/js_global.js)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type commonjs ../jscomp/others/js_global.cmj -o jscomp/others/js_global.js)
  (run rm -f jscomp/others/js_option.js)
@@ -5804,6 +5824,8 @@
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type es6 ../jscomp/others/belt_List.cmj -o jscomp/others/belt_List.mjs)
  (run rm -f jscomp/others/js_array2.mjs)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type es6 ../jscomp/others/js_array2.cmj -o jscomp/others/js_array2.mjs)
+ (run rm -f jscomp/others/js_bigint.mjs)
+ (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type es6 ../jscomp/others/js_bigint.cmj -o jscomp/others/js_bigint.mjs)
  (run rm -f jscomp/others/js_global.mjs)
  (run melc -I ../jscomp/others -I ../jscomp/runtime/bs_stdlib_mini -I ../jscomp/runtime -bs-package-name @melange/runtime-others -bs-module-type es6 ../jscomp/others/js_global.cmj -o jscomp/others/js_global.mjs)
  (run rm -f jscomp/others/js_option.mjs)
