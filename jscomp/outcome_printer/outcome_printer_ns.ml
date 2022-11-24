@@ -32,6 +32,7 @@ let print_ident ppf s =
     | "Js_null_undefined" -> "Js.Nullable"
     | "Js_exn" -> "Js.Exn"
     | "Js_array" -> "Js.Array"
+    | "Js_bigint" -> "Js.Bigint"
     | "Js_string" -> "Js.String"
     | "Js_re" -> "Js.Re"
     | "Js_promise" -> "Js.Promise"
