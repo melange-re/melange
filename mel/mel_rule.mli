@@ -28,7 +28,25 @@
 type fn = ?target:string -> Out_channel.t -> unit
 
 (******************************)
-val cmj :
+val cm_file :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  ?intf_suffix:string ->
+  out_channel ->
+  ?target:string ->
+  string ->
+  unit
+
+val cm_file_dev :
+  global_config:Bsb_ninja_global_vars.t ->
+  package_specs:Bsb_package_specs.t ->
+  ?intf_suffix:string ->
+  out_channel ->
+  ?target:string ->
+  string ->
+  unit
+
+val cmi_file :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->
@@ -36,39 +54,7 @@ val cmj :
   string ->
   unit
 
-val cmj_dev :
-  global_config:Bsb_ninja_global_vars.t ->
-  package_specs:Bsb_package_specs.t ->
-  out_channel ->
-  ?target:string ->
-  string ->
-  unit
-
-val cmij :
-  global_config:Bsb_ninja_global_vars.t ->
-  package_specs:Bsb_package_specs.t ->
-  out_channel ->
-  ?target:string ->
-  string ->
-  unit
-
-val cmij_dev :
-  global_config:Bsb_ninja_global_vars.t ->
-  package_specs:Bsb_package_specs.t ->
-  out_channel ->
-  ?target:string ->
-  string ->
-  unit
-
-val cmi :
-  global_config:Bsb_ninja_global_vars.t ->
-  package_specs:Bsb_package_specs.t ->
-  out_channel ->
-  ?target:string ->
-  string ->
-  unit
-
-val cmi_dev :
+val cmi_file_dev :
   global_config:Bsb_ninja_global_vars.t ->
   package_specs:Bsb_package_specs.t ->
   out_channel ->

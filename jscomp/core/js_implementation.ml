@@ -142,18 +142,21 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
   | _ -> rest
 
 let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
+  let sourcefile = !Location.input_name in
+  let sourceintf =
+    Filename.remove_extension sourcefile ^ !Config.interface_suffix
+  in
   Js_config.all_module_aliases :=
-    !Bs_clflags.assume_no_mli = Mli_non_exists && all_module_alias ast;
+    (not (Sys.file_exists sourceintf)) && all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
   let ast = if !Js_config.no_export then no_export ast else ast in
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Ml ast);
-  (if !Js_config.binary_ast then
-   let sourcefile = !Location.input_name in
-   Binary_ast.write_ast ~sourcefile Ml
-     ~output:(outputprefix ^ Literals.suffix_ast)
-     ast);
+  if !Js_config.binary_ast then
+    Binary_ast.write_ast ~sourcefile Ml
+      ~output:(outputprefix ^ Literals.suffix_ast)
+      ast;
   if !Js_config.as_pp then (
     output_string stdout Config.ast_impl_magic_number;
     output_value stdout (!Location.input_name : string);

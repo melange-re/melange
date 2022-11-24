@@ -235,23 +235,34 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
     Bsb_ninja_targets.output_build oc ~outputs:[ output_iast ]
       ~implicit_deps:ppx_deps ~inputs:[ input_intf ] ~rule:ast_rule;
 
+    let rule =
+      let rule_fn =
+        if is_dev then Mel_rule.cmi_file_dev else Mel_rule.cmi_file
+      in
+      fun ?target oc -> rule_fn ?target ~global_config ~package_specs oc cur_dir
+    in
+
     Bsb_ninja_targets.output_build oc ~implicit_deps:[ output_d_as_dep ]
       ~outputs:[ output_cmi ] ~alias:Literals.mel_dune_alias
       ~inputs:[ basename output_iast ]
-      ~implicit_outputs:[ output_cmti ]
-      ~rule:(fun ?target oc ->
-        (if is_dev then Mel_rule.cmi_dev else Mel_rule.cmi)
-          ?target ~global_config ~package_specs oc cur_dir)
-      ~bs_dependencies
+      ~implicit_outputs:[ output_cmti ] ~rule ~bs_dependencies
       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi));
 
-  let rule ?target oc =
-    let rule =
-      if has_intf_file then if is_dev then Mel_rule.cmj_dev else Mel_rule.cmj
-      else if is_dev then Mel_rule.cmij_dev
-      else Mel_rule.cmij
+  let rule =
+    let intf_suffix =
+      match module_info.syntax_kind with
+      | Same Reason
+      | Different { intf = Reason; _ }
+      | Same Res
+      | Different { intf = Res; _ } ->
+          config.impl ^ Literals.suffix_pp ^ Literals.suffix_ml
+      | Different _ | Same Ml -> config.impl
     in
-    rule ~global_config ~package_specs ?target oc cur_dir
+    let rule_fn = if is_dev then Mel_rule.cm_file_dev else Mel_rule.cm_file in
+    fun ?target oc ->
+      rule_fn
+        ?intf_suffix:(if has_intf_file then Some intf_suffix else None)
+        ~global_config ~package_specs ?target oc cur_dir
   in
   if which <> `intf then
     let output_cmi =
