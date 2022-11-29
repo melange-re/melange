@@ -1,16 +1,22 @@
 Set up a few directories we'll need
 
-  $ cat > b.ml << EOF
-  > let t = "foo"
+  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ cat > b.re << EOF
+  > let t = "foo";
   > EOF
 
-  $ cat > b.mli << EOF
-  > val t : string
+  $ cat > b.rei << EOF
+  > let t : string;
   > EOF
+
+Preprocess files
+
+  $ refmt --print=binary b.rei > b.rei.mli
+  $ refmt --print=binary b.re > b.re.ml
 
 Compile cmi
 
-  $ melc -intf b.mli -o b.cmi
+  $ melc -intf b.rei.mli -o b.cmi
 
 Change permissions to avoid writes
 
@@ -18,5 +24,5 @@ Change permissions to avoid writes
 
 Melc should not write cmi file
 
-  $ melc -bs-stop-after-cmj -intf-suffix .ml -I . -impl b.ml -o b.cmj
+  $ melc -bs-stop-after-cmj -intf-suffix .ml -I . -impl b.re.ml -o b.cmj
 
