@@ -9,7 +9,8 @@ Unreleased
   ([#454](https://github.com/melange-re/melange/pull/454))
 - [melange]: remove the `-bs-read-cmi` flag in favor of the builtin
   `-intf-suffix` flag, standard in OCaml
-  ([#458](https://github.com/melange-re/melange/pull/458))
+  ([#458](https://github.com/melange-re/melange/pull/458),
+  [#460](https://github.com/melange-re/melange/pull/460))
 
 0.3.2 2022-11-19
 ---------------
