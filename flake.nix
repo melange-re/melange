@@ -23,14 +23,14 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
+          melange-compiler-libs.overlays.default
           (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper:
-              (melange-compiler-libs.overlays.default self super).ocamlPackages //
               {
                 dune_3 = osuper.dune_3.overrideAttrs (_: {
                   src = builtins.fetchurl {
-                    url = https://github.com/ocaml/dune/archive/b7d4c4e.tar.gz;
-                    sha256 = "1bx9f3vqqzw26hsasdfnpq1lzid97ar3ih32r90jzf7dc6mcxafc";
+                    url = https://github.com/ocaml/dune/archive/405c0bc3.tar.gz;
+                    sha256 = "1camppviqyykw5m319jm8afq7f02smmp0a5hk4c1yhiw9caq7c4l";
                   };
                 });
               });
