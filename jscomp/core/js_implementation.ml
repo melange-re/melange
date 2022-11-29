@@ -141,11 +141,9 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
         ]
   | _ -> rest
 
-let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
-  let sourcefile = !Location.input_name in
-  let sourceintf =
-    Filename.remove_extension sourcefile ^ !Config.interface_suffix
-  in
+let after_parsing_impl ppf fname (ast : Parsetree.structure) =
+  let outputprefix = Config_util.output_prefix fname in
+  let sourceintf = Filename.remove_extension fname ^ !Config.interface_suffix in
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
   Ast_config.iter_on_bs_config_stru ast;
@@ -153,10 +151,11 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Ml ast);
-  if !Js_config.binary_ast then
-    Binary_ast.write_ast ~sourcefile Ml
-      ~output:(outputprefix ^ Literals.suffix_ast)
-      ast;
+  (if !Js_config.binary_ast then
+   let sourcefile = !Location.input_name in
+   Binary_ast.write_ast ~sourcefile Ml
+     ~output:(outputprefix ^ Literals.suffix_ast)
+     ast);
   if !Js_config.as_pp then (
     output_string stdout Config.ast_impl_magic_number;
     output_value stdout (!Location.input_name : string);
@@ -171,7 +170,7 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
         =
       Typemod.type_implementation_more
         ?check_exists:(if !Js_config.force_cmi then None else Some ())
-        !Location.input_name outputprefix modulename env ast
+        fname outputprefix modulename env ast
     in
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
@@ -195,14 +194,13 @@ let after_parsing_impl ppf outputprefix (ast : Parsetree.structure) =
 
 let implementation ~parser ppf fname =
   Res_compmisc.init_path ();
-
   parser fname |> Ast_deriving_compat.structure
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
   |> Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf (Config_util.output_prefix fname)
+  |> after_parsing_impl ppf fname
 
 let implementation_mlast ppf fname =
   Res_compmisc.init_path ();
@@ -210,7 +208,7 @@ let implementation_mlast ppf fname =
   Binary_ast.read_ast_exn ~fname Ml
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf (Config_util.output_prefix fname)
+  |> after_parsing_impl ppf fname
 
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
@@ -244,4 +242,4 @@ let implementation_map ppf sourcefile =
   ml_ast
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf (Config_util.output_prefix sourcefile)
+  |> after_parsing_impl ppf sourcefile
