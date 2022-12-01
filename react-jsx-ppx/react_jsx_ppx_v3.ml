@@ -451,7 +451,10 @@ let rewritter =
     | Some children ->
         Builder.pexp_apply ~loc ~attrs
           (Builder.pexp_ident ~loc
-             { loc; txt = Ldot (Lident "React", "createElementVariadic") })
+             {
+               loc;
+               txt = Ldot (Lident "ReactDOMRe", "createDOMElementVariadic");
+             })
           [
             (nolabel, Builder.pexp_ident ~loc { txt = ident; loc });
             (nolabel, props);
@@ -474,7 +477,7 @@ let rewritter =
          | Pexp_construct ({ txt = Lident "[]"; _ }, None) );
        _;
       } ->
-          "createDOMElementVariadic"
+          Ldot (Lident "ReactDOMRe", "createDOMElementVariadic")
       (* [@JSX] div(~children= value), coming from <div> ...(value) </div> *)
       | _ ->
           raise
@@ -512,9 +515,8 @@ let rewritter =
     Builder.pexp_apply
       ~loc (* throw away the [@JSX] attribute and keep the others, if any *)
       ~attrs
-      (* ReactDOMRe.createElement *)
-      (Builder.pexp_ident ~loc
-         { loc; txt = Ldot (Lident "ReactDOMRe", createElementCall) })
+      (* ReactDOMRe.createDOMElementVariadic *)
+      (Builder.pexp_ident ~loc { loc; txt = createElementCall })
       args
     [@@raises Invalid_argument]
   in
