@@ -1,9 +1,15 @@
 (library
  (name react_jsx_ppx)
  (package react-jsx-ppx)
+ (public_name melange.react-jsx-ppx)
  (libraries ppxlib compiler-libs.common)
  ; compiler-libs.common is needed to get OCaml_location,
  ; can remove it in next releases of ppxlib https://github.com/ocaml-ppx/ppxlib/issues/377
  (preprocess
   (pps ppxlib.metaquot))
  (kind ppx_rewriter))
+
+; (executable
+; (name react_jsx_ppx_standalone)
+; (public_name react_jsx_ppx_standalone)
+; (libraries react_jsx_ppx ppxlib))
