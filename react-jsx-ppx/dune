@@ -8,8 +8,3 @@
  (preprocess
   (pps ppxlib.metaquot))
  (kind ppx_rewriter))
-
-; (executable
-; (name react_jsx_ppx_standalone)
-; (public_name react_jsx_ppx_standalone)
-; (libraries react_jsx_ppx ppxlib))
