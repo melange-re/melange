@@ -3,16 +3,13 @@
 , mkShell
 , nodejs_latest
 , packages
-, stdenv
 , system
 , yarn
-, tree
 , cacert
 , curl
 , ocamlPackages
-, writeScriptBin
 , git
-, h2spec
+, python3
 , release-mode ? false
 }:
 
@@ -31,6 +28,7 @@ in
 mkShell {
   inputsFrom = lib.attrValues derivations;
   buildInputs = [
+    python3
     nodejs_latest
     yarn
   ]
