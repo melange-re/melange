@@ -1,6 +1,6 @@
 Demonstrate how to use `melc` with `refmt` and Reason files
 
-
+  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
   $ cat > x.re <<EOF
   > let () =
   >   Js.log2("Here's two:", 2);
