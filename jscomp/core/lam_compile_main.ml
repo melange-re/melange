@@ -318,7 +318,8 @@ let lambda_as_module
       ~output_info:Js_packages_info.default_output_info
       ~output_prefix
       lambda_output stdout
-  | false, None -> assert false
+  | false, None ->
+    raise (Arg.Bad ("no output specified (use -o <filename>.js)"))
   | (_, Some _) ->
     (* We use `-bs-module-type` to emit a single JS file after `.cmj`
        generation. In this case, we don't want the `package_info` from the

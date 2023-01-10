@@ -135,21 +135,6 @@ let eval (s : string) ~suffix =
   clean tmpfile;
   ret
 
-let try_eval ~f =
-    try f ()
-    with
-    | Arg.Bad msg ->
-        Format.eprintf "%s@." msg;
-        exit 2
-    | x ->
-      begin
-#ifndef BS_RELEASE_BUILD
-        print_backtrace ();
-#endif
-        Location.report_exception ppf x;
-        exit 2
-      end
-
 module Pp = Rescript_cpp
 let define_variable s =
   match Ext_string.split ~keep_empty:true s '=' with
@@ -359,13 +344,11 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->
-        try_eval ~f:(fun () ->
-          ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret )))
-      bs_eval ;
+        ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret ))
+      bs_eval;
     Option.iter (fun s ->
-        try_eval ~f:(fun () ->
-          ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret )))
-      bs_e ;
+        ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret ))
+      bs_e;
     Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
@@ -377,8 +360,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     anonymous ~rev_args:(List.rev filenames)
     with
     | Arg.Bad msg ->
-        Format.eprintf "%s@." msg;
-        exit 2
+      `Error (false, msg)
     | x ->
       begin
 #ifndef BS_RELEASE_BUILD
@@ -387,7 +369,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
         Location.report_exception ppf x;
         exit 2
       end
-end
+  end
 
 
 let melc_cmd =

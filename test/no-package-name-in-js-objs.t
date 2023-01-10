@@ -15,8 +15,8 @@ If we don't have a package name, melc should allow not passing one
 Can't `-bs-module-type` and `-bs-package-output`
 
   $ melc -bs-module-type es6 -bs-package-output lib/ -bs-stop-after-cmj -nopervasives lib/a.ml -o lib/.objs/melange/a.cmj
-  Can't pass both `-bs-package-output` and `-bs-module-type`
-  [2]
+  melc: Can't pass both `-bs-package-output` and `-bs-module-type`
+  [124]
 
 Now compile for real
 
