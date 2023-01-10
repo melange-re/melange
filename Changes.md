@@ -11,6 +11,10 @@ Unreleased
   `-intf-suffix` flag, standard in OCaml
   ([#458](https://github.com/melange-re/melange/pull/458),
   [#460](https://github.com/melange-re/melange/pull/460))
+- [melange]: return an actionable error message when no output is specified
+  with `-impl` / `-intf`
+  ([#465](https://github.com/melange-re/melange/pull/465),
+  [#466](https://github.com/melange-re/melange/pull/466))
 
 0.3.2 2022-11-19
 ---------------
