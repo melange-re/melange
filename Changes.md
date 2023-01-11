@@ -15,6 +15,12 @@ Unreleased
   with `-impl` / `-intf`
   ([#465](https://github.com/melange-re/melange/pull/465),
   [#466](https://github.com/melange-re/melange/pull/466))
+- [melange]: use `Object.prototype.hasOwnProperty` in the `Caml_obj` runtime
+  ([#469](https://github.com/melange-re/melange/pull/469))
+- [melange]: transform
+  [`NonEscapeCharacter`](https://tc39.es/ecma262/#prod-NonEscapeCharacter)
+  correctly in JS strings (those written using `{js|string here|js}`)
+  ([#469](https://github.com/melange-re/melange/pull/469))
 
 0.3.2 2022-11-19
 ---------------
