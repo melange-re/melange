@@ -21,6 +21,8 @@ Unreleased
   [`NonEscapeCharacter`](https://tc39.es/ecma262/#prod-NonEscapeCharacter)
   correctly in JS strings (those written using `{js|string here|js}`)
   ([#469](https://github.com/melange-re/melange/pull/469))
+- [melange]: define `MELANGE` conditional compilation variable
+  ([#472](https://github.com/melange-re/melange/pull/472))
 
 0.3.2 2022-11-19
 ---------------
