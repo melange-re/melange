@@ -38,6 +38,7 @@
    (>= "0.0.1-414"))
   (cmdliner
    (>= "1.1.0"))
+  csexp
   (meldep
    (= :version))
   (cppo :build)
