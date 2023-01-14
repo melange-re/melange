@@ -25,6 +25,15 @@
  (modules mel mel_watcher)
  (libraries mellib cmdliner luv))
 
+(executable
+ (public_name melassets)
+ (name mel_assets)
+ (package melange)
+ (modes byte_complete native)
+ (flags :standard -open Melange_compiler_libs)
+ (libraries core cmdliner csexp)
+ (modules mel_assets))
+
 (test
  (name ounit_tests_main)
  (package melange)

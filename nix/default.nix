@@ -1,7 +1,11 @@
 { stdenv, ocamlPackages, lib, tree, nix-filter, nodejs, doCheck ? true }:
 
+let
+  inherit (ocamlPackages) buildDunePackage;
+in
+
 rec {
-  melange = ocamlPackages.buildDunePackage rec {
+  melange = buildDunePackage rec {
     pname = "melange";
     version = "dev";
     duneVersion = "3";
@@ -42,6 +46,7 @@ rec {
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];
     propagatedBuildInputs = with ocamlPackages; [
+      csexp
       melange-compiler-libs
       cmdliner
       meldep
@@ -49,7 +54,7 @@ rec {
     meta.mainProgram = "melc";
   };
 
-  mel = ocamlPackages.buildDunePackage rec {
+  mel = buildDunePackage rec {
     pname = "mel";
     version = "dev";
     duneVersion = "3";
@@ -93,7 +98,7 @@ rec {
     meta.mainProgram = "mel";
   };
 
-  meldep = ocamlPackages.buildDunePackage rec {
+  meldep = buildDunePackage rec {
     pname = "meldep";
     version = "dev";
     duneVersion = "3";

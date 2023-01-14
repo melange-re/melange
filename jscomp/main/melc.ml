@@ -41,7 +41,7 @@ let set_abs_input_name sourcefile =
 
 let process_file sourcefile
   ?(kind ) ppf =
-  (* This is a better default then "", it will be changed later
+  (* This is a better default than "", it will be changed later
      The {!Location.input_name} relies on that we write the binary ast
      properly
   *)

@@ -54,3 +54,35 @@ val pval_prim_of_labels : string Asttypes.loc list -> string list
 
 val pval_prim_of_option_labels :
   (bool * string Asttypes.loc) list -> bool -> string list
+
+type bundle_source =
+  [ `Nm_payload of string (* from payload [@@val "xx" ]*)
+  | `Nm_external of string (* from "" in external *)
+  | `Nm_val of string lazy_t (* from function name *) ]
+
+type name_source = [ bundle_source | `Nm_na ]
+
+type external_desc = {
+  val_name : name_source;
+  external_module_name : External_ffi_types.external_module_name option;
+  module_as_val : External_ffi_types.external_module_name option;
+  val_send : name_source;
+  val_send_pipe : Ast_core_type.t option;
+  splice : bool; (* mutable *)
+  scopes : string list;
+  set_index : bool; (* mutable *)
+  get_index : bool;
+  new_name : name_source;
+  call_name : name_source;
+  set_name : name_source;
+  get_name : name_source;
+  mk_obj : bool;
+  return_wrapper : External_ffi_types.return_wrapper;
+}
+
+val parse_external_attributes :
+  bool ->
+  string ->
+  bundle_source ->
+  Ast_attributes.t ->
+  Ast_attributes.t * external_desc
