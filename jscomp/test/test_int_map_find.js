@@ -1,8 +1,11 @@
 'use strict';
 
+var Seq = require("melange/lib/js/seq.js");
 var Caml = require("melange/lib/js/caml.js");
 var List = require("melange/lib/js/list.js");
 var Curry = require("melange/lib/js/curry.js");
+var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 var compare = Caml.caml_int_compare;
 

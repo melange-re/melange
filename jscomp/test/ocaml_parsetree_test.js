@@ -25,6 +25,7 @@ var Caml_sys = require("melange/lib/js/caml_sys.js");
 var Filename = require("melange/lib/js/filename.js");
 var Caml_array = require("melange/lib/js/caml_array.js");
 var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_int32 = require("melange/lib/js/caml_int32.js");
 var Caml_int64 = require("melange/lib/js/caml_int64.js");
 var Caml_format = require("melange/lib/js/caml_format.js");
 var Caml_option = require("melange/lib/js/caml_option.js");

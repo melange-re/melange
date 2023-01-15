@@ -1,7 +1,9 @@
 'use strict';
 
+var Seq = require("melange/lib/js/seq.js");
 var Curry = require("melange/lib/js/curry.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
+var Caml_option = require("melange/lib/js/caml_option.js");
 
 function compare(x, y) {
   return x - y | 0;

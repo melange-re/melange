@@ -2,6 +2,7 @@
 
 var Mt = require("./mt.js");
 var Fs = require("fs");
+var Seq = require("melange/lib/js/seq.js");
 var Sys = require("melange/lib/js/sys.js");
 var Caml = require("melange/lib/js/caml.js");
 var Char = require("melange/lib/js/char.js");

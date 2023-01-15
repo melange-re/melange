@@ -230,7 +230,6 @@ let compile_coercion ~output_prefix (lam : Lambda.lambda) =
         )
   in
 
-
   (* The file is not big at all compared with [cmo] *)
   (* Ext_marshal.to_file (Ext_path.chop_extension filename ^ ".mj")  js; *)
   let meta_exports = meta.exports in
@@ -239,7 +238,8 @@ let compile_coercion ~output_prefix (lam : Lambda.lambda) =
     {
       exports = meta_exports ;
       export_set;
-      block = body}
+      block = body
+    }
   in
   let effect =
     Lam_stats_export.get_dependent_module_effect

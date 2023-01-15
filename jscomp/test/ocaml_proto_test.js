@@ -1,6 +1,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
+var Seq = require("melange/lib/js/seq.js");
 var Char = require("melange/lib/js/char.js");
 var List = require("melange/lib/js/list.js");
 var Bytes = require("melange/lib/js/bytes.js");
