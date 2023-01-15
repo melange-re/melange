@@ -23,16 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-
-
-
-
-
-
-(* module E = Js_exp_make  *)
-(* module S = Js_stmt_make   *)
-
-
 let compile_group (meta : Lam_stats.t)
     (x : Lam_group.t) : Js_output.t  =
   match x with
@@ -85,8 +75,7 @@ let no_side_effects (rest : Lam_group.t list) : string option =
   Ext_list.find_opt rest (fun x ->
       match x with
       | Single(kind,id,body) ->
-        begin
-          match kind with
+        begin match kind with
           | Strict | Variable ->
             if not @@ Lam_analysis.no_side_effects body
             then Some  (Printf.sprintf "%s" (Ident.name id))
@@ -118,12 +107,9 @@ let _d  = fun  s lam ->
 
 let _j = Js_pass_debug.dump
 
-(* Actually simplify_lets is kind of global optimization since it requires you to know whether
-    it's used or not
-*)
-let compile
-    (output_prefix : string)
-    (lam : Lambda.lambda)   =
+(* Actually simplify_lets is kind of global optimization since it requires you
+   to know whether it's used or not *)
+let compile_coercion ~output_prefix (lam : Lambda.lambda) =
   let export_idents = Translmod.get_export_identifiers() in
   let export_ident_sets = Set_ident.of_list export_idents in
   (* To make toplevel happy - reentrant for js-demo *)
@@ -134,8 +120,7 @@ let compile
 #endif
     Lam_compile_env.reset () ;
   in
-  let lam, may_required_modules = Lam_convert.convert export_ident_sets lam in
-
+  let lam, maybe_required_modules = Lam_convert.convert export_ident_sets lam in
 
   let lam = _d "initial"  lam in
   let lam  = Lam_pass_deep_flatten.deep_flatten lam in
@@ -148,7 +133,7 @@ let compile
   let lam =
     let lam =
       lam
-      |> _d "flattern1"
+      |> _d "flatten1"
       |>  Lam_pass_exits.simplify_exits
       |> _d "simplyf_exits"
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
@@ -206,93 +191,104 @@ let compile
   in
 
 #ifndef BS_RELEASE_BUILD
-let () =
-  Ext_log.dwarn ~__POS__ "After coercion: %a@." Lam_stats.print meta ;
-  if Js_config.get_diagnose () then
-    let f =
-      Ext_filename.new_extension !Location.input_name  ".lambda" in
-    Ext_fmt.with_file_as_pp f (fun fmt ->
-      Format.pp_print_list ~pp_sep:Format.pp_print_newline
-        Lam_group.pp_group  fmt (coerced_input.groups))
-in
+  let () =
+    Ext_log.dwarn ~__POS__ "After coercion: %a@." Lam_stats.print meta ;
+    if Js_config.get_diagnose () then
+      let f =
+        Ext_filename.new_extension !Location.input_name  ".lambda" in
+      Ext_fmt.with_file_as_pp f (fun fmt ->
+        Format.pp_print_list ~pp_sep:Format.pp_print_newline
+          Lam_group.pp_group  fmt (coerced_input.groups))
+  in
 #endif
-let maybe_pure = no_side_effects groups in
+
+  let maybe_pure = no_side_effects groups in
+
 #ifndef BS_RELEASE_BUILD
-let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Pre-compile: %f@]@."  (Sys.time () *. 1000.) in
+  let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Pre-compile: %f@]@."  (Sys.time () *. 1000.) in
 #endif
-let body  =
-  Ext_list.map groups (fun group -> compile_group meta group)
-  |> Js_output.concat
-  |> Js_output.output_as_block
-in
+
+  let body  =
+    Ext_list.map groups (fun group -> compile_group meta group)
+    |> Js_output.concat
+    |> Js_output.output_as_block
+  in
+
 #ifndef BS_RELEASE_BUILD
-let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Post-compile: %f@]@."  (Sys.time () *. 1000.) in
+  let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Post-compile: %f@]@."  (Sys.time () *. 1000.) in
 #endif
-(* The file is not big at all compared with [cmo] *)
-(* Ext_marshal.to_file (Ext_path.chop_extension filename ^ ".mj")  js; *)
-let meta_exports = meta.exports in
-let export_set = Set_ident.of_list meta_exports in
-let js : J.program =
-  {
-    exports = meta_exports ;
-    export_set;
-    block = body}
-in
-js
-|> _j "initial"
-|> Js_pass_flatten.program
-|> _j "flattern"
-|> Js_pass_tailcall_inline.tailcall_inline
-|> _j "inline_and_shake"
-|> Js_pass_flatten_and_mark_dead.program
-|> _j "flatten_and_mark_dead"
-(* |> Js_inline_and_eliminate.inline_and_shake *)
-(* |> _j "inline_and_shake" *)
-|> (fun js -> ignore @@ Js_pass_scope.program  js ; js )
-|> Js_shake.shake_program
-|> _j "shake"
-|> ( fun (program:  J.program) ->
-    let external_module_ids : Lam_module_ident.t list =
-      if !Js_config.all_module_aliases then []
-      else
-        let hard_deps =
-          Js_fold_basic.calculate_hard_dependencies program.block in
-        Lam_compile_env.populate_required_modules
-          may_required_modules hard_deps ;
-        Ext_list.sort_via_array (Lam_module_ident.Hash_set.to_list hard_deps)
-          (fun id1 id2 ->
-             Ext_string.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2)
-          )
-    in
-    Warnings.check_fatal();
-    let effect =
-      Lam_stats_export.get_dependent_module_effect
-        maybe_pure external_module_ids in
-    let delayed_program = {
-      J.program = program ;
-      side_effect = effect ;
-      modules = external_module_ids
-    }
-    in
-    let case =
-      Js_packages_info.module_case
-        ~output_prefix
-        (Js_packages_state.get_packages_info ())
-    in
-    let cmj : Js_cmj_format.t =
-      Lam_stats_export.export_to_cmj
-        ~case
-        ~delayed_program
-        meta
-        effect
-        coerced_input.export_map
-    in
-    (if not !Clflags.dont_write_files then
-       Js_cmj_format.to_file
-         ~check_exists:(not !Js_config.force_cmj)
-         (output_prefix ^ Literals.suffix_cmj) cmj);
-    delayed_program
-  )
+  let external_module_ids : Lam_module_ident.t list =
+    if !Js_config.all_module_aliases then []
+    else
+      let hard_deps =
+        Js_fold_basic.calculate_hard_dependencies body in
+      Lam_compile_env.populate_required_modules
+        maybe_required_modules hard_deps ;
+      Ext_list.sort_via_array (Lam_module_ident.Hash_set.to_list hard_deps)
+        (fun id1 id2 ->
+           Ext_string.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2)
+        )
+  in
+
+
+  (* The file is not big at all compared with [cmo] *)
+  (* Ext_marshal.to_file (Ext_path.chop_extension filename ^ ".mj")  js; *)
+  let meta_exports = meta.exports in
+  let export_set = Set_ident.of_list meta_exports in
+  let js : J.program =
+    {
+      exports = meta_exports ;
+      export_set;
+      block = body}
+  in
+  let effect =
+    Lam_stats_export.get_dependent_module_effect
+      maybe_pure external_module_ids in
+
+  let delayed_program = {
+    J.program = js ;
+    side_effect = effect ;
+    modules = external_module_ids
+  }
+  in
+  let case =
+    Js_packages_info.module_case
+      ~output_prefix
+      (Js_packages_state.get_packages_info ())
+  in
+  let cmj : Js_cmj_format.t =
+    Lam_stats_export.export_to_cmj
+      ~case
+      ~delayed_program
+      meta
+      effect
+      coerced_input.export_map
+  in
+  (if not !Clflags.dont_write_files then
+     Js_cmj_format.to_file
+       ~check_exists:(not !Js_config.force_cmj)
+       (output_prefix ^ Literals.suffix_cmj) cmj);
+
+  delayed_program
+
+let emit_program (deps_program : J.deps_program) =
+  deps_program.program
+  |> _j "initial"
+  |> Js_pass_flatten.program
+  |> _j "flatten"
+  |> Js_pass_tailcall_inline.tailcall_inline
+  |> _j "inline_and_shake"
+  |> Js_pass_flatten_and_mark_dead.program
+  |> _j "flatten_and_mark_dead"
+  (* |> Js_inline_and_eliminate.inline_and_shake *)
+  (* |> _j "inline_and_shake" *)
+  |> (fun js -> ignore @@ Js_pass_scope.program  js ; js )
+  |> Js_shake.shake_program
+  |> _j "shake"
+  |> ( fun (program:  J.program) ->
+      Warnings.check_fatal();
+      {deps_program with program }
+    )
 ;;
 
 let (//) = Filename.concat
@@ -302,15 +298,12 @@ let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  
     Js_dump_program.dump_deps_program
       ~package_info ~output_info ~output_prefix lambda_output chan)
 
-let lambda_as_module
-    ~package_info
-    (lambda_output : J.deps_program)
-    (output_prefix : string)
-  : unit =
+let lambda_as_module ~package_info ~output_prefix t : unit =
   let make_basename suffix =
     Ext_namespace.change_ext_ns_suffix
       (Filename.basename output_prefix)
       (Ext_js_suffix.to_string suffix) in
+  let lambda_output : J.deps_program = emit_program t in
   match (!Js_config.js_stdout, !Clflags.output_name) with
   | (true, None) ->
     Js_dump_program.dump_deps_program
@@ -335,7 +328,6 @@ let lambda_as_module
           lambda_output
           target_file
       end)
-
 
 
 (* We can use {!Env.current_unit = "Pervasives"} to tell if it is some specific module,

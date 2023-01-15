@@ -5,7 +5,6 @@ var $$Array = require("melange/lib/js/array.js");
 var Curry = require("melange/lib/js/curry.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Caml_option = require("melange/lib/js/caml_option.js");
-var Ext_string_test = require("./ext_string_test.js");
 
 function filter_map(f, _xs) {
   while(true) {
@@ -979,4 +978,4 @@ exports.sort_via_array = sort_via_array;
 exports.last = last;
 exports.assoc_by_string = assoc_by_string;
 exports.assoc_by_int = assoc_by_int;
-/* Ext_string_test Not a pure module */
+/* No side effect */

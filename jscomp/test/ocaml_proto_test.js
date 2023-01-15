@@ -9,7 +9,6 @@ var Lexing = require("melange/lib/js/lexing.js");
 var Printf = require("melange/lib/js/printf.js");
 var Stdlib = require("melange/lib/js/stdlib.js");
 var $$String = require("melange/lib/js/string.js");
-var Hashtbl = require("melange/lib/js/hashtbl.js");
 var Parsing = require("melange/lib/js/parsing.js");
 var Caml_obj = require("melange/lib/js/caml_obj.js");
 var Filename = require("melange/lib/js/filename.js");

@@ -180,16 +180,18 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
       let lambda =
         Translmod.transl_implementation modulename typedtree_coercion
       in
-      let js_program =
-        print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code
-        |> Lam_compile_main.compile outputprefix
+      let lambda_coercion =
+        print_if ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code;
+        Lam_compile_main.compile_coercion ~output_prefix:outputprefix
+          lambda.code
       in
       if not !Js_config.cmj_only then
         (* XXX(anmonteiro): important that we get package_info after
            processing, as `[@@@config {flags = [| ... |]}]` could have added to
            package specs. *)
         let package_info = Js_packages_state.get_packages_info () in
-        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
+        Lam_compile_main.lambda_as_module ~package_info
+          ~output_prefix:outputprefix lambda_coercion);
     process_with_gentype (outputprefix ^ ".cmt")
 
 let implementation ~parser ppf fname =
@@ -215,8 +217,8 @@ let implementation_cmj _ppf fname =
   Res_compmisc.init_path ();
   let cmj = Js_cmj_format.from_file fname in
   Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
+    ~output_prefix:(Config_util.output_prefix fname)
     cmj.delayed_program
-    (Config_util.output_prefix fname)
 
 let make_structure_item ~ns cunit : Parsetree.structure_item =
   let open Ast_helper in
