@@ -215,7 +215,12 @@ let output_virtual_package ~root_dir ~package_spec ~oc
   in
   let dirs =
     List.concat
-      (Ext_list.map (config :: configs) (fun config ->
+      (Ext_list.map
+         ((config, Bsb_package_kind.Toplevel)
+         :: List.map
+              (fun c -> (c, Bsb_package_kind.Dependency config.package_specs))
+              configs)
+         (fun (config, package_kind) ->
            let {
              Bsb_config_types.dir = config_proj_dir;
              package_name;
@@ -223,6 +228,7 @@ let output_virtual_package ~root_dir ~package_spec ~oc
              namespace;
              bs_dependencies;
              bs_dev_dependencies;
+             warning;
              _;
            } =
              config
@@ -232,6 +238,8 @@ let output_virtual_package ~root_dir ~package_spec ~oc
                ~package_dir:config_proj_dir ~package_name
            in
            let install_dir = root_dir // package_spec_dir in
+           let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
+
            Ext_list.map file_groups.files (fun group ->
                let rel_group_dir =
                  Ext_path.rel_normalized_absolute_path ~from:root_dir
@@ -290,6 +298,8 @@ let output_virtual_package ~root_dir ~package_spec ~oc
                    output_string oc
                      (Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc);
                    output_string oc ns_flag;
+                   output_char oc ' ';
+                   output_string oc warnings;
                    output_char oc ' ';
                    if group.is_dev && source_dirs.dev <> [] then (
                      let dev_incls = rel_incls ?namespace source_dirs.dev in
