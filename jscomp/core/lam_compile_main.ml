@@ -135,7 +135,7 @@ let compile_coercion ~output_prefix (lam : Lambda.lambda) =
       lam
       |> _d "flatten1"
       |>  Lam_pass_exits.simplify_exits
-      |> _d "simplyf_exits"
+      |> _d "simplify_exits"
       |> (fun lam -> Lam_pass_collect.collect_info meta lam;
 #ifndef BS_RELEASE_BUILD
       let () =
