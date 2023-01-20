@@ -4,15 +4,15 @@ In this case, we create a library that shadows the `Node` module.
 
   $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
   $ dune build @melange-dist --display=short
-      ocamldep node/.node.objs/node.ml.d
+      ocamldep node/.node.objs/node.impl.d
           melc node/.node.objs/melange/node__.{cmi,cmj,cmt}
-      ocamldep node/.node.objs/other.ml.d
+      ocamldep node/.node.objs/node__Other.impl.d
           melc dist/node/node__.js
           melc node/.node.objs/melange/node__Other.{cmi,cmj,cmt}
           melc dist/node/other.js
           melc node/.node.objs/melange/node.{cmi,cmj,cmt}
-          melc dist/node/node.js
           melc .dist.mobjs/melange/melange__Entry_module.{cmi,cmj,cmt}
+          melc dist/node/node.js
           melc dist/entry_module.js
 
   $ ls _build/default/node/.node.objs/melange

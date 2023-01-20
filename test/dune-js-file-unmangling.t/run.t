@@ -5,23 +5,23 @@ Showcase library name namespacing in dune
 
   $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
   $ dune build @melange-dist --display=short
-      ocamldep leaf/.leaf.objs/leaf.ml.d
+      ocamldep leaf/.leaf.objs/leaf.impl.d
           melc leaf/.leaf.objs/melange/leaf__.{cmi,cmj,cmt}
-      ocamldep leaf/.leaf.objs/other.ml.d
-      ocamldep parent/.parent.objs/m_a.ml.d
-      ocamldep parent/.parent.objs/m_b.ml.d
+      ocamldep leaf/.leaf.objs/leaf__Other.impl.d
           melc parent/.parent.objs/melange/parent.{cmi,cmj,cmt}
+      ocamldep parent/.parent.objs/parent__M_a.impl.d
+      ocamldep parent/.parent.objs/parent__M_b.impl.d
           melc dist/leaf/leaf__.js
           melc leaf/.leaf.objs/melange/leaf__Other.{cmi,cmj,cmt}
           melc dist/leaf/other.js
           melc leaf/.leaf.objs/melange/leaf.{cmi,cmj,cmt}
-          melc dist/leaf/leaf.js
           melc parent/.parent.objs/melange/parent__M_a.{cmi,cmj,cmt}
+          melc dist/leaf/leaf.js
           melc parent/.parent.objs/melange/parent__M_b.{cmi,cmj,cmt}
           melc dist/parent/parent.js
           melc dist/parent/m_a.js
-          melc dist/parent/m_b.js
           melc .dist.mobjs/melange/melange__Entry_module.{cmi,cmj,cmt}
+          melc dist/parent/m_b.js
           melc dist/entry_module.js
 
   $ ls _build/default/leaf/.leaf.objs/melange
