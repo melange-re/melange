@@ -72,21 +72,22 @@ external ( +. ) : float -> float -> float = "%addfloat"
 external ( -. ) : float -> float -> float = "%subfloat"
 external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
+
+#if BS then
+external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
+external exp : float -> float = "exp" [@@bs.val][@@bs.scope "Math"]
+#else
 external ( ** ) : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
-external sqrt : float -> float = "caml_sqrt_float" "sqrt"
-  [@@unboxed] [@@noalloc]
 external exp : float -> float = "caml_exp_float" "exp" [@@unboxed] [@@noalloc]
-external log : float -> float = "caml_log_float" "log" [@@unboxed] [@@noalloc]
-external log10 : float -> float = "caml_log10_float" "log10"
-  [@@unboxed] [@@noalloc]
-external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
-  [@@unboxed] [@@noalloc]
-external log1p : float -> float = "caml_log1p_float" "caml_log1p"
-  [@@unboxed] [@@noalloc]
-external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
-external sin : float -> float = "caml_sin_float" "sin" [@@unboxed] [@@noalloc]
-external tan : float -> float = "caml_tan_float" "tan" [@@unboxed] [@@noalloc]
+#end
+
+#if BS then
+external acos : float -> float =  "acos" [@@bs.val] [@@bs.scope "Math"]
+external asin : float -> float = "asin" [@@bs.val] [@@bs.scope "Math"]
+external atan : float -> float = "atan" [@@bs.val] [@@bs.scope "Math"]
+external atan2 : float -> float -> float = "atan2" [@@bs.val] [@@bs.scope "Math"]
+#else
 external acos : float -> float = "caml_acos_float" "acos"
   [@@unboxed] [@@noalloc]
 external asin : float -> float = "caml_asin_float" "asin"
@@ -95,19 +96,59 @@ external atan : float -> float = "caml_atan_float" "atan"
   [@@unboxed] [@@noalloc]
 external atan2 : float -> float -> float = "caml_atan2_float" "atan2"
   [@@unboxed] [@@noalloc]
+#end
+
 external hypot : float -> float -> float = "caml_hypot_float" "caml_hypot"
   [@@unboxed] [@@noalloc]
+
+
+#if BS then
+external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
+external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
+external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
+external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
+external log10 : float -> float = "log10"[@@bs.val] [@@bs.scope "Math"]
+external log1p : float -> float = "log1p" [@@bs.val] [@@bs.scope "Math"]
+external sin : float -> float =  "sin" [@@bs.val] [@@bs.scope "Math"]
+external sinh : float -> float = "sinh" [@@bs.val] [@@bs.scope "Math"]
+external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
+external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
+external tan : float -> float =  "tan" [@@bs.val] [@@bs.scope "Math"]
+external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
+external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
+external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
+external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
+external abs_float : float -> float = "abs"[@@bs.val] [@@bs.scope "Math"]
+#else
+external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 external cosh : float -> float = "caml_cosh_float" "cosh"
   [@@unboxed] [@@noalloc]
+external acosh : float -> float = "caml_acosh_float" "caml_acosh"
+  [@@unboxed] [@@noalloc]
+external log : float -> float = "caml_log_float" "log" [@@unboxed] [@@noalloc]
+external log10 : float -> float = "caml_log10_float" "log10"
+  [@@unboxed] [@@noalloc]
+external log1p : float -> float = "caml_log1p_float" "caml_log1p"
+  [@@unboxed] [@@noalloc]
+external sin : float -> float = "caml_sin_float" "sin" [@@unboxed] [@@noalloc]
 external sinh : float -> float = "caml_sinh_float" "sinh"
   [@@unboxed] [@@noalloc]
+external asinh : float -> float = "caml_asinh_float" "caml_asinh"
+  [@@unboxed] [@@noalloc]
+external sqrt : float -> float = "caml_sqrt_float" "sqrt"
+  [@@unboxed] [@@noalloc]
+external tan : float -> float = "caml_tan_float" "tan" [@@unboxed] [@@noalloc]
 external tanh : float -> float = "caml_tanh_float" "tanh"
+  [@@unboxed] [@@noalloc]
+external atanh : float -> float = "caml_atanh_float" "caml_atanh"
   [@@unboxed] [@@noalloc]
 external ceil : float -> float = "caml_ceil_float" "ceil"
   [@@unboxed] [@@noalloc]
 external floor : float -> float = "caml_floor_float" "floor"
   [@@unboxed] [@@noalloc]
 external abs_float : float -> float = "%absfloat"
+#end
+
 external copysign : float -> float -> float
                   = "caml_copysign_float" "caml_copysign"
                   [@@unboxed] [@@noalloc]
@@ -133,8 +174,14 @@ type nonrec fpclass = fpclass =
   | FP_zero
   | FP_infinite
   | FP_nan
+
+#if BS then
+let classify_float = classify_float
+#else
 external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
+#end
+
 let ( ^ ) = ( ^ )
 external int_of_char : char -> int = "%identity"
 let char_of_int = char_of_int

@@ -23,6 +23,8 @@ Unreleased
   ([#469](https://github.com/melange-re/melange/pull/469))
 - [melange]: define `MELANGE` conditional compilation variable
   ([#472](https://github.com/melange-re/melange/pull/472))
+- [melange]: Make `Pervasives` exactly match the `Stdlib` behavior
+  ([#476](https://github.com/melange-re/melange/pull/476))
 
 0.3.2 2022-11-19
 ---------------
