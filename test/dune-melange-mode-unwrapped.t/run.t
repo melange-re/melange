@@ -19,20 +19,20 @@ files
   b.cmj
   b.cmt
 
-  $ dune build ./dist/libB/b.js --display=short
+  $ dune build @melange-dist --display=short
+          melc .dist.mobjs/melange/melange.{cmi,cmj,cmt}
           melc dist/libA/a.js
           melc dist/libA/other.js
           melc dist/libB/b.js
+          melc dist/.dist.mobjs/melange.js
 
 The resulting directory produces JS files with the same structure as the source
 tree. Because `(wrapped false)` was present, JS file names are not mangled
 
-  $ tree ./_build/default/dist
+  $ tree --noreport ./_build/default/dist
   ./_build/default/dist
   |-- libA
   |   |-- a.js
   |   `-- other.js
   `-- libB
       `-- b.js
-  
-  2 directories, 3 files

@@ -29,8 +29,8 @@
               {
                 dune_3 = osuper.dune_3.overrideAttrs (_: {
                   src = builtins.fetchurl {
-                    url = https://github.com/ocaml/dune/archive/1e1101d.tar.gz;
-                    sha256 = "0wn6jwi0194wxazm5j1w06v6nkkm9jkchmbvfa4a37jxbm48yfb1";
+                    url = https://github.com/ocaml/dune/archive/0d44bbfdb.tar.gz;
+                    sha256 = "0812lf97vsf4jf3a988wsfi8p05i4icb6d86wfr7q8gpy36yk6n1";
                   };
                 });
               });
