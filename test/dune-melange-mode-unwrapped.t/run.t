@@ -29,12 +29,10 @@ files
 The resulting directory produces JS files with the same structure as the source
 tree. Because `(wrapped false)` was present, JS file names are not mangled
 
-  $ tree ./_build/default/dist
+  $ tree --noreport ./_build/default/dist
   ./_build/default/dist
   |-- libA
   |   |-- a.js
   |   `-- other.js
   `-- libB
       `-- b.js
-  
-  2 directories, 3 files

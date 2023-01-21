@@ -31,12 +31,10 @@ In this test case:
 
 Generated JS files are unmangled
 
-  $ tree _build/default/dist
+  $ tree --noreport _build/default/dist
   _build/default/dist
   |-- entry_module.js
   `-- node
       |-- leaf.js
       |-- node.js
       `-- other.js
-  
-  1 directory, 4 files

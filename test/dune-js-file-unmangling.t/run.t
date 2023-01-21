@@ -48,7 +48,7 @@ Showcase library name namespacing in dune
 
 Generated JS files are unmangled
 
-  $ tree _build/default/dist
+  $ tree --noreport _build/default/dist
   _build/default/dist
   |-- entry_module.js
   |-- leaf
@@ -59,5 +59,3 @@ Generated JS files are unmangled
       |-- m_a.js
       |-- m_b.js
       `-- parent.js
-  
-  2 directories, 7 files

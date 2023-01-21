@@ -33,8 +33,6 @@ b.js produces a require to a.js, but with lower case
 
 But the file is upper case
 
-  $ tree output/lib
+  $ tree --noreport output/lib
   output/lib
   `-- A.js
-  
-  0 directories, 1 file
