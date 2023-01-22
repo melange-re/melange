@@ -38,24 +38,8 @@
    (>= "0.0.1-414"))
   (cmdliner
    (>= "1.1.0"))
-  (meldep
-   (= :version))
   (cppo :build)
   (ounit :with-test)))
-
-(package
- (name meldep)
- (synopsis
-  "Melange counterpart to `ocamldep` that understands Melange-specific constructs")
- (depends
-  ocaml
-  (cppo :build)
-  (base64
-   (>= "3.1.0"))
-  (cmdliner
-   (>= "1.1.0"))
-  (melange-compiler-libs
-   (>= "0.0.1-414"))))
 
 (package
  (name mel)
