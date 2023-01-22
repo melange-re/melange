@@ -38,6 +38,8 @@
    (>= "0.0.1-414"))
   (cmdliner
    (>= "1.1.0"))
+  (base64
+   (>= "3.1.0"))
   (cppo :build)
   (ounit :with-test)))
 

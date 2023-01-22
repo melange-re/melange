@@ -60,7 +60,11 @@ let stdlib_path =
     Lazy.force install_dir
 #endif
 in
-  root // Literals.lib // Literals.package_name // Literals.package_name)
+  root // Literals.lib // Literals.package_name
+#ifdef BS_RELEASE_BUILD
+  // Literals.package_name
+#endif
+)
 
 (** Browser is not set via command line only for internal use *)
 
