@@ -17,6 +17,7 @@ rec {
         "package.json"
         "jscomp"
         "lib"
+        "meldep"
         "test"
         "mel_workspace"
         "reactjs_jsx_ppx"
@@ -31,10 +32,9 @@ rec {
       runHook postBuild
     '';
 
-    installPhase = ''
-      runHook preInstall
-      dune install --prefix $out ${pname}
-      runHook postInstall
+    postInstall = ''
+      mkdir -p $out/lib/melange
+      mv $out/lib/ocaml/${ocamlPackages.ocaml.version}/site-lib/melange/melange $out/lib/melange/melange
     '';
 
     inherit doCheck;
@@ -42,9 +42,9 @@ rec {
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];
     propagatedBuildInputs = with ocamlPackages; [
+      base64
       melange-compiler-libs
       cmdliner
-      meldep
     ];
     meta.mainProgram = "melc";
   };
@@ -87,41 +87,9 @@ rec {
       cmdliner
       luv
       ocaml-migrate-parsetree-2
-      meldep
+      melange
     ];
 
     meta.mainProgram = "mel";
   };
-
-  meldep = ocamlPackages.buildDunePackage rec {
-    pname = "meldep";
-    version = "dev";
-    duneVersion = "3";
-
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "dune-project"
-        "dune"
-        "dune.mel"
-        "meldep.opam"
-        "meldep"
-        "mel_workspace"
-        "jscomp/ext"
-        "jscomp/stubs"
-        "jscomp/keywords.list"
-        "scripts"
-      ];
-    };
-
-    nativeBuildInputs = with ocamlPackages; [ cppo ];
-    propagatedBuildInputs = with ocamlPackages; [
-      base64
-      cmdliner
-      melange-compiler-libs
-    ];
-
-    meta.mainProgram = "meldep";
-  };
-
 }

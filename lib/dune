@@ -1,3 +1,6 @@
+(executable
+ (name find_artifacts))
+
 (rule
  (targets artifacts.sexp)
  (deps melange)
@@ -6,12 +9,7 @@
  (action
   (with-stdout-to
    artifacts.sexp
-   (progn
-    (echo "(")
-    (chdir
-     ..
-     (run find %{deps} -type f))
-    (echo ")")))))
+   (run ./find_artifacts.exe %{deps}))))
 
 (rule
  (targets
