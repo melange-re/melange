@@ -92,7 +92,7 @@ let anonymous ~(rev_args : string list) =
         ~target:output
         Ppx_entry.rewrite_implementation
         Ppx_entry.rewrite_signature)
-    | _ -> `Error(false, "Wrong format when use -as-ppx")
+    | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
   else
     begin
         if !Js_config.syntax_only then begin
