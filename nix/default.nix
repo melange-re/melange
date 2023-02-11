@@ -39,7 +39,8 @@ rec {
     '';
 
     inherit doCheck;
-    checkInputs = with ocamlPackages; [ ounit2 tree nodejs reason ];
+    nativeCheckInputs = [ tree nodejs ocamlPackages.reason ];
+    checkInputs = with ocamlPackages; [ ounit2 ];
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];
     propagatedBuildInputs = with ocamlPackages; [
