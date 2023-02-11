@@ -27,7 +27,7 @@ let
       })
     ];
   };
-  inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages;
+  inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages tree;
   packages = pkgs.callPackage ./.. { inherit nix-filter; };
   inputString =
     builtins.substring
@@ -57,7 +57,14 @@ stdenv.mkDerivation {
   doCheck = true;
 
   nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-  buildInputs = [ yarn nodejs packages.melange packages.mel ocamlPackages.reason ];
+  buildInputs = [
+    packages.melange
+    packages.mel
+    ocamlPackages.reason
+    tree
+    nodejs
+    yarn
+  ];
 
   checkPhase = ''
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015

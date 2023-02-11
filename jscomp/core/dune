@@ -7,13 +7,7 @@
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
- (libraries
-  ext
-  common
-  frontend
-  melange-compiler-libs
-  outcome_printer
-  js_parser))
+ (libraries ext common melange.ppx melange-compiler-libs))
 
 (rule
  (targets js_fold.ml)

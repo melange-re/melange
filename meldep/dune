@@ -5,7 +5,7 @@
 
 (executable
  (public_name meldep)
- (package meldep)
+ (package melange)
  (modes native)
  (modules meldep)
  (libraries bsb_helper cmdliner))
