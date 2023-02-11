@@ -53,7 +53,7 @@ let setup_env () =
   Clflags.strict_sequence := true;
   Clflags.strict_formats := true;
   (* Turn on [-no-alias-deps] by default -- double check *)
-  Oprint.out_ident := Outcome_printer.Outcome_printer_ns.out_ident;
+  Oprint.out_ident := Outcome_printer_ns.out_ident;
   Builtin_attributes.check_bs_attributes_inclusion := Record_attributes_check.check_bs_attributes_inclusion;
   Builtin_attributes.check_duplicated_labels :=
     Record_attributes_check.check_duplicated_labels;

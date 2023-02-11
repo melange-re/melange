@@ -193,7 +193,7 @@ let valid_method_name ?loc:_  _txt  =
 let check_external_module_name ?loc x =
   match x with
   | {bundle = ""; _ }
-  | { module_bind_name = Phint_name "" } ->
+  | { module_bind_name = Phint_name ""; _ } ->
     Location.raise_errorf ?loc "empty name encountered"
   | _ -> ()
 
@@ -204,14 +204,14 @@ let check_ffi ?loc ffi : bool =
   let upgrade bool =
     if not (!xrelative) then xrelative := bool in
   begin match ffi with
-  | Js_var {name; external_module_name} ->
+  | Js_var {name; external_module_name; _} ->
     upgrade (is_package_relative_path name);
     Option.iter (fun name -> upgrade (is_package_relative_path name.bundle))
       external_module_name;
     valid_global_name ?loc  name
-  | Js_send {name }
-  | Js_set  {js_set_name = name}
-  | Js_get { js_get_name = name}
+  | Js_send {name; _ }
+  | Js_set  {js_set_name = name; _}
+  | Js_get { js_get_name = name; _}
     ->  valid_method_name ?loc name
   | Js_get_index  _ (* TODO: check scopes *)
   | Js_set_index _
@@ -223,7 +223,7 @@ let check_ffi ?loc ffi : bool =
     ->
       upgrade (is_package_relative_path external_module_name.bundle);
       check_external_module_name external_module_name
-  | Js_new {external_module_name ;  name}
+  | Js_new {external_module_name ;  name; _}
   | Js_call {external_module_name ;  name ; splice = _; scopes = _ }
     ->
     Option.iter (fun external_module_name ->
