@@ -1,30 +1,31 @@
 Unreleased
 ---------------
 
-- [melange]: print an error message if `$MELANGELIB` is set to a directory that
+- melange: print an error message if `$MELANGELIB` is set to a directory that
   doesn't exist ([#449](https://github.com/melange-re/melange/pull/449))
-- [melange]: fix bug where `--bs-module-name` didn't always affect generated JS
+- melange: fix bug where `--bs-module-name` didn't always affect generated JS
   file casing ([#446](https://github.com/melange-re/melange/pull/446))
-- [melange]: fix bug where `-o output.js` didn't always write a JavaScript file
+- melange: fix bug where `-o output.js` didn't always write a JavaScript file
   ([#454](https://github.com/melange-re/melange/pull/454))
-- [melange]: remove the `-bs-read-cmi` flag in favor of the builtin
+- melange: remove the `-bs-read-cmi` flag in favor of the builtin
   `-intf-suffix` flag, standard in OCaml
   ([#458](https://github.com/melange-re/melange/pull/458),
   [#460](https://github.com/melange-re/melange/pull/460))
-- [melange]: return an actionable error message when no output is specified
+- melange: return an actionable error message when no output is specified
   with `-impl` / `-intf`
   ([#465](https://github.com/melange-re/melange/pull/465),
   [#466](https://github.com/melange-re/melange/pull/466))
-- [melange]: use `Object.prototype.hasOwnProperty` in the `Caml_obj` runtime
+- melange: use `Object.prototype.hasOwnProperty` in the `Caml_obj` runtime
   ([#469](https://github.com/melange-re/melange/pull/469))
-- [melange]: transform
+- melange: transform
   [`NonEscapeCharacter`](https://tc39.es/ecma262/#prod-NonEscapeCharacter)
   correctly in JS strings (those written using `{js|string here|js}`)
   ([#469](https://github.com/melange-re/melange/pull/469))
-- [melange]: define `MELANGE` conditional compilation variable
+- melange: define `MELANGE` conditional compilation variable
   ([#472](https://github.com/melange-re/melange/pull/472))
-- [melange]: Make `Pervasives` exactly match the `Stdlib` behavior
+- melange: Make `Pervasives` exactly match the `Stdlib` behavior
   ([#476](https://github.com/melange-re/melange/pull/476))
+- melange:
 
 0.3.2 2022-11-19
 ---------------
@@ -34,7 +35,7 @@ Unreleased
   ([#441](https://github.com/melange-re/melange/pull/441)):
   - These are now correctly converted to the OCaml equivalent:
     `foo##bar #= assignment`
-- [mel]: fix merlin generation, broken since `mel` was moved to its own package
+- mel: fix merlin generation, broken since `mel` was moved to its own package
   ([#442](https://github.com/melange-re/melange/pull/442))
 
 0.3.1 2022-11-16
@@ -64,7 +65,7 @@ Unreleased
 0.3.0 2022-11-06
 ---------------
 
-- [melange] Introduce 2 explicit modes of JavaScript compilation:
+- melange Introduce 2 explicit modes of JavaScript compilation:
   - "Batch compilation": produces `.cmj` and `.js` files at the same time (this
     is the previous behavior -- using `--bs-package-output
     MODULE_SYSTEM:REL_PATH:JS_EXTENSION`)
@@ -73,12 +74,12 @@ Unreleased
     separately, with `--bs-module-type MODULE_SYSTEM -o
     TARGET_FILE.JS_EXTENSION`
   ([#384](https://github.com/melange-re/melange/pull/384))
-- [mel]: Fix `mel build --watch` exiting after the first change
+- mel: Fix `mel build --watch` exiting after the first change
   ([#401](https://github.com/melange-re/melange/pull/401))
-- [melange]: Remove dependency on `reason`. Reason syntax users should install`
+- melange: Remove dependency on `reason`. Reason syntax users should install`
   reason` from their preferred package manager instead, and Melange / Dune will
   find it in `$PATH` ([#409](https://github.com/melange-re/melange/pull/409))
-- [melange]: Remove dependency on `napkin` (the ReScript syntax parser). Users
+- melange: Remove dependency on `napkin` (the ReScript syntax parser). Users
   that depend on libraries written in ReScript syntax should install the `mel`
   package and Melange / Dune will find the `rescript_syntax` binary in `$PATH`
   ([#411](https://github.com/melange-re/melange/pull/411))
