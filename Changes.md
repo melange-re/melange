@@ -25,7 +25,8 @@ Unreleased
   ([#472](https://github.com/melange-re/melange/pull/472))
 - melange: Make `Pervasives` exactly match the `Stdlib` behavior
   ([#476](https://github.com/melange-re/melange/pull/476))
-- melange:
+- melange: fix unbound error when trying to use `Printexc.exn_slot_id`
+  ([#482](https://github.com/melange-re/melange/pull/482))
 
 0.3.2 2022-11-19
 ---------------

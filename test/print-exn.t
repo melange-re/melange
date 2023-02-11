@@ -9,6 +9,11 @@ An example that uses exceptions runtime
   >   try f () with
   >   | exn -> Printexc.exn_slot_id exn
   > let result = run (fun _ -> failwith "oops")
+  > 
+  > exception Custom
+  > let () =
+  >   Js.log2 (Printexc.exn_slot_id Custom) (Printexc.exn_slot_id Not_found)
+  > 
   > EOF
   $ cat > dune-project <<EOF
   > (lang dune 3.7)
@@ -21,6 +26,5 @@ An example that uses exceptions runtime
   >  (module_system commonjs))
   > EOF
   $ dune build @melange
-  $ node ./_build/default/melange/x.js 2>&1 | awk '/exn_slot_id/'
-      return Printexc.exn_slot_id(Caml_js_exceptions.internalToOCamlException(raw_exn));
-  TypeError: Printexc.exn_slot_id is not a function
+  $ node ./_build/default/melange/x.js
+  7 -1
