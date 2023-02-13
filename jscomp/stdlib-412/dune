@@ -22,11 +22,13 @@
   -nopervasives
   -nostdlib))
 
+;; The one that depends on everything. let's just call it `melange`
+
 (subdir
  stdlib_modules
  (library
-  (public_name melange.stdlib-modules)
-  (name stdlib_modules)
+  (public_name melange)
+  (name melange)
   (wrapped false)
   (modes melange)
   (preprocess
