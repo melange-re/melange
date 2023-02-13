@@ -10,7 +10,8 @@
     "-no-alias-deps",
     "-bs-no-version-header",
     "-bs-no-check-div-by-zero",
-    "-bs-cross-module-opt"
+    "-bs-cross-module-opt",
+    "-nolabels"
   ],
   "bs-dependencies": [
     "@melange/runtime",

@@ -3381,7 +3381,7 @@
 (targets  gc.ast)
  (deps (:inputs  gc.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  gc.d)
@@ -3392,27 +3392,27 @@
 (targets  gc.iast)
  (deps (:inputs  gc.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  gc.cmi gc.cmti)
  (alias mel)
  (deps (:inputs  gc.iast)  (include gc.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o gc.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o gc.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  gc.cmj gc.cmt gc.mjs gc.js)
  (alias mel)
  (deps (:inputs  gc.ast)  gc.cmi (include gc.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o gc.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o gc.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  oo.ast)
  (deps (:inputs  oo.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  oo.d)
@@ -3423,27 +3423,27 @@
 (targets  oo.iast)
  (deps (:inputs  oo.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  oo.cmi oo.cmti)
  (alias mel)
  (deps (:inputs  oo.iast)  (include oo.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o oo.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o oo.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  oo.cmj oo.cmt oo.mjs oo.js)
  (alias mel)
  (deps (:inputs  oo.ast)  oo.cmi (include oo.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o oo.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o oo.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arg.ast)
  (deps (:inputs  arg.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arg.d)
@@ -3454,27 +3454,27 @@
 (targets  arg.iast)
  (deps (:inputs  arg.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arg.cmi arg.cmti)
  (alias mel)
  (deps (:inputs  arg.iast)  (include arg.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o arg.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o arg.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arg.cmj arg.cmt arg.mjs arg.js)
  (alias mel)
  (deps (:inputs  arg.ast)  arg.cmi (include arg.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arg.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  fun.ast)
  (deps (:inputs  fun.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  fun.d)
@@ -3485,27 +3485,27 @@
 (targets  fun.iast)
  (deps (:inputs  fun.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  fun.cmi fun.cmti)
  (alias mel)
  (deps (:inputs  fun.iast)  (include fun.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o fun.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o fun.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  fun.cmj fun.cmt fun.mjs fun.js)
  (alias mel)
  (deps (:inputs  fun.ast)  fun.cmi (include fun.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o fun.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o fun.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int.ast)
  (deps (:inputs  int.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int.d)
@@ -3516,27 +3516,27 @@
 (targets  int.iast)
  (deps (:inputs  int.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int.cmi int.cmti)
  (alias mel)
  (deps (:inputs  int.iast)  (include int.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o int.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o int.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int.cmj int.cmt int.mjs int.js)
  (alias mel)
  (deps (:inputs  int.ast)  int.cmi (include int.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  map.ast)
  (deps (:inputs  map.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  map.d)
@@ -3547,27 +3547,27 @@
 (targets  map.iast)
  (deps (:inputs  map.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  map.cmi map.cmti)
  (alias mel)
  (deps (:inputs  map.iast)  (include map.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o map.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o map.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  map.cmj map.cmt map.mjs map.js)
  (alias mel)
  (deps (:inputs  map.ast)  map.cmi (include map.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o map.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o map.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  obj.ast)
  (deps (:inputs  obj.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  obj.d)
@@ -3578,27 +3578,27 @@
 (targets  obj.iast)
  (deps (:inputs  obj.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  obj.cmi obj.cmti)
  (alias mel)
  (deps (:inputs  obj.iast)  (include obj.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o obj.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o obj.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  obj.cmj obj.cmt obj.mjs obj.js)
  (alias mel)
  (deps (:inputs  obj.ast)  obj.cmi (include obj.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o obj.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o obj.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  seq.ast)
  (deps (:inputs  seq.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  seq.d)
@@ -3609,27 +3609,27 @@
 (targets  seq.iast)
  (deps (:inputs  seq.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  seq.cmi seq.cmti)
  (alias mel)
  (deps (:inputs  seq.iast)  (include seq.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o seq.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o seq.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  seq.cmj seq.cmt seq.mjs seq.js)
  (alias mel)
  (deps (:inputs  seq.ast)  seq.cmi (include seq.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o seq.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o seq.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  set.ast)
  (deps (:inputs  set.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  set.d)
@@ -3640,27 +3640,27 @@
 (targets  set.iast)
  (deps (:inputs  set.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  set.cmi set.cmti)
  (alias mel)
  (deps (:inputs  set.iast)  (include set.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o set.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o set.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  set.cmj set.cmt set.mjs set.js)
  (alias mel)
  (deps (:inputs  set.ast)  set.cmi (include set.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o set.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o set.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  sys.ast)
  (deps (:inputs  sys.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  sys.d)
@@ -3671,27 +3671,27 @@
 (targets  sys.iast)
  (deps (:inputs  sys.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  sys.cmi sys.cmti)
  (alias mel)
  (deps (:inputs  sys.iast)  (include sys.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o sys.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o sys.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  sys.cmj sys.cmt sys.mjs sys.js)
  (alias mel)
  (deps (:inputs  sys.ast)  sys.cmi (include sys.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o sys.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o sys.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bool.ast)
  (deps (:inputs  bool.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bool.d)
@@ -3702,27 +3702,27 @@
 (targets  bool.iast)
  (deps (:inputs  bool.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bool.cmi bool.cmti)
  (alias mel)
  (deps (:inputs  bool.iast)  (include bool.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o bool.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o bool.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bool.cmj bool.cmt bool.mjs bool.js)
  (alias mel)
  (deps (:inputs  bool.ast)  bool.cmi (include bool.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bool.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bool.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  char.ast)
  (deps (:inputs  char.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  char.d)
@@ -3733,27 +3733,27 @@
 (targets  char.iast)
  (deps (:inputs  char.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  char.cmi char.cmti)
  (alias mel)
  (deps (:inputs  char.iast)  (include char.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o char.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o char.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  char.cmj char.cmt char.mjs char.js)
  (alias mel)
  (deps (:inputs  char.ast)  char.cmi (include char.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o char.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o char.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lazy.ast)
  (deps (:inputs  lazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lazy.d)
@@ -3764,27 +3764,27 @@
 (targets  lazy.iast)
  (deps (:inputs  lazy.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lazy.cmi lazy.cmti)
  (alias mel)
  (deps (:inputs  lazy.iast)  (include lazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o lazy.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o lazy.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lazy.cmj lazy.cmt lazy.mjs lazy.js)
  (alias mel)
  (deps (:inputs  lazy.ast)  lazy.cmi (include lazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lazy.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lazy.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  list.ast)
  (deps (:inputs  list.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  list.d)
@@ -3795,27 +3795,27 @@
 (targets  list.iast)
  (deps (:inputs  list.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  list.cmi list.cmti)
  (alias mel)
  (deps (:inputs  list.iast)  (include list.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o list.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o list.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  list.cmj list.cmt list.mjs list.js)
  (alias mel)
  (deps (:inputs  list.ast)  list.cmi (include list.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o list.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o list.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  unit.ast)
  (deps (:inputs  unit.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  unit.d)
@@ -3826,27 +3826,27 @@
 (targets  unit.iast)
  (deps (:inputs  unit.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  unit.cmi unit.cmti)
  (alias mel)
  (deps (:inputs  unit.iast)  (include unit.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o unit.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o unit.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  unit.cmj unit.cmt unit.mjs unit.js)
  (alias mel)
  (deps (:inputs  unit.ast)  unit.cmi (include unit.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o unit.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o unit.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  weak.ast)
  (deps (:inputs  weak.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  weak.d)
@@ -3857,27 +3857,27 @@
 (targets  weak.iast)
  (deps (:inputs  weak.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  weak.cmi weak.cmti)
  (alias mel)
  (deps (:inputs  weak.iast)  (include weak.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o weak.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o weak.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  weak.cmj weak.cmt weak.mjs weak.js)
  (alias mel)
  (deps (:inputs  weak.ast)  weak.cmi (include weak.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o weak.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o weak.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  array.ast)
  (deps (:inputs  array.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  array.d)
@@ -3888,27 +3888,27 @@
 (targets  array.iast)
  (deps (:inputs  array.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  array.cmi array.cmti)
  (alias mel)
  (deps (:inputs  array.iast)  (include array.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o array.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o array.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  array.cmj array.cmt array.mjs array.js)
  (alias mel)
  (deps (:inputs  array.ast)  array.cmi (include array.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o array.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o array.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytes.ast)
  (deps (:inputs  bytes.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytes.d)
@@ -3919,27 +3919,27 @@
 (targets  bytes.iast)
  (deps (:inputs  bytes.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytes.cmi bytes.cmti)
  (alias mel)
  (deps (:inputs  bytes.iast)  (include bytes.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o bytes.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o bytes.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytes.cmj bytes.cmt bytes.mjs bytes.js)
  (alias mel)
  (deps (:inputs  bytes.ast)  bytes.cmi (include bytes.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytes.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytes.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  float.ast)
  (deps (:inputs  float.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  float.d)
@@ -3950,27 +3950,27 @@
 (targets  float.iast)
  (deps (:inputs  float.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  float.cmi float.cmti)
  (alias mel)
  (deps (:inputs  float.iast)  (include float.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o float.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o float.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  float.cmj float.cmt float.mjs float.js)
  (alias mel)
  (deps (:inputs  float.ast)  float.cmi (include float.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o float.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o float.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int32.ast)
  (deps (:inputs  int32.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int32.d)
@@ -3981,27 +3981,27 @@
 (targets  int32.iast)
  (deps (:inputs  int32.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int32.cmi int32.cmti)
  (alias mel)
  (deps (:inputs  int32.iast)  (include int32.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o int32.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o int32.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int32.cmj int32.cmt int32.mjs int32.js)
  (alias mel)
  (deps (:inputs  int32.ast)  int32.cmi (include int32.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int32.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int32.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int64.ast)
  (deps (:inputs  int64.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int64.d)
@@ -4012,27 +4012,27 @@
 (targets  int64.iast)
  (deps (:inputs  int64.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int64.cmi int64.cmti)
  (alias mel)
  (deps (:inputs  int64.iast)  (include int64.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o int64.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o int64.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  int64.cmj int64.cmt int64.mjs int64.js)
  (alias mel)
  (deps (:inputs  int64.ast)  int64.cmi (include int64.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int64.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o int64.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  queue.ast)
  (deps (:inputs  queue.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  queue.d)
@@ -4043,27 +4043,27 @@
 (targets  queue.iast)
  (deps (:inputs  queue.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  queue.cmi queue.cmti)
  (alias mel)
  (deps (:inputs  queue.iast)  (include queue.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o queue.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o queue.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  queue.cmj queue.cmt queue.mjs queue.js)
  (alias mel)
  (deps (:inputs  queue.ast)  queue.cmi (include queue.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o queue.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o queue.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  scanf.ast)
  (deps (:inputs  scanf.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  scanf.d)
@@ -4074,27 +4074,27 @@
 (targets  scanf.iast)
  (deps (:inputs  scanf.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  scanf.cmi scanf.cmti)
  (alias mel)
  (deps (:inputs  scanf.iast)  (include scanf.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o scanf.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o scanf.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  scanf.cmj scanf.cmt scanf.mjs scanf.js)
  (alias mel)
  (deps (:inputs  scanf.ast)  scanf.cmi (include scanf.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o scanf.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o scanf.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stack.ast)
  (deps (:inputs  stack.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stack.d)
@@ -4105,27 +4105,27 @@
 (targets  stack.iast)
  (deps (:inputs  stack.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stack.cmi stack.cmti)
  (alias mel)
  (deps (:inputs  stack.iast)  (include stack.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o stack.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o stack.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stack.cmj stack.cmt stack.mjs stack.js)
  (alias mel)
  (deps (:inputs  stack.ast)  stack.cmi (include stack.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stack.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stack.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  uchar.ast)
  (deps (:inputs  uchar.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  uchar.d)
@@ -4136,27 +4136,27 @@
 (targets  uchar.iast)
  (deps (:inputs  uchar.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  uchar.cmi uchar.cmti)
  (alias mel)
  (deps (:inputs  uchar.iast)  (include uchar.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o uchar.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o uchar.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  uchar.cmj uchar.cmt uchar.mjs uchar.js)
  (alias mel)
  (deps (:inputs  uchar.ast)  uchar.cmi (include uchar.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o uchar.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o uchar.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  atomic.ast)
  (deps (:inputs  atomic.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  atomic.d)
@@ -4167,27 +4167,27 @@
 (targets  atomic.iast)
  (deps (:inputs  atomic.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  atomic.cmi atomic.cmti)
  (alias mel)
  (deps (:inputs  atomic.iast)  (include atomic.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o atomic.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o atomic.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  atomic.cmj atomic.cmt atomic.mjs atomic.js)
  (alias mel)
  (deps (:inputs  atomic.ast)  atomic.cmi (include atomic.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o atomic.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o atomic.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  buffer.ast)
  (deps (:inputs  buffer.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  buffer.d)
@@ -4198,27 +4198,27 @@
 (targets  buffer.iast)
  (deps (:inputs  buffer.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  buffer.cmi buffer.cmti)
  (alias mel)
  (deps (:inputs  buffer.iast)  (include buffer.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o buffer.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o buffer.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  buffer.cmj buffer.cmt buffer.mjs buffer.js)
  (alias mel)
  (deps (:inputs  buffer.ast)  buffer.cmi (include buffer.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o buffer.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o buffer.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  digest.ast)
  (deps (:inputs  digest.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  digest.d)
@@ -4229,27 +4229,27 @@
 (targets  digest.iast)
  (deps (:inputs  digest.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  digest.cmi digest.cmti)
  (alias mel)
  (deps (:inputs  digest.iast)  (include digest.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o digest.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o digest.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  digest.cmj digest.cmt digest.mjs digest.js)
  (alias mel)
  (deps (:inputs  digest.ast)  digest.cmi (include digest.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o digest.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o digest.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  either.ast)
  (deps (:inputs  either.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  either.d)
@@ -4260,27 +4260,27 @@
 (targets  either.iast)
  (deps (:inputs  either.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  either.cmi either.cmti)
  (alias mel)
  (deps (:inputs  either.iast)  (include either.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o either.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o either.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  either.cmj either.cmt either.mjs either.js)
  (alias mel)
  (deps (:inputs  either.ast)  either.cmi (include either.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o either.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o either.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  format.ast)
  (deps (:inputs  format.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  format.d)
@@ -4291,27 +4291,27 @@
 (targets  format.iast)
  (deps (:inputs  format.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  format.cmi format.cmti)
  (alias mel)
  (deps (:inputs  format.iast)  (include format.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o format.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o format.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  format.cmj format.cmt format.mjs format.js)
  (alias mel)
  (deps (:inputs  format.ast)  format.cmi (include format.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o format.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o format.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  genlex.ast)
  (deps (:inputs  genlex.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  genlex.d)
@@ -4322,27 +4322,27 @@
 (targets  genlex.iast)
  (deps (:inputs  genlex.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  genlex.cmi genlex.cmti)
  (alias mel)
  (deps (:inputs  genlex.iast)  (include genlex.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o genlex.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o genlex.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  genlex.cmj genlex.cmt genlex.mjs genlex.js)
  (alias mel)
  (deps (:inputs  genlex.ast)  genlex.cmi (include genlex.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o genlex.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o genlex.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lexing.ast)
  (deps (:inputs  lexing.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lexing.d)
@@ -4353,27 +4353,27 @@
 (targets  lexing.iast)
  (deps (:inputs  lexing.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lexing.cmi lexing.cmti)
  (alias mel)
  (deps (:inputs  lexing.iast)  (include lexing.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o lexing.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o lexing.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  lexing.cmj lexing.cmt lexing.mjs lexing.js)
  (alias mel)
  (deps (:inputs  lexing.ast)  lexing.cmi (include lexing.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lexing.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o lexing.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  option.ast)
  (deps (:inputs  option.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  option.d)
@@ -4384,27 +4384,27 @@
 (targets  option.iast)
  (deps (:inputs  option.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  option.cmi option.cmti)
  (alias mel)
  (deps (:inputs  option.iast)  (include option.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o option.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o option.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  option.cmj option.cmt option.mjs option.js)
  (alias mel)
  (deps (:inputs  option.ast)  option.cmi (include option.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o option.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o option.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printf.ast)
  (deps (:inputs  printf.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printf.d)
@@ -4415,27 +4415,27 @@
 (targets  printf.iast)
  (deps (:inputs  printf.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printf.cmi printf.cmti)
  (alias mel)
  (deps (:inputs  printf.iast)  (include printf.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o printf.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o printf.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printf.cmj printf.cmt printf.mjs printf.js)
  (alias mel)
  (deps (:inputs  printf.ast)  printf.cmi (include printf.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printf.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printf.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  random.ast)
  (deps (:inputs  random.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  random.d)
@@ -4446,27 +4446,27 @@
 (targets  random.iast)
  (deps (:inputs  random.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  random.cmi random.cmti)
  (alias mel)
  (deps (:inputs  random.iast)  (include random.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o random.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o random.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  random.cmj random.cmt random.mjs random.js)
  (alias mel)
  (deps (:inputs  random.ast)  random.cmi (include random.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o random.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o random.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  result.ast)
  (deps (:inputs  result.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  result.d)
@@ -4477,27 +4477,27 @@
 (targets  result.iast)
  (deps (:inputs  result.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  result.cmi result.cmti)
  (alias mel)
  (deps (:inputs  result.iast)  (include result.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o result.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o result.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  result.cmj result.cmt result.mjs result.js)
  (alias mel)
  (deps (:inputs  result.ast)  result.cmi (include result.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o result.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o result.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stream.ast)
  (deps (:inputs  stream.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stream.d)
@@ -4508,27 +4508,27 @@
 (targets  stream.iast)
  (deps (:inputs  stream.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stream.cmi stream.cmti)
  (alias mel)
  (deps (:inputs  stream.iast)  (include stream.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o stream.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o stream.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stream.cmj stream.cmt stream.mjs stream.js)
  (alias mel)
  (deps (:inputs  stream.ast)  stream.cmi (include stream.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stream.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stream.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  string.ast)
  (deps (:inputs  string.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  string.d)
@@ -4539,27 +4539,27 @@
 (targets  string.iast)
  (deps (:inputs  string.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  string.cmi string.cmti)
  (alias mel)
  (deps (:inputs  string.iast)  (include string.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o string.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o string.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  string.cmj string.cmt string.mjs string.js)
  (alias mel)
  (deps (:inputs  string.ast)  string.cmi (include string.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o string.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o string.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  complex.ast)
  (deps (:inputs  complex.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  complex.d)
@@ -4570,27 +4570,27 @@
 (targets  complex.iast)
  (deps (:inputs  complex.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  complex.cmi complex.cmti)
  (alias mel)
  (deps (:inputs  complex.iast)  (include complex.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o complex.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o complex.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  complex.cmj complex.cmt complex.mjs complex.js)
  (alias mel)
  (deps (:inputs  complex.ast)  complex.cmi (include complex.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o complex.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o complex.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  hashtbl.ast)
  (deps (:inputs  hashtbl.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  hashtbl.d)
@@ -4601,27 +4601,27 @@
 (targets  hashtbl.iast)
  (deps (:inputs  hashtbl.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  hashtbl.cmi hashtbl.cmti)
  (alias mel)
  (deps (:inputs  hashtbl.iast)  (include hashtbl.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o hashtbl.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o hashtbl.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  hashtbl.cmj hashtbl.cmt hashtbl.mjs hashtbl.js)
  (alias mel)
  (deps (:inputs  hashtbl.ast)  hashtbl.cmi (include hashtbl.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o hashtbl.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o hashtbl.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  marshal.ast)
  (deps (:inputs  marshal.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  marshal.d)
@@ -4632,27 +4632,27 @@
 (targets  marshal.iast)
  (deps (:inputs  marshal.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  marshal.cmi marshal.cmti)
  (alias mel)
  (deps (:inputs  marshal.iast)  (include marshal.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o marshal.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o marshal.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  marshal.cmj marshal.cmt marshal.mjs marshal.js)
  (alias mel)
  (deps (:inputs  marshal.ast)  marshal.cmi (include marshal.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o marshal.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o marshal.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  parsing.ast)
  (deps (:inputs  parsing.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  parsing.d)
@@ -4663,27 +4663,27 @@
 (targets  parsing.iast)
  (deps (:inputs  parsing.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  parsing.cmi parsing.cmti)
  (alias mel)
  (deps (:inputs  parsing.iast)  (include parsing.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o parsing.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o parsing.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  parsing.cmj parsing.cmt parsing.mjs parsing.js)
  (alias mel)
  (deps (:inputs  parsing.ast)  parsing.cmi (include parsing.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o parsing.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o parsing.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  callback.ast)
  (deps (:inputs  callback.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  callback.d)
@@ -4694,27 +4694,27 @@
 (targets  callback.iast)
  (deps (:inputs  callback.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  callback.cmi callback.cmti)
  (alias mel)
  (deps (:inputs  callback.iast)  (include callback.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o callback.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o callback.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  callback.cmj callback.cmt callback.mjs callback.js)
  (alias mel)
  (deps (:inputs  callback.ast)  callback.cmi (include callback.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o callback.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o callback.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  filename.ast)
  (deps (:inputs  filename.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  filename.d)
@@ -4725,27 +4725,27 @@
 (targets  filename.iast)
  (deps (:inputs  filename.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  filename.cmi filename.cmti)
  (alias mel)
  (deps (:inputs  filename.iast)  (include filename.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o filename.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o filename.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  filename.cmj filename.cmt filename.mjs filename.js)
  (alias mel)
  (deps (:inputs  filename.ast)  filename.cmi (include filename.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o filename.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o filename.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printexc.ast)
  (deps (:inputs  printexc.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printexc.d)
@@ -4756,27 +4756,27 @@
 (targets  printexc.iast)
  (deps (:inputs  printexc.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printexc.cmi printexc.cmti)
  (alias mel)
  (deps (:inputs  printexc.iast)  (include printexc.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o printexc.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o printexc.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  printexc.cmj printexc.cmt printexc.mjs printexc.js)
  (alias mel)
  (deps (:inputs  printexc.ast)  printexc.cmi (include printexc.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printexc.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o printexc.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  std_exit.ast)
  (deps (:inputs  std_exit.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  std_exit.d)
@@ -4788,13 +4788,13 @@
  (alias mel)
  (deps (:inputs  std_exit.ast)  (include std_exit.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o std_exit.cmj %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o std_exit.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ephemeron.ast)
  (deps (:inputs  ephemeron.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ephemeron.d)
@@ -4805,27 +4805,58 @@
 (targets  ephemeron.iast)
  (deps (:inputs  ephemeron.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ephemeron.cmi ephemeron.cmti)
  (alias mel)
  (deps (:inputs  ephemeron.iast)  (include ephemeron.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o ephemeron.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o ephemeron.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ephemeron.cmj ephemeron.cmt ephemeron.mjs ephemeron.js)
  (alias mel)
  (deps (:inputs  ephemeron.ast)  ephemeron.cmi (include ephemeron.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o ephemeron.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o ephemeron.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  stdLabels.ast)
+ (deps (:inputs  stdLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  stdLabels.d)
+ (deps (:inputs  stdLabels.ast stdLabels.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  stdLabels.iast)
+ (deps (:inputs  stdLabels.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  stdLabels.cmi stdLabels.cmti)
+ (alias mel)
+ (deps (:inputs  stdLabels.iast)  (include stdLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o stdLabels.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  stdLabels.cmj stdLabels.cmt stdLabels.mjs stdLabels.js)
+ (alias mel)
+ (deps (:inputs  stdLabels.ast)  stdLabels.cmi (include stdLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stdLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  in_channel.ast)
  (deps (:inputs  in_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  in_channel.d)
@@ -4836,27 +4867,89 @@
 (targets  in_channel.iast)
  (deps (:inputs  in_channel.mli) )
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  in_channel.cmi in_channel.cmti)
  (alias mel)
  (deps (:inputs  in_channel.iast)  (include in_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o in_channel.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o in_channel.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  in_channel.cmj in_channel.cmt in_channel.mjs in_channel.js)
  (alias mel)
  (deps (:inputs  in_channel.ast)  in_channel.cmi (include in_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o in_channel.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o in_channel.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  listLabels.ast)
+ (deps (:inputs  listLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  listLabels.d)
+ (deps (:inputs  listLabels.ast listLabels.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  listLabels.iast)
+ (deps (:inputs  listLabels.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  listLabels.cmi listLabels.cmti)
+ (alias mel)
+ (deps (:inputs  listLabels.iast)  (include listLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o listLabels.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  listLabels.cmj listLabels.cmt listLabels.mjs listLabels.js)
+ (alias mel)
+ (deps (:inputs  listLabels.ast)  listLabels.cmi (include listLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o listLabels.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  moreLabels.ast)
+ (deps (:inputs  moreLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  moreLabels.d)
+ (deps (:inputs  moreLabels.ast moreLabels.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  moreLabels.iast)
+ (deps (:inputs  moreLabels.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  moreLabels.cmi moreLabels.cmti)
+ (alias mel)
+ (deps (:inputs  moreLabels.iast)  (include moreLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o moreLabels.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  moreLabels.cmj moreLabels.cmt moreLabels.mjs moreLabels.js)
+ (alias mel)
+ (deps (:inputs  moreLabels.ast)  moreLabels.cmi (include moreLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o moreLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  pervasives.ast)
  (deps (:inputs  pervasives.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  pervasives.d)
@@ -4868,273 +4961,18 @@
  (alias mel)
  (deps (:inputs  pervasives.ast)  (include pervasives.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o pervasives.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  out_channel.ast)
- (deps (:inputs  out_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  out_channel.d)
- (deps (:inputs  out_channel.ast out_channel.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  out_channel.iast)
- (deps (:inputs  out_channel.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  out_channel.cmi out_channel.cmti)
- (alias mel)
- (deps (:inputs  out_channel.iast)  (include out_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o out_channel.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  out_channel.cmj out_channel.cmt out_channel.mjs out_channel.js)
- (alias mel)
- (deps (:inputs  out_channel.ast)  out_channel.cmi (include out_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o out_channel.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalOO.ast)
- (deps (:inputs  camlinternalOO.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalOO.d)
- (deps (:inputs  camlinternalOO.ast camlinternalOO.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalOO.iast)
- (deps (:inputs  camlinternalOO.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalOO.cmi camlinternalOO.cmti)
- (alias mel)
- (deps (:inputs  camlinternalOO.iast)  (include camlinternalOO.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o camlinternalOO.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalOO.cmj camlinternalOO.cmt camlinternalOO.mjs camlinternalOO.js)
- (alias mel)
- (deps (:inputs  camlinternalOO.ast)  camlinternalOO.cmi (include camlinternalOO.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalOO.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalMod.ast)
- (deps (:inputs  camlinternalMod.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalMod.d)
- (deps (:inputs  camlinternalMod.ast camlinternalMod.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalMod.iast)
- (deps (:inputs  camlinternalMod.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalMod.cmi camlinternalMod.cmti)
- (alias mel)
- (deps (:inputs  camlinternalMod.iast)  (include camlinternalMod.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o camlinternalMod.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalMod.cmj camlinternalMod.cmt camlinternalMod.mjs camlinternalMod.js)
- (alias mel)
- (deps (:inputs  camlinternalMod.ast)  camlinternalMod.cmi (include camlinternalMod.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalMod.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalLazy.ast)
- (deps (:inputs  camlinternalLazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalLazy.d)
- (deps (:inputs  camlinternalLazy.ast camlinternalLazy.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalLazy.iast)
- (deps (:inputs  camlinternalLazy.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalLazy.cmi camlinternalLazy.cmti)
- (alias mel)
- (deps (:inputs  camlinternalLazy.iast)  (include camlinternalLazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o camlinternalLazy.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalLazy.cmj camlinternalLazy.cmt camlinternalLazy.mjs camlinternalLazy.js)
- (alias mel)
- (deps (:inputs  camlinternalLazy.ast)  camlinternalLazy.cmi (include camlinternalLazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalLazy.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalFormat.ast)
- (deps (:inputs  camlinternalFormat.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalFormat.d)
- (deps (:inputs  camlinternalFormat.ast camlinternalFormat.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalFormat.iast)
- (deps (:inputs  camlinternalFormat.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalFormat.cmi camlinternalFormat.cmti)
- (alias mel)
- (deps (:inputs  camlinternalFormat.iast)  (include camlinternalFormat.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -o camlinternalFormat.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  camlinternalFormat.cmj camlinternalFormat.cmt camlinternalFormat.mjs camlinternalFormat.js)
- (alias mel)
- (deps (:inputs  camlinternalFormat.ast)  camlinternalFormat.cmi (include camlinternalFormat.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
-(action
-  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalFormat.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- )
-
-(subdir .melange.eobjs/jscomp/stdlib-412/stdlib_modules
-(rule (write-file .bsbuild NTQKR2MKT28KQXJnCkZ1bgpJbnQKTWFwCk9iagpTZXEKU2V0ClN5cwpCb29sCkNoYXIKTGF6eQpMaXN0ClVuaXQKV2VhawpBcnJheQpCeXRlcwpGbG9hdApJbnQzMgpJbnQ2NApRdWV1ZQpTY2FuZgpTdGFjawpVY2hhcgpBdG9taWMKQnVmZmVyCkRpZ2VzdApFaXRoZXIKRm9ybWF0CkdlbmxleApMZXhpbmcKT3B0aW9uClByaW50ZgpSYW5kb20KUmVzdWx0ClN0cmVhbQpTdHJpbmcKQ29tcGxleApIYXNodGJsCk1hcnNoYWwKUGFyc2luZwpDYWxsYmFjawpGaWxlbmFtZQpQcmludGV4YwpTdGRfZXhpdApFcGhlbWVyb24KSW5fY2hhbm5lbApQZXJ2YXNpdmVzCk91dF9jaGFubmVsCkNhbWxpbnRlcm5hbE9PCkNhbWxpbnRlcm5hbE1vZApDYW1saW50ZXJuYWxMYXp5CkNhbWxpbnRlcm5hbEZvcm1hdAouCQoxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACjAK))
-)
-
-(subdir jscomp/stdlib-412/stdlib_labels
-(rule
-(targets  stdLabels.ast)
- (deps (:inputs  stdLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  stdLabels.d)
- (deps (:inputs  stdLabels.ast stdLabels.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-labels -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  stdLabels.iast)
- (deps (:inputs  stdLabels.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  stdLabels.cmi stdLabels.cmti)
- (alias mel)
- (deps (:inputs  stdLabels.iast)  (include stdLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
-(action
-  (run melc -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o stdLabels.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  stdLabels.cmj stdLabels.cmt stdLabels.mjs stdLabels.js)
- (alias mel)
- (deps (:inputs  stdLabels.ast)  stdLabels.cmi (include stdLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
-(action
-  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stdLabels.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  listLabels.ast)
- (deps (:inputs  listLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  listLabels.d)
- (deps (:inputs  listLabels.ast listLabels.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-labels -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  listLabels.iast)
- (deps (:inputs  listLabels.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  listLabels.cmi listLabels.cmti)
- (alias mel)
- (deps (:inputs  listLabels.iast)  (include listLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
-(action
-  (run melc -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o listLabels.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  listLabels.cmj listLabels.cmt listLabels.mjs listLabels.js)
- (alias mel)
- (deps (:inputs  listLabels.ast)  listLabels.cmi (include listLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
-(action
-  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o listLabels.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  moreLabels.ast)
- (deps (:inputs  moreLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  moreLabels.d)
- (deps (:inputs  moreLabels.ast moreLabels.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-labels -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  moreLabels.iast)
- (deps (:inputs  moreLabels.mli) )
-(action
- (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  moreLabels.cmi moreLabels.cmti)
- (alias mel)
- (deps (:inputs  moreLabels.iast)  (include moreLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
-(action
-  (run melc -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o moreLabels.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  moreLabels.cmj moreLabels.cmt moreLabels.mjs moreLabels.js)
- (alias mel)
- (deps (:inputs  moreLabels.ast)  moreLabels.cmi (include moreLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
-(action
-  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o moreLabels.cmj %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o pervasives.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arrayLabels.ast)
- (deps (:inputs  arrayLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
+ (deps (:inputs  arrayLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arrayLabels.d)
  (deps (:inputs  arrayLabels.ast arrayLabels.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-labels -proj-dir .  %{inputs}))
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arrayLabels.iast)
@@ -5145,27 +4983,27 @@
  (rule
 (targets  arrayLabels.cmi arrayLabels.cmti)
  (alias mel)
- (deps (:inputs  arrayLabels.iast)  (include arrayLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
+ (deps (:inputs  arrayLabels.iast)  (include arrayLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o arrayLabels.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o arrayLabels.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  arrayLabels.cmj arrayLabels.cmt arrayLabels.mjs arrayLabels.js)
  (alias mel)
- (deps (:inputs  arrayLabels.ast)  arrayLabels.cmi (include arrayLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
+ (deps (:inputs  arrayLabels.ast)  arrayLabels.cmi (include arrayLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arrayLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o arrayLabels.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytesLabels.ast)
- (deps (:inputs  bytesLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
+ (deps (:inputs  bytesLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytesLabels.d)
  (deps (:inputs  bytesLabels.ast bytesLabels.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-labels -proj-dir .  %{inputs}))
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytesLabels.iast)
@@ -5176,27 +5014,58 @@
  (rule
 (targets  bytesLabels.cmi bytesLabels.cmti)
  (alias mel)
- (deps (:inputs  bytesLabels.iast)  (include bytesLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
+ (deps (:inputs  bytesLabels.iast)  (include bytesLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o bytesLabels.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o bytesLabels.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bytesLabels.cmj bytesLabels.cmt bytesLabels.mjs bytesLabels.js)
  (alias mel)
- (deps (:inputs  bytesLabels.ast)  bytesLabels.cmi (include bytesLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
+ (deps (:inputs  bytesLabels.ast)  bytesLabels.cmi (include bytesLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytesLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o bytesLabels.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  out_channel.ast)
+ (deps (:inputs  out_channel.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  out_channel.d)
+ (deps (:inputs  out_channel.ast out_channel.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  out_channel.iast)
+ (deps (:inputs  out_channel.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  out_channel.cmi out_channel.cmti)
+ (alias mel)
+ (deps (:inputs  out_channel.iast)  (include out_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o out_channel.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  out_channel.cmj out_channel.cmt out_channel.mjs out_channel.js)
+ (alias mel)
+ (deps (:inputs  out_channel.ast)  out_channel.cmi (include out_channel.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o out_channel.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stringLabels.ast)
- (deps (:inputs  stringLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_labels/.bsbuild)
+ (deps (:inputs  stringLabels.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
 (action
  (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stringLabels.d)
  (deps (:inputs  stringLabels.ast stringLabels.iast) )
-(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-labels -proj-dir .  %{inputs}))
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stringLabels.iast)
@@ -5207,27 +5076,160 @@
  (rule
 (targets  stringLabels.cmi stringLabels.cmti)
  (alias mel)
- (deps (:inputs  stringLabels.iast)  (include stringLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
+ (deps (:inputs  stringLabels.iast)  (include stringLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o stringLabels.cmi %{inputs}))
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o stringLabels.cmi %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  stringLabels.cmj stringLabels.cmt stringLabels.mjs stringLabels.js)
  (alias mel)
- (deps (:inputs  stringLabels.ast)  stringLabels.cmi (include stringLabels.d) bsconfig.json(alias ../mel)(alias ../stdlib_modules/mel))
+ (deps (:inputs  stringLabels.ast)  stringLabels.cmi (include stringLabels.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
 (action
-  (run melc -intf-suffix .ml -I . -I .. -I ../stdlib_modules -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-labels -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stringLabels.cmj %{inputs}))
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o stringLabels.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalOO.ast)
+ (deps (:inputs  camlinternalOO.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalOO.d)
+ (deps (:inputs  camlinternalOO.ast camlinternalOO.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalOO.iast)
+ (deps (:inputs  camlinternalOO.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalOO.cmi camlinternalOO.cmti)
+ (alias mel)
+ (deps (:inputs  camlinternalOO.iast)  (include camlinternalOO.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o camlinternalOO.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalOO.cmj camlinternalOO.cmt camlinternalOO.mjs camlinternalOO.js)
+ (alias mel)
+ (deps (:inputs  camlinternalOO.ast)  camlinternalOO.cmi (include camlinternalOO.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalOO.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalMod.ast)
+ (deps (:inputs  camlinternalMod.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalMod.d)
+ (deps (:inputs  camlinternalMod.ast camlinternalMod.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalMod.iast)
+ (deps (:inputs  camlinternalMod.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalMod.cmi camlinternalMod.cmti)
+ (alias mel)
+ (deps (:inputs  camlinternalMod.iast)  (include camlinternalMod.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o camlinternalMod.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalMod.cmj camlinternalMod.cmt camlinternalMod.mjs camlinternalMod.js)
+ (alias mel)
+ (deps (:inputs  camlinternalMod.ast)  camlinternalMod.cmi (include camlinternalMod.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalMod.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalLazy.ast)
+ (deps (:inputs  camlinternalLazy.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalLazy.d)
+ (deps (:inputs  camlinternalLazy.ast camlinternalLazy.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalLazy.iast)
+ (deps (:inputs  camlinternalLazy.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalLazy.cmi camlinternalLazy.cmti)
+ (alias mel)
+ (deps (:inputs  camlinternalLazy.iast)  (include camlinternalLazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o camlinternalLazy.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalLazy.cmj camlinternalLazy.cmt camlinternalLazy.mjs camlinternalLazy.js)
+ (alias mel)
+ (deps (:inputs  camlinternalLazy.ast)  camlinternalLazy.cmi (include camlinternalLazy.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalLazy.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalFormat.ast)
+ (deps (:inputs  camlinternalFormat.ml)  ../../../.melange.eobjs/jscomp/stdlib-412/stdlib_modules/.bsbuild)
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalFormat.d)
+ (deps (:inputs  camlinternalFormat.ast camlinternalFormat.iast) )
+(action (run meldep  -root-dir ../../.. -p @melange/runtime-stdlib-modules -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalFormat.iast)
+ (deps (:inputs  camlinternalFormat.mli) )
+(action
+ (run melc  -w a -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalFormat.cmi camlinternalFormat.cmti)
+ (alias mel)
+ (deps (:inputs  camlinternalFormat.iast)  (include camlinternalFormat.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -o camlinternalFormat.cmi %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  camlinternalFormat.cmj camlinternalFormat.cmt camlinternalFormat.mjs camlinternalFormat.js)
+ (alias mel)
+ (deps (:inputs  camlinternalFormat.ast)  camlinternalFormat.cmi (include camlinternalFormat.d) bsconfig.json(alias ../../runtime/mel)(alias ../../others/mel)(alias ../mel))
+(action
+  (run melc -intf-suffix .ml -I . -I ../../runtime -I ../../others -I .. -no-keep-locs -no-alias-deps -bs-no-version-header -bs-no-check-div-by-zero -bs-cross-module-opt -nolabels  -w a -bs-package-name @melange/runtime-stdlib-modules -bs-package-output commonjs:.:.js -bs-package-output es6:.:.mjs -o camlinternalFormat.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
+(subdir .melange.eobjs/jscomp/stdlib-412/stdlib_modules
+(rule (write-file .bsbuild NjAKR2MKT28KQXJnCkZ1bgpJbnQKTWFwCk9iagpTZXEKU2V0ClN5cwpCb29sCkNoYXIKTGF6eQpMaXN0ClVuaXQKV2VhawpBcnJheQpCeXRlcwpGbG9hdApJbnQzMgpJbnQ2NApRdWV1ZQpTY2FuZgpTdGFjawpVY2hhcgpBdG9taWMKQnVmZmVyCkRpZ2VzdApFaXRoZXIKRm9ybWF0CkdlbmxleApMZXhpbmcKT3B0aW9uClByaW50ZgpSYW5kb20KUmVzdWx0ClN0cmVhbQpTdHJpbmcKQ29tcGxleApIYXNodGJsCk1hcnNoYWwKUGFyc2luZwpDYWxsYmFjawpGaWxlbmFtZQpQcmludGV4YwpTdGRfZXhpdApFcGhlbWVyb24KU3RkTGFiZWxzCkluX2NoYW5uZWwKTGlzdExhYmVscwpNb3JlTGFiZWxzClBlcnZhc2l2ZXMKQXJyYXlMYWJlbHMKQnl0ZXNMYWJlbHMKT3V0X2NoYW5uZWwKU3RyaW5nTGFiZWxzCkNhbWxpbnRlcm5hbE9PCkNhbWxpbnRlcm5hbE1vZApDYW1saW50ZXJuYWxMYXp5CkNhbWxpbnRlcm5hbEZvcm1hdAouCQoxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACjAK))
+)
+
+(subdir jscomp/stdlib-412/stdlib_labels
+
+(alias (name mel)
+(enabled_if %{bin-available:melc})))
+
 (subdir .melange.eobjs/jscomp/stdlib-412/stdlib_labels
-(rule (write-file .bsbuild NgpTdGRMYWJlbHMKTGlzdExhYmVscwpNb3JlTGFiZWxzCkFycmF5TGFiZWxzCkJ5dGVzTGFiZWxzClN0cmluZ0xhYmVscwouCQoxAAAAAAAACjAK))
+(rule (write-file .bsbuild MAowCg==))
 )
 
 
 (subdir .melange.eobjs
 (rule (write-file .bsbuild MAowCg==))
-(rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/Users/anmonteiro/projects/melange/jscomp/runtime/bs_stdlib_mini\" , \"/Users/anmonteiro/projects/melange/jscomp/runtime\" , \"/Users/anmonteiro/projects/melange/jscomp/others\" , \"/Users/anmonteiro/projects/melange/jscomp/stdlib-412\" , \"/Users/anmonteiro/projects/melange/jscomp/stdlib-412/stdlib_modules\" , \"/Users/anmonteiro/projects/melange/jscomp/stdlib-412/stdlib_labels\" ] , \"pkgs\" : [] , \"generated\" : [] }")) 
+(rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/home/anmonteiro/projects/melange/jscomp/runtime/bs_stdlib_mini\" , \"/home/anmonteiro/projects/melange/jscomp/runtime\" , \"/home/anmonteiro/projects/melange/jscomp/others\" , \"/home/anmonteiro/projects/melange/jscomp/stdlib-412\" , \"/home/anmonteiro/projects/melange/jscomp/stdlib-412/stdlib_modules\" , \"/home/anmonteiro/projects/melange/jscomp/stdlib-412/stdlib_labels\" ] , \"pkgs\" : [] , \"generated\" : [] }")) 
 )
 
 (data_only_dirs node_modules  .melange.eobjs)
@@ -5238,18 +5240,6 @@
 (action (chdir %{targets} (progn 
 (run mkdir -p jscomp/stdlib-412/stdlib_labels)
 (run cp %{sources-0} jscomp/stdlib-412/stdlib_labels) (system "rm -f jscomp/stdlib-412/stdlib_labels/*.{ast,cm*,d}")
- (run rm -f jscomp/stdlib-412/stdlib_labels/stdLabels.js)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_labels/stdLabels.cmj -o jscomp/stdlib-412/stdlib_labels/stdLabels.js)
- (run rm -f jscomp/stdlib-412/stdlib_labels/listLabels.js)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_labels/listLabels.cmj -o jscomp/stdlib-412/stdlib_labels/listLabels.js)
- (run rm -f jscomp/stdlib-412/stdlib_labels/moreLabels.js)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_labels/moreLabels.cmj -o jscomp/stdlib-412/stdlib_labels/moreLabels.js)
- (run rm -f jscomp/stdlib-412/stdlib_labels/arrayLabels.js)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_labels/arrayLabels.cmj -o jscomp/stdlib-412/stdlib_labels/arrayLabels.js)
- (run rm -f jscomp/stdlib-412/stdlib_labels/bytesLabels.js)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_labels/bytesLabels.cmj -o jscomp/stdlib-412/stdlib_labels/bytesLabels.js)
- (run rm -f jscomp/stdlib-412/stdlib_labels/stringLabels.js)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_labels/stringLabels.cmj -o jscomp/stdlib-412/stdlib_labels/stringLabels.js)
 (run mkdir -p jscomp/stdlib-412/stdlib_modules)
 (run cp %{sources-1} jscomp/stdlib-412/stdlib_modules) (system "rm -f jscomp/stdlib-412/stdlib_modules/*.{ast,cm*,d}")
  (run rm -f jscomp/stdlib-412/stdlib_modules/gc.js)
@@ -5346,12 +5336,24 @@
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/std_exit.cmj -o jscomp/stdlib-412/stdlib_modules/std_exit.js)
  (run rm -f jscomp/stdlib-412/stdlib_modules/ephemeron.js)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/ephemeron.cmj -o jscomp/stdlib-412/stdlib_modules/ephemeron.js)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/stdLabels.js)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/stdLabels.cmj -o jscomp/stdlib-412/stdlib_modules/stdLabels.js)
  (run rm -f jscomp/stdlib-412/stdlib_modules/in_channel.js)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/in_channel.cmj -o jscomp/stdlib-412/stdlib_modules/in_channel.js)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/listLabels.js)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/listLabels.cmj -o jscomp/stdlib-412/stdlib_modules/listLabels.js)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/moreLabels.js)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/moreLabels.cmj -o jscomp/stdlib-412/stdlib_modules/moreLabels.js)
  (run rm -f jscomp/stdlib-412/stdlib_modules/pervasives.js)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/pervasives.cmj -o jscomp/stdlib-412/stdlib_modules/pervasives.js)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/arrayLabels.js)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/arrayLabels.cmj -o jscomp/stdlib-412/stdlib_modules/arrayLabels.js)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/bytesLabels.js)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/bytesLabels.cmj -o jscomp/stdlib-412/stdlib_modules/bytesLabels.js)
  (run rm -f jscomp/stdlib-412/stdlib_modules/out_channel.js)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/out_channel.cmj -o jscomp/stdlib-412/stdlib_modules/out_channel.js)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/stringLabels.js)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/stringLabels.cmj -o jscomp/stdlib-412/stdlib_modules/stringLabels.js)
  (run rm -f jscomp/stdlib-412/stdlib_modules/camlinternalOO.js)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type commonjs ../jscomp/stdlib-412/stdlib_modules/camlinternalOO.cmj -o jscomp/stdlib-412/stdlib_modules/camlinternalOO.js)
  (run rm -f jscomp/stdlib-412/stdlib_modules/camlinternalMod.js)
@@ -5622,18 +5624,6 @@
 (action (chdir %{targets} (progn 
 (run mkdir -p jscomp/stdlib-412/stdlib_labels)
 (run cp %{sources-0} jscomp/stdlib-412/stdlib_labels) (system "rm -f jscomp/stdlib-412/stdlib_labels/*.{ast,cm*,d}")
- (run rm -f jscomp/stdlib-412/stdlib_labels/stdLabels.mjs)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type es6 ../jscomp/stdlib-412/stdlib_labels/stdLabels.cmj -o jscomp/stdlib-412/stdlib_labels/stdLabels.mjs)
- (run rm -f jscomp/stdlib-412/stdlib_labels/listLabels.mjs)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type es6 ../jscomp/stdlib-412/stdlib_labels/listLabels.cmj -o jscomp/stdlib-412/stdlib_labels/listLabels.mjs)
- (run rm -f jscomp/stdlib-412/stdlib_labels/moreLabels.mjs)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type es6 ../jscomp/stdlib-412/stdlib_labels/moreLabels.cmj -o jscomp/stdlib-412/stdlib_labels/moreLabels.mjs)
- (run rm -f jscomp/stdlib-412/stdlib_labels/arrayLabels.mjs)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type es6 ../jscomp/stdlib-412/stdlib_labels/arrayLabels.cmj -o jscomp/stdlib-412/stdlib_labels/arrayLabels.mjs)
- (run rm -f jscomp/stdlib-412/stdlib_labels/bytesLabels.mjs)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type es6 ../jscomp/stdlib-412/stdlib_labels/bytesLabels.cmj -o jscomp/stdlib-412/stdlib_labels/bytesLabels.mjs)
- (run rm -f jscomp/stdlib-412/stdlib_labels/stringLabels.mjs)
- (run melc  -w a -I ../jscomp/stdlib-412/stdlib_labels -I ../jscomp/stdlib-412 -I ../jscomp/stdlib-412/stdlib_modules -bs-package-name @melange/runtime-stdlib-labels -bs-module-type es6 ../jscomp/stdlib-412/stdlib_labels/stringLabels.cmj -o jscomp/stdlib-412/stdlib_labels/stringLabels.mjs)
 (run mkdir -p jscomp/stdlib-412/stdlib_modules)
 (run cp %{sources-1} jscomp/stdlib-412/stdlib_modules) (system "rm -f jscomp/stdlib-412/stdlib_modules/*.{ast,cm*,d}")
  (run rm -f jscomp/stdlib-412/stdlib_modules/gc.mjs)
@@ -5730,12 +5720,24 @@
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/std_exit.cmj -o jscomp/stdlib-412/stdlib_modules/std_exit.mjs)
  (run rm -f jscomp/stdlib-412/stdlib_modules/ephemeron.mjs)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/ephemeron.cmj -o jscomp/stdlib-412/stdlib_modules/ephemeron.mjs)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/stdLabels.mjs)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/stdLabels.cmj -o jscomp/stdlib-412/stdlib_modules/stdLabels.mjs)
  (run rm -f jscomp/stdlib-412/stdlib_modules/in_channel.mjs)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/in_channel.cmj -o jscomp/stdlib-412/stdlib_modules/in_channel.mjs)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/listLabels.mjs)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/listLabels.cmj -o jscomp/stdlib-412/stdlib_modules/listLabels.mjs)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/moreLabels.mjs)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/moreLabels.cmj -o jscomp/stdlib-412/stdlib_modules/moreLabels.mjs)
  (run rm -f jscomp/stdlib-412/stdlib_modules/pervasives.mjs)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/pervasives.cmj -o jscomp/stdlib-412/stdlib_modules/pervasives.mjs)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/arrayLabels.mjs)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/arrayLabels.cmj -o jscomp/stdlib-412/stdlib_modules/arrayLabels.mjs)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/bytesLabels.mjs)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/bytesLabels.cmj -o jscomp/stdlib-412/stdlib_modules/bytesLabels.mjs)
  (run rm -f jscomp/stdlib-412/stdlib_modules/out_channel.mjs)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/out_channel.cmj -o jscomp/stdlib-412/stdlib_modules/out_channel.mjs)
+ (run rm -f jscomp/stdlib-412/stdlib_modules/stringLabels.mjs)
+ (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/stringLabels.cmj -o jscomp/stdlib-412/stdlib_modules/stringLabels.mjs)
  (run rm -f jscomp/stdlib-412/stdlib_modules/camlinternalOO.mjs)
  (run melc  -w a -I ../jscomp/stdlib-412/stdlib_modules -I ../jscomp/runtime -I ../jscomp/others -I ../jscomp/stdlib-412 -bs-package-name @melange/runtime-stdlib-modules -bs-module-type es6 ../jscomp/stdlib-412/stdlib_modules/camlinternalOO.cmj -o jscomp/stdlib-412/stdlib_modules/camlinternalOO.mjs)
  (run rm -f jscomp/stdlib-412/stdlib_modules/camlinternalMod.mjs)
