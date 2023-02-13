@@ -71,7 +71,7 @@ stdenv.mkDerivation {
   checkPhase = ''
     # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
     yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
-    ln -sfn ${packages.melange}/lib/melange/runtime node_modules/melange
+    ln -sfn ${packages.melange}/lib/melange/__MELANGE_RUNTIME__ node_modules/melange
     mel build -- --display=short
 
     node ./node_modules/.bin/mocha "./*_test.js"
