@@ -1,0 +1,48 @@
+(library
+ (public_name melange.stdlib)
+ (name stdlib)
+ (modes melange)
+ (wrapped false)
+ (preprocess
+  (action
+   (run
+    melc
+    -as-pp
+    -bs-no-check-div-by-zero
+    -bs-cross-module-opt
+    %{input-file})))
+ (libraries melange.runtime melange.runtime-others)
+ (flags :standard -w -9-49 \ -keep-locs)
+ (melange.compile_flags
+  -no-keep-locs
+  -bs-no-version-header
+  -bs-no-check-div-by-zero
+  -bs-cross-module-opt
+  -bs-no-builtin-ppx
+  -nopervasives
+  -nostdlib))
+
+(subdir
+ stdlib_modules
+ (library
+  (public_name melange.stdlib-modules)
+  (name stdlib_modules)
+  (wrapped false)
+  (modes melange)
+  (preprocess
+   (action
+    (run
+     melc
+     -as-pp
+     -bs-no-check-div-by-zero
+     -bs-cross-module-opt
+     %{input-file})))
+  (libraries melange.runtime melange.runtime-others melange.stdlib)
+  (flags :standard -w -9-61 \ -keep-locs)
+  (melange.compile_flags
+   -no-keep-locs
+   -bs-no-version-header
+   -bs-no-check-div-by-zero
+   -bs-cross-module-opt
+   -bs-no-builtin-ppx
+   -nolabels)))
