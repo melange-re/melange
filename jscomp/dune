@@ -1,5 +1,7 @@
 (dirs :standard \ test)
 
+(data_only_dirs others runtime stdlib-412)
+
 (executable
  (name build_version)
  (libraries ext))
