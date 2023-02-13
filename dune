@@ -24,20 +24,6 @@
   (include ./lib/checked-in-artifacts.sexp))
  (section lib))
 
-(subdir
- jscomp/runtime
- (include dune)
- (subdir
-  bs_stdlib_mini
-  (include dune)))
-
-(subdir
- jscomp/others
- (include dune))
-
-(subdir
- jscomp/stdlib-412
- (include dune))
 
 ;;;;{BSB GENERATED: NO EDIT
 
