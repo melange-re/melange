@@ -34,8 +34,8 @@ rec {
 
     postInstall = ''
       mkdir -p $out/lib/melange
-      mv $out/lib/ocaml/${ocamlPackages.ocaml.version}/site-lib/melange/melange $out/lib/melange/melange
-      cp -r $out/lib/ocaml/${ocamlPackages.ocaml.version}/site-lib/melange/runtime $out/lib/melange/runtime
+      cp -r $out/lib/ocaml/${ocamlPackages.ocaml.version}/site-lib/melange/__MELANGE_RUNTIME__ \
+            $out/lib/melange/__MELANGE_RUNTIME__
     '';
 
     inherit doCheck;

@@ -62,7 +62,7 @@ let stdlib_path =
 in
   root // Literals.lib // Literals.package_name
 #ifdef BS_RELEASE_BUILD
-  // Literals.package_name
+  // Literals.runtime_dir // Literals.package_name
 #endif
 )
 
