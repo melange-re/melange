@@ -58,3 +58,11 @@
   (ocaml-migrate-parsetree
    (>= "2.3.0"))
   (ounit :with-test)))
+
+(package
+ (name react-jsx-ppx)
+ (synopsis
+  "ppx to enable JSX transformation in Reason")
+ (depends
+  ocaml
+  ppxlib))
