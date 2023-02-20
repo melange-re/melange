@@ -26,14 +26,7 @@
           melange-compiler-libs.overlays.default
           (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper:
-              {
-                dune_3 = osuper.dune_3.overrideAttrs (_: {
-                  src = builtins.fetchurl {
-                    url = https://github.com/ocaml/dune/archive/0d44bbfdb.tar.gz;
-                    sha256 = "0812lf97vsf4jf3a988wsfi8p05i4icb6d86wfr7q8gpy36yk6n1";
-                  };
-                });
-              });
+              { });
           })
         ];
       in
