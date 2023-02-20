@@ -16,3 +16,8 @@ Require calls should share the correct extension
   $ node foo.bs.js
   from lib
 
+  $ touch hello.foo.ml
+  $ melc -absname -bs-ast -o hello.foo.ast hello.foo.ml
+  $ ls |  grep hello
+  hello.foo.ast
+  hello.foo.ml
