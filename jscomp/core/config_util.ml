@@ -44,4 +44,4 @@ let output_prefix name =
       Ext_namespace.encode
         (Filename.remove_extension name)
         ?ns:!Bs_clflags.dont_record_crc_unit
-  | Some oname -> Ext_filename.chop_all_extensions_maybe oname
+  | Some oname -> Filename.remove_extension oname
