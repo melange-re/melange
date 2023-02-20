@@ -16,7 +16,16 @@ let
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
+        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+          melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
+            src = super.fetchFromGitHub {
+              owner = "melange-re";
+              repo = "melange-compiler-libs";
+              rev = "545e007bd9168b5297d6d953a55d77123639f328";
+              sha256 = "sha256-3AmDdqdK1NyQRs1PK/4FeTBWEeostxiFD9I7vEItpgY=";
+            };
+          });
+        });
       })
     ];
   };
