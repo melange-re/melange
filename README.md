@@ -23,6 +23,10 @@ Melange produces robust JavaScript code.
   * [Acknowledgments](#acknowledgments)
   * [Licensing](#licensing)
 
+Sponsored by:
+
+<img src="./docs/images/ahrefs-logo.png" height="50px">
+
 ## Installation
 
 Melange is released to OPAM. You can obtain it in multiple ways:
