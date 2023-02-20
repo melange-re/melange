@@ -8,4 +8,3 @@ module Fields = struct
 
   include Field_dsl
 end
-

@@ -27,6 +27,8 @@ Unreleased
   ([#476](https://github.com/melange-re/melange/pull/476))
 - melange: fix unbound error when trying to use `Printexc.exn_slot_id`
   ([#482](https://github.com/melange-re/melange/pull/482))
+- melange: fix codegen issue accessing a nested module path that is also
+  `include`d ([#487](https://github.com/melange-re/melange/pull/487))
 
 0.3.2 2022-11-19
 ---------------
