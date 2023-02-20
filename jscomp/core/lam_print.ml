@@ -234,6 +234,7 @@ let rec aux (acc : (print_kind * Ident.t * Lam.t) list) (lam : Lam.t) =
 let flatten (lam : Lam.t) : (print_kind * Ident.t * Lam.t) list * Lam.t =
   match lam with
   | Llet (str, id, arg, body) -> aux [ (to_print_kind str, id, arg) ] body
+  | Lmutlet (id, arg, body) -> aux [ (to_print_kind Strict, id, arg) ] body
   | Lletrec (bind_args, body) ->
       aux (Ext_list.map bind_args (fun (id, l) -> (Recursive, id, l))) body
   | _ -> assert false
