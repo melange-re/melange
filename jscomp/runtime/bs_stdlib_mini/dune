@@ -1,6 +1,6 @@
 (library
  (modes melange)
- (public_name melange.bs-stdlib-mini)
+ (package melange)
  (name bs_stdlib_mini)
  (flags :standard \ -keep-locs)
  (preprocess

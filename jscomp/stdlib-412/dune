@@ -11,7 +11,7 @@
     -bs-no-check-div-by-zero
     -bs-cross-module-opt
     %{input-file})))
- (libraries melange.runtime melange.runtime-others)
+ (libraries melange.runtime melange.belt)
  (flags :standard -w -9-49 \ -keep-locs)
  (melange.compile_flags
   -no-keep-locs
@@ -39,7 +39,7 @@
      -bs-no-check-div-by-zero
      -bs-cross-module-opt
      %{input-file})))
-  (libraries melange.runtime melange.runtime-others melange.stdlib)
+  (libraries melange.runtime melange.belt melange.stdlib)
   (flags :standard -w -9-61 \ -keep-locs)
   (melange.compile_flags
    -no-keep-locs
