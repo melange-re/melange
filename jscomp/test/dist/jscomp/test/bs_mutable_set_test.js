@@ -2,14 +2,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_List = require("melange.runtime-others/jscomp/others/belt_List.js");
-var Belt_Array = require("melange.runtime-others/jscomp/others/belt_Array.js");
-var Belt_Range = require("melange.runtime-others/jscomp/others/belt_Range.js");
-var Caml_array = require("melange/lib/js/caml_array.js");
+var Belt_List = require("melange.belt/jscomp/others/belt_List.js");
+var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
+var Belt_Range = require("melange.belt/jscomp/others/belt_Range.js");
+var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
 var Array_data_util = require("./array_data_util.js");
-var Belt_MutableSetInt = require("melange.runtime-others/jscomp/others/belt_MutableSetInt.js");
-var Belt_internalAVLset = require("melange.runtime-others/jscomp/others/belt_internalAVLset.js");
-var Belt_internalSetInt = require("melange.runtime-others/jscomp/others/belt_internalSetInt.js");
+var Belt_MutableSetInt = require("melange.belt/jscomp/others/belt_MutableSetInt.js");
+var Belt_internalAVLset = require("melange.belt/jscomp/others/belt_internalAVLset.js");
+var Belt_internalSetInt = require("melange.belt/jscomp/others/belt_internalSetInt.js");
 
 var suites = {
   contents: /* [] */0

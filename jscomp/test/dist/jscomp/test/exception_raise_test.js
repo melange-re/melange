@@ -3,11 +3,11 @@
 
 var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
-var Js_exn = require("melange.runtime-others/jscomp/others/js_exn.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Js_exn = require("melange.belt/jscomp/others/js_exn.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.Local");
 

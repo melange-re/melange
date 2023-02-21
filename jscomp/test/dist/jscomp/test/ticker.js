@@ -2,16 +2,16 @@
 'use strict';
 
 var Seq = require("melange/jscomp/stdlib-412/stdlib_modules/seq.js");
-var Caml = require("melange/lib/js/caml.js");
+var Caml = require("melange.runtime/jscomp/runtime/caml.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Caml_format = require("melange/lib/js/caml_format.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 function split(delim, s) {
   var len = s.length;

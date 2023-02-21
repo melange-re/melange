@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Js_mapperRt = require("melange.runtime-others/jscomp/others/js_mapperRt.js");
+var Js_mapperRt = require("melange.belt/jscomp/others/js_mapperRt.js");
 
 var suites = {
   contents: /* [] */0

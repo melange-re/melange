@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
 var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
 
 var x = {};

@@ -2,7 +2,7 @@
 'use strict';
 
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var MoreLabels = require("melange/jscomp/stdlib-412/stdlib_modules/moreLabels.js");
 

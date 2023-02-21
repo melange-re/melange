@@ -3,12 +3,12 @@
 
 var Mt = require("./mt.js");
 var Lazy = require("melange/jscomp/stdlib-412/stdlib_modules/lazy.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_module = require("melange/lib/js/caml_module.js");
+var Caml_module = require("melange.runtime/jscomp/runtime/caml_module.js");
 var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
-var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange.runtime/jscomp/runtime/caml_external_polyfill.js");
 
 var suites = {
   contents: /* [] */0

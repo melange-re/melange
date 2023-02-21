@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Belt_Array = require("melange.runtime-others/jscomp/others/belt_Array.js");
-var Belt_SetInt = require("melange.runtime-others/jscomp/others/belt_SetInt.js");
+var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
+var Belt_SetInt = require("melange.belt/jscomp/others/belt_SetInt.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {

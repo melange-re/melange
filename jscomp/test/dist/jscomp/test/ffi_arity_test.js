@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 
 function f(v) {
   if (v % 2 === 0) {

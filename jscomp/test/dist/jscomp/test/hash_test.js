@@ -7,7 +7,7 @@ var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
 var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
 var Mt_global = require("./mt_global.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
 
 var suites = {
   contents: /* [] */0

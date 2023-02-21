@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Float = require("melange.runtime-others/jscomp/others/belt_Float.js");
+var Belt_Float = require("melange.belt/jscomp/others/belt_Float.js");
 
 var suites = {
   contents: /* [] */0

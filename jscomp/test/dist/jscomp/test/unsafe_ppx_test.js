@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
 var Ffi_js_test = require("./ffi_js_test.js");
 

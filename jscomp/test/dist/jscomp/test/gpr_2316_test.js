@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

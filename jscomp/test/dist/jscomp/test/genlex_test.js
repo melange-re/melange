@@ -5,7 +5,7 @@ var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Genlex = require("melange/jscomp/stdlib-412/stdlib_modules/genlex.js");
 var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var lexer = Genlex.make_lexer({
       hd: "+",

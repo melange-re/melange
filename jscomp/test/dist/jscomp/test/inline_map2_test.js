@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange/lib/js/caml.js");
+var Caml = require("melange.runtime/jscomp/runtime/caml.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
 
 function Make(Ord) {
   var height = function (param) {

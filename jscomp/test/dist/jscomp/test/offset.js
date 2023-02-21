@@ -3,11 +3,11 @@
 
 var Seq = require("melange/jscomp/stdlib-412/stdlib_modules/seq.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
 
 var funarg = {
   compare: $$String.compare

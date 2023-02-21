@@ -3,7 +3,7 @@
 import * as List from "melange/jscomp/stdlib-412/stdlib_modules/list.mjs";
 import * as Path from "path";
 import * as $$Array from "melange/jscomp/stdlib-412/stdlib_modules/array.mjs";
-import * as Curry from "melange/lib/es6/curry.mjs";
+import * as Curry from "melange.runtime/jscomp/runtime/curry.mjs";
 import * as Assert from "assert";
 import * as Process from "process";
 

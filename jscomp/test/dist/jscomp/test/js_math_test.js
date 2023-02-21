@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_math = require("melange.runtime-others/jscomp/others/js_math.js");
+var Js_math = require("melange.belt/jscomp/others/js_math.js");
 
 var suites_0 = [
   "_E",

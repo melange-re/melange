@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Caml_int64 = require("melange/lib/js/caml_int64.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
 
 var aa = Caml_obj.caml_equal_null;
 

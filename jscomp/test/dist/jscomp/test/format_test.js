@@ -3,12 +3,12 @@
 
 var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
 var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
 var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
 var CamlinternalFormatBasics = require("melange.stdlib/jscomp/stdlib-412/camlinternalFormatBasics.js");
 
 var suites = {

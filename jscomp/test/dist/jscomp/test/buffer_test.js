@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
 var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
 
 var v = "gso";
 

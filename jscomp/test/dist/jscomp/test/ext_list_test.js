@@ -3,9 +3,9 @@
 
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange/lib/js/curry.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
 var Ext_string_test = require("./ext_string_test.js");
 
 function filter_map(f, _xs) {

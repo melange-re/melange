@@ -3,12 +3,12 @@
 
 var Mt = require("./mt.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Js_dict = require("melange.runtime-others/jscomp/others/js_dict.js");
-var Js_json = require("melange.runtime-others/jscomp/others/js_json.js");
-var Belt_List = require("melange.runtime-others/jscomp/others/belt_List.js");
-var Belt_Array = require("melange.runtime-others/jscomp/others/belt_Array.js");
-var Caml_array = require("melange/lib/js/caml_array.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
+var Js_dict = require("melange.belt/jscomp/others/js_dict.js");
+var Js_json = require("melange.belt/jscomp/others/js_json.js");
+var Belt_List = require("melange.belt/jscomp/others/belt_List.js");
+var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
+var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
 
 var suites = {
   contents: /* [] */0

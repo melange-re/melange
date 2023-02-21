@@ -2,21 +2,21 @@
 'use strict';
 
 var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
-var Caml = require("melange/lib/js/caml.js");
+var Caml = require("melange.runtime/jscomp/runtime/caml.js");
 var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
 var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
 var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Caml_io = require("melange/lib/js/caml_io.js");
+var Caml_io = require("melange.runtime/jscomp/runtime/caml_io.js");
 var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
-var Caml_external_polyfill = require("melange/lib/js/caml_external_polyfill.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange.runtime/jscomp/runtime/caml_external_polyfill.js");
 
 function _with_in(filename, f) {
   var ic = Stdlib.open_in_bin(filename);

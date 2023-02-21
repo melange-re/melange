@@ -4,12 +4,12 @@
 var Mt = require("./mt.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Digest = require("melange/jscomp/stdlib-412/stdlib_modules/digest.js");
 var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_array = require("melange/lib/js/caml_array.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
 var Ext_array_test = require("./ext_array_test.js");
 
 function f(x) {

@@ -2,8 +2,8 @@
 'use strict';
 
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange/lib/js/curry.js");
-var Caml_module = require("melange/lib/js/caml_module.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Caml_module = require("melange.runtime/jscomp/runtime/caml_module.js");
 
 var PA = Caml_module.init_mod([
       "gpr_3931_test.ml",

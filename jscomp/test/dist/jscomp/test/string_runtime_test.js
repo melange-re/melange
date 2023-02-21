@@ -5,7 +5,7 @@ var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
 var Test_char = require("./test_char.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
 
 var suites_0 = [
   "caml_is_printable",

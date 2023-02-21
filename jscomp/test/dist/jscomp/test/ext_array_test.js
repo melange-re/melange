@@ -3,9 +3,9 @@
 
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange/lib/js/curry.js");
-var Caml_array = require("melange/lib/js/caml_array.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
 
 function reverse_range(a, i, len) {
   if (len === 0) {

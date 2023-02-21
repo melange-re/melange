@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_list = require("melange.runtime-others/jscomp/others/js_list.js");
-var Js_vector = require("melange.runtime-others/jscomp/others/js_vector.js");
+var Js_list = require("melange.belt/jscomp/others/js_list.js");
+var Js_vector = require("melange.belt/jscomp/others/js_vector.js");
 
 var suites = {
   contents: /* [] */0

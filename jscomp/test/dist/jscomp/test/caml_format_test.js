@@ -3,14 +3,14 @@
 
 var Mt = require("./mt.js");
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
 var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
 var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
 var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_int64 = require("melange/lib/js/caml_int64.js");
-var Caml_format = require("melange/lib/js/caml_format.js");
+var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
+var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
 var CamlinternalFormatBasics = require("melange.stdlib/jscomp/stdlib-412/camlinternalFormatBasics.js");
 
 var of_string = [

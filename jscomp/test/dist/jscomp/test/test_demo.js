@@ -2,7 +2,7 @@
 'use strict';
 
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 
 function fib(n) {
   if (n === 2 || n === 1) {

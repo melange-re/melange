@@ -4,10 +4,10 @@
 var Mt = require("./mt.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
-var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var v = "gso";
 

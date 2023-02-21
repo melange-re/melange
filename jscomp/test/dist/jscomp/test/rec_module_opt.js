@@ -2,8 +2,8 @@
 'use strict';
 
 var $$Set = require("melange/jscomp/stdlib-412/stdlib_modules/set.js");
-var Caml = require("melange/lib/js/caml.js");
-var Curry = require("melange/lib/js/curry.js");
+var Caml = require("melange.runtime/jscomp/runtime/caml.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 
 function compare(t1, t2) {
   if (t1.TAG === /* Leaf */0) {

@@ -2,7 +2,7 @@
 'use strict';
 
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Caml_array = require("melange/lib/js/caml_array.js");
+var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
 
 var v = Caml_array.make(6, 5);
 

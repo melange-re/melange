@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange/lib/js/caml.js");
+var Caml = require("melange.runtime/jscomp/runtime/caml.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
 var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
 var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
@@ -13,13 +13,13 @@ var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var Testing = require("./testing.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
 var Mt_global = require("./mt_global.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
-var Caml_int64 = require("melange/lib/js/caml_int64.js");
-var Caml_format = require("melange/lib/js/caml_format.js");
-var Caml_string = require("melange/lib/js/caml_string.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
+var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
+var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

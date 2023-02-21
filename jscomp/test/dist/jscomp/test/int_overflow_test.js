@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
-var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
 
 function hash_variant(s) {
   var accu = 0;

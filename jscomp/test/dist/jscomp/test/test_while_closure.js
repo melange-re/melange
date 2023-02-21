@@ -2,8 +2,8 @@
 'use strict';
 
 var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange/lib/js/curry.js");
-var Caml_array = require("melange/lib/js/caml_array.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
 
 var v = {
   contents: 0

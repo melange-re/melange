@@ -3,13 +3,13 @@
 
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Caml_bytes = require("melange/lib/js/caml_bytes.js");
-var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
 var Ext_bytes_test = require("./ext_bytes_test.js");
-var Caml_exceptions = require("melange/lib/js/caml_exceptions.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 function split_by(keep_emptyOpt, is_delim, str) {
   var keep_empty = keep_emptyOpt !== undefined ? keep_emptyOpt : false;

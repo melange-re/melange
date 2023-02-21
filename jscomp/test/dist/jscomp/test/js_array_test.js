@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_vector = require("melange.runtime-others/jscomp/others/js_vector.js");
-var Caml_option = require("melange/lib/js/caml_option.js");
+var Js_vector = require("melange.belt/jscomp/others/js_vector.js");
+var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
 
 var suites_0 = [
   "File \"js_array_test.ml\", line 3, characters 4-11",

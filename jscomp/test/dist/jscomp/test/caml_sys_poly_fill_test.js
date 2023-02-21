@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_sys = require("melange/lib/js/caml_sys.js");
-var Node_process = require("melange.runtime-others/jscomp/others/node_process.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_sys = require("melange.runtime/jscomp/runtime/caml_sys.js");
+var Node_process = require("melange.belt/jscomp/others/node_process.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

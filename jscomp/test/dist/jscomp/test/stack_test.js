@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
 var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
 
 function to_list(v) {
   var acc = /* [] */0;

@@ -2,10 +2,10 @@
 'use strict';
 
 var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
-var Caml_obj = require("melange/lib/js/caml_obj.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 function to_list(q) {
   return List.rev(Queue.fold((function (l, x) {

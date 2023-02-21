@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange/lib/js/curry.js");
+var Curry = require("melange.runtime/jscomp/runtime/curry.js");
 var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
 var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
-var Caml_string = require("melange/lib/js/caml_string.js");
+var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
 
 function generic_basename(is_dir_sep, current_dir_name, name) {
   if (name === "") {

@@ -2,8 +2,8 @@
 'use strict';
 
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_string = require("melange/lib/js/caml_string.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var hh;
 

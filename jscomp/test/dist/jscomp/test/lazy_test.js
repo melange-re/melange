@@ -5,7 +5,7 @@ var Mt = require("./mt.js");
 var Lazy = require("melange/jscomp/stdlib-412/stdlib_modules/lazy.js");
 var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
 var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
-var Caml_js_exceptions = require("melange/lib/js/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
 
 var u = {
   contents: 3
