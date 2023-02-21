@@ -3,7 +3,7 @@
  (name melange_runtime)
  (modes melange)
  (wrapped false)
- (libraries melange.bs-stdlib-mini)
+ (libraries bs_stdlib_mini)
  (preprocess
   (action
    (run

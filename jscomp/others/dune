@@ -1,7 +1,7 @@
 (library
  (modes melange)
- (name melange_runtime_others)
- (public_name melange.runtime-others)
+ (name belt)
+ (public_name melange.belt)
  (wrapped false)
  (preprocess
   (action
