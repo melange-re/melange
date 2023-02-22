@@ -2,7 +2,6 @@ Libraries can provide modules that shadow ones provided by Melange
 
 In this case, we create a library that shadows the `Node` module.
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
   $ dune build @melange-dist --display=short
       ocamldep node/.node.objs/node.impl.d
           melc node/.node.objs/melange/node__.{cmi,cmj,cmt}

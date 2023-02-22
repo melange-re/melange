@@ -1,6 +1,6 @@
 Set up a few directories we'll need
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ source ./setup.sh
   $ mkdir -p lib
   $ mkdir -p app
   $ mkdir -p lib/.objs/melange
@@ -15,18 +15,18 @@ Test that `-bs-package-name` works with `-bs-module-type` and not setting
 `-bs-package-output`
 
   $ BSPKG="-bs-package-name myPackage"
-  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj lib/a.ml -o lib/.objs/melange/a.cmj
+  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-package-output lib/ -bs-stop-after-cmj lib/a.ml -o lib/.objs/melange/a.cmj
 
-  $ melc $BSPKG -bs-package-output app/ -I lib/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-package-output app/ -I lib/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
-  $ melc $BSPKG -bs-module-type commonjs lib/.objs/melange/a.cmj -o output/lib/a.js
+  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-module-type commonjs lib/.objs/melange/a.cmj -o output/lib/a.js
 
-  $ melc $BSPKG -bs-module-type commonjs -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-module-type commonjs -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
-  $ melc $BSPKG -bs-package-output commonjs:lol -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-package-output commonjs:lol -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
 B depends on A, so it should import a.js in the right path
 

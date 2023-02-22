@@ -1,4 +1,4 @@
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ source ./setup.sh
 
 Set up a few directories we'll need
 
@@ -17,15 +17,15 @@ Set up a few directories we'll need
 
 Generate the `.cmj` files
 
-  $ melc -bs-package-output node_modules/ -bs-stop-after-cmj node_modules/a.ml -o node_modules/.objs/melange/a.cmj
+  $ melc $MEL_STDLIB_FLAGS -bs-legacy -bs-package-output node_modules/ -bs-stop-after-cmj node_modules/a.ml -o node_modules/.objs/melange/a.cmj
 
-  $ melc -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc $MEL_STDLIB_FLAGS -bs-legacy -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 Generate the JS files
 
-  $ melc -bs-module-type commonjs node_modules/.objs/melange/a.cmj -o output/node_modules/a.js
+  $ melc $MEL_STDLIB_FLAGS -bs-legacy -bs-module-type commonjs node_modules/.objs/melange/a.cmj -o output/node_modules/a.js
 
-  $ melc -bs-module-type commonjs -I node_modules/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc $MEL_STDLIB_FLAGS -bs-legacy -bs-module-type commonjs -I node_modules/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
 B depends on A, so it should import a.js in the right path
 

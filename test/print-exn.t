@@ -1,9 +1,5 @@
 An example that uses exceptions runtime
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
-  $ mkdir -p node_modules/melange
-  $ ln -s $INSIDE_DUNE/lib node_modules/melange/lib
-
   $ cat > x.ml <<EOF
   > let run f =
   >   try f () with
@@ -23,6 +19,7 @@ An example that uses exceptions runtime
   > (melange.emit
   >  (target melange)
   >  (alias melange)
+  >  (libraries melange)
   >  (module_system commonjs))
   > EOF
   $ dune build @melange

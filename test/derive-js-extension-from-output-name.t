@@ -1,15 +1,15 @@
 Setup
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ source ./setup.sh
   $ echo 'let lib = "from lib"' > lib.ml
   $ echo 'let x = print_endline Lib.lib' > foo.ml
 
-  $ melc --bs-stop-after-cmj --bs-package-output . --bs-module-name lib -o lib.cmj -c -impl lib.ml
+  $ melc $MEL_STDLIB_FLAGS --bs-stop-after-cmj --bs-package-output . --bs-module-name lib -o lib.cmj -c -impl lib.ml
 
-  $ melc -I . --bs-stop-after-cmj --bs-package-output . --bs-module-name foo -o Foo.cmj -c -impl foo.ml
+  $ melc $MEL_STDLIB_FLAGS -I . --bs-stop-after-cmj --bs-package-output . --bs-module-name foo -o Foo.cmj -c -impl foo.ml
 
-  $ melc --bs-module-type commonjs -o lib.bs.js lib.cmj
-  $ melc -I . --bs-module-type commonjs -o foo.bs.js Foo.cmj
+  $ melc $MEL_STDLIB_FLAGS --bs-module-type commonjs -o lib.bs.js lib.cmj
+  $ melc $MEL_STDLIB_FLAGS -I . --bs-module-type commonjs -o foo.bs.js Foo.cmj
 
 Require calls should share the correct extension
 
@@ -17,7 +17,7 @@ Require calls should share the correct extension
   from lib
 
   $ touch hello.foo.ml
-  $ melc -absname -bs-ast -o hello.foo.ast hello.foo.ml
+  $ melc $MEL_STDLIB_FLAGS -absname -bs-ast -o hello.foo.ast hello.foo.ml
   $ ls |  grep hello
   hello.foo.ast
   hello.foo.ml

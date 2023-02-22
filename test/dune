@@ -1,4 +1,5 @@
 (cram
  (package melange)
  (deps
+  setup.sh
   (package melange)))

@@ -1,4 +1,4 @@
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ source ./setup.sh
 
 Set up a few directories we'll need
 
@@ -12,11 +12,11 @@ Set up a few directories we'll need
 
 Compile cmjs
 
-  $ melc -bs-package-output app/ app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc $MEL_STDLIB_FLAGS -bs-package-output app/ app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 Emit js
 
-  $ melc -bs-module-type es6 app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc $MEL_STDLIB_FLAGS -bs-module-type es6 app/.objs/melange/b.cmj -o output/app/b.js
 
 Check b.js output
 

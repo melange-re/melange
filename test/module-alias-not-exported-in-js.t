@@ -1,6 +1,6 @@
 Test empty modules when including aliases (related to Dune wrapped libraries)
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ source ./setup.sh
   $ mkdir -p app
   $ mkdir -p app/.objs/melange
   $ mkdir -p output/app
@@ -14,13 +14,13 @@ Test empty modules when including aliases (related to Dune wrapped libraries)
 
 Build artifacts
 
-  $ melc -bs-package-output app/ -bs-stop-after-cmj -nopervasives app/b.ml -o app/.objs/melange/b.cmj
+  $ melc $MEL_STDLIB_FLAGS -bs-package-output app/ -bs-stop-after-cmj -nopervasives app/b.ml -o app/.objs/melange/b.cmj
 
-  $ melc -bs-package-output app/ -I app/.objs/melange app/app.ml -nopervasives -bs-stop-after-cmj -o app/.objs/melange/app.cmj
+  $ melc $MEL_STDLIB_FLAGS -bs-package-output app/ -I app/.objs/melange app/app.ml -nopervasives -bs-stop-after-cmj -o app/.objs/melange/app.cmj
 
-  $ melc -bs-module-type commonjs -nopervasives app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc $MEL_STDLIB_FLAGS -bs-module-type commonjs -nopervasives app/.objs/melange/b.cmj -o output/app/b.js
 
-  $ melc -bs-module-type commonjs -nopervasives app/.objs/melange/app.cmj -o output/app/app.js
+  $ melc $MEL_STDLIB_FLAGS -bs-module-type commonjs -nopervasives app/.objs/melange/app.cmj -o output/app/app.js
 
 Output does not contain B_alias
 
@@ -44,9 +44,9 @@ Make another lib that uses `App`
 
 Build the `uses_app` library
 
-  $ melc -bs-package-output uses_app/ -bs-stop-after-cmj -I app/.objs/melange uses_app/uses_app.ml -o uses_app/.objs/melange/uses_app.cmj
+  $ melc $MEL_STDLIB_FLAGS -bs-package-output uses_app/ -bs-stop-after-cmj -I app/.objs/melange uses_app/uses_app.ml -o uses_app/.objs/melange/uses_app.cmj
 
-  $ melc -bs-module-type commonjs uses_app/.objs/melange/uses_app.cmj -I app/.objs/melange -o output/uses_app/uses_app.js
+  $ melc $MEL_STDLIB_FLAGS -bs-module-type commonjs uses_app/.objs/melange/uses_app.cmj -I app/.objs/melange -o output/uses_app/uses_app.js
 
 Output does not contain B_alias
 

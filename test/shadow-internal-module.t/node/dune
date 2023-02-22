@@ -1,3 +1,4 @@
 (library
  (modes melange)
+ (libraries melange)
  (name node))
