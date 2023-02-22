@@ -29,7 +29,7 @@
  (library
   (name melange_tests_re_res)
   (modes melange)
-  (libraries melange melange_runtime_tests test_runner)
+  (libraries melange test_runner)
   (wrapped false)
   (modules :standard \ res_debug record_regression)
   (melange.compile_flags

@@ -128,3 +128,5 @@ let customize_runtime : string option ref = ref None
 let as_pp = ref false
 
 let modules = ref false
+
+let bs_legacy = ref false

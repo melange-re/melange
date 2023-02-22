@@ -24,7 +24,6 @@
   (include ./lib/checked-in-artifacts.sexp))
  (section lib))
 
-
 ;;;;{BSB GENERATED: NO EDIT
 
 (include dune.mel)
