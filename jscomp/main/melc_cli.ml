@@ -66,6 +66,7 @@ type t = {
   bs_noassertfalse : bool;
   noassert : bool;
   bs_loc : bool;
+  bs_legacy : bool;
   impl : string option;
   intf : string option;
   intf_suffix : string option;
@@ -461,6 +462,10 @@ module Internal = struct
   let runtime =
     let doc = "*internal* Set the runtime directory" in
     Arg.(value & opt (some string) None & info [ "runtime" ] ~doc)
+
+  let bs_legacy =
+    let doc = "legacy runtime lib path mode" in
+    Arg.(value & flag & info [ "bs-legacy" ] ~doc)
 end
 
 let filenames =
@@ -491,9 +496,9 @@ let parse help include_dirs alerts warnings output_name ppx open_modules bs_jsx
     bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
     intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
-    drawlambda dsource version pp absname bin_annot i nopervasives modules
-    nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
-    runtime filenames _bs_super_errors _c =
+    drawlambda dsource bs_legacy version pp absname bin_annot i nopervasives
+    modules nolabels principal short_paths unsafe warn_help warn_error
+    bs_stop_after_cmj runtime filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -537,6 +542,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules bs_jsx
     bs_noassertfalse;
     noassert;
     bs_loc;
+    bs_legacy;
     impl;
     intf;
     intf_suffix;
@@ -582,10 +588,11 @@ let cmd =
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
     $ Internal.intf_suffix $ Internal.g $ Internal.opaque
     $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
-    $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
-    $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
-    $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
-    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
+    $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource
+    $ Internal.bs_legacy $ version $ pp $ absname $ bin_annot $ i
+    $ Internal.nopervasives $ Internal.modules $ Internal.nolabels
+    $ Internal.principal $ Internal.short_paths $ unsafe $ warn_help
+    $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
     $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to
