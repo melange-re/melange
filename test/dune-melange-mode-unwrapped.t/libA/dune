@@ -1,4 +1,5 @@
 (library
  (modes melange)
  (wrapped false)
+ (libraries melange)
  (name a))
