@@ -234,7 +234,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     } ->
   if help then `Help (`Auto, None)
   else begin try
-    Clflags.include_dirs := include_dirs @ !Clflags.include_dirs;
+    Clflags.include_dirs :=
+      (* The OCaml compiler expects include_dirs in reverse CLI order, but
+         cmdliner returns it in CLI order. *)
+      List.rev_append include_dirs !Clflags.include_dirs;
     Ext_list.iter alerts Warnings.parse_alert_option;
     Ext_list.iter warnings (fun w ->
         Option.iter
