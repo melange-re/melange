@@ -26,7 +26,17 @@
           melange-compiler-libs.overlays.default
           (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper:
-              { });
+              {
+                dune_3 = osuper.dune_3.overrideAttrs (_: {
+                  src = super.fetchFromGitHub {
+                    owner = "anmonteiro";
+                    repo = "dune";
+                    rev = "31bb87e0e2273e3e21f5a941e92cfa6df8c78301";
+                    sha256 = "sha256-YMtCeUG0lbBV2QY/D38efrLs7du7lBnc4cTqtKSTIFA=";
+                  };
+
+                });
+              });
           })
         ];
       in
