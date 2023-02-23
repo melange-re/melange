@@ -11,7 +11,7 @@
     -bs-no-check-div-by-zero
     -bs-cross-module-opt
     %{input-file})))
- (libraries bs_stdlib_mini melange_runtime)
+ (libraries bs_stdlib_mini melange.runtime)
  (flags :standard \ -keep-locs)
  (melange.compile_flags
   -no-keep-locs

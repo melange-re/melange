@@ -1,5 +1,7 @@
 (lang dune 3.7)
 
+(using experimental_building_ocaml_compiler_with_dune 0.1)
+
 (using melange 0.1)
 
 (using directory-targets 0.1)

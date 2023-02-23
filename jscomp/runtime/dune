@@ -1,6 +1,6 @@
 (library
  (public_name melange.runtime)
- (name melange_runtime)
+ (name runtime)
  (modes melange)
  (wrapped false)
  (libraries bs_stdlib_mini)

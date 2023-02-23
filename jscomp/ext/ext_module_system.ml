@@ -17,7 +17,7 @@ let runtime_dir = function NodeJS -> "js" | Es6 | Es6_global -> "es6"
 let runtime_package_path (t : t) ~legacy js_file =
   if legacy then
     Literals.package_name // Literals.lib // runtime_dir t // js_file
-  else (Literals.package_name ^ ".runtime") // "jscomp" // "runtime" // js_file
+  else (Literals.package_name ^ ".runtime") // js_file
 
 let to_string = function
   | NodeJS -> Literals.commonjs
