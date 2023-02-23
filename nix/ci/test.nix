@@ -86,9 +86,9 @@ stdenv.mkDerivation {
     EOF
     dune build @melange-runtime-tests --display=short
 
-    # mocha '_build/default/jscomp/test/dist/jscomp/test/*_test.js'
     mocha "_build/default/dist/*_test.js"
 
+    mkdir node_modules
     dune clean
     ln -sfn ${packages.melange}/lib/melange/__MELANGE_RUNTIME__ node_modules/melange
     rm -rf ./dune
