@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,25 +17,26 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bs_stdlib_mini
 
-external dup : 'a array -> (_ [@bs.as 0]) -> 'a array = 
+external dup : 'a array -> (_ [@bs.as 0]) -> 'a array =
   "slice"  [@@bs.send]
 
-let %private {unsafe_get = (.!()) ; unsafe_set = (.!()<-)} = 
+let %private {unsafe_get = (.!()) ; unsafe_set = (.!()<-)} =
   (module Caml_array_extern)
 
 
-let sub (x : 'a array) (offset : int) (len : int) = 
+let sub (x : 'a array) (offset : int) (len : int) =
   let result = Caml_array_extern.new_uninitialized len  in
   let j = {contents = 0} and i =  {contents = offset} in
   while j.contents < len do
     result.!(j.contents) <- x.!(i.contents);
-    j.contents <- j.contents + 1; 
+    j.contents <- j.contents + 1;
     i.contents <- i.contents + 1;
   done;
   result
@@ -43,22 +44,22 @@ let sub (x : 'a array) (offset : int) (len : int) =
 
 let rec len acc l  =
   match l with
-  | [] -> acc 
+  | [] -> acc
   | x::xs -> len (Caml_array_extern.length x + acc) xs
 
-let rec fill arr i l = 
-  match l with 
+let rec fill arr i l =
+  match l with
   | [] -> ()
-  | x :: xs -> 
+  | x :: xs ->
     let l = Caml_array_extern.length x in
     let k = {contents =  i} in
     let j = {contents = 0} in
-    while j.contents < l do 
+    while j.contents < l do
       arr.!(k.contents) <- x .!(j.contents);
-      k.contents <- k.contents + 1; 
+      k.contents <- k.contents + 1;
       j.contents <- j.contents + 1;
     done;
-    fill arr k.contents  xs 
+    fill arr k.contents  xs
 
 let  concat (l : 'a array list) : 'a array =
   let v = len 0 l in
@@ -66,33 +67,33 @@ let  concat (l : 'a array list) : 'a array =
   fill result 0 l ;
   result
 
-let set xs index newval = 
+let set xs index newval =
   if index <0 || index >= Caml_array_extern.length xs
   then raise (Invalid_argument "index out of bounds")
   else  xs.!( index)<-  newval
 
-let get xs index =  
+let get xs index =
   if index <0 || index >= Caml_array_extern.length xs then
     raise (Invalid_argument "index out of bounds")
   else  xs.!( index)
 
 
-let make len init = 
+let make len init =
   let b = Caml_array_extern.new_uninitialized len in
-  for i = 0 to len - 1 do 
+  for i = 0 to len - 1 do
     b.!(i) <-  init
   done;
   b
 
-let make_float len = 
+let make_float len =
   let b = Caml_array_extern.new_uninitialized len in
-  for i = 0 to len - 1 do 
+  for i = 0 to len - 1 do
     b.!(i) <-  0.
   done;
-  b  
+  b
 
-let blit a1 i1 a2 i2 len = 
-  if i2 <= i1 then 
+let blit a1 i1 a2 i2 len =
+  if i2 <= i1 then
     for j = 0 to len - 1 do
       a2.! (j+i2) <- a1.! (j+i1)
     done
@@ -100,4 +101,3 @@ let blit a1 i1 a2 i2 len =
     for j = len - 1 downto 0 do
       a2 .!(j+i2) <-  a1.! (j+i1)
     done
-

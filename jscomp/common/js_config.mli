@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val install_dir : string lazy_t
-val stdlib_path : string lazy_t
+val stdlib_paths : string list lazy_t
 val std_include_dirs : unit -> string list
 
 (* val get_packages_info :

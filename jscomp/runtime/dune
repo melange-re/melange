@@ -3,7 +3,6 @@
  (name runtime)
  (modes melange)
  (wrapped false)
- (libraries bs_stdlib_mini)
  (preprocess
   (action
    (run
@@ -23,7 +22,5 @@
   -nopervasives
   -nostdlib
   -bs-no-builtin-ppx
-  -open
-  Bs_stdlib_mini
   -w
   -61-69))

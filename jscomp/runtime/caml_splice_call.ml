@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bs_stdlib_mini
+
 type obj = Obj.t
 
 let spliceApply : obj -> obj -> obj = [%raw{|function(fn,args){
@@ -65,4 +67,3 @@ let spliceObjApply : obj -> obj -> obj -> obj = [%raw{|function(obj,name,args){
   }
   return (obj[name]).apply(obj,applied)
 }|}]
-

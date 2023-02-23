@@ -14,10 +14,6 @@
     "-nostdlib",
     "-bs-cross-module-opt",
     "-nopervasives",
-    "-unsafe",
-    "-open Bs_stdlib_mini"
-  ],
-  "bs-dependencies": [
-    "@melange/runtime-stdlib-mini"
+    "-unsafe"
   ]
 }

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,11 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bs_stdlib_mini
 
 let stdin = Caml_undefined_extern.empty
 (* let stderr = Caml_undefined_extern.empty *)
@@ -48,68 +49,67 @@ let stderr = {
   buffer = "";
   output = fun [@bs] _ s ->
     let module String = Caml_string_extern in
-    let v =Caml_string_extern.length s - 1 in     
+    let v =Caml_string_extern.length s - 1 in
     if s.[v] = '\n' then
       Js.log (Caml_string_extern.slice s 0 v) (* TODO: change to Js.error*)
-    else Js.log s        
+    else Js.log s
 }
 #if 0 then
 type in_channel
 
-let caml_ml_open_descriptor_in (i : int) : in_channel = 
-  raise (Failure "caml_ml_open_descriptor_in not implemented")  
-let caml_ml_open_descriptor_out (i : int)  : out_channel = 
+let caml_ml_open_descriptor_in (i : int) : in_channel =
+  raise (Failure "caml_ml_open_descriptor_in not implemented")
+let caml_ml_open_descriptor_out (i : int)  : out_channel =
   raise (Failure "caml_ml_open_descriptor_out not implemented")
-let caml_ml_input (ic : in_channel) (bytes : bytes) offset len : int = 
+let caml_ml_input (ic : in_channel) (bytes : bytes) offset len : int =
   raise (Failure  "caml_ml_input ic not implemented")
-let caml_ml_input_char (ic : in_channel) : char = 
-  raise  (Failure "caml_ml_input_char not implemnted")   
+let caml_ml_input_char (ic : in_channel) : char =
+  raise  (Failure "caml_ml_input_char not implemnted")
 
 #end
 
 (*TODO: we need flush all buffers in the end *)
-let caml_ml_flush (oc : out_channel)  : unit = 
+let caml_ml_flush (oc : out_channel)  : unit =
   if oc.buffer  <> "" then
-    begin     
+    begin
       oc.output oc oc.buffer [@bs];
-      oc.buffer <- ""      
-    end      
+      oc.buffer <- ""
+    end
 
 (*
-let node_std_output  : string -> bool =  
+let node_std_output  : string -> bool =
   [%raw{|function(s){ return (typeof process !== "undefined") && process.stdout && (process.stdout.write(s), true);}
 |}]
 *)
 
-(** note we need provide both [bytes] and [string] version 
+(** note we need provide both [bytes] and [string] version
 *)
 let caml_ml_output (oc : out_channel) (str : string) offset len  =
   let str =
-    if offset = 0 && len =Caml_string_extern.length str then str    
+    if offset = 0 && len =Caml_string_extern.length str then str
     else Caml_string_extern.slice str offset len in
   if [%raw{| (typeof process !== "undefined") && process.stdout && process.stdout.write |}] &&
      oc == stdout then
     ([%raw{| process.stdout.write |}] : string -> unit [@bs] ) str [@bs]
 
   else
-    begin     
+    begin
 
       let id = Caml_string_extern.lastIndexOf str "\n" in
       if id < 0 then
         oc.buffer <- oc.buffer ^ str
       else
-        begin 
+        begin
           oc.buffer <- oc.buffer ^ Caml_string_extern.slice str 0 (id +1);
           caml_ml_flush oc;
           oc.buffer <- oc.buffer ^ Caml_string_extern.slice_rest str (id + 1)
         end
-    end      
+    end
 
 let caml_ml_output_char (oc : out_channel)  (char : char) : unit =
-  caml_ml_output oc (Caml_string_extern.of_char char) 0 1 
+  caml_ml_output oc (Caml_string_extern.of_char char) 0 1
 
 
 let caml_ml_out_channels_list () : out_channel list  =
-  [stdout; stderr]  
-
+  [stdout; stderr]
 

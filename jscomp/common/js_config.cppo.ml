@@ -40,11 +40,13 @@ let install_dir = lazy (
 #endif
 )
 
-let stdlib_path =
+let bs_legacy = ref false
+
+let stdlib_paths =
   lazy (match Sys.getenv "MELANGELIB" with
   | value ->
     begin match Sys.is_directory value with
-    | true -> value
+    | true -> String.split_on_char ':' value
     | false -> raise (Arg.Bad "$MELANGELIB should be a directory")
     | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB doesn't exist")
     end
@@ -60,9 +62,21 @@ let stdlib_path =
     Lazy.force install_dir
 #endif
 in
+if !bs_legacy then [
   root // Literals.lib // Literals.package_name
 #ifdef BS_RELEASE_BUILD
   // Literals.runtime_dir // Literals.package_name
+#endif
+  ]
+else
+#ifdef BS_RELEASE_BUILD
+  [ root // Literals.lib // Literals.package_name // "runtime" // Literals.package_name
+  ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name
+  ; root // Literals.lib // Literals.package_name // Literals.package_name ]
+#else
+  [ root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
+  ; root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name
+  ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
 #endif
 )
 
@@ -129,4 +143,3 @@ let as_pp = ref false
 
 let modules = ref false
 
-let bs_legacy = ref false

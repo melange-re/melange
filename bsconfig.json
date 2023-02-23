@@ -2,7 +2,6 @@
   "name": "melange",
   "version": "7.0.0",
   "workspace": {
-    "@melange/runtime-stdlib-mini": "jscomp/runtime/bs_stdlib_mini",
     "@melange/runtime": "jscomp/runtime",
     "@melange/runtime-others": "jscomp/others",
     "@melange/runtime-stdlib": "jscomp/stdlib-412",
