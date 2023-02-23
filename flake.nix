@@ -29,12 +29,11 @@
               {
                 dune_3 = osuper.dune_3.overrideAttrs (_: {
                   src = super.fetchFromGitHub {
-                    owner = "anmonteiro";
+                    owner = "ocaml";
                     repo = "dune";
-                    rev = "31bb87e0e2273e3e21f5a941e92cfa6df8c78301";
-                    sha256 = "sha256-YMtCeUG0lbBV2QY/D38efrLs7du7lBnc4cTqtKSTIFA=";
+                    rev = "f3bdf371f88acae4d752bc3decc83f43039eab29";
+                    sha256 = "sha256-J9G6lMdN3pWvpwa1UkNinMA2/m0conMLA0RfCezlx90=";
                   };
-
                 });
               });
           })
