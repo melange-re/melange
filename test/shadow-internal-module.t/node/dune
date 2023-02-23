@@ -1,4 +1,4 @@
 (library
  (modes melange)
- (libraries melange)
+ (melange.compile_flags :standard -nopervasives)
  (name node))

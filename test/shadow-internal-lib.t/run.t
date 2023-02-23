@@ -5,18 +5,7 @@ In this test case:
 - The `node` library is a wrapped library (no modules inside are named `Node`)
 - This shadows the `Node` module provided by the Melange runtime / stdlib
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
-  $ dune build @melange-dist --display=short
-          melc node/.node.objs/melange/node.{cmi,cmj,cmt}
-      ocamldep node/.node.objs/node__Leaf.impl.d
-      ocamldep node/.node.objs/node__Other.impl.d
-          melc dist/node/node.js
-          melc node/.node.objs/melange/node__Other.{cmi,cmj,cmt}
-          melc dist/node/other.js
-          melc node/.node.objs/melange/node__Leaf.{cmi,cmj,cmt}
-          melc .dist.mobjs/melange/melange__Entry_module.{cmi,cmj,cmt}
-          melc dist/node/leaf.js
-          melc dist/entry_module.js
+  $ dune build @melange-dist
 
   $ ls _build/default/node/.node.objs/melange
   node.cmi
@@ -31,10 +20,8 @@ In this test case:
 
 Generated JS files are unmangled
 
-  $ tree --noreport _build/default/dist
-  _build/default/dist
-  |-- entry_module.js
-  `-- node
-      |-- leaf.js
-      |-- node.js
-      `-- other.js
+  $ tree --noreport _build/default/dist/node
+  _build/default/dist/node
+  |-- leaf.js
+  |-- node.js
+  `-- other.js
