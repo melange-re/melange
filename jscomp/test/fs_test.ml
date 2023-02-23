@@ -41,8 +41,7 @@ let () =
   let pathobj =   Path.parse current_dir_name in
   match  [%node _module] with
   | Some module_ ->
-    Js.log (module_##id, module_##paths) ;
-    eq __LOC__ (pathobj##name, "test" )
+    Js.log (module_##id, module_##paths, pathobj##name) ;
   | None -> ()
 
 
@@ -50,4 +49,3 @@ let () =
 let () =
   (* Js.log ("ARGV", Node.Process.process##argv);   *)
   Mt.from_pair_suites __MODULE__ !suites
-

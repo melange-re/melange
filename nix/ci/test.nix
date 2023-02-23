@@ -29,7 +29,7 @@ let
       })
     ];
   };
-  inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages tree;
+  inherit (pkgs) stdenv nodejs yarn git lib nodePackages ocamlPackages tree;
   packages = pkgs.callPackage ./.. { inherit nix-filter; };
   inputString =
     builtins.substring
@@ -60,6 +60,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
   buildInputs = [
+    nodePackages.mocha
     packages.melange
     packages.mel
     ocamlPackages.reason
@@ -69,11 +70,13 @@ stdenv.mkDerivation {
   ];
 
   checkPhase = ''
-    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
-    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
-    ln -sfn ${packages.melange}/lib/melange/__MELANGE_RUNTIME__ node_modules/melange
-    mel build -- --display=short
+    cat > dune-project <<EOF
+    (lang dune 3.7)
+    (using melange 0.1)
+    EOF
+    dune build @melange-runtime-tests --display=short
 
-    node ./node_modules/.bin/mocha "./*_test.js"
+    # mocha '_build/default/jscomp/test/dist/jscomp/test/*_test.js'
+    mocha "_build/default/dist/*_test.js"
   '';
 }

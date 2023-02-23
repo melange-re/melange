@@ -57,7 +57,15 @@
 
 (subdir
  dist/jscomp/test
- (copy_files %{project_root}/jscomp/test/*.js)
+ (copy_files ../../../*.js)
+ (alias
+  (name melange-runtime-tests)
+  (deps
+   (glob_files *.js))))
+
+(subdir
+ dist
+ (copy_files ../*.js)
  (alias
   (name melange-runtime-tests)
   (deps
