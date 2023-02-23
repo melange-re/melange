@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Curry = require("melange.runtime/curry.js");
 var Mt_global = require("./mt_global.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
 
 var suites = {
   contents: /* [] */0
@@ -18,7 +18,7 @@ function eq(f, param) {
   Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
-var s = Curry._1(Printf.sprintf(/* Format */{
+var s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
           _0: {
             TAG: /* Format_arg */13,
             _0: undefined,
@@ -51,7 +51,7 @@ eq("File \"sprintf_reg_test.ml\", line 8, characters 5-12", [
       "%s."
     ]);
 
-var s$1 = Curry._2(Printf.sprintf(/* Format */{
+var s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
           _0: {
             TAG: /* Int */4,
             _0: /* Int_i */3,

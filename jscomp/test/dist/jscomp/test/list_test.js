@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Caml = require("melange.runtime/caml.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 var list_suites_0 = [
   "length",
@@ -12,7 +12,7 @@ var list_suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: 1,
-              _1: List.length({
+              _1: Stdlib__List.length({
                     hd: [
                       0,
                       1,
@@ -33,7 +33,7 @@ var list_suites_1 = {
         return {
                 TAG: /* Eq */0,
                 _0: 5,
-                _1: List.length({
+                _1: Stdlib__List.length({
                       hd: 0,
                       tl: {
                         hd: 1,
@@ -59,7 +59,7 @@ var list_suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: 30000,
-                  _1: List.length($$Array.to_list($$Array.init(30000, (function (param) {
+                  _1: Stdlib__List.length(Stdlib__Array.to_list(Stdlib__Array.init(30000, (function (param) {
                                   return 0;
                                 }))))
                 };
@@ -71,7 +71,7 @@ var list_suites_1 = {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: List.sort(Caml.caml_int_compare, {
+                    _0: Stdlib__List.sort(Caml.caml_int_compare, {
                           hd: 4,
                           tl: {
                             hd: 1,

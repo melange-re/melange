@@ -2,13 +2,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Seq = require("melange/jscomp/stdlib-412/stdlib_modules/seq.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_option = require("melange.runtime/caml_option.js");
+var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
+var Stdlib__Set = require("melange/stdlib_modules/set.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 function even(n) {
   if (n === 0) {
@@ -121,27 +122,19 @@ function bal(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      var lr = l.r;
-      var lv = l.v;
-      var ll = l.l;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, create(lr, v, r));
-      }
-      if (lr) {
-        return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
-      }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+    if (!l) {
+      return Stdlib.invalid_arg("Set.bal");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    var lr = l.r;
+    var lv = l.v;
+    var ll = l.l;
+    if (height(ll) >= height(lr)) {
+      return create(ll, lv, create(lr, v, r));
+    } else if (lr) {
+      return create(create(ll, lv, lr.l), lr.v, create(lr.r, v, r));
+    } else {
+      return Stdlib.invalid_arg("Set.bal");
+    }
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -151,27 +144,19 @@ function bal(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    var rr = r.r;
-    var rv = r.v;
-    var rl = r.l;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, v, rl), rv, rr);
-    }
-    if (rl) {
-      return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+  if (!r) {
+    return Stdlib.invalid_arg("Set.bal");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  var rr = r.r;
+  var rv = r.v;
+  var rl = r.l;
+  if (height(rr) >= height(rl)) {
+    return create(create(l, v, rl), rv, rr);
+  } else if (rl) {
+    return create(create(l, v, rl.l), rl.v, create(rl.r, rv, rr));
+  } else {
+    return Stdlib.invalid_arg("Set.bal");
+  }
 }
 
 function add(x, t) {
@@ -314,19 +299,15 @@ function max_elt_opt(_param) {
 }
 
 function remove_min_elt(param) {
-  if (param) {
-    var l = param.l;
-    if (l) {
-      return bal(remove_min_elt(l), param.v, param.r);
-    } else {
-      return param.r;
-    }
+  if (!param) {
+    return Stdlib.invalid_arg("Set.remove_min_elt");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Set.remove_min_elt",
-        Error: new Error()
-      };
+  var l = param.l;
+  if (l) {
+    return bal(remove_min_elt(l), param.v, param.r);
+  } else {
+    return param.r;
+  }
 }
 
 function concat(t1, t2) {
@@ -1038,7 +1019,7 @@ function of_list(l) {
   var x3 = match$2.hd;
   if (match$3) {
     if (match$3.tl) {
-      var l$1 = List.sort_uniq(AAA.compare, l);
+      var l$1 = Stdlib__List.sort_uniq(AAA.compare, l);
       var sub = function (n, l) {
         switch (n) {
           case 0 :
@@ -1135,7 +1116,7 @@ function of_list(l) {
               Error: new Error()
             };
       };
-      return sub(List.length(l$1), l$1)[0];
+      return sub(Stdlib__List.length(l$1), l$1)[0];
     } else {
       return add(match$3.hd, add(x3, add(x2, add(x1, singleton(x0)))));
     }
@@ -1145,7 +1126,7 @@ function of_list(l) {
 }
 
 function add_seq(i, m) {
-  return Seq.fold_left((function (s, x) {
+  return Stdlib__Seq.fold_left((function (s, x) {
                 return add(x, s);
               }), m, i);
 }

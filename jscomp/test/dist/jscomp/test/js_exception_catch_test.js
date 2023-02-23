@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Js_exn = require("melange.belt/jscomp/others/js_exn.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Curry = require("melange.runtime/curry.js");
+var Js_exn = require("melange.belt/./js_exn.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -142,19 +142,11 @@ eq("File \"js_exception_catch_test.ml\", line 44, characters 5-12", test(functio
         }), "Not_found");
 
 eq("File \"js_exception_catch_test.ml\", line 45, characters 5-12", test(function (param) {
-          throw {
-                RE_EXN_ID: "Invalid_argument",
-                _1: "x",
-                Error: new Error()
-              };
+          Stdlib.invalid_arg("x");
         }), "Invalid_argument");
 
 eq("File \"js_exception_catch_test.ml\", line 46, characters 5-12", test(function (param) {
-          throw {
-                RE_EXN_ID: "Invalid_argument",
-                _1: "",
-                Error: new Error()
-              };
+          Stdlib.invalid_arg("");
         }), "Invalid_any");
 
 eq("File \"js_exception_catch_test.ml\", line 47, characters 5-12", test(function (param) {
@@ -203,11 +195,7 @@ eq("File \"js_exception_catch_test.ml\", line 52, characters 5-12", test(functio
         }), "Js_error");
 
 eq("File \"js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {
-          throw {
-                RE_EXN_ID: "Failure",
-                _1: "x",
-                Error: new Error()
-              };
+          Stdlib.failwith("x");
         }), "Any");
 
 Mt.from_pair_suites("Js_exception_catch_test", suites.contents);

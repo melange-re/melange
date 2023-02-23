@@ -2,12 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
 var Mt_global = require("./mt_global.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Char = require("melange/stdlib_modules/char.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
 
 var suites = {
   contents: /* [] */0
@@ -23,9 +24,9 @@ function eq(f) {
   };
 }
 
-var test_strings = $$Array.init(32, (function (i) {
-        var c = Char.chr(i);
-        return Caml_bytes.bytes_to_string(Bytes.make(i, c));
+var test_strings = Stdlib__Array.init(32, (function (i) {
+        var c = Stdlib__Char.chr(i);
+        return Caml_bytes.bytes_to_string(Stdlib__Bytes.make(i, c));
       }));
 
 var test_strings_hash_results = [
@@ -68,16 +69,16 @@ function normalize(x) {
 }
 
 function caml_hash(x) {
-  return Hashtbl.hash(x) & 1073741823;
+  return Stdlib__Hashtbl.hash(x) & 1073741823;
 }
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 18, characters 5-12", $$Array.map(caml_hash, test_strings), test_strings_hash_results);
+Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 18, characters 5-12", Stdlib__Array.map(caml_hash, test_strings), test_strings_hash_results);
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 24, characters 5-12", Hashtbl.hash(0) & 1073741823, 129913994);
+Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 24, characters 5-12", Stdlib__Hashtbl.hash(0) & 1073741823, 129913994);
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 27, characters 5-12", Hashtbl.hash("x") & 1073741823, 780510073);
+Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 27, characters 5-12", Stdlib__Hashtbl.hash("x") & 1073741823, 780510073);
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 30, characters 5-12", Hashtbl.hash("xy") & 1073741823, 194127723);
+Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 30, characters 5-12", Stdlib__Hashtbl.hash("xy") & 1073741823, 194127723);
 
 Mt.from_pair_suites("Hash_test", suites.contents);
 

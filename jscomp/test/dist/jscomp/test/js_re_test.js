@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Caml_option = require("melange.runtime/caml_option.js");
 
 var suites_0 = [
   "captures",

@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Queue = require("melange/stdlib_modules/queue.js");
 
 function Test(Queue) {
   var to_array = function (q) {
@@ -18,7 +18,7 @@ function Test(Queue) {
   };
   var queue_1 = function (x) {
     var q = Curry._1(Queue.create, undefined);
-    $$Array.iter((function (x) {
+    Stdlib__Array.iter((function (x) {
             Curry._2(Queue.add, x, q);
           }), x);
     return to_array(q);
@@ -31,7 +31,7 @@ function Test(Queue) {
 
 function to_array(q) {
   var v = Caml_array.make(q.length, 0);
-  Queue.fold((function (i, e) {
+  Stdlib__Queue.fold((function (i, e) {
           Caml_array.set(v, i, e);
           return i + 1 | 0;
         }), 0, q);
@@ -44,8 +44,8 @@ function queue_1(x) {
     first: /* Nil */0,
     last: /* Nil */0
   };
-  $$Array.iter((function (x) {
-          Queue.add(x, q);
+  Stdlib__Array.iter((function (x) {
+          Stdlib__Queue.add(x, q);
         }), x);
   return to_array(q);
 }

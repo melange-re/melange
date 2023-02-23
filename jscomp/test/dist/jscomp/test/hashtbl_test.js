@@ -2,15 +2,15 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var MoreLabels = require("melange/jscomp/stdlib-412/stdlib_modules/moreLabels.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
+var Stdlib__MoreLabels = require("melange/stdlib_modules/moreLabels.js");
 
 function to_list(tbl) {
-  return Hashtbl.fold((function (k, v, acc) {
+  return Stdlib__Hashtbl.fold((function (k, v, acc) {
                 return {
                         hd: [
                           k,
@@ -22,24 +22,24 @@ function to_list(tbl) {
 }
 
 function f(param) {
-  var tbl = Hashtbl.create(undefined, 17);
-  Hashtbl.add(tbl, 1, /* '1' */49);
-  Hashtbl.add(tbl, 2, /* '2' */50);
-  return List.sort((function (param, param$1) {
+  var tbl = Stdlib__Hashtbl.create(undefined, 17);
+  Stdlib__Hashtbl.add(tbl, 1, /* '1' */49);
+  Stdlib__Hashtbl.add(tbl, 2, /* '2' */50);
+  return Stdlib__List.sort((function (param, param$1) {
                 return Caml.caml_int_compare(param[0], param$1[0]);
               }), to_list(tbl));
 }
 
 function g(count) {
-  var tbl = Hashtbl.create(undefined, 17);
+  var tbl = Stdlib__Hashtbl.create(undefined, 17);
   for(var i = 0; i <= count; ++i){
-    Hashtbl.replace(tbl, (i << 1), String(i));
+    Stdlib__Hashtbl.replace(tbl, (i << 1), String(i));
   }
   for(var i$1 = 0; i$1 <= count; ++i$1){
-    Hashtbl.replace(tbl, (i$1 << 1), String(i$1));
+    Stdlib__Hashtbl.replace(tbl, (i$1 << 1), String(i$1));
   }
   var v = to_list(tbl);
-  return $$Array.of_list(List.sort((function (param, param$1) {
+  return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
                     return Caml.caml_int_compare(param[0], param$1[0]);
                   }), v));
 }
@@ -73,7 +73,7 @@ var suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: $$Array.init(1001, (function (i) {
+                _0: Stdlib__Array.init(1001, (function (i) {
                         return [
                                 (i << 1),
                                 String(i)
@@ -87,8 +87,8 @@ var suites_1 = {
     hd: [
       "More_labels_regressionfix_374",
       (function (param) {
-          var tbl = Curry._2(MoreLabels.Hashtbl.create, undefined, 30);
-          Hashtbl.add(tbl, 3, 3);
+          var tbl = Curry._2(Stdlib__MoreLabels.Hashtbl.create, undefined, 30);
+          Stdlib__Hashtbl.add(tbl, 3, 3);
           return {
                   TAG: /* Eq */0,
                   _0: tbl.size,

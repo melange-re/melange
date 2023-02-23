@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 var suites = {
   contents: /* [] */0
@@ -32,8 +32,8 @@ function eq(loc, x, y) {
 
 function f(x) {
   console.log(x);
-  console.log(List.length(x));
-  return List;
+  console.log(Stdlib__List.length(x));
+  return Stdlib__List;
 }
 
 var h = f(/* [] */0);

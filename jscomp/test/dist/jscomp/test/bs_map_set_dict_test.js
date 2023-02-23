@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var Belt_Id = require("melange.belt/jscomp/others/belt_Id.js");
-var Belt_Map = require("melange.belt/jscomp/others/belt_Map.js");
-var Belt_List = require("melange.belt/jscomp/others/belt_List.js");
-var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
-var Belt_MapDict = require("melange.belt/jscomp/others/belt_MapDict.js");
-var Belt_SetDict = require("melange.belt/jscomp/others/belt_SetDict.js");
+var Caml = require("melange.runtime/caml.js");
+var Belt_Id = require("melange.belt/./belt_Id.js");
+var Belt_Map = require("melange.belt/./belt_Map.js");
+var Belt_List = require("melange.belt/./belt_List.js");
+var Belt_Array = require("melange.belt/./belt_Array.js");
+var Belt_MapDict = require("melange.belt/./belt_MapDict.js");
+var Belt_SetDict = require("melange.belt/./belt_SetDict.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {

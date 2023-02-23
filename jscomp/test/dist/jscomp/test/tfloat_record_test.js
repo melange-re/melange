@@ -2,20 +2,20 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Float_array = require("./float_array.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Buffer = require("melange/stdlib_modules/buffer.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
 
-var buf = $$Buffer.create(50);
+var buf = Stdlib__Buffer.create(50);
 
-var fmt = Format.formatter_of_buffer(buf);
+var fmt = Stdlib__Format.formatter_of_buffer(buf);
 
 function print_float(f) {
-  Curry._1(Format.fprintf(fmt)(/* Format */{
+  Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
             _0: {
               TAG: /* String */2,
               _0: /* No_padding */0,
@@ -26,7 +26,7 @@ function print_float(f) {
 }
 
 function print_newline(param) {
-  Format.fprintf(fmt)(/* Format */{
+  Stdlib__Format.fprintf(fmt)(/* Format */{
         _0: {
           TAG: /* Char_literal */12,
           _0: /* '\n' */10,
@@ -49,7 +49,7 @@ var b = Float_array.small_float_array(12);
 var c = Float_array.longer_float_array(34);
 
 function print_array(a) {
-  $$Array.iter((function (f) {
+  Stdlib__Array.iter((function (f) {
           print_float(f);
           print_newline(undefined);
         }), a);
@@ -72,7 +72,7 @@ function eq(f, a, b) {
   Mt_global.collect_eq(test_id, suites, f, a, b);
 }
 
-eq("File \"tfloat_record_test.ml\", line 43, characters 5-12", $$Buffer.contents(buf), "1.\n1.\n2.\n3.\n\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n\n");
+eq("File \"tfloat_record_test.ml\", line 43, characters 5-12", Stdlib__Buffer.contents(buf), "1.\n1.\n2.\n3.\n\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n0.\n\n");
 
 Mt.from_pair_suites("Tfloat_record_test", suites.contents);
 

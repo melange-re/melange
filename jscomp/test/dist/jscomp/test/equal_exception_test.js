@@ -2,17 +2,17 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var v = "gso";
 
 function is_equal(param) {
-  if (Caml_bytes.get(Bytes.make(3, /* 'a' */97), 0) !== /* 'a' */97) {
+  if (Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0) !== /* 'a' */97) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
@@ -23,7 +23,7 @@ function is_equal(param) {
           Error: new Error()
         };
   }
-  if (Bytes.make(3, /* 'a' */97)[0] !== /* 'a' */97) {
+  if (Stdlib__Bytes.make(3, /* 'a' */97)[0] !== /* 'a' */97) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
@@ -34,7 +34,7 @@ function is_equal(param) {
           Error: new Error()
         };
   }
-  var u = Bytes.make(3, /* 'a' */97);
+  var u = Stdlib__Bytes.make(3, /* 'a' */97);
   u[0] = /* 'b' */98;
   if (u[0] !== /* 'b' */98) {
     throw {

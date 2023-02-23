@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_dict = require("melange.belt/jscomp/others/js_dict.js");
+var Js_dict = require("melange.belt/./js_dict.js");
 
 function obj(param) {
   return {

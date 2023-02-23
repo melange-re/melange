@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var $$Buffer = require("melange/jscomp/stdlib-412/stdlib_modules/buffer.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Buffer = require("melange/stdlib_modules/buffer.js");
 
 var v = "gso";
 
@@ -14,8 +14,8 @@ var suites_0 = [
       return {
               TAG: /* Eq */0,
               _0: [
-                Caml_bytes.get(Bytes.make(3, /* 'a' */97), 0),
-                Bytes.make(3, /* 'a' */97)[0]
+                Caml_bytes.get(Stdlib__Bytes.make(3, /* 'a' */97), 0),
+                Stdlib__Bytes.make(3, /* 'a' */97)[0]
               ],
               _1: [
                 /* 'a' */97,
@@ -29,7 +29,7 @@ var suites_1 = {
   hd: [
     "equal2",
     (function (param) {
-        var u = Bytes.make(3, /* 'a' */97);
+        var u = Stdlib__Bytes.make(3, /* 'a' */97);
         u[0] = /* 'b' */98;
         return {
                 TAG: /* Eq */0,
@@ -48,13 +48,13 @@ var suites_1 = {
     hd: [
       "buffer",
       (function (param) {
-          var v = $$Buffer.create(30);
+          var v = Stdlib__Buffer.create(30);
           for(var i = 0; i <= 10; ++i){
-            $$Buffer.add_string(v, String(i));
+            Stdlib__Buffer.add_string(v, String(i));
           }
           return {
                   TAG: /* Eq */0,
-                  _0: $$Buffer.contents(v),
+                  _0: Stdlib__Buffer.contents(v),
                   _1: "012345678910"
                 };
         })

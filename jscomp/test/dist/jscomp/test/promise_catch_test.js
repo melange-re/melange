@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_exn = require("melange.belt/jscomp/others/js_exn.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Js_option = require("melange.belt/jscomp/others/js_option.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Js_exn = require("melange.belt/./js_exn.js");
+var Stdlib = require("melange/./stdlib.js");
+var Js_option = require("melange.belt/./js_option.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

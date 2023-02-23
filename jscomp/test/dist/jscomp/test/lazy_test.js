@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Lazy = require("melange/jscomp/stdlib-412/stdlib_modules/lazy.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Stdlib = require("melange/./stdlib.js");
+var Stdlib__Lazy = require("melange/stdlib_modules/lazy.js");
+var CamlinternalLazy = require("melange/stdlib_modules/camlinternalLazy.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var u = {
   contents: 3
@@ -315,7 +315,7 @@ Mt.from_pair_suites("Lazy_test", {
                             (function (param) {
                                 return {
                                         TAG: /* Ok */4,
-                                        _0: Lazy.is_val({
+                                        _0: Stdlib__Lazy.is_val({
                                               LAZY_DONE: true,
                                               VAL: 3
                                             })
@@ -328,7 +328,7 @@ Mt.from_pair_suites("Lazy_test", {
                               (function (param) {
                                   return {
                                           TAG: /* Ok */4,
-                                          _0: !Lazy.is_val({
+                                          _0: !Stdlib__Lazy.is_val({
                                                 LAZY_DONE: false,
                                                 VAL: (function () {
                                                     throw {

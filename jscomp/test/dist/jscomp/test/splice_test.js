@@ -2,8 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_splice_call = require("melange.runtime/jscomp/runtime/caml_splice_call.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Caml_splice_call = require("melange.runtime/caml_splice_call.js");
 
 var suites = {
   contents: /* [] */0

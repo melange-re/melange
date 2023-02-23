@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function f(match) {
   if (Caml_exceptions.caml_is_extension(match)) {

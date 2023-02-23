@@ -2,18 +2,19 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Digest = require("melange/jscomp/stdlib-412/stdlib_modules/digest.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
 var Ext_array_test = require("./ext_array_test.js");
+var Stdlib__Digest = require("melange/stdlib_modules/digest.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
 
 function f(x) {
-  return Digest.to_hex(Digest.string(x));
+  return Stdlib__Digest.to_hex(Stdlib__Digest.string(x));
 }
 
 var ref = [
@@ -155,7 +156,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
             (function (param) {
                 return {
                         TAG: /* Eq */0,
-                        _0: Digest.to_hex(Digest.string("value")),
+                        _0: Stdlib__Digest.to_hex(Stdlib__Digest.string("value")),
                         _1: "2063c1608d6e0baf80249c42e2be5804"
                       };
               })
@@ -166,7 +167,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
               (function (param) {
                   return {
                           TAG: /* Eq */0,
-                          _0: Digest.to_hex(Digest.string("The quick brown fox jumps over the lazy dog")),
+                          _0: Stdlib__Digest.to_hex(Stdlib__Digest.string("The quick brown fox jumps over the lazy dog")),
                           _1: "9e107d9d372bb6826bd81d3542a419d6"
                         };
                 })
@@ -177,7 +178,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                 (function (param) {
                     return {
                             TAG: /* Eq */0,
-                            _0: Digest.to_hex(Digest.string("The quick brown fox jumps over the lazy dog.")),
+                            _0: Stdlib__Digest.to_hex(Stdlib__Digest.string("The quick brown fox jumps over the lazy dog.")),
                             _1: "e4d909c290d0fb1ca068ffaddf22cbd0"
                           };
                   })
@@ -188,7 +189,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
-                              _0: Digest.to_hex(Digest.string("")),
+                              _0: Stdlib__Digest.to_hex(Stdlib__Digest.string("")),
                               _1: "d41d8cd98f00b204e9800998ecf8427e"
                             };
                     })
@@ -199,7 +200,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                     (function (param) {
                         return {
                                 TAG: /* Eq */0,
-                                _0: Digest.to_hex(Digest.string("The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.")),
+                                _0: Stdlib__Digest.to_hex(Stdlib__Digest.string("The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.")),
                                 _1: "7065cc36bba1d155fb09f9d02f22e8bf"
                               };
                       })
@@ -210,7 +211,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                       (function (param) {
                           return {
                                   TAG: /* Eq */0,
-                                  _0: Digest.to_hex(Digest.string("The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.")),
+                                  _0: Stdlib__Digest.to_hex(Stdlib__Digest.string("The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.The quick brown fox jumps over the lazy dog.")),
                                   _1: "b9193d1df4b7a8f0a25ffdd1005c5b2b"
                                 };
                         })
@@ -221,9 +222,9 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
               }
             }
           }
-        }, $$Array.to_list($$Array.map((function (i) {
+        }, Stdlib__Array.to_list(Stdlib__Array.map((function (i) {
                     return [
-                            Curry._1(Printf.sprintf(/* Format */{
+                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
                                         TAG: /* Int */4,
                                         _0: /* Int_d */0,
@@ -236,7 +237,7 @@ Mt.from_pair_suites("Digest_test", Stdlib.$at({
                             (function (param) {
                                 return {
                                         TAG: /* Eq */0,
-                                        _0: Digest.to_hex(Digest.string(Caml_bytes.bytes_to_string(Bytes.make(i, /* 'a' */97)))),
+                                        _0: Stdlib__Digest.to_hex(Stdlib__Digest.string(Caml_bytes.bytes_to_string(Stdlib__Bytes.make(i, /* 'a' */97)))),
                                         _1: Caml_array.get(ref, i)
                                       };
                               })

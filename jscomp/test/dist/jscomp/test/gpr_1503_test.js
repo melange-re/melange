@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
-var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
+var Caml_format = require("melange.runtime/caml_format.js");
+var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
 
 var suites = {
   contents: /* [] */0
@@ -45,9 +45,9 @@ var i$p = Caml_format.caml_int64_of_string(s);
 
 eq("File \"gpr_1503_test.ml\", line 18, characters 5-12", i, i$p);
 
-eq("File \"gpr_1503_test.ml\", line 21, characters 7-14", Int64.max_int, Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", Int64.max_int)));
+eq("File \"gpr_1503_test.ml\", line 21, characters 7-14", Stdlib__Int64.max_int, Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", Stdlib__Int64.max_int)));
 
-eq("File \"gpr_1503_test.ml\", line 22, characters 7-14", Int64.min_int, Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", Int64.min_int)));
+eq("File \"gpr_1503_test.ml\", line 22, characters 7-14", Stdlib__Int64.min_int, Caml_format.caml_int64_of_string(Caml_format.caml_int64_format("%d", Stdlib__Int64.min_int)));
 
 Mt.from_pair_suites("Gpr_1503_test", suites.contents);
 

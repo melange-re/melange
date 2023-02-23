@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 function mkI8(a) {
   return new Int8Array(a);
@@ -1483,7 +1483,7 @@ var suites_1 = {
                                                                                                                                                                                         return {
                                                                                                                                                                                                 TAG: /* Eq */0,
                                                                                                                                                                                                 _0: 12,
-                                                                                                                                                                                                _1: new Int32Array($$Array.map((function (prim) {
+                                                                                                                                                                                                _1: new Int32Array(Stdlib__Array.map((function (prim) {
                                                                                                                                                                                                             return prim;
                                                                                                                                                                                                           }), [
                                                                                                                                                                                                           1,
@@ -1543,7 +1543,7 @@ var suites_1 = {
                                                                                                                                                                                             hd: [
                                                                                                                                                                                               "int32_array - unsafe_set - typed_array sanity check",
                                                                                                                                                                                               (function (param) {
-                                                                                                                                                                                                  var a = new Int32Array($$Array.map((function (prim) {
+                                                                                                                                                                                                  var a = new Int32Array(Stdlib__Array.map((function (prim) {
                                                                                                                                                                                                               return prim;
                                                                                                                                                                                                             }), [
                                                                                                                                                                                                             1,

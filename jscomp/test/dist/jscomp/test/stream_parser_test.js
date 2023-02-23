@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Queue = require("melange/jscomp/stdlib-412/stdlib_modules/queue.js");
-var Genlex = require("melange/jscomp/stdlib-412/stdlib_modules/genlex.js");
-var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
-var Caml_int32 = require("melange.runtime/jscomp/runtime/caml_int32.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_int32 = require("melange.runtime/caml_int32.js");
+var Stdlib__Queue = require("melange/stdlib_modules/queue.js");
+var Stdlib__Genlex = require("melange/stdlib_modules/genlex.js");
+var Stdlib__Stream = require("melange/stdlib_modules/stream.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Stream_parser_test.Parse_error");
 
@@ -19,7 +19,7 @@ function parse(token) {
   };
   var token$1 = function (param) {
     if (look_ahead.length !== 0) {
-      return Queue.pop(look_ahead);
+      return Stdlib__Queue.pop(look_ahead);
     }
     try {
       return Curry._1(token, undefined);
@@ -54,7 +54,7 @@ function parse(token) {
                   Error: new Error()
                 };
           }
-          Queue.push(n, look_ahead);
+          Stdlib__Queue.push(n, look_ahead);
           throw {
                 RE_EXN_ID: Parse_error,
                 _1: "unexpected token",
@@ -63,7 +63,7 @@ function parse(token) {
       case /* Int */2 :
           return n._0;
       default:
-        Queue.push(n, look_ahead);
+        Stdlib__Queue.push(n, look_ahead);
         throw {
               RE_EXN_ID: Parse_error,
               _1: "unexpected token",
@@ -80,11 +80,11 @@ function parse(token) {
         case "/" :
             return Caml_int32.div(e1, parse_term_aux(parse_atom(undefined)));
         default:
-          Queue.push(e, look_ahead);
+          Stdlib__Queue.push(e, look_ahead);
           return e1;
       }
     } else {
-      Queue.push(e, look_ahead);
+      Stdlib__Queue.push(e, look_ahead);
       return e1;
     }
   };
@@ -97,18 +97,18 @@ function parse(token) {
         case "-" :
             return e1 - parse_expr_aux(parse_term_aux(parse_atom(undefined))) | 0;
         default:
-          Queue.push(e, look_ahead);
+          Stdlib__Queue.push(e, look_ahead);
           return e1;
       }
     } else {
-      Queue.push(e, look_ahead);
+      Stdlib__Queue.push(e, look_ahead);
       return e1;
     }
   };
   var r = parse_expr_aux(parse_term_aux(parse_atom(undefined)));
   return [
           r,
-          Queue.fold((function (acc, x) {
+          Stdlib__Queue.fold((function (acc, x) {
                   return {
                           hd: x,
                           tl: acc
@@ -117,7 +117,7 @@ function parse(token) {
         ];
 }
 
-var lexer = Genlex.make_lexer({
+var lexer = Stdlib__Genlex.make_lexer({
       hd: "(",
       tl: {
         hd: "*",
@@ -140,7 +140,7 @@ var lexer = Genlex.make_lexer({
 function token(chars) {
   var strm = lexer(chars);
   return function (param) {
-    return Stream.next(strm);
+    return Stdlib__Stream.next(strm);
   };
 }
 
@@ -152,7 +152,7 @@ function l_parse(token) {
   };
   var token$1 = function (param) {
     if (look_ahead.length !== 0) {
-      return Queue.pop(look_ahead);
+      return Stdlib__Queue.pop(look_ahead);
     }
     try {
       return Curry._1(token, undefined);
@@ -177,11 +177,11 @@ function l_parse(token) {
               _a = Caml_int32.div(a, parse_f(undefined));
               continue ;
           default:
-            Queue.push(t, look_ahead);
+            Stdlib__Queue.push(t, look_ahead);
             return a;
         }
       } else {
-        Queue.push(t, look_ahead);
+        Stdlib__Queue.push(t, look_ahead);
         return a;
       }
     };
@@ -237,11 +237,11 @@ function l_parse(token) {
               _a = a - parse_f_aux(parse_f(undefined)) | 0;
               continue ;
           default:
-            Queue.push(t, look_ahead);
+            Stdlib__Queue.push(t, look_ahead);
             return a;
         }
       } else {
-        Queue.push(t, look_ahead);
+        Stdlib__Queue.push(t, look_ahead);
         return a;
       }
     };
@@ -249,7 +249,7 @@ function l_parse(token) {
   var r = parse_t_aux(parse_f_aux(parse_f(undefined)));
   return [
           r,
-          Queue.fold((function (acc, x) {
+          Stdlib__Queue.fold((function (acc, x) {
                   return {
                           hd: x,
                           tl: acc
@@ -283,7 +283,7 @@ function eq(loc, x, y) {
   };
 }
 
-var match = parse(token(Stream.of_string("1 + 2 + (3  - 2) * 3 * 3  - 2 a")));
+var match = parse(token(Stdlib__Stream.of_string("1 + 2 + (3  - 2) * 3 * 3  - 2 a")));
 
 eq("File \"stream_parser_test.ml\", line 132, characters 5-12", [
       match[0],
@@ -308,7 +308,7 @@ eq("File \"stream_parser_test.ml\", line 133, characters 5-12", [
         },
         tl: /* [] */0
       }
-    ], parse(token(Stream.of_string("3 - 2  - 1"))));
+    ], parse(token(Stdlib__Stream.of_string("3 - 2  - 1"))));
 
 eq("File \"stream_parser_test.ml\", line 134, characters 5-12", [
       0,
@@ -319,7 +319,7 @@ eq("File \"stream_parser_test.ml\", line 134, characters 5-12", [
         },
         tl: /* [] */0
       }
-    ], l_parse(token(Stream.of_string("3 - 2  - 1"))));
+    ], l_parse(token(Stdlib__Stream.of_string("3 - 2  - 1"))));
 
 Mt.from_pair_suites("Stream_parser_test", suites.contents);
 

@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Lazy = require("melange/jscomp/stdlib-412/stdlib_modules/lazy.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_module = require("melange.runtime/jscomp/runtime/caml_module.js");
-var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
-var Caml_external_polyfill = require("melange.runtime/jscomp/runtime/caml_external_polyfill.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_module = require("melange.runtime/caml_module.js");
+var Stdlib__Lazy = require("melange/stdlib_modules/lazy.js");
+var CamlinternalLazy = require("melange/stdlib_modules/camlinternalLazy.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
 
 var suites = {
   contents: /* [] */0
@@ -113,7 +113,7 @@ try {
 }
 catch (raw_exn){
   var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-  if (exn.RE_EXN_ID === Lazy.Undefined) {
+  if (exn.RE_EXN_ID === Stdlib__Lazy.Undefined) {
     tmp = -1;
   } else {
     throw exn;

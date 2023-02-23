@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("../mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
+var Caml = require("melange.runtime/caml.js");
+var Stdlib = require("melange/./stdlib.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 function height(x) {
   if (x) {
@@ -132,7 +132,7 @@ function add(x, data, tree) {
   }
 }
 
-var m = List.fold_left((function (acc, param) {
+var m = Stdlib__List.fold_left((function (acc, param) {
         return add(param[0], param[1], acc);
       }), /* Empty */0, {
       hd: [

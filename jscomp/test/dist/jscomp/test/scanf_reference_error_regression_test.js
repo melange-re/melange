@@ -2,11 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
 var Mt_global = require("./mt_global.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
 
 var suites = {
   contents: /* [] */0
@@ -21,7 +22,7 @@ function eq(f, param) {
 }
 
 function scan_rest(ib, accu) {
-  return Curry._1(Scanf.bscanf(ib, /* Format */{
+  return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
                   _0: {
                     TAG: /* Scan_char_set */20,
                     _0: undefined,
@@ -33,7 +34,7 @@ function scan_rest(ib, accu) {
                 if (param === "]") {
                   return accu;
                 } else {
-                  return Curry._1(Scanf.bscanf(ib, /* Format */{
+                  return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Char_literal */12,
                                     _0: /* ' ' */32,
@@ -55,7 +56,7 @@ function scan_rest(ib, accu) {
                                   hd: i,
                                   tl: accu
                                 };
-                                return Curry._1(Scanf.bscanf(ib, /* Format */{
+                                return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
                                                 _0: {
                                                   TAG: /* Scan_char_set */20,
                                                   _0: 1,
@@ -70,19 +71,14 @@ function scan_rest(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  var s = Printf.sprintf(/* Format */{
-                                                        _0: {
-                                                          TAG: /* String_literal */11,
-                                                          _0: "scan_int_list",
-                                                          _1: /* End_of_format */0
-                                                        },
-                                                        _1: "scan_int_list"
-                                                      });
-                                                  throw {
-                                                        RE_EXN_ID: "Failure",
-                                                        _1: s,
-                                                        Error: new Error()
-                                                      };
+                                                  return Stdlib.failwith(Stdlib__Printf.sprintf(/* Format */{
+                                                                  _0: {
+                                                                    TAG: /* String_literal */11,
+                                                                    _0: "scan_int_list",
+                                                                    _1: /* End_of_format */0
+                                                                  },
+                                                                  _1: "scan_int_list"
+                                                                }));
                                               }
                                             }));
                               }));
@@ -91,7 +87,7 @@ function scan_rest(ib, accu) {
 }
 
 function scan_int_list(ib) {
-  Curry._1(Scanf.bscanf(ib, /* Format */{
+  Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
             _0: {
               TAG: /* String_literal */11,
               _0: " [ ",
@@ -99,11 +95,11 @@ function scan_int_list(ib) {
             },
             _1: " [ "
           }), undefined);
-  return List.rev(scan_rest(ib, /* [] */0));
+  return Stdlib__List.rev(scan_rest(ib, /* [] */0));
 }
 
 eq("File \"scanf_reference_error_regression_test.ml\", line 36, characters 5-12", [
-      scan_int_list(Scanf.Scanning.from_string("[]")),
+      scan_int_list(Stdlib__Scanf.Scanning.from_string("[]")),
       /* [] */0
     ]);
 

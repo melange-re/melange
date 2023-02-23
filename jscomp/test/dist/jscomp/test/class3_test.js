@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_oo_curry = require("melange.runtime/jscomp/runtime/caml_oo_curry.js");
-var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
+var CamlinternalOO = require("melange/stdlib_modules/camlinternalOO.js");
 
 var shared = [
   "move",
@@ -262,7 +262,7 @@ CamlinternalOO.set_methods($$class, [
         }),
       len,
       (function (self$5) {
-          return List.length(ints.contents);
+          return Stdlib__List.length(ints.contents);
         })
     ]);
 

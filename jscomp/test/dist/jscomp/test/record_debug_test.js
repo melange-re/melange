@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -85,7 +85,7 @@ var c = [
   5
 ];
 
-console.log(" " + Format.std_formatter + " " + a + " " + c + " ");
+console.log(" " + Stdlib__Format.std_formatter + " " + a + " " + c + " ");
 
 var a_0 = "";
 
@@ -146,7 +146,7 @@ var v3 = {
   ]
 };
 
-var fmt = Format.std_formatter;
+var fmt = Stdlib__Format.std_formatter;
 
 exports.suites = suites;
 exports.test_id = test_id;

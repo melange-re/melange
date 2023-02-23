@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Curry = require("melange.runtime/curry.js");
 var Sexpm = require("./sexpm.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
 
 var suites = {
   contents: /* [] */0
@@ -35,7 +35,7 @@ function eq(loc, param) {
 
 function print_or_error(fmt, x) {
   if (x.NAME === "Error") {
-    return Curry._1(Format.fprintf(fmt)(/* Format */{
+    return Curry._1(Stdlib__Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
@@ -66,7 +66,7 @@ function print_or_error(fmt, x) {
                     _1: "@[Error:%s@]@."
                   }), x.VAL);
   } else {
-    return Curry._2(Format.fprintf(fmt)(/* Format */{
+    return Curry._2(Stdlib__Format.fprintf(fmt)(/* Format */{
                     _0: {
                       TAG: /* Formatting_gen */18,
                       _0: {
@@ -142,7 +142,7 @@ eq("File \"sexpm_test.ml\", line 17, characters 7-14", [
     ]);
 
 eq("File \"sexpm_test.ml\", line 21, characters 7-14", [
-      Curry._2(Format.asprintf(/* Format */{
+      Curry._2(Stdlib__Format.asprintf(/* Format */{
                   _0: {
                     TAG: /* Alpha */15,
                     _0: /* End_of_format */0

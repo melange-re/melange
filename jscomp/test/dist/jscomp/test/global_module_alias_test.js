@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 var suites = {
   contents: /* [] */0
@@ -48,10 +48,10 @@ function f(param) {
   v.contents = v.contents + 1 | 0;
   v.contents = v.contents + 1 | 0;
   v.contents = v.contents + 1 | 0;
-  return List;
+  return Stdlib__List;
 }
 
-eq("File \"global_module_alias_test.ml\", line 51, characters 5-12", List.length({
+eq("File \"global_module_alias_test.ml\", line 51, characters 5-12", Stdlib__List.length({
           hd: 1,
           tl: {
             hd: 2,
@@ -83,12 +83,12 @@ v.contents = v.contents + 1 | 0;
 
 v.contents = v.contents + 1 | 0;
 
-var H = List;
+var H = Stdlib__List;
 
 eq("File \"global_module_alias_test.ml\", line 57, characters 5-12", v.contents, 12);
 
 function g(param) {
-  return List.length({
+  return Stdlib__List.length({
               hd: 1,
               tl: {
                 hd: 2,
@@ -107,7 +107,7 @@ function xx(param) {
   v.contents = v.contents + 1 | 0;
   v.contents = v.contents + 1 | 0;
   v.contents = v.contents + 1 | 0;
-  return List;
+  return Stdlib__List;
 }
 
 eq("File \"global_module_alias_test.ml\", line 86, characters 5-12", g(undefined), 4);
@@ -118,7 +118,7 @@ v.contents = v.contents + 1 | 0;
 
 v.contents = v.contents + 1 | 0;
 
-eq("File \"global_module_alias_test.ml\", line 92, characters 5-12", List.length({
+eq("File \"global_module_alias_test.ml\", line 92, characters 5-12", Stdlib__List.length({
           hd: 1,
           tl: {
             hd: 2,

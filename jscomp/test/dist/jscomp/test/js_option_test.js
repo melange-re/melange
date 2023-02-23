@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_option = require("melange.belt/jscomp/others/js_option.js");
+var Js_option = require("melange.belt/./js_option.js");
 
 function simpleEq(a, b) {
   return a === b;

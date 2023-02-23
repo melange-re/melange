@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
 var Parser_api = require("./parser_api.js");
+var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
 
 var suites = {
   contents: /* [] */0
@@ -17,7 +17,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-var match = Parser_api.implementation(Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
+var match = Parser_api.implementation(Stdlib__Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
 
 if (match) {
   var match$1 = match.hd.pstr_desc;

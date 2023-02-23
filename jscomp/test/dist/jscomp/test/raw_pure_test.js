@@ -5,7 +5,7 @@
 // hello
 'use strict';
 
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 var x0 = null;
 
@@ -23,11 +23,11 @@ function f(x) {
   return x;
 }
 
-var hh = List.length;
+var hh = Stdlib__List.length;
 
 exports.x0 = x0;
 exports.x2 = x2;
 exports.x3 = x3;
 exports.hh = hh;
 exports.f = f;
-/* No side effect */
+/* Stdlib__List Not a pure module */

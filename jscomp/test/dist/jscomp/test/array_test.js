@@ -2,14 +2,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function starts_with(xs, prefix, p) {
   var H = /* @__PURE__ */Caml_exceptions.create("H");
@@ -60,7 +60,7 @@ var array_suites_0 = [
   (function (param) {
       return {
               TAG: /* Eq */0,
-              _0: $$Array.init(5, (function (x) {
+              _0: Stdlib__Array.init(5, (function (x) {
                       return x;
                     })),
               _1: [
@@ -79,17 +79,17 @@ var array_suites_1 = {
     "toList",
     (function (param) {
         var aux = function (xs) {
-          return List.fold_left((function (acc, param) {
+          return Stdlib__List.fold_left((function (acc, param) {
                         return {
                                 hd: [
-                                  $$Array.to_list(param[0]),
+                                  Stdlib__Array.to_list(param[0]),
                                   param[1]
                                 ],
                                 tl: acc
                               };
                       }), /* [] */0, xs);
         };
-        var match = List.split(aux({
+        var match = Stdlib__List.split(aux({
                   hd: [
                     [],
                     /* [] */0
@@ -151,10 +151,10 @@ var array_suites_1 = {
                       Caml_array.make_float(100)
                     ],
                     _1: [
-                      $$Array.init(100, (function (param) {
+                      Stdlib__Array.init(100, (function (param) {
                               return /* 'a' */97;
                             })),
-                      $$Array.init(100, (function (param) {
+                      Stdlib__Array.init(100, (function (param) {
                               return 0;
                             }))
                     ]
@@ -167,7 +167,7 @@ var array_suites_1 = {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: $$Array.sub([
+                      _0: Stdlib__Array.sub([
                             0,
                             1,
                             2,
@@ -190,10 +190,10 @@ var array_suites_1 = {
                   0,
                   0
                 ];
-                var v = $$Array.init(3, (function (x) {
+                var v = Stdlib__Array.init(3, (function (x) {
                         return (x << 1);
                       }));
-                $$Array.blit(v, 1, u, 1, 2);
+                Stdlib__Array.blit(v, 1, u, 1, 2);
                 return {
                         TAG: /* Eq */0,
                         _0: [
@@ -219,10 +219,10 @@ var array_suites_1 = {
             hd: [
               "File \"array_test.ml\", line 63, characters 2-9",
               (function (param) {
-                  var a0 = $$Array.init(100, (function (i) {
+                  var a0 = Stdlib__Array.init(100, (function (i) {
                           return (i << 0);
                         }));
-                  $$Array.blit(a0, 10, a0, 5, 20);
+                  Stdlib__Array.blit(a0, 10, a0, 5, 20);
                   return {
                           TAG: /* Eq */0,
                           _0: true,
@@ -261,10 +261,10 @@ var array_suites_1 = {
               hd: [
                 "File \"array_test.ml\", line 72, characters 2-9",
                 (function (param) {
-                    var a0 = $$Array.init(100, (function (i) {
+                    var a0 = Stdlib__Array.init(100, (function (i) {
                             return (i << 0);
                           }));
-                    $$Array.blit(a0, 5, a0, 10, 20);
+                    Stdlib__Array.blit(a0, 5, a0, 10, 20);
                     return {
                             TAG: /* Eq */0,
                             _0: true,
@@ -324,7 +324,7 @@ var array_suites_1 = {
                           0,
                           1
                         ];
-                        $$Array.sort(Caml.caml_int_compare, u);
+                        Stdlib__Array.sort(Caml.caml_int_compare, u);
                         return {
                                 TAG: /* Eq */0,
                                 _0: Caml_obj.caml_equal([
@@ -340,10 +340,10 @@ var array_suites_1 = {
                     hd: [
                       "sort_large",
                       (function (param) {
-                          var v = $$Array.init(4, (function (i) {
+                          var v = Stdlib__Array.init(4, (function (i) {
                                   return i % 17;
                                 }));
-                          $$Array.sort(Caml.caml_int_compare, v);
+                          Stdlib__Array.sort(Caml.caml_int_compare, v);
                           return {
                                   TAG: /* Eq */0,
                                   _0: true,

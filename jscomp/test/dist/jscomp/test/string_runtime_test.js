@@ -2,10 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
 var Test_char = require("./test_char.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
 
 var suites_0 = [
   "caml_is_printable",
@@ -22,12 +23,12 @@ var suites_1 = {
   hd: [
     "caml_string_of_bytes",
     (function (param) {
-        var match = List.split(List.map((function (x) {
+        var match = Stdlib__List.split(Stdlib__List.map((function (x) {
                     var b = Caml_bytes.caml_create_bytes(x);
-                    Bytes.fill(b, 0, x, /* 'c' */99);
+                    Stdlib__Bytes.fill(b, 0, x, /* 'c' */99);
                     return [
-                            Bytes.to_string(b),
-                            Caml_bytes.bytes_to_string(Bytes.init(x, (function (param) {
+                            Stdlib__Bytes.to_string(b),
+                            Caml_bytes.bytes_to_string(Stdlib__Bytes.init(x, (function (param) {
                                         return /* 'c' */99;
                                       })))
                           ];

@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var CamlinternalLazy = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalLazy.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var CamlinternalLazy = require("melange/stdlib_modules/camlinternalLazy.js");
 
 var x = {};
 
@@ -109,7 +109,7 @@ function fib(n) {
 }
 
 function zs(param) {
-  return List.hd(xs[0]);
+  return Stdlib__List.hd(xs[0]);
 }
 
 var xs_0 = {
@@ -340,7 +340,7 @@ var suites_1 = {
           return {
                   TAG: /* Eq */0,
                   _0: 1,
-                  _1: List.hd(List.tl(x))
+                  _1: Stdlib__List.hd(Stdlib__List.tl(x))
                 };
         })
     ],

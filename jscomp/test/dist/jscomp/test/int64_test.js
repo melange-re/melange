@@ -2,22 +2,22 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
-var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_int64 = require("melange.runtime/caml_int64.js");
+var Caml_format = require("melange.runtime/caml_format.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
+var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
 var Ext_array_test = require("./ext_array_test.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
 
 function f(u, v) {
   return u > v;
 }
 
-var v = Caml_int64.add(Caml_int64.of_int32(Int32.max_int), Int64.one);
+var v = Caml_int64.add(Caml_int64.of_int32(Stdlib__Int32.max_int), Stdlib__Int64.one);
 
 var h = Caml_int64.neg(v);
 
@@ -42,7 +42,7 @@ function commutative_add(result, a, b) {
 
 var generic_compare = Caml_obj.caml_compare;
 
-var shift_left_tests_0 = $$Array.map((function (i) {
+var shift_left_tests_0 = Stdlib__Array.map((function (i) {
         return Caml_int64.lsl_(Caml_int64.one, i);
       }), Ext_array_test.range(0, 63));
 
@@ -304,7 +304,7 @@ var shift_left_tests = [
   shift_left_tests_1
 ];
 
-var shift_right_tests_0 = $$Array.map((function (i) {
+var shift_right_tests_0 = Stdlib__Array.map((function (i) {
         return Caml_int64.asr_(Caml_int64.min_int, i);
       }), Ext_array_test.range(0, 63));
 
@@ -566,7 +566,7 @@ var shift_right_tests = [
   shift_right_tests_1
 ];
 
-var shift_right_logical_suites_0 = $$Array.map((function (i) {
+var shift_right_logical_suites_0 = Stdlib__Array.map((function (i) {
         return Caml_int64.lsr_(Caml_int64.min_int, i);
       }), Ext_array_test.range(0, 63));
 
@@ -1093,8 +1093,8 @@ var suites = Stdlib.$at({
                                         (function (param) {
                                             return {
                                                     TAG: /* Eq */0,
-                                                    _0: Int64.min_int,
-                                                    _1: Caml_int64.neg(Int64.min_int)
+                                                    _0: Stdlib__Int64.min_int,
+                                                    _1: Caml_int64.neg(Stdlib__Int64.min_int)
                                                   };
                                           })
                                       ],
@@ -1104,8 +1104,8 @@ var suites = Stdlib.$at({
                                           (function (param) {
                                               return {
                                                       TAG: /* Eq */0,
-                                                      _0: Int64.max_int,
-                                                      _1: Caml_int64.neg(Caml_int64.add(Int64.min_int, Caml_int64.one))
+                                                      _0: Stdlib__Int64.max_int,
+                                                      _1: Caml_int64.neg(Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one))
                                                     };
                                             })
                                         ],
@@ -1195,9 +1195,9 @@ var suites = Stdlib.$at({
                                                     (function (param) {
                                                         return {
                                                                 TAG: /* Eq */0,
-                                                                _0: $$Array.map((function (x) {
+                                                                _0: Stdlib__Array.map((function (x) {
                                                                         return Caml_int64.lsl_(Caml_int64.one, x);
-                                                                      }), $$Array.init(64, (function (i) {
+                                                                      }), Stdlib__Array.init(64, (function (i) {
                                                                             return i;
                                                                           }))),
                                                                 _1: [
@@ -1461,9 +1461,9 @@ var suites = Stdlib.$at({
                                                       (function (param) {
                                                           return {
                                                                   TAG: /* Eq */0,
-                                                                  _0: $$Array.map((function (x) {
+                                                                  _0: Stdlib__Array.map((function (x) {
                                                                           return Caml_int64.lsr_(Caml_int64.neg_one, x);
-                                                                        }), $$Array.init(64, (function (i) {
+                                                                        }), Stdlib__Array.init(64, (function (i) {
                                                                               return i;
                                                                             }))),
                                                                   _1: [
@@ -1724,9 +1724,9 @@ var suites = Stdlib.$at({
                                                         (function (param) {
                                                             return {
                                                                     TAG: /* Eq */0,
-                                                                    _0: $$Array.map((function (x) {
+                                                                    _0: Stdlib__Array.map((function (x) {
                                                                             return Caml_int64.asr_(Caml_int64.neg_one, x);
-                                                                          }), $$Array.init(64, (function (i) {
+                                                                          }), Stdlib__Array.init(64, (function (i) {
                                                                                 return i;
                                                                               }))),
                                                                     _1: [
@@ -1821,7 +1821,7 @@ var suites = Stdlib.$at({
                                                             (function (param) {
                                                                 return {
                                                                         TAG: /* Eq */0,
-                                                                        _0: $$Array.map(Caml_int64.of_int32, [
+                                                                        _0: Stdlib__Array.map(Caml_int64.of_int32, [
                                                                               0,
                                                                               -2147483648
                                                                             ]),
@@ -1875,7 +1875,7 @@ var suites = Stdlib.$at({
                                                                   (function (param) {
                                                                       return {
                                                                               TAG: /* Eq */0,
-                                                                              _0: $$Array.map(Caml_int64.to_int32, [
+                                                                              _0: Stdlib__Array.map(Caml_int64.to_int32, [
                                                                                     Caml_int64.zero,
                                                                                     [
                                                                                       0,
@@ -2033,7 +2033,7 @@ var suites = Stdlib.$at({
                                                                                       (function (param) {
                                                                                           return {
                                                                                                   TAG: /* Eq */0,
-                                                                                                  _0: Caml_int64.add(Int64.max_int, Int64.max_int),
+                                                                                                  _0: Caml_int64.add(Stdlib__Int64.max_int, Stdlib__Int64.max_int),
                                                                                                   _1: [
                                                                                                     -1,
                                                                                                     4294967294
@@ -2047,7 +2047,7 @@ var suites = Stdlib.$at({
                                                                                         (function (param) {
                                                                                             return {
                                                                                                     TAG: /* Eq */0,
-                                                                                                    _0: Caml_int64.add(Int64.min_int, Int64.min_int),
+                                                                                                    _0: Caml_int64.add(Stdlib__Int64.min_int, Stdlib__Int64.min_int),
                                                                                                     _1: Caml_int64.zero
                                                                                                   };
                                                                                           })
@@ -2105,9 +2105,9 @@ var suites = Stdlib.$at({
           }
         }
       }
-    }, Stdlib.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+    }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                     return [
-                            Curry._1(Format.asprintf(/* Format */{
+                            Curry._1(Stdlib__Format.asprintf(/* Format */{
                                       _0: {
                                         TAG: /* String_literal */11,
                                         _0: "shift_left_cases ",
@@ -2129,9 +2129,9 @@ var suites = Stdlib.$at({
                                       };
                               })
                           ];
-                  }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                  }), shift_left_tests_0, shift_left_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                         return [
-                                Curry._1(Format.asprintf(/* Format */{
+                                Curry._1(Stdlib__Format.asprintf(/* Format */{
                                           _0: {
                                             TAG: /* String_literal */11,
                                             _0: "shift_right_cases ",
@@ -2153,9 +2153,9 @@ var suites = Stdlib.$at({
                                           };
                                   })
                               ];
-                      }), shift_right_tests_0, shift_right_tests_1)), $$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                      }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                         return [
-                                Curry._1(Format.asprintf(/* Format */{
+                                Curry._1(Stdlib__Format.asprintf(/* Format */{
                                           _0: {
                                             TAG: /* String_literal */11,
                                             _0: "shift_right_logical_cases ",
@@ -2233,7 +2233,7 @@ id("File \"int64_test.ml\", line 208, characters 5-12", [
       536870655
     ]);
 
-eq("File \"int64_test.ml\", line 209, characters 5-12", Caml_int64.div(Int64.min_int, [
+eq("File \"int64_test.ml\", line 209, characters 5-12", Caml_int64.div(Stdlib__Int64.min_int, [
           0,
           10
         ]), [
@@ -2241,12 +2241,12 @@ eq("File \"int64_test.ml\", line 209, characters 5-12", Caml_int64.div(Int64.min
       858993460
     ]);
 
-eq("File \"int64_test.ml\", line 210, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.div(Int64.min_int, [
+eq("File \"int64_test.ml\", line 210, characters 5-12", Caml_format.caml_int64_format("%d", Caml_int64.div(Stdlib__Int64.min_int, [
               0,
               10
             ])), "-922337203685477580");
 
-eq("File \"int64_test.ml\", line 211, characters 5-12", Caml_int64.mul(Int64.min_int, [
+eq("File \"int64_test.ml\", line 211, characters 5-12", Caml_int64.mul(Stdlib__Int64.min_int, [
           0,
           10
         ]), Caml_int64.zero);
@@ -2254,11 +2254,11 @@ eq("File \"int64_test.ml\", line 211, characters 5-12", Caml_int64.mul(Int64.min
 eq("File \"int64_test.ml\", line 212, characters 5-12", Caml_int64.mul([
           0,
           10
-        ], Int64.min_int), Caml_int64.zero);
+        ], Stdlib__Int64.min_int), Caml_int64.zero);
 
-eq("File \"int64_test.ml\", line 213, characters 5-12", Caml_int64.mul(Caml_int64.one, Int64.min_int), Int64.min_int);
+eq("File \"int64_test.ml\", line 213, characters 5-12", Caml_int64.mul(Caml_int64.one, Stdlib__Int64.min_int), Stdlib__Int64.min_int);
 
-eq("File \"int64_test.ml\", line 214, characters 5-12", Caml_int64.mul(Int64.max_int, [
+eq("File \"int64_test.ml\", line 214, characters 5-12", Caml_int64.mul(Stdlib__Int64.max_int, [
           0,
           10
         ]), [
@@ -2266,9 +2266,9 @@ eq("File \"int64_test.ml\", line 214, characters 5-12", Caml_int64.mul(Int64.max
       4294967286
     ]);
 
-eq("File \"int64_test.ml\", line 215, characters 5-12", Caml_int64.add(Int64.max_int, Caml_int64.one), Int64.min_int);
+eq("File \"int64_test.ml\", line 215, characters 5-12", Caml_int64.add(Stdlib__Int64.max_int, Caml_int64.one), Stdlib__Int64.min_int);
 
-eq("File \"int64_test.ml\", line 216, characters 5-12", Caml_int64.add(Int64.min_int, Caml_int64.one), [
+eq("File \"int64_test.ml\", line 216, characters 5-12", Caml_int64.add(Stdlib__Int64.min_int, Caml_int64.one), [
       -2147483648,
       1
     ]);

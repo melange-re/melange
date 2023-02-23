@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
+var Caml_string = require("melange.runtime/caml_string.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 var suites = {
   contents: /* [] */0
@@ -35,7 +35,7 @@ console.log("你好，\n世界");
 console.log("\x3f\u003f\b\t\n\v\f\r\0\"'");
 
 function convert(s) {
-  return $$Array.to_list(Array.from(s, (function (x) {
+  return Stdlib__Array.to_list(Array.from(s, (function (x) {
                     var x$1 = x.codePointAt(0);
                     if (x$1 !== undefined) {
                       return x$1;

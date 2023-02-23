@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Genlex = require("melange/jscomp/stdlib-412/stdlib_modules/genlex.js");
-var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Genlex = require("melange/stdlib_modules/genlex.js");
+var Stdlib__Stream = require("melange/stdlib_modules/stream.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
-var lexer = Genlex.make_lexer({
+var lexer = Stdlib__Genlex.make_lexer({
       hd: "+",
       tl: {
         hd: "-",
@@ -39,12 +39,12 @@ function to_list(s) {
     var acc = _acc;
     var v;
     try {
-      v = Stream.next(s);
+      v = Stdlib__Stream.next(s);
     }
     catch (raw_exn){
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
-      if (exn.RE_EXN_ID === Stream.Failure) {
-        return List.rev(acc);
+      if (exn.RE_EXN_ID === Stdlib__Stream.Failure) {
+        return Stdlib__List.rev(acc);
       }
       throw exn;
     }
@@ -104,7 +104,7 @@ var suites_0 = [
                   }
                 }
               },
-              _1: to_list(lexer(Stream.of_string("3(3 + 2 -1)")))
+              _1: to_list(lexer(Stdlib__Stream.of_string("3(3 + 2 -1)")))
             };
     })
 ];

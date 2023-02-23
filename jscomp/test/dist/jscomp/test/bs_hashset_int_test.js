@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
-var Belt_SetInt = require("melange.belt/jscomp/others/belt_SetInt.js");
+var Belt_Array = require("melange.belt/./belt_Array.js");
+var Belt_SetInt = require("melange.belt/./belt_SetInt.js");
 var Array_data_util = require("./array_data_util.js");
-var Belt_HashSetInt = require("melange.belt/jscomp/others/belt_HashSetInt.js");
-var Belt_SortArrayInt = require("melange.belt/jscomp/others/belt_SortArrayInt.js");
-var Belt_internalBucketsType = require("melange.belt/jscomp/others/belt_internalBucketsType.js");
+var Belt_HashSetInt = require("melange.belt/./belt_HashSetInt.js");
+var Belt_SortArrayInt = require("melange.belt/./belt_SortArrayInt.js");
+var Belt_internalBucketsType = require("melange.belt/./belt_internalBucketsType.js");
 
 var suites = {
   contents: /* [] */0

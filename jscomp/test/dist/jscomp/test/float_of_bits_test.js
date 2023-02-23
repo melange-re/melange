@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_float = require("melange.runtime/jscomp/runtime/caml_float.js");
-var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_float = require("melange.runtime/caml_float.js");
+var Caml_int64 = require("melange.runtime/caml_int64.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
 
 var one_float = [
   1072693248,
@@ -27,12 +27,12 @@ var int32_pairs = [
 ];
 
 function from_pairs(pair) {
-  return List.concat($$Array.to_list($$Array.mapi((function (i, param) {
+  return Stdlib__List.concat(Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
                         var f = param[1];
                         var i32 = param[0];
                         return {
                                 hd: [
-                                  Curry._1(Printf.sprintf(/* Format */{
+                                  Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: "int32_float_of_bits ",
@@ -56,7 +56,7 @@ function from_pairs(pair) {
                                 ],
                                 tl: {
                                   hd: [
-                                    Curry._1(Printf.sprintf(/* Format */{
+                                    Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "int32_bits_of_float ",

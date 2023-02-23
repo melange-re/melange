@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
+var Curry = require("melange.runtime/curry.js");
 var Exception_def = require("./exception_def.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Stdlib__Printexc = require("melange/stdlib_modules/printexc.js");
 
 var suites = {
   contents: /* [] */0
@@ -39,11 +39,11 @@ var Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello");
 
 var A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
 
-Printexc.register_printer(function (s) {
+Stdlib__Printexc.register_printer(function (s) {
       if (s.RE_EXN_ID === Hi) {
         return "hey";
       } else if (s.RE_EXN_ID === A) {
-        return Curry._1(Format.asprintf(/* Format */{
+        return Curry._1(Stdlib__Format.asprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "A(",
@@ -66,20 +66,20 @@ Printexc.register_printer(function (s) {
       }
     });
 
-eq("File \"exception_repr_test.ml\", line 24, characters 7-14", "hey", Printexc.to_string({
+eq("File \"exception_repr_test.ml\", line 24, characters 7-14", "hey", Stdlib__Printexc.to_string({
           RE_EXN_ID: Hi
         }));
 
-eq("File \"exception_repr_test.ml\", line 25, characters 7-14", "A(1)", Printexc.to_string({
+eq("File \"exception_repr_test.ml\", line 25, characters 7-14", "A(1)", Stdlib__Printexc.to_string({
           RE_EXN_ID: A,
           _1: 1
         }));
 
-eq("File \"exception_repr_test.ml\", line 26, characters 7-14", Printexc.to_string({
+eq("File \"exception_repr_test.ml\", line 26, characters 7-14", Stdlib__Printexc.to_string({
             RE_EXN_ID: Hello
           }).startsWith("Exception_repr_test.Hello"), true);
 
-eq("File \"exception_repr_test.ml\", line 27, characters 7-14", "A", Printexc.to_string({
+eq("File \"exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string({
           RE_EXN_ID: Exception_def.A,
           _1: 3
         }));

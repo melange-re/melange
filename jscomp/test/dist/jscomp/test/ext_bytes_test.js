@@ -2,13 +2,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Char = require("melange/stdlib_modules/char.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -43,7 +44,7 @@ function escaped(s) {
     ) | 0;
   }
   if (n === s.length) {
-    return Bytes.copy(s);
+    return Stdlib__Bytes.copy(s);
   }
   var s$p = Caml_bytes.caml_create_bytes(n);
   n = 0;
@@ -155,37 +156,37 @@ function starts_with(xs, prefix, p) {
   }
 }
 
-var a = Bytes.init(100, Char.chr);
+var a = Stdlib__Bytes.init(100, Stdlib__Char.chr);
 
-Bytes.blit(a, 5, a, 10, 10);
+Stdlib__Bytes.blit(a, 5, a, 10, 10);
 
-eq("File \"ext_bytes_test.ml\", line 96, characters 7-14", a, Bytes.of_string("\0\x01\x02\x03\x04\x05\x06\x07\b\t\x05\x06\x07\b\t\n\x0b\f\r\x0e\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
+eq("File \"ext_bytes_test.ml\", line 96, characters 7-14", a, Stdlib__Bytes.of_string("\0\x01\x02\x03\x04\x05\x06\x07\b\t\x05\x06\x07\b\t\n\x0b\f\r\x0e\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
 
-var a$1 = Bytes.init(100, Char.chr);
+var a$1 = Stdlib__Bytes.init(100, Stdlib__Char.chr);
 
-Bytes.blit(a$1, 10, a$1, 5, 10);
+Stdlib__Bytes.blit(a$1, 10, a$1, 5, 10);
 
-eq("File \"ext_bytes_test.ml\", line 102, characters 7-14", a$1, Bytes.of_string("\0\x01\x02\x03\x04\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
+eq("File \"ext_bytes_test.ml\", line 102, characters 7-14", a$1, Stdlib__Bytes.of_string("\0\x01\x02\x03\x04\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
 
-var f = Char.chr;
+var f = Stdlib__Char.chr;
 
-var a$2 = Caml_bytes.bytes_to_string(Bytes.init(100, f));
+var a$2 = Caml_bytes.bytes_to_string(Stdlib__Bytes.init(100, f));
 
-var b = Bytes.init(100, (function (i) {
+var b = Stdlib__Bytes.init(100, (function (i) {
         return /* '\000' */0;
       }));
 
-Bytes.blit_string(a$2, 10, b, 5, 10);
+Stdlib__Bytes.blit_string(a$2, 10, b, 5, 10);
 
-eq("File \"ext_bytes_test.ml\", line 109, characters 7-14", b, Bytes.of_string("\0\0\0\0\0\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));
+eq("File \"ext_bytes_test.ml\", line 109, characters 7-14", b, Stdlib__Bytes.of_string("\0\0\0\0\0\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));
 
-var s = Bytes.init(50000, (function (i) {
-        return Char.chr(i % 137);
+var s = Stdlib__Bytes.init(50000, (function (i) {
+        return Stdlib__Char.chr(i % 137);
       }));
 
-var s1 = Bytes.to_string(s);
+var s1 = Stdlib__Bytes.to_string(s);
 
-var s2 = Bytes.of_string(s1);
+var s2 = Stdlib__Bytes.of_string(s1);
 
 eq("File \"ext_bytes_test.ml\", line 115, characters 7-14", s, s2);
 

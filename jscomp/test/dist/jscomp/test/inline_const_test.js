@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
-var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
+var Caml_int64 = require("melange.runtime/caml_int64.js");
 var Inline_const = require("./inline_const.js");
+var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
 
 var suites = {
   contents: /* [] */0
@@ -49,7 +49,7 @@ eq("File \"inline_const_test.ml\", line 36, characters 5-12", 3e-6, 0.000003);
 var h = Caml_int64.add(Caml_int64.add([
           0,
           100
-        ], Int64.one), Caml_int64.one);
+        ], Stdlib__Int64.one), Caml_int64.one);
 
 Mt.from_pair_suites("File \"inline_const_test.ml\", line 43, characters 22-29", suites.contents);
 

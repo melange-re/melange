@@ -2,23 +2,27 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
-var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_string = require("melange.runtime/caml_string.js");
+var Stdlib__Map = require("melange/stdlib_modules/map.js");
+var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
+var Stdlib__Set = require("melange/stdlib_modules/set.js");
+var Stdlib__Char = require("melange/stdlib_modules/char.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Buffer = require("melange/stdlib_modules/buffer.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -322,28 +326,20 @@ function bal(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      var lr = l.r;
-      var ld = l.d;
-      var lv = l.v;
-      var ll = l.l;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, ld, create(lr, x, d, r));
-      }
-      if (lr) {
-        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
-      }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+    if (!l) {
+      return Stdlib.invalid_arg("Map.bal");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    var lr = l.r;
+    var ld = l.d;
+    var lv = l.v;
+    var ll = l.l;
+    if (height(ll) >= height(lr)) {
+      return create(ll, lv, ld, create(lr, x, d, r));
+    } else if (lr) {
+      return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
+    } else {
+      return Stdlib.invalid_arg("Map.bal");
+    }
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -354,28 +350,20 @@ function bal(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    var rr = r.r;
-    var rd = r.d;
-    var rv = r.v;
-    var rl = r.l;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, x, d, rl), rv, rd, rr);
-    }
-    if (rl) {
-      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+  if (!r) {
+    return Stdlib.invalid_arg("Map.bal");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  var rr = r.r;
+  var rd = r.d;
+  var rv = r.v;
+  var rl = r.l;
+  if (height(rr) >= height(rl)) {
+    return create(create(l, x, d, rl), rv, rd, rr);
+  } else if (rl) {
+    return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
+  } else {
+    return Stdlib.invalid_arg("Map.bal");
+  }
 }
 
 function add(x, data, m) {
@@ -529,27 +517,19 @@ function bal$1(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      var lr = l.r;
-      var lv = l.v;
-      var ll = l.l;
-      if (height$1(ll) >= height$1(lr)) {
-        return create$1(ll, lv, create$1(lr, v, r));
-      }
-      if (lr) {
-        return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
-      }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Set.bal",
-            Error: new Error()
-          };
+    if (!l) {
+      return Stdlib.invalid_arg("Set.bal");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+    var lr = l.r;
+    var lv = l.v;
+    var ll = l.l;
+    if (height$1(ll) >= height$1(lr)) {
+      return create$1(ll, lv, create$1(lr, v, r));
+    } else if (lr) {
+      return create$1(create$1(ll, lv, lr.l), lr.v, create$1(lr.r, v, r));
+    } else {
+      return Stdlib.invalid_arg("Set.bal");
+    }
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -559,27 +539,19 @@ function bal$1(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    var rr = r.r;
-    var rv = r.v;
-    var rl = r.l;
-    if (height$1(rr) >= height$1(rl)) {
-      return create$1(create$1(l, v, rl), rv, rr);
-    }
-    if (rl) {
-      return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Set.bal",
-          Error: new Error()
-        };
+  if (!r) {
+    return Stdlib.invalid_arg("Set.bal");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Set.bal",
-        Error: new Error()
-      };
+  var rr = r.r;
+  var rv = r.v;
+  var rl = r.l;
+  if (height$1(rr) >= height$1(rl)) {
+    return create$1(create$1(l, v, rl), rv, rr);
+  } else if (rl) {
+    return create$1(create$1(l, v, rl.l), rl.v, create$1(rl.r, rv, rr));
+  } else {
+    return Stdlib.invalid_arg("Set.bal");
+  }
 }
 
 function add$1(x, t) {
@@ -627,7 +599,7 @@ var empty = {
 
 function hash(m, accu) {
   var _l = m.marks;
-  var _accu = hash_combine(Hashtbl.hash(m.pmarks), accu);
+  var _accu = hash_combine(Stdlib__Hashtbl.hash(m.pmarks), accu);
   while(true) {
     var accu$1 = _accu;
     var l = _l;
@@ -795,7 +767,7 @@ function rename(ids, x) {
     case /* Alt */1 :
         return mk_expr(ids, {
                     TAG: /* Alt */1,
-                    _0: List.map((function (param) {
+                    _0: Stdlib__List.map((function (param) {
                             return rename(ids, param);
                           }), l._0)
                   });
@@ -1001,18 +973,18 @@ function hash$3(t) {
   return t.hash;
 }
 
-var Table = Hashtbl.Make({
+var Table = Stdlib__Hashtbl.Make({
       equal: equal$1,
       hash: hash$3
     });
 
 function reset_table(a) {
-  $$Array.fill(a, 0, a.length, false);
+  Stdlib__Array.fill(a, 0, a.length, false);
 }
 
 function mark_used_indices(tbl) {
   return function (param) {
-    return List.iter((function (param) {
+    return Stdlib__List.iter((function (param) {
                   switch (param.TAG | 0) {
                     case /* TSeq */0 :
                         return mark_used_indices(tbl)(param._0);
@@ -1021,7 +993,7 @@ function mark_used_indices(tbl) {
                         break;
                     
                   }
-                  List.iter((function (param) {
+                  Stdlib__List.iter((function (param) {
                           var i = param[1];
                           if (i >= 0) {
                             return Caml_array.set(tbl, i, true);
@@ -1055,7 +1027,7 @@ function free_index(tbl_ref, l) {
   return idx;
 }
 
-var remove_matches = List.filter(function (param) {
+var remove_matches = Stdlib__List.filter(function (param) {
       switch (param.TAG | 0) {
         case /* TSeq */0 :
         case /* TExp */1 :
@@ -1083,7 +1055,7 @@ function split_at_match_rec(_l$p, _param) {
             continue ;
         case /* TMatch */2 :
             return [
-                    List.rev(l$p),
+                    Stdlib__List.rev(l$p),
                     Curry._1(remove_matches, param.tl)
                   ];
         
@@ -1124,7 +1096,7 @@ function remove_duplicates(prev, _l, y) {
       case /* TExp */1 :
           if (typeof x._1.def === "number") {
             var r = l.tl;
-            if (List.memq(y.id, prev)) {
+            if (Stdlib__List.memq(y.id, prev)) {
               _l = r;
               continue ;
             }
@@ -1142,7 +1114,7 @@ function remove_duplicates(prev, _l, y) {
           }
           var r$1 = l.tl;
           var x$2 = x._1;
-          if (List.memq(x$2.id, prev)) {
+          if (Stdlib__List.memq(x$2.id, prev)) {
             _l = r$1;
             continue ;
           }
@@ -1209,7 +1181,7 @@ function set_idx(idx, param) {
 
 function filter_marks(b, e, marks) {
   return {
-          marks: List.filter(function (param) {
+          marks: Stdlib__List.filter(function (param) {
                   var i = param[0];
                   if (i < b) {
                     return true;
@@ -1296,7 +1268,7 @@ function delta_1(marks, c, next_cat, prev_cat, x, rem) {
             i,
             -1
           ],
-          tl: List.remove_assq(i, marks.marks)
+          tl: Stdlib__List.remove_assq(i, marks.marks)
         };
         var marks_pmarks = marks.pmarks;
         var marks$1 = {
@@ -1424,11 +1396,11 @@ function delta(tbl_ref, next_cat, $$char, st) {
 }
 
 function flatten_match(m) {
-  var ma = List.fold_left((function (ma, param) {
+  var ma = Stdlib__List.fold_left((function (ma, param) {
           return Caml.caml_int_max(ma, param[0]);
         }), -1, m);
   var res = Caml_array.make(ma + 1 | 0, -1);
-  List.iter((function (param) {
+  Stdlib__List.iter((function (param) {
           Caml_array.set(res, param[0], param[1]);
         }), m);
   return res;
@@ -1547,7 +1519,7 @@ function delta$1(info, cat, c, st) {
   if (desc.idx === len && len > 0) {
     var pos = info.positions;
     info.positions = Caml_array.make((len << 1), 0);
-    $$Array.blit(pos, 0, info.positions, 0, len);
+    Stdlib__Array.blit(pos, 0, info.positions, 0, len);
   }
   return desc;
 }
@@ -1597,7 +1569,7 @@ function loop(info, s, pos, st) {
 
 function $$final(info, st, cat) {
   try {
-    return List.assq(cat, st.final);
+    return Stdlib__List.assq(cat, st.final);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -1624,7 +1596,7 @@ function $$final(info, st, cat) {
 
 function find_initial_state(re, cat) {
   try {
-    return List.assq(cat, re.initial_states);
+    return Stdlib__List.assq(cat, re.initial_states);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -1743,7 +1715,7 @@ function trans_set(cache, cm, s) {
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
     if (exn.RE_EXN_ID === Stdlib.Not_found) {
-      var l = List.fold_right((function (param, l) {
+      var l = Stdlib__List.fold_right((function (param, l) {
               return union(seq(Caml_bytes.get(cm, param[0]), Caml_bytes.get(cm, param[1])), l);
             }), s, /* [] */0);
       cache.contents = Curry._3(add, v, l, cache.contents);
@@ -1774,7 +1746,7 @@ function is_charset(_param) {
       case /* Alternative */2 :
       case /* Intersection */11 :
       case /* Complement */12 :
-          return List.for_all(is_charset, param._0);
+          return Stdlib__List.for_all(is_charset, param._0);
       case /* Difference */13 :
           if (!is_charset(param._0)) {
             return false;
@@ -1809,7 +1781,7 @@ var cupper = union(seq(/* 'A' */65, /* 'Z' */90), union(seq(/* '\192' */192, /* 
 
 var clower = offset(32, cupper);
 
-var calpha = List.fold_right(cadd, {
+var calpha = Stdlib__List.fold_right(cadd, {
       hd: /* '\170' */170,
       tl: {
         hd: /* '\181' */181,
@@ -1876,7 +1848,7 @@ function colorize(c, regexp) {
               return split(regexp._0, c);
           case /* Sequence */1 :
           case /* Alternative */2 :
-              return List.iter(colorize$1, regexp._0);
+              return Stdlib__List.iter(colorize$1, regexp._0);
           case /* Repeat */3 :
           case /* Group */6 :
           case /* No_group */7 :
@@ -1916,12 +1888,12 @@ function flatten_cmap(cm) {
     if (Caml_bytes.get(cm, i) !== /* '\000' */0) {
       v = v + 1 | 0;
     }
-    Caml_bytes.set(c, i, Char.chr(v));
-    Caml_bytes.set(col_repr, v, Char.chr(i));
+    Caml_bytes.set(c, i, Stdlib__Char.chr(v));
+    Caml_bytes.set(col_repr, v, Stdlib__Char.chr(i));
   }
   return [
           c,
-          Bytes.sub(col_repr, 0, v + 1 | 0),
+          Stdlib__Bytes.sub(col_repr, 0, v + 1 | 0),
           v + 1 | 0
         ];
 }
@@ -2375,7 +2347,7 @@ function translate(ids, kind, _ign_group, ign_case, _greedy, pos, cache, c, _s) 
                     ];
             }
             return [
-                    alt(ids, List.map((function(ign_group,greedy){
+                    alt(ids, Stdlib__List.map((function(ign_group,greedy){
                             return function (r$p) {
                               var match = translate(ids, kind, ign_group, ign_case, greedy, pos, cache, c, r$p);
                               return enforce_kind(ids, kind, match[1], match[0]);
@@ -2567,14 +2539,14 @@ function handle_case(_ign_case, _s) {
       case /* Sequence */1 :
           return {
                   TAG: /* Sequence */1,
-                  _0: List.map((function(ign_case){
+                  _0: Stdlib__List.map((function(ign_case){
                       return function (param) {
                         return handle_case(ign_case, param);
                       }
                       }(ign_case)), s._0)
                 };
       case /* Alternative */2 :
-          var l$p = List.map((function(ign_case){
+          var l$p = Stdlib__List.map((function(ign_case){
               return function (param) {
                 return handle_case(ign_case, param);
               }
@@ -2585,7 +2557,7 @@ function handle_case(_ign_case, _s) {
                 })) {
             return {
                     TAG: /* Set */0,
-                    _0: List.fold_left((function (s, r) {
+                    _0: Stdlib__List.fold_left((function (s, r) {
                             return union(s, as_set(r));
                           }), /* [] */0, l$p)
                   };
@@ -2658,26 +2630,26 @@ function handle_case(_ign_case, _s) {
           _ign_case = true;
           continue ;
       case /* Intersection */11 :
-          var l$p$1 = List.map((function(ign_case){
+          var l$p$1 = Stdlib__List.map((function(ign_case){
               return function (r) {
                 return handle_case(ign_case, r);
               }
               }(ign_case)), s._0);
           return {
                   TAG: /* Set */0,
-                  _0: List.fold_left((function (s, r) {
+                  _0: Stdlib__List.fold_left((function (s, r) {
                           return inter(s, as_set(r));
                         }), cany, l$p$1)
                 };
       case /* Complement */12 :
-          var l$p$2 = List.map((function(ign_case){
+          var l$p$2 = Stdlib__List.map((function(ign_case){
               return function (r) {
                 return handle_case(ign_case, r);
               }
               }(ign_case)), s._0);
           return {
                   TAG: /* Set */0,
-                  _0: diff(cany, List.fold_left((function (s, r) {
+                  _0: diff(cany, Stdlib__List.fold_left((function (s, r) {
                               return union(s, as_set(r));
                             }), /* [] */0, l$p$2))
                 };
@@ -2711,9 +2683,9 @@ function anchored(_l) {
     } else {
       switch (l.TAG | 0) {
         case /* Sequence */1 :
-            return List.exists(anchored, l._0);
+            return Stdlib__List.exists(anchored, l._0);
         case /* Alternative */2 :
-            return List.for_all(anchored, l._0);
+            return Stdlib__List.for_all(anchored, l._0);
         case /* Repeat */3 :
             if (l._1 <= 0) {
               return false;
@@ -2768,18 +2740,10 @@ var epsilon = {
 
 function repn(r, i, j) {
   if (i < 0) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Re.repn",
-          Error: new Error()
-        };
+    Stdlib.invalid_arg("Re.repn");
   }
   if (j !== undefined && j < i) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Re.repn",
-          Error: new Error()
-        };
+    Stdlib.invalid_arg("Re.repn");
   }
   return {
           TAG: /* Repeat */3,
@@ -2807,12 +2771,9 @@ function compl(l) {
   };
   if (is_charset(r)) {
     return r;
+  } else {
+    return Stdlib.invalid_arg("Re.compl");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Re.compl",
-        Error: new Error()
-      };
 }
 
 var any = {
@@ -3124,7 +3085,7 @@ function compile(r) {
           }
         });
   var regexp$1 = handle_case(false, regexp);
-  var c = Bytes.make(257, /* '\000' */0);
+  var c = Stdlib__Bytes.make(257, /* '\000' */0);
   var need_lnl = colorize(c, regexp$1);
   var match = flatten_cmap(c);
   var ncol = match[2];
@@ -3162,11 +3123,7 @@ function exec_internal(name, posOpt, lenOpt, groups, re, s) {
   var pos = posOpt !== undefined ? posOpt : 0;
   var len = lenOpt !== undefined ? lenOpt : -1;
   if (pos < 0 || len < -1 || (pos + len | 0) > s.length) {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: name,
-          Error: new Error()
-        };
+    Stdlib.invalid_arg(name);
   }
   var partial = false;
   var slen = s.length;
@@ -3254,7 +3211,7 @@ function offset$1(t, i) {
 function get(t, i) {
   var match = offset$1(t, i);
   var p1 = match[0];
-  return $$String.sub(t.s, p1, match[1] - p1 | 0);
+  return Stdlib__String.sub(t.s, p1, match[1] - p1 | 0);
 }
 
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Parse_error");
@@ -3290,12 +3247,7 @@ function posix_class_of_string(class_) {
     case "xdigit" :
         return xdigit;
     default:
-      var s = "Invalid pcre class: " + class_;
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: s,
-            Error: new Error()
-          };
+      return Stdlib.invalid_arg("Invalid pcre class: " + class_);
   }
 }
 
@@ -3375,7 +3327,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     while(true) {
       var left = _left;
       if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(List.rev(left));
+        return seq$2(Stdlib__List.rev(left));
       }
       _left = {
         hd: piece(undefined),
@@ -3419,7 +3371,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
         var compl$1 = accept(/* '^' */94);
         var cls;
         try {
-          cls = List.find(accept_s, {
+          cls = Stdlib__List.find(accept_s, {
                 hd: "alnum",
                 tl: {
                   hd: "ascii",
@@ -4131,7 +4083,7 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
 
 function re(flagsOpt, pat) {
   var flags = flagsOpt !== undefined ? flagsOpt : /* [] */0;
-  var opts = List.map((function (param) {
+  var opts = Stdlib__List.map((function (param) {
           if (param === "CASELESS") {
             return "Caseless";
           } else if (param === "ANCHORED") {
@@ -4142,15 +4094,15 @@ function re(flagsOpt, pat) {
         }), flags);
   var optsOpt = opts;
   var opts$1 = optsOpt !== undefined ? optsOpt : /* [] */0;
-  var r = parse(List.memq("Multiline", opts$1), List.memq("Dollar_endonly", opts$1), List.memq("Dotall", opts$1), List.memq("Ungreedy", opts$1), pat);
-  var r$1 = List.memq("Anchored", opts$1) ? seq$2({
+  var r = parse(Stdlib__List.memq("Multiline", opts$1), Stdlib__List.memq("Dollar_endonly", opts$1), Stdlib__List.memq("Dotall", opts$1), Stdlib__List.memq("Ungreedy", opts$1), pat);
+  var r$1 = Stdlib__List.memq("Anchored", opts$1) ? seq$2({
           hd: /* Start */8,
           tl: {
             hd: r,
             tl: /* [] */0
           }
         }) : r;
-  if (List.memq("Caseless", opts$1)) {
+  if (Stdlib__List.memq("Caseless", opts$1)) {
     return {
             TAG: /* No_case */10,
             _0: r$1
@@ -4172,7 +4124,7 @@ function exec(rex, pos, s) {
   return substr._0;
 }
 
-var s = Caml_bytes.bytes_to_string(Bytes.make(1048575, /* 'a' */97)) + "b";
+var s = Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1048575, /* 'a' */97)) + "b";
 
 eq("File \"xx.ml\", line 7, characters 3-10", get(exec(compile(re(undefined, "aa?b")), undefined, s), 0), "aab");
 

@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
-var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_string = require("melange.runtime/caml_string.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__Filename = require("melange/stdlib_modules/filename.js");
 
 function generic_basename(is_dir_sep, current_dir_name, name) {
   if (name === "") {
@@ -15,7 +15,7 @@ function generic_basename(is_dir_sep, current_dir_name, name) {
     while(true) {
       var n = _n;
       if (n < 0) {
-        return $$String.sub(name, 0, 1);
+        return Stdlib__String.sub(name, 0, 1);
       }
       if (!Curry._2(is_dir_sep, name, n)) {
         var _n$1 = n;
@@ -23,10 +23,10 @@ function generic_basename(is_dir_sep, current_dir_name, name) {
         while(true) {
           var n$1 = _n$1;
           if (n$1 < 0) {
-            return $$String.sub(name, 0, p);
+            return Stdlib__String.sub(name, 0, p);
           }
           if (Curry._2(is_dir_sep, name, n$1)) {
-            return $$String.sub(name, n$1 + 1 | 0, (p - n$1 | 0) - 1 | 0);
+            return Stdlib__String.sub(name, n$1 + 1 | 0, (p - n$1 | 0) - 1 | 0);
           }
           _n$1 = n$1 - 1 | 0;
           continue ;
@@ -41,7 +41,7 @@ function generic_basename(is_dir_sep, current_dir_name, name) {
 function basename(param) {
   return generic_basename((function (s, i) {
                 return Caml_string.get(s, i) === /* '/' */47;
-              }), Filename.current_dir_name, param);
+              }), Stdlib__Filename.current_dir_name, param);
 }
 
 var suites_0 = [

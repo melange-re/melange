@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_types = require("melange.belt/jscomp/others/js_types.js");
+var Js_types = require("melange.belt/./js_types.js");
 
 var suites = {
   contents: /* [] */0

@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
 
 var suites = {
   contents: /* [] */0
@@ -44,7 +44,7 @@ Caml_bytes.set(b, 1, /* 'b' */98);
 
 Caml_bytes.set(b, 2, /* 'c' */99);
 
-Bytes.blit(b, 0, b, 1, 2);
+Stdlib__Bytes.blit(b, 0, b, 1, 2);
 
 var res = Caml_bytes.bytes_to_string(b);
 
@@ -67,7 +67,7 @@ Caml_bytes.set(b$1, 1, /* 'b' */98);
 
 Caml_bytes.set(b$1, 2, /* 'c' */99);
 
-Bytes.blit(b$1, 1, b$1, 0, 2);
+Stdlib__Bytes.blit(b$1, 1, b$1, 0, 2);
 
 var res2 = Caml_bytes.bytes_to_string(b$1);
 

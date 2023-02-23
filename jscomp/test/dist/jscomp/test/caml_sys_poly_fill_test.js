@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Sys = require("melange/jscomp/stdlib-412/stdlib_modules/sys.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_sys = require("melange.runtime/jscomp/runtime/caml_sys.js");
-var Node_process = require("melange.belt/jscomp/others/node_process.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_sys = require("melange.runtime/caml_sys.js");
+var Stdlib__Sys = require("melange/stdlib_modules/sys.js");
+var Node_process = require("melange.belt/./node_process.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -67,7 +67,7 @@ console.log([
       Caml_sys.caml_sys_getcwd(undefined),
       Caml_sys.caml_sys_time(undefined),
       Caml_sys.caml_sys_argv(0),
-      Sys.executable_name
+      Stdlib__Sys.executable_name
     ]);
 
 Mt.from_pair_suites("Caml_sys_poly_fill_test", suites.contents);

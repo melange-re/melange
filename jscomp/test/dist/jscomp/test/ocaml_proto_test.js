@@ -2,25 +2,27 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Char = require("melange/jscomp/stdlib-412/stdlib_modules/char.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var Parsing = require("melange/jscomp/stdlib-412/stdlib_modules/parsing.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Filename = require("melange/jscomp/stdlib-412/stdlib_modules/filename.js");
-var Printexc = require("melange/jscomp/stdlib-412/stdlib_modules/printexc.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
-var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
-var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Caml_format = require("melange.runtime/caml_format.js");
+var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_string = require("melange.runtime/caml_string.js");
+var Stdlib__Map = require("melange/stdlib_modules/map.js");
+var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
+var Stdlib__Char = require("melange/stdlib_modules/char.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
+var Stdlib__Parsing = require("melange/stdlib_modules/parsing.js");
+var Stdlib__Filename = require("melange/stdlib_modules/filename.js");
+var Stdlib__Printexc = require("melange/stdlib_modules/printexc.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function field(optionsOpt, label, number, type_, name) {
   var options = optionsOpt !== undefined ? optionsOpt : /* [] */0;
@@ -192,7 +194,7 @@ function proto(syntax, file_option, $$package, $$import, message, $$enum, proto$
 function file_option(file_options, name) {
   var x;
   try {
-    x = List.assoc(name, file_options);
+    x = Stdlib__List.assoc(name, file_options);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -207,8 +209,8 @@ function file_option(file_options, name) {
 function rev_split_by_char(c, s) {
   var loop = function (i, l) {
     try {
-      var i$p = $$String.index_from(s, i, c);
-      var s$p = $$String.sub(s, i, i$p - i | 0);
+      var i$p = Stdlib__String.index_from(s, i, c);
+      var s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
                       hd: s$p,
                       tl: l
@@ -218,7 +220,7 @@ function rev_split_by_char(c, s) {
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return {
-                hd: $$String.sub(s, i, s.length - i | 0),
+                hd: Stdlib__String.sub(s, i, s.length - i | 0),
                 tl: l
               };
       }
@@ -238,12 +240,9 @@ function pop_last(param) {
     } else {
       return /* [] */0;
     }
+  } else {
+    return Stdlib.failwith("Invalid argument [] for pop_last");
   }
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "Invalid argument [] for pop_last",
-        Error: new Error()
-      };
 }
 
 function apply_until(f, _param) {
@@ -262,7 +261,7 @@ function apply_until(f, _param) {
 }
 
 function string_of_string_list(l) {
-  return Curry._1(Printf.sprintf(/* Format */{
+  return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* Char_literal */12,
                     _0: /* '[' */91,
@@ -277,7 +276,7 @@ function string_of_string_list(l) {
                     }
                   },
                   _1: "[%s]"
-                }), $$String.concat(",", l));
+                }), Stdlib__String.concat(",", l));
 }
 
 function string_fold_lefti(f, e0, s) {
@@ -323,7 +322,7 @@ function line(param) {
 }
 
 function to_string(param) {
-  return Curry._2(Printf.sprintf(/* Format */{
+  return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "File ",
@@ -375,7 +374,7 @@ var Compilation_error = /* @__PURE__ */Caml_exceptions.create("Ocaml_proto_test.
 
 function prepare_error(e) {
   if (typeof e === "number") {
-    return Printf.sprintf(/* Format */{
+    return Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "Syntax error",
@@ -387,7 +386,7 @@ function prepare_error(e) {
   switch (e.TAG | 0) {
     case /* Unresolved_type */0 :
         var match = e._0;
-        return Curry._3(Printf.sprintf(/* Format */{
+        return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "unresolved type for field name : ",
@@ -421,7 +420,7 @@ function prepare_error(e) {
                       }), match.field_name, match.type_, match.message_name);
     case /* Duplicated_field_number */1 :
         var match$1 = e._0;
-        return Curry._3(Printf.sprintf(/* Format */{
+        return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "duplicated field number for field name: ",
@@ -455,7 +454,7 @@ function prepare_error(e) {
                       }), match$1.field_name, match$1.previous_field_name, match$1.message_name);
     case /* Invalid_default_value */2 :
         var match$2 = e._0;
-        return Curry._2(Printf.sprintf(/* Format */{
+        return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "invalid default value for field name:",
@@ -481,7 +480,7 @@ function prepare_error(e) {
                       }), option_default("", match$2.field_name), match$2.info);
     case /* Unsupported_field_type */3 :
         var match$3 = e._0;
-        return Curry._3(Printf.sprintf(/* Format */{
+        return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "unsupported field type for field name:",
@@ -510,7 +509,7 @@ function prepare_error(e) {
                         _1: "unsupported field type for field name:%s with type:%s in bakend: %s"
                       }), option_default("", match$3.field_name), match$3.field_type, match$3.backend_name);
     case /* Programatic_error */4 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "programmatic error: ",
@@ -523,7 +522,7 @@ function prepare_error(e) {
                         _1: "programmatic error: %s"
                       }), string_of_programmatic_error(e._0));
     case /* Invalid_import_qualifier */5 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -536,7 +535,7 @@ function prepare_error(e) {
                         _1: "%sInvalid import qualified, only 'public' supported"
                       }), to_string(e._0));
     case /* Invalid_file_name */6 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Invalid file name: ",
@@ -553,7 +552,7 @@ function prepare_error(e) {
                         _1: "Invalid file name: %s, format must <name>.proto"
                       }), e._0);
     case /* Import_file_not_found */7 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "File: ",
@@ -570,7 +569,7 @@ function prepare_error(e) {
                         _1: "File: %s, could not be found."
                       }), e._0);
     case /* Invalid_packed_option */8 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Invalid packed option for field: ",
@@ -583,7 +582,7 @@ function prepare_error(e) {
                         _1: "Invalid packed option for field: %s"
                       }), e._0);
     case /* Missing_semicolon_for_enum_value */9 :
-        return Curry._2(Printf.sprintf(/* Format */{
+        return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -600,7 +599,7 @@ function prepare_error(e) {
                         _1: "%sMissing semicolon for enum value: %s"
                       }), to_string(e._1), e._0);
     case /* Invalid_enum_specification */10 :
-        return Curry._2(Printf.sprintf(/* Format */{
+        return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -617,7 +616,7 @@ function prepare_error(e) {
                         _1: "%sMissing enum specification (<identifier> = <id>;) for enum value: %s"
                       }), to_string(e._1), e._0);
     case /* Invalid_mutable_option */11 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Invalid mutable option for field ",
@@ -630,7 +629,7 @@ function prepare_error(e) {
                         _1: "Invalid mutable option for field %s"
                       }), option_default("", e._0));
     case /* Missing_one_of_name */12 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -643,7 +642,7 @@ function prepare_error(e) {
                         _1: "%sMissing oneof name"
                       }), to_string(e._0));
     case /* Invalid_field_label */13 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -656,7 +655,7 @@ function prepare_error(e) {
                         _1: "%sInvalid field label. [required|repeated|optional] expected"
                       }), to_string(e._0));
     case /* Missing_field_label */14 :
-        return Curry._1(Printf.sprintf(/* Format */{
+        return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -669,7 +668,7 @@ function prepare_error(e) {
                         _1: "%sMissing field label. [required|repeated|optional] expected"
                       }), to_string(e._0));
     case /* Parsing_error */15 :
-        return Curry._3(Printf.sprintf(/* Format */{
+        return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "File ",
@@ -723,7 +722,7 @@ function add_loc(loc, exn) {
   }
   var file_name$1 = option_default("", file_name(loc));
   var line$1 = line(loc);
-  var detail = Printexc.to_string(exn);
+  var detail = Stdlib__Printexc.to_string(exn);
   return {
           RE_EXN_ID: Compilation_error,
           _1: {
@@ -735,7 +734,7 @@ function add_loc(loc, exn) {
         };
 }
 
-Printexc.register_printer(function (exn) {
+Stdlib__Printexc.register_printer(function (exn) {
       if (exn.RE_EXN_ID === Compilation_error) {
         return prepare_error(exn._1);
       }
@@ -825,132 +824,128 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      throw {
-            RE_EXN_ID: "Failure",
-            _1: "parser",
-            Error: new Error()
-          };
+      return Stdlib.failwith("parser");
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(_1, undefined, undefined, undefined, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 0);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, _1, undefined, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, _1, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, _1, undefined, undefined, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, _1, undefined, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, _1, undefined, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, undefined, undefined, _1, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, _1, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, _1, undefined, undefined, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, _1, undefined, undefined, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, _1, undefined, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, _1, _2, undefined, undefined);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return proto(undefined, undefined, undefined, undefined, undefined, undefined, _2, _1, undefined);
     }),
   (function (__caml_parser_env) {
-      var _3 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _3;
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 2);
-      var _2 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return $$import(undefined, _2);
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 3);
-      var _3 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return $$import(Caml_option.some(undefined), _3);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 3);
-      Parsing.peek_val(__caml_parser_env, 2);
-      Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
             RE_EXN_ID: Compilation_error,
             _1: {
@@ -961,31 +956,31 @@ var yyact = [
           };
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _2[1];
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _4 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return message(_4, _2[1]);
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 2);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return message(/* [] */0, _2[1]);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
@@ -994,37 +989,37 @@ var yyact = [
   (function (__caml_parser_env) {
       return {
               TAG: /* Message_field */0,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
       return {
               TAG: /* Message_map_field */1,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
       return {
               TAG: /* Message_oneof_field */2,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
       return {
               TAG: /* Message_sub */3,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
       return {
               TAG: /* Message_enum */4,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
       return {
               TAG: /* Message_extension */5,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
@@ -1035,46 +1030,46 @@ var yyact = [
           };
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _4 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return extend(_2[1], _4);
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 2);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return extend(_2[1], /* [] */0);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _2;
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 2);
-      var _3 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _3
@@ -1083,35 +1078,35 @@ var yyact = [
   (function (__caml_parser_env) {
       return {
               TAG: /* Extension_single_number */0,
-              _0: Parsing.peek_val(__caml_parser_env, 0)
+              _0: Stdlib__Parsing.peek_val(__caml_parser_env, 0)
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 2);
-      var _3 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return extension_range_range(_1, {
                   NAME: "Number",
                   VAL: _3
                 });
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 2);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
       return extension_range_range(_1, "Max");
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 4);
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _4 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               oneof_name: _2[1],
               oneof_fields: _4
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 3);
-      Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
             RE_EXN_ID: Compilation_error,
             _1: {
@@ -1125,68 +1120,68 @@ var yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 5);
-      var _2 = Parsing.peek_val(__caml_parser_env, 4);
-      var _4 = Parsing.peek_val(__caml_parser_env, 2);
-      var _5 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return oneof_field(_5, _4, _1[1], _2);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 4);
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _4 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return oneof_field(undefined, _4, _1[1], _2);
     }),
   (function (__caml_parser_env) {
-      var _3 = Parsing.peek_val(__caml_parser_env, 7);
-      var _5 = Parsing.peek_val(__caml_parser_env, 5);
-      var _7 = Parsing.peek_val(__caml_parser_env, 3);
-      var _9 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 7);
+      var _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      var _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return map(undefined, _9, _3[1], _5[1], _7);
     }),
   (function (__caml_parser_env) {
-      var _3 = Parsing.peek_val(__caml_parser_env, 8);
-      var _5 = Parsing.peek_val(__caml_parser_env, 6);
-      var _7 = Parsing.peek_val(__caml_parser_env, 4);
-      var _9 = Parsing.peek_val(__caml_parser_env, 2);
-      var _10 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 8);
+      var _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      var _7 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      var _9 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _10 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return map(_10, _9, _3[1], _5[1], _7);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 6);
-      var _2 = Parsing.peek_val(__caml_parser_env, 5);
-      var _3 = Parsing.peek_val(__caml_parser_env, 4);
-      var _5 = Parsing.peek_val(__caml_parser_env, 2);
-      var _6 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 6);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      var _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _6 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return field(_6, _1, _5, _2[1], _3);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 5);
-      var _2 = Parsing.peek_val(__caml_parser_env, 4);
-      var _3 = Parsing.peek_val(__caml_parser_env, 3);
-      var _5 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return field(undefined, _1, _5, _2[1], _3);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 5);
-      Parsing.peek_val(__caml_parser_env, 4);
-      Parsing.peek_val(__caml_parser_env, 2);
-      Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 5);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
             RE_EXN_ID: Compilation_error,
             _1: {
@@ -1197,10 +1192,10 @@ var yyact = [
           };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 4);
-      Parsing.peek_val(__caml_parser_env, 3);
-      Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 4);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
             RE_EXN_ID: Compilation_error,
             _1: {
@@ -1211,7 +1206,7 @@ var yyact = [
           };
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 0)[1];
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 0)[1];
     }),
   (function (__caml_parser_env) {
       return "required";
@@ -1223,7 +1218,7 @@ var yyact = [
       return "repeated";
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 0);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return "oneof";
     }),
   (function (__caml_parser_env) {
@@ -1233,7 +1228,7 @@ var yyact = [
       return "package";
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 0);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return "import";
     }),
   (function (__caml_parser_env) {
@@ -1273,7 +1268,7 @@ var yyact = [
       return "Optional";
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       throw {
             RE_EXN_ID: Compilation_error,
             _1: {
@@ -1284,81 +1279,81 @@ var yyact = [
           };
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: /* [] */0
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 2);
-      var _3 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _3
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 2);
-      var _3 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _1[1],
               _3
             ];
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _5 = Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _5 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2[1],
               _5
             ];
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 0)[1];
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 0)[1];
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 1)[1];
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 1)[1];
     }),
   (function (__caml_parser_env) {
-      return Parsing.peek_val(__caml_parser_env, 0);
+      return Stdlib__Parsing.peek_val(__caml_parser_env, 0);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return _1 + _2[1];
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _4 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return [
               _2,
               _4
             ];
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Constant_int */2,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Constant_float */3,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       var litteral = _1[1];
       switch (litteral) {
         case "false" :
@@ -1379,16 +1374,16 @@ var yyact = [
       }
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               TAG: /* Constant_string */0,
               _0: _1
             };
     }),
   (function (__caml_parser_env) {
-      var _2 = Parsing.peek_val(__caml_parser_env, 3);
-      var _4 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _4 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       var enum_valuesOpt = _4;
       var enum_name = _2[1];
       var enum_values = enum_valuesOpt !== undefined ? enum_valuesOpt : /* [] */0;
@@ -1403,25 +1398,25 @@ var yyact = [
       return /* [] */0;
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
-      var _2 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      var _2 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               hd: _1,
               tl: _2
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 3);
-      var _3 = Parsing.peek_val(__caml_parser_env, 1);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      var _3 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return {
               enum_value_name: _1[1],
               enum_value_int: _3
             };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 2);
-      Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 2);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       var enum_value = _1[1];
       var loc = _1[0];
       throw {
@@ -1435,115 +1430,115 @@ var yyact = [
           };
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 3);
-      Parsing.peek_val(__caml_parser_env, 1);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 3);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 1);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
-      var _1 = Parsing.peek_val(__caml_parser_env, 0);
+      var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 0);
       return invalid_enum_specification(_1[1], _1[0]);
     }),
   (function (__caml_parser_env) {
       
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
       
     }),
   (function (__caml_parser_env) {
-      Parsing.peek_val(__caml_parser_env, 1);
+      Stdlib__Parsing.peek_val(__caml_parser_env, 1);
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     }),
   (function (__caml_parser_env) {
       throw {
-            RE_EXN_ID: Parsing.YYexit,
-            _1: Parsing.peek_val(__caml_parser_env, 0),
+            RE_EXN_ID: Stdlib__Parsing.YYexit,
+            _1: Stdlib__Parsing.peek_val(__caml_parser_env, 0),
             Error: new Error()
           };
     })
@@ -1563,13 +1558,13 @@ var yytables = {
   tablesize: 470,
   table: "\x16\0!\0\x84\0\x1d\0\xc1\0|\0\xbb\0f\0#\0\x0e\0\x8f\x002\0\x18\0:\0\x96\x000\0\x1b\0\x11\0\x12\0\x13\0\x11\0\x12\0\x13\0e\0`\x009\0g\0:\0\x97\0h\0\x92\0\x99\0\xb4\0\xa8\0\x1e\0i\0\x93\0a\0\xd1\x009\0\xa4\0\xbd\0m\0@\0j\0 \0A\0\x14\0\xa7\0\xb8\0\x14\0\xb9\0\xcf\0A\0\xd6\0B\0\xbf\0!\0i\0\xc5\0h\0\x0e\0B\0/\0\xc8\0\xdf\0%\0\x8c\0\xc2\0\x98\0\x8c\0\xa3\0\xca\0\xac\0\x11\0\x12\0\x13\0\x1e\0!\0\x1b\0&\x006\x007\0\xce\0;\0\x9b\0\x9c\0\x9d\0\x9e\0\xad\0\xa8\0Z\0[\0\\\0\xcc\0\xaa\0\xab\0;\0E\0@\0\xd0\0\x1f\0\xd2\0'\0\x14\0X\0Y\0]\0^\0;\0;\0;\0;\0;\0;\0;\0\xd5\x005\0\xd7\0\x1c\0;\0\xd9\0_\0b\0c\0;\0;\0d\0e\0\xe0\0\xe1\0m\0\xdc\0n\0t\0?\0w\0\x1d\0\xaf\0x\0;\0\xb1\0!\0\x1b\0$\0%\0\xbc\0&\0y\0'\0(\0z\0{\0>\0}\0\x1e\0~\0\x7f\0<\0<\0<\0<\0<\0<\0<\0!\0\x1b\0$\0%\0<\0&\0=\0'\0,\0<\0<\0\x80\0\x82\0\x81\0\x83\0\xaf\0\x85\0\x86\0\xb1\0`\0\x8a\0\xbc\0\x87\0\x8b\0<\0\x8e\0\x8c\0\x91\0+\0\xac\0\x11\0\x12\0\x13\0\x1e\0!\0\x1b\0\x1b\0\x1b\0\x1b\0\x1b\0;\0\x1b\0\x90\0\x1b\0\x94\0\xad\0\x01\0\x02\0\x03\0\x04\0\x05\0\x06\0\x07\0\b\0\t\0\n\0\x0b\0\f\0\x95\0\x9a\0\x14\0F\0G\0H\0I\0J\0K\0L\0M\0N\0O\0P\0Q\0R\0S\0T\0U\0o\0p\0q\0r\0s\0\xa1\0\xa2\0\xa8\0v\0\xba\0\xb7\0\xc0\0\xc6\0\xc9\0V\0!\0!\0!\0!\0!\0!\0!\0!\0!\0\xc3\0!\0!\0!\0!\0\xc7\0\xd3\0!\0!\0\xd4\0\xd8\0\xda\0\xdd\0e\0e\0e\0e\0e\0e\0e\0e\0e\0!\0e\0e\0e\0e\x002\x002\0e\0e\x000\0\xdb\0\xde\0\x13\0 \0 \0 \0 \0 \0 \0 \0 \0 \0e\0 \0 \0 \0 \0m\0\x12\0 \0 \0/\0/\0/\0/\0/\0/\0/\0\x0f\0\x10\0\x14\0m\0/\0i\0 \0h\0\x11\0/\0/\x006\x006\x006\x006\x006\x006\x006\0X\0i\x007\0h\x006\0f\0/\0\"\0-\x006\x006\0@\0@\0@\0@\0@\0@\0@\0\x1f\0\x1f\0\x1f\0\x1f\0@\0\x1f\x006\0\x1f\0\x1f\0@\0@\x005\x005\x005\x005\x005\x005\x005\0\x1c\0\x1c\0\x1c\0\x1c\x005\0\x1c\0@\0\x1c\0\x1c\x005\x005\0?\0?\0?\0?\0?\0?\0?\0\x1d\0\x1d\0\x1d\0\x1d\0?\0\x1d\x005\0\x1d\0\x1d\0?\0?\0>\0>\0>\0>\0>\0>\0>\0\x1e\0\x1e\0\x1e\0\x1e\0>\0\x1e\0?\0\x1e\0\x1e\0>\0>\0=\0=\0=\0=\0=\0=\0=\0,\0,\0,\0,\0=\0,\0>\0,\0,\0=\0=\0`\0`\0`\0`\0\x1a\0`\x004\0`\0`\0+\0+\0+\0+\0=\0+\0 \0+\0+\x006\0=\0u\0\xcb\0\xcd\0?\0\xa0\0\xc4\0",
   check: "\x02\0\0\0Y\0\x04\0\xa1\0;\0\x92\0\t\x01\x06\0\x14\x01g\0\0\0\x1f\x01\x11\x01\x0f\x01\0\0\x06\x01\x01\x01\x02\x01\x03\x01\x01\x01\x02\x01\x03\x01\0\0\x12\x01\x11\x01\x1c\x01\x1f\x01\x1d\x01\x1f\x01\x19\x01|\0\x8b\0\x11\x01\x04\x01\x16\x01\x1f\x01\x1f\x01\xc3\0\x1f\x01\x85\0\x94\0\0\0\x13\x01\x1f\x01\0\0\x16\x01\x1f\x01\x87\0\x8e\0\x1f\x01\x90\0\xc0\0\x16\x01\xd3\0\x1f\x01\x95\0\x05\x01\0\0\xa6\0\0\0\x14\x01\x1f\x01\0\0\xab\0\xde\0\b\x01\x1a\x01\xa1\0{\0\x1a\x01\x1b\x01\xb3\0\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\n\x01\0\0\x1d\x01\xbe\0\x0b\x01\x1c\x01\x1d\x01\x1e\x01\x1f\x01\x10\x01\x11\x01\x19\x01\x1a\x01\x1b\x01\xbb\0\x89\0\x8a\0\x0b\x01\0\0\0\0\xc1\0\0\0\xc3\0\f\x01\x1f\x01\0\0\x1f\x01\0\0\x1f\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\xd1\0\0\0\xd3\0\0\0\x0b\x01\xd6\0\0\0\0\0\x1f\x01\x10\x01\x11\x01\0\0\x1f\x01\xde\0\xdf\0\x1f\x01\xdb\0\x19\x01\0\0\0\0\0\0\0\0\x8b\0\0\0\x1f\x01\x8b\0\x05\x01\x06\x01\x07\x01\b\x01\x94\0\n\x01\x0e\x01\f\x01\r\x01\0\0\x1b\x01\0\0\0\0\0\0\0\0\x1f\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\0\0\f\x01\0\0\x10\x01\x11\x01\x19\x01\x1b\x01\x13\x01\x19\x01\xb5\0\x1d\x01\x12\x01\xb5\0\0\0\x12\x01\xbc\0\x1f\x01\x12\x01\x1f\x01\x1c\x01\x1a\x01\x1f\x01\0\0\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\x1c\x01\f\x01\x12\x01\x10\x01\x01\0\x02\0\x03\0\x04\0\x05\0\x06\0\x07\0\b\0\t\0\n\0\x0b\0\f\0\x1c\x01\x15\x01\x1f\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x07\x01\b\x01\t\x01\n\x01\x0b\x01\f\x01\r\x01\x0e\x01\x0f\x01\x10\x01*\0+\0,\0-\0.\0\x1d\x01\x19\x01\x11\x012\0\x15\x01\x1a\x01\x19\x01\x19\x01\x18\x01\x1f\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x07\x01\b\x01\x1d\x01\n\x01\x0b\x01\f\x01\r\x01\x1a\x01\x1d\x01\x10\x01\x11\x01\x1f\x01\x1b\x01\x1f\x01\x19\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x07\x01\b\x01\x1f\x01\n\x01\x0b\x01\f\x01\r\x01\x1a\x01\x1b\x01\x10\x01\x11\x01\x1a\x01\x17\x01\x1d\x01\0\0\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x07\x01\b\x01\x1f\x01\n\x01\x0b\x01\f\x01\r\x01\x11\x01\0\0\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\0\0\0\0\0\0\x1f\x01\x0b\x01\x11\x01\x1f\x01\x11\x01\0\0\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x13\x01\x1f\x01\x11\x01\x1f\x01\x0b\x01\x11\x01\x1f\x01\x11\x01\x11\x01\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\x1f\x01\f\x01\r\x01\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\x1f\x01\f\x01\r\x01\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\x1f\x01\f\x01\r\x01\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\x1f\x01\f\x01\r\x01\x10\x01\x11\x01\0\x01\x01\x01\x02\x01\x03\x01\x04\x01\x05\x01\x06\x01\x05\x01\x06\x01\x07\x01\b\x01\x0b\x01\n\x01\x1f\x01\f\x01\r\x01\x10\x01\x11\x01\x05\x01\x06\x01\x07\x01\b\x01\x03\0\n\x01\b\0\f\x01\r\x01\x05\x01\x06\x01\x07\x01\b\x01\x1f\x01\n\x01\x05\0\f\x01\r\x01\t\0\x0b\x000\0\xb5\0\xbc\0\f\0\x82\0\xa5\0",
-  error_function: Parsing.parse_error,
+  error_function: Stdlib__Parsing.parse_error,
   names_const: "REQUIRED\0OPTIONAL\0REPEATED\0MESSAGE\0ENUM\0PACKAGE\0PUBLIC\0OPTION\0EXTENSIONS\0EXTEND\0SYNTAX\0TO\0MAX\0MAP\0RBRACE\0LBRACE\0RBRACKET\0LBRACKET\0RPAREN\0LPAREN\0RANGLEB\0LANGLEB\0EQUAL\0SEMICOLON\0COMMA\0EOF\0",
   names_block: "ONE_OF\0IMPORT\0STRING\0INT\0FLOAT\0IDENT\0"
 };
 
 function proto_(lexfun, lexbuf) {
-  return Parsing.yyparse(yytables, 7, lexfun, lexbuf);
+  return Stdlib__Parsing.yyparse(yytables, 7, lexfun, lexbuf);
 }
 
 function update_loc(lexbuf) {
@@ -1600,24 +1595,24 @@ function __ocaml_lex_string_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var l = _l;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
-          var c = Lexing.lexeme_char(lexbuf, 1);
+          var c = Stdlib__Lexing.lexeme_char(lexbuf, 1);
           ___ocaml_lex_state = 55;
           _l = {
-            hd: Char.escaped(c),
+            hd: Stdlib__Char.escaped(c),
             tl: l
           };
           continue ;
       case 1 :
           return /* String_value */{
-                  _0: $$String.concat("", List.rev(l))
+                  _0: Stdlib__String.concat("", Stdlib__List.rev(l))
                 };
       case 2 :
           ___ocaml_lex_state = 55;
           _l = {
-            hd: Lexing.lexeme(lexbuf),
+            hd: Stdlib__Lexing.lexeme(lexbuf),
             tl: l
           };
           continue ;
@@ -1635,21 +1630,21 @@ function __ocaml_lex_multi_line_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var l = _l;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf);
           ___ocaml_lex_state = 47;
           continue ;
       case 1 :
-          Lexing.lexeme(lexbuf);
+          Stdlib__Lexing.lexeme(lexbuf);
           return /* Comment_value */{
-                  _0: $$String.concat("", List.rev(l))
+                  _0: Stdlib__String.concat("", Stdlib__List.rev(l))
                 };
       case 2 :
           ___ocaml_lex_state = 47;
           _l = {
-            hd: Lexing.lexeme(lexbuf),
+            hd: Stdlib__Lexing.lexeme(lexbuf),
             tl: l
           };
           continue ;
@@ -1667,17 +1662,17 @@ function __ocaml_lex_comment_rec(_l, lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var l = _l;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           update_loc(lexbuf);
           return /* Comment_value */{
-                  _0: $$String.concat("", List.rev(l))
+                  _0: Stdlib__String.concat("", Stdlib__List.rev(l))
                 };
       case 1 :
           ___ocaml_lex_state = 41;
           _l = {
-            hd: Lexing.lexeme(lexbuf),
+            hd: Stdlib__Lexing.lexeme(lexbuf),
             tl: l
           };
           continue ;
@@ -1695,7 +1690,7 @@ function lexer(lexbuf) {
   var ___ocaml_lex_state = 0;
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return /* LBRACE */15;
@@ -1746,12 +1741,12 @@ function lexer(lexbuf) {
       case 14 :
           return {
                   TAG: /* INT */3,
-                  _0: Caml_format.caml_int_of_string(Lexing.lexeme(lexbuf))
+                  _0: Caml_format.caml_int_of_string(Stdlib__Lexing.lexeme(lexbuf))
                 };
       case 15 :
           return {
                   TAG: /* FLOAT */4,
-                  _0: Caml_format.caml_float_of_string(Lexing.lexeme(lexbuf))
+                  _0: Caml_format.caml_float_of_string(Stdlib__Lexing.lexeme(lexbuf))
                 };
       case 16 :
           return {
@@ -1767,7 +1762,7 @@ function lexer(lexbuf) {
           continue ;
       case 19 :
           var loc = from_lexbuf(lexbuf);
-          var ident = Lexing.lexeme(lexbuf);
+          var ident = Stdlib__Lexing.lexeme(lexbuf);
           switch (ident) {
             case "enum" :
                 return /* ENUM */4;
@@ -1819,23 +1814,18 @@ function lexer(lexbuf) {
       case 20 :
           return /* EOF */25;
       case 21 :
-          var s$1 = Curry._1(Printf.sprintf(/* Format */{
-                    _0: {
-                      TAG: /* String_literal */11,
-                      _0: "Unknown character found ",
-                      _1: {
-                        TAG: /* String */2,
-                        _0: /* No_padding */0,
-                        _1: /* End_of_format */0
-                      }
-                    },
-                    _1: "Unknown character found %s"
-                  }), Lexing.lexeme(lexbuf));
-          throw {
-                RE_EXN_ID: "Failure",
-                _1: s$1,
-                Error: new Error()
-              };
+          return Stdlib.failwith(Curry._1(Stdlib__Printf.sprintf(/* Format */{
+                              _0: {
+                                TAG: /* String_literal */11,
+                                _0: "Unknown character found ",
+                                _1: {
+                                  TAG: /* String */2,
+                                  _0: /* No_padding */0,
+                                  _1: /* End_of_format */0
+                                }
+                              },
+                              _1: "Unknown character found %s"
+                            }), Stdlib__Lexing.lexeme(lexbuf)));
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -1902,7 +1892,7 @@ function string_of_record_field_type(param) {
     case /* Rft_associative_field */3 :
         var match$1 = param._0;
         if (match$1[0]) {
-          return Curry._3(Printf.sprintf(/* Format */{
+          return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* Char_literal */12,
                             _0: /* '(' */40,
@@ -1931,7 +1921,7 @@ function string_of_record_field_type(param) {
                           _1: "(%s, %s) %s"
                         }), string_of_basic_type(match$1[2][0]), string_of_field_type(match$1[3][0]), "Hashtbl.t");
         } else {
-          return Curry._3(Printf.sprintf(/* Format */{
+          return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* Char_literal */12,
                             _0: /* '(' */40,
@@ -1969,7 +1959,7 @@ function string_of_record_field_type(param) {
 function function_name_of_user_defined(prefix, param) {
   var module_ = param.udt_module;
   if (module_ !== undefined) {
-    return Curry._3(Printf.sprintf(/* Format */{
+    return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String */2,
                       _0: /* No_padding */0,
@@ -1994,7 +1984,7 @@ function function_name_of_user_defined(prefix, param) {
                     _1: "%s.%s_%s"
                   }), module_, prefix, param.udt_type_name);
   } else {
-    return Curry._2(Printf.sprintf(/* Format */{
+    return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String */2,
                       _0: /* No_padding */0,
@@ -2032,7 +2022,7 @@ function string_of_payload_kind(capitalize, payload_kind, packed) {
     s = packed ? "bytes" : "varint";
   }
   if (capitalize !== undefined) {
-    return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
+    return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
   } else {
     return s;
   }
@@ -2083,7 +2073,7 @@ function indentation_prefix(n) {
     case 8 :
         return "                ";
     default:
-      return Caml_bytes.bytes_to_string(Bytes.make(n, /* ' ' */32));
+      return Caml_bytes.bytes_to_string(Stdlib__Bytes.make(n, /* ' ' */32));
   }
 }
 
@@ -2111,7 +2101,7 @@ function print(scope) {
       continue ;
     };
   };
-  return $$String.concat("\n", loop(/* [] */0, 0, scope.items));
+  return Stdlib__String.concat("\n", loop(/* [] */0, 0, scope.items));
 }
 
 function runtime_function(param) {
@@ -2132,11 +2122,7 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "Invalid encoding/OCaml type combination",
-                        Error: new Error()
-                      };
+                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
               
             }
         case /* Pk_bits64 */1 :
@@ -2151,26 +2137,20 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "Invalid encoding/OCaml type combination",
-                        Error: new Error()
-                      };
+                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
               
             }
         case /* Pk_bytes */2 :
             var match$2 = param[2];
-            if (match$2 === 5) {
+            if (match$2 !== 5) {
+              if (match$2) {
+                return Stdlib.failwith("Invalid encoding/OCaml type combination");
+              } else {
+                return "Pbrt.Decoder.string";
+              }
+            } else {
               return "Pbrt.Decoder.bytes";
             }
-            if (!match$2) {
-              return "Pbrt.Decoder.string";
-            }
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "Invalid encoding/OCaml type combination",
-                  Error: new Error()
-                };
         
       }
     } else if (match$1._0) {
@@ -2185,11 +2165,7 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "Invalid encoding/OCaml type combination",
-                  Error: new Error()
-                };
+            return Stdlib.failwith("Invalid encoding/OCaml type combination");
         
       }
     } else {
@@ -2203,17 +2179,16 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "Invalid encoding/OCaml type combination",
-                  Error: new Error()
-                };
+            return Stdlib.failwith("Invalid encoding/OCaml type combination");
         case /* Bt_bool */6 :
             return "Pbrt.Decoder.bool";
         
       }
     }
-  } else if (match === "Encode") {
+  } else {
+    if (match !== "Encode") {
+      return Stdlib.failwith("Invalid encoding/OCaml type combination");
+    }
     var match$3 = param[1];
     if (typeof match$3 === "number") {
       switch (match$3) {
@@ -2229,11 +2204,7 @@ function runtime_function(param) {
               case /* Bt_int64 */4 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "Invalid encoding/OCaml type combination",
-                        Error: new Error()
-                      };
+                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
               
             }
         case /* Pk_bits64 */1 :
@@ -2248,26 +2219,20 @@ function runtime_function(param) {
               case /* Bt_int32 */3 :
               case /* Bt_bytes */5 :
               case /* Bt_bool */6 :
-                  throw {
-                        RE_EXN_ID: "Failure",
-                        _1: "Invalid encoding/OCaml type combination",
-                        Error: new Error()
-                      };
+                  return Stdlib.failwith("Invalid encoding/OCaml type combination");
               
             }
         case /* Pk_bytes */2 :
             var match$4 = param[2];
-            if (match$4 === 5) {
+            if (match$4 !== 5) {
+              if (match$4) {
+                return Stdlib.failwith("Invalid encoding/OCaml type combination");
+              } else {
+                return "Pbrt.Encoder.string";
+              }
+            } else {
               return "Pbrt.Encoder.bytes";
             }
-            if (!match$4) {
-              return "Pbrt.Encoder.string";
-            }
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "Invalid encoding/OCaml type combination",
-                  Error: new Error()
-                };
         
       }
     } else if (match$3._0) {
@@ -2282,11 +2247,7 @@ function runtime_function(param) {
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
         case /* Bt_bool */6 :
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "Invalid encoding/OCaml type combination",
-                  Error: new Error()
-                };
+            return Stdlib.failwith("Invalid encoding/OCaml type combination");
         
       }
     } else {
@@ -2300,22 +2261,12 @@ function runtime_function(param) {
         case /* Bt_string */0 :
         case /* Bt_float */1 :
         case /* Bt_bytes */5 :
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "Invalid encoding/OCaml type combination",
-                  Error: new Error()
-                };
+            return Stdlib.failwith("Invalid encoding/OCaml type combination");
         case /* Bt_bool */6 :
             return "Pbrt.Encoder.bool";
         
       }
     }
-  } else {
-    throw {
-          RE_EXN_ID: "Failure",
-          _1: "Invalid encoding/OCaml type combination",
-          Error: new Error()
-        };
   }
 }
 
@@ -2346,7 +2297,7 @@ function decode_field_f(field_type, pk) {
 function gen_decode_record(and_, param, sc) {
   var r_fields = param.r_fields;
   var r_name = param.r_name;
-  var all_lists = List.fold_left((function (acc, param) {
+  var all_lists = Stdlib__List.fold_left((function (acc, param) {
           var rf_field_type = param.rf_field_type;
           switch (rf_field_type.TAG | 0) {
             case /* Rft_repeated_field */2 :
@@ -2365,7 +2316,7 @@ function gen_decode_record(and_, param, sc) {
           }
         }), /* [] */0, r_fields);
   var process_field_common = function (sc, encoding_number, pk_as_string, f) {
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "| Some (",
@@ -2396,7 +2347,7 @@ function gen_decode_record(and_, param, sc) {
             line$1(sc, "loop ()");
           }));
     line$1(sc, ")");
-    line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "| Some (",
@@ -2415,7 +2366,7 @@ function gen_decode_record(and_, param, sc) {
                   _1: "| Some (%i, pk) -> raise ("
                 }), encoding_number));
     scope(sc, (function (sc) {
-            line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+            line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (",
@@ -2430,7 +2381,7 @@ function gen_decode_record(and_, param, sc) {
                             }
                           },
                           _1: "Protobuf.Decoder.Failure (Protobuf.Decoder.Unexpected_payload (%s, pk))"
-                        }), Curry._2(Printf.sprintf(/* Format */{
+                        }), Curry._2(Stdlib__Printf.sprintf(/* Format */{
                               _0: {
                                 TAG: /* String_literal */11,
                                 _0: "\"Message(",
@@ -2460,7 +2411,7 @@ function gen_decode_record(and_, param, sc) {
     line$1(sc, ")");
   };
   var mutable_record_name = r_name + "_mutable";
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -2481,7 +2432,7 @@ function gen_decode_record(and_, param, sc) {
                 _1: "%s decode_%s d ="
               }), let_decl_of_and(and_), r_name));
   scope(sc, (function (sc) {
-          line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+          line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "let v = default_",
@@ -2502,8 +2453,8 @@ function gen_decode_record(and_, param, sc) {
                   line$1(sc, "match Pbrt.Decoder.key d with");
                   line$1(sc, "| None -> (");
                   scope(sc, (function (sc) {
-                          List.iter((function (field_name) {
-                                  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                          Stdlib__List.iter((function (field_name) {
+                                  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                 _0: {
                                                   TAG: /* String_literal */11,
                                                   _0: "v.",
@@ -2530,7 +2481,7 @@ function gen_decode_record(and_, param, sc) {
                                 }), all_lists);
                         }));
                   line$1(sc, ")");
-                  List.iter((function (param) {
+                  Stdlib__List.iter((function (param) {
                           var rf_field_type = param.rf_field_type;
                           var rf_label = param.rf_label;
                           switch (rf_field_type.TAG | 0) {
@@ -2539,7 +2490,7 @@ function gen_decode_record(and_, param, sc) {
                                 var pk = param$1[2];
                                 var field_type = param$1[0];
                                 return process_field_common(sc, param$1[1], string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
-                                              line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                              line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                             _0: {
                                                               TAG: /* String_literal */11,
                                                               _0: "v.",
@@ -2569,7 +2520,7 @@ function gen_decode_record(and_, param, sc) {
                                 var pk$1 = param$2[2];
                                 var field_type$1 = param$2[0];
                                 return process_field_common(sc, param$2[1], string_of_payload_kind(Caml_option.some(undefined), pk$1, false), (function (sc) {
-                                              line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                              line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                             _0: {
                                                               TAG: /* String_literal */11,
                                                               _0: "v.",
@@ -2605,7 +2556,7 @@ function gen_decode_record(and_, param, sc) {
                                     return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
                                                   line$1(sc, "Pbrt.Decoder.packed_fold (fun () d -> ");
                                                   scope(sc, (function (sc) {
-                                                          line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                                          line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                                         _0: {
                                                                           TAG: /* String_literal */11,
                                                                           _0: "Pbrt.Repeated_field.add (",
@@ -2634,7 +2585,7 @@ function gen_decode_record(and_, param, sc) {
                                                 }));
                                   } else {
                                     return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
-                                                  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                                  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                                 _0: {
                                                                   TAG: /* String_literal */11,
                                                                   _0: "Pbrt.Repeated_field.add (",
@@ -2662,7 +2613,7 @@ function gen_decode_record(and_, param, sc) {
                                   }
                                 } else if (is_packed) {
                                   return process_field_common(sc, encoding_number, "Bytes", (function (sc) {
-                                                line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                                line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                               _0: {
                                                                 TAG: /* String_literal */11,
                                                                 _0: "v.",
@@ -2689,7 +2640,7 @@ function gen_decode_record(and_, param, sc) {
                                               }));
                                 } else {
                                   return process_field_common(sc, encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk$2, false), (function (sc) {
-                                                line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                                line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                               _0: {
                                                                 TAG: /* String_literal */11,
                                                                 _0: "v.",
@@ -2737,7 +2688,7 @@ function gen_decode_record(and_, param, sc) {
                                                       line$1(sc, decode_field_f(value_type, value_pk));
                                                     }));
                                               line$1(sc, ") in");
-                                              var decode_expression = Curry._1(Printf.sprintf(/* Format */{
+                                              var decode_expression = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "(Pbrt.Decoder.map_entry d ~decode_key:",
@@ -2754,7 +2705,7 @@ function gen_decode_record(and_, param, sc) {
                                                         _1: "(Pbrt.Decoder.map_entry d ~decode_key:%s ~decode_value)"
                                                       }), decode_key_f);
                                               if (at) {
-                                                line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                                line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                               _0: {
                                                                 TAG: /* String_literal */11,
                                                                 _0: "let a, b = ",
@@ -2770,7 +2721,7 @@ function gen_decode_record(and_, param, sc) {
                                                               },
                                                               _1: "let a, b = %s in"
                                                             }), decode_expression));
-                                                return line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                                return line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                                     _0: {
                                                                       TAG: /* String_literal */11,
                                                                       _0: "Hashtbl.add v.",
@@ -2787,7 +2738,7 @@ function gen_decode_record(and_, param, sc) {
                                                                     _1: "Hashtbl.add v.%s a b;"
                                                                   }), rf_label));
                                               } else {
-                                                line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                                line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                               _0: {
                                                                 TAG: /* String_literal */11,
                                                                 _0: "v.",
@@ -2804,7 +2755,7 @@ function gen_decode_record(and_, param, sc) {
                                                               _1: "v.%s <- ("
                                                             }), rf_label));
                                                 scope(sc, (function (sc) {
-                                                        line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                                        line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                                       _0: {
                                                                         TAG: /* String */2,
                                                                         _0: /* No_padding */0,
@@ -2830,13 +2781,13 @@ function gen_decode_record(and_, param, sc) {
                                             }));
                             case /* Rft_variant_field */4 :
                                 var param$5 = rf_field_type._0;
-                                return List.iter((function (param) {
+                                return Stdlib__List.iter((function (param) {
                                               var pk = param.vc_payload_kind;
                                               var vc_field_type = param.vc_field_type;
                                               var vc_constructor = param.vc_constructor;
                                               process_field_common(sc, param.vc_encoding_number, string_of_payload_kind(Caml_option.some(undefined), pk, false), (function (sc) {
                                                       if (vc_field_type) {
-                                                        return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                                        return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                                             _0: {
                                                                               TAG: /* String_literal */11,
                                                                               _0: "v.",
@@ -2870,7 +2821,7 @@ function gen_decode_record(and_, param, sc) {
                                                                           }), rf_label, vc_constructor, decode_field_f(vc_field_type._0, pk)));
                                                       } else {
                                                         line$1(sc, "Pbrt.Decoder.empty_nested d;");
-                                                        return line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                                        return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                                             _0: {
                                                                               TAG: /* String_literal */11,
                                                                               _0: "v.",
@@ -2904,7 +2855,7 @@ function gen_decode_record(and_, param, sc) {
                 }));
           line$1(sc, "in");
           line$1(sc, "loop ();");
-          line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+          line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "let v:",
@@ -2927,7 +2878,7 @@ function gen_decode_record(and_, param, sc) {
 function gen_decode_variant(and_, param, sc) {
   var v_constructors = param.v_constructors;
   var v_name = param.v_name;
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -2948,7 +2899,7 @@ function gen_decode_variant(and_, param, sc) {
                 _1: "%s decode_%s d = "
               }), let_decl_of_and(and_), v_name));
   scope(sc, (function (sc) {
-          line$1(sc, Printf.sprintf(/* Format */{
+          line$1(sc, Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "let rec loop () = ",
@@ -2957,7 +2908,7 @@ function gen_decode_variant(and_, param, sc) {
                     _1: "let rec loop () = "
                   }));
           scope(sc, (function (sc) {
-                  line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                  line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "let ret:",
@@ -2975,12 +2926,12 @@ function gen_decode_variant(and_, param, sc) {
                               }), v_name));
                   scope(sc, (function (sc) {
                           line$1(sc, "| None -> failwith \"None of the known key is found\"");
-                          List.iter((function (ctor) {
+                          Stdlib__List.iter((function (ctor) {
                                   var vc_encoding_number = ctor.vc_encoding_number;
                                   var vc_field_type = ctor.vc_field_type;
                                   var vc_constructor = ctor.vc_constructor;
                                   if (vc_field_type) {
-                                    return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                    return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "| Some (",
@@ -3015,7 +2966,7 @@ function gen_decode_variant(and_, param, sc) {
                                                         _1: "| Some (%i, _) -> %s (%s)"
                                                       }), vc_encoding_number, vc_constructor, decode_field_f(vc_field_type._0, ctor.vc_payload_kind)));
                                   } else {
-                                    return line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                    return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "| Some (",
@@ -3059,7 +3010,7 @@ function gen_decode_variant(and_, param, sc) {
 function gen_decode_const_variant(and_, param, sc) {
   var cv_constructors = param.cv_constructors;
   var cv_name = param.cv_name;
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -3081,8 +3032,8 @@ function gen_decode_const_variant(and_, param, sc) {
               }), let_decl_of_and(and_), cv_name));
   scope(sc, (function (sc) {
           line$1(sc, "match Pbrt.Decoder.int_as_varint d with");
-          List.iter((function (param) {
-                  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+          Stdlib__List.iter((function (param) {
+                  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "| ",
@@ -3117,7 +3068,7 @@ function gen_decode_const_variant(and_, param, sc) {
                                 _1: "| %i -> (%s:%s)"
                               }), param[1], param[0], cv_name));
                 }), cv_constructors);
-          line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+          line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "| _ -> failwith \"Unknown value for enum ",
@@ -3165,7 +3116,7 @@ function gen_struct(and_, t, sc) {
 
 function gen_sig(and_, t, sc) {
   var f = function (type_name) {
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "val decode_",
@@ -3185,7 +3136,7 @@ function gen_sig(and_, t, sc) {
                   },
                   _1: "val decode_%s : Pbrt.Decoder.t -> %s"
                 }), type_name, type_name));
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "(** [decode_",
@@ -3249,9 +3200,9 @@ var __log__ = {
 function log(x) {
   var oc = __log__.contents;
   if (oc !== undefined) {
-    return Printf.fprintf(Caml_option.valFromOption(oc), x);
+    return Stdlib__Printf.fprintf(Caml_option.valFromOption(oc), x);
   } else {
-    return Printf.ifprintf(Stdlib.stdout, x);
+    return Stdlib__Printf.ifprintf(Stdlib.stdout, x);
   }
 }
 
@@ -3274,7 +3225,7 @@ function gen_pp_field(field_type) {
   if (typeof field_type !== "number" && field_type.TAG !== /* Ft_basic_type */0) {
     return function_name_of_user_defined("pp", field_type._0);
   }
-  return Curry._1(Printf.sprintf(/* Format */{
+  return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "Pbrt.Pp.pp_",
@@ -3307,7 +3258,7 @@ function gen_pp_record(and_, param, sc) {
             },
             _1: "gen_pp, record_name: %s\n"
           }), r_name);
-  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -3339,10 +3290,10 @@ function gen_pp_record(and_, param, sc) {
           line$1(sc, "let pp_i fmt () =");
           scope(sc, (function (sc) {
                   line$1(sc, "Format.pp_open_vbox fmt 1;");
-                  List.iter((function (record_field) {
+                  Stdlib__List.iter((function (record_field) {
                           var rf_field_type = record_field.rf_field_type;
                           var rf_label = record_field.rf_label;
-                          var var_name = Curry._1(Printf.sprintf(/* Format */{
+                          var var_name = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                     _0: {
                                       TAG: /* String_literal */11,
                                       _0: "v.",
@@ -3357,7 +3308,7 @@ function gen_pp_record(and_, param, sc) {
                           switch (rf_field_type.TAG | 0) {
                             case /* Rft_required */0 :
                                 var field_string_of = gen_pp_field(rf_field_type._0[0]);
-                                return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
                                                       _0: "Pbrt.Pp.pp_record_field \"",
@@ -3391,7 +3342,7 @@ function gen_pp_record(and_, param, sc) {
                                                   }), rf_label, field_string_of, var_name));
                             case /* Rft_optional */1 :
                                 var field_string_of$1 = gen_pp_field(rf_field_type._0[0]);
-                                return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
                                                       _0: "Pbrt.Pp.pp_record_field \"",
@@ -3427,7 +3378,7 @@ function gen_pp_record(and_, param, sc) {
                                 var match = rf_field_type._0;
                                 var field_string_of$2 = gen_pp_field(match[1]);
                                 if (match[0]) {
-                                  return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                  return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "Pbrt.Pp.pp_record_field \"",
@@ -3460,7 +3411,7 @@ function gen_pp_record(and_, param, sc) {
                                                       _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.pp_list %s) fmt (Pbrt.Repeated_field.to_list %s);"
                                                     }), rf_label, field_string_of$2, var_name));
                                 } else {
-                                  return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                  return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "Pbrt.Pp.pp_record_field \"",
@@ -3501,7 +3452,7 @@ function gen_pp_record(and_, param, sc) {
                                       _0: match$1[2][0]
                                     });
                                 var pp_value = gen_pp_field(match$1[3][0]);
-                                return line$1(sc, Curry._5(Printf.sprintf(/* Format */{
+                                return line$1(sc, Curry._5(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
                                                       _0: "Pbrt.Pp.pp_record_field \"",
@@ -3550,7 +3501,7 @@ function gen_pp_record(and_, param, sc) {
                                                     _1: "Pbrt.Pp.pp_record_field \"%s\" (Pbrt.Pp.%s %s %s) fmt %s;"
                                                   }), rf_label, pp_runtime_function, pp_key, pp_value, var_name));
                             case /* Rft_variant_field */4 :
-                                return line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                                return line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                                     _0: {
                                                       TAG: /* String_literal */11,
                                                       _0: "Pbrt.Pp.pp_record_field \"",
@@ -3595,7 +3546,7 @@ function gen_pp_record(and_, param, sc) {
 function gen_pp_variant(and_, param, sc) {
   var v_constructors = param.v_constructors;
   var v_name = param.v_name;
-  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -3625,11 +3576,11 @@ function gen_pp_variant(and_, param, sc) {
               }), let_decl_of_and(and_), v_name, v_name));
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
-          List.iter((function (param) {
+          Stdlib__List.iter((function (param) {
                   var vc_field_type = param.vc_field_type;
                   var vc_constructor = param.vc_constructor;
                   if (!vc_field_type) {
-                    return line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                    return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                         _0: {
                                           TAG: /* String_literal */11,
                                           _0: "| ",
@@ -3655,7 +3606,7 @@ function gen_pp_variant(and_, param, sc) {
                                       }), vc_constructor, vc_constructor));
                   }
                   var field_string_of = gen_pp_field(vc_field_type._0);
-                  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "| ",
@@ -3720,7 +3671,7 @@ function gen_pp_variant(and_, param, sc) {
 function gen_pp_const_variant(and_, param, sc) {
   var cv_constructors = param.cv_constructors;
   var cv_name = param.cv_name;
-  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -3750,9 +3701,9 @@ function gen_pp_const_variant(and_, param, sc) {
               }), let_decl_of_and(and_), cv_name, cv_name));
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
-          List.iter((function (param) {
+          Stdlib__List.iter((function (param) {
                   var name = param[0];
-                  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "| ",
@@ -3799,7 +3750,7 @@ function gen_struct$1(and_, t, sc) {
 
 function gen_sig$1(and_, t, sc) {
   var f = function (type_name) {
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "val pp_",
@@ -3823,7 +3774,7 @@ function gen_sig$1(and_, t, sc) {
                   },
                   _1: "val pp_%s : Format.formatter -> %s -> unit "
                 }), type_name, type_name));
-    line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "(** [pp_",
@@ -3892,28 +3843,20 @@ function bal(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      var lr = l.r;
-      var ld = l.d;
-      var lv = l.v;
-      var ll = l.l;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, ld, create(lr, x, d, r));
-      }
-      if (lr) {
-        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
-      }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+    if (!l) {
+      return Stdlib.invalid_arg("Map.bal");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    var lr = l.r;
+    var ld = l.d;
+    var lv = l.v;
+    var ll = l.l;
+    if (height(ll) >= height(lr)) {
+      return create(ll, lv, ld, create(lr, x, d, r));
+    } else if (lr) {
+      return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
+    } else {
+      return Stdlib.invalid_arg("Map.bal");
+    }
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -3924,28 +3867,20 @@ function bal(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    var rr = r.r;
-    var rd = r.d;
-    var rv = r.v;
-    var rl = r.l;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, x, d, rl), rv, rd, rr);
-    }
-    if (rl) {
-      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+  if (!r) {
+    return Stdlib.invalid_arg("Map.bal");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  var rr = r.r;
+  var rd = r.d;
+  var rv = r.v;
+  var rl = r.l;
+  if (height(rr) >= height(rl)) {
+    return create(create(l, x, d, rl), rv, rd, rr);
+  } else if (rl) {
+    return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
+  } else {
+    return Stdlib.invalid_arg("Map.bal");
+  }
 }
 
 function add(x, data, m) {
@@ -4043,47 +3978,33 @@ var empty_graph = /* Empty */0;
 
 function min_value(param) {
   var x = param[0];
-  if (x !== undefined) {
-    var y = param[1];
-    if (y !== undefined) {
-      return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
-    }
-    throw {
-          RE_EXN_ID: "Failure",
-          _1: "min_value error",
-          Error: new Error()
-        };
+  if (x === undefined) {
+    return Stdlib.failwith("min_value error");
   }
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "min_value error",
-        Error: new Error()
-      };
+  var y = param[1];
+  if (y !== undefined) {
+    return Caml_option.some(Caml_obj.caml_min(Caml_option.valFromOption(x), Caml_option.valFromOption(y)));
+  } else {
+    return Stdlib.failwith("min_value error");
+  }
 }
 
 function eq_value(param) {
   var x = param[0];
-  if (x !== undefined) {
-    var y = param[1];
-    if (y !== undefined) {
-      return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
-    }
-    throw {
-          RE_EXN_ID: "Failure",
-          _1: "eq_value error",
-          Error: new Error()
-        };
+  if (x === undefined) {
+    return Stdlib.failwith("eq_value error");
   }
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "eq_value error",
-        Error: new Error()
-      };
+  var y = param[1];
+  if (y !== undefined) {
+    return Caml_obj.caml_equal(Caml_option.valFromOption(x), Caml_option.valFromOption(y));
+  } else {
+    return Stdlib.failwith("eq_value error");
+  }
 }
 
 function string_of_option(f, x) {
   if (x !== undefined) {
-    return Curry._1(Printf.sprintf(/* Format */{
+    return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Some(",
@@ -4151,7 +4072,7 @@ function strong_connect(g, sccs, stack, index, v) {
     tl: stack
   };
   v.on_stack = true;
-  var match = List.fold_left((function (param, id) {
+  var match = Stdlib__List.fold_left((function (param, id) {
           var index = param[2];
           var stack = param[1];
           var sccs = param[0];
@@ -4269,7 +4190,7 @@ function strong_connect(g, sccs, stack, index, v) {
               }
             },
             _1: "[Graph]   -> stack : %s\n"
-          }), "[" + ($$String.concat(";", List.map((function (param) {
+          }), "[" + (Stdlib__String.concat(";", Stdlib__List.map((function (param) {
                     return String(param.core.id);
                   }), stack$2)) + "]"));
   if (!eq_value([
@@ -4282,7 +4203,7 @@ function strong_connect(g, sccs, stack, index, v) {
             index$1
           ];
   }
-  var match$1 = List.fold_left((function (param, n) {
+  var match$1 = Stdlib__List.fold_left((function (param, n) {
           var splitted = param[2];
           var stack = param[1];
           var scc = param[0];
@@ -4327,7 +4248,7 @@ function strong_connect(g, sccs, stack, index, v) {
             hd: match$1[0],
             tl: sccs$1
           },
-          List.rev(match$1[1]),
+          Stdlib__List.rev(match$1[1]),
           index$1
         ];
 }
@@ -4382,7 +4303,7 @@ function field_options(param) {
 function find_field_option(field_options, option_name) {
   var x;
   try {
-    x = List.assoc(option_name, field_options);
+    x = Stdlib__List.assoc(option_name, field_options);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -4403,13 +4324,13 @@ function type_id_of_type(param) {
 }
 
 function type_of_id(all_types, id) {
-  return List.find((function (t) {
+  return Stdlib__List.find((function (t) {
                 return type_id_of_type(t) === id;
               }), all_types);
 }
 
 function string_of_unresolved(param) {
-  return Curry._3(Printf.sprintf(/* Format */{
+  return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "unresolved:{scope ",
@@ -4446,7 +4367,7 @@ function string_of_unresolved(param) {
 function scope_of_package(s) {
   if (s !== undefined) {
     return {
-            packages: List.rev(rev_split_by_char(/* '.' */46, s)),
+            packages: Stdlib__List.rev(rev_split_by_char(/* '.' */46, s)),
             message_names: /* [] */0
           };
   } else {
@@ -4461,7 +4382,7 @@ function unresolved_of_string(s) {
   var match = rev_split_by_char(/* '.' */46, s);
   if (match) {
     return {
-            scope: List.rev(match.tl),
+            scope: Stdlib__List.rev(match.tl),
             type_name: match.hd,
             from_root: Caml_string.get(s, 0) === /* '.' */46
           };
@@ -4618,7 +4539,7 @@ function compile_default_p2(all_types, field) {
 function get_default(field_name, field_options, field_type) {
   var constant;
   try {
-    constant = List.assoc("default", field_options);
+    constant = Stdlib__List.assoc("default", field_options);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -4655,7 +4576,7 @@ function compile_map_p1(param) {
 function compile_oneof_p1(param) {
   return {
           oneof_name: param.oneof_name,
-          oneof_fields: List.map(compile_field_p1, param.oneof_fields)
+          oneof_fields: Stdlib__List.map(compile_field_p1, param.oneof_fields)
         };
 }
 
@@ -4702,7 +4623,7 @@ function type_of_spec(file_name, file_options, id, scope, spec) {
 }
 
 function compile_enum_p1(file_name, file_options, scope, param) {
-  var enum_values = List.map((function (enum_value) {
+  var enum_values = Stdlib__List.map((function (enum_value) {
           return {
                   enum_value_name: enum_value.enum_value_name,
                   enum_value_int: enum_value.enum_value_int
@@ -4728,7 +4649,7 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
     packages: sub_scope_packages,
     message_names: sub_scope_message_names
   };
-  var match = List.fold_left((function (param, f) {
+  var match = Stdlib__List.fold_left((function (param, f) {
           var all_types = param[2];
           var extensions = param[1];
           var message_body = param[0];
@@ -4801,12 +4722,12 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
         /* [] */0,
         /* [] */0
       ], param.message_body);
-  var message_body = List.rev(match[0]);
+  var message_body = Stdlib__List.rev(match[0]);
   var validate_duplicate = function (number_index, field) {
     var number = field_number(field);
     var name = field_name(field);
     if (not_found(function (param) {
-            List.assoc(number, number_index);
+            Stdlib__List.assoc(number, number_index);
           }) && not_found(function (param) {
             list_assoc2(name, number_index);
           })) {
@@ -4833,12 +4754,12 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
           };
     }
   };
-  List.fold_left((function (number_index, f) {
+  Stdlib__List.fold_left((function (number_index, f) {
           switch (f.TAG | 0) {
             case /* Message_field */0 :
                 return validate_duplicate(number_index, f._0);
             case /* Message_oneof_field */1 :
-                return List.fold_left(validate_duplicate, number_index, f._0.oneof_fields);
+                return Stdlib__List.fold_left(validate_duplicate, number_index, f._0.oneof_fields);
             case /* Message_map_field */2 :
                 return number_index;
             
@@ -4860,13 +4781,13 @@ function compile_message_p1(file_name, file_options, message_scope, param) {
 function compile_proto_p1(file_name, param) {
   var file_options = param.file_options;
   var scope = scope_of_package(param.package);
-  var pbtt_msgs = List.fold_right((function (e, pbtt_msgs) {
+  var pbtt_msgs = Stdlib__List.fold_right((function (e, pbtt_msgs) {
           return {
                   hd: compile_enum_p1(file_name, file_options, scope, e),
                   tl: pbtt_msgs
                 };
         }), param.enums, /* [] */0);
-  return List.fold_left((function (pbtt_msgs, pbpt_msg) {
+  return Stdlib__List.fold_left((function (pbtt_msgs, pbpt_msg) {
                 return Stdlib.$at(pbtt_msgs, compile_message_p1(file_name, file_options, scope, pbpt_msg));
               }), pbtt_msgs, param.messages);
 }
@@ -4880,7 +4801,7 @@ function is_empty_message(param) {
   if (match.TAG === /* Enum */0) {
     return false;
   } else {
-    return 0 === List.length(match._0.message_body);
+    return 0 === Stdlib__List.length(match._0.message_body);
   }
 }
 
@@ -4894,7 +4815,7 @@ function type_name_of_type(param) {
 }
 
 function find_all_types_in_field_scope(all_types, scope) {
-  return List.filter(function (t) {
+  return Stdlib__List.filter(function (t) {
                 var match = type_scope_of_type(t);
                 var dec_scope = Stdlib.$at(match.packages, match.message_names);
                 return Caml_obj.caml_equal(dec_scope, scope);
@@ -4932,7 +4853,7 @@ function compile_message_p2(types, param, message) {
         continue ;
       };
     };
-    return List.rev(loop(/* [] */0, message_scope));
+    return Stdlib__List.rev(loop(/* [] */0, message_scope));
   };
   var compile_field_p2 = function (field_name, field_type) {
     Curry._1(log(/* Format */{
@@ -4984,7 +4905,7 @@ function compile_message_p2(types, param, message) {
               },
               _1: "[pbtt] message scope: %s\n"
             }), string_of_string_list(message_scope));
-    List.iteri((function (i, scope) {
+    Stdlib__List.iteri((function (i, scope) {
             Curry._2(log(/* Format */{
                       _0: {
                         TAG: /* String_literal */11,
@@ -5019,7 +4940,7 @@ function compile_message_p2(types, param, message) {
     var id = apply_until((function (scope) {
             var types$1 = find_all_types_in_field_scope(types, scope);
             try {
-              var t = List.find((function (t) {
+              var t = Stdlib__List.find((function (t) {
                       return type_name === type_name_of_type(t);
                     }), types$1);
               return type_id_of_type(t);
@@ -5051,7 +4972,7 @@ function compile_message_p2(types, param, message) {
           };
     }
   };
-  var message_body = List.fold_left((function (message_body, field) {
+  var message_body = Stdlib__List.fold_left((function (message_body, field) {
           switch (field.TAG | 0) {
             case /* Message_field */0 :
                 var field$1 = field._0;
@@ -5086,7 +5007,7 @@ function compile_message_p2(types, param, message) {
                       };
             case /* Message_oneof_field */1 :
                 var oneof = field._0;
-                var oneof_fields = List.fold_left((function (oneof_fields, field) {
+                var oneof_fields = Stdlib__List.fold_left((function (oneof_fields, field) {
                         var field_name$2 = field_name(field);
                         var field_type$2 = field_type(field);
                         var field_type$3 = compile_field_p2(field_name$2, field_type$2);
@@ -5100,7 +5021,7 @@ function compile_message_p2(types, param, message) {
                                 tl: oneof_fields
                               };
                       }), /* [] */0, oneof.oneof_fields);
-                var oneof_fields$1 = List.rev(oneof_fields);
+                var oneof_fields$1 = Stdlib__List.rev(oneof_fields);
                 return {
                         hd: {
                           TAG: /* Message_oneof_field */1,
@@ -5133,7 +5054,7 @@ function compile_message_p2(types, param, message) {
             
           }
         }), /* [] */0, message.message_body);
-  var message_body$1 = List.rev(message_body);
+  var message_body$1 = Stdlib__List.rev(message_body);
   return {
           extensions: message.extensions,
           message_name: message.message_name,
@@ -5150,7 +5071,7 @@ function node_of_proto_type(param) {
             sub: /* [] */0
           };
   }
-  var sub = List.flatten(List.map((function (param) {
+  var sub = Stdlib__List.flatten(Stdlib__List.map((function (param) {
               switch (param.TAG | 0) {
                 case /* Message_field */0 :
                     var field_type = param._0.field_type;
@@ -5163,7 +5084,7 @@ function node_of_proto_type(param) {
                             };
                     }
                 case /* Message_oneof_field */1 :
-                    return List.flatten(List.map((function (param) {
+                    return Stdlib__List.flatten(Stdlib__List.map((function (param) {
                                       var field_type = param.field_type;
                                       if (typeof field_type === "number") {
                                         return /* [] */0;
@@ -5194,14 +5115,14 @@ function node_of_proto_type(param) {
 }
 
 function group(proto) {
-  var g = List.map(node_of_proto_type, proto);
-  var g$1 = List.fold_left((function (m, n) {
+  var g = Stdlib__List.map(node_of_proto_type, proto);
+  var g$1 = Stdlib__List.fold_left((function (m, n) {
           return Curry._3(add, n.id, n, m);
         }), empty_graph, g);
   var sccs = tarjan(g$1);
-  return List.map((function (l) {
-                return List.map((function (id) {
-                              return List.find((function (param) {
+  return Stdlib__List.map((function (l) {
+                return Stdlib__List.map((function (id) {
+                              return Stdlib__List.find((function (param) {
                                             return id === param.id;
                                           }), proto);
                             }), l);
@@ -5241,7 +5162,7 @@ function gen_type_record(mutable_, and_, param, sc) {
     }
   };
   var r_name$1 = mutable_$1 ? r_name + "_mutable" : r_name;
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -5262,11 +5183,11 @@ function gen_type_record(mutable_, and_, param, sc) {
                 _1: "%s %s = {"
               }), type_decl_of_and(and_), r_name$1));
   scope(sc, (function (sc) {
-          List.iter((function (param) {
+          Stdlib__List.iter((function (param) {
                   var rf_field_type = param.rf_field_type;
                   var prefix = field_prefix(rf_field_type, param.rf_mutable);
                   var type_string = string_of_record_field_type(rf_field_type);
-                  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+                  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
@@ -5297,7 +5218,7 @@ function gen_type_record(mutable_, and_, param, sc) {
 
 function gen_type_variant(and_, variant, sc) {
   var v_constructors = variant.v_constructors;
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -5318,11 +5239,11 @@ function gen_type_variant(and_, variant, sc) {
                 _1: "%s %s ="
               }), type_decl_of_and(and_), variant.v_name));
   scope(sc, (function (sc) {
-          List.iter((function (param) {
+          Stdlib__List.iter((function (param) {
                   var vc_field_type = param.vc_field_type;
                   var vc_constructor = param.vc_constructor;
                   if (!vc_field_type) {
-                    return line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                    return line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                         _0: {
                                           TAG: /* String_literal */11,
                                           _0: "| ",
@@ -5336,7 +5257,7 @@ function gen_type_variant(and_, variant, sc) {
                                       }), vc_constructor));
                   }
                   var type_string = string_of_field_type(vc_field_type._0);
-                  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "| ",
@@ -5362,7 +5283,7 @@ function gen_type_variant(and_, variant, sc) {
 
 function gen_type_const_variant(and_, param, sc) {
   var cv_constructors = param.cv_constructors;
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -5383,8 +5304,8 @@ function gen_type_const_variant(and_, param, sc) {
                 _1: "%s %s ="
               }), type_decl_of_and(and_), param.cv_name));
   scope(sc, (function (sc) {
-          List.iter((function (param) {
-                  line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+          Stdlib__List.iter((function (param) {
+                  line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "| ",
@@ -5449,8 +5370,8 @@ var Codegen_type = {
 
 function gen_encode_field_key(sc, number, pk, is_packed) {
   var s = string_of_payload_kind(undefined, pk, is_packed);
-  var s$1 = Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s)));
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  var s$1 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase(Caml_bytes.bytes_of_string(s)));
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "Pbrt.Encoder.key (",
@@ -5475,7 +5396,7 @@ function gen_encode_field_key(sc, number, pk, is_packed) {
                   }
                 },
                 _1: "Pbrt.Encoder.key (%i, Pbrt.%s) encoder; "
-              }), number, Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s$1)))));
+              }), number, Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize(Caml_bytes.bytes_of_string(s$1)))));
 }
 
 function encode_basic_type(bt, pk) {
@@ -5500,7 +5421,7 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
   if (field_type.TAG === /* Ft_basic_type */0) {
     encode_key(sc);
     var rt = encode_basic_type(field_type._0, pk);
-    return line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -5525,7 +5446,7 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
   encode_key(sc);
   var f_name = function_name_of_user_defined("encode", ud);
   if (ud.udt_nested) {
-    return line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Pbrt.Encoder.nested (",
@@ -5550,7 +5471,7 @@ function gen_encode_field_type(with_key, sc, var_name, encoding_number, pk, is_p
                         _1: "Pbrt.Encoder.nested (%s %s) encoder;"
                       }), f_name, var_name));
   } else {
-    return line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    return line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -5592,7 +5513,7 @@ function gen_encode_record(and_, param, sc) {
             },
             _1: "gen_encode_record record_name: %s\n"
           }), r_name);
-  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -5621,13 +5542,13 @@ function gen_encode_record(and_, param, sc) {
                 _1: "%s encode_%s (v:%s) encoder = "
               }), let_decl_of_and(and_), r_name, r_name));
   scope(sc, (function (sc) {
-          List.iter((function (record_field) {
+          Stdlib__List.iter((function (record_field) {
                   var rf_field_type = record_field.rf_field_type;
                   var rf_label = record_field.rf_label;
                   switch (rf_field_type.TAG | 0) {
                     case /* Rft_required */0 :
                         var match = rf_field_type._0;
-                        var var_name = Curry._1(Printf.sprintf(/* Format */{
+                        var var_name = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "v.",
@@ -5647,7 +5568,7 @@ function gen_encode_record(and_, param, sc) {
                         var field_type = match$1[0];
                         line$1(sc, "(");
                         scope(sc, (function (sc) {
-                                line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "match v.",
@@ -5663,7 +5584,7 @@ function gen_encode_record(and_, param, sc) {
                                               },
                                               _1: "match v.%s with "
                                             }), rf_label));
-                                line$1(sc, Printf.sprintf(/* Format */{
+                                line$1(sc, Stdlib__Printf.sprintf(/* Format */{
                                           _0: {
                                             TAG: /* String_literal */11,
                                             _0: "| Some x -> (",
@@ -5693,7 +5614,7 @@ function gen_encode_record(and_, param, sc) {
                                     scope(sc, (function (sc) {
                                             gen_encode_field_type(undefined, sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
                                           }));
-                                    line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                    line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                   _0: {
                                                     TAG: /* String_literal */11,
                                                     _0: ") v.",
@@ -5716,7 +5637,7 @@ function gen_encode_record(and_, param, sc) {
                             scope(sc, (function (sc) {
                                     gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
                                   }));
-                            return line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                            return line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                 _0: {
                                                   TAG: /* String_literal */11,
                                                   _0: ") v.",
@@ -5741,7 +5662,7 @@ function gen_encode_record(and_, param, sc) {
                                   scope(sc, (function (sc) {
                                           gen_encode_field_type(undefined, sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
                                         }));
-                                  line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                  line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                 _0: {
                                                   TAG: /* String_literal */11,
                                                   _0: ") v.",
@@ -5764,7 +5685,7 @@ function gen_encode_record(and_, param, sc) {
                           scope(sc, (function (sc) {
                                   gen_encode_field_type(Caml_option.some(undefined), sc, "x", encoding_number$1, pk$1, is_packed, field_type$1);
                                 }));
-                          return line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                          return line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: ") v.",
@@ -5789,7 +5710,7 @@ function gen_encode_record(and_, param, sc) {
                         var match$5 = match$3[2];
                         var key_pk = match$5[1];
                         var encoding_number$2 = match$3[1];
-                        line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                        line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
                                         TAG: /* String_literal */11,
                                         _0: "let encode_key = ",
@@ -5817,7 +5738,7 @@ function gen_encode_record(and_, param, sc) {
                         }
                         scope(sc, (function (sc) {
                                 gen_encode_field_key(sc, encoding_number$2, /* Pk_bytes */2, false);
-                                line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+                                line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "let map_entry = (k, Pbrt.",
@@ -5843,7 +5764,7 @@ function gen_encode_record(and_, param, sc) {
                                             }), string_of_payload_kind(Caml_option.some(undefined), key_pk, false), string_of_payload_kind(Caml_option.some(undefined), value_pk, false)));
                                 line$1(sc, "Pbrt.Encoder.map_entry ~encode_key ~encode_value map_entry encoder");
                               }));
-                        return line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                        return line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: ") v.",
@@ -5863,7 +5784,7 @@ function gen_encode_record(and_, param, sc) {
                         var v_constructors = rf_field_type._0.v_constructors;
                         line$1(sc, "(");
                         scope(sc, (function (sc) {
-                                line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                               _0: {
                                                 TAG: /* String_literal */11,
                                                 _0: "match v.",
@@ -5879,14 +5800,14 @@ function gen_encode_record(and_, param, sc) {
                                               },
                                               _1: "match v.%s with"
                                             }), rf_label));
-                                List.iter((function (param) {
+                                Stdlib__List.iter((function (param) {
                                         var vc_payload_kind = param.vc_payload_kind;
                                         var vc_encoding_number = param.vc_encoding_number;
                                         var vc_field_type = param.vc_field_type;
                                         var vc_constructor = param.vc_constructor;
                                         if (vc_field_type) {
                                           var field_type = vc_field_type._0;
-                                          line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                          line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                         _0: {
                                                           TAG: /* String_literal */11,
                                                           _0: "| ",
@@ -5907,7 +5828,7 @@ function gen_encode_record(and_, param, sc) {
                                                 }));
                                           return line$1(sc, ")");
                                         }
-                                        line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                                        line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "| ",
@@ -5941,7 +5862,7 @@ function gen_encode_record(and_, param, sc) {
 function gen_encode_variant(and_, variant, sc) {
   var v_constructors = variant.v_constructors;
   var v_name = variant.v_name;
-  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -5971,14 +5892,14 @@ function gen_encode_variant(and_, variant, sc) {
               }), let_decl_of_and(and_), v_name, v_name));
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
-          List.iter((function (param) {
+          Stdlib__List.iter((function (param) {
                   var vc_payload_kind = param.vc_payload_kind;
                   var vc_encoding_number = param.vc_encoding_number;
                   var vc_field_type = param.vc_field_type;
                   var vc_constructor = param.vc_constructor;
                   if (vc_field_type) {
                     var field_type = vc_field_type._0;
-                    line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                    line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "| ",
@@ -5999,7 +5920,7 @@ function gen_encode_variant(and_, variant, sc) {
                           }));
                     return line$1(sc, ")");
                   }
-                  line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+                  line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* String_literal */11,
                                   _0: "| ",
@@ -6027,7 +5948,7 @@ function gen_encode_variant(and_, variant, sc) {
 function gen_encode_const_variant(and_, param, sc) {
   var cv_constructors = param.cv_constructors;
   var cv_name = param.cv_name;
-  line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -6057,10 +5978,10 @@ function gen_encode_const_variant(and_, param, sc) {
               }), let_decl_of_and(and_), cv_name, cv_name));
   scope(sc, (function (sc) {
           line$1(sc, "match v with");
-          List.iter((function (param) {
+          Stdlib__List.iter((function (param) {
                   var value = param[1];
                   var name = param[0];
-                  line$1(sc, value > 0 ? Curry._2(Printf.sprintf(/* Format */{
+                  line$1(sc, value > 0 ? Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "| ",
@@ -6085,7 +6006,7 @@ function gen_encode_const_variant(and_, param, sc) {
                                     }
                                   },
                                   _1: "| %s -> Pbrt.Encoder.int_as_varint %i encoder"
-                                }), name, value) : Curry._2(Printf.sprintf(/* Format */{
+                                }), name, value) : Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "| ",
@@ -6144,7 +6065,7 @@ function gen_struct$3(and_, t, sc) {
 
 function gen_sig$3(and_, t, sc) {
   var f = function (type_name) {
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "val encode_",
@@ -6168,7 +6089,7 @@ function gen_sig$3(and_, t, sc) {
                   },
                   _1: "val encode_%s : %s -> Pbrt.Encoder.t -> unit"
                 }), type_name, type_name));
-    line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "(** [encode_",
@@ -6226,7 +6147,7 @@ function default_value_of_field_type(field_name, field_type, field_default) {
       case /* Bt_string */0 :
           if (field_default !== undefined) {
             if (field_default.TAG === /* Constant_string */0) {
-              return Curry._1(Printf.sprintf(/* Format */{
+              return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                               _0: {
                                 TAG: /* Char_literal */12,
                                 _0: /* '"' */34,
@@ -6271,7 +6192,7 @@ function default_value_of_field_type(field_name, field_type, field_default) {
       case /* Bt_int32 */3 :
           if (field_default !== undefined) {
             if (field_default.TAG === /* Constant_int */2) {
-              return Curry._1(Printf.sprintf(/* Format */{
+              return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                               _0: {
                                 TAG: /* Int */4,
                                 _0: /* Int_i */3,
@@ -6294,7 +6215,7 @@ function default_value_of_field_type(field_name, field_type, field_default) {
       case /* Bt_int64 */4 :
           if (field_default !== undefined) {
             if (field_default.TAG === /* Constant_int */2) {
-              return Curry._1(Printf.sprintf(/* Format */{
+              return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                               _0: {
                                 TAG: /* Int */4,
                                 _0: /* Int_i */3,
@@ -6317,7 +6238,7 @@ function default_value_of_field_type(field_name, field_type, field_default) {
       case /* Bt_bytes */5 :
           if (field_default !== undefined) {
             if (field_default.TAG === /* Constant_string */0) {
-              return Curry._1(Printf.sprintf(/* Format */{
+              return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                               _0: {
                                 TAG: /* String_literal */11,
                                 _0: "Bytes.of_string \"",
@@ -6340,15 +6261,12 @@ function default_value_of_field_type(field_name, field_type, field_default) {
             return "Bytes.create 64";
           }
       case /* Bt_bool */6 :
-          if (field_default === undefined) {
-            return "false";
-          }
-          if (field_default.TAG !== /* Constant_bool */1) {
-            return invalid_default_value(field_name, "invalid default type", undefined);
-          }
-          var b = field_default._0;
-          if (b) {
-            return "true";
+          if (field_default !== undefined) {
+            if (field_default.TAG === /* Constant_bool */1) {
+              return Stdlib.string_of_bool(field_default._0);
+            } else {
+              return invalid_default_value(field_name, "invalid default type", undefined);
+            }
           } else {
             return "false";
           }
@@ -6375,7 +6293,7 @@ function record_field_default_info(record_field) {
     case /* Rft_optional */1 :
         var match$1 = rf_field_type._0;
         var default_value$1 = match$1[3];
-        default_value = default_value$1 !== undefined ? Curry._1(Printf.sprintf(/* Format */{
+        default_value = default_value$1 !== undefined ? Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Some (",
@@ -6394,7 +6312,7 @@ function record_field_default_info(record_field) {
         break;
     case /* Rft_repeated_field */2 :
         var match$2 = rf_field_type._0;
-        default_value = match$2[0] ? Curry._1(Printf.sprintf(/* Format */{
+        default_value = match$2[0] ? Curry._1(Stdlib__Printf.sprintf(/* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Pbrt.Repeated_field.make (",
@@ -6420,7 +6338,7 @@ function record_field_default_info(record_field) {
           var match$3 = v_constructors.hd;
           var vc_field_type = match$3.vc_field_type;
           var vc_constructor = match$3.vc_constructor;
-          default_value = vc_field_type ? Curry._2(Printf.sprintf(/* Format */{
+          default_value = vc_field_type ? Curry._2(Stdlib__Printf.sprintf(/* Format */{
                       _0: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,
@@ -6463,10 +6381,10 @@ function record_field_default_info(record_field) {
 
 function gen_default_record(mutable_, and_, param, sc) {
   var r_name = param.r_name;
-  var fields_default_info = List.map(record_field_default_info, param.r_fields);
+  var fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
   if (mutable_ !== undefined) {
     var rn = r_name + "_mutable";
-    line$1(sc, Curry._3(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._3(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,
@@ -6495,8 +6413,8 @@ function gen_default_record(mutable_, and_, param, sc) {
                   _1: "%s default_%s () : %s = {"
                 }), let_decl_of_and(and_), rn, rn));
     scope(sc, (function (sc) {
-            List.iter((function (param) {
-                    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+            Stdlib__List.iter((function (param) {
+                    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String */2,
                                     _0: /* No_padding */0,
@@ -6519,7 +6437,7 @@ function gen_default_record(mutable_, and_, param, sc) {
                   }), fields_default_info);
           }));
   } else {
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String */2,
                     _0: /* No_padding */0,
@@ -6540,9 +6458,9 @@ function gen_default_record(mutable_, and_, param, sc) {
                   _1: "%s default_%s "
                 }), let_decl_of_and(and_), r_name));
     scope(sc, (function (sc) {
-            List.iter((function (param) {
+            Stdlib__List.iter((function (param) {
                     var fname = param[0];
-                    line$1(sc, Curry._4(Printf.sprintf(/* Format */{
+                    line$1(sc, Curry._4(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* Char_literal */12,
                                     _0: /* '?' */63,
@@ -6583,7 +6501,7 @@ function gen_default_record(mutable_, and_, param, sc) {
                                   _1: "?%s:((%s:%s) = %s)"
                                 }), fname, fname, param[2], param[1]));
                   }), fields_default_info);
-            line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+            line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
                             _0: "() : ",
@@ -6601,8 +6519,8 @@ function gen_default_record(mutable_, and_, param, sc) {
                         }), r_name));
           }));
     scope(sc, (function (sc) {
-            List.iter((function (param) {
-                    line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+            Stdlib__List.iter((function (param) {
+                    line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                   _0: {
                                     TAG: /* String */2,
                                     _0: /* No_padding */0,
@@ -6623,47 +6541,15 @@ function gen_default_record(mutable_, and_, param, sc) {
 function gen_default_variant(and_, param, sc) {
   var v_constructors = param.v_constructors;
   var v_name = param.v_name;
-  if (v_constructors) {
-    var match = v_constructors.hd;
-    var vc_field_type = match.vc_field_type;
-    var vc_constructor = match.vc_constructor;
-    var decl = let_decl_of_and(and_);
-    if (!vc_field_type) {
-      return line$1(sc, Curry._4(Printf.sprintf(/* Format */{
-                          _0: {
-                            TAG: /* String */2,
-                            _0: /* No_padding */0,
-                            _1: {
-                              TAG: /* String_literal */11,
-                              _0: " default_",
-                              _1: {
-                                TAG: /* String */2,
-                                _0: /* No_padding */0,
-                                _1: {
-                                  TAG: /* String_literal */11,
-                                  _0: " (): ",
-                                  _1: {
-                                    TAG: /* String */2,
-                                    _0: /* No_padding */0,
-                                    _1: {
-                                      TAG: /* String_literal */11,
-                                      _0: " = ",
-                                      _1: {
-                                        TAG: /* String */2,
-                                        _0: /* No_padding */0,
-                                        _1: /* End_of_format */0
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          _1: "%s default_%s (): %s = %s"
-                        }), decl, v_name, v_name, vc_constructor));
-    }
-    var default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
-    return line$1(sc, Curry._5(Printf.sprintf(/* Format */{
+  if (!v_constructors) {
+    return Stdlib.failwith("programmatic TODO error");
+  }
+  var match = v_constructors.hd;
+  var vc_field_type = match.vc_field_type;
+  var vc_constructor = match.vc_constructor;
+  var decl = let_decl_of_and(and_);
+  if (!vc_field_type) {
+    return line$1(sc, Curry._4(Stdlib__Printf.sprintf(/* Format */{
                         _0: {
                           TAG: /* String */2,
                           _0: /* No_padding */0,
@@ -6675,7 +6561,7 @@ function gen_default_variant(and_, param, sc) {
                               _0: /* No_padding */0,
                               _1: {
                                 TAG: /* String_literal */11,
-                                _0: " () : ",
+                                _0: " (): ",
                                 _1: {
                                   TAG: /* String */2,
                                   _0: /* No_padding */0,
@@ -6685,19 +6571,7 @@ function gen_default_variant(and_, param, sc) {
                                     _1: {
                                       TAG: /* String */2,
                                       _0: /* No_padding */0,
-                                      _1: {
-                                        TAG: /* String_literal */11,
-                                        _0: " (",
-                                        _1: {
-                                          TAG: /* String */2,
-                                          _0: /* No_padding */0,
-                                          _1: {
-                                            TAG: /* Char_literal */12,
-                                            _0: /* ')' */41,
-                                            _1: /* End_of_format */0
-                                          }
-                                        }
-                                      }
+                                      _1: /* End_of_format */0
                                     }
                                   }
                                 }
@@ -6705,30 +6579,61 @@ function gen_default_variant(and_, param, sc) {
                             }
                           }
                         },
-                        _1: "%s default_%s () : %s = %s (%s)"
-                      }), decl, v_name, v_name, vc_constructor, default_value));
+                        _1: "%s default_%s (): %s = %s"
+                      }), decl, v_name, v_name, vc_constructor));
   }
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "programmatic TODO error",
-        Error: new Error()
-      };
+  var default_value = default_value_of_field_type(v_name, vc_field_type._0, undefined);
+  line$1(sc, Curry._5(Stdlib__Printf.sprintf(/* Format */{
+                _0: {
+                  TAG: /* String */2,
+                  _0: /* No_padding */0,
+                  _1: {
+                    TAG: /* String_literal */11,
+                    _0: " default_",
+                    _1: {
+                      TAG: /* String */2,
+                      _0: /* No_padding */0,
+                      _1: {
+                        TAG: /* String_literal */11,
+                        _0: " () : ",
+                        _1: {
+                          TAG: /* String */2,
+                          _0: /* No_padding */0,
+                          _1: {
+                            TAG: /* String_literal */11,
+                            _0: " = ",
+                            _1: {
+                              TAG: /* String */2,
+                              _0: /* No_padding */0,
+                              _1: {
+                                TAG: /* String_literal */11,
+                                _0: " (",
+                                _1: {
+                                  TAG: /* String */2,
+                                  _0: /* No_padding */0,
+                                  _1: {
+                                    TAG: /* Char_literal */12,
+                                    _0: /* ')' */41,
+                                    _1: /* End_of_format */0
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                _1: "%s default_%s () : %s = %s (%s)"
+              }), decl, v_name, v_name, vc_constructor, default_value));
 }
 
 function gen_default_const_variant(and_, param, sc) {
   var cv_constructors = param.cv_constructors;
   var cv_name = param.cv_name;
-  var first_constructor_name;
-  if (cv_constructors) {
-    first_constructor_name = cv_constructors.hd[0];
-  } else {
-    throw {
-          RE_EXN_ID: "Failure",
-          _1: "programmatic TODO error",
-          Error: new Error()
-        };
-  }
-  line$1(sc, Curry._4(Printf.sprintf(/* Format */{
+  var first_constructor_name = cv_constructors ? cv_constructors.hd[0] : Stdlib.failwith("programmatic TODO error");
+  line$1(sc, Curry._4(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: /* No_padding */0,
@@ -6796,7 +6701,7 @@ function gen_struct$4(and_, t, sc) {
 
 function gen_sig_record(sc, param) {
   var r_name = param.r_name;
-  line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "val default_",
@@ -6812,10 +6717,10 @@ function gen_sig_record(sc, param) {
                 },
                 _1: "val default_%s : "
               }), r_name));
-  var fields_default_info = List.map(record_field_default_info, param.r_fields);
+  var fields_default_info = Stdlib__List.map(record_field_default_info, param.r_fields);
   scope(sc, (function (sc) {
-          List.iter((function (param) {
-                  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+          Stdlib__List.iter((function (param) {
+                  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                                 _0: {
                                   TAG: /* Char_literal */12,
                                   _0: /* '?' */63,
@@ -6843,7 +6748,7 @@ function gen_sig_record(sc, param) {
           line$1(sc, "unit ->");
           line$1(sc, r_name);
         }));
-  line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+  line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "(** [default_",
@@ -6871,7 +6776,7 @@ function gen_sig_record(sc, param) {
 
 function gen_sig$4(and_, t, sc) {
   var f = function (type_name) {
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "val default_",
@@ -6891,7 +6796,7 @@ function gen_sig$4(and_, t, sc) {
                   },
                   _1: "val default_%s : unit -> %s"
                 }), type_name, type_name));
-    line$1(sc, Curry._2(Printf.sprintf(/* Format */{
+    line$1(sc, Curry._2(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* String_literal */11,
                     _0: "(** [default_",
@@ -6961,7 +6866,7 @@ function rev_split_by_naming_convention(s) {
       return l;
     } else {
       return {
-              hd: $$String.sub(s, start_i, end_i - start_i | 0),
+              hd: Stdlib__String.sub(s, start_i, end_i - start_i | 0),
               tl: l
             };
     }
@@ -7064,21 +6969,21 @@ function fix_ocaml_keyword_conflict(s) {
 }
 
 function constructor_name(s) {
-  var s$1 = $$String.concat("_", List.rev(rev_split_by_naming_convention(s)));
-  var s$2 = Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s$1)));
-  return Caml_bytes.bytes_to_string(Bytes.capitalize(Caml_bytes.bytes_of_string(s$2)));
+  var s$1 = Stdlib__String.concat("_", Stdlib__List.rev(rev_split_by_naming_convention(s)));
+  var s$2 = Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase(Caml_bytes.bytes_of_string(s$1)));
+  return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize(Caml_bytes.bytes_of_string(s$2)));
 }
 
 function label_name_of_field_name(s) {
-  var s$1 = $$String.concat("_", List.rev(rev_split_by_naming_convention(s)));
-  return fix_ocaml_keyword_conflict(Caml_bytes.bytes_to_string(Bytes.lowercase(Caml_bytes.bytes_of_string(s$1))));
+  var s$1 = Stdlib__String.concat("_", Stdlib__List.rev(rev_split_by_naming_convention(s)));
+  return fix_ocaml_keyword_conflict(Caml_bytes.bytes_to_string(Stdlib__Bytes.lowercase(Caml_bytes.bytes_of_string(s$1))));
 }
 
 function module_of_file_name(file_name) {
-  var file_name$1 = Curry._1(Filename.basename, file_name);
+  var file_name$1 = Curry._1(Stdlib__Filename.basename, file_name);
   var dot_index;
   try {
-    dot_index = $$String.rindex(file_name$1, /* '.' */46);
+    dot_index = Stdlib__String.rindex(file_name$1, /* '.' */46);
   }
   catch (raw_exn){
     var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
@@ -7094,7 +6999,7 @@ function module_of_file_name(file_name) {
     }
     throw exn;
   }
-  return constructor_name($$String.sub(file_name$1, 0, dot_index) + "_pb");
+  return constructor_name(Stdlib__String.sub(file_name$1, 0, dot_index) + "_pb");
 }
 
 function type_name(message_scope, name) {
@@ -7102,22 +7007,19 @@ function type_name(message_scope, name) {
         hd: name,
         tl: /* [] */0
       });
-  var all_names$1 = List.map((function (s) {
-          return List.map($$String.lowercase, List.rev(rev_split_by_naming_convention(s)));
+  var all_names$1 = Stdlib__List.map((function (s) {
+          return Stdlib__List.map(Stdlib__String.lowercase, Stdlib__List.rev(rev_split_by_naming_convention(s)));
         }), all_names);
-  var all_names$2 = List.flatten(all_names$1);
+  var all_names$2 = Stdlib__List.flatten(all_names$1);
   if (all_names$2) {
     if (all_names$2.tl) {
-      return $$String.concat("_", all_names$2);
+      return Stdlib__String.concat("_", all_names$2);
     } else {
       return fix_ocaml_keyword_conflict(all_names$2.hd);
     }
+  } else {
+    return Stdlib.failwith("Programmatic error");
   }
-  throw {
-        RE_EXN_ID: "Failure",
-        _1: "Programmatic error",
-        Error: new Error()
-      };
 }
 
 function encoding_info_of_field_type(all_types, field_type) {
@@ -7339,7 +7241,7 @@ function ocaml_container(field_options) {
 }
 
 function variant_of_oneof(include_oneof_name, outer_message_names, all_types, file_options, file_name, oneof_field) {
-  var v_constructors = List.map((function (field) {
+  var v_constructors = Stdlib__List.map((function (field) {
           var pbtt_field_type = field_type(field);
           var field_type$1 = compile_field_type(field_name(field), all_types, file_options, field_options(field), file_name, pbtt_field_type);
           var match = encoding_of_field(all_types, field);
@@ -7362,7 +7264,7 @@ function variant_of_oneof(include_oneof_name, outer_message_names, all_types, fi
 
 function compile_enum(file_name, scope, param) {
   var module_ = module_of_file_name(file_name);
-  var cv_constructors = List.map((function (param) {
+  var cv_constructors = Stdlib__List.map((function (param) {
           return [
                   constructor_name(param.enum_value_name),
                   param.enum_value_int
@@ -7400,7 +7302,7 @@ var all_code_gen = {
 };
 
 function compile(proto_definition) {
-  var lexbuf = Lexing.from_string(undefined, proto_definition);
+  var lexbuf = Stdlib__Lexing.from_string(undefined, proto_definition);
   var proto;
   try {
     proto = proto_(lexer, lexbuf);
@@ -7410,7 +7312,7 @@ function compile(proto_definition) {
     throw add_loc(from_lexbuf(lexbuf), exn);
   }
   var all_pbtt_msgs = compile_proto_p1("tmp.proto", proto);
-  var all_pbtt_msgs$1 = List.map((function (param) {
+  var all_pbtt_msgs$1 = Stdlib__List.map((function (param) {
           var m = param.spec;
           var file_options = param.file_options;
           var file_name = param.file_name;
@@ -7437,9 +7339,9 @@ function compile(proto_definition) {
                   };
           }
         }), all_pbtt_msgs);
-  var grouped_pbtt_msgs = List.rev(group(all_pbtt_msgs$1));
-  var grouped_ocaml_types = List.map((function (pbtt_msgs) {
-          return List.map((function (pbtt_msg) {
+  var grouped_pbtt_msgs = Stdlib__List.rev(group(all_pbtt_msgs$1));
+  var grouped_ocaml_types = Stdlib__List.map((function (pbtt_msgs) {
+          return Stdlib__List.map((function (pbtt_msg) {
                         var m = pbtt_msg.spec;
                         var file_name = pbtt_msg.file_name;
                         var scope = pbtt_msg.scope;
@@ -7484,7 +7386,7 @@ function compile(proto_definition) {
                                 break;
                             
                           }
-                          var match = List.fold_left((function (param, field) {
+                          var match = Stdlib__List.fold_left((function (param, field) {
                                   var fields = param[1];
                                   var variants = param[0];
                                   switch (field.TAG | 0) {
@@ -7522,20 +7424,9 @@ function compile(proto_definition) {
                                           };
                                         } else {
                                           var match$2 = ocaml_container(field_options$1);
-                                          var repeated_type;
-                                          if (match$2 !== undefined) {
-                                            if (match$2 === "repeated_field") {
-                                              repeated_type = /* Rt_repeated_field */1;
-                                            } else {
-                                              throw {
-                                                    RE_EXN_ID: "Failure",
-                                                    _1: "Invalid ocaml_container attribute value",
-                                                    Error: new Error()
-                                                  };
-                                            }
-                                          } else {
-                                            repeated_type = /* Rt_list */0;
-                                          }
+                                          var repeated_type = match$2 !== undefined ? (
+                                              match$2 === "repeated_field" ? /* Rt_repeated_field */1 : Stdlib.failwith("Invalid ocaml_container attribute value")
+                                            ) : /* Rt_list */0;
                                           record_field_type = {
                                             TAG: /* Rft_repeated_field */2,
                                             _0: [
@@ -7602,7 +7493,7 @@ function compile(proto_definition) {
                                         var map_value_type = mf.map_value_type;
                                         var map_key_type = mf.map_key_type;
                                         var map_name = mf.map_name;
-                                        var key_type = compile_field_type(Curry._1(Printf.sprintf(/* Format */{
+                                        var key_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "key of ",
@@ -7616,23 +7507,8 @@ function compile(proto_definition) {
                                                     }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_key_type);
                                         var key_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_key_type);
                                         var key_type$1;
-                                        if (typeof key_type === "number") {
-                                          throw {
-                                                RE_EXN_ID: "Failure",
-                                                _1: "Only Basic Types are supported for map keys",
-                                                Error: new Error()
-                                              };
-                                        }
-                                        if (key_type.TAG === /* Ft_basic_type */0) {
-                                          key_type$1 = key_type._0;
-                                        } else {
-                                          throw {
-                                                RE_EXN_ID: "Failure",
-                                                _1: "Only Basic Types are supported for map keys",
-                                                Error: new Error()
-                                              };
-                                        }
-                                        var value_type = compile_field_type(Curry._1(Printf.sprintf(/* Format */{
+                                        key_type$1 = typeof key_type === "number" || key_type.TAG !== /* Ft_basic_type */0 ? Stdlib.failwith("Only Basic Types are supported for map keys") : key_type._0;
+                                        var value_type = compile_field_type(Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                                       _0: {
                                                         TAG: /* String_literal */11,
                                                         _0: "value of ",
@@ -7646,20 +7522,9 @@ function compile(proto_definition) {
                                                     }), map_name), all_pbtt_msgs$1, file_options, map_options, file_name, map_value_type);
                                         var value_pk = encoding_info_of_field_type(all_pbtt_msgs$1, map_value_type);
                                         var match$3 = ocaml_container(map_options);
-                                        var associative_type;
-                                        if (match$3 !== undefined) {
-                                          if (match$3 === "hashtbl") {
-                                            associative_type = /* At_hashtable */1;
-                                          } else {
-                                            throw {
-                                                  RE_EXN_ID: "Failure",
-                                                  _1: "Invalid ocaml_container attribute value for map",
-                                                  Error: new Error()
-                                                };
-                                          }
-                                        } else {
-                                          associative_type = /* At_list */0;
-                                        }
+                                        var associative_type = match$3 !== undefined ? (
+                                            match$3 === "hashtbl" ? /* At_hashtable */1 : Stdlib.failwith("Invalid ocaml_container attribute value for map")
+                                          ) : /* At_list */0;
                                         var record_field_type$1 = {
                                           TAG: /* Rft_associative_field */3,
                                           _0: [
@@ -7696,7 +7561,7 @@ function compile(proto_definition) {
                                 /* [] */0
                               ], message_body);
                           var record_r_name = type_name(message_names, message_name);
-                          var record_r_fields = List.rev(match[1]);
+                          var record_r_fields = Stdlib__List.rev(match[1]);
                           var record = {
                             r_name: record_r_name,
                             r_fields: record_r_fields
@@ -7709,22 +7574,22 @@ function compile(proto_definition) {
                             module_: module_,
                             spec: type__spec
                           };
-                          return List.rev({
+                          return Stdlib__List.rev({
                                       hd: type_,
                                       tl: match[0]
                                     });
                         }
                       }), pbtt_msgs);
         }), grouped_pbtt_msgs);
-  var all_ocaml_types = List.flatten(grouped_ocaml_types);
+  var all_ocaml_types = Stdlib__List.flatten(grouped_ocaml_types);
   var proto_file_name = "tmp.proto";
   var gen = function (otypes, sc, fs) {
-    List.iter((function (param) {
+    Stdlib__List.iter((function (param) {
             var ocamldoc_title = param[1];
             var f = param[0];
             if (ocamldoc_title !== undefined) {
               line$1(sc, "");
-              line$1(sc, Curry._1(Printf.sprintf(/* Format */{
+              line$1(sc, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                             _0: {
                               TAG: /* String_literal */11,
                               _0: "(** {2 ",
@@ -7742,8 +7607,8 @@ function compile(proto_definition) {
                           }), ocamldoc_title));
               line$1(sc, "");
             }
-            List.iter((function (types) {
-                    List.fold_left((function (first, type_) {
+            Stdlib__List.iter((function (types) {
+                    Stdlib__List.fold_left((function (first, type_) {
                             var has_encoded = first ? Curry._3(f, undefined, type_, sc) : Curry._3(f, Caml_option.some(undefined), type_, sc);
                             line$1(sc, "");
                             if (first) {
@@ -7760,7 +7625,7 @@ function compile(proto_definition) {
   };
   line$1(sc, "[@@@ocaml.warning \"-30\"]");
   line$1(sc, "");
-  gen(all_ocaml_types, sc, List.map((function (m) {
+  gen(all_ocaml_types, sc, Stdlib__List.map((function (m) {
               return [
                       m.gen_struct,
                       undefined
@@ -7770,7 +7635,7 @@ function compile(proto_definition) {
   var sc$1 = {
     items: /* [] */0
   };
-  line$1(sc$1, Curry._1(Printf.sprintf(/* Format */{
+  line$1(sc$1, Curry._1(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "(** ",
@@ -7785,8 +7650,8 @@ function compile(proto_definition) {
                   }
                 },
                 _1: "(** %s Generated Types and Encoding *)"
-              }), Curry._1(Filename.basename, proto_file_name)));
-  gen(all_ocaml_types, sc$1, List.map((function (m) {
+              }), Curry._1(Stdlib__Filename.basename, proto_file_name)));
+  gen(all_ocaml_types, sc$1, Stdlib__List.map((function (m) {
               return [
                       m.gen_sig,
                       m.ocamldoc_title

@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 var Str = /* @__PURE__ */Caml_exceptions.create("Extensible_variant_test.Str");
 

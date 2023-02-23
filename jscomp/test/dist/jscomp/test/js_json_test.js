@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Js_dict = require("melange.belt/jscomp/others/js_dict.js");
-var Js_json = require("melange.belt/jscomp/others/js_json.js");
-var Belt_List = require("melange.belt/jscomp/others/belt_List.js");
-var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
+var Js_dict = require("melange.belt/./js_dict.js");
+var Js_json = require("melange.belt/./js_json.js");
+var Belt_List = require("melange.belt/./belt_List.js");
+var Belt_Array = require("melange.belt/./belt_Array.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Caml_option = require("melange.runtime/caml_option.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 var suites = {
   contents: /* [] */0
@@ -492,7 +492,7 @@ function eq_at_i(loc, json, i, kind, expected) {
   }
 }
 
-var json$5 = JSON.parse(JSON.stringify($$Array.map((function (prim) {
+var json$5 = JSON.parse(JSON.stringify(Stdlib__Array.map((function (prim) {
                 return prim;
               }), [
               "string 0",
@@ -538,7 +538,7 @@ var a$1 = [
   -268391749
 ];
 
-var json$8 = JSON.parse(JSON.stringify($$Array.map((function (prim) {
+var json$8 = JSON.parse(JSON.stringify(Stdlib__Array.map((function (prim) {
                 return prim;
               }), a$1)));
 

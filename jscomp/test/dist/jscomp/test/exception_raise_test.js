@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Js_exn = require("melange.belt/jscomp/others/js_exn.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Curry = require("melange.runtime/curry.js");
+var Js_exn = require("melange.belt/./js_exn.js");
+var Stdlib = require("melange/./stdlib.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Exception_raise_test.Local");
 
@@ -226,7 +226,7 @@ function input_lines(ic, _acc) {
       line = Stdlib.input_line(ic);
     }
     catch (exn){
-      return List.rev(acc);
+      return Stdlib__List.rev(acc);
     }
     _acc = {
       hd: line,

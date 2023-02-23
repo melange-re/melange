@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 var Ext_filename_test = require("./ext_filename_test.js");
 
 var suites = {
@@ -106,7 +106,7 @@ eq("File \"a_filename_test.ml\", line 64, characters 5-12", Ext_filename_test.ge
 
 eq("File \"a_filename_test.ml\", line 68, characters 5-12", Ext_filename_test.get_extension(".txt"), ".txt");
 
-eq("File \"a_filename_test.ml\", line 73, characters 5-12", $$Array.map(Ext_filename_test.normalize_absolute_path, [
+eq("File \"a_filename_test.ml\", line 73, characters 5-12", Stdlib__Array.map(Ext_filename_test.normalize_absolute_path, [
           "/gsho/./..",
           "/a/b/../c../d/e/f",
           "/a/b/../c/../d/e/f",

@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -306,7 +306,7 @@ Promise.all([
       return Promise.resolve(undefined);
     });
 
-console.log(List.length(suites.contents));
+console.log(Stdlib__List.length(suites.contents));
 
 console.log("hey");
 

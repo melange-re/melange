@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_null = require("melange.belt/jscomp/others/js_null.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
+var Js_null = require("melange.belt/./js_null.js");
+var Caml_option = require("melange.runtime/caml_option.js");
 
 var suites_0 = [
   "toOption - empty",

@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
-var Belt_SetInt = require("melange.belt/jscomp/others/belt_SetInt.js");
+var Belt_Array = require("melange.belt/./belt_Array.js");
+var Belt_SetInt = require("melange.belt/./belt_SetInt.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {
@@ -55,18 +55,18 @@ var u = Belt_SetInt.intersect(Belt_SetInt.fromArray([
 b("File \"bs_set_int_test.ml\", line 23, characters 4-11", Belt_SetInt.eq(Belt_SetInt.fromArray([3]), u));
 
 function range(i, j) {
-  return $$Array.init((j - i | 0) + 1 | 0, (function (k) {
+  return Stdlib__Array.init((j - i | 0) + 1 | 0, (function (k) {
                 return k + i | 0;
               }));
 }
 
 function revRange(i, j) {
-  return $$Array.of_list(List.rev($$Array.to_list($$Array.init((j - i | 0) + 1 | 0, (function (k) {
+  return Stdlib__Array.of_list(Stdlib__List.rev(Stdlib__Array.to_list(Stdlib__Array.init((j - i | 0) + 1 | 0, (function (k) {
                             return k + i | 0;
                           })))));
 }
 
-var v = Belt_SetInt.fromArray($$Array.append(range(100, 1000), revRange(400, 1500)));
+var v = Belt_SetInt.fromArray(Stdlib__Array.append(range(100, 1000), revRange(400, 1500)));
 
 var i = range(100, 1500);
 

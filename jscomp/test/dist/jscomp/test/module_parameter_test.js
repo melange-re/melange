@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
 
 function u(v) {
   return v;
 }
 
-var s = $$String;
+var s = Stdlib__String;
 
 var N = {
   s: s

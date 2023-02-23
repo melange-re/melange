@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Arg = require("melange/jscomp/stdlib-412/stdlib_modules/arg.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Stdlib__Arg = require("melange/stdlib_modules/arg.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
 
 var current = {
   contents: 0
@@ -17,7 +17,7 @@ var accum = {
 };
 
 function record(fmt) {
-  return Printf.kprintf((function (s) {
+  return Stdlib__Printf.kprintf((function (s) {
                 accum.contents = {
                   hd: s,
                   tl: accum.contents
@@ -421,7 +421,7 @@ var args2 = [
 ];
 
 function error(s) {
-  Curry._1(Printf.printf(/* Format */{
+  Curry._1(Stdlib__Printf.printf(/* Format */{
             _0: {
               TAG: /* String_literal */11,
               _0: "error (",
@@ -454,8 +454,8 @@ function test(argv) {
   r_int.contents = 0;
   r_float.contents = 0.0;
   accum.contents = /* [] */0;
-  Arg.parse_argv(current, argv, spec, f_anon, "usage");
-  var result = List.rev(accum.contents);
+  Stdlib__Arg.parse_argv(current, argv, spec, f_anon, "usage");
+  var result = Stdlib__List.rev(accum.contents);
   var reference = {
     hd: "anon(anon1)",
     tl: {
@@ -504,7 +504,7 @@ function test(argv) {
   };
   if (Caml_obj.caml_notequal(result, reference)) {
     var f = function (x, y) {
-      Curry._3(Printf.printf(/* Format */{
+      Curry._3(Stdlib__Printf.printf(/* Format */{
                 _0: {
                   TAG: /* String */2,
                   _0: {
@@ -543,7 +543,7 @@ function test(argv) {
                 _1: "%20s %c %-20s\n%!"
               }), x, x === y ? /* '=' */61 : /* '#' */35, y);
     };
-    List.iter2(f, result, reference);
+    Stdlib__List.iter2(f, result, reference);
   }
   check(r_set, true, "Set");
   check(r_clear, false, "Clear");

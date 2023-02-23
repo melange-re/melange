@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 var suites = {
   contents: /* [] */0
@@ -23,20 +23,20 @@ var oppHeroes = {
 
 var huntGrootCondition = false;
 
-if (List.length(/* [] */0) > 0) {
-  var x = List.filter(function (h) {
-          return List.hd(/* [] */0) <= 1000;
+if (Stdlib__List.length(/* [] */0) > 0) {
+  var x = Stdlib__List.filter(function (h) {
+          return Stdlib__List.hd(/* [] */0) <= 1000;
         })(oppHeroes);
-  huntGrootCondition = List.length(x) === 0;
+  huntGrootCondition = Stdlib__List.length(x) === 0;
 }
 
 var huntGrootCondition2 = true;
 
-if (List.length(/* [] */0) < 0) {
-  var x$1 = List.filter(function (h) {
-          return List.hd(/* [] */0) <= 1000;
+if (Stdlib__List.length(/* [] */0) < 0) {
+  var x$1 = Stdlib__List.filter(function (h) {
+          return Stdlib__List.hd(/* [] */0) <= 1000;
         })(oppHeroes);
-  huntGrootCondition2 = List.length(x$1) === 0;
+  huntGrootCondition2 = Stdlib__List.length(x$1) === 0;
 }
 
 eq("File \"gpr_2608_test.ml\", line 23, characters 5-12", huntGrootCondition, false);

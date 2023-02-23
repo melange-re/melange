@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_float = require("melange.runtime/jscomp/runtime/caml_float.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_float = require("melange.runtime/caml_float.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
 var Ext_array_test = require("./ext_array_test.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
 
 function f(x) {
   return [
@@ -18,7 +18,7 @@ function f(x) {
         ];
 }
 
-var shift_right_logical_tests_0 = $$Array.map((function (x) {
+var shift_right_logical_tests_0 = Stdlib__Array.map((function (x) {
         return (-1 >>> x) | 0;
       }), Ext_array_test.range(0, 31));
 
@@ -62,8 +62,8 @@ var shift_right_logical_tests = [
   shift_right_logical_tests_1
 ];
 
-var shift_right_tests_0 = $$Array.map((function (x) {
-        return (Int32.min_int >> x);
+var shift_right_tests_0 = Stdlib__Array.map((function (x) {
+        return (Stdlib__Int32.min_int >> x);
       }), Ext_array_test.range(0, 31));
 
 var shift_right_tests_1 = [
@@ -106,7 +106,7 @@ var shift_right_tests = [
   shift_right_tests_1
 ];
 
-var shift_left_tests_0 = $$Array.map((function (x) {
+var shift_left_tests_0 = Stdlib__Array.map((function (x) {
         return (1 << x);
       }), Ext_array_test.range(0, 31));
 
@@ -179,9 +179,9 @@ var suites = {
           ],
           tl: /* [] */0
         }
-      }, Stdlib.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+      }, Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                       return [
-                              Curry._1(Format.asprintf(/* Format */{
+                              Curry._1(Stdlib__Format.asprintf(/* Format */{
                                         _0: {
                                           TAG: /* String_literal */11,
                                           _0: "shift_right_logical_cases ",
@@ -203,9 +203,9 @@ var suites = {
                                         };
                                 })
                             ];
-                    }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Stdlib.$at($$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                    }), shift_right_logical_tests_0, shift_right_logical_tests_1)), Stdlib.$at(Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                           return [
-                                  Curry._1(Format.asprintf(/* Format */{
+                                  Curry._1(Stdlib__Format.asprintf(/* Format */{
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: "shift_right_cases ",
@@ -227,9 +227,9 @@ var suites = {
                                             };
                                     })
                                 ];
-                        }), shift_right_tests_0, shift_right_tests_1)), $$Array.to_list(Ext_array_test.map2i((function (i, a, b) {
+                        }), shift_right_tests_0, shift_right_tests_1)), Stdlib__Array.to_list(Ext_array_test.map2i((function (i, a, b) {
                           return [
-                                  Curry._1(Format.asprintf(/* Format */{
+                                  Curry._1(Stdlib__Format.asprintf(/* Format */{
                                             _0: {
                                               TAG: /* String_literal */11,
                                               _0: "shift_left_cases ",

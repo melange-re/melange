@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 var suites = {
   contents: /* [] */0
@@ -99,11 +99,11 @@ function f3(x) {
   return rec_cell3;
 }
 
-eq("File \"recursive_records_test.ml\", line 74, characters 5-12", (List.hd(rec_cell3) + List.hd(List.tl(rec_cell3)) | 0) + List.hd(List.tl(List.tl(rec_cell3))) | 0, 9);
+eq("File \"recursive_records_test.ml\", line 74, characters 5-12", (Stdlib__List.hd(rec_cell3) + Stdlib__List.hd(Stdlib__List.tl(rec_cell3)) | 0) + Stdlib__List.hd(Stdlib__List.tl(Stdlib__List.tl(rec_cell3))) | 0, 9);
 
 var rec_cell3$1 = f3(3);
 
-eq("File \"recursive_records_test.ml\", line 77, characters 5-12", (List.hd(rec_cell3$1) + List.hd(List.tl(rec_cell3$1)) | 0) + List.hd(List.tl(List.tl(rec_cell3$1))) | 0, 9);
+eq("File \"recursive_records_test.ml\", line 77, characters 5-12", (Stdlib__List.hd(rec_cell3$1) + Stdlib__List.hd(Stdlib__List.tl(rec_cell3$1)) | 0) + Stdlib__List.hd(Stdlib__List.tl(Stdlib__List.tl(rec_cell3$1))) | 0, 9);
 
 Mt.from_pair_suites("recursive_records_test.ml", suites.contents);
 

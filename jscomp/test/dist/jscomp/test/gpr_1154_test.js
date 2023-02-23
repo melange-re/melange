@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_int64 = require("melange.runtime/caml_int64.js");
+var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
 
 var suites = {
   contents: /* [] */0
@@ -53,7 +53,7 @@ function g2(x) {
   return Caml_int64.or_(x, (v.contents = v.contents + 1 | 0, x));
 }
 
-var a = Caml_int64.or_(Int64.one, (v.contents = v.contents + 1 | 0, Int64.one));
+var a = Caml_int64.or_(Stdlib__Int64.one, (v.contents = v.contents + 1 | 0, Stdlib__Int64.one));
 
 eq("File \"gpr_1154_test.ml\", line 27, characters 12-19", v.contents, 1);
 

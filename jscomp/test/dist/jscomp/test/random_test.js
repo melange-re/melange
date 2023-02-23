@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Int64 = require("melange/jscomp/stdlib-412/stdlib_modules/int64.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Random = require("melange/jscomp/stdlib-412/stdlib_modules/random.js");
+var Curry = require("melange.runtime/curry.js");
 var Mt_global = require("./mt_global.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__Random = require("melange/stdlib_modules/random.js");
 
 var id = {
   contents: 0
@@ -35,14 +35,14 @@ function approx(f) {
   };
 }
 
-Mt_global.collect_neq(id, suites, "File \"random_test.ml\", line 12, characters 6-13", (Random.self_init(undefined), Random.$$int(10000)), (Random.self_init(undefined), Random.$$int(1000)));
+Mt_global.collect_neq(id, suites, "File \"random_test.ml\", line 12, characters 6-13", (Stdlib__Random.self_init(undefined), Stdlib__Random.$$int(10000)), (Stdlib__Random.self_init(undefined), Stdlib__Random.$$int(1000)));
 
-Random.init(0);
+Stdlib__Random.init(0);
 
 var v = Caml_array.make(10, false);
 
 for(var i = 0; i <= 9; ++i){
-  Caml_array.set(v, i, Random.bool(undefined));
+  Caml_array.set(v, i, Stdlib__Random.bool(undefined));
 }
 
 Mt_global.collect_eq(id, suites, "File \"random_test.ml\", line 26, characters 5-12", v, [
@@ -58,20 +58,20 @@ Mt_global.collect_eq(id, suites, "File \"random_test.ml\", line 26, characters 5
       false
     ]);
 
-var f = Random.int64(Int64.max_int);
+var f = Stdlib__Random.int64(Stdlib__Int64.max_int);
 
-var h = Random.int64([
+var h = Stdlib__Random.int64([
       0,
       3
     ]);
 
-var vv = Random.bits(undefined);
+var vv = Stdlib__Random.bits(undefined);
 
-var xx = Random.$$float(3.0);
+var xx = Stdlib__Random.$$float(3.0);
 
-var xxx = Random.int32(103);
+var xxx = Stdlib__Random.int32(103);
 
-Curry._5(Printf.printf(/* Format */{
+Curry._5(Stdlib__Printf.printf(/* Format */{
           _0: {
             TAG: /* Int64 */7,
             _0: /* Int_d */0,

@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
+var Curry = require("melange.runtime/curry.js");
 var Mt_global = require("./mt_global.js");
+var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
 
 var suites = {
   contents: /* [] */0
@@ -19,7 +19,7 @@ function eq(f, param) {
 }
 
 eq("File \"scanf_test.ml\", line 6, characters 5-12", [
-      Curry._1(Scanf.sscanf("32 31", /* Format */{
+      Curry._1(Stdlib__Scanf.sscanf("32 31", /* Format */{
                 _0: {
                   TAG: /* Int */4,
                   _0: /* Int_d */0,
@@ -45,7 +45,7 @@ eq("File \"scanf_test.ml\", line 6, characters 5-12", [
     ]);
 
 eq("File \"scanf_test.ml\", line 7, characters 5-12", [
-      Curry._1(Scanf.sscanf("12306459064359371967", /* Format */{
+      Curry._1(Stdlib__Scanf.sscanf("12306459064359371967", /* Format */{
                 _0: {
                   TAG: /* Int64 */7,
                   _0: /* Int_u */12,

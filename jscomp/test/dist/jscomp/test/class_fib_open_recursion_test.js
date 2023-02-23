@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
-var Caml_oo_curry = require("melange.runtime/jscomp/runtime/caml_oo_curry.js");
-var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
+var CamlinternalOO = require("melange/stdlib_modules/camlinternalOO.js");
+var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var shared = ["calc"];
 
@@ -61,13 +61,13 @@ function memo_fib_init($$class) {
   var calc$1 = inh[1];
   CamlinternalOO.set_method($$class, calc, (function (self$2, x) {
           try {
-            return Hashtbl.find(self$2[cache], x);
+            return Stdlib__Hashtbl.find(self$2[cache], x);
           }
           catch (raw_exn){
             var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
             if (exn.RE_EXN_ID === Stdlib.Not_found) {
               var v = Curry._2(calc$1, self$2, x);
-              Hashtbl.add(self$2[cache], x, v);
+              Stdlib__Hashtbl.add(self$2[cache], x, v);
               return v;
             }
             throw exn;
@@ -75,7 +75,7 @@ function memo_fib_init($$class) {
         }));
   return function (env, self) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
-    self$1[cache] = Hashtbl.create(undefined, 31);
+    self$1[cache] = Stdlib__Hashtbl.create(undefined, 31);
     Curry._1(obj_init, self$1);
     return CamlinternalOO.run_initializers_opt(self, self$1, $$class);
   };

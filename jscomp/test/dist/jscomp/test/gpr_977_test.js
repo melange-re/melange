@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
+var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
 
 var suites = {
   contents: /* [] */0
@@ -47,7 +47,7 @@ var u = f(-2147483648);
 
 eq("File \"gpr_977_test.ml\", line 32, characters 5-12", -2147483648, u);
 
-eq("File \"gpr_977_test.ml\", line 33, characters 5-12", Int32.min_int, int32_f(Int32.min_int));
+eq("File \"gpr_977_test.ml\", line 33, characters 5-12", Stdlib__Int32.min_int, int32_f(Stdlib__Int32.min_int));
 
 Mt.from_pair_suites("Gpr_977_test", suites.contents);
 

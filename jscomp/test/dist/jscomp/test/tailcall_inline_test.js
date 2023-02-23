@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 function f(param) {
   var f$1 = function (_acc, _n) {
@@ -63,7 +63,7 @@ var suites_1 = {
                     }
                   }
                 },
-                _1: $$Array.to_list([
+                _1: Stdlib__Array.to_list([
                       1,
                       2,
                       3

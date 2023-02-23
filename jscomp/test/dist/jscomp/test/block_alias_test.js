@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 var suites = {
   contents: /* [] */0
@@ -44,15 +44,15 @@ var N = {
 
 var Caml_obj$1 = {};
 
-var List$1 = {};
+var List = {};
 
 var V = {
-  List: List$1
+  List: List
 };
 
 var f = Caml_obj.caml_equal;
 
-eq("File \"block_alias_test.ml\", line 32, characters 6-13", List.length({
+eq("File \"block_alias_test.ml\", line 32, characters 6-13", Stdlib__List.length({
           hd: 1,
           tl: {
             hd: 2,
@@ -70,7 +70,7 @@ eq("File \"block_alias_test.ml\", line 34, characters 6-13", v0, v1);
 
 Mt.from_pair_suites("Block_alias_test", suites.contents);
 
-var h = List.length;
+var h = Stdlib__List.length;
 
 exports.suites = suites;
 exports.test_id = test_id;

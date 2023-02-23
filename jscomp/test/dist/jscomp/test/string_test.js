@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var $$String = require("melange/jscomp/stdlib-412/stdlib_modules/string.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
 var Ext_string_test = require("./ext_string_test.js");
-var Caml_js_exceptions = require("melange.runtime/jscomp/runtime/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function ff(x) {
   var a;
@@ -64,8 +64,8 @@ function gg(x) {
 function rev_split_by_char(c, s) {
   var loop = function (i, l) {
     try {
-      var i$p = $$String.index_from(s, i, c);
-      var s$p = $$String.sub(s, i, i$p - i | 0);
+      var i$p = Stdlib__String.index_from(s, i, c);
+      var s$p = Stdlib__String.sub(s, i, i$p - i | 0);
       return loop(i$p + 1 | 0, s$p === "" ? l : ({
                       hd: s$p,
                       tl: l
@@ -75,7 +75,7 @@ function rev_split_by_char(c, s) {
       var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
       if (exn.RE_EXN_ID === Stdlib.Not_found) {
         return {
-                hd: $$String.sub(s, i, s.length - i | 0),
+                hd: Stdlib__String.sub(s, i, s.length - i | 0),
                 tl: l
               };
       }
@@ -98,19 +98,19 @@ function xsplit(delim, s) {
       }
       var i$p;
       try {
-        i$p = $$String.rindex_from(s, i - 1 | 0, delim);
+        i$p = Stdlib__String.rindex_from(s, i - 1 | 0, delim);
       }
       catch (raw_exn){
         var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
         if (exn.RE_EXN_ID === Stdlib.Not_found) {
           return {
-                  hd: $$String.sub(s, 0, i),
+                  hd: Stdlib__String.sub(s, 0, i),
                   tl: l
                 };
         }
         throw exn;
       }
-      var l_0 = $$String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
+      var l_0 = Stdlib__String.sub(s, i$p + 1 | 0, (i - i$p | 0) - 1 | 0);
       var l$1 = {
         hd: l_0,
         tl: l
@@ -129,7 +129,7 @@ function xsplit(delim, s) {
 }
 
 function string_of_chars(x) {
-  return $$String.concat("", List.map((function (prim) {
+  return Stdlib__String.concat("", Stdlib__List.map((function (prim) {
                     return String.fromCharCode(prim);
                   }), x));
 }
@@ -163,7 +163,7 @@ Mt.from_pair_suites("String_test", {
                 return {
                         TAG: /* Eq */0,
                         _0: "haha",
-                        _1: $$String.escaped("haha")
+                        _1: Stdlib__String.escaped("haha")
                       };
               })
           ],
@@ -173,8 +173,8 @@ Mt.from_pair_suites("String_test", {
               (function (param) {
                   return {
                           TAG: /* Eq */0,
-                          _0: Bytes.of_string("haha"),
-                          _1: Bytes.escaped(Bytes.of_string("haha"))
+                          _0: Stdlib__Bytes.of_string("haha"),
+                          _1: Stdlib__Bytes.escaped(Stdlib__Bytes.of_string("haha"))
                         };
                 })
             ],
@@ -185,7 +185,7 @@ Mt.from_pair_suites("String_test", {
                     return {
                             TAG: /* Eq */0,
                             _0: "\\\"\\\"",
-                            _1: $$String.escaped("\"\"")
+                            _1: Stdlib__String.escaped("\"\"")
                           };
                   })
               ],
@@ -341,7 +341,7 @@ Mt.from_pair_suites("String_test", {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: String.fromCharCode(/* '0' */48),
-                                                    _1: Caml_bytes.bytes_to_string(Bytes.make(1, /* '0' */48))
+                                                    _1: Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, /* '0' */48))
                                                   };
                                           })
                                       ],

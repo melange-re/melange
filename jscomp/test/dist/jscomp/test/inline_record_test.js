@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Caml_exceptions = require("melange.runtime/jscomp/runtime/caml_exceptions.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -36,11 +36,11 @@ var v1 = {
 
 function f(x) {
   if (x.TAG === /* A0 */0) {
-    return List.fold_left((function (prim0, prim1) {
+    return Stdlib__List.fold_left((function (prim0, prim1) {
                   return prim0 + prim1 | 0;
                 }), x.lbl, x.more);
   } else {
-    return List.fold_left((function (prim0, prim1) {
+    return Stdlib__List.fold_left((function (prim0, prim1) {
                   return prim0 + prim1 | 0;
                 }), 0, x.more);
   }

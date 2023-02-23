@@ -2,14 +2,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Scanf = require("melange/jscomp/stdlib-412/stdlib_modules/scanf.js");
-var Format = require("melange/jscomp/stdlib-412/stdlib_modules/format.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_format = require("melange.runtime/jscomp/runtime/caml_format.js");
-var CamlinternalFormatBasics = require("melange.stdlib/jscomp/stdlib-412/camlinternalFormatBasics.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_format = require("melange.runtime/caml_format.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
+var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var CamlinternalFormatBasics = require("melange/./camlinternalFormatBasics.js");
 
 var suites = {
   contents: /* [] */0
@@ -73,9 +73,9 @@ function u(param) {
 
 var M = {};
 
-eq("File \"format_test.ml\", line 31, characters 5-12", Curry._1(Format.asprintf(u(undefined)), "x"), "xx xyy");
+eq("File \"format_test.ml\", line 31, characters 5-12", Curry._1(Stdlib__Format.asprintf(u(undefined)), "x"), "xx xyy");
 
-eq("File \"format_test.ml\", line 32, characters 5-12", Curry._1(Format.asprintf(/* Format */{
+eq("File \"format_test.ml\", line 32, characters 5-12", Curry._1(Stdlib__Format.asprintf(/* Format */{
               _0: {
                 TAG: /* Int32 */5,
                 _0: /* Int_d */0,
@@ -86,7 +86,7 @@ eq("File \"format_test.ml\", line 32, characters 5-12", Curry._1(Format.asprintf
               _1: "%ld"
             }), -2147483648), "-2147483648");
 
-eq("File \"format_test.ml\", line 33, characters 5-12", Curry._1(Format.asprintf(/* Format */{
+eq("File \"format_test.ml\", line 33, characters 5-12", Curry._1(Stdlib__Format.asprintf(/* Format */{
               _0: {
                 TAG: /* Int */4,
                 _0: /* Int_d */0,
@@ -134,7 +134,7 @@ eq("File \"format_test.ml\", line 69, characters 5-12", (1 + 4095 / 4096) * 8, 1
 eq("File \"format_test.ml\", line 72, characters 5-12", (1 + 65535 / 65536) * 8, 15.9998779296875);
 
 function f(loc, ls) {
-  List.iter((function (param) {
+  Stdlib__List.iter((function (param) {
           eq(loc, Caml_format.caml_float_of_string(param[0]), param[1]);
         }), ls);
 }
@@ -160,7 +160,7 @@ f("File \"format_test.ml\", line 85, characters 6-13", {
     });
 
 function sl(f) {
-  return Curry._1(Printf.sprintf(/* Format */{
+  return Curry._1(Stdlib__Printf.sprintf(/* Format */{
                   _0: {
                     TAG: /* Float */8,
                     _0: [
@@ -176,7 +176,7 @@ function sl(f) {
 }
 
 function aux_list(loc, ls) {
-  List.iter((function (param) {
+  Stdlib__List.iter((function (param) {
           eq(loc, sl(param[0]), param[1]);
         }), ls);
 }
@@ -243,7 +243,7 @@ var literals = {
 
 aux_list("File \"format_test.ml\", line 117, characters 11-18", literals);
 
-eq("File \"format_test.ml\", line 120, characters 5-12", Curry._1(Printf.sprintf(/* Format */{
+eq("File \"format_test.ml\", line 120, characters 5-12", Curry._1(Stdlib__Printf.sprintf(/* Format */{
               _0: {
                 TAG: /* Float */8,
                 _0: [
@@ -258,7 +258,7 @@ eq("File \"format_test.ml\", line 120, characters 5-12", Curry._1(Printf.sprintf
             }), 7.875), "0X1.F8P+2");
 
 function scan_float(loc, s, expect) {
-  Curry._1(Scanf.sscanf(s, /* Format */{
+  Curry._1(Stdlib__Scanf.sscanf(s, /* Format */{
             _0: {
               TAG: /* Float */8,
               _0: [
@@ -279,7 +279,7 @@ scan_float("File \"format_test.ml\", line 125, characters 13-20", "0x3f.p1", 126
 
 scan_float("File \"format_test.ml\", line 126, characters 13-20", "0x1.3333333333333p-2", 0.3);
 
-List.iter((function (param) {
+Stdlib__List.iter((function (param) {
         scan_float("File \"format_test.ml\", line 128, characters 13-20", param[1], param[0]);
       }), literals);
 

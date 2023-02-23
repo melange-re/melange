@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Caml_array = require("melange.runtime/jscomp/runtime/caml_array.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_array = require("melange.runtime/caml_array.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 function test(param) {
   var v = {
@@ -47,7 +47,7 @@ function test_closure(param) {
         }
         }(i)));
   }
-  $$Array.iter((function (i) {
+  Stdlib__Array.iter((function (i) {
           v.contents = v.contents + Curry._1(i, 0) | 0;
         }), arr);
   return v.contents;
@@ -68,7 +68,7 @@ function test_closure2(param) {
         }
         }(j)));
   }
-  $$Array.iter((function (i) {
+  Stdlib__Array.iter((function (i) {
           v.contents = v.contents + Curry._1(i, 0) | 0;
         }), arr);
   return v.contents;

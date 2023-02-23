@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Caml_oo_curry = require("melange.runtime/jscomp/runtime/caml_oo_curry.js");
-var CamlinternalOO = require("melange/jscomp/stdlib-412/stdlib_modules/camlinternalOO.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
+var CamlinternalOO = require("melange/stdlib_modules/camlinternalOO.js");
 
 var shared = [
   "move",
@@ -183,7 +183,7 @@ function intlist_init($$class) {
           }),
         fold,
         (function (self$4, f, accu) {
-            return List.fold_left(f, accu, self$4[l]);
+            return Stdlib__List.fold_left(f, accu, self$4[l]);
           })
       ]);
   return function (env, self, l$1) {
@@ -222,7 +222,7 @@ function intlist2_init($$class) {
           }),
         fold,
         (function (self$5, f, accu) {
-            return List.fold_left(f, accu, self$5[l]);
+            return Stdlib__List.fold_left(f, accu, self$5[l]);
           })
       ]);
   return function (env, self, l$1) {

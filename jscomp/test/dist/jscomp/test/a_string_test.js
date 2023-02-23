@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 var Ext_string_test = require("./ext_string_test.js");
 
 var suites_0 = [
@@ -79,7 +79,7 @@ var suites_1 = {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: List.filter(function (s) {
+                      _0: Stdlib__List.filter(function (s) {
                               return s !== "";
                             })(Ext_string_test.split_by(undefined, (function (x) {
                                   if (x === /* ' ' */32) {

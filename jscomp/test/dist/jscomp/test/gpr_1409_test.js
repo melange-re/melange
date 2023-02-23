@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
+var Curry = require("melange.runtime/curry.js");
 var String_set = require("./string_set.js");
-var Caml_option = require("melange.runtime/jscomp/runtime/caml_option.js");
+var Caml_option = require("melange.runtime/caml_option.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 var suites = {
   contents: /* [] */0
@@ -135,7 +135,7 @@ function test6(f, x) {
 }
 
 function keys(xs, ys) {
-  return String_set.equal(String_set.of_list(xs), String_set.of_list($$Array.to_list(ys)));
+  return String_set.equal(String_set.of_list(xs), String_set.of_list(Stdlib__Array.to_list(ys)));
 }
 
 eq("File \"gpr_1409_test.ml\", line 69, characters 6-13", keys({

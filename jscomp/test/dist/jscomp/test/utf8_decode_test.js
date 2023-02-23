@@ -2,10 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Stream = require("melange/jscomp/stdlib-412/stdlib_modules/stream.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Stream = require("melange/stdlib_modules/stream.js");
 
 function classify(chr) {
   if ((chr & 128) === 0) {
@@ -54,26 +55,26 @@ function classify(chr) {
 }
 
 function utf8_decode(strm) {
-  return Stream.slazy(function (param) {
-              var chr = Stream.peek(strm);
+  return Stdlib__Stream.slazy(function (param) {
+              var chr = Stdlib__Stream.peek(strm);
               if (chr === undefined) {
                 return ;
               }
-              Stream.junk(strm);
+              Stdlib__Stream.junk(strm);
               var c = classify(chr);
               if (typeof c === "number") {
                 throw {
-                      RE_EXN_ID: Stream.$$Error,
+                      RE_EXN_ID: Stdlib__Stream.$$Error,
                       _1: "Invalid byte",
                       Error: new Error()
                     };
               }
               switch (c.TAG | 0) {
                 case /* Single */0 :
-                    return Stream.icons(c._0, utf8_decode(strm));
+                    return Stdlib__Stream.icons(c._0, utf8_decode(strm));
                 case /* Cont */1 :
                     throw {
-                          RE_EXN_ID: Stream.$$Error,
+                          RE_EXN_ID: Stdlib__Stream.$$Error,
                           _1: "Unexpected continuation byte",
                           Error: new Error()
                         };
@@ -85,10 +86,10 @@ function utf8_decode(strm) {
                         if (n === 0) {
                           return c;
                         }
-                        var cc = classify(Stream.next(strm));
+                        var cc = classify(Stdlib__Stream.next(strm));
                         if (typeof cc === "number") {
                           throw {
-                                RE_EXN_ID: Stream.$$Error,
+                                RE_EXN_ID: Stdlib__Stream.$$Error,
                                 _1: "Continuation byte expected",
                                 Error: new Error()
                               };
@@ -99,13 +100,13 @@ function utf8_decode(strm) {
                           continue ;
                         }
                         throw {
-                              RE_EXN_ID: Stream.$$Error,
+                              RE_EXN_ID: Stdlib__Stream.$$Error,
                               _1: "Continuation byte expected",
                               Error: new Error()
                             };
                       };
                     };
-                    return Stream.icons(follow(strm, c._0, c._1), utf8_decode(strm));
+                    return Stdlib__Stream.icons(follow(strm, c._0, c._1), utf8_decode(strm));
                 
               }
             });
@@ -115,27 +116,23 @@ function to_list(xs) {
   var v = {
     contents: /* [] */0
   };
-  Stream.iter((function (x) {
+  Stdlib__Stream.iter((function (x) {
           v.contents = {
             hd: x,
             tl: v.contents
           };
         }), xs);
-  return List.rev(v.contents);
+  return Stdlib__List.rev(v.contents);
 }
 
 function utf8_list(s) {
-  return to_list(utf8_decode(Stream.of_string(s)));
+  return to_list(utf8_decode(Stdlib__Stream.of_string(s)));
 }
 
 function decode(bytes, offset) {
   var c = classify(Caml_bytes.get(bytes, offset));
   if (typeof c === "number") {
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "decode",
-          Error: new Error()
-        };
+    return Stdlib.invalid_arg("decode");
   }
   switch (c.TAG | 0) {
     case /* Single */0 :
@@ -144,11 +141,7 @@ function decode(bytes, offset) {
                 offset + 1 | 0
               ];
     case /* Cont */1 :
-        throw {
-              RE_EXN_ID: "Invalid_argument",
-              _1: "decode",
-              Error: new Error()
-            };
+        return Stdlib.invalid_arg("decode");
     case /* Leading */2 :
         var _n = c._0;
         var _c = c._1;
@@ -165,23 +158,15 @@ function decode(bytes, offset) {
           }
           var cc = classify(Caml_bytes.get(bytes, offset$1));
           if (typeof cc === "number") {
-            throw {
-                  RE_EXN_ID: "Invalid_argument",
-                  _1: "decode",
-                  Error: new Error()
-                };
+            return Stdlib.invalid_arg("decode");
           }
-          if (cc.TAG === /* Cont */1) {
-            _offset = offset$1 + 1 | 0;
-            _c = (c$1 << 6) | cc._0 & 63;
-            _n = n - 1 | 0;
-            continue ;
+          if (cc.TAG !== /* Cont */1) {
+            return Stdlib.invalid_arg("decode");
           }
-          throw {
-                RE_EXN_ID: "Invalid_argument",
-                _1: "decode",
-                Error: new Error()
-              };
+          _offset = offset$1 + 1 | 0;
+          _c = (c$1 << 6) | cc._0 & 63;
+          _n = n - 1 | 0;
+          continue ;
         };
     
   }
@@ -241,12 +226,12 @@ function eq(loc, param) {
   };
 }
 
-List.iter((function (param) {
+Stdlib__List.iter((function (param) {
         eq("File \"utf8_decode_test.ml\", line 107, characters 7-14", [
               true,
               eq_list((function (prim0, prim1) {
                       return prim0 === prim1;
-                    }), to_list(utf8_decode(Stream.of_string(param[0]))), param[1])
+                    }), to_list(utf8_decode(Stdlib__Stream.of_string(param[0]))), param[1])
             ]);
       }), {
       hd: [

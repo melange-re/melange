@@ -2,19 +2,19 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Stack = require("melange/jscomp/stdlib-412/stdlib_modules/stack.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Stack = require("melange/stdlib_modules/stack.js");
 
 function to_list(v) {
   var acc = /* [] */0;
   while(!Caml_obj.caml_equal(v.c, /* [] */0)) {
     acc = {
-      hd: Stack.pop(v),
+      hd: Stdlib__Stack.pop(v),
       tl: acc
     };
   };
-  return List.rev(acc);
+  return Stdlib__List.rev(acc);
 }
 
 function v(param) {
@@ -22,9 +22,9 @@ function v(param) {
     c: /* [] */0,
     len: 0
   };
-  Stack.push(3, v$1);
-  Stack.push(4, v$1);
-  Stack.push(1, v$1);
+  Stdlib__Stack.push(3, v$1);
+  Stdlib__Stack.push(4, v$1);
+  Stdlib__Stack.push(1, v$1);
   return to_list(v$1);
 }
 

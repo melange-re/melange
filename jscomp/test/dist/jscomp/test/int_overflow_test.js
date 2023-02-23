@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Int32 = require("melange/jscomp/stdlib-412/stdlib_modules/int32.js");
-var Caml_string = require("melange.runtime/jscomp/runtime/caml_string.js");
+var Caml_string = require("melange.runtime/caml_string.js");
+var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
 
 function hash_variant(s) {
   var accu = 0;
@@ -45,7 +45,7 @@ Mt.from_pair_suites("Int_overflow_test", {
             return {
                     TAG: /* Eq */0,
                     _0: true,
-                    _1: (Int32.max_int + 1 | 0) === Int32.min_int
+                    _1: (Stdlib__Int32.max_int + 1 | 0) === Stdlib__Int32.min_int
                   };
           })
       ],
@@ -56,7 +56,7 @@ Mt.from_pair_suites("Int_overflow_test", {
               return {
                       TAG: /* Eq */0,
                       _0: true,
-                      _1: (Int32.min_int - Int32.one | 0) === Int32.max_int
+                      _1: (Stdlib__Int32.min_int - Stdlib__Int32.one | 0) === Stdlib__Int32.max_int
                     };
             })
         ],
@@ -67,7 +67,7 @@ Mt.from_pair_suites("Int_overflow_test", {
                 return {
                         TAG: /* Eq */0,
                         _0: 2147483646,
-                        _1: (Int32.max_int + Int32.max_int | 0) + Int32.min_int | 0
+                        _1: (Stdlib__Int32.max_int + Stdlib__Int32.max_int | 0) + Stdlib__Int32.min_int | 0
                       };
               })
           ],
@@ -78,7 +78,7 @@ Mt.from_pair_suites("Int_overflow_test", {
                   return {
                           TAG: /* Eq */0,
                           _0: -2,
-                          _1: Int32.max_int + Int32.max_int | 0
+                          _1: Stdlib__Int32.max_int + Stdlib__Int32.max_int | 0
                         };
                 })
             ],

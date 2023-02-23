@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
+var Caml = require("melange.runtime/caml.js");
+var Stdlib = require("melange/./stdlib.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 function height(param) {
   if (param) {
@@ -30,28 +30,20 @@ function bal(l, x, d, r) {
   var hl = l ? l._4 : 0;
   var hr = r ? r._4 : 0;
   if (hl > (hr + 2 | 0)) {
-    if (l) {
-      var lr = l._3;
-      var ld = l._2;
-      var lv = l._1;
-      var ll = l._0;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, ld, create(lr, x, d, r));
-      }
-      if (lr) {
-        return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
-      }
-      throw {
-            RE_EXN_ID: "Invalid_argument",
-            _1: "Map.bal",
-            Error: new Error()
-          };
+    if (!l) {
+      return Stdlib.invalid_arg("Map.bal");
     }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+    var lr = l._3;
+    var ld = l._2;
+    var lv = l._1;
+    var ll = l._0;
+    if (height(ll) >= height(lr)) {
+      return create(ll, lv, ld, create(lr, x, d, r));
+    } else if (lr) {
+      return create(create(ll, lv, ld, lr._0), lr._1, lr._2, create(lr._3, x, d, r));
+    } else {
+      return Stdlib.invalid_arg("Map.bal");
+    }
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -62,28 +54,20 @@ function bal(l, x, d, r) {
             _4: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (r) {
-    var rr = r._3;
-    var rd = r._2;
-    var rv = r._1;
-    var rl = r._0;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, x, d, rl), rv, rd, rr);
-    }
-    if (rl) {
-      return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
-    }
-    throw {
-          RE_EXN_ID: "Invalid_argument",
-          _1: "Map.bal",
-          Error: new Error()
-        };
+  if (!r) {
+    return Stdlib.invalid_arg("Map.bal");
   }
-  throw {
-        RE_EXN_ID: "Invalid_argument",
-        _1: "Map.bal",
-        Error: new Error()
-      };
+  var rr = r._3;
+  var rd = r._2;
+  var rv = r._1;
+  var rl = r._0;
+  if (height(rr) >= height(rl)) {
+    return create(create(l, x, d, rl), rv, rd, rr);
+  } else if (rl) {
+    return create(create(l, x, d, rl._0), rl._1, rl._2, create(rl._3, rv, rd, rr));
+  } else {
+    return Stdlib.invalid_arg("Map.bal");
+  }
 }
 
 function add(x, data, param) {
@@ -134,7 +118,7 @@ function find(x, _param) {
   };
 }
 
-var m = List.fold_left((function (acc, param) {
+var m = Stdlib__List.fold_left((function (acc, param) {
         return add(param[0], param[1], acc);
       }), /* Empty */0, {
       hd: [

@@ -2,10 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Bytes = require("melange/jscomp/stdlib-412/stdlib_modules/bytes.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
-var Caml_bytes = require("melange.runtime/jscomp/runtime/caml_bytes.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
+var Stdlib__String = require("melange/stdlib_modules/string.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xfd\xff\xfe\xff\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\x04\0\x01\0\x04\0\x03\0\0\0\x06\0\0\0\xff\xff",
@@ -24,13 +25,13 @@ var __ocaml_lex_tables = {
 function __ocaml_lex_translate_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
           return "." + __ocaml_lex_translate_rec(lexbuf, 0);
       case 1 :
           var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          return Caml_bytes.bytes_to_string(Bytes.make(1, c)) + __ocaml_lex_translate_rec(lexbuf, 0);
+          return Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c)) + __ocaml_lex_translate_rec(lexbuf, 0);
       case 2 :
           return "";
       default:
@@ -50,7 +51,7 @@ var suites_0 = [
   (function (param) {
       return {
               TAG: /* Eq */0,
-              _0: __ocaml_lex_translate_rec(Lexing.from_string(undefined, "-- current_directory --"), 0),
+              _0: __ocaml_lex_translate_rec(Stdlib__Lexing.from_string(undefined, "-- current_directory --"), 0),
               _1: "-- . --"
             };
     })

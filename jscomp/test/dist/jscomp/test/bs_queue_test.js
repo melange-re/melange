@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
-var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
-var Belt_MutableQueue = require("melange.belt/jscomp/others/belt_MutableQueue.js");
+var Curry = require("melange.runtime/curry.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
+var Belt_Array = require("melange.belt/./belt_Array.js");
+var Belt_MutableQueue = require("melange.belt/./belt_MutableQueue.js");
 
 var suites = {
   contents: /* [] */0

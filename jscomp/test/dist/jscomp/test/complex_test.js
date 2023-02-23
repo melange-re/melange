@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Complex = require("melange/jscomp/stdlib-412/stdlib_modules/complex.js");
+var Stdlib__Complex = require("melange/stdlib_modules/complex.js");
 
 var suites_0 = [
   "basic_add",
@@ -13,7 +13,7 @@ var suites_0 = [
                 re: 2,
                 im: 2
               },
-              _1: Complex.add(Complex.add(Complex.add(Complex.one, Complex.one), Complex.i), Complex.i)
+              _1: Stdlib__Complex.add(Stdlib__Complex.add(Stdlib__Complex.add(Stdlib__Complex.one, Stdlib__Complex.one), Stdlib__Complex.i), Stdlib__Complex.i)
             };
     })
 ];

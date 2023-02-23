@@ -2,17 +2,17 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Hashtbl = require("melange/jscomp/stdlib-412/stdlib_modules/hashtbl.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
 
 function f(H) {
   var tbl = Curry._1(H.create, 17);
   Curry._3(H.add, tbl, 1, /* '1' */49);
   Curry._3(H.add, tbl, 2, /* '2' */50);
-  return List.sort((function (param, param$1) {
+  return Stdlib__List.sort((function (param, param$1) {
                 return Caml.caml_int_compare(param[0], param$1[0]);
               }), Curry._3(H.fold, (function (k, v, acc) {
                     return {
@@ -43,19 +43,19 @@ function g(H) {
                     tl: acc
                   };
           }), tbl, /* [] */0);
-    return $$Array.of_list(List.sort((function (param, param$1) {
+    return Stdlib__Array.of_list(Stdlib__List.sort((function (param, param$1) {
                       return Caml.caml_int_compare(param[0], param$1[0]);
                     }), v));
   };
 }
 
-var hash = Hashtbl.hash;
+var hash = Stdlib__Hashtbl.hash;
 
 function equal(x, y) {
   return x === y;
 }
 
-var Int_hash = Hashtbl.Make({
+var Int_hash = Stdlib__Hashtbl.Make({
       equal: equal,
       hash: hash
     });
@@ -89,7 +89,7 @@ var suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: $$Array.init(1001, (function (i) {
+                _0: Stdlib__Array.init(1001, (function (i) {
                         return [
                                 (i << 1),
                                 String(i)

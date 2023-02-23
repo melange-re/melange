@@ -2,8 +2,8 @@
 'use strict';
 
 var Immutable = require("immutable");
-var Belt_Array = require("melange.belt/jscomp/others/belt_Array.js");
-var Belt_MapInt = require("melange.belt/jscomp/others/belt_MapInt.js");
+var Belt_Array = require("melange.belt/./belt_Array.js");
+var Belt_MapInt = require("melange.belt/./belt_MapInt.js");
 
 var empty = new Immutable.OrderedMap();
 

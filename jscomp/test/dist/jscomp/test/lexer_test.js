@@ -2,24 +2,24 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var List = require("melange/jscomp/stdlib-412/stdlib_modules/list.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Lexing = require("melange/jscomp/stdlib-412/stdlib_modules/lexing.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
-var Caml_obj = require("melange.runtime/jscomp/runtime/caml_obj.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
+var Caml_obj = require("melange.runtime/caml_obj.js");
 var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");
 var Number_lexer = require("./number_lexer.js");
+var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
 
 function get_tokens(lex, str) {
-  var buf = Lexing.from_string(undefined, str);
+  var buf = Stdlib__Lexing.from_string(undefined, str);
   var _acc = /* [] */0;
   while(true) {
     var acc = _acc;
     var v = Curry._1(lex, buf);
     if (Caml_obj.caml_equal(v, /* EOF */7)) {
-      return List.rev(acc);
+      return Stdlib__List.rev(acc);
     }
     _acc = {
       hd: v,
@@ -100,7 +100,7 @@ var lexer_suites_1 = {
     (function (param) {
         return {
                 TAG: /* Eq */0,
-                _0: Arith_lexer.lexeme(Lexing.from_string(undefined, "10")),
+                _0: Arith_lexer.lexeme(Stdlib__Lexing.from_string(undefined, "10")),
                 _1: {
                   TAG: /* NUMERAL */0,
                   _0: 10
@@ -121,10 +121,10 @@ var lexer_suites_1 = {
               tl: v.contents
             };
           };
-          Number_lexer.token(add, Lexing.from_string(undefined, "32 + 32 ( ) * / "));
+          Number_lexer.token(add, Stdlib__Lexing.from_string(undefined, "32 + 32 ( ) * / "));
           return {
                   TAG: /* Eq */0,
-                  _0: List.rev(v.contents),
+                  _0: Stdlib__List.rev(v.contents),
                   _1: {
                     hd: "number",
                     tl: {
@@ -186,7 +186,7 @@ var lexer_suites_1 = {
         (function (param) {
             return {
                     TAG: /* Eq */0,
-                    _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Lexing.from_string(undefined, "10"))),
+                    _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "10"))),
                     _1: "10."
                   };
           })
@@ -197,7 +197,7 @@ var lexer_suites_1 = {
           (function (param) {
               return {
                       TAG: /* Eq */0,
-                      _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Lexing.from_string(undefined, "x + 3 + 4 + y"))),
+                      _0: Arith_syntax.str(Arith_parser.toplevel(Arith_lexer.lexeme, Stdlib__Lexing.from_string(undefined, "x + 3 + 4 + y"))),
                       _1: "x+3.+4.+y"
                     };
             })

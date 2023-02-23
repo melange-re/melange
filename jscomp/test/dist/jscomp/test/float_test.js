@@ -2,14 +2,14 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/jscomp/runtime/caml.js");
-var $$Array = require("melange/jscomp/stdlib-412/stdlib_modules/array.js");
-var Curry = require("melange.runtime/jscomp/runtime/curry.js");
-var Printf = require("melange/jscomp/stdlib-412/stdlib_modules/printf.js");
-var Stdlib = require("melange.stdlib/jscomp/stdlib-412/stdlib.js");
+var Caml = require("melange.runtime/caml.js");
+var Curry = require("melange.runtime/curry.js");
+var Stdlib = require("melange/./stdlib.js");
 var Mt_global = require("./mt_global.js");
-var Caml_float = require("melange.runtime/jscomp/runtime/caml_float.js");
-var Caml_int64 = require("melange.runtime/jscomp/runtime/caml_int64.js");
+var Caml_float = require("melange.runtime/caml_float.js");
+var Caml_int64 = require("melange.runtime/caml_int64.js");
+var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
 
 var test_id = {
   contents: 0
@@ -42,7 +42,7 @@ var match$1 = Caml_float.caml_frexp_float(0);
 
 var match$2 = Caml_float.caml_frexp_float(-12.0);
 
-var results = $$Array.append([
+var results = Stdlib__Array.append([
       [
         Math.log10(2),
         0.301029995663981198
@@ -123,11 +123,11 @@ var results = $$Array.append([
     ]);
 
 function from_pairs(ps) {
-  return $$Array.to_list($$Array.mapi((function (i, param) {
+  return Stdlib__Array.to_list(Stdlib__Array.mapi((function (i, param) {
                     var b = param[1];
                     var a = param[0];
                     return [
-                            Curry._1(Printf.sprintf(/* Format */{
+                            Curry._1(Stdlib__Printf.sprintf(/* Format */{
                                       _0: {
                                         TAG: /* String_literal */11,
                                         _0: "pair ",
@@ -171,7 +171,7 @@ Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 49, characte
       true
     ]);
 
-Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 52, characters 5-12", $$Array.map((function (x) {
+Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 52, characters 5-12", Stdlib__Array.map((function (x) {
             if (x > 0) {
               return 1;
             } else if (x < 0) {
@@ -179,7 +179,7 @@ Mt_global.collect_eq(test_id, suites, "File \"float_test.ml\", line 52, characte
             } else {
               return 0;
             }
-          }), $$Array.map((function (param) {
+          }), Stdlib__Array.map((function (param) {
                 return Caml.caml_float_compare(param[0], param[1]);
               }), [
               [
