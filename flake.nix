@@ -23,7 +23,6 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
-          melange-compiler-libs.overlays.default
           (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper:
               {
@@ -37,6 +36,7 @@
                 });
               });
           })
+          melange-compiler-libs.overlays.default
         ];
       in
 

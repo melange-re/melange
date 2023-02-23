@@ -83,6 +83,7 @@
     stream
     string
     stringLabels)))
+ (libraries melange.runtime melange.belt)
  (flags :standard -w -9-61 \ -keep-locs)
  (stdlib
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
