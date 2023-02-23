@@ -29,6 +29,8 @@ Unreleased
   ([#482](https://github.com/melange-re/melange/pull/482))
 - melange: fix codegen issue accessing a nested module path that is also
   `include`d ([#487](https://github.com/melange-re/melange/pull/487))
+- melange: preserve the correct command-line order for load path directories
+  ([#492](https://github.com/melange-re/melange/pull/492))
 
 0.3.2 2022-11-19
 ---------------

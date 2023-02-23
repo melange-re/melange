@@ -28,8 +28,10 @@ let init_path () =
     List.map (Misc.expand_directory Config.standard_library) dirs
   in
   Load_path.reset ();
-  List.iter Load_path.add_dir
-    (List.rev (Lazy.force Js_config.stdlib_path :: exp_dirs));
+  let exp_dirs =
+    List.rev_append exp_dirs [ Lazy.force Js_config.stdlib_path ]
+  in
+  List.iter Load_path.add_dir exp_dirs;
   Ext_log.dwarn ~__POS__ "Compiler include dirs: %s@."
     (String.concat "; " (Load_path.get_paths ()));
 
