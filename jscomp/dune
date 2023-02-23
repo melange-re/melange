@@ -1,3 +1,5 @@
+(dirs :standard \ test)
+
 (executable
  (name build_version)
  (libraries ext))
