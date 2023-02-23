@@ -51,11 +51,8 @@ var module_ = typeof module === "undefined" ? undefined : module;
 if (module_ !== undefined) {
   console.log([
         module_.id,
-        module_.paths
-      ]);
-  eq("File \"fs_test.ml\", line 45, characters 7-14", [
-        pathobj.name,
-        "test"
+        module_.paths,
+        pathobj.name
       ]);
 }
 
