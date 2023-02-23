@@ -1,5 +1,3 @@
-  $ source ./setup.sh
-
 Set up a few directories we'll need
 
   $ mkdir -p app
@@ -12,11 +10,11 @@ Set up a few directories we'll need
 
 Compile cmjs
 
-  $ melc $MEL_STDLIB_FLAGS -bs-legacy -bs-package-output app/ app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc -bs-legacy -bs-package-output app/ app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 Emit js
 
-  $ melc $MEL_STDLIB_FLAGS -bs-legacy -bs-module-type es6 app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc -bs-legacy -bs-module-type es6 app/.objs/melange/b.cmj -o output/app/b.js
 
 Check b.js output
 

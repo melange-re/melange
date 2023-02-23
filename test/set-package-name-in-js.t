@@ -1,6 +1,5 @@
 Set up a few directories we'll need
 
-  $ source ./setup.sh
   $ mkdir -p lib
   $ mkdir -p app
   $ mkdir -p output/lib
@@ -14,12 +13,12 @@ Test that `-bs-package-name` works with `-bs-module-type` and not setting
 
   $ cd lib/
   $ BSPKG="-bs-package-name myPackage"
-  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-package-output lib/ -bs-stop-after-cmj a.ml
+  $ melc $BSPKG -bs-package-output lib/ -bs-stop-after-cmj a.ml
   $ cd -
   $TESTCASE_ROOT
 
   $ cd app/
-  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-package-output app/ -I ../lib b.ml -bs-stop-after-cmj
+  $ melc $BSPKG -bs-package-output app/ -I ../lib b.ml -bs-stop-after-cmj
   $ cd -
   $TESTCASE_ROOT
 
@@ -27,17 +26,17 @@ The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
   $ cd output/lib
-  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-module-type commonjs ../../lib/a.cmj -o a.js
+  $ melc $BSPKG -bs-module-type commonjs ../../lib/a.cmj -o a.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $BSPKG -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $MEL_STDLIB_FLAGS $BSPKG -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
+  $ melc $BSPKG -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 

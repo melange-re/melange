@@ -1,6 +1,5 @@
 Demonstrate how to use the `melc` PPX
 
-  $ source ./setup.sh
   $ cat > x.ml <<EOF
   > let () =
   > #if MELANGE then
@@ -13,18 +12,18 @@ Demonstrate how to use the `melc` PPX
 
 `melc --as-pp` can be used in e.g. Dune `(preprocess (action ..))` fields
 
-  $ melc $MEL_STDLIB_FLAGS --as-pp x.ml > x.pp.ml
+  $ melc --as-pp x.ml > x.pp.ml
 
   $ head -c12 x.pp.ml
   Caml1999M031
 
 Preprocess with `--as-ppx`
 
-  $ melc $MEL_STDLIB_FLAGS --bs-no-builtin-ppx --as-pp x.ml > x.pp.ml
+  $ melc --bs-no-builtin-ppx --as-pp x.ml > x.pp.ml
   $ head -c12 x.pp.ml
   Caml1999M031
 
-  $ melc $MEL_STDLIB_FLAGS --as-ppx x.pp.ml x.pp2.ml
+  $ melc --as-ppx x.pp.ml x.pp2.ml
   $ head -c12 x.pp2.ml
   Caml1999M031
 

@@ -43,20 +43,7 @@ let install_dir = lazy (
 let bs_legacy = ref false
 
 let stdlib_paths =
-  lazy (match Sys.getenv "MELANGELIB" with
-  | value ->
-    let dirs =
-      String.split_on_char ':' value
-      |> List.filter (fun s -> String.length s > 0)
-    in
-    begin match List.exists (fun dir ->
-      not (Sys.is_directory dir)) dirs with
-    | false -> dirs
-    | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
-    | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
-    end
-  | exception Not_found ->
-  let root =
+  lazy (let root =
 #ifndef BS_RELEASE_BUILD
     (* ./jscomp/main/melc.exe -> ./ *)
     (Lazy.force executable_name)
@@ -73,15 +60,26 @@ if !bs_legacy then [
   // Literals.runtime_dir // Literals.package_name
 #endif
   ]
-else begin
+else begin match Sys.getenv "MELANGELIB" with
+  | value ->
+    let dirs =
+      String.split_on_char ':' value
+      |> List.filter (fun s -> String.length s > 0)
+    in
+    begin match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
+    | false -> dirs
+    | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
+    | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
+    end
+  | exception Not_found ->
 #ifdef BS_RELEASE_BUILD
-  [ root // Literals.lib // Literals.package_name // "runtime" // Literals.package_name
-  ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name
-  ; root // Literals.lib // Literals.package_name // Literals.package_name ]
+    [ root // Literals.lib // Literals.package_name // "runtime" // Literals.package_name
+    ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name
+    ; root // Literals.lib // Literals.package_name // Literals.package_name ]
 #else
-  [ root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
-  ; root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name
-  ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
+    [ root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
+    ; root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name
+    ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
 #endif
 end)
 

@@ -1,6 +1,5 @@
 Set up a few directories we'll need
 
-  $ source ./setup.sh
   $ mkdir -p lib
   $ mkdir -p app
   $ mkdir -p output/lib
@@ -15,18 +14,18 @@ If we don't have a package name, melc should allow not passing one
 
 Can't `-bs-module-type` and `-bs-package-output`
 
-  $ melc $MEL_STDLIB_FLAGS -bs-module-type es6 -bs-package-output lib/ -bs-stop-after-cmj a.ml
+  $ melc -bs-module-type es6 -bs-package-output lib/ -bs-stop-after-cmj a.ml
   melc: Can't pass both `-bs-package-output` and `-bs-module-type`
   [124]
 
 Now compile for real
 
-  $ melc $MEL_STDLIB_FLAGS -bs-package-output lib/ -bs-stop-after-cmj a.ml
+  $ melc -bs-package-output lib/ -bs-stop-after-cmj a.ml
   $ cd -
   $TESTCASE_ROOT
 
   $ cd app/
-  $ melc $MEL_STDLIB_FLAGS -bs-package-output app/ -I ../lib b.ml -bs-stop-after-cmj
+  $ melc -bs-package-output app/ -I ../lib b.ml -bs-stop-after-cmj
   $ cd -
   $TESTCASE_ROOT
 
@@ -34,12 +33,12 @@ The linking step just needs `-bs-module-type`, it already knows the package
 paths
 
   $ cd output/lib
-  $ melc $MEL_STDLIB_FLAGS -bs-module-type commonjs ../../lib/a.cmj -o a.js
+  $ melc -bs-module-type commonjs ../../lib/a.cmj -o a.js
   $ cd -
   $TESTCASE_ROOT
 
   $ cd output/app/
-  $ melc $MEL_STDLIB_FLAGS -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
+  $ melc -bs-module-type commonjs -I ../../lib ../../app/b.cmj -o b.js
   $ cd -
   $TESTCASE_ROOT
 
@@ -62,12 +61,12 @@ Now generate ES6 imports and a `.mjs` extension from the same `.cmj`
   $ mkdir -p es6-output/lib es6-output/app
 
   $ cd es6-output/lib
-  $ melc $MEL_STDLIB_FLAGS -bs-module-type es6 ../../lib/a.cmj -o a.mjs
+  $ melc -bs-module-type es6 ../../lib/a.cmj -o a.mjs
   $ cd -
   $TESTCASE_ROOT
 
   $ cd es6-output/app/
-  $ melc $MEL_STDLIB_FLAGS -bs-module-type es6 -I ../../lib ../../app/b.cmj -o b.mjs
+  $ melc -bs-module-type es6 -I ../../lib ../../app/b.cmj -o b.mjs
   $ cd -
   $TESTCASE_ROOT
 
