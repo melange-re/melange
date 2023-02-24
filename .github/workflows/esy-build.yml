@@ -57,7 +57,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's@"installConfig"@"resolutions": { "\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
+          sed -i 's@"installConfig"@"resolutions": { "\@opam/dune": "ocaml/dune:dune.opam#927b672beb3cc1c39aa54701b51cccf88ab3bc8c","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
 
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
