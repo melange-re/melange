@@ -1,6 +1,6 @@
 Demonstrate dune produces JS files corresponding to the original file name
 
-  $ . ./setup.sh
+  $ . ../setup.sh
   $ dune build ./libB/.b.objs/melange/b.cmj
 
   $ ls _build/default/libA/.a.objs/melange
