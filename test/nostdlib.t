@@ -1,7 +1,5 @@
 Set up a few directories we'll need
 
-  $ . ./setup.sh
-
 melc -nostdlib -where output is empty
 
   $ melc -where -nostdlib
