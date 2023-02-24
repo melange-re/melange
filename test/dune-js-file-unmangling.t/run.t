@@ -3,6 +3,7 @@ Showcase library name namespacing in dune
 - The `leaf` library has a module that corresponds to the library name
 - The `parent` library doesn't have any modules named `Parent`
 
+  $ . ./setup.sh
   $ dune build @melange-dist
 
   $ ls _build/default/leaf/.leaf.objs/melange

@@ -5,6 +5,7 @@ In this test case:
 - The `node` library is a wrapped library (no modules inside are named `Node`)
 - This shadows the `Node` module provided by the Melange runtime / stdlib
 
+  $ . ./setup.sh
   $ dune build @melange-dist
 
   $ ls _build/default/node/.node.objs/melange

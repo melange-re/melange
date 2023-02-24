@@ -2,6 +2,7 @@ Libraries can provide modules that shadow ones provided by Melange
 
 In this case, we create a library that shadows the `Node` module.
 
+  $ . ./setup.sh
   $ dune build @melange-dist
 
   $ ls _build/default/node/.node.objs/melange
