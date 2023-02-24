@@ -1,13 +1,13 @@
 Test that `-o output` always produces a JS file
 
+  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let () = Js.log "Hello"
   > EOF
 
-  $ which melc
-  $ melc --where
   $ melc x.ml -o ./x.js
   $ ls
+  setup.sh
   x.cmi
   x.cmj
   x.cmt

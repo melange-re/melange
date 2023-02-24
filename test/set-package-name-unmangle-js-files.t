@@ -1,5 +1,6 @@
 Set up a few directories we'll need
 
+  $ . ./setup.sh
   $ mkdir -p lib/.objs/melange
   $ mkdir -p app/.objs/melange
   $ mkdir -p output/lib

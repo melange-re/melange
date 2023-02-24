@@ -1,5 +1,6 @@
 Setup
 
+  $ . ./setup.sh
   $ echo 'let lib = "from lib"' > lib.ml
   $ echo 'let x = print_endline Lib.lib' > foo.ml
 

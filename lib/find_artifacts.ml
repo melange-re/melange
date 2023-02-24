@@ -12,6 +12,5 @@ let () =
   (* Format.eprintf "x: %d %s@." (List.length files) (files |> String.concat "; "); *)
   Format.printf "(%a)"
     (Format.pp_print_list (fun fmt f ->
-         Format.fprintf fmt "(lib/melange/%s as __MELANGE_RUNTIME__/melange/%s)"
-           f f))
+         Format.fprintf fmt "(lib/melange/%s as mel_runtime/melange/%s)" f f))
     files

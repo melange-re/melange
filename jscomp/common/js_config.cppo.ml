@@ -27,61 +27,57 @@ let (//) = Ext_path.combine
 let executable_name =
   lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
 
-let install_dir = lazy (
-#ifdef BS_RELEASE_BUILD
-  (* we start in `<install-dir>/bin/melc`.
-     (dirname (dirname executable)) == <install-dir> *)
-  Filename.(dirname (dirname Sys.executable_name))
-#else
-  (* <root>/jscomp/main/melc.exe -> <root> *)
-  Filename.(dirname (dirname (Lazy.force executable_name)))
-#endif
-)
-
 let bs_legacy = ref false
 
 let stdlib_paths =
   lazy (
     let root =
 #ifndef BS_RELEASE_BUILD
-    (* ./jscomp/main/melc.exe -> ./ *)
-    (Lazy.force executable_name)
-    |> Filename.dirname
-    |> Filename.dirname
-    |> Filename.dirname
+      (* ./jscomp/main/melc.exe -> ./ *)
+      (Lazy.force executable_name)
+      |> Filename.dirname
+      |> Filename.dirname
+      |> Filename.dirname
 #else
-    Lazy.force install_dir
+      (* <root>/bin/melc *)
+      Lazy.force executable_name
+      |> Filename.dirname
+      |> Filename.dirname
 #endif
-in
-Format.eprintf "wat %s %s %s@." (Lazy.force executable_name) Sys.executable_name root;
-if !bs_legacy then [
-  root // Literals.lib // Literals.package_name
-#ifdef BS_RELEASE_BUILD
-  // Literals.runtime_dir // Literals.package_name
-#endif
-  ]
-else begin match Sys.getenv "MELANGELIB" with
-  | value ->
-    let dirs =
-      String.split_on_char ':' value
-      |> List.filter (fun s -> String.length s > 0)
     in
-    begin match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
-    | false -> dirs
-    | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
-    | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
-    end
-  | exception Not_found ->
-#ifdef BS_RELEASE_BUILD
-    [ root // Literals.lib // Literals.package_name // "runtime" // Literals.package_name
-    ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name
-    ; root // Literals.lib // Literals.package_name // Literals.package_name ]
+    if !bs_legacy then
+#ifndef BS_RELEASE_BUILD
+      [ root // Literals.lib // Literals.package_name ]
 #else
-    [ root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
-    ; root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name
-    ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
+      [ root // Literals.lib // Literals.package_name // Literals.runtime_dir // Literals.package_name ]
 #endif
-end)
+    else
+    begin match Sys.getenv "MELANGELIB" with
+    | value ->
+      let dirs =
+        String.split_on_char ':' value
+        |> List.filter (fun s -> String.length s > 0)
+        |> List.map (fun dir ->
+            if Filename.is_relative dir
+            then Filename.concat (Filename.dirname (Lazy.force executable_name)) dir
+            else dir)
+      in
+      begin match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
+      | false -> dirs
+      | true -> raise (Arg.Bad "$MELANGELIB should only contain directories")
+      | exception Sys_error _ -> raise (Arg.Bad "$MELANGELIB dirs must exist")
+      end
+    | exception Not_found ->
+#ifndef BS_RELEASE_BUILD
+      [ root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
+      ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name
+      ; root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name ]
+#else
+      [ root // Literals.lib // Literals.package_name // "runtime" // Literals.package_name
+      ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name
+      ; root // Literals.lib // Literals.package_name // Literals.package_name ]
+#endif
+  end)
 
 (** Browser is not set via command line only for internal use *)
 

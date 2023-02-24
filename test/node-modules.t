@@ -1,5 +1,6 @@
 Set up a few directories we'll need
 
+  $ . ./setup.sh
   $ mkdir -p node_modules
   $ mkdir -p app
   $ mkdir -p node_modules/.objs/melange
@@ -15,15 +16,15 @@ Set up a few directories we'll need
 
 Generate the `.cmj` files
 
-  $ melc -bs-legacy -bs-package-output node_modules/ -bs-stop-after-cmj node_modules/a.ml -o node_modules/.objs/melange/a.cmj
+  $ melc -bs-package-output node_modules/ -bs-stop-after-cmj node_modules/a.ml -o node_modules/.objs/melange/a.cmj
 
-  $ melc -bs-legacy -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 Generate the JS files
 
-  $ melc -bs-legacy -bs-module-type commonjs node_modules/.objs/melange/a.cmj -o output/node_modules/a.js
+  $ melc -bs-module-type commonjs node_modules/.objs/melange/a.cmj -o output/node_modules/a.js
 
-  $ melc -bs-legacy -bs-module-type commonjs -I node_modules/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc -bs-module-type commonjs -I node_modules/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
 
 B depends on A, so it should import a.js in the right path
 
@@ -32,7 +33,7 @@ B depends on A, so it should import a.js in the right path
   'use strict';
   
   var A = require("../node_modules/a.js");
-  var Belt_List = require("melange/lib/js/belt_List.js");
+  var Belt_List = require("melange.belt/./belt_List.js");
   
   var t = Belt_List.map({
         hd: "Hello",

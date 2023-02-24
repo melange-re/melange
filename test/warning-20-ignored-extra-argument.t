@@ -1,5 +1,6 @@
 Test showing "ignored extra argument" warning
 
+  $ . ./setup.sh
   $ cat > main.ml <<EOF
   > type t
   > external clipboardData : t -> < .. > Js.t = "clipboardData" [@@bs.get]

@@ -1,5 +1,6 @@
 Set up a few directories we'll need
 
+  $ . ./setup.sh
   $ cat > b.re << EOF
   > let t = "foo";
   > EOF

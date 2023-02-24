@@ -5,7 +5,6 @@
 , makeWrapper
 , nix-filter
 , nodejs
-, doCheck ? true
 }:
 
 rec {
@@ -45,11 +44,13 @@ rec {
         --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/runtime/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
 
       mkdir -p $out/lib/melange
-      cp -r $OCAMLFIND_DESTDIR/melange/__MELANGE_RUNTIME__ \
+      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
             $out/lib/melange/__MELANGE_RUNTIME__
+      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
+            $out/lib/melange/mel_runtime
     '';
 
-    inherit doCheck;
+    doCheck = true;
     nativeCheckInputs = [ tree nodejs ocamlPackages.reason ];
     checkInputs = with ocamlPackages; [ ounit2 ];
 

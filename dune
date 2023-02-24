@@ -13,11 +13,11 @@
 (install
  (package melange)
  (dirs
-  (lib/es6 as __MELANGE_RUNTIME__/lib/es6)
-  (lib/js as __MELANGE_RUNTIME__/lib/js))
+  (lib/es6 as mel_runtime/lib/es6)
+  (lib/js as mel_runtime/lib/js))
  (files
-  (package.json as __MELANGE_RUNTIME__/package.json)
-  (bsconfig.json as __MELANGE_RUNTIME__/bsconfig.json)
+  (package.json as mel_runtime/package.json)
+  (bsconfig.json as mel_runtime/bsconfig.json)
   ;; while we wait for https://github.com/ocaml/dune/pull/6250
   ;; dune build lib/artifacts.sexp
   ;; cp ./_build/default/lib/artifacts.sexp lib/checked-in-artifacts.sexp

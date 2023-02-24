@@ -51,7 +51,7 @@ let package_name = "melange"
 let mel_runtime_package_prefix = "@melange/runtime"
 
 (* Library where we install the melange runtime in opam *)
-let runtime_dir = "__MELANGE_RUNTIME__"
+let runtime_dir = "mel_runtime"
 
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"

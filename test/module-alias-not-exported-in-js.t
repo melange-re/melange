@@ -1,5 +1,6 @@
 Test empty modules when including aliases (related to Dune wrapped libraries)
 
+  $ . ./setup.sh
   $ mkdir -p app
   $ mkdir -p app/.objs/melange
   $ mkdir -p output/app
