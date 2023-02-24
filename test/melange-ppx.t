@@ -38,7 +38,6 @@ Preprocess with `--as-ppx`
   > (library
   >  (modes melange)
   >  (name x)
-  >  (libraries melange)
   >  (preprocess
   >   (action (run melc --as-pp %{input-file}))))
   > EOF
