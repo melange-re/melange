@@ -1,9 +1,10 @@
-Set up a few directories we'll need
+  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
 
 melc -nostdlib -where output is empty
 
   $ melc -where -nostdlib
   
+
 
   $ cat > foo.ml <<EOF
   > let () = print_endline "hello"
