@@ -1,6 +1,6 @@
 Demonstrate the `#if MELANGE` conditional variable
 
-  $ source ./setup.sh
+  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let () =
   > #if MELANGE then
