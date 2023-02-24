@@ -3,5 +3,4 @@
  (alias melange-dist)
  (module_system commonjs)
  (entries entry_module)
- (libraries node melange.runtime)
- (compile_flags -nopervasives))
+ (libraries node))
