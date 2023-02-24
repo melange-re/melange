@@ -4,6 +4,7 @@ Test that `-o output` always produces a JS file
   > let () = Js.log "Hello"
   > EOF
 
+  $ which melc
   $ melc --where
   $ melc x.ml -o ./x.js
   $ ls
