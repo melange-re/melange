@@ -55,7 +55,7 @@ let stdlib_paths =
     begin match Sys.getenv "MELANGELIB" with
     | value ->
       let dirs =
-        String.split_on_char ':' value
+        String.split_on_char Ext_path.path_sep value
         |> List.filter (fun s -> String.length s > 0)
         |> List.map (fun dir ->
             if Filename.is_relative dir

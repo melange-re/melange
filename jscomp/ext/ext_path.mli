@@ -24,6 +24,8 @@
 
 type t
 
+val path_sep : char
+
 val simple_convert_node_path_to_os_path : string -> string
 (** Js_output is node style, which means
     separator is only '/'
