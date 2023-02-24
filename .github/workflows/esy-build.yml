@@ -46,7 +46,7 @@ jobs:
 
       - name: Clone basic template
         if: ${{ matrix.system == 'ubuntu' }}
-        run: git clone https://github.com/melange-re/melange-basic-template.git
+        run: git clone https://github.com/melange-re/melange-basic-template.git#9162cd04e2ee3f98c7dedd4259d143fa330aac03
 
       - name: Remove esy.lock in template
         if: ${{ matrix.system == 'ubuntu' }}
