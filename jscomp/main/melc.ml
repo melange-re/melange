@@ -144,7 +144,7 @@ let define_variable s =
   | _ -> raise (Arg.Bad ("illegal definition: " ^ s))
 
 let print_standard_library () =
-  print_endline (Lazy.force Js_config.stdlib_path);
+  print_endline (String.concat ":" (Js_config.std_include_dirs ()));
   exit 0
 
 let bs_version_string =

@@ -24,6 +24,7 @@
 
 val install_dir : string lazy_t
 val stdlib_path : string lazy_t
+val std_include_dirs : unit -> string list
 
 (* val get_packages_info :
    unit -> Js_packages_info.t *)

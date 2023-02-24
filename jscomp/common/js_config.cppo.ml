@@ -114,6 +114,8 @@ let js_stdout = ref true
 let all_module_aliases = ref false
 
 let no_stdlib = ref false
+let std_include_dirs () =
+  (if !no_stdlib then [] else [Lazy.force stdlib_path])
 
 let no_export = ref false
 

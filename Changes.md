@@ -31,6 +31,9 @@ Unreleased
   `include`d ([#487](https://github.com/melange-re/melange/pull/487))
 - melange: preserve the correct command-line order for load path directories
   ([#492](https://github.com/melange-re/melange/pull/492))
+- melange: respect the `-nostdlib` option; don't add stdlib / runtime to the
+  load path in that case
+  ([#496](https://github.com/melange-re/melange/pull/496))
 
 0.3.2 2022-11-19
 ---------------
