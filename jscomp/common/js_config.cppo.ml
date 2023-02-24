@@ -24,10 +24,8 @@
 
 let (//) = Ext_path.combine
 
-#ifndef BS_RELEASE_BUILD
 let executable_name =
   lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
-#endif
 
 let install_dir = lazy (
 #ifdef BS_RELEASE_BUILD
@@ -43,7 +41,8 @@ let install_dir = lazy (
 let bs_legacy = ref false
 
 let stdlib_paths =
-  lazy (let root =
+  lazy (
+    let root =
 #ifndef BS_RELEASE_BUILD
     (* ./jscomp/main/melc.exe -> ./ *)
     (Lazy.force executable_name)
@@ -54,6 +53,7 @@ let stdlib_paths =
     Lazy.force install_dir
 #endif
 in
+Format.eprintf "wat %s %s %s@." (Lazy.force executable_name) Sys.executable_name root;
 if !bs_legacy then [
   root // Literals.lib // Literals.package_name
 #ifdef BS_RELEASE_BUILD
