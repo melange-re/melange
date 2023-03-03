@@ -49,7 +49,7 @@ JavaScript, the Melange runtime library needs to be present in `node_modules`
 so that it can be found by JavaScript based tooling:
 
 ``` shell
-ln -sfn $(opam var prefix)/lib/melange/runtime node_modules/melange
+ln -sfn $(opam var prefix)/lib/melange/mel_runtime node_modules/melange
 ```
 
 #### Manual setup
