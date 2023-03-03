@@ -10,6 +10,7 @@
 , ocamlPackages
 , git
 , python3
+, nodePackages
 , release-mode ? false
 }:
 
@@ -31,6 +32,7 @@ mkShell {
     python3
     nodejs_latest
     yarn
+    nodePackages.mocha
   ]
   ++ (with ocamlPackages; [
     merlin

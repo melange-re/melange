@@ -23,11 +23,20 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
-          melange-compiler-libs.overlays.default
           (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper:
-              { });
+              {
+                dune_3 = osuper.dune_3.overrideAttrs (_: {
+                  src = super.fetchFromGitHub {
+                    owner = "ocaml";
+                    repo = "dune";
+                    rev = "5de6e9f0946727f3cab329f9442273c0bfcca3cf";
+                    sha256 = "sha256-W5Q4VNi9OjidRTwQkuilm1MVyQqo7WuaTIQsTTLjpSQ=";
+                  };
+                });
+              });
           })
+          melange-compiler-libs.overlays.default
         ];
       in
 

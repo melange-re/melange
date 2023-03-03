@@ -1,6 +1,6 @@
 Setup
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ echo 'let lib = "from lib"' > lib.ml
   $ echo 'let x = print_endline Lib.lib' > foo.ml
 

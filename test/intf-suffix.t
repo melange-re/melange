@@ -1,6 +1,6 @@
 Set up a few directories we'll need
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ cat > b.re << EOF
   > let t = "foo";
   > EOF

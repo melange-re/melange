@@ -58,7 +58,8 @@ let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
   match Js_packages_info.query_package_infos package_info module_system with
   | Package_not_found -> assert false
   | Package_script ->
-      Ext_module_system.runtime_package_path module_system js_file
+      Ext_module_system.runtime_package_path ~legacy:!Js_config.bs_legacy
+        module_system js_file
   | Package_found (Separate path_info | Batch { path_info; _ }) -> (
       match Js_packages_info.is_runtime_package package_info with
       | true ->
@@ -68,7 +69,8 @@ let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
       | false -> (
           match module_system with
           | NodeJS | Es6 ->
-              Ext_module_system.runtime_package_path module_system js_file
+              Ext_module_system.runtime_package_path
+                ~legacy:!Js_config.bs_legacy module_system js_file
           (* Note we did a post-processing when working on Windows *)
           | Es6_global ->
               (* lib/ocaml/xx.cmj --

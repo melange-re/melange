@@ -17,6 +17,15 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+          dune_3 = osuper.dune_3.overrideAttrs (_: {
+            src = super.fetchFromGitHub {
+              owner = "ocaml";
+              repo = "dune";
+              rev = "5de6e9f0946727f3cab329f9442273c0bfcca3cf";
+              sha256 = "sha256-W5Q4VNi9OjidRTwQkuilm1MVyQqo7WuaTIQsTTLjpSQ=";
+            };
+
+          });
           melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
             src = super.fetchFromGitHub {
               owner = "melange-re";
@@ -29,7 +38,7 @@ let
       })
     ];
   };
-  inherit (pkgs) stdenv nodejs yarn git lib ocamlPackages tree;
+  inherit (pkgs) stdenv nodejs yarn git lib nodePackages ocamlPackages tree;
   packages = pkgs.callPackage ./.. { inherit nix-filter; };
   inputString =
     builtins.substring
@@ -60,6 +69,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
   buildInputs = [
+    nodePackages.mocha
     packages.melange
     packages.mel
     ocamlPackages.reason
@@ -69,11 +79,20 @@ stdenv.mkDerivation {
   ];
 
   checkPhase = ''
-    # https://github.com/yarnpkg/yarn/issues/2629#issuecomment-685088015
-    yarn install --frozen-lockfile --check-files --cache-folder .ycache && rm -rf .ycache
-    ln -sfn ${packages.melange}/lib/melange/runtime node_modules/melange
-    mel build -- --display=short
+    cat > dune-project <<EOF
+    (lang dune 3.7)
+    (using melange 0.1)
+    (using directory-targets 0.1)
+    EOF
+    dune build @melange-runtime-tests --display=short
 
-    node ./node_modules/.bin/mocha "./*_test.js"
+    mocha "_build/default/dist/*_test.js"
+
+    mkdir node_modules
+    dune clean
+    ln -sfn ${packages.melange}/lib/melange/__MELANGE_RUNTIME__ node_modules/melange
+    rm -rf ./dune
+    mel build -- --display=short
+    mocha "./*_test.js"
   '';
 }

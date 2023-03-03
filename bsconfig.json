@@ -2,12 +2,10 @@
   "name": "melange",
   "version": "7.0.0",
   "workspace": {
-    "@melange/runtime-stdlib-mini": "jscomp/runtime/bs_stdlib_mini",
     "@melange/runtime": "jscomp/runtime",
     "@melange/runtime-others": "jscomp/others",
     "@melange/runtime-stdlib": "jscomp/stdlib-412",
-    "@melange/runtime-stdlib-modules": "jscomp/stdlib-412/stdlib_modules",
-    "@melange/runtime-stdlib-labels": "jscomp/stdlib-412/stdlib_labels"
+    "@melange/runtime-stdlib-modules": "jscomp/stdlib-412/stdlib_modules"
   },
   "sources": [],
   "package-specs": [
@@ -24,8 +22,7 @@
     "@melange/runtime",
     "@melange/runtime-others",
     "@melange/runtime-stdlib",
-    "@melange/runtime-stdlib-modules",
-    "@melange/runtime-stdlib-labels"
+    "@melange/runtime-stdlib-modules"
   ],
   "generate-merlin": false
 }

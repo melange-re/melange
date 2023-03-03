@@ -1,6 +1,6 @@
 Set up a few directories we'll need
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ../setup.sh
   $ dune build ./libB/.b.objs/melange/b.cmj
 
 Setting `(wrapped false)` in `(library (name a))` will produce unmangled JS
@@ -19,20 +19,16 @@ files
   b.cmj
   b.cmt
 
-  $ dune build @melange-dist --display=short
-          melc .dist.mobjs/melange/melange.{cmi,cmj,cmt}
-          melc dist/libA/a.js
-          melc dist/libA/other.js
-          melc dist/libB/b.js
-          melc dist/.dist.mobjs/melange.js
+  $ dune build @melange-dist
 
 The resulting directory produces JS files with the same structure as the source
 tree. Because `(wrapped false)` was present, JS file names are not mangled
 
-  $ tree --noreport ./_build/default/dist
-  ./_build/default/dist
-  |-- libA
-  |   |-- a.js
-  |   `-- other.js
-  `-- libB
-      `-- b.js
+  $ tree --noreport ./_build/default/dist/libA
+  ./_build/default/dist/libA
+  |-- a.js
+  `-- other.js
+
+  $ tree --noreport ./_build/default/dist/libB
+  ./_build/default/dist/libB
+  `-- b.js

@@ -1,6 +1,6 @@
 Demonstrate the `#if MELANGE` conditional variable
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let () =
   > #if MELANGE then

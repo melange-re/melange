@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bs_stdlib_mini
 
 
 (* This module would  only work with js backend, since it requires
@@ -34,32 +35,32 @@
 
 
 
-let %private 
+let %private
 {
   shift_right_logical =  (>>>~);
   add = (+~);
   mul = ( *~ )
-} = 
+} =
   (module Caml_nativeint_extern)
 
 let {i64_eq = eq ;
   i64_ge = ge;
   i64_gt = gt;
-  } = (module Caml) 
+  } = (module Caml)
 
 let lognot x =  x lxor (-1)
 
-(* [hi] is signed 
+(* [hi] is signed
    [lo] is unsigned
 
-   signedness does not matter when they are doing int32 bits operation   
+   signedness does not matter when they are doing int32 bits operation
    however, they are different when doing comparison
 *)
 type t =   Caml_int64_extern.t = {
-  hi : int ; [@as "0"] lo : int ; [@as "1" ] 
+  hi : int ; [@as "0"] lo : int ; [@as "1" ]
 }
 
-external unsafe_to_int64 : t -> int64 = "%identity"           
+external unsafe_to_int64 : t -> int64 = "%identity"
 external unsafe_of_int64 : int64 -> t = "%identity"
 
 
@@ -78,15 +79,15 @@ let neg_one = mk ~lo:(-1) ~hi:(-1)
 
 let neg_signed x =  (x  land 0x8000_0000) <> 0
 let non_neg_signed x = (x  land 0x8000_0000) = 0
-let succ_aux ~x_lo ~x_hi = 
-  let lo =  ( x_lo +~ 1) lor 0 in  
+let succ_aux ~x_lo ~x_hi =
+  let lo =  ( x_lo +~ 1) lor 0 in
   mk ~lo ~hi:(( x_hi +~ if lo = 0 then 1 else 0) lor 0)
 let succ ( {lo = x_lo; hi = x_hi} : t) =
   succ_aux ~x_lo ~x_hi
 
 let neg ( {lo;hi} ) =
-  let other_lo = (lognot lo +~  1) lor 0 in   
-  mk ~lo:other_lo 
+  let other_lo = (lognot lo +~  1) lor 0 in
+  mk ~lo:other_lo
     ~hi:((lognot hi +~ if other_lo = 0 then 1 else 0)  lor 0)
 
 
@@ -94,20 +95,20 @@ let neg ( {lo;hi} ) =
 
 
 
-let add_aux 
+let add_aux
     ( {lo = x_lo; hi = x_hi} : t)
     ~y_lo ~y_hi  =
   let lo =  ( x_lo +~ y_lo) lor 0 in
   let overflow =
     if (neg_signed x_lo && ( neg_signed y_lo  ||  (non_neg_signed lo)))
     || (neg_signed y_lo  &&  (non_neg_signed lo))
-       (* we can make it symmetric by adding (neg_signed x_lo) but it will make it 
+       (* we can make it symmetric by adding (neg_signed x_lo) but it will make it
           verbose and slow
           a (b+c) + b (a+c)
-          --> bc + ac + ab 
+          --> bc + ac + ab
           --> a (b+c) + bc
        *)
-    then 1 
+    then 1
     else  0
   in
   mk ~lo ~hi:(( x_hi +~ y_hi +~ overflow) lor 0)
@@ -123,28 +124,28 @@ let add
 
 
 
-let equal_null x y =    
-  match Js.nullToOption y with 
-  | None -> false 
-  | Some y -> eq x y 
-let equal_undefined x y =   
-  match Js.undefinedToOption y with 
-  | None -> false 
-  | Some y -> eq x y   
-let equal_nullable x y =   
-  match Js.toOption y with 
-  | None -> false 
-  | Some y -> eq x y 
+let equal_null x y =
+  match Js.nullToOption y with
+  | None -> false
+  | Some y -> eq x y
+let equal_undefined x y =
+  match Js.undefinedToOption y with
+  | None -> false
+  | Some y -> eq x y
+let equal_nullable x y =
+  match Js.toOption y with
+  | None -> false
+  | Some y -> eq x y
 
 
 
 (* when [lo] is unsigned integer, [lognot lo] is still an unsigned integer  *)
-let sub_aux x ~lo ~hi = 
-  let y_lo =  (lognot lo +~  1) >>>~ 0 in 
-  let y_hi =  ((lognot hi +~ if y_lo = 0 then 1 else 0)  lor  0) in 
+let sub_aux x ~lo ~hi =
+  let y_lo =  (lognot lo +~  1) >>>~ 0 in
+  let y_hi =  ((lognot hi +~ if y_lo = 0 then 1 else 0)  lor  0) in
   add_aux x ~y_lo ~y_hi
 
-let sub self ({lo;hi})= sub_aux self ~lo ~hi 
+let sub self ({lo;hi})= sub_aux self ~lo ~hi
 
 
 let lsl_ ( {lo; hi} as x) numBits =
@@ -171,7 +172,7 @@ let lsr_ ( {lo; hi} as x) numBits =
     else
       mk
         ~hi: ( hi >>>~ numBits)
-        ~lo:(          
+        ~lo:(
           (hi lsl (-offset))
           lor
           ( lo >>>~ numBits))
@@ -253,7 +254,7 @@ let rec mul this
           (
             (c00 land 0xffff) lor
             ( (c16.contents land 0xffff) lsl 16))
-          ~hi:( 
+          ~hi:(
             c32.contents lor
             ( c48.contents lsl 16))
 
@@ -294,13 +295,13 @@ let and_ ( {lo = this_lo; hi= this_hi}) ( {lo = other_lo; hi = other_hi}) =
 
 
 
-let to_float ( {hi; lo} : t) = 
+let to_float ( {hi; lo} : t) =
   Caml_nativeint_extern.to_float ( hi *~ [%raw{|0x100000000|}] +~ lo)
 
 
 
 
-(** sign: Positive  
+(** sign: Positive
     -FIXME: hex notation
 *)
 let two_ptr_32_dbl = 4294967296. (* 2. ** 32*)
@@ -334,60 +335,60 @@ external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
 external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
 (* external maxFloat : float -> float -> float = "Math.max" [@@bs.val] *)
 
-(* either top 11 bits are all 0 or all 1 
+(* either top 11 bits are all 0 or all 1
    when it is all 1, we need exclude -2^53
 *)
-let isSafeInteger ({hi;lo}) = 
-  let top11Bits = hi asr 21 in   
-  top11Bits = 0 || 
-  (top11Bits = -1 && 
+let isSafeInteger ({hi;lo}) =
+  let top11Bits = hi asr 21 in
+  top11Bits = 0 ||
+  (top11Bits = -1 &&
    Pervasives.not (lo = 0 && hi = 0xff_e0_00_00))
 
-external string_of_float : float -> string = "String" [@@bs.val] 
-let rec to_string ( self : int64) = 
+external string_of_float : float -> string = "String" [@@bs.val]
+let rec to_string ( self : int64) =
   let ({hi=self_hi;_} as self) = unsafe_of_int64 self in
-  if isSafeInteger self then 
+  if isSafeInteger self then
     string_of_float (to_float self)
-  else 
+  else
 
-  if self_hi <0 then 
+  if self_hi <0 then
     if eq self min_int then "-9223372036854775808"
     else "-" ^ to_string (unsafe_to_int64 (neg self))
-  else (* large positive number *)    
+  else (* large positive number *)
     let ( {lo ; hi} as approx_div1) =  (of_float (floor (to_float self /. 10.) )) in
     let ( { lo = rem_lo ;hi = rem_hi} ) = (* rem should be a pretty small number *)
-      self 
+      self
       |. sub_aux  ~lo:(lo lsl 3) ~hi:((lo>>>~29) lor (hi lsl 3))
       |. sub_aux ~lo:(lo lsl 1) ~hi: ((lo >>>~ 31) lor (hi lsl 1))
-    in 
+    in
     if rem_lo =0 && rem_hi = 0 then to_string (unsafe_to_int64 approx_div1) ^ "0"
-    else 
-    if rem_hi < 0 then 
+    else
+    if rem_hi < 0 then
       (* let ( {lo = rem_lo}) = neg rem in      *)
-      let rem_lo = (lognot rem_lo +~ 1 ) >>>~ 0 |. Caml_nativeint_extern.to_float  in 
-      let delta =  (ceil (rem_lo /. 10.)) in 
+      let rem_lo = (lognot rem_lo +~ 1 ) >>>~ 0 |. Caml_nativeint_extern.to_float  in
+      let delta =  (ceil (rem_lo /. 10.)) in
       let remainder = 10. *. delta -. rem_lo in
       (
-        approx_div1 
+        approx_div1
         |. sub_aux ~lo:(Caml_nativeint_extern.of_float delta) ~hi:0
-        |. unsafe_to_int64 
+        |. unsafe_to_int64
         |. to_string
-      ) ^ 
+      ) ^
       Caml_nativeint_extern.to_string (Caml_nativeint_extern.of_float remainder)
-    else 
-      let rem_lo = Caml_nativeint_extern.to_float rem_lo in 
-      let delta =  (floor (rem_lo /. 10.)) in 
-      let remainder = rem_lo -. 10. *. delta in 
-      (approx_div1 
+    else
+      let rem_lo = Caml_nativeint_extern.to_float rem_lo in
+      let delta =  (floor (rem_lo /. 10.)) in
+      let remainder = rem_lo -. 10. *. delta in
+      (approx_div1
        |. add_aux ~y_lo:(Caml_nativeint_extern.of_float delta) ~y_hi:0
-       |. unsafe_to_int64 
+       |. unsafe_to_int64
        |. to_string)
-      ^                                                    
-      Caml_nativeint_extern.to_string (Caml_nativeint_extern.of_float remainder) 
+      ^
+      Caml_nativeint_extern.to_string (Caml_nativeint_extern.of_float remainder)
 
 
-let [@inline] float_max (a : float) b = 
-  if a > b then a else b 
+let [@inline] float_max (a : float) b =
+  if a > b then a else b
 let rec div self other =
   match self, other with
   | _,  {lo = 0 ; hi = 0} ->
@@ -458,11 +459,11 @@ let div_mod (self : int64) (other : int64) : int64 * int64 =
 
 (** Note this function is unasfe here, but when combined it is actually safe
     In theory, we need do an uint_compare for [lo] components
-    The thing is [uint_compare] and [int_compare] are specialised 
+    The thing is [uint_compare] and [int_compare] are specialised
     to the same code when translted into js
 *)
-let [@inline] int_compare (x : int)  y = 
-  if x < y then -1 else if x = y then 0 else 1 
+let [@inline] int_compare (x : int)  y =
+  if x < y then -1 else if x = y then 0 else 1
 
 let compare ( self) ( other) =
   let v = int_compare self.hi other.hi in
@@ -479,7 +480,7 @@ let to_int32 ( x) = x.lo lor 0 (* signed integer *)
 (* width does matter, will it be relevant to endian order? *)
 
 let to_hex (x : int64) =
-  let  {hi = x_hi; lo = x_lo} = unsafe_of_int64 x in 
+  let  {hi = x_hi; lo = x_lo} = unsafe_of_int64 x in
   let aux v : string =
     Caml_string_extern.of_int (Caml_nativeint_extern.shift_right_logical v 0) ~base:16
   in
@@ -496,9 +497,9 @@ let to_hex (x : int64) =
       aux x_hi ^ Caml_string_extern.repeat "0" pad   ^ lo
 
 
-let discard_sign (x : int64) : int64 = 
-  let v = unsafe_of_int64 x in   
-  unsafe_to_int64 
+let discard_sign (x : int64) : int64 =
+  let v = unsafe_of_int64 x in
+  unsafe_to_int64
     (match v with  v ->  {  v with hi = 0x7fff_ffff land v.hi })
 
 (* >>> 0 does not change its bit representation
@@ -513,8 +514,8 @@ let discard_sign (x : int64) : int64 =
    ]}
 *)
 
-let float_of_bits ( x : t) : float =  
-  ([%raw{|function(lo,hi){ return (new Float64Array(new Int32Array([lo,hi]).buffer))[0]}|}] : _ -> _ -> _ ) x.lo x.hi 
+let float_of_bits ( x : t) : float =
+  ([%raw{|function(lo,hi){ return (new Float64Array(new Int32Array([lo,hi]).buffer))[0]}|}] : _ -> _ -> _ ) x.lo x.hi
 
 (* let to_int32 (x : nativeint) = x |> Caml_nativeint_extern.to_int32
    in
@@ -526,6 +527,6 @@ let float_of_bits ( x : t) : float =
    let int32 = Int32_array.make  [| to_int32 x.lo; to_int32 x.hi |] in
    Float64_array.unsafe_get (Float64_array.fromBuffer (Int32_array.buffer int32)) 0 *)
 
-let  bits_of_float : float -> t  = fun x -> 
-  let lo,hi = ([%raw{|function(x){return new Int32Array(new Float64Array([x]).buffer)}|}] : _ -> _) x in 
+let  bits_of_float : float -> t  = fun x ->
+  let lo,hi = ([%raw{|function(x){return new Int32Array(new Float64Array([x]).buffer)}|}] : _ -> _) x in
   mk ~lo ~hi

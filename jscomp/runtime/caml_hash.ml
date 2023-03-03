@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,15 +17,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 [@@@bs.config {flags = [|"-bs-noassertfalse"|]}]
+
+open Bs_stdlib_mini
+
 type 'a cell = {
-  content : 'a ; 
-  mutable next : 'a cell option 
-}  
+  content : 'a ;
+  mutable next : 'a cell option
+}
 and 'a t = {
   mutable length : int ;
   mutable first : 'a cell option;
@@ -33,40 +36,40 @@ and 'a t = {
 }
 
 
-let create_queue () = 
+let create_queue () =
   {
     length=0 ;
     first = None;
     last= None}
 
 (* Added to tail *)
-let push_back (q :'a t) (v : 'a) = 
-  let cell = 
+let push_back (q :'a t) (v : 'a) =
+  let cell =
     Some
       {content=v ; next=None}
-  in 
-  match q.last with 
+  in
+  match q.last with
   | None ->
     q . length<- 1 ;
     q . first <- cell;
     q . last <- cell
-  | Some last -> 
+  | Some last ->
     q . length <- q . length + 1;
     last . next <- cell;
     q . last <- cell
 
-let is_empty_queue q = q.length  = 0     
+let is_empty_queue q = q.length  = 0
 
 (* pop from front *)
 
 
-let unsafe_pop (q : 'a t) =        
-  match q.first with 
-  | None -> assert false 
-  | Some cell -> 
-    let next =cell.next in 
+let unsafe_pop (q : 'a t) =
+  match q.first with
+  | None -> assert false
+  | Some cell ->
+    let next =cell.next in
     if next = None then (
-      q . length <- 0 ; 
+      q . length <- 0 ;
       q . first <- None;
       q . last<- None;
     ) else (
@@ -82,79 +85,78 @@ let caml_hash_final_mix = Caml_hash_primitive.caml_hash_final_mix
 let caml_hash_mix_string =  Caml_hash_primitive.caml_hash_mix_string
 
 
-let caml_hash (count : int) _limit (seed : int) 
-    (obj : Obj.t) : int = 
-  let hash = ref seed in 
+let caml_hash (count : int) _limit (seed : int)
+    (obj : Obj.t) : int =
+  let hash = ref seed in
   if Js.typeof obj = "number" then
-    begin 
+    begin
       let u = Caml_nativeint_extern.of_float (Obj.magic obj) in
       hash.contents <- caml_hash_mix_int hash.contents (u + u + 1) ;
       caml_hash_final_mix hash.contents
     end
-  else if Js.typeof obj = "string" then 
-    begin 
+  else if Js.typeof obj = "string" then
+    begin
       hash.contents <- caml_hash_mix_string hash.contents (Obj.magic obj : string);
       caml_hash_final_mix hash.contents
     end
     (* TODO: hash [null] [undefined] as well *)
-  else 
+  else
 
-    let queue =  create_queue () in 
-    let num = ref count in 
-    let () = 
-      push_back  queue obj; 
+    let queue =  create_queue () in
+    let num = ref count in
+    let () =
+      push_back  queue obj;
       num.contents <- num.contents - 1
-    in 
+    in
     while not ( is_empty_queue queue) && num.contents > 0 do
-      let obj =  unsafe_pop queue in 
+      let obj =  unsafe_pop queue in
       if Js.typeof obj = "number" then
-        begin 
+        begin
           let u = Caml_nativeint_extern.of_float (Obj.magic obj) in
           hash.contents <- caml_hash_mix_int hash.contents (u + u + 1) ;
           num.contents <- num.contents - 1;
-        end 
-      else if Js.typeof obj = "string" then 
-        begin 
-          hash.contents <- caml_hash_mix_string hash.contents (Obj.magic obj : string);
-          num.contents <- num.contents - 1 
         end
-      else if Js.typeof obj = "boolean" then 
+      else if Js.typeof obj = "string" then
+        begin
+          hash.contents <- caml_hash_mix_string hash.contents (Obj.magic obj : string);
+          num.contents <- num.contents - 1
+        end
+      else if Js.typeof obj = "boolean" then
         ()
-      else if Js.typeof obj = "undefined" then 
+      else if Js.typeof obj = "undefined" then
         ()
-      else if Js.typeof obj = "symbol" then 
+      else if Js.typeof obj = "symbol" then
         ()
       else if Js.typeof obj = "function" then
-        () 
-      else 
-        let size = Obj.size obj in 
-        if size <> 0 then begin        
+        ()
+      else
+        let size = Obj.size obj in
+        if size <> 0 then begin
           let obj_tag = Obj.tag obj in
-          let tag = (size lsl 10) lor obj_tag in 
-          if obj_tag = 248 (* Obj.object_tag*) then 
-            hash.contents <- caml_hash_mix_int hash.contents 
+          let tag = (size lsl 10) lor obj_tag in
+          if obj_tag = 248 (* Obj.object_tag*) then
+            hash.contents <- caml_hash_mix_int hash.contents
                 (Obj.obj (Obj.field obj 1) : int)
-          else 
-            begin 
+          else
+            begin
               hash.contents <- caml_hash_mix_int hash.contents tag ;
-              let block = 
-                let v = size - 1 in if v <  num.contents then v else num.contents in 
+              let block =
+                let v = size - 1 in if v <  num.contents then v else num.contents in
               for i = 0 to block do
-                push_back queue (Obj.field obj i ) 
-              done 
+                push_back queue (Obj.field obj i )
+              done
             end
         end else
-          begin             
+          begin
             let size : int = ([%raw {|function(obj,cb){
-            var size = 0  
+            var size = 0
             for(var k in obj){
               cb(obj[k])
               ++ size
             }
             return size
-          }|}] obj (fun [@bs] v -> push_back queue v ) [@bs]) in    
+          }|}] obj (fun [@bs] v -> push_back queue v ) [@bs]) in
             hash.contents <- caml_hash_mix_int hash.contents  ((size lsl 10) lor 0) (*tag*) ;
           end
     done;
     caml_hash_final_mix hash.contents
-

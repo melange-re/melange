@@ -1,7 +1,6 @@
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
-
 Set up a few directories we'll need
 
+  $ . ./setup.sh
   $ mkdir -p node_modules
   $ mkdir -p app
   $ mkdir -p node_modules/.objs/melange
@@ -34,7 +33,7 @@ B depends on A, so it should import a.js in the right path
   'use strict';
   
   var A = require("../node_modules/a.js");
-  var Belt_List = require("melange/lib/js/belt_List.js");
+  var Belt_List = require("melange.belt/./belt_List.js");
   
   var t = Belt_List.map({
         hd: "Hello",

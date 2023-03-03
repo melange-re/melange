@@ -1,4 +1,11 @@
-{ stdenv, ocamlPackages, lib, tree, nix-filter, nodejs, doCheck ? true }:
+{ stdenv
+, ocamlPackages
+, lib
+, tree
+, makeWrapper
+, nix-filter
+, nodejs
+}:
 
 rec {
   melange = ocamlPackages.buildDunePackage rec {
@@ -33,16 +40,22 @@ rec {
     '';
 
     postInstall = ''
+      wrapProgram "$out/bin/melc" \
+        --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/runtime/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
+
       mkdir -p $out/lib/melange
-      mv $out/lib/ocaml/${ocamlPackages.ocaml.version}/site-lib/melange/melange $out/lib/melange/melange
-      cp -r $out/lib/ocaml/${ocamlPackages.ocaml.version}/site-lib/melange/runtime $out/lib/melange/runtime
+      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
+            $out/lib/melange/__MELANGE_RUNTIME__
+      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
+            $out/lib/melange/mel_runtime
     '';
 
-    inherit doCheck;
+    doCheck = true;
     nativeCheckInputs = [ tree nodejs ocamlPackages.reason ];
     checkInputs = with ocamlPackages; [ ounit2 ];
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];
+    buildInputs = [ makeWrapper ];
     propagatedBuildInputs = with ocamlPackages; [
       base64
       melange-compiler-libs

@@ -1,0 +1,26 @@
+(library
+ (public_name melange.runtime)
+ (name runtime)
+ (modes melange)
+ (wrapped false)
+ (preprocess
+  (action
+   (run
+    melc
+    -as-pp
+    -bs-no-check-div-by-zero
+    -bs-cross-module-opt
+    -unsafe
+    %{input-file})))
+ (flags :standard \ -keep-locs)
+ (melange.compile_flags
+  -no-keep-locs
+  -bs-no-version-header
+  -bs-no-check-div-by-zero
+  -bs-cross-module-opt
+  -unsafe
+  -nopervasives
+  -nostdlib
+  -bs-no-builtin-ppx
+  -w
+  -61-69))

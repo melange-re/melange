@@ -51,7 +51,7 @@ let mk_ml_cmj_cmd ~(global_config : Bsb_ninja_global_vars.t) ~package_specs
     let dev_incls = rel_incls global_config.g_dev_incls in
     output_string oc " ";
     output_string oc dev_incls);
-  output_string oc " ";
+  output_string oc " -bs-legacy ";
   output_string oc (rel_incls global_config.g_sourcedirs_incls);
   output_string oc " ";
   output_string oc

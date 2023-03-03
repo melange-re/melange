@@ -305,7 +305,6 @@
     }
   ],
   "bs-dependencies": [
-    "@melange/runtime-stdlib-mini",
     "@melange/runtime"
   ]
 }

@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bs_stdlib_mini
 
 
 (* borrowed from others/js_math.ml *)
@@ -31,20 +32,20 @@ external abs_float : float -> float = "Math.abs" [@@bs.val]
 external floor : float -> float = "Math.floor" [@@bs.val]
 external exp : float -> float =  "exp" [@@bs.val] [@@bs.scope "Math"]
 external log : float -> float = "Math.log" [@@bs.val]
-external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"] 
+external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
 external pow_float : base:float -> exp:float -> float = "Math.pow" [@@bs.val]
 external int_of_float : float -> int = "%intoffloat"
 external float_of_int : int -> float = "%floatofint"
 
 let caml_int32_float_of_bits : int32 -> float = [%raw{|function(x){
-    return new Float32Array(new Int32Array([x]).buffer)[0] 
+    return new Float32Array(new Int32Array([x]).buffer)[0]
     }|}]
 (* let int32 = Int32_array.make [| x |] in
    let float32 = Float32_array.fromBuffer ( Int32_array.buffer int32) in
    Float32_array.unsafe_get float32 0 *)
 
 let caml_int32_bits_of_float : float -> int32 = [%raw{|function(x){
-  return new Int32Array(new Float32Array([x]).buffer)[0] 
+  return new Int32Array(new Float32Array([x]).buffer)[0]
 }|}]
 (* let float32 = Float32_array.make [|x|] in
    Int32_array.unsafe_get (Int32_array.fromBuffer (Float32_array.buffer float32)) 0 *)
@@ -112,7 +113,7 @@ let  caml_expm1_float : float -> float = function x ->
   if abs_float x > 1. then z
   else if z = 0. then x else x *. z /. log y
 
-(* 
+(*
 (* http://blog.csdn.net/liyuanbhu/article/details/8544644 *)
 let caml_log1p_float : float -> float = function x ->
   let y = 1. +.  x  in
@@ -130,11 +131,10 @@ let caml_hypot_float (x: float) (y: float): float =
 let caml_log10_float (x: float): float =
   _LOG10E *. log x
 
-(* 
+(*
 let caml_cosh_float x = exp x +. exp (-. x) /. 2.
 let caml_sin_float x = exp x -. exp (-. x) /. 2.
 let caml_tan_float x =
   let y = exp x in
   let z = exp (-. x) in
   (y +. z) /. (y -. z   ) *)
-

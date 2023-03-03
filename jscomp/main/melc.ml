@@ -203,6 +203,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_noassertfalse;
       noassert;
       bs_loc;
+      bs_legacy;
       impl = impl_source_file;
       intf = intf_source_file;
       intf_suffix;
@@ -316,6 +317,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_cmj then Js_config.force_cmj := bs_cmj;
     if bs_no_version_header then
       Js_config.no_version_header := bs_no_version_header;
+    if bs_legacy then
+      Js_config.bs_legacy := bs_legacy;
 
     if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;

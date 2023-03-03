@@ -200,7 +200,10 @@ let merlin_file_gen ~(per_proj_dir : string)
         match Sys.getenv "MELANGELIB" with
         | value -> value
         | exception Not_found ->
-            let pin = Unix.open_process_args_in "melc" [| "melc"; "-where" |] in
+            let pin =
+              Unix.open_process_args_in "melc"
+                [| "melc"; "-bs-legacy"; "-where" |]
+            in
             let stdlib_path = input_line pin in
             close_in pin;
             stdlib_path

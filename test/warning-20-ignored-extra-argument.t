@@ -1,7 +1,6 @@
 Test showing "ignored extra argument" warning
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
-
+  $ . ./setup.sh
   $ cat > main.ml <<EOF
   > type t
   > external clipboardData : t -> < .. > Js.t = "clipboardData" [@@bs.get]

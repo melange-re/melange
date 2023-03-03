@@ -32,6 +32,7 @@ let simple_convert_node_path_to_os_path =
   else failwith ("Unknown OS : " ^ Sys.os_type)
 
 let cwd = lazy (Sys.getcwd ())
+let path_sep = if Sys.win32 then ';' else ':'
 
 let split_by_sep_per_os : string -> string list =
   if Ext_sys.is_windows_or_cygwin then fun x ->

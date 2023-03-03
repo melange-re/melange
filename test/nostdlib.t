@@ -1,4 +1,4 @@
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
 
 melc -nostdlib -where output is empty
 

@@ -1,4 +1,6 @@
 (cram
  (package melange)
  (deps
+  (env_var MELANGE_LIB)
+  setup.sh
   (package melange)))

@@ -8,7 +8,7 @@ license: "LGPL-2.1-or-later"
 homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
-  "dune" {>= "3.5"}
+  "dune" {>= "3.7"}
   "ocaml"
   "melange" {= version}
   "cmdliner" {>= "1.1.0"}

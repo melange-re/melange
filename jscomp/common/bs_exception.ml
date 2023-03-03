@@ -50,8 +50,7 @@ let report_error ppf = function
         "%s not found, it means either the module does not exist or it is a \
          namespace"
         s
-  | Js_not_found s ->
-      Format.fprintf ppf "%s not found, needed in script mode " s
+  | Js_not_found s -> Format.fprintf ppf "%s not found, needed in script mode" s
   | Bs_cyclic_depends str ->
       Format.fprintf ppf "Cyclic depends : @[%a@]"
         (Format.pp_print_list ~pp_sep:Format.pp_print_space

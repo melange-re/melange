@@ -1,6 +1,6 @@
 Set up a few directories we'll need
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ mkdir -p lib
   $ mkdir -p app
   $ mkdir -p output/lib

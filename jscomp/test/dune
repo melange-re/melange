@@ -1,0 +1,89 @@
+(library
+ (name test_runner)
+ (wrapped false)
+ (modes melange)
+ (modules mt)
+ (libraries melange)
+ (melange.compile_flags -w -27-32 -bs-no-version-header -bs-cross-module-opt))
+
+(library
+ (name melange_runtime_tests)
+ (modes melange)
+ (libraries melange test_runner)
+ (wrapped false)
+ (preprocess
+  (action
+   (run melc -as-pp -bs-cross-module-opt %{input-file})))
+ (modules :standard \ mt)
+ (melange.compile_flags
+  -w
+  -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
+  -bs-no-version-header
+  -bs-cross-module-opt
+  -bs-no-builtin-ppx))
+
+;; same as above but no preprocessing
+
+(subdir
+ re_or_res
+ (library
+  (name melange_tests_re_res)
+  (modes melange)
+  (libraries melange test_runner)
+  (wrapped false)
+  (modules :standard \ res_debug record_regression)
+  (melange.compile_flags
+   -w
+   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
+   -bs-cross-module-opt)))
+
+(subdir
+ es6_tests
+ (library
+  (name melange_runtime_es6_tests)
+  (modes melange)
+  (libraries melange test_runner)
+  (wrapped false)
+  (melange.compile_flags
+   -w
+   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
+   -bs-cross-module-opt)))
+
+(ocamllex arith_lexer)
+
+(ocamllex number_lexer)
+
+(ocamllex simple_lexer_test)
+
+(subdir
+ dist/jscomp/test
+ (copy_files ../../../*.js)
+ (alias
+  (name melange-runtime-tests)
+  (deps
+   (glob_files *.js))))
+
+(subdir
+ dist
+ (copy_files ../*.js)
+ (alias
+  (name melange-runtime-tests)
+  (deps
+   (glob_files *.js))))
+
+(melange.emit
+ (target dist)
+ (alias melange-runtime-tests)
+ (promote (until-clean))
+ (entries)
+ (module_system commonjs)
+ (libraries melange_runtime_tests melange_tests_re_res))
+
+(melange.emit
+ (target dist-es6)
+ (alias melange-runtime-tests)
+ (promote (until-clean))
+ (entries)
+ (module_system es6)
+ (javascript_extension mjs)
+ (libraries melange_runtime_es6_tests))

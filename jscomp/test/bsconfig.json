@@ -17,7 +17,8 @@
     "files": {
       "excludes": [
         "res_debug.res",
-        "record_regression.res"
+        "record_regression.res",
+        "external_polyfill_test.ml"
       ]
     },
     "generators": [

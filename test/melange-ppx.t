@@ -1,6 +1,6 @@
 Demonstrate how to use the `melc` PPX
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let () =
   > #if MELANGE then

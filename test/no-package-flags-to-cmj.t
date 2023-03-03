@@ -1,6 +1,6 @@
 Set up a few directories we'll need
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ mkdir -p lib
   $ mkdir -p app
   $ mkdir -p lib/.objs/melange
@@ -45,12 +45,12 @@ If we don't pass the -I flag to the folder where the dependency .js files are pl
 
   $ melc -bs-package-output app/ -I lib/.objs/melange app/.objs/melange/b.cmj -o output/app/b.js
   File "_none_", line 1:
-  Error: a.js not found, needed in script mode 
+  Error: a.js not found, needed in script mode
   [2]
 
 Passing `-I output/lib` fixes it
 
-  $ melc -bs-package-output app/ -I lib/.objs/melange -I output/lib app/.objs/melange/b.cmj -o output/app/b.js
+  $ melc $MEL_STDLIB_FLAGS -bs-package-output app/ -I lib/.objs/melange -I output/lib app/.objs/melange/b.cmj -o output/app/b.js
 
 B depends on A, so it should import a.js in the right path, the default module system used is commonJS
 

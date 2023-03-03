@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Bs_stdlib_mini
 
 
 external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
@@ -118,4 +119,3 @@ let caml_sys_is_directory _s =
 *)
 let caml_sys_file_exists _s =
   raise ( Failure "caml_sys_file_exists not implemented")
-
