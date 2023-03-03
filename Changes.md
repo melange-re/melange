@@ -34,6 +34,8 @@ Unreleased
 - melange: respect the `-nostdlib` option; don't add stdlib / runtime to the
   load path in that case
   ([#496](https://github.com/melange-re/melange/pull/496))
+- melange: build the Melange runtime / stdlib / runtime tests with the dune
+  integration ([#493](https://github.com/melange-re/melange/pull/493))
 
 0.3.2 2022-11-19
 ---------------
