@@ -4,6 +4,7 @@
   inputs = {
     nix-filter.url = "github:numtide/nix-filter";
     flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs.url = "github:anmonteiro/nix-overlays";
     nixpkgs.inputs.flake-utils.follows = "flake-utils";
     melange-compiler-libs.url = "github:melange-re/melange-compiler-libs";
