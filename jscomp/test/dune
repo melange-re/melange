@@ -76,7 +76,7 @@
  (alias melange-runtime-tests)
  (promote (until-clean))
  (entries)
- (module_system commonjs)
+ (module_systems commonjs)
  (libraries melange_runtime_tests melange_tests_re_res))
 
 (melange.emit
@@ -84,6 +84,6 @@
  (alias melange-runtime-tests)
  (promote (until-clean))
  (entries)
- (module_system es6)
- (javascript_extension mjs)
+ (module_systems
+  (es6 mjs))
  (libraries melange_runtime_es6_tests))
