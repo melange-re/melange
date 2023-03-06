@@ -21,17 +21,8 @@ let
             src = super.fetchFromGitHub {
               owner = "ocaml";
               repo = "dune";
-              rev = "5de6e9f0946727f3cab329f9442273c0bfcca3cf";
-              sha256 = "sha256-W5Q4VNi9OjidRTwQkuilm1MVyQqo7WuaTIQsTTLjpSQ=";
-            };
-
-          });
-          melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
-            src = super.fetchFromGitHub {
-              owner = "melange-re";
-              repo = "melange-compiler-libs";
-              rev = "545e007bd9168b5297d6d953a55d77123639f328";
-              sha256 = "sha256-3AmDdqdK1NyQRs1PK/4FeTBWEeostxiFD9I7vEItpgY=";
+              rev = "3e7cb353ef1cddb7ff396924b7268db96f16c3c6";
+              sha256 = "sha256-UgFb/bSHlOiYOFFUHqyoaO7m+/V1g9/w8o/b4AC4rdw=";
             };
           });
         });
