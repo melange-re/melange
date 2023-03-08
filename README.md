@@ -5,23 +5,23 @@
 Powered by the versatile OCaml type system, with best-in-class type inference,
 Melange produces robust JavaScript code.
 
-- [Melange](#melange)
-  - [Installation](#installation)
++ [Melange](#melange)
+  * [Installation](#installation)
     - [OPAM](#opam)
     - [Esy](#esy)
     - [Nix](#nix)
     - [OCaml version compatibility](#ocaml-version-compatibility)
-  - [Editor integration](#editor-integration)
+  * [Editor integration](#editor-integration)
     - [OPAM](#opam-1)
     - [Esy](#esy-1)
     - [Pass `--fallback-read-dot-merlin` to `ocaml-lsp`](#pass---fallback-read-dot-merlin-to-ocaml-lsp)
-  - [Community](#community)
-  - [FAQ](#faq)
+  * [Community](#community)
+  * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
     - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
-  - [Contributing](#contributing)
-  - [Acknowledgments](#acknowledgments)
-  - [Licensing](#licensing)
+  * [Contributing](#contributing)
+  * [Acknowledgments](#acknowledgments)
+  * [Licensing](#licensing)
 
 Sponsored by:
 
@@ -49,7 +49,7 @@ that can be used as a project starter.
 JavaScript, the Melange runtime library needs to be present in `node_modules`
 so that it can be found by JavaScript based tooling:
 
-```shell
+``` shell
 ln -sfn $(opam var prefix)/lib/melange/mel_runtime node_modules/melange
 ```
 
@@ -94,8 +94,7 @@ of [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs
 ## Editor integration
 
 - Until Melange has first-class support in Dune, editor integration is based on
-  a [`.merlin` file workflow](https://github.com/ocaml/merlin/wiki/project-configuration).
-
+a [`.merlin` file workflow](https://github.com/ocaml/merlin/wiki/project-configuration).
   - Melange generates `.merlin` files automatically as part of the build
 
 - `ocaml-lsp` based Language Server Protocol support needs to be configured as
@@ -176,14 +175,15 @@ found in the announcement
 
 Below is a quick comparison between Melange and other tools:
 
-| Name                                   | Purpose                                                        | Dependencies                             | Notes                                                                                                       |
-| -------------------------------------- | -------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                       | Obtaining dependencies such as `dune` or `reason`                                                           |
-| [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                                     | Obtaining dependencies such as `dune` or `reason`                                                           |
-| [Dune](https://dune.build/)            | Build tool                                                     | Installed with e.g. `esy` or `opam`      | Composable build tool for OCaml; supports composing custom rules to build any project                       |
-| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with e.g. `esy` or `opam`      | Alternative syntax to OCaml                                                                                 |
+
+| Name                                   | Purpose                                                        | Dependencies                                                  | Notes                                                                                                                        |
+| -------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [Esy](https://esy.sh)                  | Package manager                                                | Installed with NPM                                            | Obtaining dependencies such as `dune` or `reason` |
+| [OPAM](https://opam.ocaml.org)         | Package manager                                                | None                                                          | Obtaining dependencies such as `dune` or `reason` |
+| [Dune](https://dune.build/)            | Build tool                                                     | Installed with e.g. `esy` or `opam`                           | Composable build tool for OCaml; supports composing custom rules to build any project |
+| [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with e.g. `esy` or `opam`                           | Alternative syntax to OCaml |
 | [Melange](https://melange.re)          | Compiler that emits Script                                     | Esy / OPAM (to install), Dune (to build) | Supports OCaml, Reason and ReScript syntax; derived from ReScript, focused on deeper integration with OCaml |
-| [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                     | Distributed via NPM as prebuilt binaries; previously called BuckleScript                                    |
+| [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
 
 ### Can I use ReScript syntax?
 
@@ -200,15 +200,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Acknowledgments
 
-- Thanks to the [ReScript](https://github.com/rescript-lang/rescript-compiler)
+* Thanks to the [ReScript](https://github.com/rescript-lang/rescript-compiler)
   project, its author and maintainer [@bobzhang](https://github.com/bobzhang),
   and its many
   [contributors](https://github.com/rescript-lang/rescript-compiler/graphs/contributors).
   Melange is a fork of ReScript, and continues to incorporate patches to
   ReScript on a regular basis.
-- Thanks to the [OCaml](https://ocaml.org) team, obviously, without such a
+* Thanks to the [OCaml](https://ocaml.org) team, obviously, without such a
   beautiful yet practical language, this project would not exist.
-- Thanks to [Bloomberg](https://www.techatbloomberg.com) and
+* Thanks to [Bloomberg](https://www.techatbloomberg.com) and
   [Facebook](https://github.com/facebook/). The ReScript project began at
   Bloomberg and was published in 2016; without the support of Bloomberg, it
   would not have happened. ReScript was funded by Facebook since July 2017.
