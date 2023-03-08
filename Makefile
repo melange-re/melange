@@ -1,20 +1,21 @@
-SHELL := $(shell echo $$SHELL)
-
 nix-%:
 	nix develop -L .# --command $*
 
+.PHONY: release-shell 
 release-shell:
-	nix develop .#release --command $(SHELL)
+	nix develop .#release --command $(shell echo $$SHELL)
+
+.PHONY: vim 
 vim:
 	$(MAKE) nix-n$@
 
+.PHONY: generate-dune-files
 generate-dune-files:
 	node scripts/ninja.js
 
+.PHONY: dev
 dev:
 	dune build @install
-
-.PHONY: vim shell dev
 
 .PHONY: test
 test:
