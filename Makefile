@@ -31,9 +31,10 @@ opam-create-switch: ## Create opam switch
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
 	cd ocaml-tree && npm install
-	opam install -y reason
 	opam pin -y add dune https://github.com/ocaml/dune.git#5de6e9f0946727f3cab329f9442273c0bfcca3cf
 	opam pin -y add melange-compiler-libs https://github.com/melange-re/melange-compiler-libs.git#48ff923f2c25136de8ab96678f623f54cdac438c
+	opam pin add melange . --with-test -y
+	opam pin add mel . --with-test -y
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies
