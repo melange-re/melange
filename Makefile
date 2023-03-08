@@ -22,7 +22,7 @@ test:
 	rm -rf node_modules/melange
 	mkdir -p node_modules/melange
 	ln -sfn $$(opam var prefix)/lib/melange/mel_runtime node_modules/melange
-	dune build @runtest -p melange
+	opam exec -- dune build @runtest -p melange
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
