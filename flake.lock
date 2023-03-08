@@ -306,11 +306,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1678141325,
-        "narHash": "sha256-lM+rhIcALGyWKwdWcvgPx7XiknSWtqGCJqONYVPQFe8=",
+        "lastModified": 1678231516,
+        "narHash": "sha256-F6VFeSWIL+TFyGdNfTrIr/0HS5D7ZhvGovW3cASER2M=",
         "owner": "anmonteiro",
         "repo": "nix-overlays",
-        "rev": "5241aba983ad02b1a1d5fbb5a130c6f910ffcf9b",
+        "rev": "031d996600e910502d7bca7949c77f4886d51ea2",
         "type": "github"
       },
       "original": {

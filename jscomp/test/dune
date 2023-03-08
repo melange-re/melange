@@ -3,13 +3,12 @@
  (wrapped false)
  (modes melange)
  (modules mt)
- (libraries melange)
  (melange.compile_flags -w -27-32 -bs-no-version-header -bs-cross-module-opt))
 
 (library
  (name melange_runtime_tests)
  (modes melange)
- (libraries melange test_runner)
+ (libraries test_runner)
  (wrapped false)
  (preprocess
   (action
@@ -29,7 +28,7 @@
  (library
   (name melange_tests_re_res)
   (modes melange)
-  (libraries melange test_runner)
+  (libraries test_runner)
   (wrapped false)
   (modules :standard \ res_debug record_regression)
   (melange.compile_flags
@@ -42,7 +41,7 @@
  (library
   (name melange_runtime_es6_tests)
   (modes melange)
-  (libraries melange test_runner)
+  (libraries test_runner)
   (wrapped false)
   (melange.compile_flags
    -w
@@ -76,8 +75,9 @@
  (alias melange-runtime-tests)
  (promote (until-clean))
  (entries)
- (module_systems commonjs)
- (libraries melange_runtime_tests melange_tests_re_res))
+ (module_systems
+  (commonjs js))
+ (libraries melange melange_runtime_tests melange_tests_re_res))
 
 (melange.emit
  (target dist-es6)
@@ -86,4 +86,4 @@
  (entries)
  (module_systems
   (es6 mjs))
- (libraries melange_runtime_es6_tests))
+ (libraries melange melange_runtime_es6_tests))
