@@ -16,13 +16,26 @@ dev:
 
 .PHONY: vim shell dev
 
+.PHONY: test
+test:
+	rm -rf node_modules/melange
+	mkdir -p node_modules/melange
+	ln -sfn $$(opam var prefix)/lib/melange/mel_runtime node_modules/melange
+	dune build @runtest -p melange
+
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
 	opam switch create . -y --deps-only --with-test
 
-.PHONY: opam-install
-opam-install: ## Install development dependencies
+.PHONY: opam-install-test
+opam-install-test: ## Install test dependencies
 	cd ocaml-tree && npm install
+	opam install -y reason
+	opam pin -y add dune https://github.com/ocaml/dune.git#5de6e9f0946727f3cab329f9442273c0bfcca3cf
+	opam pin -y add melange-compiler-libs https://github.com/melange-re/melange-compiler-libs.git#48ff923f2c25136de8ab96678f623f54cdac438c
+
+.PHONY: opam-install-dev
+opam-install-dev: opam-install-test ## Install development dependencies
 	opam install -y ocaml-lsp-server
 
 .PHONY: opam-init
