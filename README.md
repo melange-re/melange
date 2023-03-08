@@ -25,7 +25,7 @@ Melange produces robust JavaScript code.
 
 Sponsored by:
 
-<img src="./docs/images/ahrefs-logo.png" height="50px">
+[<img src="./docs/images/ahrefs-logo.png" height="50px">]()
 [<img src="./docs/images/instapainting-logo.png" height="50px">](https://www.instapainting.com)
 
 ## Installation
