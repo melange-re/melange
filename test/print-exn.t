@@ -19,8 +19,7 @@ An example that uses exceptions runtime
   > (melange.emit
   >  (target melange)
   >  (alias melange)
-  >  (libraries melange)
-  >  (module_system commonjs))
+  >  (libraries melange))
   > EOF
   $ dune build @melange
   $ node ./_build/default/melange/x.js
