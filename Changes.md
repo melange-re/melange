@@ -35,7 +35,8 @@ Unreleased
   load path in that case
   ([#496](https://github.com/melange-re/melange/pull/496))
 - melange: build the Melange runtime / stdlib / runtime tests with the dune
-  integration ([#493](https://github.com/melange-re/melange/pull/493))
+  integration ([#493](https://github.com/melange-re/melange/pull/493)). Thus
+  melange now requires Dune 3.8.
 
 0.3.2 2022-11-19
 ---------------
