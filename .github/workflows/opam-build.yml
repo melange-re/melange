@@ -50,15 +50,13 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
-      - name: Pin melange to current
+      - name: Install dependencies
         working-directory: melange
-        run: |
-          env IGNORECONSTRAINTS="melange,mel"
-          opam pin add dune https://github.com/ocaml/dune.git#c7a0049e24e6d802a46f7ed34abf42bc525bf89d
-          opam pin add melange-compiler-libs --dev-repo
-          opam install luv reason
-          opam pin add melange . --with-test
-          opam pin add mel . --with-test
+        run: make opam-install-test
+
+      - name: test
+        working-directory: melange
+        run: make test
 
       - name: Clone melange-opam-template
         run: |

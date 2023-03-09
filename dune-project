@@ -45,7 +45,8 @@
   (base64
    (>= "3.1.0"))
   (cppo :build)
-  (ounit :with-test)))
+  (ounit :with-test)
+  (reason :with-test)))
 
 (package
  (name mel)
