@@ -43,12 +43,15 @@ let js_file_name ~(pkg_info : Js_packages_info.package_found_info) ~case ~suffix
   Ext_namespace.js_name_of_modulename module_name case suffix
 
 (* dependency is runtime module *)
-let get_runtime_module_path ~package_info (dep_module_id : Lam_module_ident.t)
-    (module_system : Ext_module_system.t) =
+let get_runtime_module_path ~package_info ~output_info
+    (dep_module_id : Lam_module_ident.t) =
+  let { Js_packages_info.module_system; suffix } = output_info in
   let suffix =
-    match module_system with
-    | NodeJS -> Ext_js_suffix.Js
-    | Es6 | Es6_global -> Mjs
+    if !Js_config.bs_legacy then
+      match module_system with
+      | NodeJS -> Ext_js_suffix.Js
+      | Es6 | Es6_global -> Mjs
+    else suffix
   in
   let js_file =
     Ext_namespace.js_name_of_modulename
@@ -108,7 +111,7 @@ let string_of_module_id ~package_info ~output_info
          so having plugin may sound not that bad
     *)
     | Runtime ->
-        get_runtime_module_path ~package_info dep_module_id module_system
+        get_runtime_module_path ~package_info ~output_info dep_module_id
     | Ml -> (
         let package_path, dep_package_info, case =
           Lam_compile_env.get_package_path_from_cmj dep_module_id
@@ -146,8 +149,7 @@ let string_of_module_id ~package_info ~output_info
             | true ->
                 (* If we're compiling the melange runtime, get a runtime module
                    path. *)
-                get_runtime_module_path ~package_info dep_module_id
-                  module_system
+                get_runtime_module_path ~package_info ~output_info dep_module_id
             | false -> (
                 let dep = Js_packages_info.path_info dep_pkg in
                 match
@@ -166,8 +168,8 @@ let string_of_module_id ~package_info ~output_info
                        *   - are we importing the melange runtime / stdlib? *)
                       Js_packages_info.is_runtime_package dep_package_info
                     then
-                      get_runtime_module_path ~package_info dep_module_id
-                        module_system
+                      get_runtime_module_path ~package_info ~output_info
+                        dep_module_id
                     else
                       (* - Are we importing another package? *)
                       match module_system with

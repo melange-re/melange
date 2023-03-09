@@ -18,7 +18,7 @@ Try commonjs first
   >  (target melange)
   >  (alias melange)
   >  (libraries melange)
-  >  (module_system commonjs))
+  >  (module_systems commonjs))
   > EOF
 
   $ dune build @melange
@@ -35,7 +35,7 @@ Now es6
   >  (target melange)
   >  (alias melange)
   >  (libraries melange)
-  >  (module_system es6))
+  >  (module_systems es6))
   > EOF
 
   $ dune build @melange
@@ -44,9 +44,13 @@ Now es6
   > { "type": "module" }
   > EOF
 
+  $ cat > ./_build/default/melange/node_modules/melange.runtime/package.json <<EOF
+  > { "type": "module" }
+  > EOF
   $ cat > ./_build/default/melange/node_modules/melange.belt/package.json <<EOF
   > { "type": "module" }
   > EOF
 
-  $ node ./_build/default/melange/x.js 2>&1 | awk '/Cannot find module/'
-  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '$TESTCASE_ROOT/_build/default/melange/node_modules/melange.runtime/curry.mjs' imported from $TESTCASE_ROOT/_build/default/melange/node_modules/melange.belt/belt_List.js
+  $ cd _build/default
+  $ node ./melange/x.js
+  0
