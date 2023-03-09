@@ -1,11 +1,13 @@
+USER_SHELL = $(shell echo $$SHELL)
+
 nix-%:
 	nix develop -L .# --command $*
 
-.PHONY: release-shell 
+.PHONY: release-shell
 release-shell:
-	nix develop .#release --command $(shell echo $$SHELL)
+	nix develop .#release --command $(USER_SHELL)
 
-.PHONY: vim 
+.PHONY: vim
 vim:
 	$(MAKE) nix-n$@
 
@@ -19,9 +21,6 @@ dev:
 
 .PHONY: test
 test:
-	rm -rf node_modules/melange
-	mkdir -p node_modules/melange
-	ln -sfn $$(opam var prefix)/lib/melange/mel_runtime node_modules/melange
 	opam exec -- dune build @runtest -p melange
 
 .PHONY: opam-create-switch
