@@ -1,5 +1,4 @@
-{ dream2nix
-, lib
+{ lib
 , mkShell
 , nodejs_latest
 , packages
@@ -16,11 +15,11 @@
 
 let
   derivations = lib.filterAttrs (_: value: lib.isDerivation value) packages;
-  outputs = dream2nix.makeFlakeOutputs {
-    systems = [ system ];
-    config.projectRoot = ../jscomp/build_tests/monorepo;
-    source = ../jscomp/build_tests/monorepo;
-  };
+  # outputs = dream2nix.makeFlakeOutputs {
+  # systems = [ system ];
+  # config.projectRoot = ../jscomp/build_tests/monorepo;
+  # source = ../jscomp/build_tests/monorepo;
+  # };
 
   npmPackages = lib.trace "${builtins.toJSON( ( outputs))}" outputs.packages."${system}".monorepo;
 
