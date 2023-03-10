@@ -1,5 +1,6 @@
 type t = NodeJS | Es6 | Es6_global
 
+val default : t
 val compatible : dep:t -> t -> bool
 val runtime_dir : t -> string
 val runtime_package_path : t -> legacy:bool -> string -> string
