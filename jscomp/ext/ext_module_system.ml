@@ -1,7 +1,8 @@
-type t = NodeJS | Es6 | Es6_global
-(* ignore node_modules, just calcluating relative path *)
-
 let ( // ) = Filename.concat
+
+type t = NodeJS | Es6 | Es6_global
+
+let default = NodeJS
 
 (* ocamlopt could not optimize such simple case..*)
 let compatible ~dep t =

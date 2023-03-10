@@ -29,15 +29,18 @@ type output_info = {
 
 type t
 
-val for_cmj : t -> t
-val is_runtime_package : t -> bool
+module Legacy_runtime : sig
+  val for_cmj : t -> t
+  val is_runtime_package : t -> bool
+end
+
 val same_package_by_name : t -> t -> bool
 val empty : t
 val from_name : ?t:t -> string -> t
 val dump_output_info : Format.formatter -> output_info -> unit
 val dump_packages_info : Format.formatter -> t -> unit
 
-val add_npm_package_path : ?module_name:string -> t -> string -> t
+val add_npm_package_path : t -> ?module_name:string -> string -> t
 (** used by command line option
   e.g [-bs-package-output commonjs:xx/path]
 *)
@@ -50,21 +53,11 @@ type path_info = {
   module_name : string option;
 }
 
-type package_found_batch_info = {
-  path_info : path_info;
-  suffix : Ext_js_suffix.t;
-}
-
-type package_found_info =
-  | Separate of path_info
-  | Batch of package_found_batch_info
-
 type info_query =
   | Package_script
   | Package_not_found
-  | Package_found of package_found_info
+  | Package_found of path_info
 
-val path_info : package_found_info -> path_info
 val get_output_dir : t -> package_dir:string -> Ext_module_system.t -> string
 val query_package_infos : t -> Ext_module_system.t -> info_query
 
@@ -73,4 +66,4 @@ val query_package_infos : t -> Ext_module_system.t -> info_query
 *)
 
 val default_output_info : output_info
-val assemble_output_info : ?output_info:output_info -> t -> output_info list
+val assemble_output_info : t -> output_info list
