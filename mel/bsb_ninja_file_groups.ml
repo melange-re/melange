@@ -264,28 +264,30 @@ let emit_module_build (package_specs : Bsb_package_specs.t) (is_dev : bool) oc
         ?intf_suffix:(if has_intf_file then Some intf_suffix else None)
         ~global_config ~package_specs ?target oc cur_dir
   in
-  if which <> `intf then
-    let output_cmi =
-      Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
-        (per_proj_dir // intf_dir)
-      // basename output_cmi
-    in
-    Bsb_ninja_targets.output_build oc ~outputs:[ output_cmj ]
-      ~implicit_outputs:
-        (if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
-      ~js_outputs:output_js
-      ~inputs:[ basename output_ast ]
-      ~alias:Literals.mel_dune_alias
-      ~implicit_deps:
-        (if has_intf_file then [ output_cmi; output_d_as_dep ]
-        else [ output_d_as_dep ])
-      ~bs_dependencies
-      ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
-      ~rule
+  (if which <> `intf then
+     let output_cmi =
+       Ext_path.rel_normalized_absolute_path ~from:(per_proj_dir // cur_dir)
+         (per_proj_dir // intf_dir)
+       // basename output_cmi
+     in
+     Bsb_ninja_targets.output_build oc ~outputs:[ output_cmj ]
+       ~implicit_outputs:
+         (if has_intf_file then [ output_cmt ] else [ output_cmi; output_cmt ])
+       ~js_outputs:output_js
+       ~inputs:[ basename output_ast ]
+       ~alias:Literals.mel_dune_alias
+       ~implicit_deps:
+         (if has_intf_file then [ output_cmi; output_d_as_dep ]
+          else [ output_d_as_dep ])
+       ~bs_dependencies
+       ~rel_deps:(rel_bs_config_json :: relative_ns_cmi)
+       ~rule);
+  if which <> `intf then output_js else []
 
 let handle_files_per_dir oc ~(global_config : Bsb_ninja_global_vars.t)
     ~(db : Bsb_db.t) ~package_specs ~js_post_build_cmd ~bs_dependencies
-    ~bs_dev_dependencies (group : Bsb_file_groups.file_group) : unit =
+    ~bs_dev_dependencies ~files_to_install (group : Bsb_file_groups.file_group)
+    : unit =
   let per_proj_dir = global_config.per_proj_dir in
   let is_dep_inside_workspace =
     Mel_workspace.is_dep_inside_workspace ~root_dir:global_config.root_dir
@@ -322,14 +324,30 @@ let handle_files_per_dir oc ~(global_config : Bsb_ninja_global_vars.t)
       output_string oc "*))");
     let is_dev = group.is_dev in
     handle_generators oc group global_config.generators;
-    Map_string.iter group.sources (fun module_name _ ->
-        let module_info =
-          Map_string.find_exn (if is_dev then db.dev else db.lib) module_name
-        in
-        emit_module_build package_specs is_dev oc ~global_config
-          ~bs_dependencies ~bs_dev_dependencies
-          ?gentype_config:global_config.gentypeconfig ~cur_dir:group.dir
-          ~ppx_config:global_config.ppx_config js_post_build_cmd
-          global_config.namespace module_info));
+    let installable =
+      match group.public with
+      | Export_all -> fun _ -> true
+      | Export_none -> fun _ -> false
+      | Export_set set -> fun module_name -> Set_string.mem set module_name
+    in
+    let js_targets =
+      Map_string.fold group.sources [] (fun module_name _ acc_js ->
+          let module_info =
+            Map_string.find_exn (if is_dev then db.dev else db.lib) module_name
+          in
+          if installable module_name then Queue.add module_info files_to_install;
+          let js_outputs =
+            emit_module_build package_specs is_dev oc ~global_config
+              ~bs_dependencies ~bs_dev_dependencies
+              ?gentype_config:global_config.gentypeconfig ~cur_dir:group.dir
+              ~ppx_config:global_config.ppx_config js_post_build_cmd
+              global_config.namespace module_info
+          in
+
+          List.map fst js_outputs :: acc_js)
+    in
+    Bsb_ninja_targets.output_alias oc ~name:Literals.mel_dune_alias
+      ~deps:(List.concat js_targets));
+
   output_string oc ")";
   output_string oc "\n"

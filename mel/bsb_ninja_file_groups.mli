@@ -37,5 +37,6 @@ val handle_files_per_dir :
   js_post_build_cmd:string option ->
   bs_dependencies:Bsb_config_types.dependency list ->
   bs_dev_dependencies:Bsb_config_types.dependency list ->
+  files_to_install:Bsb_db.module_info Queue.t ->
   Bsb_file_groups.file_group ->
   unit

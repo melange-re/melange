@@ -29,13 +29,4 @@ val output_ninja_and_namespace_map :
   package_kind:Bsb_package_kind.Source_info.t ->
   Bsb_config_types.t ->
   unit
-(**
-  generate ninja file based on [cwd]
-*)
-
-val output_virtual_package :
-  root_dir:string ->
-  package_spec:Bsb_package_specs.spec ->
-  oc:Out_channel.t ->
-  Bsb_config_types.t * Bsb_config_types.t list ->
-  unit
+(** generate ninja file based on [cwd] *)
