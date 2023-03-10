@@ -58,6 +58,7 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
        reason_react_jsx;
        generators;
        namespace;
+       files_to_install;
        warning;
        gentype_config;
      } :
@@ -111,7 +112,7 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
   Ext_list.iter bs_file_groups (fun files_per_dir ->
       Bsb_ninja_file_groups.handle_files_per_dir oc ~global_config
         ~package_specs ~db:bs_groups ~js_post_build_cmd ~bs_dev_dependencies
-        ~bs_dependencies files_per_dir);
+        ~bs_dependencies ~files_to_install files_per_dir);
 
   if
     not
@@ -178,171 +179,3 @@ let output_ninja_and_namespace_map ~oc ~per_proj_dir ~root_dir
           output_string oc (Format.asprintf "(alias %s)" dep));
       output_string oc "))\n"
   | Dependency _ -> output_string oc "\n)\n"
-
-let rel_include_dirs ~package_name ~root_dir ~per_proj_dir ~install_dir ~cur_dir
-    ?namespace source_dirs =
-  let relativize_single dir =
-    Ext_path.rel_normalized_absolute_path ~from:install_dir (per_proj_dir // dir)
-  in
-  let source_dirs = Ext_list.map source_dirs relativize_single in
-  let dirs =
-    match namespace with
-    | None -> source_dirs
-    | Some _namespace ->
-        let rel_artifacts =
-          Mel_workspace.rel_artifacts_dir ~package_name ~root_dir
-            ~proj_dir:per_proj_dir (install_dir // cur_dir)
-        in
-        rel_artifacts :: source_dirs
-  in
-  Bsb_build_util.include_dirs dirs
-
-let output_virtual_package ~root_dir ~package_spec ~oc
-    ((config, configs) : Bsb_config_types.t * Bsb_config_types.t list) =
-  let package_spec_dir = Bsb_package_specs.output_dir_of_spec package_spec in
-  output_string oc "\n(rule (targets (dir ";
-  output_string oc package_spec_dir;
-  output_string oc "))\n (alias UNSTABLE_";
-  output_string oc Literals.mel_dune_alias;
-  output_string oc ")\n(action (chdir %{targets} (progn \n";
-
-  let idx =
-    let idx = ref 0 in
-    fun () ->
-      let r = !idx in
-      incr idx;
-      r
-  in
-  let dirs =
-    List.concat
-      (Ext_list.map
-         ((config, Bsb_package_kind.Toplevel)
-         :: List.map
-              (fun c -> (c, Bsb_package_kind.Dependency config.package_specs))
-              configs)
-         (fun (config, package_kind) ->
-           let {
-             Bsb_config_types.dir = config_proj_dir;
-             package_name;
-             file_groups;
-             namespace;
-             bs_dependencies;
-             bs_dev_dependencies;
-             warning;
-             _;
-           } =
-             config
-           in
-           let virtual_proj_dir =
-             Mel_workspace.virtual_proj_dir ~root_dir
-               ~package_dir:config_proj_dir ~package_name
-           in
-           let install_dir = root_dir // package_spec_dir in
-           let warnings = Bsb_warning.to_bsb_string ~package_kind warning in
-
-           Ext_list.map file_groups.files (fun group ->
-               let rel_group_dir =
-                 Ext_path.rel_normalized_absolute_path ~from:root_dir
-                   (virtual_proj_dir // group.dir)
-               in
-               let rel_source_dir =
-                 Ext_path.rel_normalized_absolute_path ~from:install_dir
-                   (root_dir // rel_group_dir)
-               in
-
-               output_string oc
-                 (Format.asprintf "(run mkdir -p %s)\n" rel_group_dir);
-               output_string oc
-                 (Format.asprintf
-                    "(run cp %%{sources-%d} %s) (system \"rm -f \
-                     %s/*.{ast,cm*,d}\")\n"
-                    (idx ()) rel_group_dir rel_group_dir);
-               Map_string.iter group.sources
-                 (fun _module_name { Bsb_db.name_sans_extension; _ } ->
-                   let output_filename_sans_extension =
-                     Filename.basename
-                       (Ext_namespace.encode ?ns:namespace name_sans_extension)
-                   in
-                   let input_cmj =
-                     output_filename_sans_extension ^ Literals.suffix_cmj
-                   in
-
-                   let rel_cmj = rel_source_dir // input_cmj in
-                   let ns_flag =
-                     match namespace with
-                     | None -> ""
-                     | Some n -> " -bs-ns " ^ n
-                   in
-                   let rel_incls ?namespace dirs =
-                     rel_include_dirs ~package_name ~root_dir
-                       ~per_proj_dir:virtual_proj_dir ~install_dir
-                       ~cur_dir:group.dir ?namespace dirs
-                   in
-                   let source_dirs : string list Bsb_db.cat =
-                     { lib = []; dev = [] }
-                   in
-
-                   Ext_list.iter file_groups.files (fun { dir; is_dev } ->
-                       if is_dev then source_dirs.dev <- dir :: source_dirs.dev
-                       else source_dirs.lib <- dir :: source_dirs.lib);
-
-                   let js_name =
-                     Ext_namespace.change_ext_ns_suffix
-                       output_filename_sans_extension
-                       (Ext_js_suffix.to_string package_spec.suffix)
-                   in
-
-                   output_string oc " (run rm -f ";
-                   output_string oc (rel_group_dir // js_name);
-                   output_string oc ")\n (run ";
-                   output_string oc
-                     (Ext_filename.maybe_quote Bsb_global_paths.vendor_bsc);
-                   output_string oc ns_flag;
-                   output_char oc ' ';
-                   output_string oc warnings;
-                   output_char oc ' ';
-                   if group.is_dev && source_dirs.dev <> [] then (
-                     let dev_incls = rel_incls ?namespace source_dirs.dev in
-                     output_string oc " ";
-                     output_string oc dev_incls);
-                   output_string oc (rel_incls ?namespace source_dirs.lib);
-                   output_string oc " ";
-                   output_string oc
-                     (Bsb_build_util.include_dirs
-                        (Ext_list.map
-                           (bsc_lib_includes ~root_dir bs_dependencies)
-                           (fun dir ->
-                             Ext_path.rel_normalized_absolute_path
-                               ~from:install_dir dir)));
-                   if group.is_dev then (
-                     output_string oc " ";
-                     output_string oc
-                       (Bsb_build_util.include_dirs
-                          (Ext_list.map
-                             (bsc_lib_includes ~root_dir bs_dev_dependencies)
-                             (fun dir ->
-                               Ext_path.rel_normalized_absolute_path
-                                 ~from:install_dir dir))));
-
-                   output_string oc " -bs-package-name ";
-                   output_string oc (Ext_filename.maybe_quote package_name);
-
-                   output_string oc
-                     (Format.asprintf " -bs-module-type %s"
-                        (Ext_module_system.to_string package_spec.module_system));
-                   output_char oc ' ';
-                   output_string oc rel_cmj;
-                   output_string oc " -o ";
-                   output_string oc (rel_group_dir // js_name);
-                   output_string oc ")\n");
-               rel_group_dir)))
-  in
-
-  output_string oc "(run cp -f ../bsconfig.json .)";
-  output_string oc
-    (Format.asprintf " ))) (deps %s"
-       (String.concat "\n"
-          (Ext_list.mapi dirs (fun idx dir ->
-               Format.asprintf "(:sources-%d (glob_files %s/*))" idx dir))));
-
-  output_string oc "))\n"

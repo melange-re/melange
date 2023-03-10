@@ -20,8 +20,7 @@ let
   # config.projectRoot = ../jscomp/build_tests/monorepo;
   # source = ../jscomp/build_tests/monorepo;
   # };
-
-  npmPackages = lib.trace "${builtins.toJSON( ( outputs))}" outputs.packages."${system}".monorepo;
+  # npmPackages = lib.trace "${builtins.toJSON( ( outputs))}" outputs.packages."${system}".monorepo;
 
 in
 
