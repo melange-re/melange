@@ -74,7 +74,7 @@
  (target dist)
  (alias melange-runtime-tests)
  (promote (until-clean))
- (entries)
+ (modules)
  (module_systems
   (commonjs js))
  (libraries melange melange_runtime_tests melange_tests_re_res))
@@ -83,7 +83,7 @@
  (target dist-es6)
  (alias melange-runtime-tests)
  (promote (until-clean))
- (entries)
+ (modules)
  (module_systems
   (es6 mjs))
  (libraries melange melange_runtime_es6_tests))
