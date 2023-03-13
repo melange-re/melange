@@ -55,7 +55,7 @@ jobs:
         working-directory: melange
         run: |
           env IGNORECONSTRAINTS="melange,mel"
-          opam pin add dune https://github.com/ocaml/dune.git#5de6e9f0946727f3cab329f9442273c0bfcca3cf
+          opam pin add dune https://github.com/ocaml/dune.git#35e3958215e0fed860aecb24e977a46448950103
           opam pin add melange-compiler-libs --dev-repo
           opam install luv reason
           opam pin add melange . --with-test
@@ -63,7 +63,7 @@ jobs:
 
       - name: Clone melange-opam-template
         run: |
-          git clone https://github.com/melange-re/melange-opam-template.git
+          git clone https://github.com/jchavarri/melange-opam-template.git
           cd melange-opam-template && git checkout 0b977e7572d4d7d5d6a1d28675c04ea365523ce5
 
       - name: Install all deps
