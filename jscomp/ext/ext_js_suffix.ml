@@ -15,3 +15,5 @@ let of_string (x : string) : t =
   | () when x = Literals.suffix_mjs -> Mjs
   | () when x = Literals.suffix_cjs -> Cjs
   | _ -> Unknown_extension
+
+let default = Js

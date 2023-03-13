@@ -4,18 +4,18 @@
   inputs = {
     nix-filter.url = "github:numtide/nix-filter";
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs.url = "github:anmonteiro/nix-overlays";
-    nixpkgs.inputs.flake-utils.follows = "flake-utils";
-    melange-compiler-libs.url = "github:melange-re/melange-compiler-libs";
-    melange-compiler-libs.inputs.nixpkgs.follows = "nixpkgs";
-    melange-compiler-libs.inputs.flake-utils.follows = "flake-utils";
-
-    dream2nix.url = "github:nix-community/dream2nix";
-    dream2nix.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs = {
+      url = "github:nix-ocaml/nix-overlays";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+    melange-compiler-libs = {
+      url = "github:melange-re/melange-compiler-libs";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, dream2nix, nix-filter, melange-compiler-libs }:
+  outputs = { self, nixpkgs, flake-utils, nix-filter, melange-compiler-libs }:
     {
       overlays.default = import ./nix/overlay.nix {
         nix-filter = nix-filter.lib;
@@ -31,8 +31,8 @@
                   src = super.fetchFromGitHub {
                     owner = "ocaml";
                     repo = "dune";
-                    rev = "5de6e9f0946727f3cab329f9442273c0bfcca3cf";
-                    sha256 = "sha256-W5Q4VNi9OjidRTwQkuilm1MVyQqo7WuaTIQsTTLjpSQ=";
+                    rev = "c7a0049e24e6d802a46f7ed34abf42bc525bf89d";
+                    hash = "sha256-6TF0wYbRhoqoEdZRrT06Zu8l9gNUtJhCUoVunJQdiVo=";
                   };
                 });
               });
@@ -48,11 +48,10 @@
 
         devShells = {
           default = pkgs.callPackage ./nix/shell.nix {
-            dream2nix = dream2nix.lib2;
+            # dream2nix = dream2nix.lib2;
             inherit packages;
           };
           release = pkgs.callPackage ./nix/shell.nix {
-            dream2nix = dream2nix.lib2;
             release-mode = true;
             inherit packages;
           };
