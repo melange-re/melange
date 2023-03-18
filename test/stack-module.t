@@ -1,5 +1,6 @@
-An example that uses a module with the same name as an stdlib one
+Shadow Stdlib modules
 
+  $ . ./setup.sh
   $ cat > stack.ml <<EOF
   > let f () =
   >   Js.log "foo"
@@ -11,23 +12,6 @@ An example that uses a module with the same name as an stdlib one
   > (lang dune 3.7)
   > (using melange 0.1)
   > EOF
-
-Building when library is wrapped works
-
-  $ cat > dune <<EOF
-  > (library
-  >  (name foo)
-  >  (modes melange)
-  >  (libraries melange)
-  >  (modules x stack))
-  > (melange.emit
-  >  (target melange)
-  >  (alias mel)
-  >  (modules )
-  >  (libraries foo))
-  > EOF
-
-  $ dune build @mel
 
 Building when library is unwrapped breaks
 
@@ -41,12 +25,7 @@ Building when library is unwrapped breaks
   > (melange.emit
   >  (target melange)
   >  (alias mel)
-  >  (modules )
+  >  (modules)
   >  (libraries foo))
   > EOF
   $ dune build @mel
-  File "x.ml", line 1, characters 9-16:
-  1 | let () = Stack.f ()
-               ^^^^^^^
-  Error: Unbound value Stack.f
-  [1]

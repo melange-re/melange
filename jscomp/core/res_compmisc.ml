@@ -40,27 +40,13 @@ let init_path () =
 (* Note: do not do init_path() in initial_env, this breaks
    toplevel initialization (PR#1775) *)
 
-let[@ocaml.warning "-3"] open_implicit_module m env =
-  let lid =
-    { Asttypes.loc = Location.in_file "command line"; txt = Longident.parse m }
-  in
-  snd
-    (!Typeclass.type_open_descr env
-       {
-         popen_expr = lid;
-         popen_override = Override;
-         popen_loc = lid.loc;
-         popen_attributes = [];
-       })
-
 let initial_env () =
   Ident.reinit ();
-  let initial = Env.initial_safe_string in
-  let env =
-    if !Clflags.nopervasives then initial
-    else open_implicit_module "Stdlib" initial
+  Types.Uid.reinit ();
+  let initially_opened_module =
+    if !Clflags.nopervasives then None else Some "Stdlib"
   in
-  List.fold_left
-    (fun env m -> open_implicit_module m env)
-    env
-    (List.rev !Clflags.open_modules)
+  Typemod.initial_env
+    ~loc:(Location.in_file "command line")
+    ~safe_string:true ~initially_opened_module
+    ~open_implicit_modules:(List.rev !Clflags.open_modules)

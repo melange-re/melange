@@ -37,6 +37,8 @@ Unreleased
 - melange: build the Melange runtime / stdlib / runtime tests with the dune
   integration ([#493](https://github.com/melange-re/melange/pull/493)). Thus
   melange now requires Dune 3.8.
+- melange: allow shadowing sub-modules of Stdlib in user projects
+  ([#512](https://github.com/melange-re/melange/pull/512))
 
 0.3.2 2022-11-19
 ---------------
