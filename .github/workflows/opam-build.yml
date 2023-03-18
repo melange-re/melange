@@ -52,7 +52,9 @@ jobs:
 
       - name: Install dependencies
         working-directory: melange
-        run: make opam-install-test
+        run: |
+          opam update
+          make opam-install-test
 
       - name: test
         working-directory: melange
