@@ -30,4 +30,4 @@ exports.x2 = x2;
 exports.x3 = x3;
 exports.hh = hh;
 exports.f = f;
-/* Stdlib__List Not a pure module */
+/* No side effect */

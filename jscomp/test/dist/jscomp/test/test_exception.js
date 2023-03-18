@@ -59,4 +59,4 @@ exports.x = x;
 exports.xx = xx;
 exports.Nullary = Nullary;
 exports.a = a;
-/* Stdlib Not a pure module */
+/* No side effect */

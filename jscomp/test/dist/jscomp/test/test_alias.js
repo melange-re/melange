@@ -6,4 +6,4 @@ var Stdlib__List = require("melange/stdlib_modules/list.js");
 var v = Stdlib__List.length;
 
 exports.v = v;
-/* Stdlib__List Not a pure module */
+/* No side effect */

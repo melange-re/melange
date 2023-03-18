@@ -122,4 +122,4 @@ function Make(funarg) {
 }
 
 exports.Make = Make;
-/* Stdlib Not a pure module */
+/* Stdlib__Hashtbl Not a pure module */

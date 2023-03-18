@@ -27,19 +27,27 @@ function Make(Ord) {
     var hl = l ? l._3 : 0;
     var hr = r ? r._3 : 0;
     if (hl > (hr + 2 | 0)) {
-      if (!l) {
-        return Stdlib.invalid_arg("Set.bal");
+      if (l) {
+        var lr = l._2;
+        var lv = l._1;
+        var ll = l._0;
+        if (height(ll) >= height(lr)) {
+          return create(ll, lv, create(lr, v, r));
+        }
+        if (lr) {
+          return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
+        }
+        throw {
+              RE_EXN_ID: "Invalid_argument",
+              _1: "Set.bal",
+              Error: new Error()
+            };
       }
-      var lr = l._2;
-      var lv = l._1;
-      var ll = l._0;
-      if (height(ll) >= height(lr)) {
-        return create(ll, lv, create(lr, v, r));
-      } else if (lr) {
-        return create(create(ll, lv, lr._0), lr._1, create(lr._2, v, r));
-      } else {
-        return Stdlib.invalid_arg("Set.bal");
-      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
     if (hr <= (hl + 2 | 0)) {
       return /* Node */{
@@ -49,19 +57,27 @@ function Make(Ord) {
               _3: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
             };
     }
-    if (!r) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (r) {
+      var rr = r._2;
+      var rv = r._1;
+      var rl = r._0;
+      if (height(rr) >= height(rl)) {
+        return create(create(l, v, rl), rv, rr);
+      }
+      if (rl) {
+        return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var rr = r._2;
-    var rv = r._1;
-    var rl = r._0;
-    if (height(rr) >= height(rl)) {
-      return create(create(l, v, rl), rv, rr);
-    } else if (rl) {
-      return create(create(l, v, rl._0), rl._1, create(rl._2, rv, rr));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   };
   var add = function (x, t) {
     if (!t) {
@@ -157,15 +173,19 @@ function Make(Ord) {
     };
   };
   var remove_min_elt = function (param) {
-    if (!param) {
-      return Stdlib.invalid_arg("Set.remove_min_elt");
+    if (param) {
+      var l = param._0;
+      if (l) {
+        return bal(remove_min_elt(l), param._1, param._2);
+      } else {
+        return param._2;
+      }
     }
-    var l = param._0;
-    if (l) {
-      return bal(remove_min_elt(l), param._1, param._2);
-    } else {
-      return param._2;
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.remove_min_elt",
+          Error: new Error()
+        };
   };
   var merge = function (t1, t2) {
     if (t1) {
@@ -732,4 +752,4 @@ var N = {
 
 exports.Make = Make;
 exports.N = N;
-/* Stdlib Not a pure module */
+/* No side effect */

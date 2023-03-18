@@ -11,4 +11,4 @@ function bar(str) {
 
 exports.foo = foo;
 exports.bar = bar;
-/* Stdlib__Buffer Not a pure module */
+/* No side effect */

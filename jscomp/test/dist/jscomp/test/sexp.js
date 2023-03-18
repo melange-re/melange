@@ -32,7 +32,7 @@ function of_float(x) {
 function of_bool(x) {
   return {
           NAME: "Atom",
-          VAL: Stdlib.string_of_bool(x)
+          VAL: x ? "true" : "false"
         };
 }
 
@@ -485,9 +485,12 @@ function get_variant(l, e) {
 function get_exn(e) {
   if (e !== undefined) {
     return Caml_option.valFromOption(e);
-  } else {
-    return Stdlib.failwith("CCSexp.Traverse.get_exn");
   }
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "CCSexp.Traverse.get_exn",
+        Error: new Error()
+      };
 }
 
 var of_unit = {
@@ -536,4 +539,4 @@ exports.of_variant = of_variant;
 exports.of_field = of_field;
 exports.of_record = of_record;
 exports.Traverse = Traverse;
-/* Stdlib Not a pure module */
+/* Stdlib__Hashtbl Not a pure module */

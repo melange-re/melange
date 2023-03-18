@@ -7,7 +7,6 @@ var Caml_bytes = require("melange.runtime/caml_bytes.js");
 var Stdlib__Char = require("melange/stdlib_modules/char.js");
 var Stdlib__Array = require("melange/stdlib_modules/array.js");
 var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
 var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
 
 var suites = {

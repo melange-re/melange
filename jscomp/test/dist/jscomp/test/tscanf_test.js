@@ -15,7 +15,6 @@ var Caml_string = require("melange.runtime/caml_string.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
 var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
 var Stdlib__Int32 = require("melange/stdlib_modules/int32.js");
-var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
 var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
 var Stdlib__Buffer = require("melange/stdlib_modules/buffer.js");
 var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
@@ -1733,21 +1732,23 @@ function scan_elems$1(ib, accu) {
                   },
                   _1: " %i %c"
                 }), (function (i, c) {
-                if (c !== 59) {
-                  if (c !== 93) {
-                    return Stdlib.failwith("scan_elems");
-                  } else {
-                    return Stdlib__List.rev({
-                                hd: i,
-                                tl: accu
-                              });
-                  }
-                } else {
+                if (c === 59) {
                   return scan_elems$1(ib, {
                               hd: i,
                               tl: accu
                             });
                 }
+                if (c !== 93) {
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_elems",
+                        Error: new Error()
+                      };
+                }
+                return Stdlib__List.rev({
+                            hd: i,
+                            tl: accu
+                          });
               }));
 }
 
@@ -1829,7 +1830,11 @@ function scan_elems$2(ib, accu) {
                               });
                   }
                   console.log(Caml_bytes.bytes_to_string(Stdlib__Bytes.make(1, c)));
-                  return Stdlib.failwith("scan_elems");
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_elems",
+                        Error: new Error()
+                      };
                 }));
   }
   catch (raw_exn){
@@ -2012,13 +2017,7 @@ function scan_rest(ib, accu) {
                   },
                   _1: " %c "
                 }), (function (c) {
-                if (c !== 59) {
-                  if (c !== 93) {
-                    return Stdlib.failwith("scan_rest");
-                  } else {
-                    return accu;
-                  }
-                } else {
+                if (c === 59) {
                   return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2057,6 +2056,14 @@ function scan_rest(ib, accu) {
                                 }
                               }));
                 }
+                if (c !== 93) {
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_rest",
+                        Error: new Error()
+                      };
+                }
+                return accu;
               }));
 }
 
@@ -2076,9 +2083,14 @@ function scan_elems$4(ib, accu) {
                   },
                   _1: " %c "
                 }), (function (c) {
-                if (c !== 91 || !Caml_obj.caml_equal(accu, /* [] */0)) {
-                  return Stdlib.failwith("scan_elems");
-                } else {
+                if (c !== 91) {
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "scan_elems",
+                        Error: new Error()
+                      };
+                }
+                if (Caml_obj.caml_equal(accu, /* [] */0)) {
                   return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
                                   _0: {
                                     TAG: /* Scan_char_set */20,
@@ -2117,6 +2129,11 @@ function scan_elems$4(ib, accu) {
                                 }
                               }));
                 }
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: "scan_elems",
+                      Error: new Error()
+                    };
               }));
 }
 
@@ -2235,14 +2252,19 @@ function scan_rest$1(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  return Stdlib.failwith(Stdlib__Printf.sprintf(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "scan_int_list",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "scan_int_list"
-                                                                }));
+                                                  var s = Stdlib__Printf.sprintf(/* Format */{
+                                                        _0: {
+                                                          TAG: /* String_literal */11,
+                                                          _0: "scan_int_list",
+                                                          _1: /* End_of_format */0
+                                                        },
+                                                        _1: "scan_int_list"
+                                                      });
+                                                  throw {
+                                                        RE_EXN_ID: "Failure",
+                                                        _1: s,
+                                                        Error: new Error()
+                                                      };
                                               }
                                             }));
                               }));

@@ -19,4 +19,4 @@ function f(g, x) {
 }
 
 exports.f = f;
-/* Stdlib Not a pure module */
+/* No side effect */

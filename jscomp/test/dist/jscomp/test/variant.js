@@ -181,4 +181,4 @@ exports.EB = EB;
 exports.EC = EC;
 exports.ED = ED;
 exports.fooExn = fooExn;
-/* Stdlib Not a pure module */
+/* No side effect */

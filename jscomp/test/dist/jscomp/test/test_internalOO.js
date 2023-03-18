@@ -10,7 +10,6 @@ var Caml_array = require("melange.runtime/caml_array.js");
 var Caml_int32 = require("melange.runtime/caml_int32.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__Map = require("melange/stdlib_modules/map.js");
 var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
 var Stdlib__Sys = require("melange/stdlib_modules/sys.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
@@ -84,20 +83,28 @@ function bal(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height(ll) >= height(lr)) {
+        return create(ll, lv, ld, create(lr, x, d, r));
+      }
+      if (lr) {
+        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height(ll) >= height(lr)) {
-      return create(ll, lv, ld, create(lr, x, d, r));
-    } else if (lr) {
-      return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -108,20 +115,28 @@ function bal(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height(rr) >= height(rl)) {
+      return create(create(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height(rr) >= height(rl)) {
-    return create(create(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function is_empty(param) {
@@ -455,15 +470,19 @@ function max_binding_opt(_param) {
 }
 
 function remove_min_binding(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Map.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal(remove_min_binding(l), param.v, param.d, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal(remove_min_binding(l), param.v, param.d, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function merge(t1, t2) {
@@ -1171,20 +1190,28 @@ function bal$1(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$1(ll) >= height$1(lr)) {
+        return create$1(ll, lv, ld, create$1(lr, x, d, r));
+      }
+      if (lr) {
+        return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$1(ll) >= height$1(lr)) {
-      return create$1(ll, lv, ld, create$1(lr, x, d, r));
-    } else if (lr) {
-      return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -1195,20 +1222,28 @@ function bal$1(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$1(rr) >= height$1(rl)) {
+      return create$1(create$1(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$1(rr) >= height$1(rl)) {
-    return create$1(create$1(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function is_empty$1(param) {
@@ -1542,15 +1577,19 @@ function max_binding_opt$1(_param) {
 }
 
 function remove_min_binding$1(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Map.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal$1(remove_min_binding$1(l), param.v, param.d, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal$1(remove_min_binding$1(l), param.v, param.d, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function merge$2(t1, t2) {
@@ -2258,20 +2297,28 @@ function bal$2(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$2(ll) >= height$2(lr)) {
+        return create$2(ll, lv, ld, create$2(lr, x, d, r));
+      }
+      if (lr) {
+        return create$2(create$2(ll, lv, ld, lr.l), lr.v, lr.d, create$2(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$2(ll) >= height$2(lr)) {
-      return create$2(ll, lv, ld, create$2(lr, x, d, r));
-    } else if (lr) {
-      return create$2(create$2(ll, lv, ld, lr.l), lr.v, lr.d, create$2(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -2282,20 +2329,28 @@ function bal$2(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$2(rr) >= height$2(rl)) {
+      return create$2(create$2(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$2(create$2(l, x, d, rl.l), rl.v, rl.d, create$2(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$2(rr) >= height$2(rl)) {
-    return create$2(create$2(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$2(create$2(l, x, d, rl.l), rl.v, rl.d, create$2(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function is_empty$2(param) {
@@ -2629,15 +2684,19 @@ function max_binding_opt$2(_param) {
 }
 
 function remove_min_binding$2(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Map.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal$2(remove_min_binding$2(l), param.v, param.d, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal$2(remove_min_binding$2(l), param.v, param.d, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function merge$4(t1, t2) {

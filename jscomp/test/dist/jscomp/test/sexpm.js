@@ -4,6 +4,7 @@
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
+var Caml_io = require("melange.runtime/caml_io.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
 var Stdlib__Sys = require("melange/stdlib_modules/sys.js");
 var Stdlib__Char = require("melange/stdlib_modules/char.js");
@@ -15,17 +16,18 @@ var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
 var Stdlib__String = require("melange/stdlib_modules/string.js");
 var Stdlib__Printexc = require("melange/stdlib_modules/printexc.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
 
 function _with_in(filename, f) {
   var ic = Stdlib.open_in_bin(filename);
   try {
     var x = Curry._1(f, ic);
-    Stdlib.close_in(ic);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return x;
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    Stdlib.close_in(ic);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return {
             NAME: "Error",
             VAL: Stdlib__Printexc.to_string(e)
@@ -355,17 +357,19 @@ function to_file_seq(filename, seq) {
   var f = function (oc) {
     return Curry._1(seq, (function (t) {
                   to_chan(oc, t);
-                  Stdlib.output_char(oc, /* '\n' */10);
+                  Caml_io.caml_ml_output_char(oc, /* '\n' */10);
                 }));
   };
   var oc = Stdlib.open_out(filename);
   try {
     var x = Curry._1(f, oc);
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     return x;
   }
   catch (e){
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     throw e;
   }
 }
@@ -1533,4 +1537,4 @@ exports.parse_chan_gen = parse_chan_gen;
 exports.parse_chan_list = parse_chan_list;
 exports.parse_file = parse_file;
 exports.parse_file_list = parse_file_list;
-/* Stdlib Not a pure module */
+/* Stdlib__Format Not a pure module */

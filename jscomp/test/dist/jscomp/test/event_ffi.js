@@ -79,4 +79,4 @@ exports.a2 = a2;
 exports.a3 = a3;
 exports.test_as = test_as;
 exports.xx = xx;
-/* Stdlib__List Not a pure module */
+/* No side effect */

@@ -125,4 +125,4 @@ exports.for_3 = for_3;
 exports.for_4 = for_4;
 exports.for_5 = for_5;
 exports.for_6 = for_6;
-/* Stdlib__Array Not a pure module */
+/* No side effect */

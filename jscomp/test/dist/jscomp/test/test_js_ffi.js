@@ -18,4 +18,4 @@ var s = Stdlib__String;
 exports.v = v;
 exports.u = u;
 exports.s = s;
-/* Stdlib__String Not a pure module */
+/* No side effect */

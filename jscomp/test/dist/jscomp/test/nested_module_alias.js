@@ -11,4 +11,4 @@ function v(x) {
 }
 
 exports.v = v;
-/* Stdlib__List Not a pure module */
+/* No side effect */

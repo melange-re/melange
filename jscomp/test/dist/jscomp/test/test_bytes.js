@@ -2,7 +2,6 @@
 'use strict';
 
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
 
 var f = Caml_bytes.bytes_to_string;
 
@@ -10,4 +9,4 @@ var ff = Caml_bytes.bytes_to_string;
 
 exports.f = f;
 exports.ff = ff;
-/* Stdlib__Bytes Not a pure module */
+/* No side effect */

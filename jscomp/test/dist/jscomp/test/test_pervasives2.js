@@ -279,4 +279,4 @@ exports.U = U;
 exports.f = f;
 exports.ff = ff;
 exports.fff = fff;
-/* Stdlib__List Not a pure module */
+/* Stdlib__Pervasives Not a pure module */

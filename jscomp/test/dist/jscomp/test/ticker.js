@@ -7,7 +7,6 @@ var Stdlib = require("melange/./stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_format = require("melange.runtime/caml_format.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Stdlib__Map = require("melange/stdlib_modules/map.js");
 var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
 var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
@@ -155,20 +154,28 @@ function bal(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height(ll) >= height(lr)) {
+        return create(ll, lv, ld, create(lr, x, d, r));
+      }
+      if (lr) {
+        return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height(ll) >= height(lr)) {
-      return create(ll, lv, ld, create(lr, x, d, r));
-    } else if (lr) {
-      return create(create(ll, lv, ld, lr.l), lr.v, lr.d, create(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -179,20 +186,28 @@ function bal(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height(rr) >= height(rl)) {
+      return create(create(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height(rr) >= height(rl)) {
-    return create(create(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create(create(l, x, d, rl.l), rl.v, rl.d, create(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function is_empty(param) {
@@ -526,15 +541,19 @@ function max_binding_opt(_param) {
 }
 
 function remove_min_binding(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Map.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal(remove_min_binding(l), param.v, param.d, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal(remove_min_binding(l), param.v, param.d, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function merge(t1, t2) {
@@ -1270,14 +1289,21 @@ function compute_update_sequences(all_tickers) {
                 var l$1 = Stdlib__List.sort_uniq((function (lhs, rhs) {
                         var x = lhs.rank;
                         if (typeof x === "number") {
-                          return Stdlib.failwith("All nodes should be ranked");
+                          throw {
+                                RE_EXN_ID: "Failure",
+                                _1: "All nodes should be ranked",
+                                Error: new Error()
+                              };
                         }
                         var y = rhs.rank;
                         if (typeof y === "number") {
-                          return Stdlib.failwith("All nodes should be ranked");
-                        } else {
-                          return Caml.caml_int_compare(x._0, y._0);
+                          throw {
+                                RE_EXN_ID: "Failure",
+                                _1: "All nodes should be ranked",
+                                Error: new Error()
+                              };
                         }
+                        return Caml.caml_int_compare(x._0, y._0);
                       }), l);
                 return Curry._3(add, k, l$1, map);
               }), map, map);
@@ -1287,21 +1313,25 @@ function process_quote(ticker_map, new_ticker, new_value) {
   var update_sequence = Curry._2(find, new_ticker, ticker_map);
   Stdlib__List.iter((function (ticker) {
           var match = ticker.type_;
-          if (!match) {
-            if (ticker.ticker_name === new_ticker) {
-              ticker.value = new_value;
-              return ;
-            } else {
-              return Stdlib.failwith("Only single Market ticker should be udpated upon a new quote");
-            }
+          if (match) {
+            var match$1 = match._0;
+            var match$2 = match$1.lhs.value;
+            var match$3 = match$1.rhs.value;
+            var value = match$2 !== undefined && match$3 !== undefined ? (
+                match$1.op ? match$2 - match$3 : match$2 + match$3
+              ) : undefined;
+            ticker.value = value;
+            return ;
           }
-          var match$1 = match._0;
-          var match$2 = match$1.lhs.value;
-          var match$3 = match$1.rhs.value;
-          var value = match$2 !== undefined && match$3 !== undefined ? (
-              match$1.op ? match$2 - match$3 : match$2 + match$3
-            ) : undefined;
-          ticker.value = value;
+          if (ticker.ticker_name === new_ticker) {
+            ticker.value = new_value;
+            return ;
+          }
+          throw {
+                RE_EXN_ID: "Failure",
+                _1: "Only single Market ticker should be udpated upon a new quote",
+                Error: new Error()
+              };
         }), update_sequence);
 }
 
@@ -1323,96 +1353,162 @@ function process_input_line(ticker_map, all_tickers, line) {
           };
   };
   var tokens = split(/* '|' */124, line);
-  if (!tokens) {
-    return Stdlib.failwith("Invalid input line");
-  }
-  switch (tokens.hd) {
-    case "Q" :
-        var match = tokens.tl;
-        if (!match) {
-          return Stdlib.failwith("Invalid input line");
-        }
-        var match$1 = match.tl;
-        if (!match$1) {
-          return Stdlib.failwith("Invalid input line");
-        }
-        if (match$1.tl) {
-          return Stdlib.failwith("Invalid input line");
-        }
-        var ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
-        var value = Caml_format.caml_float_of_string(match$1.hd);
-        process_quote(ticker_map$1, match.hd, value);
-        return [
-                all_tickers,
-                Caml_option.some(ticker_map$1)
-              ];
-    case "R" :
-        var match$2 = tokens.tl;
-        if (!match$2) {
-          return Stdlib.failwith("Invalid input line");
-        }
-        var match$3 = match$2.tl;
-        if (!match$3) {
-          return Stdlib.failwith("Invalid input line");
-        }
-        var ticker_name = match$2.hd;
-        switch (match$3.hd) {
-          case "+" :
-              var match$4 = match$3.tl;
-              if (!match$4) {
-                return Stdlib.failwith("Invalid input line");
+  if (tokens) {
+    switch (tokens.hd) {
+      case "Q" :
+          var match = tokens.tl;
+          if (match) {
+            var match$1 = match.tl;
+            if (match$1) {
+              if (match$1.tl) {
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: "Invalid input line",
+                      Error: new Error()
+                    };
               }
-              var match$5 = match$4.tl;
-              if (match$5 && !match$5.tl) {
-                return [
-                        {
-                          hd: make_binary_op(ticker_name, match$4.hd, match$5.hd, /* PLUS */0),
-                          tl: all_tickers
-                        },
-                        ticker_map
-                      ];
-              } else {
-                return Stdlib.failwith("Invalid input line");
+              var ticker_map$1 = ticker_map !== undefined ? Caml_option.valFromOption(ticker_map) : compute_update_sequences(all_tickers);
+              var value = Caml_format.caml_float_of_string(match$1.hd);
+              process_quote(ticker_map$1, match.hd, value);
+              return [
+                      all_tickers,
+                      Caml_option.some(ticker_map$1)
+                    ];
+            }
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid input line",
+                  Error: new Error()
+                };
+          }
+          throw {
+                RE_EXN_ID: "Failure",
+                _1: "Invalid input line",
+                Error: new Error()
+              };
+      case "R" :
+          var match$2 = tokens.tl;
+          if (match$2) {
+            var match$3 = match$2.tl;
+            if (match$3) {
+              var ticker_name = match$2.hd;
+              switch (match$3.hd) {
+                case "+" :
+                    var match$4 = match$3.tl;
+                    if (match$4) {
+                      var match$5 = match$4.tl;
+                      if (match$5) {
+                        if (match$5.tl) {
+                          throw {
+                                RE_EXN_ID: "Failure",
+                                _1: "Invalid input line",
+                                Error: new Error()
+                              };
+                        }
+                        return [
+                                {
+                                  hd: make_binary_op(ticker_name, match$4.hd, match$5.hd, /* PLUS */0),
+                                  tl: all_tickers
+                                },
+                                ticker_map
+                              ];
+                      }
+                      throw {
+                            RE_EXN_ID: "Failure",
+                            _1: "Invalid input line",
+                            Error: new Error()
+                          };
+                    }
+                    throw {
+                          RE_EXN_ID: "Failure",
+                          _1: "Invalid input line",
+                          Error: new Error()
+                        };
+                case "-" :
+                    var match$6 = match$3.tl;
+                    if (match$6) {
+                      var match$7 = match$6.tl;
+                      if (match$7) {
+                        if (match$7.tl) {
+                          throw {
+                                RE_EXN_ID: "Failure",
+                                _1: "Invalid input line",
+                                Error: new Error()
+                              };
+                        }
+                        return [
+                                {
+                                  hd: make_binary_op(ticker_name, match$6.hd, match$7.hd, /* MINUS */1),
+                                  tl: all_tickers
+                                },
+                                ticker_map
+                              ];
+                      }
+                      throw {
+                            RE_EXN_ID: "Failure",
+                            _1: "Invalid input line",
+                            Error: new Error()
+                          };
+                    }
+                    throw {
+                          RE_EXN_ID: "Failure",
+                          _1: "Invalid input line",
+                          Error: new Error()
+                        };
+                case "S" :
+                    if (match$3.tl) {
+                      throw {
+                            RE_EXN_ID: "Failure",
+                            _1: "Invalid input line",
+                            Error: new Error()
+                          };
+                    }
+                    return [
+                            {
+                              hd: {
+                                value: undefined,
+                                rank: /* Uninitialized */0,
+                                ticker_name: ticker_name,
+                                type_: /* Market */0
+                              },
+                              tl: all_tickers
+                            },
+                            ticker_map
+                          ];
+                default:
+                  throw {
+                        RE_EXN_ID: "Failure",
+                        _1: "Invalid input line",
+                        Error: new Error()
+                      };
               }
-          case "-" :
-              var match$6 = match$3.tl;
-              if (!match$6) {
-                return Stdlib.failwith("Invalid input line");
-              }
-              var match$7 = match$6.tl;
-              if (match$7 && !match$7.tl) {
-                return [
-                        {
-                          hd: make_binary_op(ticker_name, match$6.hd, match$7.hd, /* MINUS */1),
-                          tl: all_tickers
-                        },
-                        ticker_map
-                      ];
-              } else {
-                return Stdlib.failwith("Invalid input line");
-              }
-          case "S" :
-              if (match$3.tl) {
-                return Stdlib.failwith("Invalid input line");
-              } else {
-                return [
-                        {
-                          hd: {
-                            value: undefined,
-                            rank: /* Uninitialized */0,
-                            ticker_name: ticker_name,
-                            type_: /* Market */0
-                          },
-                          tl: all_tickers
-                        },
-                        ticker_map
-                      ];
-              }
-          default:
-            return Stdlib.failwith("Invalid input line");
-        }
-    default:
-      return Stdlib.failwith("Invalid input line");
+            } else {
+              throw {
+                    RE_EXN_ID: "Failure",
+                    _1: "Invalid input line",
+                    Error: new Error()
+                  };
+            }
+          } else {
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "Invalid input line",
+                  Error: new Error()
+                };
+          }
+      default:
+        throw {
+              RE_EXN_ID: "Failure",
+              _1: "Invalid input line",
+              Error: new Error()
+            };
+    }
+  } else {
+    throw {
+          RE_EXN_ID: "Failure",
+          _1: "Invalid input line",
+          Error: new Error()
+        };
   }
 }
 

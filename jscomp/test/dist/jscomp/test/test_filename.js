@@ -10,4 +10,4 @@ var v = Stdlib__List.length;
 
 exports.u = u;
 exports.v = v;
-/* Stdlib__List Not a pure module */
+/* Stdlib__Filename Not a pure module */

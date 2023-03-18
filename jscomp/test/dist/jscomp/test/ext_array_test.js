@@ -2,7 +2,6 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
 var Caml_array = require("melange.runtime/caml_array.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
@@ -107,23 +106,29 @@ function filter_map(f, a) {
 
 function range(from, to_) {
   if (from > to_) {
-    return Stdlib.invalid_arg("Ext_array_test.range");
-  } else {
-    return Stdlib__Array.init((to_ - from | 0) + 1 | 0, (function (i) {
-                  return i + from | 0;
-                }));
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_array_test.range",
+          Error: new Error()
+        };
   }
+  return Stdlib__Array.init((to_ - from | 0) + 1 | 0, (function (i) {
+                return i + from | 0;
+              }));
 }
 
 function map2i(f, a, b) {
   var len = a.length;
   if (len !== b.length) {
-    return Stdlib.invalid_arg("Ext_array_test.map2i");
-  } else {
-    return Stdlib__Array.mapi((function (i, a) {
-                  return Curry._3(f, i, a, b[i]);
-                }), a);
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Ext_array_test.map2i",
+          Error: new Error()
+        };
   }
+  return Stdlib__Array.mapi((function (i, a) {
+                return Curry._3(f, i, a, b[i]);
+              }), a);
 }
 
 function tolist_aux(a, f, _i, _res) {
@@ -301,4 +306,4 @@ exports.exists = exists;
 exports.is_empty = is_empty;
 exports.unsafe_loop = unsafe_loop;
 exports.for_all2_no_exn = for_all2_no_exn;
-/* Stdlib Not a pure module */
+/* No side effect */

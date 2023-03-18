@@ -21,4 +21,4 @@ function scanf_bad_input(ib, x) {
 
 exports.Scan_failure = Scan_failure;
 exports.scanf_bad_input = scanf_bad_input;
-/* Stdlib Not a pure module */
+/* No side effect */

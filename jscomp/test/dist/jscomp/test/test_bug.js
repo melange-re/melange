@@ -107,4 +107,4 @@ function escaped(s) {
 }
 
 exports.escaped = escaped;
-/* Stdlib__Bytes Not a pure module */
+/* No side effect */
