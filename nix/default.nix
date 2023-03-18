@@ -116,7 +116,7 @@ rec {
       include = [
         "dune-project"
         "rescript-syntax.opam"
-        "jscomp/napkin"
+        "rescript-syntax"
       ];
     };
 

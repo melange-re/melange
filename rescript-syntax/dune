@@ -15,3 +15,9 @@
  (flags
   (-open Napkin))
  (libraries napkin))
+
+(install
+ (package rescript-syntax)
+ (section bin)
+ (files
+  (res_cli.exe as rescript_syntax)))
