@@ -79,5 +79,4 @@ jobs:
       - name: Run resulting .js files
         working-directory: melange-opam-template
         run: |
-          node _build/default/src/Hello.js
-          node _build/default/src/Main.js
+          node ./_build/default/src/output/src/Hello.js
