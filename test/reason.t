@@ -1,6 +1,5 @@
 Demonstrate how to use `melc` with `refmt` and Reason files
 
-  $ . ./setup.sh
   $ cat > x.re <<EOF
   > let () =
   >   Js.log2("Here's two:", 2);

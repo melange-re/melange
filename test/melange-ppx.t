@@ -1,6 +1,5 @@
 Demonstrate how to use the `melc` PPX
 
-  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let () =
   > #if MELANGE then

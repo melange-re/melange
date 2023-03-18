@@ -1,5 +1,3 @@
-  $ . ./setup.sh
-
 melc -nostdlib -where output is empty
 
   $ melc -where -nostdlib

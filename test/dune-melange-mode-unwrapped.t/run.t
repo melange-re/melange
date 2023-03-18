@@ -1,6 +1,5 @@
 Set up a few directories we'll need
 
-  $ . ../setup.sh
   $ dune build ./libB/.b.objs/melange/b.cmj
 
 Setting `(wrapped false)` in `(library (name a))` will produce unmangled JS

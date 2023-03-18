@@ -1,6 +1,5 @@
 Set up a few directories we'll need
 
-  $ . ./setup.sh
   $ mkdir -p node_modules
   $ mkdir -p app
   $ mkdir -p node_modules/.objs/melange
