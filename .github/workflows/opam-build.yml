@@ -68,7 +68,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
-          make install
+          npm install --legacy-peer-deps
 
       - name: Build basic template
         working-directory: melange-opam-template
