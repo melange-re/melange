@@ -142,4 +142,4 @@ exports.u = u;
 exports.u1 = u1;
 exports.v = v;
 exports.f = f;
-/* Stdlib Not a pure module */
+/* No side effect */

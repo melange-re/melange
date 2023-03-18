@@ -3,6 +3,7 @@
 
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
+var Caml_io = require("melange.runtime/caml_io.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
 var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
@@ -30,7 +31,7 @@ var test_num = {
 function print_test_number(param) {
   Stdlib.print_string(" ");
   Stdlib.print_int(test_num.contents);
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
 }
 
 function print_failure_test_fail(param) {

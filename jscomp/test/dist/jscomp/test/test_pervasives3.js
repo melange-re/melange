@@ -163,4 +163,4 @@ var v = Stdlib__Pervasives.$at;
 
 exports.Pervasives = Pervasives;
 exports.v = v;
-/* Stdlib__List Not a pure module */
+/* Stdlib__Pervasives Not a pure module */

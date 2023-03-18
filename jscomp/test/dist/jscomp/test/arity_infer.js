@@ -62,4 +62,4 @@ function f3(x) {
 exports.f0 = f0;
 exports.f1 = f1;
 exports.f3 = f3;
-/* Stdlib Not a pure module */
+/* No side effect */

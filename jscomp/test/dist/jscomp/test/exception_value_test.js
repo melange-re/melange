@@ -94,4 +94,4 @@ exports.u = u;
 exports.test_not_found = test_not_found;
 exports.test_js_error2 = test_js_error2;
 exports.test_js_error3 = test_js_error3;
-/* Stdlib Not a pure module */
+/* No side effect */

@@ -85,4 +85,4 @@ function from_pair_suites(name, suites) {
 }
 
 exports.from_pair_suites = from_pair_suites;
-/* Stdlib__List Not a pure module */
+/* No side effect */

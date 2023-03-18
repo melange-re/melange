@@ -6,6 +6,7 @@ var Path = require("path");
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Assert = require("assert");
+var Caml_io = require("melange.runtime/caml_io.js");
 var Process = require("process");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_sys = require("melange.runtime/caml_sys.js");
@@ -16,9 +17,7 @@ var Caml_format = require("melange.runtime/caml_format.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var Caml_string = require("melange.runtime/caml_string.js");
 var Stdlib__Arg = require("melange/stdlib_modules/arg.js");
-var Stdlib__Map = require("melange/stdlib_modules/map.js");
 var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
-var Stdlib__Set = require("melange/stdlib_modules/set.js");
 var Stdlib__Sys = require("melange/stdlib_modules/sys.js");
 var Stdlib__Char = require("melange/stdlib_modules/char.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
@@ -1625,7 +1624,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
           Error: new Error()
         };
   }
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   var bol = false;
   Stdlib.print_string("# ");
@@ -1654,7 +1653,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
@@ -2950,20 +2949,28 @@ function bal(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height(ll) >= height(lr)) {
+        return create$1(ll, lv, ld, create$1(lr, x, d, r));
+      }
+      if (lr) {
+        return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height(ll) >= height(lr)) {
-      return create$1(ll, lv, ld, create$1(lr, x, d, r));
-    } else if (lr) {
-      return create$1(create$1(ll, lv, ld, lr.l), lr.v, lr.d, create$1(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -2974,20 +2981,28 @@ function bal(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height(rr) >= height(rl)) {
+      return create$1(create$1(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height(rr) >= height(rl)) {
-    return create$1(create$1(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$1(create$1(l, x, d, rl.l), rl.v, rl.d, create$1(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function is_empty(param) {
@@ -3321,15 +3336,19 @@ function max_binding_opt(_param) {
 }
 
 function remove_min_binding(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Map.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal(remove_min_binding(l), param.v, param.d, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal(remove_min_binding(l), param.v, param.d, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function merge(t1, t2) {
@@ -4033,7 +4052,7 @@ function set(x, b, v) {
   if (b) {
     return v | single(x);
   } else {
-    return v & Stdlib.lnot(single(x));
+    return v & (single(x) ^ -1);
   }
 }
 
@@ -4092,19 +4111,27 @@ function bal$1(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$1(ll) >= height$1(lr)) {
+        return create$2(ll, lv, create$2(lr, v, r));
+      }
+      if (lr) {
+        return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$1(ll) >= height$1(lr)) {
-      return create$2(ll, lv, create$2(lr, v, r));
-    } else if (lr) {
-      return create$2(create$2(ll, lv, lr.l), lr.v, create$2(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -4114,19 +4141,27 @@ function bal$1(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$1(rr) >= height$1(rl)) {
+      return create$2(create$2(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$1(rr) >= height$1(rl)) {
-    return create$2(create$2(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$2(create$2(l, v, rl.l), rl.v, create$2(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$2(x, t) {
@@ -4223,15 +4258,19 @@ function min_elt(_param) {
 }
 
 function remove_min_elt(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Set.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal$1(remove_min_elt(l), param.v, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal$1(remove_min_elt(l), param.v, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function concat$1(t1, t2) {
@@ -4530,19 +4569,27 @@ function bal$2(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$2(ll) >= height$2(lr)) {
+        return create$3(ll, lv, create$3(lr, v, r));
+      }
+      if (lr) {
+        return create$3(create$3(ll, lv, lr.l), lr.v, create$3(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$2(ll) >= height$2(lr)) {
-      return create$3(ll, lv, create$3(lr, v, r));
-    } else if (lr) {
-      return create$3(create$3(ll, lv, lr.l), lr.v, create$3(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -4552,19 +4599,27 @@ function bal$2(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$2(rr) >= height$2(rl)) {
+      return create$3(create$3(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$3(create$3(l, v, rl.l), rl.v, create$3(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$2(rr) >= height$2(rl)) {
-    return create$3(create$3(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$3(create$3(l, v, rl.l), rl.v, create$3(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$3(x, t) {
@@ -4661,15 +4716,19 @@ function min_elt$1(_param) {
 }
 
 function remove_min_elt$1(param) {
-  if (!param) {
-    return Stdlib.invalid_arg("Set.remove_min_elt");
+  if (param) {
+    var l = param.l;
+    if (l) {
+      return bal$2(remove_min_elt$1(l), param.v, param.r);
+    } else {
+      return param.r;
+    }
   }
-  var l = param.l;
-  if (l) {
-    return bal$2(remove_min_elt$1(l), param.v, param.r);
-  } else {
-    return param.r;
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.remove_min_elt",
+        Error: new Error()
+      };
 }
 
 function concat$2(t1, t2) {
@@ -4930,20 +4989,28 @@ function bal$3(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$3(ll) >= height$3(lr)) {
+        return create$4(ll, lv, ld, create$4(lr, x, d, r));
+      }
+      if (lr) {
+        return create$4(create$4(ll, lv, ld, lr.l), lr.v, lr.d, create$4(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$3(ll) >= height$3(lr)) {
-      return create$4(ll, lv, ld, create$4(lr, x, d, r));
-    } else if (lr) {
-      return create$4(create$4(ll, lv, ld, lr.l), lr.v, lr.d, create$4(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -4954,20 +5021,28 @@ function bal$3(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$3(rr) >= height$3(rl)) {
+      return create$4(create$4(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$4(create$4(l, x, d, rl.l), rl.v, rl.d, create$4(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$3(rr) >= height$3(rl)) {
-    return create$4(create$4(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$4(create$4(l, x, d, rl.l), rl.v, rl.d, create$4(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function add$4(x, data, m) {
@@ -6412,11 +6487,14 @@ function backtrack(param) {
   var change = changes.contents;
   if (typeof change === "number") {
     if (change) {
-      return Stdlib.failwith("Btype.backtrack");
-    } else {
-      last_snapshot.contents = old;
-      return ;
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Btype.backtrack",
+            Error: new Error()
+          };
     }
+    last_snapshot.contents = old;
+    return ;
   }
   cleanup_abbrev(undefined);
   var backlog = rev_log(/* [] */0, change);
@@ -6429,9 +6507,9 @@ function backtrack(param) {
 var $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Ocaml_typedtree_test.Cmi_format.Error");
 
 function input_cmi(ic) {
-  var match = Stdlib.input_value(ic);
-  var crcs = Stdlib.input_value(ic);
-  var flags = Stdlib.input_value(ic);
+  var match = Caml_external_polyfill.resolve("caml_input_value")(ic);
+  var crcs = Caml_external_polyfill.resolve("caml_input_value")(ic);
+  var flags = Caml_external_polyfill.resolve("caml_input_value")(ic);
   return {
           cmi_name: match[0],
           cmi_sign: match[1],
@@ -6445,7 +6523,7 @@ function read_cmi(filename) {
   try {
     var buffer = Stdlib.really_input_string(ic, cmi_magic_number.length);
     if (buffer !== cmi_magic_number) {
-      Stdlib.close_in(ic);
+      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
       var pre_len = cmi_magic_number.length - 3 | 0;
       if (Stdlib__String.sub(buffer, 0, pre_len) === Stdlib__String.sub(cmi_magic_number, 0, pre_len)) {
         var msg = buffer < cmi_magic_number ? "an older" : "a newer";
@@ -6469,13 +6547,13 @@ function read_cmi(filename) {
           };
     }
     var cmi = input_cmi(ic);
-    Stdlib.close_in(ic);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
     return cmi;
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
     if (e.RE_EXN_ID === Stdlib.End_of_file) {
-      Stdlib.close_in(ic);
+      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
       throw {
             RE_EXN_ID: $$Error$1,
             _1: {
@@ -6486,7 +6564,7 @@ function read_cmi(filename) {
           };
     }
     if (e.RE_EXN_ID === Stdlib.Failure) {
-      Stdlib.close_in(ic);
+      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
       throw {
             RE_EXN_ID: $$Error$1,
             _1: {
@@ -6497,7 +6575,7 @@ function read_cmi(filename) {
           };
     }
     if (e.RE_EXN_ID === $$Error$1) {
-      Stdlib.close_in(ic);
+      Caml_external_polyfill.resolve("caml_ml_close_channel")(ic);
       throw {
             RE_EXN_ID: $$Error$1,
             _1: e._1,
@@ -6510,11 +6588,11 @@ function read_cmi(filename) {
 
 function output_cmi(filename, oc, cmi) {
   Stdlib.output_string(oc, cmi_magic_number);
-  Stdlib.output_value(oc, [
+  Caml_external_polyfill.resolve("caml_output_value")(oc, [
         cmi.cmi_name,
         cmi.cmi_sign
-      ]);
-  Stdlib.flush(oc);
+      ], /* [] */0);
+  Caml_io.caml_ml_flush(oc);
   var crc = Stdlib__Digest.file(filename);
   var crcs_0 = [
     cmi.cmi_name,
@@ -6525,8 +6603,8 @@ function output_cmi(filename, oc, cmi) {
     hd: crcs_0,
     tl: crcs_1
   };
-  Stdlib.output_value(oc, crcs);
-  Stdlib.output_value(oc, cmi.cmi_flags);
+  Caml_external_polyfill.resolve("caml_output_value")(oc, crcs, /* [] */0);
+  Caml_external_polyfill.resolve("caml_output_value")(oc, cmi.cmi_flags, /* [] */0);
   return crc;
 }
 
@@ -11426,19 +11504,27 @@ function bal$5(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$5(ll) >= height$5(lr)) {
+        return create$6(ll, lv, create$6(lr, v, r));
+      }
+      if (lr) {
+        return create$6(create$6(ll, lv, lr.l), lr.v, create$6(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$5(ll) >= height$5(lr)) {
-      return create$6(ll, lv, create$6(lr, v, r));
-    } else if (lr) {
-      return create$6(create$6(ll, lv, lr.l), lr.v, create$6(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -11448,19 +11534,27 @@ function bal$5(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$5(rr) >= height$5(rl)) {
+      return create$6(create$6(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$6(create$6(l, v, rl.l), rl.v, create$6(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$5(rr) >= height$5(rl)) {
-    return create$6(create$6(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$6(create$6(l, v, rl.l), rl.v, create$6(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$7(x, t) {
@@ -14726,7 +14820,8 @@ function save_signature(sg, modname, filename) {
       cmi_flags: cmi_cmi_flags
     };
     var crc = output_cmi(filename, oc, cmi);
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     var comps = components_of_module(empty, identity, {
           TAG: /* Pident */0,
           _0: {
@@ -14757,7 +14852,8 @@ function save_signature(sg, modname, filename) {
     return sg$1;
   }
   catch (exn){
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     remove_file(filename);
     throw exn;
   }
@@ -16594,7 +16690,11 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      return Stdlib.failwith("parser");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "parser",
+            Error: new Error()
+          };
     }),
   (function (__caml_parser_env) {
       var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);
@@ -27618,7 +27718,7 @@ function clear_env(binary_annots) {
 
 function output_cmt(oc, cmt) {
   Stdlib.output_string(oc, "Caml2012T004");
-  Stdlib.output_value(oc, cmt);
+  Caml_external_polyfill.resolve("caml_output_value")(oc, cmt, /* [] */0);
 }
 
 var saved_types = {
@@ -27700,7 +27800,8 @@ function save_cmt(filename, modname, binary_annots, sourcefile, initial_env, sg)
       cmt_use_summaries: need_to_clear_env
     };
     output_cmt(oc, cmt);
-    Stdlib.close_out(oc);
+    Caml_io.caml_ml_flush(oc);
+    Caml_external_polyfill.resolve("caml_ml_close_channel")(oc);
     var exit = 0;
     var cmd;
     try {
@@ -30096,14 +30197,18 @@ function instance_class(params, cty) {
 function diff_list(l1, l2) {
   if (l1 === l2) {
     return /* [] */0;
-  } else if (l1) {
+  }
+  if (l1) {
     return {
             hd: l1.hd,
             tl: diff_list(l1.tl, l2)
           };
-  } else {
-    return Stdlib.invalid_arg("Ctype.diff_list");
   }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Ctype.diff_list",
+        Error: new Error()
+      };
 }
 
 function conflicts(free, bound) {
@@ -41420,25 +41525,41 @@ var out_class_type = {
 
 var out_module_type = {
   contents: (function (param) {
-      return Stdlib.failwith("Oprint.out_module_type");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Oprint.out_module_type",
+            Error: new Error()
+          };
     })
 };
 
 var out_sig_item = {
   contents: (function (param) {
-      return Stdlib.failwith("Oprint.out_sig_item");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Oprint.out_sig_item",
+            Error: new Error()
+          };
     })
 };
 
 var out_signature = {
   contents: (function (param) {
-      return Stdlib.failwith("Oprint.out_signature");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Oprint.out_signature",
+            Error: new Error()
+          };
     })
 };
 
 var out_type_extension = {
   contents: (function (param) {
-      return Stdlib.failwith("Oprint.out_type_extension");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "Oprint.out_type_extension",
+            Error: new Error()
+          };
     })
 };
 
@@ -45133,20 +45254,28 @@ function bal$6(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$6(ll) >= height$6(lr)) {
+        return create$7(ll, lv, ld, create$7(lr, x, d, r));
+      }
+      if (lr) {
+        return create$7(create$7(ll, lv, ld, lr.l), lr.v, lr.d, create$7(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$6(ll) >= height$6(lr)) {
-      return create$7(ll, lv, ld, create$7(lr, x, d, r));
-    } else if (lr) {
-      return create$7(create$7(ll, lv, ld, lr.l), lr.v, lr.d, create$7(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -45157,20 +45286,28 @@ function bal$6(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$6(rr) >= height$6(rl)) {
+      return create$7(create$7(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$7(create$7(l, x, d, rl.l), rl.v, rl.d, create$7(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$6(rr) >= height$6(rl)) {
-    return create$7(create$7(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$7(create$7(l, x, d, rl.l), rl.v, rl.d, create$7(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function add$8(x, data, m) {
@@ -51138,19 +51275,27 @@ function bal$7(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$7(ll) >= height$7(lr)) {
+        return create$8(ll, lv, create$8(lr, v, r));
+      }
+      if (lr) {
+        return create$8(create$8(ll, lv, lr.l), lr.v, create$8(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$7(ll) >= height$7(lr)) {
-      return create$8(ll, lv, create$8(lr, v, r));
-    } else if (lr) {
-      return create$8(create$8(ll, lv, lr.l), lr.v, create$8(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -51160,19 +51305,27 @@ function bal$7(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$7(rr) >= height$7(rl)) {
+      return create$8(create$8(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$8(create$8(l, v, rl.l), rl.v, create$8(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$7(rr) >= height$7(rl)) {
-    return create$8(create$8(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$8(create$8(l, v, rl.l), rl.v, create$8(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$9(x, t) {
@@ -51347,20 +51500,28 @@ function bal$8(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$8(ll) >= height$8(lr)) {
+        return create$9(ll, lv, ld, create$9(lr, x, d, r));
+      }
+      if (lr) {
+        return create$9(create$9(ll, lv, ld, lr.l), lr.v, lr.d, create$9(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$8(ll) >= height$8(lr)) {
-      return create$9(ll, lv, ld, create$9(lr, x, d, r));
-    } else if (lr) {
-      return create$9(create$9(ll, lv, ld, lr.l), lr.v, lr.d, create$9(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -51371,20 +51532,28 @@ function bal$8(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$8(rr) >= height$8(rl)) {
+      return create$9(create$9(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$9(create$9(l, x, d, rl.l), rl.v, rl.d, create$9(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$8(rr) >= height$8(rl)) {
-    return create$9(create$9(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$9(create$9(l, x, d, rl.l), rl.v, rl.d, create$9(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function add$10(x, data, m) {
@@ -51478,19 +51647,27 @@ function bal$9(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$9(ll) >= height$9(lr)) {
+        return create$10(ll, lv, create$10(lr, v, r));
+      }
+      if (lr) {
+        return create$10(create$10(ll, lv, lr.l), lr.v, create$10(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$9(ll) >= height$9(lr)) {
-      return create$10(ll, lv, create$10(lr, v, r));
-    } else if (lr) {
-      return create$10(create$10(ll, lv, lr.l), lr.v, create$10(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -51500,19 +51677,27 @@ function bal$9(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$9(rr) >= height$9(rl)) {
+      return create$10(create$10(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$10(create$10(l, v, rl.l), rl.v, create$10(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$9(rr) >= height$9(rl)) {
-    return create$10(create$10(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$10(create$10(l, v, rl.l), rl.v, create$10(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$11(x, t) {
@@ -72778,19 +72963,27 @@ function bal$10(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$10(ll) >= height$10(lr)) {
+        return create$11(ll, lv, create$11(lr, v, r));
+      }
+      if (lr) {
+        return create$11(create$11(ll, lv, lr.l), lr.v, create$11(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$10(ll) >= height$10(lr)) {
-      return create$11(ll, lv, create$11(lr, v, r));
-    } else if (lr) {
-      return create$11(create$11(ll, lv, lr.l), lr.v, create$11(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -72800,19 +72993,27 @@ function bal$10(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$10(rr) >= height$10(rl)) {
+      return create$11(create$11(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$11(create$11(l, v, rl.l), rl.v, create$11(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$10(rr) >= height$10(rl)) {
-    return create$11(create$11(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$11(create$11(l, v, rl.l), rl.v, create$11(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$12(x, t) {
@@ -73070,20 +73271,28 @@ function bal$11(l, x, d, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Map.bal");
+    if (l) {
+      var lr = l.r;
+      var ld = l.d;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$11(ll) >= height$11(lr)) {
+        return create$12(ll, lv, ld, create$12(lr, x, d, r));
+      }
+      if (lr) {
+        return create$12(create$12(ll, lv, ld, lr.l), lr.v, lr.d, create$12(lr.r, x, d, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Map.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var ld = l.d;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$11(ll) >= height$11(lr)) {
-      return create$12(ll, lv, ld, create$12(lr, x, d, r));
-    } else if (lr) {
-      return create$12(create$12(ll, lv, ld, lr.l), lr.v, lr.d, create$12(lr.r, x, d, r));
-    } else {
-      return Stdlib.invalid_arg("Map.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -73094,20 +73303,28 @@ function bal$11(l, x, d, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Map.bal");
+  if (r) {
+    var rr = r.r;
+    var rd = r.d;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$11(rr) >= height$11(rl)) {
+      return create$12(create$12(l, x, d, rl), rv, rd, rr);
+    }
+    if (rl) {
+      return create$12(create$12(l, x, d, rl.l), rl.v, rl.d, create$12(rl.r, rv, rd, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Map.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rd = r.d;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$11(rr) >= height$11(rl)) {
-    return create$12(create$12(l, x, d, rl), rv, rd, rr);
-  } else if (rl) {
-    return create$12(create$12(l, x, d, rl.l), rl.v, rl.d, create$12(rl.r, rv, rd, rr));
-  } else {
-    return Stdlib.invalid_arg("Map.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Map.bal",
+        Error: new Error()
+      };
 }
 
 function add$13(x, data, m) {
@@ -82965,19 +83182,27 @@ function bal$12(l, v, r) {
   var hl = l ? l.h : 0;
   var hr = r ? r.h : 0;
   if (hl > (hr + 2 | 0)) {
-    if (!l) {
-      return Stdlib.invalid_arg("Set.bal");
+    if (l) {
+      var lr = l.r;
+      var lv = l.v;
+      var ll = l.l;
+      if (height$12(ll) >= height$12(lr)) {
+        return create$13(ll, lv, create$13(lr, v, r));
+      }
+      if (lr) {
+        return create$13(create$13(ll, lv, lr.l), lr.v, create$13(lr.r, v, r));
+      }
+      throw {
+            RE_EXN_ID: "Invalid_argument",
+            _1: "Set.bal",
+            Error: new Error()
+          };
     }
-    var lr = l.r;
-    var lv = l.v;
-    var ll = l.l;
-    if (height$12(ll) >= height$12(lr)) {
-      return create$13(ll, lv, create$13(lr, v, r));
-    } else if (lr) {
-      return create$13(create$13(ll, lv, lr.l), lr.v, create$13(lr.r, v, r));
-    } else {
-      return Stdlib.invalid_arg("Set.bal");
-    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
   if (hr <= (hl + 2 | 0)) {
     return /* Node */{
@@ -82987,19 +83212,27 @@ function bal$12(l, v, r) {
             h: hl >= hr ? hl + 1 | 0 : hr + 1 | 0
           };
   }
-  if (!r) {
-    return Stdlib.invalid_arg("Set.bal");
+  if (r) {
+    var rr = r.r;
+    var rv = r.v;
+    var rl = r.l;
+    if (height$12(rr) >= height$12(rl)) {
+      return create$13(create$13(l, v, rl), rv, rr);
+    }
+    if (rl) {
+      return create$13(create$13(l, v, rl.l), rl.v, create$13(rl.r, rv, rr));
+    }
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Set.bal",
+          Error: new Error()
+        };
   }
-  var rr = r.r;
-  var rv = r.v;
-  var rl = r.l;
-  if (height$12(rr) >= height$12(rl)) {
-    return create$13(create$13(l, v, rl), rv, rr);
-  } else if (rl) {
-    return create$13(create$13(l, v, rl.l), rl.v, create$13(rl.r, rv, rr));
-  } else {
-    return Stdlib.invalid_arg("Set.bal");
-  }
+  throw {
+        RE_EXN_ID: "Invalid_argument",
+        _1: "Set.bal",
+        Error: new Error()
+      };
 }
 
 function add$14(x, t) {

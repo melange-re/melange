@@ -215,4 +215,4 @@ exports.sort_uniq = sort_uniq;
 exports.merge = merge;
 exports.to_seq = to_seq;
 exports.of_seq = of_seq;
-/* Stdlib__List Not a pure module */
+/* No side effect */

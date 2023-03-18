@@ -3,7 +3,6 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
-var Stdlib = require("melange/./stdlib.js");
 var Belt_Array = require("melange.belt/./belt_Array.js");
 var Belt_Range = require("melange.belt/./belt_Range.js");
 var Belt_SortArray = require("melange.belt/./belt_SortArray.js");
@@ -277,12 +276,12 @@ eq("File \"bs_sort_test.ml\", line 102, characters 5-12", Belt_SortArray.stableS
       ]
     ]);
 
-eq("File \"bs_sort_test.ml\", line 111, characters 5-12", Stdlib.lnot(Belt_SortArray.binarySearchBy([
-              1,
-              3,
-              5,
-              7
-            ], 4, Caml.caml_int_compare)), 2);
+eq("File \"bs_sort_test.ml\", line 111, characters 5-12", Belt_SortArray.binarySearchBy([
+          1,
+          3,
+          5,
+          7
+        ], 4, Caml.caml_int_compare) ^ -1, 2);
 
 eq("File \"bs_sort_test.ml\", line 112, characters 5-12", Belt_SortArray.binarySearchBy([
           1,
@@ -344,16 +343,16 @@ var cc = Belt_Array.map(Array_data_util.range(0, 2000), (function (x) {
         return (x << 1);
       }));
 
-eq("File \"bs_sort_test.ml\", line 123, characters 5-12", Stdlib.lnot(Belt_SortArray.binarySearchBy(cc, 5000, cmp)), 2001);
+eq("File \"bs_sort_test.ml\", line 123, characters 5-12", Belt_SortArray.binarySearchBy(cc, 5000, cmp) ^ -1, 2001);
 
-eq("File \"bs_sort_test.ml\", line 124, characters 5-12", Stdlib.lnot(Belt_SortArray.binarySearchBy(cc, -1, cmp)), 0);
+eq("File \"bs_sort_test.ml\", line 124, characters 5-12", Belt_SortArray.binarySearchBy(cc, -1, cmp) ^ -1, 0);
 
 eq("File \"bs_sort_test.ml\", line 125, characters 5-12", Belt_SortArray.binarySearchBy(cc, 0, cmp), 0);
 
-eq("File \"bs_sort_test.ml\", line 127, characters 5-12", Stdlib.lnot(Belt_SortArray.binarySearchBy(cc, 1, cmp)), 1);
+eq("File \"bs_sort_test.ml\", line 127, characters 5-12", Belt_SortArray.binarySearchBy(cc, 1, cmp) ^ -1, 1);
 
 b("File \"bs_sort_test.ml\", line 128, characters 4-11", Belt_Range.every(0, 1999, (function (i) {
-            return Stdlib.lnot(Belt_SortArray.binarySearchBy(cc, (i << 1) + 1 | 0, cmp)) === (i + 1 | 0);
+            return (Belt_SortArray.binarySearchBy(cc, (i << 1) + 1 | 0, cmp) ^ -1) === (i + 1 | 0);
           })));
 
 function lt(x, y) {

@@ -257,4 +257,4 @@ exports.a15 = a15;
 exports.a16 = a16;
 exports.a17 = a17;
 exports.a18 = a18;
-/* Stdlib__List Not a pure module */
+/* Stdlib__Pervasives Not a pure module */

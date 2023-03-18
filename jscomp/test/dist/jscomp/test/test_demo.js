@@ -2,7 +2,6 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
 
 function fib(n) {
@@ -82,4 +81,4 @@ exports.g = g;
 exports.g1 = g1;
 exports.x = x;
 exports.v = v;
-/* Stdlib Not a pure module */
+/* No side effect */

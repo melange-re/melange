@@ -4,6 +4,7 @@
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
+var Caml_io = require("melange.runtime/caml_io.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_sys = require("melange.runtime/caml_sys.js");
 var Caml_array = require("melange.runtime/caml_array.js");
@@ -210,7 +211,7 @@ function print_config(oc) {
   p("ast_intf_magic_number", ast_intf_magic_number);
   p("cmxs_magic_number", cmxs_magic_number);
   p("cmt_magic_number", cmt_magic_number);
-  Stdlib.flush(oc);
+  Caml_io.caml_ml_flush(oc);
 }
 
 var Config = {
@@ -1116,11 +1117,11 @@ function align(n, a) {
 }
 
 function no_overflow_add(a, b) {
-  return (a ^ b | a ^ Stdlib.lnot(a + b | 0)) < 0;
+  return (a ^ b | a ^ (a + b | 0) ^ -1) < 0;
 }
 
 function no_overflow_sub(a, b) {
-  return (a ^ Stdlib.lnot(b) | b ^ (a - b | 0)) < 0;
+  return (a ^ b ^ -1 | b ^ (a - b | 0)) < 0;
 }
 
 function no_overflow_lsl(a) {
@@ -1338,7 +1339,7 @@ function blit(src, srcoff, dst, dstoff, len) {
 
 function output(oc, tbl, pos, len) {
   for(var i = pos ,i_finish = pos + len | 0; i < i_finish; ++i){
-    Stdlib.output_char(oc, get(tbl, i));
+    Caml_io.caml_ml_output_char(oc, get(tbl, i));
   }
 }
 
@@ -3266,7 +3267,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
           Error: new Error()
         };
   }
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
   Caml_external_polyfill.resolve("caml_terminfo_backup")(lines);
   var bol = false;
   Stdlib.print_string("# ");
@@ -3295,7 +3296,7 @@ function highlight_terminfo(ppf, num_lines, lb, locs) {
   }
   Caml_external_polyfill.resolve("caml_terminfo_standout")(false);
   Caml_external_polyfill.resolve("caml_terminfo_resume")(num_loc_lines.contents);
-  Stdlib.flush(Stdlib.stdout);
+  Caml_io.caml_ml_flush(Stdlib.stdout);
 }
 
 function highlight_dumb(ppf, lb, loc) {
@@ -7613,7 +7614,11 @@ var yytransl_block = [
 
 var yyact = [
   (function (param) {
-      return Stdlib.failwith("parser");
+      throw {
+            RE_EXN_ID: "Failure",
+            _1: "parser",
+            Error: new Error()
+          };
     }),
   (function (__caml_parser_env) {
       var _1 = Stdlib__Parsing.peek_val(__caml_parser_env, 1);

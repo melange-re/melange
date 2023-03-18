@@ -56,4 +56,4 @@ exports.gray_encode = gray_encode;
 exports.gray_decode = gray_decode;
 exports.bool_string = bool_string;
 exports.next_power = next_power;
-/* Stdlib__Bytes Not a pure module */
+/* No side effect */

@@ -33,8 +33,11 @@ function eq(loc, x, y) {
 var y;
 
 try {
-  Stdlib.failwith("boo");
-  y = undefined;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "boo",
+        Error: new Error()
+      };
 }
 catch (raw_msg){
   var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
@@ -49,11 +52,12 @@ var x;
 
 var exit = 0;
 
-var e;
-
 try {
-  e = Stdlib.failwith("boo");
-  exit = 1;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: "boo",
+        Error: new Error()
+      };
 }
 catch (raw_msg$1){
   var msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);

@@ -109,4 +109,4 @@ exports.help_action = help_action;
 exports.v = v;
 exports.f = f;
 exports.add_help = add_help;
-/* Stdlib Not a pure module */
+/* No side effect */

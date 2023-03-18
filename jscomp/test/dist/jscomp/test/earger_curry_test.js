@@ -5,7 +5,6 @@ var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
 
 function map(f, a) {
   var f$1 = Curry.__1(f);
@@ -26,7 +25,11 @@ function init(l, f) {
     return [];
   }
   if (l < 0) {
-    return Stdlib.invalid_arg("Array.init");
+    throw {
+          RE_EXN_ID: "Invalid_argument",
+          _1: "Array.init",
+          Error: new Error()
+        };
   }
   var res = Caml_array.make(l, f$1(0));
   for(var i = 1; i < l; ++i){

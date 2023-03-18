@@ -142,11 +142,19 @@ eq("File \"js_exception_catch_test.ml\", line 44, characters 5-12", test(functio
         }), "Not_found");
 
 eq("File \"js_exception_catch_test.ml\", line 45, characters 5-12", test(function (param) {
-          Stdlib.invalid_arg("x");
+          throw {
+                RE_EXN_ID: "Invalid_argument",
+                _1: "x",
+                Error: new Error()
+              };
         }), "Invalid_argument");
 
 eq("File \"js_exception_catch_test.ml\", line 46, characters 5-12", test(function (param) {
-          Stdlib.invalid_arg("");
+          throw {
+                RE_EXN_ID: "Invalid_argument",
+                _1: "",
+                Error: new Error()
+              };
         }), "Invalid_any");
 
 eq("File \"js_exception_catch_test.ml\", line 47, characters 5-12", test(function (param) {
@@ -195,7 +203,11 @@ eq("File \"js_exception_catch_test.ml\", line 52, characters 5-12", test(functio
         }), "Js_error");
 
 eq("File \"js_exception_catch_test.ml\", line 53, characters 5-12", test(function (param) {
-          Stdlib.failwith("x");
+          throw {
+                RE_EXN_ID: "Failure",
+                _1: "x",
+                Error: new Error()
+              };
         }), "Any");
 
 Mt.from_pair_suites("Js_exception_catch_test", suites.contents);

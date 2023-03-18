@@ -88,4 +88,4 @@ exports.__ocaml_lex_tables = __ocaml_lex_tables;
 exports.lexeme = lexeme;
 exports.__ocaml_lex_lexeme_rec = __ocaml_lex_lexeme_rec;
 exports.str = str;
-/* Stdlib Not a pure module */
+/* No side effect */

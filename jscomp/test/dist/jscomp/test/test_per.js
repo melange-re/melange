@@ -611,4 +611,4 @@ exports.exit_function = exit_function;
 exports.at_exit = at_exit;
 exports.do_at_exit = do_at_exit;
 exports.exit = exit;
-/* Stdlib Not a pure module */
+/* No side effect */

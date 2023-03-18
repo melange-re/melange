@@ -24,4 +24,4 @@ function str(e) {
 }
 
 exports.str = str;
-/* Stdlib Not a pure module */
+/* No side effect */

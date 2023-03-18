@@ -3,7 +3,6 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Stdlib__List = require("melange/stdlib_modules/list.js");
 var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
@@ -71,14 +70,19 @@ function scan_rest(ib, accu) {
                                                 case "]" :
                                                     return accu$1;
                                                 default:
-                                                  return Stdlib.failwith(Stdlib__Printf.sprintf(/* Format */{
-                                                                  _0: {
-                                                                    TAG: /* String_literal */11,
-                                                                    _0: "scan_int_list",
-                                                                    _1: /* End_of_format */0
-                                                                  },
-                                                                  _1: "scan_int_list"
-                                                                }));
+                                                  var s = Stdlib__Printf.sprintf(/* Format */{
+                                                        _0: {
+                                                          TAG: /* String_literal */11,
+                                                          _0: "scan_int_list",
+                                                          _1: /* End_of_format */0
+                                                        },
+                                                        _1: "scan_int_list"
+                                                      });
+                                                  throw {
+                                                        RE_EXN_ID: "Failure",
+                                                        _1: s,
+                                                        Error: new Error()
+                                                      };
                                               }
                                             }));
                               }));

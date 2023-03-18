@@ -71,7 +71,12 @@ function is_pos_pow(n) {
 
 function failwithf(loc, fmt) {
   return Stdlib__Format.ksprintf((function (s) {
-                return Stdlib.failwith(loc + s);
+                var s$1 = loc + s;
+                throw {
+                      RE_EXN_ID: "Failure",
+                      _1: s$1,
+                      Error: new Error()
+                    };
               }), fmt);
 }
 
@@ -110,4 +115,4 @@ exports.failwithf = failwithf;
 exports.invalid_argf = invalid_argf;
 exports.bad_argf = bad_argf;
 exports.hash_variant = hash_variant;
-/* Stdlib Not a pure module */
+/* Stdlib__Format Not a pure module */

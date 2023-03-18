@@ -11,7 +11,6 @@ var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
 var Ext_array_test = require("./ext_array_test.js");
 var Stdlib__Digest = require("melange/stdlib_modules/digest.js");
 var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
 
 function f(x) {
   return Stdlib__Digest.to_hex(Stdlib__Digest.string(x));

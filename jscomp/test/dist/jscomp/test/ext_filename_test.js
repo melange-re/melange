@@ -384,11 +384,22 @@ function get_extension(x) {
   }
 }
 
-var simple_convert_node_path_to_os_path = Stdlib__Sys.unix ? (function (x) {
+var simple_convert_node_path_to_os_path;
+
+if (Stdlib__Sys.unix) {
+  simple_convert_node_path_to_os_path = (function (x) {
       return x;
-    }) : (
-    Stdlib__Sys.win32 || false ? Ext_string_test.replace_slash_backward : Stdlib.failwith("Unknown OS : " + Stdlib__Sys.os_type)
-  );
+    });
+} else if (Stdlib__Sys.win32 || false) {
+  simple_convert_node_path_to_os_path = Ext_string_test.replace_slash_backward;
+} else {
+  var s = "Unknown OS : " + Stdlib__Sys.os_type;
+  throw {
+        RE_EXN_ID: "Failure",
+        _1: s,
+        Error: new Error()
+      };
+}
 
 var $slash$slash = Stdlib__Filename.concat;
 
