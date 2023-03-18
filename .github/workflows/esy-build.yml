@@ -67,6 +67,6 @@ jobs:
         run: |
           cat esy.json
           esy install
-          npm install
+          npm install --legacy-peer-deps
           esy
           npm run bundle
