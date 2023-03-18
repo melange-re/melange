@@ -259,7 +259,7 @@ module CliArgProcessor = struct
       end
       else
         let parsetree = match ppx with
-          | "jsx" -> Reactjs_jsx_ppx_v3.rewrite_signature parseResult.parsetree
+          | "jsx" -> failwith "not implemented in melange"
           | _ -> parseResult.parsetree
         in
         printEngine.printInterface
@@ -278,7 +278,7 @@ module CliArgProcessor = struct
       end
       else
         let parsetree = match ppx with
-          | "jsx" -> Reactjs_jsx_ppx_v3.rewrite_implementation parseResult.parsetree
+          | "jsx" -> failwith "not implemented in melange"
           | _ -> parseResult.parsetree
         in
         printEngine.printImplementation
