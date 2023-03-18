@@ -89,8 +89,6 @@ rec {
         "jscomp/stubs"
         "jscomp/common"
         "jscomp/frontend"
-        "reactjs_jsx_ppx"
-        "jscomp/napkin"
         "jscomp/js_parser"
         "jscomp/outcome_printer"
         "mel_workspace"
@@ -107,4 +105,27 @@ rec {
 
     meta.mainProgram = "mel";
   };
+
+  rescript-syntax = ocamlPackages.buildDunePackage rec {
+    pname = "rescript-syntax";
+    version = "dev";
+    duneVersion = "3";
+
+    src = with nix-filter; filter {
+      root = ./..;
+      include = [
+        "dune-project"
+        "rescript-syntax.opam"
+        "rescript-syntax"
+      ];
+    };
+
+    propagatedBuildInputs = with ocamlPackages; [
+      ocaml-migrate-parsetree-2
+      melange
+    ];
+
+    meta.mainProgram = "rescript-syntax";
+  };
+
 }

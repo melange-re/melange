@@ -60,6 +60,14 @@
    (>= "1.1.0"))
   (luv
    (>= "0.5.11"))
-  (ocaml-migrate-parsetree
-   (>= "2.3.0"))
   (ounit :with-test)))
+
+(package
+ (name rescript-syntax)
+ (synopsis "ReScript syntax packaged as an opam library")
+ (depends
+  ocaml
+  (melange
+   (= :version))
+  (ocaml-migrate-parsetree
+   (>= "2.3.0"))))

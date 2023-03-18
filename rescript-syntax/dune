@@ -9,9 +9,15 @@
 
 (executable
  (name res_cli)
- (public_name rescript_syntax)
- (package mel)
+ (public_name rescript-syntax)
+ (package rescript-syntax)
  (modules res_cli)
  (flags
   (-open Napkin))
  (libraries napkin))
+
+(install
+ (package rescript-syntax)
+ (section bin)
+ (files
+  (res_cli.exe as rescript_syntax)))
