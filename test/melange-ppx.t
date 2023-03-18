@@ -18,7 +18,7 @@ Demonstrate how to use the `melc` PPX
   $ head -c12 x.pp.ml
   Caml1999M031
 
-Preprocess with `--as-ppx`
+Preprocess with `--as-pp`
 
   $ melc --bs-no-builtin-ppx --as-pp x.ml > x.pp.ml
   $ head -c12 x.pp.ml
