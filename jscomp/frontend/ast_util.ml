@@ -37,7 +37,7 @@ let js_property loc obj (name : string) =
         obj,
       { loc; txt = name } )
 
-let ocaml_obj_as_js_object loc (mapper : Bs_ast_mapper.mapper)
+let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
     (self_pat : Parsetree.pattern) (clfs : Parsetree.class_field list) =
   (* Attention: we should avoid type variable conflict for each method
       Since the method name is unique, there would be no conflict
@@ -51,7 +51,7 @@ let ocaml_obj_as_js_object loc (mapper : Bs_ast_mapper.mapper)
         end
       ]} should not compile with a meaningful error message
   *)
-  let generate_val_method_pair loc (mapper : Bs_ast_mapper.mapper)
+  let generate_val_method_pair loc (mapper : Ast_mapper.mapper)
       (val_name : string Asttypes.loc) is_mutable =
     let result = Typ.var ~loc val_name.txt in
     ( result,
@@ -197,7 +197,7 @@ let ocaml_obj_as_js_object loc (mapper : Bs_ast_mapper.mapper)
         (Ext_list.map2 labels exprs (fun l expr -> (l.txt, expr))))
     ~pval_type
 
-let record_as_js_object loc (self : Bs_ast_mapper.mapper)
+let record_as_js_object loc (self : Ast_mapper.mapper)
     (label_exprs : label_exprs) : Parsetree.expression_desc =
   let labels, args, arity =
     Ext_list.fold_right label_exprs ([], [], 0)

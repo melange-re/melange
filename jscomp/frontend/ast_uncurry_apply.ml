@@ -70,7 +70,7 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
-let generic_apply loc (self : Bs_ast_mapper.mapper) (obj : Parsetree.expression)
+let generic_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
     (args : Ast_compatible.args) (cb : loc -> exp -> exp) =
   let obj = self.expr self obj in
   let args =
@@ -111,7 +111,7 @@ let generic_apply loc (self : Bs_ast_mapper.mapper) (obj : Parsetree.expression)
             ])
          args)
 
-let method_apply loc (self : Bs_ast_mapper.mapper) (obj : Parsetree.expression)
+let method_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
     name (args : Ast_compatible.args) =
   let obj = self.expr self obj in
   let args =

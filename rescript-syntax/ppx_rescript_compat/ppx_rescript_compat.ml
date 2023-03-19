@@ -30,9 +30,9 @@
  *  - `obj["prop"]` -> `obj##prop`
  *)
 
-type mapper = Bs_ast_mapper.mapper
+type mapper = Ast_mapper.mapper
 
-let default_mapper = Bs_ast_mapper.default_mapper
+let default_mapper = Ast_mapper.default_mapper
 
 let expr_mapper (self : mapper) (expr : Parsetree.expression) =
   match expr.pexp_desc with
@@ -100,6 +100,9 @@ let expr_mapper (self : mapper) (expr : Parsetree.expression) =
           *))
   | _ -> default_mapper.expr self expr
 
-let mapper : mapper = { default_mapper with expr = expr_mapper }
+let mapper : Ast_mapper.mapper =
+  let open Ast_mapper in
+  { default_mapper with expr = expr_mapper }
+
 let structure ast = mapper.structure mapper ast
 let signature ast = mapper.signature mapper ast

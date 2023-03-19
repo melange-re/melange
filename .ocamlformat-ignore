@@ -20,5 +20,5 @@ jscomp/core/js_record_fold.ml
 jscomp/core/js_record_iter.ml
 
 jscomp/others/*
-jscomp/napkin/*
+rescript-syntax/*
 jscomp/js_parser/*

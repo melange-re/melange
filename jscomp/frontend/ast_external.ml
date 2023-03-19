@@ -40,7 +40,7 @@ let unboxable_type_in_prim_decl : Parsetree.attribute =
     attr_loc = Location.none;
   }
 
-let handleExternalInSig (self : Bs_ast_mapper.mapper)
+let handleExternalInSig (self : Ast_mapper.mapper)
     (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
     Parsetree.signature_item =
   let loc = prim.pval_loc in
@@ -70,7 +70,7 @@ let handleExternalInSig (self : Bs_ast_mapper.mapper)
                 };
           })
 
-let handleExternalInStru (self : Bs_ast_mapper.mapper)
+let handleExternalInStru (self : Ast_mapper.mapper)
     (prim : Parsetree.value_description) (str : Parsetree.structure_item) :
     Parsetree.structure_item =
   let loc = prim.pval_loc in

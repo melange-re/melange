@@ -25,7 +25,7 @@
 open Ast_helper
 
 (* Handling `fun [@this]` used in `object [@bs] end` *)
-let to_method_callback loc (self : Bs_ast_mapper.mapper) label pat body :
+let to_method_callback loc (self : Ast_mapper.mapper) label pat body :
     Parsetree.expression_desc =
   Bs_syntaxerr.optional_err loc label;
   let rec aux acc (body : Parsetree.expression) =
@@ -65,7 +65,7 @@ let to_method_callback loc (self : Bs_ast_mapper.mapper) label pat body :
                [ Typ.any ~loc () ]) );
       ] )
 
-let to_uncurry_fn loc (self : Bs_ast_mapper.mapper) (label : Asttypes.arg_label)
+let to_uncurry_fn loc (self : Ast_mapper.mapper) (label : Asttypes.arg_label)
     pat body : Parsetree.expression_desc =
   Bs_syntaxerr.optional_err loc label;
   let rec aux acc (body : Parsetree.expression) =

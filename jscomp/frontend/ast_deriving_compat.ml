@@ -22,9 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type mapper = Bs_ast_mapper.mapper
+type mapper = Ast_mapper.mapper
 
-let default_mapper = Bs_ast_mapper.default_mapper
+let default_mapper = Ast_mapper.default_mapper
 
 let type_declaration_mapper (_self : mapper) (tdcl : Parsetree.type_declaration)
     =

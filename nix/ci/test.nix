@@ -25,6 +25,15 @@ let
               hash = "sha256-yNQc1X3MQ93a1fLccDcFgiJN/0W2u1DfV48CZXbucpc=";
             };
           });
+
+          melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
+            src = super.fetchFromGitHub {
+              owner = "melange-re";
+              repo = "melange-compiler-libs";
+              rev = "7263bea2285499f5da857f2bb374345a5178791e";
+              hash = "sha256-Tgk1PtLn9+9jK2tLWV7DktTYDp+KeasctrmTrOqusyM=";
+            };
+          });
         });
       })
     ];

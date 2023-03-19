@@ -36,7 +36,7 @@
 *)
 
 type typ = Parsetree.core_type
-type 'a cxt = Ast_helper.loc -> Bs_ast_mapper.mapper -> 'a
+type 'a cxt = Ast_helper.loc -> Ast_mapper.mapper -> 'a
 
 type uncurry_type_gen =
   (Asttypes.arg_label ->
@@ -65,7 +65,7 @@ val to_method_callback_type : uncurry_type_gen
 
 val generate_method_type :
   Location.t ->
-  Bs_ast_mapper.mapper ->
+  Ast_mapper.mapper ->
   ?alias_type:Parsetree.core_type ->
   string ->
   Asttypes.arg_label ->
@@ -75,7 +75,7 @@ val generate_method_type :
 
 val generate_arg_type :
   Location.t ->
-  Bs_ast_mapper.mapper ->
+  Ast_mapper.mapper ->
   string ->
   Asttypes.arg_label ->
   Parsetree.pattern ->

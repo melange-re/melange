@@ -59,7 +59,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's@"installConfig"@"resolutions": { "\@opam/dune": "ocaml/dune:dune.opam#21914b91f66a94e2cae33b9b19ea1521b6104d8a","\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
+          sed -i 's@"installConfig"@"resolutions": { "\@opam/dune": "ocaml/dune:dune.opam#21914b91f66a94e2cae33b9b19ea1521b6104d8a", "\@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#7263bea2285499f5da857f2bb374345a5178791e", "\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
 
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
