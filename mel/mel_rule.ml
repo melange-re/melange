@@ -108,7 +108,7 @@ let ast (global_config : Bsb_ninja_global_vars.t) oc cur_dir =
   in
   output_string oc "(action\n (run ";
   output_string oc global_config.bsc;
-  output_string oc " ";
+  output_string oc " -bs-legacy ";
   output_string oc global_config.warnings;
   (match global_config.ppx_config with
   | Bsb_config_types.{ ppxlib = []; ppx_files = [] } -> ()
@@ -161,7 +161,8 @@ let meldep, meldep_dev =
 
 let namespace (global_config : Bsb_ninja_global_vars.t) oc =
   let s =
-    global_config.bsc ^ " -w -49 -color always -no-alias-deps %{inputs}"
+    global_config.bsc
+    ^ " -bs-legacy -w -49 -color always -no-alias-deps %{inputs}"
   in
   output_string oc "(action (run ";
   output_string oc s;
