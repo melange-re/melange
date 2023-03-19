@@ -21,7 +21,7 @@ dev:
 
 .PHONY: test
 test:
-	opam exec -- dune build @runtest -p melange
+	opam exec -- dune runtest -p melange
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
