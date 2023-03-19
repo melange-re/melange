@@ -42,7 +42,7 @@ let bound (e : exp) (cb : exp -> _) =
       [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
       (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
 
-let default_expr_mapper = Bs_ast_mapper.default_mapper.expr
+let default_expr_mapper = Ast_mapper.default_mapper.expr
 
 let check_and_discard (args : Ast_compatible.args) =
   Ext_list.map args (fun (label, x) ->
@@ -71,7 +71,7 @@ let view_as_app (fn : exp) (s : string list) : app_pattern option =
 let inner_ops = [ "##"; "#@" ]
 let infix_ops = [ "|."; "#="; "##" ]
 
-let app_exp_mapper (e : exp) (self : Bs_ast_mapper.mapper) (fn : exp)
+let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
     (args : Ast_compatible.args) : exp =
   (* - (f##paint) 1 2
      - (f#@paint) 1 2

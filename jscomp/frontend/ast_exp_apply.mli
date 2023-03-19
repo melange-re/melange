@@ -24,7 +24,7 @@
 
 val app_exp_mapper :
   Parsetree.expression ->
-  Bs_ast_mapper.mapper ->
+  Ast_mapper.mapper ->
   Parsetree.expression ->
   Ast_compatible.args ->
   Parsetree.expression

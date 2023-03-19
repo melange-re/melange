@@ -58,10 +58,10 @@ let succeed attr attrs =
       Bs_ast_invariant.mark_used_bs_attribute attr;
       Bs_ast_invariant.warn_discarded_unused_attributes attrs
 
-type mapper = Bs_ast_mapper.mapper
+type mapper = Ast_mapper.mapper
 
-let default_mapper = Bs_ast_mapper.default_mapper
-let default_expr_mapper = Bs_ast_mapper.default_mapper.expr
+let default_mapper = Ast_mapper.default_mapper
+let default_expr_mapper = Ast_mapper.default_mapper.expr
 
 let expr_mapper (self : mapper) (e : Parsetree.expression) =
   match e.pexp_desc with
@@ -150,6 +150,15 @@ let expr_mapper (self : mapper) (e : Parsetree.expression) =
         ] ) ->
       default_expr_mapper self
         { e with pexp_desc = Pexp_ifthenelse (b, t_exp, Some f_exp) }
+  | Pexp_let (r, vbs, e) ->
+      {
+        e with
+        pexp_desc =
+          Pexp_let
+            ( r,
+              Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
+              self.expr self e );
+      }
   | _ -> default_expr_mapper self e
 
 let typ_mapper (self : mapper) (typ : Parsetree.core_type) =
@@ -186,6 +195,19 @@ let class_type_mapper (self : mapper)
            {[class type x = int -> object
                end[@bs]]}
 *)
+
+let class_expr_mapper (self : mapper) (ce : Parsetree.class_expr) =
+  match ce.pcl_desc with
+  | Pcl_let (r, vbs, ce) ->
+      {
+        ce with
+        pcl_desc =
+          Pcl_let
+            ( r,
+              Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
+              self.class_expr self ce );
+      }
+  | _ -> default_mapper.class_expr self ce
 
 let signature_item_mapper (self : mapper) (sigi : Parsetree.signature_item) =
   match sigi.psig_desc with
@@ -376,8 +398,16 @@ let structure_item_mapper (self : mapper) (str : Parsetree.structure_item) =
             pstr_desc =
               Pstr_value
                 ( Nonrecursive,
-                  [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc } ] );
+                  Ast_tuple_pattern_flatten.value_bindings_mapper self
+                    [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc } ] );
           })
+  | Pstr_value (r, vbs) ->
+      {
+        str with
+        pstr_desc =
+          Pstr_value
+            (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
+      }
   | Pstr_attribute { attr_name = { txt = "bs.config" | "config" }; _ } -> str
   | _ -> default_mapper.structure_item self str
 
@@ -452,8 +482,8 @@ let mapper : mapper =
     expr = expr_mapper;
     typ = typ_mapper;
     class_type = class_type_mapper;
+    class_expr = class_expr_mapper;
     signature_item = signature_item_mapper;
-    value_bindings = Ast_tuple_pattern_flatten.value_bindings_mapper;
     structure_item = structure_item_mapper;
     structure = structure_mapper;
     (* Ad-hoc way to internalize stuff *)

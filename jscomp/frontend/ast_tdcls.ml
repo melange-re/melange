@@ -50,7 +50,7 @@ let disable_unused_type : Parsetree.attribute =
     attr_loc = Location.none;
   }
 
-let handleTdclsInSigi (self : Bs_ast_mapper.mapper)
+let handleTdclsInSigi (self : Ast_mapper.mapper)
     (sigi : Parsetree.signature_item) rf
     (tdcls : Parsetree.type_declaration list) : Ast_signature.item =
   match
@@ -63,7 +63,7 @@ let handleTdclsInSigi (self : Bs_ast_mapper.mapper)
       in
       (* remove the processed attr*)
       let newTdclsNewAttrs =
-        self.type_declaration_list self originalTdclsNewAttrs
+        List.map (self.type_declaration self) originalTdclsNewAttrs
       in
       let kind = Ast_derive_abstract.isAbstract actions in
       if kind <> Not_abstract then
@@ -88,9 +88,9 @@ let handleTdclsInSigi (self : Bs_ast_mapper.mapper)
           (Ast_compatible.rec_type_sig ~loc rf newTdclsNewAttrs
           :: self.signature self (Ast_derive.gen_signature tdcls actions rf))
   | { bs_deriving = None }, _ ->
-      Bs_ast_mapper.default_mapper.signature_item self sigi
+      Ast_mapper.default_mapper.signature_item self sigi
 
-let handleTdclsInStru (self : Bs_ast_mapper.mapper)
+let handleTdclsInStru (self : Ast_mapper.mapper)
     (str : Parsetree.structure_item) rf
     (tdcls : Parsetree.type_declaration list) : Ast_structure.item =
   match
@@ -103,7 +103,7 @@ let handleTdclsInStru (self : Bs_ast_mapper.mapper)
       in
       let newStr : Parsetree.structure_item =
         Ast_compatible.rec_type_str ~loc rf
-          (self.type_declaration_list self originalTdclsNewAttrs)
+          (List.map (self.type_declaration self) originalTdclsNewAttrs)
       in
       let kind = Ast_derive_abstract.isAbstract actions in
       if kind <> Not_abstract then
@@ -123,4 +123,4 @@ let handleTdclsInStru (self : Bs_ast_mapper.mapper)
                (Ext_list.filter_map actions (fun action ->
                     Ast_derive.gen_structure_signature loc tdcls action rf)))
   | { bs_deriving = None }, _ ->
-      Bs_ast_mapper.default_mapper.structure_item self str
+      Ast_mapper.default_mapper.structure_item self str

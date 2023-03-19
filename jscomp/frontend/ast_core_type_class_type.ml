@@ -108,9 +108,9 @@ let handle_class_type_field self
         ctf.pctf_attributes ty acc
   | Pctf_inherit _ | Pctf_val _ | Pctf_constraint _ | Pctf_attribute _
   | Pctf_extension _ ->
-      Bs_ast_mapper.default_mapper.class_type_field self ctf :: acc
+      Ast_mapper.default_mapper.class_type_field self ctf :: acc
 
-let default_typ_mapper = Bs_ast_mapper.default_mapper.typ
+let default_typ_mapper = Ast_mapper.default_mapper.typ
 (*
   Attributes are very hard to attribute
   (since ptyp_attributes could happen in so many places),
@@ -118,7 +118,7 @@ let default_typ_mapper = Bs_ast_mapper.default_mapper.typ
   we can only use it locally
 *)
 
-let typ_mapper (self : Bs_ast_mapper.mapper) (ty : Parsetree.core_type) =
+let typ_mapper (self : Ast_mapper.mapper) (ty : Parsetree.core_type) =
   match ty with
   | {
    ptyp_attributes;
@@ -133,7 +133,7 @@ let typ_mapper (self : Bs_ast_mapper.mapper) (ty : Parsetree.core_type) =
       | Meth_callback _ ->
           Ast_typ_uncurry.to_method_callback_type loc self label args body
       | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body
-      | Nothing -> Bs_ast_mapper.default_mapper.typ self ty)
+      | Nothing -> Ast_mapper.default_mapper.typ self ty)
   | { ptyp_desc = Ptyp_object (methods, closed_flag); ptyp_loc = loc } ->
       let ( +> ) attr (typ : Parsetree.core_type) =
         { typ with ptyp_attributes = attr :: typ.ptyp_attributes }

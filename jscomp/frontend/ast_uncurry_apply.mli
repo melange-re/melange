@@ -26,7 +26,7 @@
 (* syntax: {[f arg0 arg1 [@bs]]}*)
 val uncurry_fn_apply :
   Location.t ->
-  Bs_ast_mapper.mapper ->
+  Ast_mapper.mapper ->
   Parsetree.expression ->
   Ast_compatible.args ->
   Parsetree.expression_desc
@@ -34,7 +34,7 @@ val uncurry_fn_apply :
 (* syntax : {[f## arg0 arg1 ]}*)
 val method_apply :
   Location.t ->
-  Bs_ast_mapper.mapper ->
+  Ast_mapper.mapper ->
   Parsetree.expression ->
   string ->
   Ast_compatible.args ->
@@ -43,7 +43,7 @@ val method_apply :
 (* syntax {[f#@ arg0 arg1 ]}*)
 val property_apply :
   Location.t ->
-  Bs_ast_mapper.mapper ->
+  Ast_mapper.mapper ->
   Parsetree.expression ->
   string ->
   Ast_compatible.args ->

@@ -23,12 +23,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type typ = Parsetree.core_type
-type 'a cxt = Ast_helper.loc -> Bs_ast_mapper.mapper -> 'a
+type 'a cxt = Ast_helper.loc -> Ast_mapper.mapper -> 'a
 type uncurry_type_gen = (Asttypes.arg_label -> typ -> typ -> typ) cxt
 
 module Typ = Ast_helper.Typ
 
-let to_method_callback_type loc (mapper : Bs_ast_mapper.mapper)
+let to_method_callback_type loc (mapper : Ast_mapper.mapper)
     (label : Asttypes.arg_label) (first_arg : Parsetree.core_type)
     (typ : Parsetree.core_type) =
   let first_arg = mapper.typ mapper first_arg in
@@ -48,7 +48,7 @@ let to_method_callback_type loc (mapper : Bs_ast_mapper.mapper)
 
 let self_type_lit = "self_type"
 
-let generate_method_type loc (mapper : Bs_ast_mapper.mapper) ?alias_type
+let generate_method_type loc (mapper : Ast_mapper.mapper) ?alias_type
     method_name lbl pat e : Parsetree.core_type =
   let arity = Ast_pat.arity_of_fun pat e in
   let result = Typ.var ~loc method_name in
@@ -77,7 +77,7 @@ let generate_method_type loc (mapper : Bs_ast_mapper.mapper) ?alias_type
           (Typ.arrow ~loc label x method_rest)
     | _ -> assert false
 
-let to_method_type loc (mapper : Bs_ast_mapper.mapper)
+let to_method_type loc (mapper : Ast_mapper.mapper)
     (label : Asttypes.arg_label) (first_arg : Parsetree.core_type)
     (typ : Parsetree.core_type) =
   let first_arg = mapper.typ mapper first_arg in
@@ -93,7 +93,7 @@ let to_method_type loc (mapper : Bs_ast_mapper.mapper)
         [ meth_type ]
   | None -> assert false
 
-let generate_arg_type loc (mapper : Bs_ast_mapper.mapper) method_name label pat
+let generate_arg_type loc (mapper : Ast_mapper.mapper) method_name label pat
     body : Ast_core_type.t =
   let arity = Ast_pat.arity_of_fun pat body in
   let result = Typ.var ~loc method_name in
@@ -113,7 +113,7 @@ let generate_arg_type loc (mapper : Bs_ast_mapper.mapper) method_name label pat
         to_method_type loc mapper label x method_rest
     | _ -> assert false
 
-let to_uncurry_type loc (mapper : Bs_ast_mapper.mapper)
+let to_uncurry_type loc (mapper : Ast_mapper.mapper)
     (label : Asttypes.arg_label) (first_arg : Parsetree.core_type)
     (typ : Parsetree.core_type) =
   (* no need to error for optional here,
