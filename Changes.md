@@ -42,6 +42,9 @@ Unreleased
 - melange, reactjs-jsx-ppx: introduce a `reactjs-jsx-ppx` package, remove its
   dependency from melange
   ([#517](https://github.com/melange-re/melange/pull/517))
+- melange: remove the `--bs-jsx <version>` flag from `melc` now that
+  `reactjs-jsx-ppx` is a separate package
+  ([#525](https://github.com/melange-re/melange/pull/525))
 
 0.3.2 2022-11-19
 ---------------
