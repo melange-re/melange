@@ -11,6 +11,7 @@ depends: [
   "dune" {>= "3.7"}
   "ocaml"
   "melange" {= version}
+  "reactjs-jsx-ppx"
   "cmdliner" {>= "1.1.0"}
   "luv" {>= "0.5.11"}
   "ounit" {with-test}
