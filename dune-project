@@ -46,7 +46,8 @@
    (>= "3.1.0"))
   (cppo :build)
   (ounit :with-test)
-  (reason :with-test)))
+  (reason :with-test)
+  (reactjs-jsx-ppx :with-test)))
 
 (package
  (name mel)

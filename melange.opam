@@ -15,6 +15,7 @@ depends: [
   "cppo" {build}
   "ounit" {with-test}
   "reason" {with-test}
+  "reactjs-jsx-ppx" {with-test}
   "odoc" {with-doc}
 ]
 build: [
