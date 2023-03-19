@@ -24,14 +24,6 @@ Demonstrate a bug with uncurrying
   > EOF
 
   $ dune build @mel
-  File "main.ml", line 5, characters 14-16:
-  5 |   (foo [||] [@bs])
-                    ^^
-  Error (warning 101 [unused-bs-attributes]): Unused attribute: bs
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
-  
-  [1]
 
 If one line is removed, then it works (wat)
 

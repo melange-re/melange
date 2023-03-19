@@ -150,14 +150,14 @@ let expr_mapper (self : mapper) (e : Parsetree.expression) =
         ] ) ->
       default_expr_mapper self
         { e with pexp_desc = Pexp_ifthenelse (b, t_exp, Some f_exp) }
-  | Pexp_let (r, vbs, e) ->
+  | Pexp_let (r, vbs, sub_expr) ->
       {
         e with
         pexp_desc =
           Pexp_let
             ( r,
               Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
-              self.expr self e );
+              self.expr self sub_expr );
       }
   | _ -> default_expr_mapper self e
 
@@ -198,14 +198,14 @@ let class_type_mapper (self : mapper)
 
 let class_expr_mapper (self : mapper) (ce : Parsetree.class_expr) =
   match ce.pcl_desc with
-  | Pcl_let (r, vbs, ce) ->
+  | Pcl_let (r, vbs, sub_ce) ->
       {
         ce with
         pcl_desc =
           Pcl_let
             ( r,
               Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
-              self.class_expr self ce );
+              self.class_expr self sub_ce );
       }
   | _ -> default_mapper.class_expr self ce
 
