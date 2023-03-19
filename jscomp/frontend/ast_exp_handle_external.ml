@@ -84,8 +84,8 @@ let handle_raw ~kind loc payload =
             [ exp ];
         pexp_attributes =
           (if !is_function then
-           Ast_attributes.internal_expansive :: exp.pexp_attributes
-          else exp.pexp_attributes);
+             Ast_attributes.internal_expansive :: exp.pexp_attributes
+           else exp.pexp_attributes);
       }
 
 let handle_raw_structure loc payload =

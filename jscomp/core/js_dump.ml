@@ -141,10 +141,10 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
   in
   Object
     (if stack then
-     Ext_list.mapi_append el
-       (fun i e -> (Js_op.Lit (field_name i), e))
-       [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
-    else Ext_list.mapi el (fun i e -> (Js_op.Lit (field_name i), e)))
+       Ext_list.mapi_append el
+         (fun i e -> (Js_op.Lit (field_name i), e))
+         [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
+     else Ext_list.mapi el (fun i e -> (Js_op.Lit (field_name i), e)))
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -735,7 +735,7 @@ and expression_desc cxt ~(level : int) x : cxt =
   | Optional_block (e, identity) ->
       expression ~level cxt
         (if identity then e
-        else E.runtime_call Js_runtime_modules.option "some" [ e ])
+         else E.runtime_call Js_runtime_modules.option "some" [ e ])
   | Caml_block (el, _, _, Blk_module fields) ->
       expression_desc cxt ~level
         (Object
@@ -789,8 +789,8 @@ and expression_desc cxt ~(level : int) x : cxt =
                 | _ -> Js_op.Lit ("_" ^ string_of_int i)),
                 e ))
             (if !Js_config.debug && not_is_cons then
-             [ (name_symbol, E.str p.name) ]
-            else [])
+               [ (name_symbol, E.str p.name) ]
+             else [])
         in
         if p.num_nonconst = 1 then tails
         else

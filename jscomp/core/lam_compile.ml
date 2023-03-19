@@ -711,7 +711,7 @@ and compile_staticraise i (largs : Lam.t list)
       Ext_list.fold_right2 largs bindings
         (Js_output.make
            (if order_id >= 0 then [ S.assign exit_id (E.small_int order_id) ]
-           else []))
+            else []))
         (fun larg bind acc ->
           let new_output =
             match larg with

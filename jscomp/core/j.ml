@@ -297,10 +297,11 @@ and statement_desc =
   | Debugger
 
 and expression = {
-   expression_desc : expression_desc;
-   comment : string option;
-   loc : Location.t option;
+  expression_desc : expression_desc;
+  comment : string option;
+  loc : Location.t option;
 }
+
 and statement = { statement_desc : statement_desc; comment : string option }
 
 and variable_declaration = {

@@ -257,7 +257,7 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
         let args, eff, dynamic = assemble_args_has_splice arg_types args in
         add_eff eff
           (if dynamic then splice_fn_apply fn args
-          else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+           else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
       else
         let args, eff = assemble_args_no_splice arg_types args in
         add_eff eff
@@ -269,7 +269,7 @@ let translate_ffi (cxt : Lam_compile_context.t) arg_types
         (* TODO: fix in rest calling convention *)
         add_eff eff
           (if dynamic then splice_fn_apply fn args
-          else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
+           else E.call ~info:{ arity = Full; call_info = Call_na } fn args)
       else
         let args, eff = assemble_args_no_splice arg_types args in
         (* TODO: fix in rest calling convention *)

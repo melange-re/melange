@@ -89,14 +89,14 @@ let handle_extension e (self : Ast_mapper.mapper)
           let typ =
             Ast_core_type.lift_option_type
               (if name = "_module" then
-               Typ.constr ~loc
-                 { txt = Ldot (Lident "Node", "node_module"); loc }
-                 []
-              else if name = "require" then
-                Typ.constr ~loc
-                  { txt = Ldot (Lident "Node", "node_require"); loc }
-                  []
-              else Ast_literal.type_string ~loc ())
+                 Typ.constr ~loc
+                   { txt = Ldot (Lident "Node", "node_module"); loc }
+                   []
+               else if name = "require" then
+                 Typ.constr ~loc
+                   { txt = Ldot (Lident "Node", "node_require"); loc }
+                   []
+               else Ast_literal.type_string ~loc ())
           in
           Exp.constraint_ ~loc exp typ
       | Some _ | None -> (
