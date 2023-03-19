@@ -56,6 +56,7 @@
   ocaml
   (melange
    (= :version))
+  reactjs-jsx-ppx
   (cmdliner
    (>= "1.1.0"))
   (luv
