@@ -46,7 +46,8 @@
    (>= "3.1.0"))
   (cppo :build)
   (ounit :with-test)
-  (reason :with-test)))
+  (reason :with-test)
+  (reactjs-jsx-ppx :with-test)))
 
 (package
  (name mel)
@@ -56,6 +57,7 @@
   ocaml
   (melange
    (= :version))
+  reactjs-jsx-ppx
   (cmdliner
    (>= "1.1.0"))
   (luv
@@ -71,3 +73,11 @@
    (= :version))
   (ocaml-migrate-parsetree
    (>= "2.3.0"))))
+
+(package
+ (name reactjs-jsx-ppx)
+ (synopsis "ReactJS JSX PPX")
+ (depends
+  ocaml
+  (ppxlib
+   (>= "0.28.0"))))

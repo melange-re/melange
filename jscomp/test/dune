@@ -30,6 +30,8 @@
   (modes melange)
   (libraries test_runner)
   (wrapped false)
+  (preprocess
+   (pps reactjs-jsx-ppx))
   (modules :standard \ res_debug record_regression)
   (melange.compile_flags
    -w

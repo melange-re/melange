@@ -155,7 +155,7 @@ let merlin_file_gen ~(per_proj_dir : string)
        bs_dev_dependencies;
        bsc_flags;
        built_in_dependency;
-       reason_react_jsx;
+       reason_react_jsx = _;
        namespace;
        warning;
        package_name;
@@ -182,17 +182,7 @@ let merlin_file_gen ~(per_proj_dir : string)
             (Printf.sprintf fmt ppx.name (String.concat " " ppx.args)));
     Option.iter (fun x -> Buffer.add_string buffer (merlin_flg_pp ^ x)) pp_file;
     Buffer.add_string buffer
-      (merlin_flg_ppx
-      ^
-      match reason_react_jsx with
-      | None -> as_ppx Bsb_global_paths.vendor_bsc
-      | Some opt ->
-          let fmt : _ format =
-            if Ext_sys.is_windows_or_cygwin then "\"%s -as-ppx -bs-jsx %d\""
-            else "'%s -as-ppx -bs-jsx %d'"
-          in
-          Printf.sprintf fmt Bsb_global_paths.vendor_bsc
-            (match opt with Jsx_v3 -> 3));
+      (merlin_flg_ppx ^ as_ppx Bsb_global_paths.vendor_bsc);
     if built_in_dependency then (
       (* We can't use `Js_config.stdlib_path` because that'd try to find a
          relative path to `mel` rather than `melc`. *)

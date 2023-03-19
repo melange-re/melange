@@ -63,6 +63,7 @@ stdenv.mkDerivation {
     nodePackages.mocha
     packages.melange
     packages.mel
+    packages.reactjs-jsx-ppx
     packages.rescript-syntax
     ocamlPackages.reason
     tree

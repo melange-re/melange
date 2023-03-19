@@ -122,9 +122,6 @@ let ast (global_config : Bsb_ninja_global_vars.t) oc cur_dir =
   | Some flag ->
       output_char oc ' ';
       output_string oc (Bsb_build_util.pp_flag flag));
-  (match global_config.reason_react_jsx with
-  | None -> ()
-  | Some Jsx_v3 -> output_string oc " -bs-jsx 3");
 
   output_char oc ' ';
   output_string oc global_config.bsc_flags;

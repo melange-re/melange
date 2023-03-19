@@ -324,7 +324,18 @@ let rec interpret_json ~(package_kind : Bsb_package_kind.t) ~per_proj_dir :
                  and will be ignored@."
                 package_name Bsb_build_schemas.bs_external_includes
           | None -> ());
-
+          let reactjsx_ppx =
+            { Bsb_config_types.name = "reactjs-jsx-ppx"; args = [] }
+          in
+          let ppx_config =
+            let ppx_config =
+              extract_ppx map ~cwd:per_proj_dir Bsb_build_schemas.ppx_flags
+            in
+            match reason_react_jsx with
+            | None -> ppx_config
+            | Some _ ->
+                { ppx_config with ppxlib = reactjsx_ppx :: ppx_config.ppxlib }
+          in
           {
             dir = per_proj_dir;
             gentype_config;
@@ -332,8 +343,7 @@ let rec interpret_json ~(package_kind : Bsb_package_kind.t) ~per_proj_dir :
             namespace;
             warning = extract_warning map;
             bsc_flags = extract_string_list map Bsb_build_schemas.bsc_flags;
-            ppx_config =
-              extract_ppx map ~cwd:per_proj_dir Bsb_build_schemas.ppx_flags;
+            ppx_config;
             pp_file = pp_flags;
             bs_dependencies;
             bs_dev_dependencies;
