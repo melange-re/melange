@@ -6,4 +6,4 @@
  (preprocess
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
- (libraries ext common melange-compiler-libs reactjs_jsx_ppx_v3))
+ (libraries ext common melange-compiler-libs))

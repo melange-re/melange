@@ -27,7 +27,6 @@ rec {
         "meldep"
         "test"
         "mel_workspace"
-        "reactjs_jsx_ppx"
         "scripts"
       ];
       exclude = [ "jscomp/test" ];
@@ -52,7 +51,7 @@ rec {
 
     doCheck = true;
     nativeCheckInputs = [ tree nodejs ocamlPackages.reason ];
-    checkInputs = with ocamlPackages; [ ounit2 ];
+    checkInputs = with ocamlPackages; [ ounit2 reactjs-jsx-ppx ];
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];
     buildInputs = [ makeWrapper ];
@@ -128,4 +127,19 @@ rec {
     meta.mainProgram = "rescript-syntax";
   };
 
+  reactjs-jsx-ppx = ocamlPackages.buildDunePackage rec {
+    pname = "reactjs-jsx-ppx";
+    version = "dev";
+    duneVersion = "3";
+
+    src = with nix-filter; filter {
+      root = ./..;
+      include = [
+        "dune-project"
+        "reactjs-jsx-ppx.opam"
+        "reactjs-jsx-ppx"
+      ];
+    };
+    propagatedBuildInputs = with ocamlPackages; [ ppxlib ];
+  };
 }

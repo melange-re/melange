@@ -2,7 +2,6 @@ open Ppxlib
 open Ast_helper
 open Asttypes
 open Parsetree
-module Location = Ocaml_common.Location
 
 let rec find_opt p = function
   | [] -> None
@@ -198,10 +197,10 @@ let pluckLabelDefaultLocType (label, default, _, _, loc, type_) =
   (label, default, loc, type_)
 
 (* Lookup the filename from the location information on the AST node and turn it into a valid module identifier *)
-let filenameFromLoc (pstr_loc : Location.t) =
+let filenameFromLoc ~ctxt (pstr_loc : Location.t) =
   let fileName =
     match pstr_loc.loc_start.pos_fname with
-    | "" -> !Location.input_name
+    | "" -> Expansion_context.Base.input_name ctxt
     | fileName -> fileName
   in
   let fileName =
@@ -538,7 +537,7 @@ let jsxMapper =
                         String.concat "." (Longident.flatten_exn txt) ^ "(...)"
                     | _ -> "..."
                   in
-                  Location.prerr_warning pattern.ppat_loc
+                  Ocaml_common.Location.prerr_warning pattern.ppat_loc
                     (Preprocessor
                        (Printf.sprintf
                           "ReasonReact: optional argument annotations must \
@@ -721,7 +720,7 @@ let jsxMapper =
                   one time"))
     (* let component = ... *)
     | { pstr_loc; pstr_desc = Pstr_value (recFlag, valueBindings) } ->
-        let fileName = filenameFromLoc pstr_loc in
+        let fileName = filenameFromLoc ~ctxt pstr_loc in
         let emptyLoc = Location.in_file fileName in
         let mapBinding binding =
           if hasAttrOnBinding binding then
