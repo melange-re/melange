@@ -65,14 +65,14 @@ let generate_case ?arity ~args_number args_array args =
   | Some arity ->
       Printf.sprintf " %d -> %s" arity
         (if arity >= args_number then
-         Printf.sprintf "apply%d (Obj.magic o) %s" arity
-           (String.concat " " args)
-        else
-          Printf.sprintf "app (apply%d (Obj.magic o) %s) [|%s|]" arity
-            (String.concat " " (Array.to_list (Array.sub args_array 0 arity)))
-            (String.concat ";"
-               (Array.to_list
-                  (Array.sub args_array arity (args_number - arity)))))
+           Printf.sprintf "apply%d (Obj.magic o) %s" arity
+             (String.concat " " args)
+         else
+           Printf.sprintf "app (apply%d (Obj.magic o) %s) [|%s|]" arity
+             (String.concat " " (Array.to_list (Array.sub args_array 0 arity)))
+             (String.concat ";"
+                (Array.to_list
+                   (Array.sub args_array arity (args_number - arity)))))
 
 let number = 8
 

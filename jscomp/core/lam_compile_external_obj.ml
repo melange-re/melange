@@ -124,7 +124,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                          Lam_compile_external_call.ocaml_to_js_eff
                            ~arg_label:Arg_empty ~arg_type:xlabel.obj_arg_type
                            (if for_sure_no_nested_option then arg
-                           else Js_of_lam_option.val_from_option arg)
+                            else Js_of_lam_option.val_from_option arg)
                        in
                        match acc with
                        | Splice1 v ->
@@ -147,7 +147,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                          Lam_compile_external_call.ocaml_to_js_eff
                            ~arg_label:Arg_empty ~arg_type:xlabel.obj_arg_type
                            (if for_sure_no_nested_option then arg
-                           else Js_of_lam_option.val_from_option arg)
+                            else Js_of_lam_option.val_from_option arg)
                        in
                        match acc with
                        | Splice1 v ->

@@ -91,7 +91,7 @@ let node_rebase_file ~from ~to_ file =
   node_concat
     ~dir:
       (if from = to_ then Literals.node_current
-      else node_relative_path ~from:(Dir from) (Dir to_))
+       else node_relative_path ~from:(Dir from) (Dir to_))
     file
 
 let strip_trailing_slashes p =

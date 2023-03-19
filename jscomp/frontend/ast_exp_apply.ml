@@ -87,8 +87,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
         e with
         pexp_desc =
           (if op = "##" then
-           Ast_uncurry_apply.method_apply loc self obj name args
-          else Ast_uncurry_apply.property_apply loc self obj name args);
+             Ast_uncurry_apply.method_apply loc self obj name args
+           else Ast_uncurry_apply.property_apply loc self obj name args);
       }
   | Some { op; loc } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op

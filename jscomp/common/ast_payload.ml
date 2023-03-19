@@ -99,11 +99,11 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function (x : t) :
               Parser_flow.parse_expression (Parser_env.init_env None str) false
             in
             (if kind = Raw_re then
-             match e with
-             | Literal { value = RegExp _ } -> ()
-             | _ ->
-                 Location.raise_errorf ~loc
-                   "Syntax error: a valid JS regex literal expected");
+               match e with
+               | Literal { value = RegExp _ } -> ()
+               | _ ->
+                   Location.raise_errorf ~loc
+                     "Syntax error: a valid JS regex literal expected");
             (match is_function with
             | Some is_function -> (
                 match Classify_function.classify_exp prog with

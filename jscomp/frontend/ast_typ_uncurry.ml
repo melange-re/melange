@@ -77,9 +77,8 @@ let generate_method_type loc (mapper : Ast_mapper.mapper) ?alias_type
           (Typ.arrow ~loc label x method_rest)
     | _ -> assert false
 
-let to_method_type loc (mapper : Ast_mapper.mapper)
-    (label : Asttypes.arg_label) (first_arg : Parsetree.core_type)
-    (typ : Parsetree.core_type) =
+let to_method_type loc (mapper : Ast_mapper.mapper) (label : Asttypes.arg_label)
+    (first_arg : Parsetree.core_type) (typ : Parsetree.core_type) =
   let first_arg = mapper.typ mapper first_arg in
   let typ = mapper.typ mapper typ in
   let meth_type = Typ.arrow ~loc label first_arg typ in

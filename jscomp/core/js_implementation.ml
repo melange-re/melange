@@ -61,11 +61,11 @@ let after_parsing_sig ppf outputprefix ast =
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Mli ast);
   (if !Js_config.binary_ast then
-   let sourcefile = !Location.input_name in
-   Binary_ast.write_ast Mli ~sourcefile
-     ~output:(outputprefix ^ Literals.suffix_iast)
-     (* to support relocate to another directory *)
-     ast);
+     let sourcefile = !Location.input_name in
+     Binary_ast.write_ast Mli ~sourcefile
+       ~output:(outputprefix ^ Literals.suffix_iast)
+       (* to support relocate to another directory *)
+       ast);
   if !Js_config.as_pp then (
     output_string stdout Config.ast_intf_magic_number;
     output_value stdout (!Location.input_name : string);
@@ -152,10 +152,10 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Ml ast);
   (if !Js_config.binary_ast then
-   let sourcefile = !Location.input_name in
-   Binary_ast.write_ast ~sourcefile Ml
-     ~output:(outputprefix ^ Literals.suffix_ast)
-     ast);
+     let sourcefile = !Location.input_name in
+     Binary_ast.write_ast ~sourcefile Ml
+       ~output:(outputprefix ^ Literals.suffix_ast)
+       ast);
   if !Js_config.as_pp then (
     output_string stdout Config.ast_impl_magic_number;
     output_value stdout (!Location.input_name : string);
@@ -176,20 +176,20 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
       implementation;
     (if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
-    else
-      let lambda =
-        Translmod.transl_implementation modulename typedtree_coercion
-      in
-      let js_program =
-        print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code
-        |> Lam_compile_main.compile outputprefix
-      in
-      if not !Js_config.cmj_only then
-        (* XXX(anmonteiro): important that we get package_info after
-           processing, as `[@@@config {flags = [| ... |]}]` could have added to
-           package specs. *)
-        let package_info = Js_packages_state.get_packages_info () in
-        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
+     else
+       let lambda =
+         Translmod.transl_implementation modulename typedtree_coercion
+       in
+       let js_program =
+         print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code
+         |> Lam_compile_main.compile outputprefix
+       in
+       if not !Js_config.cmj_only then
+         (* XXX(anmonteiro): important that we get package_info after
+            processing, as `[@@@config {flags = [| ... |]}]` could have added to
+            package specs. *)
+         let package_info = Js_packages_state.get_packages_info () in
+         Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
     process_with_gentype (outputprefix ^ ".cmt")
 
 let implementation ~parser ppf fname =

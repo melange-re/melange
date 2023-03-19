@@ -58,14 +58,14 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
       Ast_compatible.object_field val_name [] result
       ::
       (if is_mutable then
-       [
-         Ast_compatible.object_field
-           { val_name with txt = val_name.txt ^ Literals.setter_suffix }
-           []
-           (Ast_typ_uncurry.to_method_type loc mapper Nolabel result
-              (Ast_literal.type_unit ~loc ()));
-       ]
-      else []) )
+         [
+           Ast_compatible.object_field
+             { val_name with txt = val_name.txt ^ Literals.setter_suffix }
+             []
+             (Ast_typ_uncurry.to_method_type loc mapper Nolabel result
+                (Ast_literal.type_unit ~loc ()));
+         ]
+       else []) )
   in
 
   (* Note mapper is only for API compatible
