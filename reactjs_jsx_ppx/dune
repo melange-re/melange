@@ -1,5 +1,6 @@
 (library
  (name reactjs_jsx_ppx_v3)
- (public_name melange.reactjs-jsx-ppx-v3)
+ (kind ppx_rewriter)
+ (public_name reactjs-jsx-ppx)
  (flags :standard -w -9)
- (libraries compiler-libs.common))
+ (libraries ppxlib))

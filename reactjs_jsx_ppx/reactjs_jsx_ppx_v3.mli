@@ -34,5 +34,5 @@
   `ReactDOMRe.createElement(ReasonReact.fragment, [|foo|])`
 *)
 
-val rewrite_implementation : Parsetree.structure -> Parsetree.structure
-val rewrite_signature : Parsetree.signature -> Parsetree.signature
+(* val rewrite_implementation : Parsetree.structure -> Parsetree.structure *)
+(* val rewrite_signature : Parsetree.signature -> Parsetree.signature *)
