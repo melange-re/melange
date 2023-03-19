@@ -39,6 +39,9 @@ Unreleased
   melange now requires Dune 3.8.
 - melange: allow shadowing sub-modules of Stdlib in user projects
   ([#512](https://github.com/melange-re/melange/pull/512))
+- melange, reactjs-jsx-ppx: introduce a `reactjs-jsx-ppx` package, remove its
+  dependency from melange
+  ([#517](https://github.com/melange-re/melange/pull/517))
 
 0.3.2 2022-11-19
 ---------------
