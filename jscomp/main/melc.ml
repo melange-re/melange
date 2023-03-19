@@ -168,7 +168,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       output_name;
       ppx;
       open_modules;
-      bs_jsx;
       bs_package_output;
       bs_module_type;
       bs_ast;
@@ -249,13 +248,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       output_name ;
     Clflags.all_ppx := !Clflags.all_ppx @ ppx;
     Clflags.open_modules := !Clflags.open_modules @ open_modules;
-
-    Option.iter (fun bs_jsx ->
-        if bs_jsx <> 3 then begin
-          raise (Arg.Bad ("Unsupported jsx version : " ^ string_of_int bs_jsx));
-        end;
-        Js_config.jsx_version := 3)
-      bs_jsx;
 
     Option.iter (fun bs_cross_module_opt ->
         Js_config.cross_module_inline := bs_cross_module_opt)
