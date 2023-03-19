@@ -35,5 +35,4 @@
 *)
 
 val rewrite_implementation : Parsetree.structure -> Parsetree.structure
-
 val rewrite_signature : Parsetree.signature -> Parsetree.signature
