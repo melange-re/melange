@@ -3,7 +3,14 @@
  (package melange)
  (modes byte_complete native)
  (flags :standard -open Melange_compiler_libs)
- (libraries js_parser ext common melange-compiler-libs core cmdliner)
+ (libraries
+  js_parser
+  ext
+  common
+  melange.ppx-lib
+  melange-compiler-libs
+  core
+  cmdliner)
  (modules melc melc_cli)
  (preprocessor_deps ../../package.json ../../bsconfig.json)
  (preprocess
@@ -17,6 +24,13 @@
  (modules melpp)
  (flags :standard -open Melange_compiler_libs)
  (libraries common core cmdliner melange-compiler-libs))
+
+(executable
+ (public_name melppx)
+ (package melange)
+ (modes native)
+ (modules melppx)
+ (libraries melange.ppx ppxlib))
 
 (executable
  (public_name mel)

@@ -87,11 +87,11 @@ let anonymous ~(rev_args : string list) =
   if !Js_config.as_ppx then
     match rev_args with
     | [output; input] ->
-      `Ok (Melange_ppx.Ppx_apply.apply_lazy
+      `Ok (Melange_ppx_lib.Ppx_apply.apply_lazy
         ~source:input
         ~target:output
-        Melange_ppx.Ppx_entry.rewrite_implementation
-        Melange_ppx.Ppx_entry.rewrite_signature)
+        Melange_ppx_lib.Ppx_entry.rewrite_implementation
+        Melange_ppx_lib.Ppx_entry.rewrite_signature)
     | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
   else
     begin

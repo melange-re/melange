@@ -17,6 +17,15 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+          dune_3 = osuper.dune_3.overrideAttrs (_: {
+            src = super.fetchFromGitHub {
+              owner = "ocaml";
+              repo = "dune";
+              rev = "d2580fda2b1cc30b18f0fff437ddfd0d956cc90b";
+              hash = "sha256-MXQURDuqN4TRsFcfKyQCbd5IaZON543JeHgK7Aeph9U=";
+            };
+          });
+
           melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
             src = super.fetchFromGitHub {
               owner = "melange-re";
@@ -73,7 +82,7 @@ stdenv.mkDerivation {
 
   checkPhase = ''
     cat > dune-project <<EOF
-    (lang dune 3.7)
+    (lang dune 3.8)
     (using melange 0.1)
     (using directory-targets 0.1)
     EOF

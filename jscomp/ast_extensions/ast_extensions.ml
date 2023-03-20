@@ -100,3 +100,5 @@ let handle_raw_structure loc payload =
               [ exp ];
         }
   | None -> Location.raise_errorf ~loc "bs.raw can only be applied to a string"
+
+module Make = Ast_external_mk

@@ -3,6 +3,8 @@
  (wrapped false)
  (modes melange)
  (modules mt)
+ (preprocess
+  (pps melange.ppx))
  (melange.compile_flags -w -27-32 -bs-no-version-header -bs-cross-module-opt))
 
 (library
@@ -12,14 +14,17 @@
  (wrapped false)
  (preprocess
   (action
-   (run melc -as-pp -bs-cross-module-opt %{input-file})))
+   (progn
+    (with-stdout-to
+     %{input-file}.pp.mel
+     (run melc -as-pp -bs-cross-module-opt %{input-file} -bs-no-builtin-ppx))
+    (ppx (melange.ppx) %{input-file}.pp.mel))))
  (modules :standard \ mt)
  (melange.compile_flags
   -w
   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
   -bs-no-version-header
-  -bs-cross-module-opt
-  -bs-no-builtin-ppx))
+  -bs-cross-module-opt))
 
 ;; same as above but no preprocessing
 
@@ -31,7 +36,7 @@
   (libraries test_runner)
   (wrapped false)
   (preprocess
-   (pps reactjs-jsx-ppx))
+   (pps melange.ppx reactjs-jsx-ppx))
   (modules :standard \ res_debug record_regression)
   (melange.compile_flags
    -w
@@ -44,6 +49,8 @@
   (name melange_runtime_es6_tests)
   (modes melange)
   (libraries test_runner)
+  (preprocess
+   (pps melange.ppx))
   (wrapped false)
   (melange.compile_flags
    -w

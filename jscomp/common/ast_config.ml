@@ -42,7 +42,7 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
   match x with
   | [] -> ()
   | {
-      pstr_desc =
+      Parsetree.pstr_desc =
         Pstr_attribute
           ({
              attr_name = { txt = "bs.config" | "config"; loc };
@@ -54,6 +54,28 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
       Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
         (fun x ->
           Ast_payload.table_dispatch !structural_config_table x |> ignore)
+  (* [ppxlib] adds a wrapper like:
+
+     [@@@ocaml.ppx.context ...]
+     include (struct
+       [@@@bs.config ..]
+     end)
+  *)
+  | { pstr_desc = Pstr_attribute _ }
+    :: {
+         pstr_desc =
+           Pstr_include
+             {
+               pincl_mod =
+                 {
+                   pmod_desc =
+                     Pmod_constraint ({ pmod_desc = Pmod_structure stru }, _);
+                 };
+               _;
+             };
+       }
+    :: _ ->
+      iter_on_bs_config_stru stru
   | { pstr_desc = Pstr_attribute _ } :: rest -> iter_on_bs_config_stru rest
   | _ :: _ -> ()
 

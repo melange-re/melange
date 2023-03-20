@@ -7,7 +7,7 @@ license: "LGPL-2.1-or-later"
 homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
-  "dune" {>= "3.7"}
+  "dune" {>= "3.8"}
   "ocaml" {>= "4.14.0" & < "4.15.0"}
   "melange-compiler-libs" {>= "0.0.1-414"}
   "cmdliner" {>= "1.1.0"}
@@ -15,6 +15,7 @@ depends: [
   "cppo" {build}
   "ounit" {with-test}
   "reason" {with-test}
+  "ppxlib"
   "reactjs-jsx-ppx" {with-test}
   "odoc" {with-doc}
 ]

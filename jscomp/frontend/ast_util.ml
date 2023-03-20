@@ -190,26 +190,9 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
         Ast_compatible.label_arrow ~loc:label.Asttypes.loc label.Asttypes.txt
           label_type acc)
   in
-  Ast_external_mk.local_extern_cont_to_obj loc
+  Ast_extensions.Make.local_extern_cont_to_obj loc
     ~pval_prim:(Ast_external_process.pval_prim_of_labels labels)
     (fun e ->
       Ast_compatible.apply_labels ~loc e
         (Ext_list.map2 labels exprs (fun l expr -> (l.txt, expr))))
     ~pval_type
-
-let record_as_js_object loc (self : Ast_mapper.mapper)
-    (label_exprs : label_exprs) : Parsetree.expression_desc =
-  let labels, args, arity =
-    Ext_list.fold_right label_exprs ([], [], 0)
-      (fun ({ txt; loc }, e) (labels, args, i) ->
-        match txt with
-        | Lident x ->
-            ( { Asttypes.loc; txt = x } :: labels,
-              (x, self.expr self e) :: args,
-              i + 1 )
-        | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
-  in
-  Ast_external_mk.local_external_obj loc
-    ~pval_prim:(Ast_external_process.pval_prim_of_labels labels)
-    ~pval_type:(Ast_core_type.from_labels ~loc arity labels)
-    args

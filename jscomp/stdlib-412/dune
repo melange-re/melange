@@ -7,23 +7,26 @@
  (preprocess
   (per_module
    ((action
-     (run
-      melc
-      -pp
-      "awk -f %{dep:expand_module_aliases.awk}"
-      -as-pp
-      -bs-no-check-div-by-zero
-      -bs-cross-module-opt
-      %{input-file}))
+     (progn
+      (with-stdout-to
+       %{input-file}.pp.mel
+       (run
+        melc
+        -pp
+        "awk -f %{dep:expand_module_aliases.awk}"
+        -as-pp
+        -bs-no-check-div-by-zero
+        -bs-cross-module-opt
+        -bs-no-builtin-ppx
+        %{input-file}))
+      (ppx (melange.ppx) %{input-file}.pp.mel)))
     stdlib)
    ((action
      (progn
-      (run
-       melc
-       -as-pp
-       -bs-no-check-div-by-zero
-       -bs-cross-module-opt
-       %{input-file})))
+      (with-stdout-to
+       %{input-file}.pp.mel
+       (run melc -as-pp -bs-no-builtin-ppx %{input-file}))
+      (ppx (melange.ppx) %{input-file}.pp.mel)))
     sys
     uchar
     unit
@@ -93,5 +96,4 @@
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -bs-no-builtin-ppx
   -nolabels))

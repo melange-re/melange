@@ -5,12 +5,17 @@
  (wrapped false)
  (preprocess
   (action
-   (run
-    melc
-    -as-pp
-    -bs-no-check-div-by-zero
-    -bs-cross-module-opt
-    %{input-file})))
+   (progn
+    (with-stdout-to
+     %{input-file}.pp.mel
+     (run
+      melc
+      -as-pp
+      -bs-no-check-div-by-zero
+      -bs-cross-module-opt
+      -unsafe
+      %{input-file}))
+    (ppx (melange.ppx) %{input-file}.pp.mel))))
  (libraries melange.runtime)
  (flags :standard \ -keep-locs)
  (melange.compile_flags
@@ -18,10 +23,10 @@
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -bs-no-builtin-ppx
   -unsafe
   -nopervasives
   -nostdlib
+  -bs-no-builtin-ppx
   -open
   Bs_stdlib_mini
   -w

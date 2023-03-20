@@ -26,7 +26,16 @@
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
           (self: super: {
             ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper:
-              { });
+              {
+                dune_3 = osuper.dune_3.overrideAttrs (_: {
+                  src = super.fetchFromGitHub {
+                    owner = "ocaml";
+                    repo = "dune";
+                    rev = "d2580fda2b1cc30b18f0fff437ddfd0d956cc90b";
+                    hash = "sha256-MXQURDuqN4TRsFcfKyQCbd5IaZON543JeHgK7Aeph9U=";
+                  };
+                });
+              });
           })
           melange-compiler-libs.overlays.default
         ];

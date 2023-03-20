@@ -11,7 +11,7 @@ Set up a few directories we'll need
 
 Compile cmjs
 
-  $ melc -bs-package-output app/ app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc -ppx melppx -bs-package-output app/ app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 Emit js
 
