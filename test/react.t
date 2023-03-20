@@ -10,7 +10,8 @@ Demonstrate how to use the React JSX PPX
   >  (target output)
   >  (alias mel)
   >  (compile_flags :standard -w -20)
-  >  (preprocess (pps reactjs-jsx-ppx)))
+  >  (emit_stdlib false)
+  >  (preprocess (pps melange.ppx reactjs-jsx-ppx)))
   > EOF
   $ cat > x.re <<EOF
   > module React = {
@@ -35,10 +36,10 @@ Demonstrate how to use the React JSX PPX
   > EOF
 
   $ dune build @mel --display=short
-        ocamlc .ppx/70044eb4d353a0e693290a95e71c1a2e/dune__exe___ppx.{cmi,cmo}
+        ocamlc .ppx/df8d19d63a600c50cc2fede8aa971a95/dune__exe___ppx.{cmi,cmo}
          refmt x.re.ml
-      ocamlopt .ppx/70044eb4d353a0e693290a95e71c1a2e/dune__exe___ppx.{cmx,o}
-      ocamlopt .ppx/70044eb4d353a0e693290a95e71c1a2e/ppx.exe
+      ocamlopt .ppx/df8d19d63a600c50cc2fede8aa971a95/dune__exe___ppx.{cmx,o}
+      ocamlopt .ppx/df8d19d63a600c50cc2fede8aa971a95/ppx.exe
            ppx x.re.pp.ml
           melc .output.mobjs/melange/melange__X.{cmi,cmj,cmt}
           melc output/x.js

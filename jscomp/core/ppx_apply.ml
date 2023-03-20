@@ -1,5 +1,5 @@
-(* Copyright (C) 2018 Authors of ReScript
- * 
+(* Copyright (C) 2020- Hongbo Zhang, Authors of ReScript
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,13 +17,33 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val handle_extension :
-  Parsetree.expression ->
-  Ast_mapper.mapper ->
-  Parsetree.extension ->
-  Parsetree.expression
+let apply_lazy ~source ~target
+    (impl : Parsetree.structure -> Parsetree.structure)
+    (iface : Parsetree.signature -> Parsetree.signature) =
+  let ic = open_in_bin source in
+  let magic =
+    really_input_string ic (String.length Config.ast_impl_magic_number)
+  in
+  if
+    magic <> Config.ast_impl_magic_number
+    && magic <> Config.ast_intf_magic_number
+  then failwith "Ast_mapper: OCaml version mismatch or malformed input";
+  Location.set_input_name @@ input_value ic;
+  let ast = input_value ic in
+  close_in ic;
+
+  let ast =
+    if magic = Config.ast_impl_magic_number then
+      Obj.magic (impl (Obj.magic ast))
+    else Obj.magic (iface (Obj.magic ast))
+  in
+  let oc = open_out_bin target in
+  output_string oc magic;
+  output_value oc !Location.input_name;
+  output_value oc ast;
+  close_out oc

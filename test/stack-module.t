@@ -25,6 +25,7 @@ Building when library is unwrapped breaks
   > (melange.emit
   >  (target melange)
   >  (alias mel)
+  >  (emit_stdlib false)
   >  (modules)
   >  (libraries foo))
   > EOF

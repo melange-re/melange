@@ -1,9 +1,22 @@
 (library
- (name melange_ppx)
- (public_name melange.ppx)
+ (name melange_ppx_lib)
+ (public_name melange.ppx-lib)
  (flags
   (:standard -w -9 -open Melange_compiler_libs))
  (preprocess
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
- (libraries ext common melange-compiler-libs))
+ (modules :standard \ melange_ppx)
+ (libraries ext ast_derive common melange-compiler-libs))
+
+(library
+ (name melange_ppx)
+ (public_name melange.ppx)
+ (kind ppx_rewriter)
+ (flags
+  (:standard -w -9 -open Melange_ppx_lib))
+ (preprocess
+  (action
+   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
+ (modules melange_ppx)
+ (libraries melange.ppx-lib ppxlib))

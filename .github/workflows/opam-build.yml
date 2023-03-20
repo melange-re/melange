@@ -59,7 +59,7 @@ jobs:
       - name: Clone melange-opam-template
         run: |
           git clone https://github.com/melange-re/melange-opam-template.git
-          cd melange-opam-template
+          cd melange-opam-template && git checkout anmonteiro/melange-ppx
 
       - name: Install all deps
         working-directory: melange-opam-template

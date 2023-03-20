@@ -65,9 +65,6 @@ let default_expr_mapper = Ast_mapper.default_mapper.expr
 
 let expr_mapper (self : mapper) (e : Parsetree.expression) =
   match e.pexp_desc with
-  (* Its output should not be rewritten anymore *)
-  | Pexp_extension extension ->
-      Ast_exp_extension.handle_extension e self extension
   | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
       Ast_utf8_string_interp.transform e s loc delim
   (* End rewriting *)
@@ -411,71 +408,6 @@ let structure_item_mapper (self : mapper) (str : Parsetree.structure_item) =
   | Pstr_attribute { attr_name = { txt = "bs.config" | "config" }; _ } -> str
   | _ -> default_mapper.structure_item self str
 
-let local_module_name =
-  let v = ref 0 in
-  fun () ->
-    incr v;
-    "local_" ^ string_of_int !v
-
-let expand_reverse (stru : Ast_structure.t) (acc : Ast_structure.t) :
-    Ast_structure.t =
-  if stru = [] then acc
-  else (
-    Typemod_hide.check stru;
-    let local_module_name = local_module_name () in
-    let last_loc = (List.hd stru).pstr_loc in
-    let stru = List.rev stru in
-    let first_loc = (List.hd stru).pstr_loc in
-    let loc = { first_loc with loc_end = last_loc.loc_end } in
-    let open Ast_helper in
-    Str.module_ ~loc
-      {
-        pmb_name = { txt = Some local_module_name; loc };
-        pmb_expr =
-          {
-            pmod_desc = Pmod_structure stru;
-            pmod_loc = loc;
-            pmod_attributes = [];
-          };
-        pmb_attributes = Typemod_hide.attrs;
-        pmb_loc = loc;
-      }
-    :: Str.open_ ~loc
-         (Opn.mk ~loc ~override:Override
-            (Mod.ident ~loc
-               { Asttypes.txt = Longident.Lident local_module_name; loc }))
-    :: acc)
-
-let rec structure_mapper (self : mapper) (stru : Ast_structure.t) =
-  match stru with
-  | [] -> []
-  | item :: rest -> (
-      match item.pstr_desc with
-      | Pstr_extension (({ txt = "bs.raw" | "raw"; loc }, payload), _attrs) ->
-          Ast_exp_handle_external.handle_raw_structure loc payload
-          :: structure_mapper self rest
-      | Pstr_extension (({ txt = "private" }, _), _) ->
-          let rec aux acc (rest : Ast_structure.t) =
-            match rest with
-            | {
-                pstr_desc =
-                  Pstr_extension (({ txt = "private"; loc }, payload), _);
-              }
-              :: next -> (
-                match payload with
-                | PStr work ->
-                    aux
-                      (Ext_list.rev_map_append work acc (fun x ->
-                           self.structure_item self x))
-                      next
-                | PSig _ | PTyp _ | PPat _ ->
-                    Location.raise_errorf ~loc
-                      "private extension is not support")
-            | _ -> expand_reverse acc (structure_mapper self rest)
-          in
-          aux [] stru
-      | _ -> self.structure_item self item :: structure_mapper self rest)
-
 let mapper : mapper =
   {
     default_mapper with
@@ -485,7 +417,6 @@ let mapper : mapper =
     class_expr = class_expr_mapper;
     signature_item = signature_item_mapper;
     structure_item = structure_item_mapper;
-    structure = structure_mapper;
     (* Ad-hoc way to internalize stuff *)
     label_declaration =
       (fun self lbl ->

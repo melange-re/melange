@@ -1230,15 +1230,12 @@ let jsxMapper =
     inherit
       [Expansion_context.Base.t] Ppxlib.Ast_traverse.map_with_context as super
 
-    (* method! expr ctxt ex = expr self ex *)
     method! signature ctxt sig_ =
       super#signature ctxt (reactComponentSignatureTransform self sig_)
     [@@raises Invalid_argument]
 
     method! structure ctxt stru =
-      match stru with
-      | structures ->
-          super#structure ctxt (reactComponentTransform ~ctxt self structures)
+      super#structure ctxt (reactComponentTransform ~ctxt self stru)
     [@@raises Invalid_argument]
 
     method! expression ctxt expr =
@@ -1315,5 +1312,5 @@ let jsxMapper =
 
 let () =
   Driver.V2.register_transformation "reactjs"
-    ~impl:(fun ctxt str -> jsxMapper#structure ctxt str)
-    ~intf:(fun ctxt sig_ -> jsxMapper#signature ctxt sig_)
+    ~preprocess_impl:(fun ctxt str -> jsxMapper#structure ctxt str)
+    ~preprocess_intf:(fun ctxt sig_ -> jsxMapper#signature ctxt sig_)

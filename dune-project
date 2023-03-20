@@ -1,4 +1,4 @@
-(lang dune 3.7)
+(lang dune 3.8)
 
 (using experimental_building_ocaml_compiler_with_dune 0.1)
 
@@ -47,6 +47,7 @@
   (cppo :build)
   (ounit :with-test)
   (reason :with-test)
+  ppxlib
   (reactjs-jsx-ppx :with-test)))
 
 (package
@@ -71,8 +72,8 @@
   ocaml
   (melange
    (= :version))
-  (ocaml-migrate-parsetree
-   (>= "2.3.0"))))
+  (ppxlib
+   (>= "0.28.0"))))
 
 (package
  (name reactjs-jsx-ppx)

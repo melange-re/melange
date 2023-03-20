@@ -12,6 +12,22 @@
 
 (* adapted by rescript from [driver/compile.ml] for convenience    *)
 
+module Run_ppx = struct
+  let apply_rewriters (type a) ~(kind : a Ml_binary.kind) (ast : a) : a =
+    (* match (!Js_config.as_pp, !Clflags.all_ppx) with *)
+    (* | true, [] -> ast *)
+    (* | _ -> *)
+    (* (match kind with *)
+    (* | Mli -> *)
+    (* Bs_ast_invariant.iter_warnings_on_sigi ast; *)
+    (* Ast_config.iter_on_bs_config_sigi ast *)
+    (* | Ml -> *)
+    (* Bs_ast_invariant.iter_warnings_on_stru ast; *)
+    (* Ast_config.iter_on_bs_config_stru ast); *)
+    Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
+      kind ast
+end
+
 let module_of_filename outputprefix =
   let basename = Filename.basename outputprefix in
   let name =
@@ -101,11 +117,9 @@ let after_parsing_sig ppf outputprefix ast =
 
 let interface ~parser ppf fname =
   Res_compmisc.init_path ();
-  let sig_ = parser fname |> Melange_ppx.Ast_deriving_compat.signature in
-  sig_
-  |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
-       Mli
-  |> Melange_ppx.Ppx_entry.rewrite_signature
+  parser fname |> Ast_deriving_compat.signature
+  |> Run_ppx.apply_rewriters ~kind:Mli
+  |> Melange_ppx_lib.Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
@@ -194,10 +208,9 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
 
 let implementation ~parser ppf fname =
   Res_compmisc.init_path ();
-  parser fname |> Melange_ppx.Ast_deriving_compat.structure
-  |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
-       Ml
-  |> Melange_ppx.Ppx_entry.rewrite_implementation
+  parser fname |> Ast_deriving_compat.structure
+  |> Run_ppx.apply_rewriters ~kind:Ml
+  |> Melange_ppx_lib.Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf fname
