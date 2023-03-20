@@ -101,11 +101,11 @@ let after_parsing_sig ppf outputprefix ast =
 
 let interface ~parser ppf fname =
   Res_compmisc.init_path ();
-  let sig_ = parser fname |> Melange_ppx.Ast_deriving_compat.signature in
+  let sig_ = parser fname |> Melange_ppx_lib.Ast_deriving_compat.signature in
   sig_
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
-  |> Melange_ppx.Ppx_entry.rewrite_signature
+  |> Melange_ppx_lib.Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
@@ -194,10 +194,10 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
 
 let implementation ~parser ppf fname =
   Res_compmisc.init_path ();
-  parser fname |> Melange_ppx.Ast_deriving_compat.structure
+  parser fname |> Melange_ppx_lib.Ast_deriving_compat.structure
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
-  |> Melange_ppx.Ppx_entry.rewrite_implementation
+  |> Melange_ppx_lib.Ppx_entry.rewrite_implementation
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf fname

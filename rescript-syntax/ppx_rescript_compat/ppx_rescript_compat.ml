@@ -41,7 +41,8 @@ let expr_mapper (self : mapper) (expr : Parsetree.expression) =
       {
         expr with
         pexp_desc =
-          Melange_ppx.Ast_uncurry_apply.property_apply loc self obj name args;
+          Melange_ppx_lib.Ast_uncurry_apply.property_apply loc self obj name
+            args;
       }
   | Pexp_send
       ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _; pexp_loc; _ } as subexpr),
