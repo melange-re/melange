@@ -22,9 +22,4 @@
  (package melange)
  (modes native)
  (modules ounit_tests_main)
- (deps
-  melc.exe
-  (alias ../runtime/mel)
-  (alias ../others/mel)
-  (alias ../stdlib-412/mel))
  (libraries ounit2 str ounit_tests))
