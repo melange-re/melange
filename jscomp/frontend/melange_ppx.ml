@@ -509,6 +509,12 @@ let mapper =
   end
 
 let () =
+  Ocaml_common.Location.(
+    register_error_of_exn (function
+      | Melange_compiler_libs.Location.Error report -> Some report
+      | _ -> None))
+
+let () =
   Driver.V2.register_transformation "melange"
     ~impl:(fun _ctxt str ->
       Melange_compiler_libs.Location.set_input_name
