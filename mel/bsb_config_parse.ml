@@ -192,11 +192,18 @@ let extract_string_list (map : json_map) (field : string) : string list =
   | Some (Arr { content = s }) -> Bsb_build_util.get_list_string s
   | Some config -> Bsb_exception.config_error config (field ^ " expect an array")
 
-let extract_ppx (map : json_map) (field : string) ~(cwd : string) :
-    Bsb_config_types.ppx_config =
-  let empty = Bsb_config_types.{ ppxlib = []; ppx_files = [] } in
+module Ppx_config = struct
+  type t = Bsb_config_types.ppx_config
+
+  let default =
+    Bsb_config_types.
+      { ppxlib = [ { name = "melange.ppx"; args = [] } ]; ppx_files = [] }
+end
+
+let extract_ppx (map : json_map) (field : string) ~(cwd : string) : Ppx_config.t
+    =
   match map.?(field) with
-  | None -> empty
+  | None -> Ppx_config.default
   | Some (Arr { content }) ->
       let resolve s =
         if s = "" then
@@ -205,7 +212,8 @@ let extract_ppx (map : json_map) (field : string) ~(cwd : string) :
           Bsb_build_util.resolve_bsb_magic_file ~cwd
             ~desc:Bsb_build_schemas.ppx_flags s
       in
-      Ext_array.fold_left content empty (fun { ppxlib; ppx_files } x ->
+      Ext_array.fold_left content Ppx_config.default
+        (fun { ppxlib; ppx_files } x ->
           let Bsb_build_util.{ path; checked }, args =
             match x with
             | Str x -> (resolve x.str, [])

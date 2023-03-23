@@ -70,13 +70,13 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
-let generic_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
+let generic_apply loc ~map_expr (obj : Parsetree.expression)
     (args : Ast_compatible.args) (cb : loc -> exp -> exp) =
-  let obj = self.expr self obj in
+  let obj = map_expr obj in
   let args =
     Ext_list.map args (fun (lbl, e) ->
         Bs_syntaxerr.optional_err loc lbl;
-        (lbl, self.expr self e))
+        (lbl, map_expr e))
   in
   let fn = cb loc obj in
   let args =
@@ -111,13 +111,13 @@ let generic_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
             ])
          args)
 
-let method_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
-    name (args : Ast_compatible.args) =
-  let obj = self.expr self obj in
+let method_apply loc ~map_expr (obj : Parsetree.expression) name
+    (args : Ast_compatible.args) =
+  let obj = map_expr obj in
   let args =
     Ext_list.map args (fun (lbl, e) ->
         Bs_syntaxerr.optional_err loc lbl;
-        (lbl, self.expr self e))
+        (lbl, map_expr e))
   in
   let fn = Exp.mk ~loc (Ast_util.js_property loc obj name) in
   let args =
@@ -154,9 +154,9 @@ let method_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
             ])
          args)
 
-let uncurry_fn_apply loc self fn args =
-  generic_apply loc self fn args (fun _ obj -> obj)
+let uncurry_fn_apply loc ~map_expr fn args =
+  generic_apply loc ~map_expr fn args (fun _ obj -> obj)
 
-let property_apply loc self obj name args =
-  generic_apply loc self obj args (fun loc obj ->
+let property_apply loc ~map_expr obj name args =
+  generic_apply loc ~map_expr obj args (fun loc obj ->
       Exp.mk ~loc (Ast_util.js_property loc obj name))

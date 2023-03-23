@@ -10,7 +10,8 @@
     -as-pp
     -bs-no-check-div-by-zero
     -bs-cross-module-opt
-    %{input-file})))
+    %{input-file}))
+  (pps melange.ppx))
  (libraries melange.runtime)
  (flags :standard \ -keep-locs)
  (melange.compile_flags

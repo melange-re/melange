@@ -1,5 +1,5 @@
 (* Copyright (C) 2020 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -36,7 +36,7 @@
 *)
 
 type typ = Parsetree.core_type
-type 'a cxt = Ast_helper.loc -> Ast_mapper.mapper -> 'a
+type 'a cxt = Ast_helper.loc -> map_typ:(typ -> typ) -> 'a
 
 type uncurry_type_gen =
   (Asttypes.arg_label ->
@@ -49,7 +49,7 @@ type uncurry_type_gen =
   cxt
 
 val to_uncurry_type : uncurry_type_gen
-(** syntax : 
+(** syntax :
     {[ int -> int -> int [@bs]]}
 *)
 
@@ -65,7 +65,7 @@ val to_method_callback_type : uncurry_type_gen
 
 val generate_method_type :
   Location.t ->
-  Ast_mapper.mapper ->
+  map_typ:(typ -> typ) ->
   ?alias_type:Parsetree.core_type ->
   string ->
   Asttypes.arg_label ->
@@ -75,7 +75,7 @@ val generate_method_type :
 
 val generate_arg_type :
   Location.t ->
-  Ast_mapper.mapper ->
+  map_typ:(typ -> typ) ->
   string ->
   Asttypes.arg_label ->
   Parsetree.pattern ->

@@ -41,12 +41,12 @@ let rec is_simple_pattern (p : Parsetree.pattern) =
   [ let a = M.N.c
     and b = M.N.d ]
 *)
-let flattern_tuple_pattern_vb (self : Ast_mapper.mapper)
+let flattern_tuple_pattern_vb (self : Ppxlib.Ast_traverse.map)
     (vb : Parsetree.value_binding) (acc : Parsetree.value_binding list) :
     Parsetree.value_binding list =
-  let pvb_pat = self.pat self vb.pvb_pat in
-  let pvb_expr = self.expr self vb.pvb_expr in
-  let pvb_attributes = self.attributes self vb.pvb_attributes in
+  let pvb_pat = self#pattern vb.pvb_pat in
+  let pvb_expr = self#expression vb.pvb_expr in
+  let pvb_attributes = self#attributes vb.pvb_attributes in
   match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
   | Ppat_tuple xs, _ when List.for_all is_simple_pattern xs -> (
       match Ast_open_cxt.destruct_open_tuple pvb_expr [] with
@@ -85,6 +85,5 @@ let flattern_tuple_pattern_vb (self : Ast_mapper.mapper)
    new value bindings, it must be called at every AST node that has a
    value_binding list. This means that we're one step behind if a new node is
    introduced upstream. *)
-let value_bindings_mapper (self : Ast_mapper.mapper)
-    (vbs : Parsetree.value_binding list) =
+let value_bindings_mapper self (vbs : Parsetree.value_binding list) =
   Ext_list.fold_right vbs [] (flattern_tuple_pattern_vb self)

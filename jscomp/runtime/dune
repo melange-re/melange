@@ -11,7 +11,8 @@
     -bs-no-check-div-by-zero
     -bs-cross-module-opt
     -unsafe
-    %{input-file})))
+    %{input-file}))
+  (pps melange.ppx))
  (flags :standard \ -keep-locs)
  (melange.compile_flags
   -no-keep-locs
@@ -21,6 +22,5 @@
   -unsafe
   -nopervasives
   -nostdlib
-  -bs-no-builtin-ppx
   -w
   -61-69))

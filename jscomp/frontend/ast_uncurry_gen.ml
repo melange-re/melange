@@ -25,7 +25,7 @@
 open Ast_helper
 
 (* Handling `fun [@this]` used in `object [@bs] end` *)
-let to_method_callback loc (self : Ast_mapper.mapper) label pat body :
+let to_method_callback loc (self : Ppxlib.Ast_traverse.map) label pat body :
     Parsetree.expression_desc =
   Bs_syntaxerr.optional_err loc label;
   let rec aux acc (body : Parsetree.expression) =
@@ -34,11 +34,11 @@ let to_method_callback loc (self : Ast_mapper.mapper) label pat body :
         match body.pexp_desc with
         | Pexp_fun (arg_label, _, arg, body) ->
             Bs_syntaxerr.optional_err loc arg_label;
-            aux ((arg_label, self.pat self arg) :: acc) body
-        | _ -> (self.expr self body, acc))
-    | _, _ -> (self.expr self body, acc)
+            aux ((arg_label, self#pattern arg) :: acc) body
+        | _ -> (self#expression body, acc))
+    | _, _ -> (self#expression body, acc)
   in
-  let first_arg = self.pat self pat in
+  let first_arg = self#pattern pat in
   if not (Ast_pat.is_single_variable_pattern_conservative first_arg) then
     Bs_syntaxerr.err first_arg.ppat_loc Bs_this_simple_pattern;
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
@@ -65,8 +65,8 @@ let to_method_callback loc (self : Ast_mapper.mapper) label pat body :
                [ Typ.any ~loc () ]) );
       ] )
 
-let to_uncurry_fn loc (self : Ast_mapper.mapper) (label : Asttypes.arg_label)
-    pat body : Parsetree.expression_desc =
+let to_uncurry_fn loc (self : Ppxlib.Ast_traverse.map)
+    (label : Asttypes.arg_label) pat body : Parsetree.expression_desc =
   Bs_syntaxerr.optional_err loc label;
   let rec aux acc (body : Parsetree.expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
@@ -74,11 +74,11 @@ let to_uncurry_fn loc (self : Ast_mapper.mapper) (label : Asttypes.arg_label)
         match body.pexp_desc with
         | Pexp_fun (arg_label, _, arg, body) ->
             Bs_syntaxerr.optional_err loc arg_label;
-            aux ((arg_label, self.pat self arg) :: acc) body
-        | _ -> (self.expr self body, acc))
-    | _, _ -> (self.expr self body, acc)
+            aux ((arg_label, self#pattern arg) :: acc) body
+        | _ -> (self#expression body, acc))
+    | _, _ -> (self#expression body, acc)
   in
-  let first_arg = self.pat self pat in
+  let first_arg = self#pattern pat in
 
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
   let body =

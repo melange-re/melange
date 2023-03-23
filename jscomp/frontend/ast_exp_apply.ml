@@ -42,8 +42,6 @@ let bound (e : exp) (cb : exp -> _) =
       [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
       (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
 
-let default_expr_mapper = Ast_mapper.default_mapper.expr
-
 let check_and_discard (args : Ast_compatible.args) =
   Ext_list.map args (fun (label, x) ->
       Bs_syntaxerr.err_if_label x.pexp_loc label;
@@ -71,7 +69,7 @@ let view_as_app (fn : exp) (s : string list) : app_pattern option =
 let inner_ops = [ "##"; "#@" ]
 let infix_ops = [ "|."; "#="; "##" ]
 
-let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
+let app_exp_mapper (e : exp) (self, super_expr) (fn : exp)
     (args : Ast_compatible.args) : exp =
   (* - (f##paint) 1 2
      - (f#@paint) 1 2
@@ -87,8 +85,11 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
         e with
         pexp_desc =
           (if op = "##" then
-             Ast_uncurry_apply.method_apply loc self obj name args
-           else Ast_uncurry_apply.property_apply loc self obj name args);
+             Ast_uncurry_apply.method_apply loc ~map_expr:self#expression obj
+               name args
+           else
+             Ast_uncurry_apply.property_apply loc ~map_expr:self#expression obj
+               name args);
       }
   | Some { op; loc } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
@@ -104,8 +105,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
         a |. `Variant
         a |. (b |. f c [@bs])
       *)
-          let new_obj_arg = self.expr self obj_arg in
-          let fn = self.expr self fn in
+          let new_obj_arg = self#expression obj_arg in
+          let fn = self#expression fn in
           match fn.pexp_desc with
           | Pexp_variant (label, None) ->
               { fn with pexp_desc = Pexp_variant (label, Some new_obj_arg) }
@@ -196,7 +197,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
               {
                 e with
                 pexp_desc =
-                  Ast_uncurry_apply.method_apply loc self obj name args;
+                  Ast_uncurry_apply.method_apply loc ~map_expr:self#expression
+                    obj name args;
               }
           | {
            pexp_desc =
@@ -208,7 +210,7 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
               sane_property_name_check pexp_loc name;
               {
                 e with
-                pexp_desc = Ast_util.js_property loc (self.expr self obj) name;
+                pexp_desc = Ast_util.js_property loc (self#expression obj) name;
               }
           | _ -> Location.raise_errorf ~loc "invalid ## syntax")
       (* we can not use [:=] for precedece cases
@@ -244,7 +246,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                 {
                   e with
                   pexp_desc =
-                    Ast_uncurry_apply.method_apply loc self obj
+                    Ast_uncurry_apply.method_apply loc ~map_expr:self#expression
+                      obj
                       (name ^ Literals.setter_suffix)
                       [ (Nolabel, arg) ];
                 }
@@ -261,11 +264,12 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
           match
             Ext_list.exclude_with_val e.pexp_attributes Ast_attributes.is_bs
           with
-          | None -> default_expr_mapper self e
+          | None -> super_expr e
           | Some pexp_attributes ->
               {
                 e with
                 pexp_desc =
-                  Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn args;
+                  Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc
+                    ~map_expr:self#expression fn args;
                 pexp_attributes;
               }))

@@ -21,9 +21,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+open Ppxlib
 open Ast_helper
 
-let handle_extension e (self : Ast_mapper.mapper)
+let handle_extension e (self : Ast_traverse.map)
     (({ txt; loc }, payload) : Parsetree.extension) =
   match txt with
   | "bs.raw" | "raw" ->
@@ -49,10 +51,14 @@ let handle_extension e (self : Ast_mapper.mapper)
             if loc.loc_ghost then "GHOST LOC"
             else
               let loc_start = loc.loc_start in
-              let file, lnum, __ = Location.get_pos_info loc_start in
+              let file, lnum, __ =
+                ( loc_start.pos_fname,
+                  loc_start.pos_lnum,
+                  loc_start.pos_cnum - loc_start.pos_bol )
+              in
               Printf.sprintf "%s %d" (Filename.basename file) lnum
           in
-          let e = self.expr self e in
+          let e = self#expression e in
           Exp.sequence ~loc
             (Ast_compatible.app1 ~loc
                (Exp.ident ~loc
@@ -124,7 +130,9 @@ let handle_extension e (self : Ast_mapper.mapper)
           ] ->
           {
             e with
-            pexp_desc = Ast_util.record_as_js_object e.pexp_loc self label_exprs;
+            pexp_desc =
+              Ast_util.record_as_js_object e.pexp_loc ~map_expr:self#expression
+                label_exprs;
           }
       | _ -> Location.raise_errorf ~loc "Expect a record expression here")
   | _ -> e

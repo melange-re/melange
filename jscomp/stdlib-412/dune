@@ -15,15 +15,16 @@
       -bs-no-check-div-by-zero
       -bs-cross-module-opt
       %{input-file}))
+    (pps melange.ppx)
     stdlib)
    ((action
-     (progn
-      (run
-       melc
-       -as-pp
-       -bs-no-check-div-by-zero
-       -bs-cross-module-opt
-       %{input-file})))
+     (run
+      melc
+      -as-pp
+      -bs-no-check-div-by-zero
+      -bs-cross-module-opt
+      %{input-file}))
+    (pps melange.ppx)
     sys
     uchar
     unit
@@ -93,5 +94,4 @@
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -bs-no-builtin-ppx
   -nolabels))

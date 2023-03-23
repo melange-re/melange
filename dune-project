@@ -71,8 +71,8 @@
   ocaml
   (melange
    (= :version))
-  (ocaml-migrate-parsetree
-   (>= "2.3.0"))))
+  (ppxlib
+   (>= "0.28.0"))))
 
 (package
  (name reactjs-jsx-ppx)

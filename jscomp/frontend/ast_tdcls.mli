@@ -22,15 +22,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
+
 val handleTdclsInSigi :
-  Ast_mapper.mapper ->
+  Ast_traverse.map * (Parsetree.signature_item -> Parsetree.signature_item) ->
   Parsetree.signature_item ->
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->
   Ast_signature.item
 
 val handleTdclsInStru :
-  Ast_mapper.mapper ->
+  Ast_traverse.map * (Parsetree.structure_item -> Parsetree.structure_item) ->
   Parsetree.structure_item ->
   Asttypes.rec_flag ->
   Parsetree.type_declaration list ->

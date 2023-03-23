@@ -40,12 +40,11 @@ let unboxable_type_in_prim_decl : Parsetree.attribute =
     attr_loc = Location.none;
   }
 
-let handleExternalInSig (self : Ast_mapper.mapper)
-    (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
-    Parsetree.signature_item =
+let handleExternalInSig self (prim : Parsetree.value_description)
+    (sigi : Parsetree.signature_item) : Parsetree.signature_item =
   let loc = prim.pval_loc in
-  let pval_type = self.typ self prim.pval_type in
-  let pval_attributes = self.attributes self prim.pval_attributes in
+  let pval_type = self#core_type prim.pval_type in
+  let pval_attributes = self#attributes prim.pval_attributes in
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
   | a :: b :: _ ->
@@ -70,12 +69,11 @@ let handleExternalInSig (self : Ast_mapper.mapper)
                 };
           })
 
-let handleExternalInStru (self : Ast_mapper.mapper)
-    (prim : Parsetree.value_description) (str : Parsetree.structure_item) :
-    Parsetree.structure_item =
+let handleExternalInStru self (prim : Parsetree.value_description)
+    (str : Parsetree.structure_item) : Parsetree.structure_item =
   let loc = prim.pval_loc in
-  let pval_type = self.typ self prim.pval_type in
-  let pval_attributes = self.attributes self prim.pval_attributes in
+  let pval_type = self#core_type prim.pval_type in
+  let pval_attributes = self#attributes prim.pval_attributes in
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
   | a :: b :: _ ->

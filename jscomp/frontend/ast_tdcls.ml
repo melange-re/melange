@@ -50,7 +50,7 @@ let disable_unused_type : Parsetree.attribute =
     attr_loc = Location.none;
   }
 
-let handleTdclsInSigi (self : Ast_mapper.mapper)
+let handleTdclsInSigi (self, super_signature_item)
     (sigi : Parsetree.signature_item) rf
     (tdcls : Parsetree.type_declaration list) : Ast_signature.item =
   match
@@ -63,7 +63,7 @@ let handleTdclsInSigi (self : Ast_mapper.mapper)
       in
       (* remove the processed attr*)
       let newTdclsNewAttrs =
-        List.map (self.type_declaration self) originalTdclsNewAttrs
+        List.map self#type_declaration originalTdclsNewAttrs
       in
       let kind = Ast_derive_abstract.isAbstract actions in
       if kind <> Not_abstract then
@@ -82,15 +82,14 @@ let handleTdclsInSigi (self : Ast_mapper.mapper)
                          ])
                       (Mty.signature ~loc []))))
           :: (* include module type of struct [processed_code for checking like invariance ]end *)
-             self.signature self codes)
+             self#signature codes)
       else
         Ast_signature.fuseAll ~loc
           (Ast_compatible.rec_type_sig ~loc rf newTdclsNewAttrs
-          :: self.signature self (Ast_derive.gen_signature tdcls actions rf))
-  | { bs_deriving = None }, _ ->
-      Ast_mapper.default_mapper.signature_item self sigi
+          :: self#signature (Ast_derive.gen_signature tdcls actions rf))
+  | { bs_deriving = None }, _ -> super_signature_item sigi
 
-let handleTdclsInStru (self : Ast_mapper.mapper)
+let handleTdclsInStru (self, super_structure_item)
     (str : Parsetree.structure_item) rf
     (tdcls : Parsetree.type_declaration list) : Ast_structure.item =
   match
@@ -103,7 +102,7 @@ let handleTdclsInStru (self : Ast_mapper.mapper)
       in
       let newStr : Parsetree.structure_item =
         Ast_compatible.rec_type_str ~loc rf
-          (List.map (self.type_declaration self) originalTdclsNewAttrs)
+          (List.map self#type_declaration originalTdclsNewAttrs)
       in
       let kind = Ast_derive_abstract.isAbstract actions in
       if kind <> Not_abstract then
@@ -115,12 +114,11 @@ let handleTdclsInStru (self : Ast_mapper.mapper)
         Ast_structure.fuseAll ~loc
           (Ast_structure.constraint_ ~loc [ newStr ] []
           :: (* [include struct end : sig end] for error checking *)
-             self.structure self codes)
+             self#structure codes)
       else
         Ast_structure.fuseAll ~loc
           (newStr
-          :: self.structure self
+          :: self#structure
                (Ext_list.filter_map actions (fun action ->
                     Ast_derive.gen_structure_signature loc tdcls action rf)))
-  | { bs_deriving = None }, _ ->
-      Ast_mapper.default_mapper.structure_item self str
+  | { bs_deriving = None }, _ -> super_structure_item str

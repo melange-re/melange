@@ -5,7 +5,7 @@
  (flags
   (:standard -w -9))
  (modules :standard \ res_cli)
- (libraries melange.ppx-lib ocaml-migrate-parsetree compiler-libs.common))
+ (libraries ppxlib melange.ppx-lib compiler-libs.common))
 
 (executable
  (name res_cli)

@@ -24,7 +24,7 @@
 
 val convertBsErrorFunction :
   Location.t ->
-  Ast_mapper.mapper ->
+  Ppxlib.Ast_traverse.map ->
   Ast_helper.attrs ->
   Parsetree.case list ->
   Parsetree.expression

@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ast_helper
+open Ppxlib
 
 type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
@@ -37,7 +38,7 @@ let js_property loc obj (name : string) =
         obj,
       { loc; txt = name } )
 
-let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
+let ocaml_obj_as_js_object loc (self : Ast_traverse.map)
     (self_pat : Parsetree.pattern) (clfs : Parsetree.class_field list) =
   (* Attention: we should avoid type variable conflict for each method
       Since the method name is unique, there would be no conflict
@@ -51,8 +52,8 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
         end
       ]} should not compile with a meaningful error message
   *)
-  let generate_val_method_pair loc (mapper : Ast_mapper.mapper)
-      (val_name : string Asttypes.loc) is_mutable =
+  let generate_val_method_pair loc ~map_typ (val_name : string Asttypes.loc)
+      is_mutable =
     let result = Typ.var ~loc val_name.txt in
     ( result,
       Ast_compatible.object_field val_name [] result
@@ -62,7 +63,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
            Ast_compatible.object_field
              { val_name with txt = val_name.txt ^ Literals.setter_suffix }
              []
-             (Ast_typ_uncurry.to_method_type loc mapper Nolabel result
+             (Ast_typ_uncurry.to_method_type loc ~map_typ Nolabel result
                 (Ast_literal.type_unit ~loc ()));
          ]
        else []) )
@@ -90,8 +91,8 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
             match e.pexp_desc with
             | Pexp_poly ({ pexp_desc = Pexp_fun (lbl, _, pat, e) }, None) ->
                 let method_type =
-                  Ast_typ_uncurry.generate_arg_type x.pcf_loc mapper label.txt
-                    lbl pat e
+                  Ast_typ_uncurry.generate_arg_type x.pcf_loc
+                    ~map_typ:self#core_type label.txt lbl pat e
                 in
                 ( Ast_compatible.object_field label [] method_type
                   :: label_attr_types,
@@ -108,7 +109,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
             | _ -> Location.raise_errorf ~loc "Unsupported syntax in js object")
         | Pcf_val (label, mutable_flag, Cfk_concrete (Fresh, _)) ->
             let _, label_attr =
-              generate_val_method_pair x.pcf_loc mapper label
+              generate_val_method_pair x.pcf_loc ~map_typ:self#core_type label
                 (mutable_flag = Mutable)
             in
             ( Ext_list.append label_attr label_attr_types,
@@ -142,7 +143,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
                 in
                 let label_type =
                   Ast_typ_uncurry.generate_method_type ?alias_type x.pcf_loc
-                    mapper label.txt ll pat e
+                    ~map_typ:self#core_type label.txt ll pat e
                 in
                 ( label :: labels,
                   label_type :: label_types,
@@ -150,7 +151,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
                     f with
                     pexp_desc =
                       (let f = Ast_pat.is_unit_cont pat ~yes:e ~no:f in
-                       Ast_uncurry_gen.to_method_callback loc mapper Nolabel
+                       Ast_uncurry_gen.to_method_callback loc self Nolabel
                          self_pat f)
                       (* the first argument is this*);
                   }
@@ -165,12 +166,12 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
             | _ -> Location.raise_errorf ~loc "Unsupported syntax in js object")
         | Pcf_val (label, mutable_flag, Cfk_concrete (Fresh, val_exp)) ->
             let label_type, _ =
-              generate_val_method_pair x.pcf_loc mapper label
+              generate_val_method_pair x.pcf_loc ~map_typ:self#core_type label
                 (mutable_flag = Mutable)
             in
             ( label :: labels,
               label_type :: label_types,
-              mapper.expr mapper val_exp :: exprs,
+              self#expression val_exp :: exprs,
               aliased )
         | Pcf_val (_, _, Cfk_concrete (Override, _)) ->
             Location.raise_errorf ~loc "override flag not support currently"
@@ -197,16 +198,14 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
         (Ext_list.map2 labels exprs (fun l expr -> (l.txt, expr))))
     ~pval_type
 
-let record_as_js_object loc (self : Ast_mapper.mapper)
-    (label_exprs : label_exprs) : Parsetree.expression_desc =
+let record_as_js_object loc ~map_expr (label_exprs : label_exprs) :
+    Parsetree.expression_desc =
   let labels, args, arity =
     Ext_list.fold_right label_exprs ([], [], 0)
       (fun ({ txt; loc }, e) (labels, args, i) ->
         match txt with
         | Lident x ->
-            ( { Asttypes.loc; txt = x } :: labels,
-              (x, self.expr self e) :: args,
-              i + 1 )
+            ({ Asttypes.loc; txt = x } :: labels, (x, map_expr e) :: args, i + 1)
         | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
   in
   Ast_external_mk.local_external_obj loc

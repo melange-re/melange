@@ -56,15 +56,17 @@ let process_getter_setter ~not_getter_setter
           pctf_attributes
         :: get_acc
 
-let handle_class_type_field self
+let handle_class_type_field (self, super_class_type_field)
     ({ pctf_loc = loc } as ctf : Parsetree.class_type_field) acc =
   match ctf.pctf_desc with
   | Pctf_method (name, private_flag, virtual_flag, ty) ->
       let not_getter_setter (ty : Parsetree.core_type) =
+        let map_typ = self#core_type in
         let ty =
           match ty.ptyp_desc with
           | Ptyp_arrow (label, args, body) ->
-              Ast_typ_uncurry.to_method_type ty.ptyp_loc self label args body
+              Ast_typ_uncurry.to_method_type ty.ptyp_loc ~map_typ label args
+                body
           | Ptyp_poly
               (strs, { ptyp_desc = Ptyp_arrow (label, args, body); ptyp_loc })
             ->
@@ -73,10 +75,10 @@ let handle_class_type_field self
                 ptyp_desc =
                   Ptyp_poly
                     ( strs,
-                      Ast_typ_uncurry.to_method_type ptyp_loc self label args
-                        body );
+                      Ast_typ_uncurry.to_method_type ptyp_loc ~map_typ label
+                        args body );
               }
-          | _ -> self.typ self ty
+          | _ -> map_typ ty
         in
         {
           ctf with
@@ -87,7 +89,7 @@ let handle_class_type_field self
         {
           ctf with
           pctf_desc =
-            Pctf_method (name, private_flag, virtual_flag, self.typ self ty);
+            Pctf_method (name, private_flag, virtual_flag, self#core_type ty);
           pctf_attributes;
         }
       in
@@ -99,7 +101,8 @@ let handle_class_type_field self
               ( name,
                 private_flag,
                 virtual_flag,
-                Ast_typ_uncurry.to_method_type loc self Nolabel ty
+                Ast_typ_uncurry.to_method_type loc ~map_typ:self#core_type
+                  Nolabel ty
                   (Ast_literal.type_unit ~loc ()) );
           pctf_attributes;
         }
@@ -108,9 +111,8 @@ let handle_class_type_field self
         ctf.pctf_attributes ty acc
   | Pctf_inherit _ | Pctf_val _ | Pctf_constraint _ | Pctf_attribute _
   | Pctf_extension _ ->
-      Ast_mapper.default_mapper.class_type_field self ctf :: acc
+      super_class_type_field ctf :: acc
 
-let default_typ_mapper = Ast_mapper.default_mapper.typ
 (*
   Attributes are very hard to attribute
   (since ptyp_attributes could happen in so many places),
@@ -118,7 +120,7 @@ let default_typ_mapper = Ast_mapper.default_mapper.typ
   we can only use it locally
 *)
 
-let typ_mapper (self : Ast_mapper.mapper) (ty : Parsetree.core_type) =
+let typ_mapper (self, super_core_type) (ty : Parsetree.core_type) =
   match ty with
   | {
    ptyp_attributes;
@@ -129,11 +131,16 @@ let typ_mapper (self : Ast_mapper.mapper) (ty : Parsetree.core_type) =
    ptyp_loc = loc;
   } -> (
       match fst (Ast_attributes.process_attributes_rev ptyp_attributes) with
-      | Uncurry _ -> Ast_typ_uncurry.to_uncurry_type loc self label args body
+      | Uncurry _ ->
+          Ast_typ_uncurry.to_uncurry_type loc ~map_typ:self#core_type label args
+            body
       | Meth_callback _ ->
-          Ast_typ_uncurry.to_method_callback_type loc self label args body
-      | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body
-      | Nothing -> Ast_mapper.default_mapper.typ self ty)
+          Ast_typ_uncurry.to_method_callback_type loc ~map_typ:self#core_type
+            label args body
+      | Method _ ->
+          Ast_typ_uncurry.to_method_type loc ~map_typ:self#core_type label args
+            body
+      | Nothing -> super_core_type ty)
   | { ptyp_desc = Ptyp_object (methods, closed_flag); ptyp_loc = loc } ->
       let ( +> ) attr (typ : Parsetree.core_type) =
         { typ with ptyp_attributes = attr :: typ.ptyp_attributes }
@@ -154,7 +161,7 @@ let typ_mapper (self : Ast_mapper.mapper) (ty : Parsetree.core_type) =
                     | Meth_callback attr, attrs -> (attrs, attr +> ty)
                   in
                   Ast_compatible.object_field name attrs
-                    (self.typ self core_type)
+                    (self#core_type core_type)
                 in
                 let set ty name attrs =
                   let attrs, core_type =
@@ -167,7 +174,8 @@ let typ_mapper (self : Ast_mapper.mapper) (ty : Parsetree.core_type) =
                     | Meth_callback attr, attrs -> (attrs, attr +> ty)
                   in
                   Ast_compatible.object_field name attrs
-                    (Ast_typ_uncurry.to_method_type loc self Nolabel core_type
+                    (Ast_typ_uncurry.to_method_type loc ~map_typ:self#core_type
+                       Nolabel core_type
                        (Ast_literal.type_unit ~loc ()))
                 in
                 let not_getter_setter ty =
@@ -181,13 +189,13 @@ let typ_mapper (self : Ast_mapper.mapper) (ty : Parsetree.core_type) =
                     | Meth_callback attr, attrs -> (attrs, attr +> ty)
                   in
                   Ast_compatible.object_field label attrs
-                    (self.typ self core_type)
+                    (self#core_type core_type)
                 in
                 process_getter_setter ~not_getter_setter ~get ~set loc label
                   meth_.pof_attributes core_type acc)
       in
       { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
-  | _ -> default_typ_mapper self ty
+  | _ -> super_core_type ty
 
 let handle_class_type_fields self fields =
   Ext_list.fold_right fields [] (handle_class_type_field self)

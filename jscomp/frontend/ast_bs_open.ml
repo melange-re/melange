@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -39,14 +39,13 @@ and check_pat (pat : Parsetree.pattern) =
   | _ ->
       Location.raise_errorf ~loc:pat.ppat_loc "Unsupported pattern in `bs.open`"
 
-let convertBsErrorFunction loc (self : Ast_mapper.mapper) attrs
-    (cases : Parsetree.case list) =
+let convertBsErrorFunction loc self attrs (cases : Parsetree.case list) =
   let open Ast_helper in
   let txt = "match" in
   let txt_expr = Exp.ident ~loc { txt = Lident txt; loc } in
   let none = Exp.construct ~loc { txt = Ast_literal.predef_none; loc } None in
   let () = checkCases cases in
-  let cases = self.cases self cases in
+  let cases = self#cases cases in
   Ast_compatible.fun_ ~attrs ~loc
     (Pat.var ~loc { txt; loc })
     (Exp.ifthenelse ~loc
@@ -61,7 +60,7 @@ let convertBsErrorFunction loc (self : Ast_mapper.mapper) attrs
              (Ast_literal.type_exn ~loc ()))
           (Ext_list.map_append cases
              [ Exp.case (Pat.any ~loc ()) none ]
-             (fun x ->
+             (fun (x : Parsetree.case) ->
                let pc_rhs = x.pc_rhs in
                let loc = pc_rhs.pexp_loc in
                {
