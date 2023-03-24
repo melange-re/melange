@@ -31,8 +31,8 @@
                   src = super.fetchFromGitHub {
                     owner = "ocaml";
                     repo = "dune";
-                    rev = "4245029f2914bcfdca915e9916a5155a0afa95fb";
-                    hash = "sha256-yNQc1X3MQ93a1fLccDcFgiJN/0W2u1DfV48CZXbucpc=";
+                    rev = "052381850abe01793b7769de3032e985ef5356e4";
+                    hash = "sha256-/SSmEgMK412uTU6LgUZan/0JDtIwPTF14WZEVSjW1HY=";
                   };
                 });
               });
