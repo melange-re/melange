@@ -11,6 +11,7 @@ Demonstrate how to use the React JSX PPX
   >  (alias mel)
   >  (emit_stdlib false)
   >  (compile_flags :standard -w -20)
+  >  (emit_stdlib false)
   >  (preprocess (pps reactjs-jsx-ppx)))
   > EOF
   $ cat > x.re <<EOF

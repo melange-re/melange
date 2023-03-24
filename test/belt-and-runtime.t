@@ -18,6 +18,7 @@ Try commonjs first
   >  (target melange)
   >  (alias melange)
   >  (libraries melange)
+  >  (emit_stdlib false)
   >  (module_systems commonjs))
   > EOF
 
@@ -35,6 +36,7 @@ Now es6
   >  (target melange)
   >  (alias melange)
   >  (libraries melange)
+  >  (emit_stdlib false)
   >  (module_systems es6))
   > EOF
 

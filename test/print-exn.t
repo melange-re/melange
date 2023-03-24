@@ -19,6 +19,7 @@ An example that uses exceptions runtime
   > (melange.emit
   >  (target melange)
   >  (alias melange)
+  >  (emit_stdlib false)
   >  (libraries melange))
   > EOF
   $ dune build @melange
