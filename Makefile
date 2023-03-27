@@ -42,4 +42,4 @@ opam-install-dev: opam-install-test ## Install development dependencies
 	opam install -y ocaml-lsp-server
 
 .PHONY: opam-init
-opam-init: opam-create-switch opam-install-dev ## Configure everything to develop this repository in local
+opam-init: opam-create-switch opam-install-test ## Configure everything to develop this repository in local
