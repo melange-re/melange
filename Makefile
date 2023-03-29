@@ -25,12 +25,12 @@ test:
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
-	opam switch create . -y --deps-only --with-test
+	opam switch create . 4.14.1 -y --no-install
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
-	opam pin -y add dune https://github.com/ocaml/dune.git#21914b91f66a94e2cae33b9b19ea1521b6104d8a
-	opam pin -y add melange-compiler-libs https://github.com/melange-re/melange-compiler-libs.git#7263bea2285499f5da857f2bb374345a5178791e
+	opam pin -y add dune.dev https://github.com/ocaml/dune.git#21914b91f66a94e2cae33b9b19ea1521b6104d8a
+	opam pin -y add melange-compiler-libs.dev https://github.com/melange-re/melange-compiler-libs.git#7263bea2285499f5da857f2bb374345a5178791e
 	opam pin add reactjs-jsx-ppx.dev . --with-test -y
 	opam pin add melange.dev . --with-test -y
 	opam pin add mel.dev . --with-test -y
@@ -42,4 +42,4 @@ opam-install-dev: opam-install-test ## Install development dependencies
 	opam install -y ocaml-lsp-server
 
 .PHONY: opam-init
-opam-init: opam-create-switch opam-install ## Configure everything to develop this repository in local
+opam-init: opam-create-switch opam-install-test ## Configure everything to develop this repository in local
