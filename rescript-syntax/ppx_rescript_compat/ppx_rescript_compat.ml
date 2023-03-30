@@ -44,10 +44,11 @@ let expr_mapper (self : mapper) (expr : Parsetree.expression) =
           Melange_ppx.Ast_uncurry_apply.property_apply loc self obj name args;
       }
   | Pexp_send
-      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _; pexp_loc; _ } as subexpr),
+      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _ | Pexp_send _; pexp_loc; _ } as subexpr),
         arg ) ->
       (* ReScript removed the OCaml object system and abuses `Pexp_send` for
          `obj##property`. Here, we make that conversion. *)
+      let subexpr = self.expr self subexpr in
       {
         expr with
         pexp_desc =
