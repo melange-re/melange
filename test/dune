@@ -5,3 +5,8 @@
   setup.sh
   (package melange)
   (package reactjs-jsx-ppx)))
+
+(cram
+ (applies_to setters)
+ (deps
+  (package rescript-syntax)))
