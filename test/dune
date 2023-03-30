@@ -7,6 +7,6 @@
   (package reactjs-jsx-ppx)))
 
 (cram
- (applies_to setters)
+ (applies_to gh489)
  (deps
   (package rescript-syntax)))
