@@ -1,6 +1,5 @@
 
   $ . ./setup.sh
-
   $ cat > x.ml <<EOF
   > type 'a arra = 'a array
   > external

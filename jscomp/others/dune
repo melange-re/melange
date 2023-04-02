@@ -5,13 +5,16 @@
  (wrapped false)
  (preprocess
   (action
-   (run
-    melc
-    -as-pp
-    -bs-no-check-div-by-zero
-    -bs-cross-module-opt
-    %{input-file}))
-  (pps melange.ppx))
+   (progn
+    (with-stdout-to
+     %{input-file}.pp.mel
+     (run
+      melc
+      -as-pp
+      -bs-no-check-div-by-zero
+      -bs-cross-module-opt
+      %{input-file}))
+    (ppx (melange.ppx) %{input-file}.pp.mel))))
  (libraries melange.runtime)
  (flags :standard \ -keep-locs)
  (melange.compile_flags

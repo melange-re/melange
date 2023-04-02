@@ -19,4 +19,4 @@
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (modules melange_ppx)
- (libraries melange.ppx-lib))
+ (libraries base melange.ppx-lib))

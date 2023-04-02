@@ -14,8 +14,11 @@
  (wrapped false)
  (preprocess
   (action
-   (run melc -as-pp -bs-cross-module-opt %{input-file}))
-  (pps melange.ppx))
+   (progn
+    (with-stdout-to
+     %{input-file}.pp.mel
+     (run melc -as-pp -bs-cross-module-opt %{input-file}))
+    (ppx (melange.ppx) %{input-file}.pp.mel))))
  (modules :standard \ mt)
  (melange.compile_flags
   -w
