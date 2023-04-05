@@ -295,6 +295,8 @@ module Internal = struct
     let doc = "*internal* Generate binary .mli_ast and ml_ast and stop" in
     Arg.(value & flag & info [ "bs-ast" ] ~doc)
 
+  (* TODO(anmonteiro): Remove whenever dune doesn't issue melc --as-ppx anymore
+     for merlin config generation *)
   let as_ppx =
     let doc = "*internal* As ppx for editor integration" in
     Arg.(value & flag & info [ "as-ppx" ] ~doc)

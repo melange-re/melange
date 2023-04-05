@@ -457,7 +457,11 @@ let mapper =
               Pstr_value
                 (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
           }
-      | Pstr_attribute { attr_name = { txt = "bs.config" | "config" }; _ } ->
+      | Pstr_attribute
+          ({ attr_name = { txt = "bs.config" | "config" }; _ } as attr) ->
+          (* In the PPX, mark `bs.config` attributes used. They're only useful
+             for the compiler. *)
+          Bs_ast_invariant.mark_used_bs_attribute attr;
           str
       | _ -> super#structure_item str
 
@@ -509,18 +513,53 @@ let mapper =
   end
 
 let () =
+  let module Init = struct
+    let setup_env () =
+      let open Melange_compiler_libs in
+      let module Clflags = Ocaml_common.Clflags in
+      Typemod.should_hide := Typemod_hide.should_hide;
+      Clflags.no_std_include := true;
+      ignore @@ Warnings.parse_options false Bsc_warnings.defaults_w;
+      ignore @@ Warnings.parse_options true Bsc_warnings.defaults_warn_error;
+      Clflags.locations := false;
+      Clflags.compile_only := true;
+      Config.unsafe_empty_array := false;
+      Config.bs_only := true;
+      Clflags.color := Some Always
+  end in
+  Init.setup_env ();
   Ocaml_common.Location.(
-    register_error_of_exn (function
-      | Melange_compiler_libs.Location.Error report -> Some report
-      | _ -> None))
+    register_error_of_exn (fun exn ->
+        match Melange_compiler_libs.Location.error_of_exn exn with
+        | Some (`Ok report) -> Some report
+        | None | Some `Already_displayed -> None))
+
+let check_fatal () =
+  try Melange_compiler_libs.Warnings.check_fatal ()
+  with Melange_compiler_libs.Warnings.Errors ->
+    raise Ocaml_common.Warnings.Errors
+
+let apply_mapper : type a. kind:a Ml_binary.kind -> a -> a =
+ fun ~kind ast ->
+  Melange_compiler_libs.Location.set_input_name
+    !Ocaml_common.Location.input_name;
+  let ast : a =
+    match kind with
+    | Ml_binary.Ml ->
+        Bs_ast_invariant.iter_warnings_on_stru ast;
+        mapper#structure ast
+    | Ml_binary.Mli ->
+        Bs_ast_invariant.iter_warnings_on_sigi ast;
+        mapper#signature ast
+  in
+  (match kind with
+  | Mli -> Bs_ast_invariant.emit_external_warnings_on_signature ast
+  | Ml -> Bs_ast_invariant.emit_external_warnings_on_structure ast);
+
+  check_fatal ();
+  ast
 
 let () =
   Driver.V2.register_transformation "melange"
-    ~impl:(fun _ctxt str ->
-      Melange_compiler_libs.Location.set_input_name
-        !Ocaml_common.Location.input_name;
-      mapper#structure str)
-    ~intf:(fun _ctxt sig_ ->
-      Melange_compiler_libs.Location.set_input_name
-        !Ocaml_common.Location.input_name;
-      mapper#signature sig_)
+    ~impl:(fun _ctxt str -> apply_mapper ~kind:Ml str)
+    ~intf:(fun _ctxt sig_ -> apply_mapper ~kind:Mli sig_)

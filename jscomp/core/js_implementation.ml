@@ -14,18 +14,18 @@
 
 module Run_ppx = struct
   let apply_rewriters (type a) ~(kind : a Ml_binary.kind) (ast : a) : a =
-    let ast =
-      Cmd_ppx_apply.apply_rewriters ~restore:false
-        ~tool_name:Js_config.tool_name kind ast
-    in
-    (match kind with
-    | Mli ->
-        Bs_ast_invariant.iter_warnings_on_sigi ast;
-        Ast_config.iter_on_bs_config_sigi ast
-    | Ml ->
-        Bs_ast_invariant.iter_warnings_on_stru ast;
-        Ast_config.iter_on_bs_config_stru ast);
-    ast
+    match (!Js_config.as_pp, !Clflags.all_ppx) with
+    | true, [] -> ast
+    | _ ->
+        (match kind with
+        | Mli ->
+            Bs_ast_invariant.iter_warnings_on_sigi ast;
+            Ast_config.iter_on_bs_config_sigi ast
+        | Ml ->
+            Bs_ast_invariant.iter_warnings_on_stru ast;
+            Ast_config.iter_on_bs_config_stru ast);
+        Cmd_ppx_apply.apply_rewriters ~restore:false
+          ~tool_name:Js_config.tool_name kind ast
 end
 
 let module_of_filename outputprefix =
