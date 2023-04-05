@@ -47,6 +47,7 @@
   (cppo :build)
   (ounit :with-test)
   (reason :with-test)
+  ppxlib
   (reactjs-jsx-ppx :with-test)))
 
 (package
