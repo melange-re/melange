@@ -59,6 +59,7 @@ rec {
       base64
       melange-compiler-libs
       cmdliner
+      ppxlib
     ];
     meta.mainProgram = "melc";
   };
@@ -120,7 +121,7 @@ rec {
     };
 
     propagatedBuildInputs = with ocamlPackages; [
-      ocaml-migrate-parsetree-2
+      ppxlib
       melange
     ];
 
