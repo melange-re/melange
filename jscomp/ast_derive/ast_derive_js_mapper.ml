@@ -210,23 +210,14 @@ let init () =
               | Ptype_record label_declarations ->
                   let exp =
                     coerceResultToNewType
-                      (Exp.extension
-                         ( { Asttypes.loc; txt = "bs.obj" },
-                           PStr
-                             [
-                               Str.eval
-                                 (Exp.record
-                                    (Ext_list.map label_declarations
-                                       (fun { pld_name = { loc; txt } } ->
-                                         let label =
-                                           {
-                                             Asttypes.loc;
-                                             txt = Longident.Lident txt;
-                                           }
-                                         in
-                                         (label, Exp.field exp_param label)))
-                                    None);
-                             ] ))
+                      (Exp.mk ~loc
+                         (Ast_extensions.Make.record_as_js_object loc
+                            (Ext_list.map label_declarations
+                               (fun { pld_name = { loc; txt } } ->
+                                 let label =
+                                   { Asttypes.loc; txt = Longident.Lident txt }
+                                 in
+                                 (label, Exp.field exp_param label)))))
                   in
                   let toJs = toJsBody exp in
                   let obj_exp =
@@ -266,21 +257,19 @@ let init () =
                           eraseTypeStr;
                           unsafeIndexGet;
                           Ast_comb.single_non_rec_value { loc; txt = map }
-                            (Exp.extension
-                               ( { txt = "raw"; loc },
-                                 PStr
-                                   [
-                                     Str.eval (Exp.constant (Const.string data));
-                                   ] ));
+                            (let payload =
+                               Parsetree.PStr
+                                 [ Str.eval (Exp.constant (Const.string data)) ]
+                             in
+                             Ast_extensions.handle_raw ~kind:Raw_exp loc payload);
                           Ast_comb.single_non_rec_value { loc; txt = revMap }
                             (if has_bs_as then
-                               Exp.extension
-                                 ( { txt = "raw"; loc },
-                                   PStr
-                                     [
-                                       Str.eval
-                                         (Exp.constant (Const.string revData));
-                                     ] )
+                               Ast_extensions.handle_raw ~kind:Raw_exp loc
+                                 (PStr
+                                    [
+                                      Str.eval
+                                        (Exp.constant (Const.string revData));
+                                    ])
                              else expMap);
                           toJsBody
                             (if has_bs_as then

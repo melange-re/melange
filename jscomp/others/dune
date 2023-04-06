@@ -8,12 +8,7 @@
    (progn
     (with-stdout-to
      %{input-file}.pp.mel
-     (run
-      melc
-      -as-pp
-      -bs-no-check-div-by-zero
-      -bs-cross-module-opt
-      %{input-file}))
+     (run melc -as-pp -unsafe -bs-no-builtin-ppx %{input-file}))
     (ppx (melange.ppx) %{input-file}.pp.mel))))
  (libraries melange.runtime)
  (flags :standard \ -keep-locs)
@@ -22,7 +17,6 @@
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -bs-no-builtin-ppx
   -unsafe
   -nopervasives
   -nostdlib

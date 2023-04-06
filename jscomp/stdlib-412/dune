@@ -15,8 +15,7 @@
         -pp
         "awk -f %{dep:expand_module_aliases.awk}"
         -as-pp
-        -bs-no-check-div-by-zero
-        -bs-cross-module-opt
+        -bs-no-builtin-ppx
         %{input-file}))
       (ppx (melange.ppx) %{input-file}.pp.mel)))
     stdlib)
@@ -24,12 +23,7 @@
      (progn
       (with-stdout-to
        %{input-file}.pp.mel
-       (run
-        melc
-        -as-pp
-        -bs-no-check-div-by-zero
-        -bs-cross-module-opt
-        %{input-file}))
+       (run melc -as-pp -bs-no-builtin-ppx %{input-file}))
       (ppx (melange.ppx) %{input-file}.pp.mel)))
     sys
     uchar

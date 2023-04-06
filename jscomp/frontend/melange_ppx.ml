@@ -69,7 +69,7 @@ module External = struct
       let handler ~ctxt:_ ident =
         match ident with
         | { txt = Lident x; loc } ->
-            Ast_exp_handle_external.handle_external loc x
+            Ast_extensions.handle_external loc x
             (* do we need support [%external gg.xx ]
 
                {[ Js.Undefined.to_opt (if Js.typeof x == "undefined" then x else Js.Undefined.empty ) ]}
@@ -87,9 +87,9 @@ module Raw = struct
   let stru_rule =
     let rule label =
       let context = Extension.Context.structure_item in
-      let extractor = Ast_pattern.(__' (* pstr (pstr_eval __ nil ^:: nil) *)) in
+      let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_exp_handle_external.handle_raw_structure loc payload
+        Ast_extensions.handle_raw_structure loc payload
       in
       let extender = Extension.V3.declare label context extractor handler in
       Context_free.Rule.extension extender
@@ -99,9 +99,9 @@ module Raw = struct
   let rule =
     let rule label =
       let context = Extension.Context.expression in
-      let extractor = Ast_pattern.(__' (* pstr (pstr_eval __ nil ^:: nil) *)) in
+      let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_exp_handle_external.handle_raw ~kind:Raw_exp loc payload
+        Ast_extensions.handle_raw ~kind:Raw_exp loc payload
       in
       let extender = Extension.V3.declare label context extractor handler in
       Context_free.Rule.extension extender
@@ -146,7 +146,7 @@ module Debugger = struct
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
-        Exp.mk ~loc (Ast_exp_handle_external.handle_debugger loc payload)
+        Exp.mk ~loc (Ast_extensions.handle_debugger loc payload)
       in
 
       let extender = Extension.V3.declare label context extractor handler in
@@ -163,7 +163,7 @@ module Re = struct
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         Exp.constraint_ ~loc
-          (Ast_exp_handle_external.handle_raw ~kind:Raw_re loc payload)
+          (Ast_extensions.handle_raw ~kind:Raw_re loc payload)
           (Ast_comb.to_js_re_type loc)
       in
 
@@ -240,9 +240,7 @@ module Node = struct
                   (("__filename" | "__dirname" | "_module" | "require") as name);
               loc;
             } ->
-            let exp =
-              Ast_exp_handle_external.handle_external loc (strip name)
-            in
+            let exp = Ast_extensions.handle_external loc (strip name) in
             let typ =
               Ast_core_type.lift_option_type
                 (if name = "_module" then
@@ -278,21 +276,6 @@ end
 module Obj = struct
   type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
-  let record_as_js_object loc (label_exprs : label_exprs) :
-      Parsetree.expression_desc =
-    let labels, args, arity =
-      Ext_list.fold_right label_exprs ([], [], 0)
-        (fun ({ txt; loc }, e) (labels, args, i) ->
-          match txt with
-          | Lident x ->
-              ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
-          | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
-    in
-    Ast_external_mk.local_external_obj loc
-      ~pval_prim:(Ast_external_process.pval_prim_of_labels labels)
-      ~pval_type:(Ast_core_type.from_labels ~loc arity labels)
-      args
-
   let rule =
     let rule label =
       let context = Extension.Context.expression in
@@ -307,7 +290,11 @@ module Obj = struct
                     (({ pexp_desc = Pexp_record (label_exprs, None) } as e), _);
               };
             ] ->
-            { e with pexp_desc = record_as_js_object e.pexp_loc label_exprs }
+            {
+              e with
+              pexp_desc =
+                Ast_extensions.Make.record_as_js_object e.pexp_loc label_exprs;
+            }
         | _ -> Location.raise_errorf ~loc "Expect a record expression here"
       in
 

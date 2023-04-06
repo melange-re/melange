@@ -17,15 +17,14 @@
    (progn
     (with-stdout-to
      %{input-file}.pp.mel
-     (run melc -as-pp -bs-cross-module-opt %{input-file}))
+     (run melc -as-pp -bs-cross-module-opt %{input-file} -bs-no-builtin-ppx))
     (ppx (melange.ppx) %{input-file}.pp.mel))))
  (modules :standard \ mt)
  (melange.compile_flags
   -w
   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
   -bs-no-version-header
-  -bs-cross-module-opt
-  -bs-no-builtin-ppx))
+  -bs-cross-module-opt))
 
 ;; same as above but no preprocessing
 

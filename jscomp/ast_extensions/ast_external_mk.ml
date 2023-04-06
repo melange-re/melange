@@ -131,3 +131,20 @@ let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
           pexp_loc = loc;
           pexp_loc_stack = [ loc ];
         } )
+
+type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
+
+let record_as_js_object loc (label_exprs : label_exprs) :
+    Parsetree.expression_desc =
+  let labels, args, arity =
+    Ext_list.fold_right label_exprs ([], [], 0)
+      (fun ({ txt; loc }, e) (labels, args, i) ->
+        match txt with
+        | Lident x ->
+            ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
+        | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
+  in
+  local_external_obj loc
+    ~pval_prim:(Ast_external_process.pval_prim_of_labels labels)
+    ~pval_type:(Ast_core_type.from_labels ~loc arity labels)
+    args
