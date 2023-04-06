@@ -8,7 +8,13 @@
    (progn
     (with-stdout-to
      %{input-file}.pp.mel
-     (run melc -as-pp -unsafe -bs-no-builtin-ppx %{input-file}))
+     (run
+      melc
+      -as-pp
+      -bs-no-check-div-by-zero
+      -bs-cross-module-opt
+      -unsafe
+      %{input-file}))
     (ppx (melange.ppx) %{input-file}.pp.mel))))
  (flags :standard \ -keep-locs)
  (melange.compile_flags
@@ -19,5 +25,6 @@
   -unsafe
   -nopervasives
   -nostdlib
+  -bs-no-builtin-ppx
   -w
   -61-69))
