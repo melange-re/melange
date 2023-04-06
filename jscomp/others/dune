@@ -4,12 +4,7 @@
  (public_name melange.belt)
  (wrapped false)
  (preprocess
-  (action
-   (progn
-    (with-stdout-to
-     %{input-file}.pp.mel
-     (run melc -as-pp -unsafe -bs-no-builtin-ppx %{input-file}))
-    (ppx (melange.ppx) %{input-file}.pp.mel))))
+  (pps melange.ppx))
  (libraries melange.runtime)
  (flags :standard \ -keep-locs)
  (melange.compile_flags
