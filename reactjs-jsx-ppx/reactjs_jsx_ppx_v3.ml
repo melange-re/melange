@@ -1312,5 +1312,5 @@ let jsxMapper =
 
 let () =
   Driver.V2.register_transformation "reactjs"
-    ~preprocess_impl:(fun ctxt str -> jsxMapper#structure ctxt str)
-    ~preprocess_intf:(fun ctxt sig_ -> jsxMapper#signature ctxt sig_)
+    ~impl:(fun ctxt str -> jsxMapper#structure ctxt str)
+    ~intf:(fun ctxt sig_ -> jsxMapper#signature ctxt sig_)
