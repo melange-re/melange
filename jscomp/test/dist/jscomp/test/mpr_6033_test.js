@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var CamlinternalLazy = require("melange/stdlib_modules/camlinternalLazy.js");
+var CamlinternalLazy = require("melange/./camlinternalLazy.js");
 
 var suites = {
   contents: /* [] */0

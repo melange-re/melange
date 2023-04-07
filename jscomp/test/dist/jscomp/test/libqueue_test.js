@@ -3,8 +3,8 @@
 
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Queue = require("melange/stdlib_modules/queue.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Queue = require("melange/./queue.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function to_list(q) {

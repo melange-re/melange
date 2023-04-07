@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__List = require("melange/./list.js");
 var Ext_string_test = require("./ext_string_test.js");
 
 var suites_0 = [

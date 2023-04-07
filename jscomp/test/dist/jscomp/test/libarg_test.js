@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Stdlib__Arg = require("melange/stdlib_modules/arg.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__Arg = require("melange/./arg.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Printf = require("melange/./printf.js");
 
 var current = {
   contents: 0

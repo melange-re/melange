@@ -5,9 +5,9 @@ var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Mt_global = require("./mt_global.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
-var Stdlib__Random = require("melange/stdlib_modules/random.js");
+var Stdlib__Int64 = require("melange/./int64.js");
+var Stdlib__Printf = require("melange/./printf.js");
+var Stdlib__Random = require("melange/./random.js");
 
 var id = {
   contents: 0

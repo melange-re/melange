@@ -3,7 +3,7 @@
 
 var Test_char = require("./test_char.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Bytes = require("melange/./bytes.js");
 
 function escaped(s) {
   var n = 0;

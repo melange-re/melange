@@ -2,9 +2,9 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
-var Stdlib__MoreLabels = require("melange/stdlib_modules/moreLabels.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__String = require("melange/./string.js");
+var Stdlib__MoreLabels = require("melange/./moreLabels.js");
 
 function f(x) {
   return x;

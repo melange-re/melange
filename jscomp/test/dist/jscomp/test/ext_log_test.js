@@ -2,7 +2,7 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__Format = require("melange/./format.js");
 var CamlinternalFormatBasics = require("melange/./camlinternalFormatBasics.js");
 
 function $caret$caret(param, param$1) {

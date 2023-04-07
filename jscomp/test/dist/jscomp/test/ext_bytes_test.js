@@ -5,8 +5,8 @@ var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Char = require("melange/stdlib_modules/char.js");
-var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Char = require("melange/./char.js");
+var Stdlib__Bytes = require("melange/./bytes.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Mt_global = require("./mt_global.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Scanf = require("melange/stdlib_modules/scanf.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Scanf = require("melange/./scanf.js");
+var Stdlib__Printf = require("melange/./printf.js");
 
 var suites = {
   contents: /* [] */0

@@ -4,9 +4,9 @@
 var Caml = require("melange.runtime/caml.js");
 var Stdlib = require("melange/./stdlib.js");
 var Set_gen = require("./set_gen.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__String = require("melange/./string.js");
 
 function split(x, tree) {
   if (!tree) {

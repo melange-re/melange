@@ -4,10 +4,10 @@
 var Mt = require("./mt.js");
 var Mt_global = require("./mt_global.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Char = require("melange/stdlib_modules/char.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
-var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
+var Stdlib__Char = require("melange/./char.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Bytes = require("melange/./bytes.js");
+var Stdlib__Hashtbl = require("melange/./hashtbl.js");
 
 var suites = {
   contents: /* [] */0

@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_int32 = require("melange.runtime/caml_int32.js");
-var Stdlib__Queue = require("melange/stdlib_modules/queue.js");
-var Stdlib__Genlex = require("melange/stdlib_modules/genlex.js");
-var Stdlib__Stream = require("melange/stdlib_modules/stream.js");
+var Stdlib__Queue = require("melange/./queue.js");
+var Stdlib__Genlex = require("melange/./genlex.js");
+var Stdlib__Stream = require("melange/./stream.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Stream_parser_test.Parse_error");

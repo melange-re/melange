@@ -4,10 +4,10 @@
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
-var Stdlib__MoreLabels = require("melange/stdlib_modules/moreLabels.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Hashtbl = require("melange/./hashtbl.js");
+var Stdlib__MoreLabels = require("melange/./moreLabels.js");
 
 function to_list(tbl) {
   return Stdlib__Hashtbl.fold((function (k, v, acc) {
