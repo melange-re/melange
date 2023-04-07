@@ -5,7 +5,7 @@
  (flags :standard -w -9 -open Melange_compiler_libs)
  (preprocess
   (action
-   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
+   (run cppo %{env:CPPO_FLAGS=} -D BS_BROWSER %{input-file})))
  (modules_without_implementation js_raw_info lam_tag_info)
  (libraries ext melange-compiler-libs js_parser))
 
@@ -13,7 +13,7 @@
  (target js_config.ml)
  (deps js_config.cppo.ml)
  (action
-  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+  (run cppo %{env:CPPO_FLAGS=} -D BS_BROWSER %{deps} -o %{target})))
 
 (rule
  (targets melange_version.ml)

@@ -213,7 +213,7 @@ let generate_label ?(name="") ()  =
   Printf.sprintf "%s_tailcall_%04d" name !count
 
 #if (defined BS_BROWSER || defined BS_RELEASE_BUILD)
-let dump ext  lam =
+let dump _ext _lam =
   ()
 #else
 let log_counter = ref 0

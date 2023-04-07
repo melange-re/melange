@@ -47,6 +47,7 @@
   (cppo :build)
   (ounit :with-test)
   (reason :with-test)
+  (js_of_ocaml :with-test)
   (reactjs-jsx-ppx :with-test)))
 
 (package

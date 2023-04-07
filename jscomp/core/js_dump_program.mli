@@ -32,3 +32,11 @@ val dump_deps_program :
   J.deps_program ->
   out_channel ->
   unit
+
+val pp_deps_program :
+  package_info:Js_packages_info.t ->
+  output_info:Js_packages_info.output_info ->
+  output_prefix:string ->
+  Ext_pp.t ->
+  J.deps_program ->
+  unit

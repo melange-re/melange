@@ -2,5 +2,5 @@
  (name mel_workspace)
  (preprocess
   (action
-   (run %{bin:cppo} %{env:CPPO_FLAGS=} %{input-file})))
+   (run %{bin:cppo} %{env:CPPO_FLAGS=} -D BS_BROWSER %{input-file})))
  (libraries melange.ext unix))

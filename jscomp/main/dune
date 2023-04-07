@@ -8,7 +8,7 @@
  (preprocessor_deps ../../package.json ../../bsconfig.json)
  (preprocess
   (action
-   (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
+   (run cppo %{env:CPPO_FLAGS=} -D BS_BROWSER %{input-file}))))
 
 (executable
  (public_name mel)
@@ -23,3 +23,9 @@
  (modes native)
  (modules ounit_tests_main)
  (libraries ounit2 str ounit_tests))
+
+(executable
+ (name jsoo_main)
+ (modules jsoo_main jsoo_common)
+ (libraries core melange-compiler-libs melange_ppx)
+ (modes js))

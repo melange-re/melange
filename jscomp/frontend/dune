@@ -5,5 +5,5 @@
   (:standard -w -9 -open Melange_compiler_libs))
  (preprocess
   (action
-   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
+   (run cppo %{env:CPPO_FLAGS=} -D BS_BROWSER %{input-file})))
  (libraries ext common melange-compiler-libs))
