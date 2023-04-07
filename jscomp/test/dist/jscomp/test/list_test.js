@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Array = require("melange/./array.js");
 
 var list_suites_0 = [
   "length",

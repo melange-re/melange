@@ -2,7 +2,7 @@
 'use strict';
 
 var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
-var CamlinternalOO = require("melange/stdlib_modules/camlinternalOO.js");
+var CamlinternalOO = require("melange/./camlinternalOO.js");
 
 function f(o) {
   return Caml_oo_curry.js4(23297, 1, o, 1, 2, 3);

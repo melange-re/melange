@@ -8,7 +8,7 @@ var Belt_Array = require("melange.belt/./belt_Array.js");
 var Belt_HashMap = require("melange.belt/./belt_HashMap.js");
 var Belt_SortArray = require("melange.belt/./belt_SortArray.js");
 var Array_data_util = require("./array_data_util.js");
-var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
+var Stdlib__Hashtbl = require("melange/./hashtbl.js");
 var Belt_internalBucketsType = require("melange.belt/./belt_internalBucketsType.js");
 
 var suites = {

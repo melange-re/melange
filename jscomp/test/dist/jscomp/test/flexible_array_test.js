@@ -5,8 +5,8 @@ var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Format = require("melange/./format.js");
 
 function sub(_tr, _k) {
   while(true) {

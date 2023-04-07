@@ -8,8 +8,8 @@ var Stdlib = require("melange/./stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Caml_float = require("melange.runtime/caml_float.js");
 var Caml_int64 = require("melange.runtime/caml_int64.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Printf = require("melange/./printf.js");
 
 var test_id = {
   contents: 0

@@ -9,8 +9,8 @@ var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");
 var Number_lexer = require("./number_lexer.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Lexing = require("melange/./lexing.js");
 
 function get_tokens(lex, str) {
   var buf = Stdlib__Lexing.from_string(undefined, str);

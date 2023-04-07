@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__Queue = require("melange/stdlib_modules/queue.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Queue = require("melange/./queue.js");
 
 function Test(Queue) {
   var to_array = function (q) {

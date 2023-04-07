@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Sexpm = require("./sexpm.js");
-var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__Format = require("melange/./format.js");
 
 var suites = {
   contents: /* [] */0

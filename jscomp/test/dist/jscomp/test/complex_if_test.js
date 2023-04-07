@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
+var Stdlib__Bytes = require("melange/./bytes.js");
 
 function fib(n) {
   if (n !== 1 && n !== 23) {

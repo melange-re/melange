@@ -4,7 +4,7 @@
 var Mt = require("../mt.js");
 var Caml = require("melange.runtime/caml.js");
 var Stdlib = require("melange/./stdlib.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__List = require("melange/./list.js");
 
 function height(x) {
   if (x) {

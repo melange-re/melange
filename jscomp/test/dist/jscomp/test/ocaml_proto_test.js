@@ -9,17 +9,17 @@ var Caml_bytes = require("melange.runtime/caml_bytes.js");
 var Caml_format = require("melange.runtime/caml_format.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__Char = require("melange/stdlib_modules/char.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Bytes = require("melange/stdlib_modules/bytes.js");
-var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__Char = require("melange/./char.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Bytes = require("melange/./bytes.js");
+var Stdlib__Lexing = require("melange/./lexing.js");
+var Stdlib__Printf = require("melange/./printf.js");
+var Stdlib__String = require("melange/./string.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
-var Stdlib__Hashtbl = require("melange/stdlib_modules/hashtbl.js");
-var Stdlib__Parsing = require("melange/stdlib_modules/parsing.js");
-var Stdlib__Filename = require("melange/stdlib_modules/filename.js");
-var Stdlib__Printexc = require("melange/stdlib_modules/printexc.js");
+var Stdlib__Hashtbl = require("melange/./hashtbl.js");
+var Stdlib__Parsing = require("melange/./parsing.js");
+var Stdlib__Filename = require("melange/./filename.js");
+var Stdlib__Printexc = require("melange/./printexc.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function field(optionsOpt, label, number, type_, name) {

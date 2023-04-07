@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_sys = require("melange.runtime/caml_sys.js");
-var Stdlib__Sys = require("melange/stdlib_modules/sys.js");
+var Stdlib__Sys = require("melange/./sys.js");
 var Node_process = require("melange.belt/./node_process.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

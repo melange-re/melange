@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Parser_api = require("./parser_api.js");
-var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
+var Stdlib__Lexing = require("melange/./lexing.js");
 
 var suites = {
   contents: /* [] */0

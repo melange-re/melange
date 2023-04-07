@@ -2,8 +2,8 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__Char = require("melange/stdlib_modules/char.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__Char = require("melange/./char.js");
+var Stdlib__List = require("melange/./list.js");
 
 function l(prim) {
   console.log(prim);

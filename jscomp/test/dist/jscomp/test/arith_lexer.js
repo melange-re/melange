@@ -4,7 +4,7 @@
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_format = require("melange.runtime/caml_format.js");
-var Stdlib__Lexing = require("melange/stdlib_modules/lexing.js");
+var Stdlib__Lexing = require("melange/./lexing.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xf6\xff\xf7\xff\xf8\xff\xf9\xff\xfa\xff\xfb\xff\xfc\xff:\0\x85\0\xff\xff",

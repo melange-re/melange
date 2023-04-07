@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Array = require("melange/./array.js");
 
 function mkI8(a) {
   return new Int8Array(a);

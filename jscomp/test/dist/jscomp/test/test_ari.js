@@ -4,7 +4,7 @@
 var U = require("U");
 var VV = require("VV");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__List = require("melange/./list.js");
 
 function f(x) {
   return function (param) {
