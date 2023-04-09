@@ -45,6 +45,8 @@ Unreleased
 - melange: remove the `--bs-jsx <version>` flag from `melc` now that
   `reactjs-jsx-ppx` is a separate package
   ([#525](https://github.com/melange-re/melange/pull/525))
+- melange: add `melpp` executable to preprocess `#if` conditionals with the
+  melange parser ([#539](https://github.com/melange-re/melange/pull/539))
 
 0.3.2 2022-11-19
 ---------------
