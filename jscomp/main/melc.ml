@@ -396,7 +396,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
   | Some e ->
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
-let _ : unit =
+let () =
   Bs_conditional_initial.setup_env ();
   let flags = "flags" in
   Ast_config.add_structure

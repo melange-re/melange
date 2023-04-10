@@ -11,6 +11,14 @@
    (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
 
 (executable
+ (public_name melpp)
+ (package melange)
+ (modes native)
+ (modules melpp)
+ (flags :standard -open Melange_compiler_libs)
+ (libraries common core cmdliner melange-compiler-libs))
+
+(executable
  (public_name mel)
  (package mel)
  (modes native)
