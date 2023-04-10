@@ -5,9 +5,9 @@ var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Stdlib__Seq = require("melange/stdlib_modules/seq.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__Seq = require("melange/./seq.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__String = require("melange/./string.js");
 
 var funarg = {
   compare: Stdlib__String.compare

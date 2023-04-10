@@ -2,7 +2,7 @@
 'use strict';
 
 var Stdlib = require("melange/./stdlib.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__List = require("melange/./list.js");
 
 var a0 = {
   RE_EXN_ID: Stdlib.Not_found

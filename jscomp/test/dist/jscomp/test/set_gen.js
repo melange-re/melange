@@ -4,7 +4,7 @@
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
+var Stdlib__List = require("melange/./list.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 
 function cons_enum(_s, _e) {

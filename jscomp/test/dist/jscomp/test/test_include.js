@@ -2,8 +2,8 @@
 'use strict';
 
 var Test_order = require("./test_order.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__String = require("melange/stdlib_modules/string.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__String = require("melange/./string.js");
 
 function Make(U) {
   var compare = U.compare;

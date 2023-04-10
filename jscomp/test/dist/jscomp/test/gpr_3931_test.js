@@ -3,7 +3,7 @@
 
 var Curry = require("melange.runtime/curry.js");
 var Caml_module = require("melange.runtime/caml_module.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Array = require("melange/./array.js");
 
 var PA = Caml_module.init_mod([
       "gpr_3931_test.ml",

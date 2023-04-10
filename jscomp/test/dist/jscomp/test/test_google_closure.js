@@ -2,7 +2,7 @@
 'use strict';
 
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__Array = require("melange/./array.js");
 
 function f(a, b, param) {
   return a + b | 0;

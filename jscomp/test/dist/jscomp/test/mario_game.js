@@ -7,9 +7,9 @@ var Stdlib = require("melange/./stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_int32 = require("melange.runtime/caml_int32.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
-var Stdlib__Random = require("melange/stdlib_modules/random.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Printf = require("melange/./printf.js");
+var Stdlib__Random = require("melange/./random.js");
 
 var Actors = {};
 

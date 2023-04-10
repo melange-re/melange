@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Exception_def = require("./exception_def.js");
-var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__Format = require("melange/./format.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
-var Stdlib__Printexc = require("melange/stdlib_modules/printexc.js");
+var Stdlib__Printexc = require("melange/./printexc.js");
 
 var suites = {
   contents: /* [] */0

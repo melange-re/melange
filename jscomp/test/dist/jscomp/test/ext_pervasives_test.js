@@ -4,8 +4,8 @@
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__Arg = require("melange/stdlib_modules/arg.js");
-var Stdlib__Format = require("melange/stdlib_modules/format.js");
+var Stdlib__Arg = require("melange/./arg.js");
+var Stdlib__Format = require("melange/./format.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

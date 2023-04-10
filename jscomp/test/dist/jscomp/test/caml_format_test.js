@@ -6,11 +6,11 @@ var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_int64 = require("melange.runtime/caml_int64.js");
 var Caml_format = require("melange.runtime/caml_format.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
-var Stdlib__Int64 = require("melange/stdlib_modules/int64.js");
-var Stdlib__Buffer = require("melange/stdlib_modules/buffer.js");
-var Stdlib__Format = require("melange/stdlib_modules/format.js");
-var Stdlib__Printf = require("melange/stdlib_modules/printf.js");
+var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Int64 = require("melange/./int64.js");
+var Stdlib__Buffer = require("melange/./buffer.js");
+var Stdlib__Format = require("melange/./format.js");
+var Stdlib__Printf = require("melange/./printf.js");
 var CamlinternalFormatBasics = require("melange/./camlinternalFormatBasics.js");
 
 var of_string = [

@@ -3,8 +3,8 @@
 
 var Curry = require("melange.runtime/curry.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__List = require("melange/stdlib_modules/list.js");
-var Stdlib__Array = require("melange/stdlib_modules/array.js");
+var Stdlib__List = require("melange/./list.js");
+var Stdlib__Array = require("melange/./array.js");
 
 function for_3(x) {
   var v = {

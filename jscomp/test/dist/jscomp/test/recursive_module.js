@@ -5,8 +5,8 @@ var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Stdlib = require("melange/./stdlib.js");
 var Caml_module = require("melange.runtime/caml_module.js");
-var Stdlib__Lazy = require("melange/stdlib_modules/lazy.js");
-var CamlinternalLazy = require("melange/stdlib_modules/camlinternalLazy.js");
+var Stdlib__Lazy = require("melange/./lazy.js");
+var CamlinternalLazy = require("melange/./camlinternalLazy.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
 
