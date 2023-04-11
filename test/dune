@@ -1,5 +1,6 @@
 (cram
  (package melange)
+ (applies_to * \ gh489)
  (deps
   (env_var MELANGE_LIB)
   setup.sh
@@ -10,4 +11,5 @@
  (package rescript-syntax)
  (applies_to gh489)
  (deps
+  (package melange)
   (package rescript-syntax)))
