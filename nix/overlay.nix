@@ -9,8 +9,8 @@ final: prev:
         src = prev.fetchFromGitHub {
           owner = "ocaml";
           repo = "dune";
-          rev = "649031728346482a83441c26c0bbe06ecd89cce2";
-          hash = "sha256-IbvAumstRp7JE+UQDArrwYWyZtbe8q8bZo05eVzA/MU=";
+          rev = "258058c6803525261df9d330d9eca2a4b0a8adc2";
+          hash = "sha256-cbwnAY0G9OLtm6k6mhBLxuJ6wMbqhEsUvUgtIfHLZ8w=";
         };
       });
     })).overrideScope' (oself: osuper:
