@@ -21,9 +21,7 @@ dev:
 
 .PHONY: test
 test:
-	opam exec -- dune runtest -p melange,reactjs-jsx-ppx
-	# rescript-syntax tests temporarily disabled, see https://github.com/ocaml/dune/pull/7220
-	# opam exec -- dune runtest -p rescript-syntax
+	opam exec -- dune runtest -p melange,rescript-syntax,reactjs-jsx-ppx
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
@@ -36,7 +34,7 @@ opam-install-test: ## Install test dependencies
 	opam pin add reactjs-jsx-ppx.dev . --with-test -y
 	opam pin add melange.dev . --with-test -y
 	opam pin add mel.dev . --with-test -y
-	opam pin add rescript-syntax.dev . -y #--with-test temporarily disabled, see https://github.com/ocaml/dune/pull/7220
+	opam pin add rescript-syntax.dev . --with-test -y
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies

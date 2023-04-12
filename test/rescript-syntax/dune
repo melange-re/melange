@@ -1,0 +1,6 @@
+(cram
+ (package rescript-syntax)
+ (deps
+  setup.sh
+  (package melange)
+  (package rescript-syntax)))
