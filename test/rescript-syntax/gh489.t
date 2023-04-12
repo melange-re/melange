@@ -1,6 +1,5 @@
 Repro for GitHub issue 489, first try setting values in nested objects with OCaml syntax
 
-  $ . ./setup.sh
   $ cat > foo.ml <<EOF
   > type person = < age :int [@bs.set ] > Js.t
   > type entry = < person :person [@bs.set ] > Js.t

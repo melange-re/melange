@@ -1,6 +1,5 @@
 (cram
  (package rescript-syntax)
  (deps
-  setup.sh
-  (package melange)
+   %{bin:melc}
   (package rescript-syntax)))

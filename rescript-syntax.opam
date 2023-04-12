@@ -13,14 +13,12 @@ depends: [
   "ocaml-migrate-parsetree" {>= "2.3.0"}
   "odoc" {with-doc}
 ]
-dev-repo: "git+https://github.com/melange-re/melange.git"
 build: [
   ["dune" "subst"] {dev}
   [
     "dune"
     "build"
     "-p"
-    "melange" # Need to include "melange" because of https://github.com/ocaml/dune/pull/7220
     name
     "-j"
     jobs
@@ -29,3 +27,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
+dev-repo: "git+https://github.com/melange-re/melange.git"
