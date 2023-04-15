@@ -218,7 +218,7 @@ let dump ext  lam =
 #else
 let log_counter = ref 0
 let dump ext  lam =
-  if Js_config.get_diagnose ()
+  if !Js_config.diagnose
   then
     (* ATTENTION: easy to introduce a bug during refactoring when forgeting `begin` `end`*)
     begin
