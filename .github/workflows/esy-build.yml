@@ -59,7 +59,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's@"installConfig"@"resolutions": { "\@opam/dune": "ocaml/dune:dune.opam#d2580fda2b1cc30b18f0fff437ddfd0d956cc90b", "\@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#7263bea2285499f5da857f2bb374345a5178791e", "\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
+          sed -i 's@"installConfig"@"resolutions": { "\@opam/dune": "ocaml/dune:dune.opam#93df256421f3f685be6aff64e483c42167f5ebd1", "\@opam/melange-compiler-libs": "melange-re/melange-compiler-libs:melange-compiler-libs.opam#7263bea2285499f5da857f2bb374345a5178791e", "\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/mel": "melange-re/melange:mel.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
 
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
