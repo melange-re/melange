@@ -71,6 +71,7 @@ jobs:
       - name: Build basic template
         working-directory: melange-opam-template
         run: |
+          npm install "https://github.com/reasonml/reason-react.git#anmonteiro/jsx-runtime" --legacy-peer-deps
           opam exec -- dune build @react @node --display=short
           npm run bundle
 

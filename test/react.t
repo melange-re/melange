@@ -17,10 +17,13 @@ Demonstrate how to use the React JSX PPX
   > module React = {
   >   let array = Obj.magic
   >   let string = Obj.magic
-  >   let createElement = Obj.magic
+  >   let jsx = Obj.magic
   > };
-  > module ReactDOMRe = {
-  >   let createDOMElementVariadic = Obj.magic
+  > module JsxDOM = {
+  >   let domProps = Obj.magic
+  > };
+  > module ReactDOM = {
+  >   let jsx = Obj.magic
   > };
   > module App = {
   >   [@react.component]
