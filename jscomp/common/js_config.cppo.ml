@@ -129,3 +129,5 @@ let as_pp = ref false
 
 let modules = ref false
 
+let preamble = ref None
+

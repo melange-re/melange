@@ -69,6 +69,7 @@ type t = {
   intf_suffix : string option;
   g : bool;
   opaque : bool;
+  preamble : string option;
   strict_sequence : bool;
   strict_formats : bool;
   dtypedtree : bool;
@@ -196,6 +197,11 @@ let bs_e =
     "(experimental) set the string to be evaluated in ReScript syntax"
   in
   Arg.(value & opt (some string) None & info [ "e" ] ~doc)
+
+(* TODO: preamble file? *)
+let preamble =
+  let doc = "a string to be pre-prended to the generated javascript" in
+  Arg.(value & opt (some string) None & info [ "preamble" ] ~doc)
 
 let where =
   let doc = "Print location of standard library and exit" in
@@ -480,10 +486,10 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     bs_cmi_only bs_cmi bs_cmj bs_no_version_header bs_no_builtin_ppx
     bs_cross_module_opt bs_diagnose where verbose keep_locs
     bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix g opaque strict_sequence strict_formats dtypedtree dparsetree
-    drawlambda dsource version pp absname bin_annot i nopervasives modules
-    nolabels principal short_paths unsafe warn_help warn_error bs_stop_after_cmj
-    runtime filenames _bs_super_errors _c =
+    intf_suffix g opaque preamble strict_sequence strict_formats dtypedtree
+    dparsetree drawlambda dsource version pp absname bin_annot i nopervasives
+    modules nolabels principal short_paths unsafe warn_help warn_error
+    bs_stop_after_cmj runtime filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -530,6 +536,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     intf_suffix;
     g;
     opaque;
+    preamble;
     strict_sequence;
     strict_formats;
     dtypedtree;
@@ -568,7 +575,7 @@ let cmd =
     $ Internal.bs_diagnose $ where $ verbose $ keep_locs
     $ Internal.bs_no_check_div_by_zero $ Internal.bs_noassertfalse
     $ Internal.noassert $ Internal.bs_loc $ Internal.impl $ Internal.intf
-    $ Internal.intf_suffix $ Internal.g $ Internal.opaque
+    $ Internal.intf_suffix $ Internal.g $ Internal.opaque $ preamble
     $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
     $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
     $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules

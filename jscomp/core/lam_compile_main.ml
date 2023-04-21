@@ -271,6 +271,7 @@ js
     let delayed_program = {
       J.program = program ;
       side_effect = effect ;
+      preamble = !Js_config.preamble;
       modules = external_module_ids
     }
     in

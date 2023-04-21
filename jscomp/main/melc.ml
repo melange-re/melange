@@ -206,6 +206,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       intf_suffix;
       g;
       opaque;
+      preamble;
       strict_sequence;
       strict_formats;
       dtypedtree;
@@ -342,6 +343,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
+    Js_config.preamble := preamble;
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
 

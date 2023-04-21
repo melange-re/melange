@@ -321,6 +321,7 @@ and deps_program = {
   program : program;
   modules : required_modules;
   side_effect : string option; (* None: no, Some reason  *)
+  preamble : string option;
 }
 [@@deriving
   {
