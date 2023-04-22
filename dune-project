@@ -50,21 +50,6 @@
   (reactjs-jsx-ppx :with-test)))
 
 (package
- (name mel)
- (synopsis
-  "Build system for Melange that defers to Dune for build orchestration")
- (depends
-  ocaml
-  (melange
-   (= :version))
-  reactjs-jsx-ppx
-  (cmdliner
-   (>= "1.1.0"))
-  (luv
-   (>= "0.5.11"))
-  (ounit :with-test)))
-
-(package
  (name rescript-syntax)
  (synopsis "ReScript syntax packaged as an opam library")
  (depends

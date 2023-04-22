@@ -24,9 +24,7 @@ rec {
         "package.json"
         "jscomp"
         "lib"
-        "meldep"
         "test"
-        "mel_workspace"
         "scripts"
       ];
       exclude = [ "jscomp/test" ];
@@ -61,48 +59,6 @@ rec {
       cmdliner
     ];
     meta.mainProgram = "melc";
-  };
-
-  mel = ocamlPackages.buildDunePackage rec {
-    pname = "mel";
-    version = "dev";
-    duneVersion = "3";
-
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "dune-project"
-        "dune"
-        "dune.mel"
-        "mel.opam"
-        "mel"
-        "mel_test"
-        "meldep"
-        "package.json"
-        "scripts"
-        "jscomp/dune"
-        "jscomp/build_version.ml"
-        "jscomp/keywords.list"
-        "jscomp/main"
-        "jscomp/ext"
-        "jscomp/stubs"
-        "jscomp/common"
-        "jscomp/frontend"
-        "jscomp/js_parser"
-        "jscomp/outcome_printer"
-        "mel_workspace"
-      ];
-    };
-
-    nativeBuildInputs = with ocamlPackages; [ cppo ];
-    propagatedBuildInputs = with ocamlPackages; [
-      cmdliner
-      luv
-      ocaml-migrate-parsetree-2
-      melange
-    ];
-
-    meta.mainProgram = "mel";
   };
 
   rescript-syntax = ocamlPackages.buildDunePackage rec {

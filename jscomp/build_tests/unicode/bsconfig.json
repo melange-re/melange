@@ -1,8 +1,0 @@
-{
-    "name" : "unicode",
-    "sources" : {
-      "dir" : ".",
-      "subdirs" : true
-    
-    }
-}
