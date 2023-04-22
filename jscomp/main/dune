@@ -15,7 +15,7 @@
  (preprocessor_deps ../../package.json ../../bsconfig.json)
  (preprocess
   (action
-   (run cppo %{env:CPPO_FLAGS=} %{input-file}))))
+   (run cppo "%{env:CPPO_FLAGS=}" %{input-file}))))
 
 (executable
  (public_name melpp)
