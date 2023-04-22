@@ -1,9 +1,0 @@
-(library
- (name mellib)
- (preprocess
-  (action
-   (run %{bin:cppo} %{env:CPPO_FLAGS=} %{input-file})))
- (modules_without_implementation bsb_config_types)
- (flags
-  (:standard -w -9))
- (libraries mel_workspace bsb_helper common melange.ext str unix base64 luv))

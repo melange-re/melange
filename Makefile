@@ -33,7 +33,6 @@ opam-install-test: ## Install test dependencies
 	opam pin -y add melange-compiler-libs.dev https://github.com/melange-re/melange-compiler-libs.git#7263bea2285499f5da857f2bb374345a5178791e
 	opam pin add reactjs-jsx-ppx.dev . --with-test -y
 	opam pin add melange.dev . --with-test -y
-	opam pin add mel.dev . --with-test -y
 	opam pin add rescript-syntax.dev . --with-test -y
 
 .PHONY: opam-install-dev

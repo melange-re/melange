@@ -18,13 +18,6 @@
  (flags :standard -open Melange_compiler_libs)
  (libraries common core cmdliner melange-compiler-libs))
 
-(executable
- (public_name mel)
- (package mel)
- (modes native)
- (modules mel mel_watcher)
- (libraries mellib cmdliner luv))
-
 (test
  (name ounit_tests_main)
  (package melange)
