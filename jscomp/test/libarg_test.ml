@@ -122,7 +122,4 @@ let test argv =
 test args1;;
 test args2;;
 let suites = [];;
-  (* Arg accept -key=value since 4.04 *)
-let suites =
-  Mt.[ "should raise", fun _ -> ThrowAny (fun _ -> test args2)]
 let () =  Mt.from_pair_suites __MODULE__ suites

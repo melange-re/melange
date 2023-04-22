@@ -556,24 +556,9 @@ test(args1);
 
 test(args2);
 
-var suites_0 = [
-  "should raise",
-  (function (param) {
-      return {
-              TAG: /* ThrowAny */7,
-              _0: (function (param) {
-                  test(args2);
-                })
-            };
-    })
-];
+Mt.from_pair_suites("Libarg_test", /* [] */0);
 
-var suites = {
-  hd: suites_0,
-  tl: /* [] */0
-};
-
-Mt.from_pair_suites("Libarg_test", suites);
+var suites = /* [] */0;
 
 exports.current = current;
 exports.accum = accum;
