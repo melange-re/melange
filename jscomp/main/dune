@@ -32,13 +32,6 @@
  (modules melppx)
  (libraries melange.ppx ppxlib))
 
-(executable
- (public_name mel)
- (package mel)
- (modes native)
- (modules mel mel_watcher)
- (libraries mellib cmdliner luv))
-
 (test
  (name ounit_tests_main)
  (package melange)

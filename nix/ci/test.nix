@@ -71,7 +71,6 @@ stdenv.mkDerivation {
   buildInputs = [
     nodePackages.mocha
     packages.melange
-    packages.mel
     packages.reactjs-jsx-ppx
     packages.rescript-syntax
     ocamlPackages.reason
@@ -84,17 +83,9 @@ stdenv.mkDerivation {
     cat > dune-project <<EOF
     (lang dune 3.8)
     (using melange 0.1)
-    (using directory-targets 0.1)
     EOF
     dune build @melange-runtime-tests --display=short
 
     mocha "_build/default/dist/*_test.js"
-
-    mkdir node_modules
-    dune clean
-    ln -sfn ${packages.melange}/lib/melange/__MELANGE_RUNTIME__ node_modules/melange
-    rm -rf ./dune
-    mel build -- --display=short
-    mocha "./*_test.js"
   '';
 }

@@ -47,6 +47,9 @@ Unreleased
   ([#525](https://github.com/melange-re/melange/pull/525))
 - melange: add `melpp` executable to preprocess `#if` conditionals with the
   melange parser ([#539](https://github.com/melange-re/melange/pull/539))
+- mel: delete the `mel` package. The dune integration is now the only
+  officially supported workflow for orchestrating melange builds
+  ([#546](https://github.com/melange-re/melange/pull/546))
 
 0.3.2 2022-11-19
 ---------------

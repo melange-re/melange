@@ -4,8 +4,6 @@
 
 (using melange 0.1)
 
-(using directory-targets 0.1)
-
 (executables_implicit_empty_intf true)
 
 (cram enable)
@@ -49,21 +47,6 @@
   (reason :with-test)
   ppxlib
   (reactjs-jsx-ppx :with-test)))
-
-(package
- (name mel)
- (synopsis
-  "Build system for Melange that defers to Dune for build orchestration")
- (depends
-  ocaml
-  (melange
-   (= :version))
-  reactjs-jsx-ppx
-  (cmdliner
-   (>= "1.1.0"))
-  (luv
-   (>= "0.5.11"))
-  (ounit :with-test)))
 
 (package
  (name rescript-syntax)
