@@ -4,8 +4,6 @@
 
 (using melange 0.1)
 
-(using directory-targets 0.1)
-
 (executables_implicit_empty_intf true)
 
 (cram enable)

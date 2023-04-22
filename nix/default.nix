@@ -18,7 +18,6 @@ rec {
       include = [
         "dune-project"
         "dune"
-        "dune.mel"
         "melange.opam"
         "bsconfig.json"
         "package.json"
@@ -39,12 +38,6 @@ rec {
     postInstall = ''
       wrapProgram "$out/bin/melc" \
         --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/runtime/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
-
-      mkdir -p $out/lib/melange
-      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
-            $out/lib/melange/__MELANGE_RUNTIME__
-      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
-            $out/lib/melange/mel_runtime
     '';
 
     doCheck = true;
