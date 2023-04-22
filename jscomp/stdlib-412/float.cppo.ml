@@ -522,7 +522,7 @@ module Array = struct
 
 end
 
-#if BS then
+#ifdef BS
 #else
 module ArrayLabels = Array
-#end
+#endif

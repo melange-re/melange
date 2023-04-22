@@ -108,11 +108,11 @@ let lex_refill read_fun aux_buffer lexbuf =
          space since n <= String.length aux_buffer <= String.length buffer.
          Watch out for string length overflow, though. *)
       let newlen =
-#if BS then
+#ifdef BS
        (2 * Bytes.length lexbuf.lex_buffer)
 #else
         Int.min (2 * Bytes.length lexbuf.lex_buffer) Sys.max_string_length in
-#end
+#endif
       in
       if lexbuf.lex_buffer_len - lexbuf.lex_start_pos + n > newlen
       then failwith "Lexing.lex_refill: cannot grow buffer";

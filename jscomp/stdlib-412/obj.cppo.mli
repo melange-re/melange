@@ -104,10 +104,10 @@ module Closure : sig
     arity: int;
     start_env: int;
   }
-#if BS then
+#ifdef BS
 #else
   val info : t -> info
-#end
+#endif
 end
 
 module Extension_constructor :

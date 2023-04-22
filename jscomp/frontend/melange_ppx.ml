@@ -305,6 +305,9 @@ module Obj = struct
 end
 
 let () =
+  Driver.add_arg "-unsafe"
+    (Unit (fun () -> Ocaml_common.Clflags.unsafe := true))
+    ~doc:"Do not compile bounds checking on array and string access";
   Driver.V2.register_transformation "melange"
     ~rules:
       (Raw.rules

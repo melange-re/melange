@@ -692,7 +692,7 @@ module Array : sig
 end
 (** Float arrays with packed representation. *)
 
-#if BS then
+#ifdef BS
 #else
 module ArrayLabels : sig
   type t = floatarray
@@ -915,4 +915,4 @@ module ArrayLabels : sig
 
 end
 (** Float arrays with packed representation (labeled functions). *)
-#end
+#endif

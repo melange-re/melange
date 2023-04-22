@@ -46,13 +46,14 @@ let flip_ongoing_traversal h =
 (* To pick random seeds if requested *)
 
 let randomized_default =
-#if BS then false
+#ifdef BS
+false
 #else
   let params =
     try Sys.getenv "OCAMLRUNPARAM" with Not_found ->
     try Sys.getenv "CAMLRUNPARAM" with Not_found -> "" in
   String.contains params 'R'
-#end
+#endif
 
 let randomized = ref randomized_default
 
@@ -69,11 +70,11 @@ let prng = lazy (Random.State.make_self_init())
 
 let rec power_2_above x n =
   if x >= n then x
-#if BS then
+#ifdef BS
   else if x * 2 < x then x (* overflow *)
 #else
   else if x * 2 > Sys.max_array_length then x
-#end
+#endif
   else power_2_above (x * 2) n
 
 let create ?(random = !randomized) initial_size =
@@ -149,11 +150,11 @@ let resize indexfun h =
   let odata = h.data in
   let osize = Array.length odata in
   let nsize = osize * 2 in
-#if BS then
+#ifdef BS
   if  nsize >= osize then begin
 #else
   if nsize < Sys.max_array_length then begin
-#end
+#endif
     let ndata = Array.make nsize Empty in
     let inplace = not (ongoing_traversal h) in
     h.data <- ndata;          (* so that indexfun sees the new bucket count *)

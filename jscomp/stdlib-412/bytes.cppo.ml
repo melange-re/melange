@@ -433,7 +433,7 @@ let of_seq i =
   sub !buf 0 !n
 
 (** {6 Binary encoding/decoding of integers} *)
-#if BS then
+#ifdef BS
 #else
 
 (* The get_ functions are all duplicated in string.ml *)
@@ -540,10 +540,10 @@ let set_uint8 = set_int8
 let set_uint16_ne = set_int16_ne
 let set_uint16_be = set_int16_be
 let set_uint16_le = set_int16_le
-#end
+#endif
 
 (* UTF codecs and validations *)
-#if BS then
+#ifdef BS
 #else
 
 let dec_invalid = Uchar.utf_decode_invalid
@@ -839,4 +839,4 @@ let is_valid_utf_16le b =
         | _lo -> loop max b (i + 4)
   in
   loop (length b - 1) b 0
-#end
+#endif

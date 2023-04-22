@@ -4,18 +4,7 @@
  (modes melange)
  (wrapped false)
  (preprocess
-  (action
-   (progn
-    (with-stdout-to
-     %{input-file}.pp.mel
-     (run
-      melc
-      -as-pp
-      -bs-no-check-div-by-zero
-      -bs-cross-module-opt
-      -unsafe
-      %{input-file}))
-    (ppx (melange.ppx) %{input-file}.pp.mel))))
+  (pps melange.ppx -unsafe))
  (flags :standard \ -keep-locs)
  (melange.compile_flags
   -no-keep-locs
@@ -25,6 +14,13 @@
   -unsafe
   -nopervasives
   -nostdlib
-  -bs-no-builtin-ppx
   -w
   -61-69))
+
+(rule
+ (deps caml_io.cppo.ml)
+ (target caml_io.ml)
+ (action
+  (with-stdout-to
+   %{target}
+   (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target}))))

@@ -134,7 +134,7 @@ let add_char b c =
   Bytes.unsafe_set b.buffer pos c;
   b.position <- pos + 1
 
-#if BS then
+#ifdef BS
 #else
 let uchar_utf_8_byte_length_max = 4
 let uchar_utf_16_byte_length_max = 4
@@ -162,7 +162,7 @@ let rec add_utf_16le_uchar b u =
   if n = 0
   then (resize b uchar_utf_16_byte_length_max; add_utf_16le_uchar b u)
   else (b.position <- pos + n)
-#end
+#endif
 
 let add_substring b s offset len =
   if offset < 0 || len < 0 || offset > String.length s - len
@@ -331,7 +331,7 @@ let of_seq i =
   add_seq b i;
   b
 
-#if BS then
+#ifdef BS
 #else
 (** {6 Binary encoding of integers} *)
 
@@ -390,4 +390,4 @@ let add_uint8 = add_int8
 let add_uint16_ne = add_int16_ne
 let add_uint16_le = add_int16_le
 let add_uint16_be = add_int16_be
-#end
+#endif

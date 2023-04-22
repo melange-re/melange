@@ -74,7 +74,7 @@ module Closure = struct
     start_env: int;
   }
 
-#if BS then
+#ifdef BS
 #else
   let info_of_raw (info : nativeint) =
     let open Nativeint in
@@ -95,7 +95,7 @@ module Closure = struct
   let info (obj : t) =
     assert (tag obj = closure_tag);
     info_of_raw (raw_field obj 1)
-#end
+#endif
 end
 
 module Extension_constructor =

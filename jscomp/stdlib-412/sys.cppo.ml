@@ -39,12 +39,12 @@ external get_backend_type : unit -> backend_type = "%backend_type"
 
 let executable_name = get_executable_name()
 
-#if BS then
+#ifdef BS
 external get_os_type : unit -> string = "#os_type"
 let os_type = get_os_type ()
 #else
 let (os_type, _, _) = get_config()
-#end
+#endif
 let backend_type = get_backend_type ()
 let big_endian = big_endian ()
 let word_size = word_size ()
@@ -53,7 +53,7 @@ let unix = unix ()
 let win32 = win32 ()
 let cygwin = cygwin ()
 
-#if BS then
+#ifdef BS
 let max_array_length = 2147483647 (* 2^ 31 - 1 *)
 let max_floatarray_length = 2147483647
 let max_string_length = 2147483647
@@ -61,7 +61,7 @@ let max_string_length = 2147483647
 let max_array_length = max_wosize ()
 let max_floatarray_length = max_array_length / (64 / word_size)
 let max_string_length = word_size / 8 * max_array_length - 1
-#end
+#endif
 external runtime_variant : unit -> string = "caml_runtime_variant"
 external runtime_parameters : unit -> string = "caml_runtime_parameters"
 
@@ -72,7 +72,7 @@ external rename : string -> string -> unit = "caml_sys_rename"
 external getenv: string -> string = "caml_sys_getenv"
 
 
-#if BS then
+#ifdef BS
 external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
 let getenv_opt s =
     match [%external process ] with
@@ -83,7 +83,7 @@ let getenv_opt s =
   (* TODO: expose a non-raising primitive directly. *)
   try Some (getenv s)
   with Not_found -> None
-#end
+#endif
 
 external command: string -> int = "caml_sys_system_command"
 external time: unit -> (float [@unboxed]) =

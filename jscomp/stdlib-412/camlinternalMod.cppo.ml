@@ -20,7 +20,7 @@ type shape =
   | Module of shape array
   | Value of Obj.t
 
-#if BS then
+#ifdef BS
 #else
 let rec init_mod_field modu i loc shape =
   let init =
@@ -90,4 +90,4 @@ let update_mod shape o n =
   | Module comps ->
      update_mod_block comps o n
   | _ -> failwith "CamlinternalMod.update_mod: not a module"
-#end
+#endif

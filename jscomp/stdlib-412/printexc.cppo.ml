@@ -114,14 +114,14 @@ let _ = [Known_location { is_raise = false; filename = "";
                           is_inline = false; defname = "" };
          Unknown_location { is_raise = false }]
 
-#if BS then
+#ifdef BS
 let convert_raw_backtrace_slot:
   raw_backtrace_slot -> backtrace_slot =
     fun _ -> failwith "convert_raw_backtrace_slot not implemented"
 #else
 external convert_raw_backtrace_slot:
   raw_backtrace_slot -> backtrace_slot = "caml_convert_raw_backtrace_slot"
-#end
+#endif
 
 external convert_raw_backtrace:
   raw_backtrace -> backtrace_slot array = "caml_convert_raw_backtrace"
@@ -299,11 +299,11 @@ let default_uncaught_exception_handler exn raw_backtrace =
 
 let uncaught_exception_handler = ref default_uncaught_exception_handler
 
-#if BS then
+#ifdef BS
 let set_uncaught_exception_handler _ = ()
 #else
 let set_uncaught_exception_handler fn = uncaught_exception_handler := fn
-#end
+#endif
 
 let empty_backtrace : raw_backtrace = [| |]
 

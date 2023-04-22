@@ -38,8 +38,8 @@ external ( || ) : bool -> bool -> bool = "%sequor"
 external ( or ) : bool -> bool -> bool = "%sequor"
   [@@ocaml.deprecated "Use (||) instead."]
 external __LOC__ : string = "%loc_LOC"
-external __FILE__ : string = "%loc_FILE"
-external __LINE__ : int = "%loc_LINE"
+external _\_FILE__ : string = "%loc_FILE"
+external _\_LINE__ : int = "%loc_LINE"
 external __MODULE__ : string = "%loc_MODULE"
 external __POS__ : string * int * int * int = "%loc_POS"
 external __LOC_OF__ : 'a -> string * 'a = "%loc_LOC"
@@ -73,16 +73,16 @@ external ( -. ) : float -> float -> float = "%subfloat"
 external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
-#if BS then
+#ifdef BS
 external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
 external exp : float -> float = "exp" [@@bs.val][@@bs.scope "Math"]
 #else
 external ( ** ) : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
 external exp : float -> float = "caml_exp_float" "exp" [@@unboxed] [@@noalloc]
-#end
+#endif
 
-#if BS then
+#ifdef BS
 external acos : float -> float =  "acos" [@@bs.val] [@@bs.scope "Math"]
 external asin : float -> float = "asin" [@@bs.val] [@@bs.scope "Math"]
 external atan : float -> float = "atan" [@@bs.val] [@@bs.scope "Math"]
@@ -96,13 +96,13 @@ external atan : float -> float = "caml_atan_float" "atan"
   [@@unboxed] [@@noalloc]
 external atan2 : float -> float -> float = "caml_atan2_float" "atan2"
   [@@unboxed] [@@noalloc]
-#end
+#endif
 
 external hypot : float -> float -> float = "caml_hypot_float" "caml_hypot"
   [@@unboxed] [@@noalloc]
 
 
-#if BS then
+#ifdef BS
 external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
 external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
 external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
@@ -147,7 +147,7 @@ external ceil : float -> float = "caml_ceil_float" "ceil"
 external floor : float -> float = "caml_floor_float" "floor"
   [@@unboxed] [@@noalloc]
 external abs_float : float -> float = "%absfloat"
-#end
+#endif
 
 external copysign : float -> float -> float
                   = "caml_copysign_float" "caml_copysign"
@@ -175,12 +175,12 @@ type nonrec fpclass = fpclass =
   | FP_infinite
   | FP_nan
 
-#if BS then
+#ifdef BS
 let classify_float = classify_float
 #else
 external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
-#end
+#endif
 
 let ( ^ ) = ( ^ )
 external int_of_char : char -> int = "%identity"

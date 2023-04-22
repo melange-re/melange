@@ -265,7 +265,7 @@ let to_seqi s = bos s |> B.to_seqi
 
 let of_seq g = B.of_seq g |> bts
 
-#if BS then
+#ifdef BS
 #else
 (* UTF decoders and validators *)
 
@@ -296,4 +296,4 @@ let get_int32_be s i = B.get_int32_be (bos s) i
 let get_int64_le s i = B.get_int64_le (bos s) i
 let get_int64_be s i = B.get_int64_be (bos s) i
 
-#end
+#endif

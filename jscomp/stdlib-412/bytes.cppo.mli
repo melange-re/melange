@@ -77,7 +77,7 @@ val make : int -> char -> bytes
     the byte [c].
     @raise Invalid_argument if [n < 0] or [n > ]{!Sys.max_string_length}. *)
 
-val init : int -> f:(int -> char) -> bytes
+val init : int -> (int -> char) -> bytes
 (** [init n f] returns a fresh byte sequence of length [n],
     with character [i] initialized to the result of [f i] (in increasing
     index order).
@@ -98,18 +98,18 @@ val to_string : bytes -> string
 (** Return a new string that contains the same bytes as the given byte
     sequence. *)
 
-val sub : bytes -> pos:int -> len:int -> bytes
-(** [sub s ~pos ~len] returns a new byte sequence of length [len],
+val sub : bytes -> int -> int -> bytes
+(** [sub s pos len] returns a new byte sequence of length [len],
     containing the subsequence of [s] that starts at position [pos]
     and has length [len].
     @raise Invalid_argument if [pos] and [len] do not designate a
     valid range of [s]. *)
 
-val sub_string : bytes -> pos:int -> len:int -> string
+val sub_string : bytes -> int -> int -> string
 (** Same as {!sub} but return a string instead of a byte sequence. *)
 
-val extend : bytes -> left:int -> right:int -> bytes
-(** [extend s ~left ~right] returns a new byte sequence that contains
+val extend : bytes -> int -> int -> bytes
+(** [extend s left right] returns a new byte sequence that contains
     the bytes of [s], with [left] uninitialized bytes prepended and
     [right] uninitialized bytes appended to it. If [left] or [right]
     is negative, then bytes are removed (instead of appended) from
@@ -118,16 +118,16 @@ val extend : bytes -> left:int -> right:int -> bytes
     longer than {!Sys.max_string_length} bytes.
     @since 4.05.0 in BytesLabels *)
 
-val fill : bytes -> pos:int -> len:int -> char -> unit
-(** [fill s ~pos ~len c] modifies [s] in place, replacing [len]
+val fill : bytes -> int -> int -> char -> unit
+(** [fill s pos len c] modifies [s] in place, replacing [len]
     characters with [c], starting at [pos].
     @raise Invalid_argument if [pos] and [len] do not designate a
     valid range of [s]. *)
 
 val blit :
-  src:bytes -> src_pos:int -> dst:bytes -> dst_pos:int -> len:int
+  bytes -> int -> bytes -> int -> int
   -> unit
-(** [blit ~src ~src_pos ~dst ~dst_pos ~len] copies [len] bytes from sequence
+(** [blit src src_pos dst dst_pos len] copies [len] bytes from sequence
     [src], starting at index [src_pos], to sequence [dst], starting at
     index [dst_pos]. It works correctly even if [src] and [dst] are the
     same byte sequence, and the source and destination intervals
@@ -137,9 +137,9 @@ val blit :
     do not designate a valid range of [dst]. *)
 
 val blit_string :
-  src:string -> src_pos:int -> dst:bytes -> dst_pos:int -> len:int
+  string -> int -> bytes -> int -> int
   -> unit
-(** [blit ~src ~src_pos ~dst ~dst_pos ~len] copies [len] bytes from string
+(** [blit src src_pos dst dst_pos len] copies [len] bytes from string
     [src], starting at index [src_pos], to byte sequence [dst],
     starting at index [dst_pos].
     @raise Invalid_argument if [src_pos] and [len] do not
@@ -147,8 +147,8 @@ val blit_string :
     do not designate a valid range of [dst].
     @since 4.05.0 in BytesLabels *)
 
-val concat : sep:bytes -> bytes list -> bytes
-(** [concat ~sep sl] concatenates the list of byte sequences [sl],
+val concat : bytes -> bytes list -> bytes
+(** [concat sep sl] concatenates the list of byte sequences [sl],
     inserting the separator byte sequence [sep] between each, and
     returns the result as a new byte sequence.
     @raise Invalid_argument if the result is longer than
@@ -162,43 +162,43 @@ val cat : bytes -> bytes -> bytes
     {!Sys.max_string_length} bytes.
     @since 4.05.0 in BytesLabels *)
 
-val iter : f:(char -> unit) -> bytes -> unit
-(** [iter ~f s] applies function [f] in turn to all the bytes of [s].
+val iter : (char -> unit) -> bytes -> unit
+(** [iter f s] applies function [f] in turn to all the bytes of [s].
     It is equivalent to [f (get s 0); f (get s 1); ...; f (get s
     (length s - 1)); ()]. *)
 
-val iteri : f:(int -> char -> unit) -> bytes -> unit
+val iteri : (int -> char -> unit) -> bytes -> unit
 (** Same as {!iter}, but the function is applied to the index of
     the byte as first argument and the byte itself as second
     argument. *)
 
-val map : f:(char -> char) -> bytes -> bytes
-(** [map ~f s] applies function [f] in turn to all the bytes of [s] (in
+val map : (char -> char) -> bytes -> bytes
+(** [map f s] applies function [f] in turn to all the bytes of [s] (in
     increasing index order) and stores the resulting bytes in a new sequence
     that is returned as the result. *)
 
-val mapi : f:(int -> char -> char) -> bytes -> bytes
-(** [mapi ~f s] calls [f] with each character of [s] and its
+val mapi : (int -> char -> char) -> bytes -> bytes
+(** [mapi f s] calls [f] with each character of [s] and its
     index (in increasing index order) and stores the resulting bytes
     in a new sequence that is returned as the result. *)
 
-val fold_left : f:('a -> char -> 'a) -> init:'a -> bytes -> 'a
+val fold_left : ('a -> char -> 'a) -> 'a -> bytes -> 'a
 (** [fold_left f x s] computes
     [f (... (f (f x (get s 0)) (get s 1)) ...) (get s (n-1))],
     where [n] is the length of [s].
     @since 4.13.0 *)
 
-val fold_right : f:(char -> 'a -> 'a) -> bytes -> init:'a -> 'a
+val fold_right : (char -> 'a -> 'a) -> bytes -> 'a -> 'a
 (** [fold_right f s x] computes
     [f (get s 0) (f (get s 1) ( ... (f (get s (n-1)) x) ...))],
     where [n] is the length of [s].
     @since 4.13.0 *)
 
-val for_all : f:(char -> bool) -> bytes -> bool
+val for_all : (char -> bool) -> bytes -> bool
 (** [for_all p s] checks if all characters in [s] satisfy the predicate [p].
     @since 4.13.0 *)
 
-val exists : f:(char -> bool) -> bytes -> bool
+val exists : (char -> bool) -> bytes -> bool
 (** [exists p s] checks if at least one character of [s] satisfies the predicate
     [p].
     @since 4.13.0 *)
@@ -487,7 +487,7 @@ let s = Bytes.of_string "hello"
 *)
 
 
-val split_on_char: sep:char -> bytes -> bytes list
+val split_on_char: char -> bytes -> bytes list
 (** [split_on_char sep s] returns the list of all (possibly empty)
     subsequences of [s] that are delimited by the [sep] character.
 
@@ -517,14 +517,13 @@ val of_seq : char Seq.t -> t
 (** Create a string from the generator
     @since 4.07 *)
 
+#ifdef BS
+#else
 (** {1:utf UTF codecs and validations}
 
     @since 4.14 *)
 
 (** {2:utf_8 UTF-8} *)
-
-#if BS then
-#else
 
 val get_utf_8_uchar : t -> int -> Uchar.utf_decode
 (** [get_utf_8_uchar b i] decodes an UTF-8 character at index [i] in
@@ -770,7 +769,7 @@ val set_int64_le : bytes -> int -> int64 -> unit
     starting at byte index [i] to [v].
     @since 4.08
 *)
-#end
+#endif
 
 
 (**/**)
@@ -780,10 +779,10 @@ val set_int64_le : bytes -> int -> int64 -> unit
 external unsafe_get : bytes -> int -> char = "%bytes_unsafe_get"
 external unsafe_set : bytes -> int -> char -> unit = "%bytes_unsafe_set"
 external unsafe_blit :
-  src:bytes -> src_pos:int -> dst:bytes -> dst_pos:int -> len:int ->
+  bytes -> int -> bytes -> int -> int ->
     unit = "caml_blit_bytes" [@@noalloc]
 external unsafe_blit_string :
-  src:string -> src_pos:int -> dst:bytes -> dst_pos:int -> len:int -> unit
+  string -> int -> bytes -> int -> int -> unit
   = "caml_blit_string" [@@noalloc]
 external unsafe_fill :
-  bytes -> pos:int -> len:int -> char -> unit = "caml_fill_bytes" [@@noalloc]
+  bytes -> int -> int -> char -> unit = "caml_fill_bytes" [@@noalloc]

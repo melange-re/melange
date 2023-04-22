@@ -53,12 +53,12 @@ val make_class :
 type init_table
 val make_class_store :
     string array -> (table -> t) -> init_table -> unit
-#if BS then
+#ifdef BS
 #else
 val dummy_class :
     string * int * int ->
     (t * (table -> Obj.t -> t) * (Obj.t -> t) * Obj.t)
-#end
+#endif
 
 (** {1 Objects} *)
 
@@ -68,10 +68,10 @@ val create_object_opt : obj -> table -> obj
 val run_initializers : obj -> table -> unit
 val run_initializers_opt : obj -> obj -> table -> obj
 val create_object_and_run_initializers : obj -> table -> obj
-#if BS then
+#ifdef BS
 #else
 external send : obj -> tag -> t = "%send"
-#end
+#endif
 external sendcache : obj -> tag -> t -> int -> t = "%sendcache"
 external sendself : obj -> label -> t = "%sendself"
 external get_public_method : obj -> tag -> closure

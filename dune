@@ -3,9 +3,9 @@
 (env
  (dev
   (env-vars
-   (CPPO_FLAGS -U=BS_RELEASE_BUILD)))
+   (CPPO_FLAGS "-D=BS -U=BS_RELEASE_BUILD")))
  (release
   (env-vars
-   (CPPO_FLAGS -D=BS_RELEASE_BUILD))
+   (CPPO_FLAGS "-D=BS -D=BS_RELEASE_BUILD"))
   (ocamlopt_flags
    (:standard -O3 -unbox-closures))))

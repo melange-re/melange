@@ -160,12 +160,12 @@ module State = struct
     else int64aux s bound
 
 
-#if 0 then
+#if false
   let nativeint =
     if Nativeint.size = 32
     then fun s bound -> Nativeint.of_int32 (int32 s (Nativeint.to_int32 bound))
     else fun s bound -> Int64.to_nativeint (int64 s (Int64.of_nativeint bound))
-#end
+#endif
 
 
   (* Returns a float 0 <= x <= 1 with at most 60 bits of precision. *)
@@ -191,12 +191,12 @@ module State = struct
     let b3 = Int64.(shift_right_logical (of_int (bits s)) 8) in  (* 22 bits *)
     Int64.(logor b1 (logor (shift_left b2 21) (shift_left b3 42)))
 
-#if 0 then
+#if false
   let nativebits =
     if Nativeint.size = 32
     then fun s -> Nativeint.of_int32 (bits32 s)
     else fun s -> Int64.to_nativeint (bits64 s)
-#end
+#endif
 
 end
 
@@ -222,17 +222,17 @@ let bits () = State.bits default
 let int bound = State.int default bound
 let full_int bound = State.full_int default bound
 let int32 bound = State.int32 default bound
-#if 0 then
+#if false
 let nativeint bound = State.nativeint default bound
-#end
+#endif
 let int64 bound = State.int64 default bound
 let float scale = State.float default scale
 let bool () = State.bool default
 let bits32 () = State.bits32 default
 let bits64 () = State.bits64 default
-#if 0 then
+#if false
 let nativebits () = State.nativebits default
-#end
+#endif
 
 let full_init seed = State.full_init default seed
 let init seed = State.full_init default [| seed |]

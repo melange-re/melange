@@ -88,8 +88,8 @@ val make : int -> char -> string
 
     @raise Invalid_argument if [n < 0] or [n > ]{!Sys.max_string_length}. *)
 
-val init : int -> (int -> char) -> string
-(** [init n f] is a string of length [n] with index
+val init : int -> f:(int -> char) -> string
+(** [init n ~f] is a string of length [n] with index
     [i] holding the character [f i] (called in increasing index order).
 
     @raise Invalid_argument if [n < 0] or [n > ]{!Sys.max_string_length}.
@@ -129,8 +129,8 @@ external get : string -> int -> char = "%string_safe_get"
     {b Note.} The {!Stdlib.( ^ )} binary operator concatenates two
     strings. *)
 
-val concat : string -> string list -> string
-(** [concat sep ss] concatenates the list of strings [ss], inserting
+val concat : sep:string -> string list -> string
+(** [concat ~sep ss] concatenates the list of strings [ss], inserting
     the separator string [sep] between each.
 
     @raise Invalid_argument if the result is longer than
@@ -165,7 +165,7 @@ val starts_with :
 
 val ends_with :
   suffix (* comment thwarts tools/sync_stdlib_docs *) :string -> string -> bool
-(** [ends_with suffix s] is [true] if and only if [s] ends with [suffix].
+(** [ends_with ~suffix s] is [true] if and only if [s] ends with [suffix].
 
     @since 4.13.0 *)
 
@@ -187,16 +187,16 @@ val contains : string -> char -> bool
 
 (** {1:extract Extracting substrings} *)
 
-val sub : string -> int -> int -> string
-(** [sub s pos len] is a string of length [len], containing the
+val sub : string -> pos:int -> len:int -> string
+(** [sub s ~pos ~len] is a string of length [len], containing the
     substring of [s] that starts at position [pos] and has length
     [len].
 
     @raise Invalid_argument if [pos] and [len] do not designate a valid
     substring of [s]. *)
 
-val split_on_char : char -> string -> string list
-(** [split_on_char sep s] is the list of all (possibly empty)
+val split_on_char : sep:char -> string -> string list
+(** [split_on_char ~sep s] is the list of all (possibly empty)
     substrings of [s] that are delimited by the character [sep].
 
     The function's result is specified by the following invariants:
@@ -211,33 +211,33 @@ val split_on_char : char -> string -> string list
 
 (** {1:transforming Transforming} *)
 
-val map : (char -> char) -> string -> string
+val map : f:(char -> char) -> string -> string
 (** [map f s] is the string resulting from applying [f] to all the
     characters of [s] in increasing order.
 
     @since 4.00.0 *)
 
-val mapi : (int -> char -> char) -> string -> string
-(** [mapi f s] is like {!map} but the index of the character is also
+val mapi : f:(int -> char -> char) -> string -> string
+(** [mapi ~f s] is like {!map} but the index of the character is also
     passed to [f].
 
     @since 4.02.0 *)
 
-val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a
+val fold_left : f:('a -> char -> 'a) -> init:'a -> string -> 'a
 (** [fold_left f x s] computes [f (... (f (f x s.[0]) s.[1]) ...) s.[n-1]],
     where [n] is the length of the string [s].
     @since 4.13.0 *)
 
-val fold_right : (char -> 'a -> 'a) -> string -> 'a -> 'a
+val fold_right : f:(char -> 'a -> 'a) -> string -> init:'a -> 'a
 (** [fold_right f s x] computes [f s.[0] (f s.[1] ( ... (f s.[n-1] x) ...))],
     where [n] is the length of the string [s].
     @since 4.13.0 *)
 
-val for_all : (char -> bool) -> string -> bool
+val for_all : f:(char -> bool) -> string -> bool
 (** [for_all p s] checks if all characters in [s] satisfy the predicate [p].
     @since 4.13.0 *)
 
-val exists : (char -> bool) -> string -> bool
+val exists : f:(char -> bool) -> string -> bool
 (** [exists p s] checks if at least one character of [s] satisfies the predicate
     [p].
     @since 4.13.0 *)
@@ -288,11 +288,11 @@ val uncapitalize_ascii : string -> string
 
 (** {1:traversing Traversing} *)
 
-val iter : (char -> unit) -> string -> unit
-(** [iter f s] applies function [f] in turn to all the characters of [s].
+val iter : f:(char -> unit) -> string -> unit
+(** [iter ~f s] applies function [f] in turn to all the characters of [s].
     It is equivalent to [f s.[0]; f s.[1]; ...; f s.[length s - 1]; ()]. *)
 
-val iteri : (int -> char -> unit) -> string -> unit
+val iteri : f:(int -> char -> unit) -> string -> unit
 (** [iteri] is like {!iter}, but the function is also given the
     corresponding character index.
 
@@ -370,7 +370,7 @@ val of_seq : char Seq.t -> t
 
 (** {2:utf_8 UTF-8} *)
 
-#if BS then
+#ifdef BS
 #else
 
 val get_utf_8_uchar : t -> int -> Uchar.utf_decode
@@ -401,7 +401,7 @@ val is_valid_utf_16le : t -> bool
 (** [is_valid_utf_16le b] is [true] if and only if [b] contains valid
     UTF-16LE data. *)
 
-#end
+#endif
 
 (** {1:deprecated Deprecated functions} *)
 
@@ -415,8 +415,8 @@ external create : int -> bytes = "caml_create_string"
     {!Bytes.create}/{!BytesLabels.create}. *)
 
 val blit :
-  string -> int -> bytes -> int -> int -> unit
-(** [blit src src_pos dst dst_pos len] copies [len] bytes
+  src:string -> src_pos:int -> dst:bytes -> dst_pos:int -> len:int -> unit
+(** [blit ~src ~src_pos ~dst ~dst_pos ~len] copies [len] bytes
     from the string [src], starting at index [src_pos],
     to byte sequence [dst], starting at character number [dst_pos].
 
@@ -431,9 +431,9 @@ val copy : string -> string
     @deprecated Because strings are immutable, it doesn't make much
     sense to make identical copies of them. *)
 
-val fill : bytes -> int -> int -> char -> unit
+val fill : bytes -> pos:int -> len:int -> char -> unit
   [@@ocaml.deprecated "Use Bytes.fill/BytesLabels.fill instead."]
-(** [fill s pos len c] modifies byte sequence [s] in place,
+(** [fill s ~pos ~len c] modifies byte sequence [s] in place,
     replacing [len] bytes by [c], starting at [pos].
     @raise Invalid_argument if [pos] and [len] do not
     designate a valid substring of [s].
@@ -497,7 +497,7 @@ val uncapitalize : string -> string
     or 16-bit integers and represented them with [int] values.
 *)
 
-#if BS then
+#ifdef BS
 #else
 val get_uint8 : string -> int -> int
 (** [get_uint8 b i] is [b]'s unsigned 8-bit integer starting at character
@@ -596,7 +596,8 @@ val get_int64_le : string -> int -> int64
 
     @since 4.13.0
 *)
-#end
+
+#endif
 
 (**/**)
 
@@ -604,8 +605,8 @@ val get_int64_le : string -> int -> int64
 
 external unsafe_get : string -> int -> char = "%string_unsafe_get"
 external unsafe_blit :
-  string -> int -> bytes -> int -> int ->
+  src:string -> src_pos:int -> dst:bytes -> dst_pos:int -> len:int ->
     unit = "caml_blit_string" [@@noalloc]
 external unsafe_fill :
-  bytes -> int -> int -> char -> unit = "caml_fill_string" [@@noalloc]
+  bytes -> pos:int -> len:int -> char -> unit = "caml_fill_string" [@@noalloc]
   [@@ocaml.deprecated]
