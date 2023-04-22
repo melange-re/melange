@@ -50,6 +50,9 @@ Unreleased
 - mel: delete the `mel` package. The dune integration is now the only
   officially supported workflow for orchestrating melange builds
   ([#546](https://github.com/melange-re/melange/pull/546))
+- melange: Extract `melange.ppx` from the melange package. This preprocessing
+  step interprets extensions such as `%bs.obj`, `%bs.raw`, `%bs.re`, etc.
+  ([#534](https://github.com/melange-re/melange/pull/534))
 
 0.3.2 2022-11-19
 ---------------

@@ -1,5 +1,5 @@
 include struct
-  include Migrate_parsetree
+  include Astlib
 
   module Ast_406 = struct
     include Ast_406
@@ -1958,3 +1958,5 @@ include struct
       |> Migrate_407_406.copy_signature
   end
 end
+
+module Location = Ocaml_common.Location

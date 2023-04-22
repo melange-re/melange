@@ -4,13 +4,7 @@
  (public_name melange.belt)
  (wrapped false)
  (preprocess
-  (action
-   (run
-    melc
-    -as-pp
-    -bs-no-check-div-by-zero
-    -bs-cross-module-opt
-    %{input-file})))
+  (pps melange.ppx -unsafe))
  (libraries melange.runtime)
  (flags :standard \ -keep-locs)
  (melange.compile_flags
@@ -18,7 +12,6 @@
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -bs-no-builtin-ppx
   -unsafe
   -nopervasives
   -nostdlib
