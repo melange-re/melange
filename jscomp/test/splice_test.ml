@@ -80,12 +80,10 @@ module Pipe = struct
 
 end
 
-#if 1 then
 let f1 (c : int array) =  f 1 c
 
 ;; eq __LOC__ (f1  [|2;3|] ) 3
 ;; eq __LOC__ (f1  [||] ) 1
 ;; eq __LOC__ (f1 [|1;2;3;4;5;2;3|]) 5
-#end
 
 ;; Mt.from_pair_suites __FILE__ !suites
