@@ -70,6 +70,7 @@ module External = struct
         match ident with
         | { txt = Lident x; loc } ->
             Ast_extensions.handle_external loc x
+            |> Melange_ppxlib_ast.To_ppxlib.copy_expression
             (* do we need support [%external gg.xx ]
 
                {[ Js.Undefined.to_opt (if Js.typeof x == "undefined" then x else Js.Undefined.empty ) ]}
@@ -89,7 +90,11 @@ module Raw = struct
       let context = Extension.Context.structure_item in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { loc; txt = payload } =
-        Ast_extensions.handle_raw_structure loc payload
+        let stru =
+          let payload = Melange_ppxlib_ast.Of_ppxlib.copy_payload payload in
+          [ Ast_extensions.handle_raw_structure loc payload ]
+        in
+        Melange_ppxlib_ast.To_ppxlib.copy_structure stru |> List.hd
       in
       let extender = Extension.V3.declare label context extractor handler in
       Context_free.Rule.extension extender
@@ -101,7 +106,9 @@ module Raw = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { loc; txt = payload } =
+        let payload = Melange_ppxlib_ast.Of_ppxlib.copy_payload payload in
         Ast_extensions.handle_raw ~kind:Raw_exp loc payload
+        |> Melange_ppxlib_ast.To_ppxlib.copy_expression
       in
       let extender = Extension.V3.declare label context extractor handler in
       Context_free.Rule.extension extender
@@ -117,17 +124,20 @@ module Private = struct
     let last_loc = (List.hd stru).pstr_loc in
     let first_loc = (List.hd stru).pstr_loc in
     let loc = { first_loc with loc_end = last_loc.loc_end } in
-    let open Ast_helper in
-    Str.open_
-      (Opn.mk ~override:Override
-         (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru))
+    Melange_compiler_libs.Ast_helper.
+      [
+        Str.open_
+          (Opn.mk ~override:Override
+             (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
+      ]
+    |> Melange_ppxlib_ast.To_ppxlib.copy_structure |> List.hd
 
   let rule =
     let rule label =
       let context = Extension.Context.structure_item in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        match payload with
+        match Melange_ppxlib_ast.Of_ppxlib.copy_payload payload with
         | PStr work -> expand work
         | PSig _ | PTyp _ | PPat _ ->
             Location.raise_errorf ~loc "private extension is not support"
@@ -145,8 +155,10 @@ module Debugger = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
+        let payload = Melange_ppxlib_ast.Of_ppxlib.copy_payload payload in
+        let open Melange_compiler_libs.Ast_helper in
         Exp.mk ~loc (Ast_extensions.handle_debugger loc payload)
+        |> Melange_ppxlib_ast.To_ppxlib.copy_expression
       in
 
       let extender = Extension.V3.declare label context extractor handler in
@@ -161,10 +173,12 @@ module Re = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
+        let payload = Melange_ppxlib_ast.Of_ppxlib.copy_payload payload in
+        let open Melange_compiler_libs.Ast_helper in
         Exp.constraint_ ~loc
           (Ast_extensions.handle_raw ~kind:Raw_re loc payload)
           (Ast_comb.to_js_re_type loc)
+        |> Melange_ppxlib_ast.To_ppxlib.copy_expression
       in
 
       let extender = Extension.V3.declare label context extractor handler in
@@ -179,8 +193,8 @@ module Time = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
-        match payload with
+        let open Melange_compiler_libs.Ast_helper in
+        match Melange_ppxlib_ast.Of_ppxlib.copy_payload payload with
         | PStr [ { pstr_desc = Pstr_eval (e, _) } ] ->
             let locString =
               if loc.loc_ghost then "GHOST LOC"
@@ -213,6 +227,7 @@ module Time = struct
                           })
                        (Ast_compatible.const_exp_string ~loc locString))
                     (Exp.ident ~loc { loc; txt = Lident "timed" })))
+            |> Melange_ppxlib_ast.To_ppxlib.copy_expression
         | _ ->
             Location.raise_errorf ~loc
               "expect a boolean expression in the payload"
@@ -230,7 +245,7 @@ module Node = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Ast_helper in
+        let payload = Melange_ppxlib_ast.Of_ppxlib.copy_payload payload in
         let strip s = match s with "_module" -> "module" | x -> x in
         match Ast_payload.as_ident payload with
         | Some
@@ -240,6 +255,7 @@ module Node = struct
                   (("__filename" | "__dirname" | "_module" | "require") as name);
               loc;
             } ->
+            let open Melange_compiler_libs.Ast_helper in
             let exp = Ast_extensions.handle_external loc (strip name) in
             let typ =
               Ast_core_type.lift_option_type
@@ -254,6 +270,7 @@ module Node = struct
                  else Ast_literal.type_string ~loc ())
             in
             Exp.constraint_ ~loc exp typ
+            |> Melange_ppxlib_ast.To_ppxlib.copy_expression
         | Some _ | None -> (
             match payload with
             | PTyp _ ->
@@ -281,7 +298,7 @@ module Obj = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        match payload with
+        match Melange_ppxlib_ast.Of_ppxlib.copy_payload payload with
         | PStr
             [
               {
@@ -295,6 +312,7 @@ module Obj = struct
               pexp_desc =
                 Ast_extensions.Make.record_as_js_object e.pexp_loc label_exprs;
             }
+            |> Melange_ppxlib_ast.To_ppxlib.copy_expression
         | _ -> Location.raise_errorf ~loc "Expect a record expression here"
       in
 

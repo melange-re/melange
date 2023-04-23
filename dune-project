@@ -33,9 +33,7 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
-   (and
-    (>= "4.14.0")
-    (< "4.15.0")))
+   (>= "4.13.0"))
   (melange-compiler-libs
    (>= "0.0.1-414"))
   (cmdliner

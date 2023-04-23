@@ -38,7 +38,12 @@ let after_parsing_sig ast =
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Mli ast);
-  output_string stdout Config.ast_intf_magic_number;
+  let ast =
+    ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
+    |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+  in
+  output_string stdout
+    Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
   output_value stdout (!Location.input_name : string);
   output_value stdout ast
 
@@ -47,7 +52,12 @@ let after_parsing_impl (ast : Parsetree.structure) =
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Ml ast);
-  output_string stdout Config.ast_impl_magic_number;
+  let ast =
+    ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
+    |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+  in
+  output_string stdout
+    Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
   output_value stdout (!Location.input_name : string);
   output_value stdout ast
 

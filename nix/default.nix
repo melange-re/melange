@@ -41,7 +41,11 @@ rec {
     '';
 
     doCheck = true;
-    nativeCheckInputs = [ tree nodejs ocamlPackages.reason ];
+    nativeCheckInputs = [
+      tree
+      nodejs
+      ocamlPackages.reason
+    ];
     checkInputs = with ocamlPackages; [ ounit2 reactjs-jsx-ppx ];
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];

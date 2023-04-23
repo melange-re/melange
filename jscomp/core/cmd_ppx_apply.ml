@@ -11,8 +11,7 @@ let write_ast (type a) (kind : a Ml_binary.kind) fn (ast : a) =
 let temp_ppx_file () =
   Filename.temp_file "ppx" (Filename.basename !Location.input_name)
 
-let apply_rewriter kind fn_in ppx =
-  let magic = Ml_binary.magic_of_kind kind in
+let apply_rewriter _kind fn_in ppx =
   let fn_out = temp_ppx_file () in
   let comm =
     Printf.sprintf "%s %s %s" ppx (Filename.quote fn_in) (Filename.quote fn_out)
@@ -20,13 +19,6 @@ let apply_rewriter kind fn_in ppx =
   let ok = Ccomp.command comm = 0 in
   if not ok then Cmd_ast_exception.cannot_run comm;
   if not (Sys.file_exists fn_out) then Cmd_ast_exception.cannot_run comm;
-  (* check magic before passing to the next ppx *)
-  let ic = open_in_bin fn_out in
-  let buffer =
-    try really_input_string ic (String.length magic) with End_of_file -> ""
-  in
-  close_in ic;
-  if buffer <> magic then Cmd_ast_exception.wrong_magic buffer;
   fn_out
 
 (* This is a fatal error, no need to protect it *)

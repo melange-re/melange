@@ -6,8 +6,20 @@
  (preprocess
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
- (modules :standard \ melange_ppx)
- (libraries ext ast_derive common melange-compiler-libs ast_extensions))
+ (modules :standard \ melange_ppxlib_ast melange_ppx)
+ (libraries
+  ext
+  ast_derive
+  common
+  melange-compiler-libs
+  ast_extensions
+  melange.ppxlib-ast))
+
+(library
+ (name melange_ppxlib_ast)
+ (public_name melange.ppxlib-ast)
+ (modules melange_ppxlib_ast)
+ (libraries ppxlib melange-compiler-libs))
 
 (library
  (name melange_ppx)
@@ -19,4 +31,4 @@
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (modules melange_ppx)
- (libraries melange.ppx-lib ppxlib ast_extensions))
+ (libraries melange.ppxlib-ast melange.ppx-lib ppxlib ast_extensions))

@@ -1,4 +1,4 @@
-(* Copyright (C) 2020- Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2023 Antonio Nuno Monteiro
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,30 +22,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let apply_lazy ~source ~target
-    (impl : Parsetree.structure -> Parsetree.structure)
-    (iface : Parsetree.signature -> Parsetree.signature) =
-  let { Ast_io.ast; _ } =
-    Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
-  in
-  let oc = open_out_bin target in
-  match ast with
-  | Intf ast ->
-      let ast =
-        iface ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
-      in
-      output_string oc
-        Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
-      output_value oc !Location.input_name;
-      output_value oc ast
-  | Impl ast ->
-      let ast =
-        impl ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
-      in
-      output_string oc
-        Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
-      output_value oc !Location.input_name;
-      output_value oc ast;
-      close_out oc
+module Compiler_version = Ppxlib_ast.Compiler_version
+
+module type OCaml_version = Ppxlib_ast.OCaml_version
+
+module Intf_or_impl : sig
+  type t = Intf of Parsetree.signature | Impl of Parsetree.structure
+end
+
+type input_version = (module OCaml_version)
+
+val fall_back_input_version : (module OCaml_version)
+
+type t = {
+  input_name : string;
+  input_version : input_version;
+  ast : Intf_or_impl.t;
+}
+
+type read_error =
+  | Not_a_binary_ast
+  | Unknown_version of string * input_version
+  | Source_parse_error of Ppxlib_ast.Location_error.t * input_version
+  | System_error of Ppxlib_ast.Location_error.t * input_version
+
+type input_source = Stdin | File of string
+(* | Channel of in_channel *)
+
+type input_kind =
+  | Possibly_source of {
+      filename : string;
+      parse_fun : Lexing.lexbuf -> Intf_or_impl.t;
+    }
+  | Necessarily_binary
+
+val read : input_source -> input_kind:input_kind -> (t, read_error) result
+val read_exn : input_source -> input_kind:input_kind -> t

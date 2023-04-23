@@ -30,6 +30,8 @@
  *  - `obj["prop"]` -> `obj##prop`
  *)
 
+open Melange_compiler_libs
+
 type mapper = Ast_mapper.mapper
 
 let default_mapper = Ast_mapper.default_mapper
@@ -105,5 +107,22 @@ let mapper : Ast_mapper.mapper =
   let open Ast_mapper in
   { default_mapper with expr = expr_mapper }
 
-let structure ast = mapper.structure mapper ast
-let signature ast = mapper.signature mapper ast
+let structure (ast : Import.Ast_406.Parsetree.structure) :
+    Import.Ast_406.Parsetree.structure =
+  let ast =
+    Import.To_ppxlib.copy_structure ast
+    |> Melange_ppxlib_ast.Of_ppxlib.copy_structure
+  in
+  mapper.structure mapper ast
+  |> Melange_ppxlib_ast.To_ppxlib.copy_structure
+  |> Import.Of_ppxlib.copy_structure
+
+let signature (ast : Import.Ast_406.Parsetree.signature) :
+    Import.Ast_406.Parsetree.signature =
+  let ast =
+    Import.To_ppxlib.copy_signature ast
+    |> Melange_ppxlib_ast.Of_ppxlib.copy_signature
+  in
+  mapper.signature mapper ast
+  |> Melange_ppxlib_ast.To_ppxlib.copy_signature
+  |> Import.Of_ppxlib.copy_signature
