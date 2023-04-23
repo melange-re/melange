@@ -30,8 +30,8 @@ let
             src = super.fetchFromGitHub {
               owner = "melange-re";
               repo = "melange-compiler-libs";
-              rev = "7263bea2285499f5da857f2bb374345a5178791e";
-              hash = "sha256-Tgk1PtLn9+9jK2tLWV7DktTYDp+KeasctrmTrOqusyM=";
+              rev = "575ac4c24b296ea897821f9aaee1146ff258c704";
+              hash = "sha256-icjQmfRUpo2nexX4XseQLPMhyffIxCftd0LHFW+LOwM=";
             };
           });
         });

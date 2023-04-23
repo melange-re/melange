@@ -2,18 +2,16 @@
 
 (library
  (name napkin)
- (flags
-  (:standard -w -9))
+ (flags :standard -w -9)
  (modules :standard \ res_cli)
- (libraries ppxlib melange.ppx-lib compiler-libs.common))
+ (libraries ppxlib melange.ppx-lib melange.ppxlib-ast compiler-libs.common))
 
 (executable
  (name res_cli)
  (public_name rescript-syntax)
  (package rescript-syntax)
  (modules res_cli)
- (flags
-  (-open Napkin))
+ (flags -open Napkin)
  (libraries napkin))
 
 (install

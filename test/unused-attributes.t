@@ -12,7 +12,7 @@
   4 |    [@bs.string]
            ^^^^^^^^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs.string
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
   [2]

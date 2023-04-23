@@ -45,16 +45,16 @@ Skip over the temporary file name printed in the error trace
   1 | let bla4 foo x y= foo##(method1 x y [@bs])
                                             ^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
 
   $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b [@bs.string]]) = "mk" [@@bs.val]' 2>&1 | grep -v File
   1 | external mk : int -> ([`a|`b [@bs.string]]) = "mk" [@@bs.val]
                                      ^^^^^^^^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs.string
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
 
   $ cat > x.ml <<EOF
@@ -79,8 +79,8 @@ Skip over the temporary file name printed in the error trace
   2 |   int -> int -> (int -> int -> int [@bs.uncurry]) = "v3"[@@bs.val]
                                            ^^^^^^^^^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs.uncurry
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
   [2]
 
@@ -109,8 +109,8 @@ Skip over the temporary file name printed in the error trace
   1 | external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]
                                       ^^^^^^^^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs.string
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
 
   $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b] ) = "mk" [@@bs.val]' 2>&1 | grep -v File
@@ -221,8 +221,8 @@ Skip over the temporary file name printed in the error trace
   1 | let bla4 foo x y = foo##(method1 x y [@bs])
                                              ^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
 
   $ cat > x.ml <<EOF
@@ -237,8 +237,8 @@ Skip over the temporary file name printed in the error trace
   4 |    [@bs.string]
            ^^^^^^^^^
   Error (warning 101 [unused-bs-attributes]): Unused attribute: bs.string
-  This means such annotation is not annotated properly. 
-  for example, some annotations is only meaningful in externals 
+  This means such annotation is not annotated properly.
+  for example, some annotations is only meaningful in externals
   
   [2]
 
