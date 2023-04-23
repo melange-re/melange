@@ -53,6 +53,9 @@ Unreleased
 - melange: Extract `melange.ppx` from the melange package. This preprocessing
   step interprets extensions such as `%bs.obj`, `%bs.raw`, `%bs.re`, etc.
   ([#534](https://github.com/melange-re/melange/pull/534))
+- melange: allow installing melange in more OCaml versions and compiler
+  switches. Melange now migrates binary AST to the version it understands
+  ([#548](https://github.com/melange-re/melange/pull/548))
 
 0.3.2 2022-11-19
 ---------------
