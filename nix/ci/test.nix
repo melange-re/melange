@@ -1,3 +1,5 @@
+{ ocamlVersion }:
+
 let
   lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
   src = fetchGit {
@@ -16,7 +18,7 @@ let
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
           dune_3 = osuper.dune_3.overrideAttrs (_: {
             src = super.fetchFromGitHub {
               owner = "ocaml";
