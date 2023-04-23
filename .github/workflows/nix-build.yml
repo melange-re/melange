@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  tests:
+  ubuntu-tests:
     name: Build and test (Ubuntu)
 
     strategy:
@@ -32,7 +32,7 @@ jobs:
     - name: "Run nix-build"
       run: nix-build ./nix/ci/test.nix --argstr ocamlVersion ${{ matrix.ocaml-version }}
 
-  tests:
+  macos-tests:
     name: Build and test (macOS)
 
     strategy:
