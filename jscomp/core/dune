@@ -10,26 +10,8 @@
  (libraries ext common ast_derive melange-compiler-libs melange.ppx-lib))
 
 (rule
- (targets js_fold.ml)
- (mode promote)
- (deps
-  j.ml
-  (source_tree ../../ocaml-tree))
- (action
-  ;; requires `npm install` in the `ocaml-tree` directory... what a mess
-  (run
-   node
-   --no-experimental-fetch
-   ../../ocaml-tree/wasm.js
-   -fold
-   -i
-   %{deps}
-   -o
-   %{targets})))
-
-(rule
  (targets js_record_iter.ml)
- (mode promote)
+ (mode fallback)
  (deps
   j.ml
   (source_tree ../../ocaml-tree))
@@ -46,7 +28,7 @@
 
 (rule
  (targets js_record_map.ml)
- (mode promote)
+ (mode fallback)
  (deps
   j.ml
   (source_tree ../../ocaml-tree))
@@ -63,7 +45,7 @@
 
 (rule
  (targets js_record_fold.ml)
- (mode promote)
+ (mode fallback)
  (deps
   j.ml
   (source_tree ../../ocaml-tree))
