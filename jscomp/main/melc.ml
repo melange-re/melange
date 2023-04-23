@@ -380,7 +380,7 @@ let melc_cmd =
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
-  | Some { pexp_desc = Pexp_array args; _ } ->
+  | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args =
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with
@@ -389,10 +389,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()
-    | _c ->
-        (* Errors are caught in `main`, which in turn calls `exit`. This code
-         * shouldn't be reachable. *)
-        assert false )
+    | _c -> Location.raise_errorf ~loc:pexp_loc "Invalid configuration")
   | Some e ->
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
