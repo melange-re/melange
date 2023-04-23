@@ -23,7 +23,7 @@
  (modes native)
  (modules melpp)
  (flags :standard -open Melange_compiler_libs)
- (libraries common core cmdliner melange-compiler-libs))
+ (libraries common core cmdliner melange.ppxlib-ast melange-compiler-libs))
 
 (executable
  (public_name melppx)
