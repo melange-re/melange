@@ -79,10 +79,7 @@ let print_ident ppf s =
     | "Belt_HashMapString" -> "Belt.HashMap.String"
     | "Belt_HashMapInt" -> "Belt.HashMap.Int"
     | "Belt_Debug" -> "Belt.Debug"
-    | s -> (
-        match Ext_namespace.try_split_module_name s with
-        | None -> s
-        | Some (ns, m) -> ns ^ "." ^ m))
+    | s -> s)
 
 open Format
 

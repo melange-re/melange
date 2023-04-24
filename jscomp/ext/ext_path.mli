@@ -80,7 +80,4 @@ val concat : string -> string -> string
 *)
 
 val check_suffix_case : string -> string -> bool
-
-(* It is lazy so that it will not hit errors when in script mode *)
-val package_dir : string Lazy.t
 val real_path : string -> string

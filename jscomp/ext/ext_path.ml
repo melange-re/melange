@@ -276,18 +276,6 @@ let absolute_cwd_path s = absolute_path cwd s
 
 let check_suffix_case = Ext_string.ends_with
 
-(* Input must be absolute directory *)
-let rec find_root_filename ~cwd filename =
-  if Sys.file_exists (Filename.concat cwd filename) then cwd
-  else
-    let cwd' = Filename.dirname cwd in
-    if String.length cwd' < String.length cwd then
-      find_root_filename ~cwd:cwd' filename
-    else Ext_fmt.failwithf ~loc:__LOC__ "%s not found from %s" filename cwd
-
-let find_package_json_dir cwd = find_root_filename ~cwd Literals.bsconfig_json
-let package_dir = lazy (find_package_json_dir (Lazy.force cwd))
-
 let real_path link_path =
   match Unix.lstat link_path with
   | { st_kind = S_LNK; _ } ->

@@ -34,8 +34,4 @@ val output_prefix : string -> string
 
     in: src/hello.ast
     out: src/hello
-
-    with namespace:
-    in: src/hello.ast
-    out: src/hello-Ns
 *)

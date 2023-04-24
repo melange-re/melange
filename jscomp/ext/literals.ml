@@ -40,37 +40,19 @@ let unsafe_downgrade = "unsafe_downgrade"
 (* nodejs *)
 let node_modules = "node_modules"
 let node_modules_length = String.length node_modules
-let bsconfig_json = "bsconfig.json"
-let dune = "dune"
-let dune_mel = "dune.mel"
-let dune_project = "dune-project"
-let mel_dune_alias = "mel"
 let package_name = "melange"
 
 (* Prefix of all melange runtime packages *)
 let mel_runtime_package_prefix = "@melange/runtime"
 
-(* Library where we install the melange runtime in opam *)
-let runtime_dir = "mel_runtime"
-
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"
 let suffix_cmj = ".cmj"
 let suffix_cmi = ".cmi"
-let suffix_mll = ".mll"
 let suffix_ml = ".ml"
 let suffix_mli = ".mli"
-let suffix_re = ".re"
-let suffix_rei = ".rei"
-let suffix_res = ".res"
-let suffix_resi = ".resi"
-let suffix_mlmap = ".mlmap"
 let suffix_cmt = ".cmt"
 let suffix_cmti = ".cmti"
-let suffix_ast = ".ast"
-let suffix_iast = ".iast"
-let suffix_d = ".d"
-let suffix_pp = ".pp"
 let suffix_js = ".js"
 let suffix_bs_js = ".bs.js"
 let suffix_mjs = ".mjs"
@@ -90,14 +72,6 @@ let node_parent = ".."
 let node_current = "."
 let gentype_import = "genType.import"
 let bsbuild_cache = ".bsbuild"
-let sourcedirs_meta = ".sourcedirs.json"
-let melange_output_prefix = "melange"
-let melange_eobjs_dir = ".melange.eobjs"
-
-(* Note the build system should check the validity of filenames
-   especially, they should not contain '-' *)
-let ns_sep_char = '-'
-let ns_sep = String.make 1 ns_sep_char
 let exception_id = "RE_EXN_ID"
 let polyvar_hash = "NAME"
 let polyvar_value = "VAL"

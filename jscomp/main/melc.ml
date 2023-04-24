@@ -60,16 +60,6 @@ let process_file sourcefile
     Js_implementation.interface
       ~parser:Pparse_driver.parse_interface
       ppf sourcefile
-  | Intf_ast
-    ->
-    Js_implementation.interface_mliast ppf sourcefile
-  | Impl_ast
-    ->
-    Js_implementation.implementation_mlast ppf sourcefile
-  | Mlmap
-    ->
-    Location.set_input_name  sourcefile;
-    Js_implementation.implementation_map ppf sourcefile
   | Cmi
     ->
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
@@ -128,8 +118,8 @@ let set_color_option option =
 let clean tmpfile =
   if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
 
-let eval (s : string) ~suffix =
-  let tmpfile = Filename.temp_file "eval" suffix in
+let eval (s : string) =
+  let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
   Ext_io.write_file tmpfile s;
   let ret = anonymous ~rev_args:[tmpfile] in
   clean tmpfile;
@@ -170,7 +160,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       open_modules;
       bs_package_output;
       bs_module_type;
-      bs_ast;
       bs_syntax_only;
       bs_g;
       bs_package_name;
@@ -202,7 +191,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_noassertfalse;
       noassert;
       bs_loc;
-      bs_legacy;
       impl = impl_source_file;
       intf = intf_source_file;
       intf_suffix;
@@ -254,9 +242,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
-    if bs_ast then (
-      Js_config.binary_ast := true;
-      Js_config.syntax_only := true);
     if bs_g then (
       Js_config.debug := bs_g;
       Rescript_cpp.replace_directive_bool "DEBUG" true);
@@ -309,9 +294,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_cmj then Js_config.force_cmj := bs_cmj;
     if bs_no_version_header then
       Js_config.no_version_header := bs_no_version_header;
-    if bs_legacy then
-      Js_config.bs_legacy := bs_legacy;
-
     if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
     if where then print_standard_library ();
@@ -342,10 +324,10 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->
-        ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret ))
+        ignore (eval s: _ Cmdliner.Term.ret ))
       bs_eval;
     Option.iter (fun s ->
-        ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret ))
+        ignore (eval s: _ Cmdliner.Term.ret ))
       bs_e;
     Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
     if g then Clflags.debug := g;
