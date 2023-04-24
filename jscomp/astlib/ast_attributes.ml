@@ -160,7 +160,7 @@ let rs_externals (attrs : t) pval_prim =
   | _, _ ->
       Ext_list.exists attrs (fun { attr_name = { txt }; _ } ->
           Ext_string.starts_with txt "bs."
-          || Ext_array.exists external_attrs (fun (x : string) -> txt = x))
+          || Array.exists (fun (x : string) -> txt = x) external_attrs)
       || prims_to_be_encoded pval_prim
 
 let is_inline : attr -> bool =

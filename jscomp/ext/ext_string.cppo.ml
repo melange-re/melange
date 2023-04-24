@@ -22,12 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
 (*
    {[ split " test_unsafe_obj_ffi_ppx.cmi" ~keep_empty:false ' ']}
 *)
@@ -52,29 +46,9 @@ let split_by ?(keep_empty=false) is_delim str =
   in
   loop [] len (len - 1)
 
-let trim s =
-  let i = ref 0  in
-  let j = String.length s in
-  while !i < j &&
-        let u = String.unsafe_get s !i in
-        u = '\t' || u = '\n' || u = ' '
-  do
-    incr i;
-  done;
-  let k = ref (j - 1)  in
-  while !k >= !i &&
-        let u = String.unsafe_get s !k in
-        u = '\t' || u = '\n' || u = ' ' do
-    decr k ;
-  done;
-  String.sub s !i (!k - !i + 1)
-
 let split ?keep_empty  str on =
   if str = "" then [] else
     split_by ?keep_empty (fun x -> (x : char) = on) str  ;;
-
-let quick_split_by_ws str : string list =
-  split_by ~keep_empty:false (fun x -> x = '\t' || x = '\n' || x = ' ') str
 
 let starts_with s beg =
   let beg_len = String.length beg in
@@ -156,17 +130,6 @@ let for_all s (p : char -> bool)  =
 let is_empty s = String.length s = 0
 
 
-let repeat n s  =
-  let len = String.length s in
-  let res = Bytes.create(n * len) in
-  for i = 0 to pred n do
-    String.blit s 0 res (i * len) len
-  done;
-  Bytes.to_string res
-
-
-
-
 let unsafe_is_sub ~sub i s j ~len =
   let rec check k =
     if k = len
@@ -177,37 +140,6 @@ let unsafe_is_sub ~sub i s j ~len =
   in
   j+len <= String.length s && check 0
 
-
-
-let find ?(start=0) ~sub s =
-  let exception Local_exit in
-  let n = String.length sub in
-  let s_len = String.length s in
-  let i = ref start in
-  try
-    while !i + n <= s_len do
-      if unsafe_is_sub ~sub 0 s !i ~len:n then
-        raise_notrace Local_exit;
-      incr i
-    done;
-    -1
-  with Local_exit ->
-    !i
-
-let contain_substring s sub =
-  find s ~sub >= 0
-
-(** TODO: optimize
-    avoid nonterminating when string is empty
-*)
-let non_overlap_count ~sub s =
-  let sub_len = String.length sub in
-  let rec aux  acc off =
-    let i = find ~start:off ~sub s  in
-    if i < 0 then acc
-    else aux (acc + 1) (i + sub_len) in
-  if String.length sub = 0 then invalid_arg "Ext_string.non_overlap_count"
-  else aux 0 0
 
 
 let rfind ~sub s =
@@ -231,92 +163,17 @@ let tail_from s x =
 
 let equal (x : string) y  = x = y
 
-(* let rec index_rec s lim i c =
-  if i >= lim then -1 else
-  if String.unsafe_get s i = c then i
-  else index_rec s lim (i + 1) c *)
-
-
-
-let rec index_rec_count s lim i c count =
-  if i >= lim then -1 else
-  if String.unsafe_get s i = c then
-    if count = 1 then i
-    else index_rec_count s lim (i + 1) c (count - 1)
-  else index_rec_count s lim (i + 1) c count
-
-let index_count s i c count =
-  let lim = String.length s in
-  if i < 0 || i >= lim || count < 1 then
-    invalid_arg ("index_count: ( " ^string_of_int i ^ "," ^string_of_int count ^ ")" );
-  index_rec_count s lim i c count
-
-(* let index_next s i c =
-  index_count s i c 1  *)
-
-(* let extract_until s cursor c =
-  let len = String.length s in
-  let start = !cursor in
-  if start < 0 || start >= len then (
-    cursor := -1;
-    ""
-    )
-  else
-    let i = index_rec s len start c in
-    let finish =
-      if i < 0 then (
-        cursor := -1 ;
-        len
-      )
-      else (
-        cursor := i + 1;
-        i
-      ) in
-    String.sub s start (finish - start) *)
-
 let rec rindex_rec s i c =
   if i < 0 then i else
   if String.unsafe_get s i = c then i else rindex_rec s (i - 1) c;;
 
-let rec rindex_rec_opt s i c =
-  if i < 0 then None else
-  if String.unsafe_get s i = c then Some i else rindex_rec_opt s (i - 1) c;;
-
 let rindex_neg s c =
   rindex_rec s (String.length s - 1) c;;
-
-let rindex_opt s c =
-  rindex_rec_opt s (String.length s - 1) c;;
-
 
 (** TODO: can be improved to return a positive integer instead *)
 let rec unsafe_no_char x ch i  last_idx =
   i > last_idx  ||
   (String.unsafe_get x i <> ch && unsafe_no_char x ch (i + 1)  last_idx)
-
-let rec unsafe_no_char_idx x ch i last_idx =
-  if i > last_idx  then -1
-  else
-  if String.unsafe_get x i <> ch then
-    unsafe_no_char_idx x ch (i + 1)  last_idx
-  else i
-
-let no_char x ch i len  : bool =
-  let str_len = String.length x in
-  if i < 0 || i >= str_len || len >= str_len then invalid_arg "Ext_string.no_char"
-  else unsafe_no_char x ch i len
-
-
-let no_slash x =
-  unsafe_no_char x '/' 0 (String.length x - 1)
-
-let no_slash_idx x =
-  unsafe_no_char_idx x '/' 0 (String.length x - 1)
-
-let no_slash_idx_from x from =
-  let last_idx = String.length x - 1  in
-  assert (from >= 0);
-  unsafe_no_char_idx x '/' from last_idx
 
 let replace_slash_backward (x : string ) =
   let len = String.length x in
@@ -341,96 +198,6 @@ let compare = Bs_hash_stubs.string_length_based_compare
 #else
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
 #endif
-let single_space = " "
-let single_colon = ":"
-
-let concat_array sep (s : string array) =
-  let s_len = Array.length s in
-  match s_len with
-  | 0 -> empty
-  | 1 -> Array.unsafe_get s 0
-  | _ ->
-    let sep_len = String.length sep in
-    let len = ref 0 in
-    for i = 0 to  s_len - 1 do
-      len := !len + String.length (Array.unsafe_get s i)
-    done;
-    let target =
-      Bytes.create
-        (!len + (s_len - 1) * sep_len ) in
-    let hd = (Array.unsafe_get s 0) in
-    let hd_len = String.length hd in
-    String.unsafe_blit hd  0  target 0 hd_len;
-    let current_offset = ref hd_len in
-    for i = 1 to s_len - 1 do
-      String.unsafe_blit sep 0 target  !current_offset sep_len;
-      let cur = Array.unsafe_get s i in
-      let cur_len = String.length cur in
-      let new_off_set = (!current_offset + sep_len ) in
-      String.unsafe_blit cur 0 target new_off_set cur_len;
-      current_offset :=
-        new_off_set + cur_len ;
-    done;
-    Bytes.unsafe_to_string target
-
-let concat3 a b c =
-  let a_len = String.length a in
-  let b_len = String.length b in
-  let c_len = String.length c in
-  let len = a_len + b_len + c_len in
-  let target = Bytes.create len in
-  String.unsafe_blit a 0 target 0 a_len ;
-  String.unsafe_blit b 0 target a_len b_len;
-  String.unsafe_blit c 0 target (a_len + b_len) c_len;
-  Bytes.unsafe_to_string target
-
-let concat4 a b c d =
-  let a_len = String.length a in
-  let b_len = String.length b in
-  let c_len = String.length c in
-  let d_len = String.length d in
-  let len = a_len + b_len + c_len + d_len in
-
-  let target = Bytes.create len in
-  String.unsafe_blit a 0 target 0 a_len ;
-  String.unsafe_blit b 0 target a_len b_len;
-  String.unsafe_blit c 0 target (a_len + b_len) c_len;
-  String.unsafe_blit d 0 target (a_len + b_len + c_len) d_len;
-  Bytes.unsafe_to_string target
-
-
-let concat5 a b c d e =
-  let a_len = String.length a in
-  let b_len = String.length b in
-  let c_len = String.length c in
-  let d_len = String.length d in
-  let e_len = String.length e in
-  let len = a_len + b_len + c_len + d_len + e_len in
-
-  let target = Bytes.create len in
-  String.unsafe_blit a 0 target 0 a_len ;
-  String.unsafe_blit b 0 target a_len b_len;
-  String.unsafe_blit c 0 target (a_len + b_len) c_len;
-  String.unsafe_blit d 0 target (a_len + b_len + c_len) d_len;
-  String.unsafe_blit e 0 target (a_len + b_len + c_len + d_len) e_len;
-  Bytes.unsafe_to_string target
-
-
-
-let inter2 a b =
-  concat3 a single_space b
-
-
-let inter3 a b c =
-  concat5 a  single_space  b  single_space  c
-
-
-
-
-
-let inter4 a b c d =
-  concat_array single_space [| a; b ; c; d|]
-
 
 let parent_dir_lit = ".."
 let current_dir_lit = "."
@@ -471,63 +238,10 @@ let capitalize_sub (s : string) len : string =
     done ;
     Bytes.unsafe_to_string bytes
 
-
-
 let uncapitalize_ascii =
     String.uncapitalize_ascii
 
 let lowercase_ascii = String.lowercase_ascii
-
-
-external (.![]) : string -> int -> int = "%string_unsafe_get"
-
-let get_int_1 (x : string) off : int =
-  Char.code x.[off]
-
-let get_int_2 (x : string) off : int =
-  Char.code x.[off] lor
-  Char.code x.[off+1] lsl 8
-
-let get_int_3 (x : string) off : int =
-  Char.code x.[off] lor
-  Char.code x.[off+1] lsl 8  lor
-  Char.code x.[off+2] lsl 16
-
-let get_int_4 (x : string) off : int =
-  Char.code x.[off] lor
-  Char.code x.[off+1] lsl 8  lor
-  Char.code x.[off+2] lsl 16 lor
-  Char.code x.[off+3] lsl 24
-
-let get_1_2_3_4 (x : string) ~off len : int =
-  if len = 1 then get_int_1 x off
-  else if len = 2 then get_int_2 x off
-  else if len = 3 then get_int_3 x off
-  else if len = 4 then get_int_4 x off
-  else assert false
-
-let unsafe_sub  x offs len =
-  let b = Bytes.create len in
-  Bytes.unsafe_blit_string x offs b 0 len;
-  (Bytes.unsafe_to_string b)
-
-let is_valid_hash_number (x:string) =
-  let len = String.length x in
-  len > 0 && (
-    let a = x.![0] in
-    a <= 57 &&
-    (if len > 1 then
-       a > 48 &&
-       for_all_from x 1 (function '0' .. '9' -> true | _ -> false)
-     else
-       a >= 48 )
-  )
-
-
-let hash_number_as_i32_exn
-    ( x : string) : int32 =
-  Int32.of_string x
-
 
 let first_marshal_char (x : string) =
     x <> ""   &&

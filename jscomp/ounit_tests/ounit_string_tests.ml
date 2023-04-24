@@ -39,14 +39,6 @@ let suites =
               nl cur b =~ "" ;
             end ; *)
          ( __LOC__ >:: fun _ ->
-           let b = "a\nb\nc\nd\n" in
-           let a = Ext_string.index_count in
-           a b 0 '\n' 1 =~ 1;
-           a b 0 '\n' 2 =~ 3;
-           a b 0 '\n' 3 =~ 5;
-           a b 0 '\n' 4 =~ 7;
-           a b 0 '\n' 5 =~ -1 );
-         ( __LOC__ >:: fun _ ->
            OUnit.assert_bool "empty string" (Ext_string.rindex_neg "" 'x' < 0)
          );
          ( __LOC__ >:: fun _ ->
@@ -77,40 +69,6 @@ let suites =
                 ; "-.ml"
                 ]
             end; *)
-         ( __LOC__ >:: fun _ ->
-           Ext_filename.module_name "a/hello.ml" =~ "Hello";
-           Ext_filename.as_module ~basename:"a.ml"
-           =~ Some { module_name = "A"; case = false };
-           Ext_filename.as_module ~basename:"Aa.ml"
-           =~ Some { module_name = "Aa"; case = true };
-           (* Ext_filename.as_module ~basename:"_Aa.ml" =~ None; *)
-           Ext_filename.as_module ~basename:"A_a"
-           =~ Some { module_name = "A_a"; case = true };
-           Ext_filename.as_module ~basename:"" =~ None;
-           Ext_filename.as_module ~basename:"a/hello.ml" =~ None );
-         ( __LOC__ >:: fun _ ->
-           Ext_string.find ~sub:"hello" "xx hello xx" =~ 3;
-           Ext_string.rfind ~sub:"hello" "xx hello xx" =~ 3;
-           Ext_string.find ~sub:"hello" "xx hello hello xx" =~ 3;
-           Ext_string.rfind ~sub:"hello" "xx hello hello xx" =~ 9 );
-         ( __LOC__ >:: fun _ ->
-           Ext_string.non_overlap_count ~sub:"0" "1000,000" =~ 6;
-           Ext_string.non_overlap_count ~sub:"0" "000000" =~ 6;
-           Ext_string.non_overlap_count ~sub:"00" "000000" =~ 3;
-           Ext_string.non_overlap_count ~sub:"00" "00000" =~ 2 );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__ (Ext_string.contain_substring "abc" "abc");
-           OUnit.assert_bool __LOC__ (Ext_string.contain_substring "abc" "a");
-           OUnit.assert_bool __LOC__ (Ext_string.contain_substring "abc" "b");
-           OUnit.assert_bool __LOC__ (Ext_string.contain_substring "abc" "c");
-           OUnit.assert_bool __LOC__ (Ext_string.contain_substring "abc" "");
-           OUnit.assert_bool __LOC__
-             (not @@ Ext_string.contain_substring "abc" "abcc") );
-         ( __LOC__ >:: fun _ ->
-           Ext_string.trim " \t\n" =~ "";
-           Ext_string.trim " \t\nb" =~ "b";
-           Ext_string.trim "b \t\n" =~ "b";
-           Ext_string.trim "\t\n b \t\n" =~ "b" );
          ( __LOC__ >:: fun _ ->
            Ext_string.starts_with "ab" "a" =~ true;
            Ext_string.starts_with "ab" "" =~ true;
@@ -162,12 +120,6 @@ let suites =
              (let old = "a:bd" in
               Ext_string.replace_backward_slash old == old) );
          ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash "ahgoh");
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash "");
-           OUnit.assert_bool __LOC__ (not (Ext_string.no_slash "ahgoh/"));
-           OUnit.assert_bool __LOC__ (not (Ext_string.no_slash "/ahgoh"));
-           OUnit.assert_bool __LOC__ (not (Ext_string.no_slash "/ahgoh/")) );
-         ( __LOC__ >:: fun _ ->
            OUnit.assert_bool __LOC__ (Ext_string.compare "" "" = 0);
            OUnit.assert_bool __LOC__ (Ext_string.compare "0" "0" = 0);
            OUnit.assert_bool __LOC__ (Ext_string.compare "" "acd" < 0);
@@ -206,83 +158,6 @@ let suites =
                  ("incosistent " ^ x ^ " " ^ y ^ " " ^ string_of_int a ^ " "
                 ^ string_of_int b)
            done );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal (Ext_string.concat3 "a0" "a1" "a2") "a0a1a2");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal (Ext_string.concat3 "a0" "a11" "") "a0a11");
-
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat4 "a0" "a1" "a2" "a3")
-                "a0a1a2a3");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat4 "a0" "a11" "" "a33")
-                "a0a11a33") );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal (Ext_string.inter2 "a0" "a1") "a0 a1");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal (Ext_string.inter3 "a0" "a1" "a2") "a0 a1 a2");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.inter4 "a0" "a1" "a2" "a3")
-                "a0 a1 a2 a3") );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx "" < 0);
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx "xxx" < 0);
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx "xxx/" = 3);
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx "xxx/g/" = 3);
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx "/xxx/g/" = 0) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx_from "xxx" 0 < 0);
-           OUnit.assert_bool __LOC__ (Ext_string.no_slash_idx_from "xxx/" 1 = 3);
-           OUnit.assert_bool __LOC__
-             (Ext_string.no_slash_idx_from "xxx/g/" 4 = 5);
-           OUnit.assert_bool __LOC__
-             (Ext_string.no_slash_idx_from "xxx/g/" 3 = 3);
-           OUnit.assert_bool __LOC__
-             (Ext_string.no_slash_idx_from "/xxx/g/" 0 = 0) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space [||])
-                Ext_string.empty);
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space [| "a0" |])
-                "a0");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space
-                   [| "a0"; "a1" |])
-                "a0 a1");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space
-                   [| "a0"; "a1"; "a2" |])
-                "a0 a1 a2");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space
-                   [| "a0"; "a1"; "a2"; "a3" |])
-                "a0 a1 a2 a3");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space
-                   [| "a0"; "a1"; "a2"; "a3"; ""; "a4" |])
-                "a0 a1 a2 a3  a4");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space
-                   [| "0"; "a1"; "2"; "a3"; ""; "a4" |])
-                "0 a1 2 a3  a4");
-           OUnit.assert_bool __LOC__
-             (Ext_string.equal
-                (Ext_string.concat_array Ext_string.single_space
-                   [| "0"; "a1"; "2"; "3"; "d"; ""; "e" |])
-                "0 a1 2 3 d  e") );
          ( __LOC__ >:: fun _ ->
            let ( =~ ) = OUnit.assert_equal ~printer:(fun x -> x) in
            let f = Ext_string.capitalize_ascii in

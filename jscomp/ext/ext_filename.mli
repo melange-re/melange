@@ -27,15 +27,6 @@
     library but rather specific to JS Module name convention.
 *)
 
-(** An extension module to calculate relative path follow node/npm style.
-    TODO : this short name will have to change upon renaming the file.
-*)
-
-val is_dir_sep : char -> bool
-val shell_safe_character : char -> bool
-val maybe_quote : string -> string
-val chop_extension_maybe : string -> string
-
 (* return an empty string if no extension found *)
 val get_extension_maybe : string -> string
 val get_all_extensions_maybe : string -> string option
@@ -44,7 +35,3 @@ val chop_all_extensions_maybe : string -> string
 
 (* OCaml specific abstraction*)
 val module_name : string -> string
-
-type module_info = { module_name : string; case : bool }
-
-val as_module : basename:string -> module_info option

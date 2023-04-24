@@ -26,17 +26,6 @@ type t
 
 val path_sep : char
 
-val simple_convert_node_path_to_os_path : string -> string
-(** Js_output is node style, which means
-    separator is only '/'
-
-    if the path contains 'node_modules',
-    [node_relative_path] will discard its prefix and
-    just treat it as a library instead
-*)
-
-val split_by_sep_per_os : string -> string list
-
 val combine : string -> string -> string
 (**
    [combine path1 path2]
@@ -45,7 +34,6 @@ val combine : string -> string -> string
 *)
 
 val ( // ) : string -> string -> string
-val strip_trailing_slashes : string -> string
 
 (**
    {[
@@ -72,12 +60,3 @@ val rel_normalized_absolute_path : from:string -> string -> string
 
 val normalize_absolute_path : string -> string
 val absolute_cwd_path : string -> string
-
-val concat : string -> string -> string
-(** [concat dirname filename]
-    The same as {!Filename.concat} except a tiny optimization
-    for current directory simplification
-*)
-
-val check_suffix_case : string -> string -> bool
-val real_path : string -> string
