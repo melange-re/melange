@@ -40,6 +40,7 @@
    (>= "1.1.0"))
   (base64
    (>= "3.1.0"))
+  dune-build-info
   (cppo :build)
   (ounit :with-test)
   (reason :with-test)

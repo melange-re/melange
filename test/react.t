@@ -37,6 +37,7 @@ Demonstrate how to use the React JSX PPX
 
   $ dune build @mel --display=short
         ocamlc .ppx/df8d19d63a600c50cc2fede8aa971a95/dune__exe___ppx.{cmi,cmo}
+      ocamlopt .ppx/df8d19d63a600c50cc2fede8aa971a95/build_info__Build_info_data.{cmx,o}
          refmt x.re.ml
       ocamlopt .ppx/df8d19d63a600c50cc2fede8aa971a95/dune__exe___ppx.{cmx,o}
       ocamlopt .ppx/df8d19d63a600c50cc2fede8aa971a95/ppx.exe
