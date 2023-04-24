@@ -60,12 +60,6 @@ let after_parsing_sig ppf outputprefix ast =
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Mli ast);
-  (if !Js_config.binary_ast then
-     let sourcefile = !Location.input_name in
-     Binary_ast.write_ast Mli ~sourcefile
-       ~output:(outputprefix ^ Literals.suffix_iast)
-       (* to support relocate to another directory *)
-       ast);
   if !Js_config.as_pp then (
     output_string stdout Config.ast_intf_magic_number;
     output_value stdout (!Location.input_name : string);
@@ -109,13 +103,6 @@ let interface ~parser ppf fname =
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
-let interface_mliast ppf fname =
-  Res_compmisc.init_path ();
-  Binary_ast.read_ast_exn ~fname Mli
-  |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
-  |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf (Config_util.output_prefix fname)
-
 let all_module_alias (ast : Parsetree.structure) =
   Ext_list.for_all ast (fun { pstr_desc } ->
       match pstr_desc with
@@ -150,11 +137,6 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Ml ast);
-  (if !Js_config.binary_ast then
-     let sourcefile = !Location.input_name in
-     Binary_ast.write_ast ~sourcefile Ml
-       ~output:(outputprefix ^ Literals.suffix_ast)
-       ast);
   if !Js_config.as_pp then (
     output_string stdout Config.ast_impl_magic_number;
     output_value stdout (!Location.input_name : string);
@@ -201,14 +183,6 @@ let implementation ~parser ppf fname =
   |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
   |> after_parsing_impl ppf fname
 
-let implementation_mlast ppf fname =
-  Res_compmisc.init_path ();
-
-  Binary_ast.read_ast_exn ~fname Ml
-  |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
-  |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf fname
-
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
   Res_compmisc.init_path ();
@@ -219,37 +193,8 @@ let implementation_cmj _ppf fname =
      output prefix. *)
   let output_prefix =
     match !Clflags.output_name with
-    | None ->
-        Ext_namespace.encode
-          (Filename.remove_extension fname)
-          ?ns:!Bs_clflags.dont_record_crc_unit
+    | None -> Filename.remove_extension fname
     | Some oname -> Ext_filename.chop_all_extensions_maybe oname
   in
   Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
     cmj.delayed_program output_prefix
-
-let make_structure_item ~ns cunit : Parsetree.structure_item =
-  let open Ast_helper in
-  let loc = Location.none in
-  Str.module_
-    (Mb.mk { txt = Some cunit; loc }
-       (Mod.ident { txt = Lident (Ext_namespace.encode ~ns cunit); loc }))
-
-(* decoding [.mlmap]
-   keep in sync {!Bsb_namespace_map_gen.output} *)
-let implementation_map ppf sourcefile =
-  let () = Js_config.cmj_only := true in
-  let ichan = open_in_bin sourcefile in
-  let list_of_modules = Ext_io.rev_lines_of_chann ichan in
-  close_in ichan;
-  let ns = Ext_filename.module_name sourcefile in
-  let ml_ast =
-    Ext_list.fold_left list_of_modules [] (fun acc line ->
-        if Ext_string.is_empty line then acc
-        else make_structure_item ~ns line :: acc)
-  in
-  Res_compmisc.init_path ();
-  ml_ast
-  |> print_if_pipe ppf Clflags.dump_parsetree Printast.implementation
-  |> print_if_pipe ppf Clflags.dump_source Pprintast.structure
-  |> after_parsing_impl ppf sourcefile

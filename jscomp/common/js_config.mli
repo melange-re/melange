@@ -60,7 +60,6 @@ val check_div_by_zero : bool ref
 val get_check_div_by_zero : unit -> bool
 val tool_name : string
 val syntax_only : bool ref
-val binary_ast : bool ref
 val debug : bool ref
 val cmi_only : bool ref
 val cmj_only : bool ref
@@ -77,4 +76,3 @@ val as_ppx : bool ref
 val customize_runtime : string option ref
 val as_pp : bool ref
 val modules : bool ref
-val bs_legacy : bool ref

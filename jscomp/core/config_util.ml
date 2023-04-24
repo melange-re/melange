@@ -40,8 +40,5 @@ let find_opt file = find_in_path_uncap (Load_path.get_paths ()) file
 
 let output_prefix name =
   match !Clflags.output_name with
-  | None ->
-      Ext_namespace.encode
-        (Filename.remove_extension name)
-        ?ns:!Bs_clflags.dont_record_crc_unit
+  | None -> Filename.remove_extension name
   | Some oname -> Filename.remove_extension oname

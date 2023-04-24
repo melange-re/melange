@@ -27,8 +27,6 @@ let (//) = Ext_path.combine
 let executable_name =
   lazy (Unix.realpath (Ext_path.normalize_absolute_path Sys.executable_name))
 
-let bs_legacy = ref false
-
 let stdlib_paths =
   lazy (
     let root =
@@ -45,13 +43,6 @@ let stdlib_paths =
       |> Filename.dirname
 #endif
     in
-    if !bs_legacy then
-#ifndef BS_RELEASE_BUILD
-      [ root // Literals.lib // Literals.package_name ]
-#else
-      [ root // Literals.lib // Literals.package_name // Literals.runtime_dir // Literals.package_name ]
-#endif
-    else
     begin match Sys.getenv "MELANGELIB" with
     | value ->
       let dirs =
@@ -105,8 +96,6 @@ let get_check_div_by_zero () = !check_div_by_zero
 
 
 let syntax_only = ref false
-let binary_ast = ref false
-
 
 
 let debug = ref false

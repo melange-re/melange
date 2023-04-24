@@ -89,14 +89,6 @@ let suites =
            Ext_filename.as_module ~basename:"" =~ None;
            Ext_filename.as_module ~basename:"a/hello.ml" =~ None );
          ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__
-           @@ List.for_all Ext_namespace.is_valid_npm_package_name
-                [ "x"; "@angualr"; "test"; "hi-x"; "hi-" ];
-           OUnit.assert_bool __LOC__
-           @@ List.for_all
-                (fun x -> not (Ext_namespace.is_valid_npm_package_name x))
-                [ "x "; "x'"; "Test"; "hI" ] );
-         ( __LOC__ >:: fun _ ->
            Ext_string.find ~sub:"hello" "xx hello xx" =~ 3;
            Ext_string.rfind ~sub:"hello" "xx hello xx" =~ 3;
            Ext_string.find ~sub:"hello" "xx hello hello xx" =~ 3;
@@ -291,36 +283,6 @@ let suites =
                 (Ext_string.concat_array Ext_string.single_space
                    [| "0"; "a1"; "2"; "3"; "d"; ""; "e" |])
                 "0 a1 2 3 d  e") );
-         ( __LOC__ >:: fun _ ->
-           Ext_namespace.namespace_of_package_name "bs-json" =~ "BsJson" );
-         ( __LOC__ >:: fun _ ->
-           Ext_namespace.namespace_of_package_name "xx" =~ "Xx" );
-         ( __LOC__ >:: fun _ ->
-           let ( =~ ) = OUnit.assert_equal ~printer:(fun x -> x) in
-           Ext_namespace.namespace_of_package_name "reason-react"
-           =~ "ReasonReact";
-           Ext_namespace.namespace_of_package_name "Foo_bar" =~ "Foo_bar";
-           Ext_namespace.namespace_of_package_name "reason" =~ "Reason";
-           Ext_namespace.namespace_of_package_name "@aa/bb" =~ "AaBb";
-           Ext_namespace.namespace_of_package_name "@A/bb" =~ "ABb" );
-         ( __LOC__ >:: fun _ ->
-           Ext_namespace.change_ext_ns_suffix "a-b" Literals.suffix_js =~ "a.js";
-           Ext_namespace.change_ext_ns_suffix "a-" Literals.suffix_js =~ "a.js";
-           Ext_namespace.change_ext_ns_suffix "a--" Literals.suffix_js
-           =~ "a-.js";
-           Ext_namespace.change_ext_ns_suffix "AA-b" Literals.suffix_js
-           =~ "AA.js";
-           Ext_namespace.js_name_of_modulename "AA-b" Lowercase Js =~ "aA.js";
-           Ext_namespace.js_name_of_modulename "AA-b" Uppercase Js =~ "AA.js";
-           Ext_namespace.js_name_of_modulename "AA-b" Uppercase Bs_js
-           =~ "AA.bs.js" );
-         ( __LOC__ >:: fun _ ->
-           let ( =~ ) =
-             OUnit.assert_equal ~printer:(fun x ->
-                 match x with None -> "" | Some (a, b) -> a ^ "," ^ b)
-           in
-           Ext_namespace.try_split_module_name "Js-X" =~ Some ("X", "Js");
-           Ext_namespace.try_split_module_name "Js_X" =~ None );
          ( __LOC__ >:: fun _ ->
            let ( =~ ) = OUnit.assert_equal ~printer:(fun x -> x) in
            let f = Ext_string.capitalize_ascii in
