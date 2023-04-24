@@ -26,11 +26,6 @@
 type t = (* | File of string  *)
   | Dir of string [@@unboxed]
 
-let simple_convert_node_path_to_os_path =
-  if Sys.unix then fun x -> x
-  else if Sys.win32 || Sys.cygwin then Ext_string.replace_slash_backward
-  else failwith ("Unknown OS : " ^ Sys.os_type)
-
 let cwd = lazy (Sys.getcwd ())
 let path_sep = if Sys.win32 then ';' else ':'
 
@@ -268,19 +263,3 @@ let absolute_path cwd s =
   process s
 
 let absolute_cwd_path s = absolute_path cwd s
-
-(* let absolute cwd s =
-   match s with
-   | File x -> File (absolute_path cwd x )
-   | Dir x -> Dir (absolute_path cwd x) *)
-
-let check_suffix_case = Ext_string.ends_with
-
-let real_path link_path =
-  match Unix.lstat link_path with
-  | { st_kind = S_LNK; _ } ->
-      let realpath = Unix.readlink link_path in
-      if Filename.is_relative realpath then
-        Filename.dirname link_path // realpath
-      else realpath
-  | _other -> link_path

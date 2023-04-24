@@ -6,7 +6,7 @@
  (wrapped false)
  (flags
   (:standard -w -9 -open Melange_compiler_libs))
- (modules_without_implementation bsb_db ext_js_file_kind)
+ (modules_without_implementation ext_js_file_kind)
  (libraries unix melange-compiler-libs)
  (foreign_stubs
   (language c)

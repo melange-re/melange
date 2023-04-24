@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -67,21 +67,3 @@ let rec int_of_string_aux s acc off len =
 let nat_of_string_exn (s : string) =
   let acc = int_of_string_aux s 0 0 (String.length s) in
   if acc < 0 then invalid_arg s else acc
-
-(** return index *)
-let parse_nat_of_string (s : string) (cursor : int ref) =
-  let current = !cursor in
-  assert (current >= 0);
-  let acc = ref 0 in
-  let s_len = String.length s in
-  let todo = ref true in
-  let cur = ref current in
-  while !todo && !cursor < s_len do
-    let d = Char.code (String.unsafe_get s !cur) - 48 in
-    if d >= 0 && d <= 9 then (
-      acc := (10 * !acc) + d;
-      incr cur)
-    else todo := false
-  done;
-  cursor := !cur;
-  !acc

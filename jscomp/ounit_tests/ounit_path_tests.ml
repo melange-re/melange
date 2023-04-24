@@ -124,15 +124,4 @@ let suites =
            Ext_path.node_rebase_file ~to_:"lib/js/src/a/" ~from:"lib/js/src/a/"
              "b"
            =~ "./b" );
-         ( __LOC__ >:: fun _ ->
-           Ext_path.strip_trailing_slashes "hello" =~ "hello";
-           Ext_path.strip_trailing_slashes "hello/" =~ "hello";
-           Ext_path.strip_trailing_slashes "hello///" =~ "hello";
-           Ext_path.strip_trailing_slashes "///" =~ "/";
-           Ext_path.strip_trailing_slashes "/" =~ "/" );
-         ( __LOC__ >:: fun _ ->
-           Ext_path.concat "/foo" "./bar"
-           |> Ext_path.normalize_absolute_path =~ "/foo/bar";
-           Ext_path.concat "foo" "./bar"
-           |> Ext_path.normalize_absolute_path =~ "./foo/bar" );
        ]

@@ -26,24 +26,6 @@ let is_dir_sep_unix c = c = '/'
 let is_dir_sep_win_cygwin c = c = '/' || c = '\\' || c = ':'
 let is_dir_sep = if Sys.unix then is_dir_sep_unix else is_dir_sep_win_cygwin
 
-(* reference ninja.cc IsKnownShellSafeCharacter *)
-let shell_safe_character = function
-  | '0' .. '9' | 'a' .. 'z' | 'A' .. 'Z' | '_' | '+' | '-' | '.' | '/' | '@' ->
-      true
-  | _ -> false
-
-let maybe_quote (s : string) =
-  let noneed_quote = Ext_string.for_all s shell_safe_character in
-  if noneed_quote then s else Filename.quote s
-
-let chop_extension_maybe name =
-  let rec search_dot i =
-    if i < 0 || is_dir_sep (String.unsafe_get name i) then name
-    else if String.unsafe_get name i = '.' then String.sub name 0 i
-    else search_dot (i - 1)
-  in
-  search_dot (String.length name - 1)
-
 let get_extension_maybe name =
   let name_len = String.length name in
   let rec search_dot name i name_len =
@@ -103,48 +85,3 @@ let module_name name =
   let name = Filename.basename name in
   let name_len = String.length name in
   search_dot (name_len - 1) name
-
-type module_info = { module_name : string; case : bool }
-
-let rec valid_module_name_aux name off len =
-  if off >= len then true
-  else
-    let c = String.unsafe_get name off in
-    match c with
-    | 'A' .. 'Z' | 'a' .. 'z' | '0' .. '9' | '_' | '\'' | '.' | '[' | ']' ->
-        valid_module_name_aux name (off + 1) len
-    | _ -> false
-
-type state = Invalid | Upper | Lower
-
-let valid_module_name name len =
-  if len = 0 then Invalid
-  else
-    let c = String.unsafe_get name 0 in
-    match c with
-    | 'A' .. 'Z' -> if valid_module_name_aux name 1 len then Upper else Invalid
-    | 'a' .. 'z' | '0' .. '9' | '_' | '[' | ']' ->
-        if valid_module_name_aux name 1 len then Lower else Invalid
-    | _ -> Invalid
-
-let as_module ~basename =
-  let rec search_dot i name name_len =
-    if i < 0 then
-      (* Input e.g, [a_b] *)
-      match valid_module_name name name_len with
-      | Invalid -> None
-      | Upper -> Some { module_name = name; case = true }
-      | Lower ->
-          Some { module_name = Ext_string.capitalize_ascii name; case = false }
-    else if String.unsafe_get name i = '.' then
-      (*Input e.g, [A_b] *)
-      match valid_module_name name i with
-      | Invalid -> None
-      | Upper ->
-          Some { module_name = Ext_string.capitalize_sub name i; case = true }
-      | Lower ->
-          Some { module_name = Ext_string.capitalize_sub name i; case = false }
-    else search_dot (i - 1) name name_len
-  in
-  let name_len = String.length basename in
-  search_dot (name_len - 1) basename name_len
