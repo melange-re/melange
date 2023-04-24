@@ -51,6 +51,7 @@ rec {
     nativeBuildInputs = with ocamlPackages; [ cppo ];
     buildInputs = [ makeWrapper ];
     propagatedBuildInputs = with ocamlPackages; [
+      dune-build-info
       base64
       melange-compiler-libs
       cmdliner
