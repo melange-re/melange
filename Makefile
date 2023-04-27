@@ -29,7 +29,7 @@ opam-create-switch: ## Create opam switch
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
-	opam pin -y add dune.dev https://github.com/ocaml/dune.git#4c18a4cd6121de6bb20b76236d6fb54c17e1b3a9
+	opam pin -y add dune.dev https://github.com/ocaml/dune.git#a08e0f7f8a857b348267b30b10b9297ef881bb4d
 	opam pin -y add melange-compiler-libs.dev https://github.com/melange-re/melange-compiler-libs.git#575ac4c24b296ea897821f9aaee1146ff258c704
 	opam pin add reactjs-jsx-ppx.dev . --with-test -y
 	opam pin add melange.dev . --with-test -y
