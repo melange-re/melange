@@ -56,6 +56,9 @@ Unreleased
 - melange: allow installing melange in more OCaml versions and compiler
   switches. Melange now migrates binary AST to the version it understands
   ([#548](https://github.com/melange-re/melange/pull/548))
+- melange: don't run anonymous args function from
+  `[@@@bs.config {flags = [| ... |]}]` attributes
+  ([#554](https://github.com/melange-re/melange/pull/554))
 
 0.3.2 2022-11-19
 ---------------

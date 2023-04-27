@@ -73,34 +73,44 @@ let process_file sourcefile
 
 let ppf = Format.err_formatter
 
-let anonymous ~(rev_args : string list) =
-  if !Js_config.as_ppx then
-    match rev_args with
-    | [output; input] ->
-      `Ok (Melange_ppx_lib.Ppx_apply.apply_lazy
-        ~source:input
-        ~target:output
-        Melange_ppx_lib.Ppx_entry.rewrite_implementation
-        Melange_ppx_lib.Ppx_entry.rewrite_signature)
-    | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
-  else
-    begin
-        if !Js_config.syntax_only then begin
-          Ext_list.rev_iter rev_args (fun filename ->
-              begin
-                (* Clflags.reset_dump_state (); *)
-                (* Warnings.reset (); *)
-                process_file filename ppf
-              end );
-          `Ok ()
-          end else
+let anonymous =
+  let executed = ref false in
+  fun ~(rev_args : string list) ->
+    match !executed with
+    | true ->
+      (* Don't re-run anonymous arguments again if this function has already
+       * been executed. If this code is executing the 2nd time, it's coming
+       * from a [@bs.config { flags = [| ... |] }].. *)
+      `Ok ()
+    | false ->
+      executed := true;
+      if !Js_config.as_ppx then
+        match rev_args with
+        | [output; input] ->
+          `Ok (Melange_ppx_lib.Ppx_apply.apply_lazy
+            ~source:input
+            ~target:output
+            Melange_ppx_lib.Ppx_entry.rewrite_implementation
+            Melange_ppx_lib.Ppx_entry.rewrite_signature)
+        | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
+      else
+        begin
+            if !Js_config.syntax_only then begin
+              Ext_list.rev_iter rev_args (fun filename ->
+                  begin
+                    (* Clflags.reset_dump_state (); *)
+                    (* Warnings.reset (); *)
+                    process_file filename ppf
+                  end );
+              `Ok ()
+              end else
 
-      match rev_args with
-      | [filename] -> `Ok (process_file filename ppf)
-      | [] -> `Ok ()
-      | _ ->
-          `Error (false, "can not handle multiple files")
-    end
+          match rev_args with
+          | [filename] -> `Ok (process_file filename ppf)
+          | [] -> `Ok ()
+          | _ ->
+              `Error (false, "can not handle multiple files")
+        end
 
 (** used by -impl -intf *)
 let impl filename =
