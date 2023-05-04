@@ -271,6 +271,7 @@ js
     let delayed_program = {
       J.program = program ;
       side_effect = effect ;
+      preamble = !Js_config.preamble;
       modules = external_module_ids
     }
     in
@@ -308,9 +309,8 @@ let lambda_as_module
     (output_prefix : string)
   : unit =
   let make_basename suffix =
-    Ext_namespace.change_ext_ns_suffix
-      (Filename.basename output_prefix)
-      (Ext_js_suffix.to_string suffix) in
+    (Filename.basename output_prefix) ^ (Ext_js_suffix.to_string suffix)
+  in
   match (!Js_config.js_stdout, !Clflags.output_name) with
   | (true, None) ->
     Js_dump_program.dump_deps_program

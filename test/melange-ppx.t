@@ -15,18 +15,18 @@ Demonstrate how to use the `melc` PPX
 
   $ melc --as-pp x.ml > x.pp.ml
 
-  $ head -c12 x.pp.ml
-  Caml1999M031
+  $ head -c9 x.pp.ml
+  Caml1999M
 
 Preprocess with `--as-pp`
 
   $ melc --bs-no-builtin-ppx --as-pp x.ml > x.pp.ml
-  $ head -c12 x.pp.ml
-  Caml1999M031
+  $ head -c9 x.pp.ml
+  Caml1999M
 
   $ melc --as-ppx x.pp.ml x.pp2.ml
-  $ head -c12 x.pp2.ml
-  Caml1999M031
+  $ head -c9 x.pp2.ml
+  Caml1999M
 
   $ rm -rf x.pp.ml x.pp2.ml
 

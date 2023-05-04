@@ -60,16 +60,6 @@ let process_file sourcefile
     Js_implementation.interface
       ~parser:Pparse_driver.parse_interface
       ppf sourcefile
-  | Intf_ast
-    ->
-    Js_implementation.interface_mliast ppf sourcefile
-  | Impl_ast
-    ->
-    Js_implementation.implementation_mlast ppf sourcefile
-  | Mlmap
-    ->
-    Location.set_input_name  sourcefile;
-    Js_implementation.implementation_map ppf sourcefile
   | Cmi
     ->
     let cmi_sign = (Cmi_format.read_cmi sourcefile).cmi_sign in
@@ -83,34 +73,44 @@ let process_file sourcefile
 
 let ppf = Format.err_formatter
 
-let anonymous ~(rev_args : string list) =
-  if !Js_config.as_ppx then
-    match rev_args with
-    | [output; input] ->
-      `Ok (Melange_ppx.Ppx_apply.apply_lazy
-        ~source:input
-        ~target:output
-        Melange_ppx.Ppx_entry.rewrite_implementation
-        Melange_ppx.Ppx_entry.rewrite_signature)
-    | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
-  else
-    begin
-        if !Js_config.syntax_only then begin
-          Ext_list.rev_iter rev_args (fun filename ->
-              begin
-                (* Clflags.reset_dump_state (); *)
-                (* Warnings.reset (); *)
-                process_file filename ppf
-              end );
-          `Ok ()
-          end else
+let anonymous =
+  let executed = ref false in
+  fun ~(rev_args : string list) ->
+    match !executed with
+    | true ->
+      (* Don't re-run anonymous arguments again if this function has already
+       * been executed. If this code is executing the 2nd time, it's coming
+       * from a [@bs.config { flags = [| ... |] }].. *)
+      `Ok ()
+    | false ->
+      executed := true;
+      if !Js_config.as_ppx then
+        match rev_args with
+        | [output; input] ->
+          `Ok (Melange_ppx_lib.Ppx_apply.apply_lazy
+            ~source:input
+            ~target:output
+            Melange_ppx_lib.Ppx_entry.rewrite_implementation
+            Melange_ppx_lib.Ppx_entry.rewrite_signature)
+        | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
+      else
+        begin
+            if !Js_config.syntax_only then begin
+              Ext_list.rev_iter rev_args (fun filename ->
+                  begin
+                    (* Clflags.reset_dump_state (); *)
+                    (* Warnings.reset (); *)
+                    process_file filename ppf
+                  end );
+              `Ok ()
+              end else
 
-      match rev_args with
-      | [filename] -> `Ok (process_file filename ppf)
-      | [] -> `Ok ()
-      | _ ->
-          `Error (false, "can not handle multiple files")
-    end
+          match rev_args with
+          | [filename] -> `Ok (process_file filename ppf)
+          | [] -> `Ok ()
+          | _ ->
+              `Error (false, "can not handle multiple files")
+        end
 
 (** used by -impl -intf *)
 let impl filename =
@@ -128,8 +128,8 @@ let set_color_option option =
 let clean tmpfile =
   if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
 
-let eval (s : string) ~suffix =
-  let tmpfile = Filename.temp_file "eval" suffix in
+let eval (s : string) =
+  let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
   Ext_io.write_file tmpfile s;
   let ret = anonymous ~rev_args:[tmpfile] in
   clean tmpfile;
@@ -170,7 +170,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       open_modules;
       bs_package_output;
       bs_module_type;
-      bs_ast;
       bs_syntax_only;
       bs_g;
       bs_package_name;
@@ -202,12 +201,12 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_noassertfalse;
       noassert;
       bs_loc;
-      bs_legacy;
       impl = impl_source_file;
       intf = intf_source_file;
       intf_suffix;
       g;
       opaque;
+      preamble;
       strict_sequence;
       strict_formats;
       dtypedtree;
@@ -254,9 +253,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
-    if bs_ast then (
-      Js_config.binary_ast := true;
-      Js_config.syntax_only := true);
     if bs_g then (
       Js_config.debug := bs_g;
       Rescript_cpp.replace_directive_bool "DEBUG" true);
@@ -309,9 +305,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_cmj then Js_config.force_cmj := bs_cmj;
     if bs_no_version_header then
       Js_config.no_version_header := bs_no_version_header;
-    if bs_legacy then
-      Js_config.bs_legacy := bs_legacy;
-
     if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
     if where then print_standard_library ();
@@ -342,14 +335,15 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->
-        ignore (eval ~suffix:Literals.suffix_ml s: _ Cmdliner.Term.ret ))
+        ignore (eval s: _ Cmdliner.Term.ret ))
       bs_eval;
     Option.iter (fun s ->
-        ignore (eval ~suffix:Literals.suffix_res s: _ Cmdliner.Term.ret ))
+        ignore (eval s: _ Cmdliner.Term.ret ))
       bs_e;
     Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
+    Js_config.preamble := preamble;
     if strict_sequence then Clflags.strict_sequence := strict_sequence;
     if strict_formats then Clflags.strict_formats := strict_formats;
 
@@ -380,7 +374,7 @@ let melc_cmd =
 let file_level_flags_handler (e : Parsetree.expression option) =
   match e with
   | None -> ()
-  | Some { pexp_desc = Pexp_array args; _ } ->
+  | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args =
         ( Ext_list.map  args (fun e ->
               match e.pexp_desc with
@@ -389,10 +383,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()
-    | _c ->
-        (* Errors are caught in `main`, which in turn calls `exit`. This code
-         * shouldn't be reachable. *)
-        assert false )
+    | _c -> Location.raise_errorf ~loc:pexp_loc "Invalid configuration")
   | Some e ->
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 

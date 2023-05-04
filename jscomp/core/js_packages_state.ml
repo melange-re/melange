@@ -29,8 +29,6 @@ let set_package_name name =
   packages_info := Js_packages_info.from_name ~t:!packages_info name
 
 let set_package_map module_name =
-  (* set_package_name name ;
-     let module_name = Ext_namespace.namespace_of_package_name name  in *)
   Bs_clflags.dont_record_crc_unit := Some module_name;
   Clflags.open_modules := module_name :: !Clflags.open_modules
 

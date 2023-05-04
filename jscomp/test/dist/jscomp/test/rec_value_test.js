@@ -249,7 +249,7 @@ function phd(l) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "rec_value_test.ml",
-            113,
+            107,
             9
           ],
           Error: new Error()
@@ -262,7 +262,7 @@ function phd(l) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "rec_value_test.ml",
-          113,
+          107,
           9
         ],
         Error: new Error()
@@ -275,7 +275,7 @@ function ptl(l) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "rec_value_test.ml",
-            118,
+            112,
             9
           ],
           Error: new Error()
@@ -288,7 +288,7 @@ function ptl(l) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "rec_value_test.ml",
-          118,
+          112,
           9
         ],
         Error: new Error()
@@ -312,7 +312,7 @@ function xtl(h) {
 }
 
 var suites_0 = [
-  "File \"rec_value_test.ml\", line 134, characters 2-9",
+  "File \"rec_value_test.ml\", line 128, characters 2-9",
   (function (param) {
       return {
               TAG: /* Eq */0,
@@ -324,7 +324,7 @@ var suites_0 = [
 
 var suites_1 = {
   hd: [
-    "File \"rec_value_test.ml\", line 136, characters 2-9",
+    "File \"rec_value_test.ml\", line 130, characters 2-9",
     (function (param) {
         return {
                 TAG: /* Eq */0,
@@ -358,7 +358,7 @@ var suites_1 = {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "rec_value_test.ml",
-                        148,
+                        142,
                         2
                       ],
                       Error: new Error()
@@ -369,7 +369,7 @@ var suites_1 = {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "rec_value_test.ml",
-                      148,
+                      142,
                       2
                     ],
                     Error: new Error()
@@ -395,7 +395,7 @@ var suites_1 = {
         ],
         tl: {
           hd: [
-            "File \"rec_value_test.ml\", line 151, characters 2-9",
+            "File \"rec_value_test.ml\", line 145, characters 2-9",
             (function (param) {
                 return {
                         TAG: /* Eq */0,
@@ -412,7 +412,7 @@ var suites_1 = {
           ],
           tl: {
             hd: [
-              "File \"rec_value_test.ml\", line 154, characters 2-9",
+              "File \"rec_value_test.ml\", line 148, characters 2-9",
               (function (param) {
                   return {
                           TAG: /* Eq */0,
@@ -429,7 +429,7 @@ var suites_1 = {
             ],
             tl: {
               hd: [
-                "File \"rec_value_test.ml\", line 157, characters 2-9",
+                "File \"rec_value_test.ml\", line 151, characters 2-9",
                 (function (param) {
                     return {
                             TAG: /* Eq */0,
@@ -449,7 +449,7 @@ var suites_1 = {
               ],
               tl: {
                 hd: [
-                  "File \"rec_value_test.ml\", line 160, characters 2-9",
+                  "File \"rec_value_test.ml\", line 154, characters 2-9",
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
@@ -472,7 +472,7 @@ var suites_1 = {
                 ],
                 tl: {
                   hd: [
-                    "File \"rec_value_test.ml\", line 163, characters 2-9",
+                    "File \"rec_value_test.ml\", line 157, characters 2-9",
                     (function (param) {
                         return {
                                 TAG: /* Eq */0,
@@ -489,7 +489,7 @@ var suites_1 = {
                   ],
                   tl: {
                     hd: [
-                      "File \"rec_value_test.ml\", line 166, characters 2-9",
+                      "File \"rec_value_test.ml\", line 160, characters 2-9",
                       (function (param) {
                           return {
                                   TAG: /* Eq */0,
@@ -500,7 +500,7 @@ var suites_1 = {
                     ],
                     tl: {
                       hd: [
-                        "File \"rec_value_test.ml\", line 169, characters 2-9",
+                        "File \"rec_value_test.ml\", line 163, characters 2-9",
                         (function (param) {
                             if (rec_variant_b.TAG === /* B */0) {
                               return {
@@ -513,7 +513,7 @@ var suites_1 = {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "rec_value_test.ml",
-                                    172,
+                                    166,
                                     11
                                   ],
                                   Error: new Error()
@@ -522,7 +522,7 @@ var suites_1 = {
                       ],
                       tl: {
                         hd: [
-                          "File \"rec_value_test.ml\", line 174, characters 2-9",
+                          "File \"rec_value_test.ml\", line 168, characters 2-9",
                           (function (param) {
                               if (rec_variant_a.TAG !== /* B */0) {
                                 return {
@@ -535,7 +535,7 @@ var suites_1 = {
                                     RE_EXN_ID: "Assert_failure",
                                     _1: [
                                       "rec_value_test.ml",
-                                      177,
+                                      171,
                                       11
                                     ],
                                     Error: new Error()

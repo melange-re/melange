@@ -31,7 +31,6 @@ val create_js : string -> Ident.t
 
 val create : string -> Ident.t
 val make_js_object : Ident.t -> Ident.t
-val reset : unit -> unit
 val create_tmp : ?name:string -> unit -> Ident.t
 val make_unused : unit -> Ident.t
 val stamp : Ident.t -> int

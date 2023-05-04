@@ -7,29 +7,18 @@
   (action
    (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (modules_without_implementation lam_pass_unused_params lam_runtime)
- (libraries ext common melange.ppx melange-compiler-libs))
-
-(rule
- (targets js_fold.ml)
- (mode promote)
- (deps
-  j.ml
-  (source_tree ../../ocaml-tree))
- (action
-  ;; requires `npm install` in the `ocaml-tree` directory... what a mess
-  (run
-   node
-   --no-experimental-fetch
-   ../../ocaml-tree/wasm.js
-   -fold
-   -i
-   %{deps}
-   -o
-   %{targets})))
+ (libraries
+  ext
+  common
+  ast_derive
+  melange-compiler-libs
+  melange.ppxlib-ast
+  melange.ppx-lib
+  ppxlib.ast))
 
 (rule
  (targets js_record_iter.ml)
- (mode promote)
+ (mode fallback)
  (deps
   j.ml
   (source_tree ../../ocaml-tree))
@@ -46,7 +35,7 @@
 
 (rule
  (targets js_record_map.ml)
- (mode promote)
+ (mode fallback)
  (deps
   j.ml
   (source_tree ../../ocaml-tree))
@@ -63,7 +52,7 @@
 
 (rule
  (targets js_record_fold.ml)
- (mode promote)
+ (mode fallback)
  (deps
   j.ml
   (source_tree ../../ocaml-tree))

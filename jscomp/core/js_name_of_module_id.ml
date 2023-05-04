@@ -31,6 +31,14 @@ let fix_path_for_windows : string -> string =
   if Ext_sys.is_windows_or_cygwin then Ext_string.replace_backward_slash
   else fun s -> s
 
+let js_name_of_modulename s (case : Ext_js_file_kind.case) suffix : string =
+  let s =
+    match case with
+    | Lowercase -> Ext_string.uncapitalize_ascii s
+    | Uppercase -> s
+  in
+  s ^ Ext_js_suffix.to_string suffix
+
 let js_file_name ~(path_info : Js_packages_info.path_info) ~case ~suffix
     (dep_module_id : Lam_module_ident.t) =
   let module_name =
@@ -38,29 +46,18 @@ let js_file_name ~(path_info : Js_packages_info.path_info) ~case ~suffix
     | Some module_name -> module_name
     | None -> Ident.name dep_module_id.id
   in
-  Ext_namespace.js_name_of_modulename module_name case suffix
+  js_name_of_modulename module_name case suffix
 
 (* dependency is runtime module *)
 let get_runtime_module_path ~package_info ~output_info
     (dep_module_id : Lam_module_ident.t) =
   let { Js_packages_info.module_system; suffix } = output_info in
-  let suffix =
-    if !Js_config.bs_legacy then
-      match module_system with
-      | NodeJS -> Ext_js_suffix.Js
-      | Es6 | Es6_global -> Mjs
-    else suffix
-  in
   let js_file =
-    Ext_namespace.js_name_of_modulename
-      (Ident.name dep_module_id.id)
-      Lowercase suffix
+    js_name_of_modulename (Ident.name dep_module_id.id) Lowercase suffix
   in
   match Js_packages_info.query_package_infos package_info module_system with
   | Package_not_found -> assert false
-  | Package_script ->
-      Ext_module_system.runtime_package_path ~legacy:!Js_config.bs_legacy
-        module_system js_file
+  | Package_script -> Ext_module_system.runtime_package_path js_file
   | Package_found path_info -> (
       match Js_packages_info.Legacy_runtime.is_runtime_package package_info with
       | true ->
@@ -69,9 +66,7 @@ let get_runtime_module_path ~package_info ~output_info
             ~to_:path_info.rel_path js_file
       | false -> (
           match module_system with
-          | NodeJS | Es6 ->
-              Ext_module_system.runtime_package_path
-                ~legacy:!Js_config.bs_legacy module_system js_file
+          | NodeJS | Es6 -> Ext_module_system.runtime_package_path js_file
           (* Note we did a post-processing when working on Windows *)
           | Es6_global ->
               (* lib/ocaml/xx.cmj --
@@ -80,11 +75,13 @@ let get_runtime_module_path ~package_info ~output_info
               let dep_path =
                 Literals.lib // Ext_module_system.runtime_dir module_system
               in
+              (* TODO: This doesn't work yet *)
               Ext_path.rel_normalized_absolute_path
                 ~from:
-                  (Js_packages_info.get_output_dir package_info
-                     ~package_dir:(Lazy.force Ext_path.package_dir)
-                     module_system)
+                  (Js_packages_info.get_output_dir
+                     package_info
+                     (* ~package_dir:(Lazy.force Ext_path.package_dir) *)
+                     ~package_dir:(Sys.getcwd ()) module_system)
                 (*Invariant: the package path to bs-platform, it is used to
                   calculate relative js path
                 *)
@@ -169,15 +166,15 @@ let string_of_module_id ~package_info ~output_info
                       | Es6_global ->
                           Ext_path.rel_normalized_absolute_path
                             ~from:
-                              (Js_packages_info.get_output_dir package_info
-                                 ~package_dir:(Lazy.force Ext_path.package_dir)
-                                 module_system)
+                              (Js_packages_info.get_output_dir
+                                 package_info
+                                 (* ~package_dir:(Lazy.force Ext_path.package_dir) *)
+                                 (* FIXME *)
+                                 ~package_dir:(Sys.getcwd ()) module_system)
                             (package_path // dep_info.rel_path // js_file))))
         | Package_script, Package_script -> (
             let js_file =
-              Ext_namespace.js_name_of_modulename
-                (Ident.name dep_module_id.id)
-                case Js
+              js_name_of_modulename (Ident.name dep_module_id.id) case Js
             in
             match Config_util.find_opt js_file with
             | Some file ->

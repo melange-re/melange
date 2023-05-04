@@ -97,41 +97,41 @@ eq("File \"format_test.ml\", line 33, characters 5-12", Curry._1(Stdlib__Format.
               _1: "%d"
             }), -2147483648), "-2147483648");
 
-eq("File \"format_test.ml\", line 38, characters 5-12", 7.875, 7.875);
+eq("File \"format_test.ml\", line 37, characters 5-12", 7.875, 7.875);
 
-eq("File \"format_test.ml\", line 41, characters 5-12", -7.875, -7.875);
+eq("File \"format_test.ml\", line 40, characters 5-12", -7.875, -7.875);
 
-eq3("File \"format_test.ml\", line 45, characters 6-13", Infinity, Number.POSITIVE_INFINITY, Stdlib.infinity);
+eq3("File \"format_test.ml\", line 44, characters 6-13", Infinity, Number.POSITIVE_INFINITY, Stdlib.infinity);
 
-eq3("File \"format_test.ml\", line 46, characters 6-13", -Infinity, Number.NEGATIVE_INFINITY, Stdlib.neg_infinity);
+eq3("File \"format_test.ml\", line 45, characters 6-13", -Infinity, Number.NEGATIVE_INFINITY, Stdlib.neg_infinity);
 
-eq3("File \"format_test.ml\", line 47, characters 6-13", Stdlib.max_float, 1.79769313486231571e+308, Number.MAX_VALUE);
+eq3("File \"format_test.ml\", line 46, characters 6-13", Stdlib.max_float, 1.79769313486231571e+308, Number.MAX_VALUE);
+
+eq("File \"format_test.ml\", line 47, characters 5-12", Stdlib.classify_float(Infinity), /* FP_infinite */3);
 
 eq("File \"format_test.ml\", line 48, characters 5-12", Stdlib.classify_float(Infinity), /* FP_infinite */3);
 
-eq("File \"format_test.ml\", line 49, characters 5-12", Stdlib.classify_float(Infinity), /* FP_infinite */3);
+eq("File \"format_test.ml\", line 51, characters 5-12", Stdlib.min_float, 2.22507385850720138e-308);
 
-eq("File \"format_test.ml\", line 52, characters 5-12", Stdlib.min_float, 2.22507385850720138e-308);
+eq("File \"format_test.ml\", line 52, characters 5-12", Stdlib.epsilon_float, 2.22044604925031308e-16);
 
-eq("File \"format_test.ml\", line 53, characters 5-12", Stdlib.epsilon_float, 2.22044604925031308e-16);
+eq("File \"format_test.ml\", line 53, characters 5-12", 4.94065645841e-324, 5e-324);
 
-eq("File \"format_test.ml\", line 54, characters 5-12", 4.94065645841e-324, 5e-324);
+eq("File \"format_test.ml\", line 54, characters 5-12", 1.00000000000000022 - 1, Stdlib.epsilon_float);
 
-eq("File \"format_test.ml\", line 55, characters 5-12", 1.00000000000000022 - 1, Stdlib.epsilon_float);
+eq("File \"format_test.ml\", line 56, characters 5-12", 1.11253692925360069e-308 / 2.22507385850720138e-308, 0.5);
 
-eq("File \"format_test.ml\", line 57, characters 5-12", 1.11253692925360069e-308 / 2.22507385850720138e-308, 0.5);
+eq("File \"format_test.ml\", line 58, characters 5-12", Stdlib.classify_float(1.11253692925360069e-308), /* FP_subnormal */1);
 
-eq("File \"format_test.ml\", line 59, characters 5-12", Stdlib.classify_float(1.11253692925360069e-308), /* FP_subnormal */1);
+eq("File \"format_test.ml\", line 59, characters 5-12", 1.11253692925360069e-308, 1.11253692925360069e-308);
 
-eq("File \"format_test.ml\", line 60, characters 5-12", 1.11253692925360069e-308, 1.11253692925360069e-308);
+eq("File \"format_test.ml\", line 61, characters 5-12", 2.22507385850720138e-308, 2.22507385850720138e-308);
 
-eq("File \"format_test.ml\", line 62, characters 5-12", 2.22507385850720138e-308, 2.22507385850720138e-308);
+eq("File \"format_test.ml\", line 65, characters 5-12", (1 + 255 / 256) * 8, 15.96875);
 
-eq("File \"format_test.ml\", line 66, characters 5-12", (1 + 255 / 256) * 8, 15.96875);
+eq("File \"format_test.ml\", line 68, characters 5-12", (1 + 4095 / 4096) * 8, 15.998046875);
 
-eq("File \"format_test.ml\", line 69, characters 5-12", (1 + 4095 / 4096) * 8, 15.998046875);
-
-eq("File \"format_test.ml\", line 72, characters 5-12", (1 + 65535 / 65536) * 8, 15.9998779296875);
+eq("File \"format_test.ml\", line 71, characters 5-12", (1 + 65535 / 65536) * 8, 15.9998779296875);
 
 function f(loc, ls) {
   Stdlib__List.iter((function (param) {
@@ -139,7 +139,7 @@ function f(loc, ls) {
         }), ls);
 }
 
-f("File \"format_test.ml\", line 85, characters 6-13", {
+f("File \"format_test.ml\", line 82, characters 6-13", {
       hd: [
         "0x3.fp+1",
         7.875
@@ -241,9 +241,9 @@ var literals = {
   tl: literals_1
 };
 
-aux_list("File \"format_test.ml\", line 117, characters 11-18", literals);
+aux_list("File \"format_test.ml\", line 112, characters 11-18", literals);
 
-eq("File \"format_test.ml\", line 120, characters 5-12", Curry._1(Stdlib__Printf.sprintf(/* Format */{
+eq("File \"format_test.ml\", line 115, characters 5-12", Curry._1(Stdlib__Printf.sprintf(/* Format */{
               _0: {
                 TAG: /* Float */8,
                 _0: [
@@ -275,12 +275,12 @@ function scan_float(loc, s, expect) {
         }));
 }
 
-scan_float("File \"format_test.ml\", line 125, characters 13-20", "0x3f.p1", 126);
+scan_float("File \"format_test.ml\", line 120, characters 13-20", "0x3f.p1", 126);
 
-scan_float("File \"format_test.ml\", line 126, characters 13-20", "0x1.3333333333333p-2", 0.3);
+scan_float("File \"format_test.ml\", line 121, characters 13-20", "0x1.3333333333333p-2", 0.3);
 
 Stdlib__List.iter((function (param) {
-        scan_float("File \"format_test.ml\", line 128, characters 13-20", param[1], param[0]);
+        scan_float("File \"format_test.ml\", line 123, characters 13-20", param[1], param[0]);
       }), literals);
 
 Mt.from_pair_suites("Format_test", suites.contents);

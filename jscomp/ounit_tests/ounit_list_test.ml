@@ -14,10 +14,6 @@ let suites =
              (Ext_list.flat_map [ 1; 2 ] (fun x -> [ x; x ]))
              [ 1; 1; 2; 2 ] );
          ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (Ext_list.flat_map_append [ 1; 2 ] [ 3; 4 ] (fun x -> [ x; x ]))
-             [ 1; 1; 2; 2; 3; 4 ] );
-         ( __LOC__ >:: fun _ ->
            let ( =~ ) = OUnit.assert_equal ~printer:printer_int_list in
            Ext_list.flat_map [] (fun x -> [ succ x ]) =~ [];
            Ext_list.flat_map [ 1 ] (fun x -> [ x; succ x ]) =~ [ 1; 2 ];
@@ -40,11 +36,6 @@ let suites =
            Ext_list.map_last [ 0; 0; 0; 0; 0; 0 ] f =~ [ 0; 0; 0; 0; 0; 1 ];
            Ext_list.map_last [ 0; 0; 0; 0; 0; 0; 0 ] f
            =~ [ 0; 0; 0; 0; 0; 0; 1 ] );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal
-             (Ext_list.flat_map_append [ 1; 2 ] [ false; false ] (fun x ->
-                  if x mod 2 = 0 then [ true ] else []))
-             [ true; false; false ] );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
              (Ext_list.map_append [ 0; 1; 2 ] [ "1"; "2"; "3" ] (fun x ->
@@ -74,17 +65,11 @@ let suites =
              "z" );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_raises
-             (Assert_failure ("jscomp/ext/ext_list.ml", 666, 35))
+             (Assert_failure ("jscomp/ext/ext_list.ml", 591, 35))
              (fun _ ->
                ignore
                @@ Ext_list.assoc_by_int [ (2, "x"); (3, "y"); (1, "z") ] 11 None)
          );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_equal (Ext_list.length_compare [ 0; 0; 0 ] 3) `Eq;
-           OUnit.assert_equal (Ext_list.length_compare [ 0; 0; 0 ] 1) `Gt;
-           OUnit.assert_equal (Ext_list.length_compare [ 0; 0; 0 ] 4) `Lt;
-           OUnit.assert_equal (Ext_list.length_compare [] (-1)) `Gt;
-           OUnit.assert_equal (Ext_list.length_compare [] 0) `Eq );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_bool __LOC__
              (Ext_list.length_larger_than_n [ 1; 2 ] [ 1 ] 1);

@@ -6,7 +6,7 @@
  (wrapped false)
  (flags
   (:standard -w -9 -open Melange_compiler_libs))
- (modules_without_implementation bsb_db ext_json_types ext_js_file_kind)
+ (modules_without_implementation ext_js_file_kind)
  (libraries unix melange-compiler-libs)
  (foreign_stubs
   (language c)
@@ -157,5 +157,3 @@
  (deps hash.cppo.ml)
  (action
   (run cppo -D TYPE_FUNCTOR %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(ocamllex ext_json_parse)

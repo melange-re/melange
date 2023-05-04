@@ -1,3 +1,5 @@
+{ ocamlVersion }:
+
 let
   lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
   src = fetchGit {
@@ -16,13 +18,13 @@ let
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
           dune_3 = osuper.dune_3.overrideAttrs (_: {
             src = super.fetchFromGitHub {
               owner = "ocaml";
               repo = "dune";
-              rev = "258058c6803525261df9d330d9eca2a4b0a8adc2";
-              hash = "sha256-cbwnAY0G9OLtm6k6mhBLxuJ6wMbqhEsUvUgtIfHLZ8w=";
+              rev = "a08e0f7f8a857b348267b30b10b9297ef881bb4d";
+              hash = "sha256-MK6hCjbNFIbE/sTR2xuVzrMqtdOIp52QKVuqfmjmwoY=";
             };
           });
 
@@ -30,8 +32,8 @@ let
             src = super.fetchFromGitHub {
               owner = "melange-re";
               repo = "melange-compiler-libs";
-              rev = "7263bea2285499f5da857f2bb374345a5178791e";
-              hash = "sha256-Tgk1PtLn9+9jK2tLWV7DktTYDp+KeasctrmTrOqusyM=";
+              rev = "575ac4c24b296ea897821f9aaee1146ff258c704";
+              hash = "sha256-icjQmfRUpo2nexX4XseQLPMhyffIxCftd0LHFW+LOwM=";
             };
           });
         });
@@ -71,7 +73,6 @@ stdenv.mkDerivation {
   buildInputs = [
     nodePackages.mocha
     packages.melange
-    packages.mel
     packages.reactjs-jsx-ppx
     packages.rescript-syntax
     ocamlPackages.reason
@@ -82,19 +83,11 @@ stdenv.mkDerivation {
 
   checkPhase = ''
     cat > dune-project <<EOF
-    (lang dune 3.7)
+    (lang dune 3.8)
     (using melange 0.1)
-    (using directory-targets 0.1)
     EOF
     dune build @melange-runtime-tests --display=short
 
     mocha "_build/default/dist/*_test.js"
-
-    mkdir node_modules
-    dune clean
-    ln -sfn ${packages.melange}/lib/melange/__MELANGE_RUNTIME__ node_modules/melange
-    rm -rf ./dune
-    mel build -- --display=short
-    mocha "./*_test.js"
   '';
 }

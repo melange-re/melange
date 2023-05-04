@@ -90,9 +90,11 @@ let parsingEngine = {
 
 let printEngine = Res_driver.{
   printImplementation = begin fun ~width:_ ~filename:_ ~comments:_ structure ->
+    let structure = Ppxlib.Selected_ast.Of_ocaml.copy_structure structure in
     Pprintast.structure Format.std_formatter structure
   end;
   printInterface = begin fun ~width:_ ~filename:_ ~comments:_ signature ->
+    let signature = Ppxlib.Selected_ast.Of_ocaml.copy_signature signature   in
     Pprintast.signature Format.std_formatter signature
   end;
 }

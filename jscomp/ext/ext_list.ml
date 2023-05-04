@@ -83,30 +83,6 @@ let combine_array arr l f =
   let len = Array.length arr in
   arr_list_combine_unsafe arr l 0 len [] f
 
-let rec arr_list_filter_map_unasfe arr l i j acc f =
-  if i = j then acc
-  else
-    match l with
-    | [] -> invalid_arg "Ext_list.arr_list_filter_map_unsafe"
-    | h :: tl -> (
-        match f arr.!(i) h with
-        | None -> arr_list_filter_map_unasfe arr tl (i + 1) j acc f
-        | Some v -> v :: arr_list_filter_map_unasfe arr tl (i + 1) j acc f)
-
-let array_list_filter_map arr l f =
-  let len = Array.length arr in
-  arr_list_filter_map_unasfe arr l 0 len [] f
-
-let rec map_split_opt (xs : 'a list) (f : 'a -> 'b option * 'c option) :
-    'b list * 'c list =
-  match xs with
-  | [] -> ([], [])
-  | x :: xs -> (
-      let c, d = f x in
-      let cs, ds = map_split_opt xs f in
-      ( (match c with Some c -> c :: cs | None -> cs),
-        match d with Some d -> d :: ds | None -> ds ))
-
 let rec map_snd l f =
   match l with
   | [] -> []
@@ -275,41 +251,6 @@ let rec fold_right3 l r last acc f =
               (f a3 b3 c3 (f a4 b4 c4 (fold_right3 arest brest crest acc f)))))
   | _, _, _ -> invalid_arg "Ext_list.fold_right2"
 
-let rec map2i l r f =
-  match (l, r) with
-  | [], [] -> []
-  | [ a0 ], [ b0 ] -> [ f 0 a0 b0 ]
-  | [ a0; a1 ], [ b0; b1 ] ->
-      let c0 = f 0 a0 b0 in
-      let c1 = f 1 a1 b1 in
-      [ c0; c1 ]
-  | [ a0; a1; a2 ], [ b0; b1; b2 ] ->
-      let c0 = f 0 a0 b0 in
-      let c1 = f 1 a1 b1 in
-      let c2 = f 2 a2 b2 in
-      [ c0; c1; c2 ]
-  | [ a0; a1; a2; a3 ], [ b0; b1; b2; b3 ] ->
-      let c0 = f 0 a0 b0 in
-      let c1 = f 1 a1 b1 in
-      let c2 = f 2 a2 b2 in
-      let c3 = f 3 a3 b3 in
-      [ c0; c1; c2; c3 ]
-  | [ a0; a1; a2; a3; a4 ], [ b0; b1; b2; b3; b4 ] ->
-      let c0 = f 0 a0 b0 in
-      let c1 = f 1 a1 b1 in
-      let c2 = f 2 a2 b2 in
-      let c3 = f 3 a3 b3 in
-      let c4 = f 4 a4 b4 in
-      [ c0; c1; c2; c3; c4 ]
-  | a0 :: a1 :: a2 :: a3 :: a4 :: arest, b0 :: b1 :: b2 :: b3 :: b4 :: brest ->
-      let c0 = f 0 a0 b0 in
-      let c1 = f 1 a1 b1 in
-      let c2 = f 2 a2 b2 in
-      let c3 = f 3 a3 b3 in
-      let c4 = f 4 a4 b4 in
-      c0 :: c1 :: c2 :: c3 :: c4 :: map2i arest brest f
-  | _, _ -> invalid_arg "Ext_list.map2"
-
 let rec map2 l r f =
   match (l, r) with
   | [], [] -> []
@@ -462,15 +403,6 @@ let filter_mapi xs f =
   in
   aux 0 xs
 
-let rec filter_map2 xs ys (f : 'a -> 'b -> 'c option) =
-  match (xs, ys) with
-  | [], [] -> []
-  | u :: us, v :: vs -> (
-      match f u v with
-      | None -> filter_map2 us vs f (* idea: rec f us vs instead? *)
-      | Some z -> z :: filter_map2 us vs f)
-  | _ -> invalid_arg "Ext_list.filter_map2"
-
 let rec rev_map_append l1 l2 f =
   match l1 with [] -> l2 | a :: l -> rev_map_append l (f a :: l2) f
 
@@ -492,7 +424,6 @@ let rec flat_map_aux f acc append lx =
       flat_map_aux f new_acc append rest
 
 let flat_map lx f = flat_map_aux f [] [] lx
-let flat_map_append lx append f = flat_map_aux f [] append lx
 
 let rec length_compare l n =
   if n < 0 then `Gt
@@ -526,12 +457,6 @@ and aux eq (x : 'a) (xss : 'a list list) : 'a list list =
   | _ :: _ -> assert false
 
 let stable_group lst eq = group eq lst |> rev
-
-let rec drop h n =
-  if n < 0 then invalid_arg "Ext_list.drop"
-  else if n = 0 then h
-  else
-    match h with [] -> invalid_arg "Ext_list.drop" | _ :: tl -> drop tl (n - 1)
 
 let rec find_first x p =
   match x with [] -> None | x :: l -> if p x then Some x else find_first l p
@@ -713,17 +638,6 @@ let rec fold_left2 l1 l2 accu f =
   | _, _ -> invalid_arg "Ext_list.fold_left2"
 
 let singleton_exn xs = match xs with [ x ] -> x | _ -> assert false
-
-let rec mem_string (xs : string list) (x : string) =
-  match xs with [] -> false | a :: l -> a = x || mem_string l x
-
-let group_by ~fk ~fv xs =
-  let tbl = Hash_string.create 64 in
-  iter xs (fun element ->
-      let key = fk element in
-      let value = fv element in
-      Hash_string.add_or_update tbl key ~update:(fun x -> value :: x) [ value ]);
-  tbl
 
 let filter lst p =
   let rec find ~p accu lst =

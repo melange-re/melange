@@ -130,7 +130,7 @@ let  statement : 'a . ('a,statement) fn  =  fun _self st { statement_desc = _x0;
 let  variable_declaration : 'a . ('a,variable_declaration) fn  =  fun _self st { ident = _x0;value = _x1;property = _x2;ident_info = _x3} -> let st = _self.ident _self st _x0 in let st = option _self.expression _self st _x1 in st   
 let  block : 'a . ('a,block) fn  =  fun _self st arg -> list _self.statement _self st arg   
 let  program : 'a . ('a,program) fn  =  fun _self st { block = _x0;exports = _x1;export_set = _x2} -> let st = _self.block _self st _x0 in st   
-let  deps_program : 'a . ('a,deps_program) fn  =  fun _self st { program = _x0;modules = _x1;side_effect = _x2} -> let st = _self.program _self st _x0 in let st = required_modules _self st _x1 in st   
+let  deps_program : 'a . ('a,deps_program) fn  =  fun _self st { program = _x0;modules = _x1;side_effect = _x2;preamble = _x3} -> let st = _self.program _self st _x0 in let st = required_modules _self st _x1 in st   
 let super : 'state iter = {
   ident;
   module_id;

@@ -1,5 +1,5 @@
 include struct
-  include Migrate_parsetree
+  include Astlib
 
   module Ast_406 = struct
     include Ast_406
@@ -1909,52 +1909,28 @@ include struct
 end
 
 include struct
+  module Convert = Ppxlib_ast.Select_ast (Ppxlib_ast__.Versions.OCaml_406)
+
+  module To_ppxlib = Convert.Of_ocaml
+  module Of_ppxlib = Convert.To_ocaml
   module To_current = struct
     let copy_structure str =
-      str
-      |> Migrate_406_407.copy_structure
-      |> Migrate_407_408.copy_structure
-      |> Migrate_408_409.copy_structure
-      |> Migrate_409_410.copy_structure
-      |> Migrate_410_411.copy_structure
-      |> Migrate_411_412.copy_structure
-      |> Migrate_412_413.copy_structure
-      |> Migrate_413_414.copy_structure
-
+      To_ppxlib.copy_structure str |> Ppxlib.Selected_ast.To_ocaml.copy_structure
     let copy_signature str =
-      str
-      |> Migrate_406_407.copy_signature
-      |> Migrate_407_408.copy_signature
-      |> Migrate_408_409.copy_signature
-      |> Migrate_409_410.copy_signature
-      |> Migrate_410_411.copy_signature
-      |> Migrate_411_412.copy_signature
-      |> Migrate_412_413.copy_signature
-      |> Migrate_413_414.copy_signature
-
+      To_ppxlib.copy_signature str |> Ppxlib.Selected_ast.To_ocaml.copy_signature
   end
 
   module From_current = struct
     let copy_structure str =
       str
-      |> Migrate_414_413.copy_structure
-      |> Migrate_413_412.copy_structure
-      |> Migrate_412_411.copy_structure
-      |> Migrate_411_410.copy_structure
-      |> Migrate_410_409.copy_structure
-      |> Migrate_409_408.copy_structure
-      |> Migrate_408_407.copy_structure
-      |> Migrate_407_406.copy_structure
-
-    let copy_signature str =
-      str
-      |> Migrate_414_413.copy_signature
-      |> Migrate_413_412.copy_signature
-      |> Migrate_412_411.copy_signature
-      |> Migrate_411_410.copy_signature
-      |> Migrate_410_409.copy_signature
-      |> Migrate_409_408.copy_signature
-      |> Migrate_408_407.copy_signature
-      |> Migrate_407_406.copy_signature
+      |> Ppxlib.Selected_ast.Of_ocaml.copy_structure
+      |> Of_ppxlib.copy_structure
+    let copy_signature sig_ =
+      sig_
+      |> Ppxlib.Selected_ast.Of_ocaml.copy_signature
+      |> Of_ppxlib.copy_signature
   end
+
 end
+
+module Location = Ocaml_common.Location
