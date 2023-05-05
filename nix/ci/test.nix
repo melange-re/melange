@@ -68,6 +68,7 @@ stdenv.mkDerivation {
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
   doCheck = true;
+  dontDetectOcamlConflicts = true;
 
   nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
   buildInputs = [
