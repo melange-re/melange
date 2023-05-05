@@ -21,7 +21,7 @@ dev:
 
 .PHONY: test
 test:
-	opam exec -- dune runtest -p melange,reactjs-jsx-ppx
+	opam exec -- dune runtest -p melange,reactjs-jsx-ppx,rescript-syntax
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
