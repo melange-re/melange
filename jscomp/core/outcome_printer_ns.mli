@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 val out_ident : Format.formatter -> Outcometree.out_ident -> unit
-(** This funciton is used to
+(** This function is used to
     reverse namespace printing to
     avoid namespace leaking
 *)

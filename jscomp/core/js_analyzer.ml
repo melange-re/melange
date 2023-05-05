@@ -54,7 +54,7 @@ let free_variables (stats : idents_stats) =
       (fun self exp ->
         match exp.expression_desc with
         | Fun (_, _, _, env, _)
-        (* a optimization to avoid walking into funciton again
+        (* a optimization to avoid walking into function again
             if it's already comuted
         *) ->
             stats.used_idents <-
@@ -184,6 +184,7 @@ let rec eq_expression ({ expression_desc = x0 } : J.expression)
       | _ -> false)
   | Str (a0, b0) -> (
       match y0 with Str (a1, b1) -> a0 = a1 && b0 = b1 | _ -> false)
+  | Unicode s0 -> ( match y0 with Unicode s1 -> s0 = s1 | _ -> false)
   | Static_index (e0, p0, off0) -> (
       match y0 with
       | Static_index (e1, p1, off1) ->
@@ -205,7 +206,7 @@ let rec eq_expression ({ expression_desc = x0 } : J.expression)
       | _ -> false)
   | Length _ | Char_of_int _ | Char_to_int _ | Is_null_or_undefined _
   | String_append _ | Typeof _ | Js_not _ | Cond _ | FlatCall _ | New _ | Fun _
-  | Unicode _ | Raw_js_code _ | Array _ | Caml_block_tag _ | Object _
+  | Raw_js_code _ | Array _ | Caml_block_tag _ | Object _
   | Number (Uint _) ->
       false
 
@@ -269,6 +270,6 @@ let rev_toplevel_flatten block =
 
 let rec is_okay_to_duplicate (e : J.expression) =
   match e.expression_desc with
-  | Var _ | Bool _ | Str _ | Number _ -> true
+  | Var _ | Bool _ | Str _ | Unicode _ | Number _ -> true
   | Static_index (e, _s, _off) -> is_okay_to_duplicate e
   | _ -> false
