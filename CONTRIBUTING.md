@@ -38,6 +38,8 @@ make nix-fish # Runs fish shell in the nix environment
 
 To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
 
+If you plan to work on improving documentation, you will need to install `odoc`: `opam install odoc`.
+
 ## Developing
 
 Before you try building the project with `dune`, be sure to install the local `ocaml-tree` project:
