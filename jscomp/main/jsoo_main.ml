@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module Js = Jsoo_common.Js
-
 open Melange_compiler_libs
 
 (** *)
@@ -60,7 +59,7 @@ let compile impl str : Js.Unsafe.obj =
   try
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast = Melange_ppx.Ppx_entry.rewrite_implementation ast in
+    let ast = Melange_ppx_lib.Ppx_entry.rewrite_implementation ast in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
         Typemod.type_implementation_more modulename modulename modulename env
