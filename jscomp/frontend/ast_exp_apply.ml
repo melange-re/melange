@@ -114,17 +114,6 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                 pexp_loc = e.pexp_loc;
               }
           | Pexp_construct (ctor, None) ->
-              { fn with pexp_desc = Pexp_construct (ctor, Some new_obj_arg) }
-          | Pexp_apply (fn, args) ->
-              Bs_ast_invariant.warn_discarded_unused_attributes
-                fn.pexp_attributes;
-              {
-                pexp_desc = Pexp_apply (fn, (Nolabel, new_obj_arg) :: args);
-                pexp_attributes = [];
-                pexp_loc_stack = fn.pexp_loc_stack;
-                pexp_loc = fn.pexp_loc;
-              }
-          | Pexp_construct (ctor, None) ->
               {
                 fn with
                 pexp_desc = Pexp_construct (ctor, Some new_obj_arg);
@@ -136,6 +125,7 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
               {
                 pexp_desc = Pexp_apply (fn1, (Nolabel, new_obj_arg) :: args);
                 pexp_loc = e.pexp_loc;
+                pexp_loc_stack = e.pexp_loc_stack;
                 pexp_attributes = e.pexp_attributes;
               }
           | _ -> (
