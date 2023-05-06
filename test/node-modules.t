@@ -18,7 +18,7 @@ Generate the `.cmj` files
 
   $ melc -bs-package-output node_modules/ -bs-stop-after-cmj node_modules/a.ml -o node_modules/.objs/melange/a.cmj
 
-  $ melc -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
+  $ melc -ppx melppx -bs-package-output app/ -I node_modules/.objs/melange app/b.ml -bs-stop-after-cmj -o app/.objs/melange/b.cmj
 
 Generate the JS files
 

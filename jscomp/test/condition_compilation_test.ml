@@ -99,4 +99,3 @@ let () =
   eq __LOC__ !v 2
 
 ;; Mt.from_pair_suites __MODULE__ !suites
-

@@ -7,32 +7,31 @@ let eq loc x y =
 
 
 
-#if 0 then
-let () =
-  match [%node __dirname] with | Some p ->
-      let root = App_root_finder.find_package_json p in
-      let bsc_exe =
-        Node.Path.join
-          [| root ; "melc" |] in
+(* let () = *)
+  (* match [%node __dirname] with | Some p -> *)
+      (* let root = App_root_finder.find_package_json p in *)
+      (* let bsc_exe = *)
+        (* Node.Path.join *)
+          (* [| root ; "melc" |] in *)
 
-      begin match Node.Child_process.execSync
-              (bsc_exe ^ " -where ")
-              (Node.Child_process.option  ~encoding:"utf8" ()) with
-      | output ->
-        let dir = Js.String2.trim output in
-        let files = Node.Fs.readdirSync dir  in
-        let exists =
-          files
-          |. Js.Array2.indexOf "pervasives.cmi" in
-        let non_exists =
-          files
-          |. Js.Array2.indexOf "pervasive.cmi" in
-        let v = (exists >= 0 && non_exists < 0) in
-        Js.log v;
-      | exception e ->
-        assert false
-      end
-      | None  ->  assert false
-#end
+      (* begin match Node.Child_process.execSync *)
+              (* (bsc_exe ^ " -where ") *)
+              (* (Node.Child_process.option  ~encoding:"utf8" ()) with *)
+      (* | output -> *)
+        (* let dir = Js.String2.trim output in *)
+        (* let files = Node.Fs.readdirSync dir  in *)
+        (* let exists = *)
+          (* files *)
+          (* |. Js.Array2.indexOf "pervasives.cmi" in *)
+        (* let non_exists = *)
+          (* files *)
+          (* |. Js.Array2.indexOf "pervasive.cmi" in *)
+        (* let v = (exists >= 0 && non_exists < 0) in *)
+        (* Js.log v; *)
+      (* | exception e -> *)
+        (* assert false *)
+      (* end *)
+      (* | None  ->  assert false *)
+
 let () =
   Mt.from_pair_suites __MODULE__ !suites

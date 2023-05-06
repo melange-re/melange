@@ -25,6 +25,7 @@ let
 in
 
 mkShell {
+  dontDetectOcamlConflicts = true;
   inputsFrom = lib.attrValues derivations;
   buildInputs = [
     python3

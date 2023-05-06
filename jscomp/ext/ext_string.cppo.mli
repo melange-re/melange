@@ -22,13 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-
-
-
-
-
-
 (** Extension to the standard library [String] module, fixed some bugs like
     avoiding locale sensitivity *)
 
@@ -36,25 +29,10 @@
 val split_by : ?keep_empty:bool -> (char -> bool) -> string -> string list
 
 
-(** remove whitespace letters ('\t', '\n', ' ') on both side*)
-val trim : string -> string
-
-
 (** default is false *)
 val split : ?keep_empty:bool -> string -> char -> string list
 
-(** split by space chars for quick scripting *)
-val quick_split_by_ws : string -> string list
-
-
-
 val starts_with : string -> string -> bool
-
-(**
-   return [-1] when not found, the returned index is useful
-   see [ends_with_then_chop]
-*)
-val ends_with_index : string -> string -> int
 
 val ends_with : string -> string -> bool
 val ends_with_char : string -> char -> bool
@@ -91,47 +69,7 @@ val for_all :
 
 val is_empty : string -> bool
 
-val repeat : int -> string -> string
-
 val equal : string -> string -> bool
-
-(**
-  [extract_until s cursor sep]
-   When [sep] not found, the cursor is updated to -1,
-   otherwise cursor is increased to 1 + [sep_position]
-   User can not determine whether it is found or not by
-   telling the return string is empty since
-   "\n\n" would result in an empty string too.
-*)
-(* val extract_until:
-  string ->
-  int ref -> (* cursor to be updated *)
-  char ->
-  string *)
-
-val index_count:
-  string ->
-  int ->
-  char ->
-  int ->
-  int
-
-(* val index_next :
-  string ->
-  int ->
-  char ->
-  int  *)
-
-
-(**
-  [find ~start ~sub s]
-  returns [-1] if not found
-*)
-val find : ?start:int -> sub:string -> string -> int
-
-val contain_substring : string -> string -> bool
-
-val non_overlap_count : sub:string -> string -> int
 
 val rfind : sub:string -> string -> int
 
@@ -143,19 +81,6 @@ val tail_from : string -> int -> string
 
 (** returns negative number if not found *)
 val rindex_neg : string -> char -> int
-
-val rindex_opt : string -> char -> int option
-
-
-val no_char : string -> char -> int -> int -> bool
-
-
-val no_slash : string -> bool
-
-(** return negative means no slash, otherwise [i] means the place for first slash *)
-val no_slash_idx : string -> int
-
-val no_slash_idx_from : string -> int -> int
 
 (** if no conversion happens, reference equality holds *)
 val replace_slash_backward : string -> string
@@ -170,17 +95,6 @@ val compare :  string -> string -> int
 #else
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
 #endif
-val single_space : string
-
-val concat3 : string -> string -> string -> string
-val concat4 : string -> string -> string -> string -> string
-val concat5 : string -> string -> string -> string -> string -> string
-val inter2 : string -> string -> string
-val inter3 : string -> string -> string -> string
-val inter4 : string -> string -> string -> string -> string
-val concat_array : string -> string array -> string
-
-val single_colon : string
 
 val parent_dir_lit : string
 val current_dir_lit : string
@@ -196,30 +110,8 @@ val uncapitalize_ascii : string -> string
 
 val lowercase_ascii : string -> string
 
-(** Play parity to {!Ext_buffer.add_int_1} *)
-val get_int_1 : string -> int -> int
-val get_int_2 : string -> int -> int
-val get_int_3 : string -> int -> int
-val get_int_4 : string -> int -> int
-
-val get_1_2_3_4 :
-  string ->
-  off:int ->
-  int ->
-  int
-
-val unsafe_sub :
-  string ->
-  int ->
-  int ->
-  string
-
 val first_marshal_char:
   string ->
   bool
-
-val is_valid_hash_number: string -> bool
-
-val hash_number_as_i32_exn: string -> int32
 
 val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a

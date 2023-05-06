@@ -25,25 +25,27 @@
 let apply_lazy ~source ~target
     (impl : Parsetree.structure -> Parsetree.structure)
     (iface : Parsetree.signature -> Parsetree.signature) =
-  let ic = open_in_bin source in
-  let magic =
-    really_input_string ic (String.length Config.ast_impl_magic_number)
-  in
-  if
-    magic <> Config.ast_impl_magic_number
-    && magic <> Config.ast_intf_magic_number
-  then failwith "Ast_mapper: OCaml version mismatch or malformed input";
-  Location.set_input_name @@ input_value ic;
-  let ast = input_value ic in
-  close_in ic;
-
-  let ast =
-    if magic = Config.ast_impl_magic_number then
-      Obj.magic (impl (Obj.magic ast))
-    else Obj.magic (iface (Obj.magic ast))
+  let { Ast_io.ast; _ } =
+    Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
   in
   let oc = open_out_bin target in
-  output_string oc magic;
-  output_value oc !Location.input_name;
-  output_value oc ast;
-  close_out oc
+  match ast with
+  | Intf ast ->
+      let ast =
+        iface ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
+        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+      in
+      output_string oc
+        Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
+      output_value oc !Location.input_name;
+      output_value oc ast
+  | Impl ast ->
+      let ast =
+        impl ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
+        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+      in
+      output_string oc
+        Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
+      output_value oc !Location.input_name;
+      output_value oc ast;
+      close_out oc

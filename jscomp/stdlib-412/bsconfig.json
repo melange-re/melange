@@ -2,7 +2,23 @@
   "name": "@melange/runtime-stdlib",
   "sources": [
     {
-      "dir": "."
+      "dir": ".",
+      "generators": [
+        {
+          "name": "cppo",
+          "edge": [
+            "stdlib.mli",
+            ":",
+            "stdlib.cppo.mli"
+          ]
+        }
+      ]
+    }
+  ],
+  "generators": [
+    {
+      "name": "cppo",
+      "command": "cppo $in -D=BS -o $out"
     }
   ],
   "bsc-flags": [

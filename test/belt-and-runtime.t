@@ -1,6 +1,6 @@
 Test that belt and runtime libs work well together with both es6 and commonjs
 
-  $ export MELANGELIB="$INSIDE_DUNE/lib/melange"
+  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let nothing = Belt.List.map [] (fun x -> x)
   > let () = Js.log nothing
@@ -18,6 +18,7 @@ Try commonjs first
   >  (target melange)
   >  (alias melange)
   >  (libraries melange)
+  >  (emit_stdlib false)
   >  (module_systems commonjs))
   > EOF
 
@@ -35,6 +36,7 @@ Now es6
   >  (target melange)
   >  (alias melange)
   >  (libraries melange)
+  >  (emit_stdlib false)
   >  (module_systems es6))
   > EOF
 

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,36 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type _ kind = Ml : Parsetree.structure kind | Mli : Parsetree.signature kind
-
-(** [read_ast kind ic] assume [ic] channel is 
-    in the right position *)
-let read_ast (type t) (kind : t kind) ic : t =
-  let magic =
-    match kind with
-    | Ml -> Config.ast_impl_magic_number
-    | Mli -> Config.ast_intf_magic_number
-  in
-  let buffer = really_input_string ic (String.length magic) in
-  assert (buffer = magic);
-  (* already checked by apply_rewriter *)
-  Location.set_input_name (input_value ic);
-  input_value ic
-
-let write_ast (type t) (kind : t kind) (fname : string) (pt : t) oc =
-  let magic =
-    match kind with
-    | Ml -> Config.ast_impl_magic_number
-    | Mli -> Config.ast_intf_magic_number
-  in
-  output_string oc magic;
-  output_value oc fname;
-  output_value oc pt
 
 let magic_of_kind : type a. a kind -> string = function
   | Ml -> Config.ast_impl_magic_number

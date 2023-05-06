@@ -48,8 +48,8 @@ let parsingEngine = {
     let engine = setup ~filename ~forPrinter () in
     let structure =
       Res_core.parseImplementation engine
-      |> To_current.copy_structure
       |> Ppx_rescript_compat.structure
+      |> To_current.copy_structure
     in
     let (invalid, diagnostics) = match engine.diagnostics with
     | [] as diagnostics -> (false, diagnostics)

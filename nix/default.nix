@@ -18,15 +18,12 @@ rec {
       include = [
         "dune-project"
         "dune"
-        "dune.mel"
         "melange.opam"
         "bsconfig.json"
         "package.json"
         "jscomp"
         "lib"
-        "meldep"
         "test"
-        "mel_workspace"
         "scripts"
       ];
       exclude = [ "jscomp/test" ];
@@ -41,68 +38,26 @@ rec {
     postInstall = ''
       wrapProgram "$out/bin/melc" \
         --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/runtime/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
-
-      mkdir -p $out/lib/melange
-      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
-            $out/lib/melange/__MELANGE_RUNTIME__
-      cp -r $OCAMLFIND_DESTDIR/melange/mel_runtime \
-            $out/lib/melange/mel_runtime
     '';
 
     doCheck = true;
-    nativeCheckInputs = [ tree nodejs ocamlPackages.reason ];
+    nativeCheckInputs = [
+      tree
+      nodejs
+      ocamlPackages.reason
+    ];
     checkInputs = with ocamlPackages; [ ounit2 reactjs-jsx-ppx ];
 
     nativeBuildInputs = with ocamlPackages; [ cppo ];
     buildInputs = [ makeWrapper ];
     propagatedBuildInputs = with ocamlPackages; [
+      dune-build-info
       base64
       melange-compiler-libs
       cmdliner
+      ppxlib
     ];
     meta.mainProgram = "melc";
-  };
-
-  mel = ocamlPackages.buildDunePackage rec {
-    pname = "mel";
-    version = "dev";
-    duneVersion = "3";
-
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "dune-project"
-        "dune"
-        "dune.mel"
-        "mel.opam"
-        "mel"
-        "mel_test"
-        "meldep"
-        "package.json"
-        "scripts"
-        "jscomp/dune"
-        "jscomp/build_version.ml"
-        "jscomp/keywords.list"
-        "jscomp/main"
-        "jscomp/ext"
-        "jscomp/stubs"
-        "jscomp/common"
-        "jscomp/frontend"
-        "jscomp/js_parser"
-        "jscomp/outcome_printer"
-        "mel_workspace"
-      ];
-    };
-
-    nativeBuildInputs = with ocamlPackages; [ cppo ];
-    propagatedBuildInputs = with ocamlPackages; [
-      cmdliner
-      luv
-      ocaml-migrate-parsetree-2
-      melange
-    ];
-
-    meta.mainProgram = "mel";
   };
 
   rescript-syntax = ocamlPackages.buildDunePackage rec {
@@ -120,7 +75,7 @@ rec {
     };
 
     propagatedBuildInputs = with ocamlPackages; [
-      ocaml-migrate-parsetree-2
+      ppxlib
       melange
     ];
 

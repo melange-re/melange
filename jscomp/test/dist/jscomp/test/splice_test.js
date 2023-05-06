@@ -155,11 +155,11 @@ function f1(c) {
             ]);
 }
 
-eq("File \"splice_test.ml\", line 86, characters 6-13", Math.max(1, 2, 3), 3);
+eq("File \"splice_test.ml\", line 85, characters 6-13", Math.max(1, 2, 3), 3);
 
-eq("File \"splice_test.ml\", line 87, characters 6-13", Math.max(1), 1);
+eq("File \"splice_test.ml\", line 86, characters 6-13", Math.max(1), 1);
 
-eq("File \"splice_test.ml\", line 88, characters 6-13", Math.max(1, 1, 2, 3, 4, 5, 2, 3), 5);
+eq("File \"splice_test.ml\", line 87, characters 6-13", Math.max(1, 1, 2, 3, 4, 5, 2, 3), 5);
 
 Mt.from_pair_suites("splice_test.ml", suites.contents);
 

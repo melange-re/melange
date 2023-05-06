@@ -1,4 +1,3 @@
-
 (*
 To work around unused attribute checking
 
@@ -23,8 +22,8 @@ type x = t = private {
 
 type t0 = { x: t0 ; y : int}
 
-let f1 u = 
-match u with 
+let f1 u =
+match u with
 | {x = { x = {x={y}}}}   ->     y
 
 type t1 = {
@@ -32,49 +31,47 @@ type t1 = {
 }
 
 
-let f2 (x : t1) = 
+let f2 (x : t1) =
   x.x' <- x.x' + 3;
-  {x' = x.x' + 3}  
+  {x' = x.x' + 3}
 
 type t2 = {
   mutable x' : int [@bs.as "open"]
-}  
+}
 
-let f3 (x : t2) = 
+let f3 (x : t2) =
   x.x' <- x.x' + 3;
-  {x' = x.x' + 3}  
+  {x' = x.x' + 3}
 
 type t3 = {
     mutable x' : int [@bs.as "in"]
-  }  
-  
-let f3 (x : t3) = 
+  }
+
+let f3 (x : t3) =
   x.x' <- x.x' + 3;
-  {x' = x.x' + 3}  
+  {x' = x.x' + 3}
 
 type entry  = {
   x : int  ; [@bs.as "EXACT_MAPPING_TO_JS_LABEL"]
   y : int ; [@bs.as "EXACT_2"]
   z : obj
-} 
+}
 and obj = {
-  hi : int ; [@bs.as "hello"]  
-}    
+  hi : int ; [@bs.as "hello"]
+}
 
 
-let f4  ({ x; y; z = {hi }}: entry) = 
+let f4  ({ x; y; z = {hi }}: entry) =
   (x + y + hi) * 2
 
 
-#if 0 then
-type t5 = {
-  x : int ;
-  y : int [@bs.as "x"] 
-  (* either x or y is a mistake *)
-}   
+(* type t5 = { *)
+  (* x : int ; *)
+  (* y : int [@bs.as "x"]  *)
+  (* (* either x or y is a mistake *) *)
+(* }    *)
 
-let v5  = {x = 3 ; y = 2}
-#end
+(* let v5  = {x = 3 ; y = 2} *)
 
 type t6 = {
   x : int [@bs.as "x"];
@@ -83,8 +80,8 @@ type t6 = {
 (* allow this case *)
 
 
-external ff : x:int -> h:(_[@bs.as 3]) -> _ = "" [@@bs.obj] 
-external ff2 : x:int -> h:(_[@bs.as 3]) -> <x:int> Js.t = "" [@@bs.obj] 
-let u () = 
+external ff : x:int -> h:(_[@bs.as 3]) -> _ = "" [@@bs.obj]
+external ff2 : x:int -> h:(_[@bs.as 3]) -> <x:int> Js.t = "" [@@bs.obj]
+let u () =
     ignore (ff ~x:3 );
     ff2 ~x:22

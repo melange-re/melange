@@ -100,7 +100,7 @@ function f1(x) {
   return newrecord;
 }
 
-eq("File \"large_record_duplication_test.ml\", line 140, characters 6-13", get_x0(f1(v1)), 1);
+eq("File \"large_record_duplication_test.ml\", line 139, characters 6-13", get_x0(f1(v1)), 1);
 
 var v2 = {
   TAG: /* A0 */0,
@@ -145,7 +145,7 @@ function f2(x) {
   return newrecord;
 }
 
-eq("File \"large_record_duplication_test.ml\", line 205, characters 6-13", get_x0$1(f2(v2)), 1);
+eq("File \"large_record_duplication_test.ml\", line 204, characters 6-13", get_x0$1(f2(v2)), 1);
 
 var A0 = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_test.A0");
 
@@ -192,11 +192,11 @@ var v3 = {
   x22: 9
 };
 
-eq("File \"large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(f3(v3)), 1);
+eq("File \"large_record_duplication_test.ml\", line 270, characters 6-13", get_x0$2(f3(v3)), 1);
 
-eq("File \"large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2(v3), 9);
+eq("File \"large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(v3), 9);
 
-eq("File \"large_record_duplication_test.ml\", line 273, characters 6-13", get_x0$2({
+eq("File \"large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2({
           RE_EXN_ID: Stdlib.Not_found
         }), undefined);
 

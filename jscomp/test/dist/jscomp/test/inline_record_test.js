@@ -46,9 +46,9 @@ function f(x) {
   }
 }
 
-eq("File \"inline_record_test.ml\", line 25, characters 6-13", f(v), 3);
+eq("File \"inline_record_test.ml\", line 20, characters 6-13", f(v), 3);
 
-eq("File \"inline_record_test.ml\", line 26, characters 6-13", f(v1), 3);
+eq("File \"inline_record_test.ml\", line 21, characters 6-13", f(v1), 3);
 
 console.log(f(v));
 
@@ -71,14 +71,14 @@ if (A0 === A0) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "inline_record_test.ml",
-          51,
+          46,
           52
         ],
         Error: new Error()
       };
 }
 
-eq("File \"inline_record_test.ml\", line 51, characters 6-13", tmp, 3);
+eq("File \"inline_record_test.ml\", line 46, characters 6-13", tmp, 3);
 
 function ff(x) {
   if (x.TAG === /* A0 */0) {
@@ -114,14 +114,14 @@ if (v4.TAG === /* A0 */0) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "inline_record_test.ml",
-          69,
+          64,
           48
         ],
         Error: new Error()
       };
 }
 
-eq("File \"inline_record_test.ml\", line 69, characters 6-13", tmp$1, 11);
+eq("File \"inline_record_test.ml\", line 64, characters 6-13", tmp$1, 11);
 
 var tmp$2;
 
@@ -130,7 +130,7 @@ if (v5.TAG === /* A0 */0) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "inline_record_test.ml",
-          71,
+          66,
           48
         ],
         Error: new Error()
@@ -139,7 +139,7 @@ if (v5.TAG === /* A0 */0) {
 
 tmp$2 = v5.z;
 
-eq("File \"inline_record_test.ml\", line 71, characters 6-13", tmp$2, 22);
+eq("File \"inline_record_test.ml\", line 66, characters 6-13", tmp$2, 22);
 
 var A4 = /* @__PURE__ */Caml_exceptions.create("Inline_record_test.A4");
 
@@ -172,14 +172,14 @@ if (v6.RE_EXN_ID === A4) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "inline_record_test.ml",
-          87,
+          82,
           49
         ],
         Error: new Error()
       };
 }
 
-eq("File \"inline_record_test.ml\", line 87, characters 6-13", tmp$3, 11);
+eq("File \"inline_record_test.ml\", line 82, characters 6-13", tmp$3, 11);
 
 function ff1(x) {
   if (x) {
