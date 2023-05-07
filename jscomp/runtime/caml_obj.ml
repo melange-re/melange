@@ -148,11 +148,11 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
         [a] could be (Some (Some x)) in that case [b] could be [Some None] or [null]
          so [b] has to be of type string or null *)
     | "string", "string" ->
-      Pervasives.compare (Obj.magic a : string) (Obj.magic b )
+      Pervasives.compare (Obj.magic a : string) (Obj.magic b)
     | "string", _ ->
       (* [b] could be [Some None] or [null] *)
       1
-    |  _, "string" -> -1
+    | _, "string" -> -1
     | "boolean", "boolean" ->
       Pervasives.compare (Obj.magic a : bool) (Obj.magic b)
     | "boolean", _ -> 1
@@ -161,6 +161,7 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
       raise (Invalid_argument "compare: functional value")
     | "function", _ -> 1
     | _, "function" -> -1
+    | "bigint", "bigint"
     | "number", "number" ->
       Pervasives.compare (Obj.magic a : float) (Obj.magic b : float)
     | "number", _ ->
@@ -279,13 +280,13 @@ type eq = Obj.t -> Obj.t -> bool
     basic type is not the same, it will not equal
 *)
 let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
-  (*front and formoest, we do not compare function values*)
+  (*front and foremost, we do not compare function values*)
   if a == b then true
   else
     let a_type = Js.typeof a in
     if
-      a_type = "string" || a_type = "number" || a_type = "boolean"
-      || a_type = "undefined"
+      a_type = "string" || a_type = "number" || a_type = "bigint"
+      || a_type = "boolean" || a_type = "undefined"
       || a == [%raw {|null|}]
     then false
     else
@@ -295,7 +296,8 @@ let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
         (* first, check using reference equality *)
       else if
         (* a_type = "object" || "symbol" *)
-        b_type = "number" || b_type = "undefined" || b == [%raw {|null|}]
+        b_type = "number" || b_type = "bigint" || b_type = "undefined"
+        || b == [%raw {|null|}]
       then false
       else
         (* [a] [b] could not be null, so it can not raise *)
@@ -355,29 +357,30 @@ let caml_equal_nullable (x : Obj.t) (y : Obj.t Js.nullable) =
   | None -> x == Obj.magic y
   | Some y -> caml_equal x y
 
+let isNumberOrBigInt a = Js.typeof a = "number" || Js.typeof a = "bigint"
+[@@inline]
+
+let canNumericCompare a b = isNumberOrBigInt a && isNumberOrBigInt b
+[@@inline]
+
 let caml_notequal a b =
-  if Js.typeof a = "number" && Js.typeof b = "number" then
-    (Obj.magic a : float) <> (Obj.magic b : float)
+  if canNumericCompare a b then (Obj.magic a : float) <> (Obj.magic b : float)
   else not (caml_equal a b)
 
 let caml_greaterequal a b =
-  if Js.typeof a = "number" && Js.typeof b = "number" then
-    (Obj.magic a : float) >= (Obj.magic b : float)
+  if canNumericCompare a b then (Obj.magic a : float) >= (Obj.magic b : float)
   else caml_compare a b >= 0
 
 let caml_greaterthan a b =
-  if Js.typeof a = "number" && Js.typeof b = "number" then
-    (Obj.magic a : float) > (Obj.magic b : float)
+  if canNumericCompare a b then (Obj.magic a : float) > (Obj.magic b : float)
   else caml_compare a b > 0
 
 let caml_lessequal a b =
-  if Js.typeof a = "number" && Js.typeof b = "number" then
-    (Obj.magic a : float) <= (Obj.magic b : float)
+  if canNumericCompare a b then (Obj.magic a : float) <= (Obj.magic b : float)
   else caml_compare a b <= 0
 
 let caml_lessthan a b =
-  if Js.typeof a = "number" && Js.typeof b = "number" then
-    (Obj.magic a : float) < (Obj.magic b : float)
+  if canNumericCompare a b then (Obj.magic a : float) < (Obj.magic b : float)
   else caml_compare a b < 0
 
 let caml_min (x : Obj.t) y = if caml_compare x y <= 0 then x else y
