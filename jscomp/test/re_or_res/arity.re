@@ -25,7 +25,7 @@ let add = (+);
 
  // let h = f (1, 2) ;
  // This function has uncurried type, it needs to be applied in ucurried style
-// This function has uncurried type, it needs to be applied in ucurried style 
+// This function has uncurried type, it needs to be applied in ucurried style
 
 
 // let h = add(.1,2);
@@ -34,7 +34,7 @@ let add = (+);
 
 /**
 let u = obj => {
-    obj##hai(1, 2) ; 
+    obj##hai(1, 2) ;
     obj##hai(3, 4,2)
 }
 */
@@ -42,7 +42,7 @@ let u = obj => {
 
 /**
 let u = obj => {
-    obj##hai(1, 2) ; 
+    obj##hai(1, 2) ;
     obj##hai("x",2)
 }
 */
@@ -50,7 +50,7 @@ let u = obj => {
 
 /**
 let u = obj => {
-    obj##hai(1, 2) ; 
+    obj##hai(1, 2) ;
     obj##hai(~x="x",2)
 }
 */
@@ -61,5 +61,11 @@ let h = u => {
     m(.1,2);
 }
 
- // 
-let nested   = ({ "x" : {"y" : 3 }} : {. "x" : {. "y" : int }})
+ //
+let nested   = ({ "x" : {"y" : 3 }} : {. "x" : {. "y" : int }});
+
+[@inline always]
+let inl = () => ();
+
+[@inline]
+let inl2 = (x,y) => x+y;
