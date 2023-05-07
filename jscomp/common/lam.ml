@@ -425,7 +425,8 @@ let switch lam (lam_switch : lambda_switch) : t =
 
 let stringswitch (lam : t) cases default : t =
   match lam with
-  | Lconst (Const_string a) -> Ext_list.assoc_by_string cases a default
+  | Lconst (Const_string { s; unicode = false }) ->
+      Ext_list.assoc_by_string cases s default
   | _ -> Lstringswitch (lam, cases, default)
 
 let true_ : t = Lconst Const_js_true
@@ -481,7 +482,7 @@ module Lift = struct
      Lconst ((Const_nativeint b)) *)
 
   let int64 b : t = Lconst (Const_int64 b)
-  let string b : t = Lconst (Const_string b)
+  let string s : t = Lconst (Const_string { s; unicode = false })
   let char b : t = Lconst (Const_char b)
 end
 
@@ -497,8 +498,8 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
           Lift.int (Int32.of_float (float_of_string a))
       (* | Pnegfloat -> Lift.float (-. a) *)
       (* | Pabsfloat -> Lift.float (abs_float a) *)
-      | Pstringlength, Const_string a ->
-          Lift.int (Int32.of_int (String.length a))
+      | Pstringlength, Const_string { s; unicode = false } ->
+          Lift.int (Int32.of_int (String.length s))
       (* | Pnegbint Pnativeint, ( (Const_nativeint i)) *)
       (*   ->   *)
       (*   Lift.nativeint (Nativeint.neg i) *)
@@ -569,8 +570,13 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
       | Psequor, Const_js_true, (Const_js_true | Const_js_false) -> true_
       | Psequor, Const_js_false, Const_js_true -> true_
       | Psequor, Const_js_false, Const_js_false -> false_
-      | Pstringadd, Const_string a, Const_string b -> Lift.string (a ^ b)
-      | (Pstringrefs | Pstringrefu), Const_string a, Const_int { i = b } -> (
+      | ( Pstringadd,
+          Const_string { s = a; unicode = false },
+          Const_string { s = b; unicode = false } ) ->
+          Lift.string (a ^ b)
+      | ( (Pstringrefs | Pstringrefu),
+          Const_string { s = a; unicode = false },
+          Const_int { i = b } ) -> (
           try Lift.char (String.get a (Int32.to_int b)) with _ -> default ())
       | _ -> default ())
   | _ -> (
@@ -647,7 +653,7 @@ let rec eval_const_as_bool (v : Lam_constant.t) : bool =
   | Const_js_false | Const_js_null | Const_module_alias | Const_js_undefined ->
       false
   | Const_js_true | Const_string _ | Const_pointer _ | Const_float _
-  | Const_unicode _ | Const_block _ | Const_float_array _ ->
+  | Const_block _ | Const_float_array _ ->
       true
   | Const_some b -> eval_const_as_bool b
 

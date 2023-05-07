@@ -211,7 +211,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
           unbox_extension info args mutable_flag loc
       | Blk_extension_slot -> (
           match args with
-          | [ Lconst (Const_string name) ] ->
+          | [ Lconst (Const_string { s = name }) ] ->
               prim ~primitive:(Pcreate_extension name) ~args:[] loc
           | _ -> assert false)
       | Blk_class ->
@@ -240,7 +240,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
               let info : Lam_tag_info.t = Blk_poly_var in
               prim
                 ~primitive:(Pmakeblock (tag, info, mutable_flag))
-                ~args:[ Lam.const (Const_string s); value ]
+                ~args:[ Lam.const (Const_string { s; unicode = false }); value ]
                 loc
           | _ -> assert false)
       | Blk_lazy_general -> (
@@ -526,7 +526,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         prim ~primitive:Pis_poly_var_const ~args loc
     | _ when s = "#raw_expr" -> (
         match args with
-        | [ Lconst (Const_string code) ] ->
+        | [ Lconst (Const_string { s = code }) ] ->
             (* js parsing here *)
             let kind = Classify_function.classify code in
             prim
@@ -535,7 +535,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         | _ -> assert false)
     | _ when s = "#raw_stmt" -> (
         match args with
-        | [ Lconst (Const_string code) ] ->
+        | [ Lconst (Const_string { s = code }) ] ->
             let kind = Classify_function.classify_stmt code in
             prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
@@ -655,7 +655,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         convert_ccall a args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
         let args = Ext_list.map args convert_aux in
-        if Ident.is_predef id then Lam.const (Const_string (Ident.name id))
+        if Ident.is_predef id then
+          Lam.const (Const_string { s = Ident.name id; unicode = false })
         else (
           may_depend may_depends (Lam_module_ident.of_ml id);
           assert (args = []);

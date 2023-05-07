@@ -44,11 +44,11 @@
 
 (rule
  (targets js_reserved_map.ml)
- (deps ../../scripts/build_sorted.ml ../keywords.list)
+ (deps ../../scripts/build_reserved.ml ../keywords.list)
  (action
   (with-stdout-to
    %{targets}
-   (run ocaml %{deps}))))
+   (run ocaml %{deps} %{targets}))))
 
 (rule
  (targets hash_set_string.ml)
