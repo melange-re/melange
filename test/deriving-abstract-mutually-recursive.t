@@ -1,5 +1,6 @@
+Demonstrate warnings for `[@@bs.deriving abstract]`
 
-
+  $ . ./setup.sh
   $ cat > foo.ml <<EOF
   > type a = {
   >   recursiveA: a Js.Null.t [@bs.optional];
