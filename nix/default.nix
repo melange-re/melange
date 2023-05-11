@@ -29,12 +29,6 @@ rec {
       exclude = [ "jscomp/test" ];
     };
 
-    buildPhase = ''
-      runHook preBuild
-      dune build -p ${pname} -j $NIX_BUILD_CORES --display=short
-      runHook postBuild
-    '';
-
     postInstall = ''
       wrapProgram "$out/bin/melc" \
         --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/runtime/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
