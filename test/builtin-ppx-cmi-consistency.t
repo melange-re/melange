@@ -2,7 +2,7 @@ Test to showcase "inconsistent assumption" issues when using melange ppx
 
   $ . ./setup.sh
   $ cat > dune-project <<EOF
-  > (lang dune 3.7)
+  > (lang dune 3.8)
   > (using melange 0.1)
   > EOF
 
