@@ -7,8 +7,10 @@
 , nodejs
 }:
 
+with ocamlPackages;
+
 rec {
-  melange = ocamlPackages.buildDunePackage {
+  melange = buildDunePackage {
     pname = "melange";
     version = "dev";
     duneVersion = "3";
@@ -38,13 +40,13 @@ rec {
     nativeCheckInputs = [
       tree
       nodejs
-      ocamlPackages.reason
+      reason
     ];
-    checkInputs = with ocamlPackages; [ ounit2 reactjs-jsx-ppx ];
+    checkInputs = [ ounit2 reactjs-jsx-ppx ];
 
-    nativeBuildInputs = with ocamlPackages; [ cppo ];
+    nativeBuildInputs = [ cppo ];
     buildInputs = [ makeWrapper ];
-    propagatedBuildInputs = with ocamlPackages; [
+    propagatedBuildInputs = [
       dune-build-info
       base64
       melange-compiler-libs
@@ -54,7 +56,7 @@ rec {
     meta.mainProgram = "melc";
   };
 
-  rescript-syntax = ocamlPackages.buildDunePackage {
+  rescript-syntax = buildDunePackage {
     pname = "rescript-syntax";
     version = "dev";
     duneVersion = "3";
@@ -68,15 +70,12 @@ rec {
       ];
     };
 
-    propagatedBuildInputs = with ocamlPackages; [
-      ppxlib
-      melange
-    ];
+    propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
   };
 
-  reactjs-jsx-ppx = ocamlPackages.buildDunePackage {
+  reactjs-jsx-ppx = buildDunePackage {
     pname = "reactjs-jsx-ppx";
     version = "dev";
     duneVersion = "3";
@@ -89,6 +88,6 @@ rec {
         "reactjs-jsx-ppx"
       ];
     };
-    propagatedBuildInputs = with ocamlPackages; [ ppxlib ];
+    propagatedBuildInputs = [ ppxlib ];
   };
 }

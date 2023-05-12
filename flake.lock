@@ -28,16 +28,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1683848296,
+        "lastModified": 1683850226,
         "narHash": "sha256-EZ8JAeJQMfZQJr9CPwdWVnaa8bHdnr+FiiVbC1hG7oM=",
         "owner": "melange-re",
         "repo": "melange-compiler-libs",
-        "rev": "73d3bf947857cd88b45083e7a213544f28a21123",
+        "rev": "17a06ec6c8a5da27adeb76496ff7fab6c58091f5",
         "type": "github"
       },
       "original": {
         "owner": "melange-re",
-        "ref": "anmonteiro/fix-nix-files",
         "repo": "melange-compiler-libs",
         "type": "github"
       }
@@ -65,11 +64,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1683844250,
-        "narHash": "sha256-zu94SmebXyPwDqznzRCop+KnNNvSdHgp2Ald4++5vfA=",
+        "lastModified": 1683857119,
+        "narHash": "sha256-0JXahNcYsFMmMY7m02hJG9hg338AVku3fRd8Cik5MC0=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "002fb6ba31f3ea556341460173a00e8a4d68d290",
+        "rev": "f69e5b84c03846ddc0a0d1663567bcca0d49b509",
         "type": "github"
       },
       "original": {

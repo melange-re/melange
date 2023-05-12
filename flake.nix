@@ -24,7 +24,13 @@
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
-          (self: super: { ocamlPackages = super.ocaml-ng.ocamlPackages_4_14; })
+          (self: super: {
+            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+              menhirLib = osuper.menhirLib_20230415;
+              menhirSdk = osuper.menhirSdk_20230415;
+              menhir = osuper.menhir_20230415;
+            });
+          })
           melange-compiler-libs.overlays.default
         ];
       in
@@ -36,7 +42,6 @@
 
         devShells = {
           default = pkgs.callPackage ./nix/shell.nix {
-            # dream2nix = dream2nix.lib2;
             inherit packages;
           };
           release = pkgs.callPackage ./nix/shell.nix {
