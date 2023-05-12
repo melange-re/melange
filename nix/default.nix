@@ -8,7 +8,7 @@
 }:
 
 rec {
-  melange = ocamlPackages.buildDunePackage rec {
+  melange = ocamlPackages.buildDunePackage {
     pname = "melange";
     version = "dev";
     duneVersion = "3";
@@ -54,7 +54,7 @@ rec {
     meta.mainProgram = "melc";
   };
 
-  rescript-syntax = ocamlPackages.buildDunePackage rec {
+  rescript-syntax = ocamlPackages.buildDunePackage {
     pname = "rescript-syntax";
     version = "dev";
     duneVersion = "3";
@@ -76,7 +76,7 @@ rec {
     meta.mainProgram = "rescript-syntax";
   };
 
-  reactjs-jsx-ppx = ocamlPackages.buildDunePackage rec {
+  reactjs-jsx-ppx = ocamlPackages.buildDunePackage {
     pname = "reactjs-jsx-ppx";
     version = "dev";
     duneVersion = "3";

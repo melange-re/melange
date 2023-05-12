@@ -27,6 +27,7 @@ in
 mkShell {
   dontDetectOcamlConflicts = true;
   inputsFrom = lib.attrValues derivations;
+  nativeBuildInputs = [ ocamlPackages.reason ];
   buildInputs = [
     python3
     nodejs_latest
@@ -35,7 +36,6 @@ mkShell {
   ]
   ++ (with ocamlPackages; [
     merlin
-    reason
     ppxlib
     utop
     ocamlformat
