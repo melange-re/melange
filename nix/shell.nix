@@ -27,7 +27,7 @@ in
 with ocamlPackages;
 
 mkShell {
-  inputsFrom = lib.attrValues derivations ++ [ melange-compiler-libs ];
+  inputsFrom = lib.attrValues derivations;
   nativeBuildInputs = [
     ocamlformat
     utop
