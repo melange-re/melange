@@ -36,4 +36,4 @@
  (package melange)
  (modes native)
  (modules ounit_tests_main)
- (libraries ounit2 str ounit_tests))
+ (libraries ounit2 ounit_tests))
