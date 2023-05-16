@@ -23,11 +23,10 @@ jobs:
         os:
           - macos-latest
           - ubuntu-latest
-          # - windows-latest # for some reason windows build is not picking dune 3.5
+          - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - ocaml-base-compiler.5.1.1
+          - ocaml.5.1.1
           # - 'ocaml-base-compiler.5.2.0~alpha1'
-
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -48,11 +47,30 @@ jobs:
           env HOMEBREW_NO_AUTO_UPDATE=1 brew install tree
 
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        if: ${{ matrix.os != 'windows-latest' }}
         uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
+      - name: Use OCaml ${{ matrix.ocaml-compiler }} (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-compiler: ${{ matrix.ocaml-compiler }},ocaml-option-mingw
+          opam-repositories: |
+            dra27: https://github.com/dra27/opam-repository.git#windows-5.0
+            default: https://github.com/ocaml-opam/opam-repository-mingw.git#sunset
+            opam: https://github.com/ocaml/opam-repository.git
+
+      - name: Install dependencies (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        working-directory: melange
+        run: |
+          opam update
+          make opam-install-test
+
       - name: Install dependencies
+        if: ${{ matrix.os != 'windows-latest' }}
         working-directory: melange
         run: |
           opam update
