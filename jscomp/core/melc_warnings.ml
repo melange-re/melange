@@ -69,6 +69,9 @@
 
   - 102 Bs_polymorphic_comparison
 *)
-let defaults_w = "+a-4-29-40-41-42-44-45-48-58-59-60-61-63..70-102"
+let defaults_w = "+a-4-20-29-40-41-42-44-45-48-58-59-60-61-63..70-102"
 let defaults_warn_error = "-a+5+6+101+109"
 (*TODO: add +10*)
+
+let parse_warnings ~warn_error w =
+  Option.iter Location.(prerr_alert none) (Warnings.parse_options warn_error w)
