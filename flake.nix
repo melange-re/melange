@@ -8,18 +8,12 @@
       url = "github:nix-ocaml/nix-overlays";
       inputs.flake-utils.follows = "flake-utils";
     };
-    melange-compiler-libs = {
-      url = "github:melange-re/melange-compiler-libs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, nix-filter, melange-compiler-libs }:
+  outputs = { self, nixpkgs, flake-utils, nix-filter }:
     {
       overlays.default = import ./nix/overlay.nix {
         nix-filter = nix-filter.lib;
-        inherit melange-compiler-libs;
       };
     } // (flake-utils.lib.eachDefaultSystem (system:
       let
@@ -31,7 +25,6 @@
               menhir = osuper.menhir_20230415;
             });
           })
-          melange-compiler-libs.overlays.default
         ];
       in
 

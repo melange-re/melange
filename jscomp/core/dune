@@ -11,9 +11,9 @@
   ext
   common
   ast_derive
-  melange-compiler-libs
+  melange_compiler_libs
   melange.ppxlib-ast
-  melange.ppx-lib
+  melange.ppxlib
   ppxlib.ast))
 
 (rule

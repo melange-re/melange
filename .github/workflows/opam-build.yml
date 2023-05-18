@@ -33,6 +33,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
+          submodules: 'recursive'
           path: melange
 
       - name: Use Node

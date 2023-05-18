@@ -1,6 +1,7 @@
 { stdenv
 , ocamlPackages
 , lib
+, git
 , tree
 , makeWrapper
 , nix-filter
@@ -27,6 +28,7 @@ rec {
         "lib"
         "test"
         "scripts"
+        "vendor"
       ];
       exclude = [ "jscomp/test" ];
     };
@@ -44,14 +46,14 @@ rec {
     ];
     checkInputs = [ ounit2 reactjs-jsx-ppx ];
 
-    nativeBuildInputs = [ cppo ];
+    nativeBuildInputs = [ menhir cppo git ];
     buildInputs = [ makeWrapper ];
     propagatedBuildInputs = [
       dune-build-info
       base64
-      melange-compiler-libs
       cmdliner
       ppxlib
+      menhirLib
     ];
     meta.mainProgram = "melc";
   };
@@ -67,6 +69,8 @@ rec {
         "dune-project"
         "rescript-syntax.opam"
         "rescript-syntax"
+        "vendor"
+        "jscomp"
       ];
     };
 

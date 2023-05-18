@@ -3,4 +3,4 @@
  (package melange)
  (wrapped false)
  (flags :standard -w -9 -open Melange_compiler_libs)
- (libraries common astlib ast_extensions melange-compiler-libs melange.ext))
+ (libraries common ext astlib ast_extensions melange_compiler_libs))
