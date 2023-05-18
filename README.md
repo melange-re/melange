@@ -29,12 +29,12 @@ Sponsored by:
 
 ## Installation
 
-Melange is released to OPAM. You can obtain it in multiple ways:
-
 ### [OPAM](https://opam.ocaml.org/)
 
+Melange is released to OPAM. Install it with:
+
 ```shell
-$ opam install mel
+$ opam install melange
 ```
 
 #### Template
@@ -44,22 +44,6 @@ provides a GitHub
 [template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
 that can be used as a project starter.
 
-**Note**: `mel build` builds a Melange project. Before running the resulting
-JavaScript, the Melange runtime library needs to be present in `node_modules`
-so that it can be found by JavaScript based tooling:
-
-``` shell
-ln -sfn $(opam var prefix)/lib/melange/mel_runtime node_modules/melange
-```
-
-#### Manual setup
-
-After installing Melange, you should now be able to run `mel` from your switch:
-
-```shell
-$ opam exec -- mel --help
-```
-
 ### [Esy](https://esy.sh)
 
 Get Esy on NPM:
@@ -68,19 +52,18 @@ Get Esy on NPM:
 - if `npm` is installed, `npx esy` can be used to run Esy locally
 
 An [Esy project starter](https://github.com/melange-re/melange-basic-template)
-also exists to get started quickly with Esy.
+also exists.
 
-Once the repository has been cloned, run `esy` in the project root.
+After cloning the template, run `esy` in the project root.
 
 ### [Nix](https://nixos.org/learn.html)
 
 Melange has good support for Nix:
 
-- `nix run github:melange-re/melange#mel -- --help` runs melange.
-- `nix shell github:melange-re/melange#mel -c $SHELL` enters a shell with `mel`
-  and `melc` in `$PATH`. Try out `mel --help` for available options.
 - `github:melange-re/melange` can be added as a
   [flake](https://nixos.wiki/wiki/Flakes) input
+- the melange flake provides a `melange.overlays.default` overlay that adds
+  melange to `pkgs.ocamlPackages.melange`
 
 ### OCaml version compatibility
 
@@ -92,64 +75,11 @@ of [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs
 
 ## Editor integration
 
-- Until Melange has first-class support in Dune, editor integration is based on
-a [`.merlin` file workflow](https://github.com/ocaml/merlin/wiki/project-configuration).
-  - Melange generates `.merlin` files automatically as part of the build
-
-- `ocaml-lsp` based Language Server Protocol support needs to be configured as
-  follows:
-
-### OPAM
-
-Install `ocaml-lsp` and `dot-merlin-reader`:
-
-```shell
-$ opam install ocaml-lsp-server dot-merlin-reader
-```
-
-### Esy
-
-Add the following to `esy.json`:
-
-```jsonc
-// esy.json
-{
-  "devDependencies": {
-    "@opam/ocaml-lsp-server": ">= 1.12.0",
-    "@opam/dot-merlin-reader": "*"
-  }
-}
-```
-
-### Pass `--fallback-read-dot-merlin` to `ocaml-lsp`
-
-`ocaml-lsp` requires the `--fallback-read-dot-merlin` flag to look for
-`.merlin` files.
-
-#### VSCode
-
-- Install the [VSCode OCaml
-  Platform](https://github.com/ocamllabs/vscode-ocaml-platform) extension
-- Select the "Custom" sandbox option and provide the flag to `ocaml-lsp` via
-  the following command template:
-
-```jsonc
-// .vscode/settings.json
-{
-  "ocaml.sandbox": {
-    "kind": "custom",
-    "template": "esy $prog $args --fallback-read-dot-merlin"
-  }
-}
-```
-
-#### Neovim (Built-in LSP support available on version >= 0.8)
-
-```lua
-require('lspconfig').ocamllsp.setup {
-  cmd = { 'ocamllsp', '--fallback-read-dot-merlin' }
-}
-```
+Melange has first class support in Dune.
+[`ocaml-lsp`](https://github.com/ocaml/ocaml-lsp) or
+[Merlin](https://github.com/ocaml/merlin) works as usual. In VSCode, the
+[VSCode OCaml Platform](https://github.com/ocamllabs/vscode-ocaml-platform)
+extension is recommended.
 
 ## Community
 
