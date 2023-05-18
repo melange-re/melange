@@ -1,5 +1,6 @@
 { stdenv
 , ocamlPackages
+, fetchFromGitHub
 , lib
 , git
 , tree
@@ -7,6 +8,21 @@
 , nix-filter
 , nodejs
 }:
+
+
+let
+
+  # this changes rarely, and it's better than having to rely on nix's poor
+  # support for submodules
+  vendored = fetchFromGitHub {
+    owner = "melange-re";
+    repo = "melange";
+    rev = "7c71a868e0f8d465972ab4523e2b2bec9544461c";
+    hash = "sha256-Q2etr2OJCR+DnQxOhqfE0B04xkf9y4BqCd20yAk97sI=";
+    fetchSubmodules = true;
+  };
+
+in
 
 with ocamlPackages;
 
@@ -22,16 +38,16 @@ rec {
         "dune-project"
         "dune"
         "melange.opam"
-        "bsconfig.json"
-        "package.json"
         "jscomp"
         "lib"
         "test"
         "scripts"
-        "vendor"
       ];
       exclude = [ "jscomp/test" ];
     };
+    postPatch = ''
+      cp -r ${vendored}/vendor ./vendor
+    '';
 
     postInstall = ''
       wrapProgram "$out/bin/melc" \
@@ -69,8 +85,6 @@ rec {
         "dune-project"
         "rescript-syntax.opam"
         "rescript-syntax"
-        "vendor"
-        "jscomp"
       ];
     };
 
