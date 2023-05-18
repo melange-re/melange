@@ -7,8 +7,8 @@
   js_parser
   ext
   common
-  melange.ppx-lib
-  melange-compiler-libs
+  melange.ppxlib
+  melange_compiler_libs
   core
   cmdliner)
  (modules melc melc_cli)
@@ -22,7 +22,7 @@
  (modes native)
  (modules melpp)
  (flags :standard -open Melange_compiler_libs)
- (libraries common core cmdliner melange.ppxlib-ast melange-compiler-libs))
+ (libraries common core cmdliner melange.ppxlib-ast melange_compiler_libs))
 
 (executable
  (public_name melppx)

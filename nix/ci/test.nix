@@ -28,15 +28,6 @@ let
             };
           });
 
-          melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
-            src = super.fetchFromGitHub {
-              owner = "melange-re";
-              repo = "melange-compiler-libs";
-              rev = "17a06ec6c8a5da27adeb76496ff7fab6c58091f5";
-              hash = "sha256-EZ8JAeJQMfZQJr9CPwdWVnaa8bHdnr+FiiVbC1hG7oM=";
-            };
-          });
-
           menhirLib = osuper.menhirLib_20230415;
           menhirSdk = osuper.menhirSdk_20230415;
           menhir = osuper.menhir_20230415;
@@ -77,6 +68,7 @@ stdenv.mkDerivation {
     ocaml
     findlib
     dune
+    git
     nodePackages.mocha
     ocamlPackages.reason
     tree

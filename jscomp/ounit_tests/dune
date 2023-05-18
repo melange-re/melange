@@ -2,7 +2,7 @@
  (name ounit_tests)
  (flags
   (:standard -w -9 -open Melange_compiler_libs))
- (libraries ounit2 ext core str melange-compiler-libs))
+ (libraries ounit2 ext core str melange_compiler_libs))
 
 (rule
  (targets ounit_hash_set_tests.ml)

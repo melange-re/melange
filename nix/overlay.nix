@@ -1,4 +1,4 @@
-{ nix-filter, melange-compiler-libs }:
+{ nix-filter }:
 
 final: prev:
 
@@ -14,7 +14,5 @@ final: prev:
         };
       });
     })).overrideScope' (oself: osuper:
-    {
-      melange-compiler-libs = (melange-compiler-libs.overlays.default final prev).ocamlPackages.melange-compiler-libs;
-    } // (prev.callPackage ./. { inherit nix-filter; }));
+    prev.callPackage ./. { inherit nix-filter; });
 }
