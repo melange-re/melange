@@ -64,6 +64,8 @@ Melange has good support for Nix:
   [flake](https://nixos.wiki/wiki/Flakes) input
 - the melange flake provides a `melange.overlays.default` overlay that adds
   melange to `pkgs.ocamlPackages.melange`
+- the `melc` binary can be run with `nix run github:melange-re/melange`, e.g.
+  `nix run github:melange-re/melange -- --help`
 
 ### OCaml version compatibility
 
