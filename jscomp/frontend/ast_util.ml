@@ -26,17 +26,6 @@ open Ast_helper
 
 type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
-let js_property loc obj (name : string) =
-  Parsetree.Pexp_send
-    ( Ast_compatible.app1 ~loc
-        (Exp.ident ~loc
-           {
-             loc;
-             txt = Ldot (Ast_literal.Lid.js_oo, Literals.unsafe_downgrade);
-           })
-        obj,
-      { loc; txt = name } )
-
 let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
     (self_pat : Parsetree.pattern) (clfs : Parsetree.class_field list) =
   (* Attention: we should avoid type variable conflict for each method

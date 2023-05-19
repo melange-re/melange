@@ -1,4 +1,4 @@
-(* Copyright (C) 2020- Authors of ReScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,29 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* TODO: the interface is not reusable, it depends on too much context *)
-(* syntax: {[f arg0 arg1 [@bs]]}*)
-val uncurry_fn_apply :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.expression ->
-  Ast_compatible.args ->
-  Parsetree.expression_desc
+open Ppxlib
 
-(* syntax : {[f## arg0 arg1 ]}*)
-val method_apply :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.expression ->
-  string ->
-  Ast_compatible.args ->
-  Parsetree.expression_desc
+type attr = Parsetree.attribute
 
-(* syntax {[f#@ arg0 arg1 ]}*)
-val property_apply :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.expression ->
-  string ->
-  Ast_compatible.args ->
-  Parsetree.expression_desc
+let is_bs (attr : attr) =
+  match attr with
+  | { attr_name = { Location.txt = "bs"; _ }; _ } -> true
+  | _ -> false

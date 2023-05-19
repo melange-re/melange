@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2019 - Present Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,17 +22,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** In general three kinds of ast generation.
-    - convert a curried to type to uncurried
-    - convert a curried fun to uncurried fun
-    - convert a uncuried application to normal
-*)
+open Ppxlib
 
-type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
+type loc = Location.t
 
-val ocaml_obj_as_js_object :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.pattern ->
-  Parsetree.class_field list ->
-  Parsetree.expression_desc
+type whole =
+  | Let_open of
+      (Asttypes.override_flag
+      * Longident.t Asttypes.loc
+      * loc
+      * Parsetree.attributes)
+
+type t = whole list
+
+let rec destruct (e : Parsetree.expression) (acc : t) =
+  match e.pexp_desc with
+  | Pexp_open
+      ( { popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid; _ } },
+        cont ) ->
+      destruct cont (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
+  | _ -> (e, acc)
+
+let restore_exp (xs : Parsetree.expression) (qualifiers : t) :
+    Parsetree.expression =
+  Ext_list.fold_left qualifiers xs (fun x hole ->
+      match hole with
+      | Let_open (flag, lid, loc, attrs) ->
+          ({
+             pexp_desc =
+               Pexp_open
+                 (Ast_helper.Opn.mk ~override:flag (Ast_helper.Mod.ident lid), x);
+             pexp_attributes = attrs;
+             pexp_loc = loc;
+             pexp_loc_stack = [ loc ];
+           }
+            : Parsetree.expression))

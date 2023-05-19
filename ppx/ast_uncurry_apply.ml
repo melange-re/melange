@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
 open Ast_helper
 
 type exp = Parsetree.expression
@@ -34,7 +35,7 @@ let jsInternal = Ast_literal.Lid.js_internal
 
 let ignored_extra_argument : Parsetree.attribute =
   {
-    attr_name = Location.mknoloc "ocaml.warning";
+    attr_name = { txt = "ocaml.warning"; loc = Location.none };
     attr_payload =
       PStr
         [
@@ -70,13 +71,13 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
-let generic_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
-    (args : Ast_compatible.args) (cb : loc -> exp -> exp) =
-  let obj = self.expr self obj in
+let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
+    (args : Ast_util.args) (cb : loc -> exp -> exp) =
+  let obj = self#expression obj in
   let args =
     Ext_list.map args (fun (lbl, e) ->
         Bs_syntaxerr.optional_err loc lbl;
-        (lbl, self.expr self e))
+        (lbl, self#expression e))
   in
   let fn = cb loc obj in
   let args =
@@ -111,13 +112,13 @@ let generic_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
             ])
          args)
 
-let method_apply loc (self : Ast_mapper.mapper) (obj : Parsetree.expression)
-    name (args : Ast_compatible.args) =
-  let obj = self.expr self obj in
+let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
+    (args : Ast_util.args) =
+  let obj = self#expression obj in
   let args =
     Ext_list.map args (fun (lbl, e) ->
         Bs_syntaxerr.optional_err loc lbl;
-        (lbl, self.expr self e))
+        (lbl, self#expression e))
   in
   let fn = Exp.mk ~loc (Ast_util.js_property loc obj name) in
   let args =

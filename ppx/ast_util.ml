@@ -22,17 +22,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** In general three kinds of ast generation.
-    - convert a curried to type to uncurried
-    - convert a curried fun to uncurried fun
-    - convert a uncuried application to normal
-*)
+open Ppxlib
+open Ast_helper
 
-type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
+type args = (Asttypes.arg_label * Parsetree.expression) list
 
-val ocaml_obj_as_js_object :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.pattern ->
-  Parsetree.class_field list ->
-  Parsetree.expression_desc
+let js_property loc obj (name : string) =
+  Parsetree.Pexp_send
+    ( [%expr
+        [%e
+          Exp.ident
+            {
+              txt = Ldot (Ast_literal.Lid.js_oo, Literals.unsafe_downgrade);
+              loc;
+            }]
+          [%e obj]],
+      { loc; txt = name } )

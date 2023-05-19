@@ -22,16 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val handleTdclsInSigi :
-  Ast_mapper.mapper ->
-  Parsetree.signature_item ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Ast_signature.item
+open Ppxlib
 
-val handleTdclsInStru :
-  Ast_mapper.mapper ->
-  Parsetree.structure_item ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Ast_structure.item
+val app_exp_mapper :
+  Parsetree.expression ->
+  Ast_traverse.map * (Parsetree.expression -> Parsetree.expression) ->
+  Parsetree.expression ->
+  Ast_util.args ->
+  Parsetree.expression

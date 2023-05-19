@@ -58,7 +58,6 @@ val process_derive_type : t -> derive_attr * t
 
 
    val bs : attr *)
-val is_bs : attr -> bool
 (* val is_optional : attr -> bool
    val is_bs_as : attr -> bool *)
 

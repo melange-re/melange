@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
 open Ast_helper
 
 type exp = Parsetree.expression
@@ -42,9 +43,7 @@ let bound (e : exp) (cb : exp -> _) =
       [ Vb.mk ~loc (Pat.var ~loc { txt = ocaml_obj_id; loc }) e ]
       (cb (Exp.ident ~loc { txt = Lident ocaml_obj_id; loc }))
 
-let default_expr_mapper = Ast_mapper.default_mapper.expr
-
-let check_and_discard (args : Ast_compatible.args) =
+let check_and_discard (args : (arg_label * Parsetree.expression) list) =
   Ext_list.map args (fun (label, x) ->
       Bs_syntaxerr.err_if_label x.pexp_loc label;
       x)
@@ -71,8 +70,10 @@ let view_as_app (fn : exp) (s : string list) : app_pattern option =
 let inner_ops = [ "##"; "#@" ]
 let infix_ops = [ "|."; "#="; "##" ]
 
-let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
-    (args : Ast_compatible.args) : exp =
+let app_exp_mapper (e : exp)
+    ((self, super) :
+      Ast_traverse.map * (Parsetree.expression -> Parsetree.expression))
+    (fn : exp) (args : Ast_util.args) : exp =
   (* - (f##paint) 1 2
      - (f#@paint) 1 2
   *)
@@ -104,8 +105,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
         a |. `Variant
         a |. (b |. f c [@bs])
       *)
-          let a = self.expr self a_ in
-          let f = self.expr self f_ in
+          let a = self#expression a_ in
+          let f = self#expression f_ in
           match f.pexp_desc with
           | Pexp_variant (label, None) ->
               {
@@ -121,7 +122,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
               }
           | Pexp_apply (fn1, args) ->
               Bs_ast_invariant.warn_discarded_unused_attributes
-                fn1.pexp_attributes;
+                (Melange_ppxlib_ast.Of_ppxlib.copy_expression fn1)
+                  .pexp_attributes;
               {
                 pexp_desc = Pexp_apply (fn1, (Nolabel, a) :: args);
                 pexp_loc = e.pexp_loc;
@@ -149,7 +151,9 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                                     | Pexp_apply (fn, args) ->
                                         Bs_ast_invariant
                                         .warn_discarded_unused_attributes
-                                          fn.pexp_attributes;
+                                          (Melange_ppxlib_ast.Of_ppxlib
+                                           .copy_expression fn)
+                                            .pexp_attributes;
                                         {
                                           Parsetree.pexp_desc =
                                             Pexp_apply
@@ -161,14 +165,14 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                                           pexp_loc = fn.pexp_loc;
                                         }
                                     | _ ->
-                                        Ast_compatible.app1 ~loc:fn.pexp_loc fn
-                                          bounded_obj_arg));
+                                        let loc = fn.pexp_loc in
+                                        [%expr [%e fn] [%e bounded_obj_arg]]));
                            pexp_attributes = tuple_attrs;
                            pexp_loc = f.pexp_loc;
                            pexp_loc_stack = f.pexp_loc_stack;
                          }))
                     wholes
-              | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes },
+              | ( ({ pexp_desc = Pexp_apply (e, args); pexp_attributes } as exp),
                   (_ :: _ as wholes) ) ->
                   let fn = Ast_open_cxt.restore_exp e wholes in
                   let args =
@@ -176,7 +180,8 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                         (lab, Ast_open_cxt.restore_exp exp wholes))
                   in
                   Bs_ast_invariant.warn_discarded_unused_attributes
-                    pexp_attributes;
+                    (Melange_ppxlib_ast.Of_ppxlib.copy_expression exp)
+                      .pexp_attributes;
                   {
                     pexp_desc = Pexp_apply (fn, (Nolabel, a) :: args);
                     pexp_attributes;
@@ -192,12 +197,13 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                   | Some other_attributes, Pexp_apply (fn1, args) ->
                       (* a |. f b c [@bs]
                          Cannot process uncurried application early as the arity is wip *)
-                      let fn1 = self.expr self fn1 in
+                      let fn1 = self#expression fn1 in
                       let args =
-                        args |> List.map (fun (l, e) -> (l, self.expr self e))
+                        args |> List.map (fun (l, e) -> (l, self#expression e))
                       in
                       Bs_ast_invariant.warn_discarded_unused_attributes
-                        fn1.pexp_attributes;
+                        (Melange_ppxlib_ast.Of_ppxlib.copy_expression fn1)
+                          .pexp_attributes;
                       {
                         pexp_desc =
                           Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn1
@@ -206,8 +212,9 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                         pexp_loc_stack = e.pexp_loc_stack;
                         pexp_attributes = e.pexp_attributes @ other_attributes;
                       }
-                  | _ -> Ast_compatible.app1 ~loc ~attrs:e.pexp_attributes f a))
-          )
+                  | _ ->
+                      Ast_helper.Exp.apply ~loc ~attrs:e.pexp_attributes f
+                        [ (Nolabel, a) ])))
       | Some { op = "##"; loc; args = [ obj; rest ] } -> (
           (* - obj##property
              - obj#(method a b )
@@ -222,9 +229,11 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
            pexp_desc =
              Pexp_apply
                ({ pexp_desc = Pexp_ident { txt = Lident name; _ }; _ }, args);
-           pexp_attributes = attrs;
+           _;
           } ->
-              Bs_ast_invariant.warn_discarded_unused_attributes attrs;
+              Bs_ast_invariant.warn_discarded_unused_attributes
+                (Melange_ppxlib_ast.Of_ppxlib.copy_expression rest)
+                  .pexp_attributes;
               {
                 e with
                 pexp_desc =
@@ -240,7 +249,7 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
               sane_property_name_check pexp_loc name;
               {
                 e with
-                pexp_desc = Ast_util.js_property loc (self.expr self obj) name;
+                pexp_desc = Ast_util.js_property loc (self#expression obj) name;
               }
           | _ -> Location.raise_errorf ~loc "invalid ## syntax")
       (* we can not use [:=] for precedece cases
@@ -280,7 +289,7 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
                       (name ^ Literals.setter_suffix)
                       [ (Nolabel, arg) ];
                 }
-                (Ast_literal.type_unit ~loc ())
+                [%type: unit]
           | _ -> assert false)
       | Some { op = "|."; loc } ->
           Location.raise_errorf ~loc
@@ -293,7 +302,7 @@ let app_exp_mapper (e : exp) (self : Ast_mapper.mapper) (fn : exp)
           match
             Ext_list.exclude_with_val e.pexp_attributes Ast_attributes.is_bs
           with
-          | None -> default_expr_mapper self e
+          | None -> super e
           | Some pexp_attributes ->
               {
                 e with

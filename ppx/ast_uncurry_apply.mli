@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2020- Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,17 +22,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** In general three kinds of ast generation.
-    - convert a curried to type to uncurried
-    - convert a curried fun to uncurried fun
-    - convert a uncuried application to normal
-*)
+open Ppxlib
 
-type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
-
-val ocaml_obj_as_js_object :
+(* TODO: the interface is not reusable, it depends on too much context *)
+(* syntax: {[f arg0 arg1 [@bs]]}*)
+val uncurry_fn_apply :
   Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.pattern ->
-  Parsetree.class_field list ->
+  Ast_traverse.map ->
+  Parsetree.expression ->
+  Ast_util.args ->
+  Parsetree.expression_desc
+
+(* syntax : {[f## arg0 arg1 ]}*)
+val method_apply :
+  Location.t ->
+  Ast_traverse.map ->
+  Parsetree.expression ->
+  string ->
+  Ast_util.args ->
+  Parsetree.expression_desc
+
+(* syntax {[f#@ arg0 arg1 ]}*)
+val property_apply :
+  Location.t ->
+  Ast_traverse.map ->
+  Parsetree.expression ->
+  string ->
+  Ast_util.args ->
   Parsetree.expression_desc

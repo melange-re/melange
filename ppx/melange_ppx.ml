@@ -50,9 +50,9 @@
 
 open Ppxlib
 
-let () =
-  Ast_derive_projector.init ();
-  Ast_derive_js_mapper.init ()
+(* let () = *)
+(* Ast_derive_projector.init (); *)
+(* Ast_derive_js_mapper.init () *)
 
 let succeed attr attrs =
   match attrs with
@@ -322,6 +322,21 @@ module Obj = struct
     rule "bs.obj"
 end
 
+module Mapper = struct
+  let mapper =
+    object (self)
+      inherit Ppxlib.Ast_traverse.map as super
+
+      method! expression expr =
+        match expr.pexp_desc with
+        | Pexp_apply (fn, args) ->
+            Ast_exp_apply.app_exp_mapper expr (self, super#expression) fn args
+        | _ -> super#expression expr
+    end
+
+  (* ~intf:(fun ctxt sig_ -> mapper#signature ctxt sig_) *)
+end
+
 let () =
   Driver.add_arg "-unsafe"
     (Unit (fun () -> Ocaml_common.Clflags.unsafe := true))
@@ -338,3 +353,4 @@ let () =
           Node.rule;
           Obj.rule;
         ])
+    ~impl:(fun _ctxt str -> Mapper.mapper#structure str)

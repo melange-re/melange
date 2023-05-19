@@ -50,14 +50,6 @@ let rec destruct_open_tuple (e : Parsetree.expression) (acc : t) :
   | Pexp_tuple es -> Some (acc, es, e.pexp_attributes)
   | _ -> None
 
-let rec destruct (e : Parsetree.expression) (acc : t) =
-  match e.pexp_desc with
-  | Pexp_open
-      ( { popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid; _ } },
-        cont ) ->
-      destruct cont (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
-  | _ -> (e, acc)
-
 (* ?loc:Warnings.loc -> *)
 (* ?attrs:Ast_helper.attrs -> *)
 (* ?docs:Docstrings.docs -> *)

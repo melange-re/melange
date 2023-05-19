@@ -101,7 +101,6 @@ let expr_mapper (self : mapper) (e : Parsetree.expression) =
               Ast_uncurry_gen.to_method_callback e.pexp_loc self label pat body;
             pexp_attributes;
           })
-  | Pexp_apply (fn, args) -> Ast_exp_apply.app_exp_mapper e self fn args
   | Pexp_object { pcstr_self; pcstr_fields } -> (
       match Ast_attributes.process_bs e.pexp_attributes with
       | true, pexp_attributes ->
@@ -208,7 +207,6 @@ let class_expr_mapper (self : mapper) (ce : Parsetree.class_expr) =
 
 let signature_item_mapper (self : mapper) (sigi : Parsetree.signature_item) =
   match sigi.psig_desc with
-  | Psig_type (rf, tdcls) -> Ast_tdcls.handleTdclsInSigi self sigi rf tdcls
   | Psig_value ({ pval_attributes; pval_prim } as value_desc) -> (
       let pval_attributes = self.attributes self pval_attributes in
       if Ast_attributes.rs_externals pval_attributes pval_prim then
@@ -293,8 +291,6 @@ let signature_item_mapper (self : mapper) (sigi : Parsetree.signature_item) =
 
 let structure_item_mapper (self : mapper) (str : Parsetree.structure_item) =
   match str.pstr_desc with
-  | Pstr_type (rf, tdcls) (* [ {ptype_attributes} as tdcl ] *) ->
-      Ast_tdcls.handleTdclsInStru self str rf tdcls
   | Pstr_primitive prim
     when Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim ->
       Ast_external.handleExternalInStru self prim str
