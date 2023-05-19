@@ -26,6 +26,10 @@ open Ppxlib
 
 type attr = Parsetree.attribute
 type t = attr list
+type ('a, 'b) st = { get : 'a option; set : 'b option }
+
+val process_method_attributes_rev :
+  t -> ((bool * bool, [ `Get | `No_get ]) st * t, string) result
 
 type attr_kind =
   | Nothing
@@ -34,6 +38,7 @@ type attr_kind =
   | Method of attr
 
 val process_attributes_rev : t -> attr_kind * t
+val process_bs : t -> bool * t
 val is_bs : attr -> bool
 val bs_get : attr
 val bs_get_index : attr

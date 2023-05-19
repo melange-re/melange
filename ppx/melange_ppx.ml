@@ -336,13 +336,60 @@ module Mapper = struct
     object (self)
       inherit Ppxlib.Ast_traverse.map as super
 
+      method! class_type
+          ({ pcty_attributes; pcty_loc } as ctd : Parsetree.class_type) =
+        (* {[class x : int -> object
+                     end [@bs]
+                   ]}
+
+           Actually this is not going to happpen as below is an invalid syntax
+
+             {[class type x = int -> object
+                 end[@bs]]}
+        *)
+        match Ast_attributes.process_bs pcty_attributes with
+        | false, _ -> super#class_type ctd
+        | true, pcty_attributes -> (
+            match ctd.pcty_desc with
+            | Pcty_signature { pcsig_self; pcsig_fields } ->
+                let pcty_desc =
+                  let pcsig_self = self#core_type pcsig_self in
+                  match
+                    Ast_core_type_class_type.handle_class_type_fields
+                      (self, super#class_type_field)
+                      pcsig_fields
+                  with
+                  | Ok pcsig_fields ->
+                      Pcty_signature { pcsig_self; pcsig_fields }
+                  | Error s ->
+                      let loc = ctd.pcty_loc in
+                      let pcsig_self =
+                        [%type:
+                          [%ocaml.error
+                            [%e
+                              Ast_helper.Exp.constant
+                                (Pconst_string (s, loc, None))]]]
+                      in
+                      Pcty_signature { pcsig_self; pcsig_fields = [] }
+                in
+                { ctd with pcty_desc; pcty_attributes }
+            | Pcty_open _ (* let open M in CT *) | Pcty_constr _
+            | Pcty_extension _ | Pcty_arrow _ ->
+                Location.raise_errorf ~loc:pcty_loc
+                  "invalid or unused attribute `bs`")
+
+      method! core_type typ =
+        Ast_core_type_class_type.typ_mapper (self, super#core_type) typ
+
       method! expression expr =
         match expr.pexp_desc with
         | Pexp_apply (fn, args) ->
             Ast_exp_apply.app_exp_mapper expr (self, super#expression) fn args
         | _ -> super#expression expr
     end
+end
 
+module Derivers = struct
   let gen_structure_signature loc (tdcls : Parsetree.type_declaration list)
       (gen : Ast_derive.gen) (explicit_nonrec : Asttypes.rec_flag) =
     let u = gen in

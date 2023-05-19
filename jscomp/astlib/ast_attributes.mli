@@ -25,9 +25,6 @@ type attr = Parsetree.attribute
 type t = attr list
 type ('a, 'b) st = { get : 'a option; set : 'b option }
 
-val process_method_attributes_rev :
-  t -> (bool * bool, [ `Get | `No_get ]) st * t
-
 type attr_kind =
   | Nothing
   | Meth_callback of attr

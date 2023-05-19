@@ -157,41 +157,6 @@ let expr_mapper (self : mapper) (e : Parsetree.expression) =
       }
   | _ -> default_expr_mapper self e
 
-let typ_mapper (self : mapper) (typ : Parsetree.core_type) =
-  Ast_core_type_class_type.typ_mapper self typ
-
-let class_type_mapper (self : mapper)
-    ({ pcty_attributes; pcty_loc } as ctd : Parsetree.class_type) =
-  match Ast_attributes.process_bs pcty_attributes with
-  | false, _ -> default_mapper.class_type self ctd
-  | true, pcty_attributes -> (
-      match ctd.pcty_desc with
-      | Pcty_signature { pcsig_self; pcsig_fields } ->
-          let pcsig_self = self.typ self pcsig_self in
-          {
-            ctd with
-            pcty_desc =
-              Pcty_signature
-                {
-                  pcsig_self;
-                  pcsig_fields =
-                    Ast_core_type_class_type.handle_class_type_fields self
-                      pcsig_fields;
-                };
-            pcty_attributes;
-          }
-      | Pcty_open _ (* let open M in CT *) | Pcty_constr _ | Pcty_extension _
-      | Pcty_arrow _ ->
-          Location.raise_errorf ~loc:pcty_loc "invalid or unused attribute `bs`"
-      )
-(* {[class x : int -> object
-             end [@bs]
-           ]}
-           Actually this is not going to happpen as below is an invalid syntax
-           {[class type x = int -> object
-               end[@bs]]}
-*)
-
 let class_expr_mapper (self : mapper) (ce : Parsetree.class_expr) =
   match ce.pcl_desc with
   | Pcl_let (r, vbs, sub_ce) ->
@@ -408,8 +373,6 @@ let mapper : mapper =
   {
     default_mapper with
     expr = expr_mapper;
-    typ = typ_mapper;
-    class_type = class_type_mapper;
     class_expr = class_expr_mapper;
     signature_item = signature_item_mapper;
     structure_item = structure_item_mapper;

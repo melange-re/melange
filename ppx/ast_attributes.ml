@@ -26,6 +26,76 @@ open Ppxlib
 
 type attr = Parsetree.attribute
 type t = attr list
+type ('a, 'b) st = { get : 'a option; set : 'b option }
+
+let assert_bool_lit (e : Parsetree.expression) =
+  match e.pexp_desc with
+  | Pexp_construct ({ txt = Lident "true" }, None) -> true
+  | Pexp_construct ({ txt = Lident "false" }, None) -> false
+  | _ ->
+      Location.raise_errorf ~loc:e.pexp_loc
+        "expect `true` or `false` in this field"
+
+let process_method_attributes_rev (attrs : t) =
+  let exception Local of string in
+  try
+    let ret =
+      Ext_list.fold_left attrs
+        ({ get = None; set = None }, [])
+        (fun (st, acc)
+             ({ attr_name = { txt; _ }; attr_payload = payload } as attr) ->
+          match txt with
+          | "bs.get" | "get" (* @bs.get{null; undefined}*) ->
+              let result =
+                match Ast_payload.ident_or_record_as_config payload with
+                | Error s -> raise (Local s)
+                | Ok config ->
+                    Ext_list.fold_left config (false, false)
+                      (fun (null, undefined) ({ txt; loc }, opt_expr) ->
+                        match txt with
+                        | "null" ->
+                            ( (match opt_expr with
+                              | None -> true
+                              | Some e -> assert_bool_lit e),
+                              undefined )
+                        | "undefined" -> (
+                            ( null,
+                              match opt_expr with
+                              | None -> true
+                              | Some e -> assert_bool_lit e ))
+                        | "nullable" -> (
+                            match opt_expr with
+                            | None -> (true, true)
+                            | Some e ->
+                                let v = assert_bool_lit e in
+                                (v, v))
+                        | _ -> Bs_syntaxerr.err loc Unsupported_predicates)
+              in
+
+              ({ st with get = Some result }, acc)
+          | "bs.set" | "set" ->
+              let result =
+                match Ast_payload.ident_or_record_as_config payload with
+                | Error s -> raise (Local s)
+                | Ok config ->
+                    Ext_list.fold_left config `Get
+                      (fun _st ({ txt; loc }, opt_expr) ->
+                        (*FIXME*)
+                        if txt = "no_get" then
+                          match opt_expr with
+                          | None -> `No_get
+                          | Some e ->
+                              if assert_bool_lit e then `No_get else `Get
+                        else Bs_syntaxerr.err loc Unsupported_predicates)
+              in
+              (* properties -- void
+                    [@@set{only}]
+              *)
+              ({ st with set = Some result }, acc)
+          | _ -> (st, attr :: acc))
+    in
+    Ok ret
+  with Local s -> Error s
 
 type attr_kind =
   | Nothing
@@ -45,6 +115,11 @@ let process_attributes_rev (attrs : t) : attr_kind * t =
       | ("bs" | "bs.this" | "this"), _ ->
           Bs_syntaxerr.err loc Conflict_bs_bs_this_bs_meth
       | _, _ -> (st, attr :: acc))
+
+let process_bs (attrs : t) =
+  Ext_list.fold_left attrs (false, [])
+    (fun (st, acc) ({ attr_name = { txt; loc = _ }; _ } as attr) ->
+      match (txt, st) with "bs", _ -> (true, acc) | _, _ -> (st, attr :: acc))
 
 let is_bs (attr : attr) =
   match attr with

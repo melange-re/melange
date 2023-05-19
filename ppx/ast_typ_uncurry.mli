@@ -49,9 +49,19 @@ type uncurry_type_gen =
   typ)
   cxt
 
+val to_uncurry_type : uncurry_type_gen
+(** syntax :
+    {[ int -> int -> int [@bs]]}
+*)
+
 val to_method_type : uncurry_type_gen
 (** syntax
     {[ method : int -> itn -> int ]}
+*)
+
+val to_method_callback_type : uncurry_type_gen
+(** syntax:
+    {[ 'obj -> int -> int [@bs.this] ]}
 *)
 
 val generate_method_type :
