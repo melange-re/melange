@@ -40,6 +40,7 @@ rec {
         "melange.opam"
         "jscomp"
         "lib"
+        "ppx"
         "test"
         "scripts"
       ];
