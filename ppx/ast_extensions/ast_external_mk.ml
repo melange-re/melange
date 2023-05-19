@@ -22,6 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
+open Ast_helper
+
 let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
     ~(pval_type : Parsetree.core_type) ?(local_module_name = "J")
     ?(local_fun_name = "unsafe_expr") (args : Parsetree.expression list) :
@@ -48,7 +51,7 @@ let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
         pmod_loc = loc;
         pmod_attributes = [];
       },
-      Ast_compatible.apply_simple
+      Exp.apply
         ({
            pexp_desc =
              Pexp_ident
@@ -58,7 +61,8 @@ let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
            pexp_loc_stack = [ loc ];
          }
           : Parsetree.expression)
-        args ~loc )
+        (Ext_list.map args (fun x -> (Asttypes.Nolabel, x)))
+        ~loc )
 
 let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
     ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr") args :
@@ -85,7 +89,7 @@ let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
         pmod_loc = loc;
         pmod_attributes = [];
       },
-      Ast_compatible.apply_labels
+      Exp.apply
         ({
            pexp_desc =
              Pexp_ident
@@ -95,7 +99,8 @@ let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
            pexp_loc_stack = [ loc ];
          }
           : Parsetree.expression)
-        args ~loc )
+        (Ext_list.map args (fun (l, a) -> (Asttypes.Labelled l, a)))
+        ~loc )
 
 let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
     ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
@@ -134,6 +139,58 @@ let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
 
 type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
+let to_js_type loc x =
+  Typ.constr ~loc { txt = Ast_literal.Lid.js_obj; loc } [ x ]
+
+(* Note that OCaml type checker will not allow arbitrary
+   name as type variables, for example:
+   {[
+     '_x'_
+   ]}
+   will be recognized as a invalid program
+*)
+let from_labels ~loc arity labels : Parsetree.core_type =
+  let tyvars =
+    Ext_list.init arity (fun i -> Typ.var ~loc ("a" ^ string_of_int i))
+  in
+  let result_type =
+    to_js_type loc
+      (Typ.object_ ~loc
+         (Ext_list.map2 labels tyvars (fun x y -> Of.tag x y))
+         Closed)
+  in
+  Ext_list.fold_right2 labels tyvars result_type
+    (fun label (* {loc ; txt = label }*) tyvar acc ->
+      Typ.arrow ~loc:label.loc (Labelled label.txt) tyvar acc)
+
+let pval_prim_of_labels (labels : string Asttypes.loc list) =
+  let arg_kinds =
+    Ext_list.fold_right labels
+      ([] : External_arg_spec.obj_params)
+      (fun p arg_kinds ->
+        let obj_arg_label =
+          External_arg_spec.obj_label (Lam_methname.translate p.txt)
+        in
+        { obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+  in
+  External_ffi_types.ffi_obj_as_prims arg_kinds
+
+let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
+    (ends_with_unit : bool) =
+  let arg_kinds =
+    Ext_list.fold_right labels
+      (if ends_with_unit then [ External_arg_spec.empty_kind Extern_unit ]
+       else [])
+      (fun (is_option, p) arg_kinds ->
+        let label_name = Lam_methname.translate p.txt in
+        let obj_arg_label =
+          if is_option then External_arg_spec.optional false label_name
+          else External_arg_spec.obj_label label_name
+        in
+        { obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+  in
+  External_ffi_types.ffi_obj_as_prims arg_kinds
+
 let record_as_js_object loc (label_exprs : label_exprs) :
     Parsetree.expression_desc =
   let labels, args, arity =
@@ -145,6 +202,6 @@ let record_as_js_object loc (label_exprs : label_exprs) :
         | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
   in
   local_external_obj loc
-    ~pval_prim:(Ast_external_process.pval_prim_of_labels labels)
-    ~pval_type:(Ast_core_type.from_labels ~loc arity labels)
+    ~pval_prim:(pval_prim_of_labels labels)
+    ~pval_type:(from_labels ~loc arity labels)
     args

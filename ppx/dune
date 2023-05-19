@@ -1,10 +1,11 @@
+(include_subdirs unqualified)
+
 (library
  (name melange_ppx)
  (public_name melange.ppx)
  (kind ppx_rewriter)
- (flags
-  (:standard -w -9))
+ (flags :standard -w -9)
  ; -open Melange_ppx_lib
  (preprocess
   (pps ppxlib.metaquot))
- (libraries ppxlib ast_extensions melange.ppxlib-ast))
+ (libraries common ppxlib melange.ppxlib-ast js_parser))

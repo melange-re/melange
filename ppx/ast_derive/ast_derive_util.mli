@@ -1,4 +1,4 @@
-(* Copyright (C) 2021- Authors of Melange
+(* Copyright (C) 2017 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,5 +22,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val structure : Parsetree.structure -> Parsetree.structure
-val signature : Parsetree.signature -> Parsetree.signature
+val core_type_of_type_declaration :
+  Parsetree.type_declaration -> Parsetree.core_type
+(** Given a type declaration, extaract the type expression, mostly
+  used in code gen later
+ *)
+
+val new_type_of_type_declaration :
+  Parsetree.type_declaration ->
+  string ->
+  Parsetree.core_type * Parsetree.type_declaration
+
+(* val mk_fun :
+     loc:Location.t ->
+     Parsetree.core_type ->
+     string -> Parsetree.expression -> Parsetree.expression
+   val destruct_label_declarations :
+     loc:Location.t ->
+     string ->
+     Parsetree.label_declaration list ->
+     (Parsetree.core_type * Parsetree.expression) list * string list *)
+
+val notApplicable : string -> string
+val invalid_config : Parsetree.expression -> 'a

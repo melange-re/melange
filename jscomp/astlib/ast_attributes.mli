@@ -39,8 +39,6 @@ val process_pexp_fun_attributes_rev : t -> bool * t
 val process_bs : t -> bool * t
 val has_inline_payload : t -> attr option
 
-type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
-
 val iter_process_bs_string_int_unwrap_uncurry :
   t -> [ `Nothing | `String | `Int | `Ignore | `Unwrap | `Uncurry of int option ]
 
@@ -51,7 +49,6 @@ val iter_process_bs_int_as : t -> int option
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
 val iter_process_bs_string_or_int_as : t -> as_const_payload option
-val process_derive_type : t -> derive_attr * t
 
 (* val iter_process_derive_type :
      t -> derive_attr

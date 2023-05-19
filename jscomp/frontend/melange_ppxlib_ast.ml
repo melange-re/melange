@@ -98,6 +98,14 @@ module Of_ppxlib = struct
     | PTyp core_type -> PTyp (copy_core_type core_type)
     | PPat (pattern, expression) ->
         PPat (copy_pattern pattern, Option.map copy_expression expression)
+
+  let copy_attr (attr : Ppxlib.Parsetree.attribute) :
+      Melange_compiler_libs.Parsetree.attribute =
+    {
+      attr_name = attr.attr_name;
+      attr_payload = copy_payload attr.attr_payload;
+      attr_loc = attr.attr_loc;
+    }
 end
 
 module To_ppxlib = struct
@@ -193,4 +201,12 @@ module To_ppxlib = struct
     | PTyp core_type -> PTyp (copy_core_type core_type)
     | PPat (pattern, expression) ->
         PPat (copy_pattern pattern, Option.map copy_expression expression)
+
+  let copy_attr (attr : Melange_compiler_libs.Parsetree.attribute) :
+      Ppxlib.Parsetree.attribute =
+    {
+      attr_name = attr.attr_name;
+      attr_payload = copy_payload attr.attr_payload;
+      attr_loc = attr.attr_loc;
+    }
 end

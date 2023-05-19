@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,31 +17,21 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val core_type_of_type_declaration :
-  Parsetree.type_declaration -> Parsetree.core_type
-(** Given a type declaration, extaract the type expression, mostly 
-  used in code gen later
- *)
+open Ppxlib
 
-val new_type_of_type_declaration :
-  Parsetree.type_declaration ->
-  string ->
-  Parsetree.core_type * Parsetree.type_declaration
+val map_constructor_declarations_into_ints :
+  Parsetree.constructor_declaration list -> [ `Offset of int | `New of int list ]
 
-(* val mk_fun :
-     loc:Location.t ->
-     Parsetree.core_type ->
-     string -> Parsetree.expression -> Parsetree.expression
-   val destruct_label_declarations :
-     loc:Location.t ->
-     string ->
-     Parsetree.label_declaration list ->
-     (Parsetree.core_type * Parsetree.expression) list * string list *)
+(* val is_enum :
+   Parsetree.row_field list ->
+   bool *)
 
-val notApplicable : Location.t -> string -> unit
-val invalid_config : Parsetree.expression -> 'a
+val is_enum_polyvar :
+  Parsetree.type_declaration -> Parsetree.row_field list option
+
+val is_enum_constructors : Parsetree.constructor_declaration list -> bool

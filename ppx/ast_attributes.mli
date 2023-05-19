@@ -25,5 +25,26 @@
 open Ppxlib
 
 type attr = Parsetree.attribute
+type t = attr list
 
+type attr_kind =
+  | Nothing
+  | Meth_callback of attr
+  | Uncurry of attr
+  | Method of attr
+
+val process_attributes_rev : t -> attr_kind * t
 val is_bs : attr -> bool
+val bs_get : attr
+val bs_get_index : attr
+val bs_get_arity : attr
+val bs_set : attr
+val internal_expansive : attr
+val bs_return_undefined : attr
+val iter_process_bs_string_as : t -> label option
+val iter_process_bs_int_as : t -> int option
+val has_bs_optional : t -> bool
+
+type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
+
+val process_derive_type : t -> (derive_attr * t, string) result

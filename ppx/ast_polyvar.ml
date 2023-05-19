@@ -1,0 +1,72 @@
+(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * In addition to the permissions granted to you by the LGPL, you may combine
+ * or link a "work that uses the Library" with a publicly distributed version
+ * of this file to produce a combined library or application, then distribute
+ * that combined work under the terms of your choosing, with no requirement
+ * to comply with the obligations normally placed on you by section 4 of the
+ * LGPL version 3 (or the corresponding section of a later version of the LGPL
+ * should you choose to use a later version).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+
+open Ppxlib
+
+(** Note this is okay with enums, for variants,
+    the underlying representation may change due to
+    unbox
+*)
+let map_constructor_declarations_into_ints
+    (row_fields : Parsetree.constructor_declaration list) =
+  let mark = ref `nothing in
+  let _, acc =
+    Ext_list.fold_left row_fields (0, []) (fun (i, acc) rtag ->
+        let attrs = rtag.pcd_attributes in
+        match Ast_attributes.iter_process_bs_int_as attrs with
+        | Some j ->
+            if j <> i then if i = 0 then mark := `offset j else mark := `complex;
+            (j + 1, j :: acc)
+        | None -> (i + 1, i :: acc))
+  in
+  match !mark with
+  | `nothing -> `Offset 0
+  | `offset j -> `Offset j
+  | `complex -> `New (List.rev acc)
+
+let is_enum row_fields =
+  List.for_all
+    (fun (x : Parsetree.row_field) ->
+      match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
+    row_fields
+
+let is_enum_polyvar (ty : Parsetree.type_declaration) =
+  match ty.ptype_manifest with
+  | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None) }
+    when is_enum row_fields ->
+      Some row_fields
+  | _ -> None
+
+let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
+    =
+  List.for_all
+    (fun (x : Parsetree.constructor_declaration) ->
+      match x with
+      | {
+       pcd_args =
+         Pcstr_tuple [] (* Note the enum is encoded using [Pcstr_tuple []]*);
+      } ->
+          true
+      | _ -> false)
+    constructors

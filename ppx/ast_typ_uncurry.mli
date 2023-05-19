@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2020 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,34 +22,53 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type tdcls = Parsetree.type_declaration list
-
-type gen = {
-  structure_gen : tdcls -> Asttypes.rec_flag -> Ast_structure.t;
-  signature_gen : tdcls -> Asttypes.rec_flag -> Ast_signature.t;
-  expression_gen : (Parsetree.core_type -> Parsetree.expression) option;
-}
-
-val is_builtin_deriver : string -> bool
-
-(*
-   [register name cb]
-   example: [register "accessors" cb]
+(* Note that currently there is no way to consume [Js.meth_callback]
+    so it is fine to encode it with a freedom,
+    but we need make it better for error message.
+    - all are encoded as
+    {[
+      type fn =  (`Args_n of _ , 'result ) Js.fn
+      type method = (`Args_n of _, 'result) Js.method
+      type method_callback = (`Args_n of _, 'result) Js.method_callback
+    ]}
+    For [method_callback], the arity is never zero, so both [method]
+    and  [fn] requires (unit -> 'a) to encode arity zero
 *)
-val register : string -> (Parsetree.expression option -> gen) -> unit
+open Ppxlib
 
-(* val gen_structure:
-   tdcls  ->
-   Ast_payload.action list ->
-   bool ->
-   Ast_structure.t *)
+type typ = Parsetree.core_type
+type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a
 
-val gen_signature :
-  tdcls -> Ast_payload.action list -> Asttypes.rec_flag -> Ast_signature.t
+type uncurry_type_gen =
+  (Asttypes.arg_label ->
+  (* label for error checking *)
+  typ ->
+  (* First arg *)
+  typ ->
+  (* Tail *)
+  typ)
+  cxt
 
-val gen_structure_signature :
+val to_method_type : uncurry_type_gen
+(** syntax
+    {[ method : int -> itn -> int ]}
+*)
+
+val generate_method_type :
   Location.t ->
-  Parsetree.type_declaration list ->
-  Ast_payload.action ->
-  Asttypes.rec_flag ->
-  Parsetree.structure_item option
+  Ast_traverse.map ->
+  ?alias_type:Parsetree.core_type ->
+  string ->
+  Asttypes.arg_label ->
+  Parsetree.pattern ->
+  Parsetree.expression ->
+  Parsetree.core_type
+
+val generate_arg_type :
+  Location.t ->
+  Ast_traverse.map ->
+  string ->
+  Asttypes.arg_label ->
+  Parsetree.pattern ->
+  Parsetree.expression ->
+  Parsetree.core_type

@@ -22,30 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t = Parsetree.core_type
+type tdcls = Parsetree.type_declaration list
 
-val lift_option_type : t -> t
-val is_unit : t -> bool
-val is_builtin_rank0_type : string -> bool
-val make_obj : loc:Location.t -> Parsetree.object_field list -> t
-val is_user_option : t -> bool
-
-val get_uncurry_arity : t -> int option
-(**
-  returns 0 when it can not tell arity from the syntax
-  None -- means not a function
-*)
-
-type param_type = {
-  label : Asttypes.arg_label;
-  ty : t;
-  attr : Parsetree.attributes;
-  loc : Location.t;
+type gen = {
+  structure_gen : tdcls -> Asttypes.rec_flag -> Parsetree.structure;
+  signature_gen : tdcls -> Asttypes.rec_flag -> Parsetree.signature;
+  expression_gen : (Parsetree.core_type -> Parsetree.expression) option;
 }
-
-val mk_fn_type : param_type list -> t -> t
-
-val list_of_arrow : t -> t * param_type list
-(** fails when Ptyp_poly *)
-
-val is_arity_one : t -> bool

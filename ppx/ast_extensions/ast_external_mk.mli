@@ -65,4 +65,14 @@ val local_extern_cont_to_obj :
 
 type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
+val pval_prim_of_labels : string Asttypes.loc list -> string list
+(** [pval_prim_of_labels labels]
+    return [pval_prims] for FFI, it is specialized for
+    external object which is used in
+    {[ [%obj { x = 2; y = 1} ] ]}
+*)
+
+val pval_prim_of_option_labels :
+  (bool * string Asttypes.loc) list -> bool -> string list
+
 val record_as_js_object : Location.t -> label_exprs -> Parsetree.expression_desc

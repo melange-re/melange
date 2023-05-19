@@ -21,31 +21,37 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
+open Ppxlib
 
-type t = Parsetree.core_type
+type t = Parsetree.pattern
 
-val lift_option_type : t -> t
-val is_unit : t -> bool
-val is_builtin_rank0_type : string -> bool
-val make_obj : loc:Location.t -> Parsetree.object_field list -> t
-val is_user_option : t -> bool
+let is_unit_cont ~yes ~no (p : t) =
+  match p with
+  | { ppat_desc = Ppat_construct ({ txt = Lident "()" }, None) } -> yes
+  | _ -> no
 
-val get_uncurry_arity : t -> int option
-(**
-  returns 0 when it can not tell arity from the syntax
-  None -- means not a function
+(** [arity_of_fun pat e] tells the arity of
+    expression [fun pat -> e]
 *)
+let arity_of_fun (pat : Parsetree.pattern) (e : Parsetree.expression) =
+  let rec aux (e : Parsetree.expression) =
+    match e.pexp_desc with
+    | Pexp_fun (_, _, _, e) -> 1 + aux e (*FIXME error on optional*)
+    (* | Pexp_fun _
+       -> Location.raise_errorf
+            ~loc:e.pexp_loc "Label is not allowed in JS object" *)
+    | _ -> 0
+  in
+  is_unit_cont ~yes:0 ~no:1 pat + aux e
 
-type param_type = {
-  label : Asttypes.arg_label;
-  ty : t;
-  attr : Parsetree.attributes;
-  loc : Location.t;
-}
+let rec labels_of_fun (e : Parsetree.expression) =
+  match e.pexp_desc with
+  | Pexp_fun (l, _, _, e) -> l :: labels_of_fun e
+  | _ -> []
 
-val mk_fn_type : param_type list -> t -> t
-
-val list_of_arrow : t -> t * param_type list
-(** fails when Ptyp_poly *)
-
-val is_arity_one : t -> bool
+let rec is_single_variable_pattern_conservative (p : t) =
+  match p.ppat_desc with
+  | Parsetree.Ppat_any | Parsetree.Ppat_var _ -> true
+  | Parsetree.Ppat_alias (p, _) | Parsetree.Ppat_constraint (p, _) ->
+      is_single_variable_pattern_conservative p
+  | _ -> false

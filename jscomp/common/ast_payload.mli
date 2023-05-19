@@ -33,14 +33,6 @@ type action = lid * Parsetree.expression option
 val is_single_string : t -> (string * string option) option
 val is_single_string_as_ast : t -> Parsetree.expression option
 val is_single_int : t -> int option
-
-val raw_as_string_exp_exn :
-  kind:Js_raw_info.raw_kind ->
-  ?is_function:bool ref ->
-  t ->
-  Parsetree.expression option
-(** Convert %raw into expression *)
-
 val as_core_type : Location.t -> t -> Parsetree.core_type
 
 (* val as_empty_structure :  t -> bool  *)

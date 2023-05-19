@@ -10,7 +10,6 @@
  (libraries
   ext
   common
-  ast_derive
   melange_compiler_libs
   melange.ppxlib-ast
   melange.ppxlib

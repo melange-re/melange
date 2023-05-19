@@ -39,27 +39,6 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
   in
   List.rev acc
 
-(** Note this is okay with enums, for variants,
-    the underlying representation may change due to
-    unbox
-*)
-let map_constructor_declarations_into_ints
-    (row_fields : Parsetree.constructor_declaration list) =
-  let mark = ref `nothing in
-  let _, acc =
-    Ext_list.fold_left row_fields (0, []) (fun (i, acc) rtag ->
-        let attrs = rtag.pcd_attributes in
-        match Ast_attributes.iter_process_bs_int_as attrs with
-        | Some j ->
-            if j <> i then if i = 0 then mark := `offset j else mark := `complex;
-            (j + 1, j :: acc)
-        | None -> (i + 1, i :: acc))
-  in
-  match !mark with
-  | `nothing -> `Offset 0
-  | `offset j -> `Offset j
-  | `complex -> `New (List.rev acc)
-
 (** It also check in-consistency of cases like
     {[ [`a  | `c of int ] ]}
 *)
@@ -106,29 +85,3 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
           Nothing
       | false, Some descr -> External_arg_spec.Poly_var_string { descr }
       | true, _ -> External_arg_spec.Poly_var { descr })
-
-let is_enum row_fields =
-  List.for_all
-    (fun (x : Parsetree.row_field) ->
-      match x.prf_desc with Rtag (_label, true, []) -> true | _ -> false)
-    row_fields
-
-let is_enum_polyvar (ty : Parsetree.type_declaration) =
-  match ty.ptype_manifest with
-  | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None) }
-    when is_enum row_fields ->
-      Some row_fields
-  | _ -> None
-
-let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
-    =
-  List.for_all
-    (fun (x : Parsetree.constructor_declaration) ->
-      match x with
-      | {
-       pcd_args =
-         Pcstr_tuple [] (* Note the enum is encoded using [Pcstr_tuple []]*);
-      } ->
-          true
-      | _ -> false)
-    constructors

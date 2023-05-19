@@ -85,28 +85,6 @@ let is_user_option (ty : t) =
    | Ptyp_constr({txt = Lident "int"},[]) -> true
    | _ -> false *)
 
-(* Note that OCaml type checker will not allow arbitrary
-   name as type variables, for example:
-   {[
-     '_x'_
-   ]}
-   will be recognized as a invalid program
-*)
-let from_labels ~loc arity labels : t =
-  let tyvars =
-    Ext_list.init arity (fun i -> Typ.var ~loc ("a" ^ string_of_int i))
-  in
-  let result_type =
-    Ast_comb.to_js_type loc
-      (Typ.object_ ~loc
-         (Ext_list.map2 labels tyvars (fun x y ->
-              Ast_compatible.object_field x [] y))
-         Closed)
-  in
-  Ext_list.fold_right2 labels tyvars result_type
-    (fun label (* {loc ; txt = label }*) tyvar acc ->
-      Ast_compatible.label_arrow ~loc:label.loc label.txt tyvar acc)
-
 let make_obj ~loc xs = Ast_comb.to_js_type loc (Typ.object_ ~loc xs Closed)
 
 (**

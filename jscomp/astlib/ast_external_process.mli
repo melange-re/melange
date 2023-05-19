@@ -51,6 +51,3 @@ val pval_prim_of_labels : string Asttypes.loc list -> string list
     external object which is used in
     {[ [%obj { x = 2; y = 1} ] ]}
 *)
-
-val pval_prim_of_option_labels :
-  (bool * string Asttypes.loc) list -> bool -> string list

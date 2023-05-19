@@ -28,3 +28,8 @@ type args = (Asttypes.arg_label * Parsetree.expression) list
 
 val js_property :
   Location.t -> Parsetree.expression -> string -> Parsetree.expression_desc
+
+val ocaml_obj_as_js_object :
+  location -> Ast_traverse.map -> pattern -> class_field list -> expression_desc
+
+val to_js_type : location -> core_type -> core_type

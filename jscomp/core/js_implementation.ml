@@ -95,7 +95,7 @@ let after_parsing_sig ppf outputprefix ast =
 
 let interface ~parser ppf fname =
   Res_compmisc.init_path ();
-  parser fname |> Ast_deriving_compat.signature
+  parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
   |> Melange_ppx_lib.Ppx_entry.rewrite_signature
@@ -175,7 +175,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
 
 let implementation ~parser ppf fname =
   Res_compmisc.init_path ();
-  parser fname |> Ast_deriving_compat.structure
+  parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
   |> Melange_ppx_lib.Ppx_entry.rewrite_implementation

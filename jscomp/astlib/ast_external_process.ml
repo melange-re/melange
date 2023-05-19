@@ -1049,19 +1049,3 @@ let pval_prim_of_labels (labels : string Asttypes.loc list) =
         { obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
   in
   External_ffi_types.ffi_obj_as_prims arg_kinds
-
-let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
-    (ends_with_unit : bool) =
-  let arg_kinds =
-    Ext_list.fold_right labels
-      (if ends_with_unit then [ External_arg_spec.empty_kind Extern_unit ]
-       else [])
-      (fun (is_option, p) arg_kinds ->
-        let label_name = Lam_methname.translate p.txt in
-        let obj_arg_label =
-          if is_option then External_arg_spec.optional false label_name
-          else External_arg_spec.obj_label label_name
-        in
-        { obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
-  in
-  External_ffi_types.ffi_obj_as_prims arg_kinds

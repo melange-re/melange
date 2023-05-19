@@ -168,25 +168,6 @@ let is_inline : attr -> bool =
 
 let has_inline_payload (attrs : t) = Ext_list.find_first attrs is_inline
 
-type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
-
-let process_derive_type (attrs : t) : derive_attr * t =
-  Ext_list.fold_left attrs
-    ({ bs_deriving = None }, [])
-    (fun (st, acc)
-         ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
-      match txt with
-      | "bs.deriving" | "deriving" -> (
-          match st.bs_deriving with
-          | None ->
-              ( {
-                  bs_deriving =
-                    Some (Ast_payload.ident_or_record_as_config loc payload);
-                },
-                acc )
-          | Some _ -> Bs_syntaxerr.err loc Duplicated_bs_deriving)
-      | _ -> (st, attr :: acc))
-
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
    inconsistency in arity

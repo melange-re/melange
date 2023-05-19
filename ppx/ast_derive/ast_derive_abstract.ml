@@ -62,6 +62,9 @@ let get_optional_attrs =
 let get_attrs = [ Ast_attributes.bs_get_arity ]
 let set_attrs = [ Ast_attributes.bs_set ]
 
+let lift_option_type ({ Parsetree.ptyp_loc } as ty) =
+  Typ.constr { txt = Lident "option"; loc = ptyp_loc } [ ty ]
+
 let handleTdcl light (tdcl : Parsetree.type_declaration) :
     Parsetree.type_declaration * Parsetree.value_description list =
   let core_type = U.core_type_of_type_declaration tdcl in
@@ -84,8 +87,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
       let setter_accessor, makeType, labels =
         Ext_list.fold_right label_declarations
           ( [],
-            (if has_optional_field then
-               Ast_compatible.arrow ~loc (Ast_literal.type_unit ()) core_type
+            (if has_optional_field then [%type: unit -> [%t core_type]]
              else core_type),
             [] )
           (fun ({
@@ -106,17 +108,16 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
 
             let maker, acc =
               if is_optional then
-                let optional_type = Ast_core_type.lift_option_type pld_type in
-                ( Ast_compatible.opt_arrow ~loc:pld_loc label_name pld_type maker,
+                let optional_type = lift_option_type pld_type in
+                ( Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker,
                   Val.mk ~loc:pld_loc
                     (if light then pld_name
                      else { pld_name with txt = pld_name.txt ^ "Get" })
                     ~attrs:get_optional_attrs ~prim
-                    (Ast_compatible.arrow ~loc core_type optional_type)
+                    (Typ.arrow ~loc Nolabel core_type optional_type)
                   :: acc )
               else
-                ( Ast_compatible.label_arrow ~loc:pld_loc label_name pld_type
-                    maker,
+                ( Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker,
                   Val.mk ~loc:pld_loc
                     (if light then pld_name
                      else { pld_name with txt = pld_name.txt ^ "Get" })
@@ -128,16 +129,14 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
                          Return_identity
                          (Js_get
                             { js_get_name = prim_as_name; js_get_scopes = [] }))
-                    (Ast_compatible.arrow ~loc core_type pld_type)
+                    (Typ.arrow ~loc Nolabel core_type pld_type)
                   :: acc )
             in
             let is_current_field_mutable = pld_mutable = Mutable in
             let acc =
               if is_current_field_mutable then
                 let setter_type =
-                  Ast_compatible.arrow core_type
-                    (Ast_compatible.arrow pld_type (* setter *)
-                       (Ast_literal.type_unit ()))
+                  [%type: [%t core_type] -> [%t pld_type] -> unit]
                 in
                 Val.mk ~loc:pld_loc
                   { loc = label_loc; txt = label_name ^ "Set" } (* setter *)
@@ -151,8 +150,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
         if is_private then setter_accessor
         else
           let myPrims =
-            Ast_external_process.pval_prim_of_option_labels labels
-              has_optional_field
+            Ast_external_mk.pval_prim_of_option_labels labels has_optional_field
           in
           let myMaker =
             Val.mk ~loc { loc; txt = type_name } ~prim:myPrims makeType
@@ -169,10 +167,9 @@ let handleTdclsInStr ~light rf tdcls =
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
             ( ntdcl :: tdcls,
-              Ext_list.map_append value_descriptions sts (fun x ->
-                  Str.primitive x) ))
+              Ext_list.map_append value_descriptions sts Str.primitive ))
   in
-  Ast_compatible.rec_type_str rf tdcls :: code
+  Str.type_ rf tdcls :: code
 (* still need perform transformation for non-abstract type*)
 
 let handleTdclsInSig ~light rf tdcls =
@@ -181,7 +178,6 @@ let handleTdclsInSig ~light rf tdcls =
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
             ( ntdcl :: tdcls,
-              Ext_list.map_append value_descriptions sts (fun x -> Sig.value x)
-            ))
+              Ext_list.map_append value_descriptions sts Sig.value ))
   in
-  Ast_compatible.rec_type_sig rf tdcls :: code
+  Sig.type_ rf tdcls :: code

@@ -22,8 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Parser_flow = Js_parser.Parser_flow
-module Parser_env = Js_parser.Parser_env
+[@@@warning "-32-34"]
+
+open Ppxlib
 
 type t = Parsetree.payload
 
@@ -94,39 +95,40 @@ type action = lid * Parsetree.expression option
     {[ { x = exp }]}
 *)
 
-let unrecognizedConfigRecord loc text =
-  Location.prerr_warning loc (Warnings.Bs_derive_warning text)
+let unrecognizedConfigRecord text = "bs.deriving: " ^ text
 
-let ident_or_record_as_config loc (x : t) :
-    (string Location.loc * Parsetree.expression option) list =
+let ident_or_record_as_config (x : t) :
+    ((string Location.loc * Parsetree.expression option) list, string) result =
   match x with
   | PStr
       [
         {
           pstr_desc =
-            Pstr_eval
-              ( {
-                  pexp_desc = Pexp_record (label_exprs, with_obj);
-                  pexp_loc = loc;
-                },
-                _ );
+            Pstr_eval ({ pexp_desc = Pexp_record (label_exprs, with_obj); _ }, _);
           _;
         };
       ] -> (
       match with_obj with
-      | None ->
-          Ext_list.map label_exprs (fun u ->
-              match u with
-              | ( { txt = Lident name; loc },
-                  { Parsetree.pexp_desc = Pexp_ident { txt = Lident name2 } } )
-                when name2 = name ->
-                  ({ Asttypes.txt = name; loc }, None)
-              | { txt = Lident name; loc }, y ->
-                  ({ Asttypes.txt = name; loc }, Some y)
-              | _ -> Location.raise_errorf ~loc "Qualified label is not allowed")
+      | None -> (
+          let exception Local in
+          try
+            Ok
+              (Ext_list.map label_exprs (fun u ->
+                   match u with
+                   | ( { txt = Lident name; loc },
+                       {
+                         Parsetree.pexp_desc = Pexp_ident { txt = Lident name2 };
+                       } )
+                     when name2 = name ->
+                       ({ Asttypes.txt = name; loc }, None)
+                   | { txt = Lident name; loc }, y ->
+                       ({ Asttypes.txt = name; loc }, Some y)
+                   | _ -> raise Local))
+          with Local ->
+            Error (unrecognizedConfigRecord "Qualified label is not allowed"))
       | Some _ ->
-          unrecognizedConfigRecord loc "`with` is not supported, discarding";
-          [])
+          Error (unrecognizedConfigRecord "`with` is not supported, discarding")
+      )
   | PStr
       [
         {
@@ -135,11 +137,11 @@ let ident_or_record_as_config loc (x : t) :
               ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt } }, _);
         };
       ] ->
-      [ ({ Asttypes.txt; loc = lloc }, None) ]
-  | PStr [] -> []
+      Ok [ ({ Asttypes.txt; loc = lloc }, None) ]
+  | PStr [] -> Ok []
   | _ ->
-      unrecognizedConfigRecord loc "invalid attribute config-record, ignoring";
-      []
+      Error
+        (unrecognizedConfigRecord "invalid attribute config-record, ignoring")
 
 let assert_strings loc (x : t) : string list =
   let exception Not_str in
@@ -185,9 +187,9 @@ let empty : t = Parsetree.PStr []
 
 let table_dispatch table (action : action) =
   match action with
-  | { txt = name; loc }, y -> (
+  | { txt = name; _ }, y -> (
       match Map_string.find_exn table name with
-      | fn -> Some (fn y)
+      | fn -> Ok (fn y)
       | exception _ ->
-          Location.prerr_warning loc (Bs_unused_attribute name);
-          None (* Location.raise_errorf ~loc "%s is not supported" name *))
+          Error ("Unused attribute: " ^ name)
+          (* Location.raise_errorf ~loc "%s is not supported" name *))

@@ -26,6 +26,41 @@ open Ast_helper
 
 type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
+let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
+    ?(local_module_name = "J") ?(local_fun_name = "unsafe_expr")
+    (cb : Parsetree.expression -> 'a) : Parsetree.expression_desc =
+  Pexp_letmodule
+    ( { txt = Some local_module_name; loc },
+      {
+        pmod_desc =
+          Pmod_structure
+            [
+              {
+                pstr_desc =
+                  Pstr_primitive
+                    {
+                      pval_name = { txt = local_fun_name; loc };
+                      pval_type;
+                      pval_loc = loc;
+                      pval_prim;
+                      pval_attributes;
+                    };
+                pstr_loc = loc;
+              };
+            ];
+        pmod_loc = loc;
+        pmod_attributes = [];
+      },
+      cb
+        {
+          pexp_desc =
+            Pexp_ident
+              { txt = Ldot (Lident local_module_name, local_fun_name); loc };
+          pexp_attributes = [];
+          pexp_loc = loc;
+          pexp_loc_stack = [ loc ];
+        } )
+
 let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
     (self_pat : Parsetree.pattern) (clfs : Parsetree.class_field list) =
   (* Attention: we should avoid type variable conflict for each method
@@ -179,7 +214,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_mapper.mapper)
         Ast_compatible.label_arrow ~loc:label.Asttypes.loc label.Asttypes.txt
           label_type acc)
   in
-  Ast_extensions.Make.local_extern_cont_to_obj loc
+  local_extern_cont_to_obj loc
     ~pval_prim:(Ast_external_process.pval_prim_of_labels labels)
     (fun e ->
       Ast_compatible.apply_labels ~loc e

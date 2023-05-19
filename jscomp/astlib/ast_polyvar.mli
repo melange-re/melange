@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -26,17 +26,5 @@ val map_row_fields_into_ints :
   Location.t -> Parsetree.row_field list -> (string * int) list
 (** side effect: it will mark used attributes `bs.as`  *)
 
-val map_constructor_declarations_into_ints :
-  Parsetree.constructor_declaration list -> [ `Offset of int | `New of int list ]
-
 val map_row_fields_into_strings :
   Location.t -> Parsetree.row_field list -> External_arg_spec.attr
-
-(* val is_enum :
-   Parsetree.row_field list ->
-   bool *)
-
-val is_enum_polyvar :
-  Parsetree.type_declaration -> Parsetree.row_field list option
-
-val is_enum_constructors : Parsetree.constructor_declaration list -> bool

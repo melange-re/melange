@@ -1,4 +1,4 @@
-(* Copyright (C) 2018 Authors of ReScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,16 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val handleTdclsInSigi :
-  Ast_mapper.mapper ->
-  Parsetree.signature_item ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Ast_signature.item
+type tdcls = Parsetree.type_declaration list
 
-val handleTdclsInStru :
-  Ast_mapper.mapper ->
-  Parsetree.structure_item ->
-  Asttypes.rec_flag ->
-  Parsetree.type_declaration list ->
-  Ast_structure.item
+type gen = {
+  structure_gen : tdcls -> Asttypes.rec_flag -> Parsetree.structure;
+  signature_gen : tdcls -> Asttypes.rec_flag -> Parsetree.signature;
+  expression_gen : (Parsetree.core_type -> Parsetree.expression) option;
+}

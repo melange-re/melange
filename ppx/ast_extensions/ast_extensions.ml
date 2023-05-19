@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
 open Ast_helper
 
 (*
@@ -35,7 +36,7 @@ open Ast_helper
 let handle_external loc (x : string) : Parsetree.expression =
   let raw_exp : Ast_exp.t =
     let str_exp =
-      Ast_compatible.const_exp_string ~loc x ~delimiter:Ext_string.empty
+      Exp.constant ~loc (Pconst_string (x, loc, Some Ext_string.empty))
     in
     {
       str_exp with
@@ -55,25 +56,70 @@ let handle_external loc (x : string) : Parsetree.expression =
   in
   let typeof = Exp.ident { loc; txt = Ldot (Lident "Js", "typeof") } in
 
-  Ast_compatible.app1 ~loc undefined_typeof
-    (Exp.ifthenelse ~loc
-       (Ast_compatible.app2 ~loc
-          (Exp.ident ~loc { loc; txt = Ldot (Lident "Stdlib", "=") })
-          (Ast_compatible.app1 ~loc typeof raw_exp)
-          (Ast_compatible.const_exp_string ~loc "undefined"))
-       empty (Some raw_exp))
+  [%expr
+    [%e undefined_typeof]
+      (if Stdlib.( = ) ([%e typeof] [%e raw_exp]) "undefined" then [%e empty]
+       else [%e raw_exp])]
 
-let handle_debugger loc (payload : Ast_payload.t) =
+let handle_debugger loc payload =
   match payload with
   | PStr [] ->
       Ast_external_mk.local_external_apply loc ~pval_prim:[ "#debugger" ]
-        ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Ast_literal.type_unit ()))
-        [ Ast_literal.val_unit ~loc () ]
+        ~pval_type:(Typ.arrow Nolabel (Typ.any ()) [%type: unit])
+        [ [%expr ()] ]
   | _ -> Location.raise_errorf ~loc "bs.debugger does not accept payload"
+
+let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
+    (x : Parsetree.payload) : Parsetree.expression option =
+  match x with
+  (* TODO also need detect empty phrase case *)
+  | PStr
+      [
+        {
+          pstr_desc =
+            Pstr_eval
+              ( ({
+                   pexp_desc = Pexp_constant (Pconst_string (str, _, deli));
+                   pexp_loc = loc;
+                 } as e),
+                _ );
+          _;
+        };
+      ] ->
+      Bs_flow_ast_utils.check_flow_errors ~loc
+        ~offset:(Bs_flow_ast_utils.flow_deli_offset deli)
+        (match kind with
+        | Raw_re | Raw_exp ->
+            let ((_loc, e) as prog), errors =
+              Js_parser.Parser_flow.parse_expression
+                (Js_parser.Parser_env.init_env None str)
+                false
+            in
+            (if kind = Raw_re then
+               match e with
+               | Literal { value = RegExp _ } -> ()
+               | _ ->
+                   Location.raise_errorf ~loc
+                     "Syntax error: a valid JS regex literal expected");
+            (match is_function with
+            | Some is_function -> (
+                match Classify_function.classify_exp prog with
+                | Js_function { arity = _; _ } -> is_function := true
+                | _ -> ())
+            | None -> ());
+            errors
+        | Raw_program ->
+            snd (Js_parser.Parser_flow.parse_program false None str));
+      Some
+        {
+          e with
+          pexp_desc = Pexp_constant (Pconst_string (str, Location.none, None));
+        }
+  | _ -> None
 
 let handle_raw ~kind loc payload =
   let is_function = ref false in
-  match Ast_payload.raw_as_string_exp_exn ~kind ~is_function payload with
+  match raw_as_string_exp_exn ~kind ~is_function payload with
   | None -> Location.raise_errorf ~loc "bs.raw can only be applied to a string"
   | Some exp ->
       {
@@ -89,7 +135,7 @@ let handle_raw ~kind loc payload =
       }
 
 let handle_raw_structure loc payload =
-  match Ast_payload.raw_as_string_exp_exn ~kind:Raw_program payload with
+  match raw_as_string_exp_exn ~kind:Raw_program payload with
   | Some exp ->
       Ast_helper.Str.eval
         {
@@ -101,4 +147,4 @@ let handle_raw_structure loc payload =
         }
   | None -> Location.raise_errorf ~loc "bs.raw can only be applied to a string"
 
-module Make = Ast_external_mk
+(* module Make = Ast_external_mk *)
