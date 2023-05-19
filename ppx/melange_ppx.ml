@@ -386,6 +386,22 @@ module Mapper = struct
         | Pexp_apply (fn, args) ->
             Ast_exp_apply.app_exp_mapper expr (self, super#expression) fn args
         | _ -> super#expression expr
+
+      method! label_declaration lbl =
+        (* Ad-hoc way to internalize stuff *)
+        let lbl = super#label_declaration lbl in
+        match lbl.pld_attributes with
+        | [ { attr_name = { txt = "internal" }; _ } ] ->
+            {
+              lbl with
+              pld_name =
+                {
+                  lbl.pld_name with
+                  txt = String.capitalize_ascii lbl.pld_name.txt;
+                };
+              pld_attributes = [];
+            }
+        | _ -> lbl
     end
 end
 

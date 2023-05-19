@@ -376,20 +376,4 @@ let mapper : mapper =
     class_expr = class_expr_mapper;
     signature_item = signature_item_mapper;
     structure_item = structure_item_mapper;
-    (* Ad-hoc way to internalize stuff *)
-    label_declaration =
-      (fun self lbl ->
-        let lbl = default_mapper.label_declaration self lbl in
-        match lbl.pld_attributes with
-        | [ { attr_name = { txt = "internal" }; _ } ] ->
-            {
-              lbl with
-              pld_name =
-                {
-                  lbl.pld_name with
-                  txt = String.capitalize_ascii lbl.pld_name.txt;
-                };
-              pld_attributes = [];
-            }
-        | _ -> lbl);
   }
