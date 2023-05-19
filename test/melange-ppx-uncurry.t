@@ -20,6 +20,8 @@ Demonstrate a bug with uncurrying
   >  (target melange)
   >  (alias mel)
   >  (modules main)
+  >  (preprocess (pps melange.ppx))
+  >  (emit_stdlib false)
   >  (module_systems commonjs))
   > EOF
 
