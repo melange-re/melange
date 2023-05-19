@@ -7,4 +7,4 @@
  ; -open Melange_ppx_lib
  (preprocess
   (pps ppxlib.metaquot))
- (libraries ppxlib ast_extensions melange.ppxlib-ast melange.ppxlib))
+ (libraries ppxlib ast_extensions melange.ppxlib-ast))

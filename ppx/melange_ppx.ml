@@ -50,10 +50,6 @@
 
 open Ppxlib
 
-let () =
-  Ast_derive_projector.init ();
-  Ast_derive_js_mapper.init ()
-
 let succeed attr attrs =
   match attrs with
   | [ _ ] -> ()
