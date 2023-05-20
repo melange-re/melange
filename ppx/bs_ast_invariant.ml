@@ -59,20 +59,19 @@ module Warns = struct
     | Bs_toplevel_expression_unit ->
         "Toplevel expression is expected to have unit type."
 
-  let str ~loc w =
-    [%stri
-      [%%ocaml.error
-      [%e Ast_helper.Exp.constant (Pconst_string (message w, loc, None))]]]
+  type exn += Error of Location.t * t
 
-  let expr ~f ~loc w =
-    [%expr
-      [%ocaml.error
-        [%e Ast_helper.Exp.constant (Pconst_string (f w, loc, None))]]]
+  let () =
+    let module Location = Ocaml_common.Location in
+    Location.register_error_of_exn (function
+      | Error (loc, err) ->
+          Some
+            (Ocaml_common.Location.error_of_printer ~loc
+               (fun fmt msg -> Format.fprintf fmt "%s" (message msg))
+               err)
+      | _ -> None)
 
-  let pat ~f ~loc w =
-    [%pat?
-      [%ocaml.error
-        [%e Ast_helper.Exp.constant (Pconst_string (f w, loc, None))]]]
+  let err ~loc msg = raise (Error (loc, msg))
 end
 
 (** Warning unused bs attributes
@@ -106,7 +105,7 @@ let mark_used_bs_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
   if not x.loc.loc_ghost then Hash_set_poly.add used_attributes x
 
 let warn_unused_attribute
-    ({ attr_name = { txt; loc } as sloc } as attr : Parsetree.attribute) =
+    ({ attr_name = { txt; loc } as sloc } : Parsetree.attribute) : unit =
   if
     is_bs_attribute txt && (not loc.loc_ghost)
     && not (Hash_set_poly.mem used_attributes sloc)
@@ -116,70 +115,17 @@ let warn_unused_attribute
     (* dump_used_attributes Format.err_formatter; *)
     (* dump_attribute Format.err_formatter sloc; *)
     (* #endif *)
-    {
-      attr with
-      attr_payload = PStr [ Warns.str ~loc (Bs_unused_attribute txt) ];
-    }
-  else attr
+    Warns.err ~loc (Bs_unused_attribute txt)
 
 let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
-  List.map warn_unused_attribute attrs
-
-let check_constant_pat pat (const : Parsetree.constant) : Parsetree.pattern =
-  let loc = pat.ppat_loc in
-  match const with
-  | Pconst_string (_, _, Some s) ->
-      if s = "j" then
-        Warns.pat ~loc ~f:Fun.id
-          "Unicode string is not allowed in pattern match"
-      else pat
-  | Pconst_integer (s, None) -> (
-      (* range check using int32
-         It is better to give a warning instead of error to avoid make people unhappy.
-         It also has restrictions in which platform bsc is running on since it will
-         affect int ranges
-      *)
-      try
-        ignore (Int32.of_string s);
-        pat
-      with _ -> Warns.pat ~f:Warns.message ~loc Bs_integer_literal_overflow)
-  | Pconst_integer (_, Some 'n') ->
-      Warns.pat ~loc ~f:Fun.id "literal with `n` suffix is not supported"
-  | _ -> pat
-
-let check_constant_expr expr (const : Parsetree.constant) : Parsetree.expression
-    =
-  let loc = expr.pexp_loc in
-  match const with
-  | Pconst_string (_, _, Some s) ->
-      if Ast_utf8_string_interp.is_unescaped s then
-        Warns.expr ~loc ~f:Warns.message (Bs_uninterpreted_delimiters s)
-      else expr
-  | Pconst_integer (s, None) -> (
-      (* range check using int32
-         It is better to give a warning instead of error to avoid make people unhappy.
-         It also has restrictions in which platform bsc is running on since it will
-         affect int ranges
-      *)
-      try
-        ignore (Int32.of_string s);
-        expr
-      with _ -> Warns.expr ~f:Warns.message ~loc Bs_integer_literal_overflow)
-  | Pconst_integer (_, Some 'n') ->
-      Warns.expr ~loc ~f:Fun.id "literal with `n` suffix is not supported"
-  | _ -> expr
+  if attrs <> [] then List.iter warn_unused_attribute attrs
 
 (* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead
    of rolling our own *)
-let emit_external_warnings : Ast_traverse.map =
+let emit_external_warnings : Ast_traverse.iter =
   object (_self)
-    inherit Ast_traverse.map as super
+    inherit Ast_traverse.iter as super
     method! attribute attr = warn_unused_attribute attr
-
-    method! expression a =
-      match a.pexp_desc with
-      | Pexp_constant const -> check_constant_expr a const
-      | _ -> super#expression a
 
     method! label_declaration lbl =
       Ext_list.iter lbl.pld_attributes (fun attr ->
@@ -188,23 +134,6 @@ let emit_external_warnings : Ast_traverse.map =
               mark_used_bs_attribute attr
           | _ -> ());
       super#label_declaration lbl
-
-    method! value_description v =
-      match v with
-      | ({ pval_loc; pval_prim = "%identity" :: _; pval_type } :
-          Parsetree.value_description)
-        when not (Ast_core_type.is_arity_one pval_type) ->
-          Location.raise_errorf ~loc:pval_loc
-            "%%identity expect its type to be of form 'a -> 'b (arity 1)"
-      | _ -> super#value_description v
-
-    method! pattern pat =
-      match pat.ppat_desc with
-      | Ppat_constant constant -> check_constant_pat pat constant
-      | Ppat_record ([], _) ->
-          Location.raise_errorf ~loc:pat.ppat_loc
-            "Empty record pattern is not supported"
-      | _ -> super#pattern pat
   end
 
 let emit_external_warnings_on_structure (stru : Parsetree.structure) =

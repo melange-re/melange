@@ -53,6 +53,7 @@ type t =
   | Optional_in_uncurried_bs_attribute
   | Bs_this_simple_pattern
   | Bs_uncurried_arity_too_large
+  | Redundant_bs_string
 
 let pp_error fmt err =
   Format.pp_print_string fmt
@@ -67,23 +68,23 @@ let pp_error fmt err =
     | Optional_in_uncurried_bs_attribute ->
         "Uncurried function doesn't support optional arguments yet"
     | Expect_opt_in_bs_return_to_opt ->
-        "%@return directive *_to_opt expect return type to be \n\
-         syntax wise `_ option` for safety"
+        "@return directive *_to_opt expect return type to be syntax wise `_ \
+         option` for safety"
     | Not_supported_directive_in_bs_return -> "Not supported return directive"
     | Illegal_attribute -> "Illegal attributes"
     | Canot_infer_arity_by_syntax ->
-        "Cannot infer the arity through the syntax, either [%@uncurry n] or \n\
+        "Cannot infer the arity through the syntax, either [@uncurry n] or \
          write it in arrow syntax "
     | Inconsistent_arity (arity, n) ->
         Printf.sprintf "Inconsistent arity %d vs %d" arity n
     | Not_supported_in_bs_deriving -> "not supported in deriving"
     | Unsupported_predicates -> "unsupported predicates"
     | Conflict_bs_bs_this_bs_meth ->
-        "%@this, %@bs, %@meth can not be applied at the same time"
+        "@this, @bs, @meth can not be applied at the same time"
     | Duplicated_bs_deriving -> "duplicate bs.deriving attribute"
     | Conflict_attributes -> "conflicting attributes "
     | Expect_string_literal -> "expect string literal "
-    | Duplicated_bs_as -> "duplicate %@as "
+    | Duplicated_bs_as -> "duplicate @as "
     | Expect_int_literal -> "expect int literal "
     | Expect_int_or_string_or_json_literal ->
         "expect int, string literal or json literal {json|text here|json} "
@@ -91,15 +92,16 @@ let pp_error fmt err =
     | Unregistered str -> "Unregistered " ^ str
     | Invalid_underscore_type_in_external ->
         "_ is not allowed in combination with external optional type"
-    | Invalid_bs_string_type -> "Not a valid type for %@string"
-    | Invalid_bs_int_type -> "Not a valid type for %@int"
+    | Invalid_bs_string_type -> "Not a valid type for @string"
+    | Invalid_bs_int_type -> "Not a valid type for @int"
     | Invalid_bs_unwrap_type ->
-        "Not a valid type for %@unwrap. Type must be an inline variant \
-         (closed), and\n\
-         each constructor must have an argument."
+        "Not a valid type for @unwrap. Type must be an inline variant \
+         (closed), and each constructor must have an argument."
     | Conflict_ffi_attribute str -> "Conflicting attributes: " ^ str
     | Bs_this_simple_pattern ->
-        "%@this expect its pattern variable to be simple form")
+        "@this expect its pattern variable to be simple form"
+    | Redundant_bs_string ->
+        "@string is redundant here, you can safely remove it")
 
 let err ~loc error = Location.raise_errorf ~loc "%a" pp_error error
 

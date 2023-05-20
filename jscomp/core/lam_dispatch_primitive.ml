@@ -334,7 +334,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       | [ e1; e2 ] -> E.unchecked_int32_mul e1 e2
       | _ -> assert false)
   | _ ->
-      Bs_warnings.warn_missing_primitive loc prim_name;
+      Location.prerr_warning loc (Bs_unimplemented_primitive prim_name);
       E.resolve_and_apply prim_name args
 (*we dont use [throw] here, since [throw] is an statement
   so we wrap in IIFE

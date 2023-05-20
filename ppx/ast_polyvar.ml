@@ -95,7 +95,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
 (* It also check in-consistency of cases like
    {[ [`a  | `c of int ] ]} *)
 let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
-    : (External_arg_spec.attr, string) result =
+    : External_arg_spec.attr =
   let has_bs_as = ref false in
   let case, result =
     List.fold_right
@@ -127,13 +127,11 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
       row_fields (`Nothing, [])
   in
   match case with
-  | `Nothing ->
-      Error (Format.asprintf "%a" Error.pp_error Invalid_bs_string_type)
+  | `Nothing -> Error.err ~loc:ptyp_loc Invalid_bs_string_type
   | `Null | `NonNull -> (
       let has_payload = case = `NonNull in
       let descr = if !has_bs_as then Some result else None in
       match (has_payload, descr) with
-      | false, None ->
-          Error "@string is redundant here, you can safely remove it"
-      | false, Some descr -> Ok (Poly_var_string { descr })
-      | true, _ -> Ok (Poly_var { descr }))
+      | false, None -> Error.err ~loc:ptyp_loc Redundant_bs_string
+      | false, Some descr -> Poly_var_string { descr }
+      | true, _ -> Poly_var { descr })

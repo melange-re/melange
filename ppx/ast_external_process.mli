@@ -37,7 +37,7 @@ val handle_attributes_as_string :
   Ast_attributes.t ->
   string ->
   string ->
-  (response, string) result
+  response
 (**
   [handle_attributes_as_string
   loc pval_name.txt pval_type pval_attributes pval_prim]

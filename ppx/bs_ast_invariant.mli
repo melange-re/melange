@@ -24,17 +24,28 @@
 
 open Ppxlib
 
+module Warns : sig
+  type t =
+    | Bs_unused_attribute of string (* 101 *)
+    | Bs_polymorphic_comparison (* 102 *)
+    | Bs_ffi_warning of string (* 103 *)
+    | Bs_derive_warning of string (* 104 *)
+    | Bs_fragile_external of string (* 105 *)
+    | Bs_unimplemented_primitive of string (* 106 *)
+    | Bs_integer_literal_overflow (* 107 *)
+    | Bs_uninterpreted_delimiters of string (* 108 *)
+    | Bs_toplevel_expression_unit (* 109 *)
+
+  val err : loc:Location.t -> t -> 'a
+end
+
 val mark_used_bs_attribute : Parsetree.attribute -> unit
 
 (** [warn_discarded_unused_attributes discarded]
   warn if [discarded] has unused bs attribute
 *)
-val warn_discarded_unused_attributes :
-  Parsetree.attributes -> Parsetree.attributes
+val warn_discarded_unused_attributes : Parsetree.attributes -> unit
 (** Ast invariant checking for detecting errors *)
 
-val emit_external_warnings_on_structure :
-  Parsetree.structure -> Parsetree.structure
-
-val emit_external_warnings_on_signature :
-  Parsetree.signature -> Parsetree.signature
+val emit_external_warnings_on_structure : Parsetree.structure -> unit
+val emit_external_warnings_on_signature : Parsetree.signature -> unit

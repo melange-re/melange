@@ -43,9 +43,8 @@ let variant_unwrap (row_fields : Parsetree.row_field list) : bool =
   TODO: [nolabel] is only used once turn Nothing into Unit, refactor later
 *)
 let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
-    (External_arg_spec.attr, string) result =
+    External_arg_spec.attr =
   let ptyp_desc = ptyp.ptyp_desc in
-  Format.eprintf "x: %a@." Ocaml_common.Pprintast.core_type ptyp;
   match
     Ast_attributes.iter_process_bs_string_int_unwrap_uncurry
       ptyp.ptyp_attributes
@@ -54,90 +53,83 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
           Ast_polyvar.map_row_fields_into_strings ptyp.ptyp_loc row_fields
-      | _ -> Error (Format.asprintf "%a" Error.pp_error Invalid_bs_string_type))
-  | `Ignore -> Ok Ignore
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_bs_string_type)
+  | `Ignore -> Ignore
   | `Int -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
           let int_lists =
             Ast_polyvar.map_row_fields_into_ints ptyp.ptyp_loc row_fields
           in
-          Ok (Int int_lists)
-      | _ -> Error (Format.asprintf "%a" Error.pp_error Invalid_bs_int_type))
+          Int int_lists
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_bs_int_type)
   | `Unwrap -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, _) when variant_unwrap row_fields ->
-          Ok Unwrap
+          Unwrap
           (* Unwrap attribute can only be attached to things like `[a of a0 | b of b0]` *)
-      | _ -> Error (Format.asprintf "%a" Error.pp_error Invalid_bs_unwrap_type))
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_bs_unwrap_type)
   | `Uncurry opt_arity -> (
       let real_arity = Ast_core_type.get_uncurry_arity ptyp in
       match (opt_arity, real_arity) with
-      | Some arity, None -> Ok (Fn_uncurry_arity arity)
-      | None, None ->
-          Error
-            (Format.asprintf "%a" Error.pp_error Canot_infer_arity_by_syntax)
-      | None, Some arity -> Ok (Fn_uncurry_arity arity)
+      | Some arity, None -> Fn_uncurry_arity arity
+      | None, None -> Error.err ~loc:ptyp.ptyp_loc Canot_infer_arity_by_syntax
+      | None, Some arity -> Fn_uncurry_arity arity
       | Some arity, Some n ->
           if n <> arity then
-            Error
-              (Format.asprintf "%a" Error.pp_error
-                 (Inconsistent_arity (arity, n)))
-          else Ok (Fn_uncurry_arity arity))
+            Error.err ~loc:ptyp.ptyp_loc (Inconsistent_arity (arity, n))
+          else Fn_uncurry_arity arity)
   | `Nothing -> (
       match ptyp_desc with
       | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
-          Ok (if nolabel then Extern_unit else Nothing)
-      | _ -> Ok Nothing)
+          if nolabel then Extern_unit else Nothing
+      | _ -> Nothing)
 
 (* is_optional = false
 *)
 let refine_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
-    (External_arg_spec.attr, string) result =
+    External_arg_spec.attr =
   match ptyp.ptyp_desc with
   | Ptyp_any -> (
       let ptyp_attrs = ptyp.ptyp_attributes in
       let result = Ast_attributes.iter_process_bs_string_or_int_as ptyp_attrs in
       match result with
       | None -> spec_of_ptyp nolabel ptyp
-      | Some cst ->
+      | Some cst -> (
           (* (_[@as ])*)
           (* when ppx start dropping attributes
              we should warn, there is a trade off whether
              we should warn dropped non bs attribute or not
           *)
-          (* Bs_ast_invariant.warn_discarded_unused_attributes ptyp_attrs; *)
-          Ok
-            (match cst with
-            | Int i ->
-                (* This type is used in obj only to construct obj type*)
-                Arg_cst (External_arg_spec.cst_int i)
-            | Str i -> Arg_cst (External_arg_spec.cst_string i)
-            | Js_literal_str s -> Arg_cst (External_arg_spec.cst_obj_literal s))
-      )
+          Bs_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
+          match cst with
+          | Int i ->
+              (* This type is used in obj only to construct obj type*)
+              Arg_cst (External_arg_spec.cst_int i)
+          | Str i -> Arg_cst (External_arg_spec.cst_string i)
+          | Js_literal_str s -> Arg_cst (External_arg_spec.cst_obj_literal s)))
   | _ ->
       (* ([`a|`b] [@string]) *)
       spec_of_ptyp nolabel ptyp
 
 let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
-    (External_arg_spec.attr, string) result =
-  if ptyp.ptyp_desc = Ptyp_any then
+    External_arg_spec.attr =
+  if ptyp.ptyp_desc = Ptyp_any then (
     let ptyp_attrs = ptyp.ptyp_attributes in
     let result = Ast_attributes.iter_process_bs_string_or_int_as ptyp_attrs in
     (* when ppx start dropping attributes
        we should warn, there is a trade off whether
        we should warn dropped non bs attribute or not
     *)
-    (* Bs_ast_invariant.warn_discarded_unused_attributes ptyp_attrs; *)
-    Ok
-      (match result with
-      | None -> Error.err ~loc:ptyp.ptyp_loc Invalid_underscore_type_in_external
-      | Some (Int i) ->
-          (* (_[@as ])*)
-          (* This type is used in obj only to construct obj type*)
-          Arg_cst (External_arg_spec.cst_int i)
-      | Some (Str i) -> Arg_cst (External_arg_spec.cst_string i)
-      | Some (Js_literal_str s) -> Arg_cst (External_arg_spec.cst_obj_literal s))
+    Bs_ast_invariant.warn_discarded_unused_attributes ptyp_attrs;
+    match result with
+    | None -> Error.err ~loc:ptyp.ptyp_loc Invalid_underscore_type_in_external
+    | Some (Int i) ->
+        (* (_[@as ])*)
+        (* This type is used in obj only to construct obj type*)
+        Arg_cst (External_arg_spec.cst_int i)
+    | Some (Str i) -> Arg_cst (External_arg_spec.cst_string i)
+    | Some (Js_literal_str s) -> Arg_cst (External_arg_spec.cst_obj_literal s))
   else (* ([`a|`b] [@string]) *)
     spec_of_ptyp nolabel ptyp
 
@@ -151,7 +143,7 @@ let refine_obj_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     The result type would be [ hi:string ]
 *)
 let get_opt_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
-    (External_arg_spec.attr, string) result =
+    External_arg_spec.attr =
   if ptyp.ptyp_desc = Ptyp_any then
     (* (_[@as ])*)
     (* extenral f : ?x:_ -> y:int -> _ = "" [@@obj] is not allowed *)
@@ -402,11 +394,9 @@ let mk_fn_type (new_arg_types_ty : param_type list)
       })
     new_arg_types_ty result
 
-exception Local of string
-
 let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
     (arg_types_ty : param_type list) (result_type : Parsetree.core_type) :
-    (Parsetree.core_type * External_ffi_types.t, string) result =
+    Parsetree.core_type * External_ffi_types.t =
   (* (Parsetree.core_type * External_ffi_types.t, string) result = *)
   match st with
   | {
@@ -429,198 +419,185 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
     TODO: better error message *)
   } -> (
       match String.length prim_name with
-      | 0 -> (
-          try
-            let ( arg_kinds,
-                  new_arg_types_ty,
-                  (result_types : Parsetree.object_field list) ) =
-              List.fold_right
-                (fun param_type
-                     (arg_labels, (arg_types : param_type list), result_types) ->
-                  let arg_label = param_type.label in
-                  let loc = param_type.loc in
-                  let ty = param_type.ty in
-                  let new_arg_label, new_arg_types, output_tys =
-                    match arg_label with
-                    | Nolabel -> (
-                        match ty.ptyp_desc with
-                        | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
-                            ( External_arg_spec.empty_kind Extern_unit,
-                              param_type :: arg_types,
-                              result_types )
-                        | _ ->
-                            raise (Local "expect label, optional, or unit here")
-                        )
-                    | Labelled name -> (
-                        match refine_obj_arg_type ~nolabel:false ty with
-                        | Error s -> raise (Local s)
-                        | Ok obj_arg_type -> (
-                            match obj_arg_type with
-                            | Ignore ->
-                                ( External_arg_spec.empty_kind obj_arg_type,
-                                  param_type :: arg_types,
-                                  result_types )
-                            | Arg_cst _ ->
-                                let s = Lam_methname.translate name in
-                                ( {
-                                    obj_arg_label = External_arg_spec.obj_label s;
-                                    obj_arg_type;
-                                  },
-                                  arg_types,
-                                  (* ignored in [arg_types], reserved in [result_types] *)
-                                  result_types )
-                            | Nothing ->
-                                let s = Lam_methname.translate name in
-                                ( {
-                                    obj_arg_label = External_arg_spec.obj_label s;
-                                    obj_arg_type;
-                                  },
-                                  param_type :: arg_types,
-                                  Ast_helper.Of.tag
-                                    { Asttypes.txt = name; loc }
-                                    ty
-                                  :: result_types )
-                            | Int _ ->
-                                let s = Lam_methname.translate name in
-                                ( {
-                                    obj_arg_label = External_arg_spec.obj_label s;
-                                    obj_arg_type;
-                                  },
-                                  param_type :: arg_types,
-                                  Ast_helper.Of.tag
-                                    { Asttypes.txt = name; loc }
-                                    [%type: int]
-                                  :: result_types )
-                            | Poly_var_string _ ->
-                                let s = Lam_methname.translate name in
-                                ( {
-                                    obj_arg_label = External_arg_spec.obj_label s;
-                                    obj_arg_type;
-                                  },
-                                  param_type :: arg_types,
-                                  Ast_helper.Of.tag
-                                    { Asttypes.txt = name; loc }
-                                    [%type: string]
-                                  :: result_types )
-                            | Fn_uncurry_arity _ ->
-                                raise
-                                  (Local
-                                     "The combination of @obj, @uncurry is not \
-                                      supported yet")
-                            | Extern_unit -> assert false
-                            | Poly_var _ ->
-                                raise
-                                  (Local
-                                     (Format.sprintf
-                                        "%@obj label %s does not support such \
-                                         arg type"
-                                        name))
-                            | Unwrap ->
-                                raise
-                                  (Local
-                                     (Format.sprintf
-                                        "%@obj label %s does not support \
-                                         %@unwrap arguments"
-                                        name))))
-                    | Optional name -> (
-                        match get_opt_arg_type ~nolabel:false ty with
-                        | Error s -> raise (Local s)
-                        | Ok obj_arg_type -> (
-                            match obj_arg_type with
-                            | Ignore ->
-                                ( External_arg_spec.empty_kind obj_arg_type,
-                                  param_type :: arg_types,
-                                  result_types )
-                            | Nothing ->
-                                let s = Lam_methname.translate name in
-                                (* XXX(anmonteiro): it's unsafe to just read the type of the
-                                   labelled argument declaration, since it could be `'a` in
-                                   the implementation, and e.g. `bool` in the interface. See
-                                   https://github.com/melange-re/melange/pull/58 for
-                                   a test case. *)
-                                ( {
-                                    obj_arg_label =
-                                      External_arg_spec.optional false s;
-                                    obj_arg_type;
-                                  },
-                                  param_type :: arg_types,
-                                  Ast_helper.Of.tag
-                                    { Asttypes.txt = name; loc }
-                                    (Ast_helper.Typ.constr ~loc
-                                       { txt = Ast_literal.js_undefined; loc }
-                                       [ ty ])
-                                  :: result_types )
-                            | Int _ ->
-                                let s = Lam_methname.translate name in
-                                ( {
-                                    obj_arg_label =
-                                      External_arg_spec.optional true s;
-                                    obj_arg_type;
-                                  },
-                                  param_type :: arg_types,
-                                  Ast_helper.Of.tag
-                                    { Asttypes.txt = name; loc }
-                                    (Ast_helper.Typ.constr ~loc
-                                       { txt = Ast_literal.js_undefined; loc }
-                                       [ [%type: int] ])
-                                  :: result_types )
-                            | Poly_var_string _ ->
-                                let s = Lam_methname.translate name in
-                                ( {
-                                    obj_arg_label =
-                                      External_arg_spec.optional true s;
-                                    obj_arg_type;
-                                  },
-                                  param_type :: arg_types,
-                                  Ast_helper.Of.tag
-                                    { Asttypes.txt = name; loc }
-                                    (Ast_helper.Typ.constr ~loc
-                                       { txt = Ast_literal.js_undefined; loc }
-                                       [ [%type: string] ])
-                                  :: result_types )
-                            | Arg_cst _ ->
-                                raise
-                                  (Local
-                                     "@as is not supported with optional yet")
-                            | Fn_uncurry_arity _ ->
-                                raise
-                                  (Local
-                                     "The combination of @obj, @uncurry is not \
-                                      supported yet")
-                            | Extern_unit -> assert false
-                            | Poly_var _ ->
-                                raise
-                                  (Local
-                                     (Format.sprintf
-                                        "%@obj label %s does not support such \
-                                         arg type"
-                                        name))
-                            | Unwrap ->
-                                raise
-                                  (Local
-                                     (Format.sprintf
-                                        "%@obj label %s does not support \
-                                         %@unwrap arguments"
-                                        name))))
-                  in
-                  (new_arg_label :: arg_labels, new_arg_types, output_tys))
-                arg_types_ty ([], [], [])
-            in
+      | 0 ->
+          let ( arg_kinds,
+                new_arg_types_ty,
+                (result_types : Parsetree.object_field list) ) =
+            List.fold_right
+              (fun param_type
+                   (arg_labels, (arg_types : param_type list), result_types) ->
+                let arg_label = param_type.label in
+                let loc = param_type.loc in
+                let ty = param_type.ty in
+                let new_arg_label, new_arg_types, output_tys =
+                  match arg_label with
+                  | Nolabel -> (
+                      match ty.ptyp_desc with
+                      | Ptyp_constr ({ txt = Lident "unit"; _ }, []) ->
+                          ( External_arg_spec.empty_kind Extern_unit,
+                            param_type :: arg_types,
+                            result_types )
+                      | _ ->
+                          Location.raise_errorf ~loc
+                            "expect label, optional, or unit here")
+                  | Labelled name -> (
+                      match refine_obj_arg_type ~nolabel:false ty with
+                      | obj_arg_type -> (
+                          match obj_arg_type with
+                          | Ignore ->
+                              ( External_arg_spec.empty_kind obj_arg_type,
+                                param_type :: arg_types,
+                                result_types )
+                          | Arg_cst _ ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label = External_arg_spec.obj_label s;
+                                  obj_arg_type;
+                                },
+                                arg_types,
+                                (* ignored in [arg_types], reserved in [result_types] *)
+                                result_types )
+                          | Nothing ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label = External_arg_spec.obj_label s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  ty
+                                :: result_types )
+                          | Int _ ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label = External_arg_spec.obj_label s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  [%type: int]
+                                :: result_types )
+                          | Poly_var_string _ ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label = External_arg_spec.obj_label s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  [%type: string]
+                                :: result_types )
+                          | Fn_uncurry_arity _ ->
+                              Location.raise_errorf ~loc
+                                "The combination of @obj, @uncurry is not \
+                                 supported yet"
+                          | Extern_unit -> assert false
+                          | Poly_var _ ->
+                              raise
+                                (Location.raise_errorf ~loc
+                                   "%@obj label %s does not support such arg \
+                                    type"
+                                   name)
+                          | Unwrap ->
+                              raise
+                                (Location.raise_errorf ~loc
+                                   "%@obj label %s does not support %@unwrap \
+                                    arguments"
+                                   name)))
+                  | Optional name -> (
+                      match get_opt_arg_type ~nolabel:false ty with
+                      | obj_arg_type -> (
+                          match obj_arg_type with
+                          | Ignore ->
+                              ( External_arg_spec.empty_kind obj_arg_type,
+                                param_type :: arg_types,
+                                result_types )
+                          | Nothing ->
+                              let s = Lam_methname.translate name in
+                              (* XXX(anmonteiro): it's unsafe to just read the type of the
+                                 labelled argument declaration, since it could be `'a` in
+                                 the implementation, and e.g. `bool` in the interface. See
+                                 https://github.com/melange-re/melange/pull/58 for
+                                 a test case. *)
+                              ( {
+                                  obj_arg_label =
+                                    External_arg_spec.optional false s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  (Ast_helper.Typ.constr ~loc
+                                     { txt = Ast_literal.js_undefined; loc }
+                                     [ ty ])
+                                :: result_types )
+                          | Int _ ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label =
+                                    External_arg_spec.optional true s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  (Ast_helper.Typ.constr ~loc
+                                     { txt = Ast_literal.js_undefined; loc }
+                                     [ [%type: int] ])
+                                :: result_types )
+                          | Poly_var_string _ ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label =
+                                    External_arg_spec.optional true s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  (Ast_helper.Typ.constr ~loc
+                                     { txt = Ast_literal.js_undefined; loc }
+                                     [ [%type: string] ])
+                                :: result_types )
+                          | Arg_cst _ ->
+                              Location.raise_errorf ~loc
+                                "@as is not supported with optional yet"
+                          | Fn_uncurry_arity _ ->
+                              Location.raise_errorf ~loc
+                                "The combination of @obj, @uncurry is not \
+                                 supported yet"
+                          | Extern_unit -> assert false
+                          | Poly_var _ ->
+                              Location.raise_errorf ~loc
+                                "%@obj label %s does not support such arg type"
+                                name
+                          | Unwrap ->
+                              Location.raise_errorf ~loc
+                                "%@obj label %s does not support %@unwrap \
+                                 arguments"
+                                name))
+                in
+                (new_arg_label :: arg_labels, new_arg_types, output_tys))
+              arg_types_ty ([], [], [])
+          in
 
-            let result =
-              let open Ast_helper in
-              if result_type.ptyp_desc = Ptyp_any then
-                Ast_comb.to_js_type ~loc (Typ.object_ ~loc result_types Closed)
-              else result_type
-              (* TODO: do we need do some error checking here *)
-              (* result type can not be labeled *)
-            in
-            Ok
-              ( mk_fn_type new_arg_types_ty result,
-                External_ffi_types.ffi_obj_create arg_kinds )
-          with Local s -> Error s)
-      | _n -> Error "@obj expect external names to be empty string")
-  | _ -> Error "Attribute found that conflicts with @obj"
+          let result =
+            let open Ast_helper in
+            if result_type.ptyp_desc = Ptyp_any then
+              Ast_comb.to_js_type ~loc (Typ.object_ ~loc result_types Closed)
+            else result_type
+            (* TODO: do we need do some error checking here *)
+            (* result type can not be labeled *)
+          in
+          ( mk_fn_type new_arg_types_ty result,
+            External_ffi_types.ffi_obj_create arg_kinds )
+      | _n ->
+          Location.raise_errorf ~loc
+            "@obj expect external names to be empty string")
+  | _ -> Location.raise_errorf ~loc "Attribute found that conflicts with @obj"
 
 let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
     (prim_name_or_pval_prim : bundle_source) (arg_type_specs_length : int)
@@ -985,22 +962,21 @@ let list_of_arrow (ty : Parsetree.core_type) :
 let handle_attributes (loc : Bs_loc.t) (type_annotation : Parsetree.core_type)
     (prim_attributes : Ast_attributes.t) (pval_name : string)
     (prim_name : string) :
-    ( Parsetree.core_type * External_ffi_types.t * Parsetree.attributes * bool,
-      string )
-    result =
+    Parsetree.core_type * External_ffi_types.t * Parsetree.attributes * bool =
   (* sanity check here
       {[ int -> int -> (int -> int -> int [@uncurry])]}
       It does not make sense
   *)
   if has_bs_uncurry type_annotation.ptyp_attributes then
-    Error "@uncurry can not be applied to the whole definition"
+    Location.raise_errorf ~loc
+      "@uncurry can not be applied to the whole definition"
   else
     let prim_name_or_pval_name =
       if String.length prim_name = 0 then
         `Nm_val
           (lazy
-            (* Location.prerr_warning loc (Bs_fragile_external pval_name); *)
-            pval_name)
+            (Bs_ast_invariant.Warns.err ~loc
+               (Bs_fragile_external pval_name) (* pval_name *)))
       else `Nm_external prim_name (* need check name *)
     in
     let result_type, arg_types_ty =
@@ -1008,7 +984,8 @@ let handle_attributes (loc : Bs_loc.t) (type_annotation : Parsetree.core_type)
       list_of_arrow type_annotation
     in
     if has_bs_uncurry result_type.ptyp_attributes then
-      Error "@uncurry can not be applied to tailed position"
+      Location.raise_errorf ~loc
+        "@uncurry can not be applied to tailed position"
     else
       let no_arguments = arg_types_ty = [] in
       let unused_attrs, external_desc =
@@ -1017,152 +994,123 @@ let handle_attributes (loc : Bs_loc.t) (type_annotation : Parsetree.core_type)
       in
       if external_desc.mk_obj then
         (* warn unused attributes here ? *)
-        process_obj loc external_desc prim_name arg_types_ty result_type
-        |> Result.map (fun (new_type, spec) ->
-               (new_type, spec, unused_attrs, false))
+        let new_type, spec =
+          process_obj loc external_desc prim_name arg_types_ty result_type
+        in
+        (new_type, spec, unused_attrs, false)
       else
         let splice = external_desc.splice in
-        let specs =
-          let init =
+        let arg_type_specs, new_arg_types_ty, arg_type_specs_length =
+          let (init : External_arg_spec.params * param_type list * int) =
             match external_desc.val_send_pipe with
             | Some obj -> (
                 match refine_arg_type ~nolabel:true obj with
-                | Error s -> Error s
-                | Ok (Arg_cst _) -> Error "@as is not supported in @send type "
-                | Ok arg_type ->
+                | Arg_cst _ ->
+                    Location.raise_errorf ~loc
+                      "@as is not supported in @send type "
+                | arg_type ->
                     (* more error checking *)
-                    Ok
-                      ( [ { External_arg_spec.arg_label = Arg_empty; arg_type } ],
-                        [
-                          {
-                            label = Nolabel;
-                            ty = obj;
-                            attr = [];
-                            loc = obj.ptyp_loc;
-                          };
-                        ],
-                        0 ))
-            | None -> Ok ([], [], 0)
+                    ( [ { External_arg_spec.arg_label = Arg_empty; arg_type } ],
+                      [
+                        {
+                          label = Nolabel;
+                          ty = obj;
+                          attr = [];
+                          loc = obj.ptyp_loc;
+                        };
+                      ],
+                      0 ))
+            | None -> ([], [], 0)
           in
-          match init with
-          | Error s -> Error s
-          | Ok (init : External_arg_spec.params * param_type list * int) -> (
-              try
-                Ok
-                  (List.fold_right
-                     (fun param_type (arg_type_specs, arg_types, i) ->
-                       let arg_label = param_type.label in
-                       let ty = param_type.ty in
-                       (if i = 0 && splice then
-                          match arg_label with
-                          | Optional _ ->
-                              raise
-                                (Local
-                                   "%@variadic expect the last type to be a \
-                                    non optional")
-                          | Labelled _ | Nolabel -> (
-                              if ty.ptyp_desc = Ptyp_any then
-                                raise
-                                  (Local
-                                     "%@variadic expect the last type to be an \
-                                      array")
-                              else
-                                match spec_of_ptyp true ty with
-                                | Error s -> raise (Local s)
-                                | Ok Nothing -> (
-                                    match ty.ptyp_desc with
-                                    | Ptyp_constr
-                                        ({ txt = Lident "array"; _ }, [ _ ]) ->
-                                        ()
-                                    | _ ->
-                                        raise
-                                          (Local
-                                             "%@variadic expect the last type \
-                                              to be an array"))
-                                | Ok _ ->
-                                    raise
-                                      (Local
-                                         "%@variadic expect the last type to \
-                                          be an array")));
-                       let ( (arg_label : External_arg_spec.label_noname),
-                             arg_type,
-                             new_arg_types ) =
-                         match arg_label with
-                         | Optional s -> (
-                             match get_opt_arg_type ~nolabel:false ty with
-                             | Error s -> raise (Local s)
-                             | Ok (Poly_var _) ->
-                                 (* ?x:([`x of int ] [@string]) does not make sense *)
-                                 raise
-                                   (Local
-                                      (Format.sprintf
-                                         "%@string does not work with optional \
-                                          when it has arities in label %s"
-                                         s))
-                             | Ok arg_type ->
-                                 ( Arg_optional,
-                                   arg_type,
-                                   param_type :: arg_types ))
-                         | Labelled _ -> (
-                             match refine_arg_type ~nolabel:false ty with
-                             | Error s -> raise (Local s)
-                             | Ok arg_type -> (
-                                 ( Arg_label,
-                                   arg_type,
-                                   match arg_type with
-                                   | Arg_cst _ -> arg_types
-                                   | _ -> param_type :: arg_types )))
-                         | Nolabel -> (
-                             match refine_arg_type ~nolabel:true ty with
-                             | Error s -> raise (Local s)
-                             | Ok arg_type -> (
-                                 ( Arg_empty,
-                                   arg_type,
-                                   match arg_type with
-                                   | Arg_cst _ -> arg_types
-                                   | _ -> param_type :: arg_types )))
-                       in
-                       ( { External_arg_spec.arg_label; arg_type }
-                         :: arg_type_specs,
-                         new_arg_types,
-                         if arg_type = Ignore then i else i + 1 ))
-                     arg_types_ty init)
-              with Local s -> Error s)
+          List.fold_right
+            (fun param_type (arg_type_specs, arg_types, i) ->
+              let arg_label = param_type.label in
+              let ty = param_type.ty in
+              (if i = 0 && splice then
+                 match arg_label with
+                 | Optional _ ->
+                     Location.raise_errorf ~loc
+                       "@bs.variadic expects the last type to be a non optional"
+                 | Labelled _ | Nolabel -> (
+                     if ty.ptyp_desc = Ptyp_any then
+                       Location.raise_errorf
+                         "@bs.variadic expect the last type to be an array"
+                     else
+                       match spec_of_ptyp true ty with
+                       | Nothing -> (
+                           match ty.ptyp_desc with
+                           | Ptyp_constr ({ txt = Lident "array"; _ }, [ _ ]) ->
+                               ()
+                           | _ ->
+                               Location.raise_errorf ~loc
+                                 "@bs.variadic expect the last type to be an \
+                                  array")
+                       | _ ->
+                           Location.raise_errorf ~loc
+                             "%@variadic expect the last type to be an array"));
+              let ( (arg_label : External_arg_spec.label_noname),
+                    arg_type,
+                    new_arg_types ) =
+                match arg_label with
+                | Optional s -> (
+                    match get_opt_arg_type ~nolabel:false ty with
+                    | Poly_var _ ->
+                        (* ?x:([`x of int ] [@string]) does not make sense *)
+                        Location.raise_errorf ~loc
+                          "%@bs.string does not work with optional when it has \
+                           arities in label %s"
+                          s
+                    | arg_type ->
+                        (Arg_optional, arg_type, param_type :: arg_types))
+                | Labelled _ -> (
+                    let arg_type = refine_arg_type ~nolabel:false ty in
+                    ( Arg_label,
+                      arg_type,
+                      match arg_type with
+                      | Arg_cst _ -> arg_types
+                      | _ -> param_type :: arg_types ))
+                | Nolabel -> (
+                    let arg_type = refine_arg_type ~nolabel:true ty in
+                    ( Arg_empty,
+                      arg_type,
+                      match arg_type with
+                      | Arg_cst _ -> arg_types
+                      | _ -> param_type :: arg_types ))
+              in
+              ( { External_arg_spec.arg_label; arg_type } :: arg_type_specs,
+                new_arg_types,
+                if arg_type = Ignore then i else i + 1 ))
+            arg_types_ty init
         in
 
-        match specs with
-        | Error s -> Error s
-        | Ok (arg_type_specs, new_arg_types_ty, arg_type_specs_length) ->
-            let ffi : External_ffi_types.external_spec =
-              external_desc_of_non_obj loc external_desc prim_name_or_pval_name
-                arg_type_specs_length arg_types_ty arg_type_specs
-            in
-            let relative = External_ffi_types.check_ffi ~loc ffi in
-            (* result type can not be labeled *)
-            (* currently we don't process attributes of
-               return type, in the future we may *)
-            let return_wrapper =
-              check_return_wrapper loc external_desc.return_wrapper result_type
-            in
-            Ok
-              ( mk_fn_type new_arg_types_ty result_type,
-                External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
-                unused_attrs,
-                relative )
+        let ffi : External_ffi_types.external_spec =
+          external_desc_of_non_obj loc external_desc prim_name_or_pval_name
+            arg_type_specs_length arg_types_ty arg_type_specs
+        in
+        let relative = External_ffi_types.check_ffi ~loc ffi in
+        (* result type can not be labeled *)
+        (* currently we don't process attributes of
+           return type, in the future we may *)
+        let return_wrapper =
+          check_return_wrapper loc external_desc.return_wrapper result_type
+        in
+        ( mk_fn_type new_arg_types_ty result_type,
+          External_ffi_types.ffi_bs arg_type_specs return_wrapper ffi,
+          unused_attrs,
+          relative )
 
 let handle_attributes_as_string (pval_loc : Location.t)
     (typ : Parsetree.core_type) (attrs : Ast_attributes.t) (pval_name : string)
-    (prim_name : string) : (response, string) result =
-  match handle_attributes pval_loc typ attrs pval_name prim_name with
-  | Error s -> Error s
-  | Ok (pval_type, ffi, pval_attributes, no_inline_cross_module) ->
-      Ok
-        {
-          pval_type;
-          pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
-          pval_attributes;
-          no_inline_cross_module;
-        }
+    (prim_name : string) : response =
+  let pval_type, ffi, pval_attributes, no_inline_cross_module =
+    handle_attributes pval_loc typ attrs pval_name prim_name
+  in
+  {
+    pval_type;
+    pval_prim = [ prim_name; External_ffi_types.to_string ffi ];
+    pval_attributes;
+    no_inline_cross_module;
+  }
 
 let pval_prim_of_labels (labels : string Asttypes.loc list) =
   let arg_kinds =

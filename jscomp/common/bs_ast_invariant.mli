@@ -24,3 +24,5 @@
 
 val iter_warnings_on_stru : Parsetree.structure -> unit
 val iter_warnings_on_sigi : Parsetree.signature -> unit
+val emit_external_warnings_on_structure : Parsetree.structure -> unit
+val emit_external_warnings_on_signature : Parsetree.signature -> unit

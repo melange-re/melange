@@ -41,3 +41,89 @@ let rec iter_warnings_on_sigi (stru : Parsetree.signature) =
           Builtin_attributes.warning_attribute attr;
           iter_warnings_on_sigi rest
       | _ -> ())
+
+(* method! expression a = *)
+(* match a.pexp_desc with *)
+(* | Pexp_constant const -> check_constant a.pexp_loc `expr const *)
+(* | _ -> super#expression a *)
+
+(* method! pattern pat = *)
+(* match pat.ppat_desc with *)
+(* | Ppat_constant constant -> check_constant pat.ppat_loc `pat constant *)
+(* | Ppat_record ([], _) -> *)
+(* Location.raise_errorf ~loc:pat.ppat_loc *)
+(* "Empty record pattern is not supported" *)
+(* | _ -> super#pattern pat *)
+
+type iterator = Ast_iterator.iterator
+
+let super = Ast_iterator.default_iterator
+
+let check_constant loc kind (const : Parsetree.constant) =
+  match const with
+  | Pconst_string (_, _, Some s) -> (
+      match kind with
+      | `expr ->
+          if Ast_utf8_string_interp.is_unescaped s then
+            Location.prerr_warning loc (Bs_uninterpreted_delimiters s)
+      | `pat ->
+          if s = "j" then
+            Location.raise_errorf ~loc
+              "Unicode string is not allowed in pattern match")
+  | Pconst_integer (s, None) -> (
+      (* range check using int32
+         It is better to give a warning instead of error to avoid make people unhappy.
+         It also has restrictions in which platform bsc is running on since it will
+         affect int ranges
+      *)
+      try ignore (Int32.of_string s)
+      with _ -> Location.prerr_warning loc Bs_integer_literal_overflow)
+  | Pconst_integer (_, Some 'n') ->
+      Location.raise_errorf ~loc "literal with `n` suffix is not supported"
+  | _ -> ()
+
+module Core_type = struct
+  let rec get_uncurry_arity_aux (ty : Parsetree.core_type) acc =
+    match ty.ptyp_desc with
+    | Ptyp_arrow (_, _, new_ty) -> get_uncurry_arity_aux new_ty (succ acc)
+    | Ptyp_poly (_, ty) -> get_uncurry_arity_aux ty acc
+    | _ -> acc
+
+  let get_curry_arity ty = get_uncurry_arity_aux ty 0
+  let is_arity_one ty = get_curry_arity ty = 1
+end
+
+(* Note we only used Bs_ast_iterator here, we can reuse compiler-libs instead of
+   rolling our own *)
+let emit_external_warnings : iterator =
+  {
+    super with
+    expr =
+      (fun self a ->
+        match a.pexp_desc with
+        | Pexp_constant const -> check_constant a.pexp_loc `expr const
+        | _ -> super.expr self a);
+    value_description =
+      (fun self v ->
+        match v with
+        | ({ pval_loc; pval_prim = "%identity" :: _; pval_type } :
+            Parsetree.value_description)
+          when not (Core_type.is_arity_one pval_type) ->
+            Location.raise_errorf ~loc:pval_loc
+              "%%identity expect its type to be of form 'a -> 'b (arity 1)"
+        | _ -> super.value_description self v);
+    pat =
+      (fun self (pat : Parsetree.pattern) ->
+        match pat.ppat_desc with
+        | Ppat_constant constant -> check_constant pat.ppat_loc `pat constant
+        | Ppat_record ([], _) ->
+            Location.raise_errorf ~loc:pat.ppat_loc
+              "Empty record pattern is not supported"
+        | _ -> super.pat self pat);
+  }
+
+let emit_external_warnings_on_structure (stru : Parsetree.structure) =
+  emit_external_warnings.structure emit_external_warnings stru
+
+let emit_external_warnings_on_signature (sigi : Parsetree.signature) =
+  emit_external_warnings.signature emit_external_warnings sigi

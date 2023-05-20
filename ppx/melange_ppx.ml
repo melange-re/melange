@@ -54,10 +54,8 @@ let succeed attr attrs =
   match attrs with
   | [ _ ] -> ()
   | _ ->
-      Bs_ast_invariant.mark_used_bs_attribute
-        (Melange_ppxlib_ast.Of_ppxlib.copy_attr attr);
-      Bs_ast_invariant.warn_discarded_unused_attributes
-        (List.map Melange_ppxlib_ast.Of_ppxlib.copy_attr attrs)
+      Bs_ast_invariant.mark_used_bs_attribute attr;
+      Bs_ast_invariant.warn_discarded_unused_attributes attrs
 
 module External = struct
   let rule =
@@ -549,6 +547,7 @@ module Mapper = struct
             match (has_inline_property, pvb_expr.pexp_desc) with
             | Some attr, Pexp_constant (Pconst_string (s, _, dec)) ->
                 let loc = pvb_loc in
+                succeed attr pvb_attributes;
                 {
                   str with
                   pstr_desc =
@@ -823,9 +822,11 @@ let () =
       let input_name = Expansion_context.Base.input_name ctxt in
       Ocaml_common.Location.input_name := input_name;
       let ast = Mapper.mapper#structure str in
-      Bs_ast_invariant.emit_external_warnings_on_structure ast)
+      Bs_ast_invariant.emit_external_warnings_on_structure ast;
+      ast)
     ~intf:(fun ctxt sig_ ->
       let input_name = Expansion_context.Base.input_name ctxt in
       Ocaml_common.Location.input_name := input_name;
       let ast = Mapper.mapper#signature sig_ in
-      Bs_ast_invariant.emit_external_warnings_on_signature ast)
+      Bs_ast_invariant.emit_external_warnings_on_signature ast;
+      ast)

@@ -60,28 +60,28 @@ let handleExternalInSig (self : Ast_traverse.map)
                    "only a single string is allowed in bs external %S %S" a b,
                  loc,
                  None ))]]]
-  | [ v ] -> (
-      match
+  | [ v ] ->
+      let {
+        Ast_external_process.pval_type;
+        pval_prim;
+        pval_attributes;
+        no_inline_cross_module;
+      } =
         Ast_external_process.handle_attributes_as_string loc pval_type
           pval_attributes prim.pval_name.txt v
-      with
-      | Error s ->
-          [%sigi:
-            [%%ocaml.error
-            [%e Ast_helper.Exp.constant (Pconst_string (s, loc, None))]]]
-      | Ok { pval_type; pval_prim; pval_attributes; no_inline_cross_module } ->
-          {
-            sigi with
-            psig_desc =
-              Psig_value
-                {
-                  prim with
-                  pval_type;
-                  pval_prim = (if no_inline_cross_module then [] else pval_prim);
-                  pval_attributes =
-                    unboxable_type_in_prim_decl :: pval_attributes;
-                };
-          })
+      in
+
+      {
+        sigi with
+        psig_desc =
+          Psig_value
+            {
+              prim with
+              pval_type;
+              pval_prim = (if no_inline_cross_module then [] else pval_prim);
+              pval_attributes = unboxable_type_in_prim_decl :: pval_attributes;
+            };
+      }
 
 let handleExternalInStru (self : Ast_traverse.map)
     (prim : Parsetree.value_description) (str : Parsetree.structure_item) :
@@ -101,48 +101,47 @@ let handleExternalInStru (self : Ast_traverse.map)
                    "only a single string is allowed in bs external %S %S" a b,
                  loc,
                  None ))]]]
-  | [ v ] -> (
-      match
+  | [ v ] ->
+      let {
+        Ast_external_process.pval_type;
+        pval_prim;
+        pval_attributes;
+        no_inline_cross_module;
+      } =
         Ast_external_process.handle_attributes_as_string loc pval_type
           pval_attributes prim.pval_name.txt v
-      with
-      | Error s ->
-          [%stri
-            [%%ocaml.error
-            [%e Ast_helper.Exp.constant (Pconst_string (s, loc, None))]]]
-      | Ok { pval_type; pval_prim; pval_attributes; no_inline_cross_module } ->
-          let external_result =
-            {
-              str with
-              pstr_desc =
-                Pstr_primitive
-                  {
-                    prim with
-                    pval_type;
-                    pval_prim;
-                    pval_attributes =
-                      unboxable_type_in_prim_decl :: pval_attributes;
-                  };
-            }
-          in
-          if not no_inline_cross_module then external_result
-          else
-            let open Ast_helper in
-            Str.include_ ~loc
-              (Incl.mk ~loc
-                 (Mod.constraint_ ~loc
-                    (Mod.structure ~loc [ external_result ])
-                    (Mty.signature ~loc
-                       [
-                         {
-                           psig_desc =
-                             Psig_value
-                               {
-                                 prim with
-                                 pval_type;
-                                 pval_prim = [];
-                                 pval_attributes;
-                               };
-                           psig_loc = loc;
-                         };
-                       ]))))
+      in
+      let external_result =
+        {
+          str with
+          pstr_desc =
+            Pstr_primitive
+              {
+                prim with
+                pval_type;
+                pval_prim;
+                pval_attributes = unboxable_type_in_prim_decl :: pval_attributes;
+              };
+        }
+      in
+      if not no_inline_cross_module then external_result
+      else
+        let open Ast_helper in
+        Str.include_ ~loc
+          (Incl.mk ~loc
+             (Mod.constraint_ ~loc
+                (Mod.structure ~loc [ external_result ])
+                (Mty.signature ~loc
+                   [
+                     {
+                       psig_desc =
+                         Psig_value
+                           {
+                             prim with
+                             pval_type;
+                             pval_prim = [];
+                             pval_attributes;
+                           };
+                       psig_loc = loc;
+                     };
+                   ])))

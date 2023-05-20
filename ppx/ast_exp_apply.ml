@@ -123,15 +123,13 @@ let app_exp_mapper (e : exp)
                 pexp_loc = e.pexp_loc;
               }
           | Pexp_apply (fn1, args) ->
+              Bs_ast_invariant.warn_discarded_unused_attributes
+                fn1.pexp_attributes;
+
               {
                 pexp_desc =
                   Pexp_apply
-                    ( {
-                        fn1 with
-                        pexp_attributes =
-                          Bs_ast_invariant.warn_discarded_unused_attributes
-                            fn1.pexp_attributes;
-                      },
+                    ( { fn1 with pexp_attributes = fn1.pexp_attributes },
                       (Nolabel, a) :: args );
                 pexp_loc = e.pexp_loc;
                 pexp_loc_stack = e.pexp_loc_stack;
@@ -157,16 +155,13 @@ let app_exp_mapper (e : exp)
                                               (ctor, Some bounded_obj_arg);
                                         }
                                     | Pexp_apply (fn, args) ->
+                                        Bs_ast_invariant
+                                        .warn_discarded_unused_attributes
+                                          fn.pexp_attributes;
                                         {
                                           Parsetree.pexp_desc =
                                             Pexp_apply
-                                              ( {
-                                                  fn with
-                                                  pexp_attributes =
-                                                    Bs_ast_invariant
-                                                    .warn_discarded_unused_attributes
-                                                      fn.pexp_attributes;
-                                                },
+                                              ( { fn with pexp_attributes = [] },
                                                 (Nolabel, bounded_obj_arg)
                                                 :: args );
                                           pexp_attributes = [];
@@ -191,11 +186,11 @@ let app_exp_mapper (e : exp)
                         (lab, Ast_open_cxt.restore_exp exp wholes))
                       args
                   in
+                  Bs_ast_invariant.warn_discarded_unused_attributes
+                    pexp_attributes;
                   {
                     pexp_desc = Pexp_apply (fn, (Nolabel, a) :: args);
-                    pexp_attributes =
-                      Bs_ast_invariant.warn_discarded_unused_attributes
-                        pexp_attributes;
+                    pexp_attributes;
                     pexp_loc = loc;
                     pexp_loc_stack = [];
                   }
@@ -208,18 +203,12 @@ let app_exp_mapper (e : exp)
                   | Some other_attributes, Pexp_apply (fn1, args) ->
                       (* a |. f b c [@bs]
                          Cannot process uncurried application early as the arity is wip *)
-                      let fn1 =
-                        let fn1 = self#expression fn1 in
-                        {
-                          fn1 with
-                          pexp_attributes =
-                            Bs_ast_invariant.warn_discarded_unused_attributes
-                              fn1.pexp_attributes;
-                        }
-                      in
+                      let fn1 = self#expression fn1 in
                       let args =
                         args |> List.map (fun (l, e) -> (l, self#expression e))
                       in
+                      Bs_ast_invariant.warn_discarded_unused_attributes
+                        fn1.pexp_attributes;
                       {
                         pexp_desc =
                           Ast_uncurry_apply.uncurry_fn_apply e.pexp_loc self fn1
@@ -245,15 +234,14 @@ let app_exp_mapper (e : exp)
            pexp_desc =
              Pexp_apply
                ({ pexp_desc = Pexp_ident { txt = Lident name; _ }; _ }, args);
+           pexp_attributes = attrs;
            _;
           } ->
+              Bs_ast_invariant.warn_discarded_unused_attributes attrs;
               {
                 e with
                 pexp_desc =
                   Ast_uncurry_apply.method_apply loc self obj name args;
-                pexp_attributes =
-                  Bs_ast_invariant.warn_discarded_unused_attributes
-                    rest.pexp_attributes;
               }
           | {
            pexp_desc =

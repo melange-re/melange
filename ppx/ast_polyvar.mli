@@ -41,6 +41,4 @@ val map_row_fields_into_ints :
 (** side effect: it will mark used attributes `bs.as`  *)
 
 val map_row_fields_into_strings :
-  Location.t ->
-  Parsetree.row_field list ->
-  (External_arg_spec.attr, string) result
+  Location.t -> Parsetree.row_field list -> External_arg_spec.attr
