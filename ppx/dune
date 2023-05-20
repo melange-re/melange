@@ -8,4 +8,4 @@
  ; -open Melange_ppx_lib
  (preprocess
   (pps ppxlib.metaquot))
- (libraries ext common ppxlib melange.ppxlib-ast js_parser melange_error))
+ (libraries ext common ppxlib melange.ppxlib-ast js_parser))

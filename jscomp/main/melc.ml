@@ -73,6 +73,38 @@ let process_file sourcefile
 
 let ppf = Format.err_formatter
 
+module As_ppx = struct
+  let apply: 'a. kind:'a Ml_binary.kind -> 'a -> 'a = fun ~kind ast ->
+    Clflags.all_ppx := [ "melppx" ];
+    Cmd_ppx_apply.apply_rewriters ~tool_name:"melppx" kind ast
+
+let apply_lazy ~source ~target =
+  let { Ast_io.ast; _ } =
+    Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
+  in
+  let oc = open_out_bin target in
+  match ast with
+  | Intf ast ->
+      let ast =
+        apply ~kind:Ml_binary.Mli ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
+        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+      in
+      output_string oc
+        Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
+      output_value oc !Location.input_name;
+      output_value oc ast
+  | Impl ast ->
+      let ast =
+        apply ~kind:Ml_binary.Ml ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
+        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+      in
+      output_string oc
+        Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
+      output_value oc !Location.input_name;
+      output_value oc ast;
+      close_out oc
+end
+
 let anonymous =
   let executed = ref false in
   fun ~(rev_args : string list) ->
@@ -85,7 +117,10 @@ let anonymous =
     | false ->
       executed := true;
       if !Js_config.as_ppx then
-        `Error(false, "The `--as-ppx' flag has been removed. Use `melppx' instead.")
+        match rev_args with
+        | [output; input] ->
+          `Ok (As_ppx.apply_lazy ~source:input ~target:output)
+        | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
       else
         begin
             if !Js_config.syntax_only then begin
