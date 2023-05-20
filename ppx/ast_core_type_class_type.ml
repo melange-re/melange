@@ -47,9 +47,9 @@ let process_getter_setter ~not_getter_setter
             let ty =
               match (null, undefined) with
               | false, false -> ty
-              | true, false -> lift Ast_literal.Lid.js_null
-              | false, true -> lift Ast_literal.Lid.js_undefined
-              | true, true -> lift Ast_literal.Lid.js_null_undefined
+              | true, false -> lift Ast_literal.js_null
+              | false, true -> lift Ast_literal.js_undefined
+              | true, true -> lift Ast_literal.js_null_undefined
             in
             get ty name pctf_attributes :: acc
       in
@@ -92,7 +92,8 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
       in
       try
         let new_methods =
-          Ext_list.fold_right methods [] (fun meth_ acc ->
+          List.fold_right
+            (fun meth_ acc ->
               match meth_.pof_desc with
               | Parsetree.Oinherit _ -> meth_ :: acc
               | Parsetree.Otag (label, core_type) -> (
@@ -141,6 +142,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
                   with
                   | Ok x -> x
                   | Error s -> raise (Local s)))
+            methods []
         in
         { ty with ptyp_desc = Ptyp_object (new_methods, closed_flag) }
       with Local s ->
@@ -210,5 +212,5 @@ let handle_class_type_fields =
         super ctf :: acc
   in
   fun self fields ->
-    try Ok (Ext_list.fold_right fields [] (handle_class_type_field self))
+    try Ok (List.fold_right (handle_class_type_field self) fields [])
     with Local s -> Error s

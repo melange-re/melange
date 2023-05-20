@@ -31,7 +31,7 @@ type exp = Parsetree.expression
    have a final checking for property arities
      [#=],
 *)
-let jsInternal = Ast_literal.Lid.js_internal
+let jsInternal = Ast_literal.js_internal
 
 let ignored_extra_argument : Parsetree.attribute =
   {
@@ -67,7 +67,7 @@ let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
              * known at compile time. *)
             ignored_extra_argument;
           ]
-        (Exp.ident { txt = Ast_literal.Lid.js_internal_full_apply; loc })
+        (Exp.ident { txt = Ast_literal.js_internal_full_apply; loc })
         [ (Nolabel, e) ],
       Typ.any ~loc () )
 
@@ -75,9 +75,11 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
     (args : Ast_util.args) (cb : loc -> exp -> exp) =
   let obj = self#expression obj in
   let args =
-    Ext_list.map args (fun (lbl, e) ->
-        Bs_syntaxerr.optional_err loc lbl;
+    List.map
+      (fun (lbl, e) ->
+        Error.optional_err ~loc lbl;
         (lbl, self#expression e))
+      args
   in
   let fn = cb loc obj in
   let args =
@@ -97,18 +99,18 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
     opaque_full_apply ~loc
       (Exp.apply ~loc
          (Exp.apply ~loc
-            (Exp.ident ~loc { txt = Ast_literal.Lid.opaque; loc })
+            (Exp.ident ~loc { txt = Ast_literal.opaque; loc })
             [
               ( Nolabel,
                 Exp.field ~loc
                   (Exp.constraint_ ~loc fn
                      (Typ.constr ~loc
                         {
-                          txt = Ldot (Ast_literal.Lid.js_fn, "arity" ^ arity_s);
+                          txt = Ldot (Ast_literal.js_fn, "arity" ^ arity_s);
                           loc;
                         }
                         [ Typ.any ~loc () ]))
-                  { txt = Ast_literal.Lid.hidden_field arity_s; loc } );
+                  { txt = Ast_literal.hidden_field arity_s; loc } );
             ])
          args)
 
@@ -116,9 +118,11 @@ let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
     (args : Ast_util.args) =
   let obj = self#expression obj in
   let args =
-    Ext_list.map args (fun (lbl, e) ->
-        Bs_syntaxerr.optional_err loc lbl;
+    List.map
+      (fun (lbl, e) ->
+        Error.optional_err ~loc lbl;
         (lbl, self#expression e))
+      args
   in
   let fn = Exp.mk ~loc (Ast_util.js_property loc obj name) in
   let args =
@@ -133,25 +137,25 @@ let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
   if arity = 0 then
     Parsetree.Pexp_apply
       ( Exp.ident
-          { txt = Ldot (Ldot (Ast_literal.Lid.js_oo, "Internal"), "run"); loc },
+          { txt = Ldot (Ldot (Ast_literal.js_oo, "Internal"), "run"); loc },
         [ (Nolabel, fn) ] )
   else
     let arity_s = string_of_int arity in
     opaque_full_apply ~loc
       (Exp.apply ~loc
          (Exp.apply ~loc
-            (Exp.ident ~loc { txt = Ast_literal.Lid.opaque; loc })
+            (Exp.ident ~loc { txt = Ast_literal.opaque; loc })
             [
               ( Nolabel,
                 Exp.field ~loc
                   (Exp.constraint_ ~loc fn
                      (Typ.constr ~loc
                         {
-                          txt = Ldot (Ast_literal.Lid.js_meth, "arity" ^ arity_s);
+                          txt = Ldot (Ast_literal.js_meth, "arity" ^ arity_s);
                           loc;
                         }
                         [ Typ.any ~loc () ]))
-                  { loc; txt = Ast_literal.Lid.hidden_field arity_s } );
+                  { loc; txt = Ast_literal.hidden_field arity_s } );
             ])
          args)
 

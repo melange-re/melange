@@ -24,7 +24,10 @@
 
 open Ppxlib
 
+type t = Parsetree.payload
 type action = string Asttypes.loc * Parsetree.expression option
+
+val as_core_type : location -> t -> core_type
 
 val ident_or_record_as_config :
   Parsetree.payload -> (action list, string) result
@@ -40,3 +43,5 @@ val unrecognizedConfigRecord : string -> string
 (** Report to the user, as a warning, that the bs-attribute parser is bailing
     out. (This is to allow external ppx, like ppx_deriving, to pick up where
     the builtin ppx leave off.) *)
+
+val assert_strings : location -> t -> label list

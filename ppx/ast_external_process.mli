@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,32 +17,39 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* note we first declare its type is [unit],
-   then [ignore] it, [ignore] is necessary since
-   the js value  maybe not be of type [unit] and
-   we can use [unit] value (though very little chance)
-   sometimes
+open Ppxlib
+
+type response = {
+  pval_type : Parsetree.core_type;
+  pval_prim : string list;
+  pval_attributes : Parsetree.attributes;
+  no_inline_cross_module : bool;
+}
+
+val handle_attributes_as_string :
+  Bs_loc.t ->
+  Parsetree.core_type ->
+  Ast_attributes.t ->
+  string ->
+  string ->
+  (response, string) result
+(**
+  [handle_attributes_as_string
+  loc pval_name.txt pval_type pval_attributes pval_prim]
+  [pval_name.txt] is the name of identifier
+  [pval_prim] is the name of string literal
+
+  return value is of [pval_type, pval_prims, new_attrs]
 *)
-(* val discard_exp_as_unit :
-   Location.t -> Parsetree.expression -> Parsetree.expression *)
 
-val tuple_type_pair :
-  ?loc:Ast_helper.loc ->
-  [< `Make | `Run ] ->
-  int ->
-  Parsetree.core_type * Parsetree.core_type list * Parsetree.core_type
-
-val to_js_type : Location.t -> Parsetree.core_type -> Parsetree.core_type
-val to_undefined_type : Location.t -> Parsetree.core_type -> Parsetree.core_type
-val to_js_re_type : Location.t -> Parsetree.core_type
-
-val single_non_rec_value :
-  Ast_helper.str -> Parsetree.expression -> Parsetree.structure_item
-
-val single_non_rec_val :
-  Ast_helper.str -> Parsetree.core_type -> Parsetree.signature_item
+val pval_prim_of_labels : string Asttypes.loc list -> string list
+(** [pval_prim_of_labels labels]
+    return [pval_prims] for FFI, it is specialized for
+    external object which is used in
+    {[ [%obj { x = 2; y = 1} ] ]}
+*)

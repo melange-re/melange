@@ -106,10 +106,6 @@ val capitalize_sub:
   int ->
   string
 
-val uncapitalize_ascii : string -> string
-
-val lowercase_ascii : string -> string
-
 val first_marshal_char:
   string ->
   bool

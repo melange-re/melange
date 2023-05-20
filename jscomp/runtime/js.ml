@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 [@@@bs.config {flags = [|"-unboxed-types";"-w" ;"-49"|]}]
+
 (* DESIGN:
    - It does not have any code, all its code will be inlined so that
        there will never be

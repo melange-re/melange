@@ -22,7 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type error =
+open Ppxlib
+
+type t =
   | Unsupported_predicates
   | Conflict_bs_bs_this_bs_meth
   | Duplicated_bs_deriving
@@ -99,22 +101,15 @@ let pp_error fmt err =
     | Bs_this_simple_pattern ->
         "%@this expect its pattern variable to be simple form")
 
-type exn += Error of Location.t * error
+let err ~loc error = Location.raise_errorf ~loc "%a" pp_error error
 
-let () =
-  Location.register_error_of_exn (function
-    | Error (loc, err) -> Some (Location.error_of_printer ~loc pp_error err)
-    | _ -> None)
-
-let err loc error = raise (Error (loc, error))
-
-let optional_err loc (lbl : Asttypes.arg_label) =
+let optional_err ~loc (lbl : Asttypes.arg_label) =
   match lbl with
-  | Optional _ -> raise (Error (loc, Optional_in_uncurried_bs_attribute))
+  | Optional _ -> err ~loc Optional_in_uncurried_bs_attribute
   | _ -> ()
 
-let err_if_label loc (lbl : Asttypes.arg_label) =
-  if lbl <> Nolabel then raise (Error (loc, Misplaced_label_syntax))
+let err_if_label ~loc (lbl : Asttypes.arg_label) =
+  if lbl <> Nolabel then err ~loc Misplaced_label_syntax
 
-let err_large_arity loc arity =
-  if arity > 22 then raise (Error (loc, Bs_uncurried_arity_too_large))
+let err_large_arity ~loc arity =
+  if arity > 22 then err ~loc Bs_uncurried_arity_too_large

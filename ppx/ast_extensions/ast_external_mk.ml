@@ -61,7 +61,7 @@ let local_external_apply loc ?(pval_attributes = []) ~(pval_prim : string list)
            pexp_loc_stack = [ loc ];
          }
           : Parsetree.expression)
-        (Ext_list.map args (fun x -> (Asttypes.Nolabel, x)))
+        (List.map (fun x -> (Asttypes.Nolabel, x)) args)
         ~loc )
 
 let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
@@ -99,7 +99,7 @@ let local_external_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
            pexp_loc_stack = [ loc ];
          }
           : Parsetree.expression)
-        (Ext_list.map args (fun (l, a) -> (Asttypes.Labelled l, a)))
+        (List.map (fun (l, a) -> (Asttypes.Labelled l, a)) args)
         ~loc )
 
 let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
@@ -139,9 +139,6 @@ let local_extern_cont_to_obj loc ?(pval_attributes = []) ~pval_prim ~pval_type
 
 type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
 
-let to_js_type loc x =
-  Typ.constr ~loc { txt = Ast_literal.Lid.js_obj; loc } [ x ]
-
 (* Note that OCaml type checker will not allow arbitrary
    name as type variables, for example:
    {[
@@ -151,55 +148,58 @@ let to_js_type loc x =
 *)
 let from_labels ~loc arity labels : Parsetree.core_type =
   let tyvars =
-    Ext_list.init arity (fun i -> Typ.var ~loc ("a" ^ string_of_int i))
+    List.init arity (fun i -> Typ.var ~loc ("a" ^ string_of_int i))
   in
   let result_type =
-    to_js_type loc
+    Ast_comb.to_js_type ~loc
       (Typ.object_ ~loc
-         (Ext_list.map2 labels tyvars (fun x y -> Of.tag x y))
+         (List.map2 (fun x y -> Of.tag x y) labels tyvars)
          Closed)
   in
-  Ext_list.fold_right2 labels tyvars result_type
+  List.fold_right2
     (fun label (* {loc ; txt = label }*) tyvar acc ->
       Typ.arrow ~loc:label.loc (Labelled label.txt) tyvar acc)
+    labels tyvars result_type
 
 let pval_prim_of_labels (labels : string Asttypes.loc list) =
   let arg_kinds =
-    Ext_list.fold_right labels
-      ([] : External_arg_spec.obj_params)
+    List.fold_right
       (fun p arg_kinds ->
         let obj_arg_label =
           External_arg_spec.obj_label (Lam_methname.translate p.txt)
         in
-        { obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+        { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+      labels []
   in
   External_ffi_types.ffi_obj_as_prims arg_kinds
 
 let pval_prim_of_option_labels (labels : (bool * string Asttypes.loc) list)
     (ends_with_unit : bool) =
   let arg_kinds =
-    Ext_list.fold_right labels
-      (if ends_with_unit then [ External_arg_spec.empty_kind Extern_unit ]
-       else [])
+    List.fold_right
       (fun (is_option, p) arg_kinds ->
         let label_name = Lam_methname.translate p.txt in
         let obj_arg_label =
           if is_option then External_arg_spec.optional false label_name
           else External_arg_spec.obj_label label_name
         in
-        { obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+        { External_arg_spec.obj_arg_type = Nothing; obj_arg_label } :: arg_kinds)
+      labels
+      (if ends_with_unit then [ External_arg_spec.empty_kind Extern_unit ]
+       else [])
   in
   External_ffi_types.ffi_obj_as_prims arg_kinds
 
 let record_as_js_object loc (label_exprs : label_exprs) :
     Parsetree.expression_desc =
   let labels, args, arity =
-    Ext_list.fold_right label_exprs ([], [], 0)
+    List.fold_right
       (fun ({ txt; loc }, e) (labels, args, i) ->
         match txt with
         | Lident x ->
             ({ Asttypes.loc; txt = x } :: labels, (x, e) :: args, i + 1)
         | Ldot _ | Lapply _ -> Location.raise_errorf ~loc "invalid js label ")
+      label_exprs ([], [], 0)
   in
   local_external_obj loc
     ~pval_prim:(pval_prim_of_labels labels)

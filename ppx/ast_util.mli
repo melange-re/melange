@@ -31,5 +31,3 @@ val js_property :
 
 val ocaml_obj_as_js_object :
   location -> Ast_traverse.map -> pattern -> class_field list -> expression_desc
-
-val to_js_type : location -> core_type -> core_type

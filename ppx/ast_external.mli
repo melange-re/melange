@@ -1,5 +1,5 @@
-(* Copyright (C) 2020- Authors of ReScript
- * 
+(* Copyright (C) 2018 Authors of ReScript
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,33 +17,21 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val to_uncurry_fn :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Asttypes.arg_label ->
-  Parsetree.pattern ->
-  Parsetree.expression ->
-  Parsetree.expression_desc
-(** 
-    [function] can only take one argument, that is the reason we did not adopt it
-    syntax:
-    {[ fun [@bs] pat pat1-> body ]}
-    [to_uncurry_fn (fun pat -> (fun pat1 -> ...  body))]
+open Ppxlib
 
-*)
+val handleExternalInSig :
+  Ast_traverse.map ->
+  Parsetree.value_description ->
+  Parsetree.signature_item ->
+  Parsetree.signature_item
 
-val to_method_callback :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Asttypes.arg_label ->
-  Parsetree.pattern ->
-  Parsetree.expression ->
-  Parsetree.expression_desc
-(** syntax: 
-    {[fun [@bs.this] obj pat pat1 -> body]}    
-*)
+val handleExternalInStru :
+  Ast_traverse.map ->
+  Parsetree.value_description ->
+  Parsetree.structure_item ->
+  Parsetree.structure_item

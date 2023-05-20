@@ -29,10 +29,12 @@ let names_from_construct_pattern
     (pat : Patterns.Head.desc Typedtree.pattern_data) =
   let names_from_type_variant (cstrs : Types.constructor_declaration list) =
     let consts, blocks =
-      Ext_list.fold_left cstrs ([], []) (fun (consts, blocks) cstr ->
+      List.fold_left
+        (fun (consts, blocks) (cstr : Types.constructor_declaration) ->
           if is_nullary_variant cstr.cd_args then
             (Ident.name cstr.cd_id :: consts, blocks)
           else (consts, Ident.name cstr.cd_id :: blocks))
+        ([], []) cstrs
     in
     Some
       {

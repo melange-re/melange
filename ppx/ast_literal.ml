@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,40 +17,31 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val mapper : Ast_mapper.mapper
+let predef_prefix_ident : Longident.t = Lident "*predef*"
+let predef_option : Longident.t = Ldot (predef_prefix_ident, "option")
+let predef_some : Longident.t = Ldot (predef_prefix_ident, "Some")
+let predef_none : Longident.t = Ldot (predef_prefix_ident, "None")
 
-(* object
-    for setter : we can push more into [Lsend] and enclose it with a unit type
+type t = Longident.t
 
-    for getter :
-
-    (* Invariant: we expect the typechecker & lambda emitter
-       will not do agressive inlining
-       Worst things could happen
-    {[
-      let x = y## case 3  in
-      x 2
-    ]}
-       in normal case, it should be compiled into Lambda
-    {[
-      let x = Lsend(y,case, [3]) in
-      Lapp(x,2)
-    ]}
-
-       worst:
-    {[ Lsend(y, case, [3,2])
-    ]}
-       for setter(include case setter), this could
-       be prevented by type system, for getter.
-
-       solution: we can prevent this by rewrite into
-    {[
-      Fn.run1  (!x# case) v
-      ]}
-       *)
-*)
+(* TODO should be renamed in to {!Js.fn} *)
+(* TODO should be moved into {!Js.t} Later *)
+let js_internal : t = Ldot (Lident "Js", "Internal")
+let js_internal_full_apply : t = Ldot (js_internal, "opaqueFullApply")
+let opaque : t = Ldot (js_internal, "opaque")
+let js_fn : t = Ldot (Lident "Js", "Fn")
+let js_oo : t = Lident "Js_OO"
+let js_meth : t = Ldot (js_oo, "Meth")
+let js_meth_callback : t = Ldot (js_oo, "Callback")
+let js_obj : t = Ldot (Lident "Js", "t")
+let ignore_id : t = Ldot (Lident "Stdlib", "ignore")
+let hidden_field n : t = Lident ("I" ^ n)
+let js_null : t = Ldot (Lident "Js", "null")
+let js_undefined : t = Ldot (Lident "Js", "undefined")
+let js_null_undefined : t = Ldot (Lident "Js", "null_undefined")
+let js_re_id : t = Ldot (Ldot (Lident "Js", "Re"), "t")

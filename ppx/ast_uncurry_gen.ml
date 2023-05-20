@@ -28,53 +28,53 @@ open Ast_helper
 (* Handling `fun [@this]` used in `object [@bs] end` *)
 let to_method_callback loc (self : Ast_traverse.map) label pat body :
     Parsetree.expression_desc =
-  Bs_syntaxerr.optional_err loc label;
+  Error.optional_err ~loc label;
   let rec aux acc (body : Parsetree.expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with
         | Pexp_fun (arg_label, _, arg, body) ->
-            Bs_syntaxerr.optional_err loc arg_label;
+            Error.optional_err ~loc arg_label;
             aux ((arg_label, self#pattern arg) :: acc) body
         | _ -> (self#expression body, acc))
     | _, _ -> (self#expression body, acc)
   in
   let first_arg = self#pattern pat in
   if not (Ast_pat.is_single_variable_pattern_conservative first_arg) then
-    Bs_syntaxerr.err first_arg.ppat_loc Bs_this_simple_pattern;
+    Error.err ~loc:first_arg.ppat_loc Bs_this_simple_pattern;
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
   let body =
-    Ext_list.fold_left rev_extra_args result (fun e (label, p) ->
-        Ast_helper.Exp.fun_ ~loc label None p e)
+    List.fold_left
+      (fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
+      result rev_extra_args
   in
   let arity = List.length rev_extra_args in
   let arity_s = string_of_int arity in
   Parsetree.Pexp_apply
-    ( Exp.ident ~loc
-        { loc; txt = Ldot (Ast_literal.Lid.js_oo, "unsafe_to_method") },
+    ( Exp.ident ~loc { loc; txt = Ldot (Ast_literal.js_oo, "unsafe_to_method") },
       [
         ( Nolabel,
           Exp.constraint_ ~loc
             (Exp.record ~loc
-               [ ({ loc; txt = Ast_literal.Lid.hidden_field arity_s }, body) ]
+               [ ({ loc; txt = Ast_literal.hidden_field arity_s }, body) ]
                None)
             (Typ.constr ~loc
                {
                  loc;
-                 txt = Ldot (Ast_literal.Lid.js_meth_callback, "arity" ^ arity_s);
+                 txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ arity_s);
                }
                [ Typ.any ~loc () ]) );
       ] )
 
 let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
     body : Parsetree.expression_desc =
-  Bs_syntaxerr.optional_err loc label;
+  Error.optional_err ~loc label;
   let rec aux acc (body : Parsetree.expression) =
     match Ast_attributes.process_attributes_rev body.pexp_attributes with
     | Nothing, _ -> (
         match body.pexp_desc with
         | Pexp_fun (arg_label, _, arg, body) ->
-            Bs_syntaxerr.optional_err loc arg_label;
+            Error.optional_err ~loc arg_label;
             aux ((arg_label, self#pattern arg) :: acc) body
         | _ -> (self#expression body, acc))
     | _, _ -> (self#expression body, acc)
@@ -83,8 +83,9 @@ let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
 
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
   let body =
-    Ext_list.fold_left rev_extra_args result (fun e (label, p) ->
-        Ast_helper.Exp.fun_ ~loc label None p e)
+    List.fold_left
+      (fun e (label, p) -> Ast_helper.Exp.fun_ ~loc label None p e)
+      result rev_extra_args
   in
   let len = List.length rev_extra_args in
   let arity =
@@ -92,8 +93,7 @@ let to_uncurry_fn loc (self : Ast_traverse.map) (label : Asttypes.arg_label) pat
     | [ (_, p) ] -> Ast_pat.is_unit_cont ~yes:0 ~no:len p
     | _ -> len
   in
-  Bs_syntaxerr.err_large_arity loc arity;
+  Error.err_large_arity ~loc arity;
   let arity_s = string_of_int arity in
   Pexp_record
-    ( [ ({ txt = Ldot (Ast_literal.Lid.js_fn, "I" ^ arity_s); loc }, body) ],
-      None )
+    ([ ({ txt = Ldot (Ast_literal.js_fn, "I" ^ arity_s); loc }, body) ], None)

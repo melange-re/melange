@@ -27,18 +27,12 @@ open Ast_helper
 
 type args = (Asttypes.arg_label * Parsetree.expression) list
 
-let to_js_type loc x =
-  Typ.constr ~loc { txt = Ast_literal.Lid.js_obj; loc } [ x ]
-
 let js_property loc obj (name : string) =
   Parsetree.Pexp_send
     ( [%expr
         [%e
           Exp.ident
-            {
-              txt = Ldot (Ast_literal.Lid.js_oo, Literals.unsafe_downgrade);
-              loc;
-            }]
+            { txt = Ldot (Ast_literal.js_oo, Literals.unsafe_downgrade); loc }]
           [%e obj]],
       { loc; txt = name } )
 
@@ -61,17 +55,14 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
     let result = Typ.var ~loc val_name.txt in
 
     ( result,
-      Ast_compatible.object_field val_name []
-        (result |> Melange_ppxlib_ast.Of_ppxlib.copy_core_type)
+      Of.tag val_name result
       ::
       (if is_mutable then
          [
-           Ast_compatible.object_field
+           Of.tag
              { val_name with txt = val_name.txt ^ Literals.setter_suffix }
-             []
              (Ast_typ_uncurry.to_method_type loc mapper Nolabel result
-                [%type: unit]
-             |> Melange_ppxlib_ast.Of_ppxlib.copy_core_type);
+                [%type: unit]);
          ]
        else []) )
   in
@@ -86,13 +77,11 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
       for public object type its [@meth] it does not depend on itself
       while for label argument it is [@this] which depends internal object
   *)
-  let ( (internal_label_attr_types : Ast_compatible.object_field list),
+  let ( (internal_label_attr_types : Parsetree.object_field list),
         (public_label_attr_types : Parsetree.object_field list) ) =
-    Ext_list.fold_right clfs ([], [])
-      (fun
-        ({ pcf_loc = loc } as x : Parsetree.class_field)
-        (label_attr_types, public_label_attr_types)
-      ->
+    List.fold_right
+      (fun ({ pcf_loc = loc } as x : Parsetree.class_field)
+           (label_attr_types, public_label_attr_types) ->
         match x.pcf_desc with
         | Pcf_method (label, public_flag, Cfk_concrete (Fresh, e)) -> (
             match e.pexp_desc with
@@ -101,9 +90,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
                   Ast_typ_uncurry.generate_arg_type x.pcf_loc mapper label.txt
                     lbl pat e
                 in
-                ( Ast_compatible.object_field label []
-                    (method_type |> Melange_ppxlib_ast.Of_ppxlib.copy_core_type)
-                  :: label_attr_types,
+                ( Of.tag label method_type :: label_attr_types,
                   if public_flag = Public then
                     Of.tag label method_type :: public_label_attr_types
                   else public_label_attr_types )
@@ -119,8 +106,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
               generate_val_method_pair x.pcf_loc mapper label
                 (mutable_flag = Mutable)
             in
-            ( Ext_list.append label_attr label_attr_types,
-              public_label_attr_types )
+            (List.append label_attr label_attr_types, public_label_attr_types)
         | Pcf_val (_, _, Cfk_concrete (Override, _)) ->
             Location.raise_errorf ~loc "override flag not support currently"
         | Pcf_val (_, _, Cfk_virtual _) ->
@@ -132,16 +118,16 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
         | Pcf_inherit _ | Pcf_initializer _ | Pcf_attribute _ | Pcf_extension _
         | Pcf_constraint _ ->
             Location.raise_errorf ~loc "Only method support currently")
+      clfs ([], [])
   in
   let internal_obj_type =
     Ast_core_type.make_obj ~loc internal_label_attr_types
-    |> Melange_ppxlib_ast.To_ppxlib.copy_core_type
   in
   let public_obj_type =
-    to_js_type loc (Typ.object_ ~loc public_label_attr_types Closed)
+    Ast_comb.to_js_type ~loc (Typ.object_ ~loc public_label_attr_types Closed)
   in
   let labels, label_types, exprs, _ =
-    Ext_list.fold_right clfs ([], [], [], false)
+    List.fold_right
       (fun (x : Parsetree.class_field) (labels, label_types, exprs, aliased) ->
         match x.pcf_desc with
         | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
@@ -194,16 +180,18 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
         | Pcf_inherit _ | Pcf_initializer _ | Pcf_attribute _ | Pcf_extension _
         | Pcf_constraint _ ->
             Location.raise_errorf ~loc "Only method support currently")
+      clfs ([], [], [], false)
   in
   let pval_type =
-    Ext_list.fold_right2 labels label_types public_obj_type
+    List.fold_right2
       (fun label label_type acc ->
         Typ.arrow ~loc:label.Asttypes.loc (Labelled label.Asttypes.txt)
           label_type acc)
+      labels label_types public_obj_type
   in
   Ast_external_mk.local_extern_cont_to_obj loc
     ~pval_prim:(Ast_external_mk.pval_prim_of_labels labels)
     (fun e ->
       Exp.apply ~loc e
-        (Ext_list.map2 labels exprs (fun l expr -> (Labelled l.txt, expr))))
+        (List.map2 (fun l expr -> (Labelled l.txt, expr)) labels exprs))
     ~pval_type

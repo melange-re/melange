@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
+
 (* type loc = Location.t
 
    type exp = Parsetree.expression
@@ -35,34 +37,43 @@ let rec is_simple_pattern (p : Parsetree.pattern) =
   | Ppat_constraint (p, _) -> is_simple_pattern p
   | _ -> false
 
+let rec same_length xs ys =
+  match (xs, ys) with
+  | [], [] -> true
+  | _ :: xs, _ :: ys -> same_length xs ys
+  | _, _ -> false
+
 (*
   [let (a,b) = M.N.(c,d) ]
   =>
   [ let a = M.N.c
     and b = M.N.d ]
 *)
-let flattern_tuple_pattern_vb (self : Ast_mapper.mapper)
+let flattern_tuple_pattern_vb (self : Ast_traverse.map)
     (vb : Parsetree.value_binding) (acc : Parsetree.value_binding list) :
     Parsetree.value_binding list =
-  let pvb_pat = self.pat self vb.pvb_pat in
-  let pvb_expr = self.expr self vb.pvb_expr in
-  let pvb_attributes = self.attributes self vb.pvb_attributes in
+  let pvb_pat = self#pattern vb.pvb_pat in
+  let pvb_expr = self#expression vb.pvb_expr in
+  let pvb_attributes = self#attributes vb.pvb_attributes in
   match (pvb_pat.ppat_desc, pvb_expr.pexp_desc) with
   | Ppat_tuple xs, _ when List.for_all is_simple_pattern xs -> (
       match Ast_open_cxt.destruct_open_tuple pvb_expr [] with
       | Some (wholes, es, tuple_attributes)
-        when Ext_list.for_all xs is_simple_pattern && Ext_list.same_length es xs
-        ->
-          Bs_ast_invariant.warn_discarded_unused_attributes tuple_attributes;
+        when List.for_all is_simple_pattern xs && same_length es xs ->
           (* will be dropped*)
-          Ext_list.fold_right2 xs es acc (fun pat exp acc ->
+          List.fold_right2
+            (fun pat exp acc ->
               {
                 pvb_pat = pat;
                 pvb_expr = Ast_open_cxt.restore_exp exp wholes;
-                pvb_attributes;
+                pvb_attributes =
+                  pvb_attributes
+                  @ Bs_ast_invariant.warn_discarded_unused_attributes
+                      tuple_attributes;
                 pvb_loc = vb.pvb_loc;
               }
               :: acc)
+            xs es acc
       | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc)
   | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id } ->
       Ext_list.map_append lid_pats acc (fun (lid, pat) ->
@@ -85,6 +96,6 @@ let flattern_tuple_pattern_vb (self : Ast_mapper.mapper)
    new value bindings, it must be called at every AST node that has a
    value_binding list. This means that we're one step behind if a new node is
    introduced upstream. *)
-let value_bindings_mapper (self : Ast_mapper.mapper)
+let value_bindings_mapper (self : Ast_traverse.map)
     (vbs : Parsetree.value_binding list) =
-  Ext_list.fold_right vbs [] (flattern_tuple_pattern_vb self)
+  List.fold_right (flattern_tuple_pattern_vb self) vbs []

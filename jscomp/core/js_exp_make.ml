@@ -234,7 +234,7 @@ let rec seq ?loc ?comment (e0 : t) (e1 : t) : t =
   | (Number _ | Var _ | Undefined), _ -> e1
   | _ -> make_expression ?loc ?comment (Seq (e0, e1))
 
-let fuse_to_seq x xs = if xs = [] then x else Ext_list.fold_left xs x seq
+let fuse_to_seq x xs = if xs = [] then x else List.fold_left seq x xs
 
 (* let empty_string_literal : t =
    make_expression (Str (true,"")) *)
@@ -1153,8 +1153,7 @@ let of_block ?loc ?comment ?e block : t =
             (match e with
             | None -> block
             | Some e ->
-                Ext_list.append block
-                  [ { J.statement_desc = Return e; comment } ]),
+                List.append block [ { J.statement_desc = Return e; comment } ]),
             Js_fun_env.make 0,
             return_unit )))
     []

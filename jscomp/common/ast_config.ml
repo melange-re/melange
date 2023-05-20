@@ -44,13 +44,12 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
   | {
       Parsetree.pstr_desc =
         Pstr_attribute
-          ({
-             attr_name = { txt = "bs.config" | "config"; loc };
-             attr_payload = payload;
-           } as attr);
+          {
+            attr_name = { txt = "bs.config" | "config"; loc };
+            attr_payload = payload;
+          };
     }
     :: _ ->
-      Bs_ast_invariant.mark_used_bs_attribute attr;
       Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
         (fun x ->
           Ast_payload.table_dispatch !structural_config_table x |> ignore)
@@ -85,13 +84,12 @@ let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
   | {
       psig_desc =
         Psig_attribute
-          ({
-             attr_name = { txt = "bs.config" | "config"; loc };
-             attr_payload = payload;
-           } as attr);
+          {
+            attr_name = { txt = "bs.config" | "config"; loc };
+            attr_payload = payload;
+          };
     }
     :: _ ->
-      Bs_ast_invariant.mark_used_bs_attribute attr;
       Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
         (fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)

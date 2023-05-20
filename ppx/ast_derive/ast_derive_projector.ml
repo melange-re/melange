@@ -12,11 +12,9 @@ let gen =
           let core_type = Ast_derive_util.core_type_of_type_declaration tdcl in
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
-              Ext_list.map label_declarations
-                (fun
-                  ({ pld_name = { loc; txt = pld_label } as pld_name } :
-                    Parsetree.label_declaration)
-                ->
+              List.map
+                (fun ({ pld_name = { loc; txt = pld_label } as pld_name } :
+                       Parsetree.label_declaration) ->
                   let txt = "param" in
                   Str.value Nonrecursive
                     [
@@ -27,25 +25,22 @@ let gen =
                               (Exp.ident { txt = Lident txt; loc })
                               { txt = Longident.Lident pld_label; loc }));
                     ])
+                label_declarations
           | Ptype_variant constructor_declarations ->
-              Ext_list.map constructor_declarations
-                (fun
-                  {
-                    pcd_name = { loc; txt = con_name };
-                    pcd_args;
-                    pcd_loc = _;
-                    pcd_res;
-                  }
-                ->
+              List.map
+                (fun {
+                       Parsetree.pcd_name = { loc; txt = con_name };
+                       pcd_args;
+                       pcd_loc = _;
+                       pcd_res;
+                     } ->
                   (* TODO: add type annotations *)
                   let pcd_args =
                     match pcd_args with
                     | Pcstr_tuple pcd_args -> pcd_args
                     | Pcstr_record _ -> assert false
                   in
-                  let little_con_name =
-                    Ext_string.uncapitalize_ascii con_name
-                  in
+                  let little_con_name = String.uncapitalize_ascii con_name in
                   let arity = List.length pcd_args in
                   let annotate_type =
                     match pcd_res with None -> core_type | Some x -> x
@@ -63,7 +58,7 @@ let gen =
                              annotate_type
                          else
                            let vars =
-                             Ext_list.init arity (fun x ->
+                             List.init arity (fun x ->
                                  "param_" ^ string_of_int x)
                            in
                            let exp =
@@ -76,16 +71,20 @@ let gen =
                                          { loc; txt = Lident (List.hd vars) }
                                      else
                                        Exp.tuple
-                                         (Ext_list.map vars (fun x ->
-                                              Exp.ident { loc; txt = Lident x })))
-                               )
+                                         (List.map
+                                            (fun x ->
+                                              Exp.ident { loc; txt = Lident x })
+                                            vars)))
                                annotate_type
                            in
-                           Ext_list.fold_right vars exp (fun var b ->
+                           List.fold_right
+                             (fun var b ->
                                Exp.fun_ Nolabel None
                                  (Pat.var { loc; txt = var })
-                                 b));
+                                 b)
+                             vars exp);
                     ])
+                constructor_declarations
           | Ptype_abstract | Ptype_open ->
               let loc = tdcl.ptype_loc in
               [
@@ -98,28 +97,27 @@ let gen =
               ]
           (* Location.raise_errorf "projector only works with record" *)
         in
-        Ext_list.flat_map tdcls handle_tdcl);
+        List.concat_map handle_tdcl tdcls);
     signature_gen =
       (fun (tdcls : Parsetree.type_declaration list) _explict_nonrec ->
         let handle_tdcl tdcl =
           let core_type = Ast_derive_util.core_type_of_type_declaration tdcl in
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
-              Ext_list.map label_declarations
-                (fun { pld_name; pld_type; pld_loc } ->
+              List.map
+                (fun { Parsetree.pld_name; pld_type; pld_loc } ->
                   let loc = pld_loc in
                   Sig.value
                     (Val.mk pld_name [%type: [%t core_type] -> [%t pld_type]]))
+                label_declarations
           | Ptype_variant constructor_declarations ->
-              Ext_list.map constructor_declarations
-                (fun
-                  {
-                    pcd_name = { loc; txt = con_name };
-                    pcd_args;
-                    pcd_loc = _;
-                    pcd_res;
-                  }
-                ->
+              List.map
+                (fun {
+                       Parsetree.pcd_name = { loc; txt = con_name };
+                       pcd_args;
+                       pcd_loc = _;
+                       pcd_res;
+                     } ->
                   let pcd_args =
                     match pcd_args with
                     | Pcstr_tuple pcd_args -> pcd_args
@@ -130,9 +128,11 @@ let gen =
                   in
                   Sig.value
                     (Val.mk
-                       { loc; txt = Ext_string.uncapitalize_ascii con_name }
-                       (Ext_list.fold_right pcd_args annotate_type (fun x acc ->
-                            [%type: [%t x] -> [%t acc]]))))
+                       { loc; txt = String.uncapitalize_ascii con_name }
+                       (List.fold_right
+                          (fun x acc -> [%type: [%t x] -> [%t acc]])
+                          pcd_args annotate_type)))
+                constructor_declarations
           | Ptype_open | Ptype_abstract ->
               let loc = tdcl.ptype_loc in
               [
@@ -144,6 +144,6 @@ let gen =
                          (Ast_derive_util.notApplicable derivingName, loc, None))]]];
               ]
         in
-        Ext_list.flat_map tdcls handle_tdcl);
+        List.concat_map handle_tdcl tdcls);
     expression_gen = None;
   }

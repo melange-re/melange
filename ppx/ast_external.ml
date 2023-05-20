@@ -22,13 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
+
 (* We disable warning 61 in Melange externals since they're substantially
    different from OCaml externals. This warning doesn't make sense for a JS
    runtime *)
 let unboxable_type_in_prim_decl : Parsetree.attribute =
   let open Ast_helper in
   {
-    attr_name = Location.mknoloc "ocaml.warning";
+    attr_name = { txt = "ocaml.warning"; loc = Location.none };
     attr_payload =
       PStr
         [
@@ -40,23 +42,34 @@ let unboxable_type_in_prim_decl : Parsetree.attribute =
     attr_loc = Location.none;
   }
 
-let handleExternalInSig (self : Ast_mapper.mapper)
+let handleExternalInSig (self : Ast_traverse.map)
     (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
     Parsetree.signature_item =
   let loc = prim.pval_loc in
-  let pval_type = self.typ self prim.pval_type in
-  let pval_attributes = self.attributes self prim.pval_attributes in
+  let pval_type = self#core_type prim.pval_type in
+  let pval_attributes = self#attributes prim.pval_attributes in
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
   | a :: b :: _ ->
-      Location.raise_errorf ~loc
-        "only a single string is allowed in bs external %S %S" a b
+      [%sigi:
+        [%%ocaml.error
+        [%e
+          Ast_helper.Exp.constant
+            (Pconst_string
+               ( Format.sprintf
+                   "only a single string is allowed in bs external %S %S" a b,
+                 loc,
+                 None ))]]]
   | [ v ] -> (
       match
         Ast_external_process.handle_attributes_as_string loc pval_type
           pval_attributes prim.pval_name.txt v
       with
-      | { pval_type; pval_prim; pval_attributes; no_inline_cross_module } ->
+      | Error s ->
+          [%sigi:
+            [%%ocaml.error
+            [%e Ast_helper.Exp.constant (Pconst_string (s, loc, None))]]]
+      | Ok { pval_type; pval_prim; pval_attributes; no_inline_cross_module } ->
           {
             sigi with
             psig_desc =
@@ -70,23 +83,34 @@ let handleExternalInSig (self : Ast_mapper.mapper)
                 };
           })
 
-let handleExternalInStru (self : Ast_mapper.mapper)
+let handleExternalInStru (self : Ast_traverse.map)
     (prim : Parsetree.value_description) (str : Parsetree.structure_item) :
     Parsetree.structure_item =
   let loc = prim.pval_loc in
-  let pval_type = self.typ self prim.pval_type in
-  let pval_attributes = self.attributes self prim.pval_attributes in
+  let pval_type = self#core_type prim.pval_type in
+  let pval_attributes = self#attributes prim.pval_attributes in
   match prim.pval_prim with
   | [] -> Location.raise_errorf ~loc "empty primitive string"
   | a :: b :: _ ->
-      Location.raise_errorf ~loc
-        "only a single string is allowed in bs external %S : %S" a b
+      [%stri
+        [%%ocaml.error
+        [%e
+          Ast_helper.Exp.constant
+            (Pconst_string
+               ( Format.sprintf
+                   "only a single string is allowed in bs external %S %S" a b,
+                 loc,
+                 None ))]]]
   | [ v ] -> (
       match
         Ast_external_process.handle_attributes_as_string loc pval_type
           pval_attributes prim.pval_name.txt v
       with
-      | { pval_type; pval_prim; pval_attributes; no_inline_cross_module } ->
+      | Error s ->
+          [%stri
+            [%%ocaml.error
+            [%e Ast_helper.Exp.constant (Pconst_string (s, loc, None))]]]
+      | Ok { pval_type; pval_prim; pval_attributes; no_inline_cross_module } ->
           let external_result =
             {
               str with

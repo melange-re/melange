@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,11 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
 open Ast_helper
 
 (* let fun_no_label ?loc ?attrs  pat body =
@@ -40,28 +41,28 @@ let tuple_type_pair ?loc kind arity =
     match kind with
     | `Run -> (ty, [], ty)
     | `Make ->
-        (Ast_compatible.arrow ?loc (Ast_literal.type_unit ?loc ()) ty, [], ty)
+        let loc = Option.value ~default:Location.none loc in
+        ([%type: unit -> [%t ty]], [], ty)
   else
     let number = arity + 1 in
     let tys =
-      Ext_list.init number (fun i ->
+      List.init number (fun i ->
           Typ.var ?loc (prefix ^ string_of_int (number - i - 1)))
     in
     match tys with
     | result :: rest ->
         ( Ext_list.reduce_from_left tys (fun r arg ->
-              Ast_compatible.arrow ?loc arg r),
+              let loc = Option.value ~default:Location.none loc in
+              [%type: [%t arg] -> [%t r]]),
           List.rev rest,
           result )
     | [] -> assert false
 
-let js_obj_type_id = Ast_literal.Lid.js_obj
-let re_id = Ast_literal.Lid.js_re_id
-let to_js_type loc x = Typ.constr ~loc { txt = js_obj_type_id; loc } [ x ]
-let to_js_re_type loc = Typ.constr ~loc { txt = re_id; loc } []
+let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
+let to_js_re_type ~loc = Typ.constr ~loc { txt = Ast_literal.js_re_id; loc } []
 
-let to_undefined_type loc x =
-  Typ.constr ~loc { txt = Ast_literal.Lid.js_undefined; loc } [ x ]
+let to_undefined_type ~loc x =
+  Typ.constr ~loc { txt = Ast_literal.js_undefined; loc } [ x ]
 
 let single_non_rec_value name exp =
   Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]

@@ -22,30 +22,43 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type t = Parsetree.core_type
+open Ppxlib
 
-val lift_option_type : t -> t
-val is_unit : t -> bool
-val is_builtin_rank0_type : string -> bool
-val make_obj : loc:Location.t -> Parsetree.object_field list -> t
-val is_user_option : t -> bool
+type kind = String | Var of int * int (* int records its border length *)
 
-val get_uncurry_arity : t -> int option
-(**
-  returns 0 when it can not tell arity from the syntax
-  None -- means not a function
-*)
+type error = private
+  | Invalid_code_point
+  | Unterminated_backslash
+  | Invalid_escape_code of char
+  | Invalid_hex_escape
+  | Invalid_unicode_escape
+  | Unterminated_variable
+  | Unmatched_paren
+  | Invalid_syntax_of_var of string
 
-type param_type = {
-  label : Asttypes.arg_label;
-  ty : t;
-  attr : Parsetree.attributes;
-  loc : Location.t;
+type pos = { lnum : int; offset : int; byte_bol : int }
+(** Note the position is about code point *)
+
+type segment = { start : pos; finish : pos; kind : kind; content : string }
+type segments = segment list
+
+type cxt = {
+  mutable segment_start : pos;
+  buf : Buffer.t;
+  s_len : int;
+  mutable segments : segments;
+  mutable pos_bol : int; (* record the abs position of current beginning line *)
+  mutable byte_bol : int;
+  mutable pos_lnum : int; (* record the line number *)
 }
 
-val mk_fn_type : param_type list -> t -> t
+type exn += Error of pos * pos * error
 
-val list_of_arrow : t -> t * param_type list
-(** fails when Ptyp_poly *)
+val empty_segment : segment -> bool
+val transform_test : string -> segment list
 
-val is_arity_one : t -> bool
+val transform :
+  Parsetree.expression -> string -> Location.t -> string -> Parsetree.expression
+
+val is_unicode_string : string -> bool
+val is_unescaped : string -> bool

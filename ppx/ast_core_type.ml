@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
+
 type t = Parsetree.core_type
 
 let lift_option_type ({ ptyp_loc } as ty : t) : t =
@@ -85,7 +87,7 @@ let is_user_option (ty : t) =
    | Ptyp_constr({txt = Lident "int"},[]) -> true
    | _ -> false *)
 
-let make_obj ~loc xs = Ast_comb.to_js_type loc (Typ.object_ ~loc xs Closed)
+let make_obj ~loc xs = Ast_comb.to_js_type ~loc (Typ.object_ ~loc xs Closed)
 
 (**
 
@@ -127,7 +129,7 @@ type param_type = {
 }
 
 let mk_fn_type (new_arg_types_ty : param_type list) (result : t) : t =
-  Ext_list.fold_right new_arg_types_ty result
+  List.fold_right
     (fun { label; ty; attr; loc } acc ->
       {
         ptyp_desc = Ptyp_arrow (label, ty, acc);
@@ -135,6 +137,7 @@ let mk_fn_type (new_arg_types_ty : param_type list) (result : t) : t =
         ptyp_loc_stack = [ loc ];
         ptyp_attributes = attr;
       })
+    new_arg_types_ty result
 
 let list_of_arrow (ty : t) : t * param_type list =
   let rec aux (ty : t) acc =
@@ -146,7 +149,7 @@ let list_of_arrow (ty : t) : t * param_type list =
           :: acc)
     | Ptyp_poly (_, ty) ->
         (* should not happen? *)
-        Bs_syntaxerr.err ty.ptyp_loc Unhandled_poly_type
+        Error.err ~loc:ty.ptyp_loc Unhandled_poly_type
     | _ -> (ty, List.rev acc)
   in
   aux ty []

@@ -40,8 +40,7 @@ let process_method_attributes_rev (attrs : t) =
   let exception Local of string in
   try
     let ret =
-      Ext_list.fold_left attrs
-        ({ get = None; set = None }, [])
+      List.fold_left
         (fun (st, acc)
              ({ attr_name = { txt; _ }; attr_payload = payload } as attr) ->
           match txt with
@@ -50,7 +49,7 @@ let process_method_attributes_rev (attrs : t) =
                 match Ast_payload.ident_or_record_as_config payload with
                 | Error s -> raise (Local s)
                 | Ok config ->
-                    Ext_list.fold_left config (false, false)
+                    List.fold_left
                       (fun (null, undefined) ({ txt; loc }, opt_expr) ->
                         match txt with
                         | "null" ->
@@ -69,7 +68,8 @@ let process_method_attributes_rev (attrs : t) =
                             | Some e ->
                                 let v = assert_bool_lit e in
                                 (v, v))
-                        | _ -> Bs_syntaxerr.err loc Unsupported_predicates)
+                        | _ -> Error.err ~loc Unsupported_predicates)
+                      (false, false) config
               in
 
               ({ st with get = Some result }, acc)
@@ -78,7 +78,7 @@ let process_method_attributes_rev (attrs : t) =
                 match Ast_payload.ident_or_record_as_config payload with
                 | Error s -> raise (Local s)
                 | Ok config ->
-                    Ext_list.fold_left config `Get
+                    List.fold_left
                       (fun _st ({ txt; loc }, opt_expr) ->
                         (*FIXME*)
                         if txt = "no_get" then
@@ -86,13 +86,16 @@ let process_method_attributes_rev (attrs : t) =
                           | None -> `No_get
                           | Some e ->
                               if assert_bool_lit e then `No_get else `Get
-                        else Bs_syntaxerr.err loc Unsupported_predicates)
+                        else Error.err ~loc Unsupported_predicates)
+                      `Get config
               in
               (* properties -- void
                     [@@set{only}]
               *)
               ({ st with set = Some result }, acc)
           | _ -> (st, attr :: acc))
+        ({ get = None; set = None }, [])
+        attrs
     in
     Ok ret
   with Local s -> Error s
@@ -104,7 +107,7 @@ type attr_kind =
   | Method of attr
 
 let process_attributes_rev (attrs : t) : attr_kind * t =
-  Ext_list.fold_left attrs (Nothing, [])
+  List.fold_left
     (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
       match (txt, st) with
       | "bs", (Nothing | Uncurry _) ->
@@ -113,13 +116,21 @@ let process_attributes_rev (attrs : t) : attr_kind * t =
           (Meth_callback attr, acc)
       | ("bs.meth" | "meth"), (Nothing | Method _) -> (Method attr, acc)
       | ("bs" | "bs.this" | "this"), _ ->
-          Bs_syntaxerr.err loc Conflict_bs_bs_this_bs_meth
+          Error.err ~loc Conflict_bs_bs_this_bs_meth
       | _, _ -> (st, attr :: acc))
+    (Nothing, []) attrs
+
+let process_pexp_fun_attributes_rev (attrs : t) =
+  List.fold_left
+    (fun (st, acc) ({ attr_name = { txt; loc = _ }; _ } as attr) ->
+      match txt with "bs.open" -> (true, acc) | _ -> (st, attr :: acc))
+    (false, []) attrs
 
 let process_bs (attrs : t) =
-  Ext_list.fold_left attrs (false, [])
+  List.fold_left
     (fun (st, acc) ({ attr_name = { txt; loc = _ }; _ } as attr) ->
       match (txt, st) with "bs", _ -> (true, acc) | _, _ -> (st, attr :: acc))
+    (false, []) attrs
 
 let is_bs (attr : attr) =
   match attr with
@@ -217,14 +228,77 @@ let is_single_string x =
       Some (name, dec)
   | _ -> None
 
+(* TODO also need detect empty phrase case *)
+let is_single_int x : int option =
+  match x with
+  | PStr
+      [
+        {
+          pstr_desc =
+            Pstr_eval
+              ({ pexp_desc = Pexp_constant (Pconst_integer (name, _)); _ }, _);
+          _;
+        };
+      ] ->
+      Some (int_of_string name)
+  | _ -> None
+
+type as_const_payload = Int of int | Str of string | Js_literal_str of string
+
+let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
+  let st = ref None in
+  Ext_list.iter attrs
+    (fun ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
+      match txt with
+      | "bs.as" | "as" ->
+          if !st = None then (
+            Bs_ast_invariant.mark_used_bs_attribute attr;
+            match is_single_int payload with
+            | None -> (
+                match payload with
+                | PStr
+                    [
+                      {
+                        pstr_desc =
+                          Pstr_eval
+                            ( {
+                                pexp_desc =
+                                  Pexp_constant
+                                    (Pconst_string
+                                      (s, _, ((None | Some "json") as dec)));
+                                pexp_loc;
+                                _;
+                              },
+                              _ );
+                        _;
+                      };
+                    ] ->
+                    if dec = None then st := Some (Str s)
+                    else (
+                      (match
+                         Classify_function.classify
+                           ~check:
+                             (pexp_loc, Bs_flow_ast_utils.flow_deli_offset dec)
+                           s
+                       with
+                      | Js_literal _ -> ()
+                      | _ ->
+                          Location.raise_errorf ~loc:pexp_loc
+                            "an object literal expected");
+                      st := Some (Js_literal_str s))
+                | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
+            | Some v -> st := Some (Int v))
+          else Error.err ~loc Duplicated_bs_as
+      | _ -> ());
+  !st
+
 type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
 
 let process_derive_type (attrs : t) : (derive_attr * t, string) result =
   let exception Local of string in
   try
     Ok
-      (Ext_list.fold_left attrs
-         ({ bs_deriving = None }, [])
+      (List.fold_left
          (fun (st, acc)
               ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
            match txt with
@@ -234,9 +308,35 @@ let process_derive_type (attrs : t) : (derive_attr * t, string) result =
                    match Ast_payload.ident_or_record_as_config payload with
                    | Ok config -> ({ bs_deriving = Some config }, acc)
                    | Error stri -> raise (Local stri))
-               | Some _ -> Bs_syntaxerr.err loc Duplicated_bs_deriving)
-           | _ -> (st, attr :: acc)))
+               | Some _ -> Error.err ~loc Duplicated_bs_deriving)
+           | _ -> (st, attr :: acc))
+         ({ bs_deriving = None }, [])
+         attrs)
   with Local stri -> Error stri
+
+(* duplicated @uncurry @string not allowed,
+   it is worse in @uncurry since it will introduce
+   inconsistency in arity
+*)
+let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
+  let st = ref `Nothing in
+  let assign v ({ attr_name = { loc; _ }; _ } as attr : attr) =
+    if !st = `Nothing then (
+      Bs_ast_invariant.mark_used_bs_attribute attr;
+      st := v)
+    else Error.err ~loc Conflict_attributes
+  in
+  Ext_list.iter attrs
+    (fun ({ attr_name = { txt; loc = _ }; attr_payload = payload } as attr) ->
+      match txt with
+      | "bs.string" | "string" -> assign `String attr
+      | "bs.int" | "int" -> assign `Int attr
+      | "bs.ignore" | "ignore" -> assign `Ignore attr
+      | "bs.unwrap" | "unwrap" -> assign `Unwrap attr
+      | "bs.uncurry" | "uncurry" ->
+          assign (`Uncurry (is_single_int payload)) attr
+      | _ -> ());
+  !st
 
 let iter_process_bs_string_as (attrs : t) : string option =
   let st = ref None in
@@ -246,14 +346,72 @@ let iter_process_bs_string_as (attrs : t) : string option =
       | "bs.as" | "as" ->
           if !st = None then (
             match is_single_string payload with
-            | None -> Bs_syntaxerr.err loc Expect_string_literal
+            | None -> Error.err ~loc Expect_string_literal
             | Some (v, _dec) ->
-                Bs_ast_invariant.mark_used_bs_attribute
-                  (Melange_ppxlib_ast.Of_ppxlib.copy_attr attr);
+                Bs_ast_invariant.mark_used_bs_attribute attr;
                 st := Some v)
-          else Bs_syntaxerr.err loc Duplicated_bs_as
+          else Error.err ~loc Duplicated_bs_as
       | _ -> ());
   !st
+
+let external_attrs =
+  [|
+    "get";
+    "set";
+    "get_index";
+    "return";
+    "obj";
+    "val";
+    "module";
+    "scope";
+    "variadic";
+    "send";
+    "new";
+    "set_index";
+    Literals.gentype_import;
+  |]
+
+let first_char_special (x : string) =
+  match String.unsafe_get x 0 with
+  | '#' | '?' | '%' -> true
+  | _ ->
+      (* XXX(anmonteiro): Upstream considers "builtin" attributes ones that
+         start with `?`. We keep the original terminology of `caml_` (and,
+         incidentally, `nativeint_`). *)
+      Ext_string.starts_with x "caml_" || Ext_string.starts_with x "nativeint_"
+
+let prims_to_be_encoded (attrs : string list) =
+  match attrs with
+  | [] -> assert false (* normal val declaration *)
+  | x :: _ when first_char_special x -> false
+  | _ :: x :: _ when Ext_string.first_marshal_char x -> false
+  | _ -> true
+
+(**
+
+   [@@inline]
+   let a = 3
+
+   [@@inline]
+   let a : 3
+
+   They are not considered externals, they are part of the language
+*)
+
+let rs_externals (attrs : t) pval_prim =
+  match (attrs, pval_prim) with
+  | _, [] -> false
+  (* This is  val *)
+  | [], _ ->
+      (* Not any attribute found *)
+      prims_to_be_encoded pval_prim
+  | _, _ ->
+      List.exists
+        (fun { attr_name = { txt }; _ } ->
+          Ext_string.starts_with txt "bs."
+          || Array.exists (fun (x : string) -> txt = x) external_attrs)
+        attrs
+      || prims_to_be_encoded pval_prim
 
 (* TODO also need detect empty phrase case *)
 let is_single_int x : int option =
@@ -278,20 +436,25 @@ let iter_process_bs_int_as (attrs : t) =
       | "bs.as" | "as" ->
           if !st = None then (
             match is_single_int payload with
-            | None -> Bs_syntaxerr.err loc Expect_int_literal
+            | None -> Error.err ~loc Expect_int_literal
             | Some _ as v ->
-                Bs_ast_invariant.mark_used_bs_attribute
-                  (Melange_ppxlib_ast.Of_ppxlib.copy_attr attr);
+                Bs_ast_invariant.mark_used_bs_attribute attr;
                 st := v)
-          else Bs_syntaxerr.err loc Duplicated_bs_as
+          else Error.err ~loc Duplicated_bs_as
       | _ -> ());
   !st
 
 let has_bs_optional (attrs : t) : bool =
-  Ext_list.exists attrs (fun ({ attr_name = { txt }; _ } as attr) ->
+  List.exists
+    (fun ({ attr_name = { txt }; _ } as attr) ->
       match txt with
       | "bs.optional" | "optional" ->
-          Bs_ast_invariant.mark_used_bs_attribute
-            (Melange_ppxlib_ast.Of_ppxlib.copy_attr attr);
+          Bs_ast_invariant.mark_used_bs_attribute attr;
           true
       | _ -> false)
+    attrs
+
+let is_inline : attr -> bool =
+ fun { attr_name = { txt }; _ } -> txt = "bs.inline" || txt = "inline"
+
+let has_inline_payload (attrs : t) = Ext_list.find_first attrs is_inline

@@ -171,7 +171,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           (*Invariants: assuming bytes are [int array]*)
           E.array NA
             (if i = 0l then []
-             else Ext_list.init (Int32.to_int i) (fun _ -> E.zero_int_literal))
+             else List.init (Int32.to_int i) (fun _ -> E.zero_int_literal))
       | _ -> E.runtime_call Js_runtime_modules.bytes "caml_create_bytes" args)
   | "caml_bool_compare" -> (
       match args with

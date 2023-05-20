@@ -54,8 +54,10 @@ let succeed attr attrs =
   match attrs with
   | [ _ ] -> ()
   | _ ->
-      Bs_ast_invariant.mark_used_bs_attribute attr;
-      Bs_ast_invariant.warn_discarded_unused_attributes attrs
+      Bs_ast_invariant.mark_used_bs_attribute
+        (Melange_ppxlib_ast.Of_ppxlib.copy_attr attr);
+      Bs_ast_invariant.warn_discarded_unused_attributes
+        (List.map Melange_ppxlib_ast.Of_ppxlib.copy_attr attrs)
 
 module External = struct
   let rule =
@@ -168,7 +170,7 @@ module Re = struct
         let open Ast_helper in
         Exp.constraint_ ~loc
           (Ast_extensions.handle_raw ~kind:Raw_re loc payload)
-          (Typ.constr ~loc { txt = Ast_literal.Lid.js_re_id; loc } [])
+          (Ast_comb.to_js_re_type ~loc)
       in
 
       let extender = Extension.V3.declare label context extractor handler in
@@ -183,8 +185,8 @@ module Time = struct
       let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
-        let open Melange_compiler_libs.Ast_helper in
-        match Melange_ppxlib_ast.Of_ppxlib.copy_payload payload with
+        let open Ast_helper in
+        match payload with
         | PStr [ { pstr_desc = Pstr_eval (e, _) } ] ->
             let locString =
               if loc.loc_ghost then "GHOST LOC"
@@ -197,27 +199,27 @@ module Time = struct
                 in
                 Printf.sprintf "%s %d" (Filename.basename file) lnum
             in
-            (* let e = self.expr self e in *)
             Exp.sequence ~loc
-              (Ast_compatible.app1 ~loc
-                 (Exp.ident ~loc
+              [%expr
+                [%e
+                  Exp.ident ~loc
                     {
                       loc;
                       txt = Ldot (Ldot (Lident "Js", "Console"), "timeStart");
-                    })
-                 (Ast_compatible.const_exp_string ~loc locString))
+                    }]
+                  [%e Exp.constant (Pconst_string (locString, loc, None))]]
               (Exp.let_ ~loc Nonrecursive
                  [ Vb.mk ~loc (Pat.var ~loc { loc; txt = "timed" }) e ]
                  (Exp.sequence ~loc
-                    (Ast_compatible.app1 ~loc
-                       (Exp.ident ~loc
+                    [%expr
+                      [%e
+                        Exp.ident ~loc
                           {
                             loc;
                             txt = Ldot (Ldot (Lident "Js", "Console"), "timeEnd");
-                          })
-                       (Ast_compatible.const_exp_string ~loc locString))
+                          }]
+                        [%e Exp.constant (Pconst_string (locString, loc, None))]]
                     (Exp.ident ~loc { loc; txt = Lident "timed" })))
-            |> Melange_ppxlib_ast.To_ppxlib.copy_expression
         | _ ->
             Location.raise_errorf ~loc
               "expect a boolean expression in the payload"
@@ -335,6 +337,7 @@ module Mapper = struct
   let mapper =
     object (self)
       inherit Ppxlib.Ast_traverse.map as super
+      (* [Expansion_context.Base.t] Ppxlib.Ast_traverse.map_with_context as super *)
 
       method! class_type
           ({ pcty_attributes; pcty_loc } as ctd : Parsetree.class_type) =
@@ -381,11 +384,130 @@ module Mapper = struct
       method! core_type typ =
         Ast_core_type_class_type.typ_mapper (self, super#core_type) typ
 
-      method! expression expr =
-        match expr.pexp_desc with
+      method! expression e =
+        match e.pexp_desc with
         | Pexp_apply (fn, args) ->
-            Ast_exp_apply.app_exp_mapper expr (self, super#expression) fn args
-        | _ -> super#expression expr
+            Ast_exp_apply.app_exp_mapper e (self, super#expression) fn args
+        | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
+            Ast_utf8_string_interp.transform e s loc delim
+        (* End rewriting *)
+        | Pexp_function cases -> (
+            (* {[ function [@bs.exn]
+                  | Not_found -> 0
+                  | Invalid_argument -> 1
+                ]}*)
+            match
+              Ast_attributes.process_pexp_fun_attributes_rev e.pexp_attributes
+            with
+            | false, _ -> super#expression e
+            | true, pexp_attributes ->
+                Ast_bs_open.convertBsErrorFunction e.pexp_loc self
+                  pexp_attributes cases)
+        | Pexp_fun (label, _, pat, body) -> (
+            match Ast_attributes.process_attributes_rev e.pexp_attributes with
+            | Nothing, _ -> super#expression e
+            | Uncurry _, pexp_attributes ->
+                {
+                  e with
+                  pexp_desc =
+                    Ast_uncurry_gen.to_uncurry_fn e.pexp_loc self label pat body;
+                  pexp_attributes;
+                }
+            | Method _, _ ->
+                let loc = e.pexp_loc in
+                [%expr
+                  [%ocaml.error
+                    [%e
+                      Ast_helper.Exp.constant
+                        (Pconst_string
+                           ( "%@meth is not supported in function expression",
+                             loc,
+                             None ))]]]
+            | Meth_callback _, pexp_attributes ->
+                (* FIXME: does it make sense to have a label for [this] ? *)
+                {
+                  e with
+                  pexp_desc =
+                    Ast_uncurry_gen.to_method_callback e.pexp_loc self label pat
+                      body;
+                  pexp_attributes;
+                })
+        | Pexp_object { pcstr_self; pcstr_fields } -> (
+            match Ast_attributes.process_bs e.pexp_attributes with
+            | true, pexp_attributes ->
+                {
+                  e with
+                  pexp_desc =
+                    Ast_util.ocaml_obj_as_js_object e.pexp_loc self pcstr_self
+                      pcstr_fields;
+                  pexp_attributes;
+                }
+            | false, _ -> super#expression e)
+        | Pexp_match
+            ( b,
+              [
+                {
+                  pc_lhs =
+                    {
+                      ppat_desc = Ppat_construct ({ txt = Lident "true" }, None);
+                    };
+                  pc_guard = None;
+                  pc_rhs = t_exp;
+                };
+                {
+                  pc_lhs =
+                    {
+                      ppat_desc = Ppat_construct ({ txt = Lident "false" }, None);
+                    };
+                  pc_guard = None;
+                  pc_rhs = f_exp;
+                };
+              ] )
+        | Pexp_match
+            ( b,
+              [
+                {
+                  pc_lhs =
+                    {
+                      ppat_desc = Ppat_construct ({ txt = Lident "false" }, None);
+                    };
+                  pc_guard = None;
+                  pc_rhs = f_exp;
+                };
+                {
+                  pc_lhs =
+                    {
+                      ppat_desc = Ppat_construct ({ txt = Lident "true" }, None);
+                    };
+                  pc_guard = None;
+                  pc_rhs = t_exp;
+                };
+              ] ) ->
+            super#expression
+              { e with pexp_desc = Pexp_ifthenelse (b, t_exp, Some f_exp) }
+        | Pexp_let (r, vbs, sub_expr) ->
+            {
+              e with
+              pexp_desc =
+                Pexp_let
+                  ( r,
+                    Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
+                    self#expression sub_expr );
+            }
+        | _ -> super#expression e
+
+      method! class_expr ce =
+        match ce.pcl_desc with
+        | Pcl_let (r, vbs, sub_ce) ->
+            {
+              ce with
+              pcl_desc =
+                Pcl_let
+                  ( r,
+                    Ast_tuple_pattern_flatten.value_bindings_mapper self vbs,
+                    self#class_expr sub_ce );
+            }
+        | _ -> super#class_expr ce
 
       method! label_declaration lbl =
         (* Ad-hoc way to internalize stuff *)
@@ -402,6 +524,218 @@ module Mapper = struct
               pld_attributes = [];
             }
         | _ -> lbl
+
+      method! structure_item str =
+        match str.pstr_desc with
+        | Pstr_primitive prim
+          when Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim
+          ->
+            Ast_external.handleExternalInStru self prim str
+        | Pstr_value
+            ( Nonrecursive,
+              [
+                {
+                  pvb_pat = { ppat_desc = Ppat_var pval_name } as pvb_pat;
+                  pvb_expr;
+                  pvb_attributes;
+                  pvb_loc;
+                };
+              ] ) -> (
+            let pvb_expr = self#expression pvb_expr in
+            let pvb_attributes = self#attributes pvb_attributes in
+            let has_inline_property =
+              Ast_attributes.has_inline_payload pvb_attributes
+            in
+            match (has_inline_property, pvb_expr.pexp_desc) with
+            | Some attr, Pexp_constant (Pconst_string (s, _, dec)) ->
+                let loc = pvb_loc in
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_primitive
+                      {
+                        pval_name;
+                        pval_type = [%type: string];
+                        pval_loc = loc;
+                        pval_attributes = [];
+                        pval_prim =
+                          External_ffi_types.inline_string_primitive s dec;
+                      };
+                }
+            | Some attr, Pexp_constant (Pconst_integer (s, None)) ->
+                let s = Int32.of_string s in
+                let loc = pvb_loc in
+                succeed attr pvb_attributes;
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_primitive
+                      {
+                        pval_name;
+                        pval_type = [%type: int];
+                        pval_loc = loc;
+                        pval_attributes = [];
+                        pval_prim = External_ffi_types.inline_int_primitive s;
+                      };
+                }
+            | Some attr, Pexp_constant (Pconst_integer (s, Some 'L')) ->
+                let s = Int64.of_string s in
+                let loc = pvb_loc in
+                succeed attr pvb_attributes;
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_primitive
+                      {
+                        pval_name;
+                        pval_type = [%type: int64];
+                        pval_loc = loc;
+                        pval_attributes = [];
+                        pval_prim = External_ffi_types.inline_int64_primitive s;
+                      };
+                }
+            | Some attr, Pexp_constant (Pconst_float (s, None)) ->
+                let loc = pvb_loc in
+                succeed attr pvb_attributes;
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_primitive
+                      {
+                        pval_name;
+                        pval_type = [%type: float];
+                        pval_loc = loc;
+                        pval_attributes = [];
+                        pval_prim = External_ffi_types.inline_float_primitive s;
+                      };
+                }
+            | ( Some attr,
+                Pexp_construct
+                  ({ txt = Lident (("true" | "false") as txt) }, None) ) ->
+                let loc = pvb_loc in
+                succeed attr pvb_attributes;
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_primitive
+                      {
+                        pval_name;
+                        pval_type = [%type: bool];
+                        pval_loc = loc;
+                        pval_attributes = [];
+                        pval_prim =
+                          External_ffi_types.inline_bool_primitive (txt = "true");
+                      };
+                }
+            | _ ->
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_value
+                      ( Nonrecursive,
+                        Ast_tuple_pattern_flatten.value_bindings_mapper self
+                          [ { pvb_pat; pvb_expr; pvb_attributes; pvb_loc } ] );
+                })
+        | Pstr_value (r, vbs) ->
+            {
+              str with
+              pstr_desc =
+                Pstr_value
+                  (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
+            }
+        | Pstr_attribute
+            ({ attr_name = { txt = "bs.config" | "config" }; _ } as attr) ->
+            Bs_ast_invariant.mark_used_bs_attribute attr;
+            str
+        | _ -> super#structure_item str
+
+      method! signature_item sigi =
+        match sigi.psig_desc with
+        | Psig_value ({ pval_attributes; pval_prim } as value_desc) -> (
+            let pval_attributes = self#attributes pval_attributes in
+            if Ast_attributes.rs_externals pval_attributes pval_prim then
+              Ast_external.handleExternalInSig self value_desc sigi
+            else
+              match Ast_attributes.has_inline_payload pval_attributes with
+              | Some
+                  ({
+                     attr_payload =
+                       PStr [ { pstr_desc = Pstr_eval ({ pexp_desc }, _) } ];
+                     _;
+                   } as attr) -> (
+                  match pexp_desc with
+                  | Pexp_constant (Pconst_string (s, _, dec)) ->
+                      succeed attr pval_attributes;
+                      {
+                        sigi with
+                        psig_desc =
+                          Psig_value
+                            {
+                              value_desc with
+                              pval_prim =
+                                External_ffi_types.inline_string_primitive s dec;
+                              pval_attributes = [];
+                            };
+                      }
+                  | Pexp_constant (Pconst_integer (s, None)) ->
+                      succeed attr pval_attributes;
+                      let s = Int32.of_string s in
+                      {
+                        sigi with
+                        psig_desc =
+                          Psig_value
+                            {
+                              value_desc with
+                              pval_prim =
+                                External_ffi_types.inline_int_primitive s;
+                              pval_attributes = [];
+                            };
+                      }
+                  | Pexp_constant (Pconst_integer (s, Some 'L')) ->
+                      let s = Int64.of_string s in
+                      succeed attr pval_attributes;
+                      {
+                        sigi with
+                        psig_desc =
+                          Psig_value
+                            {
+                              value_desc with
+                              pval_prim =
+                                External_ffi_types.inline_int64_primitive s;
+                              pval_attributes = [];
+                            };
+                      }
+                  | Pexp_constant (Pconst_float (s, None)) ->
+                      succeed attr pval_attributes;
+                      {
+                        sigi with
+                        psig_desc =
+                          Psig_value
+                            {
+                              value_desc with
+                              pval_prim =
+                                External_ffi_types.inline_float_primitive s;
+                              pval_attributes = [];
+                            };
+                      }
+                  | Pexp_construct
+                      ({ txt = Lident (("true" | "false") as txt) }, None) ->
+                      succeed attr pval_attributes;
+                      {
+                        sigi with
+                        psig_desc =
+                          Psig_value
+                            {
+                              value_desc with
+                              pval_prim =
+                                External_ffi_types.inline_bool_primitive
+                                  (txt = "true");
+                              pval_attributes = [];
+                            };
+                      }
+                  | _ -> super#signature_item sigi)
+              | Some _ | None -> super#signature_item sigi)
+        | _ -> super#signature_item sigi
     end
 end
 
@@ -485,5 +819,13 @@ let () =
           Node.rule;
           Obj.rule;
         ])
-    ~impl:(fun _ctxt str -> Mapper.mapper#structure str)
-    ~intf:(fun _ctxt sig_ -> Mapper.mapper#signature sig_)
+    ~impl:(fun ctxt str ->
+      let input_name = Expansion_context.Base.input_name ctxt in
+      Ocaml_common.Location.input_name := input_name;
+      let ast = Mapper.mapper#structure str in
+      Bs_ast_invariant.emit_external_warnings_on_structure ast)
+    ~intf:(fun ctxt sig_ ->
+      let input_name = Expansion_context.Base.input_name ctxt in
+      Ocaml_common.Location.input_name := input_name;
+      let ast = Mapper.mapper#signature sig_ in
+      Bs_ast_invariant.emit_external_warnings_on_signature ast)

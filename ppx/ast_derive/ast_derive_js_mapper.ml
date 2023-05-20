@@ -214,22 +214,24 @@ let gen ~newType:createType =
                 coerceResultToNewType
                   (Exp.mk ~loc
                      (Ast_external_mk.record_as_js_object loc
-                        (Ext_list.map label_declarations
+                        (List.map
                            (fun { pld_name = { loc; txt } } ->
                              let label =
                                { Asttypes.loc; txt = Longident.Lident txt }
                              in
-                             (label, Exp.field exp_param label)))))
+                             (label, Exp.field exp_param label))
+                           label_declarations)))
               in
               let toJs = toJsBody exp in
               let obj_exp =
                 Exp.record
-                  (Ext_list.map label_declarations
+                  (List.map
                      (fun { pld_name = { loc; txt } } ->
                        let label =
                          { Asttypes.loc; txt = Longident.Lident txt }
                        in
-                       (label, js_field exp_param label)))
+                       (label, js_field exp_param label))
+                     label_declarations)
                   None
               in
               let fromJs =
@@ -318,9 +320,11 @@ let gen ~newType:createType =
                         single_non_rec_value
                           { loc; txt = constantArray }
                           (Ast_helper.Exp.array
-                             (Ext_list.map xs (fun x ->
+                             (List.map
+                                (fun x ->
                                   Exp.constant
-                                    (Pconst_integer (string_of_int x, None)))));
+                                    (Pconst_integer (string_of_int x, None)))
+                                xs));
                         toJsBody
                           [%expr
                             [%e unsafeIndexGetExp] [%e constantArrayExp]
@@ -411,7 +415,7 @@ let gen ~newType:createType =
                     (Pconst_string (U.notApplicable derivingName, loc, None))]];
               ]
         in
-        Ext_list.flat_map tdcls handle_tdcl);
+        List.concat_map handle_tdcl tdcls);
     signature_gen =
       (fun (tdcls : tdcls) _ ->
         let handle_tdcl tdcl =
@@ -433,11 +437,12 @@ let gen ~newType:createType =
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
               let objType flag =
-                Ast_util.to_js_type loc
-                @@ Typ.object_
-                     (Ext_list.map label_declarations
-                        (fun { pld_name; pld_type } -> Of.tag pld_name pld_type))
-                     flag
+                Ast_comb.to_js_type ~loc
+                  (Typ.object_
+                     (List.map
+                        (fun { pld_name; pld_type } -> Of.tag pld_name pld_type)
+                        label_declarations)
+                     flag)
               in
               newTypeStr
               +? [
@@ -493,6 +498,6 @@ let gen ~newType:createType =
                          None ))]];
               ]
         in
-        Ext_list.flat_map tdcls handle_tdcl);
+        List.concat_map handle_tdcl tdcls);
     expression_gen = None;
   }

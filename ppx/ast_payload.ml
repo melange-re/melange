@@ -113,7 +113,8 @@ let ident_or_record_as_config (x : t) :
           let exception Local in
           try
             Ok
-              (Ext_list.map label_exprs (fun u ->
+              (List.map
+                 (fun u ->
                    match u with
                    | ( { txt = Lident name; loc },
                        {
@@ -123,7 +124,8 @@ let ident_or_record_as_config (x : t) :
                        ({ Asttypes.txt = name; loc }, None)
                    | { txt = Lident name; loc }, y ->
                        ({ Asttypes.txt = name; loc }, Some y)
-                   | _ -> raise Local))
+                   | _ -> raise Local)
+                 label_exprs)
           with Local ->
             Error (unrecognizedConfigRecord "Qualified label is not allowed"))
       | Some _ ->
@@ -155,11 +157,13 @@ let assert_strings loc (x : t) : string list =
         };
       ] -> (
       try
-        Ext_list.map strs (fun e ->
+        List.map
+          (fun e ->
             match (e : Parsetree.expression) with
             | { pexp_desc = Pexp_constant (Pconst_string (name, _, _)); _ } ->
                 name
             | _ -> raise Not_str)
+          strs
       with Not_str -> Location.raise_errorf ~loc "expect string tuple list")
   | PStr
       [

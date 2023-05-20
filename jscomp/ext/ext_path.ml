@@ -184,15 +184,14 @@ let rel_normalized_absolute_path ~from to_ =
           else if y = curd then go xss ys
           else
             let start =
-              Ext_list.fold_left xs Ext_string.parent_dir_lit
-                merge_parent_segment
+              List.fold_left merge_parent_segment Ext_string.parent_dir_lit xs
             in
-            Ext_list.fold_left yss start (fun acc v -> acc // v)
+            List.fold_left (fun acc v -> acc // v) start yss
       | [], [] -> Ext_string.empty
-      | [], y :: ys -> Ext_list.fold_left ys y (fun acc x -> acc // x)
+      | [], y :: ys -> List.fold_left (fun acc x -> acc // x) y ys
       | x :: xs, [] ->
           let start = if x = curd then "" else Ext_string.parent_dir_lit in
-          Ext_list.fold_left xs start merge_parent_segment
+          List.fold_left merge_parent_segment start xs
     in
     let v = go paths1 paths2 in
 

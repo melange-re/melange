@@ -32,13 +32,15 @@ let map_constructor_declarations_into_ints
     (row_fields : Parsetree.constructor_declaration list) =
   let mark = ref `nothing in
   let _, acc =
-    Ext_list.fold_left row_fields (0, []) (fun (i, acc) rtag ->
+    List.fold_left
+      (fun (i, acc) rtag ->
         let attrs = rtag.pcd_attributes in
         match Ast_attributes.iter_process_bs_int_as attrs with
         | Some j ->
             if j <> i then if i = 0 then mark := `offset j else mark := `complex;
             (j + 1, j :: acc)
         | None -> (i + 1, i :: acc))
+      (0, []) row_fields
   in
   match !mark with
   | `nothing -> `Offset 0
@@ -70,3 +72,68 @@ let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
           true
       | _ -> false)
     constructors
+
+let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
+  let _, acc =
+    List.fold_left
+      (fun (i, acc) rtag ->
+        match rtag.prf_desc with
+        | Rtag ({ txt }, true, []) ->
+            let i =
+              match
+                Ast_attributes.iter_process_bs_int_as rtag.prf_attributes
+              with
+              | Some i -> i
+              | None -> i
+            in
+            (i + 1, (txt, i) :: acc)
+        | _ -> Error.err ~loc:ptyp_loc Invalid_bs_int_type)
+      (0, []) row_fields
+  in
+  List.rev acc
+
+(* It also check in-consistency of cases like
+   {[ [`a  | `c of int ] ]} *)
+let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
+    : (External_arg_spec.attr, string) result =
+  let has_bs_as = ref false in
+  let case, result =
+    List.fold_right
+      (fun tag (nullary, acc) ->
+        match (nullary, tag.prf_desc) with
+        | (`Nothing | `Null), Rtag ({ txt }, true, []) ->
+            let name =
+              match
+                Ast_attributes.iter_process_bs_string_as tag.prf_attributes
+              with
+              | Some name ->
+                  has_bs_as := true;
+                  name
+              | None -> txt
+            in
+            (`Null, (txt, name) :: acc)
+        | (`Nothing | `NonNull), Rtag ({ txt }, false, [ _ ]) ->
+            let name =
+              match
+                Ast_attributes.iter_process_bs_string_as tag.prf_attributes
+              with
+              | Some name ->
+                  has_bs_as := true;
+                  name
+              | None -> txt
+            in
+            (`NonNull, (txt, name) :: acc)
+        | _ -> Error.err ~loc:ptyp_loc Invalid_bs_string_type)
+      row_fields (`Nothing, [])
+  in
+  match case with
+  | `Nothing ->
+      Error (Format.asprintf "%a" Error.pp_error Invalid_bs_string_type)
+  | `Null | `NonNull -> (
+      let has_payload = case = `NonNull in
+      let descr = if !has_bs_as then Some result else None in
+      match (has_payload, descr) with
+      | false, None ->
+          Error "@string is redundant here, you can safely remove it"
+      | false, Some descr -> Ok (Poly_var_string { descr })
+      | true, _ -> Ok (Poly_var { descr }))

@@ -85,14 +85,7 @@ let anonymous =
     | false ->
       executed := true;
       if !Js_config.as_ppx then
-        match rev_args with
-        | [output; input] ->
-          `Ok (Melange_ppx_lib.Ppx_apply.apply_lazy
-            ~source:input
-            ~target:output
-            Melange_ppx_lib.Ppx_entry.rewrite_implementation
-            Melange_ppx_lib.Ppx_entry.rewrite_signature)
-        | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
+        `Error(false, "The `--as-ppx' flag has been removed. Use `melppx' instead.")
       else
         begin
             if !Js_config.syntax_only then begin
@@ -384,10 +377,11 @@ let file_level_flags_handler (e : Parsetree.expression option) =
   | None -> ()
   | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args =
-        ( Ext_list.map  args (fun e ->
-              match e.pexp_desc with
-              | Pexp_constant (Pconst_string(name,_,_)) -> name
-              | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
+      ( List.map (fun (e: Parsetree.expression) ->
+          match e.pexp_desc with
+          | Pexp_constant (Pconst_string(name,_,_)) -> name
+          | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" ) args)
+    in
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()

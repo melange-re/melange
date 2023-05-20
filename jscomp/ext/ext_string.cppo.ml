@@ -238,11 +238,6 @@ let capitalize_sub (s : string) len : string =
     done ;
     Bytes.unsafe_to_string bytes
 
-let uncapitalize_ascii =
-    String.uncapitalize_ascii
-
-let lowercase_ascii = String.lowercase_ascii
-
 let first_marshal_char (x : string) =
     x <> ""   &&
     ( String.unsafe_get x  0 = '\132')

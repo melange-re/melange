@@ -22,17 +22,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** In general three kinds of ast generation.
-    - convert a curried to type to uncurried
-    - convert a curried fun to uncurried fun
-    - convert a uncuried application to normal
+open Ppxlib
+
+val mark_used_bs_attribute : Parsetree.attribute -> unit
+
+(** [warn_discarded_unused_attributes discarded]
+  warn if [discarded] has unused bs attribute
 *)
+val warn_discarded_unused_attributes :
+  Parsetree.attributes -> Parsetree.attributes
+(** Ast invariant checking for detecting errors *)
 
-type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
+val emit_external_warnings_on_structure :
+  Parsetree.structure -> Parsetree.structure
 
-val ocaml_obj_as_js_object :
-  Location.t ->
-  Ast_mapper.mapper ->
-  Parsetree.pattern ->
-  Parsetree.class_field list ->
-  Parsetree.expression_desc
+val emit_external_warnings_on_signature :
+  Parsetree.signature -> Parsetree.signature

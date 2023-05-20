@@ -126,8 +126,9 @@ let is_strict_or_all_functions (xs : binding list) =
 let eval_rec_bindings (bindings : binding list) (cont : t) : t =
   if is_strict_or_all_functions bindings then
     Lambda.Lletrec
-      ( Ext_list.filter_map bindings (function
-          | Id id, _, rhs -> Some (id, rhs)
-          | _ -> None),
+      ( List.filter_map
+          (fun (binding : binding) ->
+            match binding with Id id, _, rhs -> Some (id, rhs) | _ -> None)
+          bindings,
         cont )
   else eval_rec_bindings_aux bindings cont

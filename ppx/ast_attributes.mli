@@ -38,6 +38,7 @@ type attr_kind =
   | Method of attr
 
 val process_attributes_rev : t -> attr_kind * t
+val process_pexp_fun_attributes_rev : t -> bool * t
 val process_bs : t -> bool * t
 val is_bs : attr -> bool
 val bs_get : attr
@@ -46,10 +47,21 @@ val bs_get_arity : attr
 val bs_set : attr
 val internal_expansive : attr
 val bs_return_undefined : attr
+
+val iter_process_bs_string_int_unwrap_uncurry :
+  t -> [ `Nothing | `String | `Int | `Ignore | `Unwrap | `Uncurry of int option ]
+
 val iter_process_bs_string_as : t -> label option
 val iter_process_bs_int_as : t -> int option
 val has_bs_optional : t -> bool
+val has_inline_payload : t -> attr option
 
 type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
 
 val process_derive_type : t -> (derive_attr * t, string) result
+val rs_externals : t -> string list -> bool
+
+type as_const_payload = Int of int | Str of string | Js_literal_str of string
+
+val iter_process_bs_string_or_int_as : t -> as_const_payload option
+val is_single_string : payload -> (label * label option) option

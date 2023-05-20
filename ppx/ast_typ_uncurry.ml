@@ -36,16 +36,12 @@ let to_method_callback_type loc (mapper : Ast_traverse.map)
   let first_arg = mapper#core_type first_arg in
   let typ = mapper#core_type typ in
   let meth_type = Typ.arrow ~loc label first_arg typ in
-  let arity =
-    Ast_core_type.get_uncurry_arity
-      (Melange_ppxlib_ast.Of_ppxlib.copy_core_type meth_type)
-  in
+  let arity = Ast_core_type.get_uncurry_arity meth_type in
   match arity with
   | Some n ->
       Typ.constr
         {
-          txt =
-            Ldot (Ast_literal.Lid.js_meth_callback, "arity" ^ string_of_int n);
+          txt = Ldot (Ast_literal.js_meth_callback, "arity" ^ string_of_int n);
           loc;
         }
         [ meth_type ]
@@ -68,15 +64,17 @@ let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
   if arity = 0 then to_method_callback_type loc mapper Nolabel self_type result
   else
     let tyvars =
-      Ext_list.mapi (lbl :: Ast_pat.labels_of_fun e) (fun i x ->
-          (x, Typ.var ~loc (method_name ^ string_of_int i)))
+      List.mapi
+        (fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+        (lbl :: Ast_pat.labels_of_fun e)
       (* Ext_list.init arity (fun i -> Typ.var ~loc (method_name ^ string_of_int i)) *)
     in
     match tyvars with
     | (label, x) :: rest ->
         let method_rest =
-          Ext_list.fold_right rest result (fun (label, v) acc ->
-              Typ.arrow ~loc label v acc)
+          List.fold_right
+            (fun (label, v) acc -> Typ.arrow ~loc label v acc)
+            rest result
         in
         to_method_callback_type loc mapper Nolabel self_type
           (Typ.arrow ~loc label x method_rest)
@@ -87,16 +85,13 @@ let to_method_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
   let first_arg = mapper#core_type first_arg in
   let typ = mapper#core_type typ in
   let meth_type = Typ.arrow ~loc label first_arg typ in
-  let arity =
-    Ast_core_type.get_uncurry_arity
-      (Melange_ppxlib_ast.Of_ppxlib.copy_core_type meth_type)
-  in
+  let arity = Ast_core_type.get_uncurry_arity meth_type in
   match arity with
   | Some 0 ->
-      Typ.constr { txt = Ldot (Ast_literal.Lid.js_meth, "arity0"); loc } [ typ ]
+      Typ.constr { txt = Ldot (Ast_literal.js_meth, "arity0"); loc } [ typ ]
   | Some n ->
       Typ.constr
-        { txt = Ldot (Ast_literal.Lid.js_meth, "arity" ^ string_of_int n); loc }
+        { txt = Ldot (Ast_literal.js_meth, "arity" ^ string_of_int n); loc }
         [ meth_type ]
   | None -> assert false
 
@@ -107,14 +102,16 @@ let generate_arg_type loc (mapper : Ast_traverse.map) method_name label pat body
   if arity = 0 then to_method_type loc mapper Nolabel [%type: unit] result
   else
     let tyvars =
-      Ext_list.mapi (label :: Ast_pat.labels_of_fun body) (fun i x ->
-          (x, Typ.var ~loc (method_name ^ string_of_int i)))
+      List.mapi
+        (fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
+        (label :: Ast_pat.labels_of_fun body)
     in
     match tyvars with
     | (label, x) :: rest ->
         let method_rest =
-          Ext_list.fold_right rest result (fun (label, v) acc ->
-              Typ.arrow ~loc label v acc)
+          List.fold_right
+            (fun (label, v) acc -> Typ.arrow ~loc label v acc)
+            rest result
         in
         to_method_type loc mapper label x method_rest
     | _ -> assert false
@@ -131,15 +128,12 @@ let to_uncurry_type loc (mapper : Ast_traverse.map) (label : Asttypes.arg_label)
   let typ = mapper#core_type typ in
 
   let fn_type = Typ.arrow ~loc label first_arg typ in
-  let arity =
-    Ast_core_type.get_uncurry_arity
-      (Melange_ppxlib_ast.Of_ppxlib.copy_core_type fn_type)
-  in
+  let arity = Ast_core_type.get_uncurry_arity fn_type in
   match arity with
   | Some 0 ->
-      Typ.constr { txt = Ldot (Ast_literal.Lid.js_fn, "arity0"); loc } [ typ ]
+      Typ.constr { txt = Ldot (Ast_literal.js_fn, "arity0"); loc } [ typ ]
   | Some n ->
       Typ.constr
-        { txt = Ldot (Ast_literal.Lid.js_fn, "arity" ^ string_of_int n); loc }
+        { txt = Ldot (Ast_literal.js_fn, "arity" ^ string_of_int n); loc }
         [ fn_type ]
   | None -> assert false

@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Authors of ReScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,9 +22,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val map_row_fields_into_ints :
-  Location.t -> Parsetree.row_field list -> (string * int) list
-(** side effect: it will mark used attributes `bs.as`  *)
+type t = Longident.t
 
-val map_row_fields_into_strings :
-  Location.t -> Parsetree.row_field list -> External_arg_spec.attr
+val predef_prefix_ident : t
+val predef_option : t
+val predef_some : t
+val predef_none : t
+val js_fn : t
+val js_internal_full_apply : t
+val opaque : t
+val js_oo : t
+val js_meth : t
+val js_meth_callback : t
+val js_obj : t
+val hidden_field : string -> t
+val ignore_id : t
+val js_null : t
+val js_undefined : t
+val js_null_undefined : t
+val js_re_id : t
+val js_internal : t

@@ -35,7 +35,7 @@ let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
     Hash_set_ident_mask.mask_and_check_all_hit mask id
   and hit_list_snd : 'a. ('a * Lam.t) list -> bool =
    fun x -> Ext_list.exists_snd x hit
-  and hit_list xs = Ext_list.exists xs hit
+  and hit_list xs = List.exists hit xs
   and hit (l : Lam.t) =
     match l with
     | Lvar id | Lmutvar id -> hit_var id

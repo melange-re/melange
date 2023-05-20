@@ -61,11 +61,13 @@ let inline_call (immutable_list : bool list) params (args : J.expression list)
     processed_blocks =
   let map, block =
     if immutable_list = [] then
-      Ext_list.fold_right2 params args (Map_ident.empty, processed_blocks)
-        (fun param arg (map, acc) ->
+      List.fold_right2
+        (fun param (arg : J.expression) (map, acc) ->
           match arg.expression_desc with
           | Var (Id id) -> (Map_ident.add map param id, acc)
           | _ -> (map, S.define_variable ~kind:Variable param arg :: acc))
+        params args
+        (Map_ident.empty, processed_blocks)
     else
       Ext_list.fold_right3 params args immutable_list
         (Map_ident.empty, processed_blocks) (fun param arg mask (map, acc) ->

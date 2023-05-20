@@ -3,14 +3,7 @@
  (package melange)
  (modes byte_complete native)
  (flags :standard -open Melange_compiler_libs)
- (libraries
-  js_parser
-  ext
-  common
-  melange.ppxlib
-  melange_compiler_libs
-  core
-  cmdliner)
+ (libraries js_parser ext common melange_compiler_libs core cmdliner)
  (modules melc melc_cli)
  (preprocess
   (action

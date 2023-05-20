@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,12 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type error =
+type t =
   | Unsupported_predicates
   | Conflict_bs_bs_this_bs_meth
   | Duplicated_bs_deriving
@@ -52,7 +52,8 @@ type error =
   | Bs_this_simple_pattern
   | Bs_uncurried_arity_too_large
 
-val err : Location.t -> error -> 'a
-val optional_err : Location.t -> Asttypes.arg_label -> unit
-val err_if_label : Location.t -> Asttypes.arg_label -> unit
-val err_large_arity : Location.t -> int -> unit
+val pp_error : Format.formatter -> t -> unit
+val err : loc:Location.t -> t -> 'a
+val optional_err : loc:Location.t -> Asttypes.arg_label -> unit
+val err_if_label : loc:Location.t -> Asttypes.arg_label -> unit
+val err_large_arity : loc:Location.t -> int -> unit

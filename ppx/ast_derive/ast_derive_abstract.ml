@@ -81,15 +81,13 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
   | Ptype_record label_declarations ->
       let is_private = tdcl.ptype_private = Private in
       let has_optional_field =
-        Ext_list.exists label_declarations (fun x ->
+        List.exists
+          (fun (x : Parsetree.label_declaration) ->
             Ast_attributes.has_bs_optional x.pld_attributes)
+          label_declarations
       in
       let setter_accessor, makeType, labels =
-        Ext_list.fold_right label_declarations
-          ( [],
-            (if has_optional_field then [%type: unit -> [%t core_type]]
-             else core_type),
-            [] )
+        List.fold_right
           (fun ({
                   pld_name = { txt = label_name; loc = label_loc } as pld_name;
                   pld_type;
@@ -145,6 +143,11 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
               else acc
             in
             (acc, maker, (is_optional, newLabel) :: labels))
+          label_declarations
+          ( [],
+            (if has_optional_field then [%type: unit -> [%t core_type]]
+             else core_type),
+            [] )
       in
       ( newTdcl,
         if is_private then setter_accessor
@@ -163,21 +166,25 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
 
 let handleTdclsInStr ~light rf tdcls =
   let tdcls, code =
-    Ext_list.fold_right tdcls ([], []) (fun tdcl (tdcls, sts) ->
+    List.fold_right
+      (fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
             ( ntdcl :: tdcls,
               Ext_list.map_append value_descriptions sts Str.primitive ))
+      tdcls ([], [])
   in
   Str.type_ rf tdcls :: code
 (* still need perform transformation for non-abstract type*)
 
 let handleTdclsInSig ~light rf tdcls =
   let tdcls, code =
-    Ext_list.fold_right tdcls ([], []) (fun tdcl (tdcls, sts) ->
+    List.fold_right
+      (fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
             ( ntdcl :: tdcls,
               Ext_list.map_append value_descriptions sts Sig.value ))
+      tdcls ([], [])
   in
   Sig.type_ rf tdcls :: code

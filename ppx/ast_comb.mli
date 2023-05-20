@@ -1,4 +1,4 @@
-(* Copyright (C) 2020- Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,30 +22,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let apply_lazy ~source ~target
-    (impl : Parsetree.structure -> Parsetree.structure)
-    (iface : Parsetree.signature -> Parsetree.signature) =
-  let { Ast_io.ast; _ } =
-    Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
-  in
-  let oc = open_out_bin target in
-  match ast with
-  | Intf ast ->
-      let ast =
-        iface ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
-      in
-      output_string oc
-        Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
-      output_value oc !Location.input_name;
-      output_value oc ast
-  | Impl ast ->
-      let ast =
-        impl ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
-      in
-      output_string oc
-        Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
-      output_value oc !Location.input_name;
-      output_value oc ast;
-      close_out oc
+open Ppxlib
+
+(* note we first declare its type is [unit],
+   then [ignore] it, [ignore] is necessary since
+   the js value  maybe not be of type [unit] and
+   we can use [unit] value (though very little chance)
+   sometimes
+*)
+
+val tuple_type_pair :
+  ?loc:Ast_helper.loc ->
+  [< `Make | `Run ] ->
+  int ->
+  Parsetree.core_type * Parsetree.core_type list * Parsetree.core_type
+
+val to_js_type : loc:Location.t -> Parsetree.core_type -> Parsetree.core_type
+
+val to_undefined_type :
+  loc:Location.t -> Parsetree.core_type -> Parsetree.core_type
+
+val to_js_re_type : loc:Location.t -> Parsetree.core_type
+
+val single_non_rec_value :
+  Ast_helper.str -> Parsetree.expression -> Parsetree.structure_item
+
+val single_non_rec_val :
+  Ast_helper.str -> Parsetree.core_type -> Parsetree.signature_item
