@@ -55,10 +55,6 @@ val iter_process_bs_string_as : t -> label option
 val iter_process_bs_int_as : t -> int option
 val has_bs_optional : t -> bool
 val has_inline_payload : t -> attr option
-
-type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
-
-val process_derive_type : t -> (derive_attr * t, string) result
 val rs_externals : t -> string list -> bool
 
 type as_const_payload = Int of int | Str of string | Js_literal_str of string

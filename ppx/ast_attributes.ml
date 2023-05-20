@@ -292,28 +292,6 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
       | _ -> ());
   !st
 
-type derive_attr = { bs_deriving : Ast_payload.action list option } [@@unboxed]
-
-let process_derive_type (attrs : t) : (derive_attr * t, string) result =
-  let exception Local of string in
-  try
-    Ok
-      (List.fold_left
-         (fun (st, acc)
-              ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
-           match txt with
-           | "bs.deriving" | "deriving" -> (
-               match st.bs_deriving with
-               | None -> (
-                   match Ast_payload.ident_or_record_as_config payload with
-                   | Ok config -> ({ bs_deriving = Some config }, acc)
-                   | Error stri -> raise (Local stri))
-               | Some _ -> Error.err ~loc Duplicated_bs_deriving)
-           | _ -> (st, attr :: acc))
-         ({ bs_deriving = None }, [])
-         attrs)
-  with Local stri -> Error stri
-
 (* duplicated @uncurry @string not allowed,
    it is worse in @uncurry since it will introduce
    inconsistency in arity

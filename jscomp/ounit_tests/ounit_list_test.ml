@@ -11,14 +11,14 @@ let suites =
   >::: [
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
-             (Ext_list.flat_map [ 1; 2 ] (fun x -> [ x; x ]))
+             (List.concat_map (fun x -> [ x; x ]) [ 1; 2 ])
              [ 1; 1; 2; 2 ] );
          ( __LOC__ >:: fun _ ->
            let ( =~ ) = OUnit.assert_equal ~printer:printer_int_list in
-           Ext_list.flat_map [] (fun x -> [ succ x ]) =~ [];
-           Ext_list.flat_map [ 1 ] (fun x -> [ x; succ x ]) =~ [ 1; 2 ];
-           Ext_list.flat_map [ 1; 2 ] (fun x -> [ x; succ x ]) =~ [ 1; 2; 2; 3 ];
-           Ext_list.flat_map [ 1; 2; 3 ] (fun x -> [ x; succ x ])
+           List.concat_map (fun x -> [ succ x ]) [] =~ [];
+           List.concat_map (fun x -> [ x; succ x ]) [ 1 ] =~ [ 1; 2 ];
+           List.concat_map (fun x -> [ x; succ x ]) [ 1; 2 ] =~ [ 1; 2; 2; 3 ];
+           List.concat_map (fun x -> [ x; succ x ]) [ 1; 2; 3 ]
            =~ [ 1; 2; 2; 3; 3; 4 ] );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal

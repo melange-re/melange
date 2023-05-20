@@ -37,19 +37,17 @@ type mapper = Ast_mapper.mapper
 let default_mapper = Ast_mapper.default_mapper
 
 module Uncurry = struct
+  module Ast_literal = Melange_ppxlib_ast.Ast_literal
   open Ast_helper
 
   type exp = Parsetree.expression
 
   let js_property loc obj (name : string) =
     Parsetree.Pexp_send
-      ( Ast_compatible.app1 ~loc
+      ( Exp.apply ~loc
           (Exp.ident ~loc
-             {
-               loc;
-               txt = Ldot (Ast_literal.Lid.js_oo, Literals.unsafe_downgrade);
-             })
-          obj,
+             { loc; txt = Ldot (Ast_literal.js_oo, Literals.unsafe_downgrade) })
+          [ (Nolabel, obj) ],
         { loc; txt = name } )
 
   let ignored_extra_argument : Parsetree.attribute =
@@ -81,17 +79,27 @@ module Uncurry = struct
                * known at compile time. *)
               ignored_extra_argument;
             ]
-          (Exp.ident { txt = Ast_literal.Lid.js_internal_full_apply; loc })
+          (Exp.ident { txt = Ast_literal.js_internal_full_apply; loc })
           [ (Nolabel, e) ],
         Typ.any ~loc () )
 
+  let optional_err ~loc (lbl : Asttypes.arg_label) =
+    match lbl with
+    | Optional _ ->
+        Location.raise_errorf ~loc
+          "Uncurried function doesn't support optional arguments yet"
+    | _ -> ()
+
   let generic_apply loc (self : mapper) (obj : Parsetree.expression)
-      (args : Ast_compatible.args) (cb : loc -> exp -> exp) =
+      (args : (Asttypes.arg_label * Parsetree.expression) list)
+      (cb : loc -> exp -> exp) =
     let obj = self.expr self obj in
     let args =
-      Ext_list.map args (fun (lbl, e) ->
-          Bs_syntaxerr.optional_err loc lbl;
+      List.map
+        (fun (lbl, e) ->
+          optional_err ~loc lbl;
           (lbl, self.expr self e))
+        args
     in
     let fn = cb loc obj in
     let args =
@@ -105,25 +113,25 @@ module Uncurry = struct
     let arity = List.length args in
     if arity = 0 then
       Parsetree.Pexp_apply
-        ( Exp.ident { txt = Ldot (Ast_literal.Lid.js_internal, "run"); loc },
+        ( Exp.ident { txt = Ldot (Ast_literal.js_internal, "run"); loc },
           [ (Nolabel, fn) ] )
     else
       let arity_s = string_of_int arity in
       opaque_full_apply ~loc
         (Exp.apply ~loc
            (Exp.apply ~loc
-              (Exp.ident ~loc { txt = Ast_literal.Lid.opaque; loc })
+              (Exp.ident ~loc { txt = Ast_literal.opaque; loc })
               [
                 ( Nolabel,
                   Exp.field ~loc
                     (Exp.constraint_ ~loc fn
                        (Typ.constr ~loc
                           {
-                            txt = Ldot (Ast_literal.Lid.js_fn, "arity" ^ arity_s);
+                            txt = Ldot (Ast_literal.js_fn, "arity" ^ arity_s);
                             loc;
                           }
                           [ Typ.any ~loc () ]))
-                    { txt = Ast_literal.Lid.hidden_field arity_s; loc } );
+                    { txt = Ast_literal.hidden_field arity_s; loc } );
               ])
            args)
 

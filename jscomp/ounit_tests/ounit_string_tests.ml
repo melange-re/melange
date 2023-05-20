@@ -200,7 +200,7 @@ let suites =
            OUnit.assert_equal (String.length (Digest.string "")) 16 );
          ( __LOC__ >:: fun _ ->
            let bench =
-             String.concat ";" (Ext_list.init 11 (fun i -> string_of_int i))
+             String.concat ";" (List.init 11 (fun i -> string_of_int i))
            in
            let buf = Buffer.create 10 in
            OUnit.assert_bool __LOC__ (Buffer.contents buf <> bench);

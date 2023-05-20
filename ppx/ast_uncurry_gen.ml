@@ -24,6 +24,7 @@
 
 open Ppxlib
 open Ast_helper
+module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 (* Handling `fun [@this]` used in `object [@bs] end` *)
 let to_method_callback loc (self : Ast_traverse.map) label pat body :

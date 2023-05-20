@@ -24,6 +24,7 @@
 
 open Ppxlib
 open Ast_helper
+module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 type args = (Asttypes.arg_label * Parsetree.expression) list
 

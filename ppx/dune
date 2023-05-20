@@ -5,7 +5,6 @@
  (public_name melange.ppx)
  (kind ppx_rewriter)
  (flags :standard -w -9)
- ; -open Melange_ppx_lib
  (preprocess
   (pps ppxlib.metaquot))
  (libraries ext common ppxlib melange.ppxlib-ast js_parser))

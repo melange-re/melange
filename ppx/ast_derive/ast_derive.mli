@@ -22,10 +22,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type tdcls = Parsetree.type_declaration list
-
 type gen = {
-  structure_gen : tdcls -> Asttypes.rec_flag -> Parsetree.structure;
-  signature_gen : tdcls -> Asttypes.rec_flag -> Parsetree.signature;
+  structure_gen :
+    Parsetree.type_declaration list -> Asttypes.rec_flag -> Parsetree.structure;
+  signature_gen :
+    Parsetree.type_declaration list -> Asttypes.rec_flag -> Parsetree.signature;
   expression_gen : (Parsetree.core_type -> Parsetree.expression) option;
 }

@@ -27,32 +27,6 @@ module U = Ast_derive_util
 open Ast_helper
 (* type tdcls = Parsetree.type_declaration list *)
 
-type abstractKind = Not_abstract | Light_abstract | Complex_abstract
-
-let isAbstract (xs : Ast_payload.action list) =
-  match xs with
-  | [ ({ txt = "abstract" }, None) ] -> Complex_abstract
-  | [
-   ( { txt = "abstract" },
-     Some { pexp_desc = Pexp_ident { txt = Lident "light" } } );
-  ] ->
-      Light_abstract
-  | [ ({ loc; txt = "abstract" }, Some _) ] ->
-      Location.raise_errorf ~loc "invalid config for abstract"
-  | xs ->
-      Ext_list.iter xs (function { loc; txt }, _ ->
-          (match txt with
-          | "abstract" ->
-              Location.raise_errorf ~loc
-                "deriving abstract does not work with any other deriving"
-          | _ -> ()));
-      Not_abstract
-(* let handle_config (config : Parsetree.expression option) =
-   match config with
-   | Some config ->
-     U.invalid_config config
-   | None -> () *)
-
 (** For this attributes, its type was wrapped as an option,
    so we can still reuse existing frame work
 *)
@@ -62,21 +36,20 @@ let get_optional_attrs =
 let get_attrs = [ Ast_attributes.bs_get_arity ]
 let set_attrs = [ Ast_attributes.bs_set ]
 
-let lift_option_type ({ Parsetree.ptyp_loc } as ty) =
-  Typ.constr { txt = Lident "option"; loc = ptyp_loc } [ ty ]
-
 let handleTdcl light (tdcl : Parsetree.type_declaration) :
     Parsetree.type_declaration * Parsetree.value_description list =
-  let core_type = U.core_type_of_type_declaration tdcl in
   let loc = tdcl.ptype_loc in
   let type_name = tdcl.ptype_name.txt in
+  let new_type_name = tdcl.ptype_name.txt ^ "_abstract" in
   let newTdcl =
     {
       tdcl with
+      ptype_name = { tdcl.ptype_name with txt = new_type_name };
       ptype_kind = Ptype_abstract;
       ptype_attributes = [] (* avoid non-terminating*);
     }
   in
+  let core_type = U.core_type_of_type_declaration newTdcl in
   match tdcl.ptype_kind with
   | Ptype_record label_declarations ->
       let is_private = tdcl.ptype_private = Private in
@@ -106,13 +79,13 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
 
             let maker, acc =
               if is_optional then
-                let optional_type = lift_option_type pld_type in
+                let optional_type = Ast_core_type.lift_option_type pld_type in
                 ( Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker,
                   Val.mk ~loc:pld_loc
                     (if light then pld_name
                      else { pld_name with txt = pld_name.txt ^ "Get" })
                     ~attrs:get_optional_attrs ~prim
-                    (Typ.arrow ~loc Nolabel core_type optional_type)
+                    [%type: [%t core_type] -> [%t optional_type]]
                   :: acc )
               else
                 ( Typ.arrow ~loc:pld_loc (Labelled label_name) pld_type maker,
@@ -127,7 +100,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
                          Return_identity
                          (Js_get
                             { js_get_name = prim_as_name; js_get_scopes = [] }))
-                    (Typ.arrow ~loc Nolabel core_type pld_type)
+                    [%type: [%t core_type] -> [%t pld_type]]
                   :: acc )
             in
             let is_current_field_mutable = pld_mutable = Mutable in
@@ -161,7 +134,6 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
           myMaker :: setter_accessor )
   | Ptype_abstract | Ptype_variant _ | Ptype_open ->
       (* Looks obvious that it does not make sense to warn *)
-      (* U.notApplicable tdcl.ptype_loc derivingName;  *)
       (tdcl, [])
 
 let handleTdclsInStr ~light rf tdcls =

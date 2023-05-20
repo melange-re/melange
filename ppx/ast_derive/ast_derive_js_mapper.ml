@@ -24,6 +24,7 @@
 
 open Ppxlib
 open Ast_helper
+module Ast_literal = Melange_ppxlib_ast.Ast_literal
 module U = Ast_derive_util
 
 type tdcls = Parsetree.type_declaration list
@@ -161,9 +162,6 @@ let assertExp e = Exp.assert_ e
 
 let single_non_rec_value name exp =
   Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
-
-let lift_option_type core_type =
-  Typ.constr { txt = Lident "option"; loc = core_type.ptyp_loc } [ core_type ]
 
 let gen ~newType:createType =
   {
@@ -337,7 +335,7 @@ let gen ~newType:createType =
                                 +> core_type
                               else
                                 fromInt exp_len constantArrayExp exp_param
-                                +> lift_option_type core_type));
+                                +> Ast_core_type.lift_option_type core_type));
                       ]
                     in
                     if createType then newTypeStr :: v else v
@@ -394,7 +392,7 @@ let gen ~newType:createType =
                                       (Exp.construct
                                          { loc; txt = Ast_literal.predef_none }
                                          None))
-                                 +> lift_option_type core_type)));
+                                 +> Ast_core_type.lift_option_type core_type)));
                       ]
                     in
                     if createType then newTypeStr :: v else v
@@ -457,7 +455,8 @@ let gen ~newType:createType =
               | Some _ ->
                   let ty1 = if createType then newType else [%type: string] in
                   let ty2 =
-                    if createType then core_type else lift_option_type core_type
+                    if createType then core_type
+                    else Ast_core_type.lift_option_type core_type
                   in
                   newTypeStr
                   +? [
@@ -475,7 +474,8 @@ let gen ~newType:createType =
               if Ast_polyvar.is_enum_constructors ctors then
                 let ty1 = if createType then newType else [%type: int] in
                 let ty2 =
-                  if createType then core_type else lift_option_type core_type
+                  if createType then core_type
+                  else Ast_core_type.lift_option_type core_type
                 in
                 newTypeStr
                 +? [ toJsType ty1; Sig.value (Val.mk patFromJs (ty1 ->~ ty2)) ]

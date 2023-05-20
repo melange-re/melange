@@ -4,18 +4,16 @@ let ( =~ ) a b = OUnit.assert_equal ~cmp:Ext_string.equal a b
 (** Test for single line *)
 let ( ==~ ) a b =
   OUnit.assert_equal
-    (Ext_list.map
-       (Ast_utf8_string_interp.transform_test a
-       |> List.filter (fun x -> not @@ Ast_utf8_string_interp.empty_segment x))
+    (List.map
        (fun ({ start = { offset = a }; finish = { offset = b }; kind; content } :
-              Ast_utf8_string_interp.segment) -> (a, b, kind, content)))
+              Ast_utf8_string_interp.segment) -> (a, b, kind, content))
+       (Ast_utf8_string_interp.transform_test a
+       |> List.filter (fun x -> not @@ Ast_utf8_string_interp.empty_segment x)))
     b
 
 let ( ==* ) a b =
   let segments =
-    Ext_list.map
-      (Ast_utf8_string_interp.transform_test a
-      |> List.filter (fun x -> not @@ Ast_utf8_string_interp.empty_segment x))
+    List.map
       (fun ({
               start = { lnum = la; offset = a };
               finish = { lnum = lb; offset = b };
@@ -23,6 +21,8 @@ let ( ==* ) a b =
               content;
             } :
              Ast_utf8_string_interp.segment) -> (la, a, lb, b, kind, content))
+      (Ast_utf8_string_interp.transform_test a
+      |> List.filter (fun x -> not @@ Ast_utf8_string_interp.empty_segment x))
   in
   OUnit.assert_equal segments b
 

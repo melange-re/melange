@@ -23,8 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ppxlib
+module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
-[@@@ocaml.warning "+9"]
 (* record pattern match complete checker*)
 
 let rec variant_can_unwrap_aux (row_fields : Parsetree.row_field list) : bool =

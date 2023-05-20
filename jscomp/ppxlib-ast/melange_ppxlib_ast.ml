@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+module Ast_literal = Ast_literal
 module Convert = Ppxlib_ast.Select_ast (Ppxlib_ast__.Versions.OCaml_414)
 
 module Of_ppxlib = struct

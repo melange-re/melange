@@ -50,17 +50,9 @@
 
 open Ppxlib
 
-let succeed attr attrs =
-  match attrs with
-  | [ _ ] -> ()
-  | _ ->
-      Bs_ast_invariant.mark_used_bs_attribute attr;
-      Bs_ast_invariant.warn_discarded_unused_attributes attrs
-
 module External = struct
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(single_expr_payload (pexp_ident __')) in
       let handler ~ctxt:_ ident =
         match ident with
@@ -73,7 +65,7 @@ module External = struct
         | { loc; txt = _ } ->
             Location.raise_errorf ~loc "external expects a single identifier"
       in
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.external"
@@ -82,25 +74,25 @@ end
 module Raw = struct
   let stru_rule =
     let rule label =
-      let context = Extension.Context.structure_item in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { loc; txt = payload } =
         let stru = [ Ast_extensions.handle_raw_structure loc payload ] in
         List.hd stru
       in
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender =
+        Extension.V3.declare label Structure_item extractor handler
+      in
       Context_free.Rule.extension extender
     in
     rule "bs.raw"
 
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { loc; txt = payload } =
         Ast_extensions.handle_raw ~kind:Raw_exp loc payload
       in
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.raw"
@@ -128,7 +120,6 @@ module Private = struct
 
   let rule =
     let rule label =
-      let context = Extension.Context.structure_item in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
         match payload with
@@ -137,7 +128,9 @@ module Private = struct
             Location.raise_errorf ~loc "private extension is not support"
       in
 
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender =
+        Extension.V3.declare label Structure_item extractor handler
+      in
       Context_free.Rule.extension extender
     in
     rule "private"
@@ -146,14 +139,13 @@ end
 module Debugger = struct
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         Exp.mk ~loc (Ast_extensions.handle_debugger loc payload)
       in
 
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.debugger"
@@ -162,7 +154,6 @@ end
 module Re = struct
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
@@ -171,7 +162,7 @@ module Re = struct
           (Ast_comb.to_js_re_type ~loc)
       in
 
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.re"
@@ -180,7 +171,6 @@ end
 module Time = struct
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
@@ -223,27 +213,13 @@ module Time = struct
               "expect a boolean expression in the payload"
       in
 
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.time"
 end
 
 module Node = struct
-  let lift_option_type ({ ptyp_loc } as ty) =
-    {
-      ptyp_desc =
-        Ptyp_constr
-          ( {
-              txt = Lident "option" (* Ast_literal.predef_option *);
-              loc = ptyp_loc;
-            },
-            [ ty ] );
-      ptyp_loc;
-      ptyp_loc_stack = [ ptyp_loc ];
-      ptyp_attributes = [];
-    }
-
   let as_ident x =
     match x with
     | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident }, _) } ]
@@ -253,7 +229,6 @@ module Node = struct
 
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_
           ({ txt = payload; loc } : Parsetree.payload Location.loc) =
@@ -269,7 +244,7 @@ module Node = struct
             let open Ast_helper in
             let exp = Ast_extensions.handle_external loc (strip name) in
             let typ =
-              lift_option_type
+              Ast_core_type.lift_option_type
                 (if name = "_module" then
                    Typ.constr ~loc
                      { txt = Ldot (Lident "Node", "node_module"); loc }
@@ -294,18 +269,15 @@ module Node = struct
             | _ -> Location.raise_errorf ~loc "Illegal payload")
       in
 
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.node"
 end
 
 module Obj = struct
-  type label_exprs = (Longident.t Asttypes.loc * Parsetree.expression) list
-
   let rule =
     let rule label =
-      let context = Extension.Context.expression in
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_ { txt = payload; loc } =
         match payload with
@@ -325,7 +297,7 @@ module Obj = struct
         | _ -> Location.raise_errorf ~loc "Expect a record expression here"
       in
 
-      let extender = Extension.V3.declare label context extractor handler in
+      let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
     rule "bs.obj"
@@ -333,6 +305,13 @@ end
 
 module Mapper = struct
   let mapper =
+    let succeed attr attrs =
+      match attrs with
+      | [ _ ] -> ()
+      | _ ->
+          Bs_ast_invariant.mark_used_bs_attribute attr;
+          Bs_ast_invariant.warn_discarded_unused_attributes attrs
+    in
     object (self)
       inherit Ppxlib.Ast_traverse.map as super
       (* [Expansion_context.Base.t] Ppxlib.Ast_traverse.map_with_context as super *)
@@ -796,11 +775,6 @@ let () =
         match Melange_compiler_libs.Location.error_of_exn exn with
         | Some (`Ok report) -> Some report
         | None | Some `Already_displayed -> None))
-
-let check_fatal () =
-  try Melange_compiler_libs.Warnings.check_fatal ()
-  with Melange_compiler_libs.Warnings.Errors ->
-    raise Ocaml_common.Warnings.Errors
 
 let () =
   Driver.add_arg "-unsafe"
