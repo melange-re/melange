@@ -40,11 +40,9 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
     Parsetree.type_declaration * Parsetree.value_description list =
   let loc = tdcl.ptype_loc in
   let type_name = tdcl.ptype_name.txt in
-  let new_type_name = tdcl.ptype_name.txt ^ "_abstract" in
   let newTdcl =
     {
       tdcl with
-      ptype_name = { tdcl.ptype_name with txt = new_type_name };
       ptype_kind = Ptype_abstract;
       ptype_attributes = [] (* avoid non-terminating*);
     }
@@ -134,10 +132,10 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
           myMaker :: setter_accessor )
   | Ptype_abstract | Ptype_variant _ | Ptype_open ->
       (* Looks obvious that it does not make sense to warn *)
-      (tdcl, [])
+      (newTdcl, [])
 
-let handleTdclsInStr ~light rf tdcls =
-  let tdcls, code =
+let handleTdclsInStr ~light _rf tdcls =
+  let _tdcls, code =
     List.fold_right
       (fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
@@ -146,11 +144,11 @@ let handleTdclsInStr ~light rf tdcls =
               Ext_list.map_append value_descriptions sts Str.primitive ))
       tdcls ([], [])
   in
-  Str.type_ rf tdcls :: code
-(* still need perform transformation for non-abstract type*)
+  (* Str.include_ (Incl.mk (Mod.structure [ Str.type_ rf tdcls ])) ::  *)
+  code
 
-let handleTdclsInSig ~light rf tdcls =
-  let tdcls, code =
+let handleTdclsInSig ~light _rf tdcls =
+  let _tdcls, code =
     List.fold_right
       (fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
@@ -159,4 +157,4 @@ let handleTdclsInSig ~light rf tdcls =
               Ext_list.map_append value_descriptions sts Sig.value ))
       tdcls ([], [])
   in
-  Sig.type_ rf tdcls :: code
+  (*   Sig.type_ rf tdcls ::  *) code

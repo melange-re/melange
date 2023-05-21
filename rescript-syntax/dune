@@ -4,7 +4,7 @@
  (name napkin)
  (flags :standard -w -9)
  (modules :standard \ res_cli)
- (libraries ppxlib ext melange.ppxlib-ast compiler-libs.common))
+ (libraries ppxlib melange.ppxlib-ast compiler-libs.common))
 
 (executable
  (name res_cli)

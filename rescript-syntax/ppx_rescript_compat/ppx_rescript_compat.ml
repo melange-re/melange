@@ -46,7 +46,7 @@ module Uncurry = struct
     Parsetree.Pexp_send
       ( Exp.apply ~loc
           (Exp.ident ~loc
-             { loc; txt = Ldot (Ast_literal.js_oo, Literals.unsafe_downgrade) })
+             { loc; txt = Ldot (Ast_literal.js_oo, "unsafe_downgrade") })
           [ (Nolabel, obj) ],
         { loc; txt = name } )
 

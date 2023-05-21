@@ -126,7 +126,7 @@ module Ref = {
  * Watch out! There are two props types and the only difference is the type of ref.
  * Please keep in sync.
  */
-[@bs.deriving abstract]
+[@deriving abstract]
 type domProps = {
   [@bs.optional]
   key: string,
@@ -1132,7 +1132,7 @@ external createDOMElementVariadic:
  * Watch out! There are two props types and the only difference is the type of ref.
  * Please keep in sync.
  */
-[@bs.deriving abstract]
+[@deriving abstract]
 type props = {
   [@bs.optional]
   key: string,

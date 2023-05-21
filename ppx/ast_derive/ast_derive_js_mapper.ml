@@ -153,12 +153,8 @@ let raiseWhenNotFound x =
         { loc = noloc; txt = Longident.Ldot (jsMapperRt, "raiseWhenNotFound") }]
       [%e x]]
 
+let derivingName = "jsConverter"
 let assertExp e = Exp.assert_ e
-
-(* let notApplicable loc =
-   Location.prerr_warning
-    loc
-    (Warnings.Bs_derive_warning ( derivingName ^ " not applicable to this type")) *)
 
 let single_non_rec_value name exp =
   Str.value Nonrecursive [ Vb.mk (Pat.var name) exp ]
@@ -294,8 +290,10 @@ let gen ~newType:createType =
                   [
                     [%stri
                       [%%ocaml.error
-                      Exp.constant
-                        (Pconst_string (U.notApplicable derivingName, loc, None))]];
+                      [%e
+                        Exp.constant
+                          (Pconst_string
+                             (U.notApplicable derivingName, loc, None))]]];
                   ])
           | Ptype_variant ctors ->
               if Ast_polyvar.is_enum_constructors ctors then
@@ -401,16 +399,18 @@ let gen ~newType:createType =
                 [
                   [%stri
                     [%%ocaml.error
-                    Exp.constant
-                      (Pconst_string (U.notApplicable derivingName, loc, None))]];
+                    [%e
+                      Exp.constant
+                        (Pconst_string (U.notApplicable derivingName, loc, None))]]];
                 ]
           | Ptype_open ->
               let loc = tdcl.Parsetree.ptype_loc in
               [
                 [%stri
                   [%%ocaml.error
-                  Exp.constant
-                    (Pconst_string (U.notApplicable derivingName, loc, None))]];
+                  [%e
+                    Exp.constant
+                      (Pconst_string (U.notApplicable derivingName, loc, None))]]];
               ]
         in
         List.concat_map handle_tdcl tdcls);
@@ -467,8 +467,10 @@ let gen ~newType:createType =
                   [
                     [%sigi:
                       [%%ocaml.error
-                      Exp.constant
-                        (Pconst_string (U.notApplicable derivingName), loc, None)]];
+                      [%e
+                        Exp.constant
+                          (Pconst_string
+                             (U.notApplicable derivingName, loc, None))]]];
                   ])
           | Ptype_variant ctors ->
               if Ast_polyvar.is_enum_constructors ctors then
@@ -484,18 +486,18 @@ let gen ~newType:createType =
                 [
                   [%sigi:
                     [%%ocaml.error
-                    Exp.constant
-                      (Pconst_string (U.notApplicable derivingName, loc, None))]];
+                    [%e
+                      Exp.constant
+                        (Pconst_string (U.notApplicable derivingName, loc, None))]]];
                 ]
           | Ptype_open ->
+              let loc = tdcl.ptype_loc in
               [
                 [%sigi:
-                  [%%ocaml.erro
-                  Exp.constant
-                    (Pconst_string
-                       ( U.notApplicable tdcl.Parsetree.ptype_loc derivingName,
-                         loc,
-                         None ))]];
+                  [%%ocaml.error
+                  [%e
+                    Exp.constant
+                      (Pconst_string (U.notApplicable derivingName, loc, None))]]];
               ]
         in
         List.concat_map handle_tdcl tdcls);

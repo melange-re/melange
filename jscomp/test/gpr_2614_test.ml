@@ -1,4 +1,3 @@
-
 [@@@ocaml.warning "-a"]
 
 type t = {
@@ -9,7 +8,7 @@ type t = {
     [@bs.as "l"];
   mutable x : int;
     [@bs.as "open"]
-} [@@bs.deriving abstract]
+} [@@deriving abstract]
   (* [@@bs.x] *)
 
 
@@ -100,7 +99,7 @@ type css =
     a15 : int
     [@bs.optional] ;
   }
-  [@@bs.deriving abstract]
+  [@@deriving abstract]
 
 
 let u = css ~a9:3 ()
