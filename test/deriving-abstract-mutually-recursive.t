@@ -5,12 +5,12 @@ generated )
   $ . ./setup.sh
   $ cat > foo.ml <<EOF
   > type a = {
-  >   recursiveA: a Js.Null.t [@bs.optional];
-  >   usingB: b Js.Null.t [@bs.optional];
+  >   recursiveA: a Js.Null.t option [@bs.optional];
+  >   usingB: b Js.Null.t option [@bs.optional];
   > } [@@deriving abstract]
   > and b = {
-  >   usingA: a Js.Null.t [@bs.optional];
-  >   constraint_: bool Js.Null.t [@bs.as "constraint"] [@bs.optional];
+  >   usingA: a Js.Null.t option [@bs.optional];
+  >   constraint_: bool Js.Null.t option [@bs.as "constraint"] [@bs.optional];
   > } [@@deriving abstract]
   > EOF
 
