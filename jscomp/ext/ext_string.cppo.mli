@@ -69,8 +69,6 @@ val for_all :
 
 val is_empty : string -> bool
 
-val equal : string -> string -> bool
-
 val rfind : sub:string -> string -> int
 
 (** [tail_from s 1]

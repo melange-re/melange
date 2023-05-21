@@ -1,14 +1,18 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let ( =~ ) a b = OUnit.assert_equal ~cmp:Ext_string.equal a b
+let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
+
+(* Note [Var] kind can not be mpty  *)
+let empty_segment { Utf8_string.Interp.content; _ } =
+  Ext_string.is_empty content
 
 (** Test for single line *)
 let ( ==~ ) a b =
   OUnit.assert_equal
     (List.map
        (fun ({ start = { offset = a }; finish = { offset = b }; kind; content } :
-              Ast_utf8_string_interp.segment) -> (a, b, kind, content))
-       (Ast_utf8_string_interp.transform_test a
-       |> List.filter (fun x -> not @@ Ast_utf8_string_interp.empty_segment x)))
+              Utf8_string.Interp.segment) -> (a, b, kind, content))
+       (Utf8_string.Interp.transform_test a
+       |> List.filter (fun x -> not @@ empty_segment x)))
     b
 
 let ( ==* ) a b =
@@ -20,40 +24,45 @@ let ( ==* ) a b =
               kind;
               content;
             } :
-             Ast_utf8_string_interp.segment) -> (la, a, lb, b, kind, content))
-      (Ast_utf8_string_interp.transform_test a
-      |> List.filter (fun x -> not @@ Ast_utf8_string_interp.empty_segment x))
+             Utf8_string.Interp.segment) -> (la, a, lb, b, kind, content))
+      (Utf8_string.Interp.transform_test a
+      |> List.filter (fun x -> not @@ empty_segment x))
   in
   OUnit.assert_equal segments b
 
-let varParen : Ast_utf8_string_interp.kind = Var (2, -1)
-let var : Ast_utf8_string_interp.kind = Var (1, 0)
+let varParen : Utf8_string.Interp.kind = Var (2, -1)
+let var : Utf8_string.Interp.kind = Var (1, 0)
 
 let suites =
   __FILE__
   >::: [
-         (__LOC__ >:: fun _ -> Ast_utf8_string.transform_test {|x|} =~ {|x|});
-         (__LOC__ >:: fun _ -> Ast_utf8_string.transform_test "a\nb" =~ {|a\nb|});
-         (__LOC__ >:: fun _ -> Ast_utf8_string.transform_test "\\n" =~ "\\n");
          ( __LOC__ >:: fun _ ->
-           Ast_utf8_string.transform_test "\\\\\\b\\t\\n\\v\\f\\r\\0\\$"
+           Utf8_string.Utf8_string.transform_test {|x|} =~ {|x|} );
+         ( __LOC__ >:: fun _ ->
+           Utf8_string.Utf8_string.transform_test "a\nb" =~ {|a\nb|} );
+         ( __LOC__ >:: fun _ ->
+           Utf8_string.Utf8_string.transform_test "\\n" =~ "\\n" );
+         ( __LOC__ >:: fun _ ->
+           Utf8_string.Utf8_string.transform_test "\\\\\\b\\t\\n\\v\\f\\r\\0\\$"
            =~ "\\\\\\b\\t\\n\\v\\f\\r\\0\\$" );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string.transform_test {|\|} with
-           | exception Ast_utf8_string.Error (offset, _) ->
+           match Utf8_string.Utf8_string.transform_test {|\|} with
+           | exception Utf8_string.Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 1
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string.transform_test {|你\|} with
-           | exception Ast_utf8_string.Error (offset, _) ->
+           match Utf8_string.Utf8_string.transform_test {|你\|} with
+           | exception Utf8_string.Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 2
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
-           Ast_utf8_string.transform_test {|\h\e\l\lo \"world\"!|}
+           Utf8_string.Utf8_string.transform_test {|\h\e\l\lo \"world\"!|}
            =~ {|\h\e\l\lo \"world\"!|} );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string.transform_test {|你BuckleScript,好啊\uffff\|} with
-           | exception Ast_utf8_string.Error (offset, _) ->
+           match
+             Utf8_string.Utf8_string.transform_test {|你BuckleScript,好啊\uffff\|}
+           with
+           | exception Utf8_string.Utf8_string.Error (offset, _) ->
                OUnit.assert_equal offset 23
            | _ -> OUnit.assert_failure __LOC__ );
          ( __LOC__ >:: fun _ ->
@@ -149,72 +158,72 @@ let suites =
          ( __LOC__ >:: fun _ ->
            {|$x)|} ==* [ (0, 0, 0, 2, var, "x"); (0, 2, 0, 3, String, ")") ] );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {j| $( ()) |j} with
+           match Utf8_string.Interp.transform_test {j| $( ()) |j} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 1; byte_bol = 0 },
                    { lnum = 0; offset = 6; byte_bol = 0 },
                    Invalid_syntax_of_var " (" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|$()|} with
+           match Utf8_string.Interp.transform_test {|$()|} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 3; byte_bol = 0 },
                    Invalid_syntax_of_var "" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|$ ()|} with
+           match Utf8_string.Interp.transform_test {|$ ()|} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 1; byte_bol = 0 },
                    Invalid_syntax_of_var "" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|$()|} with
+           match Utf8_string.Interp.transform_test {|$()|} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 3; byte_bol = 0 },
                    Invalid_syntax_of_var "" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|$(hello world)|} with
+           match Utf8_string.Interp.transform_test {|$(hello world)|} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 14; byte_bol = 0 },
                    Invalid_syntax_of_var "hello world" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|$( hi*) |} with
+           match Utf8_string.Interp.transform_test {|$( hi*) |} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 7; byte_bol = 0 },
                    Invalid_syntax_of_var " hi*" ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|xx $|} with
+           match Utf8_string.Interp.transform_test {|xx $|} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 3; byte_bol = 0 },
                    { lnum = 0; offset = 3; byte_bol = 0 },
                    Unterminated_variable ) ->
                OUnit.assert_bool __LOC__ true
            | _ -> OUnit.assert_bool __LOC__ false );
          ( __LOC__ >:: fun _ ->
-           match Ast_utf8_string_interp.transform_test {|$(world |} with
+           match Utf8_string.Interp.transform_test {|$(world |} with
            | exception
-               Ast_utf8_string_interp.Error
+               Utf8_string.Interp.Error
                  ( { lnum = 0; offset = 0; byte_bol = 0 },
                    { lnum = 0; offset = 9; byte_bol = 0 },
                    Unmatched_paren ) ->

@@ -101,7 +101,7 @@ Skip over the temporary file name printed in the error trace
 
   $ melc -ppx melppx -bs-eval '{js| \uFFF|js}' 2>&1 | grep -v File
   1 | {js| \uFFF|js}
-      ^^^^^^^^^^^^^^
+          ^^^^^^
   Error: Offset: 3, Invalid \u escape
 
   $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]' 2>&1 | grep -v File

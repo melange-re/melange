@@ -7,4 +7,13 @@
  (flags :standard -w -9)
  (preprocess
   (pps ppxlib.metaquot))
- (libraries ext common ppxlib melange.ppxlib-ast js_parser))
+ (modules :standard \ utf8_string)
+ (libraries common ext utf8_string ppxlib melange.ppxlib-ast js_parser))
+
+(library
+ (name utf8_string)
+ (package melange)
+ (modules utf8_string)
+ (libraries ppxlib ext)
+ (preprocess
+  (pps ppxlib.metaquot)))

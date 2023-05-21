@@ -10,7 +10,7 @@ type key = string
 type 'a t = (key, 'a)  Hash_gen.t
 let key_index (h : _ t ) (key : key) =
   (Bs_hash_stubs.hash_string  key ) land (Array.length h.data - 1)
-let eq_key = Ext_string.equal
+let eq_key = String.equal
 #elif defined TYPE_INT
 type key = int
 type 'a t = (key, 'a)  Hash_gen.t

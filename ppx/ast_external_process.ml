@@ -959,7 +959,7 @@ let list_of_arrow (ty : Parsetree.core_type) :
   aux ty []
 
 (* Note that the passed [type_annotation] is already processed by visitor pattern before*)
-let handle_attributes (loc : Bs_loc.t) (type_annotation : Parsetree.core_type)
+let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
     (prim_attributes : Ast_attributes.t) (pval_name : string)
     (prim_name : string) :
     Parsetree.core_type * External_ffi_types.t * Parsetree.attributes * bool =

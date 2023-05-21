@@ -33,9 +33,7 @@ module Warns = struct
     | Bs_fragile_external of string (* 105 *)
     | Bs_unimplemented_primitive of string (* 106 *)
     | Bs_integer_literal_overflow (* 107 *)
-    | Bs_uninterpreted_delimiters of string (* 108 *)
     | Bs_toplevel_expression_unit (* 109 *)
-  [@@warning "-37"]
 
   let message = function
     | Bs_unused_attribute s ->
@@ -55,7 +53,6 @@ module Warns = struct
     | Bs_integer_literal_overflow ->
         "Integer literal exceeds the range of representable integers of type \
          int"
-    | Bs_uninterpreted_delimiters s -> "Uninterpreted delimiters " ^ s
     | Bs_toplevel_expression_unit ->
         "Toplevel expression is expected to have unit type."
 

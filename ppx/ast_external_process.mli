@@ -32,7 +32,7 @@ type response = {
 }
 
 val handle_attributes_as_string :
-  Bs_loc.t ->
+  Location.t ->
   Parsetree.core_type ->
   Ast_attributes.t ->
   string ->

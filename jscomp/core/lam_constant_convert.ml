@@ -46,7 +46,7 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam_constant.t =
   | Const_base (Const_string (s, _, opt), _) ->
       let unicode =
         match opt with
-        | Some opt -> Ast_utf8_string_interp.is_unicode_string opt
+        | Some opt -> Ast_utf8_string.is_unicode_string opt
         | _ -> false
       in
       Const_string { s; unicode }

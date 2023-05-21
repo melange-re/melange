@@ -366,7 +366,7 @@ module Mapper = struct
         | Pexp_apply (fn, args) ->
             Ast_exp_apply.app_exp_mapper e (self, super#expression) fn args
         | Pexp_constant (Pconst_string (s, loc, Some delim)) ->
-            Ast_utf8_string_interp.transform e s loc delim
+            Utf8_string.Interp.transform e s loc delim
         (* End rewriting *)
         | Pexp_function cases -> (
             (* {[ function [@bs.exn]

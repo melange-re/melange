@@ -148,7 +148,7 @@ let split_aux p =
     if dir = p then (dir, acc)
     else
       let new_path = Filename.basename p in
-      if Ext_string.equal new_path Filename.dir_sep then go dir acc
+      if String.equal new_path Filename.dir_sep then go dir acc
         (* We could do more path simplification here
            leave to [rel_normalized_absolute_path]
         *)
@@ -179,7 +179,7 @@ let rel_normalized_absolute_path ~from to_ =
     let rec go xss yss =
       match (xss, yss) with
       | x :: xs, y :: ys ->
-          if Ext_string.equal x y then go xs ys
+          if String.equal x y then go xs ys
           else if x = curd then go xs yss
           else if y = curd then go xss ys
           else
@@ -231,9 +231,8 @@ let normalize_absolute_path x =
     match paths with
     | [] -> acc
     | x :: xs ->
-        if Ext_string.equal x Ext_string.current_dir_lit then
-          normalize_list acc xs
-        else if Ext_string.equal x Ext_string.parent_dir_lit then
+        if String.equal x Ext_string.current_dir_lit then normalize_list acc xs
+        else if String.equal x Ext_string.parent_dir_lit then
           normalize_list (drop_if_exist acc) xs
         else normalize_list (x :: acc) xs
   in

@@ -24,41 +24,42 @@
 
 open Ppxlib
 
-type kind = String | Var of int * int (* int records its border length *)
+module Utf8_string : sig
+  type error =
+    | Invalid_code_point
+    | Unterminated_backslash
+    | Invalid_hex_escape
+    | Invalid_unicode_escape
 
-type error = private
-  | Invalid_code_point
-  | Unterminated_backslash
-  | Invalid_escape_code of char
-  | Invalid_hex_escape
-  | Invalid_unicode_escape
-  | Unterminated_variable
-  | Unmatched_paren
-  | Invalid_syntax_of_var of string
+  type exn += Error of int (* offset *) * error
 
-type pos = { lnum : int; offset : int; byte_bol : int }
-(** Note the position is about code point *)
+  val transform_test : string -> string
+end
 
-type segment = { start : pos; finish : pos; kind : kind; content : string }
-type segments = segment list
+module Interp : sig
+  type error =
+    | Invalid_code_point
+    | Unterminated_backslash
+    | Invalid_escape_code of char
+    | Invalid_hex_escape
+    | Invalid_unicode_escape
+    | Unterminated_variable
+    | Unmatched_paren
+    | Invalid_syntax_of_var of string
 
-type cxt = {
-  mutable segment_start : pos;
-  buf : Buffer.t;
-  s_len : int;
-  mutable segments : segments;
-  mutable pos_bol : int; (* record the abs position of current beginning line *)
-  mutable byte_bol : int;
-  mutable pos_lnum : int; (* record the line number *)
-}
+  type kind = String | Var of int * int
 
-type exn += Error of pos * pos * error
+  (* Note the position is about code point *)
+  type pos = {
+    lnum : int;
+    offset : int;
+    byte_bol : int;
+        (* Note it actually needs to be in sync with OCaml's lexing semantics *)
+  }
 
-val empty_segment : segment -> bool
-val transform_test : string -> segment list
+  type exn += Error of pos * pos * error
+  type segment = { start : pos; finish : pos; kind : kind; content : string }
 
-val transform :
-  Parsetree.expression -> string -> Location.t -> string -> Parsetree.expression
-
-val is_unicode_string : string -> bool
-val is_unescaped : string -> bool
+  val transform : expression -> string -> location -> string -> expression
+  val transform_test : string -> segment list
+end
