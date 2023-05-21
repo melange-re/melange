@@ -34,7 +34,7 @@ open Ast_helper
 ]}
 *)
 let handle_external loc (x : string) : Parsetree.expression =
-  let raw_exp : Ast_exp.t =
+  let raw_exp  =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some Ext_string.empty))
     in

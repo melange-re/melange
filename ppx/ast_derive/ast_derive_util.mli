@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Ppxlib
+
 val core_type_of_type_declaration :
   Parsetree.type_declaration -> Parsetree.core_type
 (** Given a type declaration, extaract the type expression, mostly
