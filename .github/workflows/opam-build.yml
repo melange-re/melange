@@ -65,7 +65,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
-          opam pin add reason-react -y git+https://github.com/reasonml/reason-react.git#anmonteiro-patch-1
+          opam pin add reason-react -y git+https://github.com/reasonml/reason-react.git#anmonteiro/bs-optional
           npm install
 
       - name: Build basic template
