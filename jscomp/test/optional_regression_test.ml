@@ -6,9 +6,9 @@ let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 
 type test = {
-  s : string [@bs.optional];
-  b : bool [@bs.optional];
-  i : int  [@bs.optional];
+  s : string option [@bs.optional];
+  b : bool option [@bs.optional];
+  i : int option  [@bs.optional];
 } [@@deriving abstract]
 
 

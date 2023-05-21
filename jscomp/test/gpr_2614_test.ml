@@ -27,7 +27,7 @@ let ff () =
 
 
 type a = {
-  mutable low : string
+  mutable low : string option
   [@optional]
   [@as "lo-x"]
 ;
@@ -65,38 +65,38 @@ let hh2 x =
 
 type css =
   {
-    a0 : int
+    a0 : int option
     [@bs.optional] ;
-    a1 : int
+    a1 : int option
     [@bs.optional];
-    a2 : int
+    a2 : int option
     [@bs.optional];
-    a3 : int
+    a3 : int option
     [@bs.optional];
-    a4 : int
+    a4 : int option
     [@bs.optional];
-    a5 : int
+    a5 : int option
     [@bs.optional];
-    a6 : int
+    a6 : int option
     [@bs.optional];
-    a7 : int
+    a7 : int option
     [@bs.optional];
-    a8 : int
+    a8 : int option
     [@bs.optional];
-    a9 : int
+    a9 : int option
     [@bs.optional]
     [@bs.as "xx-yy"];
-    a10 : int
+    a10 : int option
     [@bs.optional];
-    a11 : int
+    a11 : int option
     [@bs.optional];
-    a12 : int
+    a12 : int option
     [@bs.optional];
-    a13 : int
+    a13 : int option
     [@bs.optional];
-    a14 : int
+    a14 : int option
     [@bs.optional];
-    a15 : int
+    a15 : int option
     [@bs.optional] ;
   }
   [@@deriving abstract]

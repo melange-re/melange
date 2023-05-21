@@ -25,6 +25,7 @@
 open Ppxlib
 
 (* let derivingName = "abstract" *)
+module Ast_literal = Melange_ppxlib_ast.Ast_literal
 module U = Ast_derive_util
 open Ast_helper
 (* type tdcls = Parsetree.type_declaration list *)
@@ -37,6 +38,17 @@ let get_optional_attrs =
 
 let get_attrs = [ Ast_attributes.bs_get_arity ]
 let set_attrs = [ Ast_attributes.bs_set ]
+
+let get_pld_type pld_type ~attrs =
+  let is_optional = Ast_attributes.has_bs_optional attrs in
+  if is_optional then
+    match pld_type.ptyp_desc with
+    | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
+    | _ ->
+        Location.raise_errorf ~loc:pld_type.ptyp_loc
+          "[@bs.optional] must appear on a type explicitly annotated with \
+           `option'"
+  else pld_type
 
 let handleTdcl light (tdcl : Parsetree.type_declaration) :
     Parsetree.type_declaration * Parsetree.value_description list =
@@ -79,7 +91,8 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
 
             let maker, acc =
               if is_optional then
-                let optional_type = Ast_core_type.lift_option_type pld_type in
+                let optional_type = pld_type in
+                let pld_type = get_pld_type ~attrs:pld_attributes pld_type in
                 ( Typ.arrow ~loc:pld_loc (Optional label_name) pld_type maker,
                   Val.mk ~loc:pld_loc
                     (if light then pld_name
@@ -106,6 +119,7 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
             let is_current_field_mutable = pld_mutable = Mutable in
             let acc =
               if is_current_field_mutable then
+                let pld_type = get_pld_type pld_type ~attrs:pld_attributes in
                 let setter_type =
                   [%type: [%t core_type] -> [%t pld_type] -> unit]
                 in

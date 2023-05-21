@@ -40,7 +40,7 @@ type u1 = {
   x : int;
   yyyy : (int -> int [@bs]);
   yyyy1 : (int -> int -> int  [@bs]);
-  yyyy2 : int -> int  [@bs.optional]
+  yyyy2 : (int -> int) option  [@bs.optional]
 } [@@deriving abstract]
 
 let uff f =
@@ -60,7 +60,7 @@ type u3 = {
   x : int;
   yyyy : (int -> int [@bs]);
   yyyy1 : (int -> int -> int  [@bs]);
-  yyyy2 : int -> int  [@bs.optional]
+  yyyy2 : (int -> int) option  [@bs.optional]
 } [@@deriving abstract { light} ]
 
 
