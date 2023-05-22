@@ -975,8 +975,8 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
       if String.length prim_name = 0 then
         `Nm_val
           (lazy
-            (Bs_ast_invariant.Warns.err ~loc
-               (Bs_fragile_external pval_name) (* pval_name *)))
+            (Bs_ast_invariant.warn ~loc (Fragile_external pval_name);
+             pval_name))
       else `Nm_external prim_name (* need check name *)
     in
     let result_type, arg_types_ty =

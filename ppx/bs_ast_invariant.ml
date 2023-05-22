@@ -24,52 +24,39 @@
 
 open Ppxlib
 
-module Warns = struct
-  type t =
-    | Bs_unused_attribute of string (* 101 *)
-    | Bs_polymorphic_comparison (* 102 *)
-    | Bs_ffi_warning of string (* 103 *)
-    | Bs_derive_warning of string (* 104 *)
-    | Bs_fragile_external of string (* 105 *)
-    | Bs_unimplemented_primitive of string (* 106 *)
-    | Bs_integer_literal_overflow (* 107 *)
-    | Bs_toplevel_expression_unit (* 109 *)
+module Warnings = struct
+  type t = Unused_attribute of string | Fragile_external of string
 
-  let message = function
-    | Bs_unused_attribute s ->
-        "Unused attribute: " ^ s
-        ^ "\n\
-           This means such annotation is not annotated properly.\n\
-           for example, some annotations is only meaningful in externals\n"
-    | Bs_polymorphic_comparison ->
-        "Polymorphic comparison introduced (maybe unsafe)"
-    | Bs_ffi_warning s -> "FFI warning: " ^ s
-    | Bs_derive_warning s -> "bs.deriving warning: " ^ s
-    | Bs_fragile_external s ->
-        s
-        ^ " : the external name is inferred from val name is unsafe from \
+  let kind = function
+    | Unused_attribute _ -> "unused-bs-attributes"
+    | Fragile_external _ -> "melange-fragile-external"
+
+  let pp fmt t =
+    match t with
+    | Unused_attribute s ->
+        Format.fprintf fmt
+          "Unused attribute [%@%s]@\n\
+           This means such annotation is not annotated properly.@\n\
+           For example, some annotations are only meaningful in externals\n"
+          s
+    | Fragile_external s ->
+        Format.fprintf fmt
+          "%s : the external name is inferred from val name is unsafe from \
            refactoring when changing value name"
-    | Bs_unimplemented_primitive s -> "Unimplemented primitive used:" ^ s
-    | Bs_integer_literal_overflow ->
-        "Integer literal exceeds the range of representable integers of type \
-         int"
-    | Bs_toplevel_expression_unit ->
-        "Toplevel expression is expected to have unit type."
+          s
 
-  type exn += Error of Location.t * t
-
-  let () =
+  let warn ~loc msg =
     let module Location = Ocaml_common.Location in
-    Location.register_error_of_exn (function
-      | Error (loc, err) ->
-          Some
-            (Ocaml_common.Location.error_of_printer ~loc
-               (fun fmt msg -> Format.fprintf fmt "%s" (message msg))
-               err)
-      | _ -> None)
-
-  let err ~loc msg = raise (Error (loc, msg))
+    Location.prerr_alert loc
+      {
+        Ocaml_common.Warnings.kind = kind msg;
+        message = Format.asprintf "%a" pp msg;
+        def = Location.none;
+        use = loc;
+      }
 end
+
+let warn = Warnings.warn
 
 (** Warning unused bs attributes
     Note if we warn `deriving` too,
@@ -112,7 +99,7 @@ let warn_unused_attribute
     (* dump_used_attributes Format.err_formatter; *)
     (* dump_attribute Format.err_formatter sloc; *)
     (* #endif *)
-    Warns.err ~loc (Bs_unused_attribute txt)
+    warn ~loc (Unused_attribute txt)
 
 let warn_discarded_unused_attributes (attrs : Parsetree.attributes) =
   if attrs <> [] then List.iter warn_unused_attribute attrs
