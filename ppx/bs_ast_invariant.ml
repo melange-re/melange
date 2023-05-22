@@ -31,9 +31,9 @@ module Warnings = struct
     | Redundant_bs_string
 
   let kind = function
-    | Unused_attribute _ -> "unused-bs-attributes"
-    | Fragile_external _ -> "melange-fragile-external"
-    | Redundant_bs_string -> "redundant-bs-string"
+    | Unused_attribute _ -> "unused"
+    | Fragile_external _ -> "fragile"
+    | Redundant_bs_string -> "redundant"
 
   let pp fmt t =
     match t with
