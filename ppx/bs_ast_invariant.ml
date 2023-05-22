@@ -25,11 +25,15 @@
 open Ppxlib
 
 module Warnings = struct
-  type t = Unused_attribute of string | Fragile_external of string
+  type t =
+    | Unused_attribute of string
+    | Fragile_external of string
+    | Redundant_bs_string
 
   let kind = function
     | Unused_attribute _ -> "unused-bs-attributes"
     | Fragile_external _ -> "melange-fragile-external"
+    | Redundant_bs_string -> "redundant-bs-string"
 
   let pp fmt t =
     match t with
@@ -44,6 +48,9 @@ module Warnings = struct
           "%s : the external name is inferred from val name is unsafe from \
            refactoring when changing value name"
           s
+    | Redundant_bs_string ->
+        Format.fprintf fmt
+          "[@bs.string] is redundant here, you can safely remove it"
 
   let warn ~loc msg =
     let module Location = Ocaml_common.Location in

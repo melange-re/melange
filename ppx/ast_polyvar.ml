@@ -132,6 +132,8 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
       let has_payload = case = `NonNull in
       let descr = if !has_bs_as then Some result else None in
       match (has_payload, descr) with
-      | false, None -> Error.err ~loc:ptyp_loc Redundant_bs_string
+      | false, None ->
+          Bs_ast_invariant.warn ~loc:ptyp_loc Redundant_bs_string;
+          Nothing
       | false, Some descr -> Poly_var_string { descr }
       | true, _ -> Poly_var { descr })

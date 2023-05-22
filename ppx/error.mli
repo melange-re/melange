@@ -53,7 +53,6 @@ type t =
   | Optional_in_uncurried_bs_attribute
   | Bs_this_simple_pattern
   | Bs_uncurried_arity_too_large
-  | Redundant_bs_string
 
 val pp_error : Format.formatter -> t -> unit
 val err : loc:Location.t -> t -> 'a

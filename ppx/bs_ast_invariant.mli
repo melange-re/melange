@@ -25,7 +25,10 @@
 open Ppxlib
 
 module Warnings : sig
-  type t = Unused_attribute of string | Fragile_external of string
+  type t =
+    | Unused_attribute of string
+    | Fragile_external of string
+    | Redundant_bs_string
 end
 
 val warn : loc:Location.t -> Warnings.t -> unit
