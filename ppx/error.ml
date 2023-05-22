@@ -27,20 +27,17 @@ open Ppxlib
 type t =
   | Unsupported_predicates
   | Conflict_bs_bs_this_bs_meth
-  | Duplicated_bs_deriving
   | Conflict_attributes
   | Duplicated_bs_as
   | Expect_int_literal
   | Expect_string_literal
   | Expect_int_or_string_or_json_literal
   | Unhandled_poly_type
-  | Unregistered of string
   | Invalid_underscore_type_in_external
   | Invalid_bs_string_type
   | Invalid_bs_int_type
   | Invalid_bs_unwrap_type
   | Conflict_ffi_attribute of string
-  | Not_supported_in_bs_deriving
   | Canot_infer_arity_by_syntax
   | Illegal_attribute
   | Inconsistent_arity of int * int
@@ -58,9 +55,9 @@ let pp_error fmt err =
   Format.pp_print_string fmt
     (match err with
     | Bs_uncurried_arity_too_large ->
-        "Uncurried function supports only up to arity 22"
+        "Uncurried functions only supports only up to arity 22"
     | Misplaced_label_syntax ->
-        "Label syntax is not support in this position"
+        "Label syntax is not supported in this position"
         (*
     let fn x = ((##) x ~hi)  ~lo:1 ~hi:2
     *)
@@ -76,11 +73,9 @@ let pp_error fmt err =
          write it in arrow syntax "
     | Inconsistent_arity (arity, n) ->
         Printf.sprintf "Inconsistent arity %d vs %d" arity n
-    | Not_supported_in_bs_deriving -> "not supported in deriving"
     | Unsupported_predicates -> "unsupported predicates"
     | Conflict_bs_bs_this_bs_meth ->
         "@this, @bs, @meth can not be applied at the same time"
-    | Duplicated_bs_deriving -> "duplicate bs.deriving attribute"
     | Conflict_attributes -> "conflicting attributes "
     | Expect_string_literal -> "expect string literal "
     | Duplicated_bs_as -> "duplicate @as "
@@ -88,7 +83,6 @@ let pp_error fmt err =
     | Expect_int_or_string_or_json_literal ->
         "expect int, string literal or json literal {json|text here|json} "
     | Unhandled_poly_type -> "Unhandled poly type"
-    | Unregistered str -> "Unregistered " ^ str
     | Invalid_underscore_type_in_external ->
         "_ is not allowed in combination with external optional type"
     | Invalid_bs_string_type -> "Not a valid type for @string"
