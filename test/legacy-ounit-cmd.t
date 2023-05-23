@@ -44,7 +44,7 @@ Skip over the temporary file name printed in the error trace
   $ melc -ppx melppx -bs-eval 'let bla4 foo x y= foo##(method1 x y [@bs])' 2>&1 | grep -v File
   1 | let bla4 foo x y= foo##(method1 x y [@bs])
                                             ^^
-  Alert unused-bs-attributes: Unused attribute [@bs]
+  Alert unused: Unused attribute [@bs]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
@@ -63,7 +63,7 @@ Skip over the temporary file name printed in the error trace
   $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b [@bs.string]]) = "mk" [@@bs.val]' 2>&1 | grep -v File
   1 | external mk : int -> ([`a|`b [@bs.string]]) = "mk" [@@bs.val]
                                      ^^^^^^^^^
-  Alert unused-bs-attributes: Unused attribute [@bs.string]
+  Alert unused: Unused attribute [@bs.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
@@ -92,7 +92,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 2, characters 37-47:
   2 |   int -> int -> (int -> int -> int [@bs.uncurry]) = "v3"[@@bs.val]
                                            ^^^^^^^^^^
-  Alert unused-bs-attributes: Unused attribute [@bs.uncurry]
+  Alert unused: Unused attribute [@bs.uncurry]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
@@ -120,10 +120,10 @@ Skip over the temporary file name printed in the error trace
   $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]' 2>&1 | grep -v File
   1 | external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Alert melange-fragile-external: mk : the external name is inferred from val name is unsafe from refactoring when changing value name
+  Alert fragile: mk : the external name is inferred from val name is unsafe from refactoring when changing value name
   1 | external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]
                                       ^^^^^^^^^
-  Alert unused-bs-attributes: Unused attribute [@bs.string]
+  Alert unused: Unused attribute [@bs.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
@@ -238,7 +238,7 @@ Skip over the temporary file name printed in the error trace
   $ melc -ppx melppx -bs-eval 'let bla4 foo x y = foo##(method1 x y [@bs])' 2>&1 | grep -v File
   1 | let bla4 foo x y = foo##(method1 x y [@bs])
                                              ^^
-  Alert unused-bs-attributes: Unused attribute [@bs]
+  Alert unused: Unused attribute [@bs]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
@@ -265,7 +265,7 @@ Skip over the temporary file name printed in the error trace
   File "x.ml", line 4, characters 5-14:
   4 |    [@bs.string]
            ^^^^^^^^^
-  Alert unused-bs-attributes: Unused attribute [@bs.string]
+  Alert unused: Unused attribute [@bs.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   

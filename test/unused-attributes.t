@@ -11,7 +11,7 @@
   File "x.ml", line 4, characters 5-14:
   4 |    [@bs.string]
            ^^^^^^^^^
-  Alert unused-bs-attributes: Unused attribute [@bs.string]
+  Alert unused: Unused attribute [@bs.string]
   This means such annotation is not annotated properly.
   For example, some annotations are only meaningful in externals
   
