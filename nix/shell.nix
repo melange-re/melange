@@ -24,11 +24,9 @@ let
 
 in
 
-with ocamlPackages;
-
 mkShell {
   inputsFrom = lib.attrValues derivations;
-  nativeBuildInputs = [
+  nativeBuildInputs = with ocamlPackages; [
     ocamlformat
     utop
     ocaml-lsp
@@ -37,7 +35,12 @@ mkShell {
     nodejs_latest
     yarn
     nodePackages.mocha
-  ] ++ lib.optionals release-mode [ cacert curl dune-release git ];
+  ] ++ lib.optionals release-mode ([
+    cacert
+    curl
+    ocamlPackages.dune-release
+    git
+  ]);
   shellHook = ''
     PATH=$PWD/_build/install/default/bin:$PATH
   '';
