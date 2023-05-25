@@ -148,8 +148,9 @@ external concatMany : t -> t array -> t = "concat" [@@bs.send] [@@bs.splice]
     [endsWith substr str] returns [true] if the [str] ends with [substr], [false] otherwise.
 
 {[
-  endsWith "ReScript" "Script" = true;;
-  endsWith "ReShoes" "Script" = false;;
+  endsWith "Hello, World!" "World!" = true;;
+  endsWith "Hello, World!" "world!" = false;; (* case-sensitive *)
+  endsWith "Hello, World!" "World" = false;; (* exact match *)
 ]}
 *)
 external endsWith : t -> t -> bool = "endsWith" [@@bs.send]
@@ -491,9 +492,9 @@ external splitByReAtMost : t -> Js_re.t -> limit:int ->  t option array = "split
     [startsWith substr str] returns [true] if the [str] starts with [substr], [false] otherwise.
 
 {[
-  startsWith "ReScript" "Re" = true;;
-  startsWith "ReScript" "" = true;;
-  startsWith "JavaScript" "Re" = false;;
+  startsWith "Hello, World!" "Hello" = true;;
+  startsWith "Hello, World!" "hello" = false;; (* case-sensitive *)
+  startsWith "Hello, World!" "World" = false;; (* exact match *)
 ]}
 *)
 external startsWith : t -> t -> bool = "startsWith" [@@bs.send]
@@ -502,9 +503,9 @@ external startsWith : t -> t -> bool = "startsWith" [@@bs.send]
     [startsWithFrom substr n str] returns [true] if the [str] starts with [substr] starting at position [n], [false] otherwise. If [n] is negative, the search starts at the beginning of [str].
 
 {[
-  startsWithFrom "ReScript" "cri" 3 = true;;
-  startsWithFrom "ReScript" "" 3 = true;;
-  startsWithFrom "JavaScript" "Re" 2 = false;;
+  startsWithFrom "Hello, World!" "Hello" 0 = true;;
+  startsWithFrom "Hello, World!" "World" 7 = true;;
+  startsWithFrom "Hello, World!" "World" 8 = false;;
 ]}
 *)
 external startsWithFrom : t -> t -> int -> bool = "startsWith" [@@bs.send]
