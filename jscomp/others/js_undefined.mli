@@ -54,7 +54,7 @@ val getExn: 'a t -> 'a
 If ['a Js.undefined] contains a value, that value is unwrapped, mapped to a ['b] using
 the given function [a' -> 'b], then wrapped back up and returned as ['b Js.undefined]
 
-@example {[
+{[
 let maybeGreetWorld (maybeGreeting: string Js.undefined) =
   Js.Undefined.bind maybeGreeting (fun greeting -> greeting ^ " world!")
 ]}
@@ -66,7 +66,7 @@ val bind : 'a t -> ('a -> 'b [@bs]) -> 'b t
 If ['a Js.undefined] contains a value, that value is unwrapped and applied to
 the given function.
 
-@example {[
+{[
 let maybeSay (maybeMessage: string Js.undefined) =
   Js.Undefined.iter maybeMessage (fun message -> Js.log message)
 ]}

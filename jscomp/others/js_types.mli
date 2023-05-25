@@ -53,7 +53,7 @@ type _ t =
 
 
 val test : 'a -> 'b t -> bool
-(** @example{[
+(** {[
   test "x" String = true
   ]}*)
 

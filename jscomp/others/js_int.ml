@@ -37,7 +37,7 @@
 
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
-@example {[
+{[
   (* prints "7.7e+1" *)
   let _ = Js.log (Js.Int.toExponential 77)
 ]}
@@ -57,7 +57,7 @@ The output will be rounded or padded with zeroes if necessary.
 
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
-@example {[
+{[
   (* prints "7.70e+1" *)
   let _ = Js.log  (Js.Int.toExponentialWithPrecision 77 ~digits:2)
 
@@ -79,7 +79,7 @@ decimal point.
 
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
-@example {[
+{[
   (* prints "123456789" *)
   let _ = Js.log (Js.Int.toPrecision 123456789)
 ]}
@@ -106,7 +106,7 @@ before the decimal point.
 
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
-@example {[
+{[
   (* prints "1.2e+8" *)
   let _ = Js.log (Js.Int.toPrecisionWithPrecision 123456789 ~digits:2)
 
@@ -123,7 +123,7 @@ external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision" 
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
 
-@example {[
+{[
   (* prints "123456789" *)
   let _ = Js.log (Js.Int.toString 123456789)
 ]}
@@ -141,7 +141,7 @@ value must be in the range \[2, 36\] (inclusive).
 
 @raise RangeError if radix is not in the range \[2, 36\] (inclusive)
 
-@example {[
+{[
   (* prints "110" *)
   let _ = Js.log (Js.Int.toStringWithRadix 6 ~radix:2)
 
