@@ -36,6 +36,14 @@ make nix-fish # Runs fish shell in the nix environment
 - Install the [opam](https://opam.ocaml.org/) package manager
 - Install `tree` command line tool (`brew install tree` for macOS or `apt install tree` for Linux)
 
+After cloning the repository, make sure to initialize git submodules, so that
+`melange-compiler-libs` is updated:
+
+```sh
+$ git submodule init
+$ git sumodule update
+```
+
 To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
 
 If you plan to work on improving documentation, you will need to install `odoc`: `opam install odoc`.
