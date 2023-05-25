@@ -19,15 +19,6 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
-          dune_3 = osuper.dune_3.overrideAttrs (_: {
-            src = super.fetchFromGitHub {
-              owner = "ocaml";
-              repo = "dune";
-              rev = "417bce1ce63b605d10d02542a9b7c5be982726d0";
-              hash = "sha256-7w0dbOZB5wcPZdHmjlbfr3xePzkrjaOPdcB3Is9qNwI=";
-            };
-          });
-
           menhirLib = osuper.menhirLib_20230415;
           menhirSdk = osuper.menhirSdk_20230415;
           menhir = osuper.menhir_20230415;

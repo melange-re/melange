@@ -4,5 +4,6 @@ final: prev:
 
 {
   ocamlPackages = prev.ocamlPackages.overrideScope' (oself: osuper:
-    prev.callPackage ./. { inherit nix-filter; });
+    prev.callPackage ./. { inherit nix-filter; }
+  );
 }
