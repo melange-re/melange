@@ -63,8 +63,7 @@ rec {
     ];
     checkInputs = [ ounit2 reactjs-jsx-ppx ];
 
-    nativeBuildInputs = [ menhir cppo git ];
-    buildInputs = [ makeWrapper ];
+    nativeBuildInputs = [ menhir cppo git makeWrapper ];
     propagatedBuildInputs = [
       dune-build-info
       base64
