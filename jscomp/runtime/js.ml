@@ -33,7 +33,7 @@
 (** This library provides bindings and necessary support for JS FFI.
     It contains all bindings into [Js] namespace.
 
-    @example {[
+    {[
       [| 1;2;3;4|]
       |. Js.Array2.map (fun x -> x + 1 )
       |. Js.Array2.reduce (+) 0

@@ -49,7 +49,7 @@ val head: 'a t -> 'a option
 (**
   [head xs] returns [None] if [xs] is the empty list, otherwise it returns [Some value] where [value] is the first
   element in the list.
-   @example {[
+   {[
      head [] = None ;;
      head [1;2;3] = Some 1 ;;
    ]}
@@ -68,11 +68,10 @@ val tail: 'a t -> 'a t option
 (**  [tail xs] returns [None] if [xs] is empty;
   otherwise it returns [Some xs2] where [xs2] is everything except the first element of [xs];
 
-  @example{[
-
-      tail [] = None;;
-      tail [1;2;3;4] = Some [2;3;4];;
-    ]}
+  {[
+    tail [] = None;;
+    tail [1;2;3;4] = Some [2;3;4];;
+  ]}
 *)
     
 val tailExn: 'a t -> 'a t 
@@ -87,7 +86,7 @@ val add: 'a t -> 'a -> 'a t
 (**
   [add xs y] adds [y] to the beginning of list [xs]
   
-   @example{[
+   {[
      add [1] 3 = [3;1];;
    ]}
 *)
@@ -98,7 +97,7 @@ val get: 'a t -> int -> 'a option
     return the nth element in [xs],
     or [None] if [n] is larger than the length
 
-    @example {[
+    {[
       get [0;3;32] 2 = Some 32 ;;
       get [0;3;32] 3 = None;;
     ]}
@@ -118,7 +117,7 @@ val make: int -> 'a -> 'a t
     - return a list of length [n] with each element filled with value [v]  
     - return the empty list if [n] is negative
 
-     @example {[
+     {[
        make 3 1 =  [1;1;1]
      ]}
 *)
@@ -130,7 +129,7 @@ val makeBy: int -> (int -> 'a) -> 'a t
     - return a list of length [n] with element [i] initialized with [f i]
     - return the empty list if [n] is negative
 
-    @example {[
+    {[
       makeBy 5 (fun i -> i) = [0;1;2;3;4];;
       makeBy 5 (fun i -> i * i) = [0;1;4;9;16];;
     ]}
@@ -148,7 +147,7 @@ val drop: 'a t -> int -> 'a t option
     return the list obtained by dropping the first [n] elements,
     or [None] if [xs] has fewer than [n] elements
 
-    @example {[
+    {[
       drop [1;2;3] 2 = Some [3];;
       drop [1;2;3] 3 = Some [];;
       drop [1;2;3] 4 = None;;
@@ -161,7 +160,7 @@ val take: 'a t -> int -> 'a t option
     return a list with the first [n] elements from [xs],
     or [None] if [xs] has fewer than [n] elements
 
-    @example {[
+    {[
       take [1;2;3] 1 = Some [1];;
       take [1;2;3] 2 = Some [1;2];;
       take [1;2;3] 4 = None;;
@@ -174,7 +173,7 @@ val splitAt: 'a t -> int -> ('a list * 'a list) option
     split the list [xs] at position [n]
     return None when the length of [xs] is less than [n]
 
-   @example{[
+   {[
      splitAt [0;1;2;3;4] 2 = Some ([0;1], [2;3;4])
    ]} 
 *)
@@ -185,7 +184,7 @@ val concat: 'a t -> 'a t -> 'a t
 
     @return the list obtained by adding [ys] after [xs]
 
-   @example {[
+   {[
      concat [1;2;3] [4;5] = [1;2;3;4;5]
    ]}
 *)
@@ -195,7 +194,7 @@ val concatMany: 'a t array -> 'a t
     [concatMany a]
     return the list obtained by concatenating in order all the lists in array [a]
 
-   @example {[
+   {[
      concatMany [| [1;2;3] ; []; [3]; [4] |] = [1;2;3;3;4]
    ]}
 *)
@@ -203,7 +202,7 @@ val concatMany: 'a t array -> 'a t
 val reverseConcat: 'a t -> 'a t -> 'a t
 (**
    [reverseConcat xs ys] is  equivalent to [concat (reverse xs) ys]
-   @example {[
+   {[
      reverseConcat [1;2] [3;4] = [2;1;3;4]
    ]}
 *)
@@ -213,7 +212,7 @@ val flatten: 'a t t -> 'a t
     [flatten ls]
     return the list obtained by concatenating in order all the lists in list [ls]
 
-   @example {[
+   {[
      flatten [ [1;2;3] ; []; [3]; [4] ] = [1;2;3;3;4]
    ]}
 *)
@@ -225,7 +224,7 @@ val map: 'a t -> ('a -> 'b) -> 'b t
 
     return the list obtained by applying [f] to each element of [xs]
 
-   @example {[
+   {[
      map [1;2] (fun x-> x + 1) = [3;4]
    ]}
 *)
@@ -236,7 +235,7 @@ val zip: 'a t -> 'b t -> ('a * 'b) t
     @return a list of pairs from the two lists
     with the length of the shorter list
 
-    @example {[
+    {[
       zip [1;2] [3;4;5] = [(1,3); (2,4)]
     ]}
 *)
@@ -249,7 +248,7 @@ val zipBy: 'a t -> 'b t -> ('a -> 'b -> 'c) -> 'c t
     
     Equivalent to [zip xs ys |> List.map (fun (x,y) -> f x y)]
     
-    @example {[
+    {[
       zipBy [1;2;3] [4;5] (fun a b -> 2 * a + b) = [6;9];;
     ]}
 
@@ -260,7 +259,7 @@ val mapWithIndex: 'a t -> (int -> 'a -> 'b) -> 'b t
 (** [mapWithIndex xs f] applies [f] to each element of [xs]. Function [f] takes two arguments:
   the index starting from 0 and the element from [xs].
 
-    @example {[
+    {[
       mapWithIndex [1;2;3] (fun i x -> i + x) =
       [0 + 1; 1 + 2; 2 + 3 ]
     ]}
@@ -271,14 +270,14 @@ val mapWithIndex: 'a t -> (int -> 'a -> 'b) -> 'b t
 val fromArray: 'a array -> 'a t 
 (** [fromArray arr] converts the given array to a list
 
-  @example {[
+  {[
       fromArray [|1;2;3|]  = [1;2;3]
     ]}
 *)
 
 val toArray: 'a t -> 'a array
 (** [toArray xs] converts the given list to an array
-  @example {[
+  {[
       toArray [1;2;3] = [|1;2;3|]
     ]}
 *)
@@ -290,7 +289,7 @@ val toArray: 'a t -> 'a array
 
 val reverse: 'a t -> 'a t
 (** [reverse xs] returns a new list whose elements are those of [xs] in reverse order. 
-  @example {[
+  {[
       reverse [1;2;3] = [3;2;1]
     ]}
 *)
@@ -301,7 +300,7 @@ val mapReverse: 'a t -> ('a -> 'b) -> 'b t
 
     Equivalent to [reverse (map xs f)]
     
-    @example {[
+    {[
       mapReverse [3;4;5] (fun x -> x * x) = [25;16;9];;
     ]}
 *)
@@ -313,7 +312,7 @@ val forEach: 'a t -> ('a -> 'b) -> unit
     new array is created. Use [foreach] when you are primarily concerned with repetitively
     creating side effects.
     
-    @example {[
+    {[
       forEach ["a";"b";"c"] (fun x -> Js.log("Item: " ^ x));;
       (*  prints:
         Item: a
@@ -331,7 +330,7 @@ val forEachWithIndexU: 'a t -> (int -> 'a -> 'b [@bs]) -> unit
 val forEachWithIndex: 'a t -> (int -> 'a -> 'b) -> unit
 (** [forEachWithIndex xs f]
 
-    @example {[
+    {[
     
       forEach ["a";"b";"c"] (fun i x -> Js.log("Item " ^ (string_of_int i) ^ " is " ^ x));;
       (*  prints:
@@ -354,7 +353,7 @@ val reduce:  'a t -> 'b -> ('b -> 'a -> 'b) -> 'b
     from the list and an “accumulator”, which starts with a value of [init]. [reduce]
     returns the final value of the accumulator.
     
-    @example {[
+    {[
       reduce [1;2;3;4] 0 (+) = 10;;
       reduce [1;2;3;4] 10 (-) = 0;;
       reduce [1;2;3;4] [] add = [4;3;2;1];
@@ -369,7 +368,7 @@ val reduceWithIndex:  'a t -> 'b -> ('b -> 'a -> int -> 'b) -> 'b
     from the list and an “accumulator”, which starts with a value of [init] and the index of each element. [reduceWithIndex]
     returns the final value of the accumulator.
     
-    @example {[
+    {[
       reduceWithIndex [1;2;3;4] 0 (fun acc x i -> acc + x + i) = 16;;
     ]}
 *)
@@ -381,7 +380,7 @@ val reduceReverse: 'a t -> 'b -> ('b -> 'a ->  'b) -> 'b
     Works like {!reduce}, except that function [f] is applied to each item of [xs] from the last
     back to the first.
 
-    @example {[
+    {[
       reduceReverse [1;2;3;4] 0 (+) = 10;;
       reduceReverse [1;2;3;4] 10 (-) = 0;;
       reduceReverse [1;2;3;4] [] add = [1;2;3;4];;
@@ -394,7 +393,7 @@ val mapReverse2: 'a t -> 'b t -> ('a -> 'b -> 'c) -> 'c t
 
     equivalent to [reverse (zipBy xs ys f)]    
 
-    @example {[
+    {[
       mapReverse2 [1;2;3] [1;2] (+) = [4;2]
     ]}
 *)
@@ -415,7 +414,7 @@ val reduce2:
     Function [f] has three parameters: an “accumulator” which starts with a value of [init],
     an item from [xs], and an item from [ys]. [reduce2] returns the final value of the accumulator.
     
-    @example {[
+    {[
       reduce2 [1;2;3] [4;5] 0 (fun acc x y -> acc + x * x + y) =  0 + (1 * 1 + 4) + (2 * 2 + 5);;
       reduce2 [1;2;3] [4;5] [] (fun acc x y -> add acc (x + y) = [2 +5;1 + 4 ];; (*add appends at end *)
     ]}
@@ -432,7 +431,7 @@ val reduceReverse2:
     Function [f] has three parameters: an “accumulator” which starts with a value of [init],
     an item from [xs], and an item from [ys]. [reduce2] returns the final value of the accumulator.
     
-    @example {[
+    {[
       reduceReverse2 [1;2;3] [4;5] 0 (fun acc x y -> acc + x * x + y) =  0 + (1 * 1 + 4) + (2 * 2 + 5);;
       reduceReverse2 [1;2;3] [4;5] [] (fun acc x y -> add acc (x + y) = [1 + 4;2 + 5];; (*add appends at end *)
     ]}*)
@@ -444,7 +443,7 @@ val every: 'a t -> ('a -> bool ) ->  bool
     @return true if all elements satisfy [p], where [p] is a {i predicate}: a function taking
     an element and returning a [bool].
 
-    @example {[
+    {[
       every [] (fun x -> x mod 2 = 0) = true;;
       every [2;4;6] (fun x -> x mod 2 = 0 ) = true;;
       every [1;-3;5] (fun x -> x > 0) = false;;
@@ -457,7 +456,7 @@ val some: 'a t -> ('a -> bool ) -> bool
     @return true if at least one of the elements in [xs] satifies [p], where [p] is a {i predicate}: a function taking
     an element and returning a [bool].
 
-    @example {[
+    {[
       some [] (fun x -> x mod 2 = 0) = false ;;
       some [1;2;4] (fun x -> x mod 2 = 0) = true;;
       some [-1;-3;-5] (fun x -> x > 0) = false;;
@@ -468,7 +467,7 @@ val every2U: 'a t -> 'b t -> ('a -> 'b -> bool [@bs]) -> bool
 val every2: 'a t -> 'b t -> ('a -> 'b -> bool ) -> bool
 (** [every2 xs ys p] returns true if predicate [p xi yi] is true for all pairs of elements
   up to the shorter length (i.e. [min (length xs) (length ys)])
-    @example {[
+    {[
       every2 [1;2;3] [0;1] (>) = true;;
       every2 [] [1] (fun  x y -> x > y) = true;;
       every2 [2;3] [1] (fun  x y -> x > y) = true;;
@@ -481,7 +480,7 @@ val some2:  'a t -> 'b t -> ('a -> 'b -> bool) -> bool
 (** [some2 xs ys p] returns true if [p xi yi] is true for any pair of elements
   up to the shorter length (i.e. [min (length xs) (length ys)])
 
-    @example {[
+    {[
       some2 [0;2] [1;0;3] (>) = true ;;
       some2 [] [1] (fun  x y -> x > y) =  false;;
       some2 [2;3] [1;4] (fun  x y -> x > y) = true;;
@@ -494,7 +493,7 @@ val cmpByLength: 'a t -> 'a t -> int
     Compare two lists solely by length. Returns -1 if [length l1] is less than [length l2],
     0 if [length l1] equals [length l2], and 1 if [length l1] is greater than [length l2].
     
-    @example {[
+    {[
     cmpByLength [1;2] [3;4;5;6] = -1;;
     cmpByLength [1;2;3] [4;5;6] = 0;;
     cmpByLength [1;2;3;4] [5;6] = 1;;
@@ -514,7 +513,7 @@ val cmp: 'a t -> 'a t -> ('a -> 'a -> int) -> int
     If all items have compared equal, but [ys] is exhausted first, return 1 ([xs] is longer)
     
     
-    @example {[
+    {[
       cmp [3] [3;7] (fun a b -> compare a b) = -1
       cmp [5;3] [5] (fun a b -> compare a b)  = 1
       cmp [|1; 3; 5|] [|1; 4; 2|] (fun a b -> compare a b) = -1;;
@@ -536,7 +535,7 @@ val eq: 'a t -> 'a t -> ('a -> 'a -> bool) -> bool
    that returns true if items [x] and [y] meet some criterion for equality, false otherwise.
    [eq] false if length of [xs] and [ys] are not the same.
 
-    @example {[
+    {[
       eq [1;2;3] [1;2] (=) = false ;;
       eq [1;2] [1;2] (=) = true;;
       eq [1; 2; 3] [-1; -2; -3] (fun a b -> abs a = abs b) = true;;
@@ -549,7 +548,7 @@ val has:  'a t -> 'b -> ('a -> 'b -> bool) -> bool
 (** 
     [has xs eqFcn] returns true if the list contains at least one element for which [eqFcn x] returns
     true
-    @example {[
+    {[
       has [1;2;3] 2 (=) = true;;
       has [1;2;3] 4 (=) = false;;
       has [-1;-2;-3] 2 (fun a b -> abs a = abs b) = true;;
@@ -560,7 +559,7 @@ val getByU: 'a t -> ('a -> bool [@bs]) -> 'a option
 val getBy: 'a t -> ('a -> bool) -> 'a option
 (** [getBy xs p] returns [Some value] for the first value in [xs] that satisifies the predicate function [p]; returns [None] if no element satisifies the function.
 
-  @example {[
+  {[
       getBy [1;4;3;2] (fun x -> x mod 2 = 0) = Some 4
       getBy [15;13;11] (fun x -> x mod 2 = 0) = None
     ]}
@@ -570,7 +569,7 @@ val keepU: 'a t ->  ('a -> bool [@bs]) -> 'a t
 val keep: 'a t ->  ('a -> bool) -> 'a t
 (** [keep  xs p] returns a list of all elements in [xs] which satisfy the predicate function [p]
 
-    @example {[
+    {[
       keep [1;2;3;4] (fun x -> x mod 2 = 0) =
       [2;4]
     ]}
@@ -581,7 +580,7 @@ val filter: 'a t ->  ('a -> bool) -> 'a t
 [@@deprecated "This function will soon be deprecated. Please, use `List.keep` instead."]
 (** [filter  xs p] returns a list of all elements in [xs] which satisfy the predicate function [p]
 
-    @example {[
+    {[
       filter [1;2;3;4] (fun x -> x mod 2 = 0) =
       [2;4]
     ]}
@@ -591,7 +590,7 @@ val keepWithIndexU: 'a t ->  ('a -> int -> bool [@bs]) -> 'a t
 val keepWithIndex: 'a t ->  ('a -> int -> bool) -> 'a t
 (** [keepWithIndex xs p] returns a list of all elements in [xs] which satisfy the predicate function [p]
 
-    @example {[
+    {[
       keepWithIndex [1;2;3;4] (fun _x i -> i mod 2 = 0)
       =
       [1;3]
@@ -603,7 +602,7 @@ val filterWithIndex: 'a t ->  ('a -> int -> bool) -> 'a t
 [@@deprecated "This function will soon be deprecated. Please, use `List.keepWithIndex` instead."]
 (** [filterWithIndex xs p] returns a list of all elements in [xs] which satisfy the predicate function [p]
 
-    @example {[
+    {[
       filterWithIndex [1;2;3;4] (fun _x i -> i mod 2 = 0)
       =
       [1;3]
@@ -614,7 +613,7 @@ val keepMapU: 'a t -> ('a -> 'b option [@bs]) -> 'b t
 val keepMap: 'a t -> ('a -> 'b option) -> 'b t
 (** [keepMap xs f] applies [f] to each element of [xs]. If [f xi] returns [Some value], then [value] is kept in the resulting list; if [f xi] returns [None], the element is not retained in the result.
 
-    @example {[
+    {[
       keepMap [1;2;3;4] (fun x -> if x mod 2 = 0 then Some (-x ) else None)
       =
       [-2;-4]
@@ -625,7 +624,7 @@ val partitionU: 'a t -> ('a -> bool [@bs]) ->  'a t * 'a t
 val partition: 'a t -> ('a -> bool) ->  'a t * 'a t
 (** [partition xs p] creates a pair of lists; the first list consists of all elements of [xs] that satisfy the predicate function [p]; the second list consists of all elements of [xs] that do not satisfy [p]
 
-    @example {[
+    {[
       partition [1;2;3;4] (fun x -> x mod 2 = 0) =
       ([2;4], [1;3])
     ]}
@@ -634,7 +633,7 @@ val partition: 'a t -> ('a -> bool) ->  'a t * 'a t
 val unzip: ('a * 'b) t -> 'a t * 'b t
 (** [unzip xs] takes a list of pairs and creates a pair of lists. The first list contains all the first items of the pairs; the second list contains all the second items.
 
-    @example {[
+    {[
       unzip [(1,2) ; (3,4)] = ([1;3], [2;4]);;
       unzip [(1,2) ; (3,4) ; (5,6) ; (7,8)] = ([1;3;5;7], [2;4;6;8]);;
     ]}
@@ -646,7 +645,7 @@ val getAssoc: ('a * 'c) t -> 'b ->  ('a -> 'b -> bool)  -> 'c option
     
     return the second element of a pair in [xs] where the first element equals [x] as per the predicate
     function [eq], or [None] if not found
-    @example {[
+    {[
       getAssoc [ 1, "a"; 2, "b"; 3, "c"] 2 (=) = Some "b"
       getAssoc [9, "morning"; 15, "afternoon"; 22, "night"] 3 (fun a b -> a mod 12 = b mod 12) = Some "afternoon"
     ]}
@@ -657,7 +656,7 @@ val hasAssoc: ('a * 'c) t -> 'b -> ('a -> 'b -> bool ) -> bool
 (** [hasAssoc xs k eq]
      return true if there is a pair in [xs] where the first element equals [k] as per the predicate
      funtion [eq]
-    @example {[
+    {[
       hasAssoc [1, "a"; 2, "b"; 3,"c"] 1 (=) = true;;
       hasAssoc [9, "morning"; 15, "afternoon"; 22, "night"] 3 (fun a b -> a mod 12 = b mod 12) = true;;
     ]}
@@ -667,7 +666,7 @@ val removeAssocU:('a * 'c) t -> 'b -> ('a -> 'b -> bool [@bs]) -> ('a * 'c) t
 val removeAssoc: ('a * 'c) t -> 'b ->  ('a -> 'b -> bool) -> ('a * 'c) t
 (** [removeAssoc xs k eq]
     Return a list after removing the first pair whose first value is [k] per the equality predicate [eq]; if not found, return a new list identical to [xs].
-    @example {[
+    {[
       removeAssoc [1,"a"; 2, "b"; 3, "c" ] 1 (=) =
         [2, "b"; 3, "c"]
       removeAssoc [1,"a"; 2, "b"; 3, "c" ] 99 (=) =
@@ -681,7 +680,7 @@ val setAssoc: ('a * 'c) t -> 'a -> 'c -> ('a -> 'a -> bool) -> ('a * 'c) t
     if [k] exists in [xs] by satisfying the [eq] predicate, return a new list
     with the key and value replaced by the new [k] and [v]; otherwise, return a new
     list with the pair [k, v] added to the head of [xs].
-    @example {[
+    {[
       setAssoc [1,"a"; 2, "b"; 3, "c"] 2 "x" (=) =
       [1,"a"; 2, "x"; 3,"c"] ;; 
 
@@ -703,7 +702,7 @@ val sortU: 'a t -> ('a -> 'a -> int [@bs]) -> 'a t
 val sort: 'a t -> ('a -> 'a -> int) -> 'a t
 (** [sort xs]
     Returns a sorted list.
-    @example {[
+    {[
       sort [5; 4; 9; 3; 7] (fun a b -> a - b) = [3; 4; 5; 7; 9]
     ]}
 *)

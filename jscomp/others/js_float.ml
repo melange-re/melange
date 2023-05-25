@@ -46,7 +46,7 @@ external isNaN : float -> bool = "isNaN" [@@bs.val] [@@bs.scope "Number"]
 
 {b Returns} [true] if the given value is a finite number, [false] otherwise
 
-@example {[
+{[
 (* returns [false] *)
 let _ = Js.Float.isFinite infinity
 
@@ -70,7 +70,7 @@ external isFinite : float -> bool = "isFinite" [@@bs.val] [@@bs.scope "Number"]
 
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
-@example {[
+{[
   (* prints "7.71234e+1" *)
   let _ = Js.log (Js.Float.toExponential 77.1234)
 
@@ -93,7 +93,7 @@ The output will be rounded or padded with zeroes if necessary.
 
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
-@example {[
+{[
   ```
   (* prints "7.71e+1" *)
   let _ = Js.log (Js.Float.toExponentialWithPrecision 77.1234 ~digits:2)
@@ -109,7 +109,7 @@ external toExponentialWithPrecision : float -> digits:int -> string = "toExponen
 
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
-@example {[
+{[
   (* prints "12346" (note the rounding) *)
   let _ = Js.log (Js.Float.toFixed 12345.6789)
 
@@ -132,7 +132,7 @@ The output will be rounded or padded with zeroes if necessary.
 
 @raise RangeError if digits is not in the range \[0, 20\] (inclusive)
 
-@example {[
+{[
   (* prints "12345.7" (note the rounding) *)
   let _ = Js.log (Js.Float.toFixedWithPrecision 12345.6789 ~digits:1)
 
@@ -154,7 +154,7 @@ decimal point.
 
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
-@example {[
+{[
   (* prints "12345.6789" *)
   let _ = Js.log (Js.Float.toPrecision 12345.6789)
 
@@ -184,7 +184,7 @@ before the decimal point.
 
 @raise RangeError if digits is not in the range accepted by this function (what do you mean "vague"?)
 
-@example {[
+{[
   (* prints "1e+4" *)
   let _ = Js.log (Js.Float.toPrecisionWithPrecision 12345.6789 ~digits:1)
 
@@ -201,7 +201,7 @@ external toPrecisionWithPrecision : float -> digits:int -> string = "toPrecision
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
 
-@example {[
+{[
   (* prints "12345.6789" *)
   let _ = Js.log (Js.Float.toString 12345.6789)
 ]}
@@ -219,7 +219,7 @@ value must be in the range \[2, 36\] (inclusive).
 
 @raise RangeError if radix is not in the range \[2, 36\] (inclusive)
 
-@example {[
+{[
   (* prints "110" *)
   let _ = Js.log (Js.Float.toStringWithRadix 6. ~radix:2)
 
@@ -241,7 +241,7 @@ external toStringWithRadix : float -> radix:int -> string = "toString" [@@bs.sen
 
 {b Returns} the number as a [float] if successfully parsed, [_NaN] otherwise.
 
-@example {[
+{[
 (* returns 123 *)
 let _ = Js.Float.fromString "123"
 

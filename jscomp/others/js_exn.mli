@@ -55,13 +55,13 @@ val anyToExnInternal: 'a -> exn
  *
  * IMPORTANT: This is an internal API and may be changed / removed any time in the future.
  *
- * @example {[
+ * {[
  *   switch (Js.Exn.unsafeAnyToExn("test")) {
- *     | Js.Exn.Error(v) =>
- *       switch(Js.Exn.message(v)) {
- *         | Some(str) => Js.log("We won't end up here")
-           | None => Js.log2("We will land here: ", v)
- *       }
+ *   | Js.Exn.Error(v) =>
+ *     switch (Js.Exn.message(v)) {
+ *     | Some(str) => Js.log("We won't end up here")
+ *     | None => Js.log2("We will land here: ", v)
+ *     }
  *   }
  * ]}
  * **)

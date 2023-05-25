@@ -32,7 +32,7 @@ will evaluate to a {! t} that can be passed around and used like usual.
 flag set will modify the {! lastIndex} property when the RegExp object is used,
 and subsequent uses will ocntinue the search from the previous {! lastIndex}.
 
-@example {[
+{[
 let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
 ]}
 
@@ -72,7 +72,7 @@ external input : result -> string = "input" [@@bs.get]
 Regex literals ([\[%re "/.../"\]]) should generally be preferred, but
 [fromString] is very useful when you need to insert a string into a regex.
 
-@example {[
+{[
 (* A function that extracts the content of the first element with the given tag *)
 
 let contentOf tag xmlString =
@@ -116,7 +116,7 @@ external ignoreCase : t -> bool = "ignoreCase" [@@bs.get]
 This property will be modified when the RegExp object is used, if the [global] ("g")
 flag is set.
 
-@example {[
+{[
 (* Finds and prints successive matches *)
 
 let re = [%re "/ab*/g"] in
@@ -156,7 +156,7 @@ external unicode : t -> bool = "unicode" [@@bs.get]
 
 {b returns} [Some] {! result} if a match is found, [None] otherwise
 
-@example {[
+{[
 (* Match "quick brown" followed by "jumps", ignoring characters in between
  * Remember "brown" and "jumps"
  * Ignore case
@@ -178,7 +178,7 @@ external exec : string -> result option = "exec" [@@bs.send.pipe: t] [@@bs.retur
 
 {b returns} [true] if a match is found, [false] otherwise
 
-@example {[
+{[
 (* A simple implementation of Js.String.startsWith *)
 
 let str = "hello world!"

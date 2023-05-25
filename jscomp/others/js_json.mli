@@ -133,7 +133,7 @@ external parseExn : string -> t = "parse" [@@bs.val] [@@bs.scope "JSON"]
 
 @raise SyntaxError if given string is not a valid JSON. Note [SyntaxError] is a JavaScript exception.
 
-@example {[
+{[
 (* parse a simple JSON string *)
 
 let json =
@@ -147,7 +147,7 @@ match Js.Json.classify json with
 | _ -> failwith "Expected a string"
 ]}
 
-@example {[
+{[
 (* parse a complex JSON string *)
 
 let getIds s =
@@ -185,7 +185,7 @@ external stringify: t -> string = "stringify"
 
 {b Returns} the string representation of a given JSON data structure
 
-@example {[
+{[
 (* Creates and stringifies a simple JS object *)
 
 let dict = Js.Dict.empty () in
@@ -206,7 +206,7 @@ external stringifyWithSpace: t -> (_ [@bs.as {json|null|json}]) -> int -> string
 
 {b Returns} the string representation of a given JSON data structure
 
-@example {[
+{[
 (* Creates and stringifies a simple JS object with spacing *)
 
 let dict = Js.Dict.empty () in
@@ -226,7 +226,7 @@ external stringifyAny : 'a -> string option = "stringify"
   [@@bs.val]  [@@bs.scope "JSON"]
 (** [stringifyAny value] formats any [value] into a JSON string
 
-@example {[
+{[
   (* prints ``"foo", "bar"`` *)
   Js.log (Js.Json.stringifyAny [| "foo"; "bar" |])
 ]}
