@@ -148,8 +148,9 @@ external concatMany : t array -> t = "concat" [@@bs.send.pipe: t] [@@bs.splice]
     [endsWith substr str] returns [true] if the [str] ends with [substr], [false] otherwise.
 
 @example {[
-  endsWith "Script" "ReScript" = true;;
-  endsWith "Script" "ReShoes" = false;;
+  endsWith "World!" "Hello, World!" = true;;
+  endsWith "world!" "Hello, World!" = false;; (* case-sensitive *)
+  endsWith "World" "Hello, World!" = false;; (* exact match *)
 ]}
 *)
 external endsWith : t -> bool = "endsWith" [@@bs.send.pipe: t]
@@ -506,9 +507,9 @@ external splitRegexpLimited : Js_re.t -> int ->  t array = "split" [@@bs.send.pi
     [startsWith substr str] returns [true] if the [str] starts with [substr], [false] otherwise.
 
 @example {[
-  startsWith "Re" "ReScript" = true;;
-  startsWith "" "ReScript" = true;;
-  startsWith "Re" "JavaScript" = false;;
+  startsWith "Hello" "Hello, World!" = true;;
+  startsWith "hello" "Hello, World!" = false;; (* case-sensitive *)
+  startsWith "World" "Hello, World!" = false;; (* exact match *)
 ]}
 *)
 external startsWith : t -> bool = "startsWith" [@@bs.send.pipe: t]
@@ -517,9 +518,9 @@ external startsWith : t -> bool = "startsWith" [@@bs.send.pipe: t]
     [startsWithFrom substr n str] returns [true] if the [str] starts with [substr] starting at position [n], [false] otherwise. If [n] is negative, the search starts at the beginning of [str].
 
 @example {[
-  startsWithFrom "cri" 3 "ReScript" = true;;
-  startsWithFrom "" 3 "ReScript" = true;;
-  startsWithFrom "Re" 2 "JavaScript" = false;;
+  startsWithFrom "Hello" 0 "Hello, World!" = true;;
+  startsWithFrom "World" 7 "Hello, World!" = true;;
+  startsWithFrom "World" 8 "Hello, World!" = false;;
 ]}
 *)
 external startsWithFrom : t -> int -> bool = "startsWith" [@@bs.send.pipe: t]
