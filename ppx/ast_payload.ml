@@ -75,11 +75,6 @@ let is_single_int (x : t) : int option =
       Some (int_of_string name)
   | _ -> None
 
-let as_core_type loc (x : t) =
-  match x with
-  | PTyp x -> x
-  | _ -> Location.raise_errorf ~loc "except a core type"
-
 let as_ident (x : t) =
   match x with
   | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident }, _) } ] ->

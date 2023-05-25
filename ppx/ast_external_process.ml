@@ -303,7 +303,13 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
           | "bs.send.pipe" ->
               {
                 st with
-                val_send_pipe = Some (Ast_payload.as_core_type loc payload);
+                val_send_pipe =
+                  (match payload with
+                  | PTyp x -> Some x
+                  | _ ->
+                      Location.raise_errorf ~loc
+                        "expected a type after [@bs.send.pipe], e.g. \
+                         [@bs.send.pipe: t]");
               }
           | "bs.set" | "set" ->
               { st with set_name = name_from_payload_or_prim ~loc payload }

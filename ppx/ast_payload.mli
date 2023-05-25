@@ -27,8 +27,6 @@ open Ppxlib
 type t = Parsetree.payload
 type action = string Asttypes.loc * Parsetree.expression option
 
-val as_core_type : location -> t -> core_type
-
 val ident_or_record_as_config :
   Parsetree.payload -> (action list, string) result
 
