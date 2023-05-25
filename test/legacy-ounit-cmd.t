@@ -117,10 +117,7 @@ Skip over the temporary file name printed in the error trace
           ^^^^^^
   Error: Offset: 3, Invalid \u escape
 
-  $ melc -ppx melppx -bs-eval 'external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]' 2>&1 | grep -v File
-  1 | external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Alert fragile: mk : the external name is inferred from val name is unsafe from refactoring when changing value name
+  $ melc -ppx 'melppx -alert -fragile' -bs-eval 'external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]' 2>&1 | grep -v File
   1 | external mk : int -> ([`a|`b] [@bs.string]) = "" [@@bs.val]
                                       ^^^^^^^^^
   Alert unused: Unused attribute [@bs.string]
