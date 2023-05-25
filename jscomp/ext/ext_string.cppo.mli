@@ -39,7 +39,6 @@ val ends_with_char : string -> char -> bool
 
 (**
   [ends_with_then_chop name ext]
-  @example:
    {[
      ends_with_then_chop "a.cmj" ".cmj"
      "a"

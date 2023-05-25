@@ -37,7 +37,7 @@ val keep : 'a option -> ('a -> bool) -> 'a option
   
   If [optionValue] is [Some value] and [p value = true], it returns [Some value]; otherwise returns [None]
   
-  @example {[
+  {[
     keep (Some 10)(fun x -> x > 5);; (* returns [Some 10] *)
     keep (Some 4)(fun x -> x > 5);; (* returns [None] *)
     keep None (fun x -> x > 5);; (* returns [None] *)
@@ -53,7 +53,7 @@ val forEach : 'a option -> ('a -> unit) -> unit
   
   If [optionValue] is [Some value], it calls [f value]; otherwise returns [()]
   
-  @example {[
+  {[
     forEach (Some "thing")(fun x -> Js.log x);; (* logs "thing" *)
     forEach None (fun x -> Js.log x);; (* returns () *)
   ]}
@@ -63,7 +63,7 @@ val getExn : 'a option -> 'a
 (** [getExn optionalValue]
   Returns [value] if [optionalValue] is [Some value], otherwise raises [getExn]
   
-  @example {[
+  {[
     getExn (Some 3) = 3;;
     getExn None (* Raises getExn error *)
   ]}
@@ -85,7 +85,7 @@ val mapWithDefault : 'a option -> 'b -> ('a -> 'b) -> 'b
   
   If [optionValue] is [Some value], returns [f value]; otherwise returns [default]
   
-  @example {[
+  {[
     mapWithDefault (Some 3) 0 (fun x -> x + 5) = 8;;
     mapWithDefault None 0 (fun x -> x + 5) = 0;;
   ]}
@@ -100,7 +100,7 @@ val map : 'a option -> ('a -> 'b) -> 'b option
   
   If [optionValue] is [Some value], returns [Some (f value)]; otherwise returns [None]
   
-  @example {[
+  {[
     map (Some 3) (fun x -> x * x) = (Some 9);;
     map None (fun x -> x * x) = None;;
   ]}
@@ -116,7 +116,7 @@ val flatMap : 'a option -> ('a -> 'b option) -> 'b option
   If [optionValue] is [Some value], returns [f value]; otherwise returns [None]
   The function [f] must have a return type of ['a option]
   
-  @example {[
+  {[
     let f (x : float) =
         if x >= 0.0 then
           Some (sqrt x)
@@ -135,7 +135,7 @@ val getWithDefault : 'a option -> 'a -> 'a
   
   If [optionalValue] is [Some value], returns [value], otherwise [default]
   
-  @example {[
+  {[
     getWithDefault (Some 1812) 1066 = 1812;;
     getWithDefault None 1066 = 1066;;
   ]}
@@ -147,7 +147,7 @@ val orElse : 'a option -> 'a option -> 'a option
 
    If [optionalValue] is [Some value], returns [Some value], otherwise [otherOptional]
 
-   @example {[
+   {[
      orElse (Some 1812) (Some 1066) = Some 1812;;
      orElse None (Some 1066) = Some 1066;;
      orElse None None = None;;
@@ -182,7 +182,7 @@ val eq : 'a option -> 'b option -> ('a -> 'b -> bool) -> bool
   If arguments are [Some value1] and [Some value2], returns the result of [predicate value1 value2];
   the [predicate] function must return a [bool]
   
-  @example {[
+  {[
     let clockEqual = (fun a b -> a mod 12 = b mod 12);;
     eq (Some 3) (Some 15) clockEqual = true;;
     eq (Some 3) None clockEqual = false;;
@@ -208,7 +208,7 @@ val cmp : 'a option -> 'b option -> ('a -> 'b -> int) -> int
   
   If the arguments are [Some value1] and [Some value2], returns the result of [comparisonFcn value1 value2]; [comparisonFcn] takes two arguments and returns -1 if the first argument is less than the second, 0 if the arguments are equal, and 1 if the first argument is greater than the second.
     
-  @example {[
+  {[
     let clockCompare = fun a b -> compare (a mod 12) (b mod 12);;
     cmp (Some 3) (Some 15) clockCompare = 0;;
     cmp (Some 3) (Some 14) clockCompare = 1;;
