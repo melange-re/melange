@@ -109,7 +109,7 @@ external array : t array -> t = "%identity"
 (** [array_ a] makes a JSON array of the [Js.Json.t array] [a] *)
 
 (** The functions below are specialized for specific array type which
-    happened to be already JSON object in the ReScript runtime. Therefore
+    happened to be already JSON object in the Melange runtime. Therefore
     they are more efficient (constant time rather than linear conversion). *)
 
 external stringArray : string array -> t = "%identity"
