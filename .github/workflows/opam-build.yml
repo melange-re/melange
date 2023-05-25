@@ -65,6 +65,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
+          opam pin add reason-react -y git+https://github.com/reasonml/reason-react.git#anmonteiro-patch-1
           npm install --legacy-peer-deps
 
       - name: Build basic template
