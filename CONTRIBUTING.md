@@ -40,8 +40,7 @@ After cloning the repository, make sure to initialize git submodules, so that
 `melange-compiler-libs` is updated:
 
 ```sh
-$ git submodule init
-$ git sumodule update
+$ git submodule update --init --recursive --remote
 ```
 
 To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
