@@ -3,6 +3,8 @@ _opam
 *.install
 .DS_Store
 
+.vscode
+
 node_modules
 lib/melange
 lib/es6

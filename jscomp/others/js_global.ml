@@ -37,7 +37,7 @@ type timeoutId
 
 (** Clear an interval started by {! setInterval}
 
-@example {[
+{[
 (* API for a somewhat aggressive snoozing alarm clock *)
 
 let interval = ref Js.Nullable.null
@@ -59,7 +59,7 @@ external clearInterval : intervalId -> unit = "clearInterval" [@@bs.val]
 
 
 (** Clear a timeout started by {! setTimeout}
-@example {[
+{[
 (* A simple model of a code monkey's brain *)
 
 let timer = ref Js.Nullable.null
@@ -83,7 +83,7 @@ external clearTimeout : timeoutId -> unit = "clearTimeout" [@@bs.val]
 
 @see <https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval> MDN
 
-@example {[
+{[
 (* Will count up and print the count to the console every second *)
 
 let count = ref 0
@@ -103,7 +103,7 @@ external setInterval : (unit -> unit) -> int -> intervalId = "setInterval" [@@bs
 
 @see <https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval> MDN
 
-@example {[
+{[
 (* Will count up and print the count to the console every second *)
 
 let count = ref 0
@@ -124,7 +124,7 @@ external setIntervalFloat : (unit -> unit) -> float -> intervalId = "setInterval
 
 @see <https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout> MDN
 
-@example {[
+{[
 (* Prints "Timed out!" in the console after one second *)
 
 let message = "Timed out!"
@@ -141,7 +141,7 @@ external setTimeout : (unit -> unit) -> int -> timeoutId = "setTimeout" [@@bs.va
 
 @see <https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout> MDN
 
-@example {[
+{[
 (* Prints "Timed out!" in the console after one second *)
 
 let message = "Timed out!"
