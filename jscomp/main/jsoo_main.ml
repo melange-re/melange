@@ -84,12 +84,7 @@ let compile impl str : Js.Unsafe.obj =
     (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
   with e -> (
     match error_of_exn e with
-    | Some error ->
-        Location.print_report Format.err_formatter error;
-        (* TODO: replace js_error_msg below with the following (how to get string from error.main.txt?)
-           Jsoo_common.mk_js_error error.main.loc error.main.txt *)
-        Js.Unsafe.(
-          obj [| ("js_error_msg", inject @@ Js.string (Printexc.to_string e)) |])
+    | Some error -> Jsoo_common.mk_js_error error
     | None ->
         Js.Unsafe.(
           obj [| ("js_error_msg", inject @@ Js.string (Printexc.to_string e)) |]))

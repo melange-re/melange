@@ -32,7 +32,30 @@ module Js = struct
   external to_bytestring : js_string t -> string = "caml_js_to_byte_string"
 end
 
-let mk_js_error (loc : Location.t) (msg : string) =
+let string_of_formatted ~f x =
+  let buffer = Buffer.create 64 in
+  let str_fmt = Format.formatter_of_buffer buffer in
+  f str_fmt x;
+  Format.pp_print_flush str_fmt ();
+  Buffer.contents buffer
+
+let mk_js_error (error : Location.report) =
+  let kind, type_ =
+    match error.kind with
+    | Location.Report_error -> ("Error", "error")
+    | Report_warning w -> (Printf.sprintf "Warning: %s" w, "warning")
+    | Report_warning_as_error w ->
+        (Printf.sprintf "Error: (warning %s)" w, "warning_as_error")
+    | Report_alert w -> (Printf.sprintf "Alert: %s" w, "alert")
+    | Report_alert_as_error w ->
+        (Printf.sprintf "Error: (alert %s)" w, "alert_as_error")
+  in
+  let txt =
+    string_of_formatted
+      ~f:(fun fmt -> Format.fprintf fmt "@[%t@]")
+      error.main.txt
+  in
+  let loc = error.main.loc in
   let _file, line, startchar = Location.get_pos_info loc.Location.loc_start in
   let _file, endline, endchar = Location.get_pos_info loc.Location.loc_end in
   Js.Unsafe.(
@@ -40,12 +63,13 @@ let mk_js_error (loc : Location.t) (msg : string) =
       [|
         ( "js_error_msg",
           inject
-          @@ Js.string (Printf.sprintf "Line %d, %d:\n  %s" line startchar msg)
+          @@ Js.string
+               (Printf.sprintf "Line %d, %d:\n  %s %s" line startchar kind txt)
         );
         ("row", inject (line - 1));
         ("column", inject startchar);
         ("endRow", inject (endline - 1));
         ("endColumn", inject endchar);
-        ("text", inject @@ Js.string msg);
-        ("type", inject @@ Js.string "error");
+        ("text", inject @@ Js.string txt);
+        ("type", inject @@ Js.string type_);
       |])
