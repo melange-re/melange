@@ -29,6 +29,6 @@
   (:standard -w -9 -open Melange_ppx_lib))
  (preprocess
   (action
-   (run cppo %{env:CPPO_FLAGS=} -D BS_BROWSER %{input-file})))
+   (run cppo %{env:CPPO_FLAGS=} %{input-file})))
  (modules melange_ppx)
  (libraries melange.ppxlib-ast melange.ppxlib ppxlib ast_extensions))

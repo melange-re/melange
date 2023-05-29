@@ -1,0 +1,10 @@
+(env
+ (_
+  (env-vars
+   (CPPO_FLAGS -D=BS_BROWSER))))
+
+(executable
+ (name jsoo_main)
+ (modules jsoo_main jsoo_common)
+ (libraries core melange_compiler_libs melange_ppx)
+ (modes js))
