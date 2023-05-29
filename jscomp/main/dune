@@ -41,5 +41,5 @@
 (executable
  (name jsoo_main)
  (modules jsoo_main jsoo_common)
- (libraries core melange-compiler-libs melange_ppx)
+ (libraries core melange_compiler_libs melange_ppx)
  (modes js))
