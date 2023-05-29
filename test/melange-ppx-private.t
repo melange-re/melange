@@ -2,7 +2,7 @@ Test to showcase errors when using %%private extensions with melange ppx
 
   $ . ./setup.sh
   $ cat > dune-project <<EOF
-  > (lang dune 3.7)
+  > (lang dune 3.8)
   > (using melange 0.1)
   > EOF
   $ cat > dune <<EOF

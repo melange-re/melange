@@ -25,23 +25,22 @@ let
 in
 
 mkShell {
-  dontDetectOcamlConflicts = true;
   inputsFrom = lib.attrValues derivations;
-  buildInputs = [
+  nativeBuildInputs = with ocamlPackages; [
+    ocamlformat
+    utop
+    ocaml-lsp
+    merlin
     python3
     nodejs_latest
     yarn
     nodePackages.mocha
-  ]
-  ++ (with ocamlPackages; [
-    merlin
-    reason
-    ppxlib
-    utop
-    ocamlformat
-    ocaml-lsp
-  ])
-  ++ lib.optionals release-mode [ cacert curl ocamlPackages.dune-release git ];
+  ] ++ lib.optionals release-mode ([
+    cacert
+    curl
+    ocamlPackages.dune-release
+    git
+  ]);
   shellHook = ''
     PATH=$PWD/_build/install/default/bin:$PATH
   '';

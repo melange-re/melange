@@ -1,14 +1,33 @@
 { stdenv
 , ocamlPackages
+, fetchFromGitHub
 , lib
+, git
 , tree
 , makeWrapper
 , nix-filter
 , nodejs
 }:
 
+
+let
+
+  # this changes rarely, and it's better than having to rely on nix's poor
+  # support for submodules
+  vendored = fetchFromGitHub {
+    owner = "melange-re";
+    repo = "melange";
+    rev = "7c71a868e0f8d465972ab4523e2b2bec9544461c";
+    hash = "sha256-Q2etr2OJCR+DnQxOhqfE0B04xkf9y4BqCd20yAk97sI=";
+    fetchSubmodules = true;
+  };
+
+in
+
+with ocamlPackages;
+
 rec {
-  melange = ocamlPackages.buildDunePackage rec {
+  melange = buildDunePackage {
     pname = "melange";
     version = "dev";
     duneVersion = "3";
@@ -19,8 +38,6 @@ rec {
         "dune-project"
         "dune"
         "melange.opam"
-        "bsconfig.json"
-        "package.json"
         "jscomp"
         "lib"
         "test"
@@ -28,11 +45,8 @@ rec {
       ];
       exclude = [ "jscomp/test" ];
     };
-
-    buildPhase = ''
-      runHook preBuild
-      dune build -p ${pname} -j $NIX_BUILD_CORES --display=short
-      runHook postBuild
+    postPatch = ''
+      cp -r ${vendored}/vendor ./vendor
     '';
 
     postInstall = ''
@@ -44,23 +58,22 @@ rec {
     nativeCheckInputs = [
       tree
       nodejs
-      ocamlPackages.reason
+      reason
     ];
-    checkInputs = with ocamlPackages; [ ounit2 reactjs-jsx-ppx ];
+    checkInputs = [ ounit2 reactjs-jsx-ppx ];
 
-    nativeBuildInputs = with ocamlPackages; [ cppo ];
-    buildInputs = [ makeWrapper ];
-    propagatedBuildInputs = with ocamlPackages; [
+    nativeBuildInputs = [ menhir cppo git makeWrapper ];
+    propagatedBuildInputs = [
       dune-build-info
       base64
-      melange-compiler-libs
       cmdliner
       ppxlib
+      menhirLib
     ];
     meta.mainProgram = "melc";
   };
 
-  rescript-syntax = ocamlPackages.buildDunePackage rec {
+  rescript-syntax = buildDunePackage {
     pname = "rescript-syntax";
     version = "dev";
     duneVersion = "3";
@@ -74,15 +87,12 @@ rec {
       ];
     };
 
-    propagatedBuildInputs = with ocamlPackages; [
-      ppxlib
-      melange
-    ];
+    propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
   };
 
-  reactjs-jsx-ppx = ocamlPackages.buildDunePackage rec {
+  reactjs-jsx-ppx = buildDunePackage {
     pname = "reactjs-jsx-ppx";
     version = "dev";
     duneVersion = "3";
@@ -95,6 +105,6 @@ rec {
         "reactjs-jsx-ppx"
       ];
     };
-    propagatedBuildInputs = with ocamlPackages; [ ppxlib ];
+    propagatedBuildInputs = [ ppxlib ];
   };
 }

@@ -27,7 +27,7 @@
 
 
     Different OCaml types might share the same represention in the 
-    ReScript runtime; while this is a compiler internal knowledge,
+    Melange runtime; while this is a compiler internal knowledge,
     applications might benefit from having a safe and zero cost 
     conversion between those types. 
     

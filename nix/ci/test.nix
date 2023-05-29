@@ -19,23 +19,9 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
-          dune_3 = osuper.dune_3.overrideAttrs (_: {
-            src = super.fetchFromGitHub {
-              owner = "ocaml";
-              repo = "dune";
-              rev = "a08e0f7f8a857b348267b30b10b9297ef881bb4d";
-              hash = "sha256-MK6hCjbNFIbE/sTR2xuVzrMqtdOIp52QKVuqfmjmwoY=";
-            };
-          });
-
-          melange-compiler-libs = osuper.melange-compiler-libs.overrideAttrs (_: {
-            src = super.fetchFromGitHub {
-              owner = "melange-re";
-              repo = "melange-compiler-libs";
-              rev = "575ac4c24b296ea897821f9aaee1146ff258c704";
-              hash = "sha256-icjQmfRUpo2nexX4XseQLPMhyffIxCftd0LHFW+LOwM=";
-            };
-          });
+          menhirLib = osuper.menhirLib_20230415;
+          menhirSdk = osuper.menhirSdk_20230415;
+          menhir = osuper.menhir_20230415;
         });
       })
     ];
@@ -48,6 +34,8 @@ let
       (builtins.unsafeDiscardStringContext packages.melange.outPath);
 in
 
+with ocamlPackages;
+
 stdenv.mkDerivation {
   name = "melange-tests-${inputString}";
 
@@ -57,7 +45,6 @@ stdenv.mkDerivation {
   # the dream of running fixed-output-derivations is dead -- somehow after
   # Nix 2.4 it results in `error: unexpected end-of-file`.
   # Example: https://github.com/melange-re/melange/runs/4132970590
-
   outputHashMode = "flat";
   outputHashAlgo = "sha256";
   outputHash = builtins.hashString "sha256" "melange";
@@ -68,18 +55,21 @@ stdenv.mkDerivation {
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
 
   doCheck = true;
-  dontDetectOcamlConflicts = true;
-
-  nativeBuildInputs = with ocamlPackages; [ ocaml findlib dune ];
-  buildInputs = [
+  nativeBuildInputs = [
+    ocaml
+    findlib
+    dune
+    git
     nodePackages.mocha
-    packages.melange
-    packages.reactjs-jsx-ppx
-    packages.rescript-syntax
     ocamlPackages.reason
     tree
     nodejs
     yarn
+  ];
+  buildInputs = [
+    packages.melange
+    packages.reactjs-jsx-ppx
+    packages.rescript-syntax
   ];
 
   checkPhase = ''

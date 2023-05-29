@@ -691,7 +691,10 @@ and expression_desc cxt ~(level : int) x : cxt =
       expression ~level:13 cxt e
   | Bin
       ( Minus,
-        { expression_desc = Number (Int { i = 0l; _ } | Float { f = "0." }) },
+        {
+          expression_desc =
+            Number ((Int { i = 0l; _ } | Float { f = "0." }) as desc);
+        },
         e )
   (* TODO:
      Handle multiple cases like
@@ -700,7 +703,7 @@ and expression_desc cxt ~(level : int) x : cxt =
      {[ 0.000 - x ]}
   *) ->
       cond_paren_group cxt (level > 13) 1 (fun _ ->
-          string cxt "-";
+          string cxt (match desc with Float _ -> "- " | _ -> "-");
           expression ~level:13 cxt e)
   | Bin (op, e1, e2) ->
       let out, lft, rght = Js_op_util.op_prec op in

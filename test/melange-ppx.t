@@ -31,7 +31,7 @@ Preprocess with `--as-pp`
   $ rm -rf x.pp.ml x.pp2.ml
 
   $ cat > dune-project <<EOF
-  > (lang dune 3.7)
+  > (lang dune 3.8)
   > (using melange 0.1)
   > EOF
 

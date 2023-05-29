@@ -35,7 +35,7 @@ have the same key.
 
 {b Returns} [target]
 
-@example {[
+{[
 (* Copy an object *)
 
 let obj = [%obj { a = 1 }]
@@ -46,7 +46,7 @@ let copy = Js.Obj.assign (Js.Obj.empty ()) obj
 let _ = Js.log copy
 ]}
 
-@example {[
+{[
 (* Merge objects with same properties *)
 
 let target = [%obj { a = 1; b = 1; }]

@@ -495,6 +495,18 @@ let zero_float_lit : t = make_expression (Number (Float { f = "0." }))
 let float_mod ?loc ?comment e1 e2 : J.expression =
   make_expression ?loc ?comment (Bin (Mod, e1, e2))
 
+let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
+  match (str0, str1) with
+  | Str (_, txt0), Str (_, txt1) | Unicode txt0, Unicode txt1 ->
+      if Ext_string.equal txt0 txt1 then Some true
+      else if
+        Ast_utf8_string.simple_comparison txt0
+        && Ast_utf8_string.simple_comparison txt1
+      then Some false
+      else None
+  | Str _, Unicode _ | Unicode _, Str _ -> None
+  | _ -> None
+
 let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   match (e0.expression_desc, e1.expression_desc) with
   | ( (Null | Undefined),
@@ -507,9 +519,6 @@ let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
       (Null | Undefined) )
     when no_side_effect e0 ->
       false_
-  | Str (_, x), Str (_, y) ->
-      (* CF*)
-      bool (Ext_string.equal x y)
   | Char_to_int a, Char_to_int b -> triple_equal ?comment a b
   | Char_to_int a, Number (Int { i = _; c = Some v })
   | Number (Int { i = _; c = Some v }), Char_to_int a ->
@@ -696,10 +705,9 @@ let rec float_equal ?loc ?comment (e0 : t) (e1 : t) : t =
 let int_equal = float_equal
 
 let string_equal ?loc ?comment (e0 : t) (e1 : t) : t =
-  match (e0.expression_desc, e1.expression_desc) with
-  | Str (_, a0), Str (_, b0) -> bool (Ext_string.equal a0 b0)
-  | Unicode a0, Unicode b0 -> bool (Ext_string.equal a0 b0)
-  | _, _ -> make_expression ?loc ?comment (Bin (EqEqEq, e0, e1))
+  match str_equal e0.expression_desc e1.expression_desc with
+  | Some b -> bool b
+  | None -> make_expression ?loc ?comment (Bin (EqEqEq, e0, e1))
 
 let is_type_number ?loc ?comment (e : t) : t =
   string_equal ?loc ?comment (typeof e) (str "number")
@@ -786,12 +794,9 @@ let uint32 ?loc ?comment n : J.expression =
   make_expression ?loc ?comment (Number (Uint n))
 
 let string_comp (cmp : J.binop) ?loc ?comment (e0 : t) (e1 : t) =
-  match (e0.expression_desc, e1.expression_desc) with
-  | Str (_, a0), Str (_, b0) | Unicode a0, Unicode b0 -> (
-      match cmp with
-      | EqEqEq -> bool (a0 = b0)
-      | NotEqEq -> bool (a0 <> b0)
-      | _ -> bin ?loc ?comment cmp e0 e1)
+  match (cmp, str_equal e0.expression_desc e1.expression_desc) with
+  | EqEqEq, Some b -> bool b
+  | NotEqEq, Some b -> bool (b = false)
   | _ -> bin ?loc ?comment cmp e0 e1
 
 let obj_length ?loc ?comment e : t =

@@ -32,7 +32,7 @@ val get: 'a t -> int -> 'a option
   If [i <= 0 <= length arr];returns [Some value] where [value] is the item at index [i]
   If [i] is out of range;returns [None]
 
-  @example {[
+  {[
     Belt.Array.get [|"a";"b";"c"|] 0 = Some "a";;
     Belt.Array.get [|"a";"b";"c"|] 3 = None;;
     Belt.Array.get [|"a";"b";"c"|] (-1) = None;;
@@ -85,7 +85,7 @@ val shuffle: 'a t -> 'a t
 val reverseInPlace: 'a t -> unit
 (** [reverseInPlace arr] reverses items in [arr] in place
 
-  @example {[
+  {[
     let arr = [|10;11;12;13;14|];;
     let () = reverseInPlace arr;;
     arr = [|14;13;12;11;10|];;
@@ -96,7 +96,7 @@ val reverse: 'a t -> 'a t
 (** [reverse arr]
     @return a fresh array with items in [arr] in reverse order
 
-    @example {[
+    {[
       reverse [|10;11;12;13;14|] = [|14;13;12;11;10|];;
     ]}
 *)
@@ -106,7 +106,7 @@ external makeUninitialized: int -> 'a Js.undefined array = "Array" [@@bs.new]
   [makeUninitialized n] creates an array of length [n] filled with the undefined value.
   You must specify the type of data that will eventually fill the array.
 
-  @example {[
+  {[
     let arr: string Js.undefined array = makeUninitialized 5;;
     getExn arr 0 = Js.undefined;;
   ]}
@@ -118,7 +118,7 @@ external makeUninitializedUnsafe: int -> 'a t = "Array" [@@bs.new]
 
     {b Unsafe}
 
-    @example {[
+    {[
     let arr = Belt.Array.makeUninitializedUnsafe 5;;
     let () = Js.log(Belt.Array.getExn arr 0);; (* undefined *)
     Belt.Array.setExn arr 0 "example";;
@@ -135,7 +135,7 @@ val make: int -> 'a  -> 'a t
 
 val range: int -> int -> int t
 (** [range start finish] create an inclusive array
-    @example {[
+    {[
       range 0 3 =  [|0;1;2;3|];;
       range 3 0 =  [||] ;;
       range 3 3 = [|3|];;
@@ -148,7 +148,7 @@ val rangeBy: int -> int -> step:int -> int t
     @return empty array when step is 0 or negative
     it also return empty array when [start > finish]
 
-    @example {[
+    {[
      rangeBy 0 10 ~step:3 = [|0;3;6;9|];;
      rangeBy 0 12 ~step:3 = [|0;3;6;9;12|];;
      rangeBy 33 0 ~step:1 =  [||];;
@@ -167,7 +167,7 @@ val makeBy: int -> (int -> 'a ) -> 'a t
     return an empty array when [n] is negative
     return an array of size [n] populated by [f i] start from [0] to [n - 1]
 
-    @example {[
+    {[
       makeBy 5 (fun i -> i) = [|0;1;2;3;4|];;
       makeBy 5 (fun i -> i * i) = [|0;1;4;9;16|]
     ]}
@@ -187,7 +187,7 @@ val zip: 'a t -> 'b array -> ('a * 'b) array
     Create an array of pairs from corresponding elements of [a] and [b].
     Stop with the shorter array
 
-    @example {[
+    {[
       zip [|1;2|] [|3;4;5|] = [|(1, 3);(2, 4)|]
     ]}
  *)
@@ -203,7 +203,7 @@ val zipBy: 'a t -> 'b array -> ('a -> 'b -> 'c ) -> 'c array
 
     Equivalent to [map (zip xs ys) (fun (a,b) -> f a b) ]
 
-    @example {[
+    {[
       zipBy [|1;2;3|] [|4;5|] (fun a b -> 2 * a + b) = [|6;9|];;
     ]}
  *)
@@ -211,7 +211,7 @@ val zipBy: 'a t -> 'b array -> ('a -> 'b -> 'c ) -> 'c array
 val unzip: ('a * 'b) array -> 'a t * 'b array
 (** [unzip a] takes an array of pairs and creates a pair of arrays. The first array contains all the first items of the pairs; the second array contains all the second items.
 
-    @example {[
+    {[
       unzip [|(1,2) ; (3,4)|] = ([|1;3|], [|2;4|]);;
       unzip [|(1,2) ; (3,4) ; (5,6) ; (7,8)|] = ([|1;3;5;7|], [|2;4;6;8|]);;
     ]}
@@ -224,7 +224,7 @@ val concat: 'a t -> 'a t -> 'a t
     concatenation of the arrays [v1] and [v2];so even if [v1] or [v2]
     is empty;it can not be shared
 
-    @example {[
+    {[
       concat [|1;2;3|] [|4;5|] = [|1;2;3;4;5|];;
       concat [| |] [|"a";"b";"c"|] = [|"a";"b";"c"|];;
     ]}
@@ -236,7 +236,7 @@ val concatMany: 'a t t -> 'a t
 
     @return a fresh array as the concatenation of [xss] (an array of arrays)
 
-    @example {[
+    {[
       concatMany [| [|1;2;3|]; [|4;5;6|]; [|7;8|] |] = [|1;2;3;4;5;6;7;8|];;
     ]}
 *)
@@ -254,7 +254,7 @@ val slice: 'a t -> offset:int -> len:int -> 'a t
 
     if [len] is negative;returns the empty array.
 
-    @example {[
+    {[
       slice [|10;11;12;13;14;15;16|] ~offset: 2 ~len: 3 = [|12;13;14|];;
       slice [|10;11;12;13;14;15;16|] ~offset: (-4) ~len: 3 = [|13;14;15|];;
       slice [|10;11;12;13;14;15;16|] ~offset:4  ~len:9 = [|14;15;16|];;
@@ -269,7 +269,7 @@ val sliceToEnd: 'a t -> int -> 'a t
 
     [sliceToEnd xs 0] will return a copy of the array
 
-    @example {[
+    {[
       sliceToEnd [|10;11;12;13;14;15;16|] 2 = [|12;13;14;15;16|];;
       sliceToEnd [|10;11;12;13;14;15;16|] (-4) = [|13;14;15;16|];;
     ]}
@@ -294,7 +294,7 @@ val fill: 'a t -> offset:int -> len:int -> 'a -> unit
     [fill arr ~offset:(-1) ~len:1] means fill the last element,
     if the array does not have enough data;[fill] will ignore it
 
-    @example {[
+    {[
 
       let arr = makeBy 5 (fun i -> i) ;;
       fill arr ~offset:2 ~len:2 9 ;;
@@ -322,7 +322,7 @@ val blit:
     For each of the examples;presume that [v1 = \[|10;11;12;13;14;15;16;17|\]] and
     [v2 = \[|20;21;22;23;24;25;26;27|\]]. The result shown is the content of the destination array.
 
-    @example {[
+    {[
       Belt.Array.blit ~src: v1 ~srcOffset: 4 ~dst: v2 ~dstOffset: 2 ~len: 3 |.
         [|20;21;14;15;16;25;26;27|]
       Belt.Array.blit ~src: v1 ~srcOffset: 4 ~dst: v1 ~dstOffset: 2 ~len: 3 |.
@@ -345,7 +345,7 @@ val forEach: 'a t ->  ('a -> unit ) -> unit
     new array is created. Use [forEach] when you are primarily concerned with repetitively
     creating side effects.
 
-    @example {[
+    {[
       forEach [|"a";"b";"c"|] (fun x -> Js.log("Item: " ^ x));;
       (*  prints:
         Item: a
@@ -367,7 +367,7 @@ val map: 'a t ->  ('a -> 'b ) -> 'b array
     @return a new array by calling [f] for each element of [xs] from
     the beginning to end
 
-    @example {[
+    {[
      map [|1;2|] (fun x-> x + 10) = [|11;12|]
    ]}
 *)
@@ -387,7 +387,7 @@ val getByU: 'a t -> ('a -> bool [@bs]) -> 'a option
 val getBy: 'a t -> ('a -> bool) -> 'a option
 (** [getBy xs p] returns [Some value] for the first value in [xs] that satisifies the predicate function [p]; returns [None] if no element satisifies the function.
 
-  @example {[
+  {[
       getBy [|1;4;3;2|] (fun x -> x mod 2 = 0) = Some 4
       getBy [|15;13;11|] (fun x -> x mod 2 = 0) = None
     ]}
@@ -397,7 +397,7 @@ val getIndexByU: 'a t -> ('a -> bool [@bs]) -> int option
 val getIndexBy: 'a t -> ('a -> bool) -> int option
 (** [getIndexBy xs p] returns [Some index] for the first value in [xs] that satisifies the predicate function [p]; returns [None] if no element satisifies the function.
 
-  @example {[
+  {[
       getIndexBy [|1;4;3;2|] (fun x -> x mod 2 = 0) = Some 1
       getIndexBy [|15;13;11|] (fun x -> x mod 2 = 0) = None
     ]}
@@ -408,7 +408,7 @@ val keep: 'a t -> ('a -> bool ) -> 'a t
 (** [keep xs p ]
     @return a new array that keeps all elements satisfying [p]
 
-    @example {[
+    {[
       keep [|1;2;3|] (fun x -> x mod  2 = 0) = [|2|]
     ]}
 *)
@@ -420,7 +420,7 @@ val keepWithIndex: 'a t -> ('a -> int -> bool ) -> 'a t
     The predicate [p] takes two arguments:
     the element from [xs] and the index starting from 0.
 
-    @example {[
+    {[
       keepWithIndex [|1;2;3|] (fun _x i -> i = 1) = [|2|]
     ]}
 *)
@@ -430,7 +430,7 @@ val keepMap: 'a t -> ('a -> 'b option) -> 'b array
 (** [keepMap xs p]
     @return a new array that keeps all elements that return a non-None when applied to [p]
 
-    @example {[
+    {[
       keepMap [|1;2;3|] (fun x -> if x mod 2 = 0 then Some x else None)
       = [| 2 |]
     ]}
@@ -443,7 +443,7 @@ val forEachWithIndex: 'a t ->  (int -> 'a -> unit ) -> unit
     The same as {!forEach}; except that [f] is supplied with two arguments:
     the index starting from 0 and the element from [xs]
 
-    @example {[
+    {[
 
       forEachWithIndex [|"a";"b";"c"|] (fun i x -> Js.log("Item " ^ (string_of_int i) ^ " is " ^ x));;
       (*  prints:
@@ -464,7 +464,7 @@ val mapWithIndex: 'a t ->  (int -> 'a -> 'b ) -> 'b t
 (** [mapWithIndex xs f] applies [f] to each element of [xs]. Function [f] takes two arguments:
   the index starting from 0 and the element from [xs].
 
-    @example {[
+    {[
       mapWithIndex [|1;2;3|] (fun i x -> i + x) =
       [|0 + 1; 1 + 2; 2 + 3|]
     ]}
@@ -475,7 +475,7 @@ val partitionU : 'a t -> ('a -> bool [@bs]) -> 'a t * 'a t
 val partition : 'a t ->  ('a -> bool) -> 'a t * 'a t
 (** [partition f a] split array into tuple of two arrays based on predicate f; first of tuple where predicate cause true, second where predicate cause false
 
-    @example {[
+    {[
       partition [|1;2;3;4;5|] (fun x -> x mod 2 = 0  ) = ([|2;4|], [|1;2;3|]);;
       partition [|1;2;3;4;5|] (fun x -> x mod 2 <> 0 ) = ([|1;2;3|], [|2;4|]);;
     ]}
@@ -489,7 +489,7 @@ val reduce:  'b array -> 'a -> ('a -> 'b -> 'a ) ->'a
     from the list and an “accumulator”;which starts with a value of [init]. [reduce]
     returns the final value of the accumulator.
 
-    @example {[
+    {[
       reduce [|2;3;4|] 1 (+) = 10;;
       reduce [|"a";"b";"c";"d"|] "" (^) = "abcd";;
     ]}
@@ -503,7 +503,7 @@ val reduceReverse: 'b array -> 'a -> ('a -> 'b ->  'a ) ->  'a
     Works like {!reduce};except that function [f] is applied to each item of [xs] from the last
     back to the first.
 
-    @example {[
+    {[
       reduceReverse [|"a";"b";"c";"d"|] "" (^) = "dcba";;
     ]}
 *)
@@ -517,7 +517,7 @@ val reduceReverse2:
    Reduces two arrays [xs] and [ys];taking items starting at [min (length xs) (length ys)]
    down to and including zero.
 
-   @example {[
+   {[
      reduceReverse2 [|1;2;3|] [|1;2|] 0 (fun acc x y -> acc + x + y) = 6
    ]}
 *)
@@ -530,7 +530,7 @@ val reduceWithIndex:  'a t -> 'b -> ('b -> 'a -> int -> 'b) -> 'b
     from the array and an “accumulator”, which starts with a value of [init] and the index of each element. [reduceWithIndex]
     returns the final value of the accumulator.
 
-    @example {[
+    {[
       reduceWithIndex [|1;2;3;4|] 0 (fun acc x i -> acc + x + i) = 16;
     ]}
 *)
@@ -544,7 +544,7 @@ val joinWith: 'a t -> string -> ('a -> string) -> string
     If the array has only one element, then that element will be returned
     without using the separator.
     If the array is empty, the empty string will be returned.
-    @example{[
+    {[
       joinWith [|0; 1|] ", " string_of_int = "0, 1"
       joinWith [||] " " string_of_int = ""
       joinWith [|1|] " " string_of_int = "1"
@@ -558,7 +558,7 @@ val some: 'a t -> ('a -> bool) -> bool
     @return true if at least one of the elements in [xs] satifies [p];where [p] is a {i predicate}: a function taking
     an element and returning a [bool].
 
-    @example {[
+    {[
       some [|2; 3; 4|] (fun x -> x mod 2 = 1) = true;;
       some [|-1; -3; -5|] (fun x -> x > 0) = false;;
     ]}
@@ -571,7 +571,7 @@ val every: 'a t -> ('a -> bool ) -> bool
     @return true if all elements satisfy [p];where [p] is a {i predicate}: a function taking
     an element and returning a [bool].
 
-    @example {[
+    {[
       every [|1; 3; 5|] (fun x -> x mod 2 = 1) = true;;
       every [|1; -3; 5|] (fun x -> x > 0) = false;;
     ]}
@@ -581,7 +581,7 @@ val every2U: 'a t -> 'b t -> ('a -> 'b -> bool [@bs]) -> bool
 val every2: 'a t -> 'b t -> ('a -> 'b -> bool ) -> bool
 (** [every2 xs ys p] returns true if [p xi yi] is true for all pairs of elements
   up to the shorter length (i.e. [min (length xs) (length ys)])
-    @example {[
+    {[
       every2 [|1;2;3|] [|0;1|] (>) = true;;
       every2 [||] [|1|] (fun  x y -> x > y) = true;;
       every2 [|2;3|] [|1|] (fun  x y -> x > y) = true;;
@@ -594,7 +594,7 @@ val some2: 'a t -> 'b t -> ('a -> 'b -> bool ) -> bool
 (** [some2 xs ys p] returns true if [p xi yi] is true for any pair of elements
   up to the shorter length (i.e. [min (length xs) (length ys)])
 
-    @example {[
+    {[
       some2 [|0;2|] [|1;0;3|] (>) = true ;;
       (some2 [||] [|1|] (fun   x y -> x > y)) =  false;;
       (some2 [|2;3|] [|1;4|] (fun   x y -> x > y)) = true;;
@@ -612,7 +612,7 @@ val cmp: 'a t -> 'a t -> ('a -> 'a -> int ) -> int
       - a positive number if [x] is “greater than” [y]
     - The comparison returns the first non-zero result of [f];or zero if [f] returns zero for all [x] and [y].
 
-    @example {[
+    {[
       cmp [|1; 3; 5|] [|1; 4; 2|] (fun a b -> compare a b) = -1;;
       cmp [|1; 3; 5|] [|1; 2; 3|] (fun a b -> compare a b) = 1;;
       cmp [|1; 3; 5|] [|1; 3; 5|] (fun a b -> compare a b) = 0;;
@@ -626,7 +626,7 @@ val eq:  'a t -> 'a t -> ('a -> 'a -> bool ) -> bool
     - return false if length is not the same
     - otherwise compare items one by one using [f xi yi];and return true if all results are true;false otherwise
 
-    @example {[
+    {[
       eq [|1; 2; 3|] [|-1; -2; -3|] (fun a b -> abs a = abs b) = true
     ]}
 *)
@@ -639,7 +639,7 @@ external truncateToLengthUnsafe: 'a t -> int ->  unit = "length" [@@bs.set]
 
   If [n] is less than zero;raises a [RangeError].
 
-  @example {[
+  {[
     let arr = [|"ant";"bee";"cat";"dog";"elk"|];;
     let () = truncateToLengthUnsafe arr 3;;
     arr = [|"ant";"bee";"cat"|];;

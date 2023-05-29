@@ -238,10 +238,19 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
     Ext_list.iter alerts Warnings.parse_alert_option;
-    Ext_list.iter warnings (fun w ->
-        Option.iter
-          Location.(prerr_alert none)
-          (Warnings.parse_options false w));
+
+    begin match warnings with
+    | [] -> ()
+    | first :: rest ->
+      (* If more than one `-w` arguments are present, we insert `"-20"` between
+         them to give a chance for the last one to turn it off. This also
+         happens to cover the common case of Dune, which explicitly passes
+         "+20" (so we override it). *)
+      Melc_warnings.parse_warnings ~warn_error:false first;
+      Melc_warnings.parse_warnings ~warn_error:false "-20";
+      Ext_list.iter rest (Melc_warnings.parse_warnings ~warn_error:false);
+    end;
+
     Option.iter
       (fun output_name -> Clflags.output_name := Some output_name)
       output_name ;
@@ -330,8 +339,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if short_paths then Clflags.real_paths := false;
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();
-    Ext_list.iter warn_error (fun w ->
-        Option.iter Location.(prerr_alert none) (Warnings.parse_options true w));
+    Ext_list.iter warn_error (Melc_warnings.parse_warnings ~warn_error:true);
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->

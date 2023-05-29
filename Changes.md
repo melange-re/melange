@@ -61,7 +61,13 @@ Unreleased
   ([#554](https://github.com/melange-re/melange/pull/554))
 - melange: add `--preamble` flag to add a preamble to emitted JS. An example is
   `"use client";` in React Server Components, which needs to appear before
-  imports ([#545](https://github.com/melange-re/melange/pull/545))
+  imports ([#545](https://github.com/melange-re/melange/pull/545),
+  [#574](https://github.com/melange-re/melange/pull/574))
+- melange: turn off warning 20 (`ignore-extra-argument`) by default. This
+  warning is rarely useful in Melange due to false positives when invoking
+  functions defined with `%bs.raw`
+  ([#488](https://github.com/melange-re/melange/pull/488),
+  [#576](https://github.com/melange-re/melange/pull/576))
 
 0.3.2 2022-11-19
 ---------------

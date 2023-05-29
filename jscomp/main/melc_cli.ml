@@ -122,7 +122,7 @@ let warnings =
      <spec> can be:\n\
      <num>             a single warning number\n\
      <num1>..<num2>    a range of consecutive warning numbers\n\
-     default setting is " ^ Mel_warnings.defaults_w
+     default setting is " ^ Melc_warnings.defaults_w
   in
   let docv = "list" in
   Arg.(value & opt_all string [] & info [ "w" ] ~doc ~docv)
@@ -260,7 +260,7 @@ let warn_error =
   let doc =
     "Enable or disable error status for warnings according\n\
      to $(docv).  See option -w for the syntax of $(docv).\n\
-     Default setting is " ^ Mel_warnings.defaults_warn_error
+     Default setting is " ^ Melc_warnings.defaults_warn_error
   in
   Arg.(value & opt_all string [] & info [ "warn-error" ] ~doc)
 

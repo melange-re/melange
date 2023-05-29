@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** ReScript entry point in the OCaml compiler *)
+(** Melange entry point in the OCaml compiler *)
 
 (** Compile and register the hook of function to compile  a lambda to JS IR
  *)

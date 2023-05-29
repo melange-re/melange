@@ -2,6 +2,8 @@
 
 (using experimental_building_ocaml_compiler_with_dune 0.1)
 
+(using menhir 2.1)
+
 (using melange 0.1)
 
 (executables_implicit_empty_intf true)
@@ -34,8 +36,6 @@
  (depends
   (ocaml
    (>= "4.13.0"))
-  (melange-compiler-libs
-   (>= "0.0.1-414"))
   (cmdliner
    (>= "1.1.0"))
   (base64

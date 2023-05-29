@@ -2,12 +2,12 @@
 
 (library
  (name ext)
- (public_name melange.ext)
+ (package melange)
  (wrapped false)
  (flags
   (:standard -w -9 -open Melange_compiler_libs))
  (modules_without_implementation ext_js_file_kind)
- (libraries unix melange-compiler-libs)
+ (libraries unix melange_compiler_libs)
  (foreign_stubs
   (language c)
   (names ext_basic_hash_stubs)))
@@ -44,11 +44,11 @@
 
 (rule
  (targets js_reserved_map.ml)
- (deps ../../scripts/build_sorted.ml ../keywords.list)
+ (deps ../../scripts/build_reserved.ml ../keywords.list)
  (action
   (with-stdout-to
    %{targets}
-   (run ocaml %{deps}))))
+   (run ocaml %{deps} %{targets}))))
 
 (rule
  (targets hash_set_string.ml)

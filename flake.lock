@@ -18,29 +18,6 @@
         "type": "github"
       }
     },
-    "melange-compiler-libs": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1682222594,
-        "narHash": "sha256-icjQmfRUpo2nexX4XseQLPMhyffIxCftd0LHFW+LOwM=",
-        "owner": "melange-re",
-        "repo": "melange-compiler-libs",
-        "rev": "575ac4c24b296ea897821f9aaee1146ff258c704",
-        "type": "github"
-      },
-      "original": {
-        "owner": "melange-re",
-        "repo": "melange-compiler-libs",
-        "type": "github"
-      }
-    },
     "nix-filter": {
       "locked": {
         "lastModified": 1681154353,
@@ -64,11 +41,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1683253604,
-        "narHash": "sha256-UsjTLNzdzEfXzBMVgJX8U1awVCNQTLLCH0UTQFvfluY=",
+        "lastModified": 1684965477,
+        "narHash": "sha256-u0khgkK2n5QUpRMdQ+6hijS/B4Cm2ubF1bd86Okj4Vc=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "071b0dfdee36101eda90e69c11e54aa83832369c",
+        "rev": "06d644abd506db8f7d74c270eef0fd01aaee20f4",
         "type": "github"
       },
       "original": {
@@ -79,24 +56,23 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1683212983,
-        "narHash": "sha256-4GwtXD3tBUtBAL20ygoOggZWgLdxU34VZ1vanbV64KI=",
+        "lastModified": 1684919781,
+        "narHash": "sha256-YoPHy7ZDw5I154nFnRd20OfZA26NW53BO9S9jg4IRxs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5751551558d7896ffb30ff3d709b4943bb3eafa8",
+        "rev": "56fb53c5a8406c176d470b2ffaef9920cad8305e",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5751551558d7896ffb30ff3d709b4943bb3eafa8",
+        "rev": "56fb53c5a8406c176d470b2ffaef9920cad8305e",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "melange-compiler-libs": "melange-compiler-libs",
         "nix-filter": "nix-filter",
         "nixpkgs": "nixpkgs"
       }

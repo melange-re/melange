@@ -33,7 +33,7 @@
 (** This library provides bindings and necessary support for JS FFI.
     It contains all bindings into [Js] namespace.
 
-    @example {[
+    {[
       [| 1;2;3;4|]
       |. Js.Array2.map (fun x -> x + 1 )
       |. Js.Array2.reduce (+) 0
@@ -293,6 +293,9 @@ module Float = Js_float
 
 module Int = Js_int
 (** Provide utilities for int *)
+
+module Bigint = Js_bigint
+(** Provide utilities for bigint *)
 
 module Option = Js_option
 (** Provide utilities for option *)

@@ -9,7 +9,7 @@ Test that belt and runtime libs work well together with both es6 and commonjs
 Try commonjs first
 
   $ cat > dune-project <<EOF
-  > (lang dune 3.7)
+  > (lang dune 3.8)
   > (using melange 0.1)
   > EOF
 

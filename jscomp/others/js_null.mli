@@ -50,7 +50,7 @@ val getExn : 'a t -> 'a
 If ['a Js.null] contains a value, that value is unwrapped, mapped to a ['b] using
 the given function [a' -> 'b], then wrapped back up and returned as ['b Js.null]
 
-@example {[
+{[
 let maybeGreetWorld (maybeGreeting: string Js.null) =
   Js.Null.bind maybeGreeting (fun greeting -> greeting ^ " world!")
 ]}
@@ -62,7 +62,7 @@ val bind : 'a t -> ('a -> 'b [@bs]) -> 'b t
 If ['a Js.null] contains a value, that value is unwrapped and applied to
 the given function.
 
-@example {[
+{[
 let maybeSay (maybeMessage: string Js.null) =
   Js.Null.iter maybeMessage (fun message -> Js.log message)
 ]}

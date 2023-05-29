@@ -36,6 +36,13 @@ make nix-fish # Runs fish shell in the nix environment
 - Install the [opam](https://opam.ocaml.org/) package manager
 - Install `tree` command line tool (`brew install tree` for macOS or `apt install tree` for Linux)
 
+After cloning the repository, make sure to initialize git submodules, so that
+`melange-compiler-libs` is updated:
+
+```sh
+$ git submodule update --init --recursive --remote
+```
+
 To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
 
 If you plan to work on improving documentation, you will need to install `odoc`: `opam install odoc`.
@@ -65,3 +72,18 @@ $ nix-build nix/ci/test.nix
 ```
 
 If that all passes, then congratulations! You are well on your way to becoming a contributor 🎉
+
+
+## Update JS Reserved Keywords Map
+
+The compiler sources include a list of reserved JS keywords in
+`jscomp/ext/js_reserved_map.ml` which includes all identifiers in global scope
+(`window` / `globalThis`). This list should be updated from time to time for
+newer browser versions.
+
+To update it, run:
+
+```sh
+npm install puppeteer
+node scripts/build_reserved.js
+```

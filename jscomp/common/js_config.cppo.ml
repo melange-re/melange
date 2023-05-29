@@ -76,15 +76,7 @@ let stdlib_paths =
 let no_version_header = ref false
 
 let cross_module_inline = ref false
-
-
-
 let diagnose = ref false
-let get_diagnose () =
-    !diagnose
-#ifndef BS_RELEASE_BUILD
-  || Sys.getenv_opt "RES_DEBUG_FILE" <> None
-#endif
 
 let no_builtin_ppx = ref false
 
