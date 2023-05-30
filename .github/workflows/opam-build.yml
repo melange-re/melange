@@ -57,6 +57,11 @@ jobs:
           opam update
           make opam-install-test
 
+      - name: Build playground
+        working-directory: melange
+        run: |
+          make playground
+
       - name: Clone melange-opam-template
         run: |
           git clone https://github.com/melange-re/melange-opam-template.git
