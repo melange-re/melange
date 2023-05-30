@@ -41,3 +41,7 @@ opam-install-dev: opam-install-test ## Install development dependencies
 
 .PHONY: opam-init
 opam-init: opam-create-switch opam-install-test ## Configure everything to develop this repository in local
+
+.PHONY: playground
+playground:
+	opam exec -- dune build --profile=browser jscomp/main/jsoo_main.bc.js

@@ -38,3 +38,8 @@
  (modules ounit_tests_main)
  (libraries ounit2 ounit_tests))
 
+(executable
+ (name jsoo_main)
+ (modules jsoo_main jsoo_common)
+ (libraries core melange_compiler_libs melange_ppx)
+ (modes js))
