@@ -323,6 +323,13 @@ module Obj = struct
 end
 
 let () =
+  let module Location = Ocaml_common.Location in
+  Location.register_error_of_exn (fun exn ->
+      match Melange_compiler_libs.Location.error_of_exn exn with
+      | Some (`Ok report) -> Some report
+      | None | Some `Already_displayed -> None)
+
+let () =
   Driver.add_arg "-unsafe"
     (Unit (fun () -> Ocaml_common.Clflags.unsafe := true))
     ~doc:"Do not compile bounds checking on array and string access";
