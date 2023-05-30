@@ -35,6 +35,6 @@ module Js : sig
 end
 
 (*
-Creates a Js Error object for given location with and a certain location report
+Creates a Js Error object for given location report
 *)
 val mk_js_error : Location.report -> Js.Unsafe.obj
