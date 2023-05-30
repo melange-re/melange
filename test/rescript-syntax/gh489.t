@@ -1,4 +1,5 @@
-Repro for GitHub issue 489, first try setting values in nested objects with OCaml syntax
+Repro for GitHub issue 489, first try setting values in nested objects with
+OCaml syntax
 
   $ cat > foo.ml <<EOF
   > type person = < age :int [@bs.set ] > Js.t
@@ -15,7 +16,7 @@ Repro for GitHub issue 489, first try setting values in nested objects with OCam
   
   /*  Not a pure module */
 
-Now let's try with ReScript syntax
+Now try with ReScript syntax
 
   $ cat > foo.res <<EOF
   > type person = {@set "age": int}
@@ -24,7 +25,8 @@ Now let's try with ReScript syntax
   > @val external deep: deep = "deep"
   > deep["deep"]["person"]["age"] = 99
   > EOF
-  $ rescript_syntax -print=ml foo.res
+
+  $ rescript-syntax -print=ml foo.res
   type nonrec person = < age: int [@set ]  >  Js.t
   type nonrec entry = < person: person [@set ]  >  Js.t
   type nonrec deep = < deep: entry [@set ]  >  Js.t
