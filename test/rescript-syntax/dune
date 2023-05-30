@@ -1,3 +1,3 @@
 (cram
  (package rescript-syntax)
- (deps %{bin:melc} %{bin:rescript_syntax} ../setup.sh))
+ (deps %{bin:melc}))
