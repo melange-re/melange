@@ -89,6 +89,7 @@ rec {
       ];
     };
 
+    doCheck = true;
     propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
