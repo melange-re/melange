@@ -26,8 +26,8 @@ Adding a callback breaks
   > let unsafeDeleteKey = [%raw fun _foo -> "2"]
   > EOF
   $ dune build @mel
-  File "dune", line 5, characters 13-30:
-  5 |  (preprocess (pps melange.ppx)))
-                   ^^^^^^^^^^^^^^^^^
-  Fatal error: exception Parsing0.Location.Error(_)
+  File "main.ml", line 1, characters 22-44:
+  1 | let unsafeDeleteKey = [%raw fun _foo -> "2"]
+                            ^^^^^^^^^^^^^^^^^^^^^^
+  Error: bs.raw can only be applied to a string
   [1]
