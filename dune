@@ -11,4 +11,9 @@
    (:standard -O3 -unbox-closures)))
  (browser
   (env-vars
+   (CPPO_FLAGS -D=BS_BROWSER)))
+ (browser-dev
+  (js_of_ocaml
+   (compilation_mode separate))
+  (env-vars
    (CPPO_FLAGS -D=BS_BROWSER))))
