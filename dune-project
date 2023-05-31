@@ -45,6 +45,7 @@
   (ounit :with-test)
   (reason :with-test)
   ppxlib
+  menhir
   (reactjs-jsx-ppx :with-test)))
 
 (package
