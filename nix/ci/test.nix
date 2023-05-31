@@ -68,7 +68,6 @@ stdenv.mkDerivation {
   ];
   buildInputs = [
     packages.melange
-    packages.reactjs-jsx-ppx
     packages.rescript-syntax
   ];
 
