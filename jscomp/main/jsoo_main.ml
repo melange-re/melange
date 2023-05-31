@@ -60,6 +60,11 @@ let compile impl str : Js.Unsafe.obj =
     (* default *)
     let ast = impl (Lexing.from_string str) in
     let ast = Melange_ppx_lib.Ppx_entry.rewrite_implementation ast in
+    let ast =
+      Melange_ppxlib_ast.Of_ppxlib.copy_structure
+        (Ppxlib.Driver.map_structure
+           (Melange_ppxlib_ast.To_ppxlib.copy_structure ast))
+    in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
         Typemod.type_implementation_more modulename modulename modulename env
