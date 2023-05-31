@@ -57,11 +57,3 @@
    (= :version))
   (ppxlib
    (>= "0.28.0"))))
-
-(package
- (name reactjs-jsx-ppx)
- (synopsis "ReactJS JSX PPX")
- (depends
-  ocaml
-  (ppxlib
-   (>= "0.28.0"))))
