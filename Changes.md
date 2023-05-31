@@ -1,4 +1,4 @@
-Unreleased
+1.0.0 2023-05-31
 ---------------
 
 - melange: print an error message if `$MELANGELIB` is set to a directory that

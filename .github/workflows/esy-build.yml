@@ -48,7 +48,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         run: |
           git clone https://github.com/melange-re/melange-basic-template.git
-          cd melange-basic-template
+          cd melange-basic-template && git checkout anmonteiro/1.0-release
 
       - name: Remove esy.lock in template
         if: ${{ matrix.system == 'ubuntu' }}
@@ -59,7 +59,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's@"installConfig"@"resolutions": { "\@opam/dune": "ocaml/dune:dune.opam#a08e0f7f8a857b348267b30b10b9297ef881bb4d", "\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'"},"installConfig"@' esy.json
+          sed -i 's@"installConfig"@"resolutions": { "\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/reason-react": "jchavarri/reason-react:reason-react.opam#27de44aed71ca4ccc902952e6a3203d663a23bcb"},"installConfig"@' esy.json
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
