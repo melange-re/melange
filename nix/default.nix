@@ -16,10 +16,9 @@ let
   # support for submodules
   vendored = fetchFromGitHub {
     owner = "melange-re";
-    repo = "melange";
-    rev = "7c71a868e0f8d465972ab4523e2b2bec9544461c";
-    hash = "sha256-Q2etr2OJCR+DnQxOhqfE0B04xkf9y4BqCd20yAk97sI=";
-    fetchSubmodules = true;
+    repo = "melange-compiler-libs";
+    rev = "f39c5b3c9524688c7bf982016aa01030077135fe";
+    hash = "sha256-LvjxC2RD8yKr0+fSCtY//btbU56JjHK7i9jSP1kmpIM=";
   };
 
 in
@@ -42,11 +41,14 @@ rec {
         "lib"
         "test"
         "scripts"
+        "vendor"
       ];
       exclude = [ "jscomp/test" ];
     };
     postPatch = ''
-      cp -r ${vendored}/vendor ./vendor
+      rm -rf vendor/melange-compiler-libs
+      mkdir -p ./vendor
+      cp -r ${vendored} ./vendor/melange-compiler-libs
     '';
 
     postInstall = ''
@@ -87,6 +89,7 @@ rec {
       ];
     };
 
+    doCheck = true;
     propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
