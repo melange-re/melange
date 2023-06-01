@@ -46,6 +46,7 @@
   (reason :with-test)
   (js_of_ocaml :with-test)
   ppxlib
+  menhir
   (reactjs-jsx-ppx :with-test)))
 
 (package
@@ -55,13 +56,5 @@
   ocaml
   (melange
    (= :version))
-  (ppxlib
-   (>= "0.28.0"))))
-
-(package
- (name reactjs-jsx-ppx)
- (synopsis "ReactJS JSX PPX")
- (depends
-  ocaml
   (ppxlib
    (>= "0.28.0"))))

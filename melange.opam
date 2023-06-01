@@ -17,6 +17,7 @@ depends: [
   "reason" {with-test}
   "js_of_ocaml" {with-test}
   "ppxlib"
+  "menhir"
   "reactjs-jsx-ppx" {with-test}
   "odoc" {with-doc}
 ]
