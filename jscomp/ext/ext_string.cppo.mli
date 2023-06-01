@@ -68,8 +68,6 @@ val for_all :
 
 val is_empty : string -> bool
 
-val equal : string -> string -> bool
-
 val rfind : sub:string -> string -> int
 
 (** [tail_from s 1]
@@ -104,10 +102,6 @@ val capitalize_sub:
   string ->
   int ->
   string
-
-val uncapitalize_ascii : string -> string
-
-val lowercase_ascii : string -> string
 
 val first_marshal_char:
   string ->

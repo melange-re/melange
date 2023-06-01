@@ -5,11 +5,7 @@ let os_adapt s =
   let regexp = Str.regexp "\\(/\\)" in
   Str.global_replace regexp (String.escaped Filename.dir_sep) s
 
-let ( =~ ) x y =
-  OUnit.assert_equal
-    ~printer:(fun x -> x)
-    ~cmp:(fun x y -> Ext_string.equal x y)
-    x y
+let ( =~ ) x y = OUnit.assert_equal ~printer:(fun x -> x) ~cmp:String.equal x y
 
 let suites =
   __FILE__

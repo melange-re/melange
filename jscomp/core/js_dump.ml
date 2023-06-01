@@ -144,7 +144,7 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
        Ext_list.mapi_append el
          (fun i e -> (Js_op.Lit (field_name i), e))
          [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
-     else Ext_list.mapi el (fun i e -> (Js_op.Lit (field_name i), e)))
+     else List.mapi (fun i e -> (Js_op.Lit (field_name i), e)) el)
 
 let rec iter_lst cxt ls element inter =
   match ls with
@@ -351,7 +351,7 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
             {[function(x){return x(x)}]}
             here the function is also called `x`
          *)
-         | Id id -> not (Ext_list.exists l (fun x -> Ident.same x id))
+         | Id id -> not (List.exists (fun x -> Ident.same x id) l)
          | Qualified _ -> true -> (
       let optimize len ~p cxt v =
         if p then try_optimize_curry cxt len function_id else vident cxt v
@@ -509,7 +509,7 @@ and pp_one_case_clause : 'a. _ -> (_ -> 'a -> unit) -> 'a * J.case_clause -> _ =
 
 and loop_case_clauses : 'a. _ -> (_ -> 'a -> unit) -> ('a * _) list -> _ =
  fun cxt pp_cond cases ->
-  Ext_list.fold_left cases cxt (fun acc x -> pp_one_case_clause acc pp_cond x)
+  List.fold_left (fun acc x -> pp_one_case_clause acc pp_cond x) cxt cases
 
 and vident cxt (v : J.vident) =
   match v with

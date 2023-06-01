@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,22 +17,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type error
-type exn += Error of int (* offset *) * error
-
-val pp_error : Format.formatter -> error -> unit
-
-(* module Interp : sig *)
-(*   val check_and_transform : int -> string -> int -> cxt -> unit *)
-(*   val transform_test : string -> segments *)
-(* end *)
-val transform_test : string -> string
-val transform : Location.t -> string -> string
-
 (* Check if the string is only == to itself (no unicode or escape tricks) *)
 val simple_comparison : string -> bool
+val is_unicode_string : string -> bool
+val is_unescaped : string -> bool

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -50,28 +50,31 @@ let propogate_beta_reduce (meta : Lam_stats.t) (params : Ident.t list)
   | Some x -> x
   | None ->
       let rest_bindings, rev_new_params =
-        Ext_list.fold_left2 params args ([], [])
-          (fun old_param arg (rest_bindings, acc) ->
+        List.fold_left2
+          (fun (rest_bindings, acc) old_param (arg : Lam.t) ->
             match arg with
             | Lconst _ | Lvar _ -> (rest_bindings, arg :: acc)
             | _ ->
                 let p = Ident.rename old_param in
                 ((p, arg) :: rest_bindings, Lam.var p :: acc))
+          ([], []) params args
       in
       let new_body =
         Lam_bounded_vars.rewrite
           (Hash_ident.of_list2 (List.rev params) rev_new_params)
           body
       in
-      Ext_list.fold_right rest_bindings new_body (fun (param, arg) l ->
+      List.fold_right
+        (fun (param, arg) l ->
           (match arg with
-          | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
+          | Lam.Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
               Hash_ident.replace meta.ident_tbl param
                 (Lam_util.kind_of_lambda_block args)
           | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
               Hash_ident.replace meta.ident_tbl param (Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)
+        rest_bindings new_body
 
 let propogate_beta_reduce_with_map (meta : Lam_stats.t)
     (map : Lam_var_stats.stats Map_ident.t) params body args =
@@ -79,10 +82,10 @@ let propogate_beta_reduce_with_map (meta : Lam_stats.t)
   | Some x -> x
   | None ->
       let rest_bindings, rev_new_params =
-        Ext_list.fold_left2 params args ([], [])
-          (fun old_param arg (rest_bindings, acc) ->
+        List.fold_left2
+          (fun (rest_bindings, acc) old_param arg ->
             match arg with
-            | Lconst _ | Lvar _ -> (rest_bindings, arg :: acc)
+            | Lam.Lconst _ | Lvar _ -> (rest_bindings, arg :: acc)
             | Lglobal_module _ ->
                 let p = Ident.rename old_param in
                 ((p, arg) :: rest_bindings, Lam.var p :: acc)
@@ -98,13 +101,14 @@ let propogate_beta_reduce_with_map (meta : Lam_stats.t)
                 else
                   let p = Ident.rename old_param in
                   ((p, arg) :: rest_bindings, Lam.var p :: acc))
+          ([], []) params args
       in
       let new_body =
         Lam_bounded_vars.rewrite
           (Hash_ident.of_list2 (List.rev params) rev_new_params)
           body
       in
-      Ext_list.fold_right rest_bindings new_body
+      List.fold_right
         (fun (param, (arg : Lam.t)) l ->
           (match arg with
           | Lprim { primitive = Pmakeblock (_, _, Immutable); args } ->
@@ -114,10 +118,12 @@ let propogate_beta_reduce_with_map (meta : Lam_stats.t)
               Hash_ident.replace meta.ident_tbl param (Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)
+        rest_bindings new_body
 
 let no_names_beta_reduce params body args =
   match Lam_beta_reduce_util.simple_beta_reduce params body args with
   | Some x -> x
   | None ->
-      Ext_list.fold_left2 params args body (fun param arg l ->
-          Lam_util.refine_let ~kind:Strict param arg l)
+      List.fold_left2
+        (fun l param arg -> Lam_util.refine_let ~kind:Strict param arg l)
+        body params args

@@ -2,7 +2,6 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_option = require("melange.runtime/caml_option.js");
 var Js_undefined = require("melange.belt/./js_undefined.js");
 var Belt_MutableQueue = require("melange.belt/./belt_MutableQueue.js");
 var Belt_MutableStack = require("melange.belt/./belt_MutableStack.js");
@@ -110,7 +109,7 @@ function n(l, r, a) {
         };
 }
 
-var test1 = n(Caml_option.some(n(Caml_option.some(n(undefined, undefined, 4)), Caml_option.some(n(undefined, undefined, 5)), 2)), Caml_option.some(n(undefined, undefined, 3)), 1);
+var test1 = n(n(n(undefined, undefined, 4), n(undefined, undefined, 5), 2), n(undefined, undefined, 3), 1);
 
 function pushAllLeft(st1, s1) {
   var current = st1;
@@ -121,9 +120,9 @@ function pushAllLeft(st1, s1) {
   };
 }
 
-var test2 = n(Caml_option.some(n(Caml_option.some(n(Caml_option.some(n(Caml_option.some(n(undefined, undefined, 4)), undefined, 2)), undefined, 5)), undefined, 1)), undefined, 3);
+var test2 = n(n(n(n(n(undefined, undefined, 4), undefined, 2), undefined, 5), undefined, 1), undefined, 3);
 
-var test3 = n(Caml_option.some(n(Caml_option.some(n(Caml_option.some(n(undefined, undefined, 4)), undefined, 2)), undefined, 5)), Caml_option.some(n(undefined, undefined, 3)), 1);
+var test3 = n(n(n(n(undefined, undefined, 4), undefined, 2), undefined, 5), n(undefined, undefined, 3), 1);
 
 eq("File \"bs_stack_test.ml\", line 137, characters 6-13", inOrder(test1), [
       4,

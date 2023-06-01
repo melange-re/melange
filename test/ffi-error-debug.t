@@ -35,7 +35,8 @@
   1 | external err :
   2 |   ?hi_should_error:([`a of int | `b of string ] [@bs.string]) ->
   3 |   unit -> unit = "err" [@@bs.val]
-  Error: @string does not work with optional when it has arities in label hi_should_error
+  Error: @bs.string does not work with optional when it has arities in label
+         hi_should_error
   [2]
 
 Each [@bs.unwrap] variant constructor requires an argument
@@ -49,8 +50,8 @@ Each [@bs.unwrap] variant constructor requires an argument
   File "x.ml", line 2, characters 20-36:
   2 |   ?hi_should_error:([`a of int | `b] [@bs.unwrap]) ->
                           ^^^^^^^^^^^^^^^^
-  Error: Not a valid type for %@unwrap. Type must be an inline variant (closed), and
-  each constructor must have an argument.
+  Error: Not a valid type for @unwrap. Type must be an inline variant (closed),
+         and each constructor must have an argument.
   [2]
 
 [@bs.unwrap] args are not supported in [@@bs.obj] functions

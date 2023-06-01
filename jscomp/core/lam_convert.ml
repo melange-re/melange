@@ -71,7 +71,7 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
     match x with None -> false | Some a -> hit a
   and hit_list_snd : 'a. ('a * _) list -> bool =
    fun x -> Ext_list.exists_snd x hit
-  and hit_list xs = Ext_list.exists xs hit
+  and hit_list xs = List.exists hit xs
   and hit (l : Lam.t) =
     match l with
     (* | Lprim {primitive = Pintcomp _ ;
@@ -497,24 +497,24 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         if prim_name_len > 0 && String.unsafe_get prim_name 0 = '#' then
           convert_js_primitive a_prim args loc
         else
-          let args = Ext_list.map args convert_aux in
+          let args = List.map convert_aux args in
           prim ~primitive:(Pccall { prim_name }) ~args loc
     | Ffi_obj_create labels ->
-        let args = Ext_list.map args convert_aux in
+        let args = List.map convert_aux args in
         prim ~primitive:(Pjs_object_create labels) ~args loc
     | Ffi_bs (arg_types, result_type, ffi) ->
         let arg_types =
           match arg_types with
           | Params ls -> ls
-          | Param_number i -> Ext_list.init i (fun _ -> External_arg_spec.dummy)
+          | Param_number i -> List.init i (fun _ -> External_arg_spec.dummy)
         in
-        let args = Ext_list.map args convert_aux in
+        let args = List.map convert_aux args in
         Lam.handle_bs_non_obj_ffi arg_types result_type ffi args loc prim_name
     | Ffi_inline_const i -> Lam.const i
   and convert_js_primitive (p : Primitive.description)
       (args : Lambda.lambda list) loc =
     let s = p.prim_name in
-    let args = Ext_list.map args convert_aux in
+    let args = List.map convert_aux args in
     match () with
     | _ when s = "#is_not_none" -> prim ~primitive:Pis_not_none ~args loc
     | _ when s = "#val_from_unnest_option" ->
@@ -624,14 +624,14 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lapply { ap_func = fn; ap_args = args; ap_loc = loc; ap_inlined } ->
         (* we need do this eargly in case [aux fn] add some wrapper *)
         Lam.apply (convert_aux fn)
-          (Ext_list.map args convert_aux)
+          (List.map convert_aux args)
           {
             ap_loc = Debuginfo.Scoped_location.to_location loc;
             ap_inlined;
             ap_status = App_na;
           }
     | Lfunction { params; body; attr } ->
-        let just_params = Ext_list.map params fst in
+        let just_params = List.map fst params in
         let body = convert_aux body in
         let new_map, body =
           rename_optional_parameters Map_ident.empty just_params body
@@ -639,8 +639,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         let params =
           if Map_ident.is_empty new_map then just_params
           else
-            Ext_list.map just_params (fun x ->
-                Map_ident.find_default new_map x x)
+            List.map (fun x -> Map_ident.find_default new_map x x) just_params
         in
         Lam.function_ ~attr ~arity:(List.length params) ~params ~body
     | Llet (kind, _value_kind, id, e, body) (*FIXME*) ->
@@ -654,7 +653,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lprim (Pccall a, args, loc) ->
         convert_ccall a args (Debuginfo.Scoped_location.to_location loc)
     | Lprim (Pgetglobal id, args, _) ->
-        let args = Ext_list.map args convert_aux in
+        let args = List.map convert_aux args in
         if Ident.is_predef id then
           Lam.const (Const_string { s = Ident.name id; unicode = false })
         else (
@@ -662,7 +661,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
           assert (args = []);
           Lam.global_module id)
     | Lprim (primitive, args, loc) ->
-        let args = Ext_list.map args convert_aux in
+        let args = List.map convert_aux args in
         lam_prim ~primitive ~args (Debuginfo.Scoped_location.to_location loc)
     | Lswitch (e, s, _loc) -> convert_switch e s
     | Lstringswitch (e, cases, default, _) ->
@@ -671,15 +670,14 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
           (Option.map convert_aux default)
     | Lstaticraise (id, []) ->
         Lam.staticraise (Hash_int.find_default exit_map id id) []
-    | Lstaticraise (id, args) ->
-        Lam.staticraise id (Ext_list.map args convert_aux)
+    | Lstaticraise (id, args) -> Lam.staticraise id (List.map convert_aux args)
     | Lstaticcatch (b, (i, []), Lstaticraise (j, [])) ->
         (* peep-hole [i] aliased to [j] *)
         Hash_int.add exit_map i (Hash_int.find_default exit_map j j);
         convert_aux b
     | Lstaticcatch (b, (i, ids), handler) ->
         Lam.staticcatch (convert_aux b)
-          (i, Ext_list.map ids fst)
+          (i, List.map fst ids)
           (convert_aux handler)
     | Ltrywith (b, id, handler) ->
         let body = convert_aux b in
@@ -701,7 +699,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lsend (kind, a, b, ls, outer_loc) -> (
         let a = convert_aux a in
         let b = convert_aux b in
-        let ls = Ext_list.map ls convert_aux in
+        let ls = List.map convert_aux ls in
         (* Format.fprintf Format.err_formatter "%a@." Printlambda.lambda b ; *)
         match b with
         | Lprim { primitive = Pjs_unsafe_downgrade { loc }; args } -> (
@@ -782,7 +780,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
               {
                 px with
                 sw_consts =
-                  Ext_list.map sw_consts (fun (i, act) -> (i - offset, act));
+                  List.map (fun (i, act) -> (i - offset, act)) sw_consts;
               }
         | _ -> Lam.let_ kind id e new_body)
   and convert_mutlet id (e : Lambda.lambda) body : Lam.t =

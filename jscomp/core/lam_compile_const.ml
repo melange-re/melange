@@ -75,7 +75,7 @@ and translate (x : Lam_constant.t) : J.expression =
   | Const_pointer name -> E.str name
   | Const_block (tag, tag_info, xs) ->
       Js_of_lam_block.make_block NA tag_info (E.small_int tag)
-        (Ext_list.map xs translate)
+        (List.map translate xs)
   | Const_float_array ars ->
       (* according to the compiler
           const_float_array is immutable
@@ -88,7 +88,7 @@ and translate (x : Lam_constant.t) : J.expression =
           we  deoptimized this in js backend? so it is actually mutable
       *)
       (* TODO-- *)
-      Js_of_lam_array.make_array Mutable (Ext_list.map ars E.float)
+      Js_of_lam_array.make_array Mutable (List.map E.float ars)
 (* E.arr Mutable ~comment:"float array" *)
 (*   (Ext_list.map (fun x ->  E.float  x ) ars) *)
 

@@ -41,7 +41,7 @@ let make ?value ?(output_finished = False) block =
 
 let dummy = { value = None; block = []; output_finished = Dummy }
 
-(** This can be merged with 
+(** This can be merged with
     {!output_of_block_and_expression} *)
 let output_of_expression (continuation : continuation) (exp : J.expression)
     ~(no_effects : bool Lazy.t) =
@@ -140,6 +140,6 @@ let append_output (x : t) (y : t) : t =
 
 (* Fold right is more efficient *)
 let concat (xs : t list) : t =
-  Ext_list.fold_right xs dummy (fun x acc -> append_output x acc)
+  List.fold_right (fun x acc -> append_output x acc) xs dummy
 
 let to_string x = Js_dump.string_of_block (output_as_block x)

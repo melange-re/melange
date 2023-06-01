@@ -1,5 +1,3 @@
-module Ast_io = Melange_ppx_lib.Ast_io
-
 (* Optionally preprocess a source file *)
 let call_external_preprocessor sourcefile pp =
   let tmpfile = Filename.temp_file "ocamlpp" "" in

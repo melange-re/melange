@@ -189,9 +189,11 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                 do it only when block size is larger than one
             *)
             let _, e, bindings =
-              Ext_list.fold_left ls (0, [], []) (fun (i, e, acc) x ->
+              List.fold_left
+                (fun (i, e, acc) (x : J.expression) ->
                   match x.expression_desc with
-                  | Var _ | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined ->
+                  | Var _ | Number _ | Str _ | Unicode _ | J.Bool _ | Undefined
+                    ->
                       (* TODO: check the optimization *)
                       (i + 1, x :: e, acc)
                   | _ ->
@@ -217,6 +219,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                           | _ -> Printf.sprintf "%d" i)
                       in
                       (i + 1, E.var match_id :: e, (match_id, v') :: acc))
+                (0, [], []) ls
             in
             let e =
               {

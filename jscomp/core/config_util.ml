@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let find_in_path_uncap path name =
-  let uname = Ext_string.uncapitalize_ascii name in
+  let uname = String.uncapitalize_ascii name in
   let rec try_dir = function
     | [] -> None
     | dir :: rem ->

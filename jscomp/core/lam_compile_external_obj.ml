@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -69,7 +69,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
         match acc with
         | Splice2 _ | Splice0 -> assert false
         | Splice1 x ->
-            ((Js_op.Lit label, x) :: accs, Ext_list.append new_eff eff, assign)
+            ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign)
         (* evaluation order is undefined *))
     | ( ({ obj_arg_label = Obj_optional { name = label }; obj_arg_type } as
         arg_kind)
@@ -85,9 +85,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
             match acc with
             | Splice2 _ | Splice0 -> assert false
             | Splice1 x ->
-                ( (Js_op.Lit label, x) :: accs,
-                  Ext_list.append new_eff eff,
-                  assign ))
+                ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign))
           ~not_sure:(fun _ -> (accs, eff, (arg_kind, arg) :: assign))
     | { obj_arg_label = Obj_empty | Obj_label _ | Obj_optional _ } :: _, [] ->
         assert false
@@ -107,9 +105,8 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
           (match eff with
           | [] -> E.obj map
           | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map))
-        :: Ext_list.flat_map assignment
-             (fun ((xlabel : External_arg_spec.obj_param), (arg : J.expression))
-             ->
+        :: List.concat_map
+             (fun ((xlabel : External_arg_spec.obj_param), (arg : J.expression)) ->
                match xlabel with
                | {
                 obj_arg_label =
@@ -165,5 +162,6 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                                   ];
                               ]
                        | Splice0 | Splice2 _ -> assert false))
-               | _ -> assert false),
+               | _ -> assert false)
+             assignment,
         var_v )

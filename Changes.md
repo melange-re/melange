@@ -57,8 +57,10 @@ Unreleased
   officially supported workflow for orchestrating melange builds
   ([#546](https://github.com/melange-re/melange/pull/546))
 - melange: Extract `melange.ppx` from the melange package. This preprocessing
-  step interprets extensions such as `%bs.obj`, `%bs.raw`, `%bs.re`, etc.
-  ([#534](https://github.com/melange-re/melange/pull/534))
+  step interprets extensions such as `%bs.obj`, `%bs.raw` and `%bs.re`,
+  `[@@deriving {abstract,accessors,jsConverters}]` and `external` declarations.
+  ([#534](https://github.com/melange-re/melange/pull/534),
+  [#583](https://github.com/melange-re/melange/pull/583))
 - melange: allow installing melange in more OCaml versions and compiler
   switches. Melange now migrates binary AST to the version it understands
   ([#548](https://github.com/melange-re/melange/pull/548))

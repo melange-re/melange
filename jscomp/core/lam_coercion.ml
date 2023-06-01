@@ -86,13 +86,8 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
   let len = List.length original_exports in
   let tbl = Hash_set_string.create len in
   let ({ export_list; export_set } as result) =
-    Ext_list.fold_right2 original_exports lambda_exports
-      {
-        export_list = [];
-        export_set = original_export_set;
-        export_map = Map_ident.empty;
-        groups = [];
-      } (fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
+    List.fold_right2
+      (fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
         let original_name = Ident.name original_export_id in
         if not @@ Hash_set_string.check_add tbl original_name then
           Bs_exception.error (Bs_duplicate_exports original_name);
@@ -163,11 +158,18 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
               export_map = Map_ident.add acc.export_map newid lam;
               groups = Single (Strict, newid, lam) :: acc.groups;
             })
+      original_exports lambda_exports
+      {
+        export_list = [];
+        export_set = original_export_set;
+        export_map = Map_ident.empty;
+        groups = [];
+      }
   in
 
   let export_map, coerced_input =
-    Ext_list.fold_left reverse_input (result.export_map, result.groups)
-      (fun (export_map, acc) x ->
+    List.fold_left
+      (fun (export_map, acc) (x : Lam_group.t) ->
         ( (match x with
           | Single (_, id, lam) when Set_ident.mem export_set id ->
               Map_ident.add export_map id lam
@@ -176,6 +178,8 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
               *)
           | _ -> export_map),
           x :: acc ))
+      (result.export_map, result.groups)
+      reverse_input
   in
   { result with export_map; groups = Lam_dce.remove export_list coerced_input }
 

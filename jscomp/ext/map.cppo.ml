@@ -218,7 +218,7 @@ let disjoint_merge_exn s1 s2 fail =
 
 
 let add_list (xs : _ list ) init =
-  Ext_list.fold_left xs init (fun  acc (k,v) -> add acc k v )
+  List.fold_left (fun  acc (k,v) -> add acc k v ) init xs
 
 let of_list xs = add_list xs empty
 

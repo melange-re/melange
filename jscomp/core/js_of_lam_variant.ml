@@ -39,7 +39,8 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
         E.of_block
           [
             S.string_switch arg
-              (Ext_list.map dispatches (fun (i, r) ->
+              (List.map
+                 (fun (i, r) ->
                    ( i,
                      J.
                        {
@@ -47,7 +48,8 @@ let eval (arg : J.expression) (dispatches : (string * string) list) : E.t =
                          should_break = false;
                          (* FIXME: if true, still print break*)
                          comment = None;
-                       } )));
+                       } ))
+                 dispatches);
           ]
 
 (* invariant: optional is not allowed in this case *)
@@ -71,7 +73,8 @@ let eval_as_event (arg : J.expression)
                 [
                   S.string_switch
                     (E.poly_var_tag_access arg)
-                    (Ext_list.map dispatches (fun (i, r) ->
+                    (List.map
+                       (fun (i, r) ->
                          ( i,
                            J.
                              {
@@ -79,7 +82,8 @@ let eval_as_event (arg : J.expression)
                                should_break = false;
                                (* FIXME: if true, still print break*)
                                comment = None;
-                             } )));
+                             } ))
+                       dispatches);
                 ]
           | None -> E.poly_var_tag_access arg),
           (* TODO: improve, one dispatch later,
@@ -106,7 +110,8 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
         E.of_block
           [
             S.string_switch arg
-              (Ext_list.map dispatches (fun (i, r) ->
+              (List.map
+                 (fun (i, r) ->
                    ( i,
                      J.
                        {
@@ -115,7 +120,8 @@ let eval_as_int (arg : J.expression) (dispatches : (string * int) list) : E.t =
                          should_break = false;
                          (* FIXME: if true, still print break*)
                          comment = None;
-                       } )));
+                       } ))
+                 dispatches);
           ]
 
 let eval_as_unwrap (arg : J.expression) : E.t =

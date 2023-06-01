@@ -260,7 +260,7 @@ let assemble_output_info (t : t) =
   match t.info with
   | Empty -> [ default_output_info ]
   | Batch_compilation infos ->
-      Ext_list.map infos (fun { output_info; _ } -> output_info)
+      List.map (fun { output_info; _ } -> output_info) infos
   | Separate_emission _ ->
       (* Combination of `-bs-package-output -just-dir` and the absence of
          `-bs-module-type` *)
