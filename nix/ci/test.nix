@@ -22,6 +22,19 @@ let
           menhirLib = osuper.menhirLib_20230415;
           menhirSdk = osuper.menhirSdk_20230415;
           menhir = osuper.menhir_20230415;
+          reactjs-jsx-ppx = osuper.reactjs-jsx-ppx.overrideAttrs (_: {
+            postPatch = ''
+              rm -rf test/dune
+            '';
+            src = super.fetchFromGitHub {
+              owner = "reasonml";
+              repo = "reason-react";
+              rev = "97d31755c8d24fab13d6b60a3980505c917c1244";
+              hash = "sha256-zrTvVHcltvTtInzG+cdQCeEtL/wAMsHEjZwTO8N/AXI=";
+            };
+            patches = [ ];
+            doCheck = false;
+          });
         });
       })
     ];
@@ -41,18 +54,12 @@ stdenv.mkDerivation {
 
   src = ../../jscomp/test;
 
-  # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-  # the dream of running fixed-output-derivations is dead -- somehow after
-  # Nix 2.4 it results in `error: unexpected end-of-file`.
-  # Example: https://github.com/melange-re/melange/runs/4132970590
-  outputHashMode = "flat";
-  outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" "melange";
-  installPhase = ''
-    echo -n melange > $out
-  '';
-
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+
+  installPhase = ''
+    mkdir -p $out/lib
+    cp -r dist dist-es6 $out/lib
+  '';
 
   doCheck = true;
   nativeBuildInputs = [
@@ -68,8 +75,8 @@ stdenv.mkDerivation {
   ];
   buildInputs = [
     packages.melange
-    packages.reactjs-jsx-ppx
     packages.rescript-syntax
+    reactjs-jsx-ppx
   ];
 
   checkPhase = ''

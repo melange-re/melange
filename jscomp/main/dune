@@ -1,7 +1,6 @@
 (executable
  (public_name melc)
  (package melange)
- (modes byte_complete native)
  (flags :standard -open Melange_compiler_libs)
  (libraries js_parser ext common melange_compiler_libs core cmdliner)
  (modules melc melc_cli)
@@ -12,7 +11,6 @@
 (executable
  (public_name melpp)
  (package melange)
- (modes native)
  (modules melpp)
  (flags :standard -open Melange_compiler_libs)
  (libraries common core cmdliner melange.ppxlib-ast melange_compiler_libs))
@@ -20,13 +18,11 @@
 (executable
  (public_name melppx)
  (package melange)
- (modes native)
  (modules melppx)
  (libraries melange.ppx ppxlib))
 
 (test
  (name ounit_tests_main)
  (package melange)
- (modes native)
  (modules ounit_tests_main)
  (libraries ounit2 ounit_tests))

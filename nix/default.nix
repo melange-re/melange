@@ -63,7 +63,7 @@ rec {
       nodejs
       reason
     ];
-    checkInputs = [ ounit2 reactjs-jsx-ppx ];
+    checkInputs = [ ounit2 ];
 
     nativeBuildInputs = [ menhir cppo git makeWrapper ];
     propagatedBuildInputs = [
@@ -94,21 +94,5 @@ rec {
     propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
-  };
-
-  reactjs-jsx-ppx = buildDunePackage {
-    pname = "reactjs-jsx-ppx";
-    version = "dev";
-    duneVersion = "3";
-
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "dune-project"
-        "reactjs-jsx-ppx.opam"
-        "reactjs-jsx-ppx"
-      ];
-    };
-    propagatedBuildInputs = [ ppxlib ];
   };
 }

@@ -1,6 +1,12 @@
 Unreleased
 ---------------
 
+- melange: build executables for bytecode-only platforms too
+  ([#596](https://github.com/melange-re/melange/pull/596))
+
+1.0.0 2023-05-31
+---------------
+
 - melange: print an error message if `$MELANGELIB` is set to a directory that
   doesn't exist ([#449](https://github.com/melange-re/melange/pull/449))
 - melange: fix bug where `--bs-module-name` didn't always affect generated JS
