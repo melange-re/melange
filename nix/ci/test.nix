@@ -29,8 +29,8 @@ let
             src = super.fetchFromGitHub {
               owner = "reasonml";
               repo = "reason-react";
-              rev = "f5a4a64bd7cd10e8477a563a77222ec8c85b873a";
-              hash = "sha256-HadgHdfUlbx/+8yZKLaj1tSMo0Uuu2xalwsGxrhBZ0E=";
+              rev = "97d31755c8d24fab13d6b60a3980505c917c1244";
+              hash = "sha256-zrTvVHcltvTtInzG+cdQCeEtL/wAMsHEjZwTO8N/AXI=";
             };
             patches = [ ];
             doCheck = false;
@@ -54,18 +54,12 @@ stdenv.mkDerivation {
 
   src = ../../jscomp/test;
 
-  # https://blog.eigenvalue.net/nix-rerunning-fixed-output-derivations/
-  # the dream of running fixed-output-derivations is dead -- somehow after
-  # Nix 2.4 it results in `error: unexpected end-of-file`.
-  # Example: https://github.com/melange-re/melange/runs/4132970590
-  outputHashMode = "flat";
-  outputHashAlgo = "sha256";
-  outputHash = builtins.hashString "sha256" "melange";
-  installPhase = ''
-    echo -n melange > $out
-  '';
-
   phases = [ "unpackPhase" "checkPhase" "installPhase" ];
+
+  installPhase = ''
+    mkdir -p $out/lib
+    cp -r dist dist-es6 $out/lib
+  '';
 
   doCheck = true;
   nativeBuildInputs = [
