@@ -59,7 +59,7 @@ jobs:
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
         run: |
-          sed -i 's@"installConfig"@"resolutions": { "\@opam/reactjs-jsx-ppx": "melange-re/melange:reactjs-jsx-ppx.opam#'"$GITHUB_SHA"'","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/reason-react": "jchavarri/reason-react:reason-react.opam#27de44aed71ca4ccc902952e6a3203d663a23bcb"},"installConfig"@' esy.json
+          sed -i 's@"installConfig"@"resolutions": { "\@opam/reactjs-jsx-ppx": "reasonml/reason-react:reactjs-jsx-ppx.opam#"2af2a837577f527b89b3ff0bec8e94e1ea9e81fd","\@opam/melange": "melange-re/melange:melange.opam#'"$GITHUB_SHA"'", "\@opam/reason-react": "jchavarri/reason-react:reason-react.opam#27de44aed71ca4ccc902952e6a3203d663a23bcb"},"installConfig"@' esy.json
       - name: Build basic template
         if: ${{ matrix.system == 'ubuntu' }}
         working-directory: melange-basic-template
