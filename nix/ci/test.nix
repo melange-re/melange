@@ -22,6 +22,19 @@ let
           menhirLib = osuper.menhirLib_20230415;
           menhirSdk = osuper.menhirSdk_20230415;
           menhir = osuper.menhir_20230415;
+          reactjs-jsx-ppx = osuper.reactjs-jsx-ppx.overrideAttrs (_: {
+            postPatch = ''
+              rm -rf test/dune
+            '';
+            src = super.fetchFromGitHub {
+              owner = "reasonml";
+              repo = "reason-react";
+              rev = "f5a4a64bd7cd10e8477a563a77222ec8c85b873a";
+              hash = "sha256-HadgHdfUlbx/+8yZKLaj1tSMo0Uuu2xalwsGxrhBZ0E=";
+            };
+            patches = [ ];
+            doCheck = false;
+          });
         });
       })
     ];
@@ -69,6 +82,7 @@ stdenv.mkDerivation {
   buildInputs = [
     packages.melange
     packages.rescript-syntax
+    reactjs-jsx-ppx
   ];
 
   checkPhase = ''
