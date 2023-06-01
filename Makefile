@@ -21,7 +21,7 @@ dev:
 
 .PHONY: test
 test:
-	opam exec -- dune runtest -p melange,reactjs-jsx-ppx,rescript-syntax
+	opam exec -- dune runtest -p melange,rescript-syntax
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
@@ -29,7 +29,7 @@ opam-create-switch: ## Create opam switch
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
-	opam pin add reactjs-jsx-ppx.dev . --with-test -y
+	opam pin add reactjs-jsx-ppx.dev -y git+https://github.com/reasonml/reason-react.git#587ea8fb55e5a98512557417f1576b497e573240
 	opam pin add melange.dev . --with-test -y
 	opam pin add rescript-syntax.dev . --with-test -y
 
