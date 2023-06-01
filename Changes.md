@@ -1,3 +1,9 @@
+Unreleased
+---------------
+
+- melange: build executables for bytecode-only platforms too
+  ([#596](https://github.com/melange-re/melange/pull/596))
+
 1.0.0 2023-05-31
 ---------------
 
