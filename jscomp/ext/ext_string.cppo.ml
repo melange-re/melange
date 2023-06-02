@@ -161,8 +161,6 @@ let tail_from s x =
   if  x > len then invalid_arg ("Ext_string.tail_from " ^s ^ " : "^ string_of_int x )
   else String.sub s x (len - x)
 
-let equal (x : string) y  = x = y
-
 let rec rindex_rec s i c =
   if i < 0 then i else
   if String.unsafe_get s i = c then i else rindex_rec s (i - 1) c;;
@@ -237,11 +235,6 @@ let capitalize_sub (s : string) len : string =
       Bytes.unsafe_set bytes i (String.unsafe_get s i)
     done ;
     Bytes.unsafe_to_string bytes
-
-let uncapitalize_ascii =
-    String.uncapitalize_ascii
-
-let lowercase_ascii = String.lowercase_ascii
 
 let first_marshal_char (x : string) =
     x <> ""   &&

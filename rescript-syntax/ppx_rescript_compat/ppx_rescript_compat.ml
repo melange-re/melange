@@ -36,18 +36,118 @@ type mapper = Ast_mapper.mapper
 
 let default_mapper = Ast_mapper.default_mapper
 
+module Uncurry = struct
+  module Ast_literal = Melange_ppxlib_ast.Ast_literal
+  open Ast_helper
+
+  type exp = Parsetree.expression
+
+  let js_property loc obj (name : string) =
+    Parsetree.Pexp_send
+      ( Exp.apply ~loc
+          (Exp.ident ~loc
+             { loc; txt = Ldot (Ast_literal.js_oo, "unsafe_downgrade") })
+          [ (Nolabel, obj) ],
+        { loc; txt = name } )
+
+  let ignored_extra_argument : Parsetree.attribute =
+    {
+      attr_name = { txt = "ocaml.warning"; loc = Location.none };
+      attr_payload =
+        PStr
+          [
+            Str.eval
+              (Exp.constant
+                 (Pconst_string ("-ignored-extra-argument", Location.none, None)));
+          ];
+      attr_loc = Location.none;
+    }
+
+  let opaque_full_apply ~loc (e : exp) : Parsetree.expression_desc =
+    Pexp_constraint
+      ( Exp.apply ~loc
+          ~attrs:
+            [
+              (* Ignore warning 20 (`ignored-extra-argument`) on expressions such
+               * as:
+               *
+               *   external x : < .. > Js.t = ""
+               *   let () = x##fn "hello"
+               *
+               * OCaml thinks the extra argument is unused because we're
+               * producing * an uncurried call to a JS function whose arity isn't
+               * known at compile time. *)
+              ignored_extra_argument;
+            ]
+          (Exp.ident { txt = Ast_literal.js_internal_full_apply; loc })
+          [ (Nolabel, e) ],
+        Typ.any ~loc () )
+
+  let optional_err ~loc (lbl : Asttypes.arg_label) =
+    match lbl with
+    | Optional _ ->
+        Location.raise_errorf ~loc
+          "Uncurried function doesn't support optional arguments yet"
+    | _ -> ()
+
+  let generic_apply loc (self : mapper) (obj : Parsetree.expression)
+      (args : (Asttypes.arg_label * Parsetree.expression) list)
+      (cb : loc -> exp -> exp) =
+    let obj = self.expr self obj in
+    let args =
+      List.map
+        (fun (lbl, e) ->
+          optional_err ~loc lbl;
+          (lbl, self.expr self e))
+        args
+    in
+    let fn = cb loc obj in
+    let args =
+      match args with
+      | [
+       (Nolabel, { pexp_desc = Pexp_construct ({ txt = Lident "()" }, None) });
+      ] ->
+          []
+      | _ -> args
+    in
+    let arity = List.length args in
+    if arity = 0 then
+      Parsetree.Pexp_apply
+        ( Exp.ident { txt = Ldot (Ast_literal.js_internal, "run"); loc },
+          [ (Nolabel, fn) ] )
+    else
+      let arity_s = string_of_int arity in
+      opaque_full_apply ~loc
+        (Exp.apply ~loc
+           (Exp.apply ~loc
+              (Exp.ident ~loc { txt = Ast_literal.opaque; loc })
+              [
+                ( Nolabel,
+                  Exp.field ~loc
+                    (Exp.constraint_ ~loc fn
+                       (Typ.constr ~loc
+                          {
+                            txt = Ldot (Ast_literal.js_fn, "arity" ^ arity_s);
+                            loc;
+                          }
+                          [ Typ.any ~loc () ]))
+                    { txt = Ast_literal.hidden_field arity_s; loc } );
+              ])
+           args)
+
+  let property_apply loc self obj name args =
+    generic_apply loc self obj args (fun loc obj ->
+        Exp.mk ~loc (js_property loc obj name))
+end
+
 let expr_mapper (self : mapper) (expr : Parsetree.expression) =
   match expr.pexp_desc with
   | Pexp_apply ({ pexp_desc = Pexp_send (obj, { txt = name; loc }); _ }, args)
     ->
-      {
-        expr with
-        pexp_desc =
-          Melange_ppx_lib.Ast_uncurry_apply.property_apply loc self obj name
-            args;
-      }
+      { expr with pexp_desc = Uncurry.property_apply loc self obj name args }
   | Pexp_send
-      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _ | Pexp_send _; pexp_loc; _ } as subexpr),
+      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _ | Pexp_send _; pexp_loc; _ }
+        as subexpr),
         arg ) ->
       (* ReScript removed the OCaml object system and abuses `Pexp_send` for
          `obj##property`. Here, we make that conversion. *)

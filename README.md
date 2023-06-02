@@ -41,6 +41,17 @@ provides a GitHub
 [template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
 that can be used as a project starter.
 
+### [Nix](https://nixos.org/learn.html)
+
+Melange has good support for Nix:
+
+- `github:melange-re/melange` can be added as a
+  [flake](https://nixos.wiki/wiki/Flakes) input
+- the melange flake provides a `melange.overlays.default` overlay that adds
+  melange to `pkgs.ocamlPackages.melange`
+- the `melc` binary can be run with `nix run github:melange-re/melange`, e.g.
+  `nix run github:melange-re/melange/1.0.0 -- --help`
+
 ### [Esy](https://esy.sh)
 
 Get Esy on NPM:
@@ -53,26 +64,14 @@ also exists.
 
 After cloning the template, run `esy` in the project root.
 
-### [Nix](https://nixos.org/learn.html)
-
-Melange has good support for Nix:
-
-- `github:melange-re/melange` can be added as a
-  [flake](https://nixos.wiki/wiki/Flakes) input
-- the melange flake provides a `melange.overlays.default` overlay that adds
-  melange to `pkgs.ocamlPackages.melange`
-- the `melc` binary can be run with `nix run github:melange-re/melange`, e.g.
-  `nix run github:melange-re/melange -- --help`
-
 ### OCaml version compatibility
 
-The current Melange distribution targets OCaml 4.14. There's an
-[old version of Melange based on OCaml 4.12](https://github.com/melange-re/melange/releases/tag/0.1.0)
-that requires
-[version `4.12.0+mel`](https://github.com/melange-re/melange-compiler-libs/releases/tag/4.12.0%2Bmel)
-of [`melange-compiler-libs`](https://github.com/melange-re/melange-compiler-libs).
+Melange >= v1.0 can build projects on OCaml >= 4.13 (including OCaml 5.x).
+Editor integration only works on OCaml 4.14, because Melange emits
+[`.cmt` artifacts](https://ocaml.org/p/ocaml-base-compiler/4.14.1/doc/Cmt_format/index.html)
+targeting the OCaml 4.14 binary format.
 
-## Editor integration
+### Editor integration
 
 Melange has first class support in Dune.
 [`ocaml-lsp`](https://github.com/ocaml/ocaml-lsp) or

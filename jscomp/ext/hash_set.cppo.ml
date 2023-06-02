@@ -32,7 +32,7 @@ type  t = key  Hash_set_gen.t
 type key = string
 let key_index (h :  _ Hash_set_gen.t ) (key : key) =
   (Bs_hash_stubs.hash_string  key) land (Array.length h.data - 1)
-let eq_key = Ext_string.equal
+let eq_key = String.equal
 type  t = key  Hash_set_gen.t
 #elif defined TYPE_IDENT
 type key = Ident.t

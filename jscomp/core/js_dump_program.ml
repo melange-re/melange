@@ -73,22 +73,26 @@ let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   P.newline f;
   let cxt =
     Js_dump_import_export.requires L.require Ext_pp_scope.empty f
-      (Ext_list.map x.modules (fun x ->
+      (List.map
+         (fun (x : J.module_id) ->
            ( x.id,
              Js_name_of_module_id.string_of_module_id ~package_info ~output_info
                ~output_dir x,
-             is_default x.kind )))
+             is_default x.kind ))
+         x.modules)
   in
   program f cxt x.program
 
 let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   let cxt =
     Js_dump_import_export.imports Ext_pp_scope.empty f
-      (Ext_list.map x.modules (fun x ->
+      (List.map
+         (fun (x : J.module_id) ->
            ( x.id,
              Js_name_of_module_id.string_of_module_id ~package_info x
                ~output_dir ~output_info,
-             is_default x.kind )))
+             is_default x.kind ))
+         x.modules)
   in
   let () = P.at_least_two_lines f in
   let cxt = Js_dump.statements true cxt f x.program.block in

@@ -19,9 +19,6 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
-          menhirLib = osuper.menhirLib_20230415;
-          menhirSdk = osuper.menhirSdk_20230415;
-          menhir = osuper.menhir_20230415;
           reactjs-jsx-ppx = osuper.reactjs-jsx-ppx.overrideAttrs (_: {
             postPatch = ''
               rm -rf test/dune

@@ -27,8 +27,9 @@ let should_hide (x : Typedtree.module_binding) =
   | [] -> false
   | { attr_name = { txt = "internal.local"; _ }; _ } :: _ -> true
   | _ :: rest ->
-      Ext_list.exists rest (fun { attr_name = x; _ } ->
-          x.txt = "internal.local")
+      List.exists
+        (fun { Parsetree.attr_name = x; _ } -> x.txt = "internal.local")
+        rest
 
 let attrs : Parsetree.attributes =
   [

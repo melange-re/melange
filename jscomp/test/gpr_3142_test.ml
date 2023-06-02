@@ -9,7 +9,7 @@ type t =
   | `b [@bs.as {j|你|j} ]
   | `c [@bs.as {js|我|js}]
   ]
-  [@@bs.deriving jsConverter]
+  [@@deriving jsConverter]
 
 let v,u = tToJs, tFromJs
 

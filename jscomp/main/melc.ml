@@ -73,6 +73,38 @@ let process_file sourcefile
 
 let ppf = Format.err_formatter
 
+module As_ppx = struct
+  let apply: 'a. kind:'a Ml_binary.kind -> 'a -> 'a = fun ~kind ast ->
+    Clflags.all_ppx := [ "melppx" ];
+    Cmd_ppx_apply.apply_rewriters ~tool_name:"melppx" kind ast
+
+let apply_lazy ~source ~target =
+  let { Ast_io.ast; _ } =
+    Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
+  in
+  let oc = open_out_bin target in
+  match ast with
+  | Intf ast ->
+      let ast =
+        apply ~kind:Ml_binary.Mli ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
+        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+      in
+      output_string oc
+        Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
+      output_value oc !Location.input_name;
+      output_value oc ast
+  | Impl ast ->
+      let ast =
+        apply ~kind:Ml_binary.Ml ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
+        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+      in
+      output_string oc
+        Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
+      output_value oc !Location.input_name;
+      output_value oc ast;
+      close_out oc
+end
+
 let anonymous =
   let executed = ref false in
   fun ~(rev_args : string list) ->
@@ -87,11 +119,7 @@ let anonymous =
       if !Js_config.as_ppx then
         match rev_args with
         | [output; input] ->
-          `Ok (Melange_ppx_lib.Ppx_apply.apply_lazy
-            ~source:input
-            ~target:output
-            Melange_ppx_lib.Ppx_entry.rewrite_implementation
-            Melange_ppx_lib.Ppx_entry.rewrite_signature)
+          `Ok (As_ppx.apply_lazy ~source:input ~target:output)
         | _ -> `Error(false, "`--as-ppx` requires 2 arguments: `melc --as-ppx input output`")
       else
         begin
@@ -384,10 +412,11 @@ let file_level_flags_handler (e : Parsetree.expression option) =
   | None -> ()
   | Some { pexp_desc = Pexp_array args; pexp_loc; _ } ->
     let args =
-        ( Ext_list.map  args (fun e ->
-              match e.pexp_desc with
-              | Pexp_constant (Pconst_string(name,_,_)) -> name
-              | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" )) in
+      ( List.map (fun (e: Parsetree.expression) ->
+          match e.pexp_desc with
+          | Pexp_constant (Pconst_string(name,_,_)) -> name
+          | _ -> Location.raise_errorf ~loc:e.pexp_loc "string literal expected" ) args)
+    in
     let argv = Melc_cli.normalize_argv (Array.of_list (Sys.argv.(0) :: args)) in
     (match Cmdliner.Cmd.eval ~argv melc_cmd with
     | c when c = Cmdliner.Cmd.Exit.ok -> ()

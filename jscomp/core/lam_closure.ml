@@ -34,8 +34,9 @@ let adjust (fv : stats Map_ident.t) (pos : position) (v : Ident.t) :
       Lam_var_stats.update stat pos)
 
 let param_map_of_list lst : stats Map_ident.t =
-  Ext_list.fold_left lst Map_ident.empty (fun acc l ->
-      Map_ident.add acc l Lam_var_stats.fresh_stats)
+  List.fold_left
+    (fun acc l -> Map_ident.add acc l Lam_var_stats.fresh_stats)
+    Map_ident.empty lst
 
 (** Sanity check, remove all varaibles in [local_set] in the last pass *)
 let sink_pos = Lam_var_stats.sink
@@ -54,7 +55,7 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
   let local_set = ref export_idents in
   let local_add k = local_set := Set_ident.add !local_set k in
   let local_add_list ks =
-    local_set := Ext_list.fold_left ks !local_set Set_ident.add
+    local_set := List.fold_left Set_ident.add !local_set ks
   in
   (* base don the envrionmet, recoring the use cases of arguments
      relies on [identifier] uniquely bound *)
@@ -83,8 +84,9 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
         iter sink_pos body
     | Lletrec (decl, body) ->
         local_set :=
-          Ext_list.fold_left decl !local_set (fun acc (id, _) ->
-              Set_ident.add acc id);
+          List.fold_left
+            (fun acc (id, _) -> Set_ident.add acc id)
+            !local_set decl;
         Ext_list.iter decl (fun (_, exp) -> iter sink_pos exp);
         iter sink_pos body
     | Lswitch

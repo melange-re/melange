@@ -234,7 +234,7 @@ let rec seq ?loc ?comment (e0 : t) (e1 : t) : t =
   | (Number _ | Var _ | Undefined), _ -> e1
   | _ -> make_expression ?loc ?comment (Seq (e0, e1))
 
-let fuse_to_seq x xs = if xs = [] then x else Ext_list.fold_left xs x seq
+let fuse_to_seq x xs = if xs = [] then x else List.fold_left seq x xs
 
 (* let empty_string_literal : t =
    make_expression (Str (true,"")) *)
@@ -498,7 +498,7 @@ let float_mod ?loc ?comment e1 e2 : J.expression =
 let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
   match (str0, str1) with
   | Str (_, txt0), Str (_, txt1) | Unicode txt0, Unicode txt1 ->
-      if Ext_string.equal txt0 txt1 then Some true
+      if String.equal txt0 txt1 then Some true
       else if
         Ast_utf8_string.simple_comparison txt0
         && Ast_utf8_string.simple_comparison txt1
@@ -523,7 +523,7 @@ let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   | Char_to_int a, Number (Int { i = _; c = Some v })
   | Number (Int { i = _; c = Some v }), Char_to_int a ->
       triple_equal ?comment a (str (String.make 1 v))
-  | Unicode x, Unicode y -> bool (Ext_string.equal x y)
+  | Unicode x, Unicode y -> bool (String.equal x y)
   | Number (Int { i = i0; _ }), Number (Int { i = i1; _ }) -> bool (i0 = i1)
   | Char_of_int a, Char_of_int b | Optional_block (a, _), Optional_block (b, _)
     ->
@@ -1153,8 +1153,7 @@ let of_block ?loc ?comment ?e block : t =
             (match e with
             | None -> block
             | Some e ->
-                Ext_list.append block
-                  [ { J.statement_desc = Return e; comment } ]),
+                List.append block [ { J.statement_desc = Return e; comment } ]),
             Js_fun_env.make 0,
             return_unit )))
     []

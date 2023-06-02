@@ -22,7 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val map : 'a list -> ('a -> 'b) -> 'b list
 val map_combine : 'a list -> 'b list -> ('a -> 'c) -> ('c * 'b) list
 val combine_array : 'a array -> 'b list -> ('a -> 'c) -> ('c * 'b) list
 
@@ -30,7 +29,6 @@ val combine_array_append :
   'a array -> 'b list -> ('c * 'b) list -> ('a -> 'c) -> ('c * 'b) list
 
 val has_string : string list -> string -> bool
-val mapi : 'a list -> (int -> 'a -> 'b) -> 'b list
 val mapi_append : 'a list -> (int -> 'a -> 'b) -> 'b list -> 'b list
 val map_snd : ('a * 'b) list -> ('b -> 'c) -> ('a * 'c) list
 
@@ -47,21 +45,14 @@ val last : 'a list -> 'a
     raise if the list is empty
 *)
 
-val append : 'a list -> 'a list -> 'a list
 val append_one : 'a list -> 'a -> 'a list
 val map_append : 'b list -> 'a list -> ('b -> 'a) -> 'a list
-val fold_right : 'a list -> 'b -> ('a -> 'b -> 'b) -> 'b
-val fold_right2 : 'a list -> 'b list -> 'c -> ('a -> 'b -> 'c -> 'c) -> 'c
 
 val fold_right3 :
   'a list -> 'b list -> 'c list -> 'd -> ('a -> 'b -> 'c -> 'd -> 'd) -> 'd
 
-val map2 : 'a list -> 'b list -> ('a -> 'b -> 'c) -> 'c list
-
 val fold_left_with_offset :
   'a list -> 'acc -> int -> ('a -> 'acc -> int -> 'acc) -> 'acc
-
-val filter_map : 'a list -> ('a -> 'b option) -> 'b list
 
 val exclude_with_val : 'a list -> ('a -> bool) -> 'a list option
 (** [excludes p l]
@@ -72,7 +63,6 @@ val exclude_with_val : 'a list -> ('a -> bool) -> 'a list option
 *)
 
 val same_length : 'a list -> 'b list -> bool
-val init : int -> (int -> 'a) -> 'a list
 
 val split_at : 'a list -> int -> 'a list * 'a list
 (** [split_at n l]
@@ -104,8 +94,6 @@ val rev_map_append : 'a list -> 'b list -> ('a -> 'b) -> 'b list
    This weird semantics is due to it is the most efficient operation
    we can do
 *)
-
-val flat_map : 'a list -> ('a -> 'b list) -> 'b list
 
 val stable_group : 'a list -> ('a -> 'a -> bool) -> 'a list list
 (**
@@ -170,11 +158,7 @@ val assoc_by_int : (int * 'a) list -> int -> 'a option -> 'a
 val nth_opt : 'a list -> int -> 'a option
 val iter_snd : ('a * 'b) list -> ('b -> unit) -> unit
 val iter_fst : ('a * 'b) list -> ('a -> unit) -> unit
-val exists : 'a list -> ('a -> bool) -> bool
 val exists_fst : ('a * 'b) list -> ('a -> bool) -> bool
 val exists_snd : ('a * 'b) list -> ('b -> bool) -> bool
 val concat_append : 'a list list -> 'a list -> 'a list
-val fold_left2 : 'a list -> 'b list -> 'c -> ('a -> 'b -> 'c -> 'c) -> 'c
-val fold_left : 'a list -> 'b -> ('b -> 'a -> 'b) -> 'b
 val singleton_exn : 'a list -> 'a
-val filter : 'a list -> ('a -> bool) -> 'a list

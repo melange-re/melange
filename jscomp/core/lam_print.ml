@@ -235,7 +235,7 @@ let flatten (lam : Lam.t) : (print_kind * Ident.t * Lam.t) list * Lam.t =
   | Llet (str, id, arg, body) -> aux [ (to_print_kind str, id, arg) ] body
   | Lmutlet (id, arg, body) -> aux [ (to_print_kind Strict, id, arg) ] body
   | Lletrec (bind_args, body) ->
-      aux (Ext_list.map bind_args (fun (id, l) -> (Recursive, id, l))) body
+      aux (List.map (fun (id, l) -> (Recursive, id, l)) bind_args) body
   | _ -> assert false
 
 (* let get_string ((id : Ident.t), (pos : int)) (env : Env.t) : string =

@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,17 +17,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** we also need make it complete 
+(** we also need make it complete
  *)
 let get_initial_exports count_non_variable_declaration_statement
     (export_set : Set_ident.t) (block : J.block) =
   let result =
-    Ext_list.fold_left block export_set (fun acc st ->
+    List.fold_left
+      (fun acc (st : J.statement) ->
         match st.statement_desc with
         | Variable { ident; value; _ } -> (
             if Set_ident.mem acc ident then
@@ -57,6 +58,7 @@ let get_initial_exports count_non_variable_declaration_statement
             then acc
             else
               Set_ident.(union (Js_analyzer.free_variables_of_statement st) acc))
+      export_set block
   in
   (result, Set_ident.(diff result export_set))
 
@@ -91,7 +93,8 @@ let shake_program (program : J.program) =
     in
 
     let really_set = loop block export_set in
-    Ext_list.fold_right block [] (fun (st : J.statement) acc ->
+    List.fold_right
+      (fun (st : J.statement) acc ->
         match st.statement_desc with
         | Variable { ident; value; _ } -> (
             if Set_ident.mem really_set ident then st :: acc
@@ -103,6 +106,7 @@ let shake_program (program : J.program) =
                   else st :: acc)
         | _ ->
             if Js_analyzer.no_side_effect_statement st then acc else st :: acc)
+      block []
   in
 
   { program with block = shake_block program.block program.export_set }

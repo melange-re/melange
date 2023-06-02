@@ -221,7 +221,8 @@ let maybe_pure = no_side_effects groups in
 let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Pre-compile: %f@]@."  (Sys.time () *. 1000.) in
 #endif
 let body  =
-  Ext_list.map groups (fun group -> compile_group meta group)
+  groups
+  |> List.map (fun group -> compile_group meta group)
   |> Js_output.concat
   |> Js_output.output_as_block
 in

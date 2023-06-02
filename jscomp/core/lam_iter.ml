@@ -93,7 +93,7 @@ let inner_exists (l : t) (f : t -> bool) : bool =
   | Lconst (_ : Lam_constant.t) ->
       false
   | Lapply { ap_func; ap_args; ap_info = _ } ->
-      f ap_func || Ext_list.exists ap_args f
+      f ap_func || List.exists f ap_args
   | Lfunction { body; arity = _; params = _ } -> f body
   | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> f arg || f body
   | Lletrec (decl, body) -> f body || Ext_list.exists_snd decl f
@@ -112,8 +112,8 @@ let inner_exists (l : t) (f : t -> bool) : bool =
       || option_exists sw_failaction f
   | Lstringswitch (arg, cases, default) ->
       f arg || Ext_list.exists_snd cases f || option_exists default f
-  | Lprim { args; primitive = _; loc = _ } -> Ext_list.exists args f
-  | Lstaticraise (_id, args) -> Ext_list.exists args f
+  | Lprim { args; primitive = _; loc = _ } -> List.exists f args
+  | Lstaticraise (_id, args) -> List.exists f args
   | Lstaticcatch (e1, _vars, e2) -> f e1 || f e2
   | Ltrywith (e1, _exn, e2) -> f e1 || f e2
   | Lifthenelse (e1, e2, e3) -> f e1 || f e2 || f e3
@@ -121,4 +121,4 @@ let inner_exists (l : t) (f : t -> bool) : bool =
   | Lwhile (e1, e2) -> f e1 || f e2
   | Lfor (_v, e1, e2, _dir, e3) -> f e1 || f e2 || f e3
   | Lassign (_id, e) -> f e
-  | Lsend (_k, met, obj, args, _loc) -> f met || f obj || Ext_list.exists args f
+  | Lsend (_k, met, obj, args, _loc) -> f met || f obj || List.exists f args

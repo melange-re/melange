@@ -3,9 +3,10 @@
 
 var Curry = require("melange.runtime/curry.js");
 var Stdlib__Lexing = require("melange/./lexing.js");
+var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
 
 function l(prim) {
-  console.log(prim);
+  return Caml_external_polyfill.resolve("caml_alloc_dummy")(prim);
 }
 
 var __ocaml_lex_tables = {
