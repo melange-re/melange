@@ -25,17 +25,6 @@
 module Js = Jsoo_common.Js
 open Melange_compiler_libs
 
-(** *)
-
-(*
- Error:
-     *  {
-     *    row: 12,
-     *    column: 2, //can be undefined
-     *    text: "Missing argument",
-     *    type: "error" // or "warning" or "info"
-     *  }
-*)
 let () =
   Bs_conditional_initial.setup_env ();
   Clflags.binary_annotations := false
@@ -59,12 +48,12 @@ let compile impl str : Js.Unsafe.obj =
   try
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast = Melange_ppx_lib.Ppx_entry.rewrite_implementation ast in
     let ast =
       Melange_ppxlib_ast.Of_ppxlib.copy_structure
         (Ppxlib.Driver.map_structure
            (Melange_ppxlib_ast.To_ppxlib.copy_structure ast))
     in
+    let ast = Melange_ppx_lib.Ppx_entry.rewrite_implementation ast in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
         Typemod.type_implementation_more modulename modulename modulename env
@@ -100,16 +89,18 @@ let export (field : string) v = Js.Unsafe.set Js.Unsafe.global field v
 
 let () = Load_path.add_dir "/static"
 
-let make_compiler name impl =
-  export name
+let () =
+  export "ocaml"
     Js.Unsafe.(
       obj
         [|
           ( "compile",
             inject
             @@ Js.wrap_meth_callback (fun _ code ->
-                   compile impl (Js.to_string code)) );
-          ("version", Js.Unsafe.inject (Js.string Melange_version.version));
+                   compile Parse.implementation (Js.to_string code)) );
+          ("version", inject @@ Js.string Melange_version.version);
+          ("parseRE", inject @@ Jsoo_common.Reason.parseRE);
+          ("parseML", inject @@ Jsoo_common.Reason.parseML);
+          ("printRE", inject @@ Jsoo_common.Reason.printRE);
+          ("printML", inject @@ Jsoo_common.Reason.printML);
         |])
-
-let () = make_compiler "ocaml" Parse.implementation
