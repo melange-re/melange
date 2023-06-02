@@ -100,6 +100,29 @@ let es6_export cxt f (idents : Ident.t list) =
         (fun _ -> P.newline f));
   outer_cxt
 
+let search_substring pat str start =
+  let rec search i j =
+    if j >= String.length pat then i
+    else if i + j >= String.length str then raise Not_found
+    else if str.[i + j] = pat.[j] then search i (j + 1)
+    else search (i + 1) 0
+  in
+  search start 0
+
+let replace_substring ~before ~after str =
+  let rec search acc curr =
+    match search_substring before str curr with
+    | next ->
+        let prefix = String.sub str curr (next - curr) in
+        search (prefix :: acc) (next + String.length before)
+    | exception Not_found ->
+        let suffix = String.sub str curr (String.length str - curr) in
+        List.rev (suffix :: acc)
+  in
+  String.concat after (search [] 0)
+
+let replace_dot_in_path path = replace_substring ~before:"/./" ~after:"/" path
+
 (** Node or Google module style imports *)
 let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
   (* the context used to print the following program *)
@@ -119,7 +142,8 @@ let requires require_lit cxt f (modules : (Ident.t * string * bool) list) =
       P.string f L.eq;
       P.space f;
       P.string f require_lit;
-      P.paren_group f 0 (fun _ -> Js_dump_string.pp_string f file);
+      P.paren_group f 0 (fun _ ->
+          Js_dump_string.pp_string f (replace_dot_in_path file));
       if default then P.string f ".default";
       P.string f L.semi;
       P.newline f);
@@ -144,7 +168,7 @@ let imports cxt f (modules : (Ident.t * string * bool) list) =
         P.space f;
         P.string f L.from;
         P.space f;
-        Js_dump_string.pp_string f file)
+        Js_dump_string.pp_string f (replace_dot_in_path file))
       else (
         P.string f L.star;
         P.space f;
@@ -155,7 +179,7 @@ let imports cxt f (modules : (Ident.t * string * bool) list) =
         P.space f;
         P.string f L.from;
         P.space f;
-        Js_dump_string.pp_string f file);
+        Js_dump_string.pp_string f (replace_dot_in_path file));
       P.string f L.semi;
       P.newline f);
   outer_cxt
