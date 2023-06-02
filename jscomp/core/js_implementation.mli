@@ -37,3 +37,8 @@ val implementation :
 
 val implementation_cmj : Format.formatter -> string -> unit
 (** [implementation_cmj ppf cmj_file] compiles a cmj to JS *)
+
+module Ppx_entry : sig
+  val rewrite_signature : Parsetree.signature -> Parsetree.signature
+  val rewrite_implementation : Parsetree.structure -> Parsetree.structure
+end

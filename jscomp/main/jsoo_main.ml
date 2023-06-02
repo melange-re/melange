@@ -59,7 +59,7 @@ let compile impl str : Js.Unsafe.obj =
   try
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast = Melange_ppx_lib.Ppx_entry.rewrite_implementation ast in
+    let ast = Js_implementation.Ppx_entry.rewrite_implementation ast in
     let ast =
       Melange_ppxlib_ast.Of_ppxlib.copy_structure
         (Ppxlib.Driver.map_structure

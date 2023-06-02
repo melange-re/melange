@@ -30,7 +30,7 @@ let (=)  (x : int) (y:float) = assert false
 let string_of_module_id_in_browser (x : Lam_module_ident.t) =
   match x.kind with
   | External { name } -> name
-  | Runtime | Ml -> "./stdlib/" ^ String.uncapitalize_ascii x.id.name ^ ".js"
+  | Runtime | Ml -> "./stdlib/" ^ String.uncapitalize_ascii (Lam_module_ident.name x) ^ ".js"
 
 let string_of_module_id ~package_info:_ ~output_info:_ (id : Lam_module_ident.t)
     ~output_dir:(_ : string) : string =
