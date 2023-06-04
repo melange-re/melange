@@ -73,7 +73,7 @@ let flattern_tuple_pattern_vb (self : Ast_traverse.map)
               :: acc)
             xs es acc
       | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc)
-  | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id } ->
+  | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
       Ext_list.map_append lid_pats acc (fun (lid, pat) ->
           match lid.txt with
           | Lident s ->

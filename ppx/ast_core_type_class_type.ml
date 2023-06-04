@@ -41,8 +41,8 @@ let process_getter_setter ~not_getter_setter
             let lift txt = Typ.constr ~loc { txt; loc } [ ty ] in
             let null, undefined =
               match st with
-              | { get = Some (null, undefined) } -> (null, undefined)
-              | { get = None } -> (false, false)
+              | { get = Some (null, undefined); _ } -> (null, undefined)
+              | { get = None; _ } -> (false, false)
             in
             let ty =
               match (null, undefined) with
@@ -79,6 +79,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
       it will report error later when the label is not empty
    *)
    ptyp_loc = loc;
+   _;
   } -> (
       match fst (Ast_attributes.process_attributes_rev ptyp_attributes) with
       | Uncurry _ -> Ast_typ_uncurry.to_uncurry_type loc self label args body
@@ -86,7 +87,7 @@ let typ_mapper ((self, super) : Ast_traverse.map * (core_type -> core_type))
           Ast_typ_uncurry.to_method_callback_type loc self label args body
       | Method _ -> Ast_typ_uncurry.to_method_type loc self label args body
       | Nothing -> super ty)
-  | { ptyp_desc = Ptyp_object (methods, closed_flag); ptyp_loc = loc } -> (
+  | { ptyp_desc = Ptyp_object (methods, closed_flag); ptyp_loc = loc; _ } -> (
       let ( +> ) attr (typ : Parsetree.core_type) =
         { typ with ptyp_attributes = attr :: typ.ptyp_attributes }
       in
@@ -154,7 +155,7 @@ let handle_class_type_fields =
   let handle_class_type_field
       ((self, super) :
         Ast_traverse.map * (class_type_field -> class_type_field))
-      ({ pctf_loc = loc } as ctf : Parsetree.class_type_field) acc =
+      ({ pctf_loc = loc; _ } as ctf : Parsetree.class_type_field) acc =
     match ctf.pctf_desc with
     | Pctf_method (name, private_flag, virtual_flag, ty) -> (
         let not_getter_setter (ty : Parsetree.core_type) =
@@ -163,7 +164,8 @@ let handle_class_type_fields =
             | Ptyp_arrow (label, args, body) ->
                 Ast_typ_uncurry.to_method_type ty.ptyp_loc self label args body
             | Ptyp_poly
-                (strs, { ptyp_desc = Ptyp_arrow (label, args, body); ptyp_loc })
+                ( strs,
+                  { ptyp_desc = Ptyp_arrow (label, args, body); ptyp_loc; _ } )
               ->
                 {
                   ty with

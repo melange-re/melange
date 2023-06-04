@@ -281,7 +281,7 @@ let rec is_eta_conversion_exn params inner_args outer_args : t list =
   | x :: xs, Lvar y :: ys, r :: rest when Ident.same x y ->
       r :: is_eta_conversion_exn xs ys rest
   | ( x :: xs,
-      Lprim ({ primitive = Pjs_fn_make _; args = [ Lvar y ] } as p) :: ys,
+      Lprim ({ primitive = Pjs_fn_make _; args = [ Lvar y ]; _ } as p) :: ys,
       r :: rest )
     when Ident.same x y ->
       Lprim { p with args = [ r ] } :: is_eta_conversion_exn xs ys rest
@@ -302,9 +302,12 @@ let rec apply fn args (ap_info : ap_info) : t =
                 | Pis_null | Pis_null_undefined | Pjs_typeof ) as wrap;
               args =
                 [
-                  Lprim ({ primitive = _; args = inner_args } as primitive_call);
+                  Lprim
+                    ({ primitive = _; args = inner_args; _ } as primitive_call);
                 ];
+              _;
             };
+        _;
       } -> (
       match is_eta_conversion_exn params inner_args args with
       | args ->
@@ -766,7 +769,7 @@ let sequand l r = if_ l r false_
 let rec no_auto_uncurried_arg_types (xs : External_arg_spec.params) =
   match xs with
   | [] -> true
-  | { arg_type = Fn_uncurry_arity _ } :: _ -> false
+  | { arg_type = Fn_uncurry_arity _; _ } :: _ -> false
   | _ :: xs -> no_auto_uncurried_arg_types xs
 
 let result_wrap loc (result_type : External_ffi_types.return_wrapper) result =
@@ -788,7 +791,7 @@ let rec transform_uncurried_arg_type loc (arg_types : External_arg_spec.params)
         prim ~primitive:(Pjs_fn_make n) ~args:[ y ] loc :: o_args )
   | x :: xs, y :: ys -> (
       match x with
-      | { arg_type = Arg_cst _ } ->
+      | { arg_type = Arg_cst _; _ } ->
           let o_arg_types, o_args = transform_uncurried_arg_type loc xs args in
           (x :: o_arg_types, o_args)
       | _ ->
