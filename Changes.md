@@ -8,6 +8,8 @@ Unreleased
   for processing `external` declarations, `@deriving` attributes and more,
   compared to the previous release where `melange.ppx` just processed AST
   extension nodes ([#583](https://github.com/melange-re/melange/pull/583))
+- Remove old BuckleScript-style conditional compilation
+  ([#605](https://github.com/melange-re/melange/pull/605))
 
 1.0.0 2023-05-31
 ---------------
