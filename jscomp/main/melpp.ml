@@ -33,14 +33,21 @@ let output_deps_set name set =
     set;
   output_string stdout "\n"
 
+module Convert =
+  Ppxlib_ast.Convert
+    (Ppxlib_ast__.Versions.OCaml_414)
+    (Ppxlib_ast__.Versions.OCaml_current)
+
 let after_parsing_sig ast =
   Ast_config.iter_on_bs_config_sigi ast;
   if !Js_config.modules then
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Mli ast);
   let ast =
-    ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
-    |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+    let ppxlib_ast : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.signature =
+      Obj.magic ast
+    in
+    Convert.copy_signature ppxlib_ast
   in
   output_string stdout
     Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
@@ -53,8 +60,10 @@ let after_parsing_impl (ast : Parsetree.structure) =
     output_deps_set !Location.input_name
       (Ast_extract.read_parse_and_extract Ml ast);
   let ast =
-    ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
-    |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+    let ppxlib_ast : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure =
+      Obj.magic ast
+    in
+    Convert.copy_structure ppxlib_ast
   in
   output_string stdout
     Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
