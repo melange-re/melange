@@ -23,7 +23,7 @@ type 'a partial_node = { l : 'a t0; v : 'a; r : 'a t0; h : int }
 external ( ~! ) : 'a t0 -> 'a partial_node = "%identity"
 
 let empty = Empty
-let[@inline] height = function Empty -> 0 | Leaf _ -> 1 | Node { h } -> h
+let[@inline] height = function Empty -> 0 | Leaf _ -> 1 | Node { h; _ } -> h
 let[@inline] calc_height a b = (if a >= b then a else b) + 1
 
 (*
@@ -50,21 +50,22 @@ type 'a t = 'a t0 = private
 let rec min_exn = function
   | Empty -> raise Not_found
   | Leaf v -> v
-  | Node { l; v } -> ( match l with Empty -> v | Leaf _ | Node _ -> min_exn l)
+  | Node { l; v; _ } -> (
+      match l with Empty -> v | Leaf _ | Node _ -> min_exn l)
 
 let[@inline] is_empty = function Empty -> true | _ -> false
 
 let rec cardinal_aux acc = function
   | Empty -> acc
   | Leaf _ -> acc + 1
-  | Node { l; r } -> cardinal_aux (cardinal_aux (acc + 1) r) l
+  | Node { l; r; _ } -> cardinal_aux (cardinal_aux (acc + 1) r) l
 
 let cardinal s = cardinal_aux 0 s
 
 let rec elements_aux accu = function
   | Empty -> accu
   | Leaf v -> v :: accu
-  | Node { l; v; r } -> elements_aux (v :: elements_aux accu r) l
+  | Node { l; v; r; _ } -> elements_aux (v :: elements_aux accu r) l
 
 let elements s = elements_aux [] s
 let choose = min_exn
@@ -73,7 +74,7 @@ let rec iter x f =
   match x with
   | Empty -> ()
   | Leaf v -> f v
-  | Node { l; v; r } ->
+  | Node { l; v; r; _ } ->
       iter l f;
       f v;
       iter r f
@@ -82,19 +83,19 @@ let rec fold s accu f =
   match s with
   | Empty -> accu
   | Leaf v -> f v accu
-  | Node { l; v; r } -> fold r (f v (fold l accu f)) f
+  | Node { l; v; r; _ } -> fold r (f v (fold l accu f)) f
 
 let rec for_all x p =
   match x with
   | Empty -> true
   | Leaf v -> p v
-  | Node { l; v; r } -> p v && for_all l p && for_all r p
+  | Node { l; v; r; _ } -> p v && for_all l p && for_all r p
 
 let rec exists x p =
   match x with
   | Empty -> false
   | Leaf v -> p v
-  | Node { l; v; r } -> p v || exists l p || exists r p
+  | Node { l; v; r; _ } -> p v || exists l p || exists r p
 
 exception Height_invariant_broken
 exception Height_diff_borken
@@ -102,7 +103,7 @@ exception Height_diff_borken
 let rec check_height_and_diff = function
   | Empty -> 0
   | Leaf _ -> 1
-  | Node { l; r; h } ->
+  | Node { l; r; h; _ } ->
       let hl = check_height_and_diff l in
       let hr = check_height_and_diff r in
       if h <> calc_height hl hr then raise Height_invariant_broken
@@ -135,7 +136,7 @@ let bal l v r : _ t =
         (unsafe_node_maybe_leaf v lr r hnode)
         (calc_height hll hnode)
     else
-      let { l = lrl; r = lrr; v = lrv } = ~!lr in
+      let { l = lrl; r = lrr; v = lrv; _ } = ~!lr in
       let hlrl = height lrl in
       let hlrr = height lrr in
       let hlnode = calc_height hll hlrl in
@@ -145,7 +146,7 @@ let bal l v r : _ t =
         (unsafe_node_maybe_leaf v lrr r hrnode)
         (calc_height hlnode hrnode)
   else if hr > hl + 2 then
-    let { l = rl; r = rr; v = rv } = ~!r in
+    let { l = rl; r = rr; v = rv; _ } = ~!r in
     let hrr = height rr in
     let hrl = height rl in
     if hrr >= hrl then
@@ -154,7 +155,7 @@ let bal l v r : _ t =
         (unsafe_node_maybe_leaf v l rl hnode)
         rr (calc_height hnode hrr)
     else
-      let { l = rll; r = rlr; v = rlv } = ~!rl in
+      let { l = rll; r = rlr; v = rlv; _ } = ~!rl in
       let hrll = height rll in
       let hrlr = height rlr in
       let hlnode = calc_height hl hrll in
@@ -168,8 +169,8 @@ let bal l v r : _ t =
 let rec remove_min_elt = function
   | Empty -> invalid_arg "Set.remove_min_elt"
   | Leaf _ -> empty
-  | Node { l = Empty; r } -> r
-  | Node { l; v; r } -> bal (remove_min_elt l) v r
+  | Node { l = Empty; r; _ } -> r
+  | Node { l; v; r; _ } -> bal (remove_min_elt l) v r
 
 (*
    All elements of l must precede the elements of r.
@@ -213,11 +214,11 @@ let rec internal_join l v r =
   match (l, r) with
   | Empty, _ -> add_min v r
   | _, Empty -> add_max v l
-  | Leaf lv, Node { h = rh } ->
+  | Leaf lv, Node { h = rh; _ } ->
       if rh > 3 then add_min lv (add_min v r) (* FIXME: could inlined *)
       else unsafe_node v l r (rh + 1)
   | Leaf _, Leaf _ -> unsafe_node v l r 2
-  | Node { h = lh }, Leaf rv ->
+  | Node { h = lh; _ }, Leaf rv ->
       if lh > 3 then add_max rv (add_max v l) else unsafe_node v l r (lh + 1)
   | ( Node { l = ll; v = lv; r = lr; h = lh },
       Node { l = rl; v = rv; r = rr; h = rh } ) ->
@@ -245,7 +246,7 @@ let rec partition x p =
   | Leaf v ->
       let pv = p v in
       if pv then (x, empty) else (empty, x)
-  | Node { l; v; r } ->
+  | Node { l; v; r; _ } ->
       (* call [p] in the expected left-to-right order *)
       let lt, lf = partition l p in
       let pv = p v in
@@ -283,7 +284,7 @@ let is_ordered ~cmp tree =
     match tree with
     | Empty -> `Empty
     | Leaf v -> `V (v, v)
-    | Node { l; v; r } -> (
+    | Node { l; v; r; _ } -> (
         match is_ordered_min_max l with
         | `No -> `No
         | `Empty -> (
