@@ -111,10 +111,10 @@ let propogate_beta_reduce_with_map (meta : Lam_stats.t)
       List.fold_right
         (fun (param, (arg : Lam.t)) l ->
           (match arg with
-          | Lprim { primitive = Pmakeblock (_, _, Immutable); args } ->
+          | Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ->
               Hash_ident.replace meta.ident_tbl param
                 (Lam_util.kind_of_lambda_block args)
-          | Lprim { primitive = Psome | Psome_not_nest; args = [ v ] } ->
+          | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
               Hash_ident.replace meta.ident_tbl param (Normal_optional v)
           | _ -> ());
           Lam_util.refine_let ~kind:Strict param arg l)

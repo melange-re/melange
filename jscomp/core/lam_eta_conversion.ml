@@ -115,11 +115,11 @@ let unsafe_adjust_to_arity loc ~(to_ : int) ?(from : int option) (fn : Lam.t) :
     { ap_loc = loc; ap_inlined = Default_inline; ap_status = App_na }
   in
   match (from, fn) with
-  | Some from, _ | None, Lfunction { arity = from } -> (
+  | Some from, _ | None, Lfunction { arity = from; _ } -> (
       if from = to_ then fn
       else if to_ = 0 then
         match fn with
-        | Lfunction { params = [ param ]; body } ->
+        | Lfunction { params = [ param ]; body; _ } ->
             Lam.function_ ~arity:0 ~attr:Lambda.default_function_attribute
               ~params:[]
               ~body:(Lam.let_ Alias param Lam.unit body)
@@ -154,7 +154,7 @@ let unsafe_adjust_to_arity loc ~(to_ : int) ?(from : int option) (fn : Lam.t) :
             | Some partial_arg -> Lam.let_ Strict partial_arg fn cont)
       else if to_ > from then
         match fn with
-        | Lfunction { params; body } ->
+        | Lfunction { params; body; _ } ->
             (* {[fun x -> f]} ->
                {[ fun x y -> f y ]}
             *)
@@ -210,7 +210,7 @@ let unsafe_adjust_to_arity loc ~(to_ : int) ?(from : int option) (fn : Lam.t) :
            This is okay if the function is not held by other..
         *)
         match fn with
-        | Lfunction { params; body }
+        | Lfunction { params; body; _ }
         (* TODO check arity = List.length params in debug mode *) ->
             let arity = to_ in
             let extra_outer_args, extra_inner_args =

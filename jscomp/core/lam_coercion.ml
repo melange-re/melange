@@ -85,7 +85,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
   let (original_export_set : Set_ident.t) = meta.export_idents in
   let len = List.length original_exports in
   let tbl = Hash_set_string.create len in
-  let ({ export_list; export_set } as result) =
+  let ({ export_list; export_set; _ } as result) =
     List.fold_right2
       (fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
         let original_name = Ident.name original_export_id in
@@ -210,7 +210,8 @@ let rec flatten (acc : Lam_group.t list) (lam : Lam.t) :
 *)
 let coerce_and_group_big_lambda (meta : Lam_stats.t) lam : t * Lam_stats.t =
   match flatten [] lam with
-  | Lprim { primitive = Pmakeblock _; args = lambda_exports }, reverse_input ->
+  | Lprim { primitive = Pmakeblock _; args = lambda_exports; _ }, reverse_input
+    ->
       let coerced_input = handle_exports meta lambda_exports reverse_input in
       ( coerced_input,
         {

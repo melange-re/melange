@@ -27,16 +27,18 @@ type label = Types.label_description
 let find_name (attr : Parsetree.attribute) =
   match attr with
   | {
-   attr_name = { txt = "bs.as" | "as" };
+   attr_name = { txt = "bs.as" | "as"; _ };
    attr_payload =
      PStr
        [
          {
            pstr_desc =
              Pstr_eval
-               ({ pexp_desc = Pexp_constant (Pconst_string (s, _, _)) }, _);
+               ({ pexp_desc = Pexp_constant (Pconst_string (s, _, _)); _ }, _);
+           _;
          };
        ];
+   _;
   } ->
       Some s
   | _ -> None
@@ -52,9 +54,11 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
          {
            pstr_desc =
              Pstr_eval
-               ({ pexp_desc = Pexp_constant (Pconst_string (s, _, _)) }, _);
+               ({ pexp_desc = Pexp_constant (Pconst_string (s, _, _)); _ }, _);
+           _;
          };
        ];
+   _;
   } ->
       Some { txt = s; loc }
   | _ -> None
@@ -87,13 +91,13 @@ let rec check_duplicated_labels_aux (lbls : Parsetree.label_declaration list)
     (coll : Set_string.t) =
   match lbls with
   | [] -> None
-  | { pld_name = { txt } as pld_name; pld_attributes } :: rest -> (
+  | { pld_name = { txt; _ } as pld_name; pld_attributes; _ } :: rest -> (
       if Set_string.mem coll txt then Some pld_name
       else
         let coll_with_lbl = Set_string.add coll txt in
         match Ext_list.find_opt pld_attributes find_name_with_loc with
         | None -> check_duplicated_labels_aux rest coll_with_lbl
-        | Some ({ txt = s } as l) ->
+        | Some ({ txt = s; _ } as l) ->
             if
               Set_string.mem coll s
               (*use coll to make check a bit looser

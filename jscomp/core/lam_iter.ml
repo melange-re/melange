@@ -31,7 +31,7 @@ let inner_iter (l : t) (f : t -> unit) : unit =
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func;
       List.iter f ap_args
-  | Lfunction { body; arity = _; params = _ } -> f body
+  | Lfunction { body; arity = _; params = _; _ } -> f body
   | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) ->
       f arg;
       f body
@@ -46,6 +46,7 @@ let inner_iter (l : t) (f : t -> unit) : unit =
           sw_blocks;
           sw_blocks_full = _;
           sw_failaction;
+          _;
         } ) ->
       f arg;
       Ext_list.iter_snd sw_consts f;
@@ -94,7 +95,7 @@ let inner_exists (l : t) (f : t -> bool) : bool =
       false
   | Lapply { ap_func; ap_args; ap_info = _ } ->
       f ap_func || List.exists f ap_args
-  | Lfunction { body; arity = _; params = _ } -> f body
+  | Lfunction { body; arity = _; params = _; _ } -> f body
   | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> f arg || f body
   | Lletrec (decl, body) -> f body || Ext_list.exists_snd decl f
   | Lswitch
@@ -105,6 +106,7 @@ let inner_exists (l : t) (f : t -> bool) : bool =
           sw_blocks;
           sw_blocks_full = _;
           sw_failaction;
+          _;
         } ) ->
       f arg
       || Ext_list.exists_snd sw_consts f

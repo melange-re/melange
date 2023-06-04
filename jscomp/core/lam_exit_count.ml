@@ -77,7 +77,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
     | Lapply { ap_func; ap_args; _ } ->
         count ap_func;
         Ext_list.iter ap_args count
-    | Lfunction { body } -> count body
+    | Lfunction { body; _ } -> count body
     | Llet (_, _, l1, l2) | Lmutlet (_, l1, l2) ->
         count l2;
         count l1

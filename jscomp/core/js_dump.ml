@@ -174,8 +174,8 @@ let raw_snippet_exp_simple_enough (s : string) =
 let exp_need_paren (e : J.expression) =
   match e.expression_desc with
   (* | Caml_uninitialized_obj _  *)
-  | Call ({ expression_desc = Fun _ | Raw_js_code _ }, _, _) -> true
-  | Raw_js_code { code_info = Exp _ }
+  | Call ({ expression_desc = Fun _ | Raw_js_code _; _ }, _, _) -> true
+  | Raw_js_code { code_info = Exp _; _ }
   | Fun _
   | Caml_block
       ( _,
@@ -185,7 +185,7 @@ let exp_need_paren (e : J.expression) =
         | Blk_record_ext _ | Blk_record_inlined _ | Blk_constructor _ ) )
   | Object _ ->
       true
-  | Raw_js_code { code_info = Stmt _ }
+  | Raw_js_code { code_info = Stmt _; _ }
   | Length _ | Call _ | Caml_block_tag _ | Seq _ | Static_index _ | Cond _
   | Bin _ | Is_null_or_undefined _ | String_index _ | Array_index _
   | String_append _ | Char_of_int _ | Char_to_int _ | Var _ | Undefined | Null
@@ -336,7 +336,9 @@ and pp_function ~return_unit ~is_method cxt ~fn_state (l : Ident.t list)
                    (* TODO: need a case to justify it*)
                    call_info = Call_builtin_runtime | Call_ml;
                  } );
+           _;
          };
+     _;
    };
   ]
     when (* match such case:
@@ -514,8 +516,8 @@ and loop_case_clauses : 'a. _ -> (_ -> 'a -> unit) -> ('a * _) list -> _ =
 and vident cxt (v : J.vident) =
   match v with
   | Id v
-  | Qualified ({ id = v }, None)
-  | Qualified ({ id = v; kind = External { default = true } }, _) ->
+  | Qualified ({ id = v; _ }, None)
+  | Qualified ({ id = v; kind = External { default = true; _ } }, _) ->
       ident cxt v
   | Qualified ({ id; kind = Ml | Runtime }, Some name) ->
       let cxt = ident cxt id in
@@ -566,7 +568,7 @@ and expression_desc cxt ~(level : int) x : cxt =
       cond_paren_group cxt (level > 15) 1 (fun _ ->
           group cxt 1 (fun _ ->
               match (info, el) with
-              | { arity = Full }, _ | _, [] ->
+              | { arity = Full; _ }, _ | _, [] ->
                   let cxt = expression ~level:15 cxt e in
                   paren_group cxt 1 (fun _ ->
                       match el with
@@ -574,6 +576,7 @@ and expression_desc cxt ~(level : int) x : cxt =
                        {
                          expression_desc =
                            Fun (is_method, l, b, env, return_unit);
+                         _;
                        };
                       ] ->
                           pp_function ~return_unit ~is_method cxt
@@ -694,6 +697,7 @@ and expression_desc cxt ~(level : int) x : cxt =
         {
           expression_desc =
             Number ((Int { i = 0l; _ } | Float { f = "0." }) as desc);
+          _;
         },
         e )
   (* TODO:
@@ -753,7 +757,7 @@ and expression_desc cxt ~(level : int) x : cxt =
           (Object (Ext_list.combine_array fields el (fun i -> Js_op.Lit i)))
   | Caml_block (el, _, _, Blk_poly_var) -> (
       match el with
-      | [ { expression_desc = Str (_, name) }; value ] ->
+      | [ { expression_desc = Str (_, name); _ }; value ] ->
           expression_desc cxt ~level
             (Object
                [
@@ -908,7 +912,7 @@ and variable_declaration top cxt (variable : J.variable_declaration) : cxt =
   match variable with
   | { ident = i; value = None; ident_info; _ } ->
       if ident_info.used_stats = Dead_pure then cxt else pp_var_declare cxt i
-  | { ident = name; value = Some e; ident_info = { used_stats; _ } } -> (
+  | { ident = name; value = Some e; ident_info = { used_stats; _ }; _ } -> (
       match used_stats with
       | Dead_pure -> cxt
       | Dead_non_pure ->
@@ -956,7 +960,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       ipp_comment cxt L.empty_block;
       (* debugging*)
       cxt
-  | Exp { expression_desc = Var _ } ->
+  | Exp { expression_desc = Var _; _ } ->
       (* Does it make sense to optimize here? *)
       (* semi cxt; *)
       cxt
@@ -965,7 +969,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       | Raw_js_code { code; code_info = Stmt Js_stmt_comment } ->
           string cxt code;
           cxt
-      | Raw_js_code { code_info = Exp (Js_literal { comment }) } ->
+      | Raw_js_code { code_info = Exp (Js_literal { comment }); _ } ->
           (match comment with
           (* The %raw is just a comment *)
           | Some s -> string cxt s
@@ -994,11 +998,13 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       space cxt;
       let cxt = brace_block cxt s1 in
       match s2 with
-      | [] | [ { statement_desc = Block [] | Exp { expression_desc = Var _ } } ]
-        ->
+      | []
+      | [
+          { statement_desc = Block [] | Exp { expression_desc = Var _; _ }; _ };
+        ] ->
           newline cxt;
           cxt
-      | [ ({ statement_desc = If _ } as nest) ]
+      | [ ({ statement_desc = If _; _ } as nest) ]
       | [
           {
             statement_desc = Block [ ({ statement_desc = If _; _ } as nest) ];
@@ -1024,7 +1030,7 @@ and statement_desc top cxt (s : J.statement_desc) : cxt =
       | None -> ());
       let cxt =
         match e.expression_desc with
-        | Number (Int { i = 1l }) ->
+        | Number (Int { i = 1l; _ }) ->
             string cxt L.while_;
             string cxt L.lparen;
             string cxt L.true_;
@@ -1239,16 +1245,18 @@ and function_body (cxt : cxt) ~return_unit (b : J.block) : unit =
       | If
           ( bool,
             then_,
-            [ { statement_desc = Return { expression_desc = Undefined } } ] ) ->
+            [
+              { statement_desc = Return { expression_desc = Undefined; _ }; _ };
+            ] ) ->
           ignore
             (statement false cxt
                { s with statement_desc = If (bool, then_, []) }
               : cxt)
-      | Return { expression_desc = Undefined } -> ()
+      | Return { expression_desc = Undefined; _ } -> ()
       | Return exp when return_unit ->
           ignore (statement false cxt (S.exp exp) : cxt)
       | _ -> ignore (statement false cxt s : cxt))
-  | [ s; { statement_desc = Return { expression_desc = Undefined } } ] ->
+  | [ s; { statement_desc = Return { expression_desc = Undefined; _ }; _ } ] ->
       ignore (statement false cxt s : cxt)
   | s :: r ->
       let cxt = statement false cxt s in

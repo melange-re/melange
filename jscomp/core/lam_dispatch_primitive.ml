@@ -28,17 +28,17 @@ module E = Js_exp_make
 (* not exhaustive *)
 let args_const_unbox_approx_int_zero (args : J.expression list) =
   match args with
-  | [ { expression_desc = Number (Int { i = 0l }) } ] -> true
+  | [ { expression_desc = Number (Int { i = 0l; _ }); _ } ] -> true
   | _ -> false
 
 let args_const_unbox_approx_int_one (args : J.expression list) =
   match args with
-  | [ { expression_desc = Number (Int { i = 1l }) } ] -> true
+  | [ { expression_desc = Number (Int { i = 1l; _ }); _ } ] -> true
   | _ -> false
 
 let args_const_unbox_approx_int_two (args : J.expression list) =
   match args with
-  | [ { expression_desc = Number (Int { i = 2l }) } ] -> true
+  | [ { expression_desc = Number (Int { i = 2l; _ }); _ } ] -> true
   | _ -> false
 
 (*
@@ -119,10 +119,10 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       match args with [ e0; e1 ] -> E.string_comp Ge e0 e1 | _ -> assert false)
   | "caml_string_repeat" -> (
       match args with
-      | [ n; { expression_desc = Number (Int { i }) } ] -> (
+      | [ n; { expression_desc = Number (Int { i; _ }); _ } ] -> (
           let str = String.make 1 (Char.chr (Int32.to_int i)) in
           match n.expression_desc with
-          | Number (Int { i = 1l }) -> E.str str
+          | Number (Int { i = 1l; _ }) -> E.str str
           | _ ->
               E.call
                 (E.dot (E.str str) "repeat")
@@ -175,7 +175,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       | _ -> E.runtime_call Js_runtime_modules.bytes "caml_create_bytes" args)
   | "caml_bool_compare" -> (
       match args with
-      | [ { expression_desc = Bool a }; { expression_desc = Bool b } ] ->
+      | [ { expression_desc = Bool a; _ }; { expression_desc = Bool b; _ } ] ->
           let c = compare (a : bool) b in
           E.int (if c = 0 then 0l else if c > 0 then 1l else -1l)
       | _ -> call Js_runtime_modules.caml_primitive)

@@ -75,7 +75,7 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
         (* Check: can top be propoaged for all primitives *)
         Ext_list.iter args (iter top)
     | Lglobal_module _ -> ()
-    | Lfunction { params; body } ->
+    | Lfunction { params; body; _ } ->
         local_add_list params;
         iter sink_pos body (* Do we need continue *)
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
@@ -97,6 +97,7 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
             sw_failaction;
             sw_consts_full;
             sw_blocks_full;
+            _;
           } ) -> (
         iter top arg;
         let top = Lam_var_stats.new_position_after_lam arg top in

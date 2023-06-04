@@ -164,6 +164,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
               ident = _;
               ident_info = { used_stats = Dead_non_pure };
               value = None;
+              _;
             } ->
             { v with statement_desc = Block [] }
         | Variable
@@ -171,6 +172,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
               ident = _;
               ident_info = { used_stats = Dead_non_pure };
               value = Some x;
+              _;
             } ->
             { v with statement_desc = Exp x }
         | Variable
@@ -183,7 +185,9 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                       expression_desc =
                         Caml_block
                           ((_ :: _ :: _ as ls), Immutable, tag, tag_info);
+                      _;
                     } as block);
+               _;
              } as variable) -> (
             (* If we do this, we should prevent incorrect inlning to inline it into an array :)
                 do it only when block size is larger than one
@@ -248,11 +252,12 @@ let subst_map (substitution : J.expression Hash_ident.t) =
       (fun self x ->
         match x.expression_desc with
         | Array_index
-            ( { expression_desc = Var (Id id) },
-              { expression_desc = Number (Int { i; _ }) } )
-        | Static_index ({ expression_desc = Var (Id id) }, _, Some i) -> (
+            ( { expression_desc = Var (Id id); _ },
+              { expression_desc = Number (Int { i; _ }); _ } )
+        | Static_index ({ expression_desc = Var (Id id); _ }, _, Some i) -> (
             match Hash_ident.find_opt substitution id with
-            | Some { expression_desc = Caml_block (ls, Immutable, _, _) } -> (
+            | Some { expression_desc = Caml_block (ls, Immutable, _, _); _ }
+              -> (
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)
@@ -260,6 +265,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                 | Some
                     ({
                        expression_desc = J.Var _ | Number _ | Str _ | Undefined;
+                       _;
                      } as x) ->
                     x
                 | None | Some _ -> super.expression self x)

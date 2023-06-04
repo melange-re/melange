@@ -89,7 +89,7 @@ let string_of_module_id ~package_info ~output_info
   let { Js_packages_info.module_system; suffix } = output_info in
   fix_path_for_windows
     (match dep_module_id.kind with
-    | External { name } -> name (* the literal string for external package *)
+    | External { name; _ } -> name (* the literal string for external package *)
     (* This may not be enough,
         1. For cross packages, we may need settle
         down a single js package

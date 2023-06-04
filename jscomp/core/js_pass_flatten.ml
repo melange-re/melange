@@ -48,9 +48,10 @@ let flatten_map =
         | Exp
             {
               expression_desc = Caml_block (args, _mutable_flag, _tag, _tag_info);
+              _;
             } ->
             S.block (List.map (fun arg -> self.statement self (S.exp arg)) args)
-        | Exp { expression_desc = Cond (a, b, c); comment } ->
+        | Exp { expression_desc = Cond (a, b, c); comment; _ } ->
             {
               statement_desc =
                 If
@@ -76,7 +77,7 @@ let flatten_map =
                 (* super#statement *)
                 (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
             | _ -> assert false)
-        | Return { expression_desc = Cond (a, b, c); comment } ->
+        | Return { expression_desc = Cond (a, b, c); comment; _ } ->
             {
               statement_desc =
                 If
@@ -100,7 +101,7 @@ let flatten_map =
     block =
       (fun self b ->
         match b with
-        | { statement_desc = Block bs } :: rest -> self.block self (bs @ rest)
+        | { statement_desc = Block bs; _ } :: rest -> self.block self (bs @ rest)
         | x :: rest -> (
             let st = self.statement self x in
             let block = self.block self rest in

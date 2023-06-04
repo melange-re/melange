@@ -58,6 +58,7 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
               {
                 primitive = Pfield (_, Fld_module { name });
                 args = [ Lglobal_module id ];
+                _;
               };
           ];
         _;
@@ -69,8 +70,11 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
      get more arity information
   *)
   | Lprim
-      { primitive = Praw_js_code { code_info = Exp (Js_function { arity }) } }
-    ->
+      {
+        primitive =
+          Praw_js_code { code_info = Exp (Js_function { arity; _ }); _ };
+        _;
+      } ->
       Lam_arity.info [ arity ] false
   | Lprim { primitive = Praise; _ } -> Lam_arity.raise_arity_info
   | Lglobal_module _ (* TODO: fix me never going to happen *) | Lprim _ ->
@@ -106,7 +110,7 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
             *)
           in
           take xs (List.length args))
-  | Lfunction { arity; body } -> Lam_arity.merge arity (get_arity meta body)
+  | Lfunction { arity; body; _ } -> Lam_arity.merge arity (get_arity meta body)
   | Lswitch
       ( _,
         {
@@ -115,6 +119,7 @@ let rec get_arity (meta : Lam_stats.t) (lam : Lam.t) : Lam_arity.t =
           sw_blocks;
           sw_blocks_full = _;
           sw_consts_full = _;
+          _;
         } ) ->
       all_lambdas meta
         (let rest =
