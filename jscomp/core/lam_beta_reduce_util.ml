@@ -90,8 +90,9 @@ let simple_beta_reduce params body args =
   | Lapply
       {
         ap_func =
-          (Lvar _ | Lprim { primitive = Pfield _; args = [ Lglobal_module _ ] })
-          as f;
+          ( Lvar _
+          | Lprim { primitive = Pfield _; args = [ Lglobal_module _ ]; _ } ) as
+          f;
         ap_args;
         ap_info;
       } -> (

@@ -22,8 +22,8 @@ let rec eliminate_ref id (lam : Lam.t) =
   *)
   | Lvar v | Lmutvar v ->
       if Ident.same v id then raise_notrace Real_reference else lam
-  | Lprim { primitive = Pfield (0, _); args = [ Lvar v ] } when Ident.same v id
-    ->
+  | Lprim { primitive = Pfield (0, _); args = [ Lvar v ]; _ }
+    when Ident.same v id ->
       Lam.var id
   | Lfunction _ ->
       if Lam_hit.hit_variable id lam then raise_notrace Real_reference else lam
@@ -50,7 +50,7 @@ let rec eliminate_ref id (lam : Lam.t) =
      TODO: we can refine analysis in later
   *)
   (* Lfunction(kind, params, eliminate_ref id body) *)
-  | Lprim { primitive = Psetfield (0, _); args = [ Lvar v; e ] }
+  | Lprim { primitive = Psetfield (0, _); args = [ Lvar v; e ]; _ }
     when Ident.same v id ->
       Lam.assign id (eliminate_ref id e)
   | Lprim { primitive = Poffsetref delta; args = [ Lvar v ]; loc }

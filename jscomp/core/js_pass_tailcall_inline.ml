@@ -113,7 +113,7 @@ let subst (export_set : Set_ident.t) stats =
     statement =
       (fun self st ->
         match st.statement_desc with
-        | Variable { value = _; ident_info = { used_stats = Dead_pure } } ->
+        | Variable { value = _; ident_info = { used_stats = Dead_pure }; _ } ->
             S.block []
         | Variable
             { ident_info = { used_stats = Dead_non_pure }; value = Some v; _ }
@@ -136,7 +136,8 @@ let subst (export_set : Set_ident.t) stats =
         | ({
              statement_desc =
                Variable
-                 ({ value = Some ({ expression_desc = Fun _; _ } as v) } as vd);
+                 ({ value = Some ({ expression_desc = Fun _; _ } as v); _ } as
+                 vd);
              comment = _;
            } as st)
           :: rest -> (
@@ -156,8 +157,10 @@ let subst (export_set : Set_ident.t) stats =
               Return
                 {
                   expression_desc =
-                    Call ({ expression_desc = Var (Id id) }, args, _info);
+                    Call ({ expression_desc = Var (Id id); _ }, args, _info);
+                  _;
                 };
+            _;
           } as st);
         ] -> (
             match Hash_ident.find_opt stats id with
@@ -169,6 +172,7 @@ let subst (export_set : Set_ident.t) stats =
                          expression_desc =
                            Fun (false, params, block, env, _return_unit);
                          comment = _;
+                         _;
                        };
                    (*TODO: don't inline method tail call yet,
                      [this] semantics are weird
@@ -203,10 +207,13 @@ let subst (export_set : Set_ident.t) stats =
                      ( {
                          expression_desc =
                            Fun (false, params, block, env, _return_unit);
+                         _;
                        },
                        args,
                        _info );
+                 _;
                };
+           _;
          };
         ]
           when Ext_list.same_length params args ->

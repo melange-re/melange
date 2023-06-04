@@ -83,13 +83,13 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
          | _, _  -> hit x || hit y
        end *)
     (* FIXME: this can be uncovered after we do the unboxing *)
-    | Lprim { primitive = Praise; args = [ Lvar _ ] } -> false
+    | Lprim { primitive = Praise; args = [ Lvar _ ]; _ } -> false
     | Lprim { primitive = _; args; _ } -> hit_list args
     | Lvar id | Lmutvar id -> Ident.same id fv
     | Lassign (id, e) -> Ident.same id fv || hit e
     | Lstaticcatch (e1, (_, _vars), e2) -> hit e1 || hit e2
     | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _ } -> hit body
+    | Lfunction { body; params = _; _ } -> hit body
     | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
     | Lletrec (decl, body) -> hit body || hit_list_snd decl
     | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
@@ -211,7 +211,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
           unbox_extension info args mutable_flag loc
       | Blk_extension_slot -> (
           match args with
-          | [ Lconst (Const_string { s = name }) ] ->
+          | [ Lconst (Const_string { s = name; _ }) ] ->
               prim ~primitive:(Pcreate_extension name) ~args:[] loc
           | _ -> assert false)
       | Blk_class ->
@@ -300,7 +300,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pisint -> prim ~primitive:Pisint ~args loc
   | Pisout -> (
       match args with
-      | [ range; Lprim { primitive = Poffsetint i; args = [ x ] } ] ->
+      | [ range; Lprim { primitive = Poffsetint i; args = [ x ]; _ } ] ->
           prim ~primitive:(Pisout i) ~args:[ range; x ] loc
       | _ -> prim ~primitive:(Pisout 0) ~args loc)
   | Pintoffloat -> prim ~primitive:Pintoffloat ~args loc
@@ -526,7 +526,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         prim ~primitive:Pis_poly_var_const ~args loc
     | _ when s = "#raw_expr" -> (
         match args with
-        | [ Lconst (Const_string { s = code }) ] ->
+        | [ Lconst (Const_string { s = code; _ }) ] ->
             (* js parsing here *)
             let kind = Classify_function.classify code in
             prim
@@ -535,7 +535,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         | _ -> assert false)
     | _ when s = "#raw_stmt" -> (
         match args with
-        | [ Lconst (Const_string { s = code }) ] ->
+        | [ Lconst (Const_string { s = code; _ }) ] ->
             let kind = Classify_function.classify_stmt code in
             prim
               ~primitive:(Praw_js_code { code; code_info = Stmt kind })
@@ -606,7 +606,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         in
         if primitive = Pfull_apply then
           match args with
-          | [ Lapply { ap_func; ap_args } ] ->
+          | [ Lapply { ap_func; ap_args; _ } ] ->
               prim ~primitive ~args:(ap_func :: ap_args) loc
               (* There may be some optimization opportunities here
                  for cases like `(fun [@bs] a b -> a + b ) 1 2 [@bs]` *)
@@ -621,7 +621,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         let arg = convert_aux arg in
         let fn = convert_aux fn in
         convert_possible_pipe_application fn arg loc
-    | Lapply { ap_func = fn; ap_args = args; ap_loc = loc; ap_inlined } ->
+    | Lapply { ap_func = fn; ap_args = args; ap_loc = loc; ap_inlined; _ } ->
         (* we need do this eargly in case [aux fn] add some wrapper *)
         Lam.apply (convert_aux fn)
           (List.map convert_aux args)
@@ -630,7 +630,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
             ap_inlined;
             ap_status = App_na;
           }
-    | Lfunction { params; body; attr } ->
+    | Lfunction { params; body; attr; _ } ->
         let just_params = List.map fst params in
         let body = convert_aux body in
         let new_map, body =
@@ -702,7 +702,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         let ls = List.map convert_aux ls in
         (* Format.fprintf Format.err_formatter "%a@." Printlambda.lambda b ; *)
         match b with
-        | Lprim { primitive = Pjs_unsafe_downgrade { loc }; args } -> (
+        | Lprim { primitive = Pjs_unsafe_downgrade { loc; _ }; args; _ } -> (
             match kind with
             | Public (Some name) -> (
                 let setter = Ext_string.ends_with name Literals.setter_suffix in
@@ -762,7 +762,11 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         match (kind, e, new_body) with
         | ( Alias,
             Lprim
-              { primitive = Poffsetint offset; args = [ (Lvar _ as matcher) ] },
+              {
+                primitive = Poffsetint offset;
+                args = [ (Lvar _ as matcher) ];
+                _;
+              },
             Lswitch
               ( Lvar switcher3,
                 ({
@@ -771,6 +775,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                    sw_blocks = [];
                    sw_blocks_full = true;
                    sw_failaction = Some ifso;
+                   _;
                  } as px) ) )
           when Ident.same switcher3 id
                && (not (Lam_hit.hit_variable id ifso))
@@ -792,7 +797,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lfunction
         {
           params = [ param ];
-          body = Lprim { primitive; args = [ Lvar inner_arg ] };
+          body = Lprim { primitive; args = [ Lvar inner_arg ]; _ };
+          _;
         }
       when Ident.same param inner_arg ->
         Lam.prim ~primitive ~args:[ x ]
@@ -800,8 +806,10 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     | Lapply
         {
           ap_func =
-            Lfunction { params; body = Lprim { primitive; args = inner_args } };
+            Lfunction
+              { params; body = Lprim { primitive; args = inner_args; _ }; _ };
           ap_args = args;
+          _;
         }
       when Ext_list.for_all2_no_exn inner_args params lam_is_var
            && Ext_list.length_larger_than_n inner_args args 1 ->
@@ -832,6 +840,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
      sw_numblocks = 0;
      sw_consts;
      sw_numconsts;
+     _;
     } -> (
         let sw_consts = Ext_list.map_snd sw_consts convert_aux in
         match happens_to_be_diff sw_consts with

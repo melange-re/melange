@@ -54,12 +54,12 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
           eff,
           assign )
     (* | {obj_arg_label = EmptyCst _ } :: rest  , args -> assert false  *)
-    | { obj_arg_label = Obj_empty } :: labels, arg :: args ->
+    | { obj_arg_label = Obj_empty; _ } :: labels, arg :: args ->
         (* unit type*)
         let ((accs, eff, assign) as r) = aux labels args in
         if Js_analyzer.no_side_effect_expression arg then r
         else (accs, arg :: eff, assign)
-    | ( ({ obj_arg_label = Obj_label { name = label } } as arg_kind) :: labels,
+    | ( ({ obj_arg_label = Obj_label { name = label }; _ } as arg_kind) :: labels,
         arg :: args ) -> (
         let accs, eff, assign = aux labels args in
         let acc, new_eff =
@@ -71,7 +71,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
         | Splice1 x ->
             ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign)
         (* evaluation order is undefined *))
-    | ( ({ obj_arg_label = Obj_optional { name = label }; obj_arg_type } as
+    | ( ({ obj_arg_label = Obj_optional { name = label; _ }; obj_arg_type } as
         arg_kind)
         :: labels,
         arg :: args ) ->
@@ -87,7 +87,8 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
             | Splice1 x ->
                 ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign))
           ~not_sure:(fun _ -> (accs, eff, (arg_kind, arg) :: assign))
-    | { obj_arg_label = Obj_empty | Obj_label _ | Obj_optional _ } :: _, [] ->
+    | { obj_arg_label = Obj_empty | Obj_label _ | Obj_optional _; _ } :: _, []
+      ->
         assert false
     | [], _ :: _ -> assert false
   in
@@ -111,6 +112,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
                | {
                 obj_arg_label =
                   Obj_optional { name = label; for_sure_no_nested_option };
+                _;
                } -> (
                    (* Need make sure whether assignment is effectful or not
                       to avoid code duplication

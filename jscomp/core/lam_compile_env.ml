@@ -88,7 +88,7 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
         let cmj_load_info = Js_cmj_load.load_unit (Ident.name module_id) in
         oid +> Ml cmj_load_info;
         cmj_load_info.cmj_table
-    | Some (Ml { cmj_table }) -> cmj_table
+    | Some (Ml { cmj_table; _ }) -> cmj_table
     | Some External -> assert false
   in
   Js_cmj_format.query_by_name cmj_table name
@@ -130,7 +130,7 @@ let is_pure_module (oid : Lam_module_ident.t) =
               oid +> Ml cmj_load_info;
               cmj_load_info.cmj_table.pure
           | exception _ -> false)
-      | Some (Ml { cmj_table }) -> cmj_table.pure
+      | Some (Ml { cmj_table; _ }) -> cmj_table.pure
       | Some External -> false)
 
 let populate_required_modules extras

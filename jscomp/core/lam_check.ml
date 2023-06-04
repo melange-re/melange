@@ -56,7 +56,7 @@ let check file lam =
     | Lapply { ap_func; ap_args; _ } ->
         check_list (ap_func :: ap_args) cxt
         (* check invariant that staticfaill does not cross function/while/for loop*)
-    | Lfunction { body; params = _ } -> check_staticfails body Set_int.empty
+    | Lfunction { body; params = _; _ } -> check_staticfails body Set_int.empty
     | Lwhile (e1, e2) ->
         check_staticfails e1 cxt;
         check_staticfails e2 Set_int.empty
@@ -104,7 +104,7 @@ let check file lam =
     | Lapply { ap_func; ap_args; _ } ->
         iter ap_func;
         iter_list ap_args
-    | Lfunction { body; params } ->
+    | Lfunction { body; params; _ } ->
         List.iter def params;
         iter body
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
