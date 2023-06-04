@@ -46,5 +46,4 @@ let get_output_info () =
   | Some info -> [ info ]
   | None -> Js_packages_info.assemble_output_info !packages_info
 
-let get_packages_info_for_cmj () =
-  Js_packages_info.Legacy_runtime.for_cmj !packages_info
+let get_packages_info_for_cmj () = !packages_info
