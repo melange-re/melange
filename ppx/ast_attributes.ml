@@ -30,8 +30,8 @@ type ('a, 'b) st = { get : 'a option; set : 'b option }
 
 let assert_bool_lit (e : Parsetree.expression) =
   match e.pexp_desc with
-  | Pexp_construct ({ txt = Lident "true" }, None) -> true
-  | Pexp_construct ({ txt = Lident "false" }, None) -> false
+  | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
+  | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
   | _ ->
       Location.raise_errorf ~loc:e.pexp_loc
         "expect `true` or `false` in this field"
@@ -42,7 +42,7 @@ let process_method_attributes_rev (attrs : t) =
     let ret =
       List.fold_left
         (fun (st, acc)
-             ({ attr_name = { txt; _ }; attr_payload = payload } as attr) ->
+             ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
           match txt with
           | "bs.get" | "get" (* @bs.get{null; undefined}*) ->
               let result =
@@ -217,7 +217,7 @@ type as_const_payload = Int of int | Str of string | Js_literal_str of string
 let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
   let st = ref None in
   Ext_list.iter attrs
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
+    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.as" | "as" ->
           if !st = None then (
@@ -274,7 +274,8 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
     else Error.err ~loc Conflict_attributes
   in
   Ext_list.iter attrs
-    (fun ({ attr_name = { txt; loc = _ }; attr_payload = payload } as attr) ->
+    (fun ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr)
+    ->
       match txt with
       | "bs.string" | "string" -> assign `String attr
       | "bs.int" | "int" -> assign `Int attr
@@ -288,7 +289,7 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
 let iter_process_bs_string_as (attrs : t) : string option =
   let st = ref None in
   Ext_list.iter attrs
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
+    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.as" | "as" ->
           if !st = None then (
@@ -354,7 +355,7 @@ let rs_externals (attrs : t) pval_prim =
       prims_to_be_encoded pval_prim
   | _, _ ->
       List.exists
-        (fun { attr_name = { txt }; _ } ->
+        (fun { attr_name = { txt; _ }; _ } ->
           Ext_string.starts_with txt "bs."
           || Array.exists (fun (x : string) -> txt = x) external_attrs)
         attrs
@@ -363,7 +364,7 @@ let rs_externals (attrs : t) pval_prim =
 let iter_process_bs_int_as (attrs : t) =
   let st = ref None in
   Ext_list.iter attrs
-    (fun ({ attr_name = { txt; loc }; attr_payload = payload } as attr) ->
+    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.as" | "as" ->
           if !st = None then (
@@ -378,7 +379,7 @@ let iter_process_bs_int_as (attrs : t) =
 
 let has_bs_optional (attrs : t) : bool =
   List.exists
-    (fun ({ attr_name = { txt }; _ } as attr) ->
+    (fun ({ attr_name = { txt; _ }; _ } as attr) ->
       match txt with
       | "bs.optional" | "optional" ->
           Bs_ast_invariant.mark_used_bs_attribute attr;
@@ -387,6 +388,6 @@ let has_bs_optional (attrs : t) : bool =
     attrs
 
 let is_inline : attr -> bool =
- fun { attr_name = { txt }; _ } -> txt = "bs.inline" || txt = "inline"
+ fun { attr_name = { txt; _ }; _ } -> txt = "bs.inline" || txt = "inline"
 
 let has_inline_payload (attrs : t) = Ext_list.find_first attrs is_inline

@@ -4,7 +4,6 @@
  (name melange_ppx)
  (public_name melange.ppx)
  (kind ppx_rewriter)
- (flags :standard -w -9)
  (preprocess
   (pps ppxlib.metaquot))
  (modules :standard \ utf8_string)

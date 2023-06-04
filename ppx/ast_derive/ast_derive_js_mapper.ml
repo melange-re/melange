@@ -85,7 +85,7 @@ let buildMap (row_fields : Parsetree.row_field list) =
       | [] -> ()
       | tag :: rest ->
           (match tag.prf_desc with
-          | Rtag ({ txt }, _, []) ->
+          | Rtag ({ txt; _ }, _, []) ->
               let name : string =
                 match
                   Ast_attributes.iter_process_bs_string_as tag.prf_attributes
@@ -208,7 +208,7 @@ let gen ~newType:createType =
                   (Exp.mk ~loc
                      (Ast_external_mk.record_as_js_object loc
                         (List.map
-                           (fun { pld_name = { loc; txt } } ->
+                           (fun { pld_name = { loc; txt }; _ } ->
                              let label =
                                { Asttypes.loc; txt = Longident.Lident txt }
                              in
@@ -219,7 +219,7 @@ let gen ~newType:createType =
               let obj_exp =
                 Exp.record
                   (List.map
-                     (fun { pld_name = { loc; txt } } ->
+                     (fun { pld_name = { loc; txt }; _ } ->
                        let label =
                          { Asttypes.loc; txt = Longident.Lident txt }
                        in
@@ -437,7 +437,8 @@ let gen ~newType:createType =
                 Ast_comb.to_js_type ~loc
                   (Typ.object_
                      (List.map
-                        (fun { pld_name; pld_type } -> Of.tag pld_name pld_type)
+                        (fun { pld_name; pld_type; _ } ->
+                          Of.tag pld_name pld_type)
                         label_declarations)
                      flag)
               in

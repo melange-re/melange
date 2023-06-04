@@ -59,7 +59,9 @@ let is_single_int (x : t) : int option =
 
 let as_ident (x : t) =
   match x with
-  | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident }, _) } ] ->
+  | PStr
+      [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident; _ }, _); _ } ]
+    ->
       Some ident
   | _ -> None
 
@@ -95,7 +97,9 @@ let ident_or_record_as_config (x : t) :
                    match u with
                    | ( { txt = Lident name; loc },
                        {
-                         Parsetree.pexp_desc = Pexp_ident { txt = Lident name2 };
+                         Parsetree.pexp_desc =
+                           Pexp_ident { txt = Lident name2; _ };
+                         _;
                        } )
                      when name2 = name ->
                        ({ Asttypes.txt = name; loc }, None)
@@ -113,7 +117,8 @@ let ident_or_record_as_config (x : t) :
         {
           pstr_desc =
             Pstr_eval
-              ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt } }, _);
+              ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt }; _ }, _);
+          _;
         };
       ] ->
       Ok [ ({ Asttypes.txt; loc = lloc }, None) ]

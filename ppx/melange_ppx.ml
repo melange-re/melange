@@ -117,10 +117,13 @@ module Private = struct
                   Pmod_constraint
                     ( {
                         pmod_desc =
-                          Pmod_structure [ { pstr_desc = Pstr_primitive _ } ];
+                          Pmod_structure [ { pstr_desc = Pstr_primitive _; _ } ];
+                        _;
                       },
                       _ );
+                _;
               };
+            _;
           } ->
           true
           (* FIX #4881
@@ -218,7 +221,7 @@ module Time = struct
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         match payload with
-        | PStr [ { pstr_desc = Pstr_eval (e, _) } ] ->
+        | PStr [ { pstr_desc = Pstr_eval (e, _); _ } ] ->
             let locString =
               if loc.loc_ghost then "GHOST LOC"
               else
@@ -322,7 +325,9 @@ module Obj = struct
               {
                 pstr_desc =
                   Pstr_eval
-                    (({ pexp_desc = Pexp_record (label_exprs, None) } as e), _);
+                    ( ({ pexp_desc = Pexp_record (label_exprs, None); _ } as e),
+                      _ );
+                _;
               };
             ] ->
             {
@@ -353,7 +358,7 @@ module Mapper = struct
       (* [Expansion_context.Base.t] Ppxlib.Ast_traverse.map_with_context as super *)
 
       method! class_type
-          ({ pcty_attributes; pcty_loc } as ctd : Parsetree.class_type) =
+          ({ pcty_attributes; pcty_loc; _ } as ctd : Parsetree.class_type) =
         (* {[class x : int -> object
                      end [@bs]
                    ]}
@@ -462,7 +467,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "true" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "true"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = t_exp;
@@ -470,7 +477,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "false" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "false"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = f_exp;
@@ -482,7 +491,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "false" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "false"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = f_exp;
@@ -490,7 +501,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "true" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "true"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = t_exp;
@@ -526,7 +539,7 @@ module Mapper = struct
         (* Ad-hoc way to internalize stuff *)
         let lbl = super#label_declaration lbl in
         match lbl.pld_attributes with
-        | [ { attr_name = { txt = "internal" }; _ } ] ->
+        | [ { attr_name = { txt = "internal"; _ }; _ } ] ->
             {
               lbl with
               pld_name =
@@ -548,7 +561,7 @@ module Mapper = struct
             ( Nonrecursive,
               [
                 {
-                  pvb_pat = { ppat_desc = Ppat_var pval_name } as pvb_pat;
+                  pvb_pat = { ppat_desc = Ppat_var pval_name; _ } as pvb_pat;
                   pvb_expr;
                   pvb_attributes;
                   pvb_loc;
@@ -625,7 +638,7 @@ module Mapper = struct
                 }
             | ( Some attr,
                 Pexp_construct
-                  ({ txt = Lident (("true" | "false") as txt) }, None) ) ->
+                  ({ txt = Lident (("true" | "false") as txt); _ }, None) ) ->
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
                 {
@@ -658,14 +671,14 @@ module Mapper = struct
                   (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
             }
         | Pstr_attribute
-            ({ attr_name = { txt = "bs.config" | "config" }; _ } as attr) ->
+            ({ attr_name = { txt = "bs.config" | "config"; _ }; _ } as attr) ->
             Bs_ast_invariant.mark_used_bs_attribute attr;
             str
         | _ -> super#structure_item str
 
       method! signature_item sigi =
         match sigi.psig_desc with
-        | Psig_value ({ pval_attributes; pval_prim } as value_desc) -> (
+        | Psig_value ({ pval_attributes; pval_prim; _ } as value_desc) -> (
             let pval_attributes = self#attributes pval_attributes in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
               Ast_external.handleExternalInSig self value_desc sigi
@@ -674,7 +687,8 @@ module Mapper = struct
               | Some
                   ({
                      attr_payload =
-                       PStr [ { pstr_desc = Pstr_eval ({ pexp_desc }, _) } ];
+                       PStr
+                         [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ];
                      _;
                    } as attr) -> (
                   match pexp_desc with
@@ -733,7 +747,7 @@ module Mapper = struct
                             };
                       }
                   | Pexp_construct
-                      ({ txt = Lident (("true" | "false") as txt) }, None) ->
+                      ({ txt = Lident (("true" | "false") as txt); _ }, None) ->
                       succeed attr pval_attributes;
                       {
                         sigi with

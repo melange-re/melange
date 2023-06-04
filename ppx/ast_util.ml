@@ -80,12 +80,12 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
   let ( (internal_label_attr_types : Parsetree.object_field list),
         (public_label_attr_types : Parsetree.object_field list) ) =
     List.fold_right
-      (fun ({ pcf_loc = loc } as x : Parsetree.class_field)
+      (fun ({ pcf_loc = loc; _ } as x : Parsetree.class_field)
            (label_attr_types, public_label_attr_types) ->
         match x.pcf_desc with
         | Pcf_method (label, public_flag, Cfk_concrete (Fresh, e)) -> (
             match e.pexp_desc with
-            | Pexp_poly ({ pexp_desc = Pexp_fun (lbl, _, pat, e) }, None) ->
+            | Pexp_poly ({ pexp_desc = Pexp_fun (lbl, _, pat, e); _ }, None) ->
                 let method_type =
                   Ast_typ_uncurry.generate_arg_type x.pcf_loc mapper label.txt
                     lbl pat e
@@ -133,7 +133,7 @@ let ocaml_obj_as_js_object loc (mapper : Ast_traverse.map)
         | Pcf_method (label, _public_flag, Cfk_concrete (Fresh, e)) -> (
             match e.pexp_desc with
             | Pexp_poly
-                (({ pexp_desc = Pexp_fun (ll, None, pat, e) } as f), None) ->
+                (({ pexp_desc = Pexp_fun (ll, None, pat, e); _ } as f), None) ->
                 let alias_type =
                   if aliased then None else Some internal_obj_type
                 in
