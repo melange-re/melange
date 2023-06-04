@@ -24,7 +24,6 @@
 
 open Ppxlib
 open Ast_helper
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 type exp = Parsetree.expression
 

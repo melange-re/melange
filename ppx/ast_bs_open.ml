@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ppxlib
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 let isCamlExceptionOrOpenVariant : Longident.t =
   Ldot (Ldot (Lident "Js", "Exn"), "isCamlExceptionOrOpenVariant")

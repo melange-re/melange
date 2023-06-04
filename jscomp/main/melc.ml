@@ -78,6 +78,12 @@ module As_ppx = struct
     Clflags.all_ppx := [ "melppx" ];
     Cmd_ppx_apply.apply_rewriters ~tool_name:"melppx" kind ast
 
+
+module Convert =
+  Ppxlib_ast.Convert
+    (Ppxlib_ast__.Versions.OCaml_414)
+    (Ppxlib_ast__.Versions.OCaml_current)
+
 let apply_lazy ~source ~target =
   let { Ast_io.ast; _ } =
     Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
@@ -85,18 +91,26 @@ let apply_lazy ~source ~target =
   let oc = open_out_bin target in
   match ast with
   | Intf ast ->
-      let ast =
-        apply ~kind:Ml_binary.Mli ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+      let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.signature =
+        let ast = apply ~kind:Ml_binary.Mli ast in
+        let ppxlib_ast: Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.signature =
+          Obj.magic ast
+        in
+        Convert.copy_signature ppxlib_ast
       in
       output_string oc
         Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
       output_value oc !Location.input_name;
       output_value oc ast
   | Impl ast ->
-      let ast =
-        apply ~kind:Ml_binary.Ml ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+      let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.structure =
+        let ast: Melange_compiler_libs.Parsetree.structure =
+          apply ~kind:Ml_binary.Ml ast
+        in
+        let ppxlib_ast: Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure =
+          Obj.magic ast
+        in
+        Convert.copy_structure ppxlib_ast
       in
       output_string oc
         Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;

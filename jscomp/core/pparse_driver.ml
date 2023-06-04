@@ -23,7 +23,8 @@ let parse (type a) (kind : a Ml_binary.kind) : _ -> Ast_io.Intf_or_impl.t =
   match kind with
   | Ml_binary.Ml ->
       fun impl -> Ast_io.Intf_or_impl.Impl (Parse.implementation impl)
-  | Ml_binary.Mli -> fun intf -> Ast_io.Intf_or_impl.Intf (Parse.interface intf)
+  | Ml_binary.Mli ->
+      fun intf -> Ast_io.Intf_or_impl.Intf (Parse.interface intf)
 
 (* [filename] is the real file name, e.g. before pre-processing. *)
 let file_aux ~filename inputfile (parse_fun : _ -> Ast_io.Intf_or_impl.t) =
@@ -44,8 +45,12 @@ let parse_file (type a) (kind : a Ml_binary.kind) (sourcefile : string) : a =
   in
   remove_preprocessed inputfile;
   match (kind, ast) with
-  | Ml, Impl ast -> ast
-  | Mli, Intf ast -> ast
+  | Ml, Impl ast ->
+    let ast: Melange_compiler_libs.Parsetree.structure = Obj.magic ast in
+    ast
+  | Mli, Intf ast ->
+    let ast: Melange_compiler_libs.Parsetree.signature = Obj.magic ast in
+    ast
   | _ -> assert false
 
 let parse_implementation sourcefile = parse_file Ml sourcefile

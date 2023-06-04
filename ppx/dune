@@ -8,7 +8,7 @@
  (preprocess
   (pps ppxlib.metaquot))
  (modules :standard \ utf8_string)
- (libraries common ext utf8_string ppxlib melange.ppxlib-ast js_parser))
+ (libraries common ext utf8_string ppxlib js_parser))
 
 (library
  (name utf8_string)

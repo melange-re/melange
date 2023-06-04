@@ -58,8 +58,6 @@ let tuple_type_pair ?loc kind arity =
           result )
     | [] -> assert false
 
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
-
 let to_js_type ~loc x = Typ.constr ~loc { txt = Ast_literal.js_obj; loc } [ x ]
 let to_js_re_type ~loc = Typ.constr ~loc { txt = Ast_literal.js_re_id; loc } []
 

@@ -22,13 +22,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Ast = Ppxlib_ast.Ast
 module Compiler_version = Ppxlib_ast.Compiler_version
 
 module type OCaml_version = Ppxlib_ast.OCaml_version
 
 module Intf_or_impl = struct
-  type t = Intf of Parsetree.signature | Impl of Parsetree.structure
+  type t =
+    | Intf of Melange_compiler_libs.Parsetree.signature
+    | Impl of Melange_compiler_libs.Parsetree.structure
+
+  module Convert =
+    Ppxlib_ast.Convert
+      (Ppxlib_ast.Selected_ast)
+      (Ppxlib_ast__.Versions.OCaml_414)
+
+  let ppxlib_impl : Ppxlib_ast.Ast.structure -> t =
+   fun stru ->
+    let melange_stru =
+      let ocaml_414_stru = Convert.copy_structure stru in
+      (Obj.magic ocaml_414_stru : Melange_compiler_libs.Parsetree.structure)
+    in
+    Impl melange_stru
+
+  let ppxlib_intf : Ppxlib_ast.Ast.signature -> t =
+   fun sig_ ->
+    let melange_sig =
+      let ocaml_414_sig = Convert.copy_signature sig_ in
+      (Obj.magic ocaml_414_sig : Melange_compiler_libs.Parsetree.signature)
+    in
+    Intf melange_sig
 end
 
 type input_version = (module OCaml_version)
@@ -79,7 +101,6 @@ let from_channel ch ~input_kind : (t, read_error) result =
   let input_version = (module Compiler_version : OCaml_version) in
   let module Convert = Ppxlib_ast.Convert in
   let module Find_version = Ppxlib_ast__.Versions.Find_version in
-  let module Js = Ppxlib_ast__.Import.Js in
   let handle_non_binary () =
     match input_kind with
     | Possibly_source { filename; parse_fun } ->
@@ -98,29 +119,29 @@ let from_channel ch ~input_kind : (t, read_error) result =
           let input_name : string = input_value ch in
           Location.set_input_name input_name;
           let ast = input_value ch in
-          let module Input_to_ppxlib = Convert (Input_version) (Js) in
+          let module Input_to_ppxlib =
+            Convert (Input_version) (Ppxlib_ast.Selected_ast)
+          in
           Ok
             {
               input_name;
               input_version = (module Input_version : OCaml_version);
               ast =
-                Intf
-                  (Input_to_ppxlib.copy_signature ast
-                  |> Melange_ppxlib_ast.Of_ppxlib.copy_signature);
+                Intf_or_impl.ppxlib_intf (Input_to_ppxlib.copy_signature ast);
             }
       | Impl (module Input_version : OCaml_version) ->
           let input_name : string = input_value ch in
           Location.set_input_name input_name;
           let ast = input_value ch in
-          let module Input_to_ppxlib = Convert (Input_version) (Js) in
+          let module Input_to_ppxlib =
+            Convert (Input_version) (Ppxlib_ast.Selected_ast)
+          in
           Ok
             {
               input_name;
               input_version = (module Input_version : OCaml_version);
               ast =
-                Impl
-                  (Input_to_ppxlib.copy_structure ast
-                  |> Melange_ppxlib_ast.Of_ppxlib.copy_structure);
+                Intf_or_impl.ppxlib_impl (Input_to_ppxlib.copy_structure ast);
             }
       | Unknown ->
           if
@@ -131,11 +152,22 @@ let from_channel ch ~input_kind : (t, read_error) result =
           then Error (Unknown_version (s, fall_back_input_version))
           else handle_non_binary ())
 
+module In_ch = struct
+  let create ?(binary = true) file =
+    let flags = [ Open_rdonly ] in
+    let flags = if binary then Open_binary :: flags else flags in
+    open_in_gen flags 0o000 file
+
+  let with_file ?binary filename ~f =
+    let t = create ?binary filename in
+    Fun.protect ~finally:(fun () -> close_in t) (fun () -> f t)
+end
+
 let read input_source ~input_kind =
   try
     match input_source with
     | Stdin -> from_channel stdin ~input_kind
-    | File fn -> Stdppx.In_channel.with_file fn ~f:(from_channel ~input_kind)
+    | File fn -> In_ch.with_file fn ~f:(from_channel ~input_kind)
   with exn -> (
     match Ppxlib_ast.Location_error.of_exn exn with
     | None -> raise exn
