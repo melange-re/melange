@@ -47,7 +47,9 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
           {
             attr_name = { txt = "bs.config" | "config"; loc };
             attr_payload = payload;
+            _;
           };
+      _;
     }
     :: _ ->
       Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
@@ -60,7 +62,7 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
        [@@@bs.config ..]
      end)
   *)
-  | { pstr_desc = Pstr_attribute _ }
+  | { pstr_desc = Pstr_attribute _; _ }
     :: {
          pstr_desc =
            Pstr_include
@@ -68,14 +70,16 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
                pincl_mod =
                  {
                    pmod_desc =
-                     Pmod_constraint ({ pmod_desc = Pmod_structure stru }, _);
+                     Pmod_constraint ({ pmod_desc = Pmod_structure stru; _ }, _);
+                   _;
                  };
                _;
              };
+         _;
        }
     :: _ ->
       iter_on_bs_config_stru stru
-  | { pstr_desc = Pstr_attribute _ } :: rest -> iter_on_bs_config_stru rest
+  | { pstr_desc = Pstr_attribute _; _ } :: rest -> iter_on_bs_config_stru rest
   | _ :: _ -> ()
 
 let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
@@ -87,11 +91,13 @@ let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
           {
             attr_name = { txt = "bs.config" | "config"; loc };
             attr_payload = payload;
+            _;
           };
+      _;
     }
     :: _ ->
       Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
         (fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)
-  | { psig_desc = Psig_attribute _ } :: rest -> iter_on_bs_config_sigi rest
+  | { psig_desc = Psig_attribute _; _ } :: rest -> iter_on_bs_config_sigi rest
   | _ :: _ -> ()

@@ -71,7 +71,7 @@ let of_sorted_array = Set_gen.of_sorted_array
 let rec mem (tree : t) (x : elt) =  match tree with
   | Empty -> false
   | Leaf v -> eq_elt x  v
-  | Node{l; v; r} ->
+  | Node{l; v; r;_} ->
     let c = compare_elt x v in
     c = 0 || mem (if c < 0 then l else r) x
 
@@ -81,11 +81,11 @@ type split =
 
 let [@inline] split_l (x : split) =
   match x with
-  | Yes {l} | No {l} -> l
+  | Yes {l;_} | No {l;_} -> l
 
 let [@inline] split_r (x : split) =
   match x with
-  | Yes {r} | No {r} -> r
+  | Yes {r;_} | No {r;_} -> r
 
 let [@inline] split_pres (x : split) = match x with | Yes _ -> true | No _ -> false
 
@@ -99,7 +99,7 @@ let rec split (tree : t) x : split =  match tree with
       No {l = empty;  r = tree}
     else
       No {l = tree;  r = empty}
-  | Node {l; v; r} ->
+  | Node {l; v; r;_} ->
     let c = compare_elt x v in
     if c = 0 then Yes {l; r}
     else if c < 0 then
@@ -124,7 +124,7 @@ let rec add (tree : t) x : t =  match tree with
       Set_gen.unsafe_two_elements x v
     else
       Set_gen.unsafe_two_elements v x
-  | Node {l; v; r} as t ->
+  | Node {l; v; r;_} as t ->
     let c = compare_elt x v in
     if c = 0 then t else
     if c < 0 then Set_gen.bal (add l x ) v r else Set_gen.bal l v (add r x )
@@ -163,7 +163,7 @@ let rec inter (s1 : t)  (s2 : t) : t  =
   | (_, Empty) -> empty
   | Leaf v, _ ->
     if mem s2 v then s1 else empty
-  | Node ({ v } as s1), _ ->
+  | Node ({ v;_ } as s1), _ ->
     let result = split s2 v in
     if split_pres result then
       Set_gen.internal_join
@@ -182,7 +182,7 @@ let rec diff (s1 : t) (s2 : t) : t  =
   | (t1, Empty) -> t1
   | Leaf v, _->
     if mem s2 v then empty else s1
-  | (Node({ v} as s1), _) ->
+  | (Node({ v;_} as s1), _) ->
     let result =  split s2 v in
     if split_pres result then
       Set_gen.internal_concat
@@ -204,7 +204,7 @@ let rec remove (tree : t)  (x : elt) : t = match tree with
   | Empty -> empty (* This case actually would be never reached *)
   | Leaf v ->
     if eq_elt x  v then empty else tree
-  | Node{l; v; r} ->
+  | Node{l; v; r;_} ->
     let c = compare_elt x v in
     if c = 0 then Set_gen.internal_merge l r else
     if c < 0 then Set_gen.bal (remove l x) v r else Set_gen.bal l v (remove r x )

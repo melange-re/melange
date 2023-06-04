@@ -35,7 +35,7 @@ let rec map x f =
   match x with
   | Empty -> Empty
   | Leaf { k; v } -> Leaf { k; v = f v }
-  | Node ({ l; v; r } as x) ->
+  | Node ({ l; v; r; _ } as x) ->
       let l' = map l f in
       let d' = f v in
       let r' = map r f in
@@ -45,7 +45,7 @@ let rec mapi x f =
   match x with
   | Empty -> Empty
   | Leaf { k; v } -> Leaf { k; v = f k v }
-  | Node ({ l; k; v; r } as x) ->
+  | Node ({ l; k; v; r; _ } as x) ->
       let l' = mapi l f in
       let v' = f k v in
       let r' = mapi r f in
@@ -53,7 +53,7 @@ let rec mapi x f =
 
 let[@inline] calc_height a b = (if a >= b then a else b) + 1
 let[@inline] singleton k v = Leaf { k; v }
-let[@inline] height = function Empty -> 0 | Leaf _ -> 1 | Node { h } -> h
+let[@inline] height = function Empty -> 0 | Leaf _ -> 1 | Node { h; _ } -> h
 let[@inline] unsafe_node k v l r h = Node { l; k; v; r; h }
 
 let[@inline] unsafe_two_elements k1 v1 k2 v2 =
@@ -70,14 +70,14 @@ type ('key, +'a) t = ('key, 'a) t0 = private
 let rec cardinal_aux acc = function
   | Empty -> acc
   | Leaf _ -> acc + 1
-  | Node { l; r } -> cardinal_aux (cardinal_aux (acc + 1) r) l
+  | Node { l; r; _ } -> cardinal_aux (cardinal_aux (acc + 1) r) l
 
 let cardinal s = cardinal_aux 0 s
 
 let rec bindings_aux accu = function
   | Empty -> accu
   | Leaf { k; v } -> (k, v) :: accu
-  | Node { l; k; v; r } -> bindings_aux ((k, v) :: bindings_aux accu r) l
+  | Node { l; k; v; r; _ } -> bindings_aux ((k, v) :: bindings_aux accu r) l
 
 let bindings s = bindings_aux [] s
 
@@ -87,7 +87,7 @@ let rec fill_array_with_f (s : _ t) i arr f : int =
   | Leaf { k; v } ->
       Array.unsafe_set arr i (f k v);
       i + 1
-  | Node { l; k; v; r } ->
+  | Node { l; k; v; r; _ } ->
       let inext = fill_array_with_f l i arr f in
       Array.unsafe_set arr inext (f k v);
       fill_array_with_f r (inext + 1) arr f
@@ -98,7 +98,7 @@ let rec fill_array_aux (s : _ t) i arr : int =
   | Leaf { k; v } ->
       Array.unsafe_set arr i (k, v);
       i + 1
-  | Node { l; k; v; r } ->
+  | Node { l; k; v; r; _ } ->
       let inext = fill_array_aux l i arr in
       Array.unsafe_set arr inext (k, v);
       fill_array_aux r (inext + 1) arr
@@ -107,7 +107,7 @@ let to_sorted_array (s : ('key, 'a) t) : ('key * 'a) array =
   match s with
   | Empty -> [||]
   | Leaf { k; v } -> [| (k, v) |]
-  | Node { l; k; v; r } ->
+  | Node { l; k; v; r; _ } ->
       let len = cardinal_aux (cardinal_aux 1 r) l in
       let arr = Array.make len (k, v) in
       ignore (fill_array_aux s 0 arr : int);
@@ -118,7 +118,7 @@ let to_sorted_array_with_f (type key a b) (s : (key, a) t) (f : key -> a -> b) :
   match s with
   | Empty -> [||]
   | Leaf { k; v } -> [| f k v |]
-  | Node { l; k; v; r } ->
+  | Node { l; k; v; r; _ } ->
       let len = cardinal_aux (cardinal_aux 1 r) l in
       let arr = Array.make len (f k v) in
       ignore (fill_array_with_f s 0 arr f : int);
@@ -126,8 +126,8 @@ let to_sorted_array_with_f (type key a b) (s : (key, a) t) (f : key -> a -> b) :
 
 let rec keys_aux accu = function
   | Empty -> accu
-  | Leaf { k } -> k :: accu
-  | Node { l; k; r } -> keys_aux (k :: keys_aux accu r) l
+  | Leaf { k; _ } -> k :: accu
+  | Node { l; k; r; _ } -> keys_aux (k :: keys_aux accu r) l
 
 let keys s = keys_aux [] s
 
@@ -144,7 +144,7 @@ let bal l x d r =
         (unsafe_node_maybe_leaf x d lr r hnode)
         (calc_height hll hnode)
     else
-      let { l = lrl; r = lrr; k = lrk; v = lrv } = ~!lr in
+      let { l = lrl; r = lrr; k = lrk; v = lrv; _ } = ~!lr in
       let hlrl = height lrl in
       let hlrr = height lrr in
       let hlnode = calc_height hll hlrl in
@@ -154,7 +154,7 @@ let bal l x d r =
         (unsafe_node_maybe_leaf x d lrr r hrnode)
         (calc_height hlnode hrnode)
   else if hr > hl + 2 then
-    let { l = rl; r = rr; k = rk; v = rv } = ~!r in
+    let { l = rl; r = rr; k = rk; v = rv; _ } = ~!r in
     let hrr = height rr in
     let hrl = height rl in
     if hrr >= hrl then
@@ -163,7 +163,7 @@ let bal l x d r =
         (unsafe_node_maybe_leaf x d l rl hnode)
         rr (calc_height hnode hrr)
     else
-      let { l = rll; r = rlr; k = rlk; v = rlv } = ~!rl in
+      let { l = rll; r = rlr; k = rlk; v = rlv; _ } = ~!rl in
       let hrll = height rll in
       let hrlr = height rlr in
       let hlnode = calc_height hl hrll in
@@ -179,14 +179,14 @@ let[@inline] is_empty = function Empty -> true | _ -> false
 let rec min_binding_exn = function
   | Empty -> raise Not_found
   | Leaf { k; v } -> (k, v)
-  | Node { l; k; v } -> (
+  | Node { l; k; v; _ } -> (
       match l with Empty -> (k, v) | Leaf _ | Node _ -> min_binding_exn l)
 
 let rec remove_min_binding = function
   | Empty -> invalid_arg "Map.remove_min_elt"
   | Leaf _ -> empty
-  | Node { l = Empty; r } -> r
-  | Node { l; k; v; r } -> bal (remove_min_binding l) k v r
+  | Node { l = Empty; r; _ } -> r
+  | Node { l; k; v; r; _ } -> bal (remove_min_binding l) k v r
 
 let merge t1 t2 =
   match (t1, t2) with
@@ -200,7 +200,7 @@ let rec iter x f =
   match x with
   | Empty -> ()
   | Leaf { k; v } -> (f k v : unit)
-  | Node { l; k; v; r } ->
+  | Node { l; k; v; r; _ } ->
       iter l f;
       f k v;
       iter r f
@@ -209,19 +209,19 @@ let rec fold m accu f =
   match m with
   | Empty -> accu
   | Leaf { k; v } -> f k v accu
-  | Node { l; k; v; r } -> fold r (f k v (fold l accu f)) f
+  | Node { l; k; v; r; _ } -> fold r (f k v (fold l accu f)) f
 
 let rec for_all x p =
   match x with
   | Empty -> true
   | Leaf { k; v } -> p k v
-  | Node { l; k; v; r } -> p k v && for_all l p && for_all r p
+  | Node { l; k; v; r; _ } -> p k v && for_all l p && for_all r p
 
 let rec exists x p =
   match x with
   | Empty -> false
   | Leaf { k; v } -> p k v
-  | Node { l; k; v; r } -> p k v || exists l p || exists r p
+  | Node { l; k; v; r; _ } -> p k v || exists l p || exists r p
 
 (* Beware: those two functions assume that the added k is *strictly*
    smaller (or bigger) than all the present keys in the tree; it

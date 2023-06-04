@@ -323,7 +323,8 @@ let rec apply fn args (ap_info : ap_info) : t =
   | Lfunction
       {
         params;
-        body = Lprim ({ primitive = _; args = inner_args } as primitive_call);
+        body = Lprim ({ primitive = _; args = inner_args; _ } as primitive_call);
+        _;
       } -> (
       match is_eta_conversion_exn params inner_args args with
       | args -> Lprim { primitive_call with args; loc = ap_info.ap_loc }
@@ -333,8 +334,9 @@ let rec apply fn args (ap_info : ap_info) : t =
         params;
         body =
           Lsequence
-            ( Lprim ({ primitive = _; args = inner_args } as primitive_call),
+            ( Lprim ({ primitive = _; args = inner_args; _ } as primitive_call),
               (Lconst _ as const) );
+        _;
       } -> (
       match is_eta_conversion_exn params inner_args args with
       | args ->
@@ -419,7 +421,7 @@ and eq_approx_list ls ls1 = Ext_list.for_all2_no_exn ls ls1 eq_approx
 
 let switch lam (lam_switch : lambda_switch) : t =
   match lam with
-  | Lconst (Const_int { i }) ->
+  | Lconst (Const_int { i; _ }) ->
       Ext_list.assoc_by_int lam_switch.sw_consts (Int32.to_int i)
         lam_switch.sw_failaction
   | Lconst (Const_block (i, _, _)) ->
@@ -438,12 +440,13 @@ let unit : t = Lconst Const_js_undefined
 
 let rec seq (a : t) b : t =
   match a with
-  | Lprim { primitive = Pmakeblock _; args = x :: xs } ->
+  | Lprim { primitive = Pmakeblock _; args = x :: xs; _ } ->
       seq (List.fold_left seq x xs) b
   | Lprim
       {
         primitive = Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt;
         args = [ a ];
+        _;
       } ->
       seq a b
   | _ -> Lsequence (a, b)
@@ -494,7 +497,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
   match args with
   | [ Lconst a ] -> (
       match (prim, a) with
-      | Pnegint, Const_int { i } -> Lift.int (Int32.neg i)
+      | Pnegint, Const_int { i; _ } -> Lift.int (Int32.neg i)
       (* | Pfloatofint, ( (Const_int a)) *)
       (*   -> Lift.float (float_of_int a) *)
       | Pintoffloat, Const_float a ->
@@ -528,8 +531,8 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
             | _ -> assert false)
       | ( ( Paddint | Psubint | Pmulint | Pdivint | Pmodint | Pandint | Porint
           | Pxorint | Plslint | Plsrint | Pasrint ),
-          Const_int { i = aa },
-          Const_int { i = bb } ) -> (
+          Const_int { i = aa; _ },
+          Const_int { i = bb; _ } ) -> (
           (* WE SHOULD keep it as [int], to preserve types *)
           let int_ = Lift.int in
           match prim with
@@ -561,11 +564,11 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
           | Porint64 -> Lift.int64 (Int64.logor aa bb)
           | Pxorint64 -> Lift.int64 (Int64.logxor aa bb)
           | _ -> default ())
-      | Plslint64, Const_int64 aa, Const_int { i = b } ->
+      | Plslint64, Const_int64 aa, Const_int { i = b; _ } ->
           Lift.int64 (Int64.shift_left aa (Int32.to_int b))
-      | Plsrint64, Const_int64 aa, Const_int { i = b } ->
+      | Plsrint64, Const_int64 aa, Const_int { i = b; _ } ->
           Lift.int64 (Int64.shift_right_logical aa (Int32.to_int b))
-      | Pasrint64, Const_int64 aa, Const_int { i = b } ->
+      | Pasrint64, Const_int64 aa, Const_int { i = b; _ } ->
           Lift.int64 (Int64.shift_right aa (Int32.to_int b))
       | Psequand, Const_js_false, (Const_js_true | Const_js_false) -> false_
       | Psequand, Const_js_true, Const_js_true -> true_
@@ -579,7 +582,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
           Lift.string (a ^ b)
       | ( (Pstringrefs | Pstringrefu),
           Const_string { s = a; unicode = false },
-          Const_int { i = b } ) -> (
+          Const_int { i = b; _ } ) -> (
           try Lift.char (String.get a (Int32.to_int b)) with _ -> default ())
       | _ -> default ())
   | _ -> (
@@ -593,6 +596,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
                   {
                     primitive = Pfield (pos, Fld_module { name = f1 });
                     args = [ (Lglobal_module v1 | Lvar v1) ];
+                    _;
                   }
                 :: args ) ->
                 pos = i && f = f1 && Ident.same var v1
@@ -605,6 +609,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
                 {
                   primitive = Pfield (pos, Fld_module { name = f1 });
                   args = [ ((Lglobal_module v1 | Lvar v1) as lam) ];
+                  _;
                 }
               :: args1 ) ->
               if pos = 0 && field1 = f1 && aux rest args1 v1 1 then lam
@@ -620,7 +625,7 @@ let prim ~primitive:(prim : Lam_primitive.t) ~args loc : t =
 
 let not_ loc x : t =
   match x with
-  | Lprim ({ primitive = Pintcomp Cne } as prim) ->
+  | Lprim ({ primitive = Pintcomp Cne; _ } as prim) ->
       Lprim { prim with primitive = Pintcomp Ceq }
   | _ -> prim ~primitive:Pnot ~args:[ x ] loc
 
@@ -634,6 +639,7 @@ let has_boolean_type (x : t) =
           | Pccall { prim_name = "caml_string_equal" | "caml_string_notequal" }
             );
         loc;
+        _;
       } ->
       Some loc
   | _ -> None
@@ -650,7 +656,7 @@ let rec complete_range (sw_consts : (int * _) list) ~(start : int) ~finish =
 
 let rec eval_const_as_bool (v : Lam_constant.t) : bool =
   match v with
-  | Const_int { i = x } -> x <> 0l
+  | Const_int { i = x; _ } -> x <> 0l
   | Const_char x -> Char.code x <> 0
   | Const_int64 x -> x <> 0L
   | Const_js_false | Const_js_null | Const_module_alias | Const_js_undefined ->
@@ -665,16 +671,16 @@ let if_ (a : t) (b : t) (c : t) : t =
   | Lconst v -> if eval_const_as_bool v then b else c
   | _ -> (
       match (b, c) with
-      | _, Lconst (Const_int { comment = Pt_assertfalse }) ->
+      | _, Lconst (Const_int { comment = Pt_assertfalse; _ }) ->
           seq a b (* TODO: we could customize more cases *)
-      | Lconst (Const_int { comment = Pt_assertfalse }), _ -> seq a c
+      | Lconst (Const_int { comment = Pt_assertfalse; _ }), _ -> seq a c
       | Lconst Const_js_true, Lconst Const_js_false ->
           if has_boolean_type a != None then a else Lifthenelse (a, b, c)
       | Lconst Const_js_false, Lconst Const_js_true -> (
           match has_boolean_type a with
           | Some loc -> not_ loc a
           | None -> Lifthenelse (a, b, c))
-      | Lprim { primitive = Praise }, _ -> (
+      | Lprim { primitive = Praise; _ }, _ -> (
           match c with
           | Lconst _ -> Lifthenelse (a, b, c)
           | _ -> seq (Lifthenelse (a, b, unit)) c)
@@ -683,7 +689,8 @@ let if_ (a : t) (b : t) (c : t) : t =
           | Lprim
               {
                 primitive = Pisout off;
-                args = [ Lconst (Const_int { i = range }); Lvar xx ];
+                args = [ Lconst (Const_int { i = range; _ }); Lvar xx ];
+                _;
               } -> (
               let range = Int32.to_int range in
               match c with
@@ -695,6 +702,7 @@ let if_ (a : t) (b : t) (c : t) : t =
                        sw_consts;
                        sw_consts_full = _;
                        sw_failaction = None;
+                       _;
                      } as body) )
                 when Ident.same xx yy
                      && complete_range sw_consts ~start:(-off)
@@ -711,18 +719,26 @@ let if_ (a : t) (b : t) (c : t) : t =
               match b with
               | Lifthenelse
                   ( Lprim
-                      { primitive = Pintcomp Ceq; args = [ Lvar j; Lconst _ ] },
+                      {
+                        primitive = Pintcomp Ceq;
+                        args = [ Lvar j; Lconst _ ];
+                        _;
+                      },
                     _,
                     b_f )
                 when Ident.same i j && eq_approx b_f c ->
                   b
-              | Lprim { primitive = Pintcomp Ceq; args = [ Lvar j; Lconst _ ] }
+              | Lprim
+                  { primitive = Pintcomp Ceq; args = [ Lvar j; Lconst _ ]; _ }
                 when Ident.same i j && eq_approx false_ c ->
                   b
               | Lifthenelse
                   ( Lprim
-                      ({ primitive = Pintcomp Cne; args = [ Lvar j; Lconst _ ] }
-                      as b_pred),
+                      ({
+                         primitive = Pintcomp Cne;
+                         args = [ Lvar j; Lconst _ ];
+                         _;
+                       } as b_pred),
                     b_t,
                     b_f )
                 when Ident.same i j && eq_approx b_t c ->
@@ -746,6 +762,7 @@ let if_ (a : t) (b : t) (c : t) : t =
                             loc;
                           };
                       ];
+                    _;
                   }
                 when Ident.same i j && eq_approx true_ c ->
                   Lprim { primitive = Pintcomp Cne; args; loc }

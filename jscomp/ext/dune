@@ -5,7 +5,7 @@
  (package melange)
  (wrapped false)
  (flags
-  (:standard -w -9 -open Melange_compiler_libs))
+  (:standard -open Melange_compiler_libs))
  (modules_without_implementation ext_js_file_kind)
  (libraries unix melange_compiler_libs)
  (foreign_stubs
