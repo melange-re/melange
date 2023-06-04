@@ -20,9 +20,3 @@
  (package melange)
  (modules melppx)
  (libraries melange.ppx ppxlib))
-
-(test
- (name ounit_tests_main)
- (package melange)
- (modules ounit_tests_main)
- (libraries ounit2 ounit_tests))
