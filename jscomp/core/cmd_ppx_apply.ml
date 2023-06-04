@@ -21,18 +21,14 @@ let apply_rewriter _kind fn_in ppx =
   if not (Sys.file_exists fn_out) then Cmd_ast_exception.cannot_run comm;
   fn_out
 
-(* This is a fatal error, no need to protect it *)
 let read_ast (type a) (kind : a Ml_binary.kind) fn : a =
-  let ic = open_in_bin fn in
-  let magic = Ml_binary.magic_of_kind kind in
-  let buffer = really_input_string ic (String.length magic) in
-  assert (buffer = magic);
-  (* already checked by apply_rewriter *)
-  Location.set_input_name @@ (input_value ic : string);
-  let ast = (input_value ic : a) in
-  close_in ic;
-
-  ast
+  let { Ast_io.ast; _ } =
+    Ast_io.read_exn (File fn) ~input_kind:Necessarily_binary
+  in
+  match (kind, ast) with
+  | Ml, Impl ast -> ast
+  | Mli, Intf ast -> ast
+  | _ -> assert false
 
 (** [ppxs] are a stack,
     [-ppx1 -ppx2  -ppx3]
