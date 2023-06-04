@@ -1,5 +1,5 @@
 (* Copyright (C) Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,13 +17,13 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** This module is platform dependent, on browser environment, 
+(** This module is platform dependent, on browser environment,
     it depends on {!Js_cmj_datasets}, for non-browser environment, it fails
  *)
 
-val load_unit : (string -> Js_cmj_format.cmj_load_info) ref
+val load_unit : string -> Js_cmj_format.cmj_load_info
