@@ -2,16 +2,12 @@ Demonstrate how to use the `melc` PPX
 
   $ . ./setup.sh
   $ cat > x.ml <<EOF
-  > let () =
-  > #if MELANGE then
-  >   Js.log("It's Melange");
-  > #else
-  >   Js.log2("Not Melange, type error, not 2 arguments");
-  > #end
+  > let () = Js.log("It's Melange");
   > EOF
 
-
-`melc --as-pp` can be used in e.g. Dune `(preprocess (action ..))` fields
+`melc --as-pp` can be used in e.g. Dune `(preprocess (action ..))` fields.
+It's not very useful since the melange ppx is separate, and it acts more like
+`-stop-after-parsing`
 
   $ melc --as-pp x.ml > x.pp.ml
 

@@ -11,20 +11,18 @@
    (modules_without_implementation melange_wrapper)))
  (subdir
   lib
-  (copy_files# ../file_formats/*)
-  (copy_files# ../lambda/*)
   ;; the `#` directive breaks menhir
   (copy_files ../parsing/*)
+  (copy_files# ../utils/*)
+  (copy_files# ../file_formats/*)
+  (copy_files# ../lambda/*)
   (copy_files# ../typing/*)
   (library
    (name melange_compiler_libs)
    (package melange)
-   (flags -w -9 -open Parsing0)
-   (libraries
-    menhirLib
-    melange_wrapper
-    (re_export parsing0))
-   (modules_without_implementation annot outcometree))
+   (flags -w -9)
+   (libraries menhirLib melange_wrapper)
+   (modules_without_implementation annot outcometree parsetree))
   (ocamllex
    (modules lexer)
    (mode fallback))
@@ -51,13 +49,4 @@
     EOL
     --unused-token
     GREATERRBRACKET
-    --fixed-exception)))
- (subdir
-  parsing0
-  (copy_files# ../utils/*)
-  (library
-   (name parsing0)
-   (flags -w -9)
-   (package melange)
-   (libraries melange_wrapper)
-   (modules_without_implementation parsetree))))
+    --fixed-exception))))
