@@ -263,20 +263,13 @@ module Time = struct
 end
 
 module Node = struct
-  let as_ident x =
-    match x with
-    | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident }, _) } ]
-      ->
-        Some ident
-    | _ -> None
-
   let rule =
     let rule label =
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_
           ({ txt = payload; loc } : Parsetree.payload Location.loc) =
         let strip s = match s with "_module" -> "module" | x -> x in
-        match as_ident payload with
+        match Ast_payload.as_ident payload with
         | Some
             {
               txt =

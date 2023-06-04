@@ -49,6 +49,7 @@ let ident_or_record_as_config loc (x : t) :
               ( {
                   pexp_desc = Pexp_record (label_exprs, with_obj);
                   pexp_loc = loc;
+                  _;
                 },
                 _ );
           _;
@@ -60,7 +61,10 @@ let ident_or_record_as_config loc (x : t) :
             (fun u ->
               match u with
               | ( { Asttypes.txt = Longident.Lident name; loc },
-                  { Parsetree.pexp_desc = Pexp_ident { txt = Lident name2 } } )
+                  {
+                    Parsetree.pexp_desc = Pexp_ident { txt = Lident name2; _ };
+                    _;
+                  } )
                 when name2 = name ->
                   ({ Asttypes.txt = name; loc }, None)
               | { txt = Lident name; loc }, y ->
@@ -75,7 +79,8 @@ let ident_or_record_as_config loc (x : t) :
         {
           pstr_desc =
             Pstr_eval
-              ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt } }, _);
+              ({ pexp_desc = Pexp_ident { loc = lloc; txt = Lident txt }; _ }, _);
+          _;
         };
       ] ->
       [ ({ Asttypes.txt; loc = lloc }, None) ]
@@ -86,8 +91,8 @@ let ident_or_record_as_config loc (x : t) :
 
 let assert_bool_lit (e : Parsetree.expression) =
   match e.pexp_desc with
-  | Pexp_construct ({ txt = Lident "true" }, None) -> true
-  | Pexp_construct ({ txt = Lident "false" }, None) -> false
+  | Pexp_construct ({ txt = Lident "true"; _ }, None) -> true
+  | Pexp_construct ({ txt = Lident "false"; _ }, None) -> false
   | _ ->
       Location.raise_errorf ~loc:e.pexp_loc
         "expect `true` or `false` in this field"

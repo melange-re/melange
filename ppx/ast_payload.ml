@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@warning "-32-34"]
-
 open Ppxlib
 
 type t = Parsetree.payload
@@ -42,22 +40,6 @@ let is_single_string (x : t) =
         };
       ] ->
       Some (name, dec)
-  | _ -> None
-
-let is_single_string_as_ast (x : t) : Parsetree.expression option =
-  match x with
-  (* TODO also need detect empty phrase case *)
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ( ({ pexp_desc = Pexp_constant (Pconst_string (_, _, _)); _ } as e),
-                _ );
-          _;
-        };
-      ] ->
-      Some e
   | _ -> None
 
 (* TODO also need detect empty phrase case *)
@@ -82,8 +64,8 @@ let as_ident (x : t) =
   | _ -> None
 
 type lid = string Asttypes.loc
-type label_expr = lid * Parsetree.expression
 type action = lid * Parsetree.expression option
+
 (* None means punning is hit
     {[ { x } ]}
     otherwise it comes with a payload
@@ -173,16 +155,6 @@ let assert_strings loc (x : t) : string list =
   | PStr [] -> []
   | PSig _ | PStr _ | PTyp _ | PPat _ ->
       Location.raise_errorf ~loc "expect string tuple list"
-
-let assert_bool_lit (e : Parsetree.expression) =
-  match e.pexp_desc with
-  | Pexp_construct ({ txt = Lident "true" }, None) -> true
-  | Pexp_construct ({ txt = Lident "false" }, None) -> false
-  | _ ->
-      Location.raise_errorf ~loc:e.pexp_loc
-        "expect `true` or `false` in this field"
-
-let empty : t = Parsetree.PStr []
 
 let table_dispatch table (action : action) =
   match action with

@@ -212,37 +212,6 @@ let bs_return_undefined : attr =
     attr_loc = Location.none;
   }
 
-let is_single_string x =
-  match x with
-  (* TODO also need detect empty phrase case *)
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ( { pexp_desc = Pexp_constant (Pconst_string (name, _, dec)); _ },
-                _ );
-          _;
-        };
-      ] ->
-      Some (name, dec)
-  | _ -> None
-
-(* TODO also need detect empty phrase case *)
-let is_single_int x : int option =
-  match x with
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ({ pexp_desc = Pexp_constant (Pconst_integer (name, _)); _ }, _);
-          _;
-        };
-      ] ->
-      Some (int_of_string name)
-  | _ -> None
-
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
 let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
@@ -253,7 +222,7 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
       | "bs.as" | "as" ->
           if !st = None then (
             Bs_ast_invariant.mark_used_bs_attribute attr;
-            match is_single_int payload with
+            match Ast_payload.is_single_int payload with
             | None -> (
                 match payload with
                 | PStr
@@ -312,7 +281,7 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
       | "bs.ignore" | "ignore" -> assign `Ignore attr
       | "bs.unwrap" | "unwrap" -> assign `Unwrap attr
       | "bs.uncurry" | "uncurry" ->
-          assign (`Uncurry (is_single_int payload)) attr
+          assign (`Uncurry (Ast_payload.is_single_int payload)) attr
       | _ -> ());
   !st
 
@@ -323,7 +292,7 @@ let iter_process_bs_string_as (attrs : t) : string option =
       match txt with
       | "bs.as" | "as" ->
           if !st = None then (
-            match is_single_string payload with
+            match Ast_payload.is_single_string payload with
             | None -> Error.err ~loc Expect_string_literal
             | Some (v, _dec) ->
                 Bs_ast_invariant.mark_used_bs_attribute attr;
@@ -391,21 +360,6 @@ let rs_externals (attrs : t) pval_prim =
         attrs
       || prims_to_be_encoded pval_prim
 
-(* TODO also need detect empty phrase case *)
-let is_single_int x : int option =
-  match x with
-  | PStr
-      [
-        {
-          pstr_desc =
-            Pstr_eval
-              ({ pexp_desc = Pexp_constant (Pconst_integer (name, _)); _ }, _);
-          _;
-        };
-      ] ->
-      Some (int_of_string name)
-  | _ -> None
-
 let iter_process_bs_int_as (attrs : t) =
   let st = ref None in
   Ext_list.iter attrs
@@ -413,7 +367,7 @@ let iter_process_bs_int_as (attrs : t) =
       match txt with
       | "bs.as" | "as" ->
           if !st = None then (
-            match is_single_int payload with
+            match Ast_payload.is_single_int payload with
             | None -> Error.err ~loc Expect_int_literal
             | Some _ as v ->
                 Bs_ast_invariant.mark_used_bs_attribute attr;

@@ -43,3 +43,6 @@ val unrecognizedConfigRecord : string -> string
     the builtin ppx leave off.) *)
 
 val assert_strings : location -> t -> label list
+val is_single_string : t -> (string * string option) option
+val is_single_int : t -> int option
+val as_ident : t -> Longident.t loc option
