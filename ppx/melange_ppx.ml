@@ -49,6 +49,7 @@
 *)
 
 open Ppxlib
+module Ast_literal = Ast_literal
 
 module External = struct
   let rule =
@@ -101,8 +102,54 @@ module Raw = struct
 end
 
 module Private = struct
+  module Typemod_hide = struct
+    let no_type_defined (x : Parsetree.structure_item) =
+      match x.pstr_desc with
+      | Pstr_eval _ | Pstr_value _ | Pstr_primitive _ | Pstr_typext _
+      | Pstr_exception _
+      (* | Pstr_module {pmb_expr = {pmod_desc = Pmod_ident _} }  *) ->
+          true
+      | Pstr_include
+          {
+            pincl_mod =
+              {
+                pmod_desc =
+                  Pmod_constraint
+                    ( {
+                        pmod_desc =
+                          Pmod_structure [ { pstr_desc = Pstr_primitive _ } ];
+                      },
+                      _ );
+              };
+          } ->
+          true
+          (* FIX #4881
+             generated code from:
+             {[
+               external %private x : int -> int =  "x"
+               [@@bs.module "./x"]
+             ]}
+          *)
+      | _ -> false
+
+    let check (x : Parsetree.structure) =
+      Ext_list.iter x (fun x ->
+          if not (no_type_defined x) then
+            Location.raise_errorf ~loc:x.pstr_loc
+              "the structure is not supported in local extension")
+
+    let attrs : Parsetree.attributes =
+      [
+        {
+          attr_name = { txt = "internal.local"; loc = Location.none };
+          attr_payload = PStr [];
+          attr_loc = Location.none;
+        };
+      ]
+  end
+
   let expand (stru : Parsetree.structure) =
-    Typemod_hide.check (Melange_ppxlib_ast.Of_ppxlib.copy_structure stru);
+    Typemod_hide.check stru;
     let last_loc = (List.hd stru).pstr_loc in
     let first_loc = (List.hd stru).pstr_loc in
     let loc = { first_loc with loc_end = last_loc.loc_end } in
@@ -110,11 +157,7 @@ module Private = struct
       [
         Str.open_
           (Opn.mk ~override:Override
-             (Mod.structure ~loc
-                ~attrs:
-                  (List.map Melange_ppxlib_ast.To_ppxlib.copy_attr
-                     Typemod_hide.attrs)
-                stru));
+             (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
       ]
     |> List.hd
 

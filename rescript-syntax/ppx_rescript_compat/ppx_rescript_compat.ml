@@ -30,14 +30,10 @@
  *  - `obj["prop"]` -> `obj##prop`
  *)
 
-open Melange_compiler_libs
-
-type mapper = Ast_mapper.mapper
-
-let default_mapper = Ast_mapper.default_mapper
+open Ppxlib
 
 module Uncurry = struct
-  module Ast_literal = Melange_ppxlib_ast.Ast_literal
+  module Ast_literal = Melange_ppx.Ast_literal
   open Ast_helper
 
   type exp = Parsetree.expression
@@ -90,15 +86,15 @@ module Uncurry = struct
           "Uncurried function doesn't support optional arguments yet"
     | _ -> ()
 
-  let generic_apply loc (self : mapper) (obj : Parsetree.expression)
+  let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
       (args : (Asttypes.arg_label * Parsetree.expression) list)
       (cb : loc -> exp -> exp) =
-    let obj = self.expr self obj in
+    let obj = self#expression obj in
     let args =
       List.map
         (fun (lbl, e) ->
           optional_err ~loc lbl;
-          (lbl, self.expr self e))
+          (lbl, self#expression e))
         args
     in
     let fn = cb loc obj in
@@ -140,90 +136,89 @@ module Uncurry = struct
         Exp.mk ~loc (js_property loc obj name))
 end
 
-let expr_mapper (self : mapper) (expr : Parsetree.expression) =
-  match expr.pexp_desc with
-  | Pexp_apply ({ pexp_desc = Pexp_send (obj, { txt = name; loc }); _ }, args)
-    ->
-      { expr with pexp_desc = Uncurry.property_apply loc self obj name args }
-  | Pexp_send
-      ( ({ pexp_desc = Pexp_apply _ | Pexp_ident _ | Pexp_send _; pexp_loc; _ }
-        as subexpr),
-        arg ) ->
-      (* ReScript removed the OCaml object system and abuses `Pexp_send` for
-         `obj##property`. Here, we make that conversion. *)
-      let subexpr = self.expr self subexpr in
-      {
-        expr with
-        pexp_desc =
-          Pexp_apply
-            ( {
-                subexpr with
-                pexp_desc = Pexp_ident { txt = Lident "##"; loc = pexp_loc };
-              },
-              [
-                (Nolabel, subexpr);
-                ( Nolabel,
-                  {
-                    subexpr with
-                    pexp_desc = Pexp_ident { arg with txt = Lident arg.txt };
-                  } );
-              ] );
-      }
-  | Pexp_let
-      ( Nonrecursive,
-        [
-          {
-            pvb_pat =
-              ( { ppat_desc = Ppat_record _; _ }
-              | {
-                  ppat_desc = Ppat_alias ({ ppat_desc = Ppat_record _; _ }, _);
-                  _;
-                } ) as p;
-            pvb_expr;
-            pvb_attributes;
-            _;
-          };
-        ],
-        body ) -> (
-      match pvb_expr.pexp_desc with
-      | Pexp_pack _ -> default_mapper.expr self expr
-      | _ ->
-          default_mapper.expr self
-            {
-              expr with
-              pexp_desc =
-                Pexp_match
-                  (pvb_expr, [ { pc_lhs = p; pc_guard = None; pc_rhs = body } ]);
-              pexp_attributes = expr.pexp_attributes @ pvb_attributes;
-            }
-          (* let [@warning "a"] {a;b} = c in body
-             The attribute is attached to value binding,
-             after the transformation value binding does not exist so we attach
-             the attribute to the whole expression, in general, when shuffuling the ast
-             it is very hard to place attributes correctly
-          *))
-  | _ -> default_mapper.expr self expr
+let mapper =
+  object (self)
+    inherit Ast_traverse.map as super
 
-let mapper : Ast_mapper.mapper =
-  let open Ast_mapper in
-  { default_mapper with expr = expr_mapper }
+    method! expression (expr : Parsetree.expression) =
+      match expr.pexp_desc with
+      | Pexp_apply
+          ({ pexp_desc = Pexp_send (obj, { txt = name; loc }); _ }, args) ->
+          {
+            expr with
+            pexp_desc = Uncurry.property_apply loc self obj name args;
+          }
+      | Pexp_send
+          ( ({
+               pexp_desc = Pexp_apply _ | Pexp_ident _ | Pexp_send _;
+               pexp_loc;
+               _;
+             } as subexpr),
+            arg ) ->
+          (* ReScript removed the OCaml object system and abuses `Pexp_send` for
+             `obj##property`. Here, we make that conversion. *)
+          let subexpr = self#expression subexpr in
+          {
+            expr with
+            pexp_desc =
+              Pexp_apply
+                ( {
+                    subexpr with
+                    pexp_desc = Pexp_ident { txt = Lident "##"; loc = pexp_loc };
+                  },
+                  [
+                    (Nolabel, subexpr);
+                    ( Nolabel,
+                      {
+                        subexpr with
+                        pexp_desc = Pexp_ident { arg with txt = Lident arg.txt };
+                      } );
+                  ] );
+          }
+      | Pexp_let
+          ( Nonrecursive,
+            [
+              {
+                pvb_pat =
+                  ( { ppat_desc = Ppat_record _; _ }
+                  | {
+                      ppat_desc =
+                        Ppat_alias ({ ppat_desc = Ppat_record _; _ }, _);
+                      _;
+                    } ) as p;
+                pvb_expr;
+                pvb_attributes;
+                _;
+              };
+            ],
+            body ) -> (
+          match pvb_expr.pexp_desc with
+          | Pexp_pack _ -> super#expression expr
+          | _ ->
+              super#expression
+                {
+                  expr with
+                  pexp_desc =
+                    Pexp_match
+                      ( pvb_expr,
+                        [ { pc_lhs = p; pc_guard = None; pc_rhs = body } ] );
+                  pexp_attributes = expr.pexp_attributes @ pvb_attributes;
+                }
+              (* let [@warning "a"] {a;b} = c in body
+                 The attribute is attached to value binding,
+                 after the transformation value binding does not exist so we attach
+                 the attribute to the whole expression, in general, when shuffuling the ast
+                 it is very hard to place attributes correctly
+              *))
+      | _ -> super#expression expr
+  end
 
 let structure (ast : Import.Ast_406.Parsetree.structure) :
     Import.Ast_406.Parsetree.structure =
-  let ast =
-    Import.To_ppxlib.copy_structure ast
-    |> Melange_ppxlib_ast.Of_ppxlib.copy_structure
-  in
-  mapper.structure mapper ast
-  |> Melange_ppxlib_ast.To_ppxlib.copy_structure
+  ast |> Import.To_ppxlib.copy_structure |> mapper#structure
   |> Import.Of_ppxlib.copy_structure
 
 let signature (ast : Import.Ast_406.Parsetree.signature) :
     Import.Ast_406.Parsetree.signature =
-  let ast =
-    Import.To_ppxlib.copy_signature ast
-    |> Melange_ppxlib_ast.Of_ppxlib.copy_signature
-  in
-  mapper.signature mapper ast
-  |> Melange_ppxlib_ast.To_ppxlib.copy_signature
+  ast |> Import.To_ppxlib.copy_signature |> mapper#signature
   |> Import.Of_ppxlib.copy_signature

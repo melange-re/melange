@@ -1,4 +1,0 @@
-(library
- (name melange_ppxlib_ast)
- (public_name melange.ppxlib-ast)
- (libraries ppxlib melange_compiler_libs))

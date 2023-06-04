@@ -13,7 +13,7 @@
  (package melange)
  (modules melpp)
  (flags :standard -open Melange_compiler_libs)
- (libraries common core cmdliner melange.ppxlib-ast melange_compiler_libs))
+ (libraries common core cmdliner melange_compiler_libs))
 
 (executable
  (public_name melppx)

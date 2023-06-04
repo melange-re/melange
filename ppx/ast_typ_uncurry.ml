@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ppxlib
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 type typ = Parsetree.core_type
 type 'a cxt = Ast_helper.loc -> Ast_traverse.map -> 'a

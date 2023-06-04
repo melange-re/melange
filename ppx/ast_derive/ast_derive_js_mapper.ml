@@ -24,7 +24,6 @@
 
 open Ppxlib
 open Ast_helper
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 module U = Ast_derive_util
 
 type tdcls = Parsetree.type_declaration list
