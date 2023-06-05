@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module Js = Jsoo_common.Js
-(** *)
 
 (*
  Error:
@@ -43,7 +42,14 @@ let error_of_exn e =
   | Some (`Ok e) -> Some e
   | Some `Already_displayed | None -> None
 
-let implementation ~use_super_errors impl str : Js.Unsafe.obj =
+module From_ppxlib =
+  Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_414)
+
+module To_ppxlib =
+  Ppxlib_ast.Convert (Ppxlib_ast__.Versions.OCaml_414) (Ppxlib_ast.Selected_ast)
+
+let compile ~(impl : Lexing.lexbuf -> Melange_compiler_libs.Parsetree.structure)
+    str : Js.Unsafe.obj =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
   (* Res_compmisc.init_path false; *)
@@ -54,52 +60,56 @@ let implementation ~use_super_errors impl str : Js.Unsafe.obj =
   (* Question ?? *)
   (* let finalenv = ref Env.empty in *)
   let types_signature = ref [] in
-  if use_super_errors then (
-    Misc.Color.setup (Some Always);
-    Lazy.force Super_main.setup);
-
   try
-    Js_config.jsx_version := 3;
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast = Ppx_entry.rewrite_implementation ast in
+    let ast =
+      let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
+        (* Copy to ppxlib version *)
+        To_ppxlib.copy_structure
+          (Obj.magic ast
+            : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
+      in
+      let melange_converted_ast =
+        From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
+      in
+      (Obj.magic melange_converted_ast
+        : Melange_compiler_libs.Parsetree.structure)
+    in
     let typed_tree =
-      let a, b, _, signature =
+      let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
         Typemod.type_implementation_more modulename modulename modulename env
           ast
       in
       (* finalenv := c ; *)
       types_signature := signature;
-      (a, b)
+      (structure, coercion)
     in
     typed_tree |> Translmod.transl_implementation modulename
-    |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam } ->
+    |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam; _ } ->
     let buffer = Buffer.create 1000 in
     let () =
       Js_dump_program.pp_deps_program ~output_prefix:""
-        (* does not matter here *) NodeJS
-        (Lam_compile_main.compile "" lam)
+        ~package_info:Js_packages_info.empty
+        ~output_info:{ Js_packages_info.module_system = NodeJS; suffix = Js }
         (Ext_pp.from_buffer buffer)
+        (Lam_compile_main.compile "" lam)
     in
     let v = Buffer.contents buffer in
     Js.Unsafe.(obj [| ("js_code", inject @@ Js.string v) |])
     (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
   with e -> (
     match error_of_exn e with
-    | Some error ->
-        Location.report_error Format.err_formatter error;
-        Jsoo_common.mk_js_error error.loc error.msg
+    | Some error -> Jsoo_common.mk_js_error error
     | None ->
         Js.Unsafe.(
           obj [| ("js_error_msg", inject @@ Js.string (Printexc.to_string e)) |]))
 
-let compile impl ~use_super_errors = implementation ~use_super_errors impl
 let export (field : string) v = Js.Unsafe.set Js.Unsafe.global field v
 
 (* To add a directory to the load path *)
 
-let dir_directory d = Config.load_path := d :: !Config.load_path
-let () = dir_directory "/static"
+let () = Load_path.add_dir "/static"
 
 let make_compiler name impl =
   export name
@@ -109,16 +119,8 @@ let make_compiler name impl =
           ( "compile",
             inject
             @@ Js.wrap_meth_callback (fun _ code ->
-                   compile impl ~use_super_errors:false (Js.to_string code)) );
-          ( "compile_super_errors",
-            inject
-            @@ Js.wrap_meth_callback (fun _ code ->
-                   compile impl ~use_super_errors:true (Js.to_string code)) );
-          ("version", Js.Unsafe.inject (Js.string Bs_version.version));
+                   compile ~impl (Js.to_string code)) );
+          ("version", Js.Unsafe.inject (Js.string Melange_version.version));
         |])
 
-let () = make_compiler "ocaml" Parse.implementation
-
-(* local variables: *)
-(* compile-command: "ocamlbuild -use-ocamlfind -pkg compiler-libs -no-hygiene driver.cmo" *)
-(* end: *)
+let () = make_compiler "ocaml" Melange_compiler_libs.Parse.implementation

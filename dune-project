@@ -44,6 +44,7 @@
   (cppo :build)
   (ounit :with-test)
   (reason :with-test)
+  (js_of_ocaml :with-test)
   ppxlib
   menhir
   (reactjs-jsx-ppx :with-test)))
