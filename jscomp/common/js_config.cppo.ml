@@ -31,9 +31,8 @@ let stdlib_paths =
   lazy (
     let root =
 #ifndef BS_RELEASE_BUILD
-      (* ./jscomp/main/melc.exe -> ./ *)
+      (* ./bin/melc.exe -> ./ *)
       (Lazy.force executable_name)
-      |> Filename.dirname
       |> Filename.dirname
       |> Filename.dirname
 #else
