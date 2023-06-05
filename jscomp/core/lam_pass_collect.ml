@@ -131,12 +131,12 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     | Lprim { args; _ } -> List.iter collect args
     | Lswitch (l, { sw_failaction; sw_consts; sw_blocks; _ }) ->
         collect l;
-        Ext_list.iter_snd sw_consts collect;
-        Ext_list.iter_snd sw_blocks collect;
+        List.iter (fun (_, x) -> collect x) sw_consts;
+        List.iter (fun (_, x) -> collect x) sw_blocks;
         Option.iter collect sw_failaction
     | Lstringswitch (l, sw, d) ->
         collect l;
-        Ext_list.iter_snd sw collect;
+        List.iter (fun (_, x) -> collect x) sw;
         Option.iter collect d
     | Lstaticraise (_code, ls) -> List.iter collect ls
     | Lstaticcatch (l1, (_, _), l2) ->

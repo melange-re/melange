@@ -48,7 +48,7 @@ let check file lam =
   let rec check_list xs (cxt : Set_int.t) =
     List.iter (fun x -> check_staticfails x cxt) xs
   and check_list_snd : 'a. ('a * Lam.t) list -> _ -> unit =
-   fun xs cxt -> Ext_list.iter_snd xs (fun x -> check_staticfails x cxt)
+   fun xs cxt -> List.iter (fun (_, x) -> check_staticfails x cxt) xs
   and check_staticfails (l : Lam.t) (cxt : Set_int.t) =
     match l with
     | Lvar _ | Lmutvar _ | Lconst _ | Lglobal_module _ -> ()
@@ -94,7 +94,7 @@ let check file lam =
   in
   let rec iter_list xs = List.iter iter xs
   and iter_list_snd : 'a. ('a * Lam.t) list -> unit =
-   fun xs -> Ext_list.iter_snd xs iter
+   fun xs -> List.iter (fun (_, x) -> iter x) xs
   and iter (l : Lam.t) =
     match l with
     | Lvar id | Lmutvar id -> use id
@@ -112,7 +112,7 @@ let check file lam =
         def id;
         iter body
     | Lletrec (decl, body) ->
-        Ext_list.iter_fst decl def;
+        List.iter (fun (x, _) -> def x) decl;
         iter_list_snd decl;
         iter body
     | Lswitch (arg, sw) ->

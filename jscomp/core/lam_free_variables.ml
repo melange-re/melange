@@ -26,7 +26,7 @@ let pass_free_variables (l : Lam.t) : Set_ident.t =
   let fv = ref Set_ident.empty in
   let rec free_list xs = List.iter free xs
   and free_list_snd : 'a. ('a * Lam.t) list -> unit =
-   fun xs -> Ext_list.iter_snd xs free
+   fun xs -> List.iter (fun (_, x) -> free x) xs
   and free (l : Lam.t) =
     match l with
     | Lvar id | Lmutvar id -> fv := Set_ident.add !fv id

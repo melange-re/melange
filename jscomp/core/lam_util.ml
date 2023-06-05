@@ -195,7 +195,7 @@ let field_flatten_get
       | exception _ -> lam ()
     end
   | Some (Constant (Const_block (_,_,ls))) ->
-    begin match Ext_list.nth_opt ls i with
+    begin match List.nth_opt ls i with
       | None -> lam  ()
       | Some x -> Lam.const x
     end

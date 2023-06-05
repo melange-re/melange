@@ -70,7 +70,7 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
   let rec hit_opt (x : _ option) =
     match x with None -> false | Some a -> hit a
   and hit_list_snd : 'a. ('a * _) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
+   fun x -> List.exists (fun (_, x) -> hit x) x
   and hit_list xs = List.exists hit xs
   and hit (l : Lam.t) =
     match l with
@@ -792,8 +792,10 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                  } as px) ) )
           when Ident.same switcher3 id
                && (not (Lam_hit.hit_variable id ifso))
-               && not (Ext_list.exists_snd sw_consts (Lam_hit.hit_variable id))
-          ->
+               && not
+                    (List.exists
+                       (fun (_, x) -> Lam_hit.hit_variable id x)
+                       sw_consts) ->
             Lam.switch matcher
               {
                 px with

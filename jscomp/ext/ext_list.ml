@@ -404,33 +404,6 @@ let rec assoc_by_int lst (k : int) def =
   | [] -> ( match def with None -> assert false | Some x -> x)
   | (k1, v1) :: rest -> if k1 = k then v1 else assoc_by_int rest k def
 
-let rec nth_aux l n =
-  match l with
-  | [] -> None
-  | a :: l -> if n = 0 then Some a else nth_aux l (n - 1)
-
-let nth_opt l n = if n < 0 then None else nth_aux l n
-
-let rec iter_snd lst f =
-  match lst with
-  | [] -> ()
-  | (_, x) :: xs ->
-      f x;
-      iter_snd xs f
-
-let rec iter_fst lst f =
-  match lst with
-  | [] -> ()
-  | (x, _) :: xs ->
-      f x;
-      iter_fst xs f
-
-let rec exists_fst l p =
-  match l with [] -> false | (a, _) :: l -> p a || exists_fst l p
-
-let rec exists_snd l p =
-  match l with [] -> false | (_, a) :: l -> p a || exists_snd l p
-
 let rec concat_append (xss : 'a list list) (xs : 'a list) : 'a list =
   match xss with [] -> xs | l :: r -> append l (concat_append r xs)
 

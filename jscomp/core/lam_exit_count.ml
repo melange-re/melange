@@ -71,7 +71,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
         if (get_exit exits i).count > 0 then count l2
     | Lstringswitch (l, sw, d) ->
         count l;
-        Ext_list.iter_snd sw count;
+        List.iter (fun (_, x) -> count x) sw;
         Option.iter count d
     | Lglobal_module _ | Lvar _ | Lmutvar _ | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
@@ -82,14 +82,14 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
         count l2;
         count l1
     | Lletrec (bindings, body) ->
-        Ext_list.iter_snd bindings count;
+        List.iter (fun (_, x) -> count x) bindings;
         count body
     | Lprim { args; _ } -> List.iter count args
     | Lswitch (l, sw) ->
         count_default sw;
         count l;
-        Ext_list.iter_snd sw.sw_consts count;
-        Ext_list.iter_snd sw.sw_blocks count
+        List.iter (fun (_, x) -> count x) sw.sw_consts;
+        List.iter (fun (_, x) -> count x) sw.sw_blocks
     | Ltrywith (l1, _v, l2) ->
         incr try_depth;
         count l1;
