@@ -16,6 +16,12 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.compile(\`let foo = Belt.List.map\`));
   > console.log(ocaml.compile(\`let +foo\`));
   > console.log(ocaml.compile(\`let foo = "fpp" + 2\`));
+  > console.log(ocaml.compile(\`type person = {
+  >   name: string ;
+  >   age: int
+  > }[@@bs.deriving abstract]
+  > 
+  > let person1 = person ~name:"joe" ~last:"bar" ~age:10\`));
   > EOF
 
   $ node input.js
@@ -73,5 +79,19 @@ Prepare an input file to test some snippets to exercise common functionality
     endRow: 0,
     endColumn: 15,
     text: 'This expression has type string but an expression was expected of type int',
+    type: 'error'
+  }
+  File "_none_", line 4, characters 4-15:
+  Alert unused: Unused attribute [@bs.deriving]
+  This means such annotation is not annotated properly.
+  For example, some annotations are only meaningful in externals
+  
+  {
+    js_error_msg: 'Line 6, 14:\n  Error Unbound value person',
+    row: 5,
+    column: 14,
+    endRow: 5,
+    endColumn: 20,
+    text: 'Unbound value person',
     type: 'error'
   }
