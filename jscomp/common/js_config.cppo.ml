@@ -60,7 +60,7 @@ let stdlib_paths =
       end
     | exception Not_found ->
 #ifndef BS_RELEASE_BUILD
-      [ root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name
+      [ root // "jscomp" // "stdlib" // ".stdlib.objs" // Literals.package_name
       ; root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
       ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
 #else
