@@ -16,6 +16,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.compile(\`let foo = Belt.List.map\`));
   > console.log(ocaml.compile(\`let +foo\`));
   > console.log(ocaml.compile(\`let foo = "fpp" + 2\`));
+  > console.log(ocaml.printML(ocaml.parseRE(\`let foo = <div />\`)));
   > EOF
 
   $ node input.js
@@ -75,3 +76,4 @@ Prepare an input file to test some snippets to exercise common functionality
     text: 'This expression has type string but an expression was expected of type int',
     type: 'error'
   }
+  let foo = ((div ~children:[] ())[@JSX ])
