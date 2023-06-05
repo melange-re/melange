@@ -23,9 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 module Js = Jsoo_common.Js
-open Melange_compiler_libs
-
-(** *)
 
 (*
  Error:
@@ -64,14 +61,14 @@ let compile impl str : Js.Unsafe.obj =
   try
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast : Melange_compiler_libs.Parsetree.structure =
+    let ast : Parsetree.structure =
       let ppxlib_ast : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure =
-        Obj.magic (ast : Melange_compiler_libs.Parsetree.structure)
+        Obj.magic (ast : Parsetree.structure)
       in
       let converted =
         Convert.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
       in
-      (Obj.magic converted : Melange_compiler_libs.Parsetree.structure)
+      (Obj.magic converted : Parsetree.structure)
     in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
