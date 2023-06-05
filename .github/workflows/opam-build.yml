@@ -57,10 +57,10 @@ jobs:
           opam update
           make opam-install-test
 
-      - name: Build playground
+      - name: Test playground
         working-directory: melange
         run: |
-          make playground
+          make playground-test
 
       - name: Clone melange-opam-template
         run: |

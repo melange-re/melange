@@ -48,3 +48,11 @@ playground:
 .PHONY: playground-dev
 playground-dev:
 	opam exec -- dune build --profile=browser-dev bin/jsoo_main.bc.js
+
+.PHONY: playground-dev-test
+playground-dev-test:
+	opam exec -- dune build --profile=browser-dev @@test/blackbox-tests/playground
+
+.PHONY: playground-test
+playground-test:
+	opam exec -- dune build --profile=browser @@test/blackbox-tests/playground
