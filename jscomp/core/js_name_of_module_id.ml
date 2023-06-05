@@ -25,7 +25,7 @@
 let (=)  (x : int) (y:float) = assert false
 *)
 
-let ( // ) = Filename.concat
+let ( // ) = Ext_path.( // )
 
 let fix_path_for_windows : string -> string =
   if Ext_sys.is_windows_or_cygwin then Ext_string.replace_backward_slash
