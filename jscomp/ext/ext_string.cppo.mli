@@ -68,8 +68,6 @@ val for_all :
 
 val is_empty : string -> bool
 
-val equal : string -> string -> bool
-
 val rfind : sub:string -> string -> int
 
 (** [tail_from s 1]
@@ -95,9 +93,6 @@ val compare :  string -> string -> int
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
 #endif
 
-val parent_dir_lit : string
-val current_dir_lit : string
-
 val capitalize_ascii : string -> string
 
 val capitalize_sub:
@@ -105,12 +100,7 @@ val capitalize_sub:
   int ->
   string
 
-val uncapitalize_ascii : string -> string
-
-val lowercase_ascii : string -> string
-
 val first_marshal_char:
   string ->
   bool
 
-val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a

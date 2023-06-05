@@ -46,9 +46,9 @@ let check file lam =
   in
   (* TODO: replaced by a slow version of {!Lam_iter.inner_iter} *)
   let rec check_list xs (cxt : Set_int.t) =
-    Ext_list.iter xs (fun x -> check_staticfails x cxt)
+    List.iter (fun x -> check_staticfails x cxt) xs
   and check_list_snd : 'a. ('a * Lam.t) list -> _ -> unit =
-   fun xs cxt -> Ext_list.iter_snd xs (fun x -> check_staticfails x cxt)
+   fun xs cxt -> List.iter (fun (_, x) -> check_staticfails x cxt) xs
   and check_staticfails (l : Lam.t) (cxt : Set_int.t) =
     match l with
     | Lvar _ | Lmutvar _ | Lconst _ | Lglobal_module _ -> ()
@@ -56,7 +56,7 @@ let check file lam =
     | Lapply { ap_func; ap_args; _ } ->
         check_list (ap_func :: ap_args) cxt
         (* check invariant that staticfaill does not cross function/while/for loop*)
-    | Lfunction { body; params = _ } -> check_staticfails body Set_int.empty
+    | Lfunction { body; params = _; _ } -> check_staticfails body Set_int.empty
     | Lwhile (e1, e2) ->
         check_staticfails e1 cxt;
         check_staticfails e2 Set_int.empty
@@ -92,9 +92,9 @@ let check file lam =
     | Lassign (_id, e) -> check_staticfails e cxt
     | Lsend (_k, met, obj, args, _) -> check_list (met :: obj :: args) cxt
   in
-  let rec iter_list xs = Ext_list.iter xs iter
+  let rec iter_list xs = List.iter iter xs
   and iter_list_snd : 'a. ('a * Lam.t) list -> unit =
-   fun xs -> Ext_list.iter_snd xs iter
+   fun xs -> List.iter (fun (_, x) -> iter x) xs
   and iter (l : Lam.t) =
     match l with
     | Lvar id | Lmutvar id -> use id
@@ -104,7 +104,7 @@ let check file lam =
     | Lapply { ap_func; ap_args; _ } ->
         iter ap_func;
         iter_list ap_args
-    | Lfunction { body; params } ->
+    | Lfunction { body; params; _ } ->
         List.iter def params;
         iter body
     | Llet (_, id, arg, body) | Lmutlet (id, arg, body) ->
@@ -112,7 +112,7 @@ let check file lam =
         def id;
         iter body
     | Lletrec (decl, body) ->
-        Ext_list.iter_fst decl def;
+        List.iter (fun (x, _) -> def x) decl;
         iter_list_snd decl;
         iter body
     | Lswitch (arg, sw) ->

@@ -36,7 +36,7 @@ let program_is_empty (x : J.program) =
 
 let deps_program_is_empty (x : J.deps_program) =
   match x with
-  | { modules = []; program; side_effect = None } -> program_is_empty program
+  | { modules = []; program; side_effect = None; _ } -> program_is_empty program
   | _ -> false
 
 let rec extract_block_comments acc (x : J.block) =
@@ -46,8 +46,10 @@ let rec extract_block_comments acc (x : J.block) =
         Exp
           {
             expression_desc =
-              Raw_js_code { code; code_info = Stmt Js_stmt_comment };
+              Raw_js_code { code; code_info = Stmt Js_stmt_comment; _ };
+            _;
           };
+      _;
     }
     :: rest ->
       extract_block_comments (code :: acc) rest
@@ -66,29 +68,33 @@ let dump_program (x : J.program) oc =
   ignore (program (P.from_channel oc) Ext_pp_scope.empty x)
 
 let[@inline] is_default (x : Js_op.kind) =
-  match x with External { default } -> default | _ -> false
+  match x with External { default; _ } -> default | _ -> false
 
 let node_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   P.string f L.strict_directive;
   P.newline f;
   let cxt =
     Js_dump_import_export.requires L.require Ext_pp_scope.empty f
-      (Ext_list.map x.modules (fun x ->
+      (List.map
+         (fun (x : J.module_id) ->
            ( x.id,
              Js_name_of_module_id.string_of_module_id ~package_info ~output_info
                ~output_dir x,
-             is_default x.kind )))
+             is_default x.kind ))
+         x.modules)
   in
   program f cxt x.program
 
 let es6_program ~package_info ~output_info ~output_dir f (x : J.deps_program) =
   let cxt =
     Js_dump_import_export.imports Ext_pp_scope.empty f
-      (Ext_list.map x.modules (fun x ->
+      (List.map
+         (fun (x : J.module_id) ->
            ( x.id,
              Js_name_of_module_id.string_of_module_id ~package_info x
                ~output_dir ~output_info,
-             is_default x.kind )))
+             is_default x.kind ))
+         x.modules)
   in
   let () = P.at_least_two_lines f in
   let cxt = Js_dump.statements true cxt f x.program.block in

@@ -129,8 +129,9 @@ let compile
   (* To make toplevel happy - reentrant for js-demo *)
   let () =
 #ifndef BS_RELEASE_BUILD
-    Ext_list.iter export_idents
-      (fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  (Ident.name id) (Ext_ident.stamp id)) ;
+    List.iter
+      (fun id -> Ext_log.dwarn ~__POS__ "export idents: %s/%d"  (Ident.name id) (Ext_ident.stamp id))
+      export_idents ;
 #endif
     Lam_compile_env.reset () ;
   in
@@ -201,7 +202,7 @@ let compile
 #endif
   in
 
-  let ({Lam_coercion.groups = groups } as coerced_input , meta) =
+  let ({Lam_coercion.groups = groups ; _} as coerced_input , meta) =
     Lam_coercion.coerce_and_group_big_lambda  meta lam
   in
 
@@ -221,7 +222,8 @@ let maybe_pure = no_side_effects groups in
 let () = Ext_log.dwarn ~__POS__ "\n@[[TIME:]Pre-compile: %f@]@."  (Sys.time () *. 1000.) in
 #endif
 let body  =
-  Ext_list.map groups (fun group -> compile_group meta group)
+  groups
+  |> List.map (fun group -> compile_group meta group)
   |> Js_output.concat
   |> Js_output.output_as_block
 in
@@ -296,12 +298,19 @@ js
   )
 ;;
 
-let (//) = Filename.concat
+let (//) = Ext_path.(//)
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
-  Ext_pervasives.with_file_as_chan file (fun chan ->
-    Js_dump_program.dump_deps_program
-      ~package_info ~output_info ~output_prefix lambda_output chan)
+  let oc = open_out_bin file in
+  Fun.protect
+    ~finally:(fun () -> close_out oc)
+    (fun () ->
+      Js_dump_program.dump_deps_program
+        ~package_info
+        ~output_info
+        ~output_prefix
+        lambda_output
+        oc)
 
 let lambda_as_module
     ~package_info
@@ -324,7 +333,7 @@ let lambda_as_module
     (* We use `-bs-module-type` to emit a single JS file after `.cmj`
        generation. In this case, we don't want the `package_info` from the
        `.cmj`, because the suffix and paths will be different. *)
-    Ext_list.iter (Js_packages_state.get_output_info ()) (fun output_info ->
+    List.iter  (fun (output_info : Js_packages_info.output_info) ->
       let basename = make_basename output_info.suffix in
       let target_file = Filename.dirname output_prefix // basename in
       if not !Clflags.dont_write_files then begin
@@ -335,6 +344,7 @@ let lambda_as_module
           lambda_output
           target_file
       end)
+      (Js_packages_state.get_output_info ())
 
 
 

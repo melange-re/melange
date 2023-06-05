@@ -161,8 +161,6 @@ let tail_from s x =
   if  x > len then invalid_arg ("Ext_string.tail_from " ^s ^ " : "^ string_of_int x )
   else String.sub s x (len - x)
 
-let equal (x : string) y  = x = y
-
 let rec rindex_rec s i c =
   if i < 0 then i else
   if String.unsafe_get s i = c then i else rindex_rec s (i - 1) c;;
@@ -199,25 +197,20 @@ let compare = Bs_hash_stubs.string_length_based_compare
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
 #endif
 
-let parent_dir_lit = ".."
-let current_dir_lit = "."
-
-
-(* reference {!Bytes.unppercase} *)
+(* reference {!Bytes.uppercase} *)
 let capitalize_ascii (s : string) : string =
   if String.length s = 0 then s
-  else
-    begin
-      let c = String.unsafe_get s 0 in
-      if (c >= 'a' && c <= 'z')
-      || (c >= '\224' && c <= '\246')
-      || (c >= '\248' && c <= '\254') then
-        let uc = Char.unsafe_chr (Char.code c - 32) in
-        let bytes = Bytes.of_string s in
-        Bytes.unsafe_set bytes 0 uc;
-        Bytes.unsafe_to_string bytes
-      else s
-    end
+  else begin
+    let c = String.unsafe_get s 0 in
+    if (c >= 'a' && c <= 'z')
+    || (c >= '\224' && c <= '\246')
+    || (c >= '\248' && c <= '\254') then
+      let uc = Char.unsafe_chr (Char.code c - 32) in
+      let bytes = Bytes.of_string s in
+      Bytes.unsafe_set bytes 0 uc;
+      Bytes.unsafe_to_string bytes
+    else s
+  end
 
 let capitalize_sub (s : string) len : string =
   let slen = String.length s in
@@ -238,16 +231,6 @@ let capitalize_sub (s : string) len : string =
     done ;
     Bytes.unsafe_to_string bytes
 
-let uncapitalize_ascii =
-    String.uncapitalize_ascii
-
-let lowercase_ascii = String.lowercase_ascii
-
 let first_marshal_char (x : string) =
     x <> ""   &&
     ( String.unsafe_get x  0 = '\132')
-
-let fold_left f initial x =
-  let acc = ref initial in
-  String.iter (fun c -> acc := f !acc c) x;
-  !acc

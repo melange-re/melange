@@ -3,6 +3,16 @@ Unreleased
 
 - melange: build executables for bytecode-only platforms too
   ([#596](https://github.com/melange-re/melange/pull/596))
+- melange: move the entire builtin PPX to `melange.ppx`. Preprocessing with
+  `melange.ppx` will needed in most cases going forward, as it's responsible
+  for processing `external` declarations, `@deriving` attributes and more,
+  compared to the previous release where `melange.ppx` just processed AST
+  extension nodes ([#583](https://github.com/melange-re/melange/pull/583))
+- Remove old BuckleScript-style conditional compilation
+  ([#605](https://github.com/melange-re/melange/pull/605))
+- melange: don't emit JS import / require paths with `foo/./bar.js`
+  ([#598](https://github.com/melange-re/melange/issues/598),
+  [#612](https://github.com/melange-re/melange/pull/612))
 
 1.0.0 2023-05-31
 ---------------
@@ -57,7 +67,8 @@ Unreleased
   officially supported workflow for orchestrating melange builds
   ([#546](https://github.com/melange-re/melange/pull/546))
 - melange: Extract `melange.ppx` from the melange package. This preprocessing
-  step interprets extensions such as `%bs.obj`, `%bs.raw`, `%bs.re`, etc.
+  step interprets extensions such as `%bs.obj`, `%bs.raw` and `%bs.re`,
+  `[@@deriving {abstract,accessors,jsConverters}]` and `external` declarations.
   ([#534](https://github.com/melange-re/melange/pull/534))
 - melange: allow installing melange in more OCaml versions and compiler
   switches. Melange now migrates binary AST to the version it understands

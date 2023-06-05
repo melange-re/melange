@@ -31,7 +31,8 @@ let single_na = Js_cmj_format.single_na
 
 let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
     Js_cmj_format.cmj_value Map_string.t =
-  Ext_list.fold_left meta.exports Map_string.empty (fun acc x ->
+  List.fold_left
+    (fun acc x ->
       let arity : Js_cmj_format.arity =
         match Hash_ident.find_opt meta.ident_tbl x with
         | Some (FunctionId { arity; _ }) -> Single arity
@@ -44,7 +45,8 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
                    | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam))
         | Some _ | None -> (
             match Map_ident.find_opt export_map x with
-            | Some (Lprim { primitive = Pmakeblock (_, _, Immutable); args }) ->
+            | Some (Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ })
+              ->
                 Submodule
                   (Ext_array.of_list_map args (fun lam ->
                        Lam_arity_analysis.get_arity meta lam))
@@ -68,12 +70,12 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
               *)
             then
               match lambda with
-              | Lfunction { attr = { inline = Always_inline } }
+              | Lfunction { attr = { inline = Always_inline; _ }; _ }
               (* FIXME: is_closed lambda is too restrictive
                  It precludes ues cases
                  - inline forEach but not forEachU
               *)
-              | Lfunction { attr = { is_a_functor = true } } ->
+              | Lfunction { attr = { is_a_functor = true; _ }; _ } ->
                   if Lam_closure.is_closed lambda (* TODO: seriealize more*)
                   then optlam
                   else None
@@ -105,6 +107,7 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
             { arity; persistent_closed_lambda }
           in
           Map_string.add acc (Ident.name x) cmj_value)
+    Map_string.empty meta.exports
 
 (* ATTENTION: all runtime modules, if it is not hard required,
    it should be okay to not reference it

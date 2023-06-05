@@ -71,7 +71,7 @@ let rec adjust (tree : _ Map_gen.t as 'a) x replace  : 'a =
       Map_gen.unsafe_two_elements x (replace None) k v
     else
       Map_gen.unsafe_two_elements k v x (replace None)
-  | Node ({l; k ; r} as tree) ->
+  | Node ({l; k ; r; _ } as tree) ->
     let c = compare_key x k in
     if c = 0 then
       Map_gen.unsafe_node x (replace  (Some tree.v)) l r tree.h
@@ -113,7 +113,7 @@ let rec mem (tree : _ Map_gen.t )  x= match tree with
   | Empty ->
     false
   | Leaf leaf -> eq_key x leaf.k
-  | Node{l; k ;  r} ->
+  | Node{l; k ;  r; _} ->
     let c = compare_key x k in
     c = 0 || mem (if c < 0 then l else r) x
 
@@ -122,7 +122,7 @@ let rec remove (tree : _ Map_gen.t as 'a) x : 'a = match tree with
   | Leaf leaf ->
     if eq_key x leaf.k then empty
     else tree
-  | Node{l; k ; v; r} ->
+  | Node{l; k ; v; r; _ } ->
     let c = compare_key x k in
     if c = 0 then
       Map_gen.merge l r
@@ -145,7 +145,7 @@ let rec split  (tree : (key,'a) Map_gen.t) x : 'a split  =
     if c = 0 then Yes {l = empty; v= leaf.v; r = empty}
     else if c < 0 then No { l = empty; r = tree }
     else  No { l = tree; r = empty}
-  | Node {l; k ; v ; r} ->
+  | Node {l; k ; v ; r; _} ->
     let c = compare_key x k in
     if c = 0 then Yes {l; v; r}
     else if c < 0 then
@@ -166,7 +166,7 @@ let rec disjoint_merge
     fix_conflict : _ Map_gen.t =
   match s1 with
   | Empty -> s2
-  | Leaf ({k } as l1)  ->
+  | Leaf ({k;_ } as l1)  ->
     begin match s2 with
       | Empty -> s1
       | Leaf l2 ->
@@ -181,7 +181,7 @@ let rec disjoint_merge
           | Some s2v  -> (fix_conflict k l1.v s2v)
         )
     end
-  | Node ({k} as xs1) ->
+  | Node ({k;_} as xs1) ->
     if  xs1.h >= height s2 then
       begin match split s2 k with
         | No {l; r} ->
@@ -198,7 +198,7 @@ let rec disjoint_merge
             fixed
             (disjoint_merge xs1.r r fix_conflict)
       end
-    else let [@warning "-8"] (Node ({k} as s2) : _ Map_gen.t)  = s2 in
+    else let [@warning "-8"] (Node ({k;_} as s2) : _ Map_gen.t)  = s2 in
       begin match split s1 k with
         | No {l;  r} ->
           Map_gen.join
@@ -218,7 +218,7 @@ let disjoint_merge_exn s1 s2 fail =
 
 
 let add_list (xs : _ list ) init =
-  Ext_list.fold_left xs init (fun  acc (k,v) -> add acc k v )
+  List.fold_left (fun  acc (k,v) -> add acc k v ) init xs
 
 let of_list xs = add_list xs empty
 

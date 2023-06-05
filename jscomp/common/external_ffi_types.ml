@@ -172,11 +172,11 @@ let is_package_relative_path (x : string) =
 let valid_global_name ?loc txt =
   if not (valid_ident txt) then
     let v = Ext_string.split_by ~keep_empty:true (fun x -> x = '.') txt in
-    Ext_list.iter v
+    List.iter
       (fun s ->
          if not (valid_ident s) then
            Location.raise_errorf ?loc "Not a valid global name %s"  txt
-      )
+      ) v
 
 (*
   We loose such check (see #2583),
@@ -284,7 +284,7 @@ let from_string s : t =
 let inline_string_primitive (s : string) (op : string option) : string list =
   let lam : Lam_constant.t =
     let unicode = match op with
-      | Some op -> Ast_utf8_string_interp.is_unicode_string op
+      | Some op -> Ast_utf8_string.is_unicode_string op
       | None -> false in
     (Const_string { s; unicode }) in
   [""; to_string (Ffi_inline_const lam )]

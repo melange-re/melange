@@ -31,7 +31,7 @@ let id_is_for_sure_true_in_boolean (tbl : Lam_stats.ident_tbl) id =
   | Some (MutableBlock _)
   | Some (Constant (Const_block _ | Const_js_true)) ->
       Eval_true
-  | Some (Constant (Const_int { i })) ->
+  | Some (Constant (Const_int { i; _ })) ->
       if i = 0l then Eval_false else Eval_true
   | Some (Constant (Const_js_false | Const_js_null | Const_js_undefined)) ->
       Eval_false
@@ -59,16 +59,18 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         {
           primitive = (Pval_from_option | Pval_from_option_not_nest) as p;
           args = [ (Lvar v as lvar) ];
+          _;
         } as x -> (
         match Hash_ident.find_opt meta.ident_tbl v with
         | Some (OptionalBlock (l, _)) -> l
         | _ -> if p = Pval_from_option_not_nest then lvar else x)
     | Lglobal_module _ -> lam
     | Lprim { primitive; args; loc } ->
-        Lam.prim ~primitive ~args:(Ext_list.map args simpl) loc
+        Lam.prim ~primitive ~args:(List.map simpl args) loc
     | Lifthenelse
-        ((Lprim { primitive = Pis_not_none; args = [ Lvar id ] } as l1), l2, l3)
-      -> (
+        ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
+          l2,
+          l3 ) -> (
         match Hash_ident.find_opt meta.ident_tbl id with
         | Some (ImmutableBlock _ | MutableBlock _ | Normal_optional _) ->
             simpl l2
@@ -129,18 +131,20 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           ap_info;
         } -> (
         match Lam_compile_env.query_external_id_info ident fld_name with
-        | { persistent_closed_lambda = Some (Lfunction { params; body; _ }) }
+        | { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
         (* be more cautious when do cross module inlining *)
           when Ext_list.same_length params args
-               && Ext_list.for_all args (fun arg ->
+               && List.for_all
+                    (fun (arg : Lam.t) ->
                       match arg with
                       | Lvar p | Lmutvar p -> (
                           match Hash_ident.find_opt meta.ident_tbl p with
                           | Some v -> v <> Parameter
                           | None -> true)
-                      | _ -> true) ->
+                      | _ -> true)
+                    args ->
             simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
-        | _ -> Lam.apply (simpl l1) (Ext_list.map args simpl) ap_info)
+        | _ -> Lam.apply (simpl l1) (List.map simpl args) ap_info)
     (* Function inlining interact with other optimizations...
 
         - parameter attributes
@@ -151,7 +155,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (* Check info for always inlining *)
 
         (* Ext_log.dwarn __LOC__ "%s/%d" v.name v.stamp;     *)
-        let ap_args = Ext_list.map ap_args simpl in
+        let ap_args = List.map simpl ap_args in
         let[@local] normal () = Lam.apply (simpl fn) ap_args ap_info in
         match Hash_ident.find_opt meta.ident_tbl v with
         | Some
@@ -159,8 +163,10 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               {
                 lambda =
                   Some
-                    ( Lfunction ({ params; body; attr = { is_a_functor } } as m),
+                    ( Lfunction
+                        ({ params; body; attr = { is_a_functor; _ }; _ } as m),
                       rec_flag );
+                _;
               }) ->
             if Ext_list.same_length ap_args params (* && false *) then
               if
@@ -201,8 +207,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
                     | Lam_self_rec -> normal ()
                     | Lam_non_rec ->
                         if
-                          Ext_list.exists ap_args (fun lam ->
-                              Lam_hit.hit_variable v lam)
+                          List.exists
+                            (fun lam -> Lam_hit.hit_variable v lam)
+                            ap_args
                           (*avoid nontermination, e.g, `g(g)`*)
                         then normal ()
                         else
@@ -213,7 +220,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               else normal ()
             else normal ()
         | Some _ | None -> normal ())
-    | Lapply { ap_func = Lfunction { params; body }; ap_args = args; _ }
+    | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when Ext_list.same_length params args ->
         simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
         (* | Lapply{ fn = Lfunction{function_kind =  Tupled;  params; body};  *)
@@ -224,7 +231,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         (*   when  Ext_list.same_length params args -> *)
         (*   simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args) *)
     | Lapply { ap_func = l1; ap_args = ll; ap_info } ->
-        Lam.apply (simpl l1) (Ext_list.map ll simpl) ap_info
+        Lam.apply (simpl l1) (List.map simpl ll) ap_info
     | Lfunction { arity; params; body; attr } ->
         Lam.function_ ~arity ~params ~body:(simpl body) ~attr
     | Lswitch
@@ -256,7 +263,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           | _ -> simpl l
         in
         Lam.stringswitch l (Ext_list.map_snd sw simpl) (Option.map simpl d)
-    | Lstaticraise (i, ls) -> Lam.staticraise i (Ext_list.map ls simpl)
+    | Lstaticraise (i, ls) -> Lam.staticraise i (List.map simpl ls)
     | Lstaticcatch (l1, ids, l2) -> Lam.staticcatch (simpl l1) ids (simpl l2)
     | Ltrywith (l1, v, l2) -> Lam.try_ (simpl l1) v (simpl l2)
     | Lsequence (l1, l2) -> Lam.seq (simpl l1) (simpl l2)
@@ -268,6 +275,6 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
            v's refsimpl *)
         Lam.assign v (simpl l)
     | Lsend (u, m, o, ll, v) ->
-        Lam.send u (simpl m) (simpl o) (Ext_list.map ll simpl) v
+        Lam.send u (simpl m) (simpl o) (List.map simpl ll) v
   in
   simpl lam

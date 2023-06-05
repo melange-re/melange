@@ -41,7 +41,7 @@ let make ?value ?(output_finished = False) block =
 
 let dummy = { value = None; block = []; output_finished = Dummy }
 
-(** This can be merged with 
+(** This can be merged with
     {!output_of_block_and_expression} *)
 let output_of_expression (continuation : continuation) (exp : J.expression)
     ~(no_effects : bool Lazy.t) =
@@ -80,7 +80,7 @@ let opt_expr_with_block (x : J.expression option) block : J.block =
 
 let rec unnest_block (block : J.block) : J.block =
   match block with
-  | [ { statement_desc = Block block } ] -> unnest_block block
+  | [ { statement_desc = Block block; _ } ] -> unnest_block block
   | _ -> block
 
 let output_as_block (x : t) : J.block =
@@ -97,7 +97,7 @@ let to_break_block (x : t) : J.block * bool =
       (* value does not matter when [finished] is true
           TODO: check if it has side efects
       *)
-  | { value = None; output_finished } -> (
+  | { value = None; output_finished; _ } -> (
       (block, match output_finished with True -> false | False | Dummy -> true))
   | { value = Some _ as opt; _ } -> (block_with_opt_expr block opt, true)
 
@@ -140,6 +140,6 @@ let append_output (x : t) (y : t) : t =
 
 (* Fold right is more efficient *)
 let concat (xs : t list) : t =
-  Ext_list.fold_right xs dummy (fun x acc -> append_output x acc)
+  List.fold_right (fun x acc -> append_output x acc) xs dummy
 
 let to_string x = Js_dump.string_of_block (output_as_block x)

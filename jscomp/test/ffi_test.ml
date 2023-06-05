@@ -52,5 +52,5 @@ let f () =
     v.(0)
   end
 
-external removeItem : string -> unit  = ""
+external removeItem : string -> unit  = "removeItem"
 [@@bs.val]  [@@bs.scope "localStorage"]

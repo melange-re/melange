@@ -1,0 +1,18 @@
+(include_subdirs unqualified)
+
+(library
+ (name melange_ppx)
+ (public_name melange.ppx)
+ (kind ppx_rewriter)
+ (preprocess
+  (pps ppxlib.metaquot))
+ (modules :standard \ utf8_string)
+ (libraries common ext utf8_string ppxlib js_parser))
+
+(library
+ (name utf8_string)
+ (package melange)
+ (modules utf8_string)
+ (libraries ppxlib ext)
+ (preprocess
+  (pps ppxlib.metaquot)))

@@ -19,11 +19,7 @@
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
           (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
-              menhirLib = osuper.menhirLib_20230415;
-              menhirSdk = osuper.menhirSdk_20230415;
-              menhir = osuper.menhir_20230415;
-            });
+            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: { });
           })
         ];
       in

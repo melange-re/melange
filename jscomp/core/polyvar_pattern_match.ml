@@ -47,7 +47,7 @@ let convert (xs : input) : output =
                { stamp = i; hash_names_act = ([ (hash, name) ], act) } :: !os
          | Some key ->
              Coll.add_or_update coll key
-               ~update:(fun ({ hash_names_act = hash_names, act } as acc) ->
+               ~update:(fun ({ hash_names_act = hash_names, act; _ } as acc) ->
                  { acc with hash_names_act = ((hash, name) :: hash_names, act) })
                { hash_names_act = ([ (hash, name) ], act); stamp = i });
   let result = Coll.to_list coll (fun _ value -> value) @ !os in
@@ -64,7 +64,8 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
             [ arg; Lconst (Const_base (Const_int hash, Pt_variant { name })) ],
             Loc_unknown )
       in
-      Ext_list.fold_left rest init (fun acc (hash, name) ->
+      List.fold_left
+        (fun acc (hash, name) ->
           Lambda.Lprim
             ( Psequor,
               [
@@ -78,6 +79,7 @@ let or_list (arg : lam) (hash_names : (int * string) list) =
                     Loc_unknown );
               ],
               Loc_unknown ))
+        init rest
   | _ -> assert false
 
 let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
@@ -87,9 +89,11 @@ let make_test_sequence_variant_constant (fail : lam option) (arg : lam)
   in
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
-      Ext_list.fold_right rest act (fun (hash_names, act1) acc ->
+      List.fold_right
+        (fun (hash_names, act1) (acc : lam) ->
           let predicate : lam = or_list arg hash_names in
           Lifthenelse (predicate, act1, acc))
+        rest act
   | [], None -> assert false
 
 let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
@@ -99,9 +103,11 @@ let call_switcher_variant_constant (_loc : Debuginfo.Scoped_location.t)
   let int_lambda_list = convert int_lambda_list in
   match (int_lambda_list, fail) with
   | (_, act) :: rest, None | rest, Some act ->
-      Ext_list.fold_right rest act (fun (hash_names, act1) acc ->
+      List.fold_right
+        (fun (hash_names, act1) (acc : lam) ->
           let predicate = or_list arg hash_names in
           Lifthenelse (predicate, act1, acc))
+        rest act
   | [], None -> assert false
 
 let call_switcher_variant_constr (loc : Lambda.scoped_location)

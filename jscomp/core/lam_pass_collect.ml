@@ -60,17 +60,19 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     match lam with
     | Lconst v -> Hash_ident.replace meta.ident_tbl ident (Constant v)
     (* *)
-    | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls } ->
+    | Lprim { primitive = Pmakeblock (_, _, Immutable); args = ls; _ } ->
         Hash_ident.replace meta.ident_tbl ident
           (Lam_util.kind_of_lambda_block ls);
         List.iter collect ls
-    | Lprim { primitive = Psome | Psome_not_nest; args = [ v ] } ->
+    | Lprim { primitive = Psome | Psome_not_nest; args = [ v ]; _ } ->
         Hash_ident.replace meta.ident_tbl ident (Normal_optional v);
         collect v
     | Lprim
         {
-          primitive = Praw_js_code { code_info = Exp (Js_function { arity }) };
+          primitive =
+            Praw_js_code { code_info = Exp (Js_function { arity; _ }); _ };
           args = _;
+          _;
         } ->
         Hash_ident.replace meta.ident_tbl ident
           (FunctionId { arity = Lam_arity.info [ arity ] false; lambda = None })
@@ -78,7 +80,8 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         Hash_ident.replace meta.ident_tbl ident (OptionalBlock (l, Null))
     | Lprim { primitive = Pundefined_to_opt; args = [ (Lvar _ as l) ]; _ } ->
         Hash_ident.replace meta.ident_tbl ident (OptionalBlock (l, Undefined))
-    | Lprim { primitive = Pnull_undefined_to_opt; args = [ (Lvar _ as l) ] } ->
+    | Lprim { primitive = Pnull_undefined_to_opt; args = [ (Lvar _ as l) ]; _ }
+      ->
         Hash_ident.replace meta.ident_tbl ident
           (OptionalBlock (l, Null_undefined))
     | Lglobal_module v -> Lam_util.alias_ident_or_global meta ident v (Module v)
@@ -87,15 +90,14 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         Lam_util.alias_ident_or_global meta ident v NA
         (* enven for not subsitution, it still propogate some properties *)
         (* else () *)
-    | Lfunction { params; body }
+    | Lfunction { params; body; _ }
     (* TODO record parameters ident ?, but it will be broken after inlining *)
       ->
         (* TODO could be optimized in one pass?
             -- since collect would iter everywhere,
             so -- it would still iterate internally
         *)
-        Ext_list.iter params (fun p ->
-            Hash_ident.add meta.ident_tbl p Parameter);
+        List.iter (fun p -> Hash_ident.add meta.ident_tbl p Parameter) params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam;
         collect body
@@ -110,7 +112,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
     | Lapply { ap_func = l1; ap_args = ll; _ } ->
         collect l1;
         List.iter collect ll
-    | Lfunction { params; body = l } ->
+    | Lfunction { params; body = l; _ } ->
         (* functor ? *)
         List.iter (fun p -> Hash_ident.add meta.ident_tbl p Parameter) params;
         collect l
@@ -121,19 +123,20 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         (match bindings with
         | [ (ident, arg) ] -> collect_bind Lam_self_rec ident arg
         | _ ->
-            Ext_list.iter bindings (fun (ident, arg) ->
-                collect_bind Lam_rec ident arg));
+            List.iter
+              (fun (ident, arg) -> collect_bind Lam_rec ident arg)
+              bindings);
         collect body
     | Lglobal_module _ -> ()
     | Lprim { args; _ } -> List.iter collect args
-    | Lswitch (l, { sw_failaction; sw_consts; sw_blocks }) ->
+    | Lswitch (l, { sw_failaction; sw_consts; sw_blocks; _ }) ->
         collect l;
-        Ext_list.iter_snd sw_consts collect;
-        Ext_list.iter_snd sw_blocks collect;
+        List.iter (fun (_, x) -> collect x) sw_consts;
+        List.iter (fun (_, x) -> collect x) sw_blocks;
         Option.iter collect sw_failaction
     | Lstringswitch (l, sw, d) ->
         collect l;
-        Ext_list.iter_snd sw collect;
+        List.iter (fun (_, x) -> collect x) sw;
         Option.iter collect d
     | Lstaticraise (_code, ls) -> List.iter collect ls
     | Lstaticcatch (l1, (_, _), l2) ->

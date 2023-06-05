@@ -5,7 +5,7 @@ type 'a linked_list =
     hd : 'a ;
     mutable tl : 'a linked_list Js.null
   }
-  [@@bs.deriving abstract]
+  [@@deriving abstract]
 
 
 
@@ -17,7 +17,7 @@ type[@warning "-unused-type-declaration"] t = int -> int -> bool [@bs]
 and x = {
   k : t;
   y : string
-} [@@bs.deriving abstract]
+} [@@deriving abstract]
 
 
 let x0 k = x ~k ~y:"xx"
@@ -29,7 +29,7 @@ type u = {
   x : int ;
   y0 : int -> int;
   y1 : int -> int -> int
-} [@@bs.deriving abstract]
+} [@@deriving abstract]
 
 
 let uf u =  u |. y0Get 1
@@ -40,8 +40,8 @@ type u1 = {
   x : int;
   yyyy : (int -> int [@bs]);
   yyyy1 : (int -> int -> int  [@bs]);
-  yyyy2 : int -> int  [@bs.optional]
-} [@@bs.deriving abstract]
+  yyyy2 : (int -> int) option  [@bs.optional]
+} [@@deriving abstract]
 
 let uff f =
   (f |. yyyyGet) 1 [@bs]
@@ -60,8 +60,8 @@ type u3 = {
   x : int;
   yyyy : (int -> int [@bs]);
   yyyy1 : (int -> int -> int  [@bs]);
-  yyyy2 : int -> int  [@bs.optional]
-} [@@bs.deriving { abstract = light} ]
+  yyyy2 : (int -> int) option  [@bs.optional]
+} [@@deriving abstract { light} ]
 
 
 let fx v = v |. x

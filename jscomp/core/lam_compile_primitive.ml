@@ -294,7 +294,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* Lam_compile_external_call.translate loc cxt prim args *)
   (* Test if the argument is a block or an immediate integer *)
   | Pjs_object_create _ -> assert false
-  | Pjs_call { arg_types; ffi } ->
+  | Pjs_call { arg_types; ffi; _ } ->
       Lam_compile_external_call.translate_ffi cxt arg_types ffi args
   (* FIXME, this can be removed later *)
   | Pisint -> E.is_type_number (Ext_list.singleton_exn args)
@@ -333,5 +333,5 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
      It is inlined, this should not appear here *) ->
       (*we dont use [throw] here, since [throw] is an statement  *)
       let s = Lam_print.primitive_to_string prim in
-      Bs_warnings.warn_missing_primitive loc s;
+      Location.prerr_warning loc (Bs_unimplemented_primitive s);
       E.resolve_and_apply s args

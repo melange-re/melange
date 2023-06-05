@@ -24,7 +24,7 @@
 
 open Js_parser
 
-let offset_pos ({ pos_lnum; pos_bol; pos_cnum } as loc : Lexing.position)
+let offset_pos ({ pos_lnum; pos_bol; pos_cnum; _ } as loc : Lexing.position)
     ({ line; column } : Loc.position) first_line_offset : Lexing.position =
   if line = 1 then { loc with pos_cnum = pos_cnum + column + first_line_offset }
   else { loc with pos_lnum = pos_lnum + line - 1; pos_cnum = pos_bol + column }
@@ -40,7 +40,7 @@ let check_flow_errors ~(loc : Location.t) ~offset
     (errors : (Loc.t * Parse_error.t) list) : unit =
   match errors with
   | [] -> ()
-  | ({ start; _end }, first_error) :: _ ->
+  | ({ start; _end; _ }, first_error) :: _ ->
       let loc_start = loc.loc_start in
       Location.prerr_warning
         {
