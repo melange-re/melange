@@ -297,7 +297,7 @@ js
   )
 ;;
 
-let (//) = Filename.concat
+let (//) = Ext_path.(//)
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
   Ext_pervasives.with_file_as_chan file (fun chan ->
