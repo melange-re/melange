@@ -177,14 +177,6 @@ let eval (s : string) =
   clean tmpfile;
   ret
 
-module Pp = Rescript_cpp
-let define_variable s =
-  match Ext_string.split ~keep_empty:true s '=' with
-  | [key; v] ->
-    if not (Pp.define_key_value key v)  then
-       raise  (Arg.Bad("illegal definition: " ^ s))
-  | _ -> raise (Arg.Bad ("illegal definition: " ^ s))
-
 let print_standard_library () =
   print_endline (String.concat ":" (Js_config.std_include_dirs ()));
   exit 0
@@ -222,11 +214,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       no_alias_deps;
       bs_gentype;
       unboxed_types;
-      bs_D;
       bs_unsafe_empty_array;
       nostdlib;
       color;
-      bs_list_conditionals;
       bs_eval;
       bs_e;
       bs_cmi_only;
@@ -304,9 +294,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
-    if bs_g then (
-      Js_config.debug := bs_g;
-      Rescript_cpp.replace_directive_bool "DEBUG" true);
+    if bs_g then Js_config.debug := bs_g;
 
     Option.iter Js_packages_state.set_package_name bs_package_name;
     begin match bs_module_type, bs_package_output with
@@ -345,8 +333,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype)
       bs_gentype;
     if unboxed_types then Clflags.unboxed_types := unboxed_types;
-    Ext_list.iter bs_D define_variable;
-    if bs_list_conditionals then Pp.list_variables Format.err_formatter;
     if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
     if nostdlib then Js_config.no_stdlib := nostdlib;
     Option.iter set_color_option color;
