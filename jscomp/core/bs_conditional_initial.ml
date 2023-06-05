@@ -65,11 +65,6 @@ let setup_env () =
 #ifndef BS_RELEASE_BUILD
     Printexc.record_backtrace true;
 #endif
-
-  Rescript_cpp.replace_directive_bool "MELANGE" true;
-  Rescript_cpp.replace_directive_bool "BS" true;
-  Rescript_cpp.replace_directive_bool "JS" true;
-  Rescript_cpp.replace_directive_string "BS_VERSION"  Melange_version.version
 ;;
 
 let () =

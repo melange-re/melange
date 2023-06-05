@@ -43,11 +43,9 @@ type t = {
   no_alias_deps : bool;
   bs_gentype : string option;
   unboxed_types : bool;
-  bs_D : string list;
   bs_unsafe_empty_array : bool;
   nostdlib : bool;
   color : string option;
-  bs_list_conditionals : bool;
   bs_eval : string option;
   bs_e : string option;
   bs_cmi_only : bool;
@@ -170,10 +168,6 @@ let unboxed_types =
   let doc = "Unannotated unboxable types will be unboxed" in
   Arg.(value & flag & info [ "unboxed-types" ] ~doc)
 
-let bs_D =
-  let doc = "Define conditional variable e.g, -D DEBUG=true" in
-  Arg.(value & opt_all string [] & info [ "bs-D" ] ~doc)
-
 let color =
   let doc =
     "Enable or disable colors in compiler messages\n\
@@ -187,10 +181,6 @@ let color =
      not empty or \"dumb\", and that isatty(stderr) holds."
   in
   Arg.(value & opt (some string) None & info [ "color" ] ~doc)
-
-let bs_list_conditionals =
-  let doc = "List existing conditional variables" in
-  Arg.(value & flag & info [ "bs-list-conditionals" ] ~doc)
 
 let bs_e =
   let doc =
@@ -482,14 +472,13 @@ end
 let parse help include_dirs alerts warnings output_name ppx open_modules
     bs_package_output bs_module_type bs_syntax_only bs_g bs_package_name
     bs_module_name bs_ns as_ppx as_pp no_alias_deps bs_gentype unboxed_types
-    bs_D bs_unsafe_empty_array nostdlib color bs_list_conditionals bs_eval bs_e
-    bs_cmi_only bs_cmi bs_cmj bs_no_version_header bs_no_builtin_ppx
-    bs_cross_module_opt bs_diagnose where verbose keep_locs
-    bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc impl intf
-    intf_suffix g opaque preamble strict_sequence strict_formats dtypedtree
-    dparsetree drawlambda dsource version pp absname bin_annot i nopervasives
-    modules nolabels principal short_paths unsafe warn_help warn_error
-    bs_stop_after_cmj runtime filenames _bs_super_errors _c =
+    bs_unsafe_empty_array nostdlib color bs_eval bs_e bs_cmi_only bs_cmi bs_cmj
+    bs_no_version_header bs_no_builtin_ppx bs_cross_module_opt bs_diagnose where
+    verbose keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc
+    impl intf intf_suffix g opaque preamble strict_sequence strict_formats
+    dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
+    nopervasives modules nolabels principal short_paths unsafe warn_help
+    warn_error bs_stop_after_cmj runtime filenames _bs_super_errors _c =
   {
     help;
     include_dirs;
@@ -510,11 +499,9 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     no_alias_deps;
     bs_gentype;
     unboxed_types;
-    bs_D;
     bs_unsafe_empty_array;
     nostdlib;
     color;
-    bs_list_conditionals;
     bs_eval;
     bs_e;
     bs_cmi_only;
@@ -567,9 +554,8 @@ let cmd =
     $ open_modules $ Internal.bs_package_output $ Internal.bs_module_type
     $ bs_syntax_only $ bs_g $ bs_package_name $ bs_module_name $ bs_ns
     $ Internal.as_ppx $ Internal.as_pp $ Internal.no_alias_deps
-    $ Internal.bs_gentype $ unboxed_types $ bs_D
-    $ Internal.bs_unsafe_empty_array $ Internal.nostdlib $ color
-    $ bs_list_conditionals $ Internal.bs_eval $ bs_e $ Internal.bs_cmi_only
+    $ Internal.bs_gentype $ unboxed_types $ Internal.bs_unsafe_empty_array
+    $ Internal.nostdlib $ color $ Internal.bs_eval $ bs_e $ Internal.bs_cmi_only
     $ Internal.bs_cmi $ Internal.bs_cmj $ Internal.bs_no_version_header
     $ Internal.bs_no_builtin_ppx $ Internal.bs_cross_module_opt
     $ Internal.bs_diagnose $ where $ verbose $ keep_locs
