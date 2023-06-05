@@ -26,8 +26,10 @@ module E = Js_exp_make
 module S = Js_stmt_make
 
 let args_either_function_or_const (args : Lam.t list) =
-  Ext_list.for_all args (fun x ->
+  List.for_all
+    (fun (x : Lam.t) ->
       match x with Lfunction _ | Lconst _ -> true | _ -> false)
+    args
 
 let call_info_of_ap_status (ap_status : Lam.apply_status) : Js_call_info.t =
   match ap_status with
@@ -50,7 +52,7 @@ let rec apply_with_arity_aux (fn : J.expression) (arity : int list)
             rest continue (len - x)
         else if
           (* GPR #1423 *)
-          Ext_list.for_all args Js_analyzer.is_okay_to_duplicate
+          List.for_all Js_analyzer.is_okay_to_duplicate args
         then
           let params =
             List.init (x - len) (fun _ -> Ext_ident.create "param")
@@ -353,7 +355,8 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
         args = ls;
         _;
       }
-    when Ext_list.for_all ls (fun x ->
+    when List.for_all
+           (fun (x : Lam.t) ->
              match x with
              | Lvar pid ->
                  Ident.same pid id
@@ -362,7 +365,8 @@ and compile_recursive_let ~all_bindings (cxt : Lam_compile_context.t)
                          (fun (other, _) -> Ident.same other pid)
                          all_bindings
              | Lconst _ -> true
-             | _ -> false) ->
+             | _ -> false)
+           ls ->
       (* capture cases like for {!Queue}
          {[let rec cell = { content = x; next = cell} ]}
          #1716: be careful not to optimize such cases:

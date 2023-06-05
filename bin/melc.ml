@@ -26,9 +26,9 @@ let print_backtrace () =
             | [] -> acc := [ bt ]
             | hd :: _ -> if hd <> bt then acc := bt :: !acc)
       done;
-      Ext_list.iter !acc (fun bt ->
+      List.iter (fun (bt: Printexc.location) ->
           Printf.eprintf "File \"%s\", line %d, characters %d-%d\n" bt.filename
-            bt.line_number bt.start_char bt.end_char)
+            bt.line_number bt.start_char bt.end_char) !acc
 #endif
 
 let set_abs_input_name sourcefile =
@@ -172,7 +172,10 @@ let clean tmpfile =
 
 let eval (s : string) =
   let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
-  Ext_io.write_file tmpfile s;
+  let oc = (open_out_bin tmpfile) in
+  Fun.protect
+    ~finally:(fun () -> close_out oc)
+    (fun () -> output_string oc s);
   let ret = anonymous ~rev_args:[tmpfile] in
   clean tmpfile;
   ret
@@ -269,7 +272,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
-    Ext_list.iter alerts Warnings.parse_alert_option;
+    List.iter Warnings.parse_alert_option alerts;
 
     begin match warnings with
     | [] -> ()
@@ -280,7 +283,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
          "+20" (so we override it). *)
       Melc_warnings.parse_warnings ~warn_error:false first;
       Melc_warnings.parse_warnings ~warn_error:false "-20";
-      Ext_list.iter rest (Melc_warnings.parse_warnings ~warn_error:false);
+      List.iter (Melc_warnings.parse_warnings ~warn_error:false) rest;
     end;
 
     Option.iter
@@ -315,8 +318,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       in
       Js_packages_state.set_output_info ~suffix bs_module_type
     | None, bs_package_output ->
-      Ext_list.iter bs_package_output
-        (Js_packages_state.update_npm_package_path ?module_name:bs_module_name);
+      List.iter
+        (Js_packages_state.update_npm_package_path ?module_name:bs_module_name)
+        bs_package_output;
     | Some _, _ :: _ ->
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
     end;
@@ -367,7 +371,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if short_paths then Clflags.real_paths := false;
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();
-    Ext_list.iter warn_error (Melc_warnings.parse_warnings ~warn_error:true);
+    List.iter (Melc_warnings.parse_warnings ~warn_error:true) warn_error ;
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->

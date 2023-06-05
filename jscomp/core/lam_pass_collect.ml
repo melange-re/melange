@@ -97,8 +97,7 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
             -- since collect would iter everywhere,
             so -- it would still iterate internally
         *)
-        Ext_list.iter params (fun p ->
-            Hash_ident.add meta.ident_tbl p Parameter);
+        List.iter (fun p -> Hash_ident.add meta.ident_tbl p Parameter) params;
         let arity = Lam_arity_analysis.get_arity meta lam in
         annotate meta rec_flag ident arity lam;
         collect body
@@ -124,8 +123,9 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         (match bindings with
         | [ (ident, arg) ] -> collect_bind Lam_self_rec ident arg
         | _ ->
-            Ext_list.iter bindings (fun (ident, arg) ->
-                collect_bind Lam_rec ident arg));
+            List.iter
+              (fun (ident, arg) -> collect_bind Lam_rec ident arg)
+              bindings);
         collect body
     | Lglobal_module _ -> ()
     | Lprim { args; _ } -> List.iter collect args

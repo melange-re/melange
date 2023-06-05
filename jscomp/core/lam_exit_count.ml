@@ -61,7 +61,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
     match lam with
     | Lstaticraise (i, ls) ->
         incr_exit exits i 1 !try_depth;
-        Ext_list.iter ls count
+        List.iter count ls
     | Lstaticcatch (l1, (i, []), Lstaticraise (j, [])) ->
         count l1;
         let ic = get_exit exits i in
@@ -76,7 +76,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
     | Lglobal_module _ | Lvar _ | Lmutvar _ | Lconst _ -> ()
     | Lapply { ap_func; ap_args; _ } ->
         count ap_func;
-        Ext_list.iter ap_args count
+        List.iter count ap_args
     | Lfunction { body; _ } -> count body
     | Llet (_, _, l1, l2) | Lmutlet (_, l1, l2) ->
         count l2;

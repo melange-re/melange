@@ -46,7 +46,7 @@ let check file lam =
   in
   (* TODO: replaced by a slow version of {!Lam_iter.inner_iter} *)
   let rec check_list xs (cxt : Set_int.t) =
-    Ext_list.iter xs (fun x -> check_staticfails x cxt)
+    List.iter (fun x -> check_staticfails x cxt) xs
   and check_list_snd : 'a. ('a * Lam.t) list -> _ -> unit =
    fun xs cxt -> Ext_list.iter_snd xs (fun x -> check_staticfails x cxt)
   and check_staticfails (l : Lam.t) (cxt : Set_int.t) =
@@ -92,7 +92,7 @@ let check file lam =
     | Lassign (_id, e) -> check_staticfails e cxt
     | Lsend (_k, met, obj, args, _) -> check_list (met :: obj :: args) cxt
   in
-  let rec iter_list xs = Ext_list.iter xs iter
+  let rec iter_list xs = List.iter iter xs
   and iter_list_snd : 'a. ('a * Lam.t) list -> unit =
    fun xs -> Ext_list.iter_snd xs iter
   and iter (l : Lam.t) =

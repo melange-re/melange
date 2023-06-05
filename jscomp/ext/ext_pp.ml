@@ -45,7 +45,7 @@ let output_string t s =
   | Channel chan -> output_string chan s
   | Buffer buf -> Buffer.add_string buf s);
   let new_line, new_column =
-    Ext_string.fold_left
+    String.fold_left
       (fun (line, column) char ->
         match char with '\n' -> (line + 1, 0) | _c -> (line, column + 1))
       (t.line, t.column) s
@@ -117,7 +117,7 @@ let group t i action =
   else
     let old = t.indent_level in
     t.indent_level <- t.indent_level + i;
-    Ext_pervasives.finally ~clean:(fun _ -> t.indent_level <- old) () action
+    Fun.protect ~finally:(fun () -> t.indent_level <- old) (fun () -> action ())
 
 let vgroup = group
 

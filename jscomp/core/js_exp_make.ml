@@ -42,7 +42,7 @@ let rec remove_pure_sub_exp (x : t) : t option =
   | Array_index (a, b) ->
       if is_pure_sub_exp a && is_pure_sub_exp b then None else Some x
   | Array (xs, _mutable_flag) ->
-      if Ext_list.for_all xs is_pure_sub_exp then None else Some x
+      if List.for_all is_pure_sub_exp xs then None else Some x
   | Seq (a, b) -> (
       match (remove_pure_sub_exp a, remove_pure_sub_exp b) with
       | None, None -> None

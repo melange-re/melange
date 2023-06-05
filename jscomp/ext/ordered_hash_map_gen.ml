@@ -1,5 +1,5 @@
 (* Copyright (C) 2015-2016 Bloomberg Finance L.P.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,13 +17,13 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Hash based datastrucure which does not support [remove], 
-    so that the adding order is strict and continous  
+(** Hash based datastrucure which does not support [remove],
+    so that the adding order is strict and continous
  *)
 
 module type S = sig
@@ -58,7 +58,7 @@ type ('a, 'b) t = {
 }
 
 let create initial_size =
-  let s = Ext_util.power_2_above 16 initial_size in
+  let s = Hash_gen.power_2_above 16 initial_size in
   { initial_size = s; size = 0; data = Array.make s Empty }
 
 let clear h =

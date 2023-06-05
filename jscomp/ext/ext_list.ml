@@ -24,14 +24,6 @@
 
 external ( .!() ) : 'a array -> int -> 'a = "%array_unsafe_get"
 
-let rec has_string l f =
-  match l with
-  | [] -> false
-  | [ x1 ] -> x1 = f
-  | [ x1; x2 ] -> x1 = f || x2 = f
-  | [ x1; x2; x3 ] -> x1 = f || x2 = f || x3 = f
-  | x1 :: x2 :: x3 :: x4 -> x1 = f || x2 = f || x3 = f || has_string x4 f
-
 let rec map_combine l1 l2 f =
   match (l1, l2) with
   | [], [] -> []
@@ -120,12 +112,6 @@ let rec mapi_aux lst i f tail =
       r :: mapi_aux l (i + 1) f tail
 
 let mapi_append lst f tail = mapi_aux lst 0 f tail
-
-let rec last xs =
-  match xs with
-  | [ x ] -> x
-  | _ :: tl -> last tl
-  | [] -> invalid_arg "Ext_list.last"
 
 let rec append_aux l1 l2 =
   match l1 with
@@ -348,33 +334,6 @@ let rec rev_iter l f =
       f x3;
       f x2;
       f x1
-
-let rec iter l f =
-  match l with
-  | [] -> ()
-  | [ x1 ] -> f x1
-  | [ x1; x2 ] ->
-      f x1;
-      f x2
-  | [ x1; x2; x3 ] ->
-      f x1;
-      f x2;
-      f x3
-  | [ x1; x2; x3; x4 ] ->
-      f x1;
-      f x2;
-      f x3;
-      f x4
-  | x1 :: x2 :: x3 :: x4 :: x5 :: tail ->
-      f x1;
-      f x2;
-      f x3;
-      f x4;
-      f x5;
-      iter tail f
-
-let rec for_all lst p =
-  match lst with [] -> true | a :: l -> p a && for_all l p
 
 let rec for_all_snd lst p =
   match lst with [] -> true | (_, a) :: l -> p a && for_all_snd l p

@@ -28,7 +28,6 @@ val combine_array : 'a array -> 'b list -> ('a -> 'c) -> ('c * 'b) list
 val combine_array_append :
   'a array -> 'b list -> ('c * 'b) list -> ('a -> 'c) -> ('c * 'b) list
 
-val has_string : string list -> string -> bool
 val mapi_append : 'a list -> (int -> 'a -> 'b) -> 'b list -> 'b list
 val map_snd : ('a * 'b) list -> ('b -> 'c) -> ('a * 'c) list
 
@@ -37,12 +36,6 @@ val map_last : 'a list -> (bool -> 'a -> 'b) -> 'b list
     will pass [true] to [f] for the last element,
     [false] otherwise.
     For empty list, it returns empty
-*)
-
-val last : 'a list -> 'a
-(** [last l]
-    return the last element
-    raise if the list is empty
 *)
 
 val append_one : 'a list -> 'a -> 'a list
@@ -128,8 +121,6 @@ val find_first_not : 'a list -> ('a -> bool) -> 'a option
 val find_opt : 'a list -> ('a -> 'b option) -> 'b option
 val find_def : 'a list -> ('a -> 'b option) -> 'b -> 'b
 val rev_iter : 'a list -> ('a -> unit) -> unit
-val iter : 'a list -> ('a -> unit) -> unit
-val for_all : 'a list -> ('a -> bool) -> bool
 val for_all_snd : ('a * 'b) list -> ('b -> bool) -> bool
 
 val for_all2_no_exn : 'a list -> 'b list -> ('a -> 'b -> bool) -> bool

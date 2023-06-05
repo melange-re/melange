@@ -119,11 +119,13 @@ let emit_external_warnings : Ast_traverse.iter =
     method! attribute attr = warn_unused_attribute attr
 
     method! label_declaration lbl =
-      Ext_list.iter lbl.pld_attributes (fun attr ->
+      List.iter
+        (fun attr ->
           match attr with
           | { attr_name = { txt = "bs.as" | "as"; _ }; _ } ->
               mark_used_bs_attribute attr
-          | _ -> ());
+          | _ -> ())
+        lbl.pld_attributes;
       super#label_declaration lbl
   end
 

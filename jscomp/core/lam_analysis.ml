@@ -38,7 +38,7 @@ let rec no_side_effects (lam : Lam.t) : bool =
          this expression itself is side effect free
       *)
   | Lprim { primitive; args; _ } -> (
-      Ext_list.for_all args no_side_effects
+      List.for_all no_side_effects args
       &&
       match primitive with
       | Pccall { prim_name } -> (
@@ -218,7 +218,9 @@ and size_lams acc (lams : Lam.t list) =
   List.fold_left (fun acc l -> acc + size l) acc lams
 
 let args_all_const (args : Lam.t list) =
-  Ext_list.for_all args (fun x -> match x with Lconst _ -> true | _ -> false)
+  List.for_all
+    (fun (x : Lam.t) -> match x with Lconst _ -> true | _ -> false)
+    args
 
 let exit_inline_size = 7
 let small_inline_size = 5

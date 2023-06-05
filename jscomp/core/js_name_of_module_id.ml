@@ -28,7 +28,7 @@ let (=)  (x : int) (y:float) = assert false
 let ( // ) = Ext_path.( // )
 
 let fix_path_for_windows : string -> string =
-  if Ext_sys.is_windows_or_cygwin then Ext_string.replace_backward_slash
+  if Sys.win32 || Sys.cygwin then Ext_string.replace_backward_slash
   else fun s -> s
 
 let js_name_of_modulename s (case : Ext_js_file_kind.case) suffix : string =
