@@ -45,6 +45,11 @@ let error_of_exn e =
   | Some (`Ok e) -> Some e
   | Some `Already_displayed | None -> None
 
+module Convert =
+  Ppxlib_ast.Convert
+    (Ppxlib_ast__.Versions.OCaml_414)
+    (Ppxlib_ast__.Versions.OCaml_current)
+
 let compile impl str : Js.Unsafe.obj =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
@@ -59,11 +64,14 @@ let compile impl str : Js.Unsafe.obj =
   try
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast = Js_implementation.Ppx_entry.rewrite_implementation ast in
-    let ast =
-      Melange_ppxlib_ast.Of_ppxlib.copy_structure
-        (Ppxlib.Driver.map_structure
-           (Melange_ppxlib_ast.To_ppxlib.copy_structure ast))
+    let ast : Melange_compiler_libs.Parsetree.structure =
+      let ppxlib_ast : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure =
+        Obj.magic (ast : Melange_compiler_libs.Parsetree.structure)
+      in
+      let converted =
+        Convert.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
+      in
+      (Obj.magic converted : Melange_compiler_libs.Parsetree.structure)
     in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
