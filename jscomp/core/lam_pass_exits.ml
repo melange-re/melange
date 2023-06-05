@@ -19,7 +19,7 @@
         to inline directly since if it contains bounded variables it
         must be rebounded before inlining
 *)
-let rec no_list args = Ext_list.for_all args no_bounded_variables
+let rec no_list args = List.for_all no_bounded_variables args
 
 and no_list_snd : 'a. ('a * Lam.t) list -> bool =
  fun args -> Ext_list.for_all_snd args no_bounded_variables

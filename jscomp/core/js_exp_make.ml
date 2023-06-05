@@ -42,7 +42,7 @@ let rec remove_pure_sub_exp (x : t) : t option =
   | Array_index (a, b) ->
       if is_pure_sub_exp a && is_pure_sub_exp b then None else Some x
   | Array (xs, _mutable_flag) ->
-      if Ext_list.for_all xs is_pure_sub_exp then None else Some x
+      if List.for_all is_pure_sub_exp xs then None else Some x
   | Seq (a, b) -> (
       match (remove_pure_sub_exp a, remove_pure_sub_exp b) with
       | None, None -> None
@@ -149,7 +149,7 @@ let module_access (e : t) (name : string) (pos : int32) =
   let name = Ext_ident.convert name in
   match e.expression_desc with
   | Caml_block (l, _, _, _) when no_side_effect e -> (
-      match Ext_list.nth_opt l (Int32.to_int pos) with
+      match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
       | None -> make_expression (Static_index (e, name, Some pos)))
   | _ -> make_expression (Static_index (e, name, Some pos))
@@ -276,7 +276,7 @@ let array_index ?loc ?comment (e0 : t) (e1 : t) : t =
   | Array (l, _), Number (Int { i; _ })
   (* Float i -- should not appear here *)
     when no_side_effect e0 -> (
-      match Ext_list.nth_opt l (Int32.to_int i) with
+      match List.nth_opt l (Int32.to_int i) with
       | None -> make_expression ?loc ?comment (Array_index (e0, e1))
       | Some x -> x (* FIX #3084*))
   | _ -> make_expression ?loc ?comment (Array_index (e0, e1))
@@ -286,7 +286,7 @@ let array_index_by_int ?loc ?comment (e : t) (pos : int32) : t =
   | Array (l, _) (* Float i -- should not appear here *)
   | Caml_block (l, _, _, _)
     when no_side_effect e -> (
-      match Ext_list.nth_opt l (Int32.to_int pos) with
+      match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
       | None -> make_expression ?loc (Array_index (e, int ?comment pos)))
   | _ -> make_expression ?loc (Array_index (e, int ?comment pos))
@@ -297,7 +297,7 @@ let record_access (e : t) (name : string) (pos : int32) =
   | Array (l, _) (* Float i -- should not appear here *)
   | Caml_block (l, _, _, _)
     when no_side_effect e -> (
-      match Ext_list.nth_opt l (Int32.to_int pos) with
+      match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
       | None -> make_expression (Static_index (e, name, Some pos)))
   | _ -> make_expression (Static_index (e, name, Some pos))
@@ -333,7 +333,7 @@ let extension_access (e : t) name (pos : int32) : t =
   | Array (l, _) (* Float i -- should not appear here *)
   | Caml_block (l, _, _, _)
     when no_side_effect e -> (
-      match Ext_list.nth_opt l (Int32.to_int pos) with
+      match List.nth_opt l (Int32.to_int pos) with
       | Some x -> x
       | None ->
           let name =

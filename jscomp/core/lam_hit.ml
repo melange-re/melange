@@ -29,7 +29,7 @@ let hit_variables (fv : Set_ident.t) (l : t) : bool =
     match x with None -> false | Some a -> hit a
   and hit_var (id : Ident.t) = Set_ident.mem fv id
   and hit_list_snd : 'a. ('a * t) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
+   fun x -> List.exists (fun (_, x) -> hit x) x
   and hit_list xs = List.exists hit xs
   and hit (l : t) =
     match (l : t) with
@@ -63,7 +63,7 @@ let hit_variable (fv : Ident.t) (l : t) : bool =
     match x with None -> false | Some a -> hit a
   and hit_var (id : Ident.t) = Ident.same id fv
   and hit_list_snd : 'a. ('a * t) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
+   fun x -> List.exists (fun (_, x) -> hit x) x
   and hit_list xs = List.exists hit xs
   and hit (l : t) =
     match (l : t) with

@@ -216,7 +216,7 @@ type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
 let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
   let st = ref None in
-  Ext_list.iter attrs
+  List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.as" | "as" ->
@@ -258,7 +258,8 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
                 | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
             | Some v -> st := Some (Int v))
           else Error.err ~loc Duplicated_bs_as
-      | _ -> ());
+      | _ -> ())
+    attrs;
   !st
 
 (* duplicated @uncurry @string not allowed,
@@ -273,9 +274,8 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
       st := v)
     else Error.err ~loc Conflict_attributes
   in
-  Ext_list.iter attrs
-    (fun ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr)
-    ->
+  List.iter
+    (fun ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.string" | "string" -> assign `String attr
       | "bs.int" | "int" -> assign `Int attr
@@ -283,12 +283,13 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
       | "bs.unwrap" | "unwrap" -> assign `Unwrap attr
       | "bs.uncurry" | "uncurry" ->
           assign (`Uncurry (Ast_payload.is_single_int payload)) attr
-      | _ -> ());
+      | _ -> ())
+    attrs;
   !st
 
 let iter_process_bs_string_as (attrs : t) : string option =
   let st = ref None in
-  Ext_list.iter attrs
+  List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.as" | "as" ->
@@ -299,7 +300,8 @@ let iter_process_bs_string_as (attrs : t) : string option =
                 Bs_ast_invariant.mark_used_bs_attribute attr;
                 st := Some v)
           else Error.err ~loc Duplicated_bs_as
-      | _ -> ());
+      | _ -> ())
+    attrs;
   !st
 
 let external_attrs =
@@ -363,7 +365,7 @@ let rs_externals (attrs : t) pval_prim =
 
 let iter_process_bs_int_as (attrs : t) =
   let st = ref None in
-  Ext_list.iter attrs
+  List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
       match txt with
       | "bs.as" | "as" ->
@@ -374,7 +376,8 @@ let iter_process_bs_int_as (attrs : t) =
                 Bs_ast_invariant.mark_used_bs_attribute attr;
                 st := v)
           else Error.err ~loc Duplicated_bs_as
-      | _ -> ());
+      | _ -> ())
+    attrs;
   !st
 
 let has_bs_optional (attrs : t) : bool =

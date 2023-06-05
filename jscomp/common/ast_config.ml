@@ -52,9 +52,10 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
       _;
     }
     :: _ ->
-      Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
+      List.iter
         (fun x ->
           Ast_payload.table_dispatch !structural_config_table x |> ignore)
+        (Ast_payload.ident_or_record_as_config loc payload)
   (* [ppxlib] adds a wrapper like:
 
      [@@@ocaml.ppx.context ...]
@@ -96,8 +97,9 @@ let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
       _;
     }
     :: _ ->
-      Ext_list.iter (Ast_payload.ident_or_record_as_config loc payload)
+      List.iter
         (fun x ->
           Ast_payload.table_dispatch !signature_config_table x |> ignore)
+        (Ast_payload.ident_or_record_as_config loc payload)
   | { psig_desc = Psig_attribute _; _ } :: rest -> iter_on_bs_config_sigi rest
   | _ :: _ -> ()

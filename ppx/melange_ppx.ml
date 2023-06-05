@@ -136,10 +136,12 @@ module Private = struct
       | _ -> false
 
     let check (x : Parsetree.structure) =
-      Ext_list.iter x (fun x ->
+      List.iter
+        (fun x ->
           if not (no_type_defined x) then
             Location.raise_errorf ~loc:x.pstr_loc
               "the structure is not supported in local extension")
+        x
 
     let attrs : Parsetree.attributes =
       [

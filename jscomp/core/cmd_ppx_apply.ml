@@ -48,7 +48,7 @@ let rewrite kind ppxs ast =
   match temp_files with
   | last_fn :: _ ->
       let out = read_ast kind last_fn in
-      Ext_list.iter temp_files Misc.remove_file;
+      List.iter Misc.remove_file temp_files;
       out
   | _ -> assert false
 

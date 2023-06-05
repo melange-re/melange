@@ -30,7 +30,7 @@ let cwd = lazy (Sys.getcwd ())
 let path_sep = if Sys.win32 then ';' else ':'
 
 let split_by_sep_per_os : string -> string list =
-  if Ext_sys.is_windows_or_cygwin then fun x ->
+  if Sys.win32 || Sys.cygwin then fun x ->
     (* on Windows, we can still accept -bs-package-output lib/js *)
     Ext_string.split_by
       (fun x -> match x with '/' | '\\' -> true | _ -> false)
@@ -170,7 +170,7 @@ let pard = Filename.parent_dir_name
 
 let rel_normalized_absolute_path ~from to_ =
   let merge_parent_segment acc segment =
-    if segment = curd then acc else acc // Ext_string.parent_dir_lit
+    if segment = curd then acc else acc // pard
   in
   let root1, paths1 = split_aux from in
   let root2, paths2 = split_aux to_ in
@@ -183,14 +183,12 @@ let rel_normalized_absolute_path ~from to_ =
           else if x = curd then go xs yss
           else if y = curd then go xss ys
           else
-            let start =
-              List.fold_left merge_parent_segment Ext_string.parent_dir_lit xs
-            in
+            let start = List.fold_left merge_parent_segment pard xs in
             List.fold_left (fun acc v -> acc // v) start yss
       | [], [] -> Ext_string.empty
       | [], y :: ys -> List.fold_left (fun acc x -> acc // x) y ys
       | x :: xs, [] ->
-          let start = if x = curd then "" else Ext_string.parent_dir_lit in
+          let start = if x = curd then "" else pard in
           List.fold_left merge_parent_segment start xs
     in
     let v = go paths1 paths2 in
@@ -231,9 +229,8 @@ let normalize_absolute_path x =
     match paths with
     | [] -> acc
     | x :: xs ->
-        if String.equal x Ext_string.current_dir_lit then normalize_list acc xs
-        else if String.equal x Ext_string.parent_dir_lit then
-          normalize_list (drop_if_exist acc) xs
+        if String.equal x curd then normalize_list acc xs
+        else if String.equal x pard then normalize_list (drop_if_exist acc) xs
         else normalize_list (x :: acc) xs
   in
   let root, paths = split_aux x in

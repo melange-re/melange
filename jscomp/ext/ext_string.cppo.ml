@@ -197,25 +197,20 @@ let compare = Bs_hash_stubs.string_length_based_compare
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
 #endif
 
-let parent_dir_lit = ".."
-let current_dir_lit = "."
-
-
-(* reference {!Bytes.unppercase} *)
+(* reference {!Bytes.uppercase} *)
 let capitalize_ascii (s : string) : string =
   if String.length s = 0 then s
-  else
-    begin
-      let c = String.unsafe_get s 0 in
-      if (c >= 'a' && c <= 'z')
-      || (c >= '\224' && c <= '\246')
-      || (c >= '\248' && c <= '\254') then
-        let uc = Char.unsafe_chr (Char.code c - 32) in
-        let bytes = Bytes.of_string s in
-        Bytes.unsafe_set bytes 0 uc;
-        Bytes.unsafe_to_string bytes
-      else s
-    end
+  else begin
+    let c = String.unsafe_get s 0 in
+    if (c >= 'a' && c <= 'z')
+    || (c >= '\224' && c <= '\246')
+    || (c >= '\248' && c <= '\254') then
+      let uc = Char.unsafe_chr (Char.code c - 32) in
+      let bytes = Bytes.of_string s in
+      Bytes.unsafe_set bytes 0 uc;
+      Bytes.unsafe_to_string bytes
+    else s
+  end
 
 let capitalize_sub (s : string) len : string =
   let slen = String.length s in
@@ -239,8 +234,3 @@ let capitalize_sub (s : string) len : string =
 let first_marshal_char (x : string) =
     x <> ""   &&
     ( String.unsafe_get x  0 = '\132')
-
-let fold_left f initial x =
-  let acc = ref initial in
-  String.iter (fun c -> acc := f !acc c) x;
-  !acc

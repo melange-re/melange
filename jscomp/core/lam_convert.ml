@@ -70,7 +70,7 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
   let rec hit_opt (x : _ option) =
     match x with None -> false | Some a -> hit a
   and hit_list_snd : 'a. ('a * _) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
+   fun x -> List.exists (fun (_, x) -> hit x) x
   and hit_list xs = List.exists hit xs
   and hit (l : Lam.t) =
     match l with
@@ -131,13 +131,15 @@ let happens_to_be_diff (sw_consts : (int * Lam.t) list) : int32 option =
       let diff = Int32.sub a0 a in
       if Int32.sub b0 b = diff then
         if
-          Ext_list.for_all rest (fun (x, lam) ->
+          List.for_all
+            (fun (x, lam) ->
               match lam with
-              | Lconst (Const_int { i = x0; comment = _ })
+              | Lam.Lconst (Const_int { i = x0; comment = _ })
                 when no_over_flow_int32 x0 && no_over_flow x ->
                   let x = Int32.of_int x in
                   Int32.sub x0 x = diff
               | _ -> false)
+            rest
         then Some diff
         else None
       else None
@@ -480,7 +482,19 @@ let rec rename_optional_parameters map params (body : Lam.t) =
              f)
           rest )
   | _ -> (map, body)
-  [@@warning "-27"]
+
+let nat_of_string_exn =
+  let rec int_of_string_aux s acc off len =
+    if off >= len then acc
+    else
+      let d = Char.code (String.unsafe_get s off) - 48 in
+      if d >= 0 && d <= 9 then
+        int_of_string_aux s ((10 * acc) + d) (off + 1) len
+      else -1 (* error *)
+  in
+  fun s ->
+    let acc = int_of_string_aux s 0 0 (String.length s) in
+    if acc < 0 then invalid_arg s else acc
 
 let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     Lam.t * Lam_module_ident.Hash_set.t =
@@ -592,8 +606,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
           | "#typeof" -> Pjs_typeof
           | "#run" -> Pvoid_run
           | "#full_apply" -> Pfull_apply
-          | "#fn_mk" ->
-              Pjs_fn_make (Ext_pervasives.nat_of_string_exn p.prim_native_name)
+          | "#fn_mk" -> Pjs_fn_make (nat_of_string_exn p.prim_native_name)
           | "#fn_method" -> Pjs_fn_method
           | "#unsafe_downgrade" ->
               Pjs_unsafe_downgrade
@@ -779,8 +792,10 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
                  } as px) ) )
           when Ident.same switcher3 id
                && (not (Lam_hit.hit_variable id ifso))
-               && not (Ext_list.exists_snd sw_consts (Lam_hit.hit_variable id))
-          ->
+               && not
+                    (List.exists
+                       (fun (_, x) -> Lam_hit.hit_variable id x)
+                       sw_consts) ->
             Lam.switch matcher
               {
                 px with

@@ -30,10 +30,14 @@ let rec is_obj_literal (x : _ Flow_ast.Expression.t) : bool =
   match snd x with
   | Identifier (_, { name = "undefined"; _ }) | Literal _ -> true
   | Unary { operator = Minus; argument; _ } -> is_obj_literal argument
-  | Object { properties; _ } -> Ext_list.for_all properties is_literal_kv
+  | Object { properties; _ } -> List.for_all is_literal_kv properties
   | Array { elements; _ } ->
-      Ext_list.for_all elements (fun x ->
-          match x with Expression x -> is_obj_literal x | _ -> false)
+      List.for_all
+        (fun x ->
+          match x with
+          | Flow_ast.Expression.Array.Expression x -> is_obj_literal x
+          | _ -> false)
+        elements
   | _ -> false
 
 and is_literal_kv (x : _ Flow_ast.Expression.Object.property) =

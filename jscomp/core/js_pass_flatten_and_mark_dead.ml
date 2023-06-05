@@ -214,7 +214,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                           ^
                           match tag_info with
                           | Blk_module fields -> (
-                              match Ext_list.nth_opt fields i with
+                              match List.nth_opt fields i with
                               | None -> Printf.sprintf "%d" i
                               | Some x -> x)
                           | Blk_record fields ->
@@ -261,7 +261,7 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                 (* user program can be wrong, we should not
                    turn a runtime crash into compile time crash : )
                 *)
-                match Ext_list.nth_opt ls (Int32.to_int i) with
+                match List.nth_opt ls (Int32.to_int i) with
                 | Some
                     ({
                        expression_desc = J.Var _ | Number _ | Str _ | Undefined;

@@ -34,7 +34,7 @@ let transitive_closure (initial_idents : Ident.t list)
             (Ext_ident.stamp id)
       | Some e -> Set_ident.iter e dfs)
   in
-  Ext_list.iter initial_idents dfs;
+  List.iter dfs initial_idents;
   visited
 
 let remove export_idents (rest : Lam_group.t list) : Lam_group.t list =

@@ -118,7 +118,8 @@ let interface ~parser ppf fname =
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
 let all_module_alias (ast : Parsetree.structure) =
-  Ext_list.for_all ast (fun { pstr_desc; _ } ->
+  List.for_all
+    (fun { Parsetree.pstr_desc; _ } ->
       match pstr_desc with
       | Pstr_module { pmb_expr = { pmod_desc = Pmod_ident _; _ }; _ } -> true
       | Pstr_attribute _ -> true
@@ -127,6 +128,7 @@ let all_module_alias (ast : Parsetree.structure) =
       | Pstr_modtype _ | Pstr_open _ | Pstr_class _ | Pstr_class_type _
       | Pstr_include _ | Pstr_extension _ ->
           false)
+    ast
 
 let no_export (rest : Parsetree.structure) : Parsetree.structure =
   match rest with

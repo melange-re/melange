@@ -22,25 +22,25 @@
  (targets ext_string.ml)
  (deps ext_string.cppo.ml)
  (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets ext_string.mli)
  (deps ext_string.cppo.mli)
  (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets hash_gen.ml)
  (deps hash_gen.cppo.ml)
  (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets hash_set_gen.ml)
  (deps hash_set_gen.cppo.ml)
  (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
+  (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets js_reserved_map.ml)

@@ -61,11 +61,10 @@ let sane_property_name_check loc s =
     Location.raise_errorf ~loc
       "property name (%s) can not contain speical character #" s
 
-(* match fn as *)
 let view_as_app (fn : exp) (s : string list) : app_pattern option =
   match fn.pexp_desc with
   | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
-    when Ext_list.has_string s op ->
+    when List.mem op s ->
       Some { op; loc = fn.pexp_loc; args = check_and_discard args }
   | _ -> None
 
