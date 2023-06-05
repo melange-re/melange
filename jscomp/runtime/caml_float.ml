@@ -22,9 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
-
-
 (* borrowed from others/js_math.ml *)
 external _LOG2E : float = "Math.LOG2E" [@@bs.val]
 external _LOG10E : float = "Math.LOG10E" [@@bs.val]

@@ -26,8 +26,6 @@
     due to we believe this is an even low level dependency
 *)
 
-open Bs_stdlib_mini
-
 [@@@warning "-37"] (* `Function` may be used in runtime *)
 
 type shape =

@@ -1,19 +1,33 @@
+(rule
+ (deps melange_runtime.pre.ml)
+ (target melange_runtime.ml)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps}))
+   ; (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awk -o %{target}.awk)
+   )))
+
 (library
  (public_name melange.runtime)
- (name runtime)
+ (name melange_runtime)
  (modes melange)
- (wrapped false)
+ ; (wrapped false)
  (preprocess
   (pps melange.ppx -unsafe))
  (flags :standard \ -keep-locs)
+ (stdlib
+  ; (modules_before_stdlib js)
+  (internal_modules Caml* Curry))
  (melange.compile_flags
   -no-keep-locs
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
   -unsafe
-  -nopervasives
-  -nostdlib
+  ; -nopervasives
+  ; -nostdlib
   -w
   -61-69))
 

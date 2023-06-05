@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
-
 external dup : 'a array -> (_ [@bs.as 0]) -> 'a array =
   "slice"  [@@bs.send]
 

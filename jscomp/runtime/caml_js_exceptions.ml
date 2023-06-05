@@ -1,5 +1,3 @@
-open Bs_stdlib_mini
-
 type  t =
   | Any : 'a ->  t [@@unboxed]
 

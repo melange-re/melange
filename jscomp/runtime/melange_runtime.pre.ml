@@ -53,7 +53,7 @@ external ( -. ) : float -> float -> float = "%subfloat"
 external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
-module Obj : sig
+module Obj = struct
   type t
   external field : t -> int -> t = "%obj_field"
   external set_field : t -> int -> t -> unit = "%obj_set_field"
@@ -67,7 +67,7 @@ module Obj : sig
 end
 
 
-module Pervasives : sig
+module Pervasives = struct
   external compare : 'a -> 'a -> int = "%compare"
   external not : bool -> bool = "%boolnot"
   external min : 'a -> 'a -> 'a = "%bs_min"
@@ -75,3 +75,5 @@ module Pervasives : sig
   external ( = ) : 'a -> 'a -> bool = "%equal"
 end
 
+(*MODULE_ALIASES*)
+module Js = Js

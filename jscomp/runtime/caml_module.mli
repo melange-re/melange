@@ -1,5 +1,3 @@
-open Bs_stdlib_mini
-
 type shape
 
 val init_mod :
