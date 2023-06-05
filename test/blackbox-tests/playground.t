@@ -14,6 +14,8 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.compile("let t = 1"));
   > console.log(ocaml.compile(\`let john = [%bs.obj { name = "john"; age = 99 }] let t = john##name\`));
   > console.log(ocaml.compile(\`let foo = Belt.List.map\`));
+  > console.log(ocaml.compile(\`let +foo\`));
+  > console.log(ocaml.compile(\`let foo = "fpp" + 2\`));
   > EOF
 
   $ node input.js
@@ -53,4 +55,23 @@ Prepare an input file to test some snippets to exercise common functionality
       '\n' +
       'exports.foo = foo;\n' +
       '/* No side effect */\n'
+  }
+  {
+    js_error_msg: 'Line 1, 5:\n  Error Syntax error',
+    row: 0,
+    column: 5,
+    endRow: 0,
+    endColumn: 8,
+    text: 'Syntax error',
+    type: 'error'
+  }
+  {
+    js_error_msg: 'Line 1, 10:\n' +
+      '  Error This expression has type string but an expression was expected of type int',
+    row: 0,
+    column: 10,
+    endRow: 0,
+    endColumn: 15,
+    text: 'This expression has type string but an expression was expected of type int',
+    type: 'error'
   }
