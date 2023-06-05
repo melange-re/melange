@@ -147,8 +147,11 @@ let record_scope_pass =
             (* Note that [used_idents] is not complete
                 it ignores some locally defined idents *)
             let param_set = Set_ident.of_list params in
-            let { defined_idents = defined_idents'; used_idents = used_idents' }
-                =
+            let {
+              defined_idents = defined_idents';
+              used_idents = used_idents';
+              _;
+            } =
               self.block self
                 {
                   init_state with
@@ -193,7 +196,7 @@ let record_scope_pass =
     variable_declaration =
       (fun self state x ->
         match x with
-        | { ident; value; property } -> (
+        | { ident; value; property; _ } -> (
             let obj =
               add_defined_ident
                 (match (state.in_loop, property) with
@@ -248,6 +251,7 @@ let record_scope_pass =
               defined_idents = defined_idents';
               used_idents = used_idents';
               closured_idents = closured_idents';
+              _;
             } =
               super.statement self
                 {

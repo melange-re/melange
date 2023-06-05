@@ -59,11 +59,13 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   match lam with
   | Levent (lam, _) -> is_function_or_const_block lam acc
   | Lprim (Pmakeblock _, args, _) ->
-      Ext_list.for_all args (fun x ->
+      List.for_all
+        (fun (x : loc) ->
           match x with
           | Lvar id -> Set_ident.mem acc id
           | Lfunction _ | Lconst _ -> true
           | _ -> false)
+        args
   | Llet (_, _, id, Lfunction _, cont) | Lmutlet (_, id, Lfunction _, cont) ->
       is_function_or_const_block cont (Set_ident.add acc id)
   | Lletrec (bindings, cont) -> (
@@ -85,10 +87,12 @@ let rec is_function_or_const_block (lam : Lambda.lambda) acc =
   | _ -> false
 
 let is_strict_or_all_functions (xs : binding list) =
-  Ext_list.for_all xs (fun (_, opt, rhs) ->
+  List.for_all
+    (fun (_, opt, rhs) ->
       match opt with
       | None -> true
       | _ -> is_function_or_const_block rhs Set_ident.empty)
+    xs
 
 (* Without such optimizations:
 

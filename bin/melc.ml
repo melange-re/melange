@@ -26,9 +26,9 @@ let print_backtrace () =
             | [] -> acc := [ bt ]
             | hd :: _ -> if hd <> bt then acc := bt :: !acc)
       done;
-      Ext_list.iter !acc (fun bt ->
+      List.iter (fun (bt: Printexc.location) ->
           Printf.eprintf "File \"%s\", line %d, characters %d-%d\n" bt.filename
-            bt.line_number bt.start_char bt.end_char)
+            bt.line_number bt.start_char bt.end_char) !acc
 #endif
 
 let set_abs_input_name sourcefile =
@@ -78,6 +78,12 @@ module As_ppx = struct
     Clflags.all_ppx := [ "melppx" ];
     Cmd_ppx_apply.apply_rewriters ~tool_name:"melppx" kind ast
 
+
+module Convert =
+  Ppxlib_ast.Convert
+    (Ppxlib_ast__.Versions.OCaml_414)
+    (Ppxlib_ast__.Versions.OCaml_current)
+
 let apply_lazy ~source ~target =
   let { Ast_io.ast; _ } =
     Ast_io.read_exn (File source) ~input_kind:Necessarily_binary
@@ -85,18 +91,26 @@ let apply_lazy ~source ~target =
   let oc = open_out_bin target in
   match ast with
   | Intf ast ->
-      let ast =
-        apply ~kind:Ml_binary.Mli ast |> Melange_ppxlib_ast.To_ppxlib.copy_signature
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_signature
+      let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.signature =
+        let ast = apply ~kind:Ml_binary.Mli ast in
+        let ppxlib_ast: Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.signature =
+          Obj.magic ast
+        in
+        Convert.copy_signature ppxlib_ast
       in
       output_string oc
         Ppxlib_ast.Compiler_version.Ast.Config.ast_intf_magic_number;
       output_value oc !Location.input_name;
       output_value oc ast
   | Impl ast ->
-      let ast =
-        apply ~kind:Ml_binary.Ml ast |> Melange_ppxlib_ast.To_ppxlib.copy_structure
-        |> Ppxlib_ast.Selected_ast.To_ocaml.copy_structure
+      let ast: Ppxlib_ast__.Versions.OCaml_current.Ast.Parsetree.structure =
+        let ast: Melange_compiler_libs.Parsetree.structure =
+          apply ~kind:Ml_binary.Ml ast
+        in
+        let ppxlib_ast: Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure =
+          Obj.magic ast
+        in
+        Convert.copy_structure ppxlib_ast
       in
       output_string oc
         Ppxlib_ast.Compiler_version.Ast.Config.ast_impl_magic_number;
@@ -158,18 +172,13 @@ let clean tmpfile =
 
 let eval (s : string) =
   let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
-  Ext_io.write_file tmpfile s;
+  let oc = (open_out_bin tmpfile) in
+  Fun.protect
+    ~finally:(fun () -> close_out oc)
+    (fun () -> output_string oc s);
   let ret = anonymous ~rev_args:[tmpfile] in
   clean tmpfile;
   ret
-
-module Pp = Rescript_cpp
-let define_variable s =
-  match Ext_string.split ~keep_empty:true s '=' with
-  | [key; v] ->
-    if not (Pp.define_key_value key v)  then
-       raise  (Arg.Bad("illegal definition: " ^ s))
-  | _ -> raise (Arg.Bad ("illegal definition: " ^ s))
 
 let print_standard_library () =
   print_endline (String.concat ":" (Js_config.std_include_dirs ()));
@@ -208,11 +217,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       no_alias_deps;
       bs_gentype;
       unboxed_types;
-      bs_D;
       bs_unsafe_empty_array;
       nostdlib;
       color;
-      bs_list_conditionals;
       bs_eval;
       bs_e;
       bs_cmi_only;
@@ -265,7 +272,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (* The OCaml compiler expects include_dirs in reverse CLI order, but
          cmdliner returns it in CLI order. *)
       List.rev_append include_dirs !Clflags.include_dirs;
-    Ext_list.iter alerts Warnings.parse_alert_option;
+    List.iter Warnings.parse_alert_option alerts;
 
     begin match warnings with
     | [] -> ()
@@ -276,7 +283,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
          "+20" (so we override it). *)
       Melc_warnings.parse_warnings ~warn_error:false first;
       Melc_warnings.parse_warnings ~warn_error:false "-20";
-      Ext_list.iter rest (Melc_warnings.parse_warnings ~warn_error:false);
+      List.iter (Melc_warnings.parse_warnings ~warn_error:false) rest;
     end;
 
     Option.iter
@@ -290,9 +297,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_cross_module_opt ;
     if bs_syntax_only then Js_config.syntax_only := bs_syntax_only;
 
-    if bs_g then (
-      Js_config.debug := bs_g;
-      Rescript_cpp.replace_directive_bool "DEBUG" true);
+    if bs_g then Js_config.debug := bs_g;
 
     Option.iter Js_packages_state.set_package_name bs_package_name;
     begin match bs_module_type, bs_package_output with
@@ -313,8 +318,9 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       in
       Js_packages_state.set_output_info ~suffix bs_module_type
     | None, bs_package_output ->
-      Ext_list.iter bs_package_output
-        (Js_packages_state.update_npm_package_path ?module_name:bs_module_name);
+      List.iter
+        (Js_packages_state.update_npm_package_path ?module_name:bs_module_name)
+        bs_package_output;
     | Some _, _ :: _ ->
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
     end;
@@ -331,8 +337,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       (fun bs_gentype -> Bs_clflags.bs_gentype := Some bs_gentype)
       bs_gentype;
     if unboxed_types then Clflags.unboxed_types := unboxed_types;
-    Ext_list.iter bs_D define_variable;
-    if bs_list_conditionals then Pp.list_variables Format.err_formatter;
     if bs_unsafe_empty_array then Config.unsafe_empty_array := bs_unsafe_empty_array;
     if nostdlib then Js_config.no_stdlib := nostdlib;
     Option.iter set_color_option color;
@@ -367,7 +371,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if short_paths then Clflags.real_paths := false;
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();
-    Ext_list.iter warn_error (Melc_warnings.parse_warnings ~warn_error:true);
+    List.iter (Melc_warnings.parse_warnings ~warn_error:true) warn_error ;
     if bs_stop_after_cmj then Js_config.cmj_only := bs_stop_after_cmj;
 
     Option.iter (fun s ->

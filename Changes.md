@@ -8,6 +8,11 @@ Unreleased
   for processing `external` declarations, `@deriving` attributes and more,
   compared to the previous release where `melange.ppx` just processed AST
   extension nodes ([#583](https://github.com/melange-re/melange/pull/583))
+- Remove old BuckleScript-style conditional compilation
+  ([#605](https://github.com/melange-re/melange/pull/605))
+- melange: don't emit JS import / require paths with `foo/./bar.js`
+  ([#598](https://github.com/melange-re/melange/issues/598),
+  [#612](https://github.com/melange-re/melange/pull/612))
 
 1.0.0 2023-05-31
 ---------------

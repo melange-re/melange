@@ -41,7 +41,7 @@ let key_index_by_ident (h : t) (key : Ident.t) =
   land (Array.length h.data - 1)
 
 let create initial_size =
-  let s = Ext_util.power_2_above 8 initial_size in
+  let s = Hash_gen.power_2_above 8 initial_size in
   { size = 0; data = Array.make s Empty; mask_size = 0 }
 
 let iter_and_unmask h f =

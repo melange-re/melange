@@ -27,7 +27,7 @@ type t = Parsetree.pattern
 
 let is_unit_cont ~yes ~no (p : t) =
   match p with
-  | { ppat_desc = Ppat_construct ({ txt = Lident "()" }, None) } -> yes
+  | { ppat_desc = Ppat_construct ({ txt = Lident "()"; _ }, None); _ } -> yes
   | _ -> no
 
 (** [arity_of_fun pat e] tells the arity of

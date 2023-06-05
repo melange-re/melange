@@ -34,7 +34,7 @@ let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
   and hit_var (id : Ident.t) =
     Hash_set_ident_mask.mask_and_check_all_hit mask id
   and hit_list_snd : 'a. ('a * Lam.t) list -> bool =
-   fun x -> Ext_list.exists_snd x hit
+   fun x -> List.exists (fun (_, x) -> hit x) x
   and hit_list xs = List.exists hit xs
   and hit (l : Lam.t) =
     match l with
@@ -42,7 +42,7 @@ let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
     | Lassign (id, e) -> hit_var id || hit e
     | Lstaticcatch (e1, (_, _), e2) -> hit e1 || hit e2
     | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _ } -> hit body
+    | Lfunction { body; params = _; _ } -> hit body
     | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
     | Lletrec (decl, body) -> hit body || hit_list_snd decl
     | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3
@@ -71,9 +71,11 @@ let preprocess_deps (groups : bindings) : _ * Ident.t array * Vec_int.t array =
     Ordered_hash_map_local_ident.create len
   in
   let mask = Hash_set_ident_mask.create len in
-  Ext_list.iter groups (fun (x, lam) ->
+  List.iter
+    (fun (x, lam) ->
       Ordered_hash_map_local_ident.add domain x lam;
-      Hash_set_ident_mask.add_unmask mask x);
+      Hash_set_ident_mask.add_unmask mask x)
+    groups;
   let int_mapping = Ordered_hash_map_local_ident.to_sorted_array domain in
   let node_vec = Array.make (Array.length int_mapping) (Vec_int.empty ()) in
   Ordered_hash_map_local_ident.iter domain (fun _id lam key_index ->
@@ -89,7 +91,7 @@ let is_function_bind (_, (x : Lam.t)) =
   match x with Lfunction _ -> true | _ -> false
 
 let sort_single_binding_group (group : bindings) =
-  if Ext_list.for_all group is_function_bind then group
+  if List.for_all is_function_bind group then group
   else
     List.sort
       (fun (_, lama) (_, lamb) ->

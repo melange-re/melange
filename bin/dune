@@ -9,13 +9,6 @@
    (run cppo "%{env:CPPO_FLAGS=}" -D BS_BROWSER %{input-file}))))
 
 (executable
- (public_name melpp)
- (package melange)
- (modules melpp)
- (flags :standard -open Melange_compiler_libs)
- (libraries common core cmdliner melange.ppxlib-ast melange_compiler_libs))
-
-(executable
  (public_name melppx)
  (package melange)
  (modules melppx)

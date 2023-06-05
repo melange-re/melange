@@ -49,6 +49,7 @@
 *)
 
 open Ppxlib
+module Ast_literal = Ast_literal
 
 module External = struct
   let rule =
@@ -101,8 +102,59 @@ module Raw = struct
 end
 
 module Private = struct
+  module Typemod_hide = struct
+    let no_type_defined (x : Parsetree.structure_item) =
+      match x.pstr_desc with
+      | Pstr_eval _ | Pstr_value _ | Pstr_primitive _ | Pstr_typext _
+      | Pstr_exception _
+      (* | Pstr_module {pmb_expr = {pmod_desc = Pmod_ident _} }  *) ->
+          true
+      | Pstr_include
+          {
+            pincl_mod =
+              {
+                pmod_desc =
+                  Pmod_constraint
+                    ( {
+                        pmod_desc =
+                          Pmod_structure [ { pstr_desc = Pstr_primitive _; _ } ];
+                        _;
+                      },
+                      _ );
+                _;
+              };
+            _;
+          } ->
+          true
+          (* FIX #4881
+             generated code from:
+             {[
+               external %private x : int -> int =  "x"
+               [@@bs.module "./x"]
+             ]}
+          *)
+      | _ -> false
+
+    let check (x : Parsetree.structure) =
+      List.iter
+        (fun x ->
+          if not (no_type_defined x) then
+            Location.raise_errorf ~loc:x.pstr_loc
+              "the structure is not supported in local extension")
+        x
+
+    let attrs : Parsetree.attributes =
+      [
+        {
+          attr_name = { txt = "internal.local"; loc = Location.none };
+          attr_payload = PStr [];
+          attr_loc = Location.none;
+        };
+      ]
+  end
+
   let expand (stru : Parsetree.structure) =
-    Typemod_hide.check (Melange_ppxlib_ast.Of_ppxlib.copy_structure stru);
+    Typemod_hide.check stru;
     let last_loc = (List.hd stru).pstr_loc in
     let first_loc = (List.hd stru).pstr_loc in
     let loc = { first_loc with loc_end = last_loc.loc_end } in
@@ -110,11 +162,7 @@ module Private = struct
       [
         Str.open_
           (Opn.mk ~override:Override
-             (Mod.structure ~loc
-                ~attrs:
-                  (List.map Melange_ppxlib_ast.To_ppxlib.copy_attr
-                     Typemod_hide.attrs)
-                stru));
+             (Mod.structure ~loc ~attrs:Typemod_hide.attrs stru));
       ]
     |> List.hd
 
@@ -175,7 +223,7 @@ module Time = struct
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         match payload with
-        | PStr [ { pstr_desc = Pstr_eval (e, _) } ] ->
+        | PStr [ { pstr_desc = Pstr_eval (e, _); _ } ] ->
             let locString =
               if loc.loc_ghost then "GHOST LOC"
               else
@@ -220,20 +268,13 @@ module Time = struct
 end
 
 module Node = struct
-  let as_ident x =
-    match x with
-    | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc = Pexp_ident ident }, _) } ]
-      ->
-        Some ident
-    | _ -> None
-
   let rule =
     let rule label =
       let extractor = Ast_pattern.(__') in
       let handler ~ctxt:_
           ({ txt = payload; loc } : Parsetree.payload Location.loc) =
         let strip s = match s with "_module" -> "module" | x -> x in
-        match as_ident payload with
+        match Ast_payload.as_ident payload with
         | Some
             {
               txt =
@@ -286,7 +327,9 @@ module Obj = struct
               {
                 pstr_desc =
                   Pstr_eval
-                    (({ pexp_desc = Pexp_record (label_exprs, None) } as e), _);
+                    ( ({ pexp_desc = Pexp_record (label_exprs, None); _ } as e),
+                      _ );
+                _;
               };
             ] ->
             {
@@ -317,7 +360,7 @@ module Mapper = struct
       (* [Expansion_context.Base.t] Ppxlib.Ast_traverse.map_with_context as super *)
 
       method! class_type
-          ({ pcty_attributes; pcty_loc } as ctd : Parsetree.class_type) =
+          ({ pcty_attributes; pcty_loc; _ } as ctd : Parsetree.class_type) =
         (* {[class x : int -> object
                      end [@bs]
                    ]}
@@ -426,7 +469,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "true" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "true"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = t_exp;
@@ -434,7 +479,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "false" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "false"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = f_exp;
@@ -446,7 +493,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "false" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "false"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = f_exp;
@@ -454,7 +503,9 @@ module Mapper = struct
                 {
                   pc_lhs =
                     {
-                      ppat_desc = Ppat_construct ({ txt = Lident "true" }, None);
+                      ppat_desc =
+                        Ppat_construct ({ txt = Lident "true"; _ }, None);
+                      _;
                     };
                   pc_guard = None;
                   pc_rhs = t_exp;
@@ -490,7 +541,7 @@ module Mapper = struct
         (* Ad-hoc way to internalize stuff *)
         let lbl = super#label_declaration lbl in
         match lbl.pld_attributes with
-        | [ { attr_name = { txt = "internal" }; _ } ] ->
+        | [ { attr_name = { txt = "internal"; _ }; _ } ] ->
             {
               lbl with
               pld_name =
@@ -512,7 +563,7 @@ module Mapper = struct
             ( Nonrecursive,
               [
                 {
-                  pvb_pat = { ppat_desc = Ppat_var pval_name } as pvb_pat;
+                  pvb_pat = { ppat_desc = Ppat_var pval_name; _ } as pvb_pat;
                   pvb_expr;
                   pvb_attributes;
                   pvb_loc;
@@ -589,7 +640,7 @@ module Mapper = struct
                 }
             | ( Some attr,
                 Pexp_construct
-                  ({ txt = Lident (("true" | "false") as txt) }, None) ) ->
+                  ({ txt = Lident (("true" | "false") as txt); _ }, None) ) ->
                 let loc = pvb_loc in
                 succeed attr pvb_attributes;
                 {
@@ -622,14 +673,14 @@ module Mapper = struct
                   (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
             }
         | Pstr_attribute
-            ({ attr_name = { txt = "bs.config" | "config" }; _ } as attr) ->
+            ({ attr_name = { txt = "bs.config" | "config"; _ }; _ } as attr) ->
             Bs_ast_invariant.mark_used_bs_attribute attr;
             str
         | _ -> super#structure_item str
 
       method! signature_item sigi =
         match sigi.psig_desc with
-        | Psig_value ({ pval_attributes; pval_prim } as value_desc) -> (
+        | Psig_value ({ pval_attributes; pval_prim; _ } as value_desc) -> (
             let pval_attributes = self#attributes pval_attributes in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
               Ast_external.handleExternalInSig self value_desc sigi
@@ -638,7 +689,8 @@ module Mapper = struct
               | Some
                   ({
                      attr_payload =
-                       PStr [ { pstr_desc = Pstr_eval ({ pexp_desc }, _) } ];
+                       PStr
+                         [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ];
                      _;
                    } as attr) -> (
                   match pexp_desc with
@@ -697,7 +749,7 @@ module Mapper = struct
                             };
                       }
                   | Pexp_construct
-                      ({ txt = Lident (("true" | "false") as txt) }, None) ->
+                      ({ txt = Lident (("true" | "false") as txt); _ }, None) ->
                       succeed attr pval_attributes;
                       {
                         sigi with

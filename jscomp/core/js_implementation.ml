@@ -101,11 +101,11 @@ let after_parsing_sig ppf outputprefix ast =
       let sg =
         let alerts = Builtin_attributes.alerts_of_sig ast in
         Env.save_signature ~alerts tsg.Typedtree.sig_type modulename
-          (outputprefix ^ ".cmi")
+          (outputprefix ^ Literals.suffix_cmi)
       in
       Typemod.save_signature modulename tsg outputprefix !Location.input_name
         initial_env sg;
-      process_with_gentype (outputprefix ^ ".cmti"))
+      process_with_gentype (outputprefix ^ Literals.suffix_cmti))
 
 let interface ~parser ppf fname =
   Res_compmisc.init_path ();
@@ -118,15 +118,17 @@ let interface ~parser ppf fname =
   |> after_parsing_sig ppf (Config_util.output_prefix fname)
 
 let all_module_alias (ast : Parsetree.structure) =
-  Ext_list.for_all ast (fun { pstr_desc } ->
+  List.for_all
+    (fun { Parsetree.pstr_desc; _ } ->
       match pstr_desc with
-      | Pstr_module { pmb_expr = { pmod_desc = Pmod_ident _ } } -> true
+      | Pstr_module { pmb_expr = { pmod_desc = Pmod_ident _; _ }; _ } -> true
       | Pstr_attribute _ -> true
       | Pstr_eval _ | Pstr_value _ | Pstr_primitive _ | Pstr_type _
       | Pstr_typext _ | Pstr_exception _ | Pstr_module _ | Pstr_recmodule _
       | Pstr_modtype _ | Pstr_open _ | Pstr_class _ | Pstr_class_type _
       | Pstr_include _ | Pstr_extension _ ->
           false)
+    ast
 
 let no_export (rest : Parsetree.structure) : Parsetree.structure =
   match rest with
@@ -185,7 +187,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
             package specs. *)
          let package_info = Js_packages_state.get_packages_info () in
          Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
-    process_with_gentype (outputprefix ^ ".cmt")
+    process_with_gentype (outputprefix ^ Literals.suffix_cmt)
 
 let implementation ~parser ppf fname =
   Res_compmisc.init_path ();

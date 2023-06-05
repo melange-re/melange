@@ -32,9 +32,9 @@ let set_package_map module_name =
   Bs_clflags.dont_record_crc_unit := Some module_name;
   Clflags.open_modules := module_name :: !Clflags.open_modules
 
-let update_npm_package_path ?module_name s =
+let update_npm_package_path ?module_name path =
   packages_info :=
-    Js_packages_info.add_npm_package_path ?module_name !packages_info s
+    Js_packages_info.add_npm_package_path ?module_name !packages_info path
 
 let set_output_info ~suffix module_system =
   output_info := Some { Js_packages_info.suffix; module_system }
@@ -46,5 +46,4 @@ let get_output_info () =
   | Some info -> [ info ]
   | None -> Js_packages_info.assemble_output_info !packages_info
 
-let get_packages_info_for_cmj () =
-  Js_packages_info.Legacy_runtime.for_cmj !packages_info
+let get_packages_info_for_cmj () = !packages_info

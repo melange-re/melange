@@ -19,7 +19,7 @@
         to inline directly since if it contains bounded variables it
         must be rebounded before inlining
 *)
-let rec no_list args = Ext_list.for_all args no_bounded_variables
+let rec no_list args = List.for_all no_bounded_variables args
 
 and no_list_snd : 'a. ('a * Lam.t) list -> bool =
  fun args -> Ext_list.for_all_snd args no_bounded_variables
@@ -34,7 +34,7 @@ and no_bounded_variables (l : Lam.t) =
   | Lapply { ap_func; ap_args; _ } ->
       no_bounded_variables ap_func && no_list ap_args
   | Lglobal_module _ -> true
-  | Lprim { args; primitive = _ } -> no_list args
+  | Lprim { args; primitive = _; _ } -> no_list args
   | Lswitch (arg, sw) ->
       no_bounded_variables arg && no_list_snd sw.sw_consts
       && no_list_snd sw.sw_blocks && no_opt sw.sw_failaction
@@ -50,7 +50,7 @@ and no_bounded_variables (l : Lam.t) =
       no_bounded_variables met && no_bounded_variables obj && no_list args
   | Lstaticcatch (e1, (_, vars), e2) ->
       vars = [] && no_bounded_variables e1 && no_bounded_variables e2
-  | Lfunction { body; params } -> params = [] && no_bounded_variables body
+  | Lfunction { body; params; _ } -> params = [] && no_bounded_variables body
   | Lfor _ -> false
   | Ltrywith _ -> false
   | Llet _ | Lmutlet _ -> false

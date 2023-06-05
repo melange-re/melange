@@ -43,7 +43,7 @@ type 'a t =
 
 
 let create  initial_size =
-  let s = Ext_util.power_2_above 16 initial_size in
+  let s = Hash_gen.power_2_above 16 initial_size in
   { initial_size = s; size = 0; data = Array.make s Empty }
 
 let clear h =

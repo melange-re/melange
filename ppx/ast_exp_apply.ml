@@ -29,7 +29,7 @@ type exp = Parsetree.expression
 
 let rec no_need_bound (exp : exp) =
   match exp.pexp_desc with
-  | Pexp_ident { txt = Lident _ } -> true
+  | Pexp_ident { txt = Lident _; _ } -> true
   | Pexp_constraint (e, _) -> no_need_bound e
   | _ -> false
 
@@ -61,11 +61,10 @@ let sane_property_name_check loc s =
     Location.raise_errorf ~loc
       "property name (%s) can not contain speical character #" s
 
-(* match fn as *)
 let view_as_app (fn : exp) (s : string list) : app_pattern option =
   match fn.pexp_desc with
-  | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ } }, args)
-    when Ext_list.has_string s op ->
+  | Pexp_apply ({ pexp_desc = Pexp_ident { txt = Lident op; _ }; _ }, args)
+    when List.mem op s ->
       Some { op; loc = fn.pexp_loc; args = check_and_discard args }
   | _ -> None
 
@@ -93,7 +92,7 @@ let app_exp_mapper (e : exp)
              Ast_uncurry_apply.method_apply loc self obj name args
            else Ast_uncurry_apply.property_apply loc self obj name args);
       }
-  | Some { op; loc } ->
+  | Some { op; loc; _ } ->
       Location.raise_errorf ~loc "%s expect f%sproperty arg0 arg2 form" op op
   | None -> (
       match view_as_app e infix_ops with
@@ -137,7 +136,7 @@ let app_exp_mapper (e : exp)
               }
           | _ -> (
               match Ast_open_cxt.destruct f [] with
-              | ( { pexp_desc = Pexp_tuple xs; pexp_attributes = tuple_attrs },
+              | ( { pexp_desc = Pexp_tuple xs; pexp_attributes = tuple_attrs; _ },
                   wholes ) ->
                   Ast_open_cxt.restore_exp
                     (bound a (fun bounded_obj_arg ->
@@ -177,7 +176,7 @@ let app_exp_mapper (e : exp)
                            pexp_loc_stack = f.pexp_loc_stack;
                          }))
                     wholes
-              | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes },
+              | ( { pexp_desc = Pexp_apply (e, args); pexp_attributes; _ },
                   (_ :: _ as wholes) ) ->
                   let fn = Ast_open_cxt.restore_exp e wholes in
                   let args =
@@ -248,6 +247,7 @@ let app_exp_mapper (e : exp)
              ( Pexp_ident { txt = Lident name; _ }
              | Pexp_constant (Pconst_string (name, _, None)) );
            pexp_loc;
+           _;
           }
           (* f##paint  *) ->
               sane_property_name_check pexp_loc name;
@@ -283,11 +283,13 @@ let app_exp_mapper (e : exp)
                     obj;
                     {
                       pexp_desc =
-                        ( Pexp_ident { txt = Lident name }
+                        ( Pexp_ident { txt = Lident name; _ }
                         | Pexp_constant (Pconst_string (name, _, None)) );
                       pexp_loc;
+                      _;
                     };
                   ];
+                _;
               } ->
               sane_property_name_check pexp_loc name;
               Exp.constraint_ ~loc
@@ -300,13 +302,13 @@ let app_exp_mapper (e : exp)
                 }
                 [%type: unit]
           | _ -> assert false)
-      | Some { op = "|."; loc } ->
+      | Some { op = "|."; loc; _ } ->
           Location.raise_errorf ~loc
             "invalid |. syntax, it can only be used as binary operator"
-      | Some { op = "##"; loc } ->
+      | Some { op = "##"; loc; _ } ->
           Location.raise_errorf ~loc
             "Js object ## expect syntax like obj##(paint (a,b)) "
-      | Some { op } -> Location.raise_errorf "invalid %s syntax" op
+      | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
       | None -> (
           match
             Ext_list.exclude_with_val e.pexp_attributes Ast_attributes.is_bs

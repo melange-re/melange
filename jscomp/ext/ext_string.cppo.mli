@@ -93,9 +93,6 @@ val compare :  string -> string -> int
 external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
 #endif
 
-val parent_dir_lit : string
-val current_dir_lit : string
-
 val capitalize_ascii : string -> string
 
 val capitalize_sub:
@@ -107,4 +104,3 @@ val first_marshal_char:
   string ->
   bool
 
-val fold_left : ('a -> char -> 'a) -> 'a -> string -> 'a

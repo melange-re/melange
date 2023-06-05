@@ -25,7 +25,6 @@
 open Ppxlib
 
 (* let derivingName = "abstract" *)
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 module U = Ast_derive_util
 open Ast_helper
 (* type tdcls = Parsetree.type_declaration list *)

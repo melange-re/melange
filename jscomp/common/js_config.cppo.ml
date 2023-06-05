@@ -31,9 +31,8 @@ let stdlib_paths =
   lazy (
     let root =
 #ifndef BS_RELEASE_BUILD
-      (* ./jscomp/main/melc.exe -> ./ *)
+      (* ./bin/melc.exe -> ./ *)
       (Lazy.force executable_name)
-      |> Filename.dirname
       |> Filename.dirname
       |> Filename.dirname
 #else
@@ -50,7 +49,7 @@ let stdlib_paths =
         |> List.filter (fun s -> String.length s > 0)
         |> List.map (fun dir ->
             if Filename.is_relative dir
-            then Filename.concat (Filename.dirname (Lazy.force executable_name)) dir
+            then (Filename.dirname (Lazy.force executable_name)) // dir
             else dir)
       in
       begin match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
@@ -60,7 +59,7 @@ let stdlib_paths =
       end
     | exception Not_found ->
 #ifndef BS_RELEASE_BUILD
-      [ root // "jscomp" // "stdlib-412" // ".stdlib.objs" // Literals.package_name
+      [ root // "jscomp" // "stdlib" // ".stdlib.objs" // Literals.package_name
       ; root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
       ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
 #else

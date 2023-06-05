@@ -24,7 +24,7 @@
 
 [@@@warning "+9"]
 
-let ( // ) = Filename.concat
+let ( // ) = Ext_path.( // )
 
 type output_info = {
   module_system : Ext_module_system.t;
@@ -40,39 +40,11 @@ type package_info =
 
 type t = { name : string option; info : package_info }
 
-module Legacy_runtime = struct
-  let is_runtime_name name =
-    Ext_string.starts_with name Literals.mel_runtime_package_prefix
-
-  let is_runtime_package (x : t) =
-    match x.name with Some name -> is_runtime_name name | None -> false
-
-  let for_cmj t =
-    if is_runtime_package t then
-      {
-        t with
-        info =
-          Batch_compilation
-            [
-              {
-                path = "lib/js";
-                output_info = { module_system = NodeJS; suffix = Js };
-              };
-              {
-                path = "lib/es6";
-                output_info = { module_system = Es6; suffix = Mjs };
-              };
-            ];
-      }
-    else t
-end
-
 let same_package_by_name (x : t) (y : t) =
   match (x.name, y.name) with
   | None, None -> true
   | None, Some _ | Some _, None -> false
-  | Some s1, Some s2 ->
-      Legacy_runtime.(is_runtime_package x && is_runtime_package y) || s1 = s2
+  | Some s1, Some s2 -> s1 = s2
 
 (* we don't want force people to use package *)
 
@@ -130,12 +102,6 @@ type info_query =
   | Package_not_found
   | Package_found of path_info
 
-let installed_package_name = function
-  | Some name when Legacy_runtime.is_runtime_name name ->
-      Some Literals.package_name
-  | Some name -> Some name
-  | None -> None
-
 (* Note that package-name has to be exactly the same as
    npm package name, otherwise the path resolution will be wrong *)
 let query_package_infos (t : t) (module_system : Ext_module_system.t) :
@@ -144,7 +110,7 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
   | Empty -> (
       match t.name with Some _ -> Package_not_found | None -> Package_script)
   | Separate_emission { module_path; module_name } -> (
-      match installed_package_name t.name with
+      match t.name with
       | Some pkg_name ->
           Package_found
             {
@@ -163,7 +129,7 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
       with
       | k ->
           let pkg_rel_path =
-            match installed_package_name t.name with
+            match t.name with
             | Some pkg_name -> pkg_name // k.path
             | None -> k.path
           in
@@ -186,8 +152,7 @@ let get_js_path (module_systems : batch_info list)
 let get_output_dir ({ info; _ } : t) ~package_dir module_system =
   match info with
   | Empty | Separate_emission _ -> assert false
-  | Batch_compilation specs ->
-      Filename.concat package_dir (get_js_path specs module_system)
+  | Batch_compilation specs -> package_dir // get_js_path specs module_system
 
 let add_npm_package_path (t : t) ?module_name s =
   match t.info with

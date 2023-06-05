@@ -1,9 +1,3 @@
-(library
- (name ounit_tests)
- (flags
-  (:standard -w -9 -open Melange_compiler_libs))
- (libraries ounit2 ext utf8_string core str melange_compiler_libs))
-
 (rule
  (targets ounit_hash_set_tests.ml)
  (deps ounit_hash_set_tests.cppo.ml)
@@ -15,3 +9,9 @@
  (deps ounit_ordered_hash_set_tests.cppo.ml)
  (action
   (run cppo -D TYPE_STRING %{deps} -o %{targets})))
+
+(test
+ (name ounit_tests)
+ (package melange)
+ (flags :standard -w -9 -open Melange_compiler_libs)
+ (libraries ounit2 ext melange_compiler_libs common str utf8_string))

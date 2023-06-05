@@ -33,7 +33,7 @@ B depends on A, so it should import a.js in the right path
   'use strict';
   
   var A = require("../node_modules/a.js");
-  var Belt_List = require("melange.belt/./belt_List.js");
+  var Belt_List = require("melange.belt/belt_List.js");
   
   var t = Belt_List.map({
         hd: "Hello",

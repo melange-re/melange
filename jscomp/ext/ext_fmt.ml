@@ -1,5 +1,8 @@
 let with_file_as_pp filename f =
-  Ext_pervasives.finally (open_out_bin filename) ~clean:close_out (fun chan ->
+  let chan = open_out_bin filename in
+  Fun.protect
+    ~finally:(fun () -> close_out chan)
+    (fun () ->
       let fmt = Format.formatter_of_out_channel chan in
       let v = f fmt in
       Format.pp_print_flush fmt ();

@@ -58,7 +58,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
               | Lprim {primitive = Pfield (_);
                        args = [
                          Lglobal_module _
-                       ]}
+                       ];_}
               )
           (* Const_int64 is no longer primitive
              Note for some constant which is not
@@ -159,7 +159,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
          Lam_util.refine_let ~kind:Variable v l1 (simplif l2)
     | Lsequence(l1, l2) -> Lam.seq (simplif l1) (simplif l2)
 
-    | Lapply{ap_func = Lfunction{params; body};  ap_args = args; _}
+    | Lapply{ap_func = Lfunction{params; body;_};  ap_args = args; _}
       when  Ext_list.same_length params args ->
       simplif (Lam_beta_reduce.no_names_beta_reduce  params body args)
     (* | Lapply{ fn = Lfunction{function_kind = Tupled; params; body}; *)
@@ -218,7 +218,7 @@ let lets_helper (count_var : Ident.t -> Lam_pass_count.used_info) lam : Lam.t =
       | None -> Lam.prim ~primitive ~args:[l';r'] loc
       | Some l_s ->
         match r with
-        |Lconst((Const_int {i})) ->
+        |Lconst((Const_int {i;_})) ->
           let i = Int32.to_int i in
           if i < String.length l_s && i >= 0  then
             Lam.const ((Const_char l_s.[i]))

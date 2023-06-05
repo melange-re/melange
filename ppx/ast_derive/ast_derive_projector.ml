@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ppxlib
-
 open Ast_helper
 
 type tdcls = Parsetree.type_declaration list
@@ -39,7 +38,7 @@ let gen =
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
               List.map
-                (fun ({ pld_name = { loc; txt = pld_label } as pld_name } :
+                (fun ({ pld_name = { loc; txt = pld_label } as pld_name; _ } :
                        Parsetree.label_declaration) ->
                   let txt = "param" in
                   Str.value Nonrecursive
@@ -59,6 +58,7 @@ let gen =
                        pcd_args;
                        pcd_loc = _;
                        pcd_res;
+                       _;
                      } ->
                   (* TODO: add type annotations *)
                   let pcd_args =
@@ -131,7 +131,7 @@ let gen =
           match tdcl.ptype_kind with
           | Ptype_record label_declarations ->
               List.map
-                (fun { Parsetree.pld_name; pld_type; pld_loc } ->
+                (fun { Parsetree.pld_name; pld_type; pld_loc; _ } ->
                   let loc = pld_loc in
                   Sig.value
                     (Val.mk pld_name [%type: [%t core_type] -> [%t pld_type]]))
@@ -143,6 +143,7 @@ let gen =
                        pcd_args;
                        pcd_loc = _;
                        pcd_res;
+                       _;
                      } ->
                   let pcd_args =
                     match pcd_args with

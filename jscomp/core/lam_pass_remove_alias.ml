@@ -31,7 +31,7 @@ let id_is_for_sure_true_in_boolean (tbl : Lam_stats.ident_tbl) id =
   | Some (MutableBlock _)
   | Some (Constant (Const_block _ | Const_js_true)) ->
       Eval_true
-  | Some (Constant (Const_int { i })) ->
+  | Some (Constant (Const_int { i; _ })) ->
       if i = 0l then Eval_false else Eval_true
   | Some (Constant (Const_js_false | Const_js_null | Const_js_undefined)) ->
       Eval_false
@@ -59,6 +59,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         {
           primitive = (Pval_from_option | Pval_from_option_not_nest) as p;
           args = [ (Lvar v as lvar) ];
+          _;
         } as x -> (
         match Hash_ident.find_opt meta.ident_tbl v with
         | Some (OptionalBlock (l, _)) -> l
@@ -67,8 +68,9 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
     | Lprim { primitive; args; loc } ->
         Lam.prim ~primitive ~args:(List.map simpl args) loc
     | Lifthenelse
-        ((Lprim { primitive = Pis_not_none; args = [ Lvar id ] } as l1), l2, l3)
-      -> (
+        ( (Lprim { primitive = Pis_not_none; args = [ Lvar id ]; _ } as l1),
+          l2,
+          l3 ) -> (
         match Hash_ident.find_opt meta.ident_tbl id with
         | Some (ImmutableBlock _ | MutableBlock _ | Normal_optional _) ->
             simpl l2
@@ -129,16 +131,18 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
           ap_info;
         } -> (
         match Lam_compile_env.query_external_id_info ident fld_name with
-        | { persistent_closed_lambda = Some (Lfunction { params; body; _ }) }
+        | { persistent_closed_lambda = Some (Lfunction { params; body; _ }); _ }
         (* be more cautious when do cross module inlining *)
           when Ext_list.same_length params args
-               && Ext_list.for_all args (fun arg ->
+               && List.for_all
+                    (fun (arg : Lam.t) ->
                       match arg with
                       | Lvar p | Lmutvar p -> (
                           match Hash_ident.find_opt meta.ident_tbl p with
                           | Some v -> v <> Parameter
                           | None -> true)
-                      | _ -> true) ->
+                      | _ -> true)
+                    args ->
             simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
         | _ -> Lam.apply (simpl l1) (List.map simpl args) ap_info)
     (* Function inlining interact with other optimizations...
@@ -159,8 +163,10 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               {
                 lambda =
                   Some
-                    ( Lfunction ({ params; body; attr = { is_a_functor } } as m),
+                    ( Lfunction
+                        ({ params; body; attr = { is_a_functor; _ }; _ } as m),
                       rec_flag );
+                _;
               }) ->
             if Ext_list.same_length ap_args params (* && false *) then
               if
@@ -214,7 +220,7 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
               else normal ()
             else normal ()
         | Some _ | None -> normal ())
-    | Lapply { ap_func = Lfunction { params; body }; ap_args = args; _ }
+    | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when Ext_list.same_length params args ->
         simpl (Lam_beta_reduce.propogate_beta_reduce meta params body args)
         (* | Lapply{ fn = Lfunction{function_kind =  Tupled;  params; body};  *)

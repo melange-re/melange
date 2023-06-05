@@ -20,9 +20,9 @@ let rec struct_const ppf (cst : Lam_constant.t) =
   | Const_js_null -> fprintf ppf "#null"
   | Const_module_alias -> fprintf ppf "#alias"
   | Const_js_undefined -> fprintf ppf "#undefined"
-  | Const_int { i } -> fprintf ppf "%ld" i
+  | Const_int { i; _ } -> fprintf ppf "%ld" i
   | Const_char c -> fprintf ppf "%C" c
-  | Const_string { s } -> fprintf ppf "%S" s
+  | Const_string { s; _ } -> fprintf ppf "%S" s
   | Const_float f -> fprintf ppf "%s" f
   | Const_int64 n -> fprintf ppf "%LiL" n
   | Const_pointer name -> fprintf ppf "`%s" name
@@ -41,7 +41,7 @@ let rec struct_const ppf (cst : Lam_constant.t) =
 let record_rep ppf (r : Lam_primitive.record_representation) =
   match r with
   | Record_regular -> fprintf ppf "regular"
-  | Record_inlined { tag = i } -> fprintf ppf "inlined %d" i
+  | Record_inlined { tag = i; _ } -> fprintf ppf "inlined %d" i
   | Record_extension -> fprintf ppf "ext"
 
 (* let string_of_loc_kind (loc : Lambda.loc_kind) =
@@ -64,7 +64,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbytes_of_string -> fprintf ppf "bytes_of_string"
   | Pjs_apply -> fprintf ppf "#apply"
   | Pjs_runtime_apply -> fprintf ppf "#runtime_apply"
-  | Pjs_unsafe_downgrade { name; setter } ->
+  | Pjs_unsafe_downgrade { name; setter; _ } ->
       if setter then fprintf ppf "##%s#=" name else fprintf ppf "##%s" name
   | Pjs_function_length -> fprintf ppf "#function_length"
   | Pvoid_run -> fprintf ppf "#run"
@@ -100,7 +100,7 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pduprecord rep -> fprintf ppf "duprecord %a" record_rep rep
   | Plazyforce -> fprintf ppf "force"
   | Pccall p -> fprintf ppf "%s" p.prim_name
-  | Pjs_call { prim_name } -> fprintf ppf "%s[js]" prim_name
+  | Pjs_call { prim_name; _ } -> fprintf ppf "%s[js]" prim_name
   | Pjs_object_create _ -> fprintf ppf "[js.obj]"
   | Praise -> fprintf ppf "raise"
   | Psequand -> fprintf ppf "&&"
@@ -272,7 +272,7 @@ let lambda ppf v =
     | Lmutvar id -> fprintf ppf "*%a" Ident.print id
     | Lglobal_module id -> fprintf ppf "global %a" Ident.print id
     | Lconst cst -> struct_const ppf cst
-    | Lapply { ap_func; ap_args; ap_info = { ap_inlined } } ->
+    | Lapply { ap_func; ap_args; ap_info = { ap_inlined; _ } } ->
         let lams ppf args =
           List.iter (fun l -> fprintf ppf "@ %a" lam l) args
         in

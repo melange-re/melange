@@ -29,7 +29,10 @@
 let rec eliminate_tuple (id : Ident.t) (lam : Lam.t) acc =
   match lam with
   | Llet
-      (Alias, v, Lprim { primitive = Pfield (i, _); args = [ Lvar tuple ] }, e2)
+      ( Alias,
+        v,
+        Lprim { primitive = Pfield (i, _); args = [ Lvar tuple ]; _ },
+        e2 )
     when Ident.same tuple id ->
       eliminate_tuple id e2 (Map_int.add acc i v)
       (* it is okay to have duplicates*)
@@ -127,6 +130,7 @@ let deep_flatten (lam : Lam.t) : Lam.t =
                primitive =
                  Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt;
                args = [ Lvar _ ];
+               _;
              } as arg),
           body ) ->
         flatten (Single (Lam_group.of_lam_kind str, id, aux arg) :: acc) body
@@ -137,6 +141,7 @@ let deep_flatten (lam : Lam.t) : Lam.t =
                primitive =
                  Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt;
                args = [ Lvar _ ];
+               _;
              } as arg),
           body ) ->
         flatten (Single (Variable, id, aux arg) :: acc) body
@@ -149,6 +154,7 @@ let deep_flatten (lam : Lam.t) : Lam.t =
                 (Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt) as
                 primitive;
               args = [ arg ];
+              _;
             },
           body ) ->
         let newId = Ident.rename id in
@@ -167,6 +173,7 @@ let deep_flatten (lam : Lam.t) : Lam.t =
                 (Pnull_to_opt | Pundefined_to_opt | Pnull_undefined_to_opt) as
                 primitive;
               args = [ arg ];
+              _;
             },
           body ) ->
         let newId = Ident.rename id in
@@ -194,7 +201,7 @@ let deep_flatten (lam : Lam.t) : Lam.t =
         match (Ident.name id, kind, res) with
         | ( ("match" | "include" | "param"),
             (Alias | Strict | StrictOpt),
-            Lprim { primitive = Pmakeblock (_, _, Immutable); args } ) -> (
+            Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ } ) -> (
             match eliminate_tuple id body Map_int.empty with
             | Some (tuple_mapping, body) ->
                 flatten

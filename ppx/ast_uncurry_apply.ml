@@ -24,7 +24,6 @@
 
 open Ppxlib
 open Ast_helper
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 type exp = Parsetree.expression
 
@@ -86,7 +85,8 @@ let generic_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression)
   let args =
     match args with
     | [
-     (Nolabel, { pexp_desc = Pexp_construct ({ txt = Lident "()" }, None) });
+     ( Nolabel,
+       { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ } );
     ] ->
         []
     | _ -> args
@@ -129,7 +129,8 @@ let method_apply loc (self : Ast_traverse.map) (obj : Parsetree.expression) name
   let args =
     match args with
     | [
-     (Nolabel, { pexp_desc = Pexp_construct ({ txt = Lident "()" }, None) });
+     ( Nolabel,
+       { pexp_desc = Pexp_construct ({ txt = Lident "()"; _ }, None); _ } );
     ] ->
         []
     | _ -> args

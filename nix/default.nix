@@ -17,8 +17,8 @@ let
   vendored = fetchFromGitHub {
     owner = "melange-re";
     repo = "melange-compiler-libs";
-    rev = "f39c5b3c9524688c7bf982016aa01030077135fe";
-    hash = "sha256-LvjxC2RD8yKr0+fSCtY//btbU56JjHK7i9jSP1kmpIM=";
+    rev = "73aa521a7d37f32885a870f4c77a482ead309ad3";
+    hash = "sha256-P+HhbuBJBWSPVe5cUEZQxkwjYcrCw8g+pOhd2u2YTHM=";
   };
 
 in
@@ -34,11 +34,12 @@ rec {
     src = with nix-filter; filter {
       root = ./..;
       include = [
+        "bin"
         "dune-project"
         "dune"
-        "melange.opam"
         "jscomp"
         "lib"
+        "melange.opam"
         "ppx"
         "test"
         "scripts"

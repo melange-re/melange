@@ -23,7 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 open Ppxlib
-module Ast_literal = Melange_ppxlib_ast.Ast_literal
 
 (* record pattern match complete checker*)
 
@@ -234,7 +233,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
     | PStr [] -> (prim_name_or_pval_prim :> name_source)
     (* It is okay to have [@@val] without payload *)
     | _ -> (
-        match Ast_attributes.is_single_string payload with
+        match Ast_payload.is_single_string payload with
         | Some (val_name, _) -> `Nm_payload val_name
         | None -> Location.raise_errorf ~loc "Invalid payload")
   in

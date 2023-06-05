@@ -22,51 +22,79 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
- let reserved_words =
+let reserved_words =
   [|
     (* keywork *)
     "break";
-    "case"; "catch"; "continue";
-    "debugger";"default";"delete";"do";
+    "case";
+    "catch";
+    "continue";
+    "debugger";
+    "default";
+    "delete";
+    "do";
     "else";
-    "finally";"for";"function";
-    "if"; (* "then";  *) "in";"instanceof";
+    "finally";
+    "for";
+    "function";
+    "if";
+    (* "then";  *) "in";
+    "instanceof";
     "new";
     "return";
     "switch";
-    "this"; "throw"; "try"; "typeof";
-    "var"; "void"; "while"; "with";
-
+    "this";
+    "throw";
+    "try";
+    "typeof";
+    "var";
+    "void";
+    "while";
+    "with";
     (* reserved in ECMAScript 5 *)
-    "class"; "enum"; "export"; "extends"; "import"; "super";
-
-    "implements";"interface";
+    "class";
+    "enum";
+    "export";
+    "extends";
+    "import";
+    "super";
+    "implements";
+    "interface";
     "let";
-    "package";"private";"protected";"public";
+    "package";
+    "private";
+    "protected";
+    "public";
     "static";
     "yield";
-
     (* other *)
     "null";
     "true";
     "false";
     "NaN";
-
-
     "undefined";
     "this";
-
     (* also reserved in ECMAScript 3 *)
-    "abstract"; "boolean"; "byte"; "char"; "const"; "double";
-    "final"; "float"; "goto"; "int"; "long"; "native"; "short";
+    "abstract";
+    "boolean";
+    "byte";
+    "char";
+    "const";
+    "double";
+    "final";
+    "float";
+    "goto";
+    "int";
+    "long";
+    "native";
+    "short";
     "synchronized";
     (* "throws";  *)
     (* seems to be fine, like nodejs [assert.throws] *)
-    "transient"; "volatile";
-
+    "transient";
+    "volatile";
     (* also reserved in ECMAScript 6 *)
     "await";
-
     "event";
     "location";
     "window";
@@ -74,7 +102,6 @@
     "eval";
     "navigator";
     (* "self"; *)
-
     "Array";
     "Date";
     "Math";
@@ -84,22 +111,21 @@
     "String";
     "Boolean";
     "Number";
-    "Buffer"; (* Node *)
-    "Map"; (* es6*)
+    "Buffer";
+    (* Node *)
+    "Map";
+    (* es6*)
     "Set";
     "Promise";
     "Infinity";
     "isFinite";
-
     "ActiveXObject";
     "XMLHttpRequest";
     "XDomainRequest";
-
     "DOMException";
     "Error";
     "SyntaxError";
     "arguments";
-
     "decodeURI";
     "decodeURIComponent";
     "encodeURI";
@@ -110,8 +136,7 @@
     "isNaN";
     "parseFloat";
     "parseInt";
-
-    (** reserved for commonjs and NodeJS globals*)
+    (* reserved for commonjs and NodeJS globals*)
     "require";
     "exports";
     "module";
@@ -127,30 +152,31 @@
     "setTimeout";
     "__dirname";
     "__filename";
-    "__esModule"
+    "__esModule";
   |]
 
+module SSet = Set.Make (String)
 
-module SSet = Set.Make(String)
 let get_predefined_words (fn : string) =
   let v = ref SSet.empty in
   let in_chan = open_in_bin fn in
   (try
      while true do
        let new_word = input_line in_chan in
-       if String.length new_word <> 0 then
-         v := SSet.add new_word !v
+       if String.length new_word <> 0 then v := SSet.add new_word !v
      done
    with End_of_file -> ());
   !v
 
 let fill_extra (ss : SSet.t) : SSet.t =
   let v = ref ss in
-  for i  = 0 to Array.length reserved_words - 1 do
+  for i = 0 to Array.length reserved_words - 1 do
     v := SSet.add reserved_words.(i) !v
   done;
   !v
-let license = {|
+
+let license =
+  {|
 (* Copyright (C) 2019-Present Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
@@ -176,7 +202,9 @@ let license = {|
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 |}
-let binary_search = {|
+
+let binary_search =
+  {|
 
 type element = string
 
@@ -209,19 +237,22 @@ let binarySearch (sorted : element array) (key : element)  : bool =
 
 let is_reserved s = binarySearch sorted_keywords s
 |}
+
 let main keyword_file output_file =
   let ss = get_predefined_words keyword_file in
   let ss = fill_extra ss in
   let keywords_array =
-    (SSet.fold
-      (fun s acc -> acc ^ "\"" ^ s ^ "\";\n  "
-      ) ss "let sorted_keywords = [|\n  ") ^ "|]\n"
+    SSet.fold
+      (fun s acc -> acc ^ "\"" ^ s ^ "\";\n  ")
+      ss "let sorted_keywords = [|\n  "
+    ^ "|]\n"
   in
   let oc = stdout in
-  output_string oc license ;
-  output_string oc  keywords_array;
+  output_string oc license;
+  output_string oc keywords_array;
   output_string oc binary_search;
   close_out oc
+
 (*
 ;;
 for i = 0 to Array.length Sys.argv - 1  do
@@ -229,5 +260,3 @@ for i = 0 to Array.length Sys.argv - 1  do
 done
 ;; *)
 let () = main Sys.argv.(1) Sys.argv.(2)
-
-

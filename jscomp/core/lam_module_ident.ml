@@ -31,7 +31,7 @@ let of_runtime id = { id; kind = Runtime }
 let name (x : t) : string =
   match x.kind with
   | Ml | Runtime -> Ident.name x.id
-  | External { name = v } -> v
+  | External { name = v; _ } -> v
 
 module Cmp = struct
   [@@@warning "+9"]

@@ -195,12 +195,14 @@ let handle_lines tiny_test_cases =
   | nodes :: _edges :: rest ->
       let nodes_num = int_of_string nodes in
       let node_array = Array.init nodes_num (fun _ -> Vec_int.empty ()) in
-      Ext_list.iter rest (fun x ->
+      List.iter
+        (fun x ->
           match Ext_string.split x ' ' with
           | [ a; b ] ->
               let a, b = (int_of_string a, int_of_string b) in
               Vec_int.push node_array.(a) b
-          | _ -> assert false);
+          | _ -> assert false)
+        rest;
       node_array
   | _ -> assert false
 
