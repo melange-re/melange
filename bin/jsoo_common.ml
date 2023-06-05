@@ -32,13 +32,6 @@ module Js = struct
   external to_bytestring : js_string t -> string = "caml_js_to_byte_string"
 end
 
-let string_of_formatted ~f x =
-  let buffer = Buffer.create 64 in
-  let str_fmt = Format.formatter_of_buffer buffer in
-  f str_fmt x;
-  Format.pp_print_flush str_fmt ();
-  Buffer.contents buffer
-
 let mk_js_error (error : Location.report) =
   let kind, type_ =
     match error.kind with
@@ -50,11 +43,7 @@ let mk_js_error (error : Location.report) =
     | Report_alert_as_error w ->
         (Printf.sprintf "Error: (alert %s)" w, "alert_as_error")
   in
-  let txt =
-    string_of_formatted
-      ~f:(fun fmt -> Format.fprintf fmt "@[%t@]")
-      error.main.txt
-  in
+  let txt = Format.asprintf "@[%t@]" error.main.txt in
   let loc = error.main.loc in
   let _file, line, startchar = Location.get_pos_info loc.Location.loc_start in
   let _file, endline, endchar = Location.get_pos_info loc.Location.loc_end in
