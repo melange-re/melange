@@ -23,6 +23,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > 
   > let person1: person = person ~name:"joe" ~age:10\`));
   > console.log(ocaml.printML(ocaml.parseRE(\`let foo = <div />\`)));
+  > console.log(ocaml.printML(ocaml.parseRE("//")));
   > EOF
 
   $ node input.js
@@ -96,3 +97,4 @@ Prepare an input file to test some snippets to exercise common functionality
       '/* No side effect */\n'
   }
   let foo = ((div ~children:[] ())[@JSX ])
+  

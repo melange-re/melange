@@ -9,7 +9,6 @@ module Js = struct
     external js_expr : string -> 'a = "caml_js_expr"
     external fun_call : 'a -> any array -> 'b = "caml_js_fun_call"
 
-
     let global = pure_js_expr "joo_global_object"
 
     type obj
@@ -86,7 +85,11 @@ module Reason = struct
     (* you can't throw an Error here. jsoo parses the string and turns it
        into something else *)
     let throwAnything = Js.Unsafe.js_expr "function(a) {throw a}" in
-    try code |> Js.to_string |> Lexing.from_string |> f
+    let code =
+      (* Add ending new line as otherwise reason parser chokes with inputs such as "//" *)
+      Js.to_string code ^ "\n"
+    in
+    try code |> Lexing.from_string |> f
     with (* from ocaml and reason *)
     | Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
