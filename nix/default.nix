@@ -34,11 +34,12 @@ rec {
     src = with nix-filter; filter {
       root = ./..;
       include = [
+        "bin"
         "dune-project"
         "dune"
-        "melange.opam"
         "jscomp"
         "lib"
+        "melange.opam"
         "ppx"
         "test"
         "scripts"
