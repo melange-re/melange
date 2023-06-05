@@ -17,6 +17,5 @@
 (executable
  (name jsoo_main)
  (modules jsoo_main jsoo_common)
- ; Need to use melange_ppx, not melange_ppx_lib, so Driver.V2.register_transformation runs
  (libraries core melange_compiler_libs melange_ppx)
  (modes js))
