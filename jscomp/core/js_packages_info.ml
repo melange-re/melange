@@ -24,7 +24,7 @@
 
 [@@@warning "+9"]
 
-let ( // ) = Filename.concat
+let ( // ) = Ext_path.( // )
 
 type output_info = {
   module_system : Ext_module_system.t;
@@ -186,8 +186,7 @@ let get_js_path (module_systems : batch_info list)
 let get_output_dir ({ info; _ } : t) ~package_dir module_system =
   match info with
   | Empty | Separate_emission _ -> assert false
-  | Batch_compilation specs ->
-      Filename.concat package_dir (get_js_path specs module_system)
+  | Batch_compilation specs -> package_dir // get_js_path specs module_system
 
 let add_npm_package_path (t : t) ?module_name s =
   match t.info with

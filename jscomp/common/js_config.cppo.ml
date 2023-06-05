@@ -50,7 +50,7 @@ let stdlib_paths =
         |> List.filter (fun s -> String.length s > 0)
         |> List.map (fun dir ->
             if Filename.is_relative dir
-            then Filename.concat (Filename.dirname (Lazy.force executable_name)) dir
+            then (Filename.dirname (Lazy.force executable_name)) // dir
             else dir)
       in
       begin match List.exists (fun dir -> not (Sys.is_directory dir)) dirs with
