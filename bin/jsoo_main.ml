@@ -42,12 +42,14 @@ let error_of_exn e =
   | Some (`Ok e) -> Some e
   | Some `Already_displayed | None -> None
 
-module Convert =
-  Ppxlib_ast.Convert
-    (Ppxlib_ast__.Versions.OCaml_414)
-    (Ppxlib_ast__.Versions.OCaml_current)
+module From_ppxlib =
+  Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_414)
 
-let compile impl str : Js.Unsafe.obj =
+module To_ppxlib =
+  Ppxlib_ast.Convert (Ppxlib_ast__.Versions.OCaml_414) (Ppxlib_ast.Selected_ast)
+
+let compile ~(impl : Lexing.lexbuf -> Melange_compiler_libs.Parsetree.structure)
+    str : Js.Unsafe.obj =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
   (* Res_compmisc.init_path false; *)
@@ -61,14 +63,18 @@ let compile impl str : Js.Unsafe.obj =
   try
     (* default *)
     let ast = impl (Lexing.from_string str) in
-    let ast : Parsetree.structure =
-      let ppxlib_ast : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure =
-        Obj.magic (ast : Parsetree.structure)
+    let ast =
+      let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
+        (* Copy to ppxlib version *)
+        To_ppxlib.copy_structure
+          (Obj.magic ast
+            : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
       in
-      let converted =
-        Convert.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
+      let melange_converted_ast =
+        From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
       in
-      (Obj.magic converted : Parsetree.structure)
+      (Obj.magic melange_converted_ast
+        : Melange_compiler_libs.Parsetree.structure)
     in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
@@ -113,8 +119,8 @@ let make_compiler name impl =
           ( "compile",
             inject
             @@ Js.wrap_meth_callback (fun _ code ->
-                   compile impl (Js.to_string code)) );
+                   compile ~impl (Js.to_string code)) );
           ("version", Js.Unsafe.inject (Js.string Melange_version.version));
         |])
 
-let () = make_compiler "ocaml" Parse.implementation
+let () = make_compiler "ocaml" Melange_compiler_libs.Parse.implementation
