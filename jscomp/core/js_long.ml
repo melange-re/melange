@@ -51,7 +51,7 @@ let to_int32 args = int64_call "to_int32" args
 
 let of_int32 (args : J.expression list) =
   match args with
-  | [ { expression_desc = Number (Int { i }); _ } ] ->
+  | [ { expression_desc = Number (Int { i; _ }); _ } ] ->
       of_const (Int64.of_int32 i)
   | _ -> int64_call "of_int32" args
 

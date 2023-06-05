@@ -42,7 +42,7 @@ let hit_mask (mask : Hash_set_ident_mask.t) (l : Lam.t) : bool =
     | Lassign (id, e) -> hit_var id || hit e
     | Lstaticcatch (e1, (_, _), e2) -> hit e1 || hit e2
     | Ltrywith (e1, _exn, e2) -> hit e1 || hit e2
-    | Lfunction { body; params = _ } -> hit body
+    | Lfunction { body; params = _; _ } -> hit body
     | Llet (_, _id, arg, body) | Lmutlet (_id, arg, body) -> hit arg || hit body
     | Lletrec (decl, body) -> hit body || hit_list_snd decl
     | Lfor (_v, e1, e2, _dir, e3) -> hit e1 || hit e2 || hit e3

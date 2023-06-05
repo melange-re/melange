@@ -40,7 +40,11 @@ type destruct_output = exp list
 let rec destruct (e : Parsetree.expression) (acc : t) =
   match e.pexp_desc with
   | Pexp_open
-      ( { popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid; _ } },
+      ( {
+          popen_override = flag;
+          popen_expr = { pmod_desc = Pmod_ident lid; _ };
+          _;
+        },
         cont ) ->
       destruct cont (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)
   | _ -> (e, acc)
@@ -53,7 +57,11 @@ let rec destruct_open_tuple (e : Parsetree.expression) (acc : t) :
     (t * destruct_output * _) option =
   match e.pexp_desc with
   | Pexp_open
-      ( { popen_override = flag; popen_expr = { pmod_desc = Pmod_ident lid; _ } },
+      ( {
+          popen_override = flag;
+          popen_expr = { pmod_desc = Pmod_ident lid; _ };
+          _;
+        },
         cont ) ->
       destruct_open_tuple cont
         (Let_open (flag, lid, e.pexp_loc, e.pexp_attributes) :: acc)

@@ -106,7 +106,7 @@ let emit_external_warnings : iterator =
     value_description =
       (fun self v ->
         match v with
-        | ({ pval_loc; pval_prim = "%identity" :: _; pval_type } :
+        | ({ pval_loc; pval_prim = "%identity" :: _; pval_type; _ } :
             Parsetree.value_description)
           when not (Core_type.is_arity_one pval_type) ->
             Location.raise_errorf ~loc:pval_loc

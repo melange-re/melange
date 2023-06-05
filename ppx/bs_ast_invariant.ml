@@ -96,7 +96,7 @@ let mark_used_bs_attribute ({ attr_name = x; _ } : Parsetree.attribute) =
   if not x.loc.loc_ghost then Hash_set_poly.add used_attributes x
 
 let warn_unused_attribute
-    ({ attr_name = { txt; loc } as sloc } : Parsetree.attribute) : unit =
+    ({ attr_name = { txt; loc } as sloc; _ } : Parsetree.attribute) : unit =
   if
     is_bs_attribute txt && (not loc.loc_ghost)
     && not (Hash_set_poly.mem used_attributes sloc)
@@ -121,7 +121,7 @@ let emit_external_warnings : Ast_traverse.iter =
     method! label_declaration lbl =
       Ext_list.iter lbl.pld_attributes (fun attr ->
           match attr with
-          | { attr_name = { txt = "bs.as" | "as" }; _ } ->
+          | { attr_name = { txt = "bs.as" | "as"; _ }; _ } ->
               mark_used_bs_attribute attr
           | _ -> ());
       super#label_declaration lbl

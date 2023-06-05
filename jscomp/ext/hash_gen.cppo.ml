@@ -63,7 +63,7 @@ let resize indexfun h =
     h.data <- ndata;          (* so that indexfun sees the new bucket count *)
     let rec insert_bucket = function
         Empty -> ()
-      | Cons {key; next} as cell ->
+      | Cons {key; next; _ } as cell ->
         let nidx = indexfun h key in
         begin match Array.unsafe_get ndata_tail nidx with
         | Empty ->
@@ -152,15 +152,15 @@ let rec small_bucket_opt eq key (lst : _ bucket) : _ option =
 let rec small_bucket_key_opt eq key (lst : _ bucket) : _ option =
   match lst with
   | Empty -> None
-  | Cons {key=k;  next} ->
+  | Cons {key=k; next; _ } ->
     if eq  key k then Some k else
       match next with
       | Empty -> None
-      | Cons {key=k; next} ->
+      | Cons {key=k; next;_ } ->
         if eq key k then Some k else
           match next with
           | Empty -> None
-          | Cons {key=k; next} ->
+          | Cons {key=k; next; _} ->
             if eq key k  then Some k else
               small_bucket_key_opt eq key next
 
@@ -189,7 +189,7 @@ let rec remove_bucket
   match buck with
   | Empty ->
     ()
-  | Cons {key=k; next }  ->
+  | Cons {key=k; next;_ }  ->
     if eq_key k key
     then begin
       h.size <- h.size - 1;

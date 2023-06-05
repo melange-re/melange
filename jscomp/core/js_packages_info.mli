@@ -29,11 +29,6 @@ type output_info = {
 
 type t
 
-module Legacy_runtime : sig
-  val for_cmj : t -> t
-  val is_runtime_package : t -> bool
-end
-
 val same_package_by_name : t -> t -> bool
 val empty : t
 val from_name : ?t:t -> string -> t

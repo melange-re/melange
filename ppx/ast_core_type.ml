@@ -26,7 +26,7 @@ open Ppxlib
 
 type t = Parsetree.core_type
 
-let lift_option_type ({ ptyp_loc } as ty : t) : t =
+let lift_option_type ({ ptyp_loc ;_} as ty : t) : t =
   {
     ptyp_desc =
       Ptyp_constr
@@ -62,7 +62,7 @@ let is_builtin_rank0_type txt =
 
 let is_unit (ty : t) =
   match ty.ptyp_desc with
-  | Ptyp_constr ({ txt = Lident "unit" }, []) -> true
+  | Ptyp_constr ({ txt = Lident "unit" ;_}, []) -> true
   | _ -> false
 
 (* let is_array (ty : t) =
@@ -73,7 +73,7 @@ let is_unit (ty : t) =
 let is_user_option (ty : t) =
   match ty.ptyp_desc with
   | Ptyp_constr
-      ({ txt = Lident "option" | Ldot (Lident "*predef*", "option") }, [ _ ]) ->
+      ({ txt = Lident "option" | Ldot (Lident "*predef*", "option") ;_}, [ _ ]) ->
       true
   | _ -> false
 
@@ -110,10 +110,10 @@ let rec get_uncurry_arity_aux (ty : t) acc =
 let get_uncurry_arity (ty : t) =
   match ty.ptyp_desc with
   | Ptyp_arrow
-      (Nolabel, { ptyp_desc = Ptyp_constr ({ txt = Lident "unit" }, []) }, rest)
+      (Nolabel, { ptyp_desc = Ptyp_constr ({ txt = Lident "unit" ;_}, []) ;_}, rest)
     -> (
       match rest with
-      | { ptyp_desc = Ptyp_arrow _ } -> Some (get_uncurry_arity_aux rest 1)
+      | { ptyp_desc = Ptyp_arrow _ ;_} -> Some (get_uncurry_arity_aux rest 1)
       | _ -> Some 0)
   | Ptyp_arrow (_, _, rest) -> Some (get_uncurry_arity_aux rest 1)
   | _ -> None

@@ -1,14 +1,11 @@
-open Ounit_tests
-
-[@@@warning "-32"]
-
 module Int_array = Vec.Make (struct
   type t = int
 
   let null = 0
 end)
 
-let v = Int_array.init 10 (fun i -> i)
+[@@@warning "-32"]
+
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 
 let ( =~ ) x y =
@@ -18,6 +15,8 @@ let ( =~~ ) x y =
   OUnit.assert_equal
     ~cmp:(Int_array.equal (fun (x : int) y -> x = y))
     x (Int_array.of_array y)
+
+[@@@warning "+32"]
 
 let suites =
   __FILE__

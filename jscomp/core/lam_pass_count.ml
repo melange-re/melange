@@ -32,7 +32,7 @@ let dummy_info () = { times = 0; captured = false }
 
 let absorb_info (x : used_info) (y : used_info) =
   match (x, y) with
-  | { times = x0 }, { times = y0; captured } ->
+  | { times = x0; _ }, { times = y0; captured } ->
       x.times <- x0 + y0;
       if captured then x.captured <- true
 
@@ -109,7 +109,7 @@ let collect_occurs lam : occ_tbl =
 
   let rec count (bv : local_tbl) (lam : Lam.t) =
     match lam with
-    | Lfunction { body = l } -> count Map_ident.empty l
+    | Lfunction { body = l; _ } -> count Map_ident.empty l
     (* when entering a function local [bv]
         is cleaned up, so that all closure variables will not be
         carried over, since the parameters are never rebound,
@@ -146,7 +146,7 @@ let collect_occurs lam : occ_tbl =
         List.iter (fun (_v, l) -> count bv l) bindings;
         count bv body
         (* Note there is a difference here when do beta reduction for *)
-    | Lapply { ap_func = Lfunction { params; body }; ap_args = args; _ }
+    | Lapply { ap_func = Lfunction { params; body; _ }; ap_args = args; _ }
       when Ext_list.same_length params args ->
         count bv (Lam_beta_reduce.no_names_beta_reduce params body args)
     (* | Lapply{fn = Lfunction{function_kind = Tupled; params; body}; *)

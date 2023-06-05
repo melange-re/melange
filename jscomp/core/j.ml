@@ -42,6 +42,8 @@ type exports = Js_op.exports
 type tag_info = Js_op.tag_info
 type property_name = Js_op.property_name
 
+[@@@warning "-30"]
+
 type label = string
 and ident = Ident.t
 (* we override `method ident` *)
@@ -345,6 +347,9 @@ and deps_program = {
         case_clause;
       |];
   }]
+
+[@@@warning "-30"]
+
 (*
 FIXME: customize for each code generator
 for each code generator, we can provide a white-list

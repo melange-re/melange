@@ -149,13 +149,13 @@ let no_side_effect_statement st =
 
    ]}
 *)
-let rec eq_expression ({ expression_desc = x0 } : J.expression)
-    ({ expression_desc = y0 } : J.expression) =
+let rec eq_expression ({ expression_desc = x0; _ } : J.expression)
+    ({ expression_desc = y0; _ } : J.expression) =
   match x0 with
   | Null -> y0 = Null
   | Undefined -> y0 = Undefined
-  | Number (Int { i }) -> (
-      match y0 with Number (Int { i = j }) -> i = j | _ -> false)
+  | Number (Int { i; _ }) -> (
+      match y0 with Number (Int { i = j; _ }) -> i = j | _ -> false)
   | Number (Float _) ->
       false
       (* begin match y0 with
@@ -215,8 +215,8 @@ and eq_expression_list xs ys = Ext_list.for_all2_no_exn xs ys eq_expression
 and eq_block (xs : J.block) (ys : J.block) =
   Ext_list.for_all2_no_exn xs ys eq_statement
 
-and eq_statement ({ statement_desc = x0 } : J.statement)
-    ({ statement_desc = y0 } : J.statement) =
+and eq_statement ({ statement_desc = x0; _ } : J.statement)
+    ({ statement_desc = y0; _ } : J.statement) =
   match x0 with
   | Exp a -> ( match y0 with Exp b -> eq_expression a b | _ -> false)
   | Return a -> ( match y0 with Return b -> eq_expression a b | _ -> false)
@@ -247,7 +247,9 @@ let rev_toplevel_flatten block =
         statement_desc =
           Variable
             ( { ident_info = { used_stats = Dead_pure }; _ }
-            | { ident_info = { used_stats = Dead_non_pure }; value = None } );
+            | { ident_info = { used_stats = Dead_non_pure }; value = None; _ }
+              );
+        _;
       }
       :: xs ->
         aux acc xs

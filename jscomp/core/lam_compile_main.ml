@@ -201,7 +201,7 @@ let compile
 #endif
   in
 
-  let ({Lam_coercion.groups = groups } as coerced_input , meta) =
+  let ({Lam_coercion.groups = groups ; _} as coerced_input , meta) =
     Lam_coercion.coerce_and_group_big_lambda  meta lam
   in
 
@@ -297,7 +297,7 @@ js
   )
 ;;
 
-let (//) = Filename.concat
+let (//) = Ext_path.(//)
 
 let write_to_file ~package_info ~output_info ~output_prefix lambda_output file  =
   Ext_pervasives.with_file_as_chan file (fun chan ->

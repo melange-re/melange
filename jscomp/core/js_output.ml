@@ -80,7 +80,7 @@ let opt_expr_with_block (x : J.expression option) block : J.block =
 
 let rec unnest_block (block : J.block) : J.block =
   match block with
-  | [ { statement_desc = Block block } ] -> unnest_block block
+  | [ { statement_desc = Block block; _ } ] -> unnest_block block
   | _ -> block
 
 let output_as_block (x : t) : J.block =
@@ -97,7 +97,7 @@ let to_break_block (x : t) : J.block * bool =
       (* value does not matter when [finished] is true
           TODO: check if it has side efects
       *)
-  | { value = None; output_finished } -> (
+  | { value = None; output_finished; _ } -> (
       (block, match output_finished with True -> false | False | Dummy -> true))
   | { value = Some _ as opt; _ } -> (block_with_opt_expr block opt, true)
 

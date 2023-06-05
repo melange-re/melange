@@ -55,7 +55,7 @@ let is_enum row_fields =
 
 let is_enum_polyvar (ty : Parsetree.type_declaration) =
   match ty.ptype_manifest with
-  | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None) }
+  | Some { ptyp_desc = Ptyp_variant (row_fields, Closed, None); _ }
     when is_enum row_fields ->
       Some row_fields
   | _ -> None
@@ -68,6 +68,7 @@ let is_enum_constructors (constructors : Parsetree.constructor_declaration list)
       | {
        pcd_args =
          Pcstr_tuple [] (* Note the enum is encoded using [Pcstr_tuple []]*);
+       _;
       } ->
           true
       | _ -> false)
@@ -78,7 +79,7 @@ let map_row_fields_into_ints ptyp_loc (row_fields : Parsetree.row_field list) =
     List.fold_left
       (fun (i, acc) rtag ->
         match rtag.prf_desc with
-        | Rtag ({ txt }, true, []) ->
+        | Rtag ({ txt; _ }, true, []) ->
             let i =
               match
                 Ast_attributes.iter_process_bs_int_as rtag.prf_attributes
@@ -101,7 +102,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
     List.fold_right
       (fun tag (nullary, acc) ->
         match (nullary, tag.prf_desc) with
-        | (`Nothing | `Null), Rtag ({ txt }, true, []) ->
+        | (`Nothing | `Null), Rtag ({ txt; _ }, true, []) ->
             let name =
               match
                 Ast_attributes.iter_process_bs_string_as tag.prf_attributes
@@ -112,7 +113,7 @@ let map_row_fields_into_strings ptyp_loc (row_fields : Parsetree.row_field list)
               | None -> txt
             in
             (`Null, (txt, name) :: acc)
-        | (`Nothing | `NonNull), Rtag ({ txt }, false, [ _ ]) ->
+        | (`Nothing | `NonNull), Rtag ({ txt; _ }, false, [ _ ]) ->
             let name =
               match
                 Ast_attributes.iter_process_bs_string_as tag.prf_attributes

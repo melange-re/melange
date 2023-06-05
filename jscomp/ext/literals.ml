@@ -42,9 +42,6 @@ let node_modules = "node_modules"
 let node_modules_length = String.length node_modules
 let package_name = "melange"
 
-(* Prefix of all melange runtime packages *)
-let mel_runtime_package_prefix = "@melange/runtime"
-
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"
 let suffix_cmj = ".cmj"

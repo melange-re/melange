@@ -34,7 +34,7 @@ open Ast_helper
 ]}
 *)
 let handle_external loc (x : string) : Parsetree.expression =
-  let raw_exp  =
+  let raw_exp =
     let str_exp =
       Exp.constant ~loc (Pconst_string (x, loc, Some Ext_string.empty))
     in
@@ -81,6 +81,7 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
               ( ({
                    pexp_desc = Pexp_constant (Pconst_string (str, _, deli));
                    pexp_loc = loc;
+                   _;
                  } as e),
                 _ );
           _;
@@ -97,7 +98,7 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
             in
             (if kind = Raw_re then
                match e with
-               | Literal { value = RegExp _ } -> ()
+               | Literal { value = RegExp _; _ } -> ()
                | _ ->
                    Location.raise_errorf ~loc
                      "Syntax error: a valid JS regex literal expected");
