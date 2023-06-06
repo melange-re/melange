@@ -24,6 +24,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > let person1: person = person ~name:"joe" ~age:10\`));
   > console.log(ocaml.printML(ocaml.parseRE(\`let foo = <div />\`)));
   > console.log(ocaml.printML(ocaml.parseRE("//")));
+  > console.log(ocaml.compile("let t = [%bs.obj 2]"));
   > EOF
 
   $ node input.js
@@ -98,3 +99,4 @@ Prepare an input file to test some snippets to exercise common functionality
   }
   let foo = ((div ~children:[] ())[@JSX ])
   
+  { js_error_msg: 'Expect a record expression here' }
