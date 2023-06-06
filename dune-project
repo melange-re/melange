@@ -58,3 +58,14 @@
    (= :version))
   (ppxlib
    (>= "0.28.0"))))
+
+(package
+ (name melange_playground)
+ (synopsis "The Melange compiler, bundled for the browser")
+ (allow_empty)
+ (depends
+  ocaml
+  (melange
+   (= :version))
+  (reactjs-jsx-ppx
+   (= :version))))

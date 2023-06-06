@@ -20,3 +20,8 @@
  (modules jsoo_main jsoo_common)
  (libraries core melange_compiler_libs melange_ppx reactjs-jsx-ppx reason)
  (modes js))
+
+(alias
+ (name install)
+ (package melange_playground)
+ (deps jsoo_main.bc.js))
