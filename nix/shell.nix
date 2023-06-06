@@ -35,6 +35,7 @@ mkShell {
     nodejs_latest
     yarn
     nodePackages.mocha
+    js_of_ocaml-compiler
   ] ++ lib.optionals release-mode ([
     cacert
     curl
