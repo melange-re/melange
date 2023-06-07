@@ -29,29 +29,29 @@
 (rule
  (deps
   %{bin:js_of_ocaml}
-  (:cmijs
-   (glob_files ../jscomp/others/.belt.objs/melange/*.{cmi,cmj})))
+  (:some-cmi %{lib:melange:belt/melange/belt.cmi}))
  (target belt-cmijs.js)
  (action
-  (run js_of_ocaml build-fs -o %{target} %{cmijs})))
+  (bash
+   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
 
 (rule
  (deps
   %{bin:js_of_ocaml}
-  (:cmijs
-   (glob_files ../jscomp/runtime/.runtime.objs/melange/*.{cmi,cmj})))
+  (:some-cmi %{lib:melange:runtime/melange/js.cmi}))
  (target runtime-cmijs.js)
  (action
-  (run js_of_ocaml build-fs -o %{target} %{cmijs})))
+  (bash
+   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
 
 (rule
  (deps
   %{bin:js_of_ocaml}
-  (:cmijs
-   (glob_files ../jscomp/stdlib/.stdlib.objs/melange/*.{cmi,cmj})))
+  (:some-cmi %{lib:melange:melange/stdlib.cmi}))
  (target stdlib-cmijs.js)
  (action
-  (run js_of_ocaml build-fs -o %{target} %{cmijs})))
+  (bash
+   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
 
 (rule
  (alias playground-cmijs)
