@@ -46,7 +46,8 @@
   (reason :with-test)
   (js_of_ocaml :with-test)
   ppxlib
-  menhir
+  (menhir
+   (>= 20201214))
   (reactjs-jsx-ppx :with-test)))
 
 (package
