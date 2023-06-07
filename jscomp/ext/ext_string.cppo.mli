@@ -87,11 +87,7 @@ val replace_backward_slash : string -> string
 
 val empty : string
 
-#if defined BS_BROWSER
 val compare :  string -> string -> int
-#else
-external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
-#endif
 
 val capitalize_ascii : string -> string
 

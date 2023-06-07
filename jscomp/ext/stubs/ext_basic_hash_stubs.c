@@ -52,15 +52,6 @@ CAMLprim value caml_bs_hash_string_and_small_int(value obj, value d){
   return Val_int(h & 0x3FFFFFFFU);
 }
 
-CAMLprim value caml_bs_hash_small_int(value d){
-  uint32 h = 0;
-  // intnat stamp = Long_val(d);
-  // FIXME: unused value
-  MIX(h,d);
-  FINAL_MIX(h);
-  return Val_int(h & 0x3FFFFFFFU);
-}
-
 CAMLprim value caml_int_array_blit(
   value a1, value ofs1,
   value a2, value ofs2,
