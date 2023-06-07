@@ -7,8 +7,4 @@
 
 (cram
  (applies_to playground)
- (enabled_if
-  (or
-   (= %{profile} browser)
-   (= %{profile} browser-dev)))
  (deps %{bin:js_of_ocaml} ../../bin/jsoo_main.bc.js))
