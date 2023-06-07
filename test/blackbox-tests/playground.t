@@ -1,16 +1,10 @@
-Generate runtime cmijs for building against melange libs from the playground
-
-  $ find $DUNE_SOURCEROOT/_build/default/jscomp/stdlib/.stdlib.objs/melange -name "*.cmi" -or -name "*.cmj" | xargs js_of_ocaml build-fs -o stdlib-cmijs.js
-  $ find $DUNE_SOURCEROOT/_build/default/jscomp/runtime/.runtime.objs/melange -name "*.cmi" -or -name "*.cmj" | xargs js_of_ocaml build-fs -o runtime-cmijs.js
-  $ find $DUNE_SOURCEROOT/_build/default/jscomp/others/.belt.objs/melange -name "*.cmi" -or -name "*.cmj" | xargs js_of_ocaml build-fs -o belt-cmijs.js
-
 Prepare an input file to test some snippets to exercise common functionality
 
   $ cat > input.js <<EOF
   > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
-  > require('./stdlib-cmijs.js');
-  > require('./runtime-cmijs.js');
-  > require('./belt-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/stdlib-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/runtime-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/belt-cmijs.js');
   > console.log(ocaml.compile("let t = 1"));
   > console.log(ocaml.compile(\`let john = [%bs.obj { name = "john"; age = 99 }] let t = john##name\`));
   > console.log(ocaml.compile(\`let foo = Belt.List.map\`));

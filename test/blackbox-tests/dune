@@ -7,4 +7,9 @@
 
 (cram
  (applies_to playground)
- (deps %{bin:js_of_ocaml} ../../bin/jsoo_main.bc.js))
+ (deps
+  %{bin:js_of_ocaml}
+  ../../bin/jsoo_main.bc.js
+  ../../bin/belt-cmijs.js
+  ../../bin/runtime-cmijs.js
+  ../../bin/stdlib-cmijs.js))

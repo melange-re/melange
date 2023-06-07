@@ -24,4 +24,37 @@
 (install
  (section bin)
  (package melange_playground)
- (files jsoo_main.bc.js))
+ (files jsoo_main.bc.js belt-cmijs.js runtime-cmijs.js stdlib-cmijs.js))
+
+(rule
+ (deps
+  %{bin:js_of_ocaml}
+  (:cmijs
+   (glob_files ../jscomp/others/.belt.objs/melange/*.{cmi,cmj})))
+ (target belt-cmijs.js)
+ (action
+  (run js_of_ocaml build-fs -o %{target} %{cmijs})))
+
+(rule
+ (deps
+  %{bin:js_of_ocaml}
+  (:cmijs
+   (glob_files ../jscomp/runtime/.runtime.objs/melange/*.{cmi,cmj})))
+ (target runtime-cmijs.js)
+ (action
+  (run js_of_ocaml build-fs -o %{target} %{cmijs})))
+
+(rule
+ (deps
+  %{bin:js_of_ocaml}
+  (:cmijs
+   (glob_files ../jscomp/stdlib/.stdlib.objs/melange/*.{cmi,cmj})))
+ (target stdlib-cmijs.js)
+ (action
+  (run js_of_ocaml build-fs -o %{target} %{cmijs})))
+
+(rule
+ (alias playground-cmijs)
+ (deps belt-cmijs.js runtime-cmijs.js stdlib-cmijs.js)
+ (action
+  (echo "cmijs generated")))
