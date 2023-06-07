@@ -65,6 +65,7 @@
  (allow_empty)
  (depends
   ocaml
+  js_of_ocaml
   (melange
    (= :version))
   (reactjs-jsx-ppx
