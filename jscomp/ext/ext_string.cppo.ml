@@ -191,11 +191,7 @@ let replace_backward_slash (x : string)=
 
 let empty = ""
 
-#if defined BS_BROWSER
 let compare = Bs_hash_stubs.string_length_based_compare
-#else
-external compare : string -> string -> int = "caml_string_length_based_compare" [@@noalloc];;
-#endif
 
 (* reference {!Bytes.uppercase} *)
 let capitalize_ascii (s : string) : string =

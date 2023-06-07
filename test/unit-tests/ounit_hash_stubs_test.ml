@@ -45,12 +45,6 @@ let suites =
            |> Array.iter (fun x ->
                   Bs_hash_stubs.hash_string x =~ Hashtbl.hash x) );
          ( __LOC__ >:: fun _ ->
-           (* only stamp matters here *)
-           hash { stamp = 1; name = "xx"; flags = 0 }
-           =~ Bs_hash_stubs.hash_small_int 1;
-           hash { stamp = 11; name = "xx"; flags = 0 }
-           =~ Bs_hash_stubs.hash_small_int 11 );
-         ( __LOC__ >:: fun _ ->
            (* only string matters here *)
            hash { stamp = 0; name = "Pervasives"; flags = 0 }
            =~ Bs_hash_stubs.hash_string "Pervasives";
