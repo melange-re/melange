@@ -21,7 +21,7 @@
  (libraries core melange_compiler_libs melange_ppx reactjs-jsx-ppx reason)
  (modes js))
 
-(alias
- (name install)
+(install
+ (section bin)
  (package melange_playground)
- (deps jsoo_main.bc.js))
+ (files jsoo_main.bc.js))
