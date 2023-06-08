@@ -26,7 +26,8 @@ module Js = Jsoo_common.Js
 
 let () =
   Bs_conditional_initial.setup_env ();
-  Clflags.binary_annotations := false
+  Clflags.binary_annotations := false;
+  Clflags.color := None
 
 let error_of_exn e =
   match Location.error_of_exn e with

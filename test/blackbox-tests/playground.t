@@ -96,9 +96,7 @@ Prepare an input file to test some snippets to exercise common functionality
   
   { js_error_msg: 'Expect a record expression here' }
   {
-    message: '\x1B[1mFile "_none_", line 1, characters 9-10\x1B[0m:\n' +
-      '\x1B[1;31mError\x1B[0m: Syntax error\n' +
-      '\n',
+    message: 'File "_none_", line 1, characters 9-10:\nError: Syntax error\n\n',
     location: {
       startLine: 1,
       startLineStartChar: 10,
