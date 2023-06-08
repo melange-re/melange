@@ -74,6 +74,7 @@ stdenv.mkDerivation {
     packages.melange
     packages.rescript-syntax
     reactjs-jsx-ppx
+    js_of_ocaml-compiler
   ];
 
   checkPhase = ''
