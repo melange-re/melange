@@ -66,6 +66,8 @@
  (depends
   ocaml
   js_of_ocaml
+  (reason
+   (= "dev"))
   (melange
    (= :version))
   (reactjs-jsx-ppx
