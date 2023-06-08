@@ -29,6 +29,7 @@
 (rule
  (deps
   %{bin:js_of_ocaml}
+  (package melange)
   (:some-cmi %{lib:melange:belt/melange/belt.cmi}))
  (target belt-cmijs.js)
  (action
@@ -38,6 +39,7 @@
 (rule
  (deps
   %{bin:js_of_ocaml}
+  (package melange)
   (:some-cmi %{lib:melange:runtime/melange/js.cmi}))
  (target runtime-cmijs.js)
  (action
@@ -47,6 +49,7 @@
 (rule
  (deps
   %{bin:js_of_ocaml}
+  (package melange)
   (:some-cmi %{lib:melange:melange/stdlib.cmi}))
  (target stdlib-cmijs.js)
  (action
