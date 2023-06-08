@@ -19,6 +19,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.printML(ocaml.parseRE(\`let foo = <div />\`)));
   > console.log(ocaml.printML(ocaml.parseRE("//")));
   > console.log(ocaml.compile("let t = [%bs.obj 2]"));
+  > try { ocaml.parseRE("type t = 2") } catch (e) { console.log(e); };
   > EOF
 
   $ node input.js
@@ -94,3 +95,14 @@ Prepare an input file to test some snippets to exercise common functionality
   let foo = ((div ~children:[] ())[@JSX ])
   
   { js_error_msg: 'Expect a record expression here' }
+  {
+    message: '\x1B[1mFile "_none_", line 1, characters 9-10\x1B[0m:\n' +
+      '\x1B[1;31mError\x1B[0m: Syntax error\n' +
+      '\n',
+    location: {
+      startLine: 1,
+      startLineStartChar: 10,
+      endLine: 1,
+      endLineEndChar: 10
+    }
+  }
