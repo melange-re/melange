@@ -7,7 +7,7 @@
  (flags
   (:standard -open Melange_compiler_libs))
  (modules_without_implementation ext_js_file_kind)
- (libraries unix melange_compiler_libs)
+ (libraries bs_hash_stubs unix melange_compiler_libs)
  (foreign_stubs
   (language c)
   (names ext_basic_hash_stubs)))

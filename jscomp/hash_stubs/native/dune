@@ -1,0 +1,3 @@
+(library
+ (name bs_hash_stubs_native)
+ (implements bs_hash_stubs))

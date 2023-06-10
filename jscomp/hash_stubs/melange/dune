@@ -1,0 +1,3 @@
+(library
+ (name bs_hash_stubs_melange)
+ (implements bs_hash_stubs))

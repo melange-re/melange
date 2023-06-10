@@ -12,7 +12,7 @@
  (package rescript-syntax)
  (modules res_cli)
  (flags -open Napkin)
- (libraries napkin))
+ (libraries bs_hash_stubs_melange napkin))
 
 (install
  (package rescript-syntax)

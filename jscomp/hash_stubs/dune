@@ -1,0 +1,4 @@
+(library
+ (name bs_hash_stubs)
+ (package melange)
+ (virtual_modules bs_hash_stubs))

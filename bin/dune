@@ -2,7 +2,7 @@
  (public_name melc)
  (package melange)
  (flags :standard -open Melange_compiler_libs)
- (libraries js_parser ext common melange_compiler_libs core cmdliner)
+ (libraries js_parser bs_hash_stubs_melange ext common melange_compiler_libs core cmdliner)
  (modules melc melc_cli)
  (preprocess
   (action
@@ -12,7 +12,7 @@
  (public_name melppx)
  (package melange)
  (modules melppx)
- (libraries melange.ppx ppxlib))
+ (libraries bs_hash_stubs_melange melange.ppx ppxlib))
 
 (executable
  (name jsoo_main)
