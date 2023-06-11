@@ -32,7 +32,7 @@
  (modes melange)
  (preprocess
   (pps melange.ppx))
- (libraries melange.runtime melange.belt)
+ (libraries melange.hash_stubs_melange melange.runtime melange.belt)
  (flags :standard -w -9-61 \ -keep-locs)
  (stdlib
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)

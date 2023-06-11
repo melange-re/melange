@@ -1,3 +1,5 @@
 (library
  (name bs_hash_stubs_melange)
+ (modes :standard melange)
+ (public_name melange.hash_stubs_melange)
  (implements bs_hash_stubs))

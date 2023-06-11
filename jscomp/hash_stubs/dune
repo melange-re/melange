@@ -1,4 +1,5 @@
 (library
  (name bs_hash_stubs)
- (package melange)
+ (modes :standard melange)
+ (public_name melange.hash_stubs_vlib)
  (virtual_modules bs_hash_stubs))
