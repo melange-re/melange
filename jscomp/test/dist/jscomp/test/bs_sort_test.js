@@ -3,11 +3,11 @@
 
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
-var Belt_Array = require("melange.belt/./belt_Array.js");
-var Belt_Range = require("melange.belt/./belt_Range.js");
-var Belt_SortArray = require("melange.belt/./belt_SortArray.js");
+var Belt_Array = require("melange.belt/belt_Array.js");
+var Belt_Range = require("melange.belt/belt_Range.js");
+var Belt_SortArray = require("melange.belt/belt_SortArray.js");
 var Array_data_util = require("./array_data_util.js");
-var Belt_SortArrayInt = require("melange.belt/./belt_SortArrayInt.js");
+var Belt_SortArrayInt = require("melange.belt/belt_SortArrayInt.js");
 
 var suites = {
   contents: /* [] */0

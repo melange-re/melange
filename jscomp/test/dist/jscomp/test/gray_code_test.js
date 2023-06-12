@@ -2,7 +2,7 @@
 'use strict';
 
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
+var Stdlib__Bytes = require("melange/bytes.js");
 
 function gray_encode(b) {
   return b ^ (b >>> 1);

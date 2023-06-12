@@ -2,8 +2,8 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Belt_Array = require("melange.belt/./belt_Array.js");
-var Belt_Option = require("melange.belt/./belt_Option.js");
+var Belt_Array = require("melange.belt/belt_Array.js");
+var Belt_Option = require("melange.belt/belt_Option.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var TestUtils = require("react-dom/test-utils");
 

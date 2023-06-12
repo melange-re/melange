@@ -3,14 +3,14 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_array = require("melange.runtime/caml_array.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Array = require("melange/./array.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
+var Stdlib__Array = require("melange/array.js");
+var Stdlib__Bytes = require("melange/bytes.js");
 var Ext_array_test = require("./ext_array_test.js");
-var Stdlib__Digest = require("melange/./digest.js");
-var Stdlib__Printf = require("melange/./printf.js");
+var Stdlib__Digest = require("melange/digest.js");
+var Stdlib__Printf = require("melange/printf.js");
 
 function f(x) {
   return Stdlib__Digest.to_hex(Stdlib__Digest.string(x));

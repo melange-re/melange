@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
-var Stdlib__Hashtbl = require("melange/./hashtbl.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
+var Stdlib__Hashtbl = require("melange/hashtbl.js");
 
 function f(H) {
   var tbl = Curry._1(H.create, 17);

@@ -3,14 +3,14 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Arith_lexer = require("./arith_lexer.js");
 var Arith_parser = require("./arith_parser.js");
 var Arith_syntax = require("./arith_syntax.js");
 var Number_lexer = require("./number_lexer.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Lexing = require("melange/./lexing.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Lexing = require("melange/lexing.js");
 
 function get_tokens(lex, str) {
   var buf = Stdlib__Lexing.from_string(undefined, str);

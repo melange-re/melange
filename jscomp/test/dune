@@ -58,22 +58,6 @@
 
 (ocamllex simple_lexer_test)
 
-(subdir
- dist/jscomp/test
- (copy_files ../../../*.js)
- (alias
-  (name melange-runtime-tests)
-  (deps
-   (glob_files *.js))))
-
-(subdir
- dist
- (copy_files ../*.js)
- (alias
-  (name melange-runtime-tests)
-  (deps
-   (glob_files *.js))))
-
 (melange.emit
  (target dist)
  (alias melange-runtime-tests)
@@ -81,7 +65,9 @@
  (modules)
  (module_systems
   (commonjs js))
- (libraries melange melange_runtime_tests melange_tests_re_res))
+ (libraries melange melange_runtime_tests melange_tests_re_res)
+ (runtime_deps
+  (glob_files *.js)))
 
 (melange.emit
  (target dist-es6)

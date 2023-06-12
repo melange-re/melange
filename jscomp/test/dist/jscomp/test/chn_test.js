@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Array = require("melange/array.js");
 
 var suites = {
   contents: /* [] */0

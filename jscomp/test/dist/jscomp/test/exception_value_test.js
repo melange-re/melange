@@ -2,8 +2,8 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Js_exn = require("melange.belt/./js_exn.js");
-var Stdlib = require("melange/./stdlib.js");
+var Js_exn = require("melange.belt/js_exn.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

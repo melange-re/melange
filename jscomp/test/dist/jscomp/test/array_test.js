@@ -6,8 +6,8 @@ var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

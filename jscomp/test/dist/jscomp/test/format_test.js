@@ -3,13 +3,13 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_format = require("melange.runtime/caml_format.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Scanf = require("melange/./scanf.js");
-var Stdlib__Format = require("melange/./format.js");
-var Stdlib__Printf = require("melange/./printf.js");
-var CamlinternalFormatBasics = require("melange/./camlinternalFormatBasics.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Scanf = require("melange/scanf.js");
+var Stdlib__Format = require("melange/format.js");
+var Stdlib__Printf = require("melange/printf.js");
+var CamlinternalFormatBasics = require("melange/camlinternalFormatBasics.js");
 
 var suites = {
   contents: /* [] */0

@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_mapperRt = require("melange.belt/./js_mapperRt.js");
-var Stdlib__Array = require("melange/./array.js");
+var Js_mapperRt = require("melange.belt/js_mapperRt.js");
+var Stdlib__Array = require("melange/array.js");
 
 var suites = {
   contents: /* [] */0

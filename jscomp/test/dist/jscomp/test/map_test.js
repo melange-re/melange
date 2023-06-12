@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__String = require("melange/./string.js");
+var Stdlib = require("melange/stdlib.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__String = require("melange/string.js");
 
 var compare = Caml.caml_int_compare;
 

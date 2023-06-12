@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Array = require("melange/array.js");
 
 function test(param) {
   var v = {

@@ -4,10 +4,10 @@
 var Curry = require("melange.runtime/curry.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Bytes = require("melange/bytes.js");
 var Ext_bytes_test = require("./ext_bytes_test.js");
-var Stdlib__String = require("melange/./string.js");
+var Stdlib__String = require("melange/string.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

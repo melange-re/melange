@@ -2,9 +2,9 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Stdlib__List = require("melange/./list.js");
+var Stdlib__List = require("melange/list.js");
 
 function length_aux(_len, _param) {
   while(true) {

@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Stack = require("melange/./stack.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Stack = require("melange/stack.js");
 
 function to_list(v) {
   var acc = /* [] */0;
