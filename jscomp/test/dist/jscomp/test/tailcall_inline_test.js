@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Caml_array = require("melange.runtime/caml_array.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Array = require("melange/array.js");
 
 function f(param) {
   var f$1 = function (_acc, _n) {

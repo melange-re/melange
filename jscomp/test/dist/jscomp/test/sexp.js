@@ -2,12 +2,12 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_format = require("melange.runtime/caml_format.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Hashtbl = require("melange/./hashtbl.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Hashtbl = require("melange/hashtbl.js");
 
 var equal = Caml_obj.caml_equal;
 

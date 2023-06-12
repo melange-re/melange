@@ -3,7 +3,7 @@
 
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 
 var compare = Caml.caml_string_compare;
 

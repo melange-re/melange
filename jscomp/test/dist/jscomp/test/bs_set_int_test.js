@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Array = require("melange.belt/./belt_Array.js");
-var Belt_SetInt = require("melange.belt/./belt_SetInt.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
+var Belt_Array = require("melange.belt/belt_Array.js");
+var Belt_SetInt = require("melange.belt/belt_SetInt.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
 var Array_data_util = require("./array_data_util.js");
 
 var suites = {

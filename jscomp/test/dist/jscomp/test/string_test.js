@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
-var Stdlib__String = require("melange/./string.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Bytes = require("melange/bytes.js");
+var Stdlib__String = require("melange/string.js");
 var Ext_string_test = require("./ext_string_test.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 

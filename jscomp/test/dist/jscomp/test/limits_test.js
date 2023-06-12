@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
-var Stdlib__Int32 = require("melange/./int32.js");
+var Stdlib = require("melange/stdlib.js");
+var Stdlib__Int32 = require("melange/int32.js");
 
 var suites = {
   contents: /* [] */0

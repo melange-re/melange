@@ -5,7 +5,7 @@ var List = require("List");
 var List$1 = require("reactV");
 var List$2 = require("reactX");
 var Local = require("./local");
-var Stdlib__List = require("melange/./list.js");
+var Stdlib__List = require("melange/list.js");
 var WebpackConfigJs = require("../../../webpack.config.js");
 var WebpackMiddlewareConfigJs = require("../../../webpack.middleware.config.js");
 

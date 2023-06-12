@@ -5,7 +5,7 @@
 // hello
 'use strict';
 
-var Stdlib__List = require("melange/./list.js");
+var Stdlib__List = require("melange/list.js");
 
 var x0 = null;
 

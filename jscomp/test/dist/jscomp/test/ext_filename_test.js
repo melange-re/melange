@@ -2,18 +2,18 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_sys = require("melange.runtime/caml_sys.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Sys = require("melange/./sys.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
+var Stdlib__Sys = require("melange/sys.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Bytes = require("melange/bytes.js");
 var Test_literals = require("./test_literals.js");
-var Stdlib__Format = require("melange/./format.js");
-var Stdlib__String = require("melange/./string.js");
+var Stdlib__Format = require("melange/format.js");
+var Stdlib__String = require("melange/string.js");
 var Ext_string_test = require("./ext_string_test.js");
-var CamlinternalLazy = require("melange/./camlinternalLazy.js");
-var Stdlib__Filename = require("melange/./filename.js");
+var CamlinternalLazy = require("melange/camlinternalLazy.js");
+var Stdlib__Filename = require("melange/filename.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 var Ext_pervasives_test = require("./ext_pervasives_test.js");
 var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");

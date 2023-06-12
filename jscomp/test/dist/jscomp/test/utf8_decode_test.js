@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Stream = require("melange/./stream.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Stream = require("melange/stream.js");
 
 function classify(chr) {
   if ((chr & 128) === 0) {

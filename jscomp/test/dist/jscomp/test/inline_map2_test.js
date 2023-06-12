@@ -4,9 +4,9 @@
 var Mt = require("./mt.js");
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Stdlib__List = require("melange/./list.js");
+var Stdlib__List = require("melange/list.js");
 
 function Make(Ord) {
   var height = function (param) {

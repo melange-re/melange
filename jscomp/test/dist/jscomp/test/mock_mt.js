@@ -2,7 +2,7 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__List = require("melange/./list.js");
+var Stdlib__List = require("melange/list.js");
 
 function from_pair_suites(name, suites) {
   console.log([

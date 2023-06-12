@@ -2,7 +2,7 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var CamlinternalOO = require("melange/./camlinternalOO.js");
+var CamlinternalOO = require("melange/camlinternalOO.js");
 
 var shared = [
   "move",

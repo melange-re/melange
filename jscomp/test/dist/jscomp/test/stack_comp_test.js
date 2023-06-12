@@ -5,8 +5,8 @@ var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Mt_global = require("./mt_global.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Stack = require("melange/./stack.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Stack = require("melange/stack.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var suites = {

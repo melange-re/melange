@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Ffi_js_test = require("./ffi_js_test.js");
 
 var x = "\x01\x02\x03";

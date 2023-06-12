@@ -4,8 +4,8 @@ import * as Path from "path";
 import * as Curry from "melange.runtime/curry.mjs";
 import * as Assert from "assert";
 import * as Process from "process";
-import * as Stdlib__List from "melange/./list.mjs";
-import * as Stdlib__Array from "melange/./array.mjs";
+import * as Stdlib__List from "melange/list.mjs";
+import * as Stdlib__Array from "melange/array.mjs";
 
 function assert_fail(msg) {
   Assert.fail(undefined, undefined, msg, "");
