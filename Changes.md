@@ -1,18 +1,34 @@
 Unreleased
 ---------------
 
-- melange: build executables for bytecode-only platforms too
+- Build executables for bytecode-only platforms too
   ([#596](https://github.com/melange-re/melange/pull/596))
-- melange: move the entire builtin PPX to `melange.ppx`. Preprocessing with
+- Move the entire builtin PPX to `melange.ppx`. Preprocessing with
   `melange.ppx` will needed in most cases going forward, as it's responsible
   for processing `external` declarations, `@deriving` attributes and more,
   compared to the previous release where `melange.ppx` just processed AST
   extension nodes ([#583](https://github.com/melange-re/melange/pull/583))
 - Remove old BuckleScript-style conditional compilation
   ([#605](https://github.com/melange-re/melange/pull/605))
-- melange: don't emit JS import / require paths with `foo/./bar.js`
+- Don't emit JS import / require paths with `foo/./bar.js`
   ([#598](https://github.com/melange-re/melange/issues/598),
   [#612](https://github.com/melange-re/melange/pull/612))
+- Wrap the melange runtime
+  ([#624](https://github.com/melange-re/melange/pull/624)). After this change,
+  Melange exposes fewer toplevel modules. Melange runtime / stdlib modules are
+  now wrapped under:
+    - `Caml*` / `Curry` modules are part of the runtime and keep being exposed
+      as before
+    - `Js.*` contains all the modules previously accessible via `Js_*`, e.g.
+      `Js_int` -> `Js.Int`
+    - `Belt.*` wraps all the `Belt` modules; `Belt_List` etc. are not exposed
+      anymore, but rather nested under `Belt`, e.g. `Belt.List`
+    - `Node.*`: we now ship a `melange.node` library that includes the modules
+      containing Node.js bindings. After this change, users will have to depend
+      on `melange.node` explicitly in order to use the `Node.*` modules
+    - `Dom.*`: we now ship a `melange.dom` library that includes the modules
+      containing Node.js bindings. This library is included by default so the
+      `Dom` module will always be available in Melange projects.
 
 1.0.0 2023-05-31
 ---------------
