@@ -5,7 +5,6 @@
  (preprocess
   (pps melange.ppx -unsafe))
  (libraries melange.js)
- (flags :standard \ -keep-locs)
  (modules
   :standard
   \
@@ -18,7 +17,6 @@
   node_process
   node_process)
  (melange.compile_flags
-  -no-keep-locs
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
@@ -56,9 +54,7 @@
   node_process
   node_process)
  (stdlib)
- (flags :standard \ -keep-locs)
  (melange.compile_flags
-  -no-keep-locs
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt

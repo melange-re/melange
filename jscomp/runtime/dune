@@ -13,12 +13,10 @@
  (modes melange)
  (preprocess
   (pps melange.ppx -unsafe))
- (flags :standard \ -keep-locs)
  (stdlib
   (modules_before_stdlib Melange_mini_stdlib)
   (internal_modules Melange_mini_stdlib Js_OO Caml* Curry))
  (melange.compile_flags
-  -no-keep-locs
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
