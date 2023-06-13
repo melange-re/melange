@@ -26,7 +26,6 @@
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON> MDN
 *)
-
 (** {2 Types} *)
 
 (** The JSON data structure *)
@@ -34,7 +33,7 @@ type t
 
 (** Underlying type of a JSON value *)
 type _ kind =
-  | String : Js.String.t kind
+  | String : Js_string.t kind
   | Number : float kind
   | Object : t Js.Dict.t kind
   | Array : t array kind
@@ -59,7 +58,7 @@ val classify : t -> tagged_t
 val test : 'a  -> 'b kind -> bool
 (** [test v kind] returns true if [v] is of [kind] *)
 
-val decodeString : t -> Js.String.t option
+val decodeString : t -> Js_string.t option
 (** [decodeString json] returns [Some s] if [json] is a string, [None]
     otherwise *)
 

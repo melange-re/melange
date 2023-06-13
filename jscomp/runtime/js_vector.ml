@@ -39,30 +39,30 @@ external unsafe_set : 'a t -> int -> 'a -> unit = "%array_unsafe_set"
 let filterInPlace p a =
   let  i = ref 0 in
   let j = ref 0 in
-  while i.contents < Js.Array2.length a do
-    let v = Js.Array2.unsafe_get a i.contents in
+  while i.contents < Js_array2.length a do
+    let v = Js_array2.unsafe_get a i.contents in
     if p v   [@bs] then
       begin
-        Js.Array2.unsafe_set a j.contents v ;
+        Js_array2.unsafe_set a j.contents v ;
         j.contents <- j.contents + 1
       end;
     i.contents <- i.contents + 1
   done;
-  Js.Array2.removeFromInPlace a ~pos:j.contents |. ignore
+  Js_array2.removeFromInPlace a ~pos:j.contents |. ignore
 
 let empty a  =
-  Js.Array2.removeFromInPlace a ~pos:0 |. ignore
+  Js_array2.removeFromInPlace a ~pos:0 |. ignore
 
 let pushBack x xs =
-  Js.Array2.push xs x |. ignore
+  Js_array2.push xs x |. ignore
 
 (** Find by JS (===)  equality *)
 let memByRef x xs =
-  Js.Array2.indexOf xs x >= 0
+  Js_array2.indexOf xs x >= 0
 
 let iter f  xs =
-  for i = 0 to Js.Array2.length xs - 1 do
-    f (Js.Array2.unsafe_get xs i) [@bs]
+  for i = 0 to Js_array2.length xs - 1 do
+    f (Js_array2.unsafe_get xs i) [@bs]
   done
 
 let iteri f a =
@@ -104,7 +104,7 @@ let copy x =
   b
 
 let map f a =
-  let l = Js.Array2.length a in
+  let l = Js_array2.length a in
   let r = createUnsafe l in
   for i = 0 to l - 1 do
       unsafe_set r i (f(unsafe_get a i) [@bs])
@@ -139,6 +139,6 @@ let mapi f a =
   end
 
 let append x a =
-  Js.Array2.concat a [|x|]
+  Js_array2.concat a [|x|]
 
 (* TODO: add [append] *)

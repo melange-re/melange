@@ -28,7 +28,7 @@ open Melange_mini_stdlib
 type t
 
 type _ kind =
-  | String : Js.String.t kind
+  | String : Js_string.t kind
   | Number : float kind
   | Object : t Js.Dict.t kind
   | Array : t array kind
@@ -56,7 +56,7 @@ let classify  (x : t) : tagged_t =
     else JSONFalse
   else if (Obj.magic x) == Js.null then
     JSONNull
-  else if Js.Array2.isArray x  then
+  else if Js_array2.isArray x  then
     JSONArray (Obj.magic x)
   else
     JSONObject (Obj.magic x)
@@ -68,8 +68,8 @@ let test (type a) (x : 'a) (v : a kind) : bool =
   | Boolean -> Js.typeof x = "boolean"
   | String -> Js.typeof x = "string"
   | Null -> (Obj.magic x) == Js.null
-  | Array -> Js.Array2.isArray x
-  | Object -> (Obj.magic x) != Js.null && Js.typeof x = "object" && not (Js.Array2.isArray x )
+  | Array -> Js_array2.isArray x
+  | Object -> (Obj.magic x) != Js.null && Js.typeof x = "object" && not (Js_array2.isArray x )
 
 let decodeString json =
   if Js.typeof json = "string"
@@ -83,13 +83,13 @@ let decodeNumber json =
 
 let decodeObject json =
   if  Js.typeof json = "object" &&
-      not (Js.Array2.isArray json) &&
+      not (Js_array2.isArray json) &&
       not ((Obj.magic json : 'a Js.null) == Js.null)
   then Some (Obj.magic (json:t) : t Js.Dict.t)
   else None
 
 let decodeArray json =
-  if Js.Array2.isArray json
+  if Js_array2.isArray json
   then Some (Obj.magic (json:t) : t array)
   else None
 

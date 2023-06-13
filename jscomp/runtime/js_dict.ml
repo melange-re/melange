@@ -66,21 +66,21 @@ external unsafeCreate : int -> 'a array = "Array" [@@bs.new]
 (* external entries : 'a t -> (key * 'a) array = "Object.entries" [@@bs.val] (* ES2017 *) *)
 let entries dict =
   let keys = keys dict in
-  let l = Js.Array2.length keys in
+  let l = Js_array2.length keys in
   let values = unsafeCreate l in
   for i = 0 to l - 1 do
-    let key = Js.Array2.unsafe_get keys i in
-    Js.Array2.unsafe_set values i (key, dict.!(key))
+    let key = Js_array2.unsafe_get keys i in
+    Js_array2.unsafe_set values i (key, dict.!(key))
   done;
   values
 
 (* external values : 'a t -> 'a array = "Object.values" [@@bs.val] (* ES2017 *) *)
 let values dict =
   let keys = keys dict in
-  let l = Js.Array2.length keys in
+  let l = Js_array2.length keys in
   let values = unsafeCreate l in
   for i = 0 to l - 1 do
-    Js.Array2.unsafe_set values i  dict.!(Js.Array2.unsafe_get keys i)
+    Js_array2.unsafe_set values i  dict.!(Js_array2.unsafe_get keys i)
   done;
   values
 
@@ -96,9 +96,9 @@ let fromList entries =
 
 let fromArray entries =
   let dict = empty () in
-  let l = Js.Array2.length entries in
+  let l = Js_array2.length entries in
   for i = 0 to l - 1 do
-    let (key, value) = Js.Array2.unsafe_get entries i in
+    let (key, value) = Js_array2.unsafe_get entries i in
     set dict key value
   done;
   dict
@@ -106,9 +106,9 @@ let fromArray entries =
 let map f source =
   let target = empty () in
   let keys = keys source in
-  let l = Js.Array2.length keys in
+  let l = Js_array2.length keys in
   for i = 0 to l - 1 do
-    let key = Js.Array2.unsafe_get keys i in
+    let key = Js_array2.unsafe_get keys i in
     set target key (f (unsafeGet source key) [@bs])
   done;
   target

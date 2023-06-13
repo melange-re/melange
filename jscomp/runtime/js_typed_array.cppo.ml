@@ -27,8 +27,8 @@
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray> MDN
 *)
 
-type array_buffer = Js.TypedArray2.array_buffer
-type 'a array_like = 'a Js.TypedArray2.array_like
+type array_buffer = Js_typed_array2.array_buffer
+type 'a array_like = 'a Js_typed_array2.array_like
 
 module type Type = sig
   type t
@@ -165,7 +165,7 @@ end
 #define COMMON_EXTERNALS(moduleName, eltType)\
   (** *)\
   type elt = eltType\
-  type 'a typed_array = 'a Js.TypedArray2.moduleName.typed_array\
+  type 'a typed_array = 'a Js_typed_array2.moduleName.typed_array\
   type t = elt typed_array\
   \
   external unsafe_get : t -> int -> elt  = "" [@@bs.get_index]\
@@ -352,7 +352,7 @@ module Float64_array = Float64Array
 *)
 module DataView = struct
 
-  type t = Js.TypedArray2.DataView.t
+  type t = Js_typed_array2.DataView.t
 
   external make : array_buffer -> t = "DataView" [@@bs.new]
   external fromBuffer : array_buffer -> t = "DataView" [@@bs.new]

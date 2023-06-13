@@ -40,7 +40,7 @@ external getUnsafe : 'a t -> 'a = "%identity"
 
 let getExn f =
   match toOption f with
-  | None -> Js.Exn.raiseError "Js.Undefined.getExn"
+  | None -> Js_exn.raiseError "Js.Undefined.getExn"
   | Some x -> x
 
 let bind x f =
