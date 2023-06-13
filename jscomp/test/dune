@@ -11,7 +11,7 @@
 (library
  (name melange_runtime_tests)
  (modes melange)
- (libraries test_runner)
+ (libraries test_runner melange.dom)
  (wrapped false)
  (preprocess
   (pps melange.ppx))
@@ -29,7 +29,7 @@
  (library
   (name melange_tests_re_res)
   (modes melange)
-  (libraries test_runner)
+  (libraries test_runner melange.dom)
   (wrapped false)
   (preprocess
    (pps melange.ppx reactjs-jsx-ppx))
