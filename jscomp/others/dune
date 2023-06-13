@@ -15,7 +15,30 @@
   node_module
   node_path
   node_process
-  node_process)
+  node_process
+  dom
+  dom_storage
+  dom_storage2)
+ (melange.compile_flags
+  -bs-no-version-header
+  -bs-no-check-div-by-zero
+  -bs-cross-module-opt
+  -unsafe
+  -nopervasives
+  -nostdlib
+  -open
+  Melange_mini_stdlib
+  -w
+  -9-20-61))
+
+(library
+ (modes melange)
+ (name dom)
+ (public_name melange.dom)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (libraries melange.js)
+ (modules dom dom_storage dom_storage2)
  (melange.compile_flags
   -bs-no-version-header
   -bs-no-check-div-by-zero

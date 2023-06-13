@@ -60,12 +60,14 @@ let stdlib_paths =
     | exception Not_found ->
 #ifndef BS_RELEASE_BUILD
       [ root // "jscomp" // "stdlib" // ".stdlib.objs" // Literals.package_name
-      ; root // "jscomp" // "runtime" // ".runtime.objs" // Literals.package_name
+      ; root // "jscomp" // "runtime" // ".js.objs" // Literals.package_name
       ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
+      ; root // "jscomp" // "others" // ".dom.objs" // Literals.package_name ]
 #else
       [ root // Literals.lib // Literals.package_name // Literals.package_name
-      ; root // Literals.lib // Literals.package_name // "runtime" // Literals.package_name
-      ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name ]
+      ; root // Literals.lib // Literals.package_name // "js" // Literals.package_name
+      ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name
+      ; root // Literals.lib // Literals.package_name // "dom" // Literals.package_name ]
 #endif
   end)
 
