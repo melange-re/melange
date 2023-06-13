@@ -21,6 +21,8 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.compileML("let t = [%bs.obj 2]"));
   > try { ocaml.parseRE("type t = 2") } catch (e) { console.log(e); };
   > console.log(ocaml.compileRE("let t = 1;"));
+  > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };")); // Some Reason errors dont have locations
+  > console.log(ocaml.compileRE("let sum = item => swiftch (item) { 2 };")); // but some do
   > EOF
 
   $ node input.js
@@ -119,4 +121,18 @@ Prepare an input file to test some snippets to exercise common functionality
       '  t ,\n' +
       '}\n' +
       '/* No side effect */\n'
+  }
+  {
+    js_error_msg: 'File "_none_", line 1, characters 35-36:\n' +
+      'Error: Unclosed "{" (opened line 1, column 33)\n' +
+      '\n'
+  }
+  {
+    js_error_msg: 'Line 1, 18:\n  Error Unbound value swiftch',
+    row: 0,
+    column: 18,
+    endRow: 0,
+    endColumn: 25,
+    text: 'Unbound value swiftch',
+    type: 'error'
   }
