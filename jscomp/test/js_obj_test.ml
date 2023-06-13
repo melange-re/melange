@@ -1,4 +1,4 @@
-open Js_obj
+open Js.Obj
 
 
 type  x = < say : int -> int >

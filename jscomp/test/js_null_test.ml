@@ -1,4 +1,4 @@
-open Js_null
+open Js.Null
 
 let suites = Mt.[
   "toOption - empty", (fun _ -> Eq(None, empty |> toOption));

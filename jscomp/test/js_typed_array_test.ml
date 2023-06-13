@@ -1,4 +1,4 @@
-open Js_typed_array
+open Js.Typed_array
 
 external arrayFrom : 'a -> 'b array = "Array.from" [@@bs.val]
 
