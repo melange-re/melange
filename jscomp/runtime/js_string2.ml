@@ -274,7 +274,7 @@ external localeCompare : t -> t -> float = "localeCompare" [@@bs.send]
 ]}
 
 *)
-external match_ : t -> Js_re.t -> t option array option = "match" [@@bs.send] [@@bs.return {null_to_opt}]
+external match_ : t -> Js.Re.t -> t option array option = "match" [@@bs.send] [@@bs.return {null_to_opt}]
 
 (** [normalize str] returns the normalized Unicode string using Normalization Form Canonical (NFC) Composition.
 
@@ -330,7 +330,7 @@ have been replaced by [replacement].
   replaceByRe "Juan Fulano" [%re "/(\\w+) (\\w+)/"] "$2, $1" = "Fulano, Juan"
 ]}
 *)
-external replaceByRe : t -> Js_re.t -> t -> t = "replace" [@@bs.send]
+external replaceByRe : t -> Js.Re.t -> t -> t = "replace" [@@bs.send]
 
 (** returns a new string with some or all matches of a pattern with no capturing
 parentheses replaced by the value returned from the given function.
@@ -350,7 +350,7 @@ let () = Js.log replaced (* prints "bEAUtifUl vOwEls" *)
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
-external unsafeReplaceBy0 : t -> Js_re.t -> (t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
+external unsafeReplaceBy0 : t -> Js.Re.t -> (t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
 
 (** returns a new string with some or all matches of a pattern with one set of capturing
 parentheses replaced by the value returned from the given function.
@@ -370,7 +370,7 @@ let () = Js.log replaced (* prints "increment 23 is 24" *)
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
-external unsafeReplaceBy1 : t -> Js_re.t -> (t -> t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
+external unsafeReplaceBy1 : t -> Js.Re.t -> (t -> t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
 
 (** returns a new string with some or all matches of a pattern with two sets of capturing
 parentheses replaced by the value returned from the given function.
@@ -390,7 +390,7 @@ let () = Js.log replaced (* prints "42" *)
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
-external unsafeReplaceBy2 : t -> Js_re.t -> (t -> t -> t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
+external unsafeReplaceBy2 : t -> Js.Re.t -> (t -> t -> t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
 
 (** returns a new string with some or all matches of a pattern with three sets of capturing
 parentheses replaced by the value returned from the given function.
@@ -399,7 +399,7 @@ the offset at which the match begins, and the whole string being matched.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_function_as_a_parameter> MDN
 *)
-external unsafeReplaceBy3 : t -> Js_re.t -> (t -> t -> t -> t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
+external unsafeReplaceBy3 : t -> Js.Re.t -> (t -> t -> t -> t -> int -> t -> t [@bs.uncurry]) -> t = "replace" [@@bs.send]
 
 (** [search regexp str] returns the starting position of the first match of [regexp] in the given [str], or -1 if there is no match.
 
@@ -408,7 +408,7 @@ search "testing 1 2 3" [%re "/\\d+/"] = 8;;
 search "no numbers" [%re "/\\d+/"] = -1;;
 ]}
 *)
-external search : t -> Js_re.t -> int = "search" [@@bs.send]
+external search : t -> Js.Re.t -> int = "search" [@@bs.send]
 
 (** [slice from:n1 to_:n2 str] returns the substring of [str] starting at character [n1] up to but not including [n2]
 
@@ -474,7 +474,7 @@ external splitAtMost: t -> t -> limit:int -> t array = "split" [@@bs.send]
   splitByRe "has:no:match" [%re "/[,;]/"] = [|"has:no:match"|];;
 ]};
 *)
-external splitByRe : t -> Js_re.t -> t option array = "split" [@@bs.send]
+external splitByRe : t -> Js.Re.t -> t option array = "split" [@@bs.send]
 
 (**
   [splitByReAtMost regex ~limit: n str] splits the given [str] at every occurrence of [regex] and returns an
@@ -486,7 +486,7 @@ external splitByRe : t -> Js_re.t -> t option array = "split" [@@bs.send]
   splitByReAtMost "one: two: three: four" [%re "/\\s*:\\s*/"] ~limit: 8 = [|"one"; "two"; "three"; "four"|];;
 ]};
 *)
-external splitByReAtMost : t -> Js_re.t -> limit:int ->  t option array = "split" [@@bs.send]
+external splitByReAtMost : t -> Js.Re.t -> limit:int ->  t option array = "split" [@@bs.send]
 
 (** ES2015:
     [startsWith substr str] returns [true] if the [str] starts with [substr], [false] otherwise.
@@ -636,7 +636,7 @@ external anchor : t -> t -> t = "anchor" [@@bs.send] (** ES2015 *)
 *)
 external link : t -> t -> t = "link" [@@bs.send] (** ES2015 *)
 
-external castToArrayLike : t -> t Js_array2.array_like = "%identity"
+external castToArrayLike : t -> t Js.Array2.array_like = "%identity"
 (* FIXME: we should not encourage people to use [%identity], better
     to provide something using [@@bs.val] so that we can track such
     casting

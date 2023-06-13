@@ -1,3 +1,5 @@
+open Melange_mini_stdlib
+
 type shape
 
 val init_mod :

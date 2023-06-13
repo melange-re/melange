@@ -113,7 +113,7 @@ let  minimum n =
 let minUndefined n =
   match n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (min0Aux n)
+  | Some n -> Js.Undefined.return (min0Aux n)
 
 let rec max0Aux n =
   match n.right with
@@ -128,7 +128,7 @@ let maximum n =
 let maxUndefined n =
   match n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (max0Aux n)
+  | Some n -> Js.Undefined.return (max0Aux n)
 
 let rec removeMinAuxWithRef n v =
   match n.left with
@@ -519,11 +519,11 @@ let rec get  (n : _ t) x ~cmp =
 
 let rec getUndefined (n : _ t) x ~cmp  =
   match n with
-    None -> Js_undefined.empty
+    None -> Js.Undefined.empty
   | Some t (* Node(l, v, r, _) *) ->
     let v = t.value in
     let c = (Belt_Id.getCmpInternal cmp) x v [@bs] in
-    if c = 0 then  Js_undefined.return v
+    if c = 0 then  Js.Undefined.return v
     else getUndefined ~cmp  (if c < 0 then t.left else t.right) x
 
 let rec getExn  (n : _ t) x ~cmp =
@@ -660,4 +660,3 @@ let rec removeMinAuxWithRootMutate nt n =
   | Some ln ->
     n.left <- (removeMinAuxWithRootMutate nt ln);
     Some (balMutate n)
-

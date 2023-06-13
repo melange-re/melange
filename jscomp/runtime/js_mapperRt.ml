@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,66 +22,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type 'a t = 'a option
+open Melange_mini_stdlib
 
-let some x = Some x 
+external (.!()) : int array -> int -> int = "" [@@bs.get_index]
 
-let isSome = function
-  | None -> false
-  | Some _ -> true
+let raiseWhenNotFound x =
+  if Js.testAny x then raise Not_found
+  else x
 
-let isSomeValue eq v x =
-  match x with 
-  | None -> false 
-  | Some x -> eq v x [@bs]
+let rec fromIntAux (enum : int) i len xs =
+  if i = len then None
+  else
+    let k = xs.!(i) in
+    if k = enum then Some i
+    else fromIntAux enum (i + 1) len xs
 
+let fromInt len (xs : int array) (enum : int )  : 'variant option =
+  fromIntAux enum 0 len xs
 
-let isNone = function
-  | None -> true
-  | Some _ -> false
+let rec fromIntAssertAux len (enum : int) i  xs =
+  if i = len then raise Not_found
+  else
+    let k = xs.!(i) in
+    if k = enum then  i
+    else fromIntAssertAux len enum (i + 1)  xs
 
-let getExn x =
-  match x with 
-  | None -> Js_exn.raiseError "getExn"
-  | Some x -> x 
-
-let equal eq a b =
-  match a  with 
-  | None -> b = None 
-  | Some x -> 
-    begin match b with 
-    | None -> false 
-    | Some y -> eq x y [@bs]
-    end
-
-let andThen f x =
-  match x with 
-  | None -> None 
-  | Some x -> f x [@bs]
-
-let map f x =
-  match x with
-  | None -> None
-  | Some x -> Some (f x [@bs])
-
-let getWithDefault a x =
-  match x with
-  | None -> a
-  | Some x -> x
-
-let default = getWithDefault  
-
-let filter f x =
-  match x with
-  | None -> None
-  | Some x -> 
-    if f x [@bs] then
-      Some x
-    else
-      None
-
-let firstSome a b =
-  match (a, b) with
-  | (Some _, _) -> a
-  | (None, Some _) -> b
-  | (None, None) -> None
+(** [length] is not relevant any more *)
+let fromIntAssert  len (xs : int array) (enum : int )=
+  fromIntAssertAux len enum 0  xs

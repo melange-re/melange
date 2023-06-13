@@ -22,32 +22,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Provides functionality for dealing with the ['a Js.undefined] type *)
+open Melange_mini_stdlib
 
-type + 'a t = 'a Js.undefined
-external to_opt : 'a t -> 'a option = "#undefined_to_opt"
-external toOption : 'a t -> 'a option = "#undefined_to_opt"
-external return : 'a -> 'a t = "%identity"
+(** Provides functionality for dealing with the ['a Js.null] type *)
 
 
-  
-external empty : 'a t = "#undefined"
-let test : 'a t -> bool =  fun x -> x = empty
-let testAny : 'a -> bool = fun x -> Obj.magic x = empty 
+type + 'a t = 'a Js.null
+
+external to_opt : 'a t -> 'a option = "#null_to_opt"
+external toOption : 'a t -> 'a option = "#null_to_opt"
+external return : 'a -> 'a t  = "%identity"
+let test : 'a t -> bool = fun x -> x = Js.null
+external empty : 'a t = "#null"
 external getUnsafe : 'a t -> 'a = "%identity"
 
 let getExn f =
-  match toOption f with 
-  | None -> Js_exn.raiseError "Js.Undefined.getExn"
-  | Some x -> x 
+  match toOption f with
+  | None -> Js.Exn.raiseError "Js.Null.getExn"
+  | Some x -> x
 
 let bind x f =
-  match to_opt x with
+  match toOption x with
   | None -> empty
-  | Some x -> return (f  x [@bs])
+  | Some x -> return (f x [@bs])
 
 let iter x f =
-  match to_opt x with
+  match toOption x with
   | None ->  ()
   | Some x -> f x [@bs]
 

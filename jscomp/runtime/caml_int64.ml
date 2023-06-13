@@ -29,6 +29,7 @@
 (* TODO: see GPR#333
    the encoding of int is platform dependent *)
 
+open Melange_mini_stdlib
 
 
 

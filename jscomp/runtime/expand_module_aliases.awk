@@ -22,8 +22,8 @@ NR == 1 { printf ("# 1 \"%s\"\n", FILENAME) }
   else if (state==1)
     state=2;
   else if ($1 == "module")
-  { if (ocamldoc!="true") printf("\n(** @canonical Melange_runtime.%s *)", $2);
-    printf("\nmodule %s = Melange_runtime__%s\n", $2, $4);
+  { if (ocamldoc!="true") printf("\n(** @canonical Js.%s *)", $2);
+    printf("\nmodule %s = Js__%s\n", $2, $4);
   }
   else
     print

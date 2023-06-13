@@ -26,6 +26,8 @@
     due to we believe this is an even low level dependency
 *)
 
+open Melange_mini_stdlib
+
 [@@@warning "-37"] (* `Function` may be used in runtime *)
 
 type shape =

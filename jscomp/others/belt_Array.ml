@@ -51,7 +51,7 @@ let swapUnsafe xs i j =
 let shuffleInPlace xs =
   let len = length xs in
   for i = 0 to len - 1 do
-    swapUnsafe xs i (Js_math.random_int i len) (* [i,len)*)
+    swapUnsafe xs i (Js.Math.random_int i len) (* [i,len)*)
   done
 
 let shuffle xs =
@@ -495,7 +495,7 @@ let partitionU a f =
     let v = a.!(ii) in
     if f v [@bs] then (
       a1.!(i.contents) <- v;
-      i.contents <- i.contents + 1 
+      i.contents <- i.contents + 1
     )
     else (
       a2.!(j.contents) <- v;

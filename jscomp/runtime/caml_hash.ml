@@ -23,6 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 [@@@bs.config {flags = [|"-bs-noassertfalse"|]}]
 
+open Melange_mini_stdlib
+
 type 'a cell = {
   content : 'a ;
   mutable next : 'a cell option

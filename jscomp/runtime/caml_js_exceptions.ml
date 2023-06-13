@@ -1,3 +1,5 @@
+open Melange_mini_stdlib
+
 type  t =
   | Any : 'a ->  t [@@unboxed]
 

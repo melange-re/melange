@@ -74,6 +74,3 @@ module Pervasives = struct
   external max : 'a -> 'a -> 'a = "%bs_max"
   external ( = ) : 'a -> 'a -> bool = "%equal"
 end
-
-(*MODULE_ALIASES*)
-(* module Js = Js_ *)

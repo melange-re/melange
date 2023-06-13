@@ -96,7 +96,7 @@ let minKey n =
 let minKeyUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (minKey0Aux n)
+  | Some n -> Js.Undefined.return (minKey0Aux n)
 
 let rec maxKey0Aux n =
   match  n.right with
@@ -111,7 +111,7 @@ let maxKey n =
 let maxKeyUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (maxKey0Aux n)
+  | Some n -> Js.Undefined.return (maxKey0Aux n)
 
 let rec minKV0Aux n =
   match  n.left with
@@ -126,7 +126,7 @@ let minimum n =
 let minUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (minKV0Aux n)
+  | Some n -> Js.Undefined.return (minKV0Aux n)
 
 let rec maxKV0Aux n =
   match  n.right with
@@ -141,7 +141,7 @@ let maximum n =
 let maxUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (maxKV0Aux n)
+  | Some n -> Js.Undefined.return (maxKV0Aux n)
 
 (* TODO: use kv ref *)
 let rec removeMinAuxWithRef n kr vr =
@@ -598,7 +598,7 @@ let rec getUndefined  n x ~cmp =
   | Some n  ->
     let v = n.key  in
     let c = (Belt_Id.getCmpInternal cmp) x v [@bs] in
-    if c = 0 then Js_undefined.return (n.value )
+    if c = 0 then Js.Undefined.return (n.value )
     else getUndefined ~cmp  (if c < 0 then n.left else n.right) x
 
 let rec getExn   n x  ~cmp =

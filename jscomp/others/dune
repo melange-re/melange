@@ -1,158 +1,15 @@
-(rule
- (deps belt.pre.ml)
- (target belt.ml)
- (action
-  (progn
-   (with-stdout-to
-    %{target}
-    (run awk -f %{dep:expand_module_aliases_belt.awk} %{deps}))
-   ; (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awk -o %{target}.awk)
-   )))
-
 (library
  (modes melange)
  (name belt)
  (public_name melange.belt)
  (preprocess
   (pps melange.ppx -unsafe))
- (libraries melange.runtime js)
- (flags :standard \ -keep-locs)
- (modules
-  belt
-  belt_Array
-  belt_Float
-  belt_HashMap
-  belt_HashSet
-  belt_Id
-  belt_Int
-  belt_internalAVLset
-  belt_internalAVLtree
-  belt_internalBuckets
-  belt_internalBucketsType
-  belt_internalSetBuckets
-  belt_List
-  belt_Map
-  belt_MapDict
-  belt_MutableMap
-  belt_MutableQueue
-  belt_MutableSet
-  belt_MutableStack
-  belt_Option
-  belt_Range
-  belt_Result
-  belt_Set
-  belt_SetDict
-  belt_SortArray
-  belt_HashSetString
-  belt_HashSetInt
-  belt_HashMapString
-  belt_HashMapInt
-  belt_MapString
-  belt_MapInt
-  belt_SetString
-  belt_SetInt
-  belt_MutableMapString
-  belt_MutableMapInt
-  belt_MutableSetString
-  belt_MutableSetInt
-  belt_SortArrayString
-  belt_SortArrayInt
-  belt_internalMapString
-  belt_internalMapInt
-  belt_internalSetString
-  belt_internalSetInt)
- (melange.compile_flags
-  -no-keep-locs
-  -bs-no-version-header
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
-  -unsafe
-  -nopervasives
-  -nostdlib
-  -open
-  Melange_runtime
-  -w
-  -9-20-61))
-
-(rule
- (deps js.pre.ml)
- (target js.ml)
- (action
-  (progn
-   (with-stdout-to
-    %{target}
-    (run awk -f %{dep:expand_module_aliases_js.awk} %{deps}))
-   ; (run cppo -D=BS %{env:CPPO_FLAGS=} %{target}.awk -o %{target}.awk)
-   )))
-
-(library
- (modes melange)
- (name js)
- (public_name melange.js)
- (wrapped false)
- (preprocess
-  (pps melange.ppx -unsafe))
- (stdlib (modules_before_stdlib))
- (libraries melange.runtime)
- (modules
-  js
-  js_array
-  js_array2
-  js_bigint
-  js_cast
-  js_console
-  js_date
-  js_dict
-  js_exn
-  js_float
-  js_global
-  js_int
-  js_json
-  js_list
-  js_map
-  js_mapperRt
-  js_math
-  js_null
-  js_null_undefined
-  js_obj
-  js_OO
-  js_option
-  js_promise
-  js_re
-  js_result
-  js_set
-  js_string
-  js_string2
-  js_typed_array
-  js_typed_array2
-  js_types
-  js_undefined
-  js_vector
-  js_weakmap
-  js_weakset)
- (flags :standard \ -keep-locs)
- (melange.compile_flags
-  -no-keep-locs
-  -bs-no-version-header
-  -bs-no-check-div-by-zero
-  -bs-cross-module-opt
-  -unsafe
-  -open
-  Melange_runtime
-  -w
-  -9-20-61))
-
-(library
- (modes melange)
- (name node)
- (public_name melange.node)
- (wrapped false)
- (preprocess
-  (pps melange.ppx -unsafe))
  (libraries melange.js)
+ (flags :standard \ -keep-locs)
  (modules
+  :standard
+  \
   node
-  node__no_aliases
   node_buffer
   node_child_process
   node_fs
@@ -160,7 +17,6 @@
   node_path
   node_process
   node_process)
- (flags :standard \ -keep-locs)
  (melange.compile_flags
   -no-keep-locs
   -bs-no-version-header
@@ -170,7 +26,47 @@
   -nopervasives
   -nostdlib
   -open
-  Melange_runtime
+  Melange_mini_stdlib
+  -w
+  -9-20-61))
+
+(rule
+ (deps node.pre.ml)
+ (target node.ml)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases_node.awk} %{deps})))))
+
+(library
+ (modes melange)
+ (name node)
+ (public_name melange.node)
+ (preprocess
+  (pps melange.ppx -unsafe))
+ (libraries melange.js)
+ (modules
+  node
+  node_buffer
+  node_child_process
+  node_fs
+  node_module
+  node_path
+  node_process
+  node_process)
+ (stdlib)
+ (flags :standard \ -keep-locs)
+ (melange.compile_flags
+  -no-keep-locs
+  -bs-no-version-header
+  -bs-no-check-div-by-zero
+  -bs-cross-module-opt
+  -unsafe
+  ; -nopervasives
+  ; -nostdlib
+  -open
+  Melange_mini_stdlib
   -w
   -9-20-61))
 
@@ -365,15 +261,3 @@
  (deps internal_set.cppo.ml)
  (action
   (run cppo -D TYPE_INT %{deps} -o %{target})))
-
-(rule
- (target js_typed_array.ml)
- (deps js_typed_array.cppo.ml)
- (action
-  (run cppo %{deps} -o %{target})))
-
-(rule
- (target js_typed_array2.ml)
- (deps js_typed_array2.cppo.ml)
- (action
-  (run cppo %{deps} -o %{target})))

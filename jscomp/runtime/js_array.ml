@@ -25,7 +25,7 @@
 (** JavaScript Array API *)
 
 type 'a t = 'a array
-type 'a array_like = 'a Js_array2.array_like
+type 'a array_like = 'a Js.Array2.array_like
 
 (* commented out until bs has a plan for iterators
 type 'a array_iter = 'a array_like
@@ -83,7 +83,7 @@ external includes : 'a -> bool = "includes" [@@bs.send.pipe: 'a t as 'this] (** 
 external indexOf : 'a  -> int = "indexOf" [@@bs.send.pipe: 'a t as 'this]
 external indexOfFrom : 'a -> from:int -> int = "indexOf" [@@bs.send.pipe: 'a t as 'this]
 
-external join : 'a t -> string = "join" 
+external join : 'a t -> string = "join"
 [@@bs.send] [@@deprecated "please use joinWith instead"]
 
 external joinWith : string -> string = "join" [@@bs.send.pipe: 'a t as 'this]
@@ -148,4 +148,3 @@ external values : 'a array_iter = "" [@@bs.send.pipe: 'a t as 'this] (* ES2015 *
 *)
 external unsafe_get : 'a array -> int -> 'a = "%array_unsafe_get"
 external unsafe_set : 'a array -> int -> 'a -> unit = "%array_unsafe_set"
-

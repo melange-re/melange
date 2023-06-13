@@ -82,7 +82,7 @@ let rec getUndefined (n :t) (x : value)   =
   | None -> Js.undefined
   | Some t  ->
     let v = t.value in
-    if x = v then Js_undefined.return v
+    if x = v then Js.Undefined.return v
     else getUndefined  (if x < v then t.left else t.right) x
 
 let rec getExn  (n :t) (x : value) =
@@ -129,5 +129,4 @@ let fromArray (xs : value array) =
       result .contents<- addMutate result.contents (A.getUnsafe xs i)
     done ;
     result.contents
-
 

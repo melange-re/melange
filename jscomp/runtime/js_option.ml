@@ -22,29 +22,68 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Contains functionality for dealing with values that can be both [null] and [undefined] *)
+open Melange_mini_stdlib
 
-type + 'a t = 'a Js.nullable
-external toOption : 'a t -> 'a option = "#nullable_to_opt"
-external to_opt : 'a t -> 'a option = "#nullable_to_opt"
-external return : 'a -> 'a t = "%identity"
-external isNullable : 'a t -> bool =  "#is_nullable"
-external null : 'a t = "#null"
-external undefined : 'a t = "#undefined"
+type 'a t = 'a option
 
-let bind x f =
-  match to_opt x with
-  | None -> (Obj.magic (x: 'a t): 'b t)
-  | Some x -> return (f x [@bs])
+let some x = Some x
 
-let iter x f =
-  match to_opt x with
-  | None -> ()
+let isSome = function
+  | None -> false
+  | Some _ -> true
+
+let isSomeValue eq v x =
+  match x with
+  | None -> false
+  | Some x -> eq v x [@bs]
+
+
+let isNone = function
+  | None -> true
+  | Some _ -> false
+
+let getExn x =
+  match x with
+  | None -> Js.Exn.raiseError "getExn"
+  | Some x -> x
+
+let equal eq a b =
+  match a  with
+  | None -> b = None
+  | Some x ->
+    begin match b with
+    | None -> false
+    | Some y -> eq x y [@bs]
+    end
+
+let andThen f x =
+  match x with
+  | None -> None
   | Some x -> f x [@bs]
 
-let fromOption x =
+let map f x =
   match x with
-  | None -> undefined
-  | Some x -> return x
+  | None -> None
+  | Some x -> Some (f x [@bs])
 
-let from_opt = fromOption
+let getWithDefault a x =
+  match x with
+  | None -> a
+  | Some x -> x
+
+let default = getWithDefault
+
+let filter f x =
+  match x with
+  | None -> None
+  | Some x ->
+    if f x [@bs] then
+      Some x
+    else
+      None
+
+let firstSome a b =
+  match (a, b) with
+  | (Some _, _) -> a
+  | (None, Some _) -> b
+  | (None, None) -> None

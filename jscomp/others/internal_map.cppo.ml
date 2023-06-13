@@ -44,7 +44,7 @@ let rec getUndefined n (x : key) =
     Js.undefined
   | Some n  ->
     let v = n.N.key in
-    if x = v then Js_undefined.return n.N.value
+    if x = v then Js.Undefined.return n.N.value
     else getUndefined (if x < v then n.N.left else n.N.right) x
 
 let rec getExn n (x : key) =
@@ -223,7 +223,6 @@ let fromArray (xs : (key * _) array) =
       result .contents<- addMutate  result.contents k v
     done ;
     result.contents
-
 
 
 

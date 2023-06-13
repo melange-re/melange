@@ -22,10 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Placeholder for Node bindings *)
-
-[@@@warning "-49"]
-
 type node_exports
 type node_module = <
        id : string ;
@@ -72,3 +68,11 @@ let test (type t) (x : string_buffer) : (t string_buffer_kind * t)=
     (Obj.magic String : t string_buffer_kind),  (Obj.magic x : t)
   else
     (Obj.magic Buffer : t string_buffer_kind), (Obj.magic x : t)
+
+(*MODULE_ALIASES*)
+module Path = Node_path
+module Fs = Node_fs
+module Process = Node_process
+module Module =  Node_module
+module Buffer = Node_buffer
+module Child_process = Node_child_process
