@@ -87,7 +87,7 @@ let compile
     let () =
       Js_dump_program.pp_deps_program ~output_prefix:""
         ~package_info:Js_packages_info.empty
-        ~output_info:{ Js_packages_info.module_system = NodeJS; suffix = Js }
+        ~output_info:{ Js_packages_info.module_system = Es6; suffix = Js }
         (Ext_pp.from_buffer buffer)
         (Lam_compile_main.compile "" lam)
     in
