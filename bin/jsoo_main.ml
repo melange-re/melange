@@ -31,7 +31,11 @@ let () =
 let error_of_exn e =
   match Location.error_of_exn e with
   | Some (`Ok e) -> Some e
-  | Some `Already_displayed | None -> None
+  | Some `Already_displayed -> None
+  | None -> (
+      match Ocaml_common.Location.error_of_exn e with
+      | Some (`Ok e) -> Some e
+      | Some `Already_displayed | None -> None)
 
 module From_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_414)
