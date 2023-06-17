@@ -49,7 +49,7 @@ module Watch = struct
   external config :
     ?persistent: bool ->
     ?recursive: bool ->
-    ?encoding: Js_string.t ->
+    ?encoding: Js.String.t ->
     unit -> config =
     "" [@@bs.obj]
 

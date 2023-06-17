@@ -82,8 +82,6 @@
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
   -unsafe
-  ; -nopervasives
-  ; -nostdlib
   -open
   Melange_mini_stdlib
   -w

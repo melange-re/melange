@@ -14,7 +14,6 @@
  (preprocess
   (pps melange.ppx -unsafe))
  (stdlib
-  ; (modules_before_stdlib Js_exn Js_vector Js_array2 Js_undefined Js_json)
   (internal_modules
    Melange_mini_stdlib
    Js_OO
