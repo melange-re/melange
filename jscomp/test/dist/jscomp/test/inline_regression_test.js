@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__String = require("melange/./string.js");
-var Stdlib__Filename = require("melange/./filename.js");
+var Stdlib__String = require("melange/string.js");
+var Stdlib__Filename = require("melange/filename.js");
 
 function generic_basename(is_dir_sep, current_dir_name, name) {
   if (name === "") {

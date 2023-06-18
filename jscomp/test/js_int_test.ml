@@ -1,4 +1,4 @@
-open Js_int
+open Js.Int
 
 let suites = Mt.[
   ("toExponential", (fun _ ->
@@ -26,7 +26,7 @@ let suites = Mt.[
     ThrowAny(fun () -> ignore @@ toPrecisionWithPrecision 0 ~digits:101)));
   ("toPrecisionWithPrecision - digits:-1", (fun _ ->
     ThrowAny(fun () -> ignore @@ toPrecisionWithPrecision 0 ~digits:(-1))));
-    
+
   ("toString", (fun _ ->
     Eq("123", toString 123)));
   ("toStringWithRadix - radix:2", (fun _ ->

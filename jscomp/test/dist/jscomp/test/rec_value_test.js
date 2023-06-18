@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Stdlib__List = require("melange/./list.js");
-var CamlinternalLazy = require("melange/./camlinternalLazy.js");
+var Stdlib__List = require("melange/list.js");
+var CamlinternalLazy = require("melange/camlinternalLazy.js");
 
 var x = {};
 

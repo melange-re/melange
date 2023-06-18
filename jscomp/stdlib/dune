@@ -32,17 +32,17 @@
  (modes melange)
  (preprocess
   (pps melange.ppx))
- (libraries melange.runtime melange.belt)
- (flags :standard -w -9-61 \ -keep-locs)
+ (libraries melange.js melange.belt)
  (stdlib
   (modules_before_stdlib CamlinternalFormatBasics CamlinternalAtomic)
   (internal_modules Camlinternal*))
  (melange.compile_flags
-  -no-keep-locs
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -nolabels))
+  -nolabels
+  -w
+  -9-61))
 
 (rule
  (deps either.cppo.ml)

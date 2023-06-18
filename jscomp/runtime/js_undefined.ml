@@ -1,4 +1,4 @@
-(* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,29 +22,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-external (.!()) : int array -> int -> int = "" [@@bs.get_index]
+open Melange_mini_stdlib
 
-let raiseWhenNotFound x =
-  if Js.testAny x then raise Not_found 
-  else x 
-    
-let rec fromIntAux (enum : int) i len xs =
-  if i = len then None
-  else
-    let k = xs.!(i) in
-    if k = enum then Some i
-    else fromIntAux enum (i + 1) len xs
+(** Provides functionality for dealing with the ['a Js.undefined] type *)
 
-let fromInt len (xs : int array) (enum : int )  : 'variant option =
-  fromIntAux enum 0 len xs
+type + 'a t = 'a Js.undefined
+external to_opt : 'a t -> 'a option = "#undefined_to_opt"
+external toOption : 'a t -> 'a option = "#undefined_to_opt"
+external return : 'a -> 'a t = "%identity"
 
-let rec fromIntAssertAux len (enum : int) i  xs =
-  if i = len then raise Not_found
-  else
-    let k = xs.!(i) in
-    if k = enum then  i
-    else fromIntAssertAux len enum (i + 1)  xs
 
-(** [length] is not relevant any more *)
-let fromIntAssert  len (xs : int array) (enum : int )=
-  fromIntAssertAux len enum 0  xs
+
+external empty : 'a t = "#undefined"
+let test : 'a t -> bool =  fun x -> x = empty
+let testAny : 'a -> bool = fun x -> Obj.magic x = empty
+external getUnsafe : 'a t -> 'a = "%identity"
+
+let getExn f =
+  match toOption f with
+  | None -> Js_exn.raiseError "Js.Undefined.getExn"
+  | Some x -> x
+
+let bind x f =
+  match to_opt x with
+  | None -> empty
+  | Some x -> return (f  x [@bs])
+
+let iter x f =
+  match to_opt x with
+  | None ->  ()
+  | Some x -> f x [@bs]
+
+let fromOption x =
+  match x with
+  | None -> empty
+  | Some x -> return x
+
+let from_opt = fromOption

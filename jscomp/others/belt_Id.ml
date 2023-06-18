@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +27,11 @@ type ('a, 'id) hash = ('a -> int [@bs])
 type ('a, 'id) eq = ('a -> 'a -> bool [@bs])
 type ('a, 'id) cmp = ('a -> 'a -> int [@bs])
 
+[@@@warning "-unboxable-type-in-prim-decl"]
 external getHashInternal : ('a,'id) hash -> ('a -> int [@bs]) = "%identity"
 external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool [@bs]) = "%identity"
 external getCmpInternal : ('a,'id) cmp -> ('a -> 'a -> int [@bs]) = "%identity"
+[@@@warning "+unboxable-type-in-prim-decl"]
 
 
 module type Comparable = sig
@@ -71,7 +72,7 @@ let comparableU
   (module MakeComparableU(struct
       type t = key
       let cmp = cmp
-    end) 
+    end)
   : Comparable with type t = key)
 
 let comparable

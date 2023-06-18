@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
-var Stdlib__Printexc = require("melange/./printexc.js");
+var Stdlib__Printexc = require("melange/printexc.js");
 
 var suites = {
   contents: /* [] */0

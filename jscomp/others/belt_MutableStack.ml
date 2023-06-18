@@ -43,7 +43,7 @@ let push s x =
 let topUndefined (s : 'a t) =
    match s.root with
    | None -> Js.undefined
-   | Some x -> Js_undefined.return x.head
+   | Some x -> Js.Undefined.return x.head
 
 let top s =
   match s.root with
@@ -57,7 +57,7 @@ let popUndefined s =
   | None -> Js.undefined
   | Some x ->
     s.root <- x.tail;
-    Js_undefined.return x.head
+    Js.Undefined.return x.head
 
 let pop s =
     match s.root with

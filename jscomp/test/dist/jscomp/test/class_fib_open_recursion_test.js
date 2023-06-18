@@ -3,10 +3,10 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
-var CamlinternalOO = require("melange/./camlinternalOO.js");
-var Stdlib__Hashtbl = require("melange/./hashtbl.js");
+var CamlinternalOO = require("melange/camlinternalOO.js");
+var Stdlib__Hashtbl = require("melange/hashtbl.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var shared = ["calc"];

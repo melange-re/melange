@@ -46,7 +46,7 @@ Now es6
   > { "type": "module" }
   > EOF
 
-  $ cat > ./_build/default/melange/node_modules/melange.runtime/package.json <<EOF
+  $ cat > ./_build/default/melange/node_modules/melange.js/package.json <<EOF
   > { "type": "module" }
   > EOF
   $ cat > ./_build/default/melange/node_modules/melange.belt/package.json <<EOF

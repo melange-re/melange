@@ -4,8 +4,8 @@
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
 var Ext_string_test = require("./ext_string_test.js");
 
 function filter_map(f, _xs) {

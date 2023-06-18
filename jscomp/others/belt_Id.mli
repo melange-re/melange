@@ -1,4 +1,3 @@
-
 (* Copyright (C) 2017 Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
@@ -158,6 +157,7 @@ val hashable :
 
 
 (**/**)
+[@@@warning "-unboxable-type-in-prim-decl"]
 external getHashInternal : ('a,'id) hash -> ('a -> int [@bs]) = "%identity"
 external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool [@bs]) = "%identity"
 external getCmpInternal : ('a,'id) cmp -> ('a -> 'a -> int [@bs]) = "%identity"

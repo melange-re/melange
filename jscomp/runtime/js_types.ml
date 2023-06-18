@@ -22,12 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melange_mini_stdlib
 (** *)
 
 type symbol
 (**Js symbol type only available in ES6 *)
 
-type bigint_val = Js_bigint.t
+type bigint_val = Js.Bigint.t
 (** Js bigint type only available in ES2020 *)
 
 type obj_val
@@ -68,7 +69,7 @@ let classify (x : 'a) : tagged_t =
   let ty = Js.typeof x in
   if ty = "undefined" then
     JSUndefined else
-  if x == (Obj.magic Js_null.empty)  then
+  if x == (Obj.magic Js.Null.empty)  then
     JSNull else
   if ty = "number" then
     JSNumber (Obj.magic x) else
@@ -100,7 +101,7 @@ let test (type a) (x : 'a) (v : a t) : bool =
     Js.typeof x = "undefined"
   | Null
     ->
-    x == (Obj.magic Js_null.empty)
+    x == (Obj.magic Js.Null.empty)
   | String
     ->
     Js.typeof x = "string"

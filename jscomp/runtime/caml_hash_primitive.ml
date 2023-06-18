@@ -22,11 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
-
-
-
-
+open Melange_mini_stdlib
 
 let rotl32 (x : int) n  =
   (x lsl n) lor (x lsr (32 - n))
@@ -81,4 +77,3 @@ let caml_hash_mix_string h  s =
     end;
   hash.contents <- hash.contents lxor len ;
   hash.contents
-

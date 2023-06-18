@@ -5,8 +5,8 @@ var Path = require("path");
 var Curry = require("melange.runtime/curry.js");
 var Assert = require("assert");
 var Process = require("process");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
 
 function assert_fail(msg) {
   Assert.fail(undefined, undefined, msg, "");

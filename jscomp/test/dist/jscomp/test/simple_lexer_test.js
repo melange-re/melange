@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
-var Stdlib__Lexing = require("melange/./lexing.js");
+var Stdlib__Bytes = require("melange/bytes.js");
+var Stdlib__Lexing = require("melange/lexing.js");
 
 var __ocaml_lex_tables = {
   lex_base: "\0\0\xfd\xff\xfe\xff\0\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\x04\0\x01\0\x04\0\x03\0\0\0\x06\0\0\0\xff\xff",

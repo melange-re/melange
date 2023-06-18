@@ -1,4 +1,4 @@
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
 type shape
 

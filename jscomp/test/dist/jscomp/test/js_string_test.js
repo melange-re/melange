@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Option = require("melange.belt/./belt_Option.js");
+var Belt_Option = require("melange.belt/belt_Option.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 
 var suites_0 = [

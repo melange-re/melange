@@ -2,7 +2,7 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Belt_Array = require("melange.belt/./belt_Array.js");
+var Belt_Array = require("melange.belt/belt_Array.js");
 
 var N = {};
 

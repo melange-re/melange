@@ -1,4 +1,4 @@
-open Js_float
+open Js.Float
 
 let suites = Mt.[
   ("_NaN <> _NaN", (fun _ ->

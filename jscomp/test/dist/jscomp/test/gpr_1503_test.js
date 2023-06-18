@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Caml_format = require("melange.runtime/caml_format.js");
-var Stdlib__Int64 = require("melange/./int64.js");
+var Stdlib__Int64 = require("melange/int64.js");
 
 var suites = {
   contents: /* [] */0

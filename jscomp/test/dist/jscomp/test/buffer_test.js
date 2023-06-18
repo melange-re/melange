@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
-var Stdlib__Buffer = require("melange/./buffer.js");
+var Stdlib__Bytes = require("melange/bytes.js");
+var Stdlib__Buffer = require("melange/buffer.js");
 
 var v = "gso";
 

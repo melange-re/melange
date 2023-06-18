@@ -1,21 +1,34 @@
+(rule
+ (deps js.pre.ml)
+ (target js.ml)
+ (action
+  (progn
+   (with-stdout-to
+    %{target}
+    (run awk -f %{dep:expand_module_aliases.awk} %{deps})))))
+
 (library
- (public_name melange.runtime)
- (name runtime)
+ (public_name melange.js)
+ (name js)
  (modes melange)
- (wrapped false)
  (preprocess
   (pps melange.ppx -unsafe))
- (flags :standard \ -keep-locs)
+ (stdlib
+  (internal_modules
+   Melange_mini_stdlib
+   Js_OO
+   Caml*
+   Curry
+   Js_exn
+   Js_array2
+   Js_vector
+   Js_string
+   Js_typed_array2))
  (melange.compile_flags
-  -no-keep-locs
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -unsafe
-  -nopervasives
-  -nostdlib
-  -w
-  -61-69))
+  -unsafe))
 
 (rule
  (deps caml_io.cppo.ml)
@@ -24,3 +37,15 @@
   (with-stdout-to
    %{target}
    (run cppo %{env:CPPO_FLAGS=} %{deps} -o %{target}))))
+
+(rule
+ (target js_typed_array.ml)
+ (deps js_typed_array.cppo.ml)
+ (action
+  (run cppo %{deps} -o %{target})))
+
+(rule
+ (target js_typed_array2.ml)
+ (deps js_typed_array2.cppo.ml)
+ (action
+  (run cppo %{deps} -o %{target})))

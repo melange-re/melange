@@ -4,8 +4,8 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
-var Belt_Array = require("melange.belt/./belt_Array.js");
-var Belt_MutableQueue = require("melange.belt/./belt_MutableQueue.js");
+var Belt_Array = require("melange.belt/belt_Array.js");
+var Belt_MutableQueue = require("melange.belt/belt_MutableQueue.js");
 
 var suites = {
   contents: /* [] */0

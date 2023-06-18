@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Genlex = require("melange/./genlex.js");
-var Stdlib__Stream = require("melange/./stream.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Genlex = require("melange/genlex.js");
+var Stdlib__Stream = require("melange/stream.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 var lexer = Stdlib__Genlex.make_lexer({
