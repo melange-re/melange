@@ -44,7 +44,7 @@ let rec getUndefined n (x : key) =
     Js.undefined
   | Some n  ->
     let v = n.N.key in
-    if x = v then Js_undefined.return n.N.value
+    if x = v then Js.Undefined.return n.N.value
     else getUndefined (if x < v then n.N.left else n.N.right) x
 
 let rec getExn n (x : key) =
@@ -74,7 +74,7 @@ let rec remove n (x : key) =
   match n with
   |  None -> n
   |  Some n ->
-    let {N.left = l; key = v; right = r} = n in
+    let {N.left = l; key = v; right = r; _} = n in
     if x = v then
       match l, r with
       | None, _ -> r
@@ -89,7 +89,7 @@ let rec remove n (x : key) =
       N.(bal l v n.value (remove r x ))
 
 let rec splitAux (x : key) (n : _ N.node) : _ t * _ option  * _ t =
-  let {N.left = l; key = v; value = d; right = r} = n in
+  let {N.left = l; key = v; value = d; right = r; _} = n in
   if x = v then (l, Some d, r)
   else
   if x < v then
@@ -118,11 +118,11 @@ let rec mergeU s1 s2 f =
     (None, None) -> None
   | Some n (* (Node (l1, v1, d1, r1, h1), _)*), _
     when (n.N.height >= (match s2 with None -> 0 | Some n -> n.N.height)) ->
-    let {N.left = l1; key = v1; value = d1; right = r1} = n in
+    let {N.left = l1; key = v1; value = d1; right = r1; _} = n in
     let (l2, d2, r2) = split v1 s2 in
     N.concatOrJoin (mergeU l1 l2 f) v1 (f v1 (Some d1) d2 [@bs]) (mergeU r1 r2 f)
   | (_, Some n) (* Node (l2, v2, d2, r2, h2) *)  ->
-    let {N.left = l2; key = v2; value = d2; right = r2} = n in
+    let {N.left = l2; key = v2; value = d2; right = r2; _} = n in
     let (l1, d1, r1) = split v2 s1 in
     N.concatOrJoin (mergeU l1 l2 f) v2 (f v2 d1 (Some d2) [@bs]) (mergeU r1 r2 f)
   | _ ->
@@ -223,7 +223,3 @@ let fromArray (xs : (key * _) array) =
       result .contents<- addMutate  result.contents k v
     done ;
     result.contents
-
-
-
-

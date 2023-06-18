@@ -5,7 +5,8 @@
  (modules mt)
  (preprocess
   (pps melange.ppx))
- (melange.compile_flags -w -27-32 -bs-no-version-header -bs-cross-module-opt))
+ (melange.compile_flags -w -27-32 -bs-no-version-header -bs-cross-module-opt)
+ (libraries melange.node))
 
 (library
  (name melange_runtime_tests)

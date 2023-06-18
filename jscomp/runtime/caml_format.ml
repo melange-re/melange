@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
 
 external (.![]) : string -> int -> int = "%string_unsafe_get"
@@ -682,4 +682,3 @@ let caml_int32_format = caml_format_int
 
 let caml_int32_of_string = caml_int_of_string
 let caml_nativeint_of_string = caml_int32_of_string
-

@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
 type nested = {
   depth : int ; [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"]
@@ -79,6 +79,7 @@ type poly = {
   hash : int [@bs.as "HASH" (* Literals.polyvar_hash*)];
   value : Obj.t [@bs.as "VAL"]
 }
+[@@warning "-unused-field"]
 
 (** [input] is optional polymorphic variant *)
 let option_unwrap (x : poly option) =

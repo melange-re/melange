@@ -52,7 +52,7 @@ type t = {
 let rec remove0 nt (x : value)=
   let k = nt.N.value in
   if x = k then
-    let {N.left = l; right = r} = nt in
+    let {N.left = l; right = r; _} = nt in
     match l, r with
     | None, _ -> r
     | _, None -> l
@@ -106,7 +106,7 @@ let rec removeCheck0  nt (x : value) removed =
   let k = nt.N.value in
   if x = k then
     let () = removed .contents<- true in
-    let {N.left = l; right = r} = nt in
+    let {N.left = l; right = r; _} = nt in
     match l, r with
     | None, _ -> r
     | _ , None -> l
@@ -152,7 +152,7 @@ let rec addCheck0  t (x : value) added  =
     let k = nt.N.value in
     if x = k then t
     else
-      let {N.left = l; right =  r} = nt in
+      let {N.left = l; right =  r; _} = nt in
       (if x < k then
          let ll = addCheck0  l x added in
          nt.left <- ll

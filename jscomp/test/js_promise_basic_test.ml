@@ -7,7 +7,7 @@ let eq loc x y =
   suites :=
     (loc ^ " id " ^ string_of_int !test_id, fun _ -> Mt.Eq (x, y)) :: !suites
 
-open Js_promise
+open Js.Promise
 
 let assert_bool b =
   if b then () else raise (Invalid_argument "Assertion Failure.")
@@ -28,7 +28,7 @@ let andThenTest () =
 
 let h = resolve ()
 
-let assertIsNotFound (x : Js_promise.error) =
+let assertIsNotFound (x : Js.Promise.error) =
   match (function[@bs.open] Not_found -> 0) x with
   | Some _ -> h
   | _ -> assert false

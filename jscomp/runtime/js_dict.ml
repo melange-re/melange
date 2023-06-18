@@ -23,6 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 (** Provides a simple key-value dictionary abstraction over native JavaScript objects *)
+open Melange_mini_stdlib
 
 (** The dict type *)
 type 'a t

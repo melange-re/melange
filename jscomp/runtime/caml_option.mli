@@ -21,11 +21,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-open Bs_stdlib_mini
 
- type nested = {
-    depth : int ; [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"]
-  }
+open Melange_mini_stdlib
+
+type nested = {
+  depth : int ; [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"]
+}
 
 val nullable_to_opt : 'a Js.null_undefined -> 'a option
 

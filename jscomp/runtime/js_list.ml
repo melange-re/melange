@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@warning "-3"]
+open Melange_mini_stdlib
 
 type 'a t = 'a list
 
@@ -149,7 +149,7 @@ let rec countByAux f acc xs =
 
 let countBy f xs = countByAux f 0 xs
 
-let init n f =
+let[@alert "-deprecated"] init n f =
   Js_vector.toList (Js_vector.init n f )
 
 external createUnsafe : int -> 'a array =

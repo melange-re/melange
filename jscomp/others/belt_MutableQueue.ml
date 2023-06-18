@@ -66,7 +66,7 @@ let peek q =
 let peekUndefined q =
   match  q.first with
   | None -> Js.undefined
-  | Some v -> Js_undefined.return v.content
+  | Some v -> Js.Undefined.return v.content
 
 
 let peekExn q =
@@ -114,12 +114,12 @@ let popUndefined q =
     if next = None then
       begin (* only one element*)
         clear q;
-        Js_undefined.return x.content
+        Js.Undefined.return x.content
       end
     else begin
       q.length <- q.length - 1;
       q.first <- next;
-      Js_undefined.return x.content
+      Js.Undefined.return x.content
     end
 
 let rec copyAux qRes prev cell =

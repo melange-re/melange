@@ -117,9 +117,6 @@
     the internal, {i i.e}, {i Belt_Set} in the future
 
 *)
-
-[@@@warning "-49"]
-
 (** {!Belt.Id}
 
     Provide utilities to create identified comparators or hashes for
@@ -265,5 +262,3 @@ module Int = Belt_Int
 *)
 
 module Float = Belt_Float
-
-

@@ -41,10 +41,10 @@ let v_obj = object method hi__x () = Js.log "hei" end [@bs]
 
 
 let () =
-  eq __LOC__ (Array.length (Js_obj.keys int_config), 2 );
-  eq __LOC__ (Array.length (Js_obj.keys string_config), 2 );
-  eq __LOC__ (Js_obj.keys v_obj |. Js.Array2.indexOf "hi_x" , -1 );
-  eq __LOC__ (Js_obj.keys v_obj |. Js.Array2.indexOf "hi", 0 )
+  eq __LOC__ (Array.length (Js.Obj.keys int_config), 2 );
+  eq __LOC__ (Array.length (Js.Obj.keys string_config), 2 );
+  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array2.indexOf "hi_x" , -1 );
+  eq __LOC__ (Js.Obj.keys v_obj |. Js.Array2.indexOf "hi", 0 )
 
 let u = ref 3
 

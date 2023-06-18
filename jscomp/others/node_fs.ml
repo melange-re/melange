@@ -22,8 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-module Node = Node__no_aliases
-
 (** Node FS API
 
 @see <https://blogs.janestreet.com/a-and-a/> refernce documentation
@@ -51,7 +49,7 @@ module Watch = struct
   external config :
     ?persistent: bool ->
     ?recursive: bool ->
-    ?encoding: Js_string.t ->
+    ?encoding: Js.String.t ->
     unit -> config =
     "" [@@bs.obj]
 

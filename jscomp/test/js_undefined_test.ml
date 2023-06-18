@@ -1,4 +1,4 @@
-open Js_undefined
+open Js.Undefined
 
 let suites = Mt.[
   "toOption - empty", (fun _ -> Eq(None, empty |> toOption));

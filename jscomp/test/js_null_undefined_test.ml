@@ -1,4 +1,4 @@
-open Js_null_undefined
+open Js.Null_undefined
 
 let suites = Mt.[
   "toOption - null", (fun _ -> Eq(None, null |> toOption));
@@ -39,9 +39,9 @@ let suites = Mt.[
   "null <> undefined", (fun _ -> Ok(null <> undefined));
   "null <> empty", (fun _ -> Ok(null <> undefined));
   "undefined = empty", (fun _ -> Ok(undefined = undefined));
-  __LOC__, (fun _ -> 
+  __LOC__, (fun _ ->
     Ok(
-      let null =3 in 
+      let null =3 in
       not (Js.isNullable (Js.Nullable.return null ))
     )
   )

@@ -26,7 +26,7 @@
     due to we believe this is an even low level dependency
 *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
 [@@@warning "-37"] (* `Function` may be used in runtime *)
 

@@ -15,7 +15,7 @@ let suites = Mt.[
       Eq(N.parseAsFloat "1976-03-08T12:34:56.789+01:23", 195131516789.));
 
     "parseAsFloat_invalid", (fun _ ->
-      Ok(N.parseAsFloat "gibberish" |> Js_float.isNaN));
+      Ok(N.parseAsFloat "gibberish" |> Js.Float.isNaN));
 
     "fromFloat", (fun _ ->
       Eq("1976-03-08T11:11:56.789Z",
@@ -29,7 +29,7 @@ let suites = Mt.[
     "fromString_invalid", (fun _ ->
       Ok( N.fromString "gibberish"
           |> N.getTime
-          |> Js_float.isNaN
+          |> Js.Float.isNaN
           ));
 
     "makeWithYM", (fun _ ->
@@ -455,10 +455,10 @@ let suites = Mt.[
     *)
     "toUTCString", (fun _ ->
       Eq("Mon, 08 Mar 1976 11:11:56 GMT", N.toUTCString (date ())));
-    "eq" , (fun _ -> 
-      let a = Js.Date.fromString "2013-03-01T01:10:00" in 
-      let b = Js.Date.fromString "2013-03-01T01:10:00" in 
-      let c = Js.Date.fromString "2013-03-01T01:10:01" in 
+    "eq" , (fun _ ->
+      let a = Js.Date.fromString "2013-03-01T01:10:00" in
+      let b = Js.Date.fromString "2013-03-01T01:10:00" in
+      let c = Js.Date.fromString "2013-03-01T01:10:01" in
       Ok (a = b && b <> c &&  c > b)
     );
 ]
