@@ -99,4 +99,12 @@ Prepare an input file to test some snippets to exercise common functionality
   }
   let foo = ((div ~children:[] ())[@JSX ])
   
-  { js_error_msg: 'Expect a record expression here' }
+  {
+    js_error_msg: 'Line 1, 8:\n  Error Expect a record expression here',
+    row: 0,
+    column: 8,
+    endRow: 0,
+    endColumn: 19,
+    text: 'Expect a record expression here',
+    type: 'error'
+  }
