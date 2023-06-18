@@ -134,6 +134,8 @@ module Internal = struct
 
   (* Use opaque instead of [._n] to prevent some optimizations happening *)
   external run : 'a arity0 -> 'a = "#run"
+  [@@ocaml.warning "-unboxable-type-in-prim-decl" ]
+
   external opaque : 'a -> 'a = "%opaque"
 
 end

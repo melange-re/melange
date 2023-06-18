@@ -28,9 +28,7 @@
   -bs-no-version-header
   -bs-no-check-div-by-zero
   -bs-cross-module-opt
-  -unsafe
-  -w
-  -61-69))
+  -unsafe))
 
 (rule
  (deps caml_io.cppo.ml)
