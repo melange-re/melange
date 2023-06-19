@@ -60,3 +60,15 @@
    (= :version))
   (ppxlib
    (>= "0.28.0"))))
+
+(package
+ (name opam-check-npm-deps)
+ (synopsis
+  "An opam plugin to check for npm depexts inside the node_modules folder")
+ (description
+  "Provides the `opam check-npm-deps` command, which given an opam switch, gathers all the depexts belonging to the npm platform and their version constraints, and checks the `node_modules` folder to see if the constraints are satisfied.")
+ (depends
+  (opam-client
+   (and
+    (>= "2.1.2")
+    (< "2.2.0")))))

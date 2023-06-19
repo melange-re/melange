@@ -32,6 +32,7 @@ opam-install-test: ## Install test dependencies
 	opam pin add dune.dev -y git+https://github.com/ocaml/dune.git#1c0939ee8371951ec0f0d1bd0a1c810ca1b23122
 	opam pin add reactjs-jsx-ppx.dev -y git+https://github.com/reasonml/reason-react.git#587ea8fb55e5a98512557417f1576b497e573240
 	opam pin add melange.dev . --with-test -y
+	opam pin add opam-check-npm-deps.dev . --with-test -y
 	opam pin add rescript-syntax.dev . --with-test -y
 
 .PHONY: opam-install-dev

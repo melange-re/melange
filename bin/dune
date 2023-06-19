@@ -20,3 +20,10 @@
  (modules jsoo_main jsoo_common)
  (libraries core melange_compiler_libs melange_ppx)
  (modes js))
+
+(executable
+ (name check_npm_deps)
+ (public_name opam-check-npm-deps)
+ (package opam-check-npm-deps)
+ (modules check_npm_deps opamFilterVendored)
+ (libraries opam-client))
