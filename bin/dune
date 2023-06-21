@@ -39,7 +39,7 @@
  (deps
   %{bin:js_of_ocaml}
   (package melange)
-  (:some-cmi %{lib:melange:runtime/melange/js.cmi}))
+  (:some-cmi %{lib:melange:js/melange/js.cmi}))
  (target runtime-cmijs.js)
  (action
   (bash
