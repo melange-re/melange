@@ -55,7 +55,7 @@ rec {
 
     postInstall = ''
       wrapProgram "$out/bin/melc" \
-        --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/runtime/melange:$OCAMLFIND_DESTDIR/melange/belt/melange"
+        --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange:$OCAMLFIND_DESTDIR/melange/belt/melange:$OCAMLFIND_DESTDIR/melange/dom/melange"
     '';
 
     doCheck = true;
@@ -63,8 +63,9 @@ rec {
       tree
       nodejs
       reason
+      js_of_ocaml
     ];
-    checkInputs = [ ounit2 ];
+    checkInputs = [ ounit2 reactjs-jsx-ppx reason ];
 
     nativeBuildInputs = [ menhir cppo git makeWrapper ];
     propagatedBuildInputs = [

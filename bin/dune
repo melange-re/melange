@@ -16,9 +16,8 @@
 
 (executable
  (name jsoo_main)
- (flags :standard -open Melange_compiler_libs)
  (modules jsoo_main jsoo_common)
- (libraries core melange_compiler_libs melange_ppx reactjs-jsx-ppx reason)
+ (libraries core melange.ppx reactjs-jsx-ppx reason)
  (modes js))
 
 (install

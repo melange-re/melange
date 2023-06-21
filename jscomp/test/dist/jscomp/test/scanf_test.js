@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Mt_global = require("./mt_global.js");
-var Stdlib__Scanf = require("melange/./scanf.js");
+var Stdlib__Scanf = require("melange/scanf.js");
 
 var suites = {
   contents: /* [] */0

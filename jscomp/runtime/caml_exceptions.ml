@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-open Bs_stdlib_mini
+open Melange_mini_stdlib
 
 type t = {
   id : string [@bs.as "RE_EXN_ID"];
@@ -101,4 +101,3 @@ let caml_exn_slot_id : t -> int = [%raw{|function(x){
   }
 }
 |}]
-

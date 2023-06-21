@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 
 var suites_0 = [
   "_NaN <> _NaN",

@@ -22,29 +22,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Contains functionality for dealing with values that can be both [null] and [undefined] *)
+open Melange_mini_stdlib
 
-type + 'a t = 'a Js.nullable
-external toOption : 'a t -> 'a option = "#nullable_to_opt"
-external to_opt : 'a t -> 'a option = "#nullable_to_opt"
-external return : 'a -> 'a t = "%identity"
-external isNullable : 'a t -> bool =  "#is_nullable"
-external null : 'a t = "#null"
-external undefined : 'a t = "#undefined"
+(** Provides functionality for dealing with the ['a Js.null] type *)
+
+
+type + 'a t = 'a Js.null
+
+external to_opt : 'a t -> 'a option = "#null_to_opt"
+external toOption : 'a t -> 'a option = "#null_to_opt"
+external return : 'a -> 'a t  = "%identity"
+let test : 'a t -> bool = fun x -> x = Js.null
+external empty : 'a t = "#null"
+external getUnsafe : 'a t -> 'a = "%identity"
+
+let getExn f =
+  match toOption f with
+  | None -> Js_exn.raiseError "Js.Null.getExn"
+  | Some x -> x
 
 let bind x f =
-  match to_opt x with
-  | None -> (Obj.magic (x: 'a t): 'b t)
+  match toOption x with
+  | None -> empty
   | Some x -> return (f x [@bs])
 
 let iter x f =
-  match to_opt x with
-  | None -> ()
+  match toOption x with
+  | None ->  ()
   | Some x -> f x [@bs]
 
 let fromOption x =
   match x with
-  | None -> undefined
+  | None -> empty
   | Some x -> return x
 
 let from_opt = fromOption

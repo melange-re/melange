@@ -4,7 +4,7 @@
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
 var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
-var CamlinternalOO = require("melange/./camlinternalOO.js");
+var CamlinternalOO = require("melange/camlinternalOO.js");
 
 function f(u) {
   return Caml_oo_curry.js2(5740587, 1, u, 32);

@@ -22,36 +22,68 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Provides functionality for dealing with the ['a Js.null] type *)
+open Melange_mini_stdlib
+
+type 'a t = 'a option
+
+let some x = Some x
+
+let isSome = function
+  | None -> false
+  | Some _ -> true
+
+let isSomeValue eq v x =
+  match x with
+  | None -> false
+  | Some x -> eq v x [@bs]
 
 
-type + 'a t = 'a Js.null
+let isNone = function
+  | None -> true
+  | Some _ -> false
 
-external to_opt : 'a t -> 'a option = "#null_to_opt"
-external toOption : 'a t -> 'a option = "#null_to_opt"
-external return : 'a -> 'a t  = "%identity"
-let test : 'a t -> bool = fun x -> x = Js.null
-external empty : 'a t = "#null" 
-external getUnsafe : 'a t -> 'a = "%identity"
+let getExn x =
+  match x with
+  | None -> Js_exn.raiseError "getExn"
+  | Some x -> x
 
-let getExn f =
-  match toOption f with 
-  | None -> Js_exn.raiseError "Js.Null.getExn"
-  | Some x -> x 
-  
-let bind x f =
-  match toOption x with
-  | None -> empty
-  | Some x -> return (f x [@bs])
+let equal eq a b =
+  match a  with
+  | None -> b = None
+  | Some x ->
+    begin match b with
+    | None -> false
+    | Some y -> eq x y [@bs]
+    end
 
-let iter x f =
-  match toOption x with
-  | None ->  ()
+let andThen f x =
+  match x with
+  | None -> None
   | Some x -> f x [@bs]
 
-let fromOption x =
+let map f x =
   match x with
-  | None -> empty
-  | Some x -> return x
+  | None -> None
+  | Some x -> Some (f x [@bs])
 
-let from_opt = fromOption  
+let getWithDefault a x =
+  match x with
+  | None -> a
+  | Some x -> x
+
+let default = getWithDefault
+
+let filter f x =
+  match x with
+  | None -> None
+  | Some x ->
+    if f x [@bs] then
+      Some x
+    else
+      None
+
+let firstSome a b =
+  match (a, b) with
+  | (Some _, _) -> a
+  | (None, Some _) -> b
+  | (None, None) -> None

@@ -66,14 +66,14 @@ let bal l x d r =
   let hl = match  l with None -> 0 | Some n -> n.height in
   let hr = match  r with None -> 0 | Some n -> n.height in
   if hl > hr + 2 then
-    match l with None -> assert false  | Some ({left = ll;   right = lr} as l) ->
+    match l with None -> assert false  | Some ({left = ll;   right = lr; _} as l) ->
       if treeHeight ll >= treeHeight lr then
         create ll l.key l.value (create lr x d r)
       else
         match lr with None -> assert false | Some lr ->
           create (create ll l.key l.value lr.left) lr.key lr.value (create lr.right x d r)
   else if hr > hl + 2 then
-    match r with None -> assert false | Some ({left = rl; right = rr} as r) ->
+    match r with None -> assert false | Some ({left = rl; right = rr; _} as r) ->
       if treeHeight rr >= treeHeight rl then
         create (create l x d rl) r.key r.value rr
       else
@@ -96,7 +96,7 @@ let minKey n =
 let minKeyUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (minKey0Aux n)
+  | Some n -> Js.Undefined.return (minKey0Aux n)
 
 let rec maxKey0Aux n =
   match  n.right with
@@ -111,7 +111,7 @@ let maxKey n =
 let maxKeyUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (maxKey0Aux n)
+  | Some n -> Js.Undefined.return (maxKey0Aux n)
 
 let rec minKV0Aux n =
   match  n.left with
@@ -126,7 +126,7 @@ let minimum n =
 let minUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (minKV0Aux n)
+  | Some n -> Js.Undefined.return (minKV0Aux n)
 
 let rec maxKV0Aux n =
   match  n.right with
@@ -141,7 +141,7 @@ let maximum n =
 let maxUndefined n =
   match  n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (maxKV0Aux n)
+  | Some n -> Js.Undefined.return (maxKV0Aux n)
 
 (* TODO: use kv ref *)
 let rec removeMinAuxWithRef n kr vr =
@@ -165,7 +165,7 @@ let rec findFirstByU n p =
     let left =  findFirstByU n.left p in
     if left <> None then left
       else
-        let  {key = v; value =  d} = n  in
+        let  {key = v; value =  d; _} = n  in
         let pvd = p v d [@bs] in
         if pvd then Some(v, d)
           else
@@ -213,7 +213,7 @@ let rec reduceU m accu f =
   match  m with
     None -> accu
   | Some n  ->
-    let {left = l; key =  v; value = d; right = r} = n  in
+    let {left = l; key =  v; value = d; right = r; _} = n  in
     reduceU
       r
       (f (reduceU l accu f) v d [@bs]) f
@@ -296,7 +296,7 @@ let rec keepSharedU n p =
     None -> None
   | Some n  ->
     (* call [p] in the expected left-to-right order *)
-    let  {key = v; value = d} =  n   in
+    let  {key = v; value = d; _} =  n   in
     let newLeft =  keepSharedU n.left p in
     let pvd = p v d [@bs] in
     let newRight = keepSharedU n.right p in
@@ -309,7 +309,7 @@ let rec keepMapU n p =
     None -> None
   | Some n  ->
     (* call [p] in the expected left-to-right order *)
-    let  {key = v; value = d} =  n  in
+    let  {key = v; value = d; _} =  n  in
     let newLeft = keepMapU n.left  p in
     let pvd = p v d [@bs] in
     let newRight = keepMapU n.right p in
@@ -323,7 +323,7 @@ let rec partitionSharedU n p =
   match  n with
     None -> (None, None)
   | Some n  ->
-    let  {key; value } =  n  in
+    let  {key; value; _ } =  n  in
     (* call [p] in the expected left-to-right order *)
     let (lt, lf) =  partitionSharedU n.left p in
     let pvd = p key value [@bs] in
@@ -335,7 +335,7 @@ let rec partitionSharedU n p =
 let partitionShared n p = partitionSharedU n (fun [@bs] a b -> p a b)
 
 let rec lengthNode n =
-  let {left = l; right = r } = n  in
+  let {left = l; right = r; _ } = n  in
   let sizeL =
     match  l with
     | None -> 0
@@ -357,7 +357,7 @@ let rec toListAux n accu =
   match  n with
   | None -> accu
   | Some n  ->
-    let {left = l; right =  r ; key = k; value = v} = n in
+    let {left = l; right =  r ; key = k; value = v; _} = n in
     toListAux l ((k, v) :: (toListAux r accu ))
 
 let toList s =
@@ -376,7 +376,7 @@ let rec checkInvariantInternal (v : _ t) =
 
 
 let rec fillArrayKey n i arr =
-  let {left = l; key = v; right  = r} = n  in
+  let {left = l; key = v; right  = r; _} = n  in
   let next =
     match  l with
     | None -> i
@@ -598,7 +598,7 @@ let rec getUndefined  n x ~cmp =
   | Some n  ->
     let v = n.key  in
     let c = (Belt_Id.getCmpInternal cmp) x v [@bs] in
-    if c = 0 then Js_undefined.return (n.value )
+    if c = 0 then Js.Undefined.return (n.value )
     else getUndefined ~cmp  (if c < 0 then n.left else n.right) x
 
 let rec getExn   n x  ~cmp =
@@ -684,7 +684,7 @@ let balMutate nt  =
   let hl, hr =  (treeHeight l, treeHeight r) in
   if hl > 2 +  hr then
     match l with None -> assert false
-    | Some {left = ll;  right = lr} ->
+    | Some {left = ll;  right = lr; _} ->
     (if heightGe ll lr then
        heightUpdateMutate (rotateWithLeftChild nt)
      else
@@ -693,7 +693,7 @@ let balMutate nt  =
   else
   if hr > 2 + hl  then
     match r with None -> assert false
-    | Some {left = rl; right = rr} ->
+    | Some {left = rl; right = rr; _} ->
     (if heightGe rr rl then
        heightUpdateMutate (rotateWithRightChild nt)
      else

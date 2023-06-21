@@ -1,4 +1,4 @@
-open Js_dict
+open Js.Dict
 
 let obj (): 'a t = Obj.magic [%obj { foo = 43; bar = 86 }]
 
@@ -12,7 +12,7 @@ let suites = Mt.[
   "unsafe_get", (fun _ ->
     Eq(43, unsafeGet (obj ()) "foo"));
   "set", (fun _ ->
-    let o = obj () in 
+    let o = obj () in
     set o "foo" 36;
     Eq(Some 36, get o "foo"));
   "keys", (fun _ ->

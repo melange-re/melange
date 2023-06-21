@@ -2,8 +2,8 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
-var Stdlib__List = require("melange/./list.js");
+var Stdlib = require("melange/stdlib.js");
+var Stdlib__List = require("melange/list.js");
 
 function Make(Ord) {
   var height = function (param) {

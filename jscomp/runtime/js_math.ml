@@ -22,6 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melange_mini_stdlib
+
 (** JavaScript Math API *)
 
 (** Euler's number *)
@@ -85,8 +87,8 @@ let unsafe_ceil = unsafe_ceil_int
 
 (** smallest int greater than or equal to the argument *)
 let ceil_int (f : float) : int =
-  if f > Js_int.toFloat Js_int.max then Js_int.max
-  else if f < Js_int.toFloat Js_int.min then Js_int.min
+  if f > Js.Int.toFloat Js.Int.max then Js.Int.max
+  else if f < Js.Int.toFloat Js.Int.min then Js.Int.min
   else unsafe_ceil_int f
 let ceil = ceil_int
 [@@deprecated "Please use `ceil_int` instead"]
@@ -117,8 +119,8 @@ let unsafe_floor = unsafe_floor_int
 
 (** largest int greater than or equal to the arugment *)
 let floor_int f =
-  if f > Js_int.toFloat Js_int.max then Js_int.max
-  else if f < Js_int.toFloat Js_int.min then Js_int.min
+  if f > Js.Int.toFloat Js.Int.max then Js.Int.max
+  else if f < Js.Int.toFloat Js.Int.min then Js.Int.min
   else unsafe_floor f
 let floor = floor_int
 [@@deprecated "Please use `floor_int` instead"]
@@ -184,7 +186,7 @@ external random : unit -> float = "random" [@@bs.val] [@@bs.scope "Math"]
 
 (** random number in \[min,max) *)
 let random_int min max =
-  floor ((random ()) *. (Js_int.toFloat (max - min))) + min
+  floor ((random ()) *. (Js.Int.toFloat (max - min))) + min
 
 (** rounds to nearest integer, returns a value not representable as [int] if NaN *)
 external unsafe_round : float -> int = "round" [@@bs.val] [@@bs.scope "Math"]

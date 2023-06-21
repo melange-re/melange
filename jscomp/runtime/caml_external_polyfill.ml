@@ -22,10 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(* Declare an explicit dependency on the Js module since the PPX gets expanded
-   later *)
-module Js = Js
-
 type global
 let  getGlobalThis : unit -> global [@bs]= [%raw{| function(){
   if (typeof globalThis !== 'undefined') return globalThis;

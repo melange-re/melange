@@ -59,7 +59,7 @@ Prepare an input file to test some snippets to exercise common functionality
       '\n' +
       'import * as Belt_List from "melange.belt/belt_List.js";\n' +
       '\n' +
-      'var foo = Belt_List.map;\n' +
+      'var foo = Belt__Belt_List.map;\n' +
       '\n' +
       'export {\n' +
       '  foo ,\n' +

@@ -3,12 +3,12 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Float_array = require("./float_array.js");
-var Stdlib__Array = require("melange/./array.js");
-var Stdlib__Buffer = require("melange/./buffer.js");
-var Stdlib__Format = require("melange/./format.js");
+var Stdlib__Array = require("melange/array.js");
+var Stdlib__Buffer = require("melange/buffer.js");
+var Stdlib__Format = require("melange/format.js");
 
 var buf = Stdlib__Buffer.create(50);
 

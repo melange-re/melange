@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Caml_option = require("melange.runtime/caml_option.js");
-var Js_undefined = require("melange.belt/./js_undefined.js");
+var Js_undefined = require("melange.belt/js_undefined.js");
 
 var suites_0 = [
   "toOption - empty",

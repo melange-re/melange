@@ -22,6 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melange_compiler_libs
 module Js = Jsoo_common.Js
 
 external to_ppxlib :
@@ -36,7 +37,11 @@ let () =
 let error_of_exn e =
   match Location.error_of_exn e with
   | Some (`Ok e) -> Some e
-  | Some `Already_displayed | None -> None
+  | Some `Already_displayed -> None
+  | None -> (
+      match Ocaml_common.Location.error_of_exn e with
+      | Some (`Ok e) -> Some e
+      | Some `Already_displayed | None -> None)
 
 module From_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_414)

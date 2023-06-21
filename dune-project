@@ -43,10 +43,15 @@
   dune-build-info
   (cppo :build)
   (ounit :with-test)
-  (reason :with-test)
+  (reason
+   (and
+    :with-test
+    (>= "3.9.0")))
   (js_of_ocaml :with-test)
-  ppxlib
-  menhir
+  (ppxlib
+   (>= "0.24.0"))
+  (menhir
+   (>= 20201214))
   (reactjs-jsx-ppx :with-test)))
 
 (package

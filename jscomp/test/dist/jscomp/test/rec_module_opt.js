@@ -3,7 +3,7 @@
 
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib__Set = require("melange/./set.js");
+var Stdlib__Set = require("melange/set.js");
 
 function compare(t1, t2) {
   if (t1.TAG === /* Leaf */0) {

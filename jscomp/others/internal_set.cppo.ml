@@ -57,8 +57,8 @@ let rec subset (s1 : t) (s2 : t) =
   | _, None ->
     false
   | Some t1, Some t2 (* Node (l1, v1, r1, _), (Node (l2, v2, r2, _) as t2) *) ->
-    let {N.left = l1; value = v1; right = r1 } = t1 in
-    let {N.left = l2; value = v2; right = r2 } = t2 in
+    let {N.left = l1; value = v1; right = r1; _ } = t1 in
+    let {N.left = l2; value = v2; right = r2; _} = t2 in
     if v1 = v2 then
       subset l1 l2 && subset r1 r2
     else if v1 < v2 then
@@ -82,7 +82,7 @@ let rec getUndefined (n :t) (x : value)   =
   | None -> Js.undefined
   | Some t  ->
     let v = t.value in
-    if x = v then Js_undefined.return v
+    if x = v then Js.Undefined.return v
     else getUndefined  (if x < v then t.left else t.right) x
 
 let rec getExn  (n :t) (x : value) =
@@ -101,7 +101,7 @@ let rec addMutate  t  (x : value)=
     let k = nt.N.value in
     if x = k then t
     else
-      let {N.left = l;  right = r} = nt in
+      let {N.left = l;  right = r; _} = nt in
       (if x < k then
          nt.left <- addMutate l x
        else
@@ -129,5 +129,3 @@ let fromArray (xs : value array) =
       result .contents<- addMutate result.contents (A.getUnsafe xs i)
     done ;
     result.contents
-
-

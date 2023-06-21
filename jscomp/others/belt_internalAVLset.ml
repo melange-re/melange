@@ -81,14 +81,14 @@ let heightGe l r =
 let bal l v r =
   let hl,hr = height l, height r in
   if hl > hr + 2 then begin
-    match l with None -> assert false | Some ({left = ll;  right = lr} as l) ->
+    match l with None -> assert false | Some ({left = ll;  right = lr; _} as l) ->
       if heightGe ll  lr then
         create ll l.value (create lr v r)
       else
         match lr with None -> assert false | Some lr ->
           create (create ll l.value lr.left) lr.value (create lr.right v r)
   end else if hr > hl + 2 then
-    match r with None -> assert false | Some ({left = rl; right = rr} as r) ->
+    match r with None -> assert false | Some ({left = rl; right = rr; _} as r) ->
       if heightGe rr  rl then
         create (create l v rl) r.value rr
       else
@@ -113,7 +113,7 @@ let  minimum n =
 let minUndefined n =
   match n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (min0Aux n)
+  | Some n -> Js.Undefined.return (min0Aux n)
 
 let rec max0Aux n =
   match n.right with
@@ -128,7 +128,7 @@ let maximum n =
 let maxUndefined n =
   match n with
   | None -> Js.undefined
-  | Some n -> Js_undefined.return (max0Aux n)
+  | Some n -> Js.Undefined.return (max0Aux n)
 
 let rec removeMinAuxWithRef n v =
   match n.left with
@@ -250,7 +250,7 @@ let rec partitionSharedU  n p =
 let partitionShared n p = partitionSharedU n (fun [@bs] a -> p a)
 
 let rec lengthNode n =
-  let {left = l; right = r} = n  in
+  let {left = l; right = r; _} = n  in
   let sizeL =
     match l with
     | None -> 0
@@ -284,7 +284,7 @@ let rec checkInvariantInternal (v : _ t) =
   match v with
   | None -> ()
   | Some n ->
-    let {left = l; right = r} = n   in
+    let {left = l; right = r; _} = n   in
     let diff = height l - height r  in
     assert (diff <=2 && diff >= -2);
     checkInvariantInternal l;
@@ -293,7 +293,7 @@ let rec checkInvariantInternal (v : _ t) =
 
 
 let rec fillArray n i arr =
-  let {left = l; value = v; right = r} = n  in
+  let {left = l; value = v; right = r; _} = n  in
   let next =
     match l with
     | None -> i
@@ -310,7 +310,7 @@ type cursor =
   { mutable forward : int; mutable backward : int }
 
 let rec fillArrayWithPartition n cursor arr p =
-  let {left = l; value = v; right = r} = n  in
+  let {left = l; value = v; right = r; _} = n  in
   (match l with
    | None -> ()
    | Some l ->
@@ -331,7 +331,7 @@ let rec fillArrayWithPartition n cursor arr p =
     fillArrayWithPartition r cursor arr  p
 
 let rec fillArrayWithFilter n i arr p =
-  let {left = l; value = v; right = r} = n  in
+  let {left = l; value = v; right = r; _} = n  in
   let next =
     match l with
     | None -> i
@@ -416,7 +416,7 @@ let rec keepSharedU n p =
   match n with
   | None -> None
   | Some n  ->
-    let {left = l; value = v; right = r} = n in
+    let {left = l; value = v; right = r; _} = n in
     let newL = keepSharedU l p in
     let pv = p v [@bs] in
     let newR = keepSharedU r p in
@@ -495,8 +495,8 @@ let rec subset (s1 : _ t) (s2 : _ t) ~cmp  =
   | None, _ -> true
   | _, None -> false
   | Some t1 , Some t2  ->
-    let {left = l1; value = v1; right = r1} = t1  in
-    let {left = l2; value = v2; right = r2} = t2  in
+    let {left = l1; value = v1; right = r1; _} = t1  in
+    let {left = l2; value = v2; right = r2; _} = t2  in
     let c = (Belt_Id.getCmpInternal cmp) v1 v2 [@bs] in
     if c = 0 then
       subset ~cmp l1 l2 && subset ~cmp r1 r2
@@ -519,11 +519,11 @@ let rec get  (n : _ t) x ~cmp =
 
 let rec getUndefined (n : _ t) x ~cmp  =
   match n with
-    None -> Js_undefined.empty
+    None -> Js.Undefined.empty
   | Some t (* Node(l, v, r, _) *) ->
     let v = t.value in
     let c = (Belt_Id.getCmpInternal cmp) x v [@bs] in
-    if c = 0 then  Js_undefined.return v
+    if c = 0 then  Js.Undefined.return v
     else getUndefined ~cmp  (if c < 0 then t.left else t.right) x
 
 let rec getExn  (n : _ t) x ~cmp =
@@ -590,11 +590,11 @@ let heightUpdateMutate t =
   t
 
 let balMutate nt  =
-  let {left = l; right = r} = nt  in
+  let {left = l; right = r; _} = nt  in
   let hl, hr =  (height l, height r) in
   if hl > 2 +  hr then
     match l with None -> assert false
-    | Some {left = ll; right = lr} ->
+    | Some {left = ll; right = lr; _} ->
     (if heightGe ll lr then
        heightUpdateMutate (rotateWithLeftChild nt)
      else
@@ -603,7 +603,7 @@ let balMutate nt  =
   else
   if hr > 2 + hl  then
     match r with None -> assert false
-    | Some {left = rl; right = rr} ->
+    | Some {left = rl; right = rr; _} ->
     (if heightGe rr rl then
        heightUpdateMutate (rotateWithRightChild nt)
      else
@@ -623,7 +623,7 @@ let rec addMutate ~cmp (t : _ t) x =
     let  c = (Belt_Id.getCmpInternal cmp) x k [@bs] in
     if c = 0 then t
     else
-      let {left = l; right = r} = nt  in
+      let {left = l; right = r; _} = nt  in
       (if c < 0 then
          let ll = addMutate ~cmp l x in
          nt.left <- ll
@@ -652,7 +652,7 @@ let fromArray (xs : _ array) ~cmp =
     result.contents
 
 let rec removeMinAuxWithRootMutate nt n =
-  let {right = rn; left = ln} = n  in
+  let {right = rn; left = ln; _} = n  in
   match ln with
   | None ->
     nt.value <- (n.value);
@@ -660,4 +660,3 @@ let rec removeMinAuxWithRootMutate nt n =
   | Some ln ->
     n.left <- (removeMinAuxWithRootMutate nt ln);
     Some (balMutate n)
-

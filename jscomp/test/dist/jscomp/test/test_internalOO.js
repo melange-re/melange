@@ -3,17 +3,17 @@
 
 var Caml = require("melange.runtime/caml.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_oo = require("melange.runtime/caml_oo.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_array = require("melange.runtime/caml_array.js");
 var Caml_int32 = require("melange.runtime/caml_int32.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__Seq = require("melange/./seq.js");
-var Stdlib__Sys = require("melange/./sys.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
+var Stdlib__Seq = require("melange/seq.js");
+var Stdlib__Sys = require("melange/sys.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 
 function copy(o) {

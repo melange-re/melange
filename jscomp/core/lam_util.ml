@@ -212,7 +212,7 @@ let generate_label ?(name="") ()  =
   incr count;
   Printf.sprintf "%s_tailcall_%04d" name !count
 
-#if (defined BS_RELEASE_BUILD)
+#ifdef BS_RELEASE_BUILD
 let dump _ext _lam =
   ()
 #else

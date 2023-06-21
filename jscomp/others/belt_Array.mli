@@ -12,7 +12,6 @@
 (***********************************************************************)
 (* Adapted significantly by Authors of ReScript *)
 
-
 (** {!Belt.Array}
     Utililites for Array functions
 *)

@@ -3,12 +3,12 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_float = require("melange.runtime/caml_float.js");
 var Caml_int64 = require("melange.runtime/caml_int64.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Array = require("melange/./array.js");
-var Stdlib__Printf = require("melange/./printf.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Array = require("melange/array.js");
+var Stdlib__Printf = require("melange/printf.js");
 
 var one_float = [
   1072693248,

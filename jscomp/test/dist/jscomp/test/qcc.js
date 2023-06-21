@@ -2,7 +2,7 @@
 'use strict';
 
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_io = require("melange.runtime/caml_io.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_sys = require("melange.runtime/caml_sys.js");
@@ -10,11 +10,11 @@ var Caml_array = require("melange.runtime/caml_array.js");
 var Caml_bytes = require("melange.runtime/caml_bytes.js");
 var Caml_option = require("melange.runtime/caml_option.js");
 var Caml_string = require("melange.runtime/caml_string.js");
-var Stdlib__Char = require("melange/./char.js");
-var Stdlib__List = require("melange/./list.js");
-var Stdlib__Bytes = require("melange/./bytes.js");
-var Stdlib__Printf = require("melange/./printf.js");
-var Stdlib__String = require("melange/./string.js");
+var Stdlib__Char = require("melange/char.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Bytes = require("melange/bytes.js");
+var Stdlib__Printf = require("melange/printf.js");
+var Stdlib__String = require("melange/string.js");
 var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
 var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
 

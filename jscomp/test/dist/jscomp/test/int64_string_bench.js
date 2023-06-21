@@ -3,7 +3,7 @@
 
 var Caml_int64 = require("melange.runtime/caml_int64.js");
 var Caml_format = require("melange.runtime/caml_format.js");
-var Stdlib__Int64 = require("melange/./int64.js");
+var Stdlib__Int64 = require("melange/int64.js");
 
 console.time("Int64.to_string");
 

@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Int = require("melange.belt/./belt_Int.js");
+var Belt_Int = require("melange.belt/belt_Int.js");
 
 var suites = {
   contents: /* [] */0

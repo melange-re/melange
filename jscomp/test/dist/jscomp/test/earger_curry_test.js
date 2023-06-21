@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.runtime/curry.js");
-var Stdlib = require("melange/./stdlib.js");
+var Stdlib = require("melange/stdlib.js");
 var Caml_array = require("melange.runtime/caml_array.js");
 
 function map(f, a) {

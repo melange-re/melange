@@ -35,7 +35,7 @@ type t =
     cwd : unit -> string [@bs.meth];
     disconnect : unit -> unit [@bs.meth];
     platform : string;
-    env : string Js_dict.t; (* ocamldep sucks which can not map [Js.Dic.t] to [Js_dict.t]*)
+    env : string Js.Dict.t; (* ocamldep sucks which can not map [Js.Dic.t] to [Js.Dict.t]*)
   >   Js.t
 (* FIXME : use record *)
 

@@ -6,9 +6,9 @@ var Curry = require("melange.runtime/curry.js");
 var Caml_obj = require("melange.runtime/caml_obj.js");
 var Caml_int64 = require("melange.runtime/caml_int64.js");
 var Caml_format = require("melange.runtime/caml_format.js");
-var Stdlib__Buffer = require("melange/./buffer.js");
-var Stdlib__Printf = require("melange/./printf.js");
-var CamlinternalLazy = require("melange/./camlinternalLazy.js");
+var Stdlib__Buffer = require("melange/buffer.js");
+var Stdlib__Printf = require("melange/printf.js");
+var CamlinternalLazy = require("melange/camlinternalLazy.js");
 
 var n0 = Caml_int64.zero;
 
