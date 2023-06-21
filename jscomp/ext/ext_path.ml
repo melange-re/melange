@@ -148,7 +148,7 @@ let split_aux p =
     if dir = p then (dir, acc)
     else
       let new_path = Filename.basename p in
-      if Ext_string.equal new_path Filename.dir_sep then go dir acc
+      if String.equal new_path Filename.dir_sep then go dir acc
         (* We could do more path simplification here
            leave to [rel_normalized_absolute_path]
         *)
@@ -170,7 +170,7 @@ let pard = Filename.parent_dir_name
 
 let rel_normalized_absolute_path ~from to_ =
   let merge_parent_segment acc segment =
-    if segment = curd then acc else acc // Ext_string.parent_dir_lit
+    if segment = curd then acc else acc // pard
   in
   let root1, paths1 = split_aux from in
   let root2, paths2 = split_aux to_ in
@@ -179,19 +179,16 @@ let rel_normalized_absolute_path ~from to_ =
     let rec go xss yss =
       match (xss, yss) with
       | x :: xs, y :: ys ->
-          if Ext_string.equal x y then go xs ys
+          if String.equal x y then go xs ys
           else if x = curd then go xs yss
           else if y = curd then go xss ys
           else
-            let start =
-              Ext_list.fold_left xs Ext_string.parent_dir_lit
-                merge_parent_segment
-            in
+            let start = Ext_list.fold_left xs pard merge_parent_segment in
             Ext_list.fold_left yss start (fun acc v -> acc // v)
       | [], [] -> Ext_string.empty
       | [], y :: ys -> Ext_list.fold_left ys y (fun acc x -> acc // x)
       | x :: xs, [] ->
-          let start = if x = curd then "" else Ext_string.parent_dir_lit in
+          let start = if x = curd then "" else pard in
           Ext_list.fold_left xs start merge_parent_segment
     in
     let v = go paths1 paths2 in
@@ -232,9 +229,8 @@ let normalize_absolute_path x =
     match paths with
     | [] -> acc
     | x :: xs ->
-        if Ext_string.equal x Ext_string.current_dir_lit then
-          normalize_list acc xs
-        else if Ext_string.equal x Ext_string.parent_dir_lit then
+        if String.equal x curd then normalize_list acc xs
+        else if String.equal x pard then
           normalize_list (drop_if_exist acc) xs
         else normalize_list (x :: acc) xs
   in

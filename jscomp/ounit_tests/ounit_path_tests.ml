@@ -8,7 +8,7 @@ let os_adapt s =
 let ( =~ ) x y =
   OUnit.assert_equal
     ~printer:(fun x -> x)
-    ~cmp:(fun x y -> Ext_string.equal x y)
+    ~cmp:(fun x y -> String.equal x y)
     x y
 
 let suites =

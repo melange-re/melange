@@ -45,7 +45,7 @@ let output_string t s =
   | Channel chan -> output_string chan s
   | Buffer buf -> Buffer.add_string buf s);
   let new_line, new_column =
-    Ext_string.fold_left
+    String.fold_left
       (fun (line, column) char ->
         match char with '\n' -> (line + 1, 0) | _c -> (line, column + 1))
       (t.line, t.column) s

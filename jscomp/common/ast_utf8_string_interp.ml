@@ -381,15 +381,15 @@ let transform_interp loc s =
     Location.raise_errorf ~loc:(update border start pos loc) "%a" pp_error error
 
 let transform (e : Parsetree.expression) s loc delim : Parsetree.expression =
-  if Ext_string.equal delim unescaped_js_delimiter then
+  if String.equal delim unescaped_js_delimiter then
     let js_str = Ast_utf8_string.transform e.pexp_loc s in
     { e with pexp_desc = Pexp_constant (Pconst_string (js_str, loc, escaped)) }
-  else if Ext_string.equal delim unescaped_j_delimiter then
+  else if String.equal delim unescaped_j_delimiter then
     transform_interp e.pexp_loc s
   else e
 
-let is_unicode_string opt = Ext_string.equal opt escaped_j_delimiter
+let is_unicode_string opt = String.equal opt escaped_j_delimiter
 
 let is_unescaped s =
-  Ext_string.equal s unescaped_j_delimiter
-  || Ext_string.equal s unescaped_js_delimiter
+  String.equal s unescaped_j_delimiter
+  || String.equal s unescaped_js_delimiter

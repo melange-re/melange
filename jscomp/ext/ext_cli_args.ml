@@ -35,6 +35,6 @@ let normalize_argv argv =
 
 let split_argv_at_separator argv =
   let len = Array.length argv in
-  let i = Ext_array.rfind_with_index argv Ext_string.equal separator in
+  let i = Ext_array.rfind_with_index argv String.equal separator in
   if i < 0 then (argv, [||])
   else (Array.sub argv 0 i, Array.sub argv (i + 1) (len - i - 1))

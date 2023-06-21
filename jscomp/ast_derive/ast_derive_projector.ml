@@ -49,7 +49,7 @@ let init () =
                         | Pcstr_record _ -> assert false
                       in
                       let little_con_name =
-                        Ext_string.uncapitalize_ascii con_name
+                        String.uncapitalize_ascii con_name
                       in
                       let arity = List.length pcd_args in
                       let annotate_type =
@@ -124,7 +124,7 @@ let init () =
                         match pcd_res with Some x -> x | None -> core_type
                       in
                       Ast_comb.single_non_rec_val
-                        { loc; txt = Ext_string.uncapitalize_ascii con_name }
+                        { loc; txt = String.uncapitalize_ascii con_name }
                         (Ext_list.fold_right pcd_args annotate_type
                            (fun x acc -> Ast_compatible.arrow x acc)))
               | Ptype_open | Ptype_abstract ->

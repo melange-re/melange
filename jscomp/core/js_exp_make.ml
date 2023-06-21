@@ -498,7 +498,7 @@ let float_mod ?loc ?comment e1 e2 : J.expression =
 let str_equal (str0 : J.expression_desc) (str1 : J.expression_desc) =
   match (str0, str1) with
   | Str (_, txt0), Str (_, txt1) | Unicode txt0, Unicode txt1 ->
-      if Ext_string.equal txt0 txt1 then Some true
+      if String.equal txt0 txt1 then Some true
       else if
         Ast_utf8_string.simple_comparison txt0
         && Ast_utf8_string.simple_comparison txt1
@@ -523,7 +523,7 @@ let rec triple_equal ?loc ?comment (e0 : t) (e1 : t) : t =
   | Char_to_int a, Number (Int { i = _; c = Some v })
   | Number (Int { i = _; c = Some v }), Char_to_int a ->
       triple_equal ?comment a (str (String.make 1 v))
-  | Unicode x, Unicode y -> bool (Ext_string.equal x y)
+  | Unicode x, Unicode y -> bool (String.equal x y)
   | Number (Int { i = i0; _ }), Number (Int { i = i1; _ }) -> bool (i0 = i1)
   | Char_of_int a, Char_of_int b | Optional_block (a, _), Optional_block (b, _)
     ->

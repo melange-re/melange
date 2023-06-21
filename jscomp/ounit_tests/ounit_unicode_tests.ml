@@ -1,5 +1,5 @@
 let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
-let ( =~ ) a b = OUnit.assert_equal ~cmp:Ext_string.equal a b
+let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
 
 (** Test for single line *)
 let ( ==~ ) a b =
