@@ -72,7 +72,7 @@
   ocaml
   js_of_ocaml
   (reason
-   (= "dev"))
+   (>= "3.9.0"))
   (melange
    (= :version))
   (reactjs-jsx-ppx
