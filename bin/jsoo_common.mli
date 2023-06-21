@@ -36,20 +36,16 @@ end
 
 module Reason : sig
   val parseRE :
-    Js.js_string Js.t ->
-    Reason_toolchain_conf.Parsetree.structure * Reason_comment.t list
+    Js.js_string Js.t -> Ppxlib.Parsetree.structure * Reason_comment.t list
 
   val parseML :
-    Js.js_string Js.t ->
-    Reason_toolchain_conf.Parsetree.structure * Reason_comment.t list
+    Js.js_string Js.t -> Ppxlib.Parsetree.structure * Reason_comment.t list
 
   val printRE :
-    Reason_toolchain_conf.Parsetree.structure * Reason_comment.t list ->
-    Js.js_string Js.t
+    Ppxlib.Parsetree.structure * Reason_comment.t list -> Js.js_string Js.t
 
   val printML :
-    Reason_toolchain_conf.Parsetree.structure * Reason_comment.t list ->
-    Js.js_string Js.t
+    Ppxlib.Parsetree.structure * Reason_comment.t list -> Js.js_string Js.t
 end
 
 (*
