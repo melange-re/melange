@@ -8,12 +8,4 @@
   (env-vars
    (CPPO_FLAGS -D=BS_RELEASE_BUILD))
   (ocamlopt_flags
-   (:standard -O3 -unbox-closures)))
- (browser
-  (env-vars
-   (CPPO_FLAGS -D=BS_BROWSER)))
- (browser-dev
-  (js_of_ocaml
-   (compilation_mode separate))
-  (env-vars
-   (CPPO_FLAGS -D=BS_BROWSER))))
+   (:standard -O3 -unbox-closures))))
