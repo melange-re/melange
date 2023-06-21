@@ -1,6 +1,8 @@
 open Cmdliner
 open OpamPackage.Set.Op
 
+(* Inspired by https://gitlab.ocamlpro.com/louis/opam-custom-install *)
+
 let check_npm_deps_doc = "Check for npm depexts inside the node_modules folder"
 
 let depexts_raw ~env nv opams =
