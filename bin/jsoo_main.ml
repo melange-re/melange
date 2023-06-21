@@ -22,17 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+open Melange_compiler_libs
 module Js = Jsoo_common.Js
 
-(*
- Error:
-     *  {
-     *    row: 12,
-     *    column: 2, //can be undefined
-     *    text: "Missing argument",
-     *    type: "error" // or "warning" or "info"
-     *  }
-*)
 let () =
   Bs_conditional_initial.setup_env ();
   Clflags.binary_annotations := false
@@ -40,7 +32,11 @@ let () =
 let error_of_exn e =
   match Location.error_of_exn e with
   | Some (`Ok e) -> Some e
-  | Some `Already_displayed | None -> None
+  | Some `Already_displayed -> None
+  | None -> (
+      match Ocaml_common.Location.error_of_exn e with
+      | Some (`Ok e) -> Some e
+      | Some `Already_displayed | None -> None)
 
 module From_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_414)
@@ -111,16 +107,19 @@ let export (field : string) v = Js.Unsafe.set Js.Unsafe.global field v
 
 let () = Load_path.add_dir "/static"
 
-let make_compiler name impl =
-  export name
+let () =
+  export "ocaml"
     Js.Unsafe.(
       obj
         [|
           ( "compile",
             inject
             @@ Js.wrap_meth_callback (fun _ code ->
-                   compile ~impl (Js.to_string code)) );
-          ("version", Js.Unsafe.inject (Js.string Melange_version.version));
+                   compile ~impl:Melange_compiler_libs.Parse.implementation
+                     (Js.to_string code)) );
+          ("version", inject @@ Js.string Melange_version.version);
+          ("parseRE", inject @@ Jsoo_common.Reason.parseRE);
+          ("parseML", inject @@ Jsoo_common.Reason.parseML);
+          ("printRE", inject @@ Jsoo_common.Reason.printRE);
+          ("printML", inject @@ Jsoo_common.Reason.printML);
         |])
-
-let () = make_compiler "ocaml" Melange_compiler_libs.Parse.implementation

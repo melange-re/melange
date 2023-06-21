@@ -25,20 +25,6 @@
 let (=)  (x : int) (y:float) = assert false
 *)
 
-#ifdef BS_BROWSER
-
-let string_of_module_id_in_browser (x : Lam_module_ident.t) =
-  match x.kind with
-  | External { name } -> name
-  | Runtime | Ml -> "./stdlib/" ^ String.uncapitalize_ascii (Lam_module_ident.name x) ^ ".js"
-
-let string_of_module_id ~package_info:_ ~output_info:_ (id : Lam_module_ident.t)
-    ~output_dir:(_ : string) : string =
-  string_of_module_id_in_browser id
-;;
-  
-#else
-    
 let ( // ) = Ext_path.( // )
 
 let fix_path_for_windows : string -> string =
@@ -173,6 +159,3 @@ let string_of_module_id ~package_info ~output_info
                   ~to_:(Ext_path.absolute_cwd_path dirname)
                   basename
             | None -> Bs_exception.error (Js_not_found js_file))))
-;;
-
-#endif

@@ -64,7 +64,7 @@ rec {
       nodejs
       reason
     ];
-    checkInputs = [ ounit2 ];
+    checkInputs = [ ounit2 reactjs-jsx-ppx ];
 
     nativeBuildInputs = [ menhir cppo git makeWrapper ];
     propagatedBuildInputs = [

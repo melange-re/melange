@@ -34,6 +34,20 @@ module Js : sig
   external to_bytestring : js_string t -> string = "caml_js_to_byte_string"
 end
 
+module Reason : sig
+  val parseRE :
+    Js.js_string Js.t -> Ppxlib.Parsetree.structure * Reason_comment.t list
+
+  val parseML :
+    Js.js_string Js.t -> Ppxlib.Parsetree.structure * Reason_comment.t list
+
+  val printRE :
+    Ppxlib.Parsetree.structure * Reason_comment.t list -> Js.js_string Js.t
+
+  val printML :
+    Ppxlib.Parsetree.structure * Reason_comment.t list -> Js.js_string Js.t
+end
+
 (*
 Creates a Js Error object for given location report
 *)
