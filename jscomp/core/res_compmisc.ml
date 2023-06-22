@@ -48,5 +48,5 @@ let initial_env () =
   in
   Typemod.initial_env
     ~loc:(Location.in_file "command line")
-    ~safe_string:true ~initially_opened_module
+    ~initially_opened_module
     ~open_implicit_modules:(List.rev !Clflags.open_modules)

@@ -410,6 +410,12 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Popaque -> Ext_list.singleton_exn args
   | Psetfield_computed _ -> prim ~primitive:Psetfield_computed ~args loc
   | Pbbswap _ | Pbswap16 | Pduparray _ -> assert false
+  | Prunstack | Pperform | Preperform | Presume ->
+      failwith "effects not supported"
+  | Patomic_exchange | Patomic_cas | Patomic_fetch_add | Patomic_load _ ->
+      failwith "not implemented"
+  | Pdls_get -> failwith "not sure what it means"
+
 (* Does not exist since we compile array in js backend unlike native backend *)
 
 let may_depend = Lam_module_ident.Hash_set.add
@@ -664,7 +670,8 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         let lam = Lam.letrec bindings body in
         Lam_scc.scc bindings lam body
     | Lprim (Pccall a, args, loc) ->
-        convert_ccall a args (Debuginfo.Scoped_location.to_location loc)
+        let x = Debuginfo.Scoped_location.to_location loc in
+        convert_ccall a args x
     | Lprim (Pgetglobal id, args, _) ->
         let args = List.map convert_aux args in
         if Ident.is_predef id then
