@@ -14,7 +14,8 @@ Unreleased
   ([#598](https://github.com/melange-re/melange/issues/598),
   [#612](https://github.com/melange-re/melange/pull/612))
 - Wrap the melange runtime
-  ([#624](https://github.com/melange-re/melange/pull/624)). After this change,
+  ([#624](https://github.com/melange-re/melange/pull/624),
+  [#637](https://github.com/melange-re/melange/pull/637)). After this change,
   Melange exposes fewer toplevel modules. Melange runtime / stdlib modules are
   now wrapped under:
     - `Caml*` / `Curry` modules are part of the runtime and keep being exposed
