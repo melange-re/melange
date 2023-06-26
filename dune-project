@@ -1,4 +1,4 @@
-(lang dune 3.9)
+(lang dune 3.8)
 
 (using experimental_building_ocaml_compiler_with_dune 0.1)
 
@@ -9,9 +9,6 @@
 (executables_implicit_empty_intf true)
 
 (cram enable)
-
-(formatting
- (enabled_for ocaml))
 
 (generate_opam_files true)
 
