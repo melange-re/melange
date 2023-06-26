@@ -53,7 +53,9 @@ module ArrayBuffer = struct
   external sliceFrom : t -> int -> array_buffer = "slice" [@@bs.send]
 end
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 #define COMMON_EXTERNALS(moduleName, eltType)\
   (** *)\

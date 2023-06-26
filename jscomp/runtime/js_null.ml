@@ -37,7 +37,9 @@ external empty : 'a t = "#null"
 external getUnsafe : 'a t -> 'a = "%identity"
 
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 let getExn f =
   match toOption f with

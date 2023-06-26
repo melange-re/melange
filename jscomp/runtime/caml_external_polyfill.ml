@@ -24,7 +24,9 @@
 
 type global
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 let  getGlobalThis : unit -> global [@bs]= [%raw{| function(){
   if (typeof globalThis !== 'undefined') return globalThis;

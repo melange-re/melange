@@ -63,7 +63,9 @@ let rec revAppend l1 l2 =
 
 let rev l = revAppend l []
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 let rec mapRevAux f acc ls =
   match ls with

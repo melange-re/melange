@@ -26,7 +26,9 @@ open Melange_mini_stdlib
 
 type 'a t = 'a option
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 let some x = Some x
 

@@ -13,10 +13,10 @@ Js.log {js|你好，
 Js.log {js|\x3f\u003f\b\t\n\v\f\r\0"'|js}
 ;;
 let convert (s : string) : int list  =
-    Js_array2.fromMap
-        (Js_string.castToArrayLike s)
+    Js.Array2.fromMap
+        (Js.String.castToArrayLike s)
         (fun x ->
-        match Js_string.codePointAt 0 x with
+        match Js.String.codePointAt 0 x with
         | None -> assert false
         | Some x -> x ) |> Array.to_list
 

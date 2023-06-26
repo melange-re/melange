@@ -34,7 +34,9 @@ external isNullable : 'a t -> bool =  "#is_nullable"
 external null : 'a t = "#null"
 external undefined : 'a t = "#undefined"
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 let bind x f =
   match to_opt x with

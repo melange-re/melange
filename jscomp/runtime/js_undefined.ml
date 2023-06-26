@@ -28,7 +28,9 @@ open Melange_mini_stdlib
 
 type + 'a t = 'a Js_internal.undefined
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 external to_opt : 'a t -> 'a option = "#undefined_to_opt"
 external toOption : 'a t -> 'a option = "#undefined_to_opt"

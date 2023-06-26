@@ -58,7 +58,9 @@ module ArrayBuffer = struct
   external sliceFrom : int -> array_buffer = "slice" [@@bs.send.pipe: t]
 end
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
 
 module type S =  sig
   (** Implements functionality common to all the typed arrays *)

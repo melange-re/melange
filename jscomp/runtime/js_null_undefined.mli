@@ -41,7 +41,6 @@ external null : 'a t = "#null"
 external undefined : 'a t = "#undefined"
 
 
-
 module Js := Js_internal
 (** Maps the contained value using the given function
 

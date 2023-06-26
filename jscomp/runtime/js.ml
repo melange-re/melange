@@ -54,7 +54,6 @@ module TypedArray2 = Js_typed_array2
 
 (** {12 nested modules}*)
 
-(*MODULE_ALIASES*)
 module Null = Js_null
 (** Provide utilities around ['a null] *)
 module Undefined = Js_undefined

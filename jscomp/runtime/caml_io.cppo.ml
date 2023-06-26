@@ -27,7 +27,10 @@ open Melange_mini_stdlib
 let stdin = Caml_undefined_extern.empty
 (* let stderr = Caml_undefined_extern.empty *)
 
-module Js = Js_internal
+open struct
+  module Js = Js_internal
+end
+
 type out_channel  = {
   mutable buffer :  string;
   output :   (out_channel  -> string -> unit [@bs])
