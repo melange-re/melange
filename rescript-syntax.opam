@@ -7,7 +7,7 @@ license: "LGPL-2.1-or-later"
 homepage: "https://github.com/melange-re/melange"
 bug-reports: "https://github.com/melange-re/melange/issues"
 depends: [
-  "dune" {>= "3.9"}
+  "dune" {>= "3.8"}
   "ocaml"
   "melange" {= version}
   "ppxlib" {>= "0.28.0"}
