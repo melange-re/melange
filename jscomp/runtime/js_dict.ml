@@ -22,22 +22,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Provides a simple key-value dictionary abstraction over native JavaScript objects *)
 open Melange_mini_stdlib
+(** Provides a simple key-value dictionary abstraction over native JavaScript objects *)
 
-(** The dict type *)
 type 'a t
+(** The dict type *)
 
-(** The key type, an alias of string *)
 type key = string
+(** The key type, an alias of string *)
 
+external unsafeGet : 'a t -> key -> 'a = ""
+  [@@bs.get_index]
 (** [unsafeGet dict key] returns the value associated with [key] in [dict]
 
 This function will return an invalid value ([undefined]) if [key] does not exist in [dict]. It
 will not throw an error.
 *)
-external unsafeGet : 'a t -> key -> 'a = "" [@@bs.get_index]
-let (.!()) = unsafeGet
+
+let ( .!() ) = unsafeGet
 
 open struct
   module Js = Js_internal
@@ -45,28 +47,28 @@ end
 
 (** [get dict key] returns the value associated with [key] in [dict] *)
 let get (type u) (dict : u t) (k : key) : u option =
-  if [%raw {|k in dict|}] then
-    Some dict.!(k)
-  else None
+  if [%raw {|k in dict|}] then Some dict.!(k) else None
 
+external set : 'a t -> key -> 'a -> unit = ""
+  [@@bs.set_index]
 (** [set dict key value] sets the value of [key] in [dict] to [value] *)
-external set : 'a t -> key -> 'a -> unit = "" [@@bs.set_index]
 
+external keys : 'a t -> key array = "Object.keys"
+  [@@bs.val]
 (** [keys dict] returns an array of all the keys in [dict] *)
-external keys : 'a t -> key array = "Object.keys" [@@bs.val]
 
+external empty : unit -> 'a t = ""
+  [@@bs.obj]
 (** [empty ()] creates an empty dictionary *)
-external empty : unit -> 'a t = "" [@@bs.obj]
 
-
-let unsafeDeleteKey : string t -> string -> unit [@bs] =
+let unsafeDeleteKey : (string t -> string -> unit[@bs]) =
   [%raw {| function (dict,key){
       delete dict[key];
      }
   |}]
 
-
 external unsafeCreate : int -> 'a array = "Array" [@@bs.new]
+
 (* external entries : 'a t -> (key * 'a) array = "Object.entries" [@@bs.val] (* ES2017 *) *)
 let entries dict =
   let keys = keys dict in
@@ -84,17 +86,17 @@ let values dict =
   let l = Js_array2.length keys in
   let values = unsafeCreate l in
   for i = 0 to l - 1 do
-    Js_array2.unsafe_set values i  dict.!(Js_array2.unsafe_get keys i)
+    Js_array2.unsafe_set values i dict.!(Js_array2.unsafe_get keys i)
   done;
   values
 
 let fromList entries =
   let dict = empty () in
   let rec loop = function
-  | [] -> dict
-  | (key, value) :: rest ->
-    set dict key value;
-    loop rest
+    | [] -> dict
+    | (key, value) :: rest ->
+        set dict key value;
+        loop rest
   in
   loop entries
 
@@ -102,7 +104,7 @@ let fromArray entries =
   let dict = empty () in
   let l = Js_array2.length entries in
   for i = 0 to l - 1 do
-    let (key, value) = Js_array2.unsafe_get entries i in
+    let key, value = Js_array2.unsafe_get entries i in
     set dict key value
   done;
   dict

@@ -24,29 +24,25 @@
 
 open Melange_mini_stdlib
 
-external (.!()) : int array -> int -> int = "" [@@bs.get_index]
+external ( .!() ) : int array -> int -> int = "" [@@bs.get_index]
 
-let raiseWhenNotFound x =
-  if Js_internal.testAny x then raise Not_found
-  else x
+let raiseWhenNotFound x = if Js_internal.testAny x then raise Not_found else x
 
 let rec fromIntAux (enum : int) i len xs =
   if i = len then None
   else
     let k = xs.!(i) in
-    if k = enum then Some i
-    else fromIntAux enum (i + 1) len xs
+    if k = enum then Some i else fromIntAux enum (i + 1) len xs
 
-let fromInt len (xs : int array) (enum : int )  : 'variant option =
+let fromInt len (xs : int array) (enum : int) : 'variant option =
   fromIntAux enum 0 len xs
 
-let rec fromIntAssertAux len (enum : int) i  xs =
+let rec fromIntAssertAux len (enum : int) i xs =
   if i = len then raise Not_found
   else
     let k = xs.!(i) in
-    if k = enum then  i
-    else fromIntAssertAux len enum (i + 1)  xs
+    if k = enum then i else fromIntAssertAux len enum (i + 1) xs
 
 (** [length] is not relevant any more *)
-let fromIntAssert  len (xs : int array) (enum : int )=
-  fromIntAssertAux len enum 0  xs
+let fromIntAssert len (xs : int array) (enum : int) =
+  fromIntAssertAux len enum 0 xs

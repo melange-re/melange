@@ -32,6 +32,7 @@ type bigint_val = Js_bigint.t
 (** Js bigint type only available in ES2020 *)
 
 type obj_val
+
 type undefined_val
 (** This type has only one value [undefined] *)
 
@@ -41,7 +42,7 @@ type null_val
 type function_val
 
 type _ t =
-  | Undefined :  undefined_val t
+  | Undefined : undefined_val t
   | Null : null_val t
   | Boolean : bool t
   | Number : float t
@@ -50,8 +51,6 @@ type _ t =
   | Object : obj_val t
   | Symbol : symbol t
   | BigInt : bigint_val t
-
-
 
 type tagged_t =
   | JSFalse
@@ -67,53 +66,24 @@ type tagged_t =
 
 let classify (x : 'a) : tagged_t =
   let ty = Js_internal.typeof x in
-  if ty = "undefined" then
-    JSUndefined else
-  if x == (Obj.magic Js_null.empty)  then
-    JSNull else
-  if ty = "number" then
-    JSNumber (Obj.magic x) else
-  if ty = "bigint" then
-    JSBigInt (Obj.magic x) else
-  if ty = "string" then
-    JSString (Obj.magic x) else
-  if ty = "boolean" then
-    if (Obj.magic x) = true then JSTrue
-    else JSFalse else
-  if ty = "symbol" then
-    JSSymbol (Obj.magic x) else
-  if ty = "function" then
-    JSFunction (Obj.magic x)
-  else
-    JSObject (Obj.magic x)
-
+  if ty = "undefined" then JSUndefined
+  else if x == Obj.magic Js_null.empty then JSNull
+  else if ty = "number" then JSNumber (Obj.magic x)
+  else if ty = "bigint" then JSBigInt (Obj.magic x)
+  else if ty = "string" then JSString (Obj.magic x)
+  else if ty = "boolean" then if Obj.magic x = true then JSTrue else JSFalse
+  else if ty = "symbol" then JSSymbol (Obj.magic x)
+  else if ty = "function" then JSFunction (Obj.magic x)
+  else JSObject (Obj.magic x)
 
 let test (type a) (x : 'a) (v : a t) : bool =
   match v with
-  | Number
-    ->
-     Js_internal.typeof x = "number"
-  | Boolean
-    ->
-     Js_internal.typeof x = "boolean"
-  | Undefined
-    ->
-    Js_internal.typeof x = "undefined"
-  | Null
-    ->
-    x == (Obj.magic Js_null.empty)
-  | String
-    ->
-    Js_internal.typeof x = "string"
-  | Function
-    ->
-    Js_internal.typeof x = "function"
-  | Object
-    ->
-    Js_internal.typeof x = "object"
-  | Symbol
-    ->
-    Js_internal.typeof x = "symbol"
-  | BigInt
-    ->
-    Js_internal.typeof x = "bigint"
+  | Number -> Js_internal.typeof x = "number"
+  | Boolean -> Js_internal.typeof x = "boolean"
+  | Undefined -> Js_internal.typeof x = "undefined"
+  | Null -> x == Obj.magic Js_null.empty
+  | String -> Js_internal.typeof x = "string"
+  | Function -> Js_internal.typeof x = "function"
+  | Object -> Js_internal.typeof x = "object"
+  | Symbol -> Js_internal.typeof x = "symbol"
+  | BigInt -> Js_internal.typeof x = "bigint"

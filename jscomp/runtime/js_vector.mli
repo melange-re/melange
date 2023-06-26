@@ -26,20 +26,16 @@ type 'a t = 'a array
 
 module Js := Js_internal
 
-val filterInPlace : ('a -> bool [@bs]) -> 'a t -> unit
-
+val filterInPlace : (('a -> bool)[@bs]) -> 'a t -> unit
 val empty : 'a t -> unit
-
 val pushBack : 'a -> 'a t -> unit
 
 val copy : 'a t -> 'a t
 (** shallow copy *)
 
 val memByRef : 'a -> 'a t -> bool
-
-val iter : ('a -> unit [@bs]) -> 'a t -> unit
-val iteri : (int -> 'a -> unit [@bs]) -> 'a t -> unit
-
+val iter : (('a -> unit)[@bs]) -> 'a t -> unit
+val iteri : ((int -> 'a -> unit)[@bs]) -> 'a t -> unit
 
 (* [@@deprecated "Use Js.List.toVector instead"] *)
 (* val ofList : 'a list -> 'a t   *)
@@ -47,11 +43,11 @@ val iteri : (int -> 'a -> unit [@bs]) -> 'a t -> unit
 *)
 
 val toList : 'a t -> 'a list
+val map : (('a -> 'b)[@bs]) -> 'a t -> 'b t
+val mapi : ((int -> 'a -> 'b)[@bs]) -> 'a t -> 'b t
+val foldLeft : (('a -> 'b -> 'a)[@bs]) -> 'a -> 'b t -> 'a
+val foldRight : (('b -> 'a -> 'a)[@bs]) -> 'b t -> 'a -> 'a
 
-val map : ('a -> 'b [@bs]) -> 'a t -> 'b t
-val mapi : (int -> 'a -> 'b [@bs]) -> 'a t -> 'b t
-val foldLeft : ('a -> 'b -> 'a [@bs]) -> 'a -> 'b t -> 'a
-val foldRight : ('b -> 'a -> 'a [@bs]) -> 'b t -> 'a -> 'a
 external length : 'a t -> int = "%array_length"
 (** Return the length (number of elements) of the given array. *)
 
@@ -72,7 +68,6 @@ external set : 'a t -> int -> 'a -> unit = "%array_safe_set"
    Raise [Invalid_argument "index out of bounds"]
    if [n] is outside the range 0 to [Array.length a - 1]. *)
 
-
 external make : int -> 'a -> 'a t = "caml_make_vect"
 (** [Array.make n x] returns a fresh array of length [n],
    initialized with [x].
@@ -86,8 +81,7 @@ external make : int -> 'a -> 'a t = "caml_make_vect"
    If the value of [x] is a floating-point number, then the maximum
    size is only [Sys.max_array_length / 2].*)
 
-
-val init : int -> (int -> 'a [@bs]) -> 'a t
+val init : int -> ((int -> 'a)[@bs]) -> 'a t
 (** @param n size
     @param fn callback
     @raise RangeError when [n] is negative  *)

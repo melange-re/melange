@@ -22,42 +22,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
 val caml_create_bytes : int -> bytes
-val caml_fill_bytes :  bytes -> int -> int -> char -> unit
+val caml_fill_bytes : bytes -> int -> int -> char -> unit
 val get : bytes -> int -> char
-val set : 
-  bytes -> 
-  int -> 
-  char -> 
-  unit
-val bytes_to_string : bytes -> string 
+val set : bytes -> int -> char -> unit
+val bytes_to_string : bytes -> string
 val caml_blit_bytes : bytes -> int -> bytes -> int -> int -> unit
-
-val caml_blit_string : 
-  string -> 
-  int -> 
-  bytes -> 
-  int -> 
-  int -> 
-  unit
-
+val caml_blit_string : string -> int -> bytes -> int -> int -> unit
 val bytes_of_string : string -> bytes
-
-val caml_bytes_compare: 
-  bytes -> bytes -> int
-
-val caml_bytes_greaterthan:
-  bytes -> bytes -> bool 
-
-val caml_bytes_greaterequal:
-  bytes -> bytes -> bool 
-
-val caml_bytes_lessthan:
-  bytes -> bytes -> bool 
-
-val caml_bytes_lessequal:
-  bytes -> bytes -> bool 
-
-val caml_bytes_equal : 
-  bytes -> bytes -> bool 
+val caml_bytes_compare : bytes -> bytes -> int
+val caml_bytes_greaterthan : bytes -> bytes -> bool
+val caml_bytes_greaterequal : bytes -> bytes -> bool
+val caml_bytes_lessthan : bytes -> bytes -> bool
+val caml_bytes_lessequal : bytes -> bytes -> bool
+val caml_bytes_equal : bytes -> bytes -> bool

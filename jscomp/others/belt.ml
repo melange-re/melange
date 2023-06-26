@@ -117,6 +117,8 @@
     the internal, {i i.e}, {i Belt_Set} in the future
 
 *)
+
+module Id = Belt_Id
 (** {!Belt.Id}
 
     Provide utilities to create identified comparators or hashes for
@@ -126,14 +128,14 @@
     functions so that different data structures with slightly different
     comparison functions won't mix
 *)
-module Id = Belt_Id
 
+module Array = Belt_Array
 (** {!Belt.Array}
 
     {b mutable array}: Utilities functions
 *)
-module Array = Belt_Array
 
+module SortArray = Belt_SortArray
 (** {!Belt.SortArray}
 
     The top level provides some generic sort related utilities.
@@ -141,32 +143,32 @@ module Array = Belt_Array
     It also has two specialized inner modules
     {!Belt.SortArray.Int} and {!Belt.SortArray.String}
 *)
-module SortArray = Belt_SortArray
 
+module MutableQueue = Belt_MutableQueue
 (** {!Belt.MutableQueue}
 
     An FIFO(first in first out) queue data structure
 *)
-module MutableQueue = Belt_MutableQueue
 
+module MutableStack = Belt_MutableStack
 (** {!Belt.MutableStack}
 
     An FILO(first in last out) stack data structure
 *)
-module MutableStack = Belt_MutableStack
 
+module List = Belt_List
 (** {!Belt.List}
 
     Utilities for List data type
 *)
-module List = Belt_List
 
+module Range = Belt_Range
 (** {!Belt.Range}
 
     Utilities for a closed range [(from, start)]
 *)
-module Range = Belt_Range
 
+module Set = Belt_Set
 (** {!Belt.Set}
 
     The top level provides generic {b immutable} set operations.
@@ -178,9 +180,8 @@ module Range = Belt_Range
     which is more verbose but slightly more efficient
 
 *)
-module Set = Belt_Set
 
-
+module Map = Belt_Map
 (** {!Belt.Map},
 
     The top level provides generic {b immutable} map operations.
@@ -191,9 +192,8 @@ module Set = Belt_Set
     {!Belt.Map.Dict}: This module separates data from function
     which  is more verbose but slightly more efficient
 *)
-module Map = Belt_Map
 
-
+module MutableSet = Belt_MutableSet
 (** {!Belt.MutableSet}
 
     The top level provides generic {b mutable} set operations.
@@ -201,8 +201,8 @@ module Map = Belt_Map
     It also has two specialized inner modules
     {!Belt.MutableSet.Int} and {!Belt.MutableSet.String}
 *)
-module MutableSet = Belt_MutableSet
 
+module MutableMap = Belt_MutableMap
 (** {!Belt.MutableMap}
 
     The top level provides generic {b mutable} map operations.
@@ -211,9 +211,8 @@ module MutableSet = Belt_MutableSet
     {!Belt.MutableMap.Int} and {!Belt.MutableMap.String}
 
 *)
-module MutableMap = Belt_MutableMap
 
-
+module HashSet = Belt_HashSet
 (** {!Belt.HashSet}
 
     The top level provides generic {b mutable} hash set operations.
@@ -221,9 +220,8 @@ module MutableMap = Belt_MutableMap
     It also has two specialized inner modules
     {!Belt.HashSet.Int} and {!Belt.HashSet.String}
 *)
-module HashSet = Belt_HashSet
 
-
+module HashMap = Belt_HashMap
 (** {!Belt.HashMap}
 
     The top level provides generic {b mutable} hash map operations.
@@ -231,15 +229,12 @@ module HashSet = Belt_HashSet
     It also has two specialized inner modules
     {!Belt.HashMap.Int} and {!Belt.HashMap.String}
 *)
-module HashMap = Belt_HashMap
 
-
+module Option = Belt_Option
 (** {!Belt.Option}
 
     Utilities for option data type.
 *)
-module Option = Belt_Option
-
 
 (** {!Belt.Result}
 
@@ -254,7 +249,6 @@ module Result = Belt_Result
 *)
 
 module Int = Belt_Int
-
 
 (** {!Belt.Float}
 

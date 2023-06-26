@@ -26,22 +26,15 @@
 
 type t = Node.buffer
 
-external isBuffer : 'a -> bool = "Buffer.isBuffer"
-[@@bs.val]
-
-external fromString : string -> t = "Buffer.from"
-[@@bs.val]
+external isBuffer : 'a -> bool = "Buffer.isBuffer" [@@bs.val]
+external fromString : string -> t = "Buffer.from" [@@bs.val]
 
 type encoding =
-  [ `ascii  | `utf8  | `utf16le  | `usc2  | `base64  | `latin1 | `binary  | `hex ]
+  [ `ascii | `utf8 | `utf16le | `usc2 | `base64 | `latin1 | `binary | `hex ]
+
 external fromStringWithEncoding : string -> encoding -> t = "from"
-[@@bs.val] [@@bs.scope "Buffer"]
+  [@@bs.val] [@@bs.scope "Buffer"]
 
-external toString : t -> string = "toString"
-[@@bs.send]
-
-external toStringWithEncoding : t -> encoding -> string = "toString"
-[@@bs.send]
-
-external concat : t array -> t = "Buffer.concat"
-[@@bs.val]
+external toString : t -> string = "toString" [@@bs.send]
+external toStringWithEncoding : t -> encoding -> string = "toString" [@@bs.send]
+external concat : t array -> t = "Buffer.concat" [@@bs.val]

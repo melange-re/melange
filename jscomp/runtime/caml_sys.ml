@@ -24,15 +24,16 @@
 
 open Melange_mini_stdlib
 
-
 external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
+
 let caml_sys_getenv s =
   let module Js = Js_internal in
-  if Js.typeof [%raw{|process|}] = "undefined"
-  || [%raw{|process.env|}] = Caml_undefined_extern.empty
+  if
+    Js.typeof [%raw {|process|}] = "undefined"
+    || [%raw {|process.env|}] = Caml_undefined_extern.empty
   then raise Not_found
   else
-    match getEnv [%raw{|process.env|}] s with
+    match getEnv [%raw {|process.env|}] s with
     | None -> raise Not_found
     | Some x -> x
 
@@ -43,7 +44,8 @@ let caml_sys_getenv s =
 *)
 let os_type : unit -> string =
   let module Js = Js_internal in
-  [%raw{|function(_){
+  [%raw
+    {|function(_){
   if(typeof process !== 'undefined' && process.platform === 'win32'){
         return "Win32"
   }
@@ -53,23 +55,20 @@ let os_type : unit -> string =
 }|}]
 (* TODO: improve [js_pass_scope] to avoid remove unused n here *)
 
-
-
 (* let caml_initial_time = now ()  *. 0.001 *)
 
 type process
+
 external uptime : process -> unit -> float = "uptime" [@@bs.send]
-external exit : process -> int -> 'a =  "exit"  [@@bs.send]
+external exit : process -> int -> 'a = "exit" [@@bs.send]
 
 let caml_sys_time () =
   let module Js = Js_internal in
-  if Js.typeof [%raw{|process|}] = "undefined"
-  || [%raw{|process.uptime|}] = Caml_undefined_extern.empty
+  if
+    Js.typeof [%raw {|process|}] = "undefined"
+    || [%raw {|process.uptime|}] = Caml_undefined_extern.empty
   then -1.
-  else uptime [%raw{|process|}] ()
-
-
-
+  else uptime [%raw {|process|}] ()
 
 (*
 type spawnResult
@@ -82,43 +81,40 @@ external readAs : spawnResult ->
   "%identity"
 *)
 
-
 let caml_sys_system_command _cmd = 127
 
 let caml_sys_getcwd : unit -> string =
   let module Js = Js_internal in
-  [%raw{|function(param){
+  [%raw
+    {|function(param){
     if (typeof process === "undefined" || process.cwd === undefined){
       return "/"
     }
     return process.cwd()
   }|}]
 
-
 let caml_sys_executable_name () : string =
   let module Js = Js_internal in
-  if Js.typeof [%raw{|process|}] = "undefined" then ""
+  if Js.typeof [%raw {|process|}] = "undefined" then ""
   else
-    let argv = [%raw{|process.argv|}] in
-    if Js.testAny argv then ""
-    else Caml_array_extern.unsafe_get argv 0
+    let argv = [%raw {|process.argv|}] in
+    if Js.testAny argv then "" else Caml_array_extern.unsafe_get argv 0
 
 (* Called by {!Sys} in the toplevel, should never fail*)
 let caml_sys_argv () : string * string array =
   let module Js = Js_internal in
-  if Js.typeof [%raw{|process|}] = "undefined" then "",[|""|]
+  if Js.typeof [%raw {|process|}] = "undefined" then ("", [| "" |])
   else
-    let argv = [%raw{|process.argv|}] in
-    if Js.testAny argv then ("",[|""|])
-    else Caml_array_extern.unsafe_get argv 0, argv
+    let argv = [%raw {|process.argv|}] in
+    if Js.testAny argv then ("", [| "" |])
+    else (Caml_array_extern.unsafe_get argv 0, argv)
 
 (** {!Pervasives.sys_exit} *)
-let caml_sys_exit :int -> 'a = fun exit_code ->
+let caml_sys_exit : int -> 'a =
+ fun exit_code ->
   let module Js = Js_internal in
-  if Js.typeof [%raw{|process|}] <> "undefined"  then
-    exit [%raw{|process|}] exit_code
-
-
+  if Js.typeof [%raw {|process|}] <> "undefined" then
+    exit [%raw {|process|}] exit_code
 
 let caml_sys_is_directory _s =
   raise (Failure "caml_sys_is_directory not implemented")
@@ -127,4 +123,4 @@ let caml_sys_is_directory _s =
     {!Sys.is_directory} or {!Sys.file_exists} {!Sys.command}
 *)
 let caml_sys_file_exists _s =
-  raise ( Failure "caml_sys_file_exists not implemented")
+  raise (Failure "caml_sys_file_exists not implemented")

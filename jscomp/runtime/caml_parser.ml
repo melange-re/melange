@@ -24,7 +24,8 @@
 
 open Melange_mini_stdlib
 
-[%%bs.raw{|
+[%%bs.raw
+{|
 
 /***********************************************************************/
 /*                                                                     */
@@ -149,9 +150,14 @@ var PARSER_TRACE = false;
 type parse_tables
 type parser_env
 
-
-let caml_parse_engine : parse_tables -> parser_env -> (*Parsing.parser_input *)Obj.t -> Obj.t -> Obj.t =
-  [%raw{|function (tables /* parser_table */, env /* parser_env */, cmd /* parser_input*/, arg /* Obj.t*/) {
+let caml_parse_engine :
+    parse_tables ->
+    parser_env ->
+    (*Parsing.parser_input *) Obj.t ->
+    Obj.t ->
+    Obj.t =
+  [%raw
+    {|function (tables /* parser_table */, env /* parser_env */, cmd /* parser_input*/, arg /* Obj.t*/) {
     var ERRCODE = 256;
     //var START = 0;
     //var TOKEN_READ = 1;
@@ -376,14 +382,15 @@ let caml_parse_engine : parse_tables -> parser_env -> (*Parsing.parser_input *)O
     return res;
 }|}]
 
-
 (**
  * external set_trace: bool -> bool = "caml_set_parser_trace"
  * parsing.ml
  * @param {boolean}
  * @returns {boolean}
 *)
-let caml_set_parser_trace : bool -> bool = [%raw{|function (v) {
+let caml_set_parser_trace : bool -> bool =
+  [%raw
+    {|function (v) {
     var old = PARSER_TRACE;
     PARSER_TRACE = v;
     return old;

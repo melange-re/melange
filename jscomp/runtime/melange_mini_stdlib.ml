@@ -11,7 +11,7 @@
   - ref (make sure not exported in public others/*.mli)
 *)
 
-external (^) : string -> string -> string = "#string_append"
+external ( ^ ) : string -> string -> string = "#string_append"
 external ( = ) : 'a -> 'a -> bool = "%equal"
 external ( <> ) : 'a -> 'a -> bool = "%notequal"
 external ( == ) : 'a -> 'a -> bool = "%eq"
@@ -32,21 +32,18 @@ external ( mod ) : int -> int -> int = "%modint"
 external ( lsr ) : int -> int -> int = "%lsrint"
 external ( lxor ) : int -> int -> int = "%xorint"
 external ( asr ) : int -> int -> int = "%asrint"
+
 type 'a ref = { mutable contents : 'a }
+
 external ref : 'a -> 'a ref = "%makemutable"
-
-
-
 external ( || ) : bool -> bool -> bool = "%sequor"
 external ( && ) : bool -> bool -> bool = "%sequand"
 external not : bool -> bool = "%boolnot"
-
 external raise : exn -> 'a = "%raise"
 external ignore : 'a -> unit = "%ignore"
 external ( |> ) : 'a -> ('a -> 'b) -> 'b = "%revapply"
 external ( @@ ) : ('a -> 'b) -> 'a -> 'b = "%apply"
-
-external ( ** ) : float -> float -> float =  "pow" [@@bs.val] [@@bs.scope "Math"]
+external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
 external ( ~-. ) : float -> float = "%negfloat"
 external ( +. ) : float -> float -> float = "%addfloat"
 external ( -. ) : float -> float -> float = "%subfloat"
@@ -55,9 +52,11 @@ external ( /. ) : float -> float -> float = "%divfloat"
 
 module Obj = struct
   type t
+
   external field : t -> int -> t = "%obj_field"
   external set_field : t -> int -> t -> unit = "%obj_set_field"
   external tag : t -> int = "caml_obj_tag"
+
   (* The compiler ensures (|0) operation *)
   external set_tag : t -> int -> unit = "TAG" [@@bs.set]
   external repr : 'a -> t = "%identity"
@@ -65,7 +64,6 @@ module Obj = struct
   external magic : 'a -> 'b = "%identity"
   external size : t -> int = "#obj_length"
 end
-
 
 module Pervasives = struct
   external compare : 'a -> 'a -> int = "%compare"
