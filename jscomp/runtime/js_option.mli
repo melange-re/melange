@@ -24,6 +24,8 @@
 
 type 'a t = 'a option
 
+module Js := Js_internal
+
 val some : 'a -> 'a option
 
 val isSome : 'a option -> bool

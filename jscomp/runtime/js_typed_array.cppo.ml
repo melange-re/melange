@@ -57,6 +57,9 @@ module ArrayBuffer = struct
   external slice : start:int -> end_:int -> array_buffer = "slice" [@@bs.send.pipe: t] (*FIXME*)
   external sliceFrom : int -> array_buffer = "slice" [@@bs.send.pipe: t]
 end
+
+module Js = Js_internal
+
 module type S =  sig
   (** Implements functionality common to all the typed arrays *)
 
@@ -132,8 +135,8 @@ module type S =  sig
   external filter : (elt -> bool [@bs]) -> t = "filter" [@@bs.send.pipe: t]
   external filteri : (elt -> int  -> bool [@bs]) -> t = "filter" [@@bs.send.pipe: t]
 
-  external find : (elt -> bool [@bs]) -> elt Js.undefined = "find" [@@bs.send.pipe: t]
-  external findi : (elt -> int -> bool [@bs]) -> elt Js.undefined  = "find" [@@bs.send.pipe: t]
+  external find : (elt -> bool [@bs]) -> elt Js_internal.undefined = "find" [@@bs.send.pipe: t]
+  external findi : (elt -> int -> bool [@bs]) -> elt Js_internal.undefined  = "find" [@@bs.send.pipe: t]
 
   external findIndex : (elt -> bool [@bs]) -> int = "findIndex" [@@bs.send.pipe: t]
   external findIndexi : (elt -> int -> bool [@bs]) -> int = "findIndex" [@@bs.send.pipe: t]
@@ -233,8 +236,8 @@ end
   external filter : (elt -> bool [@bs]) -> t = "filter" [@@bs.send.pipe: t]\
   external filteri : (elt -> int  -> bool [@bs]) -> t = "filter" [@@bs.send.pipe: t]\
   \
-  external find : (elt -> bool [@bs]) -> elt Js.undefined = "find" [@@bs.send.pipe: t]\
-  external findi : (elt -> int -> bool [@bs]) -> elt Js.undefined  = "find" [@@bs.send.pipe: t]\
+  external find : (elt -> bool [@bs]) -> elt Js_internal.undefined = "find" [@@bs.send.pipe: t]\
+  external findi : (elt -> int -> bool [@bs]) -> elt Js_internal.undefined  = "find" [@@bs.send.pipe: t]\
   \
   external findIndex : (elt -> bool [@bs]) -> int = "findIndex" [@@bs.send.pipe: t]\
   external findIndexi : (elt -> int -> bool [@bs]) -> int = "findIndex" [@@bs.send.pipe: t]\

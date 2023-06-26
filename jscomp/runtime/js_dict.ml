@@ -39,6 +39,7 @@ will not throw an error.
 external unsafeGet : 'a t -> key -> 'a = "" [@@bs.get_index]
 let (.!()) = unsafeGet
 
+module Js = Js_internal
 (** [get dict key] returns the value associated with [key] in [dict] *)
 let get (type u) (dict : u t) (k : key) : u option =
   if [%raw {|k in dict|}] then

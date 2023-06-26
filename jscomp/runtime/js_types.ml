@@ -28,7 +28,7 @@ open Melange_mini_stdlib
 type symbol
 (**Js symbol type only available in ES6 *)
 
-type bigint_val = Js.Bigint.t
+type bigint_val = Js_bigint.t
 (** Js bigint type only available in ES2020 *)
 
 type obj_val
@@ -66,10 +66,10 @@ type tagged_t =
   | JSBigInt of bigint_val
 
 let classify (x : 'a) : tagged_t =
-  let ty = Js.typeof x in
+  let ty = Js_internal.typeof x in
   if ty = "undefined" then
     JSUndefined else
-  if x == (Obj.magic Js.Null.empty)  then
+  if x == (Obj.magic Js_null.empty)  then
     JSNull else
   if ty = "number" then
     JSNumber (Obj.magic x) else
@@ -92,28 +92,28 @@ let test (type a) (x : 'a) (v : a t) : bool =
   match v with
   | Number
     ->
-     Js.typeof x = "number"
+     Js_internal.typeof x = "number"
   | Boolean
     ->
-     Js.typeof x = "boolean"
+     Js_internal.typeof x = "boolean"
   | Undefined
     ->
-    Js.typeof x = "undefined"
+    Js_internal.typeof x = "undefined"
   | Null
     ->
-    x == (Obj.magic Js.Null.empty)
+    x == (Obj.magic Js_null.empty)
   | String
     ->
-    Js.typeof x = "string"
+    Js_internal.typeof x = "string"
   | Function
     ->
-    Js.typeof x = "function"
+    Js_internal.typeof x = "function"
   | Object
     ->
-    Js.typeof x = "object"
+    Js_internal.typeof x = "object"
   | Symbol
     ->
-    Js.typeof x = "symbol"
+    Js_internal.typeof x = "symbol"
   | BigInt
     ->
-    Js.typeof x = "bigint"
+    Js_internal.typeof x = "bigint"

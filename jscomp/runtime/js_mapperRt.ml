@@ -27,7 +27,7 @@ open Melange_mini_stdlib
 external (.!()) : int array -> int -> int = "" [@@bs.get_index]
 
 let raiseWhenNotFound x =
-  if Js.testAny x then raise Not_found
+  if Js_internal.testAny x then raise Not_found
   else x
 
 let rec fromIntAux (enum : int) i len xs =

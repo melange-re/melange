@@ -27,7 +27,7 @@
   -nopervasives
   -nostdlib
   -open
-  Melange_mini_stdlib))
+  Js__Melange_mini_stdlib))
 
 (library
  (modes melange)
@@ -45,7 +45,7 @@
   -nopervasives
   -nostdlib
   -open
-  Melange_mini_stdlib))
+  Js__Melange_mini_stdlib))
 
 (rule
  (deps node.pre.ml)
@@ -79,7 +79,7 @@
   -bs-cross-module-opt
   -unsafe
   -open
-  Melange_mini_stdlib))
+  Js__Melange_mini_stdlib))
 
 (rule
  (target belt_HashSetString.ml)

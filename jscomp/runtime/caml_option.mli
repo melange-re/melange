@@ -28,11 +28,11 @@ type nested = {
   depth : int ; [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"]
 }
 
-val nullable_to_opt : 'a Js.null_undefined -> 'a option
+val nullable_to_opt : 'a Js_internal.nullable -> 'a option
 
-val undefined_to_opt : 'a Js.undefined -> 'a option
+val undefined_to_opt : 'a Js_internal.undefined -> 'a option
 
-val null_to_opt : 'a Js.null -> 'a option
+val null_to_opt : 'a Js_internal.null -> 'a option
 
 val valFromOption : Obj.t -> Obj.t
 

@@ -88,13 +88,13 @@ let caml_hash_mix_string =  Caml_hash_primitive.caml_hash_mix_string
 let caml_hash (count : int) _limit (seed : int)
     (obj : Obj.t) : int =
   let hash = ref seed in
-  if Js.typeof obj = "number" then
+  if Js_internal.typeof obj = "number" then
     begin
       let u = Caml_nativeint_extern.of_float (Obj.magic obj) in
       hash.contents <- caml_hash_mix_int hash.contents (u + u + 1) ;
       caml_hash_final_mix hash.contents
     end
-  else if Js.typeof obj = "string" then
+  else if Js_internal.typeof obj = "string" then
     begin
       hash.contents <- caml_hash_mix_string hash.contents (Obj.magic obj : string);
       caml_hash_final_mix hash.contents
@@ -110,24 +110,24 @@ let caml_hash (count : int) _limit (seed : int)
     in
     while not ( is_empty_queue queue) && num.contents > 0 do
       let obj =  unsafe_pop queue in
-      if Js.typeof obj = "number" then
+      if Js_internal.typeof obj = "number" then
         begin
           let u = Caml_nativeint_extern.of_float (Obj.magic obj) in
           hash.contents <- caml_hash_mix_int hash.contents (u + u + 1) ;
           num.contents <- num.contents - 1;
         end
-      else if Js.typeof obj = "string" then
+      else if Js_internal.typeof obj = "string" then
         begin
           hash.contents <- caml_hash_mix_string hash.contents (Obj.magic obj : string);
           num.contents <- num.contents - 1
         end
-      else if Js.typeof obj = "boolean" then
+      else if Js_internal.typeof obj = "boolean" then
         ()
-      else if Js.typeof obj = "undefined" then
+      else if Js_internal.typeof obj = "undefined" then
         ()
-      else if Js.typeof obj = "symbol" then
+      else if Js_internal.typeof obj = "symbol" then
         ()
-      else if Js.typeof obj = "function" then
+      else if Js_internal.typeof obj = "function" then
         ()
       else
         let size = Obj.size obj in
@@ -148,7 +148,7 @@ let caml_hash (count : int) _limit (seed : int)
             end
         end else
           begin
-            let size : int = ([%raw {|function(obj,cb){
+            let size : int = let module Js = Js_internal in ([%raw {|function(obj,cb){
             var size = 0
             for(var k in obj){
               cb(obj[k])

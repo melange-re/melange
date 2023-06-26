@@ -30,10 +30,10 @@ type t
 type _ kind =
   | String : Js_string.t kind
   | Number : float kind
-  | Object : t Js.Dict.t kind
+  | Object : t Js_dict.t kind
   | Array : t array kind
   | Boolean : bool kind
-  | Null : Js.Types.null_val kind
+  | Null : Js_types.null_val kind
 
 
 type tagged_t =
@@ -42,11 +42,11 @@ type tagged_t =
   | JSONNull
   | JSONString of string
   | JSONNumber of float
-  | JSONObject of t Js.Dict.t
+  | JSONObject of t Js_dict.t
   | JSONArray of t array
 
 let classify  (x : t) : tagged_t =
-  let ty = Js.typeof x in
+  let ty = Js_internal.typeof x in
   if ty = "string" then
     JSONString (Obj.magic x)
   else if ty = "number" then
@@ -54,7 +54,7 @@ let classify  (x : t) : tagged_t =
   else if ty = "boolean" then
     if (Obj.magic x) = true then JSONTrue
     else JSONFalse
-  else if (Obj.magic x) == Js.null then
+  else if (Obj.magic x) == Js_internal.null then
     JSONNull
   else if Js_array2.isArray x  then
     JSONArray (Obj.magic x)
@@ -64,28 +64,28 @@ let classify  (x : t) : tagged_t =
 
 let test (type a) (x : 'a) (v : a kind) : bool =
   match v with
-  | Number -> Js.typeof x = "number"
-  | Boolean -> Js.typeof x = "boolean"
-  | String -> Js.typeof x = "string"
-  | Null -> (Obj.magic x) == Js.null
+  | Number -> Js_internal.typeof x = "number"
+  | Boolean -> Js_internal.typeof x = "boolean"
+  | String -> Js_internal.typeof x = "string"
+  | Null -> (Obj.magic x) == Js_internal.null
   | Array -> Js_array2.isArray x
-  | Object -> (Obj.magic x) != Js.null && Js.typeof x = "object" && not (Js_array2.isArray x )
+  | Object -> (Obj.magic x) != Js_internal.null && Js_internal.typeof x = "object" && not (Js_array2.isArray x )
 
 let decodeString json =
-  if Js.typeof json = "string"
+  if Js_internal.typeof json = "string"
   then Some (Obj.magic (json:t) : string)
   else None
 
 let decodeNumber json =
-  if Js.typeof json = "number"
+  if Js_internal.typeof json = "number"
   then Some (Obj.magic (json:t) : float)
   else None
 
 let decodeObject json =
-  if  Js.typeof json = "object" &&
+  if  Js_internal.typeof json = "object" &&
       not (Js_array2.isArray json) &&
-      not ((Obj.magic json : 'a Js.null) == Js.null)
-  then Some (Obj.magic (json:t) : t Js.Dict.t)
+      not ((Obj.magic json : 'a Js_internal.null) == Js_internal.null)
+  then Some (Obj.magic (json:t) : t Js_dict.t)
   else None
 
 let decodeArray json =
@@ -94,13 +94,13 @@ let decodeArray json =
   else None
 
 let decodeBoolean (json : t) =
-  if Js.typeof json = "boolean"
+  if Js_internal.typeof json = "boolean"
   then Some (Obj.magic (json:t) : bool)
   else None
 
-let decodeNull json : _ Js.null option =
-  if (Obj.magic json : 'a Js.null) == Js.null
-  then Some Js.null
+let decodeNull json : _ Js_internal.null option =
+  if (Obj.magic json : 'a Js_internal.null) == Js_internal.null
+  then Some Js_internal.null
   else None
 
 (* external parse : string -> t = "parse"
@@ -117,7 +117,7 @@ external null : t = "null" [@@bs.val]
 external string : string -> t = "%identity"
 external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
-external object_ : t Js.Dict.t -> t = "%identity"
+external object_ : t Js_dict.t -> t = "%identity"
 
 (* external array_ : t array -> t = "%identity" *)
 
@@ -125,7 +125,7 @@ external array : t array -> t = "%identity"
 external stringArray : string array -> t = "%identity"
 external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
-external objectArray : t Js.Dict.t array -> t = "%identity"
+external objectArray : t Js_dict.t array -> t = "%identity"
 external stringify: t -> string = "stringify"
   [@@bs.val] [@@bs.scope "JSON"]
 external stringifyWithSpace: t -> (_ [@bs.as {json|null|json}]) -> int -> string = "stringify"
