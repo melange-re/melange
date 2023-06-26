@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_option = require("melange.belt/js_option.js");
+var Js__Js_option = require("melange.js/js_option.js");
 
 function simpleEq(a, b) {
   return a === b;
@@ -59,7 +59,7 @@ var option_suites_1 = {
               return {
                       TAG: /* Eq */0,
                       _0: true,
-                      _1: Js_option.isSomeValue(simpleEq, 2, 2)
+                      _1: Js__Js_option.isSomeValue(simpleEq, 2, 2)
                     };
             })
         ],
@@ -70,7 +70,7 @@ var option_suites_1 = {
                 return {
                         TAG: /* Eq */0,
                         _0: false,
-                        _1: Js_option.isSomeValue(simpleEq, 1, 2)
+                        _1: Js__Js_option.isSomeValue(simpleEq, 1, 2)
                       };
               })
           ],
@@ -81,7 +81,7 @@ var option_suites_1 = {
                   return {
                           TAG: /* Eq */0,
                           _0: false,
-                          _1: Js_option.isSomeValue(simpleEq, 1, undefined)
+                          _1: Js__Js_option.isSomeValue(simpleEq, 1, undefined)
                         };
                 })
             ],
@@ -92,7 +92,7 @@ var option_suites_1 = {
                     return {
                             TAG: /* Eq */0,
                             _0: 2,
-                            _1: Js_option.getExn(2)
+                            _1: Js__Js_option.getExn(2)
                           };
                   })
               ],
@@ -103,7 +103,7 @@ var option_suites_1 = {
                       return {
                               TAG: /* Eq */0,
                               _0: true,
-                              _1: Js_option.equal(simpleEq, 2, 2)
+                              _1: Js__Js_option.equal(simpleEq, 2, 2)
                             };
                     })
                 ],
@@ -114,7 +114,7 @@ var option_suites_1 = {
                         return {
                                 TAG: /* Eq */0,
                                 _0: false,
-                                _1: Js_option.equal(simpleEq, 1, 2)
+                                _1: Js__Js_option.equal(simpleEq, 1, 2)
                               };
                       })
                   ],
@@ -125,7 +125,7 @@ var option_suites_1 = {
                           return {
                                   TAG: /* Eq */0,
                                   _0: false,
-                                  _1: Js_option.equal(simpleEq, 1, undefined)
+                                  _1: Js__Js_option.equal(simpleEq, 1, undefined)
                                 };
                         })
                     ],
@@ -136,7 +136,7 @@ var option_suites_1 = {
                             return {
                                     TAG: /* Eq */0,
                                     _0: true,
-                                    _1: Js_option.isSomeValue(simpleEq, 3, Js_option.andThen((function (a) {
+                                    _1: Js__Js_option.isSomeValue(simpleEq, 3, Js__Js_option.andThen((function (a) {
                                                 return a + 1 | 0;
                                               }), 2))
                                   };
@@ -149,7 +149,7 @@ var option_suites_1 = {
                               return {
                                       TAG: /* Eq */0,
                                       _0: false,
-                                      _1: Js_option.isSomeValue(simpleEq, 3, Js_option.andThen((function (param) {
+                                      _1: Js__Js_option.isSomeValue(simpleEq, 3, Js__Js_option.andThen((function (param) {
                                                   
                                                 }), 2))
                                     };
@@ -162,7 +162,7 @@ var option_suites_1 = {
                                 return {
                                         TAG: /* Eq */0,
                                         _0: true,
-                                        _1: Js_option.isSomeValue(simpleEq, 3, Js_option.map((function (a) {
+                                        _1: Js__Js_option.isSomeValue(simpleEq, 3, Js__Js_option.map((function (a) {
                                                     return a + 1 | 0;
                                                   }), 2))
                                       };
@@ -175,7 +175,7 @@ var option_suites_1 = {
                                   return {
                                           TAG: /* Eq */0,
                                           _0: undefined,
-                                          _1: Js_option.map((function (a) {
+                                          _1: Js__Js_option.map((function (a) {
                                                   return a + 1 | 0;
                                                 }), undefined)
                                         };
@@ -188,7 +188,7 @@ var option_suites_1 = {
                                     return {
                                             TAG: /* Eq */0,
                                             _0: 2,
-                                            _1: Js_option.getWithDefault(3, 2)
+                                            _1: Js__Js_option.getWithDefault(3, 2)
                                           };
                                   })
                               ],
@@ -199,7 +199,7 @@ var option_suites_1 = {
                                       return {
                                               TAG: /* Eq */0,
                                               _0: 3,
-                                              _1: Js_option.getWithDefault(3, undefined)
+                                              _1: Js__Js_option.getWithDefault(3, undefined)
                                             };
                                     })
                                 ],
@@ -210,7 +210,7 @@ var option_suites_1 = {
                                         return {
                                                 TAG: /* Eq */0,
                                                 _0: true,
-                                                _1: Js_option.isSomeValue(simpleEq, 2, Js_option.filter((function (a) {
+                                                _1: Js__Js_option.isSomeValue(simpleEq, 2, Js__Js_option.filter((function (a) {
                                                             return a % 2 === 0;
                                                           }), 2))
                                               };
@@ -223,7 +223,7 @@ var option_suites_1 = {
                                           return {
                                                   TAG: /* Eq */0,
                                                   _0: undefined,
-                                                  _1: Js_option.filter((function (a) {
+                                                  _1: Js__Js_option.filter((function (a) {
                                                           return a % 3 === 0;
                                                         }), 2)
                                                 };
@@ -236,7 +236,7 @@ var option_suites_1 = {
                                             return {
                                                     TAG: /* Eq */0,
                                                     _0: undefined,
-                                                    _1: Js_option.filter((function (a) {
+                                                    _1: Js__Js_option.filter((function (a) {
                                                             return a % 3 === 0;
                                                           }), undefined)
                                                   };
@@ -249,7 +249,7 @@ var option_suites_1 = {
                                               return {
                                                       TAG: /* Eq */0,
                                                       _0: true,
-                                                      _1: Js_option.isSomeValue(simpleEq, 3, Js_option.firstSome(3, 2))
+                                                      _1: Js__Js_option.isSomeValue(simpleEq, 3, Js__Js_option.firstSome(3, 2))
                                                     };
                                             })
                                         ],
@@ -260,7 +260,7 @@ var option_suites_1 = {
                                                 return {
                                                         TAG: /* Eq */0,
                                                         _0: true,
-                                                        _1: Js_option.isSomeValue(simpleEq, 2, Js_option.firstSome(undefined, 2))
+                                                        _1: Js__Js_option.isSomeValue(simpleEq, 2, Js__Js_option.firstSome(undefined, 2))
                                                       };
                                               })
                                           ],
@@ -271,7 +271,7 @@ var option_suites_1 = {
                                                   return {
                                                           TAG: /* Eq */0,
                                                           _0: undefined,
-                                                          _1: Js_option.firstSome(undefined, undefined)
+                                                          _1: Js__Js_option.firstSome(undefined, undefined)
                                                         };
                                                 })
                                             ],

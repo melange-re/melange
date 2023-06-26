@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
-var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
+var Curry = require("melange.js/curry.js");
+var Caml_oo_curry = require("melange.js/caml_oo_curry.js");
 var CamlinternalOO = require("melange/camlinternalOO.js");
 
 function f(u) {

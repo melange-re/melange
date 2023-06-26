@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
-var Caml_oo = require("melange.runtime/caml_oo.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
-var Caml_option = require("melange.runtime/caml_option.js");
-var Caml_oo_curry = require("melange.runtime/caml_oo_curry.js");
+var Curry = require("melange.js/curry.js");
+var Caml_oo = require("melange.js/caml_oo.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Caml_oo_curry = require("melange.js/caml_oo_curry.js");
 var CamlinternalOO = require("melange/camlinternalOO.js");
 
 var shared = ["copy"];

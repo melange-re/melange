@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var JoinClasses = require("./joinClasses");
-var Caml_splice_call = require("melange.runtime/caml_splice_call.js");
+var Caml_splice_call = require("melange.js/caml_splice_call.js");
 
 var suites = {
   contents: /* [] */0

@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_MutableMapInt = require("melange.belt/belt_MutableMapInt.js");
-var Belt_internalMapInt = require("melange.belt/belt_internalMapInt.js");
+var Belt__Belt_MutableMapInt = require("melange.belt/belt_MutableMapInt.js");
+var Belt__Belt_internalMapInt = require("melange.belt/belt_internalMapInt.js");
 
 var suites = {
   contents: /* [] */0
@@ -22,12 +22,12 @@ var mockMap = {
 };
 
 function add(id) {
-  Belt_MutableMapInt.set(mockMap, id, id);
+  Belt__Belt_MutableMapInt.set(mockMap, id, id);
   return id;
 }
 
 function remove(id) {
-  Belt_MutableMapInt.remove(mockMap, id);
+  Belt__Belt_MutableMapInt.remove(mockMap, id);
 }
 
 add(1726);
@@ -36,9 +36,9 @@ var n = add(6667);
 
 add(486);
 
-Belt_MutableMapInt.remove(mockMap, 1726);
+Belt__Belt_MutableMapInt.remove(mockMap, 1726);
 
-var n1 = Belt_internalMapInt.getExn(mockMap.data, 6667);
+var n1 = Belt__Belt_internalMapInt.getExn(mockMap.data, 6667);
 
 eq("File \"gpr_4265_test.ml\", line 17, characters 6-13", n, n1);
 

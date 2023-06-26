@@ -3,7 +3,7 @@
 
 var Mt = require("./mt.js");
 var Test_char = require("./test_char.js");
-var Caml_bytes = require("melange.runtime/caml_bytes.js");
+var Caml_bytes = require("melange.js/caml_bytes.js");
 var Stdlib__List = require("melange/list.js");
 var Stdlib__Bytes = require("melange/bytes.js");
 

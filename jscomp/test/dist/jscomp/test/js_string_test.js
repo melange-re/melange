@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Option = require("melange.belt/belt_Option.js");
-var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Belt__Belt_Option = require("melange.belt/belt_Option.js");
 
 var suites_0 = [
   "make",
@@ -282,7 +282,7 @@ var suites_1 = {
                                                                 "hello ",
                                                                 undefined
                                                               ],
-                                                              _1: Belt_Option.map(Caml_option.null_to_opt("hello word".match(/hello (world)?/)), (function (prim) {
+                                                              _1: Belt__Belt_Option.map(Caml_option.null_to_opt("hello word".match(/hello (world)?/)), (function (prim) {
                                                                       return prim.slice();
                                                                     }))
                                                             };

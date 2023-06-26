@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_option = require("melange.js/caml_option.js");
 var Gpr_3566_test = require("./gpr_3566_test.js");
 
 var suites = {
