@@ -17,5 +17,5 @@
 (executable
  (name jsoo_main)
  (modules jsoo_main jsoo_common)
- (libraries core melange.ppx reactjs-jsx-ppx reason)
+ (libraries core melange.ppx reason-react-ppx reason)
  (modes js))
