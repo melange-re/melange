@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 var function_equal_test;
 

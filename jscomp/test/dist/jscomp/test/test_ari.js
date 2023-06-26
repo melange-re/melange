@@ -3,7 +3,7 @@
 
 var U = require("U");
 var VV = require("VV");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib__List = require("melange/list.js");
 
 function f(x) {

@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Exception_def = require("./exception_def.js");
 var Stdlib__Format = require("melange/format.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Stdlib__Printexc = require("melange/printexc.js");
 
 var suites = {

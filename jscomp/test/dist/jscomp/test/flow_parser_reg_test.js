@@ -3,16 +3,16 @@
 
 var Mt = require("./mt.js");
 var Fs = require("fs");
-var Caml = require("melange.runtime/caml.js");
+var Caml = require("melange.js/caml.js");
 var Path = require("path");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
-var Caml_array = require("melange.runtime/caml_array.js");
-var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Caml_format = require("melange.runtime/caml_format.js");
-var Caml_module = require("melange.runtime/caml_module.js");
-var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_array = require("melange.js/caml_array.js");
+var Caml_bytes = require("melange.js/caml_bytes.js");
+var Caml_format = require("melange.js/caml_format.js");
+var Caml_module = require("melange.js/caml_module.js");
+var Caml_option = require("melange.js/caml_option.js");
 var Stdlib__Sys = require("melange/sys.js");
 var Stdlib__Char = require("melange/char.js");
 var Stdlib__List = require("melange/list.js");
@@ -22,10 +22,10 @@ var Stdlib__Buffer = require("melange/buffer.js");
 var Stdlib__Lexing = require("melange/lexing.js");
 var Stdlib__Printf = require("melange/printf.js");
 var Stdlib__String = require("melange/string.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Stdlib__Hashtbl = require("melange/hashtbl.js");
 var Stdlib__Filename = require("melange/filename.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 var none = {
   source: undefined,
@@ -3493,58 +3493,6 @@ function regexp_body(env, buf, lexbuf) {
   };
 }
 
-function string_quote(env, q, buf, raw, octal, lexbuf) {
-  var ___ocaml_lex_state = 247;
-  while(true) {
-    var __ocaml_lex_state = ___ocaml_lex_state;
-    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
-    switch (__ocaml_lex_state$1) {
-      case 0 :
-          var q$p = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          Stdlib__Buffer.add_char(raw, q$p);
-          if (q === q$p) {
-            return [
-                    env,
-                    from_lb(env.lex_source, lexbuf),
-                    octal
-                  ];
-          } else {
-            Stdlib__Buffer.add_char(buf, q$p);
-            return string_quote(env, q, buf, raw, octal, lexbuf);
-          }
-      case 1 :
-          var e = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          Stdlib__Buffer.add_char(raw, e);
-          var match = string_escape(env, buf, lexbuf);
-          var octal$1 = match[1] || octal;
-          Stdlib__Buffer.add_string(raw, Stdlib__Lexing.lexeme(lexbuf));
-          return string_quote(match[0], q, buf, raw, octal$1, lexbuf);
-      case 2 :
-          var x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
-          Stdlib__Buffer.add_string(raw, x);
-          var env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
-                TAG: /* UnexpectedToken */1,
-                _0: "ILLEGAL"
-              });
-          Stdlib__Buffer.add_string(buf, x);
-          return [
-                  env$1,
-                  from_lb(env$1.lex_source, lexbuf),
-                  octal
-                ];
-      case 3 :
-          var x$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          Stdlib__Buffer.add_char(raw, x$1);
-          Stdlib__Buffer.add_char(buf, x$1);
-          return string_quote(env, q, buf, raw, octal, lexbuf);
-      default:
-        Curry._1(lexbuf.refill_buff, lexbuf);
-        ___ocaml_lex_state = __ocaml_lex_state$1;
-        continue ;
-    }
-  };
-}
-
 function template_part(env, start, cooked, raw, literal, lexbuf) {
   var ___ocaml_lex_state = 416;
   while(true) {
@@ -3611,6 +3559,54 @@ function template_part(env, start, cooked, raw, literal, lexbuf) {
   };
 }
 
+function comment(env, buf, lexbuf) {
+  var ___ocaml_lex_state = 279;
+  while(true) {
+    var __ocaml_lex_state = ___ocaml_lex_state;
+    var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
+    switch (__ocaml_lex_state$1) {
+      case 0 :
+          var env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
+                TAG: /* UnexpectedToken */1,
+                _0: "ILLEGAL"
+              });
+          return [
+                  env$1,
+                  from_lb(env$1.lex_source, lexbuf)
+                ];
+      case 1 :
+          Stdlib__Lexing.new_line(lexbuf);
+          Stdlib__Buffer.add_char(buf, /* '\n' */10);
+          return comment(env, buf, lexbuf);
+      case 2 :
+          var loc = from_lb(env.lex_source, lexbuf);
+          var env$2 = env.lex_in_comment_syntax ? unexpected_error_w_suggest(env, loc, "*/", "*-/") : env;
+          return [
+                  env$2,
+                  loc
+                ];
+      case 3 :
+          if (env.lex_in_comment_syntax) {
+            return [
+                    env,
+                    from_lb(env.lex_source, lexbuf)
+                  ];
+          } else {
+            Stdlib__Buffer.add_string(buf, "*-/");
+            return comment(env, buf, lexbuf);
+          }
+      case 4 :
+          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          Stdlib__Buffer.add_char(buf, c);
+          return comment(env, buf, lexbuf);
+      default:
+        Curry._1(lexbuf.refill_buff, lexbuf);
+        ___ocaml_lex_state = __ocaml_lex_state$1;
+        continue ;
+    }
+  };
+}
+
 function line_comment(env, buf, lexbuf) {
   var ___ocaml_lex_state = 287;
   while(true) {
@@ -3654,46 +3650,50 @@ function line_comment(env, buf, lexbuf) {
   };
 }
 
-function comment(env, buf, lexbuf) {
-  var ___ocaml_lex_state = 279;
+function string_quote(env, q, buf, raw, octal, lexbuf) {
+  var ___ocaml_lex_state = 247;
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
     var __ocaml_lex_state$1 = Stdlib__Lexing.engine(__ocaml_lex_tables, __ocaml_lex_state, lexbuf);
     switch (__ocaml_lex_state$1) {
       case 0 :
+          var q$p = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          Stdlib__Buffer.add_char(raw, q$p);
+          if (q === q$p) {
+            return [
+                    env,
+                    from_lb(env.lex_source, lexbuf),
+                    octal
+                  ];
+          } else {
+            Stdlib__Buffer.add_char(buf, q$p);
+            return string_quote(env, q, buf, raw, octal, lexbuf);
+          }
+      case 1 :
+          var e = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          Stdlib__Buffer.add_char(raw, e);
+          var match = string_escape(env, buf, lexbuf);
+          var octal$1 = match[1] || octal;
+          Stdlib__Buffer.add_string(raw, Stdlib__Lexing.lexeme(lexbuf));
+          return string_quote(match[0], q, buf, raw, octal$1, lexbuf);
+      case 2 :
+          var x = Stdlib__Lexing.sub_lexeme(lexbuf, lexbuf.lex_start_pos, lexbuf.lex_curr_pos);
+          Stdlib__Buffer.add_string(raw, x);
           var env$1 = lex_error(env, from_lb(env.lex_source, lexbuf), {
                 TAG: /* UnexpectedToken */1,
                 _0: "ILLEGAL"
               });
+          Stdlib__Buffer.add_string(buf, x);
           return [
                   env$1,
-                  from_lb(env$1.lex_source, lexbuf)
-                ];
-      case 1 :
-          Stdlib__Lexing.new_line(lexbuf);
-          Stdlib__Buffer.add_char(buf, /* '\n' */10);
-          return comment(env, buf, lexbuf);
-      case 2 :
-          var loc = from_lb(env.lex_source, lexbuf);
-          var env$2 = env.lex_in_comment_syntax ? unexpected_error_w_suggest(env, loc, "*/", "*-/") : env;
-          return [
-                  env$2,
-                  loc
+                  from_lb(env$1.lex_source, lexbuf),
+                  octal
                 ];
       case 3 :
-          if (env.lex_in_comment_syntax) {
-            return [
-                    env,
-                    from_lb(env.lex_source, lexbuf)
-                  ];
-          } else {
-            Stdlib__Buffer.add_string(buf, "*-/");
-            return comment(env, buf, lexbuf);
-          }
-      case 4 :
-          var c = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
-          Stdlib__Buffer.add_char(buf, c);
-          return comment(env, buf, lexbuf);
+          var x$1 = Caml_bytes.get(lexbuf.lex_buffer, lexbuf.lex_start_pos);
+          Stdlib__Buffer.add_char(raw, x$1);
+          Stdlib__Buffer.add_char(buf, x$1);
+          return string_quote(env, q, buf, raw, octal, lexbuf);
       default:
         Curry._1(lexbuf.refill_buff, lexbuf);
         ___ocaml_lex_state = __ocaml_lex_state$1;
@@ -6939,6 +6939,26 @@ function function_param_with_id(env, name) {
         ];
 }
 
+function function_param_or_generic_type(env) {
+  var id = Curry._2(Parse.identifier, undefined, env);
+  var match = Curry._2(Parser_env_Peek.token, undefined, env);
+  if (typeof match === "number" && (match === 77 || match === 76)) {
+    var param = function_param_with_id(env, id);
+    maybe(env, /* T_COMMA */8);
+    return {
+            TAG: /* ParamList */0,
+            _0: Curry._2(function_param_list_without_parens, env, {
+                  hd: param,
+                  tl: /* [] */0
+                })
+          };
+  }
+  return {
+          TAG: /* Type */1,
+          _0: Curry._2(union_with, env, Curry._2(intersection_with, env, postfix_with(env, generic_type_with_identifier(env, id))))
+        };
+}
+
 function primitive(param) {
   if (typeof param !== "number") {
     return ;
@@ -6962,26 +6982,6 @@ function primitive(param) {
         return /* Void */1;
     
   }
-}
-
-function function_param_or_generic_type(env) {
-  var id = Curry._2(Parse.identifier, undefined, env);
-  var match = Curry._2(Parser_env_Peek.token, undefined, env);
-  if (typeof match === "number" && (match === 77 || match === 76)) {
-    var param = function_param_with_id(env, id);
-    maybe(env, /* T_COMMA */8);
-    return {
-            TAG: /* ParamList */0,
-            _0: Curry._2(function_param_list_without_parens, env, {
-                  hd: param,
-                  tl: /* [] */0
-                })
-          };
-  }
-  return {
-          TAG: /* Type */1,
-          _0: Curry._2(union_with, env, Curry._2(intersection_with, env, postfix_with(env, generic_type_with_identifier(env, id))))
-        };
 }
 
 function prefix(env) {
@@ -7661,6 +7661,32 @@ function union_with(env, left) {
   }
 }
 
+function types(env, _acc) {
+  while(true) {
+    var acc = _acc;
+    var match = Curry._2(Parser_env_Peek.token, undefined, env);
+    if (typeof match === "number") {
+      if (match === 6) {
+        return Stdlib__List.rev(acc);
+      }
+      if (match === 105) {
+        return Stdlib__List.rev(acc);
+      }
+      
+    }
+    var acc_0 = union(env);
+    var acc$1 = {
+      hd: acc_0,
+      tl: acc
+    };
+    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */6)) {
+      token$4(env, /* T_COMMA */8);
+    }
+    _acc = acc$1;
+    continue ;
+  };
+}
+
 function methodish(env, start_loc) {
   var typeParameters = Curry._2(type_parameter_declaration, false, env);
   var match = function_param_list(env);
@@ -7918,32 +7944,6 @@ function _object(allow_staticOpt, env) {
             callProperties: match[2]
           }
         ];
-}
-
-function types(env, _acc) {
-  while(true) {
-    var acc = _acc;
-    var match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (typeof match === "number") {
-      if (match === 6) {
-        return Stdlib__List.rev(acc);
-      }
-      if (match === 105) {
-        return Stdlib__List.rev(acc);
-      }
-      
-    }
-    var acc_0 = union(env);
-    var acc$1 = {
-      hd: acc_0,
-      tl: acc
-    };
-    if (Caml_obj.caml_notequal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_RBRACKET */6)) {
-      token$4(env, /* T_COMMA */8);
-    }
-    _acc = acc$1;
-    continue ;
-  };
 }
 
 var _type = union;
@@ -11629,6 +11629,80 @@ function declare_var(env, start_loc) {
         ];
 }
 
+function export_specifiers_and_errs(env, _specifiers, _errs) {
+  while(true) {
+    var errs = _errs;
+    var specifiers = _specifiers;
+    var match = Curry._2(Parser_env_Peek.token, undefined, env);
+    if (typeof match === "number") {
+      if (match === 2) {
+        return [
+                Stdlib__List.rev(specifiers),
+                Stdlib__List.rev(errs)
+              ];
+      }
+      if (match === 105) {
+        return [
+                Stdlib__List.rev(specifiers),
+                Stdlib__List.rev(errs)
+              ];
+      }
+      
+    }
+    var match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+    var id = match$1[0];
+    var match$2;
+    if (Curry._2(Parser_env_Peek.value, undefined, env) === "as") {
+      contextual(env, "as");
+      var match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
+      var name = match$3[0];
+      record_export(env, [
+            name[0],
+            extract_ident_name(name)
+          ]);
+      match$2 = [
+        name,
+        undefined,
+        name[0]
+      ];
+    } else {
+      var loc = id[0];
+      record_export(env, [
+            loc,
+            extract_ident_name(id)
+          ]);
+      match$2 = [
+        undefined,
+        match$1[1],
+        loc
+      ];
+    }
+    var err = match$2[1];
+    var loc$1 = btwn(id[0], match$2[2]);
+    var specifier_1 = {
+      id: id,
+      name: match$2[0]
+    };
+    var specifier = [
+      loc$1,
+      specifier_1
+    ];
+    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
+      token$4(env, /* T_COMMA */8);
+    }
+    var errs$1 = err !== undefined ? ({
+          hd: err,
+          tl: errs
+        }) : errs;
+    _errs = errs$1;
+    _specifiers = {
+      hd: specifier,
+      tl: specifiers
+    };
+    continue ;
+  };
+}
+
 function declare_function(env, start_loc) {
   token$4(env, /* T_FUNCTION */13);
   var id = Curry._2(Parse.identifier, undefined, env);
@@ -11732,80 +11806,6 @@ function export_source(env) {
   return ret;
 }
 
-function export_specifiers_and_errs(env, _specifiers, _errs) {
-  while(true) {
-    var errs = _errs;
-    var specifiers = _specifiers;
-    var match = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (typeof match === "number") {
-      if (match === 2) {
-        return [
-                Stdlib__List.rev(specifiers),
-                Stdlib__List.rev(errs)
-              ];
-      }
-      if (match === 105) {
-        return [
-                Stdlib__List.rev(specifiers),
-                Stdlib__List.rev(errs)
-              ];
-      }
-      
-    }
-    var match$1 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-    var id = match$1[0];
-    var match$2;
-    if (Curry._2(Parser_env_Peek.value, undefined, env) === "as") {
-      contextual(env, "as");
-      var match$3 = Curry._1(Parse.identifier_or_reserved_keyword, env);
-      var name = match$3[0];
-      record_export(env, [
-            name[0],
-            extract_ident_name(name)
-          ]);
-      match$2 = [
-        name,
-        undefined,
-        name[0]
-      ];
-    } else {
-      var loc = id[0];
-      record_export(env, [
-            loc,
-            extract_ident_name(id)
-          ]);
-      match$2 = [
-        undefined,
-        match$1[1],
-        loc
-      ];
-    }
-    var err = match$2[1];
-    var loc$1 = btwn(id[0], match$2[2]);
-    var specifier_1 = {
-      id: id,
-      name: match$2[0]
-    };
-    var specifier = [
-      loc$1,
-      specifier_1
-    ];
-    if (Caml_obj.caml_equal(Curry._2(Parser_env_Peek.token, undefined, env), /* T_COMMA */8)) {
-      token$4(env, /* T_COMMA */8);
-    }
-    var errs$1 = err !== undefined ? ({
-          hd: err,
-          tl: errs
-        }) : errs;
-    _errs = errs$1;
-    _specifiers = {
-      hd: specifier,
-      tl: specifiers
-    };
-    continue ;
-  };
-}
-
 function expression(env) {
   var expression$1 = Curry._1(Parse.expression, env);
   var loc = Curry._2(Parser_env_Peek.semicolon_loc, undefined, env);
@@ -11818,6 +11818,56 @@ function expression(env) {
             _0: {
               expression: expression$1
             }
+          }
+        ];
+}
+
+function declare_var_statement(env, start_loc) {
+  var match = declare_var(env, start_loc);
+  return [
+          match[0],
+          {
+            TAG: /* DeclareVariable */22,
+            _0: match[1]
+          }
+        ];
+}
+
+function type_alias(env) {
+  if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
+    return Curry._1(Parse.statement, env);
+  }
+  var match = type_alias_helper(env);
+  return [
+          match[0],
+          {
+            TAG: /* TypeAlias */7,
+            _0: match[1]
+          }
+        ];
+}
+
+function declare_function_statement(env, start_loc) {
+  var match = declare_function(env, start_loc);
+  return [
+          match[0],
+          {
+            TAG: /* DeclareFunction */23,
+            _0: match[1]
+          }
+        ];
+}
+
+function $$interface(env) {
+  if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
+    return expression(env);
+  }
+  var match = Curry._1(interface_helper, env);
+  return [
+          match[0],
+          {
+            TAG: /* InterfaceDeclaration */21,
+            _0: match[1]
           }
         ];
 }
@@ -12144,56 +12194,6 @@ function declare_export_declaration(allow_export_typeOpt, env) {
               ];
     
   }
-}
-
-function declare_function_statement(env, start_loc) {
-  var match = declare_function(env, start_loc);
-  return [
-          match[0],
-          {
-            TAG: /* DeclareFunction */23,
-            _0: match[1]
-          }
-        ];
-}
-
-function $$interface(env) {
-  if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
-    return expression(env);
-  }
-  var match = Curry._1(interface_helper, env);
-  return [
-          match[0],
-          {
-            TAG: /* InterfaceDeclaration */21,
-            _0: match[1]
-          }
-        ];
-}
-
-function type_alias(env) {
-  if (!Curry._2(Parser_env_Peek.is_identifier, 1, env)) {
-    return Curry._1(Parse.statement, env);
-  }
-  var match = type_alias_helper(env);
-  return [
-          match[0],
-          {
-            TAG: /* TypeAlias */7,
-            _0: match[1]
-          }
-        ];
-}
-
-function declare_var_statement(env, start_loc) {
-  var match = declare_var(env, start_loc);
-  return [
-          match[0],
-          {
-            TAG: /* DeclareVariable */22,
-            _0: match[1]
-          }
-        ];
 }
 
 function extract_ident_name(param) {
@@ -14915,7 +14915,26 @@ function module_item(env) {
 
 var class_declaration$1 = class_declaration;
 
-function statement_list(_env, term_fn, item_fn, _param) {
+function statement_list(term_fn, env) {
+  var _acc = /* [] */0;
+  while(true) {
+    var acc = _acc;
+    var t = Curry._2(Parser_env_Peek.token, undefined, env);
+    if (t === 105) {
+      return Stdlib__List.rev(acc);
+    }
+    if (Curry._1(term_fn, t)) {
+      return Stdlib__List.rev(acc);
+    }
+    _acc = {
+      hd: statement_list_item(undefined, env),
+      tl: acc
+    };
+    continue ;
+  };
+}
+
+function statement_list$1(_env, term_fn, item_fn, _param) {
   while(true) {
     var param = _param;
     var env = _env;
@@ -15010,7 +15029,7 @@ function statement_list(_env, term_fn, item_fn, _param) {
 }
 
 function directives(env, term_fn, item_fn) {
-  var match = statement_list(env, term_fn, item_fn, [
+  var match = statement_list$1(env, term_fn, item_fn, [
         /* [] */0,
         /* [] */0
       ]);
@@ -15040,25 +15059,6 @@ function directives(env, term_fn, item_fn) {
         ];
 }
 
-function statement_list$1(term_fn, env) {
-  var _acc = /* [] */0;
-  while(true) {
-    var acc = _acc;
-    var t = Curry._2(Parser_env_Peek.token, undefined, env);
-    if (t === 105) {
-      return Stdlib__List.rev(acc);
-    }
-    if (Curry._1(term_fn, t)) {
-      return Stdlib__List.rev(acc);
-    }
-    _acc = {
-      hd: statement_list_item(undefined, env),
-      tl: acc
-    };
-    continue ;
-  };
-}
-
 function module_body(term_fn, env) {
   var _acc = /* [] */0;
   while(true) {
@@ -15083,7 +15083,7 @@ function statement_list_with_directives(term_fn, env) {
           return statement_list_item(undefined, eta);
         }));
   var env$1 = match[0];
-  var stmts = Curry._2(statement_list$1, term_fn, env$1);
+  var stmts = Curry._2(statement_list, term_fn, env$1);
   var stmts$1 = Stdlib__List.fold_left((function (acc, stmt) {
           return {
                   hd: stmt,
@@ -15225,7 +15225,7 @@ function block_body(env) {
   var term_fn = function (t) {
     return Caml_obj.caml_equal(t, /* T_RCURLY */2);
   };
-  var body = Curry._2(statement_list$1, term_fn, env);
+  var body = Curry._2(statement_list, term_fn, env);
   var end_loc = Curry._2(Parser_env_Peek.loc, undefined, env);
   token$4(env, /* T_RCURLY */2);
   return [
@@ -15378,7 +15378,7 @@ Caml_module.update_mod({
       program: program,
       statement: statement,
       statement_list_item: statement_list_item,
-      statement_list: statement_list$1,
+      statement_list: statement_list,
       statement_list_with_directives: statement_list_with_directives,
       module_body: module_body,
       expression: expression$1,
@@ -15590,22 +15590,285 @@ function parse(content, options) {
         
       }
     };
-    var identifier = function (param) {
-      var id = param[1];
-      return node("Identifier", param[0], [
+    var block = function (param) {
+      return node("BlockStatement", param[0], [[
+                    "body",
+                    array_of_list(statement, param[1].body)
+                  ]]);
+    };
+    var $$case = function (param) {
+      var c = param[1];
+      return node("SwitchCase", param[0], [
                   [
-                    "name",
-                    string(id.name)
+                    "test",
+                    option(expression, c.test)
                   ],
                   [
-                    "typeAnnotation",
-                    option(type_annotation, id.typeAnnotation)
-                  ],
-                  [
-                    "optional",
-                    bool(id.optional)
+                    "consequent",
+                    array_of_list(statement, c.consequent)
                   ]
                 ]);
+    };
+    var export_specifiers = function (param) {
+      if (param !== undefined) {
+        if (param.TAG === /* ExportSpecifiers */0) {
+          return array_of_list(export_specifier, param._0);
+        } else {
+          return array([node("ExportBatchSpecifier", param._0, [[
+                              "name",
+                              option(identifier, param._1)
+                            ]])]);
+        }
+      } else {
+        return array([]);
+      }
+    };
+    var type_parameter_declaration = function (param) {
+      return node("TypeParameterDeclaration", param[0], [[
+                    "params",
+                    array_of_list(type_param, param[1].params)
+                  ]]);
+    };
+    var literal = function (param) {
+      var lit = param[1];
+      var raw = lit.raw;
+      var value = lit.value;
+      var loc = param[0];
+      var value_;
+      if (typeof value === "number") {
+        value_ = $$null;
+      } else {
+        switch (value.TAG | 0) {
+          case /* String */0 :
+              value_ = string(value._0);
+              break;
+          case /* Boolean */1 :
+              value_ = bool(value._0);
+              break;
+          case /* Number */2 :
+              value_ = number$1(value._0);
+              break;
+          case /* RegExp */3 :
+              var match = value._0;
+              value_ = regexp$1(loc, match.pattern, match.flags);
+              break;
+          
+        }
+      }
+      var props;
+      var exit = 0;
+      if (typeof value === "number" || value.TAG !== /* RegExp */3) {
+        exit = 1;
+      } else {
+        var match$1 = value._0;
+        var regex = obj([
+              [
+                "pattern",
+                string(match$1.pattern)
+              ],
+              [
+                "flags",
+                string(match$1.flags)
+              ]
+            ]);
+        props = [
+          [
+            "value",
+            value_
+          ],
+          [
+            "raw",
+            string(raw)
+          ],
+          [
+            "regex",
+            regex
+          ]
+        ];
+      }
+      if (exit === 1) {
+        props = [
+          [
+            "value",
+            value_
+          ],
+          [
+            "raw",
+            string(raw)
+          ]
+        ];
+      }
+      return node("Literal", loc, props);
+    };
+    var _type = function (param) {
+      var t = param[1];
+      var loc = param[0];
+      if (typeof t === "number") {
+        switch (t) {
+          case /* Any */0 :
+              return node("AnyTypeAnnotation", loc, []);
+          case /* Void */1 :
+              return node("VoidTypeAnnotation", loc, []);
+          case /* Null */2 :
+              return node("NullTypeAnnotation", loc, []);
+          case /* Number */3 :
+              return node("NumberTypeAnnotation", loc, []);
+          case /* String */4 :
+              return node("StringTypeAnnotation", loc, []);
+          case /* Boolean */5 :
+              return node("BooleanTypeAnnotation", loc, []);
+          case /* Exists */6 :
+              return node("ExistsTypeAnnotation", loc, []);
+          
+        }
+      } else {
+        switch (t.TAG | 0) {
+          case /* Nullable */0 :
+              var t$1 = t._0;
+              return node("NullableTypeAnnotation", loc, [[
+                            "typeAnnotation",
+                            _type(t$1)
+                          ]]);
+          case /* Function */1 :
+              return function_type([
+                          loc,
+                          t._0
+                        ]);
+          case /* Object */2 :
+              return object_type([
+                          loc,
+                          t._0
+                        ]);
+          case /* Array */3 :
+              var t$2 = t._0;
+              return node("ArrayTypeAnnotation", loc, [[
+                            "elementType",
+                            _type(t$2)
+                          ]]);
+          case /* Generic */4 :
+              var param$1 = [
+                loc,
+                t._0
+              ];
+              var g = param$1[1];
+              var id = g.id;
+              var id$1;
+              id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+              return node("GenericTypeAnnotation", param$1[0], [
+                          [
+                            "id",
+                            id$1
+                          ],
+                          [
+                            "typeParameters",
+                            option(type_parameter_instantiation, g.typeParameters)
+                          ]
+                        ]);
+          case /* Union */5 :
+              var param$2 = [
+                loc,
+                t._0
+              ];
+              return node("UnionTypeAnnotation", param$2[0], [[
+                            "types",
+                            array_of_list(_type, param$2[1])
+                          ]]);
+          case /* Intersection */6 :
+              var param$3 = [
+                loc,
+                t._0
+              ];
+              return node("IntersectionTypeAnnotation", param$3[0], [[
+                            "types",
+                            array_of_list(_type, param$3[1])
+                          ]]);
+          case /* Typeof */7 :
+              var param$4 = [
+                loc,
+                t._0
+              ];
+              return node("TypeofTypeAnnotation", param$4[0], [[
+                            "argument",
+                            _type(param$4[1])
+                          ]]);
+          case /* Tuple */8 :
+              var param$5 = [
+                loc,
+                t._0
+              ];
+              return node("TupleTypeAnnotation", param$5[0], [[
+                            "types",
+                            array_of_list(_type, param$5[1])
+                          ]]);
+          case /* StringLiteral */9 :
+              var param$6 = [
+                loc,
+                t._0
+              ];
+              var s = param$6[1];
+              return node("StringLiteralTypeAnnotation", param$6[0], [
+                          [
+                            "value",
+                            string(s.value)
+                          ],
+                          [
+                            "raw",
+                            string(s.raw)
+                          ]
+                        ]);
+          case /* NumberLiteral */10 :
+              var param$7 = [
+                loc,
+                t._0
+              ];
+              var s$1 = param$7[1];
+              return node("NumberLiteralTypeAnnotation", param$7[0], [
+                          [
+                            "value",
+                            number$1(s$1.value)
+                          ],
+                          [
+                            "raw",
+                            string(s$1.raw)
+                          ]
+                        ]);
+          case /* BooleanLiteral */11 :
+              var param$8 = [
+                loc,
+                t._0
+              ];
+              var s$2 = param$8[1];
+              return node("BooleanLiteralTypeAnnotation", param$8[0], [
+                          [
+                            "value",
+                            bool(s$2.value)
+                          ],
+                          [
+                            "raw",
+                            string(s$2.raw)
+                          ]
+                        ]);
+          
+        }
+      }
+    };
+    var declare_function = function (param) {
+      return node("DeclareFunction", param[0], [[
+                    "id",
+                    identifier(param[1].id)
+                  ]]);
+    };
+    var declare_variable = function (param) {
+      return node("DeclareVariable", param[0], [[
+                    "id",
+                    identifier(param[1].id)
+                  ]]);
+    };
+    var type_annotation = function (param) {
+      return node("TypeAnnotation", param[0], [[
+                    "typeAnnotation",
+                    _type(param[1])
+                  ]]);
     };
     var expression = function (param) {
       var arr = param[1];
@@ -16114,490 +16377,6 @@ function parse(content, options) {
         
       }
     };
-    var array_pattern_element = function (p) {
-      if (p.TAG === /* Element */0) {
-        return pattern(p._0);
-      }
-      var match = p._0;
-      return node("SpreadElementPattern", match[0], [[
-                    "argument",
-                    pattern(match[1].argument)
-                  ]]);
-    };
-    var object_pattern_property = function (param) {
-      if (param.TAG === /* Property */0) {
-        var match = param._0;
-        var prop = match[1];
-        var lit = prop.key;
-        var match$1;
-        switch (lit.TAG | 0) {
-          case /* Literal */0 :
-              match$1 = [
-                literal(lit._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match$1 = [
-                identifier(lit._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match$1 = [
-                expression(lit._0),
-                true
-              ];
-              break;
-          
-        }
-        return node("PropertyPattern", match[0], [
-                    [
-                      "key",
-                      match$1[0]
-                    ],
-                    [
-                      "pattern",
-                      pattern(prop.pattern)
-                    ],
-                    [
-                      "computed",
-                      bool(match$1[1])
-                    ],
-                    [
-                      "shorthand",
-                      bool(prop.shorthand)
-                    ]
-                  ]);
-      }
-      var match$2 = param._0;
-      return node("SpreadPropertyPattern", match$2[0], [[
-                    "argument",
-                    pattern(match$2[1].argument)
-                  ]]);
-    };
-    var type_annotation = function (param) {
-      return node("TypeAnnotation", param[0], [[
-                    "typeAnnotation",
-                    _type(param[1])
-                  ]]);
-    };
-    var _type = function (param) {
-      var t = param[1];
-      var loc = param[0];
-      if (typeof t === "number") {
-        switch (t) {
-          case /* Any */0 :
-              return node("AnyTypeAnnotation", loc, []);
-          case /* Void */1 :
-              return node("VoidTypeAnnotation", loc, []);
-          case /* Null */2 :
-              return node("NullTypeAnnotation", loc, []);
-          case /* Number */3 :
-              return node("NumberTypeAnnotation", loc, []);
-          case /* String */4 :
-              return node("StringTypeAnnotation", loc, []);
-          case /* Boolean */5 :
-              return node("BooleanTypeAnnotation", loc, []);
-          case /* Exists */6 :
-              return node("ExistsTypeAnnotation", loc, []);
-          
-        }
-      } else {
-        switch (t.TAG | 0) {
-          case /* Nullable */0 :
-              var t$1 = t._0;
-              return node("NullableTypeAnnotation", loc, [[
-                            "typeAnnotation",
-                            _type(t$1)
-                          ]]);
-          case /* Function */1 :
-              return function_type([
-                          loc,
-                          t._0
-                        ]);
-          case /* Object */2 :
-              return object_type([
-                          loc,
-                          t._0
-                        ]);
-          case /* Array */3 :
-              var t$2 = t._0;
-              return node("ArrayTypeAnnotation", loc, [[
-                            "elementType",
-                            _type(t$2)
-                          ]]);
-          case /* Generic */4 :
-              var param$1 = [
-                loc,
-                t._0
-              ];
-              var g = param$1[1];
-              var id = g.id;
-              var id$1;
-              id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-              return node("GenericTypeAnnotation", param$1[0], [
-                          [
-                            "id",
-                            id$1
-                          ],
-                          [
-                            "typeParameters",
-                            option(type_parameter_instantiation, g.typeParameters)
-                          ]
-                        ]);
-          case /* Union */5 :
-              var param$2 = [
-                loc,
-                t._0
-              ];
-              return node("UnionTypeAnnotation", param$2[0], [[
-                            "types",
-                            array_of_list(_type, param$2[1])
-                          ]]);
-          case /* Intersection */6 :
-              var param$3 = [
-                loc,
-                t._0
-              ];
-              return node("IntersectionTypeAnnotation", param$3[0], [[
-                            "types",
-                            array_of_list(_type, param$3[1])
-                          ]]);
-          case /* Typeof */7 :
-              var param$4 = [
-                loc,
-                t._0
-              ];
-              return node("TypeofTypeAnnotation", param$4[0], [[
-                            "argument",
-                            _type(param$4[1])
-                          ]]);
-          case /* Tuple */8 :
-              var param$5 = [
-                loc,
-                t._0
-              ];
-              return node("TupleTypeAnnotation", param$5[0], [[
-                            "types",
-                            array_of_list(_type, param$5[1])
-                          ]]);
-          case /* StringLiteral */9 :
-              var param$6 = [
-                loc,
-                t._0
-              ];
-              var s = param$6[1];
-              return node("StringLiteralTypeAnnotation", param$6[0], [
-                          [
-                            "value",
-                            string(s.value)
-                          ],
-                          [
-                            "raw",
-                            string(s.raw)
-                          ]
-                        ]);
-          case /* NumberLiteral */10 :
-              var param$7 = [
-                loc,
-                t._0
-              ];
-              var s$1 = param$7[1];
-              return node("NumberLiteralTypeAnnotation", param$7[0], [
-                          [
-                            "value",
-                            number$1(s$1.value)
-                          ],
-                          [
-                            "raw",
-                            string(s$1.raw)
-                          ]
-                        ]);
-          case /* BooleanLiteral */11 :
-              var param$8 = [
-                loc,
-                t._0
-              ];
-              var s$2 = param$8[1];
-              return node("BooleanLiteralTypeAnnotation", param$8[0], [
-                          [
-                            "value",
-                            bool(s$2.value)
-                          ],
-                          [
-                            "raw",
-                            string(s$2.raw)
-                          ]
-                        ]);
-          
-        }
-      }
-    };
-    var expression_or_spread = function (expr) {
-      if (expr.TAG === /* Expression */0) {
-        return expression(expr._0);
-      }
-      var match = expr._0;
-      return node("SpreadElement", match[0], [[
-                    "argument",
-                    expression(match[1].argument)
-                  ]]);
-    };
-    var block = function (param) {
-      return node("BlockStatement", param[0], [[
-                    "body",
-                    array_of_list(statement, param[1].body)
-                  ]]);
-    };
-    var jsx_element = function (param) {
-      var element = param[1];
-      return node("JSXElement", param[0], [
-                  [
-                    "openingElement",
-                    jsx_opening(element.openingElement)
-                  ],
-                  [
-                    "closingElement",
-                    option(jsx_closing, element.closingElement)
-                  ],
-                  [
-                    "children",
-                    array_of_list(jsx_child, element.children)
-                  ]
-                ]);
-    };
-    var object_property = function (param) {
-      if (param.TAG === /* Property */0) {
-        var match = param._0;
-        var prop = match[1];
-        var lit = prop.key;
-        var match$1;
-        switch (lit.TAG | 0) {
-          case /* Literal */0 :
-              match$1 = [
-                literal(lit._0),
-                false
-              ];
-              break;
-          case /* Identifier */1 :
-              match$1 = [
-                identifier(lit._0),
-                false
-              ];
-              break;
-          case /* Computed */2 :
-              match$1 = [
-                expression(lit._0),
-                true
-              ];
-              break;
-          
-        }
-        var match$2 = prop.kind;
-        var kind;
-        switch (match$2) {
-          case /* Init */0 :
-              kind = "init";
-              break;
-          case /* Get */1 :
-              kind = "get";
-              break;
-          case /* Set */2 :
-              kind = "set";
-              break;
-          
-        }
-        return node("Property", match[0], [
-                    [
-                      "key",
-                      match$1[0]
-                    ],
-                    [
-                      "value",
-                      expression(prop.value)
-                    ],
-                    [
-                      "kind",
-                      string(kind)
-                    ],
-                    [
-                      "method",
-                      bool(prop._method)
-                    ],
-                    [
-                      "shorthand",
-                      bool(prop.shorthand)
-                    ],
-                    [
-                      "computed",
-                      bool(match$1[1])
-                    ]
-                  ]);
-      }
-      var match$3 = param._0;
-      return node("SpreadProperty", match$3[0], [[
-                    "argument",
-                    expression(match$3[1].argument)
-                  ]]);
-    };
-    var template_literal = function (param) {
-      var value = param[1];
-      return node("TemplateLiteral", param[0], [
-                  [
-                    "quasis",
-                    array_of_list(template_element, value.quasis)
-                  ],
-                  [
-                    "expressions",
-                    array_of_list(expression, value.expressions)
-                  ]
-                ]);
-    };
-    var comprehension_block = function (param) {
-      var b = param[1];
-      return node("ComprehensionBlock", param[0], [
-                  [
-                    "left",
-                    pattern(b.left)
-                  ],
-                  [
-                    "right",
-                    expression(b.right)
-                  ],
-                  [
-                    "each",
-                    bool(b.each)
-                  ]
-                ]);
-    };
-    var type_parameter_declaration = function (param) {
-      return node("TypeParameterDeclaration", param[0], [[
-                    "params",
-                    array_of_list(type_param, param[1].params)
-                  ]]);
-    };
-    var function_expression = function (param) {
-      var _function = param[1];
-      var b = _function.body;
-      var body;
-      body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
-      return node("FunctionExpression", param[0], [
-                  [
-                    "id",
-                    option(identifier, _function.id)
-                  ],
-                  [
-                    "params",
-                    array_of_list(pattern, _function.params)
-                  ],
-                  [
-                    "defaults",
-                    array_of_list((function (param) {
-                            return option(expression, param);
-                          }), _function.defaults)
-                  ],
-                  [
-                    "rest",
-                    option(identifier, _function.rest)
-                  ],
-                  [
-                    "body",
-                    body
-                  ],
-                  [
-                    "async",
-                    bool(_function.async)
-                  ],
-                  [
-                    "generator",
-                    bool(_function.generator)
-                  ],
-                  [
-                    "expression",
-                    bool(_function.expression)
-                  ],
-                  [
-                    "returnType",
-                    option(type_annotation, _function.returnType)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, _function.typeParameters)
-                  ]
-                ]);
-    };
-    var literal = function (param) {
-      var lit = param[1];
-      var raw = lit.raw;
-      var value = lit.value;
-      var loc = param[0];
-      var value_;
-      if (typeof value === "number") {
-        value_ = $$null;
-      } else {
-        switch (value.TAG | 0) {
-          case /* String */0 :
-              value_ = string(value._0);
-              break;
-          case /* Boolean */1 :
-              value_ = bool(value._0);
-              break;
-          case /* Number */2 :
-              value_ = number$1(value._0);
-              break;
-          case /* RegExp */3 :
-              var match = value._0;
-              value_ = regexp$1(loc, match.pattern, match.flags);
-              break;
-          
-        }
-      }
-      var props;
-      var exit = 0;
-      if (typeof value === "number" || value.TAG !== /* RegExp */3) {
-        exit = 1;
-      } else {
-        var match$1 = value._0;
-        var regex = obj([
-              [
-                "pattern",
-                string(match$1.pattern)
-              ],
-              [
-                "flags",
-                string(match$1.flags)
-              ]
-            ]);
-        props = [
-          [
-            "value",
-            value_
-          ],
-          [
-            "raw",
-            string(raw)
-          ],
-          [
-            "regex",
-            regex
-          ]
-        ];
-      }
-      if (exit === 1) {
-        props = [
-          [
-            "value",
-            value_
-          ],
-          [
-            "raw",
-            string(raw)
-          ]
-        ];
-      }
-      return node("Literal", loc, props);
-    };
     var let_assignment = function (assignment) {
       return obj([
                   [
@@ -16609,185 +16388,6 @@ function parse(content, options) {
                     option(expression, assignment.init)
                   ]
                 ]);
-    };
-    var comment = function (param) {
-      var c = param[1];
-      var match;
-      match = c.TAG === /* Block */0 ? [
-          "Block",
-          c._0
-        ] : [
-          "Line",
-          c._0
-        ];
-      return node(match[0], param[0], [[
-                    "value",
-                    string(match[1])
-                  ]]);
-    };
-    var jsx_expression_container = function (param) {
-      var expr = param[1].expression;
-      var expression$1;
-      expression$1 = expr.TAG === /* Expression */0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
-      return node("JSXExpressionContainer", param[0], [[
-                    "expression",
-                    expression$1
-                  ]]);
-    };
-    var interface_extends = function (param) {
-      var g = param[1];
-      var id = g.id;
-      var id$1;
-      id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
-      return node("InterfaceExtends", param[0], [
-                  [
-                    "id",
-                    id$1
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_instantiation, g.typeParameters)
-                  ]
-                ]);
-    };
-    var object_type = function (param) {
-      var o = param[1];
-      return node("ObjectTypeAnnotation", param[0], [
-                  [
-                    "properties",
-                    array_of_list(object_type_property, o.properties)
-                  ],
-                  [
-                    "indexers",
-                    array_of_list(object_type_indexer, o.indexers)
-                  ],
-                  [
-                    "callProperties",
-                    array_of_list(object_type_call_property, o.callProperties)
-                  ]
-                ]);
-    };
-    var object_type_call_property = function (param) {
-      var callProperty = param[1];
-      return node("ObjectTypeCallProperty", param[0], [
-                  [
-                    "value",
-                    function_type(callProperty.value)
-                  ],
-                  [
-                    "static",
-                    bool(callProperty.static)
-                  ]
-                ]);
-    };
-    var object_type_indexer = function (param) {
-      var indexer = param[1];
-      return node("ObjectTypeIndexer", param[0], [
-                  [
-                    "id",
-                    identifier(indexer.id)
-                  ],
-                  [
-                    "key",
-                    _type(indexer.key)
-                  ],
-                  [
-                    "value",
-                    _type(indexer.value)
-                  ],
-                  [
-                    "static",
-                    bool(indexer.static)
-                  ]
-                ]);
-    };
-    var object_type_property = function (param) {
-      var prop = param[1];
-      var lit = prop.key;
-      var key;
-      switch (lit.TAG | 0) {
-        case /* Literal */0 :
-            key = literal(lit._0);
-            break;
-        case /* Identifier */1 :
-            key = identifier(lit._0);
-            break;
-        case /* Computed */2 :
-            throw {
-                  RE_EXN_ID: "Failure",
-                  _1: "There should not be computed object type property keys",
-                  Error: new Error()
-                };
-        
-      }
-      return node("ObjectTypeProperty", param[0], [
-                  [
-                    "key",
-                    key
-                  ],
-                  [
-                    "value",
-                    _type(prop.value)
-                  ],
-                  [
-                    "optional",
-                    bool(prop.optional)
-                  ],
-                  [
-                    "static",
-                    bool(prop.static)
-                  ]
-                ]);
-    };
-    var export_specifier = function (param) {
-      var specifier = param[1];
-      return node("ExportSpecifier", param[0], [
-                  [
-                    "id",
-                    identifier(specifier.id)
-                  ],
-                  [
-                    "name",
-                    option(identifier, specifier.name)
-                  ]
-                ]);
-    };
-    var type_alias = function (param) {
-      var alias = param[1];
-      return node("TypeAlias", param[0], [
-                  [
-                    "id",
-                    identifier(alias.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, alias.typeParameters)
-                  ],
-                  [
-                    "right",
-                    _type(alias.right)
-                  ]
-                ]);
-    };
-    var export_specifiers = function (param) {
-      if (param !== undefined) {
-        if (param.TAG === /* ExportSpecifiers */0) {
-          return array_of_list(export_specifier, param._0);
-        } else {
-          return array([node("ExportBatchSpecifier", param._0, [[
-                              "name",
-                              option(identifier, param._1)
-                            ]])]);
-        }
-      } else {
-        return array([]);
-      }
-    };
-    var declare_variable = function (param) {
-      return node("DeclareVariable", param[0], [[
-                    "id",
-                    identifier(param[1].id)
-                  ]]);
     };
     var declare_class = function (param) {
       var d = param[1];
@@ -16807,23 +16407,6 @@ function parse(content, options) {
                   [
                     "extends",
                     array_of_list(interface_extends, d.extends)
-                  ]
-                ]);
-    };
-    var $$catch = function (param) {
-      var c = param[1];
-      return node("CatchClause", param[0], [
-                  [
-                    "param",
-                    pattern(c.param)
-                  ],
-                  [
-                    "guard",
-                    option(expression, c.guard)
-                  ],
-                  [
-                    "body",
-                    block(c.body)
                   ]
                 ]);
     };
@@ -17347,11 +16930,22 @@ function parse(content, options) {
         
       }
     };
-    var declare_function = function (param) {
-      return node("DeclareFunction", param[0], [[
-                    "id",
-                    identifier(param[1].id)
-                  ]]);
+    var $$catch = function (param) {
+      var c = param[1];
+      return node("CatchClause", param[0], [
+                  [
+                    "param",
+                    pattern(c.param)
+                  ],
+                  [
+                    "guard",
+                    option(expression, c.guard)
+                  ],
+                  [
+                    "body",
+                    block(c.body)
+                  ]
+                ]);
     };
     var variable_declaration = function (param) {
       var $$var = param[1];
@@ -17380,19 +16974,6 @@ function parse(content, options) {
                   ]
                 ]);
     };
-    var $$case = function (param) {
-      var c = param[1];
-      return node("SwitchCase", param[0], [
-                  [
-                    "test",
-                    option(expression, c.test)
-                  ],
-                  [
-                    "consequent",
-                    array_of_list(statement, c.consequent)
-                  ]
-                ]);
-    };
     var interface_declaration = function (param) {
       var i = param[1];
       return node("InterfaceDeclaration", param[0], [
@@ -17411,6 +16992,413 @@ function parse(content, options) {
                   [
                     "extends",
                     array_of_list(interface_extends, i.extends)
+                  ]
+                ]);
+    };
+    var type_alias = function (param) {
+      var alias = param[1];
+      return node("TypeAlias", param[0], [
+                  [
+                    "id",
+                    identifier(alias.id)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, alias.typeParameters)
+                  ],
+                  [
+                    "right",
+                    _type(alias.right)
+                  ]
+                ]);
+    };
+    var identifier = function (param) {
+      var id = param[1];
+      return node("Identifier", param[0], [
+                  [
+                    "name",
+                    string(id.name)
+                  ],
+                  [
+                    "typeAnnotation",
+                    option(type_annotation, id.typeAnnotation)
+                  ],
+                  [
+                    "optional",
+                    bool(id.optional)
+                  ]
+                ]);
+    };
+    var object_type = function (param) {
+      var o = param[1];
+      return node("ObjectTypeAnnotation", param[0], [
+                  [
+                    "properties",
+                    array_of_list(object_type_property, o.properties)
+                  ],
+                  [
+                    "indexers",
+                    array_of_list(object_type_indexer, o.indexers)
+                  ],
+                  [
+                    "callProperties",
+                    array_of_list(object_type_call_property, o.callProperties)
+                  ]
+                ]);
+    };
+    var function_type = function (param) {
+      var fn = param[1];
+      return node("FunctionTypeAnnotation", param[0], [
+                  [
+                    "params",
+                    array_of_list(function_type_param, fn.params)
+                  ],
+                  [
+                    "returnType",
+                    _type(fn.returnType)
+                  ],
+                  [
+                    "rest",
+                    option(function_type_param, fn.rest)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, fn.typeParameters)
+                  ]
+                ]);
+    };
+    var array_pattern_element = function (p) {
+      if (p.TAG === /* Element */0) {
+        return pattern(p._0);
+      }
+      var match = p._0;
+      return node("SpreadElementPattern", match[0], [[
+                    "argument",
+                    pattern(match[1].argument)
+                  ]]);
+    };
+    var object_pattern_property = function (param) {
+      if (param.TAG === /* Property */0) {
+        var match = param._0;
+        var prop = match[1];
+        var lit = prop.key;
+        var match$1;
+        switch (lit.TAG | 0) {
+          case /* Literal */0 :
+              match$1 = [
+                literal(lit._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match$1 = [
+                identifier(lit._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match$1 = [
+                expression(lit._0),
+                true
+              ];
+              break;
+          
+        }
+        return node("PropertyPattern", match[0], [
+                    [
+                      "key",
+                      match$1[0]
+                    ],
+                    [
+                      "pattern",
+                      pattern(prop.pattern)
+                    ],
+                    [
+                      "computed",
+                      bool(match$1[1])
+                    ],
+                    [
+                      "shorthand",
+                      bool(prop.shorthand)
+                    ]
+                  ]);
+      }
+      var match$2 = param._0;
+      return node("SpreadPropertyPattern", match$2[0], [[
+                    "argument",
+                    pattern(match$2[1].argument)
+                  ]]);
+    };
+    var jsx_element = function (param) {
+      var element = param[1];
+      return node("JSXElement", param[0], [
+                  [
+                    "openingElement",
+                    jsx_opening(element.openingElement)
+                  ],
+                  [
+                    "closingElement",
+                    option(jsx_closing, element.closingElement)
+                  ],
+                  [
+                    "children",
+                    array_of_list(jsx_child, element.children)
+                  ]
+                ]);
+    };
+    var function_expression = function (param) {
+      var _function = param[1];
+      var b = _function.body;
+      var body;
+      body = b.TAG === /* BodyBlock */0 ? block(b._0) : expression(b._0);
+      return node("FunctionExpression", param[0], [
+                  [
+                    "id",
+                    option(identifier, _function.id)
+                  ],
+                  [
+                    "params",
+                    array_of_list(pattern, _function.params)
+                  ],
+                  [
+                    "defaults",
+                    array_of_list((function (param) {
+                            return option(expression, param);
+                          }), _function.defaults)
+                  ],
+                  [
+                    "rest",
+                    option(identifier, _function.rest)
+                  ],
+                  [
+                    "body",
+                    body
+                  ],
+                  [
+                    "async",
+                    bool(_function.async)
+                  ],
+                  [
+                    "generator",
+                    bool(_function.generator)
+                  ],
+                  [
+                    "expression",
+                    bool(_function.expression)
+                  ],
+                  [
+                    "returnType",
+                    option(type_annotation, _function.returnType)
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_declaration, _function.typeParameters)
+                  ]
+                ]);
+    };
+    var object_property = function (param) {
+      if (param.TAG === /* Property */0) {
+        var match = param._0;
+        var prop = match[1];
+        var lit = prop.key;
+        var match$1;
+        switch (lit.TAG | 0) {
+          case /* Literal */0 :
+              match$1 = [
+                literal(lit._0),
+                false
+              ];
+              break;
+          case /* Identifier */1 :
+              match$1 = [
+                identifier(lit._0),
+                false
+              ];
+              break;
+          case /* Computed */2 :
+              match$1 = [
+                expression(lit._0),
+                true
+              ];
+              break;
+          
+        }
+        var match$2 = prop.kind;
+        var kind;
+        switch (match$2) {
+          case /* Init */0 :
+              kind = "init";
+              break;
+          case /* Get */1 :
+              kind = "get";
+              break;
+          case /* Set */2 :
+              kind = "set";
+              break;
+          
+        }
+        return node("Property", match[0], [
+                    [
+                      "key",
+                      match$1[0]
+                    ],
+                    [
+                      "value",
+                      expression(prop.value)
+                    ],
+                    [
+                      "kind",
+                      string(kind)
+                    ],
+                    [
+                      "method",
+                      bool(prop._method)
+                    ],
+                    [
+                      "shorthand",
+                      bool(prop.shorthand)
+                    ],
+                    [
+                      "computed",
+                      bool(match$1[1])
+                    ]
+                  ]);
+      }
+      var match$3 = param._0;
+      return node("SpreadProperty", match$3[0], [[
+                    "argument",
+                    expression(match$3[1].argument)
+                  ]]);
+    };
+    var template_literal = function (param) {
+      var value = param[1];
+      return node("TemplateLiteral", param[0], [
+                  [
+                    "quasis",
+                    array_of_list(template_element, value.quasis)
+                  ],
+                  [
+                    "expressions",
+                    array_of_list(expression, value.expressions)
+                  ]
+                ]);
+    };
+    var comprehension_block = function (param) {
+      var b = param[1];
+      return node("ComprehensionBlock", param[0], [
+                  [
+                    "left",
+                    pattern(b.left)
+                  ],
+                  [
+                    "right",
+                    expression(b.right)
+                  ],
+                  [
+                    "each",
+                    bool(b.each)
+                  ]
+                ]);
+    };
+    var expression_or_spread = function (expr) {
+      if (expr.TAG === /* Expression */0) {
+        return expression(expr._0);
+      }
+      var match = expr._0;
+      return node("SpreadElement", match[0], [[
+                    "argument",
+                    expression(match[1].argument)
+                  ]]);
+    };
+    var comment = function (param) {
+      var c = param[1];
+      var match;
+      match = c.TAG === /* Block */0 ? [
+          "Block",
+          c._0
+        ] : [
+          "Line",
+          c._0
+        ];
+      return node(match[0], param[0], [[
+                    "value",
+                    string(match[1])
+                  ]]);
+    };
+    var jsx_expression_container = function (param) {
+      var expr = param[1].expression;
+      var expression$1;
+      expression$1 = expr.TAG === /* Expression */0 ? expression(expr._0) : node("JSXEmptyExpression", expr._0, []);
+      return node("JSXExpressionContainer", param[0], [[
+                    "expression",
+                    expression$1
+                  ]]);
+    };
+    var jsx_identifier = function (param) {
+      return node("JSXIdentifier", param[0], [[
+                    "name",
+                    string(param[1].name)
+                  ]]);
+    };
+    var jsx_member_expression = function (param) {
+      var member_expression = param[1];
+      var id = member_expression._object;
+      var _object;
+      _object = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
+      return node("JSXMemberExpression", param[0], [
+                  [
+                    "object",
+                    _object
+                  ],
+                  [
+                    "property",
+                    jsx_identifier(member_expression.property)
+                  ]
+                ]);
+    };
+    var interface_extends = function (param) {
+      var g = param[1];
+      var id = g.id;
+      var id$1;
+      id$1 = id.TAG === /* Unqualified */0 ? identifier(id._0) : generic_type_qualified_identifier(id._0);
+      return node("InterfaceExtends", param[0], [
+                  [
+                    "id",
+                    id$1
+                  ],
+                  [
+                    "typeParameters",
+                    option(type_parameter_instantiation, g.typeParameters)
+                  ]
+                ]);
+    };
+    var jsx_namespaced_name = function (param) {
+      var namespaced_name = param[1];
+      return node("JSXNamespacedName", param[0], [
+                  [
+                    "namespace",
+                    jsx_identifier(namespaced_name.namespace)
+                  ],
+                  [
+                    "name",
+                    jsx_identifier(namespaced_name.name)
+                  ]
+                ]);
+    };
+    var function_type_param = function (param) {
+      var param$1 = param[1];
+      return node("FunctionTypeParam", param[0], [
+                  [
+                    "name",
+                    identifier(param$1.name)
+                  ],
+                  [
+                    "typeAnnotation",
+                    _type(param$1.typeAnnotation)
+                  ],
+                  [
+                    "optional",
+                    bool(param$1.optional)
                   ]
                 ]);
     };
@@ -17436,144 +17424,41 @@ function parse(content, options) {
                     array_of_list(_type, param[1].params)
                   ]]);
     };
-    var jsx_identifier = function (param) {
-      return node("JSXIdentifier", param[0], [[
-                    "name",
-                    string(param[1].name)
-                  ]]);
-    };
-    var jsx_attribute_value = function (param) {
-      if (param.TAG === /* Literal */0) {
-        return literal([
-                    param._0,
-                    param._1
-                  ]);
-      } else {
-        return jsx_expression_container([
-                    param._0,
-                    param._1
-                  ]);
+    var jsx_name = function (id) {
+      switch (id.TAG | 0) {
+        case /* Identifier */0 :
+            return jsx_identifier(id._0);
+        case /* NamespacedName */1 :
+            return jsx_namespaced_name(id._0);
+        case /* MemberExpression */2 :
+            return jsx_member_expression(id._0);
+        
       }
     };
-    var jsx_namespaced_name = function (param) {
-      var namespaced_name = param[1];
-      return node("JSXNamespacedName", param[0], [
-                  [
-                    "namespace",
-                    jsx_identifier(namespaced_name.namespace)
-                  ],
-                  [
-                    "name",
-                    jsx_identifier(namespaced_name.name)
-                  ]
-                ]);
-    };
-    var class_body = function (param) {
-      return node("ClassBody", param[0], [[
-                    "body",
-                    array_of_list(class_element, param[1].body)
-                  ]]);
-    };
-    var class_implements = function (param) {
-      var $$implements = param[1];
-      return node("ClassImplements", param[0], [
-                  [
-                    "id",
-                    identifier($$implements.id)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_instantiation, $$implements.typeParameters)
-                  ]
-                ]);
-    };
-    var jsx_member_expression = function (param) {
-      var member_expression = param[1];
-      var id = member_expression._object;
-      var _object;
-      _object = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_member_expression(id._0);
-      return node("JSXMemberExpression", param[0], [
-                  [
-                    "object",
-                    _object
-                  ],
-                  [
-                    "property",
-                    jsx_identifier(member_expression.property)
-                  ]
-                ]);
-    };
-    var function_type = function (param) {
-      var fn = param[1];
-      return node("FunctionTypeAnnotation", param[0], [
-                  [
-                    "params",
-                    array_of_list(function_type_param, fn.params)
-                  ],
-                  [
-                    "returnType",
-                    _type(fn.returnType)
-                  ],
-                  [
-                    "rest",
-                    option(function_type_param, fn.rest)
-                  ],
-                  [
-                    "typeParameters",
-                    option(type_parameter_declaration, fn.typeParameters)
-                  ]
-                ]);
-    };
-    var type_param = function (param) {
-      var tp = param[1];
-      var variance = function (param) {
-        if (param) {
-          return string("minus");
-        } else {
-          return string("plus");
-        }
-      };
-      return node("TypeParameter", param[0], [
-                  [
-                    "name",
-                    string(tp.name)
-                  ],
-                  [
-                    "bound",
-                    option(type_annotation, tp.bound)
-                  ],
-                  [
-                    "variance",
-                    option(variance, tp.variance)
-                  ],
-                  [
-                    "default",
-                    option(_type, tp.default)
-                  ]
-                ]);
-    };
-    var template_element = function (param) {
-      var element = param[1];
-      var value = obj([
-            [
-              "raw",
-              string(element.value.raw)
-            ],
-            [
-              "cooked",
-              string(element.value.cooked)
-            ]
-          ]);
-      return node("TemplateElement", param[0], [
-                  [
-                    "value",
-                    value
-                  ],
-                  [
-                    "tail",
-                    bool(element.tail)
-                  ]
-                ]);
+    var jsx_opening_attribute = function (attribute) {
+      if (attribute.TAG === /* Attribute */0) {
+        var param = attribute._0;
+        var attribute$1 = param[1];
+        var id = attribute$1.name;
+        var name;
+        name = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
+        return node("JSXAttribute", param[0], [
+                    [
+                      "name",
+                      name
+                    ],
+                    [
+                      "value",
+                      option(jsx_attribute_value, attribute$1.value)
+                    ]
+                  ]);
+      } else {
+        var param$1 = attribute._0;
+        return node("JSXSpreadAttribute", param$1[0], [[
+                      "argument",
+                      expression(param$1[1].argument)
+                    ]]);
+      }
     };
     var class_element = function (m) {
       if (m.TAG === /* Method */0) {
@@ -17694,58 +17579,60 @@ function parse(content, options) {
                   ]);
       }
     };
-    var jsx_name = function (id) {
-      switch (id.TAG | 0) {
-        case /* Identifier */0 :
-            return jsx_identifier(id._0);
-        case /* NamespacedName */1 :
-            return jsx_namespaced_name(id._0);
-        case /* MemberExpression */2 :
-            return jsx_member_expression(id._0);
-        
-      }
-    };
-    var jsx_opening_attribute = function (attribute) {
-      if (attribute.TAG === /* Attribute */0) {
-        var param = attribute._0;
-        var attribute$1 = param[1];
-        var id = attribute$1.name;
-        var name;
-        name = id.TAG === /* Identifier */0 ? jsx_identifier(id._0) : jsx_namespaced_name(id._0);
-        return node("JSXAttribute", param[0], [
-                    [
-                      "name",
-                      name
-                    ],
-                    [
-                      "value",
-                      option(jsx_attribute_value, attribute$1.value)
-                    ]
-                  ]);
-      } else {
-        var param$1 = attribute._0;
-        return node("JSXSpreadAttribute", param$1[0], [[
-                      "argument",
-                      expression(param$1[1].argument)
-                    ]]);
-      }
-    };
-    var function_type_param = function (param) {
-      var param$1 = param[1];
-      return node("FunctionTypeParam", param[0], [
+    var class_implements = function (param) {
+      var $$implements = param[1];
+      return node("ClassImplements", param[0], [
                   [
-                    "name",
-                    identifier(param$1.name)
+                    "id",
+                    identifier($$implements.id)
                   ],
                   [
-                    "typeAnnotation",
-                    _type(param$1.typeAnnotation)
-                  ],
-                  [
-                    "optional",
-                    bool(param$1.optional)
+                    "typeParameters",
+                    option(type_parameter_instantiation, $$implements.typeParameters)
                   ]
                 ]);
+    };
+    var class_body = function (param) {
+      return node("ClassBody", param[0], [[
+                    "body",
+                    array_of_list(class_element, param[1].body)
+                  ]]);
+    };
+    var export_specifier = function (param) {
+      var specifier = param[1];
+      return node("ExportSpecifier", param[0], [
+                  [
+                    "id",
+                    identifier(specifier.id)
+                  ],
+                  [
+                    "name",
+                    option(identifier, specifier.name)
+                  ]
+                ]);
+    };
+    var jsx_opening = function (param) {
+      var opening = param[1];
+      return node("JSXOpeningElement", param[0], [
+                  [
+                    "name",
+                    jsx_name(opening.name)
+                  ],
+                  [
+                    "attributes",
+                    array_of_list(jsx_opening_attribute, opening.attributes)
+                  ],
+                  [
+                    "selfClosing",
+                    bool(opening.selfClosing)
+                  ]
+                ]);
+    };
+    var jsx_closing = function (param) {
+      return node("JSXClosingElement", param[0], [[
+                    "name",
+                    jsx_name(param[1].name)
+                  ]]);
     };
     var jsx_child = function (param) {
       var element = param[1];
@@ -17780,28 +17667,105 @@ function parse(content, options) {
         
       }
     };
-    var jsx_opening = function (param) {
-      var opening = param[1];
-      return node("JSXOpeningElement", param[0], [
+    var type_param = function (param) {
+      var tp = param[1];
+      var variance = function (param) {
+        if (param) {
+          return string("minus");
+        } else {
+          return string("plus");
+        }
+      };
+      return node("TypeParameter", param[0], [
                   [
                     "name",
-                    jsx_name(opening.name)
+                    string(tp.name)
                   ],
                   [
-                    "attributes",
-                    array_of_list(jsx_opening_attribute, opening.attributes)
+                    "bound",
+                    option(type_annotation, tp.bound)
                   ],
                   [
-                    "selfClosing",
-                    bool(opening.selfClosing)
+                    "variance",
+                    option(variance, tp.variance)
+                  ],
+                  [
+                    "default",
+                    option(_type, tp.default)
                   ]
                 ]);
     };
-    var jsx_closing = function (param) {
-      return node("JSXClosingElement", param[0], [[
-                    "name",
-                    jsx_name(param[1].name)
-                  ]]);
+    var object_type_call_property = function (param) {
+      var callProperty = param[1];
+      return node("ObjectTypeCallProperty", param[0], [
+                  [
+                    "value",
+                    function_type(callProperty.value)
+                  ],
+                  [
+                    "static",
+                    bool(callProperty.static)
+                  ]
+                ]);
+    };
+    var object_type_indexer = function (param) {
+      var indexer = param[1];
+      return node("ObjectTypeIndexer", param[0], [
+                  [
+                    "id",
+                    identifier(indexer.id)
+                  ],
+                  [
+                    "key",
+                    _type(indexer.key)
+                  ],
+                  [
+                    "value",
+                    _type(indexer.value)
+                  ],
+                  [
+                    "static",
+                    bool(indexer.static)
+                  ]
+                ]);
+    };
+    var object_type_property = function (param) {
+      var prop = param[1];
+      var lit = prop.key;
+      var key;
+      switch (lit.TAG | 0) {
+        case /* Literal */0 :
+            key = literal(lit._0);
+            break;
+        case /* Identifier */1 :
+            key = identifier(lit._0);
+            break;
+        case /* Computed */2 :
+            throw {
+                  RE_EXN_ID: "Failure",
+                  _1: "There should not be computed object type property keys",
+                  Error: new Error()
+                };
+        
+      }
+      return node("ObjectTypeProperty", param[0], [
+                  [
+                    "key",
+                    key
+                  ],
+                  [
+                    "value",
+                    _type(prop.value)
+                  ],
+                  [
+                    "optional",
+                    bool(prop.optional)
+                  ],
+                  [
+                    "static",
+                    bool(prop.static)
+                  ]
+                ]);
     };
     var variable_declarator = function (param) {
       var declarator = param[1];
@@ -17813,6 +17777,42 @@ function parse(content, options) {
                   [
                     "init",
                     option(expression, declarator.init)
+                  ]
+                ]);
+    };
+    var jsx_attribute_value = function (param) {
+      if (param.TAG === /* Literal */0) {
+        return literal([
+                    param._0,
+                    param._1
+                  ]);
+      } else {
+        return jsx_expression_container([
+                    param._0,
+                    param._1
+                  ]);
+      }
+    };
+    var template_element = function (param) {
+      var element = param[1];
+      var value = obj([
+            [
+              "raw",
+              string(element.value.raw)
+            ],
+            [
+              "cooked",
+              string(element.value.cooked)
+            ]
+          ]);
+      return node("TemplateElement", param[0], [
+                  [
+                    "value",
+                    value
+                  ],
+                  [
+                    "tail",
+                    bool(element.tail)
                   ]
                 ]);
     };

@@ -3,7 +3,7 @@
 
 var Stdlib = require("melange/stdlib.js");
 var Test_common = require("./test_common.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 
 var Local = /* @__PURE__ */Caml_exceptions.create("Test_exception.Local");
 

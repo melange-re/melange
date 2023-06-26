@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_mapperRt = require("melange.belt/js_mapperRt.js");
 var Stdlib__Array = require("melange/array.js");
+var Js__Js_mapperRt = require("melange.js/js_mapperRt.js");
 
 var suites = {
   contents: /* [] */0
@@ -88,7 +88,7 @@ function vToJs(param) {
 }
 
 function vFromJs(param) {
-  return Js_mapperRt.fromInt(4, jsMapperConstantArray, param);
+  return Js__Js_mapperRt.fromInt(4, jsMapperConstantArray, param);
 }
 
 function eqV(x, y) {

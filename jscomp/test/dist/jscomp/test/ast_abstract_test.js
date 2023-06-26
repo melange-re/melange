@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_mapperRt = require("melange.belt/js_mapperRt.js");
+var Js__Js_mapperRt = require("melange.js/js_mapperRt.js");
 
 var suites = {
   contents: /* [] */0
@@ -64,7 +64,7 @@ function xToJs(param) {
 }
 
 function xFromJs(param) {
-  return Js_mapperRt.raiseWhenNotFound(_map[param]);
+  return Js__Js_mapperRt.raiseWhenNotFound(_map[param]);
 }
 
 function idx(v) {
@@ -88,7 +88,7 @@ function aToJs(param) {
 }
 
 function aFromJs(param) {
-  return Js_mapperRt.fromIntAssert(3, jsMapperConstantArray, param);
+  return Js__Js_mapperRt.fromIntAssert(3, jsMapperConstantArray, param);
 }
 
 function id(x) {

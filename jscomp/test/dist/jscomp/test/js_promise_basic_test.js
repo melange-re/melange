@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_array = require("melange.runtime/caml_array.js");
+var Caml_array = require("melange.js/caml_array.js");
 var Stdlib__List = require("melange/list.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 
 var suites = {
   contents: /* [] */0

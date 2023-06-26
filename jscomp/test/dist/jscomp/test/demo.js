@@ -2,7 +2,7 @@
 'use strict';
 
 var UI = require("@ui");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var BUI = require("@blp/ui");
 var Runtime = require("@runtime");
 
