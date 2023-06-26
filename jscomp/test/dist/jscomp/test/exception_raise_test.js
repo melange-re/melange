@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.js/curry.js");
-var Js_exn = require("melange.js/js_exn.js");
 var Stdlib = require("melange/stdlib.js");
+var Js__Js_exn = require("melange.js/js_exn.js");
 var Stdlib__List = require("melange/list.js");
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
@@ -98,7 +98,7 @@ try {
 }
 catch (raw_x$3){
   var x$3 = Caml_js_exceptions.internalToOCamlException(raw_x$3);
-  if (x$3.RE_EXN_ID === A || x$3.RE_EXN_ID === Js_exn.$$Error) {
+  if (x$3.RE_EXN_ID === A || x$3.RE_EXN_ID === Js__Js_exn.$$Error) {
     a0 = x$3._1;
   } else {
     throw {
@@ -157,7 +157,7 @@ var suites = {
       hd: [
         "File \"exception_raise_test.ml\", line 116, characters 4-11",
         (function (param) {
-            if (a1.RE_EXN_ID === Js_exn.$$Error) {
+            if (a1.RE_EXN_ID === Js__Js_exn.$$Error) {
               return {
                       TAG: /* Eq */0,
                       _0: a1._1,

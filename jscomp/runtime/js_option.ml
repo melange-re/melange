@@ -26,6 +26,10 @@ open Melange_mini_stdlib
 
 type 'a t = 'a option
 
+open struct
+  module Js = Js_internal
+end
+
 let some x = Some x
 
 let isSome = function

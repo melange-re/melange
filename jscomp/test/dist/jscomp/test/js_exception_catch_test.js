@@ -3,8 +3,8 @@
 
 var Mt = require("./mt.js");
 var Curry = require("melange.js/curry.js");
-var Js_exn = require("melange.js/js_exn.js");
 var Stdlib = require("melange/stdlib.js");
+var Js__Js_exn = require("melange.js/js_exn.js");
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
@@ -66,7 +66,7 @@ try {
 }
 catch (raw_x){
   var x = Caml_js_exceptions.internalToOCamlException(raw_x);
-  if (x.RE_EXN_ID === Js_exn.$$Error) {
+  if (x.RE_EXN_ID === Js__Js_exn.$$Error) {
     add_test("File \"js_exception_catch_test.ml\", line 21, characters 10-17", (function (param) {
             return {
                     TAG: /* Ok */4,
@@ -122,7 +122,7 @@ function test(f) {
       } else {
         return "C";
       }
-    } else if (e.RE_EXN_ID === Js_exn.$$Error) {
+    } else if (e.RE_EXN_ID === Js__Js_exn.$$Error) {
       return "Js_error";
     } else {
       return "Any";

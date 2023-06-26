@@ -24,6 +24,8 @@
 
 type 'a t = 'a array
 
+module Js := Js_internal
+
 val filterInPlace : ('a -> bool [@bs]) -> 'a t -> unit
 
 val empty : 'a t -> unit

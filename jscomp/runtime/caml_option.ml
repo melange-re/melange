@@ -30,28 +30,28 @@ type nested = {
 
 (* INPUT: [x] should not be nullable *)
 let isNested (x : Obj.t) : bool =
-  Obj.repr ((Obj.magic x : nested).depth) != Obj.repr Js.undefined
+  Obj.repr ((Obj.magic x : nested).depth) != Obj.repr Js_internal.undefined
 
 let some ( x : Obj.t) : Obj.t =
   if Obj.magic x =  None then
     (Obj.repr {depth = 0})
   else
     (* [x] is neither None nor null so it is safe to do property access *)
-  if x != Obj.repr Js.null &&  isNested x then
+  if x != Obj.repr Js_internal.null &&  isNested x then
     Obj.repr {depth = (Obj.magic x : nested).depth + 1}
   else  x
 
-let nullable_to_opt (type t) ( x : t Js.nullable) : t option =
-  if Js.isNullable x then
+let nullable_to_opt (type t) ( x : t Js_internal.nullable) : t option =
+  if Js_internal.isNullable x then
     None
   else Obj.magic (some (Obj.magic x : 'a))
 
-let undefined_to_opt (type t) ( x : t Js.undefined) : t option =
-  if (Obj.magic x) == Js.undefined then None
+let undefined_to_opt (type t) ( x : t Js_internal.undefined) : t option =
+  if (Obj.magic x) == Js_internal.undefined then None
   else Obj.magic (some (Obj.magic x : 'a))
 
-let null_to_opt (type t ) ( x : t Js.null) : t option =
-  if (Obj.magic x) == Js.null then None
+let null_to_opt (type t ) ( x : t Js_internal.null) : t option =
+  if (Obj.magic x) == Js_internal.null then None
   else Obj.magic (some (Obj.magic x : 'a) )
 
 (* external valFromOption : 'a option -> 'a =
@@ -62,7 +62,7 @@ let null_to_opt (type t ) ( x : t Js.null) : t option =
 (** The input is already of [Some] form, [x] is not None,
     make sure [x[0]] will not throw *)
 let valFromOption (x : Obj.t) : Obj.t =
-  if  x != Obj.repr Js.null && isNested x
+  if  x != Obj.repr Js_internal.null && isNested x
   then
     let {depth } : nested = Obj.magic x in
     if depth = 0 then Obj.magic None

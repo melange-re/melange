@@ -35,10 +35,10 @@ type t
 type _ kind =
   | String : Js_string.t kind
   | Number : float kind
-  | Object : t Js.Dict.t kind
+  | Object : t Js_dict.t kind
   | Array : t array kind
   | Boolean : bool kind
-  | Null : Js.Types.null_val kind
+  | Null : Js_types.null_val kind
 
 type tagged_t =
   | JSONFalse
@@ -46,7 +46,7 @@ type tagged_t =
   | JSONNull
   | JSONString of string
   | JSONNumber of float
-  | JSONObject of t Js.Dict.t
+  | JSONObject of t Js_dict.t
   | JSONArray of t array
 
 
@@ -66,7 +66,7 @@ val decodeNumber : t -> float option
 (** [decodeNumber json] returns [Some n] if [json] is a number, [None]
     otherwise *)
 
-val decodeObject : t -> t Js.Dict.t option
+val decodeObject : t -> t Js_dict.t option
 (** [decodeObject json] returns [Some o] if [json] is an object, [None]
     otherwise *)
 
@@ -78,7 +78,7 @@ val decodeBoolean : t -> bool option
 (** [decodeBoolean json] returns [Some b] if [json] is a boolean, [None]
     otherwise *)
 
-val decodeNull : t -> 'a Js.Null.t option
+val decodeNull : t -> 'a Js_null.t option
 (** [decodeNull json] returns [Some null] if [json] is a null, [None]
     otherwise *)
 
@@ -100,7 +100,7 @@ external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
 (** [boolean b] makes a JSON boolean of the [bool] [b] *)
 
-external object_ : t Js.Dict.t -> t = "%identity"
+external object_ : t Js_dict.t -> t = "%identity"
 (** [object_ dict] makes a JSON object of the [Js.Dict.t] [dict] *)
 
 
@@ -120,7 +120,7 @@ external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
 (** [booleanArray] makes a JSON array of the [bool array] [a] *)
 
-external objectArray : t Js.Dict.t array -> t = "%identity"
+external objectArray : t Js_dict.t array -> t = "%identity"
 (** [objectArray a] makes a JSON array of the [JsDict.t array] [a] *)
 
 (** {2 String conversion} *)

@@ -5,9 +5,9 @@ var Mt = require("./mt.js");
 var Caml = require("melange.js/caml.js");
 var Curry = require("melange.js/curry.js");
 var Caml_obj = require("melange.js/caml_obj.js");
-var Js_vector = require("melange.js/js_vector.js");
 var Caml_array = require("melange.js/caml_array.js");
 var Js__Js_list = require("melange.js/js_list.js");
+var Js__Js_vector = require("melange.js/js_vector.js");
 var Belt__Belt_List = require("melange.belt/belt_List.js");
 var Belt__Belt_Array = require("melange.belt/belt_Array.js");
 
@@ -187,7 +187,7 @@ var v$4 = [
 b("File \"bs_array_test.ml\", line 40, characters 4-11", (Belt__Belt_Array.setExn(v$4, 1, 0), Belt__Belt_Array.getExn(v$4, 1) === 0));
 
 function id(x) {
-  eq("File \"bs_array_test.ml\", line 43, characters 5-12", Js_vector.toList(Js__Js_list.toVector(x)), x);
+  eq("File \"bs_array_test.ml\", line 43, characters 5-12", Js__Js_vector.toList(Js__Js_list.toVector(x)), x);
 }
 
 eq("File \"bs_array_test.ml\", line 47, characters 5-12", Js__Js_list.toVector({
@@ -205,7 +205,7 @@ eq("File \"bs_array_test.ml\", line 47, characters 5-12", Js__Js_list.toVector({
       3
     ]);
 
-eq("File \"bs_array_test.ml\", line 48, characters 6-13", Js_vector.map((function (x) {
+eq("File \"bs_array_test.ml\", line 48, characters 6-13", Js__Js_vector.map((function (x) {
             return x + 1 | 0;
           }), [
           1,
@@ -225,22 +225,22 @@ eq("File \"bs_array_test.ml\", line 51, characters 5-12", Caml_array.make(5, 3),
       3
     ]);
 
-var a = Js_vector.init(5, (function (i) {
+var a = Js__Js_vector.init(5, (function (i) {
         return i + 1 | 0;
       }));
 
-eq("File \"bs_array_test.ml\", line 53, characters 5-12", (Js_vector.filterInPlace((function (j) {
+eq("File \"bs_array_test.ml\", line 53, characters 5-12", (Js__Js_vector.filterInPlace((function (j) {
               return j % 2 === 0;
             }), a), a), [
       2,
       4
     ]);
 
-var a$1 = Js_vector.init(5, (function (i) {
+var a$1 = Js__Js_vector.init(5, (function (i) {
         return i + 1 | 0;
       }));
 
-eq("File \"bs_array_test.ml\", line 60, characters 5-12", (Js_vector.filterInPlace((function (j) {
+eq("File \"bs_array_test.ml\", line 60, characters 5-12", (Js__Js_vector.filterInPlace((function (j) {
               return j % 2 !== 0;
             }), a$1), a$1), [
       1,
@@ -292,7 +292,7 @@ id({
       }
     });
 
-id(Js_vector.toList(Js_vector.init(100, (function (i) {
+id(Js__Js_vector.toList(Js__Js_vector.init(100, (function (i) {
                 return i;
               }))));
 

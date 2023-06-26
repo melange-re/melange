@@ -26,6 +26,10 @@ open Melange_mini_stdlib
 
 type 'a t = 'a array
 
+open struct
+  module Js = Js_internal
+end
+
 external length : 'a array -> int = "%array_length"
 external get : 'a array -> int -> 'a = "%array_safe_get"
 external set : 'a array -> int -> 'a -> unit = "%array_safe_set"

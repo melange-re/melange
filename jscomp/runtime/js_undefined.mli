@@ -25,13 +25,15 @@
 (** Provides functionality for dealing with the ['a Js.undefined] type *)
 
 (** Local alias for ['a Js.undefined] *)
-type + 'a t = 'a Js.undefined
+type + 'a t = 'a Js_internal.undefined
+
+module Js := Js_internal
 
 (** Constructs a value of ['a Js.undefined] containing a value of ['a] *)
 external return : 'a -> 'a t = "%identity"
 
 
-val test : 'a t -> bool 
+val test : 'a t -> bool
 [@@deprecated "Use = Js.undefined directly"]
 (** Returns [true] if the given value is [empty] ([undefined]), [false] otherwise *)
 
@@ -39,11 +41,11 @@ val test : 'a t -> bool
    @since 1.6.1
    Returns [true] if the given value is [empty] ([undefined])
 *)
-val testAny : 'a -> bool 
+val testAny : 'a -> bool
 
 
 (** The empty value, [undefined] *)
-external empty : 'a t = "#undefined" 
+external empty : 'a t = "#undefined"
 
 external getUnsafe : 'a t -> 'a = "%identity"
 

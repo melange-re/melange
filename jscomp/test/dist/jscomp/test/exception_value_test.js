@@ -2,8 +2,8 @@
 'use strict';
 
 var Curry = require("melange.js/curry.js");
-var Js_exn = require("melange.js/js_exn.js");
 var Stdlib = require("melange/stdlib.js");
+var Js__Js_exn = require("melange.js/js_exn.js");
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
@@ -66,7 +66,7 @@ function test_js_error2(param) {
   }
   catch (raw_e){
     var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-    if (e.RE_EXN_ID === Js_exn.$$Error) {
+    if (e.RE_EXN_ID === Js__Js_exn.$$Error) {
       console.log(e._1.stack);
       throw e;
     }

@@ -25,7 +25,7 @@
 (** Contains functionality for dealing with values that can be both [null] and [undefined] *)
 
 (** Local alias for ['a Js.null_undefined] *)
-type + 'a t = 'a Js.null_undefined
+type + 'a t = 'a Js_internal.nullable
 
 (** Constructs a value of ['a Js.null_undefined] containing a value of ['a] *)
 external return : 'a -> 'a t = "%identity"
@@ -41,7 +41,7 @@ external null : 'a t = "#null"
 external undefined : 'a t = "#undefined"
 
 
-
+module Js := Js_internal
 (** Maps the contained value using the given function
 
 If ['a Js.null_undefined] contains a value, that value is unwrapped, mapped to a ['b] using

@@ -23,10 +23,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 
-(* Declare an explicit dependency on the Js_OO module since the PPX gets
-   expanded later *)
-module Js_OO := Js_OO
-
 type t =
   < argv : string array;
     arch : string ;

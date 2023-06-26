@@ -29,9 +29,13 @@
     ]}
 *)
 
-type + 'a t 
-type error 
+type + 'a t
+type error
 
+
+open struct
+  module Js = Js_internal
+end
 
 external make : (resolve:('a -> unit [@bs]) ->
                  reject:(exn -> unit [@bs]) -> unit [@bs.uncurry]) -> 'a t = "Promise" [@@bs.new]

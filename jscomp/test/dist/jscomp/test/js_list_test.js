@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_vector = require("melange.js/js_vector.js");
 var Js__Js_list = require("melange.js/js_list.js");
+var Js__Js_vector = require("melange.js/js_vector.js");
 
 var suites = {
   contents: /* [] */0
@@ -177,7 +177,7 @@ function f(i) {
   return i;
 }
 
-var v = Js_vector.toList(Js_vector.init(100000, f));
+var v = Js__Js_vector.toList(Js__Js_vector.init(100000, f));
 
 eq("File \"js_list_test.ml\", line 23, characters 7-14", Js__Js_list.countBy((function (x) {
             return x % 2 === 0;
@@ -206,7 +206,7 @@ function f$1(x) {
 
 eq("File \"js_list_test.ml\", line 32, characters 7-14", true, Js__Js_list.equal((function (x, y) {
             return x === y;
-          }), vvv, Js_vector.toList(Js_vector.init(10000, f$1))));
+          }), vvv, Js__Js_vector.toList(Js__Js_vector.init(10000, f$1))));
 
 Mt.from_pair_suites("Js_list_test", suites.contents);
 

@@ -23,6 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type global
+
+open struct
+  module Js = Js_internal
+end
+
 let  getGlobalThis : unit -> global [@bs]= [%raw{| function(){
   if (typeof globalThis !== 'undefined') return globalThis;
 	if (typeof self !== 'undefined') return self;
