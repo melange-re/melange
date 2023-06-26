@@ -22,150 +22,68 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@bs.config {flags = [|"-unboxed-types"|]}]
+[@@@bs.config { flags = [| "-unboxed-types" |] }]
+
 (**/**)
+
 external unsafe_downgrade : 'a Js_internal.t -> 'a = "#unsafe_downgrade"
 external unsafe_to_method : 'a -> 'a = "#fn_method"
+
 (**/**)
+
 module Callback = struct
-  type 'a arity1 = {
-    i1 : 'a [@internal]
-  }
-  type 'a arity2 = {
-    i2 : 'a [@internal]
-  }
-  type 'a arity3 = {
-    i3 : 'a [@internal]
-  }
-  type 'a arity4 = {
-    i4 : 'a [@internal]
-  }
-  type 'a arity5 = {
-    i5 : 'a [@internal]
-  }
-  type 'a arity6 = {
-    i6 : 'a [@internal]
-  }
-  type 'a arity7 = {
-    i7 : 'a [@internal]
-  }
-  type 'a arity8 = {
-    i8 : 'a [@internal]
-  }
-  type 'a arity9 = {
-    i9 : 'a [@internal]
-  }
-  type 'a arity10 = {
-    i10 : 'a [@internal]
-  }
-  type 'a arity11 = {
-    i11 : 'a [@internal]
-  }
-  type 'a arity12 = {
-    i12 : 'a [@internal]
-  }
-  type 'a arity13 = {
-    i13 : 'a [@internal]
-  }
-  type 'a arity14 = {
-    i14 : 'a [@internal]
-  }
-  type 'a arity15 = {
-    i15 : 'a [@internal]
-  }
-  type 'a arity16 = {
-    i16 : 'a [@internal]
-  }
-  type 'a arity17 = {
-    i17 : 'a [@internal]
-  }
-  type 'a arity18 = {
-    i18 : 'a [@internal]
-  }
-  type 'a arity19 = {
-    i19 : 'a [@internal]
-  }
-  type 'a arity20 = {
-    i20 : 'a [@internal]
-  }
-  type 'a arity21 = {
-    i21 : 'a [@internal]
-  }
-  type 'a arity22 = {
-    i22 : 'a [@internal]
-  }
+  type 'a arity1 = { i1 : 'a [@internal] }
+  type 'a arity2 = { i2 : 'a [@internal] }
+  type 'a arity3 = { i3 : 'a [@internal] }
+  type 'a arity4 = { i4 : 'a [@internal] }
+  type 'a arity5 = { i5 : 'a [@internal] }
+  type 'a arity6 = { i6 : 'a [@internal] }
+  type 'a arity7 = { i7 : 'a [@internal] }
+  type 'a arity8 = { i8 : 'a [@internal] }
+  type 'a arity9 = { i9 : 'a [@internal] }
+  type 'a arity10 = { i10 : 'a [@internal] }
+  type 'a arity11 = { i11 : 'a [@internal] }
+  type 'a arity12 = { i12 : 'a [@internal] }
+  type 'a arity13 = { i13 : 'a [@internal] }
+  type 'a arity14 = { i14 : 'a [@internal] }
+  type 'a arity15 = { i15 : 'a [@internal] }
+  type 'a arity16 = { i16 : 'a [@internal] }
+  type 'a arity17 = { i17 : 'a [@internal] }
+  type 'a arity18 = { i18 : 'a [@internal] }
+  type 'a arity19 = { i19 : 'a [@internal] }
+  type 'a arity20 = { i20 : 'a [@internal] }
+  type 'a arity21 = { i21 : 'a [@internal] }
+  type 'a arity22 = { i22 : 'a [@internal] }
 end
+
 module Meth = struct
-  type + 'a arity0
-  type 'a arity1 = {
-    i1 : 'a [@internal]
-  }
-  type 'a arity2 = {
-    i2 : 'a [@internal]
-  }
-  type 'a arity3 = {
-    i3 : 'a [@internal]
-  }
-  type 'a arity4 = {
-    i4 : 'a [@internal]
-  }
-  type 'a arity5 = {
-    i5 : 'a [@internal]
-  }
-  type 'a arity6 = {
-    i6 : 'a [@internal]
-  }
-  type 'a arity7 = {
-    i7 : 'a [@internal]
-  }
-  type 'a arity8 = {
-    i8 : 'a [@internal]
-  }
-  type 'a arity9 = {
-    i9 : 'a [@internal]
-  }
-  type 'a arity10 = {
-    i10 : 'a [@internal]
-  }
-  type 'a arity11 = {
-    i11 : 'a [@internal]
-  }
-  type 'a arity12 = {
-    i12 : 'a [@internal]
-  }
-  type 'a arity13 = {
-    i13 : 'a [@internal]
-  }
-  type 'a arity14 = {
-    i14 : 'a [@internal]
-  }
-  type 'a arity15 = {
-    i15 : 'a [@internal]
-  }
-  type 'a arity16 = {
-    i16 : 'a [@internal]
-  }
-  type 'a arity17 = {
-    i17 : 'a [@internal]
-  }
-  type 'a arity18 = {
-    i18 : 'a [@internal]
-  }
-  type 'a arity19 = {
-    i19 : 'a [@internal]
-  }
-  type 'a arity20 = {
-    i20 : 'a [@internal]
-  }
-  type 'a arity21 = {
-    i21 : 'a [@internal]
-  }
-  type 'a arity22 = {
-    i22 : 'a [@internal]
-  }
+  type +'a arity0
+  type 'a arity1 = { i1 : 'a [@internal] }
+  type 'a arity2 = { i2 : 'a [@internal] }
+  type 'a arity3 = { i3 : 'a [@internal] }
+  type 'a arity4 = { i4 : 'a [@internal] }
+  type 'a arity5 = { i5 : 'a [@internal] }
+  type 'a arity6 = { i6 : 'a [@internal] }
+  type 'a arity7 = { i7 : 'a [@internal] }
+  type 'a arity8 = { i8 : 'a [@internal] }
+  type 'a arity9 = { i9 : 'a [@internal] }
+  type 'a arity10 = { i10 : 'a [@internal] }
+  type 'a arity11 = { i11 : 'a [@internal] }
+  type 'a arity12 = { i12 : 'a [@internal] }
+  type 'a arity13 = { i13 : 'a [@internal] }
+  type 'a arity14 = { i14 : 'a [@internal] }
+  type 'a arity15 = { i15 : 'a [@internal] }
+  type 'a arity16 = { i16 : 'a [@internal] }
+  type 'a arity17 = { i17 : 'a [@internal] }
+  type 'a arity18 = { i18 : 'a [@internal] }
+  type 'a arity19 = { i19 : 'a [@internal] }
+  type 'a arity20 = { i20 : 'a [@internal] }
+  type 'a arity21 = { i21 : 'a [@internal] }
+  type 'a arity22 = { i22 : 'a [@internal] }
 end
 
 (**/**)
+
 module Internal = struct
   open Meth
   (* Use opaque instead of [._n] to prevent some optimizations happening *)
@@ -178,4 +96,5 @@ module Internal = struct
         a b)
   *)
 end
+
 (**/**)

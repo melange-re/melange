@@ -22,23 +22,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+val raiseWhenNotFound : 'a -> 'a
 
-
-val raiseWhenNotFound : 
-  'a -> 'a
-  
+val fromInt : int -> int array -> int -> int option
 (**
   [fromInt len array int]
   return the mapped [enum]
 *)
-val fromInt :   
-  int ->
-  int array -> 
-  int -> 
-  int option 
 
-val fromIntAssert:   
-  int -> (* len *)
-  int array -> 
-  int -> 
-  int 
+val fromIntAssert : int -> (* len *)
+                           int array -> int -> int

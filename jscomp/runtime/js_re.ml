@@ -45,28 +45,31 @@ let maybeMatches = "banana" |> Js.String.match_ [\[%re "/na+/g"\]]
   JavaScript Regular Expressions Guide on MDN
 *)
 
-(** the RegExp object *)
 type t
+(** the RegExp object *)
 
-(** the result of a executing a RegExp on a string *)
 type result
+(** the result of a executing a RegExp on a string *)
 
-(** an array of the match and captures, the first is the full match and the remaining are the substring captures *)
 external captures : result -> string Js_internal.nullable array = "%identity"
+(** an array of the match and captures, the first is the full match and the remaining are the substring captures *)
 
+external matches : result -> string array = "%identity"
+  [@@deprecated "Use Js.Re.captures instead"]
 (** an array of the matches, the first is the full match and the remaining are the substring matches
  *  @deprecated Use [captures] instead.
  *)
-external matches : result -> string array = "%identity"
-[@@deprecated "Use Js.Re.captures instead"]
 
+external index : result -> int = "index"
+  [@@bs.get]
 (** 0-based index of the match in the input string *)
-external index : result -> int = "index" [@@bs.get]
 
+external input : result -> string = "input"
+  [@@bs.get]
 (** the original input string *)
-external input : result -> string = "input" [@@bs.get]
 
-
+external fromString : string -> t = "RegExp"
+  [@@bs.new]
 (** Constructs a RegExp object ({! t}) from a string
 
 Regex literals ([\[%re "/.../"\]]) should generally be preferred, but
@@ -83,8 +86,9 @@ let contentOf tag xmlString =
       | None -> None
 ]}
 *)
-external fromString : string -> t = "RegExp" [@@bs.new]
 
+external fromStringWithFlags : string -> flags:string -> t = "RegExp"
+  [@@bs.new]
 (** Constructs a RegExp object ({! t}) from a string with the given [flags]
 
 See {! fromString}
@@ -100,17 +104,21 @@ Valid flags:
 </table>
 %}
 *)
-external fromStringWithFlags : string -> flags:string -> t = "RegExp" [@@bs.new]
 
+external flags : t -> string = "flags"
+  [@@bs.get]
 (** returns the enabled flags as a string *)
-external flags : t -> string = "flags" [@@bs.get]
 
+external global : t -> bool = "global"
+  [@@bs.get]
 (** returns a bool indicating whether the [global] flag is set *)
-external global : t -> bool = "global" [@@bs.get]
 
+external ignoreCase : t -> bool = "ignoreCase"
+  [@@bs.get]
 (** returns a bool indicating whether the [ignoreCase] flag is set *)
-external ignoreCase : t -> bool = "ignoreCase" [@@bs.get]
 
+external lastIndex : t -> int = "lastIndex"
+  [@@bs.get]
 (** returns the index where the next match will start its search
 
 This property will be modified when the RegExp object is used, if the [global] ("g")
@@ -135,23 +143,29 @@ done
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex> MDN
 *)
-external lastIndex : t -> int = "lastIndex" [@@bs.get]
 
+external setLastIndex : t -> int -> unit = "lastIndex"
+  [@@bs.set]
 (** sets the index at which the next match will start its search from *)
-external setLastIndex : t -> int -> unit = "lastIndex" [@@bs.set]
 
+external multiline : t -> bool = "multiline"
+  [@@bs.get]
 (** returns a bool indicating whether the [multiline] flag is set *)
-external multiline : t -> bool = "multiline" [@@bs.get]
 
+external source : t -> string = "source"
+  [@@bs.get]
 (** returns the pattern as a string *)
-external source : t -> string = "source" [@@bs.get]
 
+external sticky : t -> bool = "sticky"
+  [@@bs.get]
 (** returns a bool indicating whether the [sticky] flag is set *)
-external sticky : t -> bool = "sticky" [@@bs.get]
 
+external unicode : t -> bool = "unicode"
+  [@@bs.get]
 (** returns a bool indicating whether the [unicode] flag is set *)
-external unicode : t -> bool = "unicode" [@@bs.get]
 
+external exec_ : t -> string -> result option = "exec"
+  [@@bs.send] [@@bs.return null_to_opt]
 (** executes a search on a given string using the given RegExp object
 
 {b returns} [Some] {! result} if a match is found, [None] otherwise
@@ -168,12 +182,15 @@ let result = re |. Js.Re.exec_ "The Quick Brown Fox Jumps Over The Lazy Dog"
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec> MDN
 *)
-external exec_ : t -> string -> result option = "exec" [@@bs.send] [@@bs.return null_to_opt]
 
+external exec : string -> result option = "exec"
+  [@@bs.send.pipe: t]
+  [@@bs.return null_to_opt]
+  [@@deprecated "please use Js.Re.exec_ instead"]
 (** @deprecated please use {!exec_} instead *)
-external exec : string -> result option = "exec" [@@bs.send.pipe: t] [@@bs.return null_to_opt]
-[@@deprecated "please use Js.Re.exec_ instead"]
 
+external test_ : t -> string -> bool = "test"
+  [@@bs.send]
 (** tests whether the given RegExp object will match a given string
 
 {b returns} [true] if a match is found, [false] otherwise
@@ -192,10 +209,9 @@ let () = Js.log (str |. startsWith "hello") (* prints "true" *)
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test> MDN
 *)
-external test_ : t -> string -> bool = "test" [@@bs.send]
 
+external test : string -> bool = "test"
+  [@@bs.send.pipe: t] [@@deprecated "Please use Js.Re.test_ instead"]
 (**
   @deprecated please use {!test_} instead
 *)
-external test : string -> bool = "test" [@@bs.send.pipe: t]
-[@@deprecated "Please use Js.Re.test_ instead"]

@@ -26,13 +26,15 @@ open Melange_mini_stdlib
 
 (** Provides functions for inspecting and manipulating [int]s *)
 
- (** If we use number, we need coerce to int32 by adding `|0`,
+(** If we use number, we need coerce to int32 by adding `|0`,
     otherwise `+0` can be wrong.
     Most JS API is float oriented, it may overflow int32 or
     comes with [NAN]
   *)
 (* + conversion*)
 
+external toExponential : int -> string = "toExponential"
+  [@@bs.send]
 (** Formats an [int] using exponential (scientific) notation
 
 {b Returns} a [string] representing the given value in exponential notation
@@ -46,8 +48,10 @@ open Melange_mini_stdlib
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
-external toExponential : int -> string = "toExponential" [@@bs.send]
 
+external toExponentialWithPrecision : int -> digits:int -> string
+  = "toExponential"
+  [@@bs.send]
 (** Formats an [int] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -69,8 +73,9 @@ The output will be rounded or padded with zeroes if necessary.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
-external toExponentialWithPrecision : int -> digits:int -> string = "toExponential" [@@bs.send]
 
+external toPrecision : int -> string = "toPrecision"
+  [@@bs.send]
 (** Formats a [int] using some fairly arbitrary rules
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -88,8 +93,10 @@ decimal point.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
-external toPrecision : int -> string = "toPrecision" [@@bs.send] (* equivalent to `toString` I think *)
+(* equivalent to `toString` I think *)
 
+external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision"
+  [@@bs.send]
 (** Formats an [int] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The
@@ -118,9 +125,9 @@ before the decimal point.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
-external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision" [@@bs.send]
 
-
+external toString : int -> string = "toString"
+  [@@bs.send]
 (** Formats a [int] as a string
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -132,8 +139,9 @@ external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision" 
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
-external toString : int -> string = "toString" [@@bs.send]
 
+external toStringWithRadix : int -> radix:int -> string = "toString"
+  [@@bs.send]
 (** Formats an [int] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
@@ -156,12 +164,9 @@ value must be in the range \[2, 36\] (inclusive).
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
-external toStringWithRadix : int -> radix:int -> string = "toString" [@@bs.send]
 
 external toFloat : int -> float = "%floatofint"
 
-let equal (x: int) y = x = y
-
+let equal (x : int) y = x = y
 let max : int = 2147483647
-
 let min : int = -2147483648

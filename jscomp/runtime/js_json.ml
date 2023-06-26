@@ -22,8 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-(** Efficient JSON encoding using JavaScript API *)
 open Melange_mini_stdlib
+(** Efficient JSON encoding using JavaScript API *)
 
 type t
 
@@ -35,7 +35,6 @@ type _ kind =
   | Boolean : bool kind
   | Null : Js_types.null_val kind
 
-
 type tagged_t =
   | JSONFalse
   | JSONTrue
@@ -45,72 +44,63 @@ type tagged_t =
   | JSONObject of t Js_dict.t
   | JSONArray of t array
 
-let classify  (x : t) : tagged_t =
+let classify (x : t) : tagged_t =
   let ty = Js_internal.typeof x in
-  if ty = "string" then
-    JSONString (Obj.magic x)
-  else if ty = "number" then
-    JSONNumber (Obj.magic x )
-  else if ty = "boolean" then
-    if (Obj.magic x) = true then JSONTrue
-    else JSONFalse
-  else if (Obj.magic x) == Js_internal.null then
-    JSONNull
-  else if Js_array2.isArray x  then
-    JSONArray (Obj.magic x)
-  else
-    JSONObject (Obj.magic x)
-
+  if ty = "string" then JSONString (Obj.magic x)
+  else if ty = "number" then JSONNumber (Obj.magic x)
+  else if ty = "boolean" then if Obj.magic x = true then JSONTrue else JSONFalse
+  else if Obj.magic x == Js_internal.null then JSONNull
+  else if Js_array2.isArray x then JSONArray (Obj.magic x)
+  else JSONObject (Obj.magic x)
 
 let test (type a) (x : 'a) (v : a kind) : bool =
   match v with
   | Number -> Js_internal.typeof x = "number"
   | Boolean -> Js_internal.typeof x = "boolean"
   | String -> Js_internal.typeof x = "string"
-  | Null -> (Obj.magic x) == Js_internal.null
+  | Null -> Obj.magic x == Js_internal.null
   | Array -> Js_array2.isArray x
-  | Object -> (Obj.magic x) != Js_internal.null && Js_internal.typeof x = "object" && not (Js_array2.isArray x )
+  | Object ->
+      Obj.magic x != Js_internal.null
+      && Js_internal.typeof x = "object"
+      && not (Js_array2.isArray x)
 
 let decodeString json =
-  if Js_internal.typeof json = "string"
-  then Some (Obj.magic (json:t) : string)
+  if Js_internal.typeof json = "string" then
+    Some (Obj.magic (json : t) : string)
   else None
 
 let decodeNumber json =
-  if Js_internal.typeof json = "number"
-  then Some (Obj.magic (json:t) : float)
+  if Js_internal.typeof json = "number" then Some (Obj.magic (json : t) : float)
   else None
 
 let decodeObject json =
-  if  Js_internal.typeof json = "object" &&
-      not (Js_array2.isArray json) &&
-      not ((Obj.magic json : 'a Js_internal.null) == Js_internal.null)
-  then Some (Obj.magic (json:t) : t Js_dict.t)
+  if
+    Js_internal.typeof json = "object"
+    && (not (Js_array2.isArray json))
+    && not ((Obj.magic json : 'a Js_internal.null) == Js_internal.null)
+  then Some (Obj.magic (json : t) : t Js_dict.t)
   else None
 
 let decodeArray json =
-  if Js_array2.isArray json
-  then Some (Obj.magic (json:t) : t array)
-  else None
+  if Js_array2.isArray json then Some (Obj.magic (json : t) : t array) else None
 
 let decodeBoolean (json : t) =
-  if Js_internal.typeof json = "boolean"
-  then Some (Obj.magic (json:t) : bool)
+  if Js_internal.typeof json = "boolean" then Some (Obj.magic (json : t) : bool)
   else None
 
 let decodeNull json : _ Js_internal.null option =
-  if (Obj.magic json : 'a Js_internal.null) == Js_internal.null
-  then Some Js_internal.null
+  if (Obj.magic json : 'a Js_internal.null) == Js_internal.null then
+    Some Js_internal.null
   else None
 
 (* external parse : string -> t = "parse"
-  [@@bs.val][@@bs.scope "JSON"] *)
+   [@@bs.val][@@bs.scope "JSON"] *)
 
-external parseExn : string -> t = "parse"
+external parseExn : string -> t = "parse" [@@bs.val] [@@bs.scope "JSON"]
+
+external stringifyAny : 'a -> string option = "stringify"
   [@@bs.val] [@@bs.scope "JSON"]
-
-external stringifyAny : 'a -> string option =
-"stringify" [@@bs.val]  [@@bs.scope "JSON"]
 (* TODO: more docs when parse error happens or stringify non-stringfy value *)
 
 external null : t = "null" [@@bs.val]
@@ -126,17 +116,19 @@ external stringArray : string array -> t = "%identity"
 external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
 external objectArray : t Js_dict.t array -> t = "%identity"
-external stringify: t -> string = "stringify"
-  [@@bs.val] [@@bs.scope "JSON"]
-external stringifyWithSpace: t -> (_ [@bs.as {json|null|json}]) -> int -> string = "stringify"
-  [@@bs.val] [@@bs.scope "JSON"]
+external stringify : t -> string = "stringify" [@@bs.val] [@@bs.scope "JSON"]
 
+external stringifyWithSpace : t -> (_[@bs.as {json|null|json}]) -> int -> string
+  = "stringify"
+  [@@bs.val] [@@bs.scope "JSON"]
 
 (* in memory modification does not work until your root is
    actually None, so we need wrap it as `[v]` and
    return the first element instead *)
 
-let patch : _ -> _ = [%raw{|function (json) {
+let patch : _ -> _ =
+  [%raw
+    {|function (json) {
   var x = [json];
   var q = [{ kind: 0, i: 0, parent: x }];
   while (q.length !== 0) {
@@ -174,8 +166,9 @@ let patch : _ -> _ = [%raw{|function (json) {
 }
 |}]
 
-
-let serializeExn (type t) (x : t) : string  = [%raw{| function(obj){
+let serializeExn (type t) (x : t) : string =
+  [%raw
+    {| function(obj){
   var output= JSON.stringify(obj,function(_,value){
       if(value===undefined){
           return {RE_PRIVATE_NONE : true}
@@ -189,7 +182,7 @@ let serializeExn (type t) (x : t) : string  = [%raw{| function(obj){
  }
  return output
  }
-|}] x
+|}]
+    x
 
-let deserializeUnsafe (s: string) : 'a =
-  patch (parseExn s)
+let deserializeUnsafe (s : string) : 'a = patch (parseExn s)

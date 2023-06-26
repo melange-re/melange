@@ -24,29 +24,25 @@
 
 (** Provides functionality for dealing with the ['a Js.null] type *)
 
-
-
-type + 'a t = 'a Js_internal.null
+type +'a t = 'a Js_internal.null
 (** Local alias for ['a Js.null] *)
 
-external return : 'a -> 'a t  = "%identity"
+external return : 'a -> 'a t = "%identity"
 (** Constructs a value of ['a Js.null] containing a value of ['a] *)
 
-
 val test : 'a t -> bool
-[@@deprecated "Use = Js.null directly "]
+  [@@deprecated "Use = Js.null directly "]
 (** Returns [true] if the given value is [empty] ([null]), [false] otherwise *)
 
-(** The empty value, [null] *)
 external empty : 'a t = "#null"
-
+(** The empty value, [null] *)
 
 external getUnsafe : 'a t -> 'a = "%identity"
-
 val getExn : 'a t -> 'a
 
 module Js := Js_internal
 
+val bind : 'a t -> (('a -> 'b)[@bs]) -> 'b t
 (** Maps the contained value using the given function
 
 If ['a Js.null] contains a value, that value is unwrapped, mapped to a ['b] using
@@ -57,8 +53,8 @@ let maybeGreetWorld (maybeGreeting: string Js.null) =
   Js.Null.bind maybeGreeting (fun greeting -> greeting ^ " world!")
 ]}
 *)
-val bind : 'a t -> ('a -> 'b [@bs]) -> 'b t
 
+val iter : 'a t -> (('a -> unit)[@bs]) -> unit
 (** Iterates over the contained value with the given function
 
 If ['a Js.null] contains a value, that value is unwrapped and applied to
@@ -69,8 +65,8 @@ let maybeSay (maybeMessage: string Js.null) =
   Js.Null.iter maybeMessage (fun message -> Js.log message)
 ]}
 *)
-val iter : 'a t -> ('a -> unit [@bs]) -> unit
 
+val fromOption : 'a option -> 'a t
 (** Maps ['a option] to ['a Js.null]
 
 {%html:
@@ -80,11 +76,10 @@ val iter : 'a t -> ('a -> unit [@bs]) -> unit
 </table>
 %}
 *)
-val fromOption: 'a option -> 'a t
 
-val from_opt : 'a option -> 'a t
-[@@deprecated "Use fromOption instead"]
+val from_opt : 'a option -> 'a t [@@deprecated "Use fromOption instead"]
 
+external toOption : 'a t -> 'a option = "#null_to_opt"
 (** Maps ['a Js.null] to ['a option]
 
 {%html:
@@ -94,8 +89,6 @@ val from_opt : 'a option -> 'a t
 </table>
 %}
 *)
-external toOption : 'a t -> 'a option = "#null_to_opt"
 
 external to_opt : 'a t -> 'a option = "#null_to_opt"
-[@@deprecated "Use toOption instead"]
-
+  [@@deprecated "Use toOption instead"]

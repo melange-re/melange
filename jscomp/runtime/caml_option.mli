@@ -24,27 +24,19 @@
 
 open Melange_mini_stdlib
 
-type nested = {
-  depth : int ; [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"]
-}
+type nested = { depth : int [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"] }
 
 val nullable_to_opt : 'a Js_internal.nullable -> 'a option
-
 val undefined_to_opt : 'a Js_internal.undefined -> 'a option
-
 val null_to_opt : 'a Js_internal.null -> 'a option
-
 val valFromOption : Obj.t -> Obj.t
-
 val some : Obj.t -> Obj.t
-
 val isNested : Obj.t -> bool
-
 val option_get : Obj.t option -> Obj.t Caml_undefined_extern.t
 
 type poly
 
+val option_unwrap : poly option -> Obj.t
 (** When it is None, return none
     When it is (Some (`a 3)) return 3
 *)
-val option_unwrap : poly option -> Obj.t
