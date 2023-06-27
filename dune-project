@@ -62,7 +62,7 @@
    (>= "0.28.0"))))
 
 (package
- (name melange_playground)
+ (name melange-playground)
  (synopsis "The Melange compiler, bundled for the browser")
  (allow_empty)
  (depends
