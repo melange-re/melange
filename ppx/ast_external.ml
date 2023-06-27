@@ -24,24 +24,6 @@
 
 open Ppxlib
 
-(* We disable warning 61 in Melange externals since they're substantially
-   different from OCaml externals. This warning doesn't make sense for a JS
-   runtime *)
-let unboxable_type_in_prim_decl : Parsetree.attribute =
-  let open Ast_helper in
-  {
-    attr_name = { txt = "ocaml.warning"; loc = Location.none };
-    attr_payload =
-      PStr
-        [
-          Str.eval
-            (Exp.constant
-               (Pconst_string
-                  ("-unboxable-type-in-prim-decl", Location.none, None)));
-        ];
-    attr_loc = Location.none;
-  }
-
 let handleExternalInSig (self : Ast_traverse.map)
     (prim : Parsetree.value_description) (sigi : Parsetree.signature_item) :
     Parsetree.signature_item =
@@ -79,7 +61,8 @@ let handleExternalInSig (self : Ast_traverse.map)
               prim with
               pval_type;
               pval_prim = (if no_inline_cross_module then [] else pval_prim);
-              pval_attributes = unboxable_type_in_prim_decl :: pval_attributes;
+              pval_attributes =
+                Ast_attributes.unboxable_type_in_prim_decl :: pval_attributes;
             };
       }
 
@@ -120,7 +103,8 @@ let handleExternalInStru (self : Ast_traverse.map)
                 prim with
                 pval_type;
                 pval_prim;
-                pval_attributes = unboxable_type_in_prim_decl :: pval_attributes;
+                pval_attributes =
+                  Ast_attributes.unboxable_type_in_prim_decl :: pval_attributes;
               };
         }
       in
