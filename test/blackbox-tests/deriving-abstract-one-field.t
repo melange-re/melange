@@ -39,16 +39,12 @@ Record with one field crashes
   > EOF
 
   $ dune build ./.x.objs/melange/x.cmj
-  File "x.ml", line 2, characters 0-37:
-  2 | external x : 'a t -> 'a = "%identity"
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error (warning 61 [unboxable-type-in-prim-decl]): This primitive declaration uses type t, whose representation
-  may be either boxed or unboxed. Without an annotation to indicate
-  which representation is intended, the boxed representation has been
-  selected by default. This default choice may change in future
-  versions of the compiler, breaking the primitive implementation.
-  You should explicitly annotate the declaration of t
-  with [@@boxed] or [@@unboxed], so that its external interface
-  remains stable in the future.
-  [1]
+
+  $ cat > x.mli <<EOF
+  > type 'a t = { x : 'a }
+  > external x : 'a t -> 'a = "%identity"
+  > EOF
+
+  $ dune clean
+  $ dune build ./.x.objs/melange/x.cmi
 
