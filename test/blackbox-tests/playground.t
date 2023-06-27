@@ -2,9 +2,7 @@ Prepare an input file to test some snippets to exercise common functionality
 
   $ cat > input.js <<EOF
   > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/stdlib-cmijs.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/runtime-cmijs.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/belt-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
   > console.log(ocaml.compileML("let t = 1"));
   > console.log(ocaml.compileML(\`let john = [%bs.obj { name = "john"; age = 99 }] let t = john##name\`));
   > console.log(ocaml.compileML(\`let foo = Belt.List.map\`));
@@ -21,7 +19,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.compileML("let t = [%bs.obj 2]"));
   > try { ocaml.parseRE("type t = 2") } catch (e) { console.log(e); };
   > console.log(ocaml.compileRE("let t = 1;"));
-  > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };")); // Some Reason errors dont have locations
+  > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };").js_error_msg.trim()); // Some Reason errors dont have locations
   > console.log(ocaml.compileRE("let sum = item => swiftch (item) { 2 };")); // but some do
   > EOF
 
@@ -130,11 +128,8 @@ Prepare an input file to test some snippets to exercise common functionality
       '}\n' +
       '/* No side effect */\n'
   }
-  {
-    js_error_msg: 'File "_none_", line 1, characters 35-36:\n' +
-      'Error: Unclosed "{" (opened line 1, column 33)\n' +
-      '\n'
-  }
+  File "_none_", line 1, characters 35-36:
+  Error: Unclosed "{" (opened line 1, column 33)
   {
     js_error_msg: 'Line 1, 18:\n  Error Unbound value swiftch',
     row: 0,
