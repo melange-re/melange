@@ -25,9 +25,15 @@
 open Melange_compiler_libs
 module Js = Jsoo_common.Js
 
-external to_ppxlib :
-  Melange_compiler_libs.Parsetree.structure ->
-  Ppxlib_ast.Compiler_version.Ast.Parsetree.structure = "%identity"
+module Melange_ast = struct
+  external to_ppxlib :
+    Melange_compiler_libs.Parsetree.structure ->
+    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure = "%identity"
+
+  external from_ppxlib :
+    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
+    Melange_compiler_libs.Parsetree.structure = "%identity"
+end
 
 let () =
   Bs_conditional_initial.setup_env ();
@@ -51,8 +57,8 @@ module To_ppxlib =
 
 let compile
     ~(impl :
-       Lexing.lexbuf -> Ppxlib_ast.Compiler_version.Ast.Parsetree.structure) str
-    : Js.Unsafe.obj =
+       Lexing.lexbuf -> Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
+    str : Js.Unsafe.obj =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
   (* Res_compmisc.init_path false; *)
@@ -74,8 +80,7 @@ let compile
       let melange_converted_ast =
         From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
       in
-      (Obj.magic melange_converted_ast
-        : Melange_compiler_libs.Parsetree.structure)
+      Melange_ast.from_ppxlib melange_converted_ast
     in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
@@ -125,7 +130,7 @@ let () =
                        (fun buf :
                             Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree
                             .structure ->
-                       to_ppxlib
+                       Melange_ast.to_ppxlib
                          (Melange_compiler_libs.Parse.implementation buf))
                      (Js.to_string code)) );
           ( "compileRE",
