@@ -3,8 +3,8 @@
 
 var Stdlib = require("melange/stdlib.js");
 var Stdlib__List = require("melange/list.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 var Foo = /* @__PURE__ */Caml_exceptions.create("Gpr_1701_test.Foo");
 

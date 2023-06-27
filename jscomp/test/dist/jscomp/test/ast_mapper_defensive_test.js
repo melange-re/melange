@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_mapperRt = require("melange.belt/js_mapperRt.js");
+var Js__Js_mapperRt = require("melange.js/js_mapperRt.js");
 
 var suites = {
   contents: /* [] */0
@@ -58,7 +58,7 @@ function bToJs(param) {
 }
 
 function bFromJs(param) {
-  return Js_mapperRt.fromIntAssert(3, jsMapperConstantArray, param);
+  return Js__Js_mapperRt.fromIntAssert(3, jsMapperConstantArray, param);
 }
 
 var _map = {"c0":"c0","c1":"c1","c2":"c2"};
@@ -68,7 +68,7 @@ function cToJs(param) {
 }
 
 function cFromJs(param) {
-  return Js_mapperRt.raiseWhenNotFound(_map[param]);
+  return Js__Js_mapperRt.raiseWhenNotFound(_map[param]);
 }
 
 $$throw("File \"ast_mapper_defensive_test.ml\", line 28, characters 16-23", (function (param) {

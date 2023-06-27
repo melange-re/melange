@@ -26,18 +26,11 @@
     Utililites for Int
 *)
 
-external toFloat: int -> float = "%identity"
-
-external fromFloat: float -> int = "%intoffloat"
-
-val fromString: string -> int option
-
-external toString: int -> string = "String" [@@bs.val]
-
+external toFloat : int -> float = "%identity"
+external fromFloat : float -> int = "%intoffloat"
+val fromString : string -> int option
+external toString : int -> string = "String" [@@bs.val]
 external ( + ) : int -> int -> int = "%addint"
-
 external ( - ) : int -> int -> int = "%subint"
-
 external ( * ) : int -> int -> int = "%mulint"
-
 external ( / ) : int -> int -> int = "%divint"

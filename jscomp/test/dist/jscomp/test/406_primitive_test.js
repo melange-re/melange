@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0

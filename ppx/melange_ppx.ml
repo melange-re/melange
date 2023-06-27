@@ -555,10 +555,22 @@ module Mapper = struct
 
       method! structure_item str =
         match str.pstr_desc with
-        | Pstr_primitive prim
-          when Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim
-          ->
-            Ast_external.handleExternalInStru self prim str
+        | Pstr_primitive prim ->
+            if Ast_attributes.rs_externals prim.pval_attributes prim.pval_prim
+            then Ast_external.handleExternalInStru self prim str
+            else
+              super#structure_item
+                {
+                  str with
+                  pstr_desc =
+                    Pstr_primitive
+                      {
+                        prim with
+                        pval_attributes =
+                          Ast_attributes.unboxable_type_in_prim_decl
+                          :: prim.pval_attributes;
+                      };
+                }
         | Pstr_value
             ( Nonrecursive,
               [
@@ -763,8 +775,32 @@ module Mapper = struct
                               pval_attributes = [];
                             };
                       }
-                  | _ -> super#signature_item sigi)
-              | Some _ | None -> super#signature_item sigi)
+                  | _ ->
+                      super#signature_item
+                        {
+                          sigi with
+                          psig_desc =
+                            Psig_value
+                              {
+                                value_desc with
+                                pval_attributes =
+                                  Ast_attributes.unboxable_type_in_prim_decl
+                                  :: pval_attributes;
+                              };
+                        })
+              | Some _ | None ->
+                  super#signature_item
+                    {
+                      sigi with
+                      psig_desc =
+                        Psig_value
+                          {
+                            value_desc with
+                            pval_attributes =
+                              Ast_attributes.unboxable_type_in_prim_decl
+                              :: pval_attributes;
+                          };
+                    })
         | _ -> super#signature_item sigi
     end
 end

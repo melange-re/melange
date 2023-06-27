@@ -19,7 +19,7 @@
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
           (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: { });
+            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14;
           })
         ];
       in

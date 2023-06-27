@@ -2,10 +2,10 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_List = require("melange.belt/belt_List.js");
-var Caml_int64 = require("melange.runtime/caml_int64.js");
-var Caml_format = require("melange.runtime/caml_format.js");
+var Caml_int64 = require("melange.js/caml_int64.js");
+var Caml_format = require("melange.js/caml_format.js");
 var Stdlib__Int64 = require("melange/int64.js");
+var Belt__Belt_List = require("melange.belt/belt_List.js");
 
 var suites = {
   contents: /* [] */0
@@ -1305,7 +1305,7 @@ var random_data = {
   }
 };
 
-Belt_List.forEach(random_data, (function (u) {
+Belt__Belt_List.forEach(random_data, (function (u) {
         if (u) {
           if (u.tl) {
             throw {

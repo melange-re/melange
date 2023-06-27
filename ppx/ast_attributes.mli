@@ -60,3 +60,4 @@ val rs_externals : t -> string list -> bool
 type as_const_payload = Int of int | Str of string | Js_literal_str of string
 
 val iter_process_bs_string_or_int_as : t -> as_const_payload option
+val unboxable_type_in_prim_decl : attr

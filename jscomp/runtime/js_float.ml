@@ -25,12 +25,15 @@
 (** Provides functions for inspecting and manipulating [float]s
 *)
 
+external _NaN : float = "NaN"
+  [@@bs.val]
 (** The special value "Not a Number"
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN> MDN
 *)
-external _NaN : float = "NaN" [@@bs.val]
 
+external isNaN : float -> bool = "isNaN"
+  [@@bs.val] [@@bs.scope "Number"]
 (** Tests if the given value is [_NaN]
 
 Note that both [_NaN = _NaN] and [_NaN == _NaN] will return [false]. [isNaN] is
@@ -40,8 +43,9 @@ therefore necessary to test for [_NaN].
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isNaN> MDN
 *)
-external isNaN : float -> bool = "isNaN" [@@bs.val] [@@bs.scope "Number"]
 
+external isFinite : float -> bool = "isFinite"
+  [@@bs.val] [@@bs.scope "Number"]
 (** Tests if the given value is finite
 
 {b Returns} [true] if the given value is a finite number, [false] otherwise
@@ -62,8 +66,9 @@ let _ = Js.Float.isFinite 1234
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isFinite> MDN
 *)
-external isFinite : float -> bool = "isFinite" [@@bs.val] [@@bs.scope "Number"]
 
+external toExponential : float -> string = "toExponential"
+  [@@bs.send]
 (** Formats a [float] using exponential (scientific) notation
 
 {b Returns} a [string] representing the given value in exponential notation
@@ -80,8 +85,10 @@ external isFinite : float -> bool = "isFinite" [@@bs.val] [@@bs.scope "Number"]
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
-external toExponential : float -> string = "toExponential" [@@bs.send]
 
+external toExponentialWithPrecision : float -> digits:int -> string
+  = "toExponential"
+  [@@bs.send]
 (** Formats a [float] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -101,8 +108,9 @@ The output will be rounded or padded with zeroes if necessary.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential> MDN
 *)
-external toExponentialWithPrecision : float -> digits:int -> string = "toExponential" [@@bs.send]
 
+external toFixed : float -> string = "toFixed"
+  [@@bs.send]
 (** Formats a [float] using fixed point notation
 
 {b Returns} a [string] representing the given value in fixed-point notation (usually)
@@ -119,8 +127,9 @@ external toExponentialWithPrecision : float -> digits:int -> string = "toExponen
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed> MDN
 *)
-external toFixed : float -> string = "toFixed" [@@bs.send]
 
+external toFixedWithPrecision : float -> digits:int -> string = "toFixed"
+  [@@bs.send]
 (** Formats a [float] using fixed point notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -142,8 +151,9 @@ The output will be rounded or padded with zeroes if necessary.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed> MDN
 *)
-external toFixedWithPrecision : float -> digits:int -> string = "toFixed" [@@bs.send]
 
+external toPrecision : float -> string = "toPrecision"
+  [@@bs.send]
 (** Formats a [float] using some fairly arbitrary rules
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -164,8 +174,11 @@ decimal point.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
-external toPrecision : float -> string = "toPrecision" [@@bs.send] (* equivalent to `toString` I think *)
+(* equivalent to `toString` I think *)
 
+external toPrecisionWithPrecision : float -> digits:int -> string
+  = "toPrecision"
+  [@@bs.send]
 (** Formats a [float] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The
@@ -194,9 +207,9 @@ before the decimal point.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toPrecision> MDN
 *)
-external toPrecisionWithPrecision : float -> digits:int -> string = "toPrecision" [@@bs.send]
 
-
+external toString : float -> string = "toString"
+  [@@bs.send]
 (** Formats a [float] as a string
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -208,8 +221,9 @@ external toPrecisionWithPrecision : float -> digits:int -> string = "toPrecision
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
-external toString : float -> string = "toString" [@@bs.send]
 
+external toStringWithRadix : float -> radix:int -> string = "toString"
+  [@@bs.send]
 (** Formats a [float] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
@@ -235,8 +249,9 @@ value must be in the range \[2, 36\] (inclusive).
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString> MDN
 *)
-external toStringWithRadix : float -> radix:int -> string = "toString" [@@bs.send]
 
+external fromString : string -> float = "Number"
+  [@@bs.val]
 (** Parses the given [string] into a [float] using JavaScript semantics
 
 {b Returns} the number as a [float] if successfully parsed, [_NaN] otherwise.
@@ -267,6 +282,3 @@ let _ = Js.Float.fromString "foo"
 let _ = Js.Float.fromString "100a"
 ]}
 *)
-external fromString : string -> float = "Number" [@@bs.val]
-
-

@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
+var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 
 var suites = {
   contents: /* [] */0
@@ -16,7 +16,7 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-require('melange.runtime/caml_external_polyfill.js')
+require('melange.js/caml_external_polyfill.js')
   .register("caml_fancy_add", function(x,y){
     return + ((""+x ) + (""+y))
 })

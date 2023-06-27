@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib__List = require("melange/list.js");
 
 var suites = {

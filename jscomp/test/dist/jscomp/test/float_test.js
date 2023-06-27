@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/caml.js");
-var Curry = require("melange.runtime/curry.js");
+var Caml = require("melange.js/caml.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_obj = require("melange.js/caml_obj.js");
 var Mt_global = require("./mt_global.js");
-var Caml_float = require("melange.runtime/caml_float.js");
-var Caml_int64 = require("melange.runtime/caml_int64.js");
+var Caml_float = require("melange.js/caml_float.js");
+var Caml_int64 = require("melange.js/caml_int64.js");
 var Stdlib__Array = require("melange/array.js");
 var Stdlib__Printf = require("melange/printf.js");
 

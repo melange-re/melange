@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_dict = require("melange.belt/js_dict.js");
-var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Js__Js_dict = require("melange.js/js_dict.js");
 
 var suites = {
   contents: /* [] */0
@@ -25,7 +25,7 @@ var d = {};
 
 d["foo"] = undefined;
 
-var match = Js_dict.get(d, "foo");
+var match = Js__Js_dict.get(d, "foo");
 
 if (match !== undefined && Caml_option.valFromOption(match) === undefined) {
   b("File \"gpr_3154_test.ml\", line 12, characters 19-26", true);
@@ -37,7 +37,7 @@ var d0 = {};
 
 d0["foo"] = undefined;
 
-eq("File \"gpr_3154_test.ml\", line 18, characters 5-12", Js_dict.get(d0, "foo"), Caml_option.some(undefined));
+eq("File \"gpr_3154_test.ml\", line 18, characters 5-12", Js__Js_dict.get(d0, "foo"), Caml_option.some(undefined));
 
 Mt.from_pair_suites("Gpr_3154_test", suites.contents);
 

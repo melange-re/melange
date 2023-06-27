@@ -2,7 +2,7 @@
 'use strict';
 
 var Path = require("path");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Assert = require("assert");
 var Process = require("process");
 var Stdlib__List = require("melange/list.js");

@@ -24,31 +24,31 @@
 
 (** Provides functionality for dealing with the ['a Js.undefined] type *)
 
+type +'a t = 'a Js_internal.undefined
 (** Local alias for ['a Js.undefined] *)
-type + 'a t = 'a Js.undefined
 
-(** Constructs a value of ['a Js.undefined] containing a value of ['a] *)
+module Js := Js_internal
+
 external return : 'a -> 'a t = "%identity"
+(** Constructs a value of ['a Js.undefined] containing a value of ['a] *)
 
-
-val test : 'a t -> bool 
-[@@deprecated "Use = Js.undefined directly"]
+val test : 'a t -> bool
+  [@@deprecated "Use = Js.undefined directly"]
 (** Returns [true] if the given value is [empty] ([undefined]), [false] otherwise *)
 
+val testAny : 'a -> bool
 (**
    @since 1.6.1
    Returns [true] if the given value is [empty] ([undefined])
 *)
-val testAny : 'a -> bool 
 
-
+external empty : 'a t = "#undefined"
 (** The empty value, [undefined] *)
-external empty : 'a t = "#undefined" 
 
 external getUnsafe : 'a t -> 'a = "%identity"
+val getExn : 'a t -> 'a
 
-val getExn: 'a t -> 'a
-
+val bind : 'a t -> (('a -> 'b)[@bs]) -> 'b t
 (** Maps the contained value using the given function
 
 If ['a Js.undefined] contains a value, that value is unwrapped, mapped to a ['b] using
@@ -59,8 +59,8 @@ let maybeGreetWorld (maybeGreeting: string Js.undefined) =
   Js.Undefined.bind maybeGreeting (fun greeting -> greeting ^ " world!")
 ]}
 *)
-val bind : 'a t -> ('a -> 'b [@bs]) -> 'b t
 
+val iter : 'a t -> (('a -> unit)[@bs]) -> unit
 (** Iterates over the contained value with the given function
 
 If ['a Js.undefined] contains a value, that value is unwrapped and applied to
@@ -71,8 +71,8 @@ let maybeSay (maybeMessage: string Js.undefined) =
   Js.Undefined.iter maybeMessage (fun message -> Js.log message)
 ]}
 *)
-val iter : 'a t -> ('a -> unit [@bs]) -> unit
 
+val fromOption : 'a option -> 'a t
 (** Maps ['a option] to ['a Js.undefined]
 
 {%html:
@@ -82,10 +82,10 @@ val iter : 'a t -> ('a -> unit [@bs]) -> unit
 </table>
 %}
 *)
-val fromOption: 'a option -> 'a t
-val from_opt : 'a option -> 'a t
-[@@deprecated "Use fromOption instead"]
 
+val from_opt : 'a option -> 'a t [@@deprecated "Use fromOption instead"]
+
+external toOption : 'a t -> 'a option = "#undefined_to_opt"
 (** Maps ['a Js.undefined] to ['a option]
 
 {%html:
@@ -95,6 +95,6 @@ val from_opt : 'a option -> 'a t
 </table>
 %}
 *)
-external toOption : 'a t -> 'a option = "#undefined_to_opt"
+
 external to_opt : 'a t -> 'a option = "#undefined_to_opt"
-[@@deprecated "use toOption instead"]
+  [@@deprecated "use toOption instead"]

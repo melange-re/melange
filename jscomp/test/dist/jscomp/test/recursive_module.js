@@ -2,13 +2,13 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_module = require("melange.runtime/caml_module.js");
+var Caml_module = require("melange.js/caml_module.js");
 var Stdlib__Lazy = require("melange/lazy.js");
 var CamlinternalLazy = require("melange/camlinternalLazy.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
-var Caml_external_polyfill = require("melange.runtime/caml_external_polyfill.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
 
 var suites = {
   contents: /* [] */0

@@ -10,9 +10,6 @@
 
 (cram enable)
 
-(formatting
- (enabled_for ocaml))
-
 (generate_opam_files true)
 
 (name melange)

@@ -27,24 +27,15 @@
 *)
 
 external isNaN : float -> bool = "isNaN" [@@bs.val]
-
-external toInt: float -> int = "%intoffloat"
-
-external fromInt: int -> float = "%identity"
-
-external fromString: string -> float = "parseFloat" [@@bs.val]
+external toInt : float -> int = "%intoffloat"
+external fromInt : int -> float = "%identity"
+external fromString : string -> float = "parseFloat" [@@bs.val]
 
 let fromString i =
-  match (fromString i) with
-  | i when isNaN i -> None
-  | i -> Some i
+  match fromString i with i when isNaN i -> None | i -> Some i
 
-external toString: float -> string = "String" [@@bs.val]
-
+external toString : float -> string = "String" [@@bs.val]
 external ( + ) : float -> float -> float = "%addfloat"
-
 external ( - ) : float -> float -> float = "%subfloat"
-
 external ( * ) : float -> float -> float = "%mulfloat"
-
 external ( / ) : float -> float -> float = "%divfloat"

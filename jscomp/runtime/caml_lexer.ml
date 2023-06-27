@@ -22,8 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-type lex_tables 
+type lex_tables
 type lexbuf
 
 (** *)
@@ -33,8 +32,8 @@ type lexbuf
 (* @param s *)
 (* @returns {any[]} *)
 
-
-[%%bs.raw{| 
+[%%bs.raw
+{| 
 
 /***********************************************************************/
 /*                                                                     */
@@ -102,7 +101,9 @@ function caml_lex_array(s) {
  * @param lexbuf
  * @returns {any}
  *)
-let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int = [%raw{|function (tbl, start_state, lexbuf, exn){
+let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int =
+  [%raw
+    {|function (tbl, start_state, lexbuf, exn){
 
     if (!Array.isArray(tbl.lex_default)) {
         tbl.lex_base = caml_lex_array(tbl.lex_base);
@@ -176,10 +177,10 @@ let caml_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int = [%raw{|fun
 let empty_token_lit = "lexing: empty token"
 
 let caml_lex_engine : lex_tables -> int -> lexbuf -> int =
-    fun tbls i buf -> 
-    caml_lex_engine_aux tbls i buf (Failure empty_token_lit)
+ fun tbls i buf -> caml_lex_engine_aux tbls i buf (Failure empty_token_lit)
 
-[%%bs.raw{|
+[%%bs.raw
+{|
 
 
 /***********************************************/
@@ -236,8 +237,9 @@ function caml_lex_run_tag(s, i, mem) {
  * @returns {any}
  *)
 
-
-let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int= [%raw{|function (tbl, start_state, lexbuf, exn) {
+let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int =
+  [%raw
+    {|function (tbl, start_state, lexbuf, exn) {
 
     if (!Array.isArray(tbl.lex_default)) {
         tbl.lex_base = caml_lex_array(tbl.lex_base);
@@ -326,9 +328,5 @@ let caml_new_lex_engine_aux : lex_tables -> int -> lexbuf -> exn -> int= [%raw{|
     }
 |}]
 
-
-
-let caml_new_lex_engine : lex_tables -> int -> lexbuf -> int
-  = fun tbl i buf -> 
-caml_new_lex_engine_aux tbl i buf (Failure empty_token_lit)
-
+let caml_new_lex_engine : lex_tables -> int -> lexbuf -> int =
+ fun tbl i buf -> caml_new_lex_engine_aux tbl i buf (Failure empty_token_lit)

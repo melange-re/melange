@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
 var Mt_global = require("./mt_global.js");
 var Float_array = require("./float_array.js");

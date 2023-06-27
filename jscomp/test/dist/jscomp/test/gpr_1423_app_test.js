@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Gpr_1423_nav = require("./gpr_1423_nav.js");
 
 var suites = {

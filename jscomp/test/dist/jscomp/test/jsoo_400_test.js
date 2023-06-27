@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_int32 = require("melange.runtime/caml_int32.js");
+var Caml_int32 = require("melange.js/caml_int32.js");
 
 function u(param) {
   var n;
