@@ -106,8 +106,6 @@ module Reason = struct
 
   let parseRE = parseWith RE.implementation_with_comments
   let parseML = parseWith ML.implementation_with_comments
-  (* let parseREI = parseWith RE.interface_with_comments *)
-  (* let parseMLI = parseWith ML.interface_with_comments *)
 
   let printWith f structureAndComments =
     f Format.str_formatter structureAndComments;
@@ -115,8 +113,6 @@ module Reason = struct
 
   let printRE = printWith RE.print_implementation_with_comments
   let printML = printWith ML.print_implementation_with_comments
-  (* let printREI = printWith RE.print_interface_with_comments *)
-  (* let printMLI = printWith ML.print_interface_with_comments *)
 end
 
 let mk_js_error (error : Location.report) =

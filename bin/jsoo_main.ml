@@ -25,9 +25,20 @@
 open Melange_compiler_libs
 module Js = Jsoo_common.Js
 
+module Melange_ast = struct
+  external to_ppxlib :
+    Melange_compiler_libs.Parsetree.structure ->
+    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure = "%identity"
+
+  external from_ppxlib :
+    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
+    Melange_compiler_libs.Parsetree.structure = "%identity"
+end
+
 let () =
   Bs_conditional_initial.setup_env ();
-  Clflags.binary_annotations := false
+  Clflags.binary_annotations := false;
+  Clflags.color := None
 
 let error_of_exn e =
   match Location.error_of_exn e with
@@ -44,7 +55,9 @@ module From_ppxlib =
 module To_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast__.Versions.OCaml_414) (Ppxlib_ast.Selected_ast)
 
-let compile ~(impl : Lexing.lexbuf -> Melange_compiler_libs.Parsetree.structure)
+let compile
+    ~(impl :
+       Lexing.lexbuf -> Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
     str : Js.Unsafe.obj =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
@@ -62,15 +75,12 @@ let compile ~(impl : Lexing.lexbuf -> Melange_compiler_libs.Parsetree.structure)
     let ast =
       let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
         (* Copy to ppxlib version *)
-        To_ppxlib.copy_structure
-          (Obj.magic ast
-            : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
+        To_ppxlib.copy_structure ast
       in
       let melange_converted_ast =
         From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
       in
-      (Obj.magic melange_converted_ast
-        : Melange_compiler_libs.Parsetree.structure)
+      Melange_ast.from_ppxlib melange_converted_ast
     in
     let typed_tree =
       let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
@@ -87,7 +97,7 @@ let compile ~(impl : Lexing.lexbuf -> Melange_compiler_libs.Parsetree.structure)
     let () =
       Js_dump_program.pp_deps_program ~output_prefix:""
         ~package_info:Js_packages_info.empty
-        ~output_info:{ Js_packages_info.module_system = NodeJS; suffix = Js }
+        ~output_info:{ Js_packages_info.module_system = Es6; suffix = Js }
         (Ext_pp.from_buffer buffer)
         (Lam_compile_main.compile "" lam)
     in
@@ -112,10 +122,21 @@ let () =
     Js.Unsafe.(
       obj
         [|
-          ( "compile",
+          ( "compileML",
             inject
             @@ Js.wrap_meth_callback (fun _ code ->
-                   compile ~impl:Melange_compiler_libs.Parse.implementation
+                   compile
+                     ~impl:
+                       (fun buf :
+                            Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree
+                            .structure ->
+                       Melange_ast.to_ppxlib
+                         (Melange_compiler_libs.Parse.implementation buf))
+                     (Js.to_string code)) );
+          ( "compileRE",
+            inject
+            @@ Js.wrap_meth_callback (fun _ code ->
+                   compile ~impl:Reason_toolchain.RE.implementation
                      (Js.to_string code)) );
           ("version", inject @@ Js.string Melange_version.version);
           ("parseRE", inject @@ Jsoo_common.Reason.parseRE);
