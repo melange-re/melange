@@ -13,6 +13,7 @@ let depexts_raw ~env nv opams =
       print_endline (OpamFile.OPAM.write_to_string opam);
     List.fold_left
       (fun depexts (names, filter) ->
+        print_endline (OpamFilter.to_string filter);
         if OpamFilterVendored.eval_to_bool ~default:false env filter then
           OpamSysPkg.Set.Op.(names ++ depexts)
         else depexts)
@@ -20,10 +21,18 @@ let depexts_raw ~env nv opams =
       (OpamFile.OPAM.depexts opam)
   with Not_found -> OpamSysPkg.Set.empty
 
-let depexts package opams gt switch switch_config =
-  let env =
-    OpamPackageVar.resolve_switch_raw ~package gt switch switch_config
+let depexts package opams =
+  let resolve_switch_raw full_var =
+    let module V = OpamVariable in
+    let var = V.Full.variable full_var in
+    print_endline "VAR";
+    print_endline (V.to_string var);
+    match V.to_string var with
+    | "npm" -> 
+    Some (OpamVariable.bool true)
+    | _ -> None
   in
+  let env = resolve_switch_raw in
   depexts_raw ~env package opams
 
 let _variables =
@@ -87,7 +96,7 @@ let check_npm_deps cli =
            Printf.sprintf "pkg: %s, depexts: %s\n"
              (OpamPackage.to_string pkg)
              (OpamSysPkg.Set.to_string
-                (depexts pkg st.opams gt st.switch st.switch_config)))
+                (depexts pkg st.opams)))
          OpamPackage.Set.(elements @@ st.installed));
     let () =
       OpamPackage.Set.iter
