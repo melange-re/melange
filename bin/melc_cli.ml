@@ -83,6 +83,7 @@ type t = {
   modules : bool;
   nolabels : bool;
   principal : bool;
+  rectypes : bool;
   short_paths : bool;
   unsafe : bool;
   warn_help : bool;
@@ -440,6 +441,10 @@ module Internal = struct
     let doc = "*internal* Check principality of type inference" in
     Arg.(value & flag & info [ "principal" ] ~doc)
 
+  let rectypes =
+    let doc = "Allow arbitrary recursive types" in
+    Arg.(value & flag & info [ "rectypes" ] ~doc)
+
   let short_paths =
     let doc = "*internal* Shorten paths in types" in
     Arg.(value & flag & info [ "short-paths" ] ~doc)
@@ -477,8 +482,9 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     verbose keep_locs bs_no_check_div_by_zero bs_noassertfalse noassert bs_loc
     impl intf intf_suffix g opaque preamble strict_sequence strict_formats
     dtypedtree dparsetree drawlambda dsource version pp absname bin_annot i
-    nopervasives modules nolabels principal short_paths unsafe warn_help
-    warn_error bs_stop_after_cmj runtime filenames _bs_super_errors _c =
+    nopervasives modules nolabels principal rectypes short_paths unsafe
+    warn_help warn_error bs_stop_after_cmj runtime filenames _bs_super_errors _c
+    =
   {
     help;
     include_dirs;
@@ -539,6 +545,7 @@ let parse help include_dirs alerts warnings output_name ppx open_modules
     modules;
     nolabels;
     principal;
+    rectypes;
     short_paths;
     unsafe;
     warn_help;
@@ -565,9 +572,9 @@ let cmd =
     $ Internal.strict_sequence $ Internal.strict_formats $ Internal.dtypedtree
     $ Internal.dparsetree $ Internal.drawlambda $ Internal.dsource $ version
     $ pp $ absname $ bin_annot $ i $ Internal.nopervasives $ Internal.modules
-    $ Internal.nolabels $ Internal.principal $ Internal.short_paths $ unsafe
-    $ warn_help $ warn_error $ bs_stop_after_cmj $ Internal.runtime $ filenames
-    $ Compat.bs_super_errors $ Compat.c)
+    $ Internal.nolabels $ Internal.principal $ Internal.rectypes
+    $ Internal.short_paths $ unsafe $ warn_help $ warn_error $ bs_stop_after_cmj
+    $ Internal.runtime $ filenames $ Compat.bs_super_errors $ Compat.c)
 
 (* Different than Ext_cli_args because we need to normalize `-w -foo` to
  * `-w=-foo` *)
