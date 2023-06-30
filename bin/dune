@@ -23,34 +23,40 @@
 (install
  (section bin)
  (package melange-playground)
- (files jsoo_main.bc.js melange-cmijs.js))
+ (files jsoo_main.bc.js belt-cmijs.js runtime-cmijs.js stdlib-cmijs.js))
 
 (rule
  (deps
-  (:belt-cms
-   (glob_files ../jscomp/others/.belt.objs/melange/*.cm{i,j}))
-  (:runtime-cms
-   (glob_files ../jscomp/runtime/.js.objs/melange/*.cm{i,j}))
-  (:stdlib-cms
-   (glob_files ../jscomp/stdlib/.stdlib.objs/melange/*.cm{i,j}))
-  (:dom-cms
-   (glob_files ../jscomp/others/.dom.objs/melange/*.cm{i,j}))
-  (:node-cms
-   (glob_files ../jscomp/others/.node.objs/melange/*.cm{i,j})))
- (target melange-cmijs.js)
+  %{bin:js_of_ocaml}
+  (package melange)
+  (:some-cmi %{lib:melange:belt/melange/belt.cmi}))
+ (target belt-cmijs.js)
  (action
-  (progn
-   (run
-    js_of_ocaml
-    build-fs
-    -o
-    %{target}
-    %{belt-cms}
-    %{runtime-cms}
-    %{stdlib-cms}
-    %{dom-cms}
-    %{node-cms}))))
+  (bash
+   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
 
-(alias
- (name playground-cmijs)
- (deps melange-cmijs.js))
+(rule
+ (deps
+  %{bin:js_of_ocaml}
+  (package melange)
+  (:some-cmi %{lib:melange:js/melange/js.cmi}))
+ (target runtime-cmijs.js)
+ (action
+  (bash
+   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
+
+(rule
+ (deps
+  %{bin:js_of_ocaml}
+  (package melange)
+  (:some-cmi %{lib:melange:melange/stdlib.cmi}))
+ (target stdlib-cmijs.js)
+ (action
+  (bash
+   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
+
+(rule
+ (alias playground-cmijs)
+ (deps belt-cmijs.js runtime-cmijs.js stdlib-cmijs.js)
+ (action
+  (echo "cmijs generated")))
