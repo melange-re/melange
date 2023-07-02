@@ -10,4 +10,6 @@
  (deps
   %{bin:js_of_ocaml}
   ../../bin/jsoo_main.bc.js
-  ../../bin/melange-cmijs.js))
+  ../../bin/stdlib-cmijs.js
+  ../../bin/runtime-cmijs.js
+  ../../bin/belt-cmijs.js))
