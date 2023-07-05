@@ -45,7 +45,10 @@ $ git submodule update --init --recursive --remote
 
 To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
 
-Install the dependencies in `melange.opam` without building and installing melange itself by running 'opam install ./melange.opam --deps-only`.
+Install the dependencies in `melange.opam` without building and installing melange itself by running:
+
+    $ opam install ./melange.opam --deps-only
+
 
 If you plan to work on improving documentation, you will need to install `odoc`: `opam install odoc`.
 
