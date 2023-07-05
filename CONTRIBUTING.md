@@ -75,6 +75,7 @@ $ nix-build nix/ci/test.nix
 
 If that all passes, then congratulations! You are well on your way to becoming a contributor 🎉
 
+To submit a Pull Request, follow [this guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) on creating one from a fork.
 
 ## Update JS Reserved Keywords Map
 
