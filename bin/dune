@@ -23,40 +23,28 @@
 (install
  (section bin)
  (package melange-playground)
- (files jsoo_main.bc.js belt-cmijs.js runtime-cmijs.js stdlib-cmijs.js))
+ (files jsoo_main.bc.js melange-cmijs.js))
 
 (rule
  (deps
-  %{bin:js_of_ocaml}
   (package melange)
-  (:some-cmi %{lib:melange:belt/melange/belt.cmi}))
- (target belt-cmijs.js)
+  %{bin:js_of_ocaml}
+  (:some-js-cmi %{lib:melange:js/melange/js.cmi})
+  (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
+  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi}))
+ (target cmi-files.txt)
  (action
-  (bash
-   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
+  (progn
+   (bash
+    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+   (bash
+    "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
+   (bash
+    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
 
 (rule
- (deps
-  %{bin:js_of_ocaml}
-  (package melange)
-  (:some-cmi %{lib:melange:js/melange/js.cmi}))
- (target runtime-cmijs.js)
- (action
-  (bash
-   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
-
-(rule
- (deps
-  %{bin:js_of_ocaml}
-  (package melange)
-  (:some-cmi %{lib:melange:melange/stdlib.cmi}))
- (target stdlib-cmijs.js)
- (action
-  (bash
-   "find $(dirname %{some-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" | xargs js_of_ocaml build-fs -o %{target}")))
-
-(rule
+ (deps cmi-files.txt)
  (alias playground-cmijs)
- (deps belt-cmijs.js runtime-cmijs.js stdlib-cmijs.js)
+ (target melange-cmijs.js)
  (action
-  (echo "cmijs generated")))
+  (bash "cat %{deps} | xargs js_of_ocaml build-fs -o %{target}")))
