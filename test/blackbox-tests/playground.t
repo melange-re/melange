@@ -140,8 +140,28 @@ Prepare an input file to test some snippets to exercise common functionality
     text: 'Unbound value swiftch',
     type: 'error'
   }
-  File "_none_", line 1, characters 12-13:
-  Error (warning 109 [bucklescript-toplevel-expr-unit]): Toplevel expression is expected to have unit type.
-  File "_none_", line 1, characters 16-17:
-  Error (warning 109 [bucklescript-toplevel-expr-unit]): Toplevel expression is expected to have unit type.
-  { js_error_msg: 'Melange_compiler_libs__Warnings.Errors' }
+  {
+    warning_errors: [
+      {
+        js_error_msg: 'Line 1, 12:\n' +
+          '  Error: (warning 109 [bucklescript-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
+        row: 0,
+        column: 12,
+        endRow: 0,
+        endColumn: 13,
+        text: 'Toplevel expression is expected to have unit type.',
+        type: 'warning_as_error'
+      },
+      {
+        js_error_msg: 'Line 1, 16:\n' +
+          '  Error: (warning 109 [bucklescript-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
+        row: 0,
+        column: 16,
+        endRow: 0,
+        endColumn: 17,
+        text: 'Toplevel expression is expected to have unit type.',
+        type: 'warning_as_error'
+      }
+    ],
+    type: 'warning_errors'
+  }
