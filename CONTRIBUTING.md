@@ -45,6 +45,11 @@ $ git submodule update --init --recursive --remote
 
 To set up a development environment using [opam](https://opam.ocaml.org/), run `make opam-init` to set up an opam [local switch](https://opam.ocaml.org/blog/opam-local-switches/) and download the required dependencies.
 
+Install the dependencies in `melange.opam` without building and installing melange itself by running:
+
+    $ opam install ./melange.opam --deps-only
+
+
 If you plan to work on improving documentation, you will need to install `odoc`: `opam install odoc`.
 
 ## Developing
@@ -73,6 +78,7 @@ $ nix-build nix/ci/test.nix
 
 If that all passes, then congratulations! You are well on your way to becoming a contributor 🎉
 
+To submit a Pull Request, follow [this guide](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) on creating one from a fork.
 
 ## Update JS Reserved Keywords Map
 
