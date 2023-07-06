@@ -18,7 +18,12 @@ let
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: { });
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
+          sedlex = osuper.sedlex.overrideAttrs (_: {
+            # depends on ppx_expect, which is not available for 4.13
+            doCheck = false;
+          });
+        });
       })
     ];
   };
