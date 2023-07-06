@@ -78,7 +78,7 @@ module Reason = struct
   let printML = printWith ~f:ML.print_implementation_with_comments
 end
 
-let mk_js_error (error : Location.report) =
+let mk_js_error (error : Location.report) : Js.t =
   let kind, type_ =
     match error.kind with
     | Location.Report_error -> ("Error", "error")
