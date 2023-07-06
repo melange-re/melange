@@ -21,6 +21,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > console.log(ocaml.compileRE("let t = 1;"));
   > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };").js_error_msg.trim()); // Some Reason errors dont have locations
   > console.log(ocaml.compileRE("let sum = item => swiftch (item) { 2 };")); // but some do
+  > console.log(ocaml.compileML("let t = 2;; 3;; 5"));
   > EOF
 
   $ node input.js
@@ -139,3 +140,8 @@ Prepare an input file to test some snippets to exercise common functionality
     text: 'Unbound value swiftch',
     type: 'error'
   }
+  File "_none_", line 1, characters 12-13:
+  Error (warning 109 [bucklescript-toplevel-expr-unit]): Toplevel expression is expected to have unit type.
+  File "_none_", line 1, characters 16-17:
+  Error (warning 109 [bucklescript-toplevel-expr-unit]): Toplevel expression is expected to have unit type.
+  { js_error_msg: 'Melange_compiler_libs__Warnings.Errors' }
