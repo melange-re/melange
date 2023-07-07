@@ -58,7 +58,7 @@ module To_ppxlib =
 let compile
     ~(impl :
        Lexing.lexbuf -> Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
-    str : Js.Unsafe.obj =
+    str : Jsoo_common.js_error =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
   (* Res_compmisc.init_path false; *)
@@ -102,45 +102,40 @@ let compile
         (Lam_compile_main.compile "" lam)
     in
     let v = Buffer.contents buffer in
-    Js.Unsafe.(obj [| ("js_code", inject @@ Js.string v) |])
+    Js.(obj [| ("js_code", Js.string v) |])
     (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
   with e -> (
     match error_of_exn e with
     | Some error -> Jsoo_common.mk_js_error error
-    | None ->
-        Js.Unsafe.(
-          obj [| ("js_error_msg", inject @@ Js.string (Printexc.to_string e)) |]))
+    | None -> Js.(obj [| ("js_error_msg", Js.string (Printexc.to_string e)) |]))
 
-let export (field : string) v = Js.Unsafe.set Js.Unsafe.global field v
+let export (field : Js.t) v = Js.set (Js.pure_js_expr "globalThis") field v
 
 (* To add a directory to the load path *)
 
 let () = Load_path.add_dir "/static"
 
 let () =
-  export "ocaml"
-    Js.Unsafe.(
+  export (Js.string "ocaml")
+    Js.(
       obj
         [|
           ( "compileML",
-            inject
-            @@ Js.wrap_meth_callback (fun _ code ->
-                   compile
-                     ~impl:
-                       (fun buf :
-                            Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree
-                            .structure ->
-                       Melange_ast.to_ppxlib
-                         (Melange_compiler_libs.Parse.implementation buf))
-                     (Js.to_string code)) );
+            Js.wrap_meth_callback (fun _ code ->
+                compile
+                  ~impl:
+                    (fun buf :
+                         Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
+                    Melange_ast.to_ppxlib
+                      (Melange_compiler_libs.Parse.implementation buf))
+                  (Js.to_string code)) );
           ( "compileRE",
-            inject
-            @@ Js.wrap_meth_callback (fun _ code ->
-                   compile ~impl:Reason_toolchain.RE.implementation
-                     (Js.to_string code)) );
-          ("version", inject @@ Js.string Melange_version.version);
-          ("parseRE", inject @@ Jsoo_common.Reason.parseRE);
-          ("parseML", inject @@ Jsoo_common.Reason.parseML);
-          ("printRE", inject @@ Jsoo_common.Reason.printRE);
-          ("printML", inject @@ Jsoo_common.Reason.printML);
+            Js.wrap_meth_callback (fun _ code ->
+                compile ~impl:Reason_toolchain.RE.implementation
+                  (Js.to_string code)) );
+          ("version", Js.string Melange_version.version);
+          ("parseRE",Obj.magic (Jsoo_common.Reason.parseRE));
+          ("parseML",Obj.magic (Jsoo_common.Reason.parseML));
+          ("printRE",Obj.magic (Jsoo_common.Reason.printRE));
+          ("printML",Obj.magic (Jsoo_common.Reason.printML));
         |])

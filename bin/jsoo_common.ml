@@ -1,43 +1,6 @@
-module Js = struct
-  module Unsafe = struct
-    type any
+module Js = Jsoo_runtime.Js
 
-    external inject : 'a -> any = "%identity"
-    external get : 'a -> 'b -> 'c = "caml_js_get"
-    external set : 'a -> 'b -> 'c -> unit = "caml_js_set"
-    external pure_js_expr : string -> 'a = "caml_pure_js_expr"
-    external js_expr : string -> 'a = "caml_js_expr"
-    external fun_call : 'a -> any array -> 'b = "caml_js_fun_call"
-
-    let global = pure_js_expr "joo_global_object"
-
-    type obj
-
-    external obj : (string * any) array -> obj = "caml_js_object"
-  end
-
-  type (-'a, +'b) meth_callback
-  type 'a callback = (unit, 'a) meth_callback
-
-  external wrap_callback : ('a -> 'b) -> ('c, 'a -> 'b) meth_callback
-    = "caml_js_wrap_callback"
-
-  external wrap_meth_callback : ('a -> 'b) -> ('a, 'b) meth_callback
-    = "caml_js_wrap_meth_callback"
-
-  type +'a t
-  type js_string
-  type number
-  type 'a optdef = 'a
-
-  external string : string -> js_string t = "caml_js_from_string"
-  external to_string : js_string t -> string = "caml_js_to_string"
-  external create_file : js_string t -> js_string t -> unit = "caml_create_file"
-  external to_bytestring : js_string t -> string = "caml_js_to_byte_string"
-  external number_of_float : float -> number t = "caml_js_from_float"
-
-  let undefined : 'a optdef = Unsafe.pure_js_expr "undefined"
-end
+type js_error = Js.t
 
 module Reason = struct
   (* Adapted from https://github.com/reasonml/reason/blob/da280770cf905502d4b99788d9f3d1462893b53e/js/refmt.ml *)
@@ -67,24 +30,25 @@ module Reason = struct
         Some ((start_line, start_char + 1), (end_line, end_char))
     in
     match normalizedRange with
-    | None -> Js.undefined
+    | None -> Js.pure_js_expr "undefined"
     | Some ((start_line, start_line_start_char), (end_line, end_line_end_char))
       ->
-        let intToJsFloatToAny i =
-          i |> float_of_int |> Js.number_of_float |> Js.Unsafe.inject
-        in
-        Js.Unsafe.obj
+        let intToJsFloat i = i |> float_of_int |> Js.number_of_float in
+        Js.obj
           [|
-            ("startLine", intToJsFloatToAny start_line);
-            ("startLineStartChar", intToJsFloatToAny start_line_start_char);
-            ("endLine", intToJsFloatToAny end_line);
-            ("endLineEndChar", intToJsFloatToAny end_line_end_char);
+            ("startLine", intToJsFloat start_line);
+            ("startLineStartChar", intToJsFloat start_line_start_char);
+            ("endLine", intToJsFloat end_line);
+            ("endLineEndChar", intToJsFloat end_line_end_char);
           |]
 
-  let parseWith f code =
+  let parseWith
+      (f :
+        Lexing.lexbuf -> Ppxlib_ast.Parsetree.structure * Reason_comment.t list)
+      code =
     (* you can't throw an Error here. jsoo parses the string and turns it
        into something else *)
-    let throwAnything = Js.Unsafe.js_expr "function(a) {throw a}" in
+    let throwAnything = Js.js_expr "function(a) {throw a}" in
     let code =
       (* Add ending new line as otherwise reason parser chokes with inputs such as "//" *)
       Js.to_string code ^ "\n"
@@ -96,13 +60,10 @@ module Reason = struct
       Reason_errors.report_error ~loc Format.str_formatter err;
       let errorString = Format.flush_str_formatter () in
       let jsError =
-        Js.Unsafe.obj
-          [|
-            ("message", Js.Unsafe.inject (Js.string errorString));
-            ("location", Js.Unsafe.inject jsLocation);
-          |]
+        Js.obj
+          [| ("message", Js.string errorString); ("location", jsLocation) |]
       in
-      Js.Unsafe.fun_call throwAnything [| Js.Unsafe.inject jsError |]
+      Obj.magic (Js.fun_call throwAnything [| jsError |])
 
   let parseRE = parseWith RE.implementation_with_comments
   let parseML = parseWith ML.implementation_with_comments
@@ -115,7 +76,7 @@ module Reason = struct
   let printML = printWith ML.print_implementation_with_comments
 end
 
-let mk_js_error (error : Location.report) =
+let mk_js_error (error : Location.report) : js_error =
   let kind, type_ =
     match error.kind with
     | Location.Report_error -> ("Error", "error")
@@ -130,18 +91,16 @@ let mk_js_error (error : Location.report) =
   let loc = error.main.loc in
   let _file, line, startchar = Location.get_pos_info loc.Location.loc_start in
   let _file, endline, endchar = Location.get_pos_info loc.Location.loc_end in
-  Js.Unsafe.(
+  Js.(
     obj
       [|
         ( "js_error_msg",
-          inject
-          @@ Js.string
-               (Printf.sprintf "Line %d, %d:\n  %s %s" line startchar kind txt)
-        );
-        ("row", inject (line - 1));
-        ("column", inject startchar);
-        ("endRow", inject (endline - 1));
-        ("endColumn", inject endchar);
-        ("text", inject @@ Js.string txt);
-        ("type", inject @@ Js.string type_);
+          Js.string
+            (Printf.sprintf "Line %d, %d:\n  %s %s" line startchar kind txt) );
+        ("row", Js.number_of_float (float_of_int (line - 1)));
+        ("column", Js.number_of_float (float_of_int startchar));
+        ("endRow", Js.number_of_float (float_of_int (endline - 1)));
+        ("endColumn", Js.number_of_float (float_of_int endchar));
+        ("text", Js.string txt);
+        ("type", Js.string type_);
       |])
