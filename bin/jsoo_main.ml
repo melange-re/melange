@@ -117,25 +117,32 @@ let () = Load_path.add_dir "/static"
 
 let () =
   export (Js.string "ocaml")
-    Js.(
-      obj
-        [|
-          ( "compileML",
-            Js.wrap_meth_callback (fun _ code ->
-                compile
-                  ~impl:
-                    (fun buf :
-                         Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
-                    Melange_ast.to_ppxlib
-                      (Melange_compiler_libs.Parse.implementation buf))
-                  (Js.to_string code)) );
-          ( "compileRE",
-            Js.wrap_meth_callback (fun _ code ->
-                compile ~impl:Reason_toolchain.RE.implementation
-                  (Js.to_string code)) );
-          ("version", Js.string Melange_version.version);
-          ("parseRE",Obj.magic (Jsoo_common.Reason.parseRE));
-          ("parseML",Obj.magic (Jsoo_common.Reason.parseML));
-          ("printRE",Obj.magic (Jsoo_common.Reason.printRE));
-          ("printML",Obj.magic (Jsoo_common.Reason.printML));
-        |])
+    (Js.obj
+       [|
+         ( "compileML",
+           Js.wrap_meth_callback (fun _ code ->
+               compile
+                 ~impl:
+                   (fun buf :
+                        Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
+                   Melange_ast.to_ppxlib
+                     (Melange_compiler_libs.Parse.implementation buf))
+                 (Js.to_string code)) );
+         ( "compileRE",
+           Js.wrap_meth_callback (fun _ code ->
+               compile ~impl:Reason_toolchain.RE.implementation
+                 (Js.to_string code)) );
+         ("version", Js.string Melange_version.version);
+         ( "parseRE",
+           Js.wrap_meth_callback (fun _ re_string ->
+               Jsoo_common.Reason.parseRE re_string) );
+         ( "parseML",
+           Js.wrap_meth_callback (fun _ ocaml_string ->
+               Jsoo_common.Reason.parseML ocaml_string) );
+         ( "printRE",
+           Js.wrap_meth_callback (fun _ reason_ast_and_comments ->
+               Jsoo_common.Reason.printRE reason_ast_and_comments) );
+         ( "printML",
+           Js.wrap_meth_callback (fun _ ocaml_ast_and_comments ->
+               Jsoo_common.Reason.printML ocaml_ast_and_comments) );
+       |])
