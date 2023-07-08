@@ -58,7 +58,7 @@ module To_ppxlib =
 let compile
     ~(impl :
        Lexing.lexbuf -> Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
-    str : Jsoo_common.js_error =
+    str : Js.t =
   let modulename = "Test" in
   (* let env = !Toploop.toplevel_env in *)
   (* Res_compmisc.init_path false; *)

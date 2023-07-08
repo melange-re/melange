@@ -1,6 +1,6 @@
 module Js = Jsoo_runtime.Js
 
-type js_error = Js.t
+let intToJsFloat i = Js.number_of_float (float_of_int i)
 
 module Reason = struct
   (* Adapted from https://github.com/reasonml/reason/blob/da280770cf905502d4b99788d9f3d1462893b53e/js/refmt.ml *)
@@ -33,7 +33,6 @@ module Reason = struct
     | None -> Js.pure_js_expr "undefined"
     | Some ((start_line, start_line_start_char), (end_line, end_line_end_char))
       ->
-        let intToJsFloat i = i |> float_of_int |> Js.number_of_float in
         Js.obj
           [|
             ("startLine", intToJsFloat start_line);
@@ -57,26 +56,29 @@ module Reason = struct
     with (* from ocaml and reason *)
     | Reason_errors.Reason_error (err, loc) ->
       let jsLocation = locationToJsObj loc in
-      Reason_errors.report_error ~loc Format.str_formatter err;
-      let errorString = Format.flush_str_formatter () in
+      let error_buf = Buffer.create 256 in
+      let error_fmt = Format.formatter_of_buffer error_buf in
+      Reason_errors.report_error ~loc error_fmt err;
       let jsError =
         Js.obj
-          [| ("message", Js.string errorString); ("location", jsLocation) |]
+          [|
+            ("message", Js.string (Buffer.contents error_buf));
+            ("location", jsLocation);
+          |]
       in
       Obj.magic (Js.fun_call throwAnything [| jsError |])
 
   let parseRE = parseWith RE.implementation_with_comments
   let parseML = parseWith ML.implementation_with_comments
 
-  let printWith f structureAndComments =
-    f Format.str_formatter structureAndComments;
-    Format.flush_str_formatter () |> Js.string
+  let printWith ~f structureAndComments =
+    Js.string (Format.asprintf "%a" f structureAndComments)
 
-  let printRE = printWith RE.print_implementation_with_comments
-  let printML = printWith ML.print_implementation_with_comments
+  let printRE = printWith ~f:RE.print_implementation_with_comments
+  let printML = printWith ~f:ML.print_implementation_with_comments
 end
 
-let mk_js_error (error : Location.report) : js_error =
+let mk_js_error (error : Location.report) =
   let kind, type_ =
     match error.kind with
     | Location.Report_error -> ("Error", "error")
@@ -91,16 +93,15 @@ let mk_js_error (error : Location.report) : js_error =
   let loc = error.main.loc in
   let _file, line, startchar = Location.get_pos_info loc.Location.loc_start in
   let _file, endline, endchar = Location.get_pos_info loc.Location.loc_end in
-  Js.(
-    obj
-      [|
-        ( "js_error_msg",
-          Js.string
-            (Printf.sprintf "Line %d, %d:\n  %s %s" line startchar kind txt) );
-        ("row", Js.number_of_float (float_of_int (line - 1)));
-        ("column", Js.number_of_float (float_of_int startchar));
-        ("endRow", Js.number_of_float (float_of_int (endline - 1)));
-        ("endColumn", Js.number_of_float (float_of_int endchar));
-        ("text", Js.string txt);
-        ("type", Js.string type_);
-      |])
+  Js.obj
+    [|
+      ( "js_error_msg",
+        Js.string
+          (Printf.sprintf "Line %d, %d:\n  %s %s" line startchar kind txt) );
+      ("row", intToJsFloat (line - 1));
+      ("column", intToJsFloat startchar);
+      ("endRow", intToJsFloat (endline - 1));
+      ("endColumn", intToJsFloat endchar);
+      ("text", Js.string txt);
+      ("type", Js.string type_);
+    |]
