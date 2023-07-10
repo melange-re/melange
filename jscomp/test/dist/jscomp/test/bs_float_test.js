@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Belt_Float = require("melange.belt/belt_Float.js");
+var Belt__Belt_Float = require("melange.belt/belt_Float.js");
 
 var suites = {
   contents: /* [] */0
@@ -57,19 +57,19 @@ eq("File \"bs_float_test.ml\", line 22, characters 5-12", -1, -1);
 
 eq("File \"bs_float_test.ml\", line 23, characters 5-12", -1, -1);
 
-eq("File \"bs_float_test.ml\", line 26, characters 5-12", Belt_Float.fromString("1"), 1.0);
+eq("File \"bs_float_test.ml\", line 26, characters 5-12", Belt__Belt_Float.fromString("1"), 1.0);
 
-eq("File \"bs_float_test.ml\", line 27, characters 5-12", Belt_Float.fromString("-1"), -1.0);
+eq("File \"bs_float_test.ml\", line 27, characters 5-12", Belt__Belt_Float.fromString("-1"), -1.0);
 
-eq("File \"bs_float_test.ml\", line 28, characters 5-12", Belt_Float.fromString("1.7"), 1.7);
+eq("File \"bs_float_test.ml\", line 28, characters 5-12", Belt__Belt_Float.fromString("1.7"), 1.7);
 
-eq("File \"bs_float_test.ml\", line 29, characters 5-12", Belt_Float.fromString("-1.0"), -1.0);
+eq("File \"bs_float_test.ml\", line 29, characters 5-12", Belt__Belt_Float.fromString("-1.0"), -1.0);
 
-eq("File \"bs_float_test.ml\", line 30, characters 5-12", Belt_Float.fromString("-1.5"), -1.5);
+eq("File \"bs_float_test.ml\", line 30, characters 5-12", Belt__Belt_Float.fromString("-1.5"), -1.5);
 
-eq("File \"bs_float_test.ml\", line 31, characters 5-12", Belt_Float.fromString("-1.7"), -1.7);
+eq("File \"bs_float_test.ml\", line 31, characters 5-12", Belt__Belt_Float.fromString("-1.7"), -1.7);
 
-eq("File \"bs_float_test.ml\", line 32, characters 5-12", Belt_Float.fromString("not a float"), undefined);
+eq("File \"bs_float_test.ml\", line 32, characters 5-12", Belt__Belt_Float.fromString("not a float"), undefined);
 
 eq("File \"bs_float_test.ml\", line 35, characters 5-12", String(1.0), "1");
 

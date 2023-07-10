@@ -7,4 +7,7 @@
 
 (cram
  (applies_to playground)
- (deps %{bin:js_of_ocaml} ../../bin/jsoo_main.bc.js))
+ (deps
+  %{bin:js_of_ocaml}
+  ../../bin/jsoo_main.bc.js
+  ../../bin/melange-cmijs.js))

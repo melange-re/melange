@@ -36,9 +36,9 @@
     If for any reason, the runtime representation changes, those function 
     will be modified accordingly. *)
 
-external intOfBool : bool -> int = "%identity"  
+external intOfBool : bool -> int = "%identity"
 (** [intOfBool b] returns [1] for when [b] is [true] and [0] when [b] is 
     [false] *)
 
-external floatOfInt : int -> float = "%identity"  
+external floatOfInt : int -> float = "%identity"
 (** [floatOfInt i] returns the float value of [i] *)

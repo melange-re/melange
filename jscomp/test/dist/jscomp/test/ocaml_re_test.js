@@ -2,23 +2,23 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/caml.js");
-var Curry = require("melange.runtime/curry.js");
+var Caml = require("melange.js/caml.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
-var Caml_array = require("melange.runtime/caml_array.js");
-var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Caml_option = require("melange.runtime/caml_option.js");
-var Caml_string = require("melange.runtime/caml_string.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_array = require("melange.js/caml_array.js");
+var Caml_bytes = require("melange.js/caml_bytes.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Caml_string = require("melange.js/caml_string.js");
 var Stdlib__Char = require("melange/char.js");
 var Stdlib__List = require("melange/list.js");
 var Stdlib__Array = require("melange/array.js");
 var Stdlib__Bytes = require("melange/bytes.js");
 var Stdlib__Format = require("melange/format.js");
 var Stdlib__String = require("melange/string.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Stdlib__Hashtbl = require("melange/hashtbl.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -3384,6 +3384,121 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       continue ;
     };
   };
+  var piece = function (param) {
+    var r = atom(undefined);
+    if (accept(/* '*' */42)) {
+      return greedy_mod(repn(r, 0, undefined));
+    }
+    if (accept(/* '+' */43)) {
+      return greedy_mod(repn(r, 1, undefined));
+    }
+    if (accept(/* '?' */63)) {
+      return greedy_mod(repn(r, 0, 1));
+    }
+    if (!accept(/* '{' */123)) {
+      return r;
+    }
+    var i$1 = integer(undefined);
+    if (i$1 !== undefined) {
+      var j = accept(/* ',' */44) ? integer(undefined) : i$1;
+      if (!accept(/* '}' */125)) {
+        throw {
+              RE_EXN_ID: Parse_error,
+              Error: new Error()
+            };
+      }
+      if (j !== undefined && j < i$1) {
+        throw {
+              RE_EXN_ID: Parse_error,
+              Error: new Error()
+            };
+      }
+      return greedy_mod(repn(r, i$1, j));
+    }
+    i.contents = i.contents - 1 | 0;
+    return r;
+  };
+  var bracket = function (_s) {
+    while(true) {
+      var s = _s;
+      if (Caml_obj.caml_notequal(s, /* [] */0) && accept(/* ']' */93)) {
+        return s;
+      }
+      var match = $$char(undefined);
+      if (match.NAME === "Char") {
+        var c = match.VAL;
+        if (accept(/* '-' */45)) {
+          if (accept(/* ']' */93)) {
+            return {
+                    hd: {
+                      TAG: /* Set */0,
+                      _0: single(c)
+                    },
+                    tl: {
+                      hd: {
+                        TAG: /* Set */0,
+                        _0: {
+                          hd: [
+                            /* '-' */45,
+                            /* '-' */45
+                          ],
+                          tl: /* [] */0
+                        }
+                      },
+                      tl: s
+                    }
+                  };
+          }
+          var match$1 = $$char(undefined);
+          if (match$1.NAME !== "Char") {
+            return {
+                    hd: {
+                      TAG: /* Set */0,
+                      _0: single(c)
+                    },
+                    tl: {
+                      hd: {
+                        TAG: /* Set */0,
+                        _0: {
+                          hd: [
+                            /* '-' */45,
+                            /* '-' */45
+                          ],
+                          tl: /* [] */0
+                        }
+                      },
+                      tl: {
+                        hd: match$1.VAL,
+                        tl: s
+                      }
+                    }
+                  };
+          }
+          _s = {
+            hd: {
+              TAG: /* Set */0,
+              _0: seq(c, match$1.VAL)
+            },
+            tl: s
+          };
+          continue ;
+        }
+        _s = {
+          hd: {
+            TAG: /* Set */0,
+            _0: single(c)
+          },
+          tl: s
+        };
+        continue ;
+      }
+      _s = {
+        hd: match.VAL,
+        tl: s
+      };
+      continue ;
+    };
+  };
   var regexp$p = function (_left) {
     while(true) {
       var left = _left;
@@ -3695,153 +3810,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
-  var bracket = function (_s) {
-    while(true) {
-      var s = _s;
-      if (Caml_obj.caml_notequal(s, /* [] */0) && accept(/* ']' */93)) {
-        return s;
-      }
-      var match = $$char(undefined);
-      if (match.NAME === "Char") {
-        var c = match.VAL;
-        if (accept(/* '-' */45)) {
-          if (accept(/* ']' */93)) {
-            return {
-                    hd: {
-                      TAG: /* Set */0,
-                      _0: single(c)
-                    },
-                    tl: {
-                      hd: {
-                        TAG: /* Set */0,
-                        _0: {
-                          hd: [
-                            /* '-' */45,
-                            /* '-' */45
-                          ],
-                          tl: /* [] */0
-                        }
-                      },
-                      tl: s
-                    }
-                  };
-          }
-          var match$1 = $$char(undefined);
-          if (match$1.NAME !== "Char") {
-            return {
-                    hd: {
-                      TAG: /* Set */0,
-                      _0: single(c)
-                    },
-                    tl: {
-                      hd: {
-                        TAG: /* Set */0,
-                        _0: {
-                          hd: [
-                            /* '-' */45,
-                            /* '-' */45
-                          ],
-                          tl: /* [] */0
-                        }
-                      },
-                      tl: {
-                        hd: match$1.VAL,
-                        tl: s
-                      }
-                    }
-                  };
-          }
-          _s = {
-            hd: {
-              TAG: /* Set */0,
-              _0: seq(c, match$1.VAL)
-            },
-            tl: s
-          };
-          continue ;
-        }
-        _s = {
-          hd: {
-            TAG: /* Set */0,
-            _0: single(c)
-          },
-          tl: s
-        };
-        continue ;
-      }
-      _s = {
-        hd: match.VAL,
-        tl: s
-      };
-      continue ;
-    };
-  };
-  var piece = function (param) {
-    var r = atom(undefined);
-    if (accept(/* '*' */42)) {
-      return greedy_mod(repn(r, 0, undefined));
-    }
-    if (accept(/* '+' */43)) {
-      return greedy_mod(repn(r, 1, undefined));
-    }
-    if (accept(/* '?' */63)) {
-      return greedy_mod(repn(r, 0, 1));
-    }
-    if (!accept(/* '{' */123)) {
-      return r;
-    }
-    var i$1 = integer(undefined);
-    if (i$1 !== undefined) {
-      var j = accept(/* ',' */44) ? integer(undefined) : i$1;
-      if (!accept(/* '}' */125)) {
-        throw {
-              RE_EXN_ID: Parse_error,
-              Error: new Error()
-            };
-      }
-      if (j !== undefined && j < i$1) {
-        throw {
-              RE_EXN_ID: Parse_error,
-              Error: new Error()
-            };
-      }
-      return greedy_mod(repn(r, i$1, j));
-    }
-    i.contents = i.contents - 1 | 0;
-    return r;
-  };
-  var integer = function (param) {
-    if (i.contents === l) {
-      return ;
-    }
-    var d = get(undefined);
-    if (d > 57 || d < 48) {
-      i.contents = i.contents - 1 | 0;
-      return ;
-    } else {
-      var _i = d - /* '0' */48 | 0;
-      while(true) {
-        var i$1 = _i;
-        if (i.contents === l) {
-          return i$1;
-        }
-        var d$1 = get(undefined);
-        if (d$1 > 57 || d$1 < 48) {
-          i.contents = i.contents - 1 | 0;
-          return i$1;
-        }
-        var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
-        if (i$p < i$1) {
-          throw {
-                RE_EXN_ID: Parse_error,
-                Error: new Error()
-              };
-        }
-        _i = i$p;
-        continue ;
-      };
-    }
-  };
   var atom = function (param) {
     if (accept(/* '.' */46)) {
       if (dotall) {
@@ -4117,6 +4085,38 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               TAG: /* Set */0,
               _0: single(c$1)
             };
+    }
+  };
+  var integer = function (param) {
+    if (i.contents === l) {
+      return ;
+    }
+    var d = get(undefined);
+    if (d > 57 || d < 48) {
+      i.contents = i.contents - 1 | 0;
+      return ;
+    } else {
+      var _i = d - /* '0' */48 | 0;
+      while(true) {
+        var i$1 = _i;
+        if (i.contents === l) {
+          return i$1;
+        }
+        var d$1 = get(undefined);
+        if (d$1 > 57 || d$1 < 48) {
+          i.contents = i.contents - 1 | 0;
+          return i$1;
+        }
+        var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
+        if (i$p < i$1) {
+          throw {
+                RE_EXN_ID: Parse_error,
+                Error: new Error()
+              };
+        }
+        _i = i$p;
+        continue ;
+      };
     }
   };
   var res = regexp$p(branch$p(/* [] */0));

@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@bs.config {flags = [|"-unboxed-types"|]}]
+[@@@bs.config { flags = [| "-unboxed-types" |] }]
 
 (* DESIGN:
    - It does not have any code, all its code will be inlined so that
@@ -42,135 +42,76 @@
     ]}
 *)
 
-
-(* include Melange_runtime__.Js *)
-
-
 (** Types for JS objects *)
 
 type 'a t = 'a
 (** This used to be mark a Js object type. *)
 
-
 (* internal types for FFI, these types are not used by normal users
     Absent cmi file when looking up module alias.
 *)
 module Fn = struct
-  type 'a arity0 = {
-    i0 : unit -> 'a [@internal]
-  }
-  type 'a arity1 = {
-    i1 : 'a [@internal]
-  }
-  type 'a arity2 = {
-    i2 : 'a [@internal]
-  }
-  type 'a arity3 = {
-    i3 : 'a [@internal]
-  }
-  type 'a arity4 = {
-    i4 : 'a [@internal]
-  }
-  type 'a arity5 = {
-    i5 : 'a [@internal]
-  }
-  type 'a arity6 = {
-    i6 : 'a [@internal]
-  }
-  type 'a arity7 = {
-    i7 : 'a [@internal]
-  }
-  type 'a arity8 = {
-    i8 : 'a [@internal]
-  }
-  type 'a arity9 = {
-    i9 : 'a [@internal]
-  }
-  type 'a arity10 = {
-    i10 : 'a [@internal]
-  }
-  type 'a arity11 = {
-    i11 : 'a [@internal]
-  }
-  type 'a arity12 = {
-    i12 : 'a [@internal]
-  }
-  type 'a arity13 = {
-    i13 : 'a [@internal]
-  }
-  type 'a arity14 = {
-    i14 : 'a [@internal]
-  }
-  type 'a arity15 = {
-    i15 : 'a [@internal]
-  }
-  type 'a arity16 = {
-    i16 : 'a [@internal]
-  }
-  type 'a arity17 = {
-    i17 : 'a [@internal]
-  }
-  type 'a arity18 = {
-    i18 : 'a [@internal]
-  }
-  type 'a arity19 = {
-    i19 : 'a [@internal]
-  }
-  type 'a arity20 = {
-    i20 : 'a [@internal]
-  }
-  type 'a arity21 = {
-    i21 : 'a [@internal]
-  }
-  type 'a arity22 = {
-    i22 : 'a [@internal]
-  }
+  type 'a arity0 = { i0 : unit -> 'a [@internal] }
+  type 'a arity1 = { i1 : 'a [@internal] }
+  type 'a arity2 = { i2 : 'a [@internal] }
+  type 'a arity3 = { i3 : 'a [@internal] }
+  type 'a arity4 = { i4 : 'a [@internal] }
+  type 'a arity5 = { i5 : 'a [@internal] }
+  type 'a arity6 = { i6 : 'a [@internal] }
+  type 'a arity7 = { i7 : 'a [@internal] }
+  type 'a arity8 = { i8 : 'a [@internal] }
+  type 'a arity9 = { i9 : 'a [@internal] }
+  type 'a arity10 = { i10 : 'a [@internal] }
+  type 'a arity11 = { i11 : 'a [@internal] }
+  type 'a arity12 = { i12 : 'a [@internal] }
+  type 'a arity13 = { i13 : 'a [@internal] }
+  type 'a arity14 = { i14 : 'a [@internal] }
+  type 'a arity15 = { i15 : 'a [@internal] }
+  type 'a arity16 = { i16 : 'a [@internal] }
+  type 'a arity17 = { i17 : 'a [@internal] }
+  type 'a arity18 = { i18 : 'a [@internal] }
+  type 'a arity19 = { i19 : 'a [@internal] }
+  type 'a arity20 = { i20 : 'a [@internal] }
+  type 'a arity21 = { i21 : 'a [@internal] }
+  type 'a arity22 = { i22 : 'a [@internal] }
 end
 
 (**/**)
+
 module Internal = struct
   open Fn
+
   external opaqueFullApply : 'a -> 'a = "#full_apply"
 
   (* Use opaque instead of [._n] to prevent some optimizations happening *)
   external run : 'a arity0 -> 'a = "#run"
-  [@@ocaml.warning "-unboxable-type-in-prim-decl" ]
+    [@@ocaml.warning "-unboxable-type-in-prim-decl"]
 
   external opaque : 'a -> 'a = "%opaque"
-
 end
+
 (**/**)
 
-
-type + 'a null
+type +'a null
 (** nullable, value of this type can be either [null] or ['a]
     this type is the same as type [t] in {!Null}
 *)
 
-type + 'a undefined
+type +'a undefined
 (** value of this type can be either [undefined] or ['a]
     this type is the same as type [t] in {!Undefined}  *)
 
-type + 'a nullable
+type +'a nullable
 (** value of this type can be [undefined], [null] or ['a]
     this type is the same as type [t] n {!Null_undefined} *)
 
-type + 'a null_undefined = 'a nullable
-
-external toOption : 'a nullable  -> 'a option = "#nullable_to_opt"
+external toOption : 'a nullable -> 'a option = "#nullable_to_opt"
 external undefinedToOption : 'a undefined -> 'a option = "#undefined_to_opt"
 external nullToOption : 'a null -> 'a option = "#null_to_opt"
-
 external isNullable : 'a nullable -> bool = "#is_nullable"
 
-(** The same as {!test} except that it is more permissive on the types of input *)
 external testAny : 'a -> bool = "#is_nullable"
-
-
-type (+'a, +'e) promise
-(** The promise type, defined here for interoperation across packages
-    @deprecated please use {!Js.Promise}
-*)
+(** The same as {!test} except that it is more permissive on the types of input *)
 
 external null : 'a null = "#null"
 (** The same as [empty] in {!Js.Null} will be compiled as [null]*)
@@ -178,26 +119,23 @@ external null : 'a null = "#null"
 external undefined : 'a undefined = "#undefined"
 (** The same as  [empty] {!Js.Undefined} will be compiled as [undefined]*)
 
-
-
 external typeof : 'a -> string = "#typeof"
 (** [typeof x] will be compiled as [typeof x] in JS
     Please consider functions in {!Types} for a type safe way of reflection
 *)
 
 external log : 'a -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
+  [@@bs.val] [@@bs.scope "console"]
 (** A convenience function to log everything *)
 
-external log2 : 'a -> 'b -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
-external log3 : 'a -> 'b -> 'c -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
+external log2 : 'a -> 'b -> unit = "log" [@@bs.val] [@@bs.scope "console"]
+external log3 : 'a -> 'b -> 'c -> unit = "log" [@@bs.val] [@@bs.scope "console"]
+
 external log4 : 'a -> 'b -> 'c -> 'd -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
+  [@@bs.val] [@@bs.scope "console"]
 
 external logMany : 'a array -> unit = "log"
-[@@bs.val] [@@bs.scope "console"] [@@bs.splice]
+  [@@bs.val] [@@bs.scope "console"] [@@bs.splice]
 (** A convenience function to log more than 4 arguments *)
 
 external eqNull : 'a -> 'a null -> bool = "%bs_equal_null"
@@ -212,12 +150,10 @@ external unsafe_lt : 'a -> 'a -> bool = "#unsafe_lt"
     to give a proper semantics for comparision which applies to any type
 *)
 
-
 external unsafe_le : 'a -> 'a -> bool = "#unsafe_le"
 (**  [unsafe_le a b] will be compiled as [a <= b].
      See also {!unsafe_lt}
 *)
-
 
 external unsafe_gt : 'a -> 'a -> bool = "#unsafe_gt"
 (**  [unsafe_gt a b] will be compiled as [a > b].
@@ -228,76 +164,3 @@ external unsafe_ge : 'a -> 'a -> bool = "#unsafe_ge"
 (**  [unsafe_ge a b] will be compiled as [a >= b].
      See also {!unsafe_lt}
 *)
-
-module Array2 = Js_array2
-(** Provide bindings to Js array*)
-module Exn = Js_exn
-(** Provide utilities for dealing with Js exceptions *)
-module Vector = Js_vector
-[@@alert deprecated "Use Belt.Array instead" ]
-module String = Js_string
-(** Provide bindings to JS string *)
-module TypedArray2 = Js_typed_array2
-(** Provide bindings for JS typed array *)
-
-(** {12 nested modules}*)
-
-(*MODULE_ALIASES*)
-module Null = Js_null
-(** Provide utilities around ['a null] *)
-module Undefined = Js_undefined
-(** Provide utilities around {!undefined} *)
-module Nullable = Js_null_undefined
-(** Provide utilities around {!null_undefined} *)
-module Null_undefined = Js_null_undefined
-(** @deprecated please use {!Js.Nullable} *)
-module Array = Js_array
-(** Provide bindings to Js array*)
-module String2 = Js_string2
-(** Provide bindings to JS string *)
-module Re = Js_re
-(** Provide bindings to Js regex expression *)
-module Promise = Js_promise
-(** Provide bindings to JS promise *)
-module Date = Js_date
-(** Provide bindings for JS Date *)
-module Dict = Js_dict
-(** Provide utilities for JS dictionary object *)
-module Global = Js_global
-(** Provide bindings to JS global functions in global namespace*)
-module Json = Js_json
-(** Provide utilities for json *)
-module Math = Js_math
-(** Provide bindings for JS [Math] object *)
-module Obj  = Js_obj
-(** Provide utilities for {!Js.t} *)
-module Typed_array = Js_typed_array
-(** Provide bindings for JS typed array *)
-module Types = Js_types
-(** Provide utilities for manipulating JS types  *)
-module Float = Js_float
-(** Provide utilities for JS float *)
-module Int = Js_int
-(** Provide utilities for int *)
-module Bigint = Js_bigint
-(** Provide utilities for bigint *)
-module Option = Js_option
-(** Provide utilities for option *)
-module Result = Js_result
-(** Define the interface for result *)
-module List = Js_list
-(** Provide utilities for list *)
-
-module Console = Js_console
-module Set = Js_set
-(** Provides bindings for ES6 Set *)
-module WeakSet = Js_weakset
-(** Provides bindings for ES6 WeakSet *)
-module Map = Js_map
-(** Provides bindings for ES6 Map *)
-module WeakMap = Js_weakmap
-(** Provides bindings for ES6 WeakMap *)
-(**/**)
-module Cast = Js_cast
-module MapperRt = Js_mapperRt
-(**/**)

@@ -24,49 +24,35 @@
 
 [@@@deprecated "Use Belt.List instead"]
 
-type 'a t  = 'a list 
+type 'a t = 'a list
 
 val length : 'a t -> int
-
-val cons : 'a -> 'a t -> 'a t 
-
-val isEmpty : 'a t -> bool 
-
+val cons : 'a -> 'a t -> 'a t
+val isEmpty : 'a t -> bool
 val hd : 'a t -> 'a option
-
 val tl : 'a t -> 'a t option
-
 val nth : 'a t -> int -> 'a option
-
 val revAppend : 'a t -> 'a t -> 'a t
-
 val rev : 'a t -> 'a t
 
-val mapRev : ('a -> 'b [@bs]) -> 'a t -> 'b t
+module Js := Js_internal
 
-val map : ('a -> 'b [@bs]) -> 'a t -> 'b t
+val mapRev : (('a -> 'b)[@bs]) -> 'a t -> 'b t
+val map : (('a -> 'b)[@bs]) -> 'a t -> 'b t
+val iter : (('a -> unit)[@bs]) -> 'a t -> unit
+val iteri : ((int -> 'a -> unit)[@bs]) -> 'a t -> unit
 
-val iter : ('a -> unit [@bs]) -> 'a t -> unit 
-
-val iteri : (int -> 'a -> unit [@bs]) -> 'a t -> unit 
-
-val foldLeft : ('a -> 'b -> 'a [@bs]) -> 'a -> 'b list -> 'a
+val foldLeft : (('a -> 'b -> 'a)[@bs]) -> 'a -> 'b list -> 'a
 (** Application order is left to right, tail recurisve *)
 
-val foldRight : ('a -> 'b -> 'b [@bs]) -> 'a list -> 'b -> 'b
+val foldRight : (('a -> 'b -> 'b)[@bs]) -> 'a list -> 'b -> 'b
 (** Application order is right to left
     tail-recursive. *)
 
-val flatten : 'a t t  -> 'a t
-
-val filter : ('a -> bool [@bs]) -> 'a t -> 'a t 
-
-val filterMap : ('a -> 'b option [@bs]) -> 'a t -> 'b t
-
-val countBy : ('a -> bool [@bs]) -> 'a list -> int 
-
-val init : int -> (int -> 'a [@bs]) -> 'a t 
-
+val flatten : 'a t t -> 'a t
+val filter : (('a -> bool)[@bs]) -> 'a t -> 'a t
+val filterMap : (('a -> 'b option)[@bs]) -> 'a t -> 'b t
+val countBy : (('a -> bool)[@bs]) -> 'a list -> int
+val init : int -> ((int -> 'a)[@bs]) -> 'a t
 val toVector : 'a t -> 'a array
-
-val equal : ('a -> 'a -> bool [@bs]) -> 'a list -> 'a list -> bool
+val equal : (('a -> 'a -> bool)[@bs]) -> 'a list -> 'a list -> bool

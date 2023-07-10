@@ -35,8 +35,8 @@ open Ast_helper
 let get_optional_attrs =
   [ Ast_attributes.bs_get; Ast_attributes.bs_return_undefined ]
 
-let get_attrs = [ Ast_attributes.bs_get_arity ]
-let set_attrs = [ Ast_attributes.bs_set ]
+let get_attrs = Ast_attributes.[ bs_get_arity; unboxable_type_in_prim_decl ]
+let set_attrs = Ast_attributes.[ bs_set; unboxable_type_in_prim_decl ]
 
 let get_pld_type pld_type ~attrs =
   let is_optional = Ast_attributes.has_bs_optional attrs in
@@ -142,7 +142,9 @@ let handleTdcl light (tdcl : Parsetree.type_declaration) :
             Ast_external_mk.pval_prim_of_option_labels labels has_optional_field
           in
           let myMaker =
-            Val.mk ~loc { loc; txt = type_name } ~prim:myPrims makeType
+            Val.mk ~loc { loc; txt = type_name }
+              ~attrs:[ Ast_attributes.unboxable_type_in_prim_decl ]
+              ~prim:myPrims makeType
           in
           myMaker :: setter_accessor )
   | Ptype_abstract | Ptype_variant _ | Ptype_open ->

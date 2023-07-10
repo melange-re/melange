@@ -24,6 +24,20 @@ external createElementVariadic:
   (component('props), 'props, array(element)) => element =
   "createElement";
 
+[@bs.module "react/jsx-runtime"]
+external jsxKeyed: (component('props), 'props, string) => element = "jsx";
+
+[@bs.module "react/jsx-runtime"]
+external jsx: (component('props), 'props) => element = "jsx";
+
+[@bs.module "react/jsx-runtime"]
+external jsxs: (component('props), 'props) => element = "jsxs";
+
+[@bs.module "react/jsx-runtime"]
+external jsxsKeyed: (component('props), 'props, string) => element = "jsxs";
+
+[@bs.module "react/jsx-runtime"] external jsxFragment: 'element = "Fragment";
+
 type ref('value) = {mutable current: 'value};
 
 module Ref = {
@@ -136,7 +150,7 @@ module SuspenseList = {
   external makeProps:
     (
       ~children: element=?,
-      ~revealOrder:  [ | `forwards | `backwards | `together]=?,
+      ~revealOrder: [ | `forwards | `backwards | `together]=?,
       ~tail: [ | `collapsed | `hidden]=?,
       unit
     ) =>

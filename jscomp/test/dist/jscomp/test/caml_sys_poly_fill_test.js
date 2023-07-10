@@ -3,10 +3,10 @@
 
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_sys = require("melange.runtime/caml_sys.js");
+var Caml_sys = require("melange.js/caml_sys.js");
 var Stdlib__Sys = require("melange/sys.js");
-var Node_process = require("melange.belt/node_process.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Node__Node_process = require("melange.node/node_process.js");
 
 var suites = {
   contents: /* [] */0
@@ -33,19 +33,19 @@ function eq(loc, x, y) {
   };
 }
 
-Node_process.putEnvVar("Caml_sys_poly_fill_test", "X");
+Node__Node_process.putEnvVar("Caml_sys_poly_fill_test", "X");
 
 var v = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 
-eq("File \"caml_sys_poly_fill_test.ml\", line 11, characters 5-12", "X", (Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v));
+eq("File \"caml_sys_poly_fill_test.ml\", line 11, characters 5-12", "X", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v));
 
-Node_process.putEnvVar("Caml_sys_poly_fill_test", "Y");
+Node__Node_process.putEnvVar("Caml_sys_poly_fill_test", "Y");
 
 var v$1 = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 
-eq("File \"caml_sys_poly_fill_test.ml\", line 17, characters 5-12", "Y", (Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v$1));
+eq("File \"caml_sys_poly_fill_test.ml\", line 17, characters 5-12", "Y", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v$1));
 
-Node_process.deleteEnvVar("Caml_sys_poly_fill_test");
+Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test");
 
 var tmp;
 

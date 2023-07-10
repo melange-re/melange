@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Sexpm = require("./sexpm.js");
 var Stdlib__Format = require("melange/format.js");
 

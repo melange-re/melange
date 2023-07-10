@@ -394,3 +394,21 @@ let is_inline : attr -> bool =
  fun { attr_name = { txt; _ }; _ } -> txt = "bs.inline" || txt = "inline"
 
 let has_inline_payload (attrs : t) = Ext_list.find_first attrs is_inline
+
+(* We disable warning 61 in Melange externals since they're substantially
+   different from OCaml externals. This warning doesn't make sense for a JS
+   runtime *)
+let unboxable_type_in_prim_decl : Parsetree.attribute =
+  let open Ast_helper in
+  {
+    attr_name = { txt = "ocaml.warning"; loc = Location.none };
+    attr_payload =
+      PStr
+        [
+          Str.eval
+            (Exp.constant
+               (Pconst_string
+                  ("-unboxable-type-in-prim-decl", Location.none, None)));
+        ];
+    attr_loc = Location.none;
+  }

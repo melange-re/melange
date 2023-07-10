@@ -32,7 +32,7 @@
   (libraries test_runner)
   (wrapped false)
   (preprocess
-   (pps melange.ppx reactjs-jsx-ppx))
+   (pps melange.ppx reason-react-ppx))
   (modules :standard \ res_debug record_regression)
   (melange.compile_flags
    -w

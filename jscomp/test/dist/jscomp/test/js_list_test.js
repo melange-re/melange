@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_list = require("melange.belt/js_list.js");
-var Js_vector = require("melange.belt/js_vector.js");
+var Js__Js_list = require("melange.js/js_list.js");
+var Js__Js_vector = require("melange.js/js_vector.js");
 
 var suites = {
   contents: /* [] */0
@@ -30,7 +30,7 @@ function eq(loc, x, y) {
   };
 }
 
-eq("File \"js_list_test.ml\", line 11, characters 7-14", Js_list.flatten({
+eq("File \"js_list_test.ml\", line 11, characters 7-14", Js__Js_list.flatten({
           hd: {
             hd: 1,
             tl: {
@@ -80,7 +80,7 @@ eq("File \"js_list_test.ml\", line 11, characters 7-14", Js_list.flatten({
       }
     });
 
-eq("File \"js_list_test.ml\", line 14, characters 7-14", Js_list.filterMap((function (x) {
+eq("File \"js_list_test.ml\", line 14, characters 7-14", Js__Js_list.filterMap((function (x) {
             if (x % 2 === 0) {
               return x;
             }
@@ -117,7 +117,7 @@ eq("File \"js_list_test.ml\", line 14, characters 7-14", Js_list.filterMap((func
       }
     });
 
-eq("File \"js_list_test.ml\", line 17, characters 7-14", Js_list.filterMap((function (x) {
+eq("File \"js_list_test.ml\", line 17, characters 7-14", Js__Js_list.filterMap((function (x) {
             if (x % 2 === 0) {
               return x;
             }
@@ -151,7 +151,7 @@ eq("File \"js_list_test.ml\", line 17, characters 7-14", Js_list.filterMap((func
       }
     });
 
-eq("File \"js_list_test.ml\", line 20, characters 7-14", Js_list.countBy((function (x) {
+eq("File \"js_list_test.ml\", line 20, characters 7-14", Js__Js_list.countBy((function (x) {
             return x % 2 === 0;
           }), {
           hd: 1,
@@ -177,36 +177,36 @@ function f(i) {
   return i;
 }
 
-var v = Js_vector.toList(Js_vector.init(100000, f));
+var v = Js__Js_vector.toList(Js__Js_vector.init(100000, f));
 
-eq("File \"js_list_test.ml\", line 23, characters 7-14", Js_list.countBy((function (x) {
+eq("File \"js_list_test.ml\", line 23, characters 7-14", Js__Js_list.countBy((function (x) {
             return x % 2 === 0;
           }), v), 50000);
 
-var vv = Js_list.foldRight((function (x, y) {
+var vv = Js__Js_list.foldRight((function (x, y) {
         return {
                 hd: x,
                 tl: y
               };
       }), v, /* [] */0);
 
-eq("File \"js_list_test.ml\", line 27, characters 7-14", true, Js_list.equal((function (x, y) {
+eq("File \"js_list_test.ml\", line 27, characters 7-14", true, Js__Js_list.equal((function (x, y) {
             return x === y;
           }), v, vv));
 
-var vvv = Js_list.filter((function (x) {
+var vvv = Js__Js_list.filter((function (x) {
         return x % 10 === 0;
       }), vv);
 
-eq("File \"js_list_test.ml\", line 31, characters 7-14", Js_list.length(vvv), 10000);
+eq("File \"js_list_test.ml\", line 31, characters 7-14", Js__Js_list.length(vvv), 10000);
 
 function f$1(x) {
   return Math.imul(x, 10);
 }
 
-eq("File \"js_list_test.ml\", line 32, characters 7-14", true, Js_list.equal((function (x, y) {
+eq("File \"js_list_test.ml\", line 32, characters 7-14", true, Js__Js_list.equal((function (x, y) {
             return x === y;
-          }), vvv, Js_vector.toList(Js_vector.init(10000, f$1))));
+          }), vvv, Js__Js_vector.toList(Js__Js_vector.init(10000, f$1))));
 
 Mt.from_pair_suites("Js_list_test", suites.contents);
 

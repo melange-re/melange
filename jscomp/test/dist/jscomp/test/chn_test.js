@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_string = require("melange.runtime/caml_string.js");
+var Caml_string = require("melange.js/caml_string.js");
 var Stdlib__Array = require("melange/array.js");
 
 var suites = {

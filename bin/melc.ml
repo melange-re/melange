@@ -257,6 +257,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       modules;
       nolabels;
       principal;
+      rectypes;
       short_paths;
       unsafe;
       warn_help;
@@ -364,6 +365,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     if modules then Js_config.modules := modules;
     if nolabels then Clflags.classic := nolabels;
     if principal then Clflags.principal := principal;
+    if rectypes then Clflags.recursive_types := rectypes;
     if short_paths then Clflags.real_paths := false;
     if unsafe then Clflags.unsafe := unsafe;
     if warn_help then Warnings.help_warnings ();

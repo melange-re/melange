@@ -53,6 +53,10 @@ module ArrayBuffer = struct
   external sliceFrom : t -> int -> array_buffer = "slice" [@@bs.send]
 end
 
+open struct
+  module Js = Js_internal
+end
+
 #define COMMON_EXTERNALS(moduleName, eltType)\
   (** *)\
   type elt = eltType\
@@ -124,8 +128,8 @@ end
   external filter : t -> (elt -> bool [@bs]) -> t = "filter" [@@bs.send]\
   external filteri : t -> (elt -> int  -> bool [@bs]) -> t = "filter" [@@bs.send]\
   \
-  external find : t -> (elt -> bool [@bs]) -> elt Js.undefined = "find" [@@bs.send]\
-  external findi : t -> (elt -> int -> bool [@bs]) -> elt Js.undefined  = "find" [@@bs.send]\
+  external find : t -> (elt -> bool [@bs]) -> elt Js_internal.undefined = "find" [@@bs.send]\
+  external findi : t -> (elt -> int -> bool [@bs]) -> elt Js_internal.undefined  = "find" [@@bs.send]\
   \
   external findIndex : t -> (elt -> bool [@bs]) -> int = "findIndex" [@@bs.send]\
   external findIndexi : t -> (elt -> int -> bool [@bs]) -> int = "findIndex" [@@bs.send]\
@@ -219,7 +223,7 @@ end
 *)
 module DataView = struct
 
-  
+
   type t
 
   external make : array_buffer -> t = "DataView" [@@bs.new]

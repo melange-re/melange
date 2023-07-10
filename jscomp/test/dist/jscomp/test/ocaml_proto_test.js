@@ -2,25 +2,25 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
-var Caml_bytes = require("melange.runtime/caml_bytes.js");
-var Caml_format = require("melange.runtime/caml_format.js");
-var Caml_option = require("melange.runtime/caml_option.js");
-var Caml_string = require("melange.runtime/caml_string.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_bytes = require("melange.js/caml_bytes.js");
+var Caml_format = require("melange.js/caml_format.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Caml_string = require("melange.js/caml_string.js");
 var Stdlib__Char = require("melange/char.js");
 var Stdlib__List = require("melange/list.js");
 var Stdlib__Bytes = require("melange/bytes.js");
 var Stdlib__Lexing = require("melange/lexing.js");
 var Stdlib__Printf = require("melange/printf.js");
 var Stdlib__String = require("melange/string.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Stdlib__Hashtbl = require("melange/hashtbl.js");
 var Stdlib__Parsing = require("melange/parsing.js");
 var Stdlib__Filename = require("melange/filename.js");
 var Stdlib__Printexc = require("melange/printexc.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function field(optionsOpt, label, number, type_, name) {
   var options = optionsOpt !== undefined ? optionsOpt : /* [] */0;

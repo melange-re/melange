@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_undefined = require("melange.belt/js_undefined.js");
-var Belt_MutableQueue = require("melange.belt/belt_MutableQueue.js");
-var Belt_MutableStack = require("melange.belt/belt_MutableStack.js");
+var Js__Js_undefined = require("melange.js/js_undefined.js");
+var Belt__Belt_MutableQueue = require("melange.belt/belt_MutableQueue.js");
+var Belt__Belt_MutableStack = require("melange.belt/belt_MutableStack.js");
 
 var suites = {
   contents: /* [] */0
@@ -30,21 +30,21 @@ function inOrder(v) {
   };
   while(current !== undefined) {
     var v$1 = current;
-    Belt_MutableStack.push(s, v$1);
+    Belt__Belt_MutableStack.push(s, v$1);
     current = v$1.left;
   };
   while(s.root !== undefined) {
-    current = Belt_MutableStack.popUndefined(s);
+    current = Belt__Belt_MutableStack.popUndefined(s);
     var v$2 = current;
-    Belt_MutableQueue.add(q, v$2.value);
+    Belt__Belt_MutableQueue.add(q, v$2.value);
     current = v$2.right;
     while(current !== undefined) {
       var v$3 = current;
-      Belt_MutableStack.push(s, v$3);
+      Belt__Belt_MutableStack.push(s, v$3);
       current = v$3.left;
     };
   };
-  return Belt_MutableQueue.toArray(q);
+  return Belt__Belt_MutableQueue.toArray(q);
 }
 
 function inOrder3(v) {
@@ -59,19 +59,19 @@ function inOrder3(v) {
   };
   while(current !== undefined) {
     var v$1 = current;
-    Belt_MutableStack.push(s, v$1);
+    Belt__Belt_MutableStack.push(s, v$1);
     current = v$1.left;
   };
-  Belt_MutableStack.dynamicPopIter(s, (function (popped) {
-          Belt_MutableQueue.add(q, popped.value);
+  Belt__Belt_MutableStack.dynamicPopIter(s, (function (popped) {
+          Belt__Belt_MutableQueue.add(q, popped.value);
           var current = popped.right;
           while(current !== undefined) {
             var v = current;
-            Belt_MutableStack.push(s, v);
+            Belt__Belt_MutableStack.push(s, v);
             current = v.left;
           };
         }));
-  return Belt_MutableQueue.toArray(q);
+  return Belt__Belt_MutableQueue.toArray(q);
 }
 
 function inOrder2(v) {
@@ -88,12 +88,12 @@ function inOrder2(v) {
   while(todo) {
     if (cursor !== undefined) {
       var v$1 = cursor;
-      Belt_MutableStack.push(s, v$1);
+      Belt__Belt_MutableStack.push(s, v$1);
       cursor = v$1.left;
     } else if (s.root !== undefined) {
-      cursor = Belt_MutableStack.popUndefined(s);
+      cursor = Belt__Belt_MutableStack.popUndefined(s);
       var current = cursor;
-      Belt_MutableQueue.add(q, current.value);
+      Belt__Belt_MutableQueue.add(q, current.value);
       cursor = current.right;
     } else {
       todo = false;
@@ -104,8 +104,8 @@ function inOrder2(v) {
 function n(l, r, a) {
   return {
           value: a,
-          left: Js_undefined.fromOption(l),
-          right: Js_undefined.fromOption(r)
+          left: Js__Js_undefined.fromOption(l),
+          right: Js__Js_undefined.fromOption(r)
         };
 }
 
@@ -115,7 +115,7 @@ function pushAllLeft(st1, s1) {
   var current = st1;
   while(current !== undefined) {
     var v = current;
-    Belt_MutableStack.push(s1, v);
+    Belt__Belt_MutableStack.push(s1, v);
     current = v.left;
   };
 }

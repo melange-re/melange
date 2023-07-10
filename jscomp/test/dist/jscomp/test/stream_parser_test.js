@@ -2,12 +2,12 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
-var Caml_int32 = require("melange.runtime/caml_int32.js");
+var Curry = require("melange.js/curry.js");
+var Caml_int32 = require("melange.js/caml_int32.js");
 var Stdlib__Queue = require("melange/queue.js");
 var Stdlib__Genlex = require("melange/genlex.js");
 var Stdlib__Stream = require("melange/stream.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
 
 var Parse_error = /* @__PURE__ */Caml_exceptions.create("Stream_parser_test.Parse_error");
 
@@ -164,28 +164,6 @@ function l_parse(token) {
             };
     }
   };
-  var parse_f_aux = function (_a) {
-    while(true) {
-      var a = _a;
-      var t = token$1(undefined);
-      if (t.TAG === /* Kwd */0) {
-        switch (t._0) {
-          case "*" :
-              _a = Math.imul(a, parse_f(undefined));
-              continue ;
-          case "/" :
-              _a = Caml_int32.div(a, parse_f(undefined));
-              continue ;
-          default:
-            Stdlib__Queue.push(t, look_ahead);
-            return a;
-        }
-      } else {
-        Stdlib__Queue.push(t, look_ahead);
-        return a;
-      }
-    };
-  };
   var parse_f = function (param) {
     var i = token$1(undefined);
     switch (i.TAG | 0) {
@@ -235,6 +213,28 @@ function l_parse(token) {
               continue ;
           case "-" :
               _a = a - parse_f_aux(parse_f(undefined)) | 0;
+              continue ;
+          default:
+            Stdlib__Queue.push(t, look_ahead);
+            return a;
+        }
+      } else {
+        Stdlib__Queue.push(t, look_ahead);
+        return a;
+      }
+    };
+  };
+  var parse_f_aux = function (_a) {
+    while(true) {
+      var a = _a;
+      var t = token$1(undefined);
+      if (t.TAG === /* Kwd */0) {
+        switch (t._0) {
+          case "*" :
+              _a = Math.imul(a, parse_f(undefined));
+              continue ;
+          case "/" :
+              _a = Caml_int32.div(a, parse_f(undefined));
               continue ;
           default:
             Stdlib__Queue.push(t, look_ahead);
