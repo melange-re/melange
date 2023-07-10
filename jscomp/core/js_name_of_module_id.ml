@@ -148,7 +148,9 @@ let string_of_module_id ~package_info ~output_info
                       (package_path // dep_info.rel_path // js_file)))
         | Package_script, Package_script -> (
             let js_file =
-              js_name_of_modulename (Ident.name dep_module_id.id) case Js
+              js_name_of_modulename
+                (Ident.name dep_module_id.id)
+                case Ext_js_suffix.default
             in
             match Config_util.find_opt js_file with
             | Some file ->

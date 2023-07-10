@@ -1,4 +1,4 @@
-type t = Js | Bs_js | Mjs | Cjs | Custom_extension of string
+type t
 
 val to_string : t -> string
 val of_string : string -> t
