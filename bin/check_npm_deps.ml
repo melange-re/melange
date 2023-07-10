@@ -1,46 +1,27 @@
 open Cmdliner
-open OpamPackage.Set.Op
 
 (* Inspired by https://gitlab.ocamlpro.com/louis/opam-custom-install *)
 
 let check_npm_deps_doc = "Check for npm depexts inside the node_modules folder"
 
-let depexts_raw ~env nv opams =
+let depexts nv opams =
   try
     let opam = OpamPackage.Map.find nv opams in
-    print_endline (OpamPackage.name_to_string nv);
-    if OpamPackage.name_to_string nv = "reactjs-jsx-ppx" then
-      print_endline (OpamFile.OPAM.write_to_string opam);
     List.fold_left
       (fun depexts (names, filter) ->
-        print_endline (OpamFilter.to_string filter);
-        if OpamFilterVendored.eval_to_bool ~default:false env filter then
-          OpamSysPkg.Set.Op.(names ++ depexts)
-        else depexts)
+        let variables = OpamFilter.variables filter in
+        let has_npm =
+          let module V = OpamVariable in
+          List.exists
+            (fun full_var ->
+              String.equal "npm-version"
+                (V.to_string (V.Full.variable full_var)))
+            variables
+        in
+        if has_npm then OpamSysPkg.Set.Op.(names ++ depexts) else depexts)
       OpamSysPkg.Set.empty
       (OpamFile.OPAM.depexts opam)
   with Not_found -> OpamSysPkg.Set.empty
-
-let depexts package opams =
-  let resolve_switch_raw full_var =
-    let module V = OpamVariable in
-    let var = V.Full.variable full_var in
-    print_endline "VAR";
-    print_endline (V.to_string var);
-    match V.to_string var with
-    | "npm" -> 
-    Some (OpamVariable.bool true)
-    | _ -> None
-  in
-  let env = resolve_switch_raw in
-  depexts_raw ~env package opams
-
-let _variables =
-  List.map
-    (fun (n, v) ->
-      ( OpamVariable.of_string n,
-        OpamCompat.Lazy.map (OpamStd.Option.map (fun v -> OpamTypes.S v)) v ))
-    [ ("os-family", lazy (Some "npm")) ]
 
 let check_npm_deps cli =
   let doc = check_npm_deps_doc in
@@ -60,48 +41,33 @@ let check_npm_deps cli =
     ]
     @ OpamArg.man_build_option_section
   in
-  let packages =
-    Arg.(
-      non_empty
-      & pos 0 (list OpamArg.package) []
-      & info [] ~docv:"PACKAGE[.VERSION]"
-          ~doc:
-            "Package which should be registered as installed with the files \
-             installed by $(i,COMMAND).")
-  in
-  let cmd =
-    Arg.(
-      non_empty & pos_right 0 string []
-      & info [] ~docv:"-- COMMAND [ARG]"
-          ~doc:
-            "Command to run in the current directory that is expected to \
-             install the files for $(i,PACKAGE) to the current opam switch \
-             prefix. Variable expansions like $(b,%{prefix}%), $(b,%{name}%), \
-             $(b,%{version}%) and $(b,%{package}) are expanded as per the \
-             $(i,install:) package definition field.")
-  in
-  let check_npm_deps global_options build_options _packages _cmd () =
+  let check_npm_deps global_options build_options () =
     OpamArg.apply_global_options cli global_options;
     OpamArg.apply_build_options cli build_options;
     OpamClientConfig.update ~inplace_build:true ~working_dir:true ();
     OpamGlobalState.with_ `Lock_none @@ fun gt ->
     OpamSwitchState.with_ `Lock_write gt @@ fun st ->
-    let t =
-      OpamFormula.packages_of_atoms ~disj:true (st.packages ++ st.installed) []
+    let npm_depexts =
+      List.filter_map
+        (fun pkg ->
+          let depexts = depexts pkg st.opams in
+          match OpamSysPkg.Set.cardinal depexts with
+          | 0 -> None
+          | _ -> Some (pkg, depexts))
+        OpamPackage.Set.(elements @@ st.installed)
     in
-    print_endline "HERE";
-    print_endline
-      (OpamStd.List.concat_map " "
-         (fun pkg ->
-           Printf.sprintf "pkg: %s, depexts: %s\n"
-             (OpamPackage.to_string pkg)
-             (OpamSysPkg.Set.to_string
-                (depexts pkg st.opams)))
-         OpamPackage.Set.(elements @@ st.installed));
     let () =
-      OpamPackage.Set.iter
-        (fun pkg -> print_endline (OpamPackage.name_to_string pkg))
-        t
+      match npm_depexts with
+      | [] -> ()
+      | l ->
+          print_endline "Found the following npm dependencies in opam files:";
+          print_endline
+            (OpamStd.List.concat_map " "
+               (fun (pkg, npm_deps) ->
+                 Printf.sprintf "pkg: %s, depexts: %s\n"
+                   (OpamPackage.to_string pkg)
+                   (OpamSysPkg.Set.to_string npm_deps))
+               l)
     in
     (* let nvs =
          List.fold_left
@@ -167,10 +133,10 @@ let check_npm_deps cli =
        in *)
     OpamSwitchState.drop st
   in
-  OpamArg.mk_command ~cli OpamArg.cli_original "check-npm-deps" ~doc ~man
+  OpamArg.mk_command ~cli OpamArg.cli_original "opam-check-npm-deps" ~doc ~man
     Term.(
       const check_npm_deps $ OpamArg.global_options cli
-      $ OpamArg.build_options cli $ packages $ cmd)
+      $ OpamArg.build_options cli)
 
 [@@@ocaml.warning "-3"]
 
