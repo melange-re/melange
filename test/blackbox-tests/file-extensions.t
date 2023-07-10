@@ -48,3 +48,39 @@ Try other extensions
   console.log("hello");
   
   /*  Not a pure module */
+
+  $ rm *
+  $ cat > x.ml <<EOF
+  > let () = Js.log "hello"
+  > EOF
+  $ melc -impl x.ml -o x.foo.
+  $ ls
+  x.foo.cmi
+  x.foo.cmj
+  x.foo.cmt
+  x.foo.js
+  x.ml
+
+  $ rm *
+  $ cat > x.ml <<EOF
+  > let () = Js.log "hello"
+  > EOF
+  $ melc -impl x.ml -o x
+  $ ls
+  x.cmi
+  x.cmj
+  x.cmt
+  x.js
+  x.ml
+
+  $ rm *
+  $ cat > x.ml <<EOF
+  > let () = Js.log "hello"
+  > EOF
+  $ melc -impl x.ml -o x....
+  $ ls
+  x....cmi
+  x....cmj
+  x....cmt
+  x....js
+  x.ml
