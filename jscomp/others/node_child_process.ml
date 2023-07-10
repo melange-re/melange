@@ -26,10 +26,12 @@
 
 type option
 
-external option : ?cwd:string -> ?encoding:string -> unit -> option = "" [@@bs.obj]
+external option : ?cwd:string -> ?encoding:string -> unit -> option = ""
+  [@@bs.obj]
 
 (* TODO: when no option it would return buffer  *)
-external execSync : string -> option -> string = "execSync" [@@bs.module "child_process"]
+external execSync : string -> option -> string = "execSync"
+  [@@bs.module "child_process"]
 
 (* Note we have to make it abstract type, since if you declare it as
    [ < pid : float > Js.t ], then you will create other external
@@ -37,13 +39,14 @@ external execSync : string -> option -> string = "execSync" [@@bs.module "child_
 *)
 type spawnResult
 
+external spawnSync : string -> spawnResult = "spawnSync"
+  [@@bs.module "child_process"]
 
-external spawnSync : string -> spawnResult = "spawnSync" [@@bs.module "child_process"]
-
-external readAs : spawnResult ->
-  < pid : int ;
-    status : int Js.null;
-    signal : string Js.null ;
-    stdout : Node.string_buffer Js.null ;
-    stderr : Node.string_buffer Js.null > Js.t =
-  "%identity"
+external readAs :
+  spawnResult ->
+  < pid : int
+  ; status : int Js.null
+  ; signal : string Js.null
+  ; stdout : Node.string_buffer Js.null
+  ; stderr : Node.string_buffer Js.null >
+  Js.t = "%identity"

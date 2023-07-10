@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_null = require("melange.belt/js_null.js");
-var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Js__Js_null = require("melange.js/js_null.js");
 
 var suites_0 = [
   "toOption - empty",
@@ -67,7 +67,7 @@ var suites_1 = {
                 return {
                         TAG: /* StrictEq */2,
                         _0: null,
-                        _1: Js_null.bind(null, (function (v) {
+                        _1: Js__Js_null.bind(null, (function (v) {
                                 return v;
                               }))
                       };
@@ -80,7 +80,7 @@ var suites_1 = {
                   return {
                           TAG: /* StrictEq */2,
                           _0: 4,
-                          _1: Js_null.bind(2, (function (n) {
+                          _1: Js__Js_null.bind(2, (function (n) {
                                   return (n << 1);
                                 }))
                         };
@@ -93,7 +93,7 @@ var suites_1 = {
                     var hit = {
                       contents: false
                     };
-                    Js_null.iter(null, (function (param) {
+                    Js__Js_null.iter(null, (function (param) {
                             hit.contents = true;
                           }));
                     return {
@@ -110,7 +110,7 @@ var suites_1 = {
                       var hit = {
                         contents: 0
                       };
-                      Js_null.iter(2, (function (v) {
+                      Js__Js_null.iter(2, (function (v) {
                               hit.contents = v;
                             }));
                       return {
@@ -127,7 +127,7 @@ var suites_1 = {
                         return {
                                 TAG: /* Eq */0,
                                 _0: null,
-                                _1: Js_null.fromOption(undefined)
+                                _1: Js__Js_null.fromOption(undefined)
                               };
                       })
                   ],
@@ -138,7 +138,7 @@ var suites_1 = {
                           return {
                                   TAG: /* Eq */0,
                                   _0: 2,
-                                  _1: Js_null.fromOption(2)
+                                  _1: Js__Js_null.fromOption(2)
                                 };
                         })
                     ],

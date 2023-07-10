@@ -22,21 +22,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-
-(* Declare an explicit dependency on the Js_OO module since the PPX gets
-   expanded later *)
-module Js_OO := Js_OO
-
 type t =
-  < argv : string array;
-    arch : string ;
-    abort : unit -> unit [@bs.meth];
-    chdir : string -> unit [@bs.meth];
-    cwd : unit -> string [@bs.meth];
-    disconnect : unit -> unit [@bs.meth];
-    platform : string;
-    env : string Js.Dict.t; (* ocamldep sucks which can not map [Js.Dic.t] to [Js.Dict.t]*)
-  >   Js.t
+  < argv : string array
+  ; arch : string
+  ; abort : unit -> unit [@bs.meth]
+  ; chdir : string -> unit [@bs.meth]
+  ; cwd : unit -> string [@bs.meth]
+  ; disconnect : unit -> unit [@bs.meth]
+  ; platform : string
+  ; env : string Js.Dict.t >
+  Js.t
 (* FIXME : use record *)
 
 external process : t = "process" [@@bs.module]
@@ -44,9 +39,10 @@ external argv : string array = "argv" [@@bs.module "process"]
 external exit : int -> 'a = "exit" [@@bs.module "process"]
 external cwd : unit -> string = "cwd" [@@bs.module "process"]
 
+external uptime : t -> unit -> float = "uptime"
+  [@@bs.send]
 (** The process.uptime() method returns the number of seconds
    the current Node.js process has been running.) *)
-external uptime : t -> unit -> float = "uptime" [@@bs.send]
 
 val putEnvVar : string -> string -> unit
 val deleteEnvVar : string -> unit

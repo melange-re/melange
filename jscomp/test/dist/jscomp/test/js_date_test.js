@@ -2,7 +2,7 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
+var Caml_obj = require("melange.js/caml_obj.js");
 
 function date(param) {
   return new Date("1976-03-08T12:34:56.789+01:23");

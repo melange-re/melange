@@ -10,9 +10,6 @@
 
 (cram enable)
 
-(formatting
- (enabled_for ocaml))
-
 (generate_opam_files true)
 
 (name melange)
@@ -43,7 +40,10 @@
   dune-build-info
   (cppo :build)
   (ounit :with-test)
-  (reason :with-test)
+  (reason
+   (and
+    :with-test
+    (>= "3.9.0")))
   (js_of_ocaml :with-test)
   (ppxlib
    (>= "0.24.0"))
@@ -60,6 +60,20 @@
    (= :version))
   (ppxlib
    (>= "0.28.0"))))
+
+(package
+ (name melange-playground)
+ (synopsis "The Melange compiler, bundled for the browser")
+ (allow_empty)
+ (depends
+  ocaml
+  js_of_ocaml
+  (reason
+   (>= "3.9.0"))
+  (melange
+   (= :version))
+  (reason-react-ppx
+   (= "dev"))))
 
 (package
  (name opam-check-npm-deps)

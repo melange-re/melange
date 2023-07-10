@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_vector = require("melange.belt/js_vector.js");
-var Caml_option = require("melange.runtime/caml_option.js");
+var Caml_option = require("melange.js/caml_option.js");
+var Js__Js_vector = require("melange.js/js_vector.js");
 
 var suites_0 = [
   "File \"js_array_test.ml\", line 3, characters 4-11",
@@ -21,7 +21,7 @@ var suites_0 = [
                 2,
                 4
               ],
-              _1: (Js_vector.filterInPlace((function (x) {
+              _1: (Js__Js_vector.filterInPlace((function (x) {
                         return x % 2 === 0;
                       }), x), x)
             };
@@ -42,7 +42,7 @@ var suites_1 = {
         return {
                 TAG: /* Eq */0,
                 _0: true,
-                _1: (Js_vector.filterInPlace((function (x) {
+                _1: (Js__Js_vector.filterInPlace((function (x) {
                           return x > 10;
                         }), x), x.length === 0)
               };

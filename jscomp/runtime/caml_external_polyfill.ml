@@ -23,7 +23,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 type global
-let  getGlobalThis : unit -> global [@bs]= [%raw{| function(){
+
+open struct
+  module Js = Js_internal
+end
+
+let getGlobalThis : (unit -> global[@bs]) =
+  [%raw
+    {| function(){
   if (typeof globalThis !== 'undefined') return globalThis;
 	if (typeof self !== 'undefined') return self;
 	if (typeof window !== 'undefined') return window;
@@ -33,7 +40,10 @@ let  getGlobalThis : unit -> global [@bs]= [%raw{| function(){
 }|}]
 
 type dyn
-let resolve : string -> dyn [@bs] = [%raw {|function(s){
+
+let resolve : (string -> dyn[@bs]) =
+  [%raw
+    {|function(s){
   var myGlobal = getGlobalThis();
   if (myGlobal[s] === undefined){
     throw new Error(s + " not polyfilled by ReScript yet\n")
@@ -44,8 +54,9 @@ let resolve : string -> dyn [@bs] = [%raw {|function(s){
 (* FIXME: it does not have to global states *)
 type fn
 
-
-let register : string -> fn -> unit = [%raw{| function(s,fn){
+let register : string -> fn -> unit =
+  [%raw
+    {| function(s,fn){
   var myGlobal = getGlobalThis();
   myGlobal[s] = fn
   return 0

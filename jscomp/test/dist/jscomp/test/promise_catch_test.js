@@ -2,11 +2,11 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Js_exn = require("melange.belt/js_exn.js");
 var Stdlib = require("melange/stdlib.js");
-var Js_option = require("melange.belt/js_option.js");
-var Caml_exceptions = require("melange.runtime/caml_exceptions.js");
-var Caml_js_exceptions = require("melange.runtime/caml_js_exceptions.js");
+var Js__Js_exn = require("melange.js/js_exn.js");
+var Js__Js_option = require("melange.js/js_option.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 var suites = {
   contents: /* [] */0
@@ -34,7 +34,7 @@ function eq(loc, x, y) {
 }
 
 function handler(e) {
-  if (e.RE_EXN_ID === Js_exn.$$Error) {
+  if (e.RE_EXN_ID === Js__Js_exn.$$Error) {
     console.log("js error");
     return Promise.resolve(0);
   }
@@ -57,7 +57,7 @@ function myHandler(match) {
   if (Caml_exceptions.caml_is_extension(match)) {
     if (match.RE_EXN_ID === Stdlib.Not_found) {
       return 1;
-    } else if (match.RE_EXN_ID === Js_exn.$$Error) {
+    } else if (match.RE_EXN_ID === Js__Js_exn.$$Error) {
       return 2;
     } else {
       return ;
@@ -80,7 +80,7 @@ try {
 }
 catch (raw_e){
   var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-  eq("File \"promise_catch_test.ml\", line 36, characters 7-14", true, Js_option.isSomeValue((function (xxx, y) {
+  eq("File \"promise_catch_test.ml\", line 36, characters 7-14", true, Js__Js_option.isSomeValue((function (xxx, y) {
               return xxx === y;
             }), 2, myHandler(e)));
 }

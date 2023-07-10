@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/caml.js");
-var Caml_obj = require("melange.runtime/caml_obj.js");
-var Caml_int64 = require("melange.runtime/caml_int64.js");
+var Caml = require("melange.js/caml.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_int64 = require("melange.js/caml_int64.js");
 
 var suites = {
   contents: /* [] */0

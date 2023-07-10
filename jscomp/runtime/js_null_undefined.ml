@@ -26,27 +26,24 @@
 
 open Melange_mini_stdlib
 
-type + 'a t = 'a Js.nullable
+type +'a t = 'a Js_internal.nullable
+
 external toOption : 'a t -> 'a option = "#nullable_to_opt"
 external to_opt : 'a t -> 'a option = "#nullable_to_opt"
 external return : 'a -> 'a t = "%identity"
-external isNullable : 'a t -> bool =  "#is_nullable"
+external isNullable : 'a t -> bool = "#is_nullable"
 external null : 'a t = "#null"
 external undefined : 'a t = "#undefined"
 
+open struct
+  module Js = Js_internal
+end
+
 let bind x f =
   match to_opt x with
-  | None -> (Obj.magic (x: 'a t): 'b t)
+  | None -> (Obj.magic (x : 'a t) : 'b t)
   | Some x -> return (f x [@bs])
 
-let iter x f =
-  match to_opt x with
-  | None -> ()
-  | Some x -> f x [@bs]
-
-let fromOption x =
-  match x with
-  | None -> undefined
-  | Some x -> return x
-
+let iter x f = match to_opt x with None -> () | Some x -> f x [@bs]
+let fromOption x = match x with None -> undefined | Some x -> return x
 let from_opt = fromOption

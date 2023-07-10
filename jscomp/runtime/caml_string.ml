@@ -31,13 +31,10 @@ open Melange_mini_stdlib
    it might point to ["%string_unsafe_set"]
 *)
 
-
-
-let get s i=
-  if i >=Caml_string_extern.length s || i < 0  then
+let get s i =
+  if i >= Caml_string_extern.length s || i < 0 then
     raise (Invalid_argument "index out of bounds")
   else Caml_string_extern.unsafe_get s i
 
 let make n (ch : char) : string =
-  (Caml_string_extern.of_char ch)
-  |. Caml_string_extern.repeat   n
+  Caml_string_extern.of_char ch |. Caml_string_extern.repeat n

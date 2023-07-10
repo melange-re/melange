@@ -2,9 +2,9 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Curry = require("melange.runtime/curry.js");
+var Curry = require("melange.js/curry.js");
 var Mt_global = require("./mt_global.js");
-var Caml_array = require("melange.runtime/caml_array.js");
+var Caml_array = require("melange.js/caml_array.js");
 var Stdlib__Int64 = require("melange/int64.js");
 var Stdlib__Printf = require("melange/printf.js");
 var Stdlib__Random = require("melange/random.js");

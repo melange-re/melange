@@ -22,18 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val dup : 'a array ->  'a array 
-
+val dup : 'a array -> 'a array
 val sub : 'a array -> int -> int -> 'a array
-
 val concat : 'a array list -> 'a array
-
 val make : int -> 'a -> 'a array
-
 val make_float : int -> float array
-
 val blit : 'a array -> int -> 'a array -> int -> int -> unit
-
-val get: 'a array -> int -> 'a
-
-val set: 'a array -> int -> 'a -> unit
+val get : 'a array -> int -> 'a
+val set : 'a array -> int -> 'a -> unit

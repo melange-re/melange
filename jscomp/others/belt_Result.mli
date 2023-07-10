@@ -27,7 +27,6 @@
     Utilities for result data type.
 *)
 
-
 (**
   [Belt.Result] is a data type with two variants: [Ok] and [Error]. Each of these variants can
   contain data, and those two pieces of data need not have the same data type. [Belt.Result] is
@@ -42,7 +41,7 @@
   ]}
 *)
 
-type ('a,'b) t = Ok of 'a | Error of 'b
+type ('a, 'b) t = Ok of 'a | Error of 'b
 
 val getExn : ('a, 'b) t -> 'a
 (**
@@ -57,7 +56,8 @@ val getExn : ('a, 'b) t -> 'a
   ]}
 *)
 
-val mapWithDefaultU : ('a, 'c) t -> 'b -> ('a -> 'b [@bs]) -> 'b
+val mapWithDefaultU : ('a, 'c) t -> 'b -> (('a -> 'b)[@bs]) -> 'b
+
 val mapWithDefault : ('a, 'c) t -> 'b -> ('a -> 'b) -> 'b
 (**
   [mapWithDefault res default f]
@@ -70,7 +70,8 @@ val mapWithDefault : ('a, 'c) t -> 'b -> ('a -> 'b) -> 'b
   ]}
 *)
 
-val mapU : ('a, 'c) t -> ('a -> 'b [@bs]) -> ('b, 'c) t
+val mapU : ('a, 'c) t -> (('a -> 'b)[@bs]) -> ('b, 'c) t
+
 val map : ('a, 'c) t -> ('a -> 'b) -> ('b, 'c) t
 (**
   [map res f]
@@ -85,7 +86,8 @@ val map : ('a, 'c) t -> ('a -> 'b) -> ('b, 'c) t
   ]}
 *)
 
-val flatMapU : ('a, 'c) t -> ('a -> ('b, 'c) t [@bs]) -> ('b, 'c) t
+val flatMapU : ('a, 'c) t -> (('a -> ('b, 'c) t)[@bs]) -> ('b, 'c) t
+
 val flatMap : ('a, 'c) t -> ('a -> ('b, 'c) t) -> ('b, 'c) t
 (**
   [flatMap res f]
@@ -106,7 +108,7 @@ let recip x =
     flatMap (Error "Already bad") recip = Error "Already bad"
   ]}
 *)
-  
+
 val getWithDefault : ('a, 'b) t -> 'a -> 'a
 (**
   [getWithDefault res defaultValue]
@@ -133,7 +135,8 @@ val isError : ('a, 'b) t -> bool
   Returns [true] if [res] is of the form [Error e], [false] if it is the [Ok n] variant.
 *)
 
-val eqU : ('a, 'c) t -> ('b, 'd) t -> ('a -> 'b -> bool [@bs]) -> bool
+val eqU : ('a, 'c) t -> ('b, 'd) t -> (('a -> 'b -> bool)[@bs]) -> bool
+
 val eq : ('a, 'c) t -> ('b, 'd) t -> ('a -> 'b -> bool) -> bool
 (**
   [eq res1 res2 f]
@@ -159,7 +162,8 @@ val eq : ('a, 'c) t -> ('b, 'd) t -> ('a -> 'b -> bool) -> bool
   ]}
 *)
 
-val cmpU : ('a, 'c) t -> ('b, 'd) t -> ('a -> 'b -> int [@bs]) -> int
+val cmpU : ('a, 'c) t -> ('b, 'd) t -> (('a -> 'b -> int)[@bs]) -> int
+
 val cmp : ('a, 'c) t -> ('b, 'd) t -> ('a -> 'b -> int) -> int
 (**
   [cmp res1 res2 f]

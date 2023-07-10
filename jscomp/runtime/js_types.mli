@@ -24,7 +24,6 @@
 
 (** *)
 
-
 type symbol
 (**Js symbol type only available in ES6 *)
 
@@ -32,6 +31,7 @@ type bigint_val
 (** Js bigint type only available in ES2020 *)
 
 type obj_val
+
 type undefined_val
 (** This type has only one value [undefined] *)
 
@@ -41,7 +41,7 @@ type null_val
 type function_val
 
 type _ t =
-  | Undefined :  undefined_val t
+  | Undefined : undefined_val t
   | Null : null_val t
   | Boolean : bool t
   | Number : float t
@@ -51,12 +51,10 @@ type _ t =
   | Symbol : symbol t
   | BigInt : bigint_val t
 
-
 val test : 'a -> 'b t -> bool
 (** {[
   test "x" String = true
   ]}*)
-
 
 type tagged_t =
   | JSFalse

@@ -30,7 +30,7 @@ opam-create-switch: ## Create opam switch
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
 	opam pin add dune.dev -y git+https://github.com/ocaml/dune.git#1c0939ee8371951ec0f0d1bd0a1c810ca1b23122
-	opam pin add reactjs-jsx-ppx.dev -y git+https://github.com/reasonml/reason-react.git#587ea8fb55e5a98512557417f1576b497e573240
+	opam pin add reason-react-ppx.dev -y git+https://github.com/reasonml/reason-react.git#9e70d7548918816f1c0d8be8bdc66b6deabd339a
 	opam pin add melange.dev . --with-test -y
 	opam pin add opam-check-npm-deps.dev . --with-test -y
 	opam pin add rescript-syntax.dev . --with-test -y
@@ -45,16 +45,16 @@ opam-init: opam-create-switch opam-install-test ## Configure everything to devel
 
 .PHONY: playground
 playground:
-	opam exec -- dune build --profile=browser bin/jsoo_main.bc.js
+	opam exec -- dune build --profile=release bin/jsoo_main.bc.js
 
 .PHONY: playground-dev
 playground-dev:
-	opam exec -- dune build --profile=browser-dev bin/jsoo_main.bc.js
+	opam exec -- dune build --profile=dev bin/jsoo_main.bc.js
 
 .PHONY: playground-dev-test
 playground-dev-test:
-	opam exec -- dune build --profile=browser-dev @@test/blackbox-tests/playground
+	opam exec -- dune build --profile=dev @@test/blackbox-tests/playground
 
 .PHONY: playground-test
 playground-test:
-	opam exec -- dune build --profile=browser @@test/blackbox-tests/playground
+	opam exec -- dune build --profile=release @@test/blackbox-tests/playground

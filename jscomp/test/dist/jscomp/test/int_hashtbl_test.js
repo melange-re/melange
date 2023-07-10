@@ -2,8 +2,8 @@
 'use strict';
 
 var Mt = require("./mt.js");
-var Caml = require("melange.runtime/caml.js");
-var Curry = require("melange.runtime/curry.js");
+var Caml = require("melange.js/caml.js");
+var Curry = require("melange.js/curry.js");
 var Stdlib__List = require("melange/list.js");
 var Stdlib__Array = require("melange/array.js");
 var Stdlib__Hashtbl = require("melange/hashtbl.js");

@@ -16,10 +16,43 @@
 
 (executable
  (name jsoo_main)
- (flags :standard -open Melange_compiler_libs)
  (modules jsoo_main jsoo_common)
- (libraries core melange_compiler_libs melange_ppx)
+ (libraries
+  core
+  js_of_ocaml-compiler.runtime
+  melange.ppx
+  reason-react-ppx
+  reason)
  (modes js))
+
+(install
+ (section bin)
+ (package melange-playground)
+ (files jsoo_main.bc.js melange-cmijs.js))
+
+(rule
+ (deps
+  (package melange)
+  %{bin:js_of_ocaml}
+  (:some-js-cmi %{lib:melange:js/melange/js.cmi})
+  (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
+  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi}))
+ (target cmi-files.txt)
+ (action
+  (progn
+   (bash
+    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+   (bash
+    "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
+   (bash
+    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
+
+(rule
+ (deps cmi-files.txt)
+ (alias playground-cmijs)
+ (target melange-cmijs.js)
+ (action
+  (bash "cat %{deps} | xargs js_of_ocaml build-fs -o %{target}")))
 
 (executable
  (name check_npm_deps)

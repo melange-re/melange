@@ -26,19 +26,20 @@
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON> MDN
 *)
+
 (** {2 Types} *)
 
-(** The JSON data structure *)
 type t
+(** The JSON data structure *)
 
 (** Underlying type of a JSON value *)
 type _ kind =
   | String : Js_string.t kind
   | Number : float kind
-  | Object : t Js.Dict.t kind
+  | Object : t Js_dict.t kind
   | Array : t array kind
   | Boolean : bool kind
-  | Null : Js.Types.null_val kind
+  | Null : Js_types.null_val kind
 
 type tagged_t =
   | JSONFalse
@@ -46,16 +47,14 @@ type tagged_t =
   | JSONNull
   | JSONString of string
   | JSONNumber of float
-  | JSONObject of t Js.Dict.t
+  | JSONObject of t Js_dict.t
   | JSONArray of t array
-
 
 (** {2 Accessor} *)
 
 val classify : t -> tagged_t
 
-
-val test : 'a  -> 'b kind -> bool
+val test : 'a -> 'b kind -> bool
 (** [test v kind] returns true if [v] is of [kind] *)
 
 val decodeString : t -> Js_string.t option
@@ -66,7 +65,7 @@ val decodeNumber : t -> float option
 (** [decodeNumber json] returns [Some n] if [json] is a number, [None]
     otherwise *)
 
-val decodeObject : t -> t Js.Dict.t option
+val decodeObject : t -> t Js_dict.t option
 (** [decodeObject json] returns [Some o] if [json] is an object, [None]
     otherwise *)
 
@@ -78,7 +77,7 @@ val decodeBoolean : t -> bool option
 (** [decodeBoolean json] returns [Some b] if [json] is a boolean, [None]
     otherwise *)
 
-val decodeNull : t -> 'a Js.Null.t option
+val decodeNull : t -> 'a Js_null.t option
 (** [decodeNull json] returns [Some null] if [json] is a null, [None]
     otherwise *)
 
@@ -88,7 +87,8 @@ val decodeNull : t -> 'a Js.Null.t option
     JSON values.
 *)
 
-external null : t = "null" [@@bs.val]
+external null : t = "null"
+  [@@bs.val]
 (** [null] is the singleton null JSON value *)
 
 external string : string -> t = "%identity"
@@ -100,9 +100,8 @@ external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
 (** [boolean b] makes a JSON boolean of the [bool] [b] *)
 
-external object_ : t Js.Dict.t -> t = "%identity"
+external object_ : t Js_dict.t -> t = "%identity"
 (** [object_ dict] makes a JSON object of the [Js.Dict.t] [dict] *)
-
 
 external array : t array -> t = "%identity"
 (** [array_ a] makes a JSON array of the [Js.Json.t array] [a] *)
@@ -120,12 +119,13 @@ external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
 (** [booleanArray] makes a JSON array of the [bool array] [a] *)
 
-external objectArray : t Js.Dict.t array -> t = "%identity"
+external objectArray : t Js_dict.t array -> t = "%identity"
 (** [objectArray a] makes a JSON array of the [JsDict.t array] [a] *)
 
 (** {2 String conversion} *)
 
-external parseExn : string -> t = "parse" [@@bs.val] [@@bs.scope "JSON"]
+external parseExn : string -> t = "parse"
+  [@@bs.val] [@@bs.scope "JSON"]
 (** [parseExn s] parses the string [s] into a JSON data structure
 
 {b Returns} a JSON data structure
@@ -178,7 +178,7 @@ let getIds s =
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse> MDN
 *)
 
-external stringify: t -> string = "stringify"
+external stringify : t -> string = "stringify"
   [@@bs.val] [@@bs.scope "JSON"]
 (** [stringify json] formats the JSON data structure as a string
 
@@ -199,7 +199,8 @@ Js.log (Js.Json.stringify (Js.Json.object_ dict))
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify> MDN
 *)
 
-external stringifyWithSpace: t -> (_ [@bs.as {json|null|json}]) -> int -> string = "stringify"
+external stringifyWithSpace : t -> (_[@bs.as {json|null|json}]) -> int -> string
+  = "stringify"
   [@@bs.val] [@@bs.scope "JSON"]
 (** [stringify json] formats the JSON data structure as a string
 
@@ -220,9 +221,8 @@ Js.Dict.set dict "likes"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify> MDN
 *)
 
-
 external stringifyAny : 'a -> string option = "stringify"
-  [@@bs.val]  [@@bs.scope "JSON"]
+  [@@bs.val] [@@bs.scope "JSON"]
 (** [stringifyAny value] formats any [value] into a JSON string
 
 {[
@@ -233,22 +233,20 @@ external stringifyAny : 'a -> string option = "stringify"
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify> MDN
 *)
 
-
 (** Best-effort serialization, it tries to seralize as
   many objects as possible and deserialize it back*)
 
+val deserializeUnsafe : string -> 'a
 (**
   It is unsafe in two aspects
   - It may throw during  parsing
   - when you cast it to a specific type, it may have a type mismatch
 *)
-val deserializeUnsafe : string -> 'a
 
-
+val serializeExn : 'a -> string
 (**
   It will raise in such situations:
   - The object can not be serlialized to a JSON
   - There are cycles
   - Some JS engines can not stringify deeply nested json objects
 *)
-val serializeExn : 'a -> string

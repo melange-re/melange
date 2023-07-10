@@ -28,8 +28,11 @@ type t = Obj.t
 
 module O = struct
   external isArray : 'a -> bool = "Array.isArray" [@@bs.val]
+
   type key = string
+
   let for_in : Obj.t -> (key -> unit) -> unit =
+    let module Js = Js_internal in
     [%raw {|function(o,foo){
         for (var x in o) { foo(x) }}
       |}]
@@ -75,6 +78,7 @@ end
 *)
 
 let caml_obj_dup : Obj.t -> Obj.t =
+  let module Js = Js_internal in
   [%raw
     {|function(x){
   if(Array.isArray(x)){
@@ -95,11 +99,12 @@ let caml_obj_dup : Obj.t -> Obj.t =
    For the empty dummy object, whether it's
    [[]] or [{}] depends on how
    runtime encoding works, and will affect
-   js polymorphic comparison(Js.(=)) (fine with caml polymoprhic comparison (Pervasives.equal))
+   js polymorphic comparison(Js_internal.(=)) (fine with caml polymoprhic comparison (Pervasives.equal))
    In most cases, rec value comes from record/modules,
    whose tag is 0, we optimize that case
 *)
 let update_dummy : _ -> _ -> unit =
+  let module Js = Js_internal in
   [%raw
     {|function(x,y){
   var k
@@ -139,8 +144,8 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
   if a == b then 0
   else
     (*front and formoest, we do not compare function values*)
-    let a_type = Js.typeof a in
-    let b_type = Js.typeof b in
+    let a_type = Js_internal.typeof a in
+    let b_type = Js_internal.typeof b in
     match (a_type, b_type) with
     | "undefined", _ -> -1
     | _, "undefined" -> 1
@@ -148,76 +153,77 @@ let rec caml_compare (a : Obj.t) (b : Obj.t) : int =
         [a] could be (Some (Some x)) in that case [b] could be [Some None] or [null]
          so [b] has to be of type string or null *)
     | "string", "string" ->
-      Pervasives.compare (Obj.magic a : string) (Obj.magic b)
+        Pervasives.compare (Obj.magic a : string) (Obj.magic b)
     | "string", _ ->
-      (* [b] could be [Some None] or [null] *)
-      1
+        (* [b] could be [Some None] or [null] *)
+        1
     | _, "string" -> -1
     | "boolean", "boolean" ->
-      Pervasives.compare (Obj.magic a : bool) (Obj.magic b)
+        Pervasives.compare (Obj.magic a : bool) (Obj.magic b)
     | "boolean", _ -> 1
     | _, "boolean" -> -1
     | "function", "function" ->
-      raise (Invalid_argument "compare: functional value")
+        raise (Invalid_argument "compare: functional value")
     | "function", _ -> 1
     | _, "function" -> -1
-    | "bigint", "bigint"
-    | "number", "number" ->
-      Pervasives.compare (Obj.magic a : float) (Obj.magic b : float)
+    | "bigint", "bigint" | "number", "number" ->
+        Pervasives.compare (Obj.magic a : float) (Obj.magic b : float)
     | "number", _ ->
-      if b == Obj.repr Js.null || Caml_option.isNested b then 1
-        (* Some (Some ..) < x *)
-      else -1 (* Integer < Block in OCaml runtime GPR #1195, except Some.. *)
+        if b == Obj.repr Js_internal.null || Caml_option.isNested b then 1
+          (* Some (Some ..) < x *)
+        else -1 (* Integer < Block in OCaml runtime GPR #1195, except Some.. *)
     | _, "number" ->
-      if a == Obj.repr Js.null || Caml_option.isNested a then -1 else 1
+        if a == Obj.repr Js_internal.null || Caml_option.isNested a then -1
+        else 1
     | _ ->
-      if a == Obj.repr Js.null then
-        (* [b] could not be null otherwise would equal *)
-        if Caml_option.isNested b then 1 else -1
-      else if b == Obj.repr Js.null then
-        if Caml_option.isNested a then -1 else 1
-      else if (* double_array_tag: 254
+        if a == Obj.repr Js_internal.null then
+          (* [b] could not be null otherwise would equal *)
+          if Caml_option.isNested b then 1 else -1
+        else if b == Obj.repr Js_internal.null then
+          if Caml_option.isNested a then -1 else 1
+        else if (* double_array_tag: 254
         *)
-              Caml_option.isNested a then
-        if Caml_option.isNested b then aux_obj_compare a b
-          (* Some None < Some (Some None)) *)
+                Caml_option.isNested a then
+          if Caml_option.isNested b then aux_obj_compare a b
+            (* Some None < Some (Some None)) *)
+          else
+            (* b could not be undefined/None *)
+            (* Some None < Some ..*)
+            -1
         else
-          (* b could not be undefined/None *)
-          (* Some None < Some ..*)
-          -1
-      else
-        let tag_a = Obj.tag a in
-        let tag_b = Obj.tag b in
-        if tag_a = 248 (* object/exception *) then
-          Pervasives.compare
-            (Obj.magic (Obj.field a 1) : int)
-            (Obj.magic (Obj.field b 1))
-        else if tag_a = 251 (* abstract_tag *) then
-          raise (Invalid_argument "equal: abstract value")
-        else if tag_a <> tag_b then if tag_a < tag_b then -1 else 1
-        else
-          let len_a = Obj.size a in
-          let len_b = Obj.size b in
-          if len_a = len_b then
-            if O.isArray a then
-              aux_same_length
+          let tag_a = Obj.tag a in
+          let tag_b = Obj.tag b in
+          if tag_a = 248 (* object/exception *) then
+            Pervasives.compare
+              (Obj.magic (Obj.field a 1) : int)
+              (Obj.magic (Obj.field b 1))
+          else if tag_a = 251 (* abstract_tag *) then
+            raise (Invalid_argument "equal: abstract value")
+          else if tag_a <> tag_b then if tag_a < tag_b then -1 else 1
+          else
+            let len_a = Obj.size a in
+            let len_b = Obj.size b in
+            let module Js = Js_internal in
+            if len_a = len_b then
+              if O.isArray a then
+                aux_same_length
+                  (Obj.magic a : Obj.t array)
+                  (Obj.magic b : Obj.t array)
+                  0 len_a
+              else if [%raw {|a instanceof Date && b instanceof Date|}] then
+                [%raw {|a - b|}]
+              else aux_obj_compare a b
+            else if len_a < len_b then
+              (* at least one is not zero, so it is an array block*)
+              aux_length_a_short
                 (Obj.magic a : Obj.t array)
                 (Obj.magic b : Obj.t array)
                 0 len_a
-            else if [%raw {|a instanceof Date && b instanceof Date|}] then
-              [%raw {|a - b|}]
-            else aux_obj_compare a b
-          else if len_a < len_b then
-            (* at least one is not zero, so it is an array block*)
-            aux_length_a_short
-              (Obj.magic a : Obj.t array)
-              (Obj.magic b : Obj.t array)
-              0 len_a
-          else
-            aux_length_b_short
-              (Obj.magic a : Obj.t array)
-              (Obj.magic b : Obj.t array)
-              0 len_b
+            else
+              aux_length_b_short
+                (Obj.magic a : Obj.t array)
+                (Obj.magic b : Obj.t array)
+                0 len_b
 
 and aux_same_length (a : Obj.t array) (b : Obj.t array) i same_length =
   if i = same_length then 0
@@ -283,14 +289,15 @@ let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
   (*front and foremost, we do not compare function values*)
   if a == b then true
   else
-    let a_type = Js.typeof a in
+    let a_type = Js_internal.typeof a in
+    let module Js = Js_internal in
     if
       a_type = "string" || a_type = "number" || a_type = "bigint"
       || a_type = "boolean" || a_type = "undefined"
       || a == [%raw {|null|}]
     then false
     else
-      let b_type = Js.typeof b in
+      let b_type = Js_internal.typeof b in
       if a_type = "function" || b_type = "function" then
         raise (Invalid_argument "equal: functional value")
         (* first, check using reference equality *)
@@ -318,16 +325,19 @@ let rec caml_equal (a : Obj.t) (b : Obj.t) : bool =
                 (Obj.magic b : Obj.t array)
                 0 len_a
             else if [%raw {|a instanceof Date && b instanceof Date|}] then
-              not (Js.unsafe_gt a b || Js.unsafe_lt a b)
+              not (Js_internal.unsafe_gt a b || Js_internal.unsafe_lt a b)
             else aux_obj_equal a b
           else false
 
 and aux_equal_length (a : Obj.t array) (b : Obj.t array) i same_length =
   if i = same_length then true
   else
-    caml_equal (Caml_array_extern.unsafe_get a i) (Caml_array_extern.unsafe_get b i)
-    && aux_equal_length  a b (i + 1) same_length
-and aux_obj_equal (a: Obj.t) (b: Obj.t) =
+    caml_equal
+      (Caml_array_extern.unsafe_get a i)
+      (Caml_array_extern.unsafe_get b i)
+    && aux_equal_length a b (i + 1) same_length
+
+and aux_obj_equal (a : Obj.t) (b : Obj.t) =
   let result = ref true in
   let do_key_a key =
     if not (O.hasOwnProperty b key) then result.contents <- false
@@ -342,26 +352,26 @@ and aux_obj_equal (a: Obj.t) (b: Obj.t) =
   if result.contents then O.for_in b do_key_b;
   result.contents
 
-let caml_equal_null (x : Obj.t) (y : Obj.t Js.null) =
-  match Js.nullToOption y with
+let caml_equal_null (x : Obj.t) (y : Obj.t Js_internal.null) =
+  match Js_internal.nullToOption y with
   | None -> x == Obj.magic y
   | Some y -> caml_equal x y
 
-let caml_equal_undefined (x : Obj.t) (y : Obj.t Js.undefined) =
-  match Js.undefinedToOption y with
+let caml_equal_undefined (x : Obj.t) (y : Obj.t Js_internal.undefined) =
+  match Js_internal.undefinedToOption y with
   | None -> x == Obj.magic y
   | Some y -> caml_equal x y
 
-let caml_equal_nullable (x : Obj.t) (y : Obj.t Js.nullable) =
-  match Js.toOption y with
+let caml_equal_nullable (x : Obj.t) (y : Obj.t Js_internal.nullable) =
+  match Js_internal.toOption y with
   | None -> x == Obj.magic y
   | Some y -> caml_equal x y
 
-let isNumberOrBigInt a = Js.typeof a = "number" || Js.typeof a = "bigint"
-[@@inline]
+let isNumberOrBigInt a =
+  Js_internal.typeof a = "number" || Js_internal.typeof a = "bigint"
+  [@@inline]
 
-let canNumericCompare a b = isNumberOrBigInt a && isNumberOrBigInt b
-[@@inline]
+let canNumericCompare a b = isNumberOrBigInt a && isNumberOrBigInt b [@@inline]
 
 let caml_notequal a b =
   if canNumericCompare a b then (Obj.magic a : float) <> (Obj.magic b : float)
@@ -384,5 +394,4 @@ let caml_lessthan a b =
   else caml_compare a b < 0
 
 let caml_min (x : Obj.t) y = if caml_compare x y <= 0 then x else y
-
 let caml_max (x : Obj.t) y = if caml_compare x y >= 0 then x else y

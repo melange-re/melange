@@ -63,8 +63,9 @@ rec {
       tree
       nodejs
       reason
+      js_of_ocaml-compiler
     ];
-    checkInputs = [ ounit2 ];
+    checkInputs = [ ounit2 reason-react-ppx reason js_of_ocaml ];
 
     nativeBuildInputs = [ menhir cppo git makeWrapper ];
     propagatedBuildInputs = [

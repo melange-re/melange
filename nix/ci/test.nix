@@ -19,17 +19,8 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
-          reactjs-jsx-ppx = osuper.reactjs-jsx-ppx.overrideAttrs (_: {
-            postPatch = ''
-              rm -rf test/dune
-            '';
-            src = super.fetchFromGitHub {
-              owner = "reasonml";
-              repo = "reason-react";
-              rev = "97d31755c8d24fab13d6b60a3980505c917c1244";
-              hash = "sha256-zrTvVHcltvTtInzG+cdQCeEtL/wAMsHEjZwTO8N/AXI=";
-            };
-            patches = [ ];
+          sedlex = osuper.sedlex.overrideAttrs (_: {
+            # depends on ppx_expect, which is not available for 4.13
             doCheck = false;
           });
         });
@@ -73,7 +64,8 @@ stdenv.mkDerivation {
   buildInputs = [
     packages.melange
     packages.rescript-syntax
-    reactjs-jsx-ppx
+    reason-react-ppx
+    js_of_ocaml-compiler
   ];
 
   checkPhase = ''

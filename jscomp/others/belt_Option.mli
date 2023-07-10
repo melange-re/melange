@@ -27,8 +27,7 @@
     Utilities for option data type
 *)
 
-
-val keepU : 'a option -> ('a -> bool [@bs]) -> 'a option
+val keepU : 'a option -> (('a -> bool)[@bs]) -> 'a option
 (** Uncurried version of [keep] *)
 
 val keep : 'a option -> ('a -> bool) -> 'a option
@@ -44,7 +43,7 @@ val keep : 'a option -> ('a -> bool) -> 'a option
   ]}
 *)
 
-val forEachU : 'a option -> ('a -> unit [@bs]) -> unit
+val forEachU : 'a option -> (('a -> unit)[@bs]) -> unit
 (** Uncurried version of [forEach] *)
 
 val forEach : 'a option -> ('a -> unit) -> unit
@@ -69,14 +68,13 @@ val getExn : 'a option -> 'a
   ]}
 *)
 
-external getUnsafe :
-  'a option -> 'a = "%identity"
+external getUnsafe : 'a option -> 'a = "%identity"
 (** [getUnsafe x] returns x 
   This is an unsafe operation, it assumes x is neither not None 
   or (Some (None .. ))
 *)
 
-val mapWithDefaultU : 'a option -> 'b -> ('a -> 'b [@bs]) -> 'b
+val mapWithDefaultU : 'a option -> 'b -> (('a -> 'b)[@bs]) -> 'b
 (** Uncurried version of [mapWithDefault] *)
 
 val mapWithDefault : 'a option -> 'b -> ('a -> 'b) -> 'b
@@ -91,7 +89,7 @@ val mapWithDefault : 'a option -> 'b -> ('a -> 'b) -> 'b
   ]}
 *)
 
-val mapU : 'a option -> ('a -> 'b [@bs]) -> 'b option
+val mapU : 'a option -> (('a -> 'b)[@bs]) -> 'b option
 (** Uncurried version of [map] *)
 
 val map : 'a option -> ('a -> 'b) -> 'b option
@@ -106,7 +104,7 @@ val map : 'a option -> ('a -> 'b) -> 'b option
   ]}
 *)
 
-val flatMapU : 'a option -> ('a -> 'b option [@bs]) -> 'b option
+val flatMapU : 'a option -> (('a -> 'b option)[@bs]) -> 'b option
 (** Uncurried version of [flatMap] *)
 
 val flatMap : 'a option -> ('a -> 'b option) -> 'b option
@@ -164,7 +162,7 @@ val isNone : 'a option -> bool
   Returns [true] if the argument is [None], [false] otherwise
 *)
 
-val eqU : 'a option -> 'b option -> ('a -> 'b -> bool [@bs]) -> bool
+val eqU : 'a option -> 'b option -> (('a -> 'b -> bool)[@bs]) -> bool
 (**
   Uncurried version of [eq]
 *)
@@ -190,8 +188,8 @@ val eq : 'a option -> 'b option -> ('a -> 'b -> bool) -> bool
     eq None None clockEqual = true;;
   ]}
 *)
-    
-val cmpU : 'a option -> 'b option -> ('a -> 'b -> int [@bs]) -> int
+
+val cmpU : 'a option -> 'b option -> (('a -> 'b -> int)[@bs]) -> int
 (** Uncurried version of [cmp] *)
 
 val cmp : 'a option -> 'b option -> ('a -> 'b -> int) -> int
