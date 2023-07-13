@@ -97,7 +97,7 @@ rec {
     '';
 
     doCheck = true;
-    nativeBuildInputs = [ menhir cppo js_of_ocaml ];
+    nativeBuildInputs = [ cppo menhir nodejs js_of_ocaml ];
     propagatedBuildInputs = [ js_of_ocaml-compiler melange reason reason-react-ppx ];
   };
 
@@ -117,6 +117,7 @@ rec {
     };
 
     doCheck = true;
+    nativeBuildInputs = [ melange ];
     propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
