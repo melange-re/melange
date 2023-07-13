@@ -59,13 +59,8 @@ rec {
     '';
 
     doCheck = true;
-    nativeCheckInputs = [
-      tree
-      nodejs
-      reason
-      js_of_ocaml-compiler
-    ];
-    checkInputs = [ ounit2 reason-react-ppx reason js_of_ocaml ];
+    nativeCheckInputs = [ tree nodejs reason ];
+    checkInputs = [ ounit2 ];
 
     nativeBuildInputs = [ menhir cppo git makeWrapper ];
     propagatedBuildInputs = [
@@ -76,6 +71,34 @@ rec {
       menhirLib
     ];
     meta.mainProgram = "melc";
+  };
+
+  melange-playground = buildDunePackage {
+    pname = "melange-playground";
+    version = "dev";
+    duneVersion = "3";
+
+    src = with nix-filter; filter {
+      root = ./..;
+      include = [
+        "dune-project"
+        "dune"
+        "melange-playground.opam"
+        "bin"
+        "jscomp"
+        "vendor"
+        "test/blackbox-tests/melange-playground"
+      ];
+    };
+    postPatch = ''
+      rm -rf vendor/melange-compiler-libs
+      mkdir -p ./vendor
+      cp -r ${vendored} ./vendor/melange-compiler-libs
+    '';
+
+    doCheck = true;
+    nativeBuildInputs = [ cppo menhir nodejs js_of_ocaml ];
+    propagatedBuildInputs = [ js_of_ocaml-compiler melange reason reason-react-ppx ];
   };
 
   rescript-syntax = buildDunePackage {
@@ -89,10 +112,12 @@ rec {
         "dune-project"
         "rescript-syntax.opam"
         "rescript-syntax"
+        "test/blackbox-tests/rescript-syntax"
       ];
     };
 
     doCheck = true;
+    nativeBuildInputs = [ melange ];
     propagatedBuildInputs = [ ppxlib melange ];
 
     meta.mainProgram = "rescript-syntax";
