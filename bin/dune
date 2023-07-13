@@ -16,14 +16,16 @@
 
 (executable
  (name jsoo_main)
+ (public_name playground)
+ (package melange-playground)
  (modules jsoo_main jsoo_common)
+ (modes byte js)
  (libraries
   core
   js_of_ocaml-compiler.runtime
   melange.ppx
   reason-react-ppx
-  reason)
- (modes js))
+  reason))
 
 (install
  (section bin)
