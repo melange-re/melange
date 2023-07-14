@@ -18,6 +18,30 @@
         "type": "github"
       }
     },
+    "melange-compiler-libs": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1685843376,
+        "narHash": "sha256-P+HhbuBJBWSPVe5cUEZQxkwjYcrCw8g+pOhd2u2YTHM=",
+        "owner": "melange-re",
+        "repo": "melange-compiler-libs",
+        "rev": "73aa521a7d37f32885a870f4c77a482ead309ad3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "melange-re",
+        "repo": "melange-compiler-libs",
+        "rev": "73aa521a7d37f32885a870f4c77a482ead309ad3",
+        "type": "github"
+      }
+    },
     "nix-filter": {
       "locked": {
         "lastModified": 1687178632,
@@ -41,11 +65,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1689195659,
-        "narHash": "sha256-zgqcOBZgTOkawkEU5eiVGTlqDYq4HcnfmgWA7UCufLM=",
+        "lastModified": 1689290902,
+        "narHash": "sha256-PIaAOnx3FKhX+8Sd3NXDJWV39xOhA+/PMLxS6MoCIGw=",
         "owner": "nix-ocaml",
         "repo": "nix-overlays",
-        "rev": "c496d06e12d3944bdb05827297af95765c8a1475",
+        "rev": "9bde209329b262d0e72076b14debf0b414604277",
         "type": "github"
       },
       "original": {
@@ -56,23 +80,24 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1689150988,
-        "narHash": "sha256-Ue5BvtYYszqzX4ONWjgj6pnazCbOzdRBfLIx8l1Wa1w=",
+        "lastModified": 1689266139,
+        "narHash": "sha256-EhZf5w0eVWG55m++EK6oOqwkou9acK7EwhsSruca8bE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bec27fabee7ff51a4788840479b1730ed1b64427",
+        "rev": "ee5e438359f45b5344acb0d3dcb1a9291eba63b2",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bec27fabee7ff51a4788840479b1730ed1b64427",
+        "rev": "ee5e438359f45b5344acb0d3dcb1a9291eba63b2",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "melange-compiler-libs": "melange-compiler-libs",
         "nix-filter": "nix-filter",
         "nixpkgs": "nixpkgs"
       }

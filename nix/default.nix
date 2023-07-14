@@ -7,119 +7,54 @@
 , makeWrapper
 , nix-filter
 , nodejs
+, melange-compiler-libs-vendor-dir
 }:
-
-
-let
-
-  # this changes rarely, and it's better than having to rely on nix's poor
-  # support for submodules
-  vendored = fetchFromGitHub {
-    owner = "melange-re";
-    repo = "melange-compiler-libs";
-    rev = "73aa521a7d37f32885a870f4c77a482ead309ad3";
-    hash = "sha256-P+HhbuBJBWSPVe5cUEZQxkwjYcrCw8g+pOhd2u2YTHM=";
-  };
-
-in
 
 with ocamlPackages;
 
-rec {
-  melange = buildDunePackage {
-    pname = "melange";
-    version = "dev";
-    duneVersion = "3";
+buildDunePackage {
+  pname = "melange";
+  version = "dev";
+  duneVersion = "3";
 
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "bin"
-        "dune-project"
-        "dune"
-        "jscomp"
-        "lib"
-        "melange.opam"
-        "ppx"
-        "test"
-        "scripts"
-        "vendor"
-      ];
-      exclude = [ "jscomp/test" ];
-    };
-    postPatch = ''
-      rm -rf vendor/melange-compiler-libs
-      mkdir -p ./vendor
-      cp -r ${vendored} ./vendor/melange-compiler-libs
-    '';
-
-    postInstall = ''
-      wrapProgram "$out/bin/melc" \
-        --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange:$OCAMLFIND_DESTDIR/melange/belt/melange:$OCAMLFIND_DESTDIR/melange/dom/melange"
-    '';
-
-    doCheck = true;
-    nativeCheckInputs = [ tree nodejs reason ];
-    checkInputs = [ ounit2 ];
-
-    nativeBuildInputs = [ menhir cppo git makeWrapper ];
-    propagatedBuildInputs = [
-      dune-build-info
-      base64
-      cmdliner
-      ppxlib
-      menhirLib
+  src = with nix-filter; filter {
+    root = ./..;
+    include = [
+      "bin"
+      "dune-project"
+      "dune"
+      "jscomp"
+      "lib"
+      "melange.opam"
+      "ppx"
+      "test"
+      "scripts"
+      "vendor"
     ];
-    meta.mainProgram = "melc";
+    exclude = [ "jscomp/test" ];
   };
+  postPatch = ''
+    rm -rf vendor/melange-compiler-libs
+    mkdir -p ./vendor
+    cp -r ${melange-compiler-libs-vendor-dir} ./vendor/melange-compiler-libs
+  '';
 
-  melange-playground = buildDunePackage {
-    pname = "melange-playground";
-    version = "dev";
-    duneVersion = "3";
+  postInstall = ''
+    wrapProgram "$out/bin/melc" \
+      --set MELANGELIB "$OCAMLFIND_DESTDIR/melange/melange:$OCAMLFIND_DESTDIR/melange/js/melange:$OCAMLFIND_DESTDIR/melange/belt/melange:$OCAMLFIND_DESTDIR/melange/dom/melange"
+  '';
 
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "dune-project"
-        "dune"
-        "melange-playground.opam"
-        "bin"
-        "jscomp"
-        "vendor"
-        "test/blackbox-tests/melange-playground"
-      ];
-    };
-    postPatch = ''
-      rm -rf vendor/melange-compiler-libs
-      mkdir -p ./vendor
-      cp -r ${vendored} ./vendor/melange-compiler-libs
-    '';
+  doCheck = true;
+  nativeCheckInputs = [ tree nodejs reason ];
+  checkInputs = [ ounit2 ];
 
-    doCheck = true;
-    nativeBuildInputs = [ cppo menhir nodejs js_of_ocaml ];
-    propagatedBuildInputs = [ js_of_ocaml-compiler melange reason reason-react-ppx ];
-  };
-
-  rescript-syntax = buildDunePackage {
-    pname = "rescript-syntax";
-    version = "dev";
-    duneVersion = "3";
-
-    src = with nix-filter; filter {
-      root = ./..;
-      include = [
-        "dune-project"
-        "rescript-syntax.opam"
-        "rescript-syntax"
-        "test/blackbox-tests/rescript-syntax"
-      ];
-    };
-
-    doCheck = true;
-    nativeBuildInputs = [ melange ];
-    propagatedBuildInputs = [ ppxlib melange ];
-
-    meta.mainProgram = "rescript-syntax";
-  };
+  nativeBuildInputs = [ menhir cppo git makeWrapper ];
+  propagatedBuildInputs = [
+    dune-build-info
+    base64
+    cmdliner
+    ppxlib
+    menhirLib
+  ];
+  meta.mainProgram = "melc";
 }
