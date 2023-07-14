@@ -309,11 +309,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
           (match Ext_filename.get_all_extensions_maybe output_name with
           | None ->
             raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
-          | Some ext ->
-            (match Ext_js_suffix.of_string ext with
-            | Unknown_extension ->
-                raise (Arg.Bad "`-o FILENAME` needs to include a valid extension")
-            | other -> other))
+          | Some ext -> Ext_js_suffix.of_string ext)
         | None ->
           raise (Arg.Bad "`-o FILENAME` is required when passing `-bs-module-type`")
       in
