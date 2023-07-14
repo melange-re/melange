@@ -11,7 +11,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs/73aa521a7d37f32885a870f4c77a482ead309ad3";
+      url = "github:melange-re/melange-compiler-libs/38bb9de36cb1f0af85b039943521c3e1244dbcb9";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };

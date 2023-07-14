@@ -2,17 +2,14 @@
 
 let
   lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
-  src = fetchGit {
-    url = with lock.nodes.nixpkgs.locked;"https://github.com/${owner}/${repo}";
-    inherit (lock.nodes.nixpkgs.locked) rev;
-    # inherit (lock.nodes.nixpkgs.original) ref;
+  findFlakeSrc = name: fetchGit {
+    url = with lock.nodes.${name}.locked;"https://github.com/${owner}/${repo}";
+    inherit (lock.nodes.${name}.locked) rev;
   };
-  nix-filter-src = fetchGit {
-    url = with lock.nodes.nix-filter.locked; "https://github.com/${owner}/${repo}";
-    inherit (lock.nodes.nix-filter.locked) rev;
-    # inherit (lock.nodes.nixpkgs.original) ref;
-    allRefs = true;
-  };
+
+  src = findFlakeSrc "nixpkgs";
+  nix-filter-src = findFlakeSrc "nix-filter";
+  melange-compiler-libs-src = findFlakeSrc "melange-compiler-libs";
   nix-filter = import "${nix-filter-src}";
 
   pkgs = import src {
@@ -28,7 +25,15 @@ let
     ];
   };
   inherit (pkgs) stdenv nodejs yarn git lib nodePackages ocamlPackages tree;
-  packages = pkgs.callPackage ./.. { inherit nix-filter; };
+  packages = rec {
+    melange = pkgs.callPackage ./.. {
+      inherit nix-filter;
+      melange-compiler-libs-vendor-dir = melange-compiler-libs-src;
+    };
+    rescript-syntax = pkgs.lib.callPackageWith pkgs.ocamlPackages ../rescript-syntax.nix {
+      inherit nix-filter melange;
+    };
+  };
   inputString =
     builtins.substring
       11 32

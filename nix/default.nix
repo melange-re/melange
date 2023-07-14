@@ -1,6 +1,5 @@
 { stdenv
 , ocamlPackages
-, fetchFromGitHub
 , lib
 , git
 , tree
