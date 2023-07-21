@@ -36,13 +36,21 @@ let assert_bool_lit (e : Parsetree.expression) =
       Location.raise_errorf ~loc:e.pexp_loc
         "expect `true` or `false` in this field"
 
+let warn_if_bs ~loc txt =
+  match txt with
+  | "bs" -> Bs_ast_invariant.warn ~loc Deprecated_attribute_namespace
+  | other ->
+      if String.starts_with ~prefix:"bs." other then
+        Bs_ast_invariant.warn ~loc Deprecated_attribute_namespace
+
 let process_method_attributes_rev (attrs : t) =
   let exception Local of string in
   try
     let ret =
       List.fold_left
         (fun (st, acc)
-             ({ attr_name = { txt; _ }; attr_payload = payload; _ } as attr) ->
+             ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+          warn_if_bs ~loc txt;
           match txt with
           | "bs.get" | "get" (* @bs.get{null; undefined}*) ->
               let result =
@@ -109,6 +117,7 @@ type attr_kind =
 let process_attributes_rev (attrs : t) : attr_kind * t =
   List.fold_left
     (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
+      warn_if_bs ~loc txt;
       match (txt, st) with
       | "bs", (Nothing | Uncurry _) ->
           (Uncurry attr, acc) (* TODO: warn unused/duplicated attribute *)
@@ -122,13 +131,15 @@ let process_attributes_rev (attrs : t) : attr_kind * t =
 
 let process_pexp_fun_attributes_rev (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; loc = _ }; _ } as attr) ->
+    (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
+      warn_if_bs ~loc txt;
       match txt with "bs.open" -> (true, acc) | _ -> (st, attr :: acc))
     (false, []) attrs
 
 let process_bs (attrs : t) =
   List.fold_left
-    (fun (st, acc) ({ attr_name = { txt; loc = _ }; _ } as attr) ->
+    (fun (st, acc) ({ attr_name = { txt; loc }; _ } as attr) ->
+      warn_if_bs ~loc txt;
       match (txt, st) with "bs", _ -> (true, acc) | _, _ -> (st, attr :: acc))
     (false, []) attrs
 
@@ -275,7 +286,8 @@ let iter_process_bs_string_int_unwrap_uncurry (attrs : t) =
     else Error.err ~loc Conflict_attributes
   in
   List.iter
-    (fun ({ attr_name = { txt; loc = _ }; attr_payload = payload; _ } as attr) ->
+    (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+      warn_if_bs ~loc txt;
       match txt with
       | "bs.string" | "string" -> assign `String attr
       | "bs.int" | "int" -> assign `Int attr
@@ -353,7 +365,7 @@ let rs_externals (attrs : t) pval_prim =
   | _, [] -> false
   (* This is  val *)
   | [], _ ->
-      (* Not any attribute found *)
+      (* No attributes found *)
       prims_to_be_encoded pval_prim
   | _, _ ->
       List.exists
@@ -367,6 +379,7 @@ let iter_process_bs_int_as (attrs : t) =
   let st = ref None in
   List.iter
     (fun ({ attr_name = { txt; loc }; attr_payload = payload; _ } as attr) ->
+      warn_if_bs ~loc txt;
       match txt with
       | "bs.as" | "as" ->
           if !st = None then (
@@ -382,7 +395,8 @@ let iter_process_bs_int_as (attrs : t) =
 
 let has_bs_optional (attrs : t) : bool =
   List.exists
-    (fun ({ attr_name = { txt; _ }; _ } as attr) ->
+    (fun ({ attr_name = { txt; loc }; _ } as attr) ->
+      warn_if_bs ~loc txt;
       match txt with
       | "bs.optional" | "optional" ->
           Bs_ast_invariant.mark_used_bs_attribute attr;
@@ -391,7 +405,9 @@ let has_bs_optional (attrs : t) : bool =
     attrs
 
 let is_inline : attr -> bool =
- fun { attr_name = { txt; _ }; _ } -> txt = "bs.inline" || txt = "inline"
+ fun { attr_name = { txt; loc }; _ } ->
+  warn_if_bs ~loc txt;
+  txt = "bs.inline" || txt = "inline"
 
 let has_inline_payload (attrs : t) = Ext_list.find_first attrs is_inline
 

@@ -255,6 +255,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
           } )
       else
         let action () =
+          Ast_attributes.warn_if_bs ~loc txt;
           match txt with
           | "bs.val" | "val" ->
               if no_arguments then
