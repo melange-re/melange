@@ -17,7 +17,7 @@
   > let f = fun [@bs] x y -> x + y
   > let x = (object [@bs] method hi x y =x + y end )
   > external mk : ?hi:int -> unit -> _ = "" [@@bs.obj]
-  > let raw = [%raw "42"]
+  > (* let raw = [%raw "42"] *)
   > EOF
 
   $ cat > dune-project <<EOF

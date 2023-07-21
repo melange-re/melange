@@ -20,7 +20,7 @@ Demonstrate a bug with uncurrying
   >  (target melange)
   >  (alias mel)
   >  (modules main)
-  >  (preprocess (pps melange.ppx))
+  >  (preprocess (pps melange.ppx -alert -deprecated))
   >  (emit_stdlib false)
   >  (module_systems commonjs))
   > EOF

@@ -6,7 +6,7 @@
   >   hi_should_error:([\`a of int | \`b of string ] [@bs.string]) ->
   >   unit -> _ = "" [@@bs.obj]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx 'melppx -alert -deprecated' x.ml
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..hi_should_error:([`a of int | `b of string ] [@bs.string]) ->
   3 |   unit -> _................
@@ -18,7 +18,7 @@
   >   ?hi_should_error:([\`a of int | \`b of string ] [@bs.string]) ->
   >   unit -> _ = "" [@@bs.obj]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx 'melppx -alert -deprecated' x.ml
   File "x.ml", lines 2-3, characters 2-11:
   2 | ..?hi_should_error:([`a of int | `b of string ] [@bs.string]) ->
   3 |   unit -> _................
@@ -30,7 +30,7 @@
   >   ?hi_should_error:([\`a of int | \`b of string ] [@bs.string]) ->
   >   unit -> unit = "err" [@@bs.val]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx 'melppx -alert -deprecated' x.ml
   File "x.ml", lines 1-3, characters 0-33:
   1 | external err :
   2 |   ?hi_should_error:([`a of int | `b of string ] [@bs.string]) ->
@@ -46,7 +46,7 @@ Each [@bs.unwrap] variant constructor requires an argument
   >   ?hi_should_error:([\`a of int | \`b] [@bs.unwrap]) ->
   >   unit -> unit = "err" [@@bs.val]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx 'melppx -alert -deprecated' x.ml
   File "x.ml", line 2, characters 20-36:
   2 |   ?hi_should_error:([`a of int | `b] [@bs.unwrap]) ->
                           ^^^^^^^^^^^^^^^^
@@ -60,7 +60,7 @@ Each [@bs.unwrap] variant constructor requires an argument
   > external err :
   >   ?hi_should_error:([\`a of int] [@bs.unwrap]) -> unit -> _ = "" [@@bs.obj]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx 'melppx -alert -deprecated' x.ml
   File "x.ml", line 2, characters 2-58:
   2 |   ?hi_should_error:([`a of int] [@bs.unwrap]) -> unit -> _ = "" [@@bs.obj]
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

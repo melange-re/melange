@@ -7,7 +7,7 @@
   >    [@bs.string]
   > ) = "mk" [@@bs.val]
   > EOF
-  $ melc -ppx melppx x.ml
+  $ melc -ppx 'melppx -alert -deprecated' x.ml
   File "x.ml", line 4, characters 5-14:
   4 |    [@bs.string]
            ^^^^^^^^^

@@ -9,7 +9,7 @@
   > (melange.emit
   >  (target out)
   >  (emit_stdlib false)
-  >  (preprocess (pps melange.ppx)))
+  >  (preprocess (pps melange.ppx -alert -deprecated)))
   > EOF
 
   $ cat > x.ml <<EOF
@@ -29,7 +29,7 @@ Disabling alerts with `-alert -[ALERT_NAME]`
   > (melange.emit
   >  (target out)
   >  (emit_stdlib false)
-  >  (preprocess (pps melange.ppx -alert -unused -alert -fragile)))
+  >  (preprocess (pps melange.ppx -alert -unused -alert -fragile -alert -deprecated)))
   > EOF
 
   $ dune build @melange
