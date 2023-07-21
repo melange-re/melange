@@ -28,6 +28,8 @@ type attr = Parsetree.attribute
 type t = attr list
 type ('a, 'b) st = { get : 'a option; set : 'b option }
 
+val warn_if_bs : loc:Location.t -> string -> unit
+
 val process_method_attributes_rev :
   t -> ((bool * bool, [ `Get | `No_get ]) st * t, string) result
 

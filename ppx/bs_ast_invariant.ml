@@ -29,11 +29,13 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_bs_string
+    | Deprecated_attribute_namespace
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_bs_string -> "redundant"
+    | Deprecated_attribute_namespace -> "deprecated"
 
   let pp fmt t =
     match t with
@@ -51,19 +53,22 @@ module Warnings = struct
     | Redundant_bs_string ->
         Format.fprintf fmt
           "[@bs.string] is redundant here, you can safely remove it"
-
-  let warn ~loc msg =
-    let module Location = Ocaml_common.Location in
-    Location.prerr_alert loc
-      {
-        Ocaml_common.Warnings.kind = kind msg;
-        message = Format.asprintf "%a" pp msg;
-        def = Location.none;
-        use = loc;
-      }
+    | Deprecated_attribute_namespace ->
+        Format.fprintf fmt
+          "The `bs.*' attribute namespace is deprecated and will be removed in \
+           the next release.@\n\
+           Use `mel.*' instead."
 end
 
-let warn = Warnings.warn
+let warn ~loc msg =
+  let module Location = Ocaml_common.Location in
+  Location.prerr_alert loc
+    {
+      Ocaml_common.Warnings.kind = Warnings.kind msg;
+      message = Format.asprintf "%a" Warnings.pp msg;
+      def = Location.none;
+      use = loc;
+    }
 
 (** Warning unused bs attributes
     Note if we warn `deriving` too,

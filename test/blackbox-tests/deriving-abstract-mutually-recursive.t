@@ -14,6 +14,6 @@ generated )
   > } [@@deriving abstract]
   > EOF
 
-  $ melc -ppx melppx -bs-no-version-header foo.ml
+  $ melc -ppx 'melppx -alert -deprecated' -bs-no-version-header foo.ml
   /* This output is empty. Its source's type definitions, externals and/or unused code got optimized away. */
 

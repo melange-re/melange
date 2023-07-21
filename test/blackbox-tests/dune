@@ -4,3 +4,8 @@
   (env_var MELANGE_LIB)
   setup.sh
   (package melange)))
+
+(cram
+ (applies_to mel-attributes)
+ (enabled_if
+  (<= %{ocaml_version} "5.1")))
