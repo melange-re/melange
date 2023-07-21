@@ -36,6 +36,8 @@ Unreleased
 - Add `--rectypes` ([#644](https://github.com/melange-re/melange/pull/644)) to
   enable [recursive
   types](https://v2.ocaml.org/releases/5.0/htmlman/types.html#sss:typexpr-aliased-recursive)
+- [melange.ppx]: Deprecate `bs.*` attributes in favor of `mel.*`
+  ([#662](https://github.com/melange-re/melange/pull/662))
 
 1.0.0 2023-05-31
 ---------------
