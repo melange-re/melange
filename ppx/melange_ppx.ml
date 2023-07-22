@@ -133,7 +133,7 @@ module Private = struct
              generated code from:
              {[
                external %private x : int -> int =  "x"
-               [@@bs.module "./x"]
+               [@@mel.module "./x"]
              ]}
           *)
       | _ -> false
@@ -365,13 +365,13 @@ module Mapper = struct
       method! class_type
           ({ pcty_attributes; pcty_loc; _ } as ctd : Parsetree.class_type) =
         (* {[class x : int -> object
-                     end [@bs]
+                     end [@u]
                    ]}
 
            Actually this is not going to happpen as below is an invalid syntax
 
              {[class type x = int -> object
-                 end[@bs]]}
+                 end[@u]]}
         *)
         match Ast_attributes.process_bs pcty_attributes with
         | false, _ -> super#class_type ctd
@@ -415,7 +415,7 @@ module Mapper = struct
             Utf8_string.Interp.transform e s loc delim
         (* End rewriting *)
         | Pexp_function cases -> (
-            (* {[ function [@bs.exn]
+            (* {[ function [@mel.exn]
                   | Not_found -> 0
                   | Invalid_argument -> 1
                 ]}*)

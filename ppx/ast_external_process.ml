@@ -225,7 +225,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
     (prim_attributes : Ast_attributes.t) : Ast_attributes.t * external_desc =
   (* shared by `[@@val]`, `[@@send]`,
      `[@@set]`, `[@@get]` , `[@@new]`
-     `[@@bs.send.pipe]` does not use it
+     `[@@mel.send.pipe]` does not use it
   *)
   let name_from_payload_or_prim ~loc (payload : Parsetree.payload) : name_source
       =
@@ -309,8 +309,8 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
                   | PTyp x -> Some x
                   | _ ->
                       Location.raise_errorf ~loc
-                        "expected a type after [@bs.send.pipe], e.g. \
-                         [@bs.send.pipe: t]");
+                        "expected a type after [@mel.send.pipe], e.g. \
+                         [@mel.send.pipe: t]");
               }
           | "mel.set" | "bs.set" | "set" ->
               { st with set_name = name_from_payload_or_prim ~loc payload }
@@ -878,7 +878,7 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         }
   | { val_send_pipe = Some _; _ } ->
       Location.raise_errorf ~loc
-        "conflict attributes found with [%@%@bs.send.pipe]"
+        "conflict attributes found with [%@%@mel.send.pipe]"
   | {
    new_name = `Nm_val (lazy name) | `Nm_external name | `Nm_payload name;
    external_module_name;
@@ -945,9 +945,9 @@ let external_desc_of_non_obj (loc : Location.t) (st : external_desc)
         Js_get { js_get_name = name; js_get_scopes = scopes }
       else
         Location.raise_errorf ~loc
-          "Ill defined attribute %@bs.get (only one argument)"
+          "Ill defined attribute %@mel.get (only one argument)"
   | { get_name = #bundle_source; _ } ->
-      Location.raise_errorf ~loc "Attribute found that conflicts with %@bs.get"
+      Location.raise_errorf ~loc "Attribute found that conflicts with %@mel.get"
 
 let list_of_arrow (ty : Parsetree.core_type) :
     Parsetree.core_type * param_type list =
@@ -1037,11 +1037,12 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
                  match arg_label with
                  | Optional _ ->
                      Location.raise_errorf ~loc
-                       "@bs.variadic expects the last type to be a non optional"
+                       "@mel.variadic expects the last type to be a non \
+                        optional"
                  | Labelled _ | Nolabel -> (
                      if ty.ptyp_desc = Ptyp_any then
                        Location.raise_errorf
-                         "@bs.variadic expect the last type to be an array"
+                         "@mel.variadic expect the last type to be an array"
                      else
                        match spec_of_ptyp true ty with
                        | Nothing -> (
@@ -1050,7 +1051,7 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
                                ()
                            | _ ->
                                Location.raise_errorf ~loc
-                                 "@bs.variadic expect the last type to be an \
+                                 "@mel.variadic expect the last type to be an \
                                   array")
                        | _ ->
                            Location.raise_errorf ~loc
@@ -1064,8 +1065,8 @@ let handle_attributes (loc : Location.t) (type_annotation : Parsetree.core_type)
                     | Poly_var _ ->
                         (* ?x:([`x of int ] [@string]) does not make sense *)
                         Location.raise_errorf ~loc
-                          "%@bs.string does not work with optional when it has \
-                           arities in label %s"
+                          "%@mel.string does not work with optional when it \
+                           has arities in label %s"
                           s
                     | arg_type ->
                         (Arg_optional, arg_type, param_type :: arg_types))
