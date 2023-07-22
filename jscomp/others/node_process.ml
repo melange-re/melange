@@ -41,7 +41,7 @@ external exit : int -> 'a = "exit" [@@mel.module "process"]
 external cwd : unit -> string = "cwd" [@@mel.module "process"]
 
 external uptime : t -> unit -> float = "uptime"
-  [@@mel.send]
+[@@mel.send]
 (** The process.uptime() method returns the number of seconds
    the current Node.js process has been running.) *)
 
@@ -52,4 +52,4 @@ external uptime : t -> unit -> float = "uptime"
 *)
 let putEnvVar key (var : string) = Js.Dict.set process##env key var
 
-let deleteEnvVar s = (Js.Dict.unsafeDeleteKey process##env s [@bs])
+let deleteEnvVar s = (Js.Dict.unsafeDeleteKey process##env s [@u])
