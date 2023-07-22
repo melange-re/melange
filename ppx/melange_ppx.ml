@@ -402,7 +402,7 @@ module Mapper = struct
             | Pcty_open _ (* let open M in CT *) | Pcty_constr _
             | Pcty_extension _ | Pcty_arrow _ ->
                 Location.raise_errorf ~loc:pcty_loc
-                  "invalid or unused attribute `bs`")
+                  "invalid or unused attribute `[@u]")
 
       method! core_type typ =
         Ast_core_type_class_type.typ_mapper (self, super#core_type) typ
