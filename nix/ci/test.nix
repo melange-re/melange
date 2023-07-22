@@ -5,7 +5,6 @@ let
   findFlakeSrc = name: fetchGit {
     url = with lock.nodes.${name}.locked;"https://github.com/${owner}/${repo}";
     inherit (lock.nodes.${name}.locked) rev;
-    allRefs = true;
   };
 
   src = findFlakeSrc "nixpkgs";
