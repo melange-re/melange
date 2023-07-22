@@ -5,4 +5,4 @@ external shift_right_logical : int -> int -> int = "nativeint_lsr"
 external mul : int -> int -> int = "nativeint_mul"
 external to_float : int -> float = "%identity"
 external of_float : float -> int = "caml_int_of_float"
-external to_string : int -> string = "String" [@@bs.val]
+external to_string : int -> string = "String" [@@mel.val]

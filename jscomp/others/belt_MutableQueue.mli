@@ -71,16 +71,16 @@ val copy : 'a t -> 'a t
 val size : 'a t -> int
 (** @return the number of elements in a queue. *)
 
-val mapU : 'a t -> (('a -> 'b)[@bs]) -> 'b t
+val mapU : 'a t -> (('a -> 'b)[@u]) -> 'b t
 val map : 'a t -> ('a -> 'b) -> 'b t
-val forEachU : 'a t -> (('a -> unit)[@bs]) -> unit
+val forEachU : 'a t -> (('a -> unit)[@u]) -> unit
 
 val forEach : 'a t -> ('a -> unit) -> unit
 (** [forEach q f] applies [f] in turn to all elements of [q],
     from the least recently entered to the most recently entered.
     The queue itself is unchanged. *)
 
-val reduceU : 'a t -> 'b -> (('b -> 'a -> 'b)[@bs]) -> 'b
+val reduceU : 'a t -> 'b -> (('b -> 'a -> 'b)[@u]) -> 'b
 
 val reduce : 'a t -> 'b -> ('b -> 'a -> 'b) -> 'b
 (** [reduce q accu f] is equivalent to [List.reduce l accu f],

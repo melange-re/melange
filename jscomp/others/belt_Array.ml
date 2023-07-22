@@ -39,10 +39,10 @@ let setExn arr i v =
   assert (i >= 0 && i < length arr);
   arr.!(i) <- v
 
-external truncateToLengthUnsafe : 'a t -> int -> unit = "length" [@@bs.set]
-external makeUninitialized : int -> 'a Js.undefined array = "Array" [@@bs.new]
-external makeUninitializedUnsafe : int -> 'a array = "Array" [@@bs.new]
-external copy : 'a t -> (_[@bs.as 0]) -> 'a t = "slice" [@@bs.send]
+external truncateToLengthUnsafe : 'a t -> int -> unit = "length" [@@mel.set]
+external makeUninitialized : int -> 'a Js.undefined array = "Array" [@@mel.new]
+external makeUninitializedUnsafe : int -> 'a array = "Array" [@@mel.new]
+external copy : 'a t -> (_[@mel.as 0]) -> 'a t = "slice" [@@mel.send]
 
 let swapUnsafe xs i j =
   let tmp = xs.!(i) in
@@ -94,18 +94,18 @@ let makeByU l f =
   else
     let res = makeUninitializedUnsafe l in
     for i = 0 to l - 1 do
-      res.!(i) <- (f i [@bs])
+      res.!(i) <- (f i [@u])
     done;
     res
 
-let makeBy l f = makeByU l (fun [@bs] a -> f a)
+let makeBy l f = makeByU l (fun [@u] a -> f a)
 
 let makeByAndShuffleU l f =
   let u = makeByU l f in
   shuffleInPlace u;
   u
 
-let makeByAndShuffle l f = makeByAndShuffleU l (fun [@bs] a -> f a)
+let makeByAndShuffle l f = makeByAndShuffleU l (fun [@u] a -> f a)
 
 let range start finish =
   let cut = finish - start in
@@ -144,11 +144,11 @@ let zipByU xs ys f =
   let len = Pervasives.min lenx leny in
   let s = makeUninitializedUnsafe len in
   for i = 0 to len - 1 do
-    s.!(i) <- (f xs.!(i) ys.!(i) [@bs])
+    s.!(i) <- (f xs.!(i) ys.!(i) [@u])
   done;
   s
 
-let zipBy xs ys f = zipByU xs ys (fun [@bs] a b -> f a b)
+let zipBy xs ys f = zipByU xs ys (fun [@u] a b -> f a b)
 
 let concat a1 a2 =
   let l1 = length a1 in
@@ -249,22 +249,22 @@ let blit ~src:a1 ~srcOffset:ofs1 ~dst:a2 ~dstOffset:ofs2 ~len =
 
 let forEachU a f =
   for i = 0 to length a - 1 do
-    (f a.!(i) [@bs])
+    (f a.!(i) [@u])
   done
 
-let forEach a f = forEachU a (fun [@bs] a -> f a)
+let forEach a f = forEachU a (fun [@u] a -> f a)
 
 let mapU a f =
   let l = length a in
   let r = makeUninitializedUnsafe l in
   for i = 0 to l - 1 do
-    r.!(i) <- (f a.!(i) [@bs])
+    r.!(i) <- (f a.!(i) [@u])
   done;
   r
 
-let map a f = mapU a (fun [@bs] a -> f a)
+let map a f = mapU a (fun [@u] a -> f a)
 let flatMapU a f = concatMany (mapU a f)
-let flatMap a f = flatMapU a (fun [@bs] a -> f a)
+let flatMap a f = flatMapU a (fun [@u] a -> f a)
 
 let getByU a p =
   let l = length a in
@@ -272,12 +272,12 @@ let getByU a p =
   let r = ref None in
   while r.contents = None && i.contents < l do
     let v = a.!(i.contents) in
-    if p v [@bs] then r.contents <- Some v;
+    if p v [@u] then r.contents <- Some v;
     i.contents <- i.contents + 1
   done;
   r.contents
 
-let getBy a p = getByU a (fun [@bs] a -> p a)
+let getBy a p = getByU a (fun [@u] a -> p a)
 
 let getIndexByU a p =
   let l = length a in
@@ -285,12 +285,12 @@ let getIndexByU a p =
   let r = ref None in
   while r.contents = None && i.contents < l do
     let v = a.!(i.contents) in
-    if p v [@bs] then r.contents <- Some i.contents;
+    if p v [@u] then r.contents <- Some i.contents;
     i.contents <- i.contents + 1
   done;
   r.contents
 
-let getIndexBy a p = getIndexByU a (fun [@bs] a -> p a)
+let getIndexBy a p = getIndexByU a (fun [@u] a -> p a)
 
 let keepU a f =
   let l = length a in
@@ -298,14 +298,14 @@ let keepU a f =
   let j = ref 0 in
   for i = 0 to l - 1 do
     let v = a.!(i) in
-    if f v [@bs] then (
+    if f v [@u] then (
       r.!(j.contents) <- v;
       j.contents <- j.contents + 1)
   done;
   truncateToLengthUnsafe r j.contents;
   r
 
-let keep a f = keepU a (fun [@bs] a -> f a)
+let keep a f = keepU a (fun [@u] a -> f a)
 
 let keepWithIndexU a f =
   let l = length a in
@@ -313,14 +313,14 @@ let keepWithIndexU a f =
   let j = ref 0 in
   for i = 0 to l - 1 do
     let v = a.!(i) in
-    if f v i [@bs] then (
+    if f v i [@u] then (
       r.!(j.contents) <- v;
       j.contents <- j.contents + 1)
   done;
   truncateToLengthUnsafe r j.contents;
   r
 
-let keepWithIndex a f = keepWithIndexU a (fun [@bs] a i -> f a i)
+let keepWithIndex a f = keepWithIndexU a (fun [@u] a i -> f a i)
 
 let keepMapU a f =
   let l = length a in
@@ -328,7 +328,7 @@ let keepMapU a f =
   let j = ref 0 in
   for i = 0 to l - 1 do
     let v = a.!(i) in
-    match f v [@bs] with
+    match f v [@u] with
     | None -> ()
     | Some v ->
         r.!(j.contents) <- v;
@@ -337,110 +337,110 @@ let keepMapU a f =
   truncateToLengthUnsafe r j.contents;
   r
 
-let keepMap a f = keepMapU a (fun [@bs] a -> f a)
+let keepMap a f = keepMapU a (fun [@u] a -> f a)
 
 let forEachWithIndexU a f =
   for i = 0 to length a - 1 do
-    (f i a.!(i) [@bs])
+    (f i a.!(i) [@u])
   done
 
-let forEachWithIndex a f = forEachWithIndexU a (fun [@bs] a b -> f a b)
+let forEachWithIndex a f = forEachWithIndexU a (fun [@u] a b -> f a b)
 
 let mapWithIndexU a f =
   let l = length a in
   let r = makeUninitializedUnsafe l in
   for i = 0 to l - 1 do
-    r.!(i) <- (f i a.!(i) [@bs])
+    r.!(i) <- (f i a.!(i) [@u])
   done;
   r
 
-let mapWithIndex a f = mapWithIndexU a (fun [@bs] a b -> f a b)
+let mapWithIndex a f = mapWithIndexU a (fun [@u] a b -> f a b)
 
 let reduceU a x f =
   let r = ref x in
   for i = 0 to length a - 1 do
-    r.contents <- (f r.contents a.!(i) [@bs])
+    r.contents <- (f r.contents a.!(i) [@u])
   done;
   r.contents
 
-let reduce a x f = reduceU a x (fun [@bs] a b -> f a b)
+let reduce a x f = reduceU a x (fun [@u] a b -> f a b)
 
 let reduceReverseU a x f =
   let r = ref x in
   for i = length a - 1 downto 0 do
-    r.contents <- (f r.contents a.!(i) [@bs])
+    r.contents <- (f r.contents a.!(i) [@u])
   done;
   r.contents
 
-let reduceReverse a x f = reduceReverseU a x (fun [@bs] a b -> f a b)
+let reduceReverse a x f = reduceReverseU a x (fun [@u] a b -> f a b)
 
 let reduceReverse2U a b x f =
   let r = ref x in
   let len = Pervasives.min (length a) (length b) in
   for i = len - 1 downto 0 do
-    r.contents <- (f r.contents a.!(i) b.!(i) [@bs])
+    r.contents <- (f r.contents a.!(i) b.!(i) [@u])
   done;
   r.contents
 
-let reduceReverse2 a b x f = reduceReverse2U a b x (fun [@bs] a b c -> f a b c)
+let reduceReverse2 a b x f = reduceReverse2U a b x (fun [@u] a b c -> f a b c)
 
 let reduceWithIndexU a x f =
   let r = ref x in
   for i = 0 to length a - 1 do
-    r.contents <- (f r.contents a.!(i) i [@bs])
+    r.contents <- (f r.contents a.!(i) i [@u])
   done;
   r.contents
 
-let reduceWithIndex a x f = reduceWithIndexU a x (fun [@bs] a b c -> f a b c)
+let reduceWithIndex a x f = reduceWithIndexU a x (fun [@u] a b c -> f a b c)
 
 let rec everyAux arr i b len =
   if i = len then true
-  else if b arr.!(i) [@bs] then everyAux arr (i + 1) b len
+  else if b arr.!(i) [@u] then everyAux arr (i + 1) b len
   else false
 
 let rec someAux arr i b len =
   if i = len then false
-  else if b arr.!(i) [@bs] then true
+  else if b arr.!(i) [@u] then true
   else someAux arr (i + 1) b len
 
 let everyU arr b =
   let len = length arr in
   everyAux arr 0 b len
 
-let every arr f = everyU arr (fun [@bs] b -> f b)
+let every arr f = everyU arr (fun [@u] b -> f b)
 
 let someU arr b =
   let len = length arr in
   someAux arr 0 b len
 
-let some arr f = someU arr (fun [@bs] b -> f b)
+let some arr f = someU arr (fun [@u] b -> f b)
 
 let rec everyAux2 arr1 arr2 i b len =
   if i = len then true
-  else if b arr1.!(i) arr2.!(i) [@bs] then everyAux2 arr1 arr2 (i + 1) b len
+  else if b arr1.!(i) arr2.!(i) [@u] then everyAux2 arr1 arr2 (i + 1) b len
   else false
 
 let rec someAux2 arr1 arr2 i b len =
   if i = len then false
-  else if b arr1.!(i) arr2.!(i) [@bs] then true
+  else if b arr1.!(i) arr2.!(i) [@u] then true
   else someAux2 arr1 arr2 (i + 1) b len
 
 let every2U a b p = everyAux2 a b 0 p (Pervasives.min (length a) (length b))
-let every2 a b p = every2U a b (fun [@bs] a b -> p a b)
+let every2 a b p = every2U a b (fun [@u] a b -> p a b)
 let some2U a b p = someAux2 a b 0 p (Pervasives.min (length a) (length b))
-let some2 a b p = some2U a b (fun [@bs] a b -> p a b)
+let some2 a b p = some2U a b (fun [@u] a b -> p a b)
 
 let eqU a b p =
   let lena = length a in
   let lenb = length b in
   if lena = lenb then everyAux2 a b 0 p lena else false
 
-let eq a b p = eqU a b (fun [@bs] a b -> p a b)
+let eq a b p = eqU a b (fun [@u] a b -> p a b)
 
 let rec everyCmpAux2 arr1 arr2 i b len =
   if i = len then 0
   else
-    let c = (b arr1.!(i) arr2.!(i) [@bs]) in
+    let c = (b arr1.!(i) arr2.!(i) [@u]) in
     if c = 0 then everyCmpAux2 arr1 arr2 (i + 1) b len else c
 
 let cmpU a b p =
@@ -450,7 +450,7 @@ let cmpU a b p =
   else if lena < lenb then -1
   else everyCmpAux2 a b 0 p lena
 
-let cmp a b p = cmpU a b (fun [@bs] a b -> p a b)
+let cmp a b p = cmpU a b (fun [@u] a b -> p a b)
 
 let partitionU a f =
   let l = length a in
@@ -460,7 +460,7 @@ let partitionU a f =
   let a2 = makeUninitializedUnsafe l in
   for ii = 0 to l - 1 do
     let v = a.!(ii) in
-    if f v [@bs] then (
+    if f v [@u] then (
       a1.!(i.contents) <- v;
       i.contents <- i.contents + 1)
     else (
@@ -471,7 +471,7 @@ let partitionU a f =
   truncateToLengthUnsafe a2 j.contents;
   (a1, a2)
 
-let partition a f = partitionU a (fun [@bs] x -> f x)
+let partition a f = partitionU a (fun [@u] x -> f x)
 
 let unzip a =
   let l = length a in
@@ -490,20 +490,20 @@ let joinWithU a sep toString =
   | l ->
       let lastIndex = l - 1 in
       let rec aux i res =
-        if i = lastIndex then res ^ (toString a.!(i) [@bs])
-        else aux (i + 1) (res ^ (toString a.!(i) [@bs]) ^ sep)
+        if i = lastIndex then res ^ (toString a.!(i) [@u])
+        else aux (i + 1) (res ^ (toString a.!(i) [@u]) ^ sep)
       in
       aux 0 ""
 
-let joinWith a sep toString = joinWithU a sep (fun [@bs] x -> toString x)
+let joinWith a sep toString = joinWithU a sep (fun [@u] x -> toString x)
 
 let initU n f =
   let v = makeUninitializedUnsafe n in
   for i = 0 to n - 1 do
-    v.!(i) <- (f i [@bs])
+    v.!(i) <- (f i [@u])
   done;
   v
 
-let init n f = initU n (fun [@bs] i -> f i)
+let init n f = initU n (fun [@u] i -> f i)
 
 external push : 'a t -> 'a -> unit = "push" [@@send]

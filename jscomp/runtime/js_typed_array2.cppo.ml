@@ -38,19 +38,19 @@ module ArrayBuffer = struct
 
   type t = array_buffer
 
-  external make : int -> t = "ArrayBuffer" [@@bs.new]
+  external make : int -> t = "ArrayBuffer" [@@mel.new]
   (** takes length. initializes elements to 0 *)
 
   (* ArrayBuffer.isView: seems pointless with a type system *)
   (* experimental
-  external transfer : array_buffer -> t = "ArrayBuffer.transfer" [@@bs.val]
-  external transferWithLength : array_buffer -> int -> t = "ArrayBuffer.transfer" [@@bs.val]
+  external transfer : array_buffer -> t = "ArrayBuffer.transfer" [@@mel.val]
+  external transferWithLength : array_buffer -> int -> t = "ArrayBuffer.transfer" [@@mel.val]
   *)
 
-  external byteLength : t -> int = "byteLength" [@@bs.get]
+  external byteLength : t -> int = "byteLength" [@@mel.get]
 
-  external slice : t -> start:int -> end_:int -> array_buffer = "slice" [@@bs.send]
-  external sliceFrom : t -> int -> array_buffer = "slice" [@@bs.send]
+  external slice : t -> start:int -> end_:int -> array_buffer = "slice" [@@mel.send]
+  external sliceFrom : t -> int -> array_buffer = "slice" [@@mel.send]
 end
 
 open struct
@@ -63,116 +63,116 @@ end
   type 'a typed_array\
   type t = elt typed_array\
   \
-  external unsafe_get : t -> int -> elt  = "" [@@bs.get_index]\
-  external unsafe_set : t -> int -> elt -> unit = "" [@@bs.set_index]\
+  external unsafe_get : t -> int -> elt  = "" [@@mel.get_index]\
+  external unsafe_set : t -> int -> elt -> unit = "" [@@mel.set_index]\
   \
-  external buffer : t -> array_buffer = "buffer" [@@bs.get]\
-  external byteLength : t -> int = "byteLength" [@@bs.get]\
-  external byteOffset : t -> int = "byteOffset" [@@bs.get]\
+  external buffer : t -> array_buffer = "buffer" [@@mel.get]\
+  external byteLength : t -> int = "byteLength" [@@mel.get]\
+  external byteOffset : t -> int = "byteOffset" [@@mel.get]\
   \
-  external setArray : t -> elt array -> unit = "set" [@@bs.send]\
-  external setArrayOffset : t -> elt array -> int -> unit = "set" [@@bs.send]\
+  external setArray : t -> elt array -> unit = "set" [@@mel.send]\
+  external setArrayOffset : t -> elt array -> int -> unit = "set" [@@mel.send]\
   (* There's also an overload for typed arrays, but don't know how to model that without subtyping *)\
   \
   (* Array interface(-ish) *)\
-  external length : t -> int = "length" [@@bs.get]\
+  external length : t -> int = "length" [@@mel.get]\
   \
   (* Mutator functions *)\
-  external copyWithin : t -> to_:int -> t = "copyWithin" [@@bs.send]\
-  external copyWithinFrom : t -> to_:int -> from:int -> t = "copyWithin" [@@bs.send]\
-  external copyWithinFromRange : t -> to_:int -> start:int -> end_:int -> t = "copyWithin" [@@bs.send]\
+  external copyWithin : t -> to_:int -> t = "copyWithin" [@@mel.send]\
+  external copyWithinFrom : t -> to_:int -> from:int -> t = "copyWithin" [@@mel.send]\
+  external copyWithinFromRange : t -> to_:int -> start:int -> end_:int -> t = "copyWithin" [@@mel.send]\
   \
-  external fillInPlace : t -> elt -> t = "fill" [@@bs.send]\
-  external fillFromInPlace : t -> elt -> from:int -> t = "fill" [@@bs.send]\
-  external fillRangeInPlace : t -> elt -> start:int -> end_:int -> t = "fill" [@@bs.send]\
+  external fillInPlace : t -> elt -> t = "fill" [@@mel.send]\
+  external fillFromInPlace : t -> elt -> from:int -> t = "fill" [@@mel.send]\
+  external fillRangeInPlace : t -> elt -> start:int -> end_:int -> t = "fill" [@@mel.send]\
   \
-  external reverseInPlace : t -> t = "reverse" [@@bs.send]\
+  external reverseInPlace : t -> t = "reverse" [@@mel.send]\
   \
-  external sortInPlace : t -> t = "sort" [@@bs.send]\
-  external sortInPlaceWith : t -> (elt -> elt -> int [@bs]) -> t = "sort" [@@bs.send]\
+  external sortInPlace : t -> t = "sort" [@@mel.send]\
+  external sortInPlaceWith : t -> (elt -> elt -> int [@u]) -> t = "sort" [@@mel.send]\
   \
   (* Accessor functions *)\
-  external includes : t -> elt -> bool = "includes" [@@bs.send] (* ES2016 *)\
+  external includes : t -> elt -> bool = "includes" [@@mel.send] (* ES2016 *)\
   \
-  external indexOf : t -> elt  -> int = "indexOf" [@@bs.send]\
-  external indexOfFrom : t -> elt -> from:int -> int = "indexOf" [@@bs.send]\
+  external indexOf : t -> elt  -> int = "indexOf" [@@mel.send]\
+  external indexOfFrom : t -> elt -> from:int -> int = "indexOf" [@@mel.send]\
   \
-  external join : t -> string = "join" [@@bs.send]\
-  external joinWith : t -> string -> string = "join" [@@bs.send]\
+  external join : t -> string = "join" [@@mel.send]\
+  external joinWith : t -> string -> string = "join" [@@mel.send]\
   \
-  external lastIndexOf : t -> elt -> int = "lastIndexOf" [@@bs.send]\
-  external lastIndexOfFrom : t -> elt -> from:int -> int = "lastIndexOf" [@@bs.send]\
+  external lastIndexOf : t -> elt -> int = "lastIndexOf" [@@mel.send]\
+  external lastIndexOfFrom : t -> elt -> from:int -> int = "lastIndexOf" [@@mel.send]\
   \
-  external slice : t -> start:int -> end_:int -> t = "slice" [@@bs.send]\
+  external slice : t -> start:int -> end_:int -> t = "slice" [@@mel.send]\
   (** [start] is inclusive, [end_] exclusive *)\
   \
-  external copy : t -> t = "slice" [@@bs.send]\
-  external sliceFrom : t -> int -> t = "slice" [@@bs.send]\
+  external copy : t -> t = "slice" [@@mel.send]\
+  external sliceFrom : t -> int -> t = "slice" [@@mel.send]\
   \
-  external subarray : t -> start:int -> end_:int -> t = "subarray" [@@bs.send]\
+  external subarray : t -> start:int -> end_:int -> t = "subarray" [@@mel.send]\
   (** [start] is inclusive, [end_] exclusive *)\
   \
-  external subarrayFrom : t -> int -> t = "subarray" [@@bs.send]\
+  external subarrayFrom : t -> int -> t = "subarray" [@@mel.send]\
   \
-  external toString : t -> string = "toString" [@@bs.send]\
-  external toLocaleString : t -> string = "toLocaleString" [@@bs.send]\
+  external toString : t -> string = "toString" [@@mel.send]\
+  external toLocaleString : t -> string = "toLocaleString" [@@mel.send]\
   \
   (* Iteration functions *)\
   (* commented out until bs has a plan for iterators
-  external entries : t -> (int * elt) array_iter = "" [@@bs.send]
+  external entries : t -> (int * elt) array_iter = "" [@@mel.send]
   *)\
-  external every : t -> (elt  -> bool [@bs]) -> bool = "every" [@@bs.send]\
-  external everyi : t -> (elt -> int -> bool [@bs]) -> bool = "every" [@@bs.send]\
+  external every : t -> (elt  -> bool [@u]) -> bool = "every" [@@mel.send]\
+  external everyi : t -> (elt -> int -> bool [@u]) -> bool = "every" [@@mel.send]\
   \
   \
-  external filter : t -> (elt -> bool [@bs]) -> t = "filter" [@@bs.send]\
-  external filteri : t -> (elt -> int  -> bool [@bs]) -> t = "filter" [@@bs.send]\
+  external filter : t -> (elt -> bool [@u]) -> t = "filter" [@@mel.send]\
+  external filteri : t -> (elt -> int  -> bool [@u]) -> t = "filter" [@@mel.send]\
   \
-  external find : t -> (elt -> bool [@bs]) -> elt Js_internal.undefined = "find" [@@bs.send]\
-  external findi : t -> (elt -> int -> bool [@bs]) -> elt Js_internal.undefined  = "find" [@@bs.send]\
+  external find : t -> (elt -> bool [@u]) -> elt Js_internal.undefined = "find" [@@mel.send]\
+  external findi : t -> (elt -> int -> bool [@u]) -> elt Js_internal.undefined  = "find" [@@mel.send]\
   \
-  external findIndex : t -> (elt -> bool [@bs]) -> int = "findIndex" [@@bs.send]\
-  external findIndexi : t -> (elt -> int -> bool [@bs]) -> int = "findIndex" [@@bs.send]\
+  external findIndex : t -> (elt -> bool [@u]) -> int = "findIndex" [@@mel.send]\
+  external findIndexi : t -> (elt -> int -> bool [@u]) -> int = "findIndex" [@@mel.send]\
   \
-  external forEach : t -> (elt -> unit [@bs]) -> unit = "forEach" [@@bs.send]\
-  external forEachi : t -> (elt -> int -> unit [@bs]) -> unit  = "forEach" [@@bs.send]\
+  external forEach : t -> (elt -> unit [@u]) -> unit = "forEach" [@@mel.send]\
+  external forEachi : t -> (elt -> int -> unit [@u]) -> unit  = "forEach" [@@mel.send]\
   \
   (* commented out until bs has a plan for iterators
-  external keys : t -> int array_iter = "" [@@bs.send]
+  external keys : t -> int array_iter = "" [@@mel.send]
   *)\
   \
-  external map : t -> (elt  -> 'b [@bs]) -> 'b typed_array = "map" [@@bs.send]\
-  external mapi : t -> (elt -> int ->  'b [@bs]) -> 'b typed_array = "map" [@@bs.send]\
+  external map : t -> (elt  -> 'b [@u]) -> 'b typed_array = "map" [@@mel.send]\
+  external mapi : t -> (elt -> int ->  'b [@u]) -> 'b typed_array = "map" [@@mel.send]\
   \
-  external reduce : t ->  ('b -> elt  -> 'b [@bs]) -> 'b -> 'b = "reduce" [@@bs.send]\
-  external reducei : t -> ('b -> elt -> int -> 'b [@bs]) -> 'b -> 'b = "reduce" [@@bs.send]\
+  external reduce : t ->  ('b -> elt  -> 'b [@u]) -> 'b -> 'b = "reduce" [@@mel.send]\
+  external reducei : t -> ('b -> elt -> int -> 'b [@u]) -> 'b -> 'b = "reduce" [@@mel.send]\
   \
-  external reduceRight : t ->  ('b -> elt  -> 'b [@bs]) -> 'b -> 'b = "reduceRight" [@@bs.send]\
-  external reduceRighti : t -> ('b -> elt -> int -> 'b [@bs]) -> 'b -> 'b = "reduceRight" [@@bs.send]\
+  external reduceRight : t ->  ('b -> elt  -> 'b [@u]) -> 'b -> 'b = "reduceRight" [@@mel.send]\
+  external reduceRighti : t -> ('b -> elt -> int -> 'b [@u]) -> 'b -> 'b = "reduceRight" [@@mel.send]\
   \
-  external some : t -> (elt  -> bool [@bs]) -> bool = "some" [@@bs.send]\
-  external somei : t -> (elt  -> int -> bool [@bs]) -> bool = "some" [@@bs.send]\
+  external some : t -> (elt  -> bool [@u]) -> bool = "some" [@@mel.send]\
+  external somei : t -> (elt  -> int -> bool [@u]) -> bool = "some" [@@mel.send]\
   \
-  external _BYTES_PER_ELEMENT: int = STRINGIFY(moduleName.BYTES_PER_ELEMENT) [@@bs.val]\
+  external _BYTES_PER_ELEMENT: int = STRINGIFY(moduleName.BYTES_PER_ELEMENT) [@@mel.val]\
   \
-  external make : elt array -> t = STRINGIFY(moduleName) [@@bs.new]\
-  external fromBuffer : array_buffer -> t = STRINGIFY(moduleName) [@@bs.new]\
+  external make : elt array -> t = STRINGIFY(moduleName) [@@mel.new]\
+  external fromBuffer : array_buffer -> t = STRINGIFY(moduleName) [@@mel.new]\
   (** can throw *)\
   \
-  external fromBufferOffset : array_buffer -> int -> t = STRINGIFY(moduleName) [@@bs.new]\
+  external fromBufferOffset : array_buffer -> int -> t = STRINGIFY(moduleName) [@@mel.new]\
   (** @raise Js.Exn.Error raise Js exception
       @param offset is in bytes *)\
   \
-  external fromBufferRange : array_buffer -> offset:int -> length:int -> t = STRINGIFY(moduleName) [@@bs.new]\
+  external fromBufferRange : array_buffer -> offset:int -> length:int -> t = STRINGIFY(moduleName) [@@mel.new]\
   (** @raise Js.Exn.Error raises Js exception
       @param offset is in bytes, length in elements *)\
   \
-  external fromLength : int -> t = STRINGIFY(moduleName) [@@bs.new]\
-  external from : elt array_like -> t = STRINGIFY(moduleName.from) [@@bs.val]\
+  external fromLength : int -> t = STRINGIFY(moduleName) [@@mel.new]\
+  external from : elt array_like -> t = STRINGIFY(moduleName.from) [@@mel.val]\
   (* *Array.of is redundant, use make *)
 
   (* commented out until bs has a plan for iterators
-  external values : t -> elt array_iter = "" [@@bs.send]
+  external values : t -> elt array_iter = "" [@@mel.send]
   *)
 
 module Int8Array = struct
@@ -226,66 +226,66 @@ module DataView = struct
 
   type t
 
-  external make : array_buffer -> t = "DataView" [@@bs.new]
-  external fromBuffer : array_buffer -> t = "DataView" [@@bs.new]
-  external fromBufferOffset : array_buffer -> int -> t = "DataView" [@@bs.new]
-  external fromBufferRange : array_buffer -> offset:int -> length:int -> t = "DataView" [@@bs.new]
+  external make : array_buffer -> t = "DataView" [@@mel.new]
+  external fromBuffer : array_buffer -> t = "DataView" [@@mel.new]
+  external fromBufferOffset : array_buffer -> int -> t = "DataView" [@@mel.new]
+  external fromBufferRange : array_buffer -> offset:int -> length:int -> t = "DataView" [@@mel.new]
 
-  external buffer : t -> array_buffer = "buffer" [@@bs.get]
-  external byteLength : t -> int = "byteLength" [@@bs.get]
-  external byteOffset : t -> int = "byteOffset" [@@bs.get]
+  external buffer : t -> array_buffer = "buffer" [@@mel.get]
+  external byteLength : t -> int = "byteLength" [@@mel.get]
+  external byteOffset : t -> int = "byteOffset" [@@mel.get]
 
-  external getInt8 : t -> int -> int = "getInt8" [@@bs.send]
-  external getUint8 : t -> int -> int = "getUint8" [@@bs.send]
+  external getInt8 : t -> int -> int = "getInt8" [@@mel.send]
+  external getUint8 : t -> int -> int = "getUint8" [@@mel.send]
 
-  external getInt16: t -> int -> int = "getInt16" [@@bs.send]
-  external getInt16LittleEndian : t -> int -> (_ [@bs.as 1]) -> int =
-    "getInt16" [@@bs.send]
+  external getInt16: t -> int -> int = "getInt16" [@@mel.send]
+  external getInt16LittleEndian : t -> int -> (_ [@mel.as 1]) -> int =
+    "getInt16" [@@mel.send]
 
-  external getUint16: t -> int -> int = "getUint16" [@@bs.send]
-  external getUint16LittleEndian : t -> int -> (_ [@bs.as 1]) -> int =
-    "getUint16" [@@bs.send]
+  external getUint16: t -> int -> int = "getUint16" [@@mel.send]
+  external getUint16LittleEndian : t -> int -> (_ [@mel.as 1]) -> int =
+    "getUint16" [@@mel.send]
 
-  external getInt32: t -> int -> int = "getInt32" [@@bs.send]
-  external getInt32LittleEndian : t -> int -> (_ [@bs.as 1]) -> int =
-    "getInt32" [@@bs.send]
+  external getInt32: t -> int -> int = "getInt32" [@@mel.send]
+  external getInt32LittleEndian : t -> int -> (_ [@mel.as 1]) -> int =
+    "getInt32" [@@mel.send]
 
-  external getUint32: t -> int -> int = "getUint32" [@@bs.send]
-  external getUint32LittleEndian : t -> int -> (_ [@bs.as 1]) -> int =
-    "getUint32" [@@bs.send]
+  external getUint32: t -> int -> int = "getUint32" [@@mel.send]
+  external getUint32LittleEndian : t -> int -> (_ [@mel.as 1]) -> int =
+    "getUint32" [@@mel.send]
 
-  external getFloat32: t -> int -> float = "getFloat32" [@@bs.send]
-  external getFloat32LittleEndian : t -> int -> (_ [@bs.as 1]) -> float =
-    "getFloat32" [@@bs.send]
+  external getFloat32: t -> int -> float = "getFloat32" [@@mel.send]
+  external getFloat32LittleEndian : t -> int -> (_ [@mel.as 1]) -> float =
+    "getFloat32" [@@mel.send]
 
-  external getFloat64: t -> int -> float = "getFloat64" [@@bs.send]
-  external getFloat64LittleEndian : t -> int -> (_ [@bs.as 1]) -> float =
-    "getFloat64" [@@bs.send]
+  external getFloat64: t -> int -> float = "getFloat64" [@@mel.send]
+  external getFloat64LittleEndian : t -> int -> (_ [@mel.as 1]) -> float =
+    "getFloat64" [@@mel.send]
 
-  external setInt8 : t -> int -> int -> unit = "setInt8" [@@bs.send]
-  external setUint8 : t -> int -> int -> unit = "setUint8" [@@bs.send]
+  external setInt8 : t -> int -> int -> unit = "setInt8" [@@mel.send]
+  external setUint8 : t -> int -> int -> unit = "setUint8" [@@mel.send]
 
-  external setInt16: t -> int -> int -> unit = "setInt16" [@@bs.send]
-  external setInt16LittleEndian : t -> int -> int -> (_ [@bs.as 1]) -> unit =
-    "setInt16" [@@bs.send]
+  external setInt16: t -> int -> int -> unit = "setInt16" [@@mel.send]
+  external setInt16LittleEndian : t -> int -> int -> (_ [@mel.as 1]) -> unit =
+    "setInt16" [@@mel.send]
 
-  external setUint16: t -> int -> int -> unit = "setUint16" [@@bs.send]
-  external setUint16LittleEndian : t -> int -> int -> (_ [@bs.as 1]) -> unit =
-    "setUint16" [@@bs.send]
+  external setUint16: t -> int -> int -> unit = "setUint16" [@@mel.send]
+  external setUint16LittleEndian : t -> int -> int -> (_ [@mel.as 1]) -> unit =
+    "setUint16" [@@mel.send]
 
-  external setInt32: t -> int -> int -> unit = "setInt32" [@@bs.send]
-  external setInt32LittleEndian : t -> int -> int -> (_ [@bs.as 1]) -> unit =
-    "setInt32" [@@bs.send]
+  external setInt32: t -> int -> int -> unit = "setInt32" [@@mel.send]
+  external setInt32LittleEndian : t -> int -> int -> (_ [@mel.as 1]) -> unit =
+    "setInt32" [@@mel.send]
 
-  external setUint32: t -> int -> int -> unit = "setUint32" [@@bs.send]
-  external setUint32LittleEndian : t -> int -> int -> (_ [@bs.as 1]) -> unit =
-    "setUint32" [@@bs.send]
+  external setUint32: t -> int -> int -> unit = "setUint32" [@@mel.send]
+  external setUint32LittleEndian : t -> int -> int -> (_ [@mel.as 1]) -> unit =
+    "setUint32" [@@mel.send]
 
-  external setFloat32: t -> int -> float -> unit = "setFloat32" [@@bs.send]
-  external setFloat32LittleEndian : t -> int -> float -> (_ [@bs.as 1]) -> unit =
-    "setFloat32" [@@bs.send]
+  external setFloat32: t -> int -> float -> unit = "setFloat32" [@@mel.send]
+  external setFloat32LittleEndian : t -> int -> float -> (_ [@mel.as 1]) -> unit =
+    "setFloat32" [@@mel.send]
 
-  external setFloat64: t -> int -> float -> unit = "setFloat64" [@@bs.send]
-  external setFloat64LittleEndian : t -> int -> float -> (_ [@bs.as 1]) -> unit =
-    "setFloat64" [@@bs.send]
+  external setFloat64: t -> int -> float -> unit = "setFloat64" [@@mel.send]
+  external setFloat64LittleEndian : t -> int -> float -> (_ [@mel.as 1]) -> unit =
+    "setFloat64" [@@mel.send]
 end

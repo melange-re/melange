@@ -130,8 +130,8 @@ external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
 #ifdef BS
-external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
-external exp : float -> float = "exp" [@@bs.val][@@bs.scope "Math"]
+external ( ** ) : float -> float -> float = "pow" [@@mel.val] [@@mel.scope "Math"]
+external exp : float -> float = "exp" [@@mel.val][@@mel.scope "Math"]
 #else
 external ( ** ) : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
@@ -141,10 +141,10 @@ external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
   [@@unboxed] [@@noalloc]
 
 #ifdef BS
-external acos : float -> float =  "acos" [@@bs.val] [@@bs.scope "Math"]
-external asin : float -> float = "asin" [@@bs.val] [@@bs.scope "Math"]
-external atan : float -> float = "atan" [@@bs.val] [@@bs.scope "Math"]
-external atan2 : float -> float -> float = "atan2" [@@bs.val] [@@bs.scope "Math"]
+external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
+external asin : float -> float = "asin" [@@mel.val] [@@mel.scope "Math"]
+external atan : float -> float = "atan" [@@mel.val] [@@mel.scope "Math"]
+external atan2 : float -> float -> float = "atan2" [@@mel.val] [@@mel.scope "Math"]
 #else
 external acos : float -> float = "caml_acos_float" "acos"
   [@@unboxed] [@@noalloc]
@@ -159,22 +159,22 @@ external hypot : float -> float -> float
                = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
 
 #ifdef BS
-external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
-external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
-external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
-external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
-external log10 : float -> float = "log10"[@@bs.val] [@@bs.scope "Math"]
-external log1p : float -> float = "log1p" [@@bs.val] [@@bs.scope "Math"]
-external sin : float -> float =  "sin" [@@bs.val] [@@bs.scope "Math"]
-external sinh : float -> float = "sinh" [@@bs.val] [@@bs.scope "Math"]
-external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
-external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
-external tan : float -> float =  "tan" [@@bs.val] [@@bs.scope "Math"]
-external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
-external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
-external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
-external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
-external abs_float : float -> float = "abs"[@@bs.val] [@@bs.scope "Math"]
+external cos : float -> float = "cos" [@@mel.val] [@@mel.scope "Math"]
+external cosh : float -> float = "cosh" [@@mel.val] [@@mel.scope "Math"]
+external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
+external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
+external log10 : float -> float = "log10"[@@mel.val] [@@mel.scope "Math"]
+external log1p : float -> float = "log1p" [@@mel.val] [@@mel.scope "Math"]
+external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
+external sinh : float -> float = "sinh" [@@mel.val] [@@mel.scope "Math"]
+external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
+external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
+external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
+external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
+external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
+external ceil : float -> float =  "ceil" [@@mel.val] [@@mel.scope "Math"]
+external floor : float -> float =  "floor" [@@mel.val] [@@mel.scope "Math"]
+external abs_float : float -> float = "abs"[@@mel.val] [@@mel.scope "Math"]
 #else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 external cosh : float -> float = "caml_cosh_float" "cosh"
@@ -232,7 +232,7 @@ external float_of_bits : int64 -> float
 let infinity = 0x1p2047
 let neg_infinity = -0x1p2047
 external nan : float = "NaN"
-[@@bs.val]  [@@bs.scope "Number"]
+[@@mel.val]  [@@mel.scope "Number"]
 let max_float = 1.79769313486231571e+308 (*0x1.ffff_ffff_ffff_fp+1023*)
 let min_float = 2.22507385850720138e-308 (* 0x1p-1022 *)
 let epsilon_float = 2.22044604925031308e-16 (* 0x1p-52 *)
@@ -260,13 +260,13 @@ type fpclass =
 
 #ifdef BS
 let classify_float (x : float) : fpclass =
-  if ([%raw{|isFinite|}] : _ -> _ [@bs]) x [@bs] then
+  if ([%raw{|isFinite|}] : _ -> _ [@u]) x [@u] then
     if abs_float x >= (* 0x1p-1022 *) (* 2.22507385850720138e-308*) min_float  then
       FP_normal
     else if x <> 0. then FP_subnormal
     else FP_zero
   else
-  if ([%raw{|isNaN|}] : _ -> _ [@bs])  x [@bs] then
+  if ([%raw{|isNaN|}] : _ -> _ [@u])  x [@u] then
     FP_nan
   else FP_infinite
 #else
@@ -349,7 +349,7 @@ let bool_of_string_opt = function
   | _ -> None
 
 #ifdef BS
-external string_of_int : int -> string = "String" [@@bs.val]
+external string_of_int : int -> string = "String" [@@mel.val]
 #else
 let string_of_int n =
   format_int "%d" n
@@ -579,7 +579,7 @@ let print_float f = output_string stdout (string_of_float f)
 
 #ifdef BS
 external print_endline : string -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
+[@@mel.val] [@@mel.scope "console"]
 #else
 let print_endline s =
   output_string stdout s; output_char stdout '\n'; flush stdout
@@ -595,7 +595,7 @@ let prerr_int i = output_string stderr (string_of_int i)
 let prerr_float f = output_string stderr (string_of_float f)
 #ifdef BS
 external prerr_endline : string -> unit = "error"
-[@@bs.val] [@@bs.scope "console"]
+[@@mel.val] [@@mel.scope "console"]
 #else
 let prerr_endline s =
   output_string stderr s; output_char stderr '\n'; flush stderr

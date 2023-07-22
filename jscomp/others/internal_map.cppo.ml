@@ -120,22 +120,22 @@ let rec mergeU s1 s2 f =
     when (n.N.height >= (match s2 with None -> 0 | Some n -> n.N.height)) ->
     let {N.left = l1; key = v1; value = d1; right = r1; _} = n in
     let (l2, d2, r2) = split v1 s2 in
-    N.concatOrJoin (mergeU l1 l2 f) v1 (f v1 (Some d1) d2 [@bs]) (mergeU r1 r2 f)
+    N.concatOrJoin (mergeU l1 l2 f) v1 (f v1 (Some d1) d2 [@u]) (mergeU r1 r2 f)
   | (_, Some n) (* Node (l2, v2, d2, r2, h2) *)  ->
     let {N.left = l2; key = v2; value = d2; right = r2; _} = n in
     let (l1, d1, r1) = split v2 s1 in
-    N.concatOrJoin (mergeU l1 l2 f) v2 (f v2 d1 (Some d2) [@bs]) (mergeU r1 r2 f)
+    N.concatOrJoin (mergeU l1 l2 f) v2 (f v2 d1 (Some d2) [@u]) (mergeU r1 r2 f)
   | _ ->
     assert false
 
-let merge s1 s2 f = mergeU s1 s2 (fun [@bs] a b c -> f a b c)
+let merge s1 s2 f = mergeU s1 s2 (fun [@u] a b c -> f a b c)
 
 let rec compareAux e1 e2 vcmp =
   match e1,e2 with
   | h1::t1, h2::t2 ->
     let c = Pervasives.compare (h1.N.key : key) h2.N.key  in
     if c = 0 then
-      let cx = vcmp h1.N.value h2.N.value [@bs] in
+      let cx = vcmp h1.N.value h2.N.value [@u] in
       if cx = 0 then
         compareAux
           (N.stackAllLeft  h1.N.right t1 )
@@ -155,13 +155,13 @@ let cmpU s1 s2 cmp =
   else if len1 < len2 then -1
   else 1
 
-let cmp s1 s2 f = cmpU s1 s2 (fun[@bs] a b -> f a b)
+let cmp s1 s2 f = cmpU s1 s2 (fun[@u] a b -> f a b)
 
 let rec eqAux e1 e2  eq =
   match e1,e2 with
   | h1::t1, h2::t2 ->
     if (h1.N.key : key) =  h2.N.key  &&
-       eq h1.N.value h2.N.value [@bs] then
+       eq h1.N.value h2.N.value [@u] then
       eqAux (
         N.stackAllLeft  h1.N.right t1 )
         (N.stackAllLeft h2.N.right t2)
@@ -177,14 +177,14 @@ let eqU s1 s2 eq =
       (N.stackAllLeft s2 []) eq
   else false
 
-let eq s1 s2 f = eqU s1 s2 (fun[@bs] a b -> f a b)
+let eq s1 s2 f = eqU s1 s2 (fun[@u] a b -> f a b)
 
 let rec addMutate  (t : _ t) x data : _ t =
   match t with
   | None -> N.singleton x data
   | Some nt ->
     let k = nt.N.key in
-    (* let  c = (Belt_Cmp.getCmpInternal cmp) x k [@bs] in   *)
+    (* let  c = (Belt_Cmp.getCmpInternal cmp) x k [@u] in   *)
     if x = k then begin
       nt.N.key <- x;
       nt.value <- data;
@@ -206,7 +206,7 @@ let fromArray (xs : (key * _) array) =
   else
     let next =
         ref (S.strictlySortedLengthU xs
-        (fun[@bs] (x0,_) (y0,_) ->
+        (fun[@u] (x0,_) (y0,_) ->
             x0 < y0
         ))
       in

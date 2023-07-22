@@ -257,12 +257,12 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
         let action () =
           Ast_attributes.warn_if_bs ~loc txt;
           match txt with
-          | "bs.val" | "val" ->
+          | "mel.val" | "bs.val" | "val" ->
               if no_arguments then
                 { st with val_name = name_from_payload_or_prim ~loc payload }
               else
                 { st with call_name = name_from_payload_or_prim ~loc payload }
-          | "bs.module" | "module" -> (
+          | "mel.module" | "bs.module" | "module" -> (
               match Ast_payload.assert_strings loc payload with
               | [ bundle ] ->
                   {
@@ -289,18 +289,19 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
                         };
                   }
               | _ -> Error.err ~loc Illegal_attribute)
-          | "bs.scope" | "scope" -> (
+          | "mel.scope" | "bs.scope" | "scope" -> (
               match Ast_payload.assert_strings loc payload with
               | [] -> Error.err ~loc Illegal_attribute
               (* We need err on empty scope, so we can tell the difference
                  between unset/set
               *)
               | scopes -> { st with scopes })
-          | "bs.splice" | "bs.variadic" | "variadic" ->
+          | "mel.splice" | "bs.splice" | "mel.variadic" | "bs.variadic"
+          | "variadic" ->
               { st with splice = true }
-          | "bs.send" | "send" ->
+          | "mel.send" | "bs.send" | "send" ->
               { st with val_send = name_from_payload_or_prim ~loc payload }
-          | "bs.send.pipe" ->
+          | "mel.send.pipe" | "bs.send.pipe" ->
               {
                 st with
                 val_send_pipe =
@@ -311,26 +312,26 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
                         "expected a type after [@bs.send.pipe], e.g. \
                          [@bs.send.pipe: t]");
               }
-          | "bs.set" | "set" ->
+          | "mel.set" | "bs.set" | "set" ->
               { st with set_name = name_from_payload_or_prim ~loc payload }
-          | "bs.get" | "get" ->
+          | "mel.get" | "bs.get" | "get" ->
               { st with get_name = name_from_payload_or_prim ~loc payload }
-          | "bs.new" | "new" ->
+          | "mel.new" | "bs.new" | "new" ->
               { st with new_name = name_from_payload_or_prim ~loc payload }
-          | "bs.set_index" | "set_index" ->
+          | "mel.set_index" | "bs.set_index" | "set_index" ->
               if String.length prim_name_check <> 0 then
                 Location.raise_errorf ~loc
                   "%@set_index this particular external's name needs to be a \
                    placeholder empty string";
               { st with set_index = true }
-          | "bs.get_index" | "get_index" ->
+          | "mel.get_index" | "bs.get_index" | "get_index" ->
               if String.length prim_name_check <> 0 then
                 Location.raise_errorf ~loc
                   "%@get_index this particular external's name needs to be a \
                    placeholder empty string";
               { st with get_index = true }
-          | "bs.obj" | "obj" -> { st with mk_obj = true }
-          | "bs.return" | "return" -> (
+          | "mel.obj" | "bs.obj" | "obj" -> { st with mk_obj = true }
+          | "mel.return" | "bs.return" | "return" -> (
               match Ast_payload.ident_or_record_as_config payload with
               | Ok [ ({ txt; _ }, None) ] ->
                   { st with return_wrapper = return_wrapper loc txt }
@@ -345,7 +346,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
 let has_bs_uncurry (attrs : Ast_attributes.t) =
   List.exists
     (fun { attr_name = { txt; loc = _ }; _ } ->
-      txt = "bs.uncurry" || txt = "uncurry")
+      txt = "mel.uncurry" || txt = "bs.uncurry" || txt = "uncurry")
     attrs
 
 let is_unit ty =

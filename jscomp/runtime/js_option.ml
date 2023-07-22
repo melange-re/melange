@@ -32,22 +32,22 @@ end
 
 let some x = Some x
 let isSome = function None -> false | Some _ -> true
-let isSomeValue eq v x = match x with None -> false | Some x -> eq v x [@bs]
+let isSomeValue eq v x = match x with None -> false | Some x -> eq v x [@u]
 let isNone = function None -> true | Some _ -> false
 let getExn x = match x with None -> Js_exn.raiseError "getExn" | Some x -> x
 
 let equal eq a b =
   match a with
   | None -> b = None
-  | Some x -> ( match b with None -> false | Some y -> eq x y [@bs])
+  | Some x -> ( match b with None -> false | Some y -> eq x y [@u])
 
-let andThen f x = match x with None -> None | Some x -> f x [@bs]
-let map f x = match x with None -> None | Some x -> Some (f x [@bs])
+let andThen f x = match x with None -> None | Some x -> f x [@u]
+let map f x = match x with None -> None | Some x -> Some (f x [@u])
 let getWithDefault a x = match x with None -> a | Some x -> x
 let default = getWithDefault
 
 let filter f x =
-  match x with None -> None | Some x -> if f x [@bs] then Some x else None
+  match x with None -> None | Some x -> if f x [@u] then Some x else None
 
 let firstSome a b =
   match (a, b) with Some _, _ -> a | None, Some _ -> b | None, None -> None

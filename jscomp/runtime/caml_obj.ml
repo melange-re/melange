@@ -27,7 +27,7 @@ open Melange_mini_stdlib
 type t = Obj.t
 
 module O = struct
-  external isArray : 'a -> bool = "Array.isArray" [@@bs.val]
+  external isArray : 'a -> bool = "Array.isArray" [@@mel.val]
 
   type key = string
 
@@ -38,7 +38,7 @@ module O = struct
       |}]
 
   external hasOwnProperty : t -> key -> bool = "call"
-    [@@bs.scope "Object", "prototype", "hasOwnProperty"] [@@bs.val]
+    [@@mel.scope "Object", "prototype", "hasOwnProperty"] [@@mel.val]
   (**
      JS objects are not guaranteed to have `Object` in their prototype
      chain so calling `some_obj.hasOwnProperty(key)` can sometimes throw
@@ -47,7 +47,7 @@ module O = struct
      to call this function is directly, e.g. `Object.prototype.hasOwnProperty.call(some_obj, key)`.
   *)
 
-  external get_value : Obj.t -> key -> Obj.t = "" [@@bs.get_index]
+  external get_value : Obj.t -> key -> Obj.t = "" [@@mel.get_index]
 end
 
 (**

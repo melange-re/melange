@@ -40,8 +40,8 @@ type shape =
 
 module Array = Caml_array_extern
 
-external set_field : Obj.t -> string -> Obj.t -> unit = "" [@@bs.set_index]
-external get_field : Obj.t -> string -> Obj.t = "" [@@bs.get_index]
+external set_field : Obj.t -> string -> Obj.t -> unit = "" [@@mel.set_index]
+external get_field : Obj.t -> string -> Obj.t = "" [@@mel.get_index]
 
 module type Empty = sig end
 

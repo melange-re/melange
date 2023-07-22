@@ -122,7 +122,7 @@ let rec copyMapAux qRes prev cell f =
       qRes.last <- prev;
       qRes
   | Some x ->
-      let content = (f x.content [@bs]) in
+      let content = (f x.content [@u]) in
       let res = Some { content; next = None } in
       (match prev with
       (*TODO: optimize to remove such check*)
@@ -133,7 +133,7 @@ let rec copyMapAux qRes prev cell f =
 let mapU q f =
   copyMapAux { length = q.length; first = None; last = None } None q.first f
 
-let map q f = mapU q (fun [@bs] a -> f a)
+let map q f = mapU q (fun [@u] a -> f a)
 let isEmpty q = q.length = 0
 let size q = q.length
 
@@ -141,21 +141,21 @@ let rec iterAux cell f =
   match cell with
   | None -> ()
   | Some x ->
-      f x.content [@bs];
+      f x.content [@u];
       iterAux x.next f
 
 let forEachU q f = iterAux q.first f
-let forEach q f = forEachU q (fun [@bs] a -> f a)
+let forEach q f = forEachU q (fun [@u] a -> f a)
 
 let rec foldAux f accu cell =
   match cell with
   | None -> accu
   | Some x ->
-      let accu = (f accu x.content [@bs]) in
+      let accu = (f accu x.content [@u]) in
       foldAux f accu x.next
 
 let reduceU q accu f = foldAux f accu q.first
-let reduce q accu f = reduceU q accu (fun [@bs] a b -> f a b)
+let reduce q accu f = reduceU q accu (fun [@u] a b -> f a b)
 
 let transfer q1 q2 =
   if q1.length > 0 then

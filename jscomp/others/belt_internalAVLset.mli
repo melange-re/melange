@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -30,10 +30,10 @@
 type 'value t = 'value node option
 
 and 'value node = {
-  mutable value : 'value; [@bs.as "v"]
-  mutable height : int; [@bs.as "h"]
-  mutable left : 'value t; [@bs.as "l"]
-  mutable right : 'value t; [@bs.as "r"]
+  mutable value : 'value; [@mel.as "v"]
+  mutable height : int; [@mel.as "h"]
+  mutable left : 'value t; [@mel.as "l"]
+  mutable right : 'value t; [@mel.as "r"]
 }
 
 type ('a, 'b) cmp = ('a, 'b) Belt_Id.cmp
@@ -52,23 +52,23 @@ val removeMinAuxWithRef : 'a node -> 'a ref -> 'a t
 
 val isEmpty : 'a t -> bool
 val stackAllLeft : 'a t -> 'a node list -> 'a node list
-val forEachU : 'a t -> (('a -> unit)[@bs]) -> unit
+val forEachU : 'a t -> (('a -> unit)[@u]) -> unit
 val forEach : 'a t -> ('a -> unit) -> unit
-val reduceU : 'a t -> 'b -> (('b -> 'a -> 'b)[@bs]) -> 'b
+val reduceU : 'a t -> 'b -> (('b -> 'a -> 'b)[@u]) -> 'b
 val reduce : 'a t -> 'b -> ('b -> 'a -> 'b) -> 'b
-val everyU : 'a t -> (('a -> bool)[@bs]) -> bool
+val everyU : 'a t -> (('a -> bool)[@u]) -> bool
 val every : 'a t -> ('a -> bool) -> bool
-val someU : 'a t -> (('a -> bool)[@bs]) -> bool
+val someU : 'a t -> (('a -> bool)[@u]) -> bool
 val some : 'a t -> ('a -> bool) -> bool
 val joinShared : 'a t -> 'a -> 'a t -> 'a t
 val concatShared : 'a t -> 'a t -> 'a t
-val keepSharedU : 'a t -> (('a -> bool)[@bs]) -> 'a t
+val keepSharedU : 'a t -> (('a -> bool)[@u]) -> 'a t
 val keepShared : 'a t -> ('a -> bool) -> 'a t
-val keepCopyU : 'a t -> (('a -> bool)[@bs]) -> 'a t
+val keepCopyU : 'a t -> (('a -> bool)[@u]) -> 'a t
 val keepCopy : 'a t -> ('a -> bool) -> 'a t
-val partitionSharedU : 'a t -> (('a -> bool)[@bs]) -> 'a t * 'a t
+val partitionSharedU : 'a t -> (('a -> bool)[@u]) -> 'a t * 'a t
 val partitionShared : 'a t -> ('a -> bool) -> 'a t * 'a t
-val partitionCopyU : 'a t -> (('a -> bool)[@bs]) -> 'a t * 'a t
+val partitionCopyU : 'a t -> (('a -> bool)[@u]) -> 'a t * 'a t
 val partitionCopy : 'a t -> ('a -> bool) -> 'a t * 'a t
 val lengthNode : 'a node -> int
 val size : 'a t -> int

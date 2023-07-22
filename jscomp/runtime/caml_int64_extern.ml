@@ -7,4 +7,4 @@ external logor : int64 -> int64 -> int64 = "%int64_or"
 external neg : int64 -> int64 = "%int64_neg"
 external to_int : int64 -> int = "%int64_to_int"
 
-type t = { hi : int; [@as "0"] lo : int [@as "1"] }
+type t = { hi : int; [@mel.as "0"] lo : int [@mel.as "1"] }

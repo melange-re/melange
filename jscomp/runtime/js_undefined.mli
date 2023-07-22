@@ -48,7 +48,7 @@ external empty : 'a t = "#undefined"
 external getUnsafe : 'a t -> 'a = "%identity"
 val getExn : 'a t -> 'a
 
-val bind : 'a t -> (('a -> 'b)[@bs]) -> 'b t
+val bind : 'a t -> (('a -> 'b)[@u]) -> 'b t
 (** Maps the contained value using the given function
 
 If ['a Js.undefined] contains a value, that value is unwrapped, mapped to a ['b] using
@@ -60,7 +60,7 @@ let maybeGreetWorld (maybeGreeting: string Js.undefined) =
 ]}
 *)
 
-val iter : 'a t -> (('a -> unit)[@bs]) -> unit
+val iter : 'a t -> (('a -> unit)[@u]) -> unit
 (** Iterates over the contained value with the given function
 
 If ['a Js.undefined] contains a value, that value is unwrapped and applied to

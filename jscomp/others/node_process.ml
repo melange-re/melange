@@ -27,21 +27,21 @@
 type t =
   < argv : string array
   ; arch : string
-  ; abort : unit -> unit [@bs.meth]
-  ; chdir : string -> unit [@bs.meth]
-  ; cwd : unit -> string [@bs.meth]
-  ; disconnect : unit -> unit [@bs.meth]
+  ; abort : unit -> unit [@mel.meth]
+  ; chdir : string -> unit [@mel.meth]
+  ; cwd : unit -> string [@mel.meth]
+  ; disconnect : unit -> unit [@mel.meth]
   ; platform : string
   ; env : string Js.Dict.t >
   Js.t
 
-external process : t = "process" [@@bs.module]
-external argv : string array = "argv" [@@bs.module "process"]
-external exit : int -> 'a = "exit" [@@bs.module "process"]
-external cwd : unit -> string = "cwd" [@@bs.module "process"]
+external process : t = "process" [@@mel.module]
+external argv : string array = "argv" [@@mel.module "process"]
+external exit : int -> 'a = "exit" [@@mel.module "process"]
+external cwd : unit -> string = "cwd" [@@mel.module "process"]
 
 external uptime : t -> unit -> float = "uptime"
-  [@@bs.send]
+  [@@mel.send]
 (** The process.uptime() method returns the number of seconds
    the current Node.js process has been running.) *)
 

@@ -34,7 +34,7 @@ type ('value, 'id) t = { cmp : ('value, 'id) cmp; mutable data : 'value N.t }
 
 let rec remove0 nt x ~cmp =
   let k = nt.N.value in
-  let c = (cmp x k [@bs]) in
+  let c = (cmp x k [@u]) in
   if c = 0 then (
     let { N.left = l; right = r; _ } = nt in
     match (l, r) with
@@ -81,7 +81,7 @@ let removeMany d xs =
 
 let rec removeCheck0 nt x removed ~cmp =
   let k = nt.N.value in
-  let c = ((Belt_Id.getCmpInternal cmp) x k [@bs]) in
+  let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
   if c = 0 then (
     let () = removed.contents <- true in
     let { N.left = l; right = r; _ } = nt in
@@ -121,7 +121,7 @@ let rec addCheck0 t x added ~cmp =
       N.singleton x
   | Some nt ->
       let k = nt.N.value in
-      let c = (cmp x k [@bs]) in
+      let c = (cmp x k [@u]) in
       if c = 0 then t
       else
         let { N.left = l; right = r; _ } = nt in
@@ -162,13 +162,13 @@ let minUndefined d = N.minUndefined d.data
 let maximum d = N.maximum d.data
 let maxUndefined d = N.maxUndefined d.data
 let forEachU d f = N.forEachU d.data f
-let forEach d f = forEachU d (fun [@bs] a -> f a)
+let forEach d f = forEachU d (fun [@u] a -> f a)
 let reduceU d acc cb = N.reduceU d.data acc cb
-let reduce d acc cb = reduceU d acc (fun [@bs] a b -> cb a b)
+let reduce d acc cb = reduceU d acc (fun [@u] a b -> cb a b)
 let everyU d p = N.everyU d.data p
-let every d p = everyU d (fun [@bs] a -> p a)
+let every d p = everyU d (fun [@u] a -> p a)
 let someU d p = N.someU d.data p
-let some d p = someU d (fun [@bs] a -> p a)
+let some d p = someU d (fun [@u] a -> p a)
 let size d = N.size d.data
 let toList d = N.toList d.data
 let toArray d = N.toArray d.data
@@ -207,14 +207,14 @@ let split d key =
       true )
 
 let keepU d p = { data = N.keepCopyU d.data p; cmp = d.cmp }
-let keep d p = keepU d (fun [@bs] a -> p a)
+let keep d p = keepU d (fun [@u] a -> p a)
 
 let partitionU d p =
   let cmp = d.cmp in
   let a, b = N.partitionCopyU d.data p in
   ({ data = a; cmp }, { data = b; cmp })
 
-let partition d p = partitionU d (fun [@bs] a -> p a)
+let partition d p = partitionU d (fun [@u] a -> p a)
 let subset a b = N.subset ~cmp:a.cmp a.data b.data
 
 let intersect a b : _ t =
@@ -230,8 +230,8 @@ let intersect a b : _ t =
       ignore (N.fillArray datab0 sizea tmp);
       let p = Belt_Id.getCmpInternal cmp in
       if
-        (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@bs]) < 0
-        || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@bs]) < 0
+        (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@u]) < 0
+        || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@u]) < 0
       then { cmp; data = None }
       else
         let tmp2 = A.makeUninitializedUnsafe (Pervasives.min sizea sizeb) in
@@ -252,8 +252,8 @@ let diff a b : _ t =
       ignore (N.fillArray datab0 sizea tmp);
       let p = Belt_Id.getCmpInternal cmp in
       if
-        (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@bs]) < 0
-        || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@bs]) < 0
+        (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@u]) < 0
+        || (p (A.getUnsafe tmp (totalSize - 1)) (A.getUnsafe tmp 0) [@u]) < 0
       then { data = N.copy dataa; cmp }
       else
         let tmp2 = A.makeUninitializedUnsafe sizea in
@@ -273,8 +273,8 @@ let union a b =
       ignore (N.fillArray dataa0 0 tmp);
       ignore (N.fillArray datab0 sizea tmp);
       let p = Belt_Id.getCmpInternal cmp in
-      if (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@bs]) < 0
-      then { data = N.fromSortedArrayAux tmp 0 totalSize; cmp }
+      if (p (A.getUnsafe tmp (sizea - 1)) (A.getUnsafe tmp sizea) [@u]) < 0 then
+        { data = N.fromSortedArrayAux tmp 0 totalSize; cmp }
       else
         let tmp2 = A.makeUninitializedUnsafe totalSize in
         let k = Sort.unionU tmp 0 sizea tmp sizea sizeb tmp2 0 p in

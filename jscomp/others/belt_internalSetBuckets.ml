@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Hongbo Zhang, Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -72,7 +72,7 @@ let rec doBucketIter ~f buckets =
   match C.toOpt buckets with
   | None -> ()
   | Some cell ->
-      f cell.key [@bs];
+      f cell.key [@u];
       doBucketIter ~f cell.next
 
 let forEachU h f =
@@ -81,7 +81,7 @@ let forEachU h f =
     doBucketIter ~f (A.getUnsafe d i)
   done
 
-let forEach h f = forEachU h (fun [@bs] a -> f a)
+let forEach h f = forEachU h (fun [@u] a -> f a)
 
 let rec fillArray i arr cell =
   A.setUnsafe arr i cell.key;
@@ -104,7 +104,7 @@ let toArray h =
 let rec doBucketFold ~f b accu =
   match C.toOpt b with
   | None -> accu
-  | Some cell -> doBucketFold ~f cell.next (f accu cell.key [@bs])
+  | Some cell -> doBucketFold ~f cell.next (f accu cell.key [@u])
 
 let reduceU h init f =
   let d = h.C.buckets in
@@ -114,17 +114,17 @@ let reduceU h init f =
   done;
   accu.contents
 
-let reduce h init f = reduceU h init (fun [@bs] a b -> f a b)
+let reduce h init f = reduceU h init (fun [@u] a b -> f a b)
 
 let getMaxBucketLength h =
-  A.reduceU h.C.buckets 0 (fun [@bs] m b ->
+  A.reduceU h.C.buckets 0 (fun [@u] m b ->
       let len = bucketLength 0 b in
       Pervasives.max m len)
 
 let getBucketHistogram h =
   let mbl = getMaxBucketLength h in
-  let histo = A.makeByU (mbl + 1) (fun [@bs] _ -> 0) in
-  A.forEachU h.C.buckets (fun [@bs] b ->
+  let histo = A.makeByU (mbl + 1) (fun [@u] _ -> 0) in
+  A.forEachU h.C.buckets (fun [@u] b ->
       let l = bucketLength 0 b in
       A.setUnsafe histo l (A.getUnsafe histo l + 1));
   histo

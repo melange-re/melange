@@ -44,7 +44,7 @@ type node_module =
 
 type node_require =
   < main : node_module Js.undefined
-  ; resolve : string -> string [@bs]
+  ; resolve : string -> string [@u]
   (* @raise exception   *) >
   Js.t
 (* WARN:

@@ -26,7 +26,7 @@ open Melange_mini_stdlib
 
 let rotl32 (x : int) n = (x lsl n) lor (x lsr (32 - n))
 
-external ( .![] ) : string -> int -> int = "charCodeAt" [@@bs.send]
+external ( .![] ) : string -> int -> int = "charCodeAt" [@@mel.send]
 
 let caml_hash_mix_int h d =
   let d = ref d in

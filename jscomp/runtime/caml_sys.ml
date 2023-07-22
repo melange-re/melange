@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
+external getEnv : 'a -> string -> string option = "" [@@mel.get_index]
 
 let caml_sys_getenv s =
   let module Js = Js_internal in
@@ -59,8 +59,8 @@ let os_type : unit -> string =
 
 type process
 
-external uptime : process -> unit -> float = "uptime" [@@bs.send]
-external exit : process -> int -> 'a = "exit" [@@bs.send]
+external uptime : process -> unit -> float = "uptime" [@@mel.send]
+external exit : process -> int -> 'a = "exit" [@@mel.send]
 
 let caml_sys_time () =
   let module Js = Js_internal in
@@ -72,7 +72,7 @@ let caml_sys_time () =
 
 (*
 type spawnResult
-external spawnSync : string -> spawnResult = "spawnSync" [@@bs.module "child_process"]
+external spawnSync : string -> spawnResult = "spawnSync" [@@mel.module "child_process"]
 
 external readAs : spawnResult ->
   <

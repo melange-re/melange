@@ -22,22 +22,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
- [@@@bs.config { flags = [|"-bs-no-cross-module-opt" |]}]
+ [@@@mel.config { flags = [|"-bs-no-cross-module-opt" |]}]
 (* Internals of forcing lazy values. *)
 
 type 'a t = 'a lazy_t
 
 type 'a concrete = {
-  mutable tag : bool [@bs.as "LAZY_DONE"] ;
+  mutable tag : bool [@mel.as "LAZY_DONE"] ;
   (* Invariant: name  *)
-  mutable value : 'a [@bs.as "VAL"]
+  mutable value : 'a [@mel.as "VAL"]
   (* its type is ['a] or [unit -> 'a ] *)
 }
 
 exception Undefined
 
-external fnToVal : (unit -> 'a [@bs]) -> 'a = "%identity"
-external valToFn :  'a -> (unit -> 'a [@bs])  = "%identity"
+external fnToVal : (unit -> 'a [@u]) -> 'a = "%identity"
+external valToFn :  'a -> (unit -> 'a [@u])  = "%identity"
 external castToConcrete : 'a lazy_t -> 'a concrete   = "%identity"
 external of_concrete : 'a concrete -> 'a lazy_t   = "%identity"
 
@@ -46,15 +46,15 @@ let is_val (type a ) (l : a lazy_t) : bool =
 
 
 
-let forward_with_closure (type a ) (blk : a concrete) (closure : unit -> a [@bs]) : a =
-  let result = closure () [@bs] in
+let forward_with_closure (type a ) (blk : a concrete) (closure : unit -> a [@u]) : a =
+  let result = closure () [@u] in
   (* do set_field BEFORE set_tag *)
   blk.value <- result;
   blk.tag<- true;
   result
 
 
-let raise_undefined =  (fun [@bs] () -> raise Undefined)
+let raise_undefined =  (fun [@u] () -> raise Undefined)
 
 (* Assume [blk] is a block with tag lazy *)
 let force_lazy_block (type a ) (blk : a t) : a  =
@@ -64,7 +64,7 @@ let force_lazy_block (type a ) (blk : a t) : a  =
   try
     forward_with_closure blk closure
   with e ->
-    blk.value <- fnToVal (fun [@bs] () -> raise e);
+    blk.value <- fnToVal (fun [@u] () -> raise e);
     raise e
 
 

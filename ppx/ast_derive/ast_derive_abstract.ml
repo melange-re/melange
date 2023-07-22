@@ -45,7 +45,7 @@ let get_pld_type pld_type ~attrs =
     | Ptyp_constr ({ txt = Lident "option"; _ }, [ pld_type ]) -> pld_type
     | _ ->
         Location.raise_errorf ~loc:pld_type.ptyp_loc
-          "[@bs.optional] must appear on a type explicitly annotated with \
+          "[@mel.optional] must appear on a type explicitly annotated with \
            `option'"
   else pld_type
 

@@ -74,8 +74,8 @@ external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
 #ifdef BS
-external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
-external exp : float -> float = "exp" [@@bs.val][@@bs.scope "Math"]
+external ( ** ) : float -> float -> float = "pow" [@@mel.val] [@@mel.scope "Math"]
+external exp : float -> float = "exp" [@@mel.val][@@mel.scope "Math"]
 #else
 external ( ** ) : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
@@ -83,10 +83,10 @@ external exp : float -> float = "caml_exp_float" "exp" [@@unboxed] [@@noalloc]
 #endif
 
 #ifdef BS
-external acos : float -> float =  "acos" [@@bs.val] [@@bs.scope "Math"]
-external asin : float -> float = "asin" [@@bs.val] [@@bs.scope "Math"]
-external atan : float -> float = "atan" [@@bs.val] [@@bs.scope "Math"]
-external atan2 : float -> float -> float = "atan2" [@@bs.val] [@@bs.scope "Math"]
+external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
+external asin : float -> float = "asin" [@@mel.val] [@@mel.scope "Math"]
+external atan : float -> float = "atan" [@@mel.val] [@@mel.scope "Math"]
+external atan2 : float -> float -> float = "atan2" [@@mel.val] [@@mel.scope "Math"]
 #else
 external acos : float -> float = "caml_acos_float" "acos"
   [@@unboxed] [@@noalloc]
@@ -103,22 +103,22 @@ external hypot : float -> float -> float = "caml_hypot_float" "caml_hypot"
 
 
 #ifdef BS
-external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
-external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
-external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
-external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
-external log10 : float -> float = "log10"[@@bs.val] [@@bs.scope "Math"]
-external log1p : float -> float = "log1p" [@@bs.val] [@@bs.scope "Math"]
-external sin : float -> float =  "sin" [@@bs.val] [@@bs.scope "Math"]
-external sinh : float -> float = "sinh" [@@bs.val] [@@bs.scope "Math"]
-external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
-external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
-external tan : float -> float =  "tan" [@@bs.val] [@@bs.scope "Math"]
-external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
-external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
-external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
-external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
-external abs_float : float -> float = "abs"[@@bs.val] [@@bs.scope "Math"]
+external cos : float -> float = "cos" [@@mel.val] [@@mel.scope "Math"]
+external cosh : float -> float = "cosh" [@@mel.val] [@@mel.scope "Math"]
+external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
+external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
+external log10 : float -> float = "log10"[@@mel.val] [@@mel.scope "Math"]
+external log1p : float -> float = "log1p" [@@mel.val] [@@mel.scope "Math"]
+external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
+external sinh : float -> float = "sinh" [@@mel.val] [@@mel.scope "Math"]
+external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
+external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
+external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
+external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
+external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
+external ceil : float -> float =  "ceil" [@@mel.val] [@@mel.scope "Math"]
+external floor : float -> float =  "floor" [@@mel.val] [@@mel.scope "Math"]
+external abs_float : float -> float = "abs"[@@mel.val] [@@mel.scope "Math"]
 #else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 external cosh : float -> float = "caml_cosh_float" "cosh"

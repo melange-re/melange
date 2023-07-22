@@ -62,39 +62,37 @@ val diff : ('value, 'id) t -> ('value, 'id) t -> ('value, 'id) t
 val subset : ('value, 'id) t -> ('value, 'id) t -> bool
 val cmp : ('value, 'id) t -> ('value, 'id) t -> int
 val eq : ('value, 'id) t -> ('value, 'id) t -> bool
-val forEachU : ('value, 'id) t -> (('value -> unit)[@bs]) -> unit
+val forEachU : ('value, 'id) t -> (('value -> unit)[@u]) -> unit
 
 val forEach : ('value, 'id) t -> ('value -> unit) -> unit
 (** [forEach m f] applies [f] in turn to all elements of [m].
     In increasing order *)
 
-val reduceU : ('value, 'id) t -> 'a -> (('a -> 'value -> 'a)[@bs]) -> 'a
+val reduceU : ('value, 'id) t -> 'a -> (('a -> 'value -> 'a)[@u]) -> 'a
 
 val reduce : ('value, 'id) t -> 'a -> ('a -> 'value -> 'a) -> 'a
 (** In increasing order. *)
 
-val everyU : ('value, 'id) t -> (('value -> bool)[@bs]) -> bool
+val everyU : ('value, 'id) t -> (('value -> bool)[@u]) -> bool
 
 val every : ('value, 'id) t -> ('value -> bool) -> bool
 (** [every s p] checks if all elements of the set
     satisfy the predicate [p]. Order unspecified *)
 
-val someU : ('value, 'id) t -> (('value -> bool)[@bs]) -> bool
+val someU : ('value, 'id) t -> (('value -> bool)[@u]) -> bool
 
 val some : ('value, 'id) t -> ('value -> bool) -> bool
 (** [some p s] checks if at least one element of
     the set satisfies the predicate [p]. *)
 
-val keepU : ('value, 'id) t -> (('value -> bool)[@bs]) -> ('value, 'id) t
+val keepU : ('value, 'id) t -> (('value -> bool)[@u]) -> ('value, 'id) t
 
 val keep : ('value, 'id) t -> ('value -> bool) -> ('value, 'id) t
 (** [keep s p] returns the set of all elements in [s]
     that satisfy predicate [p]. *)
 
 val partitionU :
-  ('value, 'id) t ->
-  (('value -> bool)[@bs]) ->
-  ('value, 'id) t * ('value, 'id) t
+  ('value, 'id) t -> (('value -> bool)[@u]) -> ('value, 'id) t * ('value, 'id) t
 
 val partition :
   ('value, 'id) t -> ('value -> bool) -> ('value, 'id) t * ('value, 'id) t

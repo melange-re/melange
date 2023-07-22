@@ -29,6 +29,7 @@ module Warnings : sig
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_bs_string
+    | Deprecated_uncurry_attribute
     | Deprecated_attribute_namespace
 end
 

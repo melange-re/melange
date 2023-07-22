@@ -71,7 +71,7 @@ let rec do_bucket_iter ~f buckets =
   match C.toOpt buckets with
   | None -> ()
   | Some cell ->
-      (f cell.key cell.value [@bs]) |. ignore;
+      (f cell.key cell.value [@u]) |. ignore;
       do_bucket_iter ~f cell.next
 
 let forEachU h f =
@@ -80,12 +80,12 @@ let forEachU h f =
     do_bucket_iter ~f (A.getUnsafe d i)
   done
 
-let forEach h f = forEachU h (fun [@bs] a b -> f a b)
+let forEach h f = forEachU h (fun [@u] a b -> f a b)
 
 let rec do_bucket_fold ~f b accu =
   match C.toOpt b with
   | None -> accu
-  | Some cell -> do_bucket_fold ~f cell.next (f accu cell.key cell.value [@bs])
+  | Some cell -> do_bucket_fold ~f cell.next (f accu cell.key cell.value [@u])
 
 let reduceU h init f =
   let d = h.C.buckets in
@@ -95,17 +95,17 @@ let reduceU h init f =
   done;
   accu.contents
 
-let reduce h init f = reduceU h init (fun [@bs] a b c -> f a b c)
+let reduce h init f = reduceU h init (fun [@u] a b c -> f a b c)
 
 let getMaxBucketLength h =
-  A.reduceU h.C.buckets 0 (fun [@bs] m b ->
+  A.reduceU h.C.buckets 0 (fun [@u] m b ->
       let len = bucketLength 0 b in
       Pervasives.max m len)
 
 let getBucketHistogram h =
   let mbl = getMaxBucketLength h in
-  let histo = A.makeByU (mbl + 1) (fun [@bs] _ -> 0) in
-  A.forEachU h.C.buckets (fun [@bs] b ->
+  let histo = A.makeByU (mbl + 1) (fun [@u] _ -> 0) in
+  A.forEachU h.C.buckets (fun [@u] b ->
       let l = bucketLength 0 b in
       A.setUnsafe histo l (A.getUnsafe histo l + 1));
   histo
@@ -118,7 +118,7 @@ let logStats h =
 (** iterate the Buckets, in place remove the elements *)
 let rec filterMapInplaceBucket f h i prec cell =
   let n = cell.next in
-  match f cell.key cell.value [@bs] with
+  match f cell.key cell.value [@u] with
   | None -> (
       h.C.size <- h.C.size - 1;
       (* delete *)
@@ -148,7 +148,7 @@ let keepMapInPlaceU h f =
     | Some v -> filterMapInplaceBucket f h i C.emptyOpt v
   done
 
-let keepMapInPlace h f = keepMapInPlaceU h (fun [@bs] a b -> f a b)
+let keepMapInPlace h f = keepMapInPlaceU h (fun [@u] a b -> f a b)
 
 let rec fillArray i arr cell =
   A.setUnsafe arr i (cell.key, cell.value);
@@ -170,7 +170,7 @@ let rec fillArray i arr cell =
    arr *)
 
 let rec fillArrayMap i arr cell f =
-  A.setUnsafe arr i (f cell [@bs]);
+  A.setUnsafe arr i (f cell [@u]);
   match C.toOpt cell.next with
   | None -> i + 1
   | Some v -> fillArrayMap (i + 1) arr v f
@@ -187,6 +187,6 @@ let linear h f =
   done;
   arr
 
-let keysToArray h = linear h (fun [@bs] x -> x.key)
-let valuesToArray h = linear h (fun [@bs] x -> x.value)
-let toArray h = linear h (fun [@bs] x -> (x.key, x.value))
+let keysToArray h = linear h (fun [@u] x -> x.key)
+let valuesToArray h = linear h (fun [@u] x -> x.value)
+let toArray h = linear h (fun [@u] x -> (x.key, x.value))

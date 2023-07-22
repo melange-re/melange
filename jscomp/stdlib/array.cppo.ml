@@ -28,7 +28,7 @@ external create: int -> 'a -> 'a array = "caml_make_vect"
 external unsafe_sub : 'a array -> int -> int -> 'a array = "caml_array_sub"
 #ifdef BS
 external append_prim : 'a array -> 'a array -> 'a array = "concat"
-[@@bs.send]
+[@@mel.send]
 #else
 external append_prim : 'a array -> 'a array -> 'a array = "caml_array_append"
 #endif

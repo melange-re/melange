@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-type t = { id : string [@bs.as "RE_EXN_ID"] }
+type t = { id : string [@mel.as "RE_EXN_ID"] }
 
 (**
    Could be exported for better inlining

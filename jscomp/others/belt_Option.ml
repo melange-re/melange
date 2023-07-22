@@ -23,25 +23,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
 let keepU opt p =
-  match opt with Some x as some when p x [@bs] -> some | _ -> None
+  match opt with Some x as some when p x [@u] -> some | _ -> None
 
-let keep opt p = keepU opt (fun [@bs] x -> p x)
-let forEachU opt f = match opt with Some x -> f x [@bs] | None -> ()
-let forEach opt f = forEachU opt (fun [@bs] x -> f x)
+let keep opt p = keepU opt (fun [@u] x -> p x)
+let forEachU opt f = match opt with Some x -> f x [@u] | None -> ()
+let forEach opt f = forEachU opt (fun [@u] x -> f x)
 let getExn = function Some x -> x | None -> raise Not_found
 
 external getUnsafe : 'a option -> 'a = "%identity"
 
 let mapWithDefaultU opt default f =
-  match opt with Some x -> f x [@bs] | None -> default
+  match opt with Some x -> f x [@u] | None -> default
 
 let mapWithDefault opt default f =
-  mapWithDefaultU opt default (fun [@bs] x -> f x)
+  mapWithDefaultU opt default (fun [@u] x -> f x)
 
-let mapU opt f = match opt with Some x -> Some (f x [@bs]) | None -> None
-let map opt f = mapU opt (fun [@bs] x -> f x)
-let flatMapU opt f = match opt with Some x -> f x [@bs] | None -> None
-let flatMap opt f = flatMapU opt (fun [@bs] x -> f x)
+let mapU opt f = match opt with Some x -> Some (f x [@u]) | None -> None
+let map opt f = mapU opt (fun [@u] x -> f x)
+let flatMapU opt f = match opt with Some x -> f x [@u] | None -> None
+let flatMap opt f = flatMapU opt (fun [@u] x -> f x)
 let getWithDefault opt default = match opt with Some x -> x | None -> default
 let orElse opt other = match opt with Some _ as some -> some | None -> other
 let isSome = function Some _ -> true | None -> false
@@ -49,16 +49,16 @@ let isNone x = x = None
 
 let eqU a b f =
   match a with
-  | Some a -> ( match b with None -> false | Some b -> f a b [@bs])
+  | Some a -> ( match b with None -> false | Some b -> f a b [@u])
   | None -> b = None
 
-let eq a b f = eqU a b (fun [@bs] x y -> f x y)
+let eq a b f = eqU a b (fun [@u] x y -> f x y)
 
 let cmpU a b f =
   match (a, b) with
-  | Some a, Some b -> f a b [@bs]
+  | Some a, Some b -> f a b [@u]
   | None, Some _ -> -1
   | Some _, None -> 1
   | None, None -> 0
 
-let cmp a b f = cmpU a b (fun [@bs] x y -> f x y)
+let cmp a b f = cmpU a b (fun [@u] x y -> f x y)

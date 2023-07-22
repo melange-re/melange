@@ -96,12 +96,12 @@ val add : ('a, 'id) t -> 'a -> unit
 val copy : ('a, 'id) t -> ('a, 'id) t
 val has : ('a, 'id) t -> 'a -> bool
 val remove : ('a, 'id) t -> 'a -> unit
-val forEachU : ('a, 'id) t -> (('a -> unit)[@bs]) -> unit
+val forEachU : ('a, 'id) t -> (('a -> unit)[@u]) -> unit
 
 val forEach : ('a, 'id) t -> ('a -> unit) -> unit
 (** Order unspecified. *)
 
-val reduceU : ('a, 'id) t -> 'c -> (('c -> 'a -> 'c)[@bs]) -> 'c
+val reduceU : ('a, 'id) t -> 'c -> (('c -> 'a -> 'c)[@u]) -> 'c
 
 val reduce : ('a, 'id) t -> 'c -> ('c -> 'a -> 'c) -> 'c
 (** Order unspecified. *)

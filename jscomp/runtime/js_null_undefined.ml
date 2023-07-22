@@ -42,8 +42,8 @@ end
 let bind x f =
   match to_opt x with
   | None -> (Obj.magic (x : 'a t) : 'b t)
-  | Some x -> return (f x [@bs])
+  | Some x -> return (f x [@u])
 
-let iter x f = match to_opt x with None -> () | Some x -> f x [@bs]
+let iter x f = match to_opt x with None -> () | Some x -> f x [@u]
 let fromOption x = match x with None -> undefined | Some x -> return x
 let from_opt = fromOption
