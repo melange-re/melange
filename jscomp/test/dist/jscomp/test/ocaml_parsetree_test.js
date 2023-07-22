@@ -13524,7 +13524,7 @@ function eq(loc, x, y) {
   };
 }
 
-var match = wrap(implementation, Stdlib__Lexing.from_string(undefined, "let v str = \n  str  \n  |> Lexing.from_string \n  |> Parse.implementation\n"));
+var match = wrap(implementation, Stdlib__Lexing.from_string(undefined, "let v str =\n  str\n  |> Lexing.from_string\n  |> Parse.implementation\n"));
 
 if (match) {
   var match$1 = match.hd.pstr_desc;

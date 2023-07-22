@@ -57,7 +57,7 @@ if (Caml_oo_curry.js1(291546447, 1, v) !== 3) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "class_repr.ml",
-          30,
+          28,
           9
         ],
         Error: new Error()
@@ -69,7 +69,7 @@ if (Caml_oo_curry.js1(291546447, 2, u) !== 3) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "class_repr.ml",
-          32,
+          30,
           9
         ],
         Error: new Error()
@@ -113,7 +113,7 @@ if (Caml_oo_curry.js1(-804710761, 4, v1) !== 3) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "class_repr.ml",
-          44,
+          42,
           9
         ],
         Error: new Error()
@@ -132,7 +132,7 @@ if (Caml_oo_curry.js1(-804710761, 9, v2) !== 9) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "class_repr.ml",
-          59,
+          57,
           9
         ],
         Error: new Error()
@@ -176,7 +176,7 @@ if (Caml_oo_curry.js1(590348294, 10, v$1) !== 5) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "class_repr.ml",
-          106,
+          104,
           2
         ],
         Error: new Error()

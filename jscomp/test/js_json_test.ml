@@ -298,7 +298,7 @@ let () = eq __LOC__ (J.stringifyAny [|1; 2; 3|]) (Some "[1,2,3]")
 let () =
   eq
   __LOC__
-  (J.stringifyAny [%bs.obj {foo = 1; bar = "hello"; baz = [%bs.obj {baaz = 10}]}])
+  (J.stringifyAny [%mel.obj {foo = 1; bar = "hello"; baz = [%mel.obj {baaz = 10}]}])
   (Some {|{"foo":1,"bar":"hello","baz":{"baaz":10}}|})
 
 let () = eq __LOC__ (J.stringifyAny Js.Null.empty) (Some "null")

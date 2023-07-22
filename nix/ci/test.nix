@@ -16,6 +16,17 @@ let
     extraOverlays = [
       (self: super: {
         ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
+          ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+            reason = osuper.reason.overrideAttrs (_: {
+              src = super.fetchFromGitHub {
+                owner = "reasonml";
+                repo = "reason";
+                rev = "e0347cc03164ab63a970e1259f7f54d40214c6b9";
+                hash = "sha256-SbYvkJIXY/rAXWBUFlZkv8/nWIXjaMyuraLmJzr5POw=";
+              };
+            });
+          });
+
           sedlex = osuper.sedlex.overrideAttrs (_: {
             # depends on ppx_expect, which is not available for 4.13
             doCheck = false;
