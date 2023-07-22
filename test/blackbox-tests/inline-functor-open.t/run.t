@@ -35,7 +35,7 @@
   
   function test3(param) {
     var open = Samplelib.MonadOps(Samplelib.$$Promise);
-    return Curry._1(open[0], 2);
+    return Curry._1(open.$$return, 2);
   }
   
   test3(undefined);
@@ -43,20 +43,3 @@
   exports.test3 = test3;
   /*  Not a pure module */
   $ node _out/samplelib_test.js
-  $TESTCASE_ROOT/_out/node_modules/melange.js/curry.js:31
-    var arity = o.length;
-                  ^
-  
-  TypeError: Cannot read properties of undefined (reading 'length')
-      at Object._1 ($TESTCASE_ROOT/_out/node_modules/melange.js/curry.js:31:17)
-      at test3 ($TESTCASE_ROOT/_out/samplelib_test.js:9:16)
-      at Object.<anonymous> ($TESTCASE_ROOT/_out/samplelib_test.js:12:1)
-      at Module._compile (node:internal/modules/cjs/loader:1233:14)
-      at Module._extensions..js (node:internal/modules/cjs/loader:1287:10)
-      at Module.load (node:internal/modules/cjs/loader:1091:32)
-      at Module._load (node:internal/modules/cjs/loader:938:12)
-      at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:83:12)
-      at node:internal/main/run_main_module:23:47
-  
-  Node.js v20.4.0
-  [1]
