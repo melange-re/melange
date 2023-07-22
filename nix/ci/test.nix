@@ -21,8 +21,8 @@ let
               src = super.fetchFromGitHub {
                 owner = "reasonml";
                 repo = "reason";
-                rev = "e0347cc03164ab63a970e1259f7f54d40214c6b9";
-                hash = "sha256-SbYvkJIXY/rAXWBUFlZkv8/nWIXjaMyuraLmJzr5POw=";
+                rev = "366fefa23f39a437a07097f050fbb53d9767c6c9";
+                hash = "sha256-bTaqD3hhD83QnGfgBvuUeb/I796isXfAseEGyyeQOVA=";
               };
             });
 
