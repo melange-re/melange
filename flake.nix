@@ -11,7 +11,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs/anmonteiro/inline-functor-open";
+      url = "github:melange-re/melange-compiler-libs/51c7c7c101ba5fab487b3889ddcbe39a63c41af4";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };

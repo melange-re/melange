@@ -37,8 +37,8 @@
       },
       "original": {
         "owner": "melange-re",
-        "ref": "anmonteiro/inline-functor-open",
         "repo": "melange-compiler-libs",
+        "rev": "51c7c7c101ba5fab487b3889ddcbe39a63c41af4",
         "type": "github"
       }
     },
