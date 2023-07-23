@@ -78,7 +78,7 @@ let new_extension name (ext : string) =
 *)
 let module_name name =
   let rec search_dot i name =
-    if i < 0 then Ext_string.capitalize_ascii name
+    if i < 0 then String.capitalize_ascii name
     else if String.unsafe_get name i = '.' then Ext_string.capitalize_sub name i
     else search_dot (i - 1) name
   in

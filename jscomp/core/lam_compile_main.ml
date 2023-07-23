@@ -263,7 +263,7 @@ js
           may_required_modules hard_deps ;
         Ext_list.sort_via_array (Lam_module_ident.Hash_set.to_list hard_deps)
           (fun id1 id2 ->
-             Ext_string.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2)
+             String.compare (Lam_module_ident.name id1) (Lam_module_ident.name id2)
           )
     in
     Warnings.check_fatal();

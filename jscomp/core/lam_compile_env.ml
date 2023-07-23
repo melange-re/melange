@@ -65,7 +65,7 @@ let add_js_module (hint_name : External_ffi_types.module_bind_name)
   let id =
     Ident.create_local
       (match hint_name with
-      | Phint_name hint_name -> Ext_string.capitalize_ascii hint_name
+      | Phint_name hint_name -> String.capitalize_ascii hint_name
       (* make sure the module name is capitalized
          TODO: maybe a warning if the user hint is not good
       *)

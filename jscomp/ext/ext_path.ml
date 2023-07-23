@@ -100,7 +100,7 @@ let strip_trailing_slashes p =
   else p
 
 let concat dirname filename =
-  if Ext_string.is_empty filename then dirname
+  if String.length filename = 0 then dirname
   else if strip_trailing_slashes filename = Filename.current_dir_name then
     dirname
   else if strip_trailing_slashes dirname = Filename.current_dir_name then
@@ -185,7 +185,7 @@ let rel_normalized_absolute_path ~from to_ =
           else
             let start = List.fold_left merge_parent_segment pard xs in
             List.fold_left (fun acc v -> acc // v) start yss
-      | [], [] -> Ext_string.empty
+      | [], [] -> String.empty
       | [], y :: ys -> List.fold_left (fun acc x -> acc // x) y ys
       | x :: xs, [] ->
           let start = if x = curd then "" else pard in
@@ -193,11 +193,11 @@ let rel_normalized_absolute_path ~from to_ =
     in
     let v = go paths1 paths2 in
 
-    if Ext_string.is_empty v then Literals.node_current
+    if String.length v = 0 then Literals.node_current
     else if
       v = curd || v = pard
-      || Ext_string.starts_with v (curd ^ Filename.dir_sep)
-      || Ext_string.starts_with v (pard ^ Filename.dir_sep)
+      || String.starts_with v ~prefix:(curd ^ Filename.dir_sep)
+      || String.starts_with v ~prefix:(pard ^ Filename.dir_sep)
     then v
     else if Filename.is_relative from then (curd ^ Filename.dir_sep) ^ v
     else v

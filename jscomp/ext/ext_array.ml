@@ -132,30 +132,5 @@ let for_alli a p =
   in
   loop 0
 
-let map a f =
-  let open Array in
-  let l = length a in
-  if l = 0 then [||]
-  else
-    let r = make l (f (unsafe_get a 0)) in
-    for i = 1 to l - 1 do
-      unsafe_set r i (f (unsafe_get a i))
-    done;
-    r
-
-let iter a f =
-  let open Array in
-  for i = 0 to length a - 1 do
-    f (unsafe_get a i)
-  done
-
-let fold_left a x f =
-  let open Array in
-  let r = ref x in
-  for i = 0 to length a - 1 do
-    r := f !r (unsafe_get a i)
-  done;
-  !r
-
 let get_or arr i cb =
   if i >= 0 && i < Array.length arr then Array.unsafe_get arr i else cb ()

@@ -123,7 +123,7 @@ let suites =
       let of_array lst =
         let len = Array.length lst in
         let tbl = Hash_set_string.create len in
-        Ext_array.iter lst (Hash_set_string.add tbl) ; tbl  in
+        Array.iter (Hash_set_string.add tbl) lst  ; tbl  in
       let hash = of_array const_tbl  in
       let len = Hash_set_string.length hash in
       Hash_set_string.remove hash "x";

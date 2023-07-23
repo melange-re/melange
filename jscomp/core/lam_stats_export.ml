@@ -39,10 +39,12 @@ let values_of_export (meta : Lam_stats.t) (export_map : Lam.t Map_ident.t) :
         | Some (ImmutableBlock elems) ->
             (* FIXME: field name for dumping*)
             Submodule
-              (Ext_array.map elems (fun x ->
+              (Array.map
+                 (fun (x : Lam_id_kind.element) ->
                    match x with
                    | NA -> Lam_arity.na
-                   | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam))
+                   | SimpleForm lam -> Lam_arity_analysis.get_arity meta lam)
+                 elems)
         | Some _ | None -> (
             match Map_ident.find_opt export_map x with
             | Some (Lprim { primitive = Pmakeblock (_, _, Immutable); args; _ })

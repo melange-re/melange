@@ -156,8 +156,9 @@ let rec iter_lst cxt ls element inter =
       iter_lst acxt r element inter
 
 let raw_snippet_exp_simple_enough (s : string) =
-  Ext_string.for_all s (fun c ->
-      match c with 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
+  String.for_all
+    (function 'a' .. 'z' | 'A' .. 'Z' | '_' | '.' -> true | _ -> false)
+    s
 (* Parentheses are required when the expression
    starts syntactically with "{" or "function"
    TODO:  be more conservative, since Google Closure will handle

@@ -30,7 +30,4 @@ val to_list_f : 'a array -> ('a -> 'b) -> 'b list
 val of_list_map : 'a list -> ('a -> 'b) -> 'b array
 val rfind_with_index : 'a array -> ('a -> 'b -> bool) -> 'b -> int
 val for_alli : 'a array -> (int -> 'a -> bool) -> bool
-val map : 'a array -> ('a -> 'b) -> 'b array
-val iter : 'a array -> ('a -> unit) -> unit
-val fold_left : 'b array -> 'a -> ('a -> 'b -> 'a) -> 'a
 val get_or : 'a array -> int -> (unit -> 'a) -> 'a
