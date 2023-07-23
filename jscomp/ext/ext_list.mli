@@ -147,4 +147,3 @@ val assoc_by_string : (string * 'a) list -> string -> 'a option -> 'a
 
 val assoc_by_int : (int * 'a) list -> int -> 'a option -> 'a
 val concat_append : 'a list list -> 'a list -> 'a list
-val singleton_exn : 'a list -> 'a

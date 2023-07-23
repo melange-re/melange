@@ -180,7 +180,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pbytes_of_string -> prim ~primitive:Pbytes_of_string ~args loc
   | Pignore ->
       (* Pignore means return unit, it is not an nop *)
-      seq (Ext_list.singleton_exn args) unit
+      seq (List.hd args) unit
   | Pcompare_ints ->
       prim ~primitive:(Pccall { prim_name = "caml_int_compare" }) ~args loc
   | Pcompare_floats ->
@@ -193,7 +193,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pgetglobal _ -> assert false
   | Psetglobal _ ->
       (* we discard [Psetglobal] in the beginning*)
-      drop_global_marker (Ext_list.singleton_exn args)
+      drop_global_marker (List.hd args)
   (* prim ~primitive:(Psetglobal id) ~args loc *)
   | Pmakeblock (tag, info, mutable_flag, _block_shape) -> (
       match info with
@@ -325,11 +325,11 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Parraysets _ -> prim ~primitive:Parraysets ~args loc
   | Pbintofint x -> (
       match x with
-      | Pint32 | Pnativeint -> Ext_list.singleton_exn args
+      | Pint32 | Pnativeint -> List.hd args
       | Pint64 -> prim ~primitive:Pint64ofint ~args loc)
   | Pintofbint x -> (
       match x with
-      | Pint32 | Pnativeint -> Ext_list.singleton_exn args
+      | Pint32 | Pnativeint -> List.hd args
       | Pint64 -> prim ~primitive:Pintofint64 ~args loc)
   | Pnegbint x -> (
       match x with
@@ -399,7 +399,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pcvtbint (a, b) -> (
       match (a, b) with
       | (Pnativeint | Pint32), (Pnativeint | Pint32) | Pint64, Pint64 ->
-          Ext_list.singleton_exn args
+          List.hd args
       | Pint64, (Pnativeint | Pint32) -> prim ~primitive:Pintofint64 ~args loc
       | (Pnativeint | Pint32), Pint64 -> prim ~primitive:Pint64ofint ~args loc)
   | Pbintcomp (a, b) -> (
@@ -407,7 +407,7 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Pnativeint | Pint32 -> prim ~primitive:(Pintcomp b) ~args loc
       | Pint64 -> prim ~primitive:(Pint64comp b) ~args loc)
   | Pfield_computed -> prim ~primitive:Pfield_computed ~args loc
-  | Popaque -> Ext_list.singleton_exn args
+  | Popaque -> List.hd args
   | Psetfield_computed _ -> prim ~primitive:Psetfield_computed ~args loc
   | Pbbswap _ | Pbswap16 | Pduparray _ -> assert false
 (* Does not exist since we compile array in js backend unlike native backend *)
@@ -532,7 +532,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
     match () with
     | _ when s = "#is_not_none" -> prim ~primitive:Pis_not_none ~args loc
     | _ when s = "#val_from_unnest_option" ->
-        let v = Ext_list.singleton_exn args in
+        let v = List.hd args in
         prim ~primitive:Pval_from_option_not_nest ~args:[ v ] loc
     | _ when s = "#val_from_option" ->
         prim ~primitive:Pval_from_option ~args loc
@@ -609,8 +609,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
           | "#fn_mk" -> Pjs_fn_make (nat_of_string_exn p.prim_native_name)
           | "#fn_method" -> Pjs_fn_method
           | "#unsafe_downgrade" ->
-              Pjs_unsafe_downgrade
-                { name = Ext_string.empty; loc; setter = false }
+              Pjs_unsafe_downgrade { name = String.empty; loc; setter = false }
           | _ ->
               Location.raise_errorf ~loc
                 "@{<error>Error:@} internal error, using unrecognized \
@@ -718,7 +717,9 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
         | Lprim { primitive = Pjs_unsafe_downgrade { loc; _ }; args; _ } -> (
             match kind with
             | Public (Some name) -> (
-                let setter = Ext_string.ends_with name Literals.setter_suffix in
+                let setter =
+                  String.ends_with name ~suffix:Literals.setter_suffix
+                in
                 let property =
                   if setter then
                     Lam_methname.translate

@@ -65,11 +65,11 @@ let process_method_attributes_rev (attrs : t) =
                               | None -> true
                               | Some e -> assert_bool_lit e),
                               undefined )
-                        | "undefined" -> (
+                        | "undefined" ->
                             ( null,
                               match opt_expr with
                               | None -> true
-                              | Some e -> assert_bool_lit e ))
+                              | Some e -> assert_bool_lit e )
                         | "nullable" -> (
                             match opt_expr with
                             | None -> (true, true)
@@ -340,7 +340,8 @@ let first_char_special (x : string) =
       (* XXX(anmonteiro): Upstream considers "builtin" attributes ones that
          start with `?`. We keep the original terminology of `caml_` (and,
          incidentally, `nativeint_`). *)
-      Ext_string.starts_with x "caml_" || Ext_string.starts_with x "nativeint_"
+      String.starts_with x ~prefix:"caml_"
+      || String.starts_with x ~prefix:"nativeint_"
 
 let prims_to_be_encoded (attrs : string list) =
   match attrs with
@@ -370,7 +371,7 @@ let rs_externals (attrs : t) pval_prim =
   | _, _ ->
       List.exists
         (fun { attr_name = { txt; _ }; _ } ->
-          Ext_string.starts_with txt "bs."
+          String.starts_with txt ~prefix:"bs."
           || Array.exists (fun (x : string) -> txt = x) external_attrs)
         attrs
       || prims_to_be_encoded pval_prim

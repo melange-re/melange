@@ -373,7 +373,7 @@ module Interp = struct
     let v = ref offset in
     (* prerr_endline @@ Ext_pervasives.dump (s, has_paren, (is_space s.[!v]), !v); *)
     if not (offset < s_len && valid_lead_identifier_char s.[offset]) then
-      pos_error cxt ~loc (Invalid_syntax_of_var Ext_string.empty)
+      pos_error cxt ~loc (Invalid_syntax_of_var String.empty)
     else (
       while !v < s_len && valid_identifier_char s.[!v] do
         (* TODO*)

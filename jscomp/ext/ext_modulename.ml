@@ -68,15 +68,14 @@ let js_id_name_of_hint_name module_name =
   if i >= 0 then (
     let offset = succ i in
     if good_hint_name module_name offset then
-      Ext_string.capitalize_ascii (Ext_string.tail_from module_name offset)
+      String.capitalize_ascii (Ext_string.tail_from module_name offset)
     else
       let str_len = String.length module_name in
       let buf = Buffer.create str_len in
       collect_start buf module_name offset str_len;
-      if Buffer.length buf = 0 then Ext_string.capitalize_ascii module_name
+      if Buffer.length buf = 0 then String.capitalize_ascii module_name
       else Buffer.contents buf)
-  else if good_hint_name module_name 0 then
-    Ext_string.capitalize_ascii module_name
+  else if good_hint_name module_name 0 then String.capitalize_ascii module_name
   else
     let str_len = String.length module_name in
     let buf = Buffer.create str_len in

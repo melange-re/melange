@@ -44,17 +44,6 @@ let split_by ?(keep_empty = false) is_delim str =
 let split ?keep_empty str on =
   if str = "" then [] else split_by ?keep_empty (fun x -> (x : char) = on) str
 
-let starts_with s beg =
-  let beg_len = String.length beg in
-  let s_len = String.length s in
-  beg_len <= s_len
-  &&
-  let i = ref 0 in
-  while !i < beg_len && String.unsafe_get s !i = String.unsafe_get beg !i do
-    incr i
-  done;
-  !i = beg_len
-
 let rec ends_aux s end_ j k =
   if k < 0 then j + 1
   else if String.unsafe_get s j = String.unsafe_get end_ k then
@@ -69,8 +58,6 @@ let ends_with_index s end_ : int =
   let s_beg = String.length end_ - 1 in
   if s_beg > s_finish then -1 else ends_aux s end_ s_finish s_beg
 
-let ends_with s end_ = ends_with_index s end_ >= 0
-
 let ends_with_then_chop s beg =
   let i = ends_with_index s beg in
   if i >= 0 then Some (String.sub s 0 i) else None
@@ -78,22 +65,6 @@ let ends_with_then_chop s beg =
 let ends_with_char s c =
   let len = String.length s in
   len > 0 && String.unsafe_get s (len - 1) = c
-
-(* let check_suffix_case = ends_with  *)
-(* let check_suffix_case_then_chop = ends_with_then_chop *)
-
-(* let check_any_suffix_case s suffixes =
-   Ext_list.exists suffixes (fun x -> check_suffix_case s x) *)
-
-(* let check_any_suffix_case_then_chop s suffixes =
-   let rec aux suffixes =
-     match suffixes with
-     | [] -> None
-     | x::xs ->
-       let id = ends_with_index s x in
-       if id >= 0 then Some (String.sub s 0 id)
-       else aux xs in
-   aux suffixes *)
 
 (* it is unsafe to expose such API as unsafe since
    user can provide bad input range
@@ -107,11 +78,6 @@ let for_all_from s start p =
   let len = String.length s in
   if start < 0 then invalid_arg "Ext_string.for_all_from"
   else unsafe_for_all_range s ~start ~finish:(len - 1) p
-
-let for_all s (p : char -> bool) =
-  unsafe_for_all_range s ~start:0 ~finish:(String.length s - 1) p
-
-let is_empty s = String.length s = 0
 
 let unsafe_is_sub ~sub i s j ~len =
   let rec check k =
@@ -161,29 +127,6 @@ let replace_backward_slash (x : string) =
   let len = String.length x in
   if unsafe_no_char x '\\' 0 (len - 1) then x
   else String.map (function '\\' -> '/' | x -> x) x
-
-let empty = ""
-
-let compare (x : string) (y : string) =
-  let len1 = String.length x in
-  let len2 = String.length y in
-  if len1 = len2 then String.compare x y else compare (len1 : int) len2
-
-(* reference {!Bytes.uppercase} *)
-let capitalize_ascii (s : string) : string =
-  if String.length s = 0 then s
-  else
-    let c = String.unsafe_get s 0 in
-    if
-      (c >= 'a' && c <= 'z')
-      || (c >= '\224' && c <= '\246')
-      || (c >= '\248' && c <= '\254')
-    then (
-      let uc = Char.unsafe_chr (Char.code c - 32) in
-      let bytes = Bytes.of_string s in
-      Bytes.unsafe_set bytes 0 uc;
-      Bytes.unsafe_to_string bytes)
-    else s
 
 let capitalize_sub (s : string) len : string =
   let slen = String.length s in

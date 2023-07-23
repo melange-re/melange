@@ -31,8 +31,6 @@ val split_by : ?keep_empty:bool -> (char -> bool) -> string -> string list
 val split : ?keep_empty:bool -> string -> char -> string list
 (** default is false *)
 
-val starts_with : string -> string -> bool
-val ends_with : string -> string -> bool
 val ends_with_char : string -> char -> bool
 
 val ends_with_then_chop : string -> string -> string option
@@ -52,8 +50,6 @@ val for_all_from : string -> int -> (char -> bool) -> bool
   if [start] is too large, it returns true
 *)
 
-val for_all : string -> (char -> bool) -> bool
-val is_empty : string -> bool
 val rfind : sub:string -> string -> int
 
 val tail_from : string -> int -> string
@@ -70,8 +66,5 @@ val replace_slash_backward : string -> string
 val replace_backward_slash : string -> string
 (** if no conversion happens, reference equality holds *)
 
-val empty : string
-val compare : string -> string -> int
-val capitalize_ascii : string -> string
 val capitalize_sub : string -> int -> string
 val first_marshal_char : string -> bool

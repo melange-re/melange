@@ -414,5 +414,3 @@ let reduce_from_left lst fn =
   match lst with
   | first :: rest -> fold_left rest first fn
   | _ -> invalid_arg "Ext_list.reduce_from_left"
-
-let singleton_exn xs = match xs with [ x ] -> x | _ -> assert false

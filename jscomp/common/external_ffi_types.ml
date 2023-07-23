@@ -166,8 +166,8 @@ let valid_ident (s : string) =
    with E.E -> false )
 
 let is_package_relative_path (x : string) =
-     Ext_string.starts_with x "./" ||
-     Ext_string.starts_with x "../"
+     String.starts_with x ~prefix:"./" ||
+     String.starts_with x ~prefix:"../"
 
 let valid_global_name ?loc txt =
   if not (valid_ident txt) then

@@ -2,8 +2,7 @@ let ( >:: ), ( >::: ) = OUnit.(( >:: ), ( >::: ))
 let ( =~ ) a b = OUnit.assert_equal ~cmp:String.equal a b
 
 (* Note [Var] kind can not be mpty  *)
-let empty_segment { Utf8_string.Interp.content; _ } =
-  Ext_string.is_empty content
+let empty_segment { Utf8_string.Interp.content; _ } = String.length content = 0
 
 (** Test for single line *)
 let ( ==~ ) a b =

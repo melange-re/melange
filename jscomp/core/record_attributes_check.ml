@@ -76,8 +76,10 @@ let fld_record_set (lbl : label) =
 
 let blk_record fields =
   let all_labels_info =
-    Ext_array.map fields (fun ((lbl : label), _) ->
+    Array.map
+      (fun ((lbl : label), _) ->
         Ext_list.find_def lbl.Types.lbl_attributes find_name lbl.lbl_name)
+      fields
   in
   Lambda.Blk_record all_labels_info
 
