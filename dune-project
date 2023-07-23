@@ -52,16 +52,6 @@
   (reactjs-jsx-ppx :with-test)))
 
 (package
- (name rescript-syntax)
- (synopsis "ReScript syntax packaged as an opam library")
- (depends
-  ocaml
-  (melange
-   (= :version))
-  (ppxlib
-   (>= "0.28.0"))))
-
-(package
  (name melange-playground)
  (synopsis "The Melange compiler, bundled for the browser")
  (allow_empty)
@@ -72,4 +62,5 @@
    (>= "3.9.0"))
   (melange
    (= :version))
-  (reason-react-ppx (= "dev"))))
+  (reason-react-ppx
+   (= "dev"))))
