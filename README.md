@@ -15,7 +15,6 @@ Melange produces robust JavaScript code.
   * [Community](#community)
   * [FAQ](#faq)
     - [How does this project relate to other tools?](#how-does-this-project-relate-to-other-tools)
-    - [Can I use ReScript syntax?](#can-i-use-rescript-syntax)
   * [Contributing](#contributing)
   * [Acknowledgments](#acknowledgments)
   * [Licensing](#licensing)
@@ -94,7 +93,9 @@ focused on a deeper integration with the OCaml ecosystem. This allows sharing
 code between backend and frontend using Dune's virtual libraries.
 
 Melange also introduces a ReScript compatibility layer to maintain compatibility
-with ReScript syntax - preserving access to ReScript's package ecosystem.
+with ReScript syntax - preserving access to ReScript's package ecosystem. It's
+only recommended to use it with Melange v1, as both ReScript and Melange have
+diverged significantly since then.
 
 A small write-up with more details on the motivation behind this project can be
 found in the announcement
@@ -111,15 +112,6 @@ Below is a quick comparison between Melange and other tools:
 | [Reason](https://reasonml.github.io/)  | Syntax                                                         | Installed with e.g. `esy` or `opam`                           | Alternative syntax to OCaml |
 | [Melange](https://melange.re)          | Compiler that emits Script                                     | Esy / OPAM (to install), Dune (to build) | Supports OCaml, Reason and ReScript syntax; derived from ReScript, focused on deeper integration with OCaml |
 | [ReScript](https://rescript-lang.org/) | The brand around a syntax and a compiler that emits JavaScript | None                                                          | Distributed via NPM as prebuilt binaries; previously called BuckleScript |
-
-### Can I use ReScript syntax?
-
-Yes! ReScript syntax is supported, but ReScript won't have as many features as
-the OCaml or Reason syntaxes due to ReScript being built on top of an old OCaml
-version (4.06 - released in 2018).
-(e.g. [`letop` binding operators](https://github.com/ocaml/ocaml/pull/1947),
-[generalized module open expressions](https://github.com/ocaml/ocaml/pull/2147),
-or [local substitutions in signatures](https://github.com/ocaml/ocaml/pull/2122)).
 
 ## Contributing
 
