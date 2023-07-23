@@ -25,7 +25,7 @@
 open Ppxlib
 open Ast_helper
 
-(* Handling `fun [@this]` used in `object [@bs] end` *)
+(* Handling `fun [@this]` used in `object [@u] end` *)
 let to_method_callback loc (self : Ast_traverse.map) label pat body :
     Parsetree.expression_desc =
   Error.optional_err ~loc label;

@@ -76,7 +76,7 @@ module MakeComparableU : functor
   (M : sig
      type t
 
-     val cmp : (t -> t -> int[@bs])
+     val cmp : (t -> t -> int[@u])
    end)
   -> Comparable with type t = M.t
 
@@ -89,7 +89,7 @@ module MakeComparable : functor
   -> Comparable with type t = M.t
 
 val comparableU :
-  cmp:(('a -> 'a -> int)[@bs]) -> (module Comparable with type t = 'a)
+  cmp:(('a -> 'a -> int)[@u]) -> (module Comparable with type t = 'a)
 
 val comparable : cmp:('a -> 'a -> int) -> (module Comparable with type t = 'a)
 (**
@@ -127,8 +127,8 @@ module MakeHashableU : functor
   (M : sig
      type t
 
-     val hash : (t -> int[@bs])
-     val eq : (t -> t -> bool[@bs])
+     val hash : (t -> int[@u])
+     val eq : (t -> t -> bool[@u])
    end)
   -> Hashable with type t = M.t
 
@@ -142,8 +142,8 @@ module MakeHashable : functor
   -> Hashable with type t = M.t
 
 val hashableU :
-  hash:(('a -> int)[@bs]) ->
-  eq:(('a -> 'a -> bool)[@bs]) ->
+  hash:(('a -> int)[@u]) ->
+  eq:(('a -> 'a -> bool)[@u]) ->
   (module Hashable with type t = 'a)
 
 val hashable :
@@ -155,8 +155,8 @@ val hashable :
 
 [@@@warning "-unboxable-type-in-prim-decl"]
 
-external getHashInternal : ('a, 'id) hash -> ('a -> int[@bs]) = "%identity"
-external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@bs]) = "%identity"
-external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@bs]) = "%identity"
+external getHashInternal : ('a, 'id) hash -> ('a -> int[@u]) = "%identity"
+external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@u]) = "%identity"
+external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@u]) = "%identity"
 
 (**/**)

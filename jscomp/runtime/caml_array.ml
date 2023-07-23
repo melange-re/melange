@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-external dup : 'a array -> (_[@bs.as 0]) -> 'a array = "slice" [@@bs.send]
+external dup : 'a array -> (_[@mel.as 0]) -> 'a array = "slice" [@@mel.send]
 
 let%private { unsafe_get = ( .!() ); unsafe_set = ( .!()<- ) } =
   (module Caml_array_extern)

@@ -2,8 +2,8 @@ let _assign = Js.Obj.assign;
 
 let emptyObject = Js.Obj.empty();
 
-%bs.raw
-{|
+[%%mel.raw
+  {|
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -43,9 +43,10 @@ var ReactPropTypeLocationNames;
 // } else {
   ReactPropTypeLocationNames = {};
 // }
-|};
+|}
+];
 
-let factory = [%bs.raw
+let factory = [%mel.raw
   {|
 function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
   /**

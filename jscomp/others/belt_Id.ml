@@ -22,15 +22,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-type ('a, 'id) hash = ('a -> int[@bs])
-type ('a, 'id) eq = ('a -> 'a -> bool[@bs])
-type ('a, 'id) cmp = ('a -> 'a -> int[@bs])
+type ('a, 'id) hash = ('a -> int[@u])
+type ('a, 'id) eq = ('a -> 'a -> bool[@u])
+type ('a, 'id) cmp = ('a -> 'a -> int[@u])
 
 [@@@warning "-unboxable-type-in-prim-decl"]
 
-external getHashInternal : ('a, 'id) hash -> ('a -> int[@bs]) = "%identity"
-external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@bs]) = "%identity"
-external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@bs]) = "%identity"
+external getHashInternal : ('a, 'id) hash -> ('a -> int[@u]) = "%identity"
+external getEqInternal : ('a, 'id) eq -> ('a -> 'a -> bool[@u]) = "%identity"
+external getCmpInternal : ('a, 'id) cmp -> ('a -> 'a -> int[@u]) = "%identity"
 
 [@@@warning "+unboxable-type-in-prim-decl"]
 
@@ -47,7 +47,7 @@ type ('key, 'id) comparable =
 module MakeComparableU (M : sig
   type t
 
-  val cmp : (t -> t -> int[@bs])
+  val cmp : (t -> t -> int[@u])
 end) =
 struct
   type identity
@@ -67,7 +67,7 @@ struct
   (* see https://github.com/rescript-lang/rescript-compiler/pull/2589/files/5ef875b7665ee08cfdc59af368fc52bac1fe9130#r173330825 *)
   let cmp =
     let cmp = M.cmp in
-    fun [@bs] a b -> cmp a b
+    fun [@u] a b -> cmp a b
 end
 
 let comparableU (type key) ~cmp =
@@ -100,8 +100,8 @@ type ('key, 'id) hashable =
 module MakeHashableU (M : sig
   type t
 
-  val hash : (t -> int[@bs])
-  val eq : (t -> t -> bool[@bs])
+  val hash : (t -> int[@u])
+  val eq : (t -> t -> bool[@u])
 end) =
 struct
   type identity
@@ -121,11 +121,11 @@ struct
 
   let hash =
     let hash = M.hash in
-    fun [@bs] a -> hash a
+    fun [@u] a -> hash a
 
   let eq =
     let eq = M.eq in
-    fun [@bs] a b -> eq a b
+    fun [@u] a b -> eq a b
 end
 
 let hashableU (type key) ~hash ~eq =

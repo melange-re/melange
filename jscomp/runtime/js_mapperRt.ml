@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-external ( .!() ) : int array -> int -> int = "" [@@bs.get_index]
+external ( .!() ) : int array -> int -> int = "" [@@mel.get_index]
 
 let raiseWhenNotFound x = if Js_internal.testAny x then raise Not_found else x
 

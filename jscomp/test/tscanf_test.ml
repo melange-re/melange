@@ -13,12 +13,12 @@
 (*
 
 A testbed file for the module Scanf.
-Adapted by Hongbo Zhang 
+Adapted by Hongbo Zhang
 *)
 
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq f (a,b) = Mt_global.collect_eq test_id suites f a b 
+let eq f (a,b) = Mt_global.collect_eq test_id suites f a b
 
 open Testing;;
 let test loc b = eq loc (b, true)
@@ -496,7 +496,7 @@ let scan_int_list ib =
 ;;
 
 let test22 () =
-  (* [%bs.debugger]; *)
+  (* [%mel.debugger]; *)
   scan_int_list (Scanning.from_string "[]") = [] &&
   scan_int_list (Scanning.from_string "[ ]") = [] &&
   scan_int_list (Scanning.from_string "[1]") = [1] &&

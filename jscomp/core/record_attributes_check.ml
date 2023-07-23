@@ -27,7 +27,7 @@ type label = Types.label_description
 let find_name (attr : Parsetree.attribute) =
   match attr with
   | {
-   attr_name = { txt = "bs.as" | "as"; _ };
+   attr_name = { txt = "mel.as" | "bs.as" | "as"; _ };
    attr_payload =
      PStr
        [
@@ -47,7 +47,7 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
   match attr with
   | {
-   attr_name = { txt = "bs.as" | "as"; loc };
+   attr_name = { txt = "mel.as" | "bs.as" | "as"; loc };
    attr_payload =
      PStr
        [

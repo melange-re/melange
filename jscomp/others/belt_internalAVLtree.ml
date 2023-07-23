@@ -12,14 +12,14 @@
 (***********************************************************************)
 (* Almost rewritten  by authors of ReScript                        *)
 
-[@@@bs.config { flags = [| "-bs-noassertfalse" |] }]
+[@@@mel.config { flags = [| "-bs-noassertfalse" |] }]
 
 type ('k, 'v) node = {
-  mutable key : 'k; [@bs.as "k"]
-  mutable value : 'v; [@bs.as "v"]
-  mutable height : int; [@bs.as "h"]
-  mutable left : ('k, 'v) t; [@bs.as "l"]
-  mutable right : ('k, 'v) t; [@bs.as "r"]
+  mutable key : 'k; [@mel.as "k"]
+  mutable value : 'v; [@mel.as "v"]
+  mutable height : int; [@mel.as "h"]
+  mutable left : ('k, 'v) t; [@mel.as "l"]
+  mutable right : ('k, 'v) t; [@mel.as "r"]
 }
 
 and ('key, 'a) t = ('key, 'a) node option
@@ -167,30 +167,30 @@ let rec findFirstByU n p =
       if left <> None then left
       else
         let { key = v; value = d; _ } = n in
-        let pvd = (p v d [@bs]) in
+        let pvd = (p v d [@u]) in
         if pvd then Some (v, d)
         else
           let right = findFirstByU n.right p in
           if right <> None then right else None
 
-let findFirstBy n p = findFirstByU n (fun [@bs] a b -> p a b)
+let findFirstBy n p = findFirstByU n (fun [@u] a b -> p a b)
 
 let rec forEachU n f =
   match n with
   | None -> ()
   | Some n ->
       forEachU n.left f;
-      f n.key n.value [@bs];
+      f n.key n.value [@u];
       forEachU n.right f
 
-let forEach n f = forEachU n (fun [@bs] a b -> f a b)
+let forEach n f = forEachU n (fun [@u] a b -> f a b)
 
 let rec mapU n f =
   match n with
   | None -> None
   | Some n ->
       let newLeft = mapU n.left f in
-      let newD = (f n.value [@bs]) in
+      let newD = (f n.value [@u]) in
       let newRight = mapU n.right f in
       Some
         {
@@ -201,7 +201,7 @@ let rec mapU n f =
           height = n.height;
         }
 
-let map n f = mapU n (fun [@bs] a -> f a)
+let map n f = mapU n (fun [@u] a -> f a)
 
 let rec mapWithKeyU n f =
   match n with
@@ -209,7 +209,7 @@ let rec mapWithKeyU n f =
   | Some n ->
       let key = n.key in
       let newLeft = mapWithKeyU n.left f in
-      let newD = (f key n.value [@bs]) in
+      let newD = (f key n.value [@u]) in
       let newRight = mapWithKeyU n.right f in
       Some
         {
@@ -220,30 +220,30 @@ let rec mapWithKeyU n f =
           height = n.height;
         }
 
-let mapWithKey n f = mapWithKeyU n (fun [@bs] a b -> f a b)
+let mapWithKey n f = mapWithKeyU n (fun [@u] a b -> f a b)
 
 let rec reduceU m accu f =
   match m with
   | None -> accu
   | Some n ->
       let { left = l; key = v; value = d; right = r; _ } = n in
-      reduceU r (f (reduceU l accu f) v d [@bs]) f
+      reduceU r (f (reduceU l accu f) v d [@u]) f
 
-let reduce m accu f = reduceU m accu (fun [@bs] a b c -> f a b c)
+let reduce m accu f = reduceU m accu (fun [@u] a b c -> f a b c)
 
 let rec everyU n p =
   match n with
   | None -> true
-  | Some n -> (p n.key n.value [@bs]) && everyU n.left p && everyU n.right p
+  | Some n -> (p n.key n.value [@u]) && everyU n.left p && everyU n.right p
 
-let every n p = everyU n (fun [@bs] a b -> p a b)
+let every n p = everyU n (fun [@u] a b -> p a b)
 
 let rec someU n p =
   match n with
   | None -> false
-  | Some n -> (p n.key n.value [@bs]) || someU n.left p || someU n.right p
+  | Some n -> (p n.key n.value [@u]) || someU n.left p || someU n.right p
 
-let some n p = someU n (fun [@bs] a b -> p a b)
+let some n p = someU n (fun [@u] a b -> p a b)
 (* Beware: those two functions assume that the added k is *strictly*
    smaller (or bigger) than all the present keys in the tree; it
    does not test for equality with the current min (or max) key.
@@ -299,11 +299,11 @@ let rec keepSharedU n p =
       (* call [p] in the expected left-to-right order *)
       let { key = v; value = d; _ } = n in
       let newLeft = keepSharedU n.left p in
-      let pvd = (p v d [@bs]) in
+      let pvd = (p v d [@u]) in
       let newRight = keepSharedU n.right p in
       if pvd then join newLeft v d newRight else concat newLeft newRight
 
-let keepShared n p = keepSharedU n (fun [@bs] a b -> p a b)
+let keepShared n p = keepSharedU n (fun [@u] a b -> p a b)
 
 let rec keepMapU n p =
   match n with
@@ -312,13 +312,13 @@ let rec keepMapU n p =
       (* call [p] in the expected left-to-right order *)
       let { key = v; value = d; _ } = n in
       let newLeft = keepMapU n.left p in
-      let pvd = (p v d [@bs]) in
+      let pvd = (p v d [@u]) in
       let newRight = keepMapU n.right p in
       match pvd with
       | None -> concat newLeft newRight
       | Some d -> join newLeft v d newRight)
 
-let keepMap n p = keepMapU n (fun [@bs] a b -> p a b)
+let keepMap n p = keepMapU n (fun [@u] a b -> p a b)
 
 let rec partitionSharedU n p =
   match n with
@@ -327,12 +327,12 @@ let rec partitionSharedU n p =
       let { key; value; _ } = n in
       (* call [p] in the expected left-to-right order *)
       let lt, lf = partitionSharedU n.left p in
-      let pvd = (p key value [@bs]) in
+      let pvd = (p key value [@u]) in
       let rt, rf = partitionSharedU n.right p in
       if pvd then (join lt key value rt, concat lf rf)
       else (concat lt rt, join lf key value rf)
 
-let partitionShared n p = partitionSharedU n (fun [@bs] a b -> p a b)
+let partitionShared n p = partitionSharedU n (fun [@u] a b -> p a b)
 
 let rec lengthNode n =
   let { left = l; right = r; _ } = n in
@@ -388,7 +388,7 @@ let rec fillArray n i arr =
       | None -> ()
       | Some l ->
         fillArrayWithPartition l cursor arr p);
-     (if p v [@bs] then begin
+     (if p v [@u] then begin
          let c = forwardGet cursor in
          A.setUnsafe arr c (v,n.value);
          forwardSet cursor (c + 1)
@@ -411,7 +411,7 @@ let rec fillArray n i arr =
        | Some l ->
          fillArrayWithFilter l i arr p in
      let rnext =
-       if p v [@bs] then
+       if p v [@u] then
          (A.setUnsafe arr next (v, n.value);
           next + 1
          )
@@ -527,9 +527,9 @@ let fromSortedArrayUnsafe arr = fromSortedArrayAux arr 0 (A.length arr)
 let rec compareAux e1 e2 ~kcmp ~vcmp =
   match (e1, e2) with
   | h1 :: t1, h2 :: t2 ->
-      let c = ((Belt_Id.getCmpInternal kcmp) h1.key h2.key [@bs]) in
+      let c = ((Belt_Id.getCmpInternal kcmp) h1.key h2.key [@u]) in
       if c = 0 then
-        let cx = (vcmp h1.value h2.value [@bs]) in
+        let cx = (vcmp h1.value h2.value [@u]) in
         if cx = 0 then
           compareAux ~kcmp ~vcmp (stackAllLeft h1.right t1)
             (stackAllLeft h2.right t2)
@@ -541,8 +541,8 @@ let rec eqAux e1 e2 ~kcmp ~veq =
   match (e1, e2) with
   | h1 :: t1, h2 :: t2 ->
       if
-        ((Belt_Id.getCmpInternal kcmp) h1.key h2.key [@bs]) = 0
-        && (veq h1.value h2.value [@bs])
+        ((Belt_Id.getCmpInternal kcmp) h1.key h2.key [@u]) = 0
+        && (veq h1.value h2.value [@u])
       then
         eqAux ~kcmp ~veq (stackAllLeft h1.right t1) (stackAllLeft h2.right t2)
       else false
@@ -555,21 +555,21 @@ let cmpU s1 s2 ~kcmp ~vcmp =
   else if len1 < len2 then -1
   else 1
 
-let cmp s1 s2 ~kcmp ~vcmp = cmpU s1 s2 ~kcmp ~vcmp:(fun [@bs] a b -> vcmp a b)
+let cmp s1 s2 ~kcmp ~vcmp = cmpU s1 s2 ~kcmp ~vcmp:(fun [@u] a b -> vcmp a b)
 
 let eqU s1 s2 ~kcmp ~veq =
   let len1, len2 = (size s1, size s2) in
   if len1 = len2 then eqAux (stackAllLeft s1 []) (stackAllLeft s2 []) ~kcmp ~veq
   else false
 
-let eq s1 s2 ~kcmp ~veq = eqU s1 s2 ~kcmp ~veq:(fun [@bs] a b -> veq a b)
+let eq s1 s2 ~kcmp ~veq = eqU s1 s2 ~kcmp ~veq:(fun [@u] a b -> veq a b)
 
 let rec get n x ~cmp =
   match n with
   | None -> None
   | Some n (* Node(l, v, d, r, _) *) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Some n.value
       else get ~cmp (if c < 0 then n.left else n.right) x
 
@@ -578,7 +578,7 @@ let rec getUndefined n x ~cmp =
   | None -> Js.undefined
   | Some n ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Js.Undefined.return n.value
       else getUndefined ~cmp (if c < 0 then n.left else n.right) x
 
@@ -587,7 +587,7 @@ let rec getExn n x ~cmp =
   | None -> raise Not_found
   | Some n (* Node(l, v, d, r, _)*) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then n.value
       else getExn ~cmp (if c < 0 then n.left else n.right) x
 
@@ -596,7 +596,7 @@ let rec getWithDefault n x def ~cmp =
   | None -> def
   | Some n (* Node(l, v, d, r, _)*) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then n.value
       else getWithDefault ~cmp (if c < 0 then n.left else n.right) x def
 
@@ -605,7 +605,7 @@ let rec has n x ~cmp =
   | None -> false
   | Some n (* Node(l, v, d, r, _) *) ->
       let v = n.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       c = 0 || has ~cmp (if c < 0 then n.left else n.right) x
 
 (******************************************************************)
@@ -682,7 +682,7 @@ let rec updateMutate (t : _ t) x data ~cmp =
   | None -> singleton x data
   | Some nt ->
       let k = nt.key in
-      let c = ((Belt_Id.getCmpInternal cmp) x k [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
       if c = 0 then (
         nt.value <- data;
         Some nt)
@@ -700,8 +700,8 @@ let fromArray (xs : _ array) ~cmp =
   else
     let next =
       ref
-        (S.strictlySortedLengthU xs (fun [@bs] (x0, _) (y0, _) ->
-             ((Belt_Id.getCmpInternal cmp) x0 y0 [@bs]) < 0))
+        (S.strictlySortedLengthU xs (fun [@u] (x0, _) (y0, _) ->
+             ((Belt_Id.getCmpInternal cmp) x0 y0 [@u]) < 0))
     in
     let result =
       ref

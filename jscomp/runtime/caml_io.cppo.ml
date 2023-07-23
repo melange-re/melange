@@ -33,16 +33,16 @@ end
 
 type out_channel  = {
   mutable buffer :  string;
-  output :   (out_channel  -> string -> unit [@bs])
+  output :   (out_channel  -> string -> unit [@u])
 }
 
 let stdout = {
   buffer = "";
-  output = (fun [@bs] _ s ->
+  output = (fun [@u] _ s ->
       let module String = Caml_string_extern in
       let v =Caml_string_extern.length s - 1 in
-      if [%bs.raw{| (typeof process !== "undefined") && process.stdout && process.stdout.write|}] then
-        ([%bs.raw{| process.stdout.write |} ] : string -> unit [@bs]) s [@bs]
+      if [%mel.raw{| (typeof process !== "undefined") && process.stdout && process.stdout.write|}] then
+        ([%mel.raw{| process.stdout.write |} ] : string -> unit [@u]) s [@u]
       else
       if s.[v] = '\n' then
         Js_internal.log (Caml_string_extern.slice s 0 v)
@@ -51,7 +51,7 @@ let stdout = {
 
 let stderr = {
   buffer = "";
-  output = fun [@bs] _ s ->
+  output = fun [@u] _ s ->
     let module String = Caml_string_extern in
     let v =Caml_string_extern.length s - 1 in
     if s.[v] = '\n' then
@@ -77,7 +77,7 @@ let caml_ml_input_char (ic : in_channel) : char =
 let caml_ml_flush (oc : out_channel)  : unit =
   if oc.buffer  <> "" then
     begin
-      oc.output oc oc.buffer [@bs];
+      oc.output oc oc.buffer [@u];
       oc.buffer <- ""
     end
 
@@ -95,7 +95,7 @@ let caml_ml_output (oc : out_channel) (str : string) offset len  =
     else Caml_string_extern.slice str offset len in
   if [%raw{| (typeof process !== "undefined") && process.stdout && process.stdout.write |}] &&
      oc == stdout then
-    ([%raw{| process.stdout.write |}] : string -> unit [@bs] ) str [@bs]
+    ([%raw{| process.stdout.write |}] : string -> unit [@u] ) str [@u]
 
   else
     begin

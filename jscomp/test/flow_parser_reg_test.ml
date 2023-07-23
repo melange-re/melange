@@ -13332,12 +13332,12 @@ end = struct
   type t
 
   let translation_errors = ref []
-  let string = [%bs.raw "function (x) {return x;}"]
-  let bool = [%bs.raw "function (x) {x ? 1 : 0;}"]
-  let obj = [%bs.raw "function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}"]
-  let array = [%bs.raw "function (x) {return x;}"]
-  let number = [%bs.raw "function (x) {return x;}"]
-  let null = [%bs.raw "null"]
+  let string = [%mel.raw "function (x) {return x;}"]
+  let bool = [%mel.raw "function (x) {x ? 1 : 0;}"]
+  let obj = [%mel.raw "function(arr) {var ret = {}; arr.forEach(function(a) {ret[a[0]]=a[1];}); return ret}"]
+  let array = [%mel.raw "function (x) {return x;}"]
+  let number = [%mel.raw "function (x) {return x;}"]
+  let null = [%mel.raw "null"]
   let regexp loc pattern flags =
     let regexp = try
       createRegex pattern flags
@@ -13404,7 +13404,7 @@ let parse content options =
     let e = newError ((string_of_int (List.length l)) ^ " errors") in
     setEName e "name" "Parse Error";
     ignore (throw e);
-    [%bs.raw "{}"]
+    [%mel.raw "{}"]
 
 end
 module RunParser

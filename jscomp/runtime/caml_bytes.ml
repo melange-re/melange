@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-external new_uninitialized : int -> bytes = "Array" [@@bs.new]
+external new_uninitialized : int -> bytes = "Array" [@@mel.new]
 external ( .![] ) : bytes -> int -> char = "%bytes_unsafe_get"
 external ( .![]<- ) : bytes -> int -> char -> unit = "%bytes_unsafe_set"
 external length : bytes -> int = "%bytes_length"

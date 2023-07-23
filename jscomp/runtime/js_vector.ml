@@ -45,7 +45,7 @@ let filterInPlace p a =
   let j = ref 0 in
   while i.contents < Js_array2.length a do
     let v = Js_array2.unsafe_get a i.contents in
-    if p v [@bs] then (
+    if p v [@u] then (
       Js_array2.unsafe_set a j.contents v;
       j.contents <- j.contents + 1);
     i.contents <- i.contents + 1
@@ -60,15 +60,15 @@ let memByRef x xs = Js_array2.indexOf xs x >= 0
 
 let iter f xs =
   for i = 0 to Js_array2.length xs - 1 do
-    (f (Js_array2.unsafe_get xs i) [@bs])
+    (f (Js_array2.unsafe_get xs i) [@u])
   done
 
 let iteri f a =
   for i = 0 to length a - 1 do
-    (f i (unsafe_get a i) [@bs])
+    (f i (unsafe_get a i) [@u])
   done
 
-external createUnsafe : int -> 'a t = "Array" [@@bs.new]
+external createUnsafe : int -> 'a t = "Array" [@@mel.new]
 
 (* let ofList xs =  *)
 (*   match xs with  *)
@@ -89,7 +89,7 @@ let toList a =
 let init n f =
   let v = createUnsafe n in
   for i = 0 to n - 1 do
-    unsafe_set v i (f i [@bs])
+    unsafe_set v i (f i [@u])
   done;
   v
 
@@ -105,21 +105,21 @@ let map f a =
   let l = Js_array2.length a in
   let r = createUnsafe l in
   for i = 0 to l - 1 do
-    unsafe_set r i (f (unsafe_get a i) [@bs])
+    unsafe_set r i (f (unsafe_get a i) [@u])
   done;
   r
 
 let foldLeft f x a =
   let r = ref x in
   for i = 0 to length a - 1 do
-    r.contents <- (f r.contents (unsafe_get a i) [@bs])
+    r.contents <- (f r.contents (unsafe_get a i) [@u])
   done;
   r.contents
 
 let foldRight f a x =
   let r = ref x in
   for i = length a - 1 downto 0 do
-    r.contents <- (f (unsafe_get a i) r.contents [@bs])
+    r.contents <- (f (unsafe_get a i) r.contents [@u])
   done;
   r.contents
 
@@ -129,7 +129,7 @@ let mapi f a =
   else
     let r = createUnsafe l in
     for i = 0 to l - 1 do
-      unsafe_set r i (f i (unsafe_get a i) [@bs])
+      unsafe_set r i (f i (unsafe_get a i) [@u])
     done;
     r
 

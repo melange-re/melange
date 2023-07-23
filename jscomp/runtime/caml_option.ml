@@ -24,7 +24,7 @@
 
 open Melange_mini_stdlib
 
-type nested = { depth : int [@bs.as "BS_PRIVATE_NESTED_SOME_NONE"] }
+type nested = { depth : int [@mel.as "BS_PRIVATE_NESTED_SOME_NONE"] }
 
 (* INPUT: [x] should not be nullable *)
 let isNested (x : Obj.t) : bool =
@@ -65,8 +65,8 @@ let option_get (x : 'a option) =
   else Obj.magic (valFromOption (Obj.repr x))
 
 type poly = {
-  hash : int; [@bs.as "HASH" (* Literals.polyvar_hash*)]
-  value : Obj.t; [@bs.as "VAL"]
+  hash : int; [@mel.as "HASH" (* Literals.polyvar_hash*)]
+  value : Obj.t; [@mel.as "VAL"]
 }
 [@@warning "-unused-field"]
 

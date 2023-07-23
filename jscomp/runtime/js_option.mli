@@ -28,17 +28,17 @@ module Js := Js_internal
 
 val some : 'a -> 'a option
 val isSome : 'a option -> bool
-val isSomeValue : (('a -> 'a -> bool)[@bs]) -> 'a -> 'a option -> bool
+val isSomeValue : (('a -> 'a -> bool)[@u]) -> 'a -> 'a option -> bool
 val isNone : 'a option -> bool
 val getExn : 'a option -> 'a
-val equal : (('a -> 'b -> bool)[@bs]) -> 'a option -> 'b option -> bool
-val andThen : (('a -> 'b option)[@bs]) -> 'a option -> 'b option
-val map : (('a -> 'b)[@bs]) -> 'a option -> 'b option
+val equal : (('a -> 'b -> bool)[@u]) -> 'a option -> 'b option -> bool
+val andThen : (('a -> 'b option)[@u]) -> 'a option -> 'b option
+val map : (('a -> 'b)[@u]) -> 'a option -> 'b option
 val getWithDefault : 'a -> 'a option -> 'a
 
 val default : 'a -> 'a option -> 'a
   [@@deprecated
     "Use getWithDefault instead since default has special meaning in ES module"]
 
-val filter : (('a -> bool)[@bs]) -> 'a option -> 'a option
+val filter : (('a -> bool)[@u]) -> 'a option -> 'a option
 val firstSome : 'a option -> 'a option -> 'a option

@@ -28,13 +28,14 @@
 *)
 
 external readdirSync : string -> string array = "readdirSync"
-  [@@bs.module "fs"]
+  [@@mel.module "fs"]
 (** Most fs functions let you omit the callback argument. If you do, a default
     callback is used that rethrows errors. To get a trace to the original call
     site, set the `NODE_DEBUG` environment variable:
 *)
 
-external renameSync : string -> string -> unit = "renameSync" [@@bs.module "fs"]
+external renameSync : string -> string -> unit = "renameSync"
+  [@@mel.module "fs"]
 
 type fd = private int
 
@@ -54,10 +55,10 @@ module Watch = struct
     ?encoding:Js.String.t ->
     unit ->
     config = ""
-    [@@bs.obj]
+    [@@mel.obj]
 
   external watch : string -> ?config:config -> unit -> t = "watch"
-    [@@bs.module "fs"]
+    [@@mel.module "fs"]
   (** there is no need to accept listener, since we return a [watcher]
       back it can register event listener there .
       Currently we introduce a type [string_buffer], for the
@@ -68,56 +69,56 @@ module Watch = struct
 
   external on :
     ([ `change of
-       (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@bs])
-     | `error of (unit -> unit[@bs]) ]
-    [@bs.string]) ->
+       (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@u])
+     | `error of (unit -> unit[@u]) ]
+    [@mel.string]) ->
     t = "on"
-    [@@bs.send.pipe: t] [@@deprecated "Please use `Node.Fs.on_` instead "]
+    [@@mel.send.pipe: t] [@@deprecated "Please use `Node.Fs.on_` instead "]
 
   external on_ :
     t ->
     ([ `change of
-       (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@bs])
-     | `error of (unit -> unit[@bs]) ]
-    [@bs.string]) ->
+       (string (*eventType*) -> Node.string_buffer (* filename *) -> unit[@u])
+     | `error of (unit -> unit[@u]) ]
+    [@mel.string]) ->
     t = "on"
-    [@@bs.send]
+    [@@mel.send]
 
-  external close : t -> unit = "close" [@@bs.send]
+  external close : t -> unit = "close" [@@mel.send]
 end
 
-external ftruncateSync : fd -> int -> unit = "ftruncateSync" [@@bs.module "fs"]
+external ftruncateSync : fd -> int -> unit = "ftruncateSync" [@@mel.module "fs"]
 
 external truncateSync : string -> int -> unit = "truncateSync"
-  [@@bs.module "fs"]
+  [@@mel.module "fs"]
 
 external chownSync : string -> uid:int -> gid:int -> unit = "chownSync"
-  [@@bs.module "fs"]
+  [@@mel.module "fs"]
 
 external fchownSync : fd -> uid:int -> gid:int -> unit = "fchownSync"
-  [@@bs.module "fs"]
+  [@@mel.module "fs"]
 
-external readlinkSync : string -> string = "readlinkSync" [@@bs.module "fs"]
-external unlinkSync : string -> unit = "unlinkSync" [@@bs.module "fs"]
-external rmdirSync : string -> unit = "rmdirSync" [@@bs.module "fs"]
+external readlinkSync : string -> string = "readlinkSync" [@@mel.module "fs"]
+external unlinkSync : string -> unit = "unlinkSync" [@@mel.module "fs"]
+external rmdirSync : string -> unit = "rmdirSync" [@@mel.module "fs"]
 
 (* TODO: [flags] support *)
 external openSync :
   path ->
-  ([ `Read [@bs.as "r"]
-   | `Read_write [@bs.as "r+"]
-   | `Read_write_sync [@bs.as "rs+"]
-   | `Write [@bs.as "w"]
-   | `Write_fail_if_exists [@bs.as "wx"]
-   | `Write_read [@bs.as "w+"]
-   | `Write_read_fail_if_exists [@bs.as "wx+"]
-   | `Append [@bs.as "a"]
-   | `Append_fail_if_exists [@bs.as "ax"]
-   | `Append_read [@bs.as "a+"]
-   | `Append_read_fail_if_exists [@bs.as "ax+"] ]
-  [@bs.string]) ->
+  ([ `Read [@mel.as "r"]
+   | `Read_write [@mel.as "r+"]
+   | `Read_write_sync [@mel.as "rs+"]
+   | `Write [@mel.as "w"]
+   | `Write_fail_if_exists [@mel.as "wx"]
+   | `Write_read [@mel.as "w+"]
+   | `Write_read_fail_if_exists [@mel.as "wx+"]
+   | `Append [@mel.as "a"]
+   | `Append_fail_if_exists [@mel.as "ax"]
+   | `Append_read [@mel.as "a+"]
+   | `Append_read_fail_if_exists [@mel.as "ax+"] ]
+  [@mel.string]) ->
   unit = "openSync"
-  [@@bs.module "fs"]
+  [@@mel.module "fs"]
 
 type encoding =
   [ `hex
@@ -131,18 +132,18 @@ type encoding =
   | `utf16le ]
 
 external readFileSync : string -> encoding -> string = "readFileSync"
-  [@@bs.val] [@@bs.module "fs"]
+  [@@mel.val] [@@mel.module "fs"]
 
-external readFileAsUtf8Sync : string -> (_[@bs.as "utf8"]) -> string
+external readFileAsUtf8Sync : string -> (_[@mel.as "utf8"]) -> string
   = "readFileSync"
-  [@@bs.val] [@@bs.module "fs"]
+  [@@mel.val] [@@mel.module "fs"]
 
 external existsSync : string -> bool = "existsSync"
-  [@@bs.val] [@@bs.module "fs"]
+  [@@mel.val] [@@mel.module "fs"]
 
 external writeFileSync : string -> string -> encoding -> unit = "writeFileSync"
-  [@@bs.val] [@@bs.module "fs"]
+  [@@mel.val] [@@mel.module "fs"]
 
-external writeFileAsUtf8Sync : string -> string -> (_[@bs.as "utf8"]) -> unit
+external writeFileAsUtf8Sync : string -> string -> (_[@mel.as "utf8"]) -> unit
   = "writeFileSync"
-  [@@bs.val] [@@bs.module "fs"]
+  [@@mel.val] [@@mel.module "fs"]

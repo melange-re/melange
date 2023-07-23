@@ -47,8 +47,8 @@ let getExn f =
   | Some x -> x
 
 let bind x f =
-  match toOption x with None -> empty | Some x -> return (f x [@bs])
+  match toOption x with None -> empty | Some x -> return (f x [@u])
 
-let iter x f = match toOption x with None -> () | Some x -> f x [@bs]
+let iter x f = match toOption x with None -> () | Some x -> f x [@u]
 let fromOption x = match x with None -> empty | Some x -> return x
 let from_opt = fromOption

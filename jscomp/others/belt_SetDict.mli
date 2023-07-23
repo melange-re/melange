@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -65,39 +65,37 @@ val eq : ('value, 'id) t -> ('value, 'id) t -> cmp:('value, 'id) cmp -> bool
 (** [eq s1 s2] tests whether the sets [s1] and [s2] are
    equal, that is, contain equal elements. *)
 
-val forEachU : ('value, 'id) t -> (('value -> unit)[@bs]) -> unit
+val forEachU : ('value, 'id) t -> (('value -> unit)[@u]) -> unit
 
 val forEach : ('value, 'id) t -> ('value -> unit) -> unit
 (** [forEach s f] applies [f] in turn to all elements of [s].
     In increasing order *)
 
-val reduceU : ('value, 'id) t -> 'a -> (('a -> 'value -> 'a)[@bs]) -> 'a
+val reduceU : ('value, 'id) t -> 'a -> (('a -> 'value -> 'a)[@u]) -> 'a
 
 val reduce : ('value, 'id) t -> 'a -> ('a -> 'value -> 'a) -> 'a
 (** Iterate in increasing order. *)
 
-val everyU : ('value, 'id) t -> (('value -> bool)[@bs]) -> bool
+val everyU : ('value, 'id) t -> (('value -> bool)[@u]) -> bool
 
 val every : ('value, 'id) t -> ('value -> bool) -> bool
 (** [every p s] checks if all elements of the set
     satisfy the predicate [p]. Order unspecified. *)
 
-val someU : ('value, 'id) t -> (('value -> bool)[@bs]) -> bool
+val someU : ('value, 'id) t -> (('value -> bool)[@u]) -> bool
 
 val some : ('value, 'id) t -> ('value -> bool) -> bool
 (** [some p s] checks if at least one element of
    the set satisfies the predicate [p]. Oder unspecified. *)
 
-val keepU : ('value, 'id) t -> (('value -> bool)[@bs]) -> ('value, 'id) t
+val keepU : ('value, 'id) t -> (('value -> bool)[@u]) -> ('value, 'id) t
 
 val keep : ('value, 'id) t -> ('value -> bool) -> ('value, 'id) t
 (** [keep p s] returns the set of all elements in [s]
    that satisfy predicate [p]. *)
 
 val partitionU :
-  ('value, 'id) t ->
-  (('value -> bool)[@bs]) ->
-  ('value, 'id) t * ('value, 'id) t
+  ('value, 'id) t -> (('value -> bool)[@u]) -> ('value, 'id) t * ('value, 'id) t
 
 val partition :
   ('value, 'id) t -> ('value -> bool) -> ('value, 'id) t * ('value, 'id) t

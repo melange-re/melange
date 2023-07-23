@@ -37,7 +37,7 @@ let rec add (t : _ t) x ~cmp : _ t =
   | None -> N.singleton x
   | Some nt ->
       let k = nt.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x k [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
       if c = 0 then t
       else
         let { N.left = l; right = r; _ } = nt in
@@ -53,7 +53,7 @@ let rec remove (t : _ t) x ~cmp : _ t =
   | None -> t
   | Some n ->
       let { N.left = l; value = v; right = r; _ } = n in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then
         match (l, r) with
         | None, _ -> r
@@ -89,7 +89,7 @@ let removeMany h arr ~cmp =
 
 let rec splitAuxNoPivot ~cmp (n : _ N.node) x : _ * _ =
   let { N.left = l; value = v; right = r; _ } = n in
-  let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+  let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
   if c = 0 then (l, r)
   else if c < 0 then
     match l with
@@ -106,7 +106,7 @@ let rec splitAuxNoPivot ~cmp (n : _ N.node) x : _ * _ =
 
 let rec splitAuxPivot ~cmp (n : _ N.node) x pres : _ * _ =
   let { N.left = l; value = v; right = r; _ } = n in
-  let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+  let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
   if c = 0 then (
     pres.contents <- true;
     (l, r))

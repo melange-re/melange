@@ -1,4 +1,4 @@
-[@@@bs.config { flags = [|"-bs-no-cross-module-opt"; |]}]
+[@@@mel.config { flags = [|"-bs-no-cross-module-opt"; |]}]
 #2 "stdlib/sys.mlp"
 (**************************************************************************)
 (*                                                                        *)
@@ -73,7 +73,7 @@ external getenv: string -> string = "caml_sys_getenv"
 
 
 #ifdef BS
-external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
+external getEnv : 'a -> string -> string option = "" [@@mel.get_index]
 let getenv_opt s =
     match [%external process ] with
     | None -> None

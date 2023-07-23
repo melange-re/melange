@@ -43,7 +43,7 @@ function f(param) {
         RE_EXN_ID: "Match_failure",
         _1: [
           "lazy_test.ml",
-          11,
+          9,
           8
         ],
         Error: new Error()
@@ -311,7 +311,7 @@ Mt.from_pair_suites("Lazy_test", {
                         ],
                         tl: {
                           hd: [
-                            "File \"lazy_test.ml\", line 78, characters 0-7",
+                            "File \"lazy_test.ml\", line 76, characters 0-7",
                             (function (param) {
                                 return {
                                         TAG: /* Ok */4,
@@ -324,7 +324,7 @@ Mt.from_pair_suites("Lazy_test", {
                           ],
                           tl: {
                             hd: [
-                              "File \"lazy_test.ml\", line 79, characters 0-7",
+                              "File \"lazy_test.ml\", line 77, characters 0-7",
                               (function (param) {
                                   return {
                                           TAG: /* Ok */4,

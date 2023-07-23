@@ -21,7 +21,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-[@@@bs.config { flags = [| "-bs-noassertfalse" |] }]
+[@@@mel.config { flags = [| "-bs-noassertfalse" |] }]
 
 open Melange_mini_stdlib
 
@@ -130,7 +130,7 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
             }
             return size
           }|}]
-               obj (fun [@bs] v -> push_back queue v) [@bs])
+               obj (fun [@u] v -> push_back queue v) [@u])
           in
           hash.contents <- caml_hash_mix_int hash.contents ((size lsl 10) lor 0)
       (*tag*)

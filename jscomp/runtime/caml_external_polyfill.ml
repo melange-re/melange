@@ -28,7 +28,7 @@ open struct
   module Js = Js_internal
 end
 
-let getGlobalThis : (unit -> global[@bs]) =
+let getGlobalThis : (unit -> global[@u]) =
   [%raw
     {| function(){
   if (typeof globalThis !== 'undefined') return globalThis;
@@ -41,7 +41,7 @@ let getGlobalThis : (unit -> global[@bs]) =
 
 type dyn
 
-let resolve : (string -> dyn[@bs]) =
+let resolve : (string -> dyn[@u]) =
   [%raw
     {|function(s){
   var myGlobal = getGlobalThis();

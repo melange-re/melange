@@ -31,206 +31,210 @@ type 'a array_like = 'a Js_array2.array_like
    type 'a array_iter = 'a array_like
 *)
 
-external from : 'a array_like -> 'a array = "Array.from" [@@bs.val] (* ES2015 *)
-
-external fromMap : 'a array_like -> (('a -> 'b)[@bs.uncurry]) -> 'b array
-  = "Array.from"
-  [@@bs.val]
+external from : 'a array_like -> 'a array = "Array.from" [@@mel.val]
 (* ES2015 *)
 
-external isArray : 'a -> bool = "Array.isArray" [@@bs.val]
+external fromMap : 'a array_like -> (('a -> 'b)[@mel.uncurry]) -> 'b array
+  = "Array.from"
+  [@@mel.val]
+(* ES2015 *)
+
+external isArray : 'a -> bool = "Array.isArray" [@@mel.val]
 
 (* ES2015 *)
 (* ES2015 *)
 
 (* Array.of: seems pointless unless you can bind *)
-external length : 'a array -> int = "length" [@@bs.get]
+external length : 'a array -> int = "length" [@@mel.get]
 
 (* Mutator functions
 *)
 external copyWithin : to_:int -> 'this = "copyWithin"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
 external copyWithinFrom : to_:int -> from:int -> 'this = "copyWithin"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
 external copyWithinFromRange : to_:int -> start:int -> end_:int -> 'this
   = "copyWithin"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
-external fillInPlace : 'a -> 'this = "fill" [@@bs.send.pipe: 'a t as 'this]
+external fillInPlace : 'a -> 'this = "fill" [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
 external fillFromInPlace : 'a -> from:int -> 'this = "fill"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
 external fillRangeInPlace : 'a -> start:int -> end_:int -> 'this = "fill"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
 external pop : 'a option = "pop"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.return undefined_to_opt]
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.return undefined_to_opt]
 (** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push *)
 
-external push : 'a -> int = "push" [@@bs.send.pipe: 'a t as 'this]
+external push : 'a -> int = "push" [@@mel.send.pipe: 'a t as 'this]
 
 external pushMany : 'a array -> int = "push"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.splice]
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.splice]
 
-external reverseInPlace : 'this = "reverse" [@@bs.send.pipe: 'a t as 'this]
+external reverseInPlace : 'this = "reverse" [@@mel.send.pipe: 'a t as 'this]
 
 external shift : 'a option = "shift"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.return { undefined_to_opt }]
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.return { undefined_to_opt }]
 
-external sortInPlace : 'this = "sort" [@@bs.send.pipe: 'a t as 'this]
+external sortInPlace : 'this = "sort" [@@mel.send.pipe: 'a t as 'this]
 
-external sortInPlaceWith : (('a -> 'a -> int)[@bs.uncurry]) -> 'this = "sort"
-  [@@bs.send.pipe: 'a t as 'this]
+external sortInPlaceWith : (('a -> 'a -> int)[@mel.uncurry]) -> 'this = "sort"
+  [@@mel.send.pipe: 'a t as 'this]
 
 external spliceInPlace : pos:int -> remove:int -> add:'a array -> 'this
   = "splice"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.splice]
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.splice]
 
 external removeFromInPlace : pos:int -> 'this = "splice"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
 external removeCountInPlace : pos:int -> count:int -> 'this = "splice"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (* screwy naming, but screwy function *)
 
-external unshift : 'a -> int = "unshift" [@@bs.send.pipe: 'a t as 'this]
+external unshift : 'a -> int = "unshift" [@@mel.send.pipe: 'a t as 'this]
 
 external unshiftMany : 'a array -> int = "unshift"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.splice]
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.splice]
 
 (* Accessor functions
 *)
 external append : 'a -> 'this = "concat"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
   [@@deprecated "append is not type-safe. Use `concat` instead, and see #1884"]
 
-external concat : 'this -> 'this = "concat" [@@bs.send.pipe: 'a t as 'this]
+external concat : 'this -> 'this = "concat" [@@mel.send.pipe: 'a t as 'this]
 
 external concatMany : 'this array -> 'this = "concat"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.splice]
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.splice]
 
 (* TODO: Not available in Node V4  *)
 external includes : 'a -> bool = "includes"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 (** ES2016 *)
 
-external indexOf : 'a -> int = "indexOf" [@@bs.send.pipe: 'a t as 'this]
+external indexOf : 'a -> int = "indexOf" [@@mel.send.pipe: 'a t as 'this]
 
 external indexOfFrom : 'a -> from:int -> int = "indexOf"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
 external join : 'a t -> string = "join"
-  [@@bs.send] [@@deprecated "please use joinWith instead"]
+  [@@mel.send] [@@deprecated "please use joinWith instead"]
 
-external joinWith : string -> string = "join" [@@bs.send.pipe: 'a t as 'this]
-external lastIndexOf : 'a -> int = "lastIndexOf" [@@bs.send.pipe: 'a t as 'this]
+external joinWith : string -> string = "join" [@@mel.send.pipe: 'a t as 'this]
+
+external lastIndexOf : 'a -> int = "lastIndexOf"
+  [@@mel.send.pipe: 'a t as 'this]
 
 external lastIndexOfFrom : 'a -> from:int -> int = "lastIndexOf"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
 external lastIndexOf_start : 'a -> int = "lastIndexOf"
-  [@@bs.send.pipe: 'a t as 'this] [@@deprecated "Please use `lastIndexOf"]
+  [@@mel.send.pipe: 'a t as 'this] [@@deprecated "Please use `lastIndexOf"]
 
 external slice : start:int -> end_:int -> 'this = "slice"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
-external copy : 'this = "slice" [@@bs.send.pipe: 'a t as 'this]
+external copy : 'this = "slice" [@@mel.send.pipe: 'a t as 'this]
 
 external slice_copy : unit -> 'this = "slice"
-  [@@bs.send.pipe: 'a t as 'this] [@@deprecated "Please use `copy`"]
+  [@@mel.send.pipe: 'a t as 'this] [@@deprecated "Please use `copy`"]
 
-external sliceFrom : int -> 'this = "slice" [@@bs.send.pipe: 'a t as 'this]
+external sliceFrom : int -> 'this = "slice" [@@mel.send.pipe: 'a t as 'this]
 
 external slice_start : int -> 'this = "slice"
-  [@@bs.send.pipe: 'a t as 'this] [@@deprecated "Please use `sliceFrom`"]
+  [@@mel.send.pipe: 'a t as 'this] [@@deprecated "Please use `sliceFrom`"]
 
-external toString : string = "toString" [@@bs.send.pipe: 'a t as 'this]
+external toString : string = "toString" [@@mel.send.pipe: 'a t as 'this]
 
 external toLocaleString : string = "toLocaleString"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
 (* Iteration functions
 *)
 (* commented out until bs has a plan for iterators
-   external entries : (int * 'a) array_iter = "" [@@bs.send.pipe: 'a t as 'this] (* ES2015 *)
+   external entries : (int * 'a) array_iter = "" [@@mel.send.pipe: 'a t as 'this] (* ES2015 *)
 *)
 
-external every : (('a -> bool)[@bs.uncurry]) -> bool = "every"
-  [@@bs.send.pipe: 'a t as 'this]
+external every : (('a -> bool)[@mel.uncurry]) -> bool = "every"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external everyi : (('a -> int -> bool)[@bs.uncurry]) -> bool = "every"
-  [@@bs.send.pipe: 'a t as 'this]
+external everyi : (('a -> int -> bool)[@mel.uncurry]) -> bool = "every"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external filter : (('a -> bool)[@bs.uncurry]) -> 'this = "filter"
-  [@@bs.send.pipe: 'a t as 'this]
+external filter : (('a -> bool)[@mel.uncurry]) -> 'this = "filter"
+  [@@mel.send.pipe: 'a t as 'this]
 (** should we use [bool] or [boolean] seems they are intechangeable here *)
 
-external filteri : (('a -> int -> bool)[@bs.uncurry]) -> 'this = "filter"
-  [@@bs.send.pipe: 'a t as 'this]
+external filteri : (('a -> int -> bool)[@mel.uncurry]) -> 'this = "filter"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external find : (('a -> bool)[@bs.uncurry]) -> 'a option = "find"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.return { undefined_to_opt }]
+external find : (('a -> bool)[@mel.uncurry]) -> 'a option = "find"
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
-external findi : (('a -> int -> bool)[@bs.uncurry]) -> 'a option = "find"
-  [@@bs.send.pipe: 'a t as 'this] [@@bs.return { undefined_to_opt }]
+external findi : (('a -> int -> bool)[@mel.uncurry]) -> 'a option = "find"
+  [@@mel.send.pipe: 'a t as 'this] [@@mel.return { undefined_to_opt }]
 (* ES2015 *)
 
-external findIndex : (('a -> bool)[@bs.uncurry]) -> int = "findIndex"
-  [@@bs.send.pipe: 'a t as 'this]
+external findIndex : (('a -> bool)[@mel.uncurry]) -> int = "findIndex"
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
-external findIndexi : (('a -> int -> bool)[@bs.uncurry]) -> int = "findIndex"
-  [@@bs.send.pipe: 'a t as 'this]
+external findIndexi : (('a -> int -> bool)[@mel.uncurry]) -> int = "findIndex"
+  [@@mel.send.pipe: 'a t as 'this]
 (* ES2015 *)
 
-external forEach : (('a -> unit)[@bs.uncurry]) -> unit = "forEach"
-  [@@bs.send.pipe: 'a t as 'this]
+external forEach : (('a -> unit)[@mel.uncurry]) -> unit = "forEach"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external forEachi : (('a -> int -> unit)[@bs.uncurry]) -> unit = "forEach"
-  [@@bs.send.pipe: 'a t as 'this]
+external forEachi : (('a -> int -> unit)[@mel.uncurry]) -> unit = "forEach"
+  [@@mel.send.pipe: 'a t as 'this]
 
 (* commented out until bs has a plan for iterators
-   external keys : int array_iter = "" [@@bs.send.pipe: 'a t as 'this] (* ES2015 *)
+   external keys : int array_iter = "" [@@mel.send.pipe: 'a t as 'this] (* ES2015 *)
 *)
 
-external map : (('a -> 'b)[@bs.uncurry]) -> 'b t = "map"
-  [@@bs.send.pipe: 'a t as 'this]
+external map : (('a -> 'b)[@mel.uncurry]) -> 'b t = "map"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external mapi : (('a -> int -> 'b)[@bs.uncurry]) -> 'b t = "map"
-  [@@bs.send.pipe: 'a t as 'this]
+external mapi : (('a -> int -> 'b)[@mel.uncurry]) -> 'b t = "map"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external reduce : (('b -> 'a -> 'b)[@bs.uncurry]) -> 'b -> 'b = "reduce"
-  [@@bs.send.pipe: 'a t as 'this]
+external reduce : (('b -> 'a -> 'b)[@mel.uncurry]) -> 'b -> 'b = "reduce"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external reducei : (('b -> 'a -> int -> 'b)[@bs.uncurry]) -> 'b -> 'b = "reduce"
-  [@@bs.send.pipe: 'a t as 'this]
+external reducei : (('b -> 'a -> int -> 'b)[@mel.uncurry]) -> 'b -> 'b
+  = "reduce"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external reduceRight : (('b -> 'a -> 'b)[@bs.uncurry]) -> 'b -> 'b
+external reduceRight : (('b -> 'a -> 'b)[@mel.uncurry]) -> 'b -> 'b
   = "reduceRight"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
-external reduceRighti : (('b -> 'a -> int -> 'b)[@bs.uncurry]) -> 'b -> 'b
+external reduceRighti : (('b -> 'a -> int -> 'b)[@mel.uncurry]) -> 'b -> 'b
   = "reduceRight"
-  [@@bs.send.pipe: 'a t as 'this]
+  [@@mel.send.pipe: 'a t as 'this]
 
-external some : (('a -> bool)[@bs.uncurry]) -> bool = "some"
-  [@@bs.send.pipe: 'a t as 'this]
+external some : (('a -> bool)[@mel.uncurry]) -> bool = "some"
+  [@@mel.send.pipe: 'a t as 'this]
 
-external somei : (('a -> int -> bool)[@bs.uncurry]) -> bool = "some"
-  [@@bs.send.pipe: 'a t as 'this]
+external somei : (('a -> int -> bool)[@mel.uncurry]) -> bool = "some"
+  [@@mel.send.pipe: 'a t as 'this]
 
 (* commented out until bs has a plan for iterators
-   external values : 'a array_iter = "" [@@bs.send.pipe: 'a t as 'this] (* ES2015 *)
+   external values : 'a array_iter = "" [@@mel.send.pipe: 'a t as 'this] (* ES2015 *)
 *)
 external unsafe_get : 'a array -> int -> 'a = "%array_unsafe_get"
 external unsafe_set : 'a array -> int -> 'a -> unit = "%array_unsafe_set"

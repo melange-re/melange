@@ -211,7 +211,7 @@ let createClass =
       };
       pub getInitialState = (): totalState('state, 'retainedProps, 'action) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -226,7 +226,7 @@ let createClass =
       };
       pub componentDidMount = () => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -247,7 +247,7 @@ let createClass =
       };
       pub componentDidUpdate = (prevProps, prevState) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let curState = thisJs##state;
@@ -291,7 +291,7 @@ let createClass =
       /* pub componentWillMount .. TODO (or not?) */
       pub componentWillUnmount = () => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -322,7 +322,7 @@ let createClass =
        */
       pub componentWillUpdate = (nextProps, nextState: totalState(_)) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let newConvertedReasonProps =
@@ -371,7 +371,7 @@ let createClass =
        */
       pub componentWillReceiveProps = nextProps => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let newConvertedReasonProps =
@@ -432,7 +432,7 @@ let createClass =
        */
       pub shouldComponentUpdate = (nextJsProps, nextState, _) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let curJsProps = thisJs##props;
@@ -489,7 +489,7 @@ let createClass =
         };
       pub handleMethod = callback => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         callbackPayload => {
@@ -512,7 +512,7 @@ let createClass =
       };
       pub sendMethod = (action: 'action) => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =
@@ -569,7 +569,7 @@ let createClass =
        */
       pub render = () => {
         let thisJs:
-          jsComponentThis(reasonState, element, retainedProps, action) = [%bs.raw
+          jsComponentThis(reasonState, element, retainedProps, action) = [%mel.raw
           "this"
         ];
         let convertedReasonProps =

@@ -486,19 +486,19 @@ external ( /. ) : float -> float -> float = "%divfloat"
 *)
 
 #ifdef BS
-external ( ** ) : float -> float -> float =  "pow" [@@bs.val] [@@bs.scope "Math"]
+external ( ** ) : float -> float -> float =  "pow" [@@mel.val] [@@mel.scope "Math"]
 (** Exponentiation. *)
 
-external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
+external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
 (** Square root. *)
 
-external exp : float -> float =  "exp" [@@bs.val] [@@bs.scope "Math"]
+external exp : float -> float =  "exp" [@@mel.val] [@@mel.scope "Math"]
 (** Exponential. *)
 
-external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
+external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
 (** Natural logarithm. *)
 
-external log10 : float -> float =  "log10" [@@bs.val] [@@bs.scope "Math"]
+external log10 : float -> float =  "log10" [@@mel.val] [@@mel.scope "Math"]
 (** Base 10 logarithm. *)
 
 external expm1 : float -> float = "caml_expm1_float" "caml_expm1" [@@unboxed] [@@noalloc]
@@ -507,34 +507,34 @@ external expm1 : float -> float = "caml_expm1_float" "caml_expm1" [@@unboxed] [@
     @since 3.12.0
 *)
 
-external log1p : float -> float =  "log1p" [@@bs.val] [@@bs.scope "Math"]
+external log1p : float -> float =  "log1p" [@@mel.val] [@@mel.scope "Math"]
 (** [log1p x] computes [log(1.0 +. x)] (natural logarithm),
     giving numerically-accurate results even if [x] is close to [0.0].
     @since 3.12.0
 *)
 
-external cos : float -> float =  "cos" [@@bs.val] [@@bs.scope "Math"]
+external cos : float -> float =  "cos" [@@mel.val] [@@mel.scope "Math"]
 (** Cosine.  Argument is in radians. *)
 
-external sin : float -> float =  "sin" [@@bs.val] [@@bs.scope "Math"]
+external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
 (** Sine.  Argument is in radians. *)
 
-external tan : float -> float =  "tan" [@@bs.val] [@@bs.scope "Math"]
+external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
 (** Tangent.  Argument is in radians. *)
 
-external acos : float -> float =  "acos" [@@bs.val] [@@bs.scope "Math"]
+external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
 (** Arc cosine.  The argument must fall within the range [[-1.0, 1.0]].
     Result is in radians and is between [0.0] and [pi]. *)
 
-external asin : float -> float =  "asin" [@@bs.val] [@@bs.scope "Math"]
+external asin : float -> float =  "asin" [@@mel.val] [@@mel.scope "Math"]
 (** Arc sine.  The argument must fall within the range [[-1.0, 1.0]].
     Result is in radians and is between [-pi/2] and [pi/2]. *)
 
-external atan : float -> float =  "atan" [@@bs.val] [@@bs.scope "Math"]
+external atan : float -> float =  "atan" [@@mel.val] [@@mel.scope "Math"]
 (** Arc tangent.
     Result is in radians and is between [-pi/2] and [pi/2]. *)
 
-external atan2 : float -> float -> float =  "atan2" [@@bs.val] [@@bs.scope "Math"]
+external atan2 : float -> float -> float =  "atan2" [@@mel.val] [@@mel.scope "Math"]
 (** [atan2 y x] returns the arc tangent of [y /. x].  The signs of [x]
     and [y] are used to determine the quadrant of the result.
     Result is in radians and is between [-pi] and [pi]. *)
@@ -547,48 +547,48 @@ external hypot : float -> float -> float
   to origin.
   @since 4.00.0  *)
 
-external cosh : float -> float =  "cosh" [@@bs.val] [@@bs.scope "Math"]
+external cosh : float -> float =  "cosh" [@@mel.val] [@@mel.scope "Math"]
 (** Hyperbolic cosine.  Argument is in radians. *)
 
-external sinh : float -> float =  "sinh" [@@bs.val] [@@bs.scope "Math"]
+external sinh : float -> float =  "sinh" [@@mel.val] [@@mel.scope "Math"]
 (** Hyperbolic sine.  Argument is in radians. *)
 
-external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
+external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
 (** Hyperbolic tangent.  Argument is in radians. *)
 
-external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
+external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
 (** Hyperbolic arc cosine.  The argument must fall within the range
     [[1.0, inf]].
     Result is in radians and is between [0.0] and [inf].
     @since 4.13.0
 *)
 
-external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
+external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
 (** Hyperbolic arc sine.  The argument and result range over the entire
     real line.
     Result is in radians.
     @since 4.13.0
 *)
 
-external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
+external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
 (** Hyperbolic arc tangent.  The argument must fall within the range
     [[-1.0, 1.0]].
     Result is in radians and ranges over the entire real line.
     @since 4.13.0
 *)
 
-external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
+external ceil : float -> float =  "ceil" [@@mel.val] [@@mel.scope "Math"]
 (** Round above to an integer value.
     [ceil f] returns the least integer value greater than or equal to [f].
     The result is returned as a float. *)
 
-external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
+external floor : float -> float =  "floor" [@@mel.val] [@@mel.scope "Math"]
 (** Round below to an integer value.
     [floor f] returns the greatest integer value less than or
     equal to [f].
     The result is returned as a float. *)
 
-external abs_float : float -> float = "abs" [@@bs.val] [@@bs.scope "Math"]
+external abs_float : float -> float = "abs" [@@mel.val] [@@mel.scope "Math"]
 (** [abs_float f] returns the absolute value of [f]. *)
 #else
 
@@ -746,7 +746,7 @@ val neg_infinity : float
 (** Negative infinity. *)
 
 #ifdef BS
-external nan : float = "NaN" [@@bs.val]  [@@bs.scope "Number"]
+external nan : float = "NaN" [@@mel.val]  [@@mel.scope "Number"]
 (* we could also use [0.  /. 0.] *)
 #else
 val nan : float
@@ -848,7 +848,7 @@ val bool_of_string : string -> bool
    [Invalid_argument "bool_of_string"] instead of returning [None]. *)
 
 #ifdef BS
-external string_of_int : int -> string = "String" [@@bs.val]
+external string_of_int : int -> string = "String" [@@mel.val]
 #else
 val string_of_int : int -> string
 #endif
@@ -969,7 +969,7 @@ val print_float : float -> unit
 
 #ifdef BS
 external print_endline : string -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
+[@@mel.val] [@@mel.scope "console"]
 #else
 val print_endline : string -> unit
 #endif
@@ -1002,7 +1002,7 @@ val prerr_float : float -> unit
 
 #ifdef BS
 external prerr_endline : string -> unit = "error"
-[@@bs.val] [@@bs.scope "console"]
+[@@mel.val] [@@mel.scope "console"]
 #else
 val prerr_endline : string -> unit
 #endif

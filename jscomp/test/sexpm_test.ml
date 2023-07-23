@@ -27,5 +27,5 @@ let ()
   = Mt.from_pair_suites __MODULE__ !suites
 
 (**
-[%bs.internal.test ]
+[%mel.internal.test ]
 *)

@@ -37,7 +37,9 @@ Unreleased
   enable [recursive
   types](https://v2.ocaml.org/releases/5.0/htmlman/types.html#sss:typexpr-aliased-recursive)
 - [melange.ppx]: Deprecate `bs.*` attributes in favor of `mel.*`
-  ([#662](https://github.com/melange-re/melange/pull/662))
+  ([#566](https://github.com/melange-re/melange/issues/566),
+  [#662](https://github.com/melange-re/melange/pull/662),
+  [#663](https://github.com/melange-re/melange/pull/663))
 - [melange]: Fix field access code generation when `open`in inline functor
   applications ([#661](https://github.com/melange-re/melange/pull/661),
   [#664](https://github.com/melange-re/melange/pull/664))
