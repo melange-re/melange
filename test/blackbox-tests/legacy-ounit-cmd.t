@@ -273,7 +273,8 @@ Skip over the temporary file name printed in the error trace
   1 | let u = [||]
           ^
   Error: The type of this expression, '_weak1 array,
-         contains type variables that cannot be generalized
+         contains the non-generalizable type variable(s): '_weak1.
+         (see manual section 6.1.2)
 
   $ cat > x.ml <<EOF
   > external push : 'a array -> 'a -> unit = "push" [@@send]
