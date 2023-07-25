@@ -11,7 +11,7 @@
     melange-compiler-libs = {
       # this changes rarely, and it's better than having to rely on nix's poor
       # support for submodules
-      url = "github:melange-re/melange-compiler-libs";
+      url = "github:melange-re/melange-compiler-libs/anmonteiro/merge-5.1";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -27,7 +27,7 @@
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
           (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_1.overrideScope' (oself: osuper: {
               reason = osuper.reason.overrideAttrs (_: {
                 src = super.fetchFromGitHub {
                   owner = "reasonml";

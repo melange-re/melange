@@ -34,21 +34,21 @@ module Intf_or_impl = struct
   module Convert =
     Ppxlib_ast.Convert
       (Ppxlib_ast.Selected_ast)
-      (Ppxlib_ast__.Versions.OCaml_414)
+      (Ppxlib_ast__.Versions.OCaml_501)
 
   let ppxlib_impl : Ppxlib_ast.Ast.structure -> t =
    fun stru ->
     let melange_stru =
-      let ocaml_414_stru = Convert.copy_structure stru in
-      (Obj.magic ocaml_414_stru : Melange_compiler_libs.Parsetree.structure)
+      let ocaml_51_stru = Convert.copy_structure stru in
+      (Obj.magic ocaml_51_stru : Melange_compiler_libs.Parsetree.structure)
     in
     Impl melange_stru
 
   let ppxlib_intf : Ppxlib_ast.Ast.signature -> t =
    fun sig_ ->
     let melange_sig =
-      let ocaml_414_sig = Convert.copy_signature sig_ in
-      (Obj.magic ocaml_414_sig : Melange_compiler_libs.Parsetree.signature)
+      let ocaml_51_sig = Convert.copy_signature sig_ in
+      (Obj.magic ocaml_51_sig : Melange_compiler_libs.Parsetree.signature)
     in
     Intf melange_sig
 end
