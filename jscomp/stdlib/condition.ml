@@ -2,9 +2,9 @@
 (*                                                                        *)
 (*                                 OCaml                                  *)
 (*                                                                        *)
-(*                Jacques Garrigue, Kyoto University RIMS                 *)
+(*   Xavier Leroy and Pascal Cuoq, projet Cristal, INRIA Rocquencourt     *)
 (*                                                                        *)
-(*   Copyright 2001 Institut National de Recherche en Informatique et     *)
+(*   Copyright 1995 Institut National de Recherche en Informatique et     *)
 (*     en Automatique.                                                    *)
 (*                                                                        *)
 (*   All rights reserved.  This file is distributed under the terms of    *)
@@ -13,24 +13,8 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(** Standard labeled libraries.
-
-   This meta-module provides versions of the {!Array}, {!Bytes},
-   {!List} and {!String} modules where function arguments are
-   systematically labeled.  It is intended to be opened at the top of
-   source files, as shown below.
-
-   {[
-     open StdLabels
-
-     let to_upper = String.map ~f:Char.uppercase_ascii
-     let seq len = List.init ~f:(fun i -> i) ~len
-     let everything = Array.create_matrix ~dimx:42 ~dimy:42 42
-   ]}
-
-*)
-
-module Array = ArrayLabels
-module Bytes = BytesLabels
-module List = ListLabels
-module String = StringLabels
+type t
+external create: unit -> t = "caml_ml_condition_new"
+external wait: t -> Mutex.t -> unit = "caml_ml_condition_wait"
+external signal: t -> unit = "caml_ml_condition_signal"
+external broadcast: t -> unit = "caml_ml_condition_broadcast"

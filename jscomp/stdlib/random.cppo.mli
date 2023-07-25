@@ -3,6 +3,7 @@
 (*                                 OCaml                                  *)
 (*                                                                        *)
 (*               Damien Doligez, projet Para, INRIA Rocquencourt          *)
+(*          Xavier Leroy, projet Cambium, College de France and Inria     *)
 (*                                                                        *)
 (*   Copyright 1996 Institut National de Recherche en Informatique et     *)
 (*     en Automatique.                                                    *)
@@ -13,28 +14,37 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(** Pseudo-random number generators (PRNG). *)
+(** Pseudo-random number generators (PRNG).
+
+    With multiple domains, each domain has its own generator that evolves
+    independently of the generators of other domains.  When a domain is
+    created, its generator is initialized by splitting the state
+    of the generator associated with the parent domain.
+
+    In contrast, all threads within a domain share the same domain-local
+    generator.  Independent generators can be created with the {!Random.split}
+    function and used with the functions from the {!Random.State} module.
+*)
 
 (** {1 Basic functions} *)
 
 val init : int -> unit
-(** Initialize the generator, using the argument as a seed.
-     The same seed will always yield the same sequence of numbers. *)
+(** Initialize the domain-local generator, using the argument as a seed.
+    The same seed will always yield the same sequence of numbers. *)
 
 val full_init : int array -> unit
 (** Same as {!Random.init} but takes more data as seed. *)
 
 val self_init : unit -> unit
-(** Initialize the generator with a random seed chosen
-   in a system-dependent way.  If [/dev/urandom] is available on
-   the host machine, it is used to provide a highly random initial
-   seed.  Otherwise, a less random seed is computed from system
-   parameters (current time, process IDs). *)
+(** Initialize the domain-local generator with a random seed chosen
+    in a system-dependent way.  If [/dev/urandom] is available on the host
+    machine, it is used to provide a highly random initial seed.  Otherwise, a
+    less random seed is computed from system parameters (current time, process
+    IDs, domain-local state). *)
 
 val bits : unit -> int
 (** Return 30 random bits in a nonnegative integer.
-    @before 3.12.0 used a different algorithm (affects all the following
-                   functions)
+    @before 5.0 used a different algorithm (affects all the following functions)
 *)
 
 val int : int -> int
@@ -49,9 +59,9 @@ val full_int : int -> int
      If [bound] is less than 2{^30}, [Random.full_int bound] is equal to
      {!Random.int}[ bound]. If [bound] is greater than 2{^30} (on 64-bit systems
      or non-standard environments, such as JavaScript), [Random.full_int]
-     returns a value, where {!Random.int} raises {!Invalid_argument}.
+     returns a value, where {!Random.int} raises {!Stdlib.Invalid_argument}.
 
-    @since 4.13.0 *)
+    @since 4.13 *)
 
 val int32 : Int32.t -> Int32.t
 (** [Random.int32 bound] returns a random integer between 0 (inclusive)
@@ -79,19 +89,19 @@ val bool : unit -> bool
 val bits32 : unit -> Int32.t
 (** [Random.bits32 ()] returns 32 random bits as an integer between
     {!Int32.min_int} and {!Int32.max_int}.
-    @since 4.14.0 *)
+    @since 4.14 *)
 
 val bits64 : unit -> Int64.t
 (** [Random.bits64 ()] returns 64 random bits as an integer between
     {!Int64.min_int} and {!Int64.max_int}.
-    @since 4.14.0 *)
+    @since 4.14 *)
 
 #if false
 val nativebits : unit -> Nativeint.t
 (** [Random.nativebits ()] returns 32 or 64 random bits (depending on
     the bit width of the platform) as an integer between
     {!Nativeint.min_int} and {!Nativeint.max_int}.
-    @since 4.14.0 *)
+    @since 4.14 *)
 #endif
 
 (** {1 Advanced functions} *)
@@ -111,8 +121,9 @@ module State : sig
   (** Create a new state and initialize it with the given seed. *)
 
   val make_self_init : unit -> t
-  (** Create a new state and initialize it with a system-dependent
-      low-entropy seed. *)
+  (** Create a new state and initialize it with a random seed chosen
+      in a system-dependent way.
+      The seed is obtained as described in {!Random.self_init}. *)
 
   val copy : t -> t
   (** Return a copy of the given state. *)
@@ -131,15 +142,67 @@ module State : sig
   val bits64 : t -> Int64.t
 #if false
   val nativebits : t -> Nativeint.t
-#endif
   (** These functions are the same as the basic functions, except that they
       use (and update) the given PRNG state instead of the default one.
   *)
+
+  val split : t -> t
+  (** Draw a fresh PRNG state from the given PRNG state.
+      (The given PRNG state is modified.)
+      The new PRNG is statistically independent from the given PRNG.
+      Data can be drawn from both PRNGs, in any order, without risk of
+      correlation.  Both PRNGs can be split later, arbitrarily many times.
+      @since 5.0 *)
+
+  val to_binary_string : t -> string
+  (** Serializes the PRNG state into an immutable sequence of bytes.
+      See {!of_binary_string} for deserialization.
+
+      The [string] type is intended here for serialization only, the
+      encoding is not human-readable and may not be printable.
+
+      Note that the serialization format may differ across OCaml
+      versions.
+
+      @since 5.1
+  *)
+
+  val of_binary_string : string -> t
+  (** Deserializes a byte sequence obtained by calling
+      {!to_binary_string}. The resulting PRNG state will produce the
+      same random numbers as the state that was passed as input to
+      {!to_binary_string}.
+
+      @raise Failure if the input is not in the expected format.
+
+      Note that the serialization format may differ across OCaml
+      versions.
+
+      Unlike the functions provided by the {!Marshal} module, this
+      function either produces a valid state or fails cleanly with
+      a [Failure] exception. It can be safely used on user-provided,
+      untrusted inputs.
+
+      @since 5.1
+  *)
+#endif
 end
 
-
 val get_state : unit -> State.t
-(** Return the current state of the generator used by the basic functions. *)
+(** [get_state()] returns a fresh copy of the current state of the
+    domain-local generator (which is used by the basic functions). *)
 
 val set_state : State.t -> unit
-(** Set the state of the generator used by the basic functions. *)
+(** [set_state s] updates the current state of the domain-local
+    generator (which is used by the basic functions) by copying
+    the state [s] into it. *)
+
+#ifdef BS
+#else
+val split : unit -> State.t
+(** Draw a fresh PRNG state from the current state of the domain-local
+    generator used by the default functions.
+    (The state of the domain-local generator is modified.)
+    See {!Random.State.split}.
+    @since 5.0 *)
+#endif

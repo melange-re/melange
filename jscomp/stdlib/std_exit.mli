@@ -2,9 +2,9 @@
 (*                                                                        *)
 (*                                 OCaml                                  *)
 (*                                                                        *)
-(*                Jacques Garrigue, Kyoto University RIMS                 *)
+(*             Sebastien Hinderer, projet Cambium, INRIA Paris            *)
 (*                                                                        *)
-(*   Copyright 2001 Institut National de Recherche en Informatique et     *)
+(*   Copyright 2022 Institut National de Recherche en Informatique et     *)
 (*     en Automatique.                                                    *)
 (*                                                                        *)
 (*   All rights reserved.  This file is distributed under the terms of    *)
@@ -13,24 +13,7 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(** Standard labeled libraries.
+(* Interface to the std_exit module *)
 
-   This meta-module provides versions of the {!Array}, {!Bytes},
-   {!List} and {!String} modules where function arguments are
-   systematically labeled.  It is intended to be opened at the top of
-   source files, as shown below.
-
-   {[
-     open StdLabels
-
-     let to_upper = String.map ~f:Char.uppercase_ascii
-     let seq len = List.init ~f:(fun i -> i) ~len
-     let everything = Array.create_matrix ~dimx:42 ~dimy:42 42
-   ]}
-
-*)
-
-module Array = ArrayLabels
-module Bytes = BytesLabels
-module List = ListLabels
-module String = StringLabels
+(* This interface file is empty because the std_exit module only runs
+   code during initialisation and does not export any function *)

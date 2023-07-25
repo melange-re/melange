@@ -2,9 +2,9 @@
 (*                                                                        *)
 (*                                 OCaml                                  *)
 (*                                                                        *)
-(*                Jacques Garrigue, Kyoto University RIMS                 *)
+(*                         The OCaml programmers                          *)
 (*                                                                        *)
-(*   Copyright 2001 Institut National de Recherche en Informatique et     *)
+(*   Copyright 2022 Institut National de Recherche en Informatique et     *)
 (*     en Automatique.                                                    *)
 (*                                                                        *)
 (*   All rights reserved.  This file is distributed under the terms of    *)
@@ -13,24 +13,29 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(** Standard labeled libraries.
+(* Type equality witness *)
 
-   This meta-module provides versions of the {!Array}, {!Bytes},
-   {!List} and {!String} modules where function arguments are
-   systematically labeled.  It is intended to be opened at the top of
-   source files, as shown below.
+type (_, _) eq = Equal: ('a, 'a) eq
 
-   {[
-     open StdLabels
+(* Type identifiers *)
 
-     let to_upper = String.map ~f:Char.uppercase_ascii
-     let seq len = List.init ~f:(fun i -> i) ~len
-     let everything = Array.create_matrix ~dimx:42 ~dimy:42 42
-   ]}
+module Id = struct
+  type _ id = ..
+  module type ID = sig
+    type t
+    type _ id += Id : t id
+  end
 
-*)
+  type !'a t = (module ID with type t = 'a)
 
-module Array = ArrayLabels
-module Bytes = BytesLabels
-module List = ListLabels
-module String = StringLabels
+  let make (type a) () : a t =
+    (module struct type t = a type _ id += Id : t id end)
+
+  let[@inline] uid (type a) ((module A) : a t) =
+    Obj.Extension_constructor.id (Obj.Extension_constructor.of_val A.Id)
+
+  let provably_equal
+      (type a b) ((module A) : a t) ((module B) : b t) : (a, b) eq option
+    =
+    match A.Id with B.Id -> Some Equal | _ -> None
+end
