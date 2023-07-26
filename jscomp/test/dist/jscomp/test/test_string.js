@@ -14,7 +14,7 @@ function f(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "test_string.ml",
+              "jscomp/test/test_string.ml",
               4,
               18
             ],

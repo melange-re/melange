@@ -431,7 +431,7 @@ function _get(t) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "sexpm.ml",
+            "jscomp/test/sexpm.ml",
             152,
             4
           ],
@@ -545,7 +545,7 @@ function expr_starting_with(c, k, t) {
             throw {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
-                    "sexpm.ml",
+                    "jscomp/test/sexpm.ml",
                     183,
                     27
                   ],
@@ -579,7 +579,7 @@ function expr_starting_with(c, k, t) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "sexpm.ml",
+            "jscomp/test/sexpm.ml",
             183,
             27
           ],
@@ -1043,7 +1043,7 @@ function MakeDecode(funarg) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "sexpm.ml",
+              "jscomp/test/sexpm.ml",
               152,
               4
             ],
@@ -1153,7 +1153,7 @@ function MakeDecode(funarg) {
               throw {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
-                      "sexpm.ml",
+                      "jscomp/test/sexpm.ml",
                       183,
                       27
                     ],
@@ -1187,7 +1187,7 @@ function MakeDecode(funarg) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "sexpm.ml",
+              "jscomp/test/sexpm.ml",
               183,
               27
             ],

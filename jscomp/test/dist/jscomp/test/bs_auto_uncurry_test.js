@@ -52,7 +52,7 @@ hi(function () {
       };
     });
 
-eq("File \"bs_auto_uncurry_test.ml\", line 27, characters 7-14", xs.contents, {
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 27, characters 7-14", xs.contents, {
       hd: undefined,
       tl: {
         hd: undefined,
@@ -60,7 +60,7 @@ eq("File \"bs_auto_uncurry_test.ml\", line 27, characters 7-14", xs.contents, {
       }
     });
 
-eq("File \"bs_auto_uncurry_test.ml\", line 33, characters 7-14", [
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 33, characters 7-14", [
         1,
         2,
         3
@@ -72,7 +72,7 @@ eq("File \"bs_auto_uncurry_test.ml\", line 33, characters 7-14", [
       4
     ]);
 
-eq("File \"bs_auto_uncurry_test.ml\", line 36, characters 7-14", [
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 36, characters 7-14", [
         1,
         2,
         3
@@ -84,7 +84,7 @@ eq("File \"bs_auto_uncurry_test.ml\", line 36, characters 7-14", [
       4
     ]);
 
-eq("File \"bs_auto_uncurry_test.ml\", line 40, characters 7-14", [
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 40, characters 7-14", [
         1,
         2,
         3
@@ -92,7 +92,7 @@ eq("File \"bs_auto_uncurry_test.ml\", line 40, characters 7-14", [
             return prim0 + prim1 | 0;
           }), 0), 6);
 
-eq("File \"bs_auto_uncurry_test.ml\", line 44, characters 7-14", [
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 44, characters 7-14", [
         1,
         2,
         3
@@ -100,7 +100,7 @@ eq("File \"bs_auto_uncurry_test.ml\", line 44, characters 7-14", [
             return (x + y | 0) + i | 0;
           }), 0), 9);
 
-eq("File \"bs_auto_uncurry_test.ml\", line 48, characters 7-14", [
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 48, characters 7-14", [
         1,
         2,
         3
@@ -108,7 +108,7 @@ eq("File \"bs_auto_uncurry_test.ml\", line 48, characters 7-14", [
           return x < 1;
         }), false);
 
-eq("File \"bs_auto_uncurry_test.ml\", line 52, characters 7-14", [
+eq("File \"jscomp/test/bs_auto_uncurry_test.ml\", line 52, characters 7-14", [
         1,
         2,
         3

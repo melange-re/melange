@@ -131,7 +131,7 @@ function lorem(tr) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "flexible_array_test.ml",
+            "jscomp/test/flexible_array_test.ml",
             66,
             9
           ],
@@ -329,7 +329,7 @@ if (!Caml_obj.caml_equal(x, of_array([
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "flexible_array_test.ml",
+          "jscomp/test/flexible_array_test.ml",
           166,
           4
         ],

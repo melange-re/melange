@@ -39,9 +39,9 @@ function f(x) {
   }
 }
 
-eq("File \"match_case_test.ml\", line 13, characters 5-12", f("xx'''"), 0);
+eq("File \"jscomp/test/match_case_test.ml\", line 13, characters 5-12", f("xx'''"), 0);
 
-eq("File \"match_case_test.ml\", line 14, characters 5-12", f("xx\""), 1);
+eq("File \"jscomp/test/match_case_test.ml\", line 14, characters 5-12", f("xx\""), 1);
 
 Mt.from_pair_suites("Match_case_test", suites.contents);
 

@@ -31,6 +31,8 @@ var compare_lengths = Stdlib__List.compare_lengths;
 
 var compare_length_with = Stdlib__List.compare_length_with;
 
+var is_empty = Stdlib__List.is_empty;
+
 var cons = Stdlib__List.cons;
 
 var hd = Stdlib__List.hd;
@@ -103,7 +105,11 @@ var find = Stdlib__List.find;
 
 var find_opt = Stdlib__List.find_opt;
 
+var find_index = Stdlib__List.find_index;
+
 var find_map = Stdlib__List.find_map;
+
+var find_mapi = Stdlib__List.find_mapi;
 
 var filter = Stdlib__List.filter;
 
@@ -156,6 +162,7 @@ exports.U = U;
 exports.length = length;
 exports.compare_lengths = compare_lengths;
 exports.compare_length_with = compare_length_with;
+exports.is_empty = is_empty;
 exports.cons = cons;
 exports.hd = hd;
 exports.tl = tl;
@@ -192,7 +199,9 @@ exports.mem = mem;
 exports.memq = memq;
 exports.find = find;
 exports.find_opt = find_opt;
+exports.find_index = find_index;
 exports.find_map = find_map;
+exports.find_mapi = find_mapi;
 exports.filter = filter;
 exports.find_all = find_all;
 exports.filteri = filteri;

@@ -897,7 +897,7 @@ function assoc_by_string(def, k, _lst) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "ext_list_test.ml",
+            "jscomp/test/ext_list_test.ml",
             399,
             14
           ],
@@ -923,7 +923,7 @@ function assoc_by_int(def, k, _lst) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "ext_list_test.ml",
+            "jscomp/test/ext_list_test.ml",
             409,
             14
           ],

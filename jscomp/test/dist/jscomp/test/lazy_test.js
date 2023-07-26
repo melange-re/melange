@@ -278,7 +278,7 @@ Mt.from_pair_suites("Lazy_test", {
                   ],
                   tl: {
                     hd: [
-                      "lazy_test.ml",
+                      "jscomp/test/lazy_test.ml",
                       (function (param) {
                           return {
                                   TAG: /* Eq */0,
@@ -289,7 +289,7 @@ Mt.from_pair_suites("Lazy_test", {
                     ],
                     tl: {
                       hd: [
-                        "lazy_test.ml",
+                        "jscomp/test/lazy_test.ml",
                         (function (param) {
                             return {
                                     TAG: /* Eq */0,
@@ -300,7 +300,7 @@ Mt.from_pair_suites("Lazy_test", {
                       ],
                       tl: {
                         hd: [
-                          "lazy_test.ml",
+                          "jscomp/test/lazy_test.ml",
                           (function (param) {
                               return {
                                       TAG: /* Eq */0,
@@ -311,7 +311,7 @@ Mt.from_pair_suites("Lazy_test", {
                         ],
                         tl: {
                           hd: [
-                            "File \"lazy_test.ml\", line 76, characters 0-7",
+                            "File \"jscomp/test/lazy_test.ml\", line 76, characters 0-7",
                             (function (param) {
                                 return {
                                         TAG: /* Ok */4,
@@ -324,7 +324,7 @@ Mt.from_pair_suites("Lazy_test", {
                           ],
                           tl: {
                             hd: [
-                              "File \"lazy_test.ml\", line 77, characters 0-7",
+                              "File \"jscomp/test/lazy_test.ml\", line 77, characters 0-7",
                               (function (param) {
                                   return {
                                           TAG: /* Ok */4,

@@ -21,7 +21,7 @@ function f_undefined(xs, i) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "return_check.ml",
+          "jscomp/test/return_check.ml",
           31,
           14
         ],
@@ -62,7 +62,7 @@ function f_null(xs, i) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "return_check.ml",
+          "jscomp/test/return_check.ml",
           59,
           14
         ],
@@ -78,7 +78,7 @@ function f_null_undefined(xs, i) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "return_check.ml",
+          "jscomp/test/return_check.ml",
           68,
           14
         ],

@@ -38,11 +38,11 @@ var hh = {
   i: 0
 };
 
-eq("File \"optional_regression_test.ml\", line 21, characters 6-13", Caml_option.undefined_to_opt(hh.s), "");
+eq("File \"jscomp/test/optional_regression_test.ml\", line 21, characters 6-13", Caml_option.undefined_to_opt(hh.s), "");
 
-eq("File \"optional_regression_test.ml\", line 22, characters 6-13", Caml_option.undefined_to_opt(hh.b), false);
+eq("File \"jscomp/test/optional_regression_test.ml\", line 22, characters 6-13", Caml_option.undefined_to_opt(hh.b), false);
 
-eq("File \"optional_regression_test.ml\", line 23, characters 6-13", Caml_option.undefined_to_opt(hh.i), 0);
+eq("File \"jscomp/test/optional_regression_test.ml\", line 23, characters 6-13", Caml_option.undefined_to_opt(hh.i), 0);
 
 console.log(hh);
 

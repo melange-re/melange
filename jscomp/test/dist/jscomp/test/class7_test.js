@@ -89,7 +89,7 @@ var q = Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(p));
 
 Caml_oo_curry.js2(-933174511, 1, q, 7);
 
-eq("File \"class7_test.ml\", line 22, characters 5-12", [
+eq("File \"jscomp/test/class7_test.ml\", line 22, characters 5-12", [
       55,
       62
     ], [
@@ -210,7 +210,7 @@ Caml_oo_curry.js1(-867333315, 10, p$1);
 
 Caml_oo_curry.js2(5741474, 11, p$1, 2);
 
-eq("File \"class7_test.ml\", line 47, characters 5-12", [
+eq("File \"jscomp/test/class7_test.ml\", line 47, characters 5-12", [
       2,
       1,
       1,
@@ -310,7 +310,7 @@ Caml_oo_curry.js1(-867333315, 14, p$2);
 
 Caml_oo_curry.js2(5741474, 15, p$2, 2);
 
-eq("File \"class7_test.ml\", line 63, characters 5-12", [
+eq("File \"jscomp/test/class7_test.ml\", line 63, characters 5-12", [
       2,
       1,
       0,

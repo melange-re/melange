@@ -37,13 +37,13 @@ Node__Node_process.putEnvVar("Caml_sys_poly_fill_test", "X");
 
 var v = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 
-eq("File \"caml_sys_poly_fill_test.ml\", line 11, characters 5-12", "X", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v));
+eq("File \"jscomp/test/caml_sys_poly_fill_test.ml\", line 11, characters 5-12", "X", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v));
 
 Node__Node_process.putEnvVar("Caml_sys_poly_fill_test", "Y");
 
 var v$1 = Caml_sys.caml_sys_getenv("Caml_sys_poly_fill_test");
 
-eq("File \"caml_sys_poly_fill_test.ml\", line 17, characters 5-12", "Y", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v$1));
+eq("File \"jscomp/test/caml_sys_poly_fill_test.ml\", line 17, characters 5-12", "Y", (Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test"), v$1));
 
 Node__Node_process.deleteEnvVar("Caml_sys_poly_fill_test");
 
@@ -61,7 +61,7 @@ catch (raw_exn){
   }
 }
 
-eq("File \"caml_sys_poly_fill_test.ml\", line 23, characters 5-12", "Z", tmp);
+eq("File \"jscomp/test/caml_sys_poly_fill_test.ml\", line 23, characters 5-12", "Z", tmp);
 
 console.log([
       Caml_sys.caml_sys_getcwd(undefined),

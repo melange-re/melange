@@ -233,7 +233,7 @@ var p$1 = Curry._2(functional_point[0], undefined, 7);
 
 var tmp = Caml_oo_curry.js2(-933174511, 2, p$1, 3);
 
-eq("File \"class6_test.ml\", line 60, characters 5-12", [
+eq("File \"jscomp/test/class6_test.ml\", line 60, characters 5-12", [
       7,
       10,
       7
@@ -286,7 +286,7 @@ var p$2 = Curry._2(bad_functional_point_0, undefined, 7);
 
 var tmp$1 = Caml_oo_curry.js2(-933174511, 6, p$2, 3);
 
-eq("File \"class6_test.ml\", line 74, characters 5-12", [
+eq("File \"jscomp/test/class6_test.ml\", line 74, characters 5-12", [
       7,
       10,
       7

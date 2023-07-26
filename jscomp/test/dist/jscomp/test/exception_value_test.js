@@ -19,7 +19,7 @@ function assert_f(x) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "exception_value_test.ml",
+            "jscomp/test/exception_value_test.ml",
             9,
             12
           ],

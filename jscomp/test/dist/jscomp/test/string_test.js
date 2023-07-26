@@ -211,7 +211,7 @@ Mt.from_pair_suites("String_test", {
                 ],
                 tl: {
                   hd: [
-                    "File \"string_test.ml\", line 74, characters 2-9",
+                    "File \"jscomp/test/string_test.ml\", line 74, characters 2-9",
                     (function (param) {
                         return {
                                 TAG: /* Eq */0,

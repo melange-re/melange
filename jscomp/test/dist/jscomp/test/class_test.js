@@ -92,7 +92,7 @@ var u = {
 
 Mt.from_pair_suites("Class_test", {
       hd: [
-        "File \"class_test.ml\", line 38, characters 4-11",
+        "File \"jscomp/test/class_test.ml\", line 38, characters 4-11",
         (function (param) {
             return {
                     TAG: /* Eq */0,
@@ -103,7 +103,7 @@ Mt.from_pair_suites("Class_test", {
       ],
       tl: {
         hd: [
-          "File \"class_test.ml\", line 39, characters 4-11",
+          "File \"jscomp/test/class_test.ml\", line 39, characters 4-11",
           (function (param) {
               return {
                       TAG: /* Eq */0,
@@ -114,7 +114,7 @@ Mt.from_pair_suites("Class_test", {
         ],
         tl: {
           hd: [
-            "File \"class_test.ml\", line 40, characters 4-11",
+            "File \"jscomp/test/class_test.ml\", line 40, characters 4-11",
             (function (param) {
                 return {
                         TAG: /* Eq */0,
@@ -125,7 +125,7 @@ Mt.from_pair_suites("Class_test", {
           ],
           tl: {
             hd: [
-              "File \"class_test.ml\", line 41, characters 4-11",
+              "File \"jscomp/test/class_test.ml\", line 41, characters 4-11",
               (function (param) {
                   return {
                           TAG: /* Eq */0,

@@ -56,7 +56,7 @@ if (Caml_oo_curry.js1(291546447, 1, v) !== 3) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "class_repr.ml",
+          "jscomp/test/class_repr.ml",
           28,
           9
         ],
@@ -68,7 +68,7 @@ if (Caml_oo_curry.js1(291546447, 2, u) !== 3) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "class_repr.ml",
+          "jscomp/test/class_repr.ml",
           30,
           9
         ],
@@ -112,7 +112,7 @@ if (Caml_oo_curry.js1(-804710761, 4, v1) !== 3) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "class_repr.ml",
+          "jscomp/test/class_repr.ml",
           42,
           9
         ],
@@ -131,7 +131,7 @@ if (Caml_oo_curry.js1(-804710761, 9, v2) !== 9) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "class_repr.ml",
+          "jscomp/test/class_repr.ml",
           57,
           9
         ],
@@ -175,7 +175,7 @@ if (Caml_oo_curry.js1(590348294, 10, v$1) !== 5) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "class_repr.ml",
+          "jscomp/test/class_repr.ml",
           104,
           2
         ],

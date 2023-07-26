@@ -43,15 +43,15 @@ var u = Belt__Belt_Array.concat(Array_data_util.randomRange(30, 100), Array_data
 
 var v = Belt__Belt_HashSetInt.fromArray(u);
 
-eq("File \"bs_hashset_int_test.ml\", line 19, characters 5-12", v.size, 91);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 19, characters 5-12", v.size, 91);
 
 var xs = Belt__Belt_SetInt.toArray(Belt__Belt_SetInt.fromArray(Belt__Belt_HashSetInt.toArray(v)));
 
-eq("File \"bs_hashset_int_test.ml\", line 21, characters 5-12", xs, Array_data_util.range(30, 120));
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 21, characters 5-12", xs, Array_data_util.range(30, 120));
 
-eq("File \"bs_hashset_int_test.ml\", line 23, characters 5-12", Belt__Belt_HashSetInt.reduce(v, 0, add), 6825);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 23, characters 5-12", Belt__Belt_HashSetInt.reduce(v, 0, add), 6825);
 
-eq("File \"bs_hashset_int_test.ml\", line 24, characters 5-12", sum2(v), 6825);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 24, characters 5-12", sum2(v), 6825);
 
 var u$1 = Belt__Belt_Array.concat(Array_data_util.randomRange(0, 100000), Array_data_util.randomRange(0, 100));
 
@@ -59,25 +59,25 @@ var v$1 = Belt__Belt_internalBucketsType.make(undefined, undefined, 40);
 
 Belt__Belt_HashSetInt.mergeMany(v$1, u$1);
 
-eq("File \"bs_hashset_int_test.ml\", line 30, characters 5-12", v$1.size, 100001);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 30, characters 5-12", v$1.size, 100001);
 
 for(var i = 0; i <= 1000; ++i){
   Belt__Belt_HashSetInt.remove(v$1, i);
 }
 
-eq("File \"bs_hashset_int_test.ml\", line 34, characters 5-12", v$1.size, 99000);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 34, characters 5-12", v$1.size, 99000);
 
 for(var i$1 = 0; i$1 <= 2000; ++i$1){
   Belt__Belt_HashSetInt.remove(v$1, i$1);
 }
 
-eq("File \"bs_hashset_int_test.ml\", line 38, characters 5-12", v$1.size, 98000);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 38, characters 5-12", v$1.size, 98000);
 
 var u0 = Belt__Belt_HashSetInt.fromArray(Array_data_util.randomRange(0, 100000));
 
 var u1 = Belt__Belt_HashSetInt.copy(u0);
 
-eq("File \"bs_hashset_int_test.ml\", line 46, characters 5-12", Belt__Belt_HashSetInt.toArray(u0), Belt__Belt_HashSetInt.toArray(u1));
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 46, characters 5-12", Belt__Belt_HashSetInt.toArray(u0), Belt__Belt_HashSetInt.toArray(u1));
 
 for(var i$2 = 0; i$2 <= 2000; ++i$2){
   Belt__Belt_HashSetInt.remove(u1, i$2);
@@ -95,13 +95,13 @@ Belt__Belt_SortArrayInt.stableSortInPlace(v0);
 
 Belt__Belt_SortArrayInt.stableSortInPlace(v1);
 
-eq("File \"bs_hashset_int_test.ml\", line 57, characters 5-12", v0, v1);
+eq("File \"jscomp/test/bs_hashset_int_test.ml\", line 57, characters 5-12", v0, v1);
 
 var h = Belt__Belt_HashSetInt.fromArray(Array_data_util.randomRange(0, 1000000));
 
 var histo = Belt__Belt_HashSetInt.getBucketHistogram(h);
 
-b("File \"bs_hashset_int_test.ml\", line 62, characters 4-11", histo.length <= 10);
+b("File \"jscomp/test/bs_hashset_int_test.ml\", line 62, characters 4-11", histo.length <= 10);
 
 Mt.from_pair_suites("Bs_hashset_int_test", suites.contents);
 

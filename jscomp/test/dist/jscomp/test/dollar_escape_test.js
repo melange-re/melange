@@ -36,9 +36,9 @@ function $$$plus(x, y) {
   return Math.imul(x, y);
 }
 
-eq("File \"dollar_escape_test.ml\", line 20, characters 6-13", 3, 3);
+eq("File \"jscomp/test/dollar_escape_test.ml\", line 20, characters 6-13", 3, 3);
 
-eq("File \"dollar_escape_test.ml\", line 21, characters 6-13", 3, 3);
+eq("File \"jscomp/test/dollar_escape_test.ml\", line 21, characters 6-13", 3, 3);
 
 Mt.from_pair_suites("Dollar_escape_test", suites.contents);
 

@@ -106,7 +106,7 @@ Mt.from_pair_suites("Int_overflow_test", {
                 ],
                 tl: {
                   hd: [
-                    "File \"int_overflow_test.ml\", line 37, characters 2-9",
+                    "File \"jscomp/test/int_overflow_test.ml\", line 37, characters 2-9",
                     (function (param) {
                         return {
                                 TAG: /* Eq */0,
@@ -117,7 +117,7 @@ Mt.from_pair_suites("Int_overflow_test", {
                   ],
                   tl: {
                     hd: [
-                      "File \"int_overflow_test.ml\", line 38, characters 2-9",
+                      "File \"jscomp/test/int_overflow_test.ml\", line 38, characters 2-9",
                       (function (param) {
                           return {
                                   TAG: /* Eq */0,
@@ -172,7 +172,7 @@ Mt.from_pair_suites("Int_overflow_test", {
                             ],
                             tl: {
                               hd: [
-                                "File \"int_overflow_test.ml\", line 44, characters 3-10",
+                                "File \"jscomp/test/int_overflow_test.ml\", line 44, characters 3-10",
                                 (function (param) {
                                     return {
                                             TAG: /* Eq */0,
@@ -183,7 +183,7 @@ Mt.from_pair_suites("Int_overflow_test", {
                               ],
                               tl: {
                                 hd: [
-                                  "File \"int_overflow_test.ml\", line 46, characters 3-10",
+                                  "File \"jscomp/test/int_overflow_test.ml\", line 46, characters 3-10",
                                   (function (param) {
                                       return {
                                               TAG: /* Eq */0,

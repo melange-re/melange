@@ -16,7 +16,7 @@ function is_equal(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "equal_exception_test.ml",
+            "jscomp/test/equal_exception_test.ml",
             9,
             4
           ],
@@ -27,7 +27,7 @@ function is_equal(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "equal_exception_test.ml",
+            "jscomp/test/equal_exception_test.ml",
             10,
             4
           ],
@@ -40,7 +40,7 @@ function is_equal(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "equal_exception_test.ml",
+            "jscomp/test/equal_exception_test.ml",
             13,
             4
           ],
@@ -146,7 +146,7 @@ if (Caml_obj.caml_equal(e, {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "equal_exception_test.ml",
+          "jscomp/test/equal_exception_test.ml",
           50,
           3
         ],
@@ -158,7 +158,7 @@ if (Not_found === Stdlib.Not_found !== false) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "equal_exception_test.ml",
+          "jscomp/test/equal_exception_test.ml",
           51,
           3
         ],

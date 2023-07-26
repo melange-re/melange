@@ -6,14 +6,12 @@ var Belt__Belt_List = require("melange.belt/belt_List.js");
 
 var N = {};
 
-function f(X) {
-  return function (xs) {
-    X.forEach(xs, {
-          i: (function (x) {
-              console.log(x.x);
-            })
-        });
-  };
+function f(X, xs) {
+  X.forEach(xs, {
+        i: (function (x) {
+            console.log(x.x);
+          })
+      });
 }
 
 Belt__Belt_List.forEachU({

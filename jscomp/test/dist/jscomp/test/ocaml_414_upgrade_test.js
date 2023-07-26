@@ -16,25 +16,21 @@ var Y = {
   forEach: forEach
 };
 
-function f(X) {
-  return function (xs) {
-    X.forEach(xs, {
-          i: (function (x) {
-              console.log(x.x);
-            })
-        });
-  };
+function f(X, xs) {
+  X.forEach(xs, {
+        i: (function (x) {
+            console.log(x.x);
+          })
+      });
 }
 
-function g(X) {
-  return function (xs) {
-    Belt__Belt_Array.forEach(xs, (function (x) {
-            console.log(x);
-          }));
-  };
+function g(X, xs) {
+  Belt__Belt_Array.forEach(xs, (function (x) {
+          console.log(x);
+        }));
 }
 
-var g_result = g(Y)([]);
+var g_result = g(Y, []);
 
 exports.N = N;
 exports.Y = Y;

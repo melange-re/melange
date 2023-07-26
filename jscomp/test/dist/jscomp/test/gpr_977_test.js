@@ -45,9 +45,9 @@ function int32_f(x) {
 
 var u = f(-2147483648);
 
-eq("File \"gpr_977_test.ml\", line 32, characters 5-12", -2147483648, u);
+eq("File \"jscomp/test/gpr_977_test.ml\", line 32, characters 5-12", -2147483648, u);
 
-eq("File \"gpr_977_test.ml\", line 33, characters 5-12", Stdlib__Int32.min_int, int32_f(Stdlib__Int32.min_int));
+eq("File \"jscomp/test/gpr_977_test.ml\", line 33, characters 5-12", Stdlib__Int32.min_int, int32_f(Stdlib__Int32.min_int));
 
 Mt.from_pair_suites("Gpr_977_test", suites.contents);
 

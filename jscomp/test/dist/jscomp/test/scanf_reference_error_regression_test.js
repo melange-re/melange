@@ -102,7 +102,7 @@ function scan_int_list(ib) {
   return Stdlib__List.rev(scan_rest(ib, /* [] */0));
 }
 
-eq("File \"scanf_reference_error_regression_test.ml\", line 36, characters 5-12", [
+eq("File \"jscomp/test/scanf_reference_error_regression_test.ml\", line 36, characters 5-12", [
       scan_int_list(Stdlib__Scanf.Scanning.from_string("[]")),
       /* [] */0
     ]);

@@ -129,9 +129,9 @@ var tmp$2 = Caml_oo_curry.js1(24357, 2, tmp$1);
 
 var tmp$3 = Caml_oo_curry.js1(24359, 3, tmp$2);
 
-eq("File \"opr_3576_test.ml\", line 22, characters 6-13", Caml_oo_curry.js1(24358, 4, tmp$3), 3);
+eq("File \"jscomp/test/opr_3576_test.ml\", line 22, characters 6-13", Caml_oo_curry.js1(24358, 4, tmp$3), 3);
 
-Mt.from_pair_suites("opr_3576_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/opr_3576_test.ml", suites.contents);
 
 exports.suites = suites;
 exports.test_id = test_id;

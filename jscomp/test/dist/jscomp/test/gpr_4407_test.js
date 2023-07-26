@@ -21,9 +21,9 @@ var non_debug_u = /* A */{
   _1: 2
 };
 
-eq("File \"gpr_4407_test.ml\", line 10, characters 6-13", Debug_mode_value.u, non_debug_u);
+eq("File \"jscomp/test/gpr_4407_test.ml\", line 10, characters 6-13", Debug_mode_value.u, non_debug_u);
 
-Mt.from_pair_suites("File \"gpr_4407_test.ml\", line 11, characters 23-30", suites.contents);
+Mt.from_pair_suites("File \"jscomp/test/gpr_4407_test.ml\", line 11, characters 23-30", suites.contents);
 
 exports.suites = suites;
 exports.test_id = test_id;

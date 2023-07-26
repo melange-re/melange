@@ -39,12 +39,12 @@ try {
         Error: new Error()
       };
 }
-catch (raw_msg){
-  var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-  if (msg.RE_EXN_ID === Stdlib.Failure) {
-    y = msg._1;
+catch (raw_exn){
+  var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  if (exn.RE_EXN_ID === Stdlib.Failure) {
+    y = exn._1;
   } else {
-    throw msg;
+    throw exn;
   }
 }
 
@@ -59,12 +59,12 @@ try {
         Error: new Error()
       };
 }
-catch (raw_msg$1){
-  var msg$1 = Caml_js_exceptions.internalToOCamlException(raw_msg$1);
-  if (msg$1.RE_EXN_ID === Stdlib.Failure) {
-    x = msg$1._1;
+catch (raw_exn$1){
+  var exn$1 = Caml_js_exceptions.internalToOCamlException(raw_exn$1);
+  if (exn$1.RE_EXN_ID === Stdlib.Failure) {
+    x = exn$1._1;
   } else {
-    throw msg$1;
+    throw exn$1;
   }
 }
 
@@ -73,9 +73,9 @@ if (exit === 1) {
   x = undefined;
 }
 
-eq("File \"gpr_2316_test.ml\", line 20, characters 5-12", y, "boo");
+eq("File \"jscomp/test/gpr_2316_test.ml\", line 20, characters 5-12", y, "boo");
 
-eq("File \"gpr_2316_test.ml\", line 21, characters 5-12", x, "boo");
+eq("File \"jscomp/test/gpr_2316_test.ml\", line 21, characters 5-12", x, "boo");
 
 Mt.from_pair_suites("Gpr_2316_test", suites.contents);
 

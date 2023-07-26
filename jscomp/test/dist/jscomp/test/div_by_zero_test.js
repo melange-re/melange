@@ -38,7 +38,7 @@ function add(suite) {
 }
 
 add([
-      "File \"div_by_zero_test.ml\", line 14, characters 7-14",
+      "File \"jscomp/test/div_by_zero_test.ml\", line 14, characters 7-14",
       (function (param) {
           return {
                   TAG: /* ThrowAny */7,
@@ -50,7 +50,7 @@ add([
     ]);
 
 add([
-      "File \"div_by_zero_test.ml\", line 15, characters 7-14",
+      "File \"jscomp/test/div_by_zero_test.ml\", line 15, characters 7-14",
       (function (param) {
           return {
                   TAG: /* ThrowAny */7,
@@ -62,7 +62,7 @@ add([
     ]);
 
 add([
-      "File \"div_by_zero_test.ml\", line 16, characters 7-14",
+      "File \"jscomp/test/div_by_zero_test.ml\", line 16, characters 7-14",
       (function (param) {
           return {
                   TAG: /* ThrowAny */7,
@@ -74,7 +74,7 @@ add([
     ]);
 
 add([
-      "File \"div_by_zero_test.ml\", line 17, characters 7-14",
+      "File \"jscomp/test/div_by_zero_test.ml\", line 17, characters 7-14",
       (function (param) {
           return {
                   TAG: /* ThrowAny */7,
@@ -86,7 +86,7 @@ add([
     ]);
 
 add([
-      "File \"div_by_zero_test.ml\", line 18, characters 7-14",
+      "File \"jscomp/test/div_by_zero_test.ml\", line 18, characters 7-14",
       (function (param) {
           return {
                   TAG: /* ThrowAny */7,
@@ -101,7 +101,7 @@ add([
     ]);
 
 add([
-      "File \"div_by_zero_test.ml\", line 19, characters 7-14",
+      "File \"jscomp/test/div_by_zero_test.ml\", line 19, characters 7-14",
       (function (param) {
           return {
                   TAG: /* ThrowAny */7,

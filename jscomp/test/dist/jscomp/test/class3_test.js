@@ -124,7 +124,7 @@ var point = CamlinternalOO.make_class(shared, point_init);
 
 var p = Curry._2(point[0], undefined, 7);
 
-eq("File \"class3_test.ml\", line 17, characters 12-19", Caml_oo_curry.js1(291546447, 1, p), 7);
+eq("File \"jscomp/test/class3_test.ml\", line 17, characters 12-19", Caml_oo_curry.js1(291546447, 1, p), 7);
 
 function adjusted_point_init($$class) {
   var x_init = CamlinternalOO.new_variable($$class, "");
@@ -162,7 +162,7 @@ var adjusted_point = CamlinternalOO.make_class(shared$5, adjusted_point_init);
 
 var tmp = Curry._2(adjusted_point[0], undefined, 31);
 
-eq("File \"class3_test.ml\", line 28, characters 13-20", Caml_oo_curry.js1(291546447, 2, tmp), 30);
+eq("File \"jscomp/test/class3_test.ml\", line 28, characters 13-20", Caml_oo_curry.js1(291546447, 2, tmp), 30);
 
 function new_init(obj_init, self, x_init) {
   return Curry._2(obj_init, self, Math.imul(x_init / 10 | 0, 10));
@@ -197,7 +197,7 @@ var adjusted_point2 = [
 
 var tmp$1 = Curry._2(adjusted_point2_0, undefined, 31);
 
-eq("File \"class3_test.ml\", line 33, characters 12-19", Caml_oo_curry.js1(291546447, 3, tmp$1), 30);
+eq("File \"jscomp/test/class3_test.ml\", line 33, characters 12-19", Caml_oo_curry.js1(291546447, 3, tmp$1), 30);
 
 function printable_point_init($$class) {
   var x_init = CamlinternalOO.new_variable($$class, "");
@@ -232,7 +232,7 @@ var printable_point = CamlinternalOO.make_class(shared$10, printable_point_init)
 
 var p$1 = Curry._2(printable_point[0], undefined, 7);
 
-eq("File \"class3_test.ml\", line 49, characters 11-18", Caml_oo_curry.js1(-930392019, 4, p$1), 7);
+eq("File \"jscomp/test/class3_test.ml\", line 49, characters 11-18", Caml_oo_curry.js1(-930392019, 4, p$1), 7);
 
 var ints = {
   contents: /* [] */0
@@ -304,7 +304,7 @@ function printable_point2_init($$class) {
           })
       ]);
   CamlinternalOO.add_initializer($$class, (function (self$6) {
-          console.log("initializingFile \"class3_test.ml\", line 76, characters 50-57");
+          console.log("initializingFile \"jscomp/test/class3_test.ml\", line 76, characters 50-57");
           return Caml_array.set(v, 0, self$6[x]);
         }));
   return function (env, self, x_init$1) {
@@ -321,7 +321,7 @@ var printable_point2 = CamlinternalOO.make_class(shared$10, printable_point2_ini
 
 Curry._2(printable_point2[0], undefined, 31);
 
-eq("File \"class3_test.ml\", line 81, characters 12-19", v, [
+eq("File \"jscomp/test/class3_test.ml\", line 81, characters 12-19", v, [
       30,
       3
     ]);
@@ -383,7 +383,7 @@ Caml_oo_curry.js2(-933174511, 8, h, 32);
 
 var v$1 = Caml_oo_curry.js1(-792262820, 9, h);
 
-eq("File \"class3_test.ml\", line 107, characters 12-19", v$1, 32);
+eq("File \"jscomp/test/class3_test.ml\", line 107, characters 12-19", v$1, 32);
 
 function abstract_point2_1($$class) {
   var ids = CamlinternalOO.new_methods_variables($$class, shared$2, shared$8);
@@ -431,7 +431,7 @@ Caml_oo_curry.js2(-933174511, 10, h$1, 32);
 
 var vv = Caml_oo_curry.js1(-792262820, 11, h$1);
 
-eq("File \"class3_test.ml\", line 128, characters 12-19", vv, 32);
+eq("File \"jscomp/test/class3_test.ml\", line 128, characters 12-19", vv, 32);
 
 function restricted_point_init($$class) {
   var x_init = CamlinternalOO.new_variable($$class, "");
@@ -473,7 +473,7 @@ Caml_oo_curry.js1(-1054863370, 12, p$2);
 
 var h$2 = Caml_oo_curry.js1(291546447, 13, p$2);
 
-eq("File \"class3_test.ml\", line 144, characters 12-19", h$2, 1);
+eq("File \"jscomp/test/class3_test.ml\", line 144, characters 12-19", h$2, 1);
 
 function point_again_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
@@ -500,7 +500,7 @@ Caml_oo_curry.js1(-1054863370, 16, p$3);
 
 var hh = Caml_oo_curry.js1(291546447, 17, p$3);
 
-eq("File \"class3_test.ml\", line 161, characters 12-19", hh, 8);
+eq("File \"jscomp/test/class3_test.ml\", line 161, characters 12-19", hh, 8);
 
 function point_again2_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
@@ -527,7 +527,7 @@ Caml_oo_curry.js1(-1054863370, 20, p$4);
 
 var hhh = Caml_oo_curry.js1(291546447, 21, p$4);
 
-eq("File \"class3_test.ml\", line 177, characters 12-19", hhh, 35);
+eq("File \"jscomp/test/class3_test.ml\", line 177, characters 12-19", hhh, 35);
 
 function point_again3_init($$class) {
   var x = CamlinternalOO.new_variable($$class, "");
@@ -557,7 +557,7 @@ Caml_oo_curry.js1(-1054863370, 24, p$5);
 
 var hhhh = Caml_oo_curry.js1(291546447, 25, p$5);
 
-eq("File \"class3_test.ml\", line 195, characters 12-19", hhhh, 305);
+eq("File \"jscomp/test/class3_test.ml\", line 195, characters 12-19", hhhh, 305);
 
 Mt.from_pair_suites("Class3_test", suites.contents);
 

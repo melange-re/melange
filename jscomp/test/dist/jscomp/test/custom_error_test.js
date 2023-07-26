@@ -10,13 +10,13 @@ function test_js_error(param) {
   try {
     e = JSON.parse(" {\"x\" : }");
   }
-  catch (raw_err){
-    var err = Caml_js_exceptions.internalToOCamlException(raw_err);
-    if (err.RE_EXN_ID === Js__Js_exn.$$Error) {
-      console.log(err._1.stack);
+  catch (raw_exn){
+    var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === Js__Js_exn.$$Error) {
+      console.log(exn._1.stack);
       return ;
     }
-    throw err;
+    throw exn;
   }
   return Caml_option.some(e);
 }
@@ -40,13 +40,13 @@ function example1(param) {
   try {
     v = JSON.parse(" {\"x\"  }");
   }
-  catch (raw_err){
-    var err = Caml_js_exceptions.internalToOCamlException(raw_err);
-    if (err.RE_EXN_ID === Js__Js_exn.$$Error) {
-      console.log(err._1.stack);
+  catch (raw_exn){
+    var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === Js__Js_exn.$$Error) {
+      console.log(exn._1.stack);
       return ;
     }
-    throw err;
+    throw exn;
   }
   return Caml_option.some(v);
 }

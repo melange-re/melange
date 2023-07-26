@@ -80,7 +80,7 @@ var tmp = Caml_oo_curry.js2(4846113, 1, cxt1, undefined);
 
 var result = Caml_oo_curry.js2(5144726, 2, tmp, undefined);
 
-eq("File \"gpr_2250_test.ml\", line 26, characters 5-12", result, 1);
+eq("File \"jscomp/test/gpr_2250_test.ml\", line 26, characters 5-12", result, 1);
 
 var cxt2 = create(undefined);
 
@@ -90,7 +90,7 @@ var tmp$2 = Caml_oo_curry.js2(4846113, 4, tmp$1, undefined);
 
 var result2 = Caml_oo_curry.js2(5144726, 5, tmp$2, undefined);
 
-eq("File \"gpr_2250_test.ml\", line 37, characters 5-12", result2, 2);
+eq("File \"jscomp/test/gpr_2250_test.ml\", line 37, characters 5-12", result2, 2);
 
 Mt.from_pair_suites("Gpr_2250_test", suites.contents);
 

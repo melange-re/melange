@@ -168,7 +168,7 @@ function node_relative_path(node_modules_shorten, file1, dep_file) {
     while(true) {
       var i = _i;
       if (i >= len) {
-        return Curry._1(Ext_pervasives_test.failwithf("File \"ext_filename_test.ml\", line 162, characters 43-50", /* Format */{
+        return Curry._1(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 162, characters 43-50", /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "invalid path: ",
@@ -200,7 +200,7 @@ function find_root_filename(_cwd, filename) {
     }
     var cwd$p = Curry._1(Stdlib__Filename.dirname, cwd);
     if (cwd$p.length >= cwd.length) {
-      return Curry._2(Ext_pervasives_test.failwithf("File \"ext_filename_test.ml\", line 205, characters 13-20", /* Format */{
+      return Curry._2(Ext_pervasives_test.failwithf("File \"jscomp/test/ext_filename_test.ml\", line 205, characters 13-20", /* Format */{
                       _0: {
                         TAG: /* String */2,
                         _0: /* No_padding */0,
@@ -236,12 +236,12 @@ var package_dir = {
 
 function module_name_of_file(file) {
   var s = Stdlib__Filename.chop_extension(Curry._1(Stdlib__Filename.basename, file));
-  return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
+  return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s)));
 }
 
 function module_name_of_file_if_any(file) {
   var s = chop_extension_if_any(Curry._1(Stdlib__Filename.basename, file));
-  return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize(Caml_bytes.bytes_of_string(s)));
+  return Caml_bytes.bytes_to_string(Stdlib__Bytes.capitalize_ascii(Caml_bytes.bytes_of_string(s)));
 }
 
 function combine(p1, p2) {

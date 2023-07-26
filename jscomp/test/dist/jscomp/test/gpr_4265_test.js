@@ -40,9 +40,9 @@ Belt__Belt_MutableMapInt.remove(mockMap, 1726);
 
 var n1 = Belt__Belt_internalMapInt.getExn(mockMap.data, 6667);
 
-eq("File \"gpr_4265_test.ml\", line 17, characters 6-13", n, n1);
+eq("File \"jscomp/test/gpr_4265_test.ml\", line 17, characters 6-13", n, n1);
 
-Mt.from_pair_suites("gpr_4265_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/gpr_4265_test.ml", suites.contents);
 
 exports.suites = suites;
 exports.test_id = test_id;

@@ -157,7 +157,7 @@ function $star$tilde(prim0, prim1) {
 var suites = {
   contents: Stdlib.$at({
         hd: [
-          "File \"int32_test.ml\", line 31, characters 2-9",
+          "File \"jscomp/test/int32_test.ml\", line 31, characters 2-9",
           (function (param) {
               return {
                       TAG: /* Eq */0,
@@ -168,7 +168,7 @@ var suites = {
         ],
         tl: {
           hd: [
-            "File \"int32_test.ml\", line 32, characters 2-9",
+            "File \"jscomp/test/int32_test.ml\", line 32, characters 2-9",
             (function (param) {
                 return {
                         TAG: /* Eq */0,
@@ -262,9 +262,9 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-eq("File \"int32_test.ml\", line 47, characters 5-12", Caml_float.caml_int32_bits_of_float(0.3), 1050253722);
+eq("File \"jscomp/test/int32_test.ml\", line 47, characters 5-12", Caml_float.caml_int32_bits_of_float(0.3), 1050253722);
 
-eq("File \"int32_test.ml\", line 48, characters 5-12", Caml_float.caml_int32_float_of_bits(1050253722), 0.300000011920928955);
+eq("File \"jscomp/test/int32_test.ml\", line 48, characters 5-12", Caml_float.caml_int32_float_of_bits(1050253722), 0.300000011920928955);
 
 Mt.from_pair_suites("Int32_test", suites.contents);
 

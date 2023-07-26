@@ -36,7 +36,7 @@ function ff(x) {
   console.log(x);
 }
 
-eq("File \"ignore_test.ml\", line 16, characters 5-12", undefined, undefined);
+eq("File \"jscomp/test/ignore_test.ml\", line 16, characters 5-12", undefined, undefined);
 
 Mt.from_pair_suites("Ignore_test", suites.contents);
 

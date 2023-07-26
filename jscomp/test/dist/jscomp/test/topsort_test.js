@@ -125,7 +125,7 @@ if (!Caml_obj.caml_equal(dfs1({
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           29,
           2
         ],
@@ -163,7 +163,7 @@ if (!Caml_obj.caml_equal(dfs1({
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           32,
           2
         ],
@@ -224,7 +224,7 @@ if (!Caml_obj.caml_equal(dfs2({
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           47,
           2
         ],
@@ -260,7 +260,7 @@ if (!Caml_obj.caml_equal(dfs2({
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           48,
           2
         ],
@@ -318,7 +318,7 @@ if (!Caml_obj.caml_equal(dfs3({
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           65,
           2
         ],
@@ -354,7 +354,7 @@ if (!Caml_obj.caml_equal(dfs3({
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           66,
           2
         ],
@@ -443,7 +443,7 @@ if (!Caml_obj.caml_equal(unsafe_topsort(grwork), {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           110,
           2
         ],
@@ -1485,8 +1485,8 @@ function of_list(l) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "set.ml",
-                570,
+                "jscomp/stdlib/set.ml",
+                571,
                 18
               ],
               Error: new Error()
@@ -1607,8 +1607,6 @@ function to_seq_from(low, s) {
 
 var String_set = {
   empty: /* Empty */0,
-  is_empty: is_empty,
-  mem: mem,
   add: add,
   singleton: singleton,
   remove: remove,
@@ -1616,17 +1614,6 @@ var String_set = {
   inter: inter,
   disjoint: disjoint,
   diff: diff,
-  compare: compare,
-  equal: equal,
-  subset: subset,
-  iter: iter,
-  map: map,
-  fold: fold,
-  for_all: for_all,
-  exists: exists,
-  filter: filter,
-  filter_map: filter_map,
-  partition: partition,
   cardinal: cardinal,
   elements: elements,
   min_elt: min_elt,
@@ -1635,13 +1622,27 @@ var String_set = {
   max_elt_opt: max_elt_opt,
   choose: min_elt,
   choose_opt: min_elt_opt,
-  split: split,
   find: find,
   find_opt: find_opt,
   find_first: find_first,
   find_first_opt: find_first_opt,
   find_last: find_last,
   find_last_opt: find_last_opt,
+  iter: iter,
+  fold: fold,
+  map: map,
+  filter: filter,
+  filter_map: filter_map,
+  partition: partition,
+  split: split,
+  is_empty: is_empty,
+  mem: mem,
+  equal: equal,
+  compare: compare,
+  subset: subset,
+  for_all: for_all,
+  exists: exists,
+  to_list: elements,
   of_list: of_list,
   to_seq_from: to_seq_from,
   to_seq: to_seq,
@@ -1726,7 +1727,7 @@ if (!Caml_obj.caml_equal(pathsort(grwork), {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           150,
           4
         ],
@@ -1745,7 +1746,7 @@ try {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "topsort_test.ml",
+          "jscomp/test/topsort_test.ml",
           156,
           8
         ],
@@ -1783,7 +1784,7 @@ catch (raw_exn){
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "topsort_test.ml",
+            "jscomp/test/topsort_test.ml",
             159,
             11
           ],

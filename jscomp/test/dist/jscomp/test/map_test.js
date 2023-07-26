@@ -222,6 +222,12 @@ function cardinal(param) {
   }
 }
 
+function of_list(bs) {
+  return Stdlib__List.fold_left((function (m, param) {
+                return add(param[0], param[1], m);
+              }), /* Empty */0, bs);
+}
+
 var funarg = {
   compare: Stdlib__String.compare
 };
@@ -368,16 +374,10 @@ function find(x, _param) {
   };
 }
 
-function of_list(kvs) {
-  return Stdlib__List.fold_left((function (acc, param) {
-                return Curry._3(add, param[0], param[1], acc);
-              }), /* Empty */0, kvs);
-}
-
 var int_map_suites_0 = [
   "add",
   (function (param) {
-      var v = of_list({
+      var v = Curry._1(of_list, {
             hd: [
               1,
               /* '1' */49
@@ -408,7 +408,7 @@ var int_map_suites_1 = {
   hd: [
     "equal",
     (function (param) {
-        var v = of_list({
+        var v = Curry._1(of_list, {
               hd: [
                 1,
                 /* '1' */49
@@ -427,7 +427,7 @@ var int_map_suites_1 = {
                 }
               }
             });
-        var u = of_list({
+        var u = Curry._1(of_list, {
               hd: [
                 2,
                 /* '3' */51
@@ -457,7 +457,7 @@ var int_map_suites_1 = {
     hd: [
       "equal2",
       (function (param) {
-          var v = of_list({
+          var v = Curry._1(of_list, {
                 hd: [
                   1,
                   /* '1' */49
@@ -476,7 +476,7 @@ var int_map_suites_1 = {
                   }
                 }
               });
-          var u = of_list({
+          var u = Curry._1(of_list, {
                 hd: [
                   2,
                   /* '3' */51

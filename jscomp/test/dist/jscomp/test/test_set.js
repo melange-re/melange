@@ -663,7 +663,7 @@ function Make(Ord) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "test_set.ml",
+              "jscomp/test/test_set.ml",
               372,
               18
             ],

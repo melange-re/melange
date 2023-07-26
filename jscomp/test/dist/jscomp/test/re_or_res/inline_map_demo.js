@@ -44,7 +44,7 @@ function bal(l, x, d, r) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "inline_map_demo.res",
+              "jscomp/test/re_or_res/inline_map_demo.res",
               48,
               19
             ],
@@ -54,7 +54,7 @@ function bal(l, x, d, r) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "inline_map_demo.res",
+            "jscomp/test/re_or_res/inline_map_demo.res",
             42,
             15
           ],
@@ -84,7 +84,7 @@ function bal(l, x, d, r) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "inline_map_demo.res",
+            "jscomp/test/re_or_res/inline_map_demo.res",
             62,
             19
           ],
@@ -94,7 +94,7 @@ function bal(l, x, d, r) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "inline_map_demo.res",
+          "jscomp/test/re_or_res/inline_map_demo.res",
           56,
           15
         ],

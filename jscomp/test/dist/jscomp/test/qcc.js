@@ -45,7 +45,7 @@ function bufferize(f) {
                 throw {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
-                        "qcc.ml",
+                        "jscomp/test/qcc.ml",
                         17,
                         4
                       ],
@@ -103,7 +103,7 @@ function symstr(n) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "qcc.ml",
+            "jscomp/test/qcc.ml",
             40,
             4
           ],
@@ -373,7 +373,7 @@ function patch(rel, loc, n) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "qcc.ml",
+            "jscomp/test/qcc.ml",
             157,
             2
           ],
@@ -1041,7 +1041,7 @@ function unary(stk) {
             throw {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
-                    "qcc.ml",
+                    "jscomp/test/qcc.ml",
                     295,
                     6
                   ],
@@ -1327,7 +1327,7 @@ function decl(g, _n, _stk) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "qcc.ml",
+                "jscomp/test/qcc.ml",
                 436,
                 6
               ],
@@ -1455,7 +1455,7 @@ function stmt(brk, stk) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "qcc.ml",
+              "jscomp/test/qcc.ml",
               515,
               4
             ],
@@ -1872,7 +1872,7 @@ function elfgen(outf) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "qcc.ml",
+            "jscomp/test/qcc.ml",
             698,
             2
           ],
@@ -1884,8 +1884,8 @@ function elfgen(outf) {
 }
 
 function main(param) {
-  var ppsym = function (s) {
-    switch (s.TAG | 0) {
+  var ppsym = function (param) {
+    switch (param.TAG | 0) {
       case /* Op */0 :
           return Curry._1(Stdlib__Printf.printf(/* Format */{
                           _0: {
@@ -1902,7 +1902,7 @@ function main(param) {
                             }
                           },
                           _1: "Operator '%s'\n"
-                        }), s._0);
+                        }), param._0);
       case /* ILit */1 :
           return Curry._1(Stdlib__Printf.printf(/* Format */{
                           _0: {
@@ -1921,7 +1921,7 @@ function main(param) {
                             }
                           },
                           _1: "Int literal %d\n"
-                        }), s._0);
+                        }), param._0);
       case /* SLit */2 :
           return Curry._1(Stdlib__Printf.printf(/* Format */{
                           _0: {
@@ -1938,9 +1938,9 @@ function main(param) {
                             }
                           },
                           _1: "Str literal %S\n"
-                        }), s._1);
+                        }), param._1);
       case /* Sym */3 :
-          var i = s._0;
+          var i = param._0;
           return Curry._2(Stdlib__Printf.printf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
