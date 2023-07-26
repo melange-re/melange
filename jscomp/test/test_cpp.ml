@@ -8,7 +8,6 @@
 
 
 type t = int
-let f (x : t) y = Pervasives.compare x y
-
+let f (x : t) y = Stdlib.compare x y
 
 
