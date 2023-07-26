@@ -2,11 +2,11 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_int32 = require("melange.js/caml_int32.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.js/caml_obj.js");
-var Caml_int32 = require("melange.js/caml_int32.js");
-var Caml_option = require("melange.js/caml_option.js");
 var Stdlib__List = require("melange/list.js");
 var Stdlib__Printf = require("melange/printf.js");
 var Stdlib__Random = require("melange/random.js");

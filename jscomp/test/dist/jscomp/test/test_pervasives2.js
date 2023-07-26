@@ -2,8 +2,8 @@
 'use strict';
 
 var Stdlib__List = require("melange/list.js");
-var Stdlib__Stack = require("melange/stack.js");
 var Stdlib__Pervasives = require("melange/pervasives.js");
+var Stdlib__Stack = require("melange/stack.js");
 
 var List = {
   length: Stdlib__List.length,

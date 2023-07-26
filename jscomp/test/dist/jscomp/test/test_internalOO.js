@@ -2,19 +2,19 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
-var Curry = require("melange.js/curry.js");
-var Stdlib = require("melange/stdlib.js");
-var Caml_oo = require("melange.js/caml_oo.js");
-var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_array = require("melange.js/caml_array.js");
 var Caml_int32 = require("melange.js/caml_int32.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_oo = require("melange.js/caml_oo.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Caml_string = require("melange.js/caml_string.js");
+var Curry = require("melange.js/curry.js");
+var Stdlib = require("melange/stdlib.js");
+var Stdlib__Array = require("melange/array.js");
+var Stdlib__List = require("melange/list.js");
 var Stdlib__Seq = require("melange/seq.js");
 var Stdlib__Sys = require("melange/sys.js");
-var Stdlib__List = require("melange/list.js");
-var Stdlib__Array = require("melange/array.js");
-var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function copy(o) {
   return Caml_oo.caml_set_oo_id(Caml_obj.caml_obj_dup(o));

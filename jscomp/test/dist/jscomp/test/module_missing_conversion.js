@@ -3,8 +3,8 @@
 
 var Curry = require("melange.js/curry.js");
 var Stdlib__Array = require("melange/array.js");
-var Stdlib__String = require("melange/string.js");
 var Stdlib__MoreLabels = require("melange/moreLabels.js");
+var Stdlib__String = require("melange/string.js");
 
 function f(x) {
   return x;
