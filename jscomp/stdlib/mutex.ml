@@ -13,11 +13,17 @@
 (*                                                                        *)
 (**************************************************************************)
 
-type t
-external create: unit -> t = "caml_ml_mutex_new"
-external lock: t -> unit = "caml_ml_mutex_lock"
-external try_lock: t -> bool = "caml_ml_mutex_try_lock"
-external unlock: t -> unit = "caml_ml_mutex_unlock"
+type t = bool ref
+
+let create () = ref false
+let lock t = t := true
+let try_lock t =
+  if !t then false
+  else begin
+    t := true;
+    true
+  end
+let unlock t = t := false
 
 (* private re-export *)
 external reraise : exn -> 'a = "%reraise"
