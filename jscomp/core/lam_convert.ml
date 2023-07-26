@@ -268,7 +268,8 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Blk_na s ->
           let info : Lam_tag_info.t = Blk_na s in
           prim ~primitive:(Pmakeblock (tag, info, mutable_flag)) ~args loc)
-  | Pfield (id, info) -> prim ~primitive:(Pfield (id, info)) ~args loc
+  | Pfield (id, _ptr, _mut, info) ->
+      prim ~primitive:(Pfield (id, info)) ~args loc
   | Psetfield (id, _, _initialization_or_assignment, info) ->
       prim ~primitive:(Psetfield (id, info)) ~args loc
   | Psetfloatfield _ | Pfloatfield _ -> assert false
@@ -410,6 +411,12 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Popaque -> List.hd args
   | Psetfield_computed _ -> prim ~primitive:Psetfield_computed ~args loc
   | Pbbswap _ | Pbswap16 | Pduparray _ -> assert false
+  | Prunstack | Pperform | Presume | Preperform | Patomic_exchange | Patomic_cas
+  | Patomic_fetch_add | Pdls_get | Patomic_load _ ->
+      Location.raise_errorf ~loc
+        "OCaml 5 multicore primitives (Effect, Domain, Condition, Mutex, \
+         Semaphore) are not supported in Melange"
+
 (* Does not exist since we compile array in js backend unlike native backend *)
 
 let may_depend = Lam_module_ident.Hash_set.add

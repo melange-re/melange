@@ -27,7 +27,7 @@
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
           (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_4_14.overrideScope' (oself: osuper: {
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_1.overrideScope' (oself: osuper: {
               reason = osuper.reason.overrideAttrs (_: {
                 src = super.fetchFromGitHub {
                   owner = "reasonml";

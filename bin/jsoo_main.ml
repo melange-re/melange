@@ -28,10 +28,10 @@ module Js = Jsoo_common.Js
 module Melange_ast = struct
   external to_ppxlib :
     Melange_compiler_libs.Parsetree.structure ->
-    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure = "%identity"
+    Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure = "%identity"
 
   external from_ppxlib :
-    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
+    Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure ->
     Melange_compiler_libs.Parsetree.structure = "%identity"
 end
 
@@ -68,20 +68,18 @@ let error_of_exn e =
       | Some (`Ok e) -> Some e
       | Some `Already_displayed | None -> None)
 
+module From_ppxlib =
+  Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_501)
+
 let compile =
-  let module From_ppxlib =
-    Ppxlib_ast.Convert
-      (Ppxlib_ast.Selected_ast)
-      (Ppxlib_ast__.Versions.OCaml_414)
-  in
   let module To_ppxlib =
     Ppxlib_ast.Convert
-      (Ppxlib_ast__.Versions.OCaml_414)
+      (Ppxlib_ast__.Versions.OCaml_501)
       (Ppxlib_ast.Selected_ast)
   in
   fun ~(impl :
          Lexing.lexbuf ->
-         Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure) str : Js.t ->
+         Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure) str : Js.t ->
     let modulename = "Test" in
     (* let env = !Toploop.toplevel_env in *)
     (* Res_compmisc.init_path false; *)
@@ -107,7 +105,7 @@ let compile =
         Melange_ast.from_ppxlib melange_converted_ast
       in
       let typed_tree =
-        let { Typedtree.structure; coercion; shape = _; signature }, _finalenv =
+        let { Typedtree.structure; coercion; shape = _; signature } =
           Typemod.type_implementation_more modulename modulename modulename env
             ast
         in
@@ -175,15 +173,24 @@ let () =
          ( "compileML",
            Js.wrap_meth_callback (fun _ code ->
                compile
-                 ~impl:
-                   (fun buf :
-                        Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure ->
+                 ~impl:(fun
+                     buf
+                     :
+                     Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure
+                   ->
                    Melange_ast.to_ppxlib
                      (Melange_compiler_libs.Parse.implementation buf))
                  (Js.to_string code)) );
          ( "compileRE",
            Js.wrap_meth_callback (fun _ code ->
-               compile ~impl:Reason_toolchain.RE.implementation
+               compile
+                 ~impl:(fun
+                     buf
+                     :
+                     Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure
+                   ->
+                   From_ppxlib.copy_structure
+                     (Reason_toolchain.RE.implementation buf))
                  (Js.to_string code)) );
          ("version", Js.string Melange_version.version);
          ( "parseRE",

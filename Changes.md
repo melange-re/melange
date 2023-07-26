@@ -43,6 +43,8 @@ Unreleased
 - [melange]: Fix field access code generation when `open`in inline functor
   applications ([#661](https://github.com/melange-re/melange/pull/661),
   [#664](https://github.com/melange-re/melange/pull/664))
+- [melange]: Upgrade the OCaml typechecker version to 5.1
+  ([#668](https://github.com/melange-re/melange/pull/668))
 
 1.0.0 2023-05-31
 ---------------

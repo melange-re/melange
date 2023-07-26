@@ -2,14 +2,17 @@
 
 let
   lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
-  findFlakeSrc = name: fetchGit {
+  findFlakeSrc = { name, allRefs ? false }: fetchGit {
     url = with lock.nodes.${name}.locked;"https://github.com/${owner}/${repo}";
     inherit (lock.nodes.${name}.locked) rev;
+    inherit allRefs;
   };
 
-  src = findFlakeSrc "nixpkgs";
-  nix-filter-src = findFlakeSrc "nix-filter";
-  melange-compiler-libs-src = findFlakeSrc "melange-compiler-libs";
+  src = findFlakeSrc { name = "nixpkgs"; };
+  nix-filter-src = findFlakeSrc { name = "nix-filter"; };
+  melange-compiler-libs-src = findFlakeSrc {
+    name = "melange-compiler-libs";
+  };
   nix-filter = import "${nix-filter-src}";
 
   pkgs = import src {
