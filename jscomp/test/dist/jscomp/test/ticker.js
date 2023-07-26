@@ -2,16 +2,16 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_format = require("melange.js/caml_format.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Caml_obj = require("melange.js/caml_obj.js");
+var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_obj = require("melange.js/caml_obj.js");
-var Caml_format = require("melange.js/caml_format.js");
-var Caml_option = require("melange.js/caml_option.js");
-var Stdlib__Seq = require("melange/seq.js");
 var Stdlib__List = require("melange/list.js");
 var Stdlib__Printf = require("melange/printf.js");
+var Stdlib__Seq = require("melange/seq.js");
 var Stdlib__String = require("melange/string.js");
-var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function split(delim, s) {
   var len = s.length;
