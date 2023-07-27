@@ -656,7 +656,7 @@ var suites_1 = {
                                                                                                           ],
                                                                                                           tl: {
                                                                                                             hd: [
-                                                                                                              "File \"js_string_test.ml\", line 214, characters 4-11",
+                                                                                                              "File \"jscomp/test/js_string_test.ml\", line 214, characters 4-11",
                                                                                                               (function (param) {
                                                                                                                   return {
                                                                                                                           TAG: /* Ok */4,

@@ -217,7 +217,7 @@ var array_suites_1 = {
           ],
           tl: {
             hd: [
-              "File \"array_test.ml\", line 63, characters 2-9",
+              "File \"jscomp/test/array_test.ml\", line 62, characters 2-9",
               (function (param) {
                   var a0 = Stdlib__Array.init(100, (function (i) {
                           return (i << 0);
@@ -259,7 +259,7 @@ var array_suites_1 = {
             ],
             tl: {
               hd: [
-                "File \"array_test.ml\", line 72, characters 2-9",
+                "File \"jscomp/test/array_test.ml\", line 71, characters 2-9",
                 (function (param) {
                     var a0 = Stdlib__Array.init(100, (function (i) {
                             return (i << 0);

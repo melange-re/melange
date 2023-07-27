@@ -56,7 +56,7 @@ var T1 = {
 };
 
 var suites_0 = [
-  "File \"queue_test.ml\", line 25, characters 2-9",
+  "File \"jscomp/test/queue_test.ml\", line 25, characters 2-9",
   (function (param) {
       var x = [
         3,

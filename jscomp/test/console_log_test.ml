@@ -1,5 +1,3 @@
-
-
 external min_int : int -> int -> int = "min" [@@bs.val] [@@bs.scope "Math"]
 
 (* ATTENTION: only built-in runtime would simplify it
@@ -14,14 +12,14 @@ external min_int : int -> int -> int = "min" [@@bs.val] [@@bs.scope "Math"]
      }
    ]}
    There are other things like [@bs.send] which does not like eta reduction
-   
+
 *)
 let min_int = min_int
 
-type t 
+type t
 external say : int -> int = "say"[@@bs.send.pipe:t]
 
 let say = say
 
 [@@@warning "-102"]
-let v = Pervasives.compare
+let v = Stdlib.compare

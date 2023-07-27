@@ -71,13 +71,13 @@ function caml_hash(x) {
   return Stdlib__Hashtbl.hash(x) & 1073741823;
 }
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 18, characters 5-12", Stdlib__Array.map(caml_hash, test_strings), test_strings_hash_results);
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/hash_test.ml\", line 18, characters 5-12", Stdlib__Array.map(caml_hash, test_strings), test_strings_hash_results);
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 24, characters 5-12", Stdlib__Hashtbl.hash(0) & 1073741823, 129913994);
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/hash_test.ml\", line 24, characters 5-12", Stdlib__Hashtbl.hash(0) & 1073741823, 129913994);
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 27, characters 5-12", Stdlib__Hashtbl.hash("x") & 1073741823, 780510073);
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/hash_test.ml\", line 27, characters 5-12", Stdlib__Hashtbl.hash("x") & 1073741823, 780510073);
 
-Mt_global.collect_eq(test_id, suites, "File \"hash_test.ml\", line 30, characters 5-12", Stdlib__Hashtbl.hash("xy") & 1073741823, 194127723);
+Mt_global.collect_eq(test_id, suites, "File \"jscomp/test/hash_test.ml\", line 30, characters 5-12", Stdlib__Hashtbl.hash("xy") & 1073741823, 194127723);
 
 Mt.from_pair_suites("Hash_test", suites.contents);
 

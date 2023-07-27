@@ -104,7 +104,7 @@ var a$1 = [
   a_5
 ];
 
-eq("File \"record_debug_test.ml\", line 64, characters 3-10", a$1, [
+eq("File \"jscomp/test/record_debug_test.ml\", line 64, characters 3-10", a$1, [
       "",
       "a",
       "3",
@@ -113,7 +113,7 @@ eq("File \"record_debug_test.ml\", line 64, characters 3-10", a$1, [
       " 3"
     ]);
 
-Mt.from_pair_suites("record_debug_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/record_debug_test.ml", suites.contents);
 
 var h = {
   hd: 1,

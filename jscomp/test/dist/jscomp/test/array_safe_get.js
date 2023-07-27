@@ -15,13 +15,13 @@ var y;
 try {
   y = Caml_array.get(x, 3);
 }
-catch (raw_msg){
-  var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-  if (msg.RE_EXN_ID === Stdlib.Invalid_argument) {
-    console.log(msg._1);
+catch (raw_exn){
+  var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+  if (exn.RE_EXN_ID === Stdlib.Invalid_argument) {
+    console.log(exn._1);
     y = 0;
   } else {
-    throw msg;
+    throw exn;
   }
 }
 

@@ -1743,7 +1743,7 @@ Mt.from_pair_suites("Int64_mul_div_test", Stdlib.$at(from_pairs("random", pairs)
                                     ],
                                     tl: {
                                       hd: [
-                                        "File \"int64_mul_div_test.ml\", line 214, characters 5-12",
+                                        "File \"jscomp/test/int64_mul_div_test.ml\", line 214, characters 5-12",
                                         (function (param) {
                                             return {
                                                     TAG: /* Eq */0,

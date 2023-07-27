@@ -32,7 +32,7 @@ type t = [
 
 let equal a b = a = b
 
-let compare a b = Pervasives.compare a b
+let compare a b = Stdlib.compare a b
 
 let hash a = Hashtbl.hash a
 

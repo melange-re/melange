@@ -12,7 +12,7 @@ function f(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "test_string_case.ml",
+              "jscomp/test/test_string_case.ml",
               4,
               9
             ],

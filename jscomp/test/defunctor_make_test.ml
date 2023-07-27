@@ -112,13 +112,13 @@ let empty (v : _ Comparable.compare) =
 end
 module U = struct
   include Make ( struct type key = int end)
-  let compare = Pervasives.compare end *)
+  let compare = Stdlib.compare end *)
 
 
 module V0 = Comparable.Make ( struct type key = int
-  let compare = fun[@bs]  (x : key) y  -> Pervasives.compare (x : key ) y end)
+  let compare = fun[@bs]  (x : key) y  -> Stdlib.compare (x : key ) y end)
 module V1 = Comparable.Make( struct type key = int
-  let compare = fun [@bs] (x:key) y -> Pervasives.compare x y end)
+  let compare = fun [@bs] (x:key) y -> Stdlib.compare x y end)
 let v0 = empty (module V0)
 let v1 = empty (module V1)
 
@@ -127,7 +127,7 @@ let v3 = add 3 "a" v0
 (* let () = v0 = v1 *)
 
 (* let v1 = empty *)
-(*     (module (struct type id  type key = int let compare = Pervasives.compare end)) *)
+(*     (module (struct type id  type key = int let compare = Stdlib.compare end)) *)
 
 (* let v2 = empty [%mel.map compare] *)
 (* let _ = u = v *)

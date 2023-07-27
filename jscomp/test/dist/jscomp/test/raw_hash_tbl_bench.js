@@ -13,7 +13,7 @@ function bench(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "raw_hash_tbl_bench.ml",
+              "jscomp/test/raw_hash_tbl_bench.ml",
               9,
               4
             ],

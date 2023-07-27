@@ -49,7 +49,7 @@ var a = Curry._1(h.length, {
       }
     });
 
-eq("File \"module_alias_test.ml\", line 30, characters 6-13", a, 3);
+eq("File \"jscomp/test/module_alias_test.ml\", line 30, characters 6-13", a, 3);
 
 Mt.from_pair_suites("Module_alias_test", suites.contents);
 

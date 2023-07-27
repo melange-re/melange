@@ -40,7 +40,7 @@ var suites_1 = {
     ],
     tl: {
       hd: [
-        "File \"js_null_undefined_test.ml\", line 7, characters 2-9",
+        "File \"jscomp/test/js_null_undefined_test.ml\", line 7, characters 2-9",
         (function (param) {
             return {
                     TAG: /* Eq */0,
@@ -95,7 +95,7 @@ var suites_1 = {
               ],
               tl: {
                 hd: [
-                  "File \"js_null_undefined_test.ml\", line 12, characters 2-9",
+                  "File \"jscomp/test/js_null_undefined_test.ml\", line 12, characters 2-9",
                   (function (param) {
                       return {
                               TAG: /* Eq */0,
@@ -278,7 +278,7 @@ var suites_1 = {
                                           ],
                                           tl: {
                                             hd: [
-                                              "File \"js_null_undefined_test.ml\", line 42, characters 2-9",
+                                              "File \"jscomp/test/js_null_undefined_test.ml\", line 42, characters 2-9",
                                               (function (param) {
                                                   return {
                                                           TAG: /* Ok */4,

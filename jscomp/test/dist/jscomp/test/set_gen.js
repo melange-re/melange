@@ -253,7 +253,7 @@ function internal_bal(l, v, r) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "set_gen.ml",
+              "jscomp/test/set_gen.ml",
               235,
               19
             ],
@@ -263,7 +263,7 @@ function internal_bal(l, v, r) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "set_gen.ml",
+            "jscomp/test/set_gen.ml",
             225,
             15
           ],
@@ -291,7 +291,7 @@ function internal_bal(l, v, r) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "set_gen.ml",
+            "jscomp/test/set_gen.ml",
             251,
             19
           ],
@@ -301,7 +301,7 @@ function internal_bal(l, v, r) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "set_gen.ml",
+          "jscomp/test/set_gen.ml",
           245,
           15
         ],
@@ -525,7 +525,7 @@ function of_sorted_list(l) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "set_gen.ml",
+            "jscomp/test/set_gen.ml",
             361,
             14
           ],

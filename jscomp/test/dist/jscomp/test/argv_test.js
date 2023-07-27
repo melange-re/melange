@@ -53,7 +53,7 @@ if (compile.contents !== true) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "argv_test.ml",
+          "jscomp/test/argv_test.ml",
           20,
           0
         ],
@@ -65,7 +65,7 @@ if (test.contents !== false) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "argv_test.ml",
+          "jscomp/test/argv_test.ml",
           21,
           0
         ],

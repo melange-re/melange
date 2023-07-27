@@ -7,7 +7,7 @@ function Reactjs_ppx_custom$Internal$header(Props) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "reactjs_ppx_custom.re",
+          "jscomp/test/re_or_res/reactjs_ppx_custom.re",
           4,
           21
         ],

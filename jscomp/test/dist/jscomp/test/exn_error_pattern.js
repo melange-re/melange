@@ -52,20 +52,20 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-eq("File \"exn_error_pattern.ml\", line 30, characters 5-12", f({
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 30, characters 5-12", f({
           RE_EXN_ID: Stdlib.Not_found
         }), 0);
 
-eq("File \"exn_error_pattern.ml\", line 31, characters 5-12", f({
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 31, characters 5-12", f({
           RE_EXN_ID: Stdlib.Invalid_argument,
           _1: ""
         }), 1);
 
-eq("File \"exn_error_pattern.ml\", line 32, characters 5-12", f({
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 32, characters 5-12", f({
           RE_EXN_ID: Stdlib.Stack_overflow
         }), 1);
 
-eq("File \"exn_error_pattern.ml\", line 33, characters 5-12", f({
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 33, characters 5-12", f({
           RE_EXN_ID: Stdlib.Sys_error,
           _1: ""
         }), 2);
@@ -79,7 +79,7 @@ catch (raw_e){
   tmp = Caml_js_exceptions.internalToOCamlException(raw_e);
 }
 
-eq("File \"exn_error_pattern.ml\", line 34, characters 5-12", f(tmp), undefined);
+eq("File \"jscomp/test/exn_error_pattern.ml\", line 34, characters 5-12", f(tmp), undefined);
 
 Mt.from_pair_suites("Exn_error_pattern", suites.contents);
 

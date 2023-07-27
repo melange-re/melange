@@ -45,7 +45,7 @@ function handler(e) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "promise_catch_test.ml",
+          "jscomp/test/promise_catch_test.ml",
           22,
           9
         ],
@@ -80,7 +80,7 @@ try {
 }
 catch (raw_e){
   var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-  eq("File \"promise_catch_test.ml\", line 36, characters 7-14", true, Js__Js_option.isSomeValue((function (xxx, y) {
+  eq("File \"jscomp/test/promise_catch_test.ml\", line 36, characters 7-14", true, Js__Js_option.isSomeValue((function (xxx, y) {
               return xxx === y;
             }), 2, myHandler(e)));
 }
@@ -89,7 +89,7 @@ if (exit === 1) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "promise_catch_test.ml",
+          "jscomp/test/promise_catch_test.ml",
           39,
           9
         ],

@@ -11,10 +11,10 @@ let expected =
    false = true,
    false = false,
    true = true,
-   Pervasives.compare false true ,
-   Pervasives.compare true false,
-   Pervasives.compare false false,
-   Pervasives.compare true true
+   Stdlib.compare false true ,
+   Stdlib.compare true false,
+   Stdlib.compare false false,
+   Stdlib.compare true true
   )
 
 let expected2 =
@@ -32,10 +32,10 @@ let u =
    false = true,
    false = false,
    true = true,
-   Pervasives.compare false true,
-   Pervasives.compare true false,
-   Pervasives.compare false false,
-   Pervasives.compare true true
+   Stdlib.compare false true,
+   Stdlib.compare true false,
+   Stdlib.compare false false,
+   Stdlib.compare true true
   )
 
 

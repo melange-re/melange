@@ -100,10 +100,10 @@ function get_lines(fname) {
     };
     return Stdlib__List.rev(l.contents);
   }
-  catch (raw_s){
-    var s = Caml_js_exceptions.internalToOCamlException(raw_s);
-    if (s.RE_EXN_ID === Stdlib__Scanf.Scan_failure) {
-      var s$1 = Curry._2(Stdlib__Printf.sprintf(/* Format */{
+  catch (raw_exn){
+    var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === Stdlib__Scanf.Scan_failure) {
+      var s = Curry._2(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "in file ",
@@ -122,15 +122,15 @@ function get_lines(fname) {
                   }
                 },
                 _1: "in file %s, %s"
-              }), fname, s._1);
+              }), fname, exn._1);
       throw {
             RE_EXN_ID: "Failure",
-            _1: s$1,
+            _1: s,
             Error: new Error()
           };
     }
-    if (s.RE_EXN_ID === Stdlib.End_of_file) {
-      var s$2 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
+    if (exn.RE_EXN_ID === Stdlib.End_of_file) {
+      var s$1 = Curry._1(Stdlib__Printf.sprintf(/* Format */{
                 _0: {
                   TAG: /* String_literal */11,
                   _0: "in file ",
@@ -148,11 +148,11 @@ function get_lines(fname) {
               }), fname);
       throw {
             RE_EXN_ID: "Failure",
-            _1: s$2,
+            _1: s$1,
             Error: new Error()
           };
     }
-    throw s;
+    throw exn;
   }
 }
 
@@ -176,7 +176,7 @@ function add_digest_ib(ob, ib) {
     Stdlib__Buffer.add_string(ob, s);
     Stdlib__Buffer.add_char(ob, /* '#' */35);
     var s$1 = Stdlib__Digest.to_hex(Stdlib__Digest.string(s));
-    Stdlib__Buffer.add_string(ob, Caml_bytes.bytes_to_string(Stdlib__Bytes.uppercase(Caml_bytes.bytes_of_string(s$1))));
+    Stdlib__Buffer.add_string(ob, Caml_bytes.bytes_to_string(Stdlib__Bytes.uppercase_ascii(Caml_bytes.bytes_of_string(s$1))));
     Stdlib__Buffer.add_char(ob, /* '\n' */10);
   };
   try {

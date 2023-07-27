@@ -20,8 +20,8 @@ function then(a, b) {
   return Math.imul(a, a) + Math.imul(b, b) | 0;
 }
 
-eq("File \"then_mangle_test.res\", line 14, characters 3-10", then(1, 2), 5);
+eq("File \"jscomp/test/re_or_res/then_mangle_test.res\", line 14, characters 3-10", then(1, 2), 5);
 
-Mt.from_pair_suites("then_mangle_test.res", suites.contents);
+Mt.from_pair_suites("jscomp/test/re_or_res/then_mangle_test.res", suites.contents);
 
 /*  Not a pure module */

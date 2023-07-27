@@ -39,10 +39,10 @@ var Hello = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.Hello");
 
 var A = /* @__PURE__ */Caml_exceptions.create("Exception_repr_test.A");
 
-Stdlib__Printexc.register_printer(function (s) {
-      if (s.RE_EXN_ID === Hi) {
+Stdlib__Printexc.register_printer(function (param) {
+      if (param.RE_EXN_ID === Hi) {
         return "hey";
-      } else if (s.RE_EXN_ID === A) {
+      } else if (param.RE_EXN_ID === A) {
         return Curry._1(Stdlib__Format.asprintf(/* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -60,26 +60,26 @@ Stdlib__Printexc.register_printer(function (s) {
                           }
                         },
                         _1: "A(%d)"
-                      }), s._1);
+                      }), param._1);
       } else {
         return ;
       }
     });
 
-eq("File \"exception_repr_test.ml\", line 24, characters 7-14", "hey", Stdlib__Printexc.to_string({
+eq("File \"jscomp/test/exception_repr_test.ml\", line 24, characters 7-14", "hey", Stdlib__Printexc.to_string({
           RE_EXN_ID: Hi
         }));
 
-eq("File \"exception_repr_test.ml\", line 25, characters 7-14", "A(1)", Stdlib__Printexc.to_string({
+eq("File \"jscomp/test/exception_repr_test.ml\", line 25, characters 7-14", "A(1)", Stdlib__Printexc.to_string({
           RE_EXN_ID: A,
           _1: 1
         }));
 
-eq("File \"exception_repr_test.ml\", line 26, characters 7-14", Stdlib__Printexc.to_string({
+eq("File \"jscomp/test/exception_repr_test.ml\", line 26, characters 7-14", Stdlib__Printexc.to_string({
             RE_EXN_ID: Hello
           }).startsWith("Exception_repr_test.Hello"), true);
 
-eq("File \"exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string({
+eq("File \"jscomp/test/exception_repr_test.ml\", line 27, characters 7-14", "A", Stdlib__Printexc.to_string({
           RE_EXN_ID: Exception_def.A,
           _1: 3
         }));

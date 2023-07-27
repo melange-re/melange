@@ -26,12 +26,12 @@ function f0(x) {
 
 var Small = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_test.Small");
 
-function f_small(u) {
-  if (u.RE_EXN_ID === Small) {
+function f_small(param) {
+  if (param.RE_EXN_ID === Small) {
     return {
             RE_EXN_ID: Small,
             x: 2,
-            y: u.y
+            y: param.y
           };
   } else {
     return {
@@ -46,13 +46,13 @@ var h = {
   y: ""
 };
 
-eq("File \"large_record_duplication_test.ml\", line 72, characters 6-13", f_small(h), {
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 72, characters 6-13", f_small(h), {
       RE_EXN_ID: Small,
       x: 2,
       y: ""
     });
 
-eq("File \"large_record_duplication_test.ml\", line 74, characters 6-13", Caml_obj.caml_equal(h, {
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 74, characters 6-13", Caml_obj.caml_equal(h, {
           RE_EXN_ID: Small,
           x: 2,
           y: ""
@@ -100,7 +100,7 @@ function f1(x) {
   return newrecord;
 }
 
-eq("File \"large_record_duplication_test.ml\", line 139, characters 6-13", get_x0(f1(v1)), 1);
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 139, characters 6-13", get_x0(f1(v1)), 1);
 
 var v2 = {
   TAG: /* A0 */0,
@@ -145,7 +145,7 @@ function f2(x) {
   return newrecord;
 }
 
-eq("File \"large_record_duplication_test.ml\", line 204, characters 6-13", get_x0$1(f2(v2)), 1);
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 204, characters 6-13", get_x0$1(f2(v2)), 1);
 
 var A0 = /* @__PURE__ */Caml_exceptions.create("Large_record_duplication_test.A0");
 
@@ -192,11 +192,11 @@ var v3 = {
   x22: 9
 };
 
-eq("File \"large_record_duplication_test.ml\", line 270, characters 6-13", get_x0$2(f3(v3)), 1);
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 270, characters 6-13", get_x0$2(f3(v3)), 1);
 
-eq("File \"large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(v3), 9);
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 271, characters 6-13", get_x0$2(v3), 9);
 
-eq("File \"large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2({
+eq("File \"jscomp/test/large_record_duplication_test.ml\", line 272, characters 6-13", get_x0$2({
           RE_EXN_ID: Stdlib.Not_found
         }), undefined);
 

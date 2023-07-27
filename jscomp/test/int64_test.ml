@@ -8,7 +8,7 @@ let a  = Int64.of_int32 2147483647l
 open Int64
 
 let commutative_add result a b = Mt.Eq((result, result), (add a b, add b a))
-let generic_compare = Pervasives.compare
+let generic_compare = Stdlib.compare
 
 let shift_left_tests =
   (Ext_array_test.range 0 63 |> Array.map (fun i -> Int64.shift_left 1L i) , [|1L; 2L; 4L; 8L; 16L; 32L; 64L; 128L; 256L; 512L; 1024L; 2048L; 4096L;

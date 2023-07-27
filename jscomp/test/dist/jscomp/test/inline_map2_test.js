@@ -429,7 +429,7 @@ function Make(Ord) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "inline_map2_test.ml",
+            "jscomp/test/inline_map2_test.ml",
             270,
             10
           ],
@@ -1063,7 +1063,7 @@ function merge(f, s1, s2) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "inline_map2_test.ml",
+          "jscomp/test/inline_map2_test.ml",
           270,
           10
         ],
@@ -1733,7 +1733,7 @@ function merge$1(f, s1, s2) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "inline_map2_test.ml",
+          "jscomp/test/inline_map2_test.ml",
           270,
           10
         ],

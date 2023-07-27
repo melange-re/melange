@@ -18,7 +18,7 @@ function eq(f, param) {
   Mt_global.collect_eq(test_id, suites, f, param[0], param[1]);
 }
 
-eq("File \"scanf_test.ml\", line 6, characters 5-12", [
+eq("File \"jscomp/test/scanf_test.ml\", line 6, characters 5-12", [
       Curry._1(Stdlib__Scanf.sscanf("32 31", /* Format */{
                 _0: {
                   TAG: /* Int */4,
@@ -44,7 +44,7 @@ eq("File \"scanf_test.ml\", line 6, characters 5-12", [
       63
     ]);
 
-eq("File \"scanf_test.ml\", line 7, characters 5-12", [
+eq("File \"jscomp/test/scanf_test.ml\", line 7, characters 5-12", [
       Curry._1(Stdlib__Scanf.sscanf("12306459064359371967", /* Format */{
                 _0: {
                   TAG: /* Int64 */7,

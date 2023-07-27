@@ -159,16 +159,6 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
- (deps pervasives.cppo.ml)
- (target pervasives.ml)
- (action
-  (progn
-   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target}.cppo)
-   (with-stdout-to
-    %{target}
-    (run sed -e s/_\\_/__/g %{target}.cppo)))))
-
-(rule
  (deps printexc.cppo.ml)
  (target printexc.ml)
  (action

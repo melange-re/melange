@@ -124,7 +124,7 @@ var test2 = n(n(n(n(n(undefined, undefined, 4), undefined, 2), undefined, 5), un
 
 var test3 = n(n(n(n(undefined, undefined, 4), undefined, 2), undefined, 5), n(undefined, undefined, 3), 1);
 
-eq("File \"bs_stack_test.ml\", line 137, characters 6-13", inOrder(test1), [
+eq("File \"jscomp/test/bs_stack_test.ml\", line 137, characters 6-13", inOrder(test1), [
       4,
       2,
       5,
@@ -132,7 +132,7 @@ eq("File \"bs_stack_test.ml\", line 137, characters 6-13", inOrder(test1), [
       3
     ]);
 
-eq("File \"bs_stack_test.ml\", line 140, characters 6-13", inOrder3(test1), [
+eq("File \"jscomp/test/bs_stack_test.ml\", line 140, characters 6-13", inOrder3(test1), [
       4,
       2,
       5,
@@ -140,7 +140,7 @@ eq("File \"bs_stack_test.ml\", line 140, characters 6-13", inOrder3(test1), [
       3
     ]);
 
-Mt.from_pair_suites("bs_stack_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/bs_stack_test.ml", suites.contents);
 
 exports.suites = suites;
 exports.test_id = test_id;

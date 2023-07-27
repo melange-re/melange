@@ -200,7 +200,7 @@ var colored_point = CamlinternalOO.make_class([
 
 var p$p = Curry._3(colored_point[0], undefined, 5, "red");
 
-eq("File \"class4_test.ml\", line 67, characters 5-12", [
+eq("File \"jscomp/test/class4_test.ml\", line 67, characters 5-12", [
       5,
       "red"
     ], [
@@ -212,7 +212,7 @@ function get_succ_x(p) {
   return Caml_oo_curry.js1(291546447, 3, p) + 1 | 0;
 }
 
-eq("File \"class4_test.ml\", line 71, characters 12-19", 6, get_succ_x(p$p));
+eq("File \"jscomp/test/class4_test.ml\", line 71, characters 12-19", 6, get_succ_x(p$p));
 
 function set_x(p) {
   return Caml_oo_curry.js1(-97543333, 4, p);

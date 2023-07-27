@@ -810,20 +810,20 @@ function set_vel_to_speed(obj) {
   }
 }
 
-function make_type$2(t) {
-  switch (t.TAG | 0) {
+function make_type$2(param) {
+  switch (param.TAG | 0) {
     case /* SPlayer */0 :
         return setup_obj(undefined, 2.8, undefined);
     case /* SEnemy */1 :
-        var param = t._0;
-        if (param >= 3) {
+        var param$1 = param._0;
+        if (param$1 >= 3) {
           return setup_obj(undefined, 3, undefined);
         } else {
           return setup_obj(undefined, undefined, undefined);
         }
     case /* SItem */2 :
-        var param$1 = t._0;
-        if (param$1 >= 3) {
+        var param$2 = param._0;
+        if (param$2 >= 3) {
           return setup_obj(false, undefined, undefined);
         } else {
           return setup_obj(undefined, undefined, undefined);
@@ -1987,13 +1987,13 @@ function process_collision(dir, c1, c2, state) {
 
 function broad_phase(collid, all_collids, state) {
   var obj = collid._2;
-  return Stdlib__List.filter(function (c) {
+  return Stdlib__List.filter((function (c) {
                 if (in_viewport(state.vpt, obj.pos) || is_player(collid)) {
                   return true;
                 } else {
                   return out_of_viewport_below(state.vpt, obj.pos.y);
                 }
-              })(all_collids);
+              }), all_collids);
 }
 
 function check_collisions(collid, all_collids, state) {

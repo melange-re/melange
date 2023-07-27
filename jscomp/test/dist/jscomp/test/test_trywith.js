@@ -125,7 +125,7 @@ function f(x) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "test_trywith.ml",
+          "jscomp/test/test_trywith.ml",
           51,
           9
         ],

@@ -8,7 +8,7 @@ var Stdlib = require("melange/stdlib.js");
 
 function a4(prim) {
   return [
-          "File \"test_primitive.ml\", line 30, characters 9-19",
+          "File \"jscomp/test/test_primitive.ml\", line 30, characters 9-19",
           prim
         ];
 }
@@ -23,7 +23,7 @@ function a5(prim) {
 function a6(prim) {
   return [
           [
-            "test_primitive.ml",
+            "jscomp/test/test_primitive.ml",
             32,
             9,
             19
@@ -84,7 +84,7 @@ function fib(n) {
   return (fib1 + fib2 | 0) + 3 | 0;
 }
 
-var a0 = "File \"test_primitive.ml\", line 26, characters 9-16";
+var a0 = "File \"jscomp/test/test_primitive.ml\", line 26, characters 9-16";
 
 var a1 = "Test_primitive";
 

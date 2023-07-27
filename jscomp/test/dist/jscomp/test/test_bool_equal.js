@@ -22,7 +22,7 @@ function assertions(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_bool_equal.ml",
+            "jscomp/test/test_bool_equal.ml",
             25,
             2
           ],
@@ -33,7 +33,7 @@ function assertions(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_bool_equal.ml",
+            "jscomp/test/test_bool_equal.ml",
             26,
             2
           ],
@@ -44,7 +44,7 @@ function assertions(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_bool_equal.ml",
+            "jscomp/test/test_bool_equal.ml",
             27,
             2
           ],
@@ -57,7 +57,7 @@ function assertions(param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "test_bool_equal.ml",
+          "jscomp/test/test_bool_equal.ml",
           28,
           2
         ],

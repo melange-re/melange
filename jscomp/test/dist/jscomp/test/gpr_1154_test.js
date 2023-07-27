@@ -55,7 +55,7 @@ function g2(x) {
 
 var a = Caml_int64.or_(Stdlib__Int64.one, (v.contents = v.contents + 1 | 0, Stdlib__Int64.one));
 
-eq("File \"gpr_1154_test.ml\", line 27, characters 12-19", v.contents, 1);
+eq("File \"jscomp/test/gpr_1154_test.ml\", line 27, characters 12-19", v.contents, 1);
 
 Mt.from_pair_suites("Gpr_1154_test", suites.contents);
 

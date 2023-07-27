@@ -34,7 +34,7 @@ var v0 = {
   y: "4"
 };
 
-eq("File \"record_extension_test.ml\", line 19, characters 6-13", f(v0), 7);
+eq("File \"jscomp/test/record_extension_test.ml\", line 19, characters 6-13", f(v0), 7);
 
 function f2(x) {
   if (typeof x === "number" || x.TAG !== /* C */0) {
@@ -66,21 +66,21 @@ function u(f) {
   try {
     return Curry._1(f, undefined);
   }
-  catch (raw_x){
-    var x = Caml_js_exceptions.internalToOCamlException(raw_x);
-    if (x.RE_EXN_ID === A) {
-      return x.name + x.x | 0;
-    } else if (x.RE_EXN_ID === B) {
-      return x._1 + x._2 | 0;
-    } else if (x.RE_EXN_ID === C) {
-      return x.name;
+  catch (raw_exn){
+    var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === A) {
+      return exn.name + exn.x | 0;
+    } else if (exn.RE_EXN_ID === B) {
+      return exn._1 + exn._2 | 0;
+    } else if (exn.RE_EXN_ID === C) {
+      return exn.name;
     } else {
       return -1;
     }
   }
 }
 
-Mt.from_pair_suites("File \"record_extension_test.ml\", line 56, characters 22-29", suites.contents);
+Mt.from_pair_suites("File \"jscomp/test/record_extension_test.ml\", line 56, characters 22-29", suites.contents);
 
 exports.suites = suites;
 exports.test_id = test_id;

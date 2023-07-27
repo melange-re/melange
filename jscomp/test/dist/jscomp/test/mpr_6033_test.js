@@ -43,7 +43,7 @@ CamlinternalLazy.force(x);
 
 var u = f(x);
 
-eq("File \"mpr_6033_test.ml\", line 20, characters 6-13", u, "defabc");
+eq("File \"jscomp/test/mpr_6033_test.ml\", line 20, characters 6-13", u, "defabc");
 
 Mt.from_pair_suites("Mpr_6033_test", suites.contents);
 

@@ -49,7 +49,7 @@ var suites_1 = {
       ],
       tl: {
         hd: [
-          "File \"js_int_test.ml\", line 12, characters 3-10",
+          "File \"jscomp/test/js_int_test.ml\", line 12, characters 3-10",
           (function (param) {
               return {
                       TAG: /* ThrowAny */7,
@@ -117,7 +117,7 @@ var suites_1 = {
                   ],
                   tl: {
                     hd: [
-                      "File \"js_int_test.ml\", line 25, characters 3-10",
+                      "File \"jscomp/test/js_int_test.ml\", line 25, characters 3-10",
                       (function (param) {
                           return {
                                   TAG: /* ThrowAny */7,

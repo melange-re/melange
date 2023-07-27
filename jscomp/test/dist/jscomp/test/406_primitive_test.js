@@ -17,13 +17,13 @@ function eq(loc, x, y) {
   Mt.eq_suites(test_id, suites, loc, x, y);
 }
 
-eq("File \"406_primitive_test.ml\", line 16, characters 6-13", 32, 32);
+eq("File \"jscomp/test/406_primitive_test.ml\", line 16, characters 6-13", 32, 32);
 
 var backend_type = /* Other */{
   _0: "BS"
 };
 
-eq("File \"406_primitive_test.ml\", line 27, characters 6-13", backend_type, /* Other */{
+eq("File \"jscomp/test/406_primitive_test.ml\", line 27, characters 6-13", backend_type, /* Other */{
       _0: "BS"
     });
 

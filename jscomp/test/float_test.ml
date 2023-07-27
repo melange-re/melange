@@ -1,5 +1,3 @@
-
-
 let test_id, suites  =  ref 0, ref []
 let eq loc = Mt_global.collect_eq test_id suites loc
 let approx loc = Mt_global.collect_approx  test_id suites loc
@@ -41,8 +39,8 @@ let from_pairs ps =
   |> Array.to_list
 
 ;;
-let float_compare (x : float) y = Pervasives.compare x y
-let generic_compare = Pervasives.compare
+let float_compare (x : float) y = Stdlib.compare x y
+let generic_compare = Stdlib.compare
 let float_equal (x : float) y = x = y
 let generic_equal = (=)
 let float_notequal (x : float) y = x <> y

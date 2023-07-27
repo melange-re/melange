@@ -867,7 +867,7 @@ let find_in_path_rel path name =
   in try_dir path
 
 let find_in_path_uncap path name =
-  let uname = String.uncapitalize name in
+  let uname = String.uncapitalize_ascii name in
   let rec try_dir = function
     [] -> raise Not_found
   | dir::rem ->
@@ -1188,7 +1188,7 @@ module Color = struct
 
   (* map a tag to a style, if the tag is known.
      @raise Not_found otherwise *)
-  let style_of_tag s = match s with
+  let style_of_tag (Format.String_tag s) = match s with
     | "error" -> (!cur_styles).error
     | "warning" -> (!cur_styles).warning
     | "loc" -> (!cur_styles).loc
@@ -1217,13 +1217,13 @@ module Color = struct
   (* add color handling to formatter [ppf] *)
   let set_color_tag_handling ppf =
     let open Format in
-    let functions = pp_get_formatter_tag_functions ppf () in
+    let functions = pp_get_formatter_stag_functions ppf () in
     let functions' = {functions with
-      mark_open_tag=(mark_open_tag ~or_else:functions.mark_open_tag);
-      mark_close_tag=(mark_close_tag ~or_else:functions.mark_close_tag);
+      mark_open_stag=(mark_open_tag ~or_else:functions.mark_open_stag);
+      mark_close_stag=(mark_close_tag ~or_else:functions.mark_close_stag);
     } in
     pp_set_mark_tags ppf true; (* enable tags *)
-    pp_set_formatter_tag_functions ppf functions'
+    pp_set_formatter_stag_functions ppf functions'
 
   (* external isatty : out_channel -> bool = "caml_sys_isatty" *)
 
@@ -1631,7 +1631,7 @@ let parse_opt error active flags s =
     if i >= String.length s then () else
     match s.[i] with
     | 'A' .. 'Z' ->
-       List.iter set (letter (Char.lowercase s.[i]));
+       List.iter set (letter (Char.lowercase_ascii s.[i]));
        loop (i+1)
     | 'a' .. 'z' ->
        List.iter clear (letter s.[i]);
@@ -1648,7 +1648,7 @@ let parse_opt error active flags s =
         for n = n1 to min n2 last_warning_number do myset n done;
         loop i
     | 'A' .. 'Z' ->
-       List.iter myset (letter (Char.lowercase s.[i]));
+       List.iter myset (letter (Char.lowercase_ascii s.[i]));
        loop (i+1)
     | 'a' .. 'z' ->
        List.iter myset (letter s.[i]);
@@ -1928,10 +1928,10 @@ let help_warnings () =
     match letter c with
     | [] -> ()
     | [n] ->
-        Printf.printf "  %c warning %i\n" (Char.uppercase c) n
+        Printf.printf "  %c warning %i\n" (Char.uppercase_ascii c) n
     | l ->
         Printf.printf "  %c warnings %s.\n"
-          (Char.uppercase c)
+          (Char.uppercase_ascii c)
           (String.concat ", " (List.map string_of_int l))
   done;
   exit 0
@@ -5405,7 +5405,7 @@ type changes =
 
 type snapshot = changes ref * int
 module Weak = Array
-let trail = Weak.create 1 None
+let trail = Weak.make 1 None
 let last_snapshot = ref 0
 
 let log_change ch =
@@ -24556,7 +24556,7 @@ let query loc str =
 
 let define_key_value key v  =
   if String.length key > 0
-      && Char.uppercase (key.[0]) = key.[0] then
+      && Char.uppercase_ascii (key.[0]) = key.[0] then
     begin
       replace_directive_built_in_value key
       begin
@@ -35536,7 +35536,7 @@ let ident ppf id = pp_print_string ppf (ident_name id)
 
 (* Print a path *)
 
-let ident_pervasive = Ident.create_persistent "Pervasives"
+let ident_pervasive = Ident.create_persistent "Stdlib"
 
 let rec tree_of_path = function
   | Pident id ->
@@ -35726,7 +35726,7 @@ module Path2 = struct
     | (Papply(fun1, arg1), Papply(fun2, arg2)) ->
         let c = compare fun1 fun2 in
         if c <> 0 then c else compare arg1 arg2
-    | _ -> Pervasives.compare p1 p2
+    | _ -> Stdlib.compare p1 p2
 end
 module PathMap = Map.Make(Path2)
 let printing_map = ref PathMap.empty
@@ -36956,20 +36956,21 @@ let report_unification_error ppf env ?(unif=true)
 
 
 let super_type_expansion ~tag t ppf t' =
+  let tag = String_tag tag in
   if same_path t t' then begin
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     type_expr ppf t;
-    Format.pp_close_tag ppf ();
+    Format.pp_close_stag ppf ();
   end else begin
     let t' = if proxy t == proxy t' then unalias t' else t' in
     fprintf ppf "@[<2>";
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     fprintf ppf "%a" type_expr t;
-    Format.pp_close_tag ppf ();
+    Format.pp_close_stag ppf ();
     fprintf ppf "@ @{<dim>(defined as@}@ ";
-    Format.pp_open_tag ppf tag;
+    Format.pp_open_stag ppf tag;
     fprintf ppf "%a" type_expr t';
-    Format.pp_close_tag ppf ();
+    Format.pp_close_stag ppf ();
     fprintf ppf "@{<dim>)@}";
     fprintf ppf "@]";
   end
@@ -39098,10 +39099,10 @@ let is_absent_pat p = match p.pat_desc with
 let const_compare x y =
   match x,y with
   | Const_float f1, Const_float f2 ->
-      Pervasives.compare (float_of_string f1) (float_of_string f2)
+      Stdlib.compare (float_of_string f1) (float_of_string f2)
   | Const_string (s1, _), Const_string (s2, _) ->
       String.compare s1 s2
-  | _, _ -> Pervasives.compare x y
+  | _, _ -> Stdlib.compare x y
 
 let records_args l1 l2 =
   (* Invariant: fields are already sorted by Typecore.type_label_a_list *)
@@ -42799,7 +42800,7 @@ let enter_variable ?(is_module=false) ?(is_as_variable=false) loc name ty =
 let sort_pattern_variables vs =
   List.sort
     (fun (x,_,_,_,_) (y,_,_,_,_) ->
-      Pervasives.compare (Ident.name x) (Ident.name y))
+      Stdlib.compare (Ident.name x) (Ident.name y))
     vs
 
 let enter_orpat_variables loc env  p1_vs p2_vs =
@@ -51668,7 +51669,7 @@ let package_units initial_env objfiles cmifile modulename =
     List.map
       (fun f ->
          let pref = chop_extensions f in
-         let modname = String.capitalize(Filename.basename pref) in
+         let modname = String.capitalize_ascii(Filename.basename pref) in
          let sg = Env.read_signature modname (pref ^ ".cmi") in
          if Filename.check_suffix f ".cmi" &&
             not(Mtype.no_code_needed_sig Env.initial_safe_string sg)

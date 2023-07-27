@@ -707,7 +707,7 @@ function chop(_k, _l) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_list.ml",
+            "jscomp/test/test_list.ml",
             224,
             11
           ],

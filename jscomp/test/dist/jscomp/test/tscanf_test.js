@@ -92,7 +92,7 @@ function test0(param) {
                 }), id) | 0;
 }
 
-test("File \"tscanf_test.ml\", line 42, characters 5-12", test0(undefined) === 21);
+test("File \"jscomp/test/tscanf_test.ml\", line 42, characters 5-12", test0(undefined) === 21);
 
 function test1(param) {
   return (((Curry._1(Stdlib__Scanf.sscanf("1", /* Format */{
@@ -163,7 +163,7 @@ function test1(param) {
                 }), id) | 0;
 }
 
-test("File \"tscanf_test.ml\", line 54, characters 5-12", test1(undefined) === 5);
+test("File \"jscomp/test/tscanf_test.ml\", line 54, characters 5-12", test1(undefined) === 5);
 
 function test2(param) {
   return (Curry._1(Stdlib__Scanf.sscanf("123", /* Format */{
@@ -212,7 +212,7 @@ function test2(param) {
                 }), id) | 0;
 }
 
-test("File \"tscanf_test.ml\", line 63, characters 5-12", test2(undefined) === 259);
+test("File \"jscomp/test/tscanf_test.ml\", line 63, characters 5-12", test2(undefined) === 259);
 
 function test3(param) {
   return ((Curry._1(Stdlib__Scanf.sscanf("0xff", /* Format */{
@@ -278,7 +278,7 @@ function test3(param) {
                 }), id) | 0;
 }
 
-test("File \"tscanf_test.ml\", line 73, characters 5-12", test3(undefined) === -214);
+test("File \"jscomp/test/tscanf_test.ml\", line 73, characters 5-12", test3(undefined) === -214);
 
 function test4(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1"), /* Format */{
@@ -544,7 +544,7 @@ function test4(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 110, characters 5-12", test4(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 110, characters 5-12", test4(undefined));
 
 function test5(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("1e1"), /* Format */{
@@ -707,7 +707,7 @@ function test5(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 133, characters 5-12", test5(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 133, characters 5-12", test5(undefined));
 
 function test6(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("truetrue"), /* Format */{
@@ -816,7 +816,7 @@ function test6(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 150, characters 5-12", test6(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 150, characters 5-12", test6(undefined));
 
 function test7(param) {
   if (Curry._1(Stdlib__Scanf.bscanf(Stdlib__Scanf.Scanning.from_string("'a' '\n' '\t' '\0' ' '"), /* Format */{
@@ -892,7 +892,7 @@ function test7(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 168, characters 5-12", test7(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 168, characters 5-12", test7(undefined));
 
 function verify_read(c) {
   var s = Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -915,7 +915,7 @@ function verify_read(c) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "tscanf_test.ml",
+          "jscomp/test/tscanf_test.ml",
           174,
           2
         ],
@@ -933,7 +933,7 @@ function test8(param) {
   return verify_scan_Chars(undefined) === undefined;
 }
 
-test("File \"tscanf_test.ml\", line 183, characters 5-12", verify_scan_Chars(undefined) === undefined);
+test("File \"jscomp/test/tscanf_test.ml\", line 183, characters 5-12", verify_scan_Chars(undefined) === undefined);
 
 function unit(fmt, s) {
   var ib = Stdlib__Scanf.Scanning.from_string(Curry._1(Stdlib__Printf.sprintf(/* Format */{
@@ -1028,7 +1028,7 @@ function test9(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 230, characters 5-12", test9(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 230, characters 5-12", test9(undefined));
 
 function test10(param) {
   var unit = function (s) {
@@ -1099,7 +1099,7 @@ function test10(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 254, characters 5-12", test10(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 254, characters 5-12", test10(undefined));
 
 function test11(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("Pierre\tWeis\t70", /* Format */{
@@ -1478,7 +1478,7 @@ function test111(param) {
               }));
 }
 
-test("File \"tscanf_test.ml\", line 293, characters 5-12", test11(undefined) && test110(undefined) && test111(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 293, characters 5-12", test11(undefined) && test110(undefined) && test111(undefined));
 
 function ib(param) {
   return Stdlib__Scanf.Scanning.from_string("[1;2;3;4; ]");
@@ -1608,7 +1608,7 @@ function test12(param) {
             });
 }
 
-test("File \"tscanf_test.ml\", line 311, characters 5-12", test12(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 311, characters 5-12", test12(undefined));
 
 function scan_elems(ib, accu) {
   try {
@@ -1669,7 +1669,7 @@ function test13(param) {
             });
 }
 
-test("File \"tscanf_test.ml\", line 324, characters 5-12", test13(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 324, characters 5-12", test13(undefined));
 
 function scan_int_list(ib) {
   Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
@@ -1708,7 +1708,7 @@ function test14(param) {
             });
 }
 
-test("File \"tscanf_test.ml\", line 337, characters 5-12", test14(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 337, characters 5-12", test14(undefined));
 
 function scan_elems$1(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
@@ -1780,7 +1780,7 @@ function test15(param) {
             });
 }
 
-test("File \"tscanf_test.ml\", line 357, characters 5-12", test15(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 357, characters 5-12", test15(undefined));
 
 function scan_elems$2(ib, accu) {
   try {
@@ -1901,7 +1901,7 @@ function test16(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 383, characters 5-12", test16(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 383, characters 5-12", test16(undefined));
 
 function scan_elems$3(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
@@ -1999,7 +1999,7 @@ function test17(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 406, characters 5-12", test17(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 406, characters 5-12", test17(undefined));
 
 function scan_rest(ib, accu) {
   return Curry._1(Stdlib__Scanf.bscanf(ib, /* Format */{
@@ -2182,7 +2182,7 @@ function test18(param) {
             });
 }
 
-test("File \"tscanf_test.ml\", line 446, characters 5-12", test18(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 446, characters 5-12", test18(undefined));
 
 function test19(param) {
   return Testing.failure_test(scan_int_list$3, Stdlib__Scanf.Scanning.from_string("[1;2;3;4 5]"), "scan_rest");
@@ -2319,7 +2319,7 @@ function test22(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 506, characters 5-12", test22(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 506, characters 5-12", test22(undefined));
 
 function scan_elems$5(ib, scan_elem, accu) {
   try {
@@ -2430,7 +2430,7 @@ function test23(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 562, characters 5-12", test23(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 562, characters 5-12", test23(undefined));
 
 function test24(param) {
   return Testing.scan_failure_test(scan_int_list$5, Stdlib__Scanf.Scanning.from_string("[1;2;3;4 5]"));
@@ -2571,7 +2571,7 @@ function test28(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 609, characters 5-12", test28(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 609, characters 5-12", test28(undefined));
 
 function scan_elems$6(ib, scan_elem, accu) {
   return Curry._3(scan_elem, ib, (function (i, s) {
@@ -2671,7 +2671,7 @@ function test29(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 639, characters 5-12", test29(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 639, characters 5-12", test29(undefined));
 
 function scan_string_elem$1(ib, f, ek) {
   return Curry._1(Stdlib__Scanf.kscanf(ib, ek, /* Format */{
@@ -2732,7 +2732,7 @@ function test30(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 656, characters 5-12", test30(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 656, characters 5-12", test30(undefined));
 
 function scan_elem(fmt, ib, f, ek) {
   return Curry._1(Stdlib__Scanf.kscanf(ib, ek, fmt), f);
@@ -2870,7 +2870,7 @@ function test31(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 714, characters 5-12", test31(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 714, characters 5-12", test31(undefined));
 
 function test32(param) {
   if (Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
@@ -2907,7 +2907,7 @@ function test32(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 728, characters 5-12", test32(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 728, characters 5-12", test32(undefined));
 
 function scan_elems$8(ib, scan_elem_fmt, accu) {
   return Curry._1(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
@@ -3027,7 +3027,7 @@ function test33(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 773, characters 5-12", test33(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 773, characters 5-12", test33(undefined));
 
 function test34(param) {
   if (Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ ]")), /* [] */0) && Caml_obj.caml_equal(Curry._1(scan_string_list$1, Stdlib__Scanf.Scanning.from_string("[ \"1\" ]")), {
@@ -3064,7 +3064,7 @@ function test34(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 787, characters 5-12", test34(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 787, characters 5-12", test34(undefined));
 
 function scan_elems$9(scan_elem, accu, ib) {
   return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
@@ -3326,7 +3326,7 @@ function test35(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 940, characters 5-12", test340(undefined) && test35(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 940, characters 5-12", test340(undefined) && test35(undefined));
 
 function read_elems(read_elem, accu, ib) {
   return Curry._2(Stdlib__Scanf.kscanf(ib, (function (ib, exc) {
@@ -3468,7 +3468,7 @@ function test36(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 995, characters 5-12", test36(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 995, characters 5-12", test36(undefined));
 
 function test37(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("", /* Format */{
@@ -3491,7 +3491,7 @@ function test37(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1005, characters 5-12", test37(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1005, characters 5-12", test37(undefined));
 
 function test38(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("a", /* Format */{
@@ -3583,7 +3583,7 @@ function test38(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1020, characters 5-12", test38(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1020, characters 5-12", test38(undefined));
 
 function test39(param) {
   var is_empty_buff = function (ib) {
@@ -3601,7 +3601,7 @@ function test39(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1036, characters 5-12", test39(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1036, characters 5-12", test39(undefined));
 
 function test40(param) {
   var ib = Stdlib__Scanf.Scanning.from_string("cba");
@@ -3629,7 +3629,7 @@ function test40(param) {
               }));
 }
 
-test("File \"tscanf_test.ml\", line 1046, characters 5-12", test40(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1046, characters 5-12", test40(undefined));
 
 function test41(param) {
   var ib = Stdlib__Scanf.Scanning.from_string("cba");
@@ -3658,7 +3658,7 @@ function test41(param) {
               }));
 }
 
-test("File \"tscanf_test.ml\", line 1055, characters 5-12", test41(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1055, characters 5-12", test41(undefined));
 
 function test42(param) {
   var s = "defcbaaghi";
@@ -3712,7 +3712,7 @@ function test42(param) {
               }));
 }
 
-test("File \"tscanf_test.ml\", line 1067, characters 5-12", test42(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1067, characters 5-12", test42(undefined));
 
 var ib$1 = Stdlib__Scanf.Scanning.from_string("");
 
@@ -3793,7 +3793,7 @@ function test45(param) {
               }));
 }
 
-test("File \"tscanf_test.ml\", line 1090, characters 5-12", test45(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1090, characters 5-12", test45(undefined));
 
 function test46(param) {
   return Curry._3(Stdlib__Printf.sprintf(/* Format */{
@@ -3883,9 +3883,9 @@ function test47(param) {
             }, "in english");
 }
 
-test("File \"tscanf_test.ml\", line 1104, characters 5-12", test46(undefined) === "1 spells one, in english.");
+test("File \"jscomp/test/tscanf_test.ml\", line 1104, characters 5-12", test46(undefined) === "1 spells one, in english.");
 
-test("File \"tscanf_test.ml\", line 1106, characters 5-12", test47(undefined) === "1 %s, in english.");
+test("File \"jscomp/test/tscanf_test.ml\", line 1106, characters 5-12", test47(undefined) === "1 %s, in english.");
 
 function test48(param) {
   var test_meta_read = function (s, fmt, efmt) {
@@ -4130,7 +4130,7 @@ function test48(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1157, characters 5-12", test48(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1157, characters 5-12", test48(undefined));
 
 function test49(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("as", /* Format */{
@@ -4334,7 +4334,7 @@ function test49(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1176, characters 5-12", test49(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1176, characters 5-12", test49(undefined));
 
 function next_char(ob, param) {
   var s = Stdlib__Buffer.contents(ob);
@@ -4450,7 +4450,7 @@ function test50(param) {
   return go(undefined) === 100;
 }
 
-test("File \"tscanf_test.ml\", line 1228, characters 5-12", go(undefined) === 100);
+test("File \"jscomp/test/tscanf_test.ml\", line 1228, characters 5-12", go(undefined) === 100);
 
 function test51(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("Hello", /* Format */{
@@ -4570,7 +4570,7 @@ function test51(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1248, characters 5-12", test51(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1248, characters 5-12", test51(undefined));
 
 function test52(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("Hello\n", /* Format */{
@@ -4861,7 +4861,7 @@ function test52(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1286, characters 5-12", test52(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1286, characters 5-12", test52(undefined));
 
 function test53(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("123", /* Format */{
@@ -4937,7 +4937,7 @@ function test53(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1301, characters 5-12", test53(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1301, characters 5-12", test53(undefined));
 
 function test56(param) {
   var g = function (s) {
@@ -4977,7 +4977,7 @@ function test56(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1316, characters 5-12", test56(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1316, characters 5-12", test56(undefined));
 
 function test57(param) {
   var test_format_scan = function (s, fmt, efmt) {
@@ -5231,7 +5231,7 @@ function test57(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1357, characters 5-12", test57(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1357, characters 5-12", test57(undefined));
 
 function test58(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("string1%string2", /* Format */{
@@ -5313,9 +5313,9 @@ function test58(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1367, characters 5-12", test58(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1367, characters 5-12", test58(undefined));
 
-test("File \"tscanf_test.ml\", line 1371, characters 14-21", true);
+test("File \"jscomp/test/tscanf_test.ml\", line 1371, characters 14-21", true);
 
 function test60(param) {
   if (Curry._1(Stdlib__Scanf.sscanf("abc", /* Format */{
@@ -5381,7 +5381,7 @@ function test60(param) {
   }
 }
 
-test("File \"tscanf_test.ml\", line 1414, characters 5-12", test60(undefined));
+test("File \"jscomp/test/tscanf_test.ml\", line 1414, characters 5-12", test60(undefined));
 
 Mt.from_pair_suites("Tscanf_test", suites.contents);
 

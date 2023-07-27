@@ -19,6 +19,7 @@ var b = Stdlib__List.length({
 var List = {
   compare_lengths: Stdlib__List.compare_lengths,
   compare_length_with: Stdlib__List.compare_length_with,
+  is_empty: Stdlib__List.is_empty,
   cons: Stdlib__List.cons,
   hd: Stdlib__List.hd,
   tl: Stdlib__List.tl,
@@ -55,7 +56,9 @@ var List = {
   memq: Stdlib__List.memq,
   find: Stdlib__List.find,
   find_opt: Stdlib__List.find_opt,
+  find_index: Stdlib__List.find_index,
   find_map: Stdlib__List.find_map,
+  find_mapi: Stdlib__List.find_mapi,
   filter: Stdlib__List.filter,
   find_all: Stdlib__List.find_all,
   filteri: Stdlib__List.filteri,

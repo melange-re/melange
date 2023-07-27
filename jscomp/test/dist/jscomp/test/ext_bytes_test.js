@@ -159,13 +159,13 @@ var a = Stdlib__Bytes.init(100, Stdlib__Char.chr);
 
 Stdlib__Bytes.blit(a, 5, a, 10, 10);
 
-eq("File \"ext_bytes_test.ml\", line 96, characters 7-14", a, Stdlib__Bytes.of_string("\0\x01\x02\x03\x04\x05\x06\x07\b\t\x05\x06\x07\b\t\n\x0b\f\r\x0e\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
+eq("File \"jscomp/test/ext_bytes_test.ml\", line 96, characters 7-14", a, Stdlib__Bytes.of_string("\0\x01\x02\x03\x04\x05\x06\x07\b\t\x05\x06\x07\b\t\n\x0b\f\r\x0e\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
 
 var a$1 = Stdlib__Bytes.init(100, Stdlib__Char.chr);
 
 Stdlib__Bytes.blit(a$1, 10, a$1, 5, 10);
 
-eq("File \"ext_bytes_test.ml\", line 102, characters 7-14", a$1, Stdlib__Bytes.of_string("\0\x01\x02\x03\x04\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
+eq("File \"jscomp/test/ext_bytes_test.ml\", line 102, characters 7-14", a$1, Stdlib__Bytes.of_string("\0\x01\x02\x03\x04\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abc"));
 
 var f = Stdlib__Char.chr;
 
@@ -177,7 +177,7 @@ var b = Stdlib__Bytes.init(100, (function (i) {
 
 Stdlib__Bytes.blit_string(a$2, 10, b, 5, 10);
 
-eq("File \"ext_bytes_test.ml\", line 109, characters 7-14", b, Stdlib__Bytes.of_string("\0\0\0\0\0\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));
+eq("File \"jscomp/test/ext_bytes_test.ml\", line 109, characters 7-14", b, Stdlib__Bytes.of_string("\0\0\0\0\0\n\x0b\f\r\x0e\x0f\x10\x11\x12\x13\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));
 
 var s = Stdlib__Bytes.init(50000, (function (i) {
         return Stdlib__Char.chr(i % 137);
@@ -187,7 +187,7 @@ var s1 = Stdlib__Bytes.to_string(s);
 
 var s2 = Stdlib__Bytes.of_string(s1);
 
-eq("File \"ext_bytes_test.ml\", line 115, characters 7-14", s, s2);
+eq("File \"jscomp/test/ext_bytes_test.ml\", line 115, characters 7-14", s, s2);
 
 function f$1(a, b) {
   return [

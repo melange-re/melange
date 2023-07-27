@@ -135,9 +135,9 @@ var tmp$4 = Caml_oo_curry.js1(100, 4, tmp$3);
 
 var e = Caml_oo_curry.js1(104, 5, tmp$4);
 
-eq("File \"opr_4560_test.ml\", line 26, characters 3-10", e, 33);
+eq("File \"jscomp/test/opr_4560_test.ml\", line 26, characters 3-10", e, 33);
 
-Mt.from_pair_suites("opr_4560_test.ml", suites.contents);
+Mt.from_pair_suites("jscomp/test/opr_4560_test.ml", suites.contents);
 
 var magic = 33;
 

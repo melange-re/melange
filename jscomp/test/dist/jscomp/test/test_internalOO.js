@@ -578,6 +578,23 @@ function update(x, f, m) {
   }
 }
 
+function add_to_list(x, data, m) {
+  var add = function (param) {
+    if (param !== undefined) {
+      return {
+              hd: data,
+              tl: param
+            };
+    } else {
+      return {
+              hd: data,
+              tl: /* [] */0
+            };
+    }
+  };
+  return update(x, add, m);
+}
+
 function iter(f, _param) {
   while(true) {
     var param = _param;
@@ -779,8 +796,8 @@ function merge$1(f, s1, s2) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "map.ml",
-          400,
+          "jscomp/stdlib/map.ml",
+          408,
           10
         ],
         Error: new Error()
@@ -993,6 +1010,12 @@ function bindings(s) {
   return bindings_aux(/* [] */0, s);
 }
 
+function of_list(bs) {
+  return Stdlib__List.fold_left((function (m, param) {
+                return add(param[0], param[1], m);
+              }), /* Empty */0, bs);
+}
+
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
                 return add(param[0], param[1], m);
@@ -1109,23 +1132,13 @@ function to_seq_from(low, m) {
 
 var Vars = {
   empty: /* Empty */0,
-  is_empty: is_empty,
-  mem: mem,
   add: add,
+  add_to_list: add_to_list,
   update: update,
   singleton: singleton,
   remove: remove,
   merge: merge$1,
   union: union,
-  compare: compare$1,
-  equal: equal,
-  iter: iter,
-  fold: fold,
-  for_all: for_all,
-  exists: exists,
-  filter: filter,
-  filter_map: filter_map,
-  partition: partition,
   cardinal: cardinal,
   bindings: bindings,
   min_binding: min_binding,
@@ -1134,15 +1147,28 @@ var Vars = {
   max_binding_opt: max_binding_opt,
   choose: min_binding,
   choose_opt: min_binding_opt,
-  split: split,
   find: find,
   find_opt: find_opt,
   find_first: find_first,
   find_first_opt: find_first_opt,
   find_last: find_last,
   find_last_opt: find_last_opt,
+  iter: iter,
+  fold: fold,
   map: map,
   mapi: mapi,
+  filter: filter,
+  filter_map: filter_map,
+  partition: partition,
+  split: split,
+  is_empty: is_empty,
+  mem: mem,
+  equal: equal,
+  compare: compare$1,
+  for_all: for_all,
+  exists: exists,
+  to_list: bindings,
+  of_list: of_list,
   to_seq: to_seq,
   to_rev_seq: to_rev_seq,
   to_seq_from: to_seq_from,
@@ -1685,6 +1711,23 @@ function update$1(x, f, m) {
   }
 }
 
+function add_to_list$1(x, data, m) {
+  var add = function (param) {
+    if (param !== undefined) {
+      return {
+              hd: data,
+              tl: param
+            };
+    } else {
+      return {
+              hd: data,
+              tl: /* [] */0
+            };
+    }
+  };
+  return update$1(x, add, m);
+}
+
 function iter$1(f, _param) {
   while(true) {
     var param = _param;
@@ -1886,8 +1929,8 @@ function merge$3(f, s1, s2) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "map.ml",
-          400,
+          "jscomp/stdlib/map.ml",
+          408,
           10
         ],
         Error: new Error()
@@ -2100,6 +2143,12 @@ function bindings$1(s) {
   return bindings_aux$1(/* [] */0, s);
 }
 
+function of_list$1(bs) {
+  return Stdlib__List.fold_left((function (m, param) {
+                return add$1(param[0], param[1], m);
+              }), /* Empty */0, bs);
+}
+
 function add_seq$1(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
                 return add$1(param[0], param[1], m);
@@ -2216,23 +2265,13 @@ function to_seq_from$1(low, m) {
 
 var Meths = {
   empty: /* Empty */0,
-  is_empty: is_empty$1,
-  mem: mem$1,
   add: add$1,
+  add_to_list: add_to_list$1,
   update: update$1,
   singleton: singleton$1,
   remove: remove$1,
   merge: merge$3,
   union: union$1,
-  compare: compare$3,
-  equal: equal$1,
-  iter: iter$1,
-  fold: fold$1,
-  for_all: for_all$1,
-  exists: exists$1,
-  filter: filter$1,
-  filter_map: filter_map$1,
-  partition: partition$1,
   cardinal: cardinal$1,
   bindings: bindings$1,
   min_binding: min_binding$1,
@@ -2241,15 +2280,28 @@ var Meths = {
   max_binding_opt: max_binding_opt$1,
   choose: min_binding$1,
   choose_opt: min_binding_opt$1,
-  split: split$1,
   find: find$1,
   find_opt: find_opt$1,
   find_first: find_first$1,
   find_first_opt: find_first_opt$1,
   find_last: find_last$1,
   find_last_opt: find_last_opt$1,
+  iter: iter$1,
+  fold: fold$1,
   map: map$1,
   mapi: mapi$1,
+  filter: filter$1,
+  filter_map: filter_map$1,
+  partition: partition$1,
+  split: split$1,
+  is_empty: is_empty$1,
+  mem: mem$1,
+  equal: equal$1,
+  compare: compare$3,
+  for_all: for_all$1,
+  exists: exists$1,
+  to_list: bindings$1,
+  of_list: of_list$1,
   to_seq: to_seq$1,
   to_rev_seq: to_rev_seq$1,
   to_seq_from: to_seq_from$1,
@@ -2792,6 +2844,23 @@ function update$2(x, f, m) {
   }
 }
 
+function add_to_list$2(x, data, m) {
+  var add = function (param) {
+    if (param !== undefined) {
+      return {
+              hd: data,
+              tl: param
+            };
+    } else {
+      return {
+              hd: data,
+              tl: /* [] */0
+            };
+    }
+  };
+  return update$2(x, add, m);
+}
+
 function iter$2(f, _param) {
   while(true) {
     var param = _param;
@@ -2993,8 +3062,8 @@ function merge$5(f, s1, s2) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "map.ml",
-          400,
+          "jscomp/stdlib/map.ml",
+          408,
           10
         ],
         Error: new Error()
@@ -3207,6 +3276,12 @@ function bindings$2(s) {
   return bindings_aux$2(/* [] */0, s);
 }
 
+function of_list$2(bs) {
+  return Stdlib__List.fold_left((function (m, param) {
+                return add$2(param[0], param[1], m);
+              }), /* Empty */0, bs);
+}
+
 function add_seq$2(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
                 return add$2(param[0], param[1], m);
@@ -3323,23 +3398,13 @@ function to_seq_from$2(low, m) {
 
 var Labs = {
   empty: /* Empty */0,
-  is_empty: is_empty$2,
-  mem: mem$2,
   add: add$2,
+  add_to_list: add_to_list$2,
   update: update$2,
   singleton: singleton$2,
   remove: remove$2,
   merge: merge$5,
   union: union$2,
-  compare: compare$5,
-  equal: equal$2,
-  iter: iter$2,
-  fold: fold$2,
-  for_all: for_all$2,
-  exists: exists$2,
-  filter: filter$2,
-  filter_map: filter_map$2,
-  partition: partition$2,
   cardinal: cardinal$2,
   bindings: bindings$2,
   min_binding: min_binding$2,
@@ -3348,15 +3413,28 @@ var Labs = {
   max_binding_opt: max_binding_opt$2,
   choose: min_binding$2,
   choose_opt: min_binding_opt$2,
-  split: split$2,
   find: find$2,
   find_opt: find_opt$2,
   find_first: find_first$2,
   find_first_opt: find_first_opt$2,
   find_last: find_last$2,
   find_last_opt: find_last_opt$2,
+  iter: iter$2,
+  fold: fold$2,
   map: map$2,
   mapi: mapi$2,
+  filter: filter$2,
+  filter_map: filter_map$2,
+  partition: partition$2,
+  split: split$2,
+  is_empty: is_empty$2,
+  mem: mem$2,
+  equal: equal$2,
+  compare: compare$5,
+  for_all: for_all$2,
+  exists: exists$2,
+  to_list: bindings$2,
+  of_list: of_list$2,
   to_seq: to_seq$2,
   to_rev_seq: to_rev_seq$2,
   to_seq_from: to_seq_from$2,
@@ -3640,7 +3718,7 @@ function get_variable(table, name) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "test_internalOO.ml",
+              "jscomp/test/test_internalOO.ml",
               280,
               50
             ],
