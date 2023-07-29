@@ -414,8 +414,8 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Prunstack | Pperform | Presume | Preperform | Patomic_exchange | Patomic_cas
   | Patomic_fetch_add | Pdls_get | Patomic_load _ ->
       Location.raise_errorf ~loc
-        "OCaml 5 multicore primitives (Effect, Domain, Condition, Mutex, \
-         Semaphore) are not supported in Melange"
+        "OCaml 5 multicore primitives (Effect, Condition, Semaphore) are not \
+         currently supported in Melange"
 
 (* Does not exist since we compile array in js backend unlike native backend *)
 
