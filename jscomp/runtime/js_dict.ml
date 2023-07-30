@@ -32,7 +32,7 @@ type key = string
 (** The key type, an alias of string *)
 
 external unsafeGet : 'a t -> key -> 'a = ""
-  [@@bs.get_index]
+  [@@mel.get_index]
 (** [unsafeGet dict key] returns the value associated with [key] in [dict]
 
 This function will return an invalid value ([undefined]) if [key] does not exist in [dict]. It
@@ -50,26 +50,26 @@ let get (type u) (dict : u t) (k : key) : u option =
   if [%raw {|k in dict|}] then Some dict.!(k) else None
 
 external set : 'a t -> key -> 'a -> unit = ""
-  [@@bs.set_index]
+  [@@mel.set_index]
 (** [set dict key value] sets the value of [key] in [dict] to [value] *)
 
 external keys : 'a t -> key array = "Object.keys"
-  [@@bs.val]
+  [@@mel.val]
 (** [keys dict] returns an array of all the keys in [dict] *)
 
 external empty : unit -> 'a t = ""
-  [@@bs.obj]
+  [@@mel.obj]
 (** [empty ()] creates an empty dictionary *)
 
-let unsafeDeleteKey : (string t -> string -> unit[@bs]) =
+let unsafeDeleteKey : (string t -> string -> unit[@u]) =
   [%raw {| function (dict,key){
       delete dict[key];
      }
   |}]
 
-external unsafeCreate : int -> 'a array = "Array" [@@bs.new]
+external unsafeCreate : int -> 'a array = "Array" [@@mel.new]
 
-(* external entries : 'a t -> (key * 'a) array = "Object.entries" [@@bs.val] (* ES2017 *) *)
+(* external entries : 'a t -> (key * 'a) array = "Object.entries" [@@mel.val] (* ES2017 *) *)
 let entries dict =
   let keys = keys dict in
   let l = Js_array2.length keys in
@@ -80,7 +80,7 @@ let entries dict =
   done;
   values
 
-(* external values : 'a t -> 'a array = "Object.values" [@@bs.val] (* ES2017 *) *)
+(* external values : 'a t -> 'a array = "Object.values" [@@mel.val] (* ES2017 *) *)
 let values dict =
   let keys = keys dict in
   let l = Js_array2.length keys in
@@ -115,6 +115,6 @@ let map f source =
   let l = Js_array2.length keys in
   for i = 0 to l - 1 do
     let key = Js_array2.unsafe_get keys i in
-    set target key (f (unsafeGet source key) [@bs])
+    set target key (f (unsafeGet source key) [@u])
   done;
   target

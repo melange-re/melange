@@ -29,7 +29,7 @@
 (*
    1. extension point
    {[
-     [%bs.raw{| blabla |}]
+     [%mel.raw{| blabla |}]
    ]}
    will be desugared into
    {[
@@ -69,34 +69,37 @@ module External = struct
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.external"
+    rule "mel.external"
 end
 
 module Raw = struct
   let stru_rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
-      let handler ~ctxt:_ { loc; txt = payload } =
-        let stru = [ Ast_extensions.handle_raw_structure loc payload ] in
-        List.hd stru
+      let extractor = Ast_pattern.__' in
+      let handler ~(ctxt : Expansion_context.Extension.t) { loc; txt = payload }
+          =
+        let ext_loc = Expansion_context.Extension.extension_point_loc ctxt in
+        Ast_attributes.warn_if_bs ~loc:ext_loc label;
+        Ast_extensions.handle_raw_structure loc payload
       in
       let extender =
         Extension.V3.declare label Structure_item extractor handler
       in
       Context_free.Rule.extension extender
     in
-    rule "bs.raw"
+    rule "mel.raw"
 
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { loc; txt = payload } =
+        Ast_attributes.warn_if_bs ~loc label;
         Ast_extensions.handle_raw ~kind:Raw_exp loc payload
       in
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.raw"
+    rule "mel.raw"
 
   let rules = [ stru_rule; rule ]
 end
@@ -130,7 +133,7 @@ module Private = struct
              generated code from:
              {[
                external %private x : int -> int =  "x"
-               [@@bs.module "./x"]
+               [@@mel.module "./x"]
              ]}
           *)
       | _ -> false
@@ -168,7 +171,7 @@ module Private = struct
 
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         match payload with
         | PStr work -> expand work
@@ -187,7 +190,7 @@ end
 module Debugger = struct
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         Exp.mk ~loc (Ast_extensions.handle_debugger loc payload)
@@ -196,13 +199,13 @@ module Debugger = struct
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.debugger"
+    rule "mel.debugger"
 end
 
 module Re = struct
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         Exp.constraint_ ~loc
@@ -213,13 +216,13 @@ module Re = struct
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.re"
+    rule "mel.re"
 end
 
 module Time = struct
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         let open Ast_helper in
         match payload with
@@ -264,13 +267,13 @@ module Time = struct
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.time"
+    rule "mel.time"
 end
 
 module Node = struct
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_
           ({ txt = payload; loc } : Parsetree.payload Location.loc) =
         let strip s = match s with "_module" -> "module" | x -> x in
@@ -313,13 +316,13 @@ module Node = struct
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.node"
+    rule "mel.node"
 end
 
 module Obj = struct
   let rule =
     let rule label =
-      let extractor = Ast_pattern.(__') in
+      let extractor = Ast_pattern.__' in
       let handler ~ctxt:_ { txt = payload; loc } =
         match payload with
         | PStr
@@ -343,7 +346,7 @@ module Obj = struct
       let extender = Extension.V3.declare label Expression extractor handler in
       Context_free.Rule.extension extender
     in
-    rule "bs.obj"
+    rule "mel.obj"
 end
 
 module Mapper = struct
@@ -362,13 +365,13 @@ module Mapper = struct
       method! class_type
           ({ pcty_attributes; pcty_loc; _ } as ctd : Parsetree.class_type) =
         (* {[class x : int -> object
-                     end [@bs]
+                     end [@u]
                    ]}
 
            Actually this is not going to happpen as below is an invalid syntax
 
              {[class type x = int -> object
-                 end[@bs]]}
+                 end[@u]]}
         *)
         match Ast_attributes.process_bs pcty_attributes with
         | false, _ -> super#class_type ctd
@@ -399,7 +402,7 @@ module Mapper = struct
             | Pcty_open _ (* let open M in CT *) | Pcty_constr _
             | Pcty_extension _ | Pcty_arrow _ ->
                 Location.raise_errorf ~loc:pcty_loc
-                  "invalid or unused attribute `bs`")
+                  "invalid or unused attribute `[@u]")
 
       method! core_type typ =
         Ast_core_type_class_type.typ_mapper (self, super#core_type) typ
@@ -412,7 +415,7 @@ module Mapper = struct
             Utf8_string.Interp.transform e s loc delim
         (* End rewriting *)
         | Pexp_function cases -> (
-            (* {[ function [@bs.exn]
+            (* {[ function [@mel.exn]
                   | Not_found -> 0
                   | Invalid_argument -> 1
                 ]}*)
@@ -685,7 +688,11 @@ module Mapper = struct
                   (r, Ast_tuple_pattern_flatten.value_bindings_mapper self vbs);
             }
         | Pstr_attribute
-            ({ attr_name = { txt = "bs.config" | "config"; _ }; _ } as attr) ->
+            ({
+               (* TODO: remove support for bs.* *)
+               attr_name = { txt = "bs.config" | "mel.config" | "config"; _ };
+               _;
+             } as attr) ->
             Bs_ast_invariant.mark_used_bs_attribute attr;
             str
         | _ -> super#structure_item str

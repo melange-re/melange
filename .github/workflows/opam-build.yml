@@ -25,7 +25,7 @@ jobs:
           - ubuntu-latest
           # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
-          - 4.14.x
+          - ocaml-variants.5.1.0+trunk
 
     runs-on: ${{ matrix.os }}
 
@@ -65,7 +65,7 @@ jobs:
       - name: Install all deps
         working-directory: melange-opam-template
         run: |
-          opam pin add reason-react -y git+https://github.com/reasonml/reason-react.git#anmonteiro/bs-optional
+          opam pin add reason-react -y git+https://github.com/reasonml/reason-react.git#anmonteiro/mel-attrs
           npm install
 
       - name: Build basic template

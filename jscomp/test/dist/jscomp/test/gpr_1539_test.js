@@ -4,7 +4,7 @@
 var Caml_module = require("melange.js/caml_module.js");
 
 var Point = Caml_module.init_mod([
-      "gpr_1539_test.ml",
+      "jscomp/test/gpr_1539_test.ml",
       10,
       6
     ], {

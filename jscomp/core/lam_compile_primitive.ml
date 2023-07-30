@@ -39,7 +39,7 @@ let ensure_value_unit (st : Lam_compile_context.continuation) e : E.t =
 let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
     (args : J.expression list) : J.expression =
   match prim with
-  | Pis_not_none -> Js_of_lam_option.is_not_none (Ext_list.singleton_exn args)
+  | Pis_not_none -> Js_of_lam_option.is_not_none (List.hd args)
   | Pcreate_extension s -> E.make_exception s
   | Pwrap_exn ->
       E.runtime_call Js_runtime_modules.caml_js_exceptions
@@ -79,12 +79,12 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           | _ -> E.runtime_call Js_runtime_modules.option "nullable_to_opt" args
           )
       | _ -> assert false)
-  | Pjs_function_length -> E.function_length (Ext_list.singleton_exn args)
-  | Pcaml_obj_length -> E.obj_length (Ext_list.singleton_exn args)
-  | Pis_null -> E.is_null (Ext_list.singleton_exn args)
-  | Pis_undefined -> E.is_undef (Ext_list.singleton_exn args)
-  | Pis_null_undefined -> E.is_null_undefined (Ext_list.singleton_exn args)
-  | Pjs_typeof -> E.typeof (Ext_list.singleton_exn args)
+  | Pjs_function_length -> E.function_length (List.hd args)
+  | Pcaml_obj_length -> E.obj_length (List.hd args)
+  | Pis_null -> E.is_null (List.hd args)
+  | Pis_undefined -> E.is_undef (List.hd args)
+  | Pis_null_undefined -> E.is_null_undefined (List.hd args)
+  | Pjs_typeof -> E.typeof (List.hd args)
   | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply | Pjs_fn_make _
     ->
       assert false (* already handled by {!Lam_compile} *)
@@ -94,7 +94,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pinit_mod -> E.runtime_call Js_runtime_modules.module_ "init_mod" args
   | Pupdate_mod -> E.runtime_call Js_runtime_modules.module_ "update_mod" args
   | Psome -> (
-      let arg = Ext_list.singleton_exn args in
+      let arg = List.hd args in
       match arg.expression_desc with
       | Null | Object _ | Number _ | Caml_block _ | Array _ | Str _ ->
           (* This makes sense when type info
@@ -103,19 +103,16 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
           *)
           E.optional_not_nest_block arg
       | _ -> E.optional_block arg)
-  | Psome_not_nest -> E.optional_not_nest_block (Ext_list.singleton_exn args)
+  | Psome_not_nest -> E.optional_not_nest_block (List.hd args)
   | Pmakeblock (tag, tag_info, mutable_flag) ->
       (* RUNTIME *)
       Js_of_lam_block.make_block
         (Js_op_util.of_lam_mutable_flag mutable_flag)
         tag_info (E.small_int tag) args
-  | Pval_from_option ->
-      Js_of_lam_option.val_from_option (Ext_list.singleton_exn args)
-  | Pval_from_option_not_nest -> Ext_list.singleton_exn args
+  | Pval_from_option -> Js_of_lam_option.val_from_option (List.hd args)
+  | Pval_from_option_not_nest -> List.hd args
   | Pfield (i, fld_info) ->
-      Js_of_lam_block.field fld_info
-        (Ext_list.singleton_exn args)
-        (Int32.of_int i)
+      Js_of_lam_block.field fld_info (List.hd args) (Int32.of_int i)
   (* Invariant depends on runtime *)
   | Pfield_computed -> (
       match args with
@@ -123,9 +120,9 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | _ -> assert false (* Negate boxed int *))
   | Pnegint ->
       (* #977 *)
-      E.int32_minus E.zero_int_literal (Ext_list.singleton_exn args)
+      E.int32_minus E.zero_int_literal (List.hd args)
   | Pnegint64 -> Js_long.neg args
-  | Pnegfloat -> E.float_minus E.zero_float_lit (Ext_list.singleton_exn args)
+  | Pnegfloat -> E.float_minus E.zero_float_lit (List.hd args)
   (* Negate boxed int end*)
   (* Int addition and subtraction *)
   | Paddint -> (
@@ -194,16 +191,12 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pintoffloat -> (
       match args with [ e ] -> E.to_int32 e | _ -> assert false)
   | Pint64ofint -> Js_long.of_int32 args
-  | Pfloatofint -> Ext_list.singleton_exn args
+  | Pfloatofint -> List.hd args
   | Pintofint64 -> Js_long.to_int32 args
-  | Pnot -> E.not (Ext_list.singleton_exn args)
-  | Poffsetint n -> E.offset (Ext_list.singleton_exn args) n
+  | Pnot -> E.not (List.hd args)
+  | Poffsetint n -> E.offset (List.hd args) n
   | Poffsetref n ->
-      let v =
-        Js_of_lam_block.field Lambda.ref_field_info
-          (Ext_list.singleton_exn args)
-          0l
-      in
+      let v = Js_of_lam_block.field Lambda.ref_field_info (List.hd args) 0l in
       E.seq (E.assign v (E.offset v n)) E.unit
   | Psequand -> (
       (* TODO: rhs is possibly a tail call *)
@@ -230,11 +223,10 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
          if we have byte_get/string_get
          still necessary, since you can set it now.
       *)
-      Js_of_lam_string.bytes_of_string (Ext_list.singleton_exn args)
-  | Pbytes_to_string ->
-      Js_of_lam_string.bytes_to_string (Ext_list.singleton_exn args)
-  | Pstringlength -> E.string_length (Ext_list.singleton_exn args)
-  | Pbyteslength -> E.bytes_length (Ext_list.singleton_exn args)
+      Js_of_lam_string.bytes_of_string (List.hd args)
+  | Pbytes_to_string -> Js_of_lam_string.bytes_to_string (List.hd args)
+  | Pstringlength -> E.string_length (List.hd args)
+  | Pbyteslength -> E.bytes_length (List.hd args)
   (* This should only be Pbyteset(u|s), which in js, is an int array
      Bytes is an int array in javascript
   *)
@@ -262,7 +254,7 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   (* only when Lapply -> expand = true*)
   | Praise -> assert false (* handled before here *)
   (* Runtime encoding relevant *)
-  | Parraylength -> E.array_length (Ext_list.singleton_exn args)
+  | Parraylength -> E.array_length (List.hd args)
   | Psetfield (i, field_info) -> (
       match args with
       | [ e0; e1 ] ->
@@ -297,8 +289,8 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
   | Pjs_call { arg_types; ffi; _ } ->
       Lam_compile_external_call.translate_ffi cxt arg_types ffi args
   (* FIXME, this can be removed later *)
-  | Pisint -> E.is_type_number (Ext_list.singleton_exn args)
-  | Pis_poly_var_const -> E.is_type_string (Ext_list.singleton_exn args)
+  | Pisint -> E.is_type_number (List.hd args)
+  | Pis_poly_var_const -> E.is_type_string (List.hd args)
   | Pctconst ct -> (
       match ct with
       | Big_endian -> E.bool Sys.big_endian

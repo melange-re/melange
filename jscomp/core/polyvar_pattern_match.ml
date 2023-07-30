@@ -118,5 +118,5 @@ let call_switcher_variant_constr (loc : Lambda.scoped_location)
     ( Alias,
       Pgenval,
       v,
-      Lprim (Pfield (0, Fld_poly_var_tag), [ arg ], loc),
+      Lprim (Pfield (0, Pointer, Immutable, Fld_poly_var_tag), [ arg ], loc),
       call_switcher_variant_constant loc fail (Lvar v) int_lambda_list names )

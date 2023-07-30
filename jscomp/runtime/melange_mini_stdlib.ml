@@ -43,7 +43,10 @@ external raise : exn -> 'a = "%raise"
 external ignore : 'a -> unit = "%ignore"
 external ( |> ) : 'a -> ('a -> 'b) -> 'b = "%revapply"
 external ( @@ ) : ('a -> 'b) -> 'a -> 'b = "%apply"
-external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
+
+external ( ** ) : float -> float -> float = "pow"
+  [@@mel.val] [@@mel.scope "Math"]
+
 external ( ~-. ) : float -> float = "%negfloat"
 external ( +. ) : float -> float -> float = "%addfloat"
 external ( -. ) : float -> float -> float = "%subfloat"
@@ -58,7 +61,7 @@ module Obj = struct
   external tag : t -> int = "caml_obj_tag"
 
   (* The compiler ensures (|0) operation *)
-  external set_tag : t -> int -> unit = "TAG" [@@bs.set]
+  external set_tag : t -> int -> unit = "TAG" [@@mel.set]
   external repr : 'a -> t = "%identity"
   external obj : t -> 'a = "%identity"
   external magic : 'a -> 'b = "%identity"

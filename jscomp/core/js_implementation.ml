@@ -163,8 +163,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     Lam_compile_env.reset ();
     let env = Res_compmisc.initial_env () in
     Env.set_unit_name modulename;
-    let ({ Typedtree.structure = typedtree; coercion; _ } as implementation), _
-        =
+    let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
       Typemod.type_implementation_more
         ?check_exists:(if !Js_config.force_cmi then None else Some ())
         fname outputprefix modulename env ast

@@ -58,9 +58,8 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam_constant.t =
   | Const_immstring s -> Const_string { s; unicode = false }
   | Const_block (i, t, xs) -> (
       match t with
-      | Blk_some_not_nested ->
-          Const_some (convert_constant (Ext_list.singleton_exn xs))
-      | Blk_some -> Const_some (convert_constant (Ext_list.singleton_exn xs))
+      | Blk_some_not_nested -> Const_some (convert_constant (List.hd xs))
+      | Blk_some -> Const_some (convert_constant (List.hd xs))
       | Blk_constructor { name; num_nonconst } ->
           let t : Lam_tag_info.t = Blk_constructor { name; num_nonconst } in
           Const_block (i, t, List.map convert_constant xs)

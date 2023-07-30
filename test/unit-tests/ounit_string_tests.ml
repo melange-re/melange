@@ -70,20 +70,6 @@ let suites =
                 ]
             end; *)
          ( __LOC__ >:: fun _ ->
-           Ext_string.starts_with "ab" "a" =~ true;
-           Ext_string.starts_with "ab" "" =~ true;
-           Ext_string.starts_with "abb" "abb" =~ true;
-           Ext_string.starts_with "abb" "abbc" =~ false );
-         ( __LOC__ >:: fun _ ->
-           let ( =~ ) =
-             OUnit.assert_equal ~printer:(fun x -> string_of_bool x)
-           in
-           let k = Ext_string.ends_with in
-           k "xx.ml" ".ml" =~ true;
-           k "xx.bs.js" ".js" =~ true;
-           k "xx" ".x" =~ false;
-           k "xx" "" =~ true );
-         ( __LOC__ >:: fun _ ->
            Ext_string.ends_with_then_chop "xx.ml" ".ml" =~ Some "xx";
            Ext_string.ends_with_then_chop "xx.ml" ".mll" =~ None );
          (* __LOC__ >:: begin fun _ ->
@@ -94,12 +80,6 @@ let suites =
             Ext_string.starts_with_and_number "js_fn_run_04" ~offset:6 "run_" =~ 4;
             Ext_string.(starts_with_and_number "js_fn_run_04" ~offset:6 "run_" = 3) =~ false
             end; *)
-         ( __LOC__ >:: fun _ ->
-           Ext_string.for_all "____" (function '_' -> true | _ -> false)
-           =~ true;
-           Ext_string.for_all "___-" (function '_' -> true | _ -> false)
-           =~ false;
-           Ext_string.for_all "" (function '_' -> true | _ -> false) =~ true );
          ( __LOC__ >:: fun _ ->
            Ext_string.tail_from "ghsogh" 1 =~ "hsogh";
            Ext_string.tail_from "ghsogh" 0 =~ "ghsogh" );
@@ -119,56 +99,6 @@ let suites =
            OUnit.assert_bool __LOC__
              (let old = "a:bd" in
               Ext_string.replace_backward_slash old == old) );
-         ( __LOC__ >:: fun _ ->
-           OUnit.assert_bool __LOC__ (Ext_string.compare "" "" = 0);
-           OUnit.assert_bool __LOC__ (Ext_string.compare "0" "0" = 0);
-           OUnit.assert_bool __LOC__ (Ext_string.compare "" "acd" < 0);
-           OUnit.assert_bool __LOC__ (Ext_string.compare "acd" "" > 0);
-           for i = 0 to 256 do
-             let a = String.init i (fun _ -> '0') in
-             let b = String.init i (fun _ -> '0') in
-             OUnit.assert_bool __LOC__ (Ext_string.compare b a = 0);
-             OUnit.assert_bool __LOC__ (Ext_string.compare a b = 0)
-           done;
-           for i = 0 to 256 do
-             let a = String.init i (fun _ -> '0') in
-             let b = String.init i (fun _ -> '0') ^ "\000" in
-             OUnit.assert_bool __LOC__ (Ext_string.compare a b < 0);
-             OUnit.assert_bool __LOC__ (Ext_string.compare b a > 0)
-           done );
-         ( __LOC__ >:: fun _ ->
-           let slow_compare x y =
-             let x_len = String.length x in
-             let y_len = String.length y in
-             if x_len = y_len then String.compare x y
-             else Stdlib.compare x_len y_len
-           in
-           let same_sign x y =
-             if x = 0 then y = 0 else if x < 0 then y < 0 else y > 0
-           in
-           for _ = 0 to 3000 do
-             let chars = [| 'a'; 'b'; 'c'; 'd' |] in
-             let x = Ounit_test_util.random_string chars 129 in
-             let y = Ounit_test_util.random_string chars 129 in
-             let a = Ext_string.compare x y in
-             let b = slow_compare x y in
-             if same_sign a b then OUnit.assert_bool __LOC__ true
-             else
-               failwith
-                 ("incosistent " ^ x ^ " " ^ y ^ " " ^ string_of_int a ^ " "
-                ^ string_of_int b)
-           done );
-         ( __LOC__ >:: fun _ ->
-           let ( =~ ) = OUnit.assert_equal ~printer:(fun x -> x) in
-           let f = Ext_string.capitalize_ascii in
-           f "x" =~ "X";
-           f "X" =~ "X";
-           f "" =~ "";
-           f "abc" =~ "Abc";
-           f "_bc" =~ "_bc";
-           let v = "bc" in
-           f v =~ "Bc";
-           v =~ "bc" );
          ( __LOC__ >:: fun _ ->
            let ( =~ ) = OUnit.assert_equal ~printer:printer_string in
            Ext_filename.chop_all_extensions_maybe "a.bs.js" =~ "a";
@@ -237,18 +167,4 @@ let suites =
            Ext_string.split "" ':' =~ [];
            Ext_string.split "a:b:" ':' =~ [ "a"; "b" ];
            Ext_string.split "a:b:" ':' ~keep_empty:true =~ [ "a"; "b"; "" ] );
-         ( __LOC__ >:: fun _ ->
-           let cmp0 = Ext_string.compare in
-           let cmp1 = Map_string.compare_key in
-           let f a b =
-             cmp0 a b =~ cmp1 a b;
-             cmp0 b a =~ cmp1 b a
-           in
-           (* This is needed since deserialization/serialization
-              needs to be synced up for .bsbuild decoding
-           *)
-           f "a" "A";
-           f "bcdef" "abcdef";
-           f "" "A";
-           f "Abcdef" "abcdef" );
        ]

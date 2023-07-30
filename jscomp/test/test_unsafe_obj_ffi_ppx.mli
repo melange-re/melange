@@ -1,12 +1,11 @@
-
-class type _v = object 
+class type _v = object
   method height : int  [@@bs.set]
   method width  : int [@@bs.set]
 end[@bs]
-type v = _v Js.t 
+type v = _v Js.t
 
-class type ['a] _g = object 
-  method method1 : int -> unit 
+class type ['a] _g = object
+  method method1 : int -> unit
   method method2 : int -> int -> 'a
 end[@bs]
 type 'a g = 'a _g Js.t
@@ -23,12 +22,11 @@ val g : 'a g -> 'a
 
 {[
   val g :
-    [%bs.obj: < 
-           method1 : int -> unit ; 
+    [%mel.obj: <
+           method1 : int -> unit ;
            method2 : int * int -> 'a ;
            ..
                     >
-    ] -> 'a 
+    ] -> 'a
 ]}
 *)
-

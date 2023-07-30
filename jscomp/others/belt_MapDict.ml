@@ -76,7 +76,7 @@ let rec set (t : _ t) newK newD ~cmp =
   | None -> N.singleton newK newD
   | Some n ->
       let k = n.N.key in
-      let c = ((Belt_Id.getCmpInternal cmp) newK k [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) newK k [@u]) in
       if c = 0 then Some (N.updateValue n newD)
       else
         let l, r, v = (n.N.left, n.N.right, n.N.value) in
@@ -88,12 +88,12 @@ let rec set (t : _ t) newK newD ~cmp =
 let rec updateU (t : _ t) newK f ~cmp : _ t =
   match t with
   | None -> (
-      match f None [@bs] with None -> t | Some newD -> N.singleton newK newD)
+      match f None [@u] with None -> t | Some newD -> N.singleton newK newD)
   | Some n ->
       let k = n.N.key in
-      let c = ((Belt_Id.getCmpInternal cmp) newK k [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) newK k [@u]) in
       if c = 0 then
-        match f (Some n.N.value) [@bs] with
+        match f (Some n.N.value) [@u] with
         | None -> (
             let l, r = (n.N.left, n.N.right) in
             match (l, r) with
@@ -113,7 +113,7 @@ let rec updateU (t : _ t) newK f ~cmp : _ t =
           let rr = updateU ~cmp r newK f in
           if r == rr then t else N.bal l k v rr
 
-let update t newK f ~cmp = updateU t newK (fun [@bs] a -> f a) ~cmp
+let update t newK f ~cmp = updateU t newK (fun [@u] a -> f a) ~cmp
 
 (* unboxing API was not exported
    since the correct API is really awkard
@@ -132,7 +132,7 @@ let update t newK f ~cmp = updateU t newK (fun [@bs] a -> f a) ~cmp
 
 let rec removeAux0 n x ~cmp =
   let { N.left = l; key = v; right = r; _ } = n in
-  let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+  let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
   if c = 0 then
     match (l, r) with
     | None, _ -> r
@@ -168,7 +168,7 @@ let mergeMany h arr ~cmp =
 
 let rec splitAuxPivot n x pres ~cmp =
   let { N.left = l; key = v; value = d; right = r; _ } = n in
-  let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+  let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
   if c = 0 then (
     pres.contents <- Some d;
     (l, r))
@@ -199,8 +199,8 @@ let findFirstBy = N.findFirstBy
 let rec mergeU s1 s2 f ~cmp =
   match (s1, s2) with
   | None, None -> None
-  | Some _, None -> N.keepMapU s1 (fun [@bs] k v -> (f k (Some v) None [@bs]))
-  | None, Some _ -> N.keepMapU s2 (fun [@bs] k v -> (f k None (Some v) [@bs]))
+  | Some _, None -> N.keepMapU s1 (fun [@u] k v -> (f k (Some v) None [@u]))
+  | None, Some _ -> N.keepMapU s2 (fun [@u] k v -> (f k None (Some v) [@u]))
   | Some s1n, Some s2n ->
       if s1n.height >= s2n.height then
         let { N.left = l1; key = v1; value = d1; right = r1; _ } = s1n in
@@ -208,7 +208,7 @@ let rec mergeU s1 s2 f ~cmp =
         let l2, r2 = splitAuxPivot ~cmp s2n v1 d2 in
         let d2 = d2.contents in
         let newLeft = mergeU ~cmp l1 l2 f in
-        let newD = (f v1 (Some d1) d2 [@bs]) in
+        let newD = (f v1 (Some d1) d2 [@u]) in
         let newRight = mergeU ~cmp r1 r2 f in
         N.concatOrJoin newLeft v1 newD newRight
       else
@@ -217,11 +217,11 @@ let rec mergeU s1 s2 f ~cmp =
         let l1, r1 = splitAuxPivot ~cmp s1n v2 d1 in
         let d1 = d1.contents in
         let newLeft = mergeU ~cmp l1 l2 f in
-        let newD = (f v2 d1 (Some d2) [@bs]) in
+        let newD = (f v2 d1 (Some d2) [@u]) in
         let newRight = mergeU ~cmp r1 r2 f in
         N.concatOrJoin newLeft v2 newD newRight
 
-let merge s1 s2 f ~cmp = mergeU s1 s2 (fun [@bs] a b c -> f a b c) ~cmp
+let merge s1 s2 f ~cmp = mergeU s1 s2 (fun [@u] a b c -> f a b c) ~cmp
 
 let rec removeMany0 t xs i len ~cmp =
   if i < len then

@@ -27,9 +27,9 @@ external log2 :
 let _ = log2 (`Unit ())
 
 external log3 :
-  req:([ 
+  req:([
     `String of string
-       | `Int of int 
+       | `Int of int
        ] [@bs.unwrap])
   -> ?opt:([ `String of string
            | `Bool of bool
@@ -74,22 +74,22 @@ external log4 :
    ] [@bs.unwrap])
   -> unit = "console.log" [@@bs.val]
 
-(* Make sure [@bs.unwrap] plays nicely with [%bs.obj] *)
+(* Make sure [@bs.unwrap] plays nicely with [%mel.obj] *)
 let _ = log4 (`String "foo")
-let _ = log4 (`Options [%bs.obj { foo = 1 }])
+let _ = log4 (`Options [%mel.obj { foo = 1 }])
 
 let dyn_log4 = log4
-let _ = dyn_log4 (`Options [%bs.obj { foo = 2 }])
+let _ = dyn_log4 (`Options [%mel.obj { foo = 2 }])
 
 
-let f x = dyn_log4 x 
+let f x = dyn_log4 x
 
 external log5: ?h:([`A of int | `B of string] [@bs.unwrap]) -> int -> unit = "console.log" [@@bs.val]
 
 
-let ff0 x p = log5 ?h:x p 
+let ff0 x p = log5 ?h:x p
 
-let ff1 x p = log5 ?h:(x ()) p 
+let ff1 x p = log5 ?h:(x ()) p
 
 
 external ff : a:int -> b:int-> x: unit  -> _ = "" [@@bs.obj]

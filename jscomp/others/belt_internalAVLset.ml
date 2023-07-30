@@ -21,13 +21,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
-[@@@bs.config { flags = [| "-bs-noassertfalse" |] }]
+[@@@mel.config { flags = [| "-bs-noassertfalse" |] }]
 
 type 'value node = {
-  mutable value : 'value; [@bs.as "v"]
-  mutable height : int; [@bs.as "h"]
-  mutable left : 'value t; [@bs.as "l"]
-  mutable right : 'value t; [@bs.as "r"]
+  mutable value : 'value; [@mel.as "v"]
+  mutable height : int; [@mel.as "h"]
+  mutable left : 'value t; [@mel.as "l"]
+  mutable right : 'value t; [@mel.as "r"]
 }
 
 and 'value t = 'value node option
@@ -138,31 +138,31 @@ let rec forEachU n f =
   | None -> ()
   | Some n ->
       forEachU n.left f;
-      f n.value [@bs];
+      f n.value [@u];
       forEachU n.right f
 
-let forEach n f = forEachU n (fun [@bs] a -> f a)
+let forEach n f = forEachU n (fun [@u] a -> f a)
 
 let rec reduceU s accu f =
   match s with
   | None -> accu
-  | Some n -> reduceU n.right (f (reduceU n.left accu f) n.value [@bs]) f
+  | Some n -> reduceU n.right (f (reduceU n.left accu f) n.value [@u]) f
 
-let reduce s accu f = reduceU s accu (fun [@bs] a b -> f a b)
+let reduce s accu f = reduceU s accu (fun [@u] a b -> f a b)
 
 let rec everyU n p =
   match n with
   | None -> true
-  | Some n -> (p n.value [@bs]) && n.left |. everyU p && n.right |. everyU p
+  | Some n -> (p n.value [@u]) && n.left |. everyU p && n.right |. everyU p
 
-let every n p = everyU n (fun [@bs] a -> p a)
+let every n p = everyU n (fun [@u] a -> p a)
 
 let rec someU n p =
   match n with
   | None -> false
-  | Some n -> (p n.value [@bs]) || someU n.left p || someU n.right p
+  | Some n -> (p n.value [@u]) || someU n.left p || someU n.right p
 
-let some n p = someU n (fun [@bs] a -> p a)
+let some n p = someU n (fun [@u] a -> p a)
 (* [addMinElement v n] and [addMaxElement v n]
    assume that the added v is *strictly*
    smaller (or bigger) than all the present elements in the tree.
@@ -213,12 +213,12 @@ let rec partitionSharedU n p =
   | Some n ->
       let value = n.value in
       let lt, lf = partitionSharedU n.left p in
-      let pv = (p value [@bs]) in
+      let pv = (p value [@u]) in
       let rt, rf = partitionSharedU n.right p in
       if pv then (joinShared lt value rt, concatShared lf rf)
       else (concatShared lt rt, joinShared lf value rf)
 
-let partitionShared n p = partitionSharedU n (fun [@bs] a -> p a)
+let partitionShared n p = partitionSharedU n (fun [@u] a -> p a)
 
 let rec lengthNode n =
   let { left = l; right = r; _ } = n in
@@ -257,7 +257,7 @@ type cursor = { mutable forward : int; mutable backward : int }
 let rec fillArrayWithPartition n cursor arr p =
   let { left = l; value = v; right = r; _ } = n in
   (match l with None -> () | Some l -> fillArrayWithPartition l cursor arr p);
-  (if p v [@bs] then (
+  (if p v [@u] then (
      let c = cursor.forward in
      A.setUnsafe arr c v;
      cursor.forward <- c + 1)
@@ -273,7 +273,7 @@ let rec fillArrayWithFilter n i arr p =
     match l with None -> i | Some l -> fillArrayWithFilter l i arr p
   in
   let rnext =
-    if p v [@bs] then (
+    if p v [@u] then (
       A.setUnsafe arr next v;
       next + 1)
     else next
@@ -336,13 +336,13 @@ let rec keepSharedU n p =
   | Some n ->
       let { left = l; value = v; right = r; _ } = n in
       let newL = keepSharedU l p in
-      let pv = (p v [@bs]) in
+      let pv = (p v [@u]) in
       let newR = keepSharedU r p in
       if pv then
         if l == newL && r == newR then Some n else joinShared newL v newR
       else concatShared newL newR
 
-let keepShared n p = keepSharedU n (fun [@bs] a -> p a)
+let keepShared n p = keepSharedU n (fun [@u] a -> p a)
 (* ATT: functional methods in general can be shared with
     imperative methods, however, it does not apply when functional
     methods makes use of referential equality
@@ -357,7 +357,7 @@ let keepCopyU n p : _ t =
       let last = fillArrayWithFilter n 0 v p in
       fromSortedArrayAux v 0 last
 
-let keepCopy n p = keepCopyU n (fun [@bs] x -> p x)
+let keepCopy n p = keepCopyU n (fun [@u] x -> p x)
 
 let partitionCopyU n p =
   match n with
@@ -372,20 +372,20 @@ let partitionCopyU n p =
       ( fromSortedArrayAux v 0 forwardLen,
         fromSortedArrayRevAux v backward (size - forwardLen) )
 
-let partitionCopy n p = partitionCopyU n (fun [@bs] a -> p a)
+let partitionCopy n p = partitionCopyU n (fun [@u] a -> p a)
 
 let rec has (t : _ t) x ~cmp =
   match t with
   | None -> false
   | Some n ->
       let v = n.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       c = 0 || has ~cmp (if c < 0 then n.left else n.right) x
 
 let rec compareAux e1 e2 ~cmp =
   match (e1, e2) with
   | h1 :: t1, h2 :: t2 ->
-      let c = ((Belt_Id.getCmpInternal cmp) h1.value h2.value [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) h1.value h2.value [@u]) in
       if c = 0 then
         compareAux ~cmp
           (h1.right |. stackAllLeft t1)
@@ -408,7 +408,7 @@ let rec subset (s1 : _ t) (s2 : _ t) ~cmp =
   | Some t1, Some t2 ->
       let { left = l1; value = v1; right = r1; _ } = t1 in
       let { left = l2; value = v2; right = r2; _ } = t2 in
-      let c = ((Belt_Id.getCmpInternal cmp) v1 v2 [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) v1 v2 [@u]) in
       if c = 0 then subset ~cmp l1 l2 && subset ~cmp r1 r2
       else if c < 0 then subset ~cmp (create l1 v1 None) l2 && subset ~cmp r1 s2
       else subset ~cmp (create None v1 r1) r2 && subset ~cmp l1 s2
@@ -418,7 +418,7 @@ let rec get (n : _ t) x ~cmp =
   | None -> None
   | Some t (* Node(l, v, r, _) *) ->
       let v = t.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Some v else get ~cmp (if c < 0 then t.left else t.right) x
 
 let rec getUndefined (n : _ t) x ~cmp =
@@ -426,7 +426,7 @@ let rec getUndefined (n : _ t) x ~cmp =
   | None -> Js.Undefined.empty
   | Some t (* Node(l, v, r, _) *) ->
       let v = t.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then Js.Undefined.return v
       else getUndefined ~cmp (if c < 0 then t.left else t.right) x
 
@@ -435,7 +435,7 @@ let rec getExn (n : _ t) x ~cmp =
   | None -> raise Not_found
   | Some t (* Node(l, v, r, _) *) ->
       let v = t.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x v [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x v [@u]) in
       if c = 0 then v else getExn ~cmp (if c < 0 then t.left else t.right) x
 
 (******************************************************************)
@@ -518,7 +518,7 @@ let rec addMutate ~cmp (t : _ t) x =
   | None -> singleton x
   | Some nt ->
       let k = nt.value in
-      let c = ((Belt_Id.getCmpInternal cmp) x k [@bs]) in
+      let c = ((Belt_Id.getCmpInternal cmp) x k [@u]) in
       if c = 0 then t
       else
         let { left = l; right = r; _ } = nt in
@@ -534,8 +534,8 @@ let fromArray (xs : _ array) ~cmp =
   else
     let next =
       ref
-        (S.strictlySortedLengthU xs (fun [@bs] x y ->
-             ((Belt_Id.getCmpInternal cmp) x y [@bs]) < 0))
+        (S.strictlySortedLengthU xs (fun [@u] x y ->
+             ((Belt_Id.getCmpInternal cmp) x y [@u]) < 0))
     in
     let result =
       ref

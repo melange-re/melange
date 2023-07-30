@@ -153,7 +153,7 @@ let make_unused () = create "_"
 *)
 let compare (x : Ident.t) (y : Ident.t) =
   let u = stamp x - stamp y in
-  if u = 0 then Ext_string.compare (Ident.name x) (Ident.name y) else u
+  if u = 0 then String.compare (Ident.name x) (Ident.name y) else u
 
 let equal (x : Ident.t) (y : Ident.t) =
   if stamp x <> 0 then stamp x = stamp y

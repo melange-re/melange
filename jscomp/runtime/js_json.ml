@@ -95,15 +95,15 @@ let decodeNull json : _ Js_internal.null option =
   else None
 
 (* external parse : string -> t = "parse"
-   [@@bs.val][@@bs.scope "JSON"] *)
+   [@@mel.val][@@mel.scope "JSON"] *)
 
-external parseExn : string -> t = "parse" [@@bs.val] [@@bs.scope "JSON"]
+external parseExn : string -> t = "parse" [@@mel.val] [@@mel.scope "JSON"]
 
 external stringifyAny : 'a -> string option = "stringify"
-  [@@bs.val] [@@bs.scope "JSON"]
+  [@@mel.val] [@@mel.scope "JSON"]
 (* TODO: more docs when parse error happens or stringify non-stringfy value *)
 
-external null : t = "null" [@@bs.val]
+external null : t = "null" [@@mel.val]
 external string : string -> t = "%identity"
 external number : float -> t = "%identity"
 external boolean : bool -> t = "%identity"
@@ -116,11 +116,11 @@ external stringArray : string array -> t = "%identity"
 external numberArray : float array -> t = "%identity"
 external booleanArray : bool array -> t = "%identity"
 external objectArray : t Js_dict.t array -> t = "%identity"
-external stringify : t -> string = "stringify" [@@bs.val] [@@bs.scope "JSON"]
+external stringify : t -> string = "stringify" [@@mel.val] [@@mel.scope "JSON"]
 
-external stringifyWithSpace : t -> (_[@bs.as {json|null|json}]) -> int -> string
-  = "stringify"
-  [@@bs.val] [@@bs.scope "JSON"]
+external stringifyWithSpace :
+  t -> (_[@mel.as {json|null|json}]) -> int -> string = "stringify"
+  [@@mel.val] [@@mel.scope "JSON"]
 
 (* in memory modification does not work until your root is
    actually None, so we need wrap it as `[v]` and

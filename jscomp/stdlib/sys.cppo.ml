@@ -1,4 +1,4 @@
-[@@@bs.config { flags = [|"-bs-no-cross-module-opt"; |]}]
+[@@@mel.config { flags = [|"-bs-no-cross-module-opt"; |]}]
 #2 "stdlib/sys.mlp"
 (**************************************************************************)
 (*                                                                        *)
@@ -67,13 +67,14 @@ external runtime_parameters : unit -> string = "caml_runtime_parameters"
 
 external file_exists: string -> bool = "caml_sys_file_exists"
 external is_directory : string -> bool = "caml_sys_is_directory"
+external is_regular_file : string -> bool = "caml_sys_is_regular_file"
 external remove: string -> unit = "caml_sys_remove"
 external rename : string -> string -> unit = "caml_sys_rename"
 external getenv: string -> string = "caml_sys_getenv"
 
 
 #ifdef BS
-external getEnv : 'a -> string -> string option = "" [@@bs.get_index]
+external getEnv : 'a -> string -> string option = "" [@@mel.get_index]
 let getenv_opt s =
     match [%external process ] with
     | None -> None

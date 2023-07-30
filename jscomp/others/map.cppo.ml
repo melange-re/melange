@@ -66,7 +66,7 @@ let rec set  t (newK : key) (newD : _)  =
 let rec updateU  t (x : key) f  =
   match t with
   | None ->
-    begin match f None [@bs] with
+    begin match f None [@u] with
     | None -> t
     | Some data ->
       N.singleton x data
@@ -74,7 +74,7 @@ let rec updateU  t (x : key) f  =
   | Some n  ->
     let k = n.N.key in
     if x = k then
-      begin match f (Some n.N.value) [@bs] with
+      begin match f (Some n.N.value) [@u] with
       | None ->
         let {N.left = l;  right = r; _} = n in
         begin match l, r with
@@ -98,7 +98,7 @@ let rec updateU  t (x : key) f  =
         if r == rr then t
         else N.bal l k v rr
 
-let update t x f = updateU t x (fun[@bs] a -> f a)
+let update t x f = updateU t x (fun[@u] a -> f a)
 
 let rec removeAux n (x : key) =
     let {N.left = l; key = v; right = r; _} = n in

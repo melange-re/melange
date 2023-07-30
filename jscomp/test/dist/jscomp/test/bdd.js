@@ -69,7 +69,7 @@ function resize(newSize) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "bdd.ml",
+                "jscomp/test/bdd.ml",
                 54,
                 27
               ],
@@ -133,7 +133,7 @@ function mkNode(low, v, high) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "bdd.ml",
+                "jscomp/test/bdd.ml",
                 99,
                 31
               ],
@@ -377,7 +377,7 @@ function main(param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "bdd.ml",
+          "jscomp/test/bdd.ml",
           233,
           2
         ],

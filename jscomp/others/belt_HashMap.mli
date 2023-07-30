@@ -102,7 +102,7 @@ val has : ('key, 'value, 'id) t -> 'key -> bool
 (** [has tbl x] checks if [x] is bound in [tbl]. *)
 
 val remove : ('key, 'value, 'id) t -> 'key -> unit
-val forEachU : ('key, 'value, 'id) t -> (('key -> 'value -> unit)[@bs]) -> unit
+val forEachU : ('key, 'value, 'id) t -> (('key -> 'value -> unit)[@u]) -> unit
 
 val forEach : ('key, 'value, 'id) t -> ('key -> 'value -> unit) -> unit
 (** [forEach tbl f] applies [f] to all bindings in table [tbl].
@@ -111,7 +111,7 @@ val forEach : ('key, 'value, 'id) t -> ('key -> 'value -> unit) -> unit
 *)
 
 val reduceU :
-  ('key, 'value, 'id) t -> 'c -> (('c -> 'key -> 'value -> 'c)[@bs]) -> 'c
+  ('key, 'value, 'id) t -> 'c -> (('c -> 'key -> 'value -> 'c)[@u]) -> 'c
 
 val reduce : ('key, 'value, 'id) t -> 'c -> ('c -> 'key -> 'value -> 'c) -> 'c
 (** [reduce  tbl init f] computes
@@ -127,7 +127,7 @@ val reduce : ('key, 'value, 'id) t -> 'c -> ('c -> 'key -> 'value -> 'c) -> 'c
 *)
 
 val keepMapInPlaceU :
-  ('key, 'value, 'id) t -> (('key -> 'value -> 'value option)[@bs]) -> unit
+  ('key, 'value, 'id) t -> (('key -> 'value -> 'value option)[@u]) -> unit
 
 val keepMapInPlace :
   ('key, 'value, 'id) t -> ('key -> 'value -> 'value option) -> unit

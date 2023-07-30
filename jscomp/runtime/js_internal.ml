@@ -22,7 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-[@@@bs.config { flags = [| "-unboxed-types" |] }]
+[@@@mel.config { flags = [| "-unboxed-types" |] }]
 
 (* DESIGN:
    - It does not have any code, all its code will be inlined so that
@@ -125,17 +125,19 @@ external typeof : 'a -> string = "#typeof"
 *)
 
 external log : 'a -> unit = "log"
-  [@@bs.val] [@@bs.scope "console"]
+  [@@mel.val] [@@mel.scope "console"]
 (** A convenience function to log everything *)
 
-external log2 : 'a -> 'b -> unit = "log" [@@bs.val] [@@bs.scope "console"]
-external log3 : 'a -> 'b -> 'c -> unit = "log" [@@bs.val] [@@bs.scope "console"]
+external log2 : 'a -> 'b -> unit = "log" [@@mel.val] [@@mel.scope "console"]
+
+external log3 : 'a -> 'b -> 'c -> unit = "log"
+  [@@mel.val] [@@mel.scope "console"]
 
 external log4 : 'a -> 'b -> 'c -> 'd -> unit = "log"
-  [@@bs.val] [@@bs.scope "console"]
+  [@@mel.val] [@@mel.scope "console"]
 
 external logMany : 'a array -> unit = "log"
-  [@@bs.val] [@@bs.scope "console"] [@@bs.splice]
+  [@@mel.val] [@@mel.scope "console"] [@@mel.splice]
 (** A convenience function to log more than 4 arguments *)
 
 external eqNull : 'a -> 'a null -> bool = "%bs_equal_null"

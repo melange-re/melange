@@ -20,8 +20,8 @@ function f3(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "fun_pattern_match.ml",
-              44,
+              "jscomp/test/fun_pattern_match.ml",
+              41,
               9
             ],
             Error: new Error()
@@ -31,8 +31,8 @@ function f3(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "fun_pattern_match.ml",
-              44,
+              "jscomp/test/fun_pattern_match.ml",
+              41,
               9
             ],
             Error: new Error()
@@ -50,8 +50,8 @@ function f4(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "fun_pattern_match.ml",
-              52,
+              "jscomp/test/fun_pattern_match.ml",
+              49,
               9
             ],
             Error: new Error()
@@ -61,8 +61,8 @@ function f4(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "fun_pattern_match.ml",
-              52,
+              "jscomp/test/fun_pattern_match.ml",
+              49,
               9
             ],
             Error: new Error()

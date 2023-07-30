@@ -2,9 +2,10 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_option = require("melange.js/caml_option.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_option = require("melange.js/caml_option.js");
+var Stdlib__List = require("melange/list.js");
 var Stdlib__Seq = require("melange/seq.js");
 
 var compare = Caml.caml_int_compare;
@@ -542,6 +543,23 @@ function update(x, f, m) {
   }
 }
 
+function add_to_list(x, data, m) {
+  var add = function (param) {
+    if (param !== undefined) {
+      return {
+              hd: data,
+              tl: param
+            };
+    } else {
+      return {
+              hd: data,
+              tl: /* [] */0
+            };
+    }
+  };
+  return update(x, add, m);
+}
+
 function iter(f, _param) {
   while(true) {
     var param = _param;
@@ -743,8 +761,8 @@ function merge$1(f, s1, s2) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "map.ml",
-          400,
+          "jscomp/stdlib/map.ml",
+          408,
           10
         ],
         Error: new Error()
@@ -957,6 +975,12 @@ function bindings(s) {
   return bindings_aux(/* [] */0, s);
 }
 
+function of_list(bs) {
+  return Stdlib__List.fold_left((function (m, param) {
+                return add(param[0], param[1], m);
+              }), /* Empty */0, bs);
+}
+
 function add_seq(i, m) {
   return Stdlib__Seq.fold_left((function (m, param) {
                 return add(param[0], param[1], m);
@@ -1073,11 +1097,9 @@ function to_seq_from(low, m) {
 
 var empty = /* Empty */0;
 
-var is_empty$1 = is_empty;
-
-var mem$1 = mem;
-
 var add$1 = add;
+
+var add_to_list$1 = add_to_list;
 
 var update$1 = update;
 
@@ -1088,24 +1110,6 @@ var remove$1 = remove;
 var merge$2 = merge$1;
 
 var union$1 = union;
-
-var compare$2 = compare$1;
-
-var equal$1 = equal;
-
-var iter$1 = iter;
-
-var fold$1 = fold;
-
-var for_all$1 = for_all;
-
-var exists$1 = exists;
-
-var filter$1 = filter;
-
-var filter_map$1 = filter_map;
-
-var partition$1 = partition;
 
 var cardinal$1 = cardinal;
 
@@ -1123,8 +1127,6 @@ var choose = min_binding;
 
 var choose_opt = min_binding_opt;
 
-var split$1 = split;
-
 var find$1 = find;
 
 var find_opt$1 = find_opt;
@@ -1137,9 +1139,37 @@ var find_last$1 = find_last;
 
 var find_last_opt$1 = find_last_opt;
 
+var iter$1 = iter;
+
+var fold$1 = fold;
+
 var map$1 = map;
 
 var mapi$1 = mapi;
+
+var filter$1 = filter;
+
+var filter_map$1 = filter_map;
+
+var partition$1 = partition;
+
+var split$1 = split;
+
+var is_empty$1 = is_empty;
+
+var mem$1 = mem;
+
+var equal$1 = equal;
+
+var compare$2 = compare$1;
+
+var for_all$1 = for_all;
+
+var exists$1 = exists;
+
+var to_list = bindings;
+
+var of_list$1 = of_list;
 
 var to_seq$1 = to_seq;
 
@@ -1152,23 +1182,13 @@ var add_seq$1 = add_seq;
 var of_seq$1 = of_seq;
 
 exports.empty = empty;
-exports.is_empty = is_empty$1;
-exports.mem = mem$1;
 exports.add = add$1;
+exports.add_to_list = add_to_list$1;
 exports.update = update$1;
 exports.singleton = singleton$1;
 exports.remove = remove$1;
 exports.merge = merge$2;
 exports.union = union$1;
-exports.compare = compare$2;
-exports.equal = equal$1;
-exports.iter = iter$1;
-exports.fold = fold$1;
-exports.for_all = for_all$1;
-exports.exists = exists$1;
-exports.filter = filter$1;
-exports.filter_map = filter_map$1;
-exports.partition = partition$1;
 exports.cardinal = cardinal$1;
 exports.bindings = bindings$1;
 exports.min_binding = min_binding$1;
@@ -1177,15 +1197,28 @@ exports.max_binding = max_binding$1;
 exports.max_binding_opt = max_binding_opt$1;
 exports.choose = choose;
 exports.choose_opt = choose_opt;
-exports.split = split$1;
 exports.find = find$1;
 exports.find_opt = find_opt$1;
 exports.find_first = find_first$1;
 exports.find_first_opt = find_first_opt$1;
 exports.find_last = find_last$1;
 exports.find_last_opt = find_last_opt$1;
+exports.iter = iter$1;
+exports.fold = fold$1;
 exports.map = map$1;
 exports.mapi = mapi$1;
+exports.filter = filter$1;
+exports.filter_map = filter_map$1;
+exports.partition = partition$1;
+exports.split = split$1;
+exports.is_empty = is_empty$1;
+exports.mem = mem$1;
+exports.equal = equal$1;
+exports.compare = compare$2;
+exports.for_all = for_all$1;
+exports.exists = exists$1;
+exports.to_list = to_list;
+exports.of_list = of_list$1;
 exports.to_seq = to_seq$1;
 exports.to_rev_seq = to_rev_seq$1;
 exports.to_seq_from = to_seq_from$1;

@@ -25,7 +25,7 @@
 
 #if defined TYPE_STRING
 type elt = string
-let compare_elt = Ext_string.compare
+let compare_elt = String.compare
 let [@inline] eq_elt (x : elt) y = x = y
 let print_elt = Format.pp_print_string
 #elif defined TYPE_IDENT

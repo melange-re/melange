@@ -1,5 +1,5 @@
 (* Copyright (C) 2018 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -25,11 +25,11 @@
 type ('key, 'a) t = ('key, 'a) node option
 
 and ('k, 'v) node = {
-  mutable key : 'k; [@bs.as "k"]
-  mutable value : 'v; [@bs.as "v"]
-  mutable height : int; [@bs.as "h"]
-  mutable left : ('k, 'v) t; [@bs.as "l"]
-  mutable right : ('k, 'v) t; [@bs.as "r"]
+  mutable key : 'k; [@mel.as "k"]
+  mutable value : 'v; [@mel.as "v"]
+  mutable height : int; [@mel.as "h"]
+  mutable left : ('k, 'v) t; [@mel.as "l"]
+  mutable right : ('k, 'v) t; [@mel.as "r"]
 }
 
 type ('k, 'id) cmp = ('k, 'id) Belt_Id.cmp
@@ -50,31 +50,31 @@ val maxUndefined : ('a, 'b) t -> ('a * 'b) Js.undefined
 val removeMinAuxWithRef : ('a, 'b) node -> 'a ref -> 'b ref -> ('a, 'b) t
 val isEmpty : _ t -> bool
 val stackAllLeft : ('a, 'b) t -> ('a, 'b) node list -> ('a, 'b) node list
-val findFirstByU : ('a, 'b) t -> (('a -> 'b -> bool)[@bs]) -> ('a * 'b) option
+val findFirstByU : ('a, 'b) t -> (('a -> 'b -> bool)[@u]) -> ('a * 'b) option
 val findFirstBy : ('a, 'b) t -> ('a -> 'b -> bool) -> ('a * 'b) option
-val forEachU : ('a, 'b) t -> (('a -> 'b -> unit)[@bs]) -> unit
+val forEachU : ('a, 'b) t -> (('a -> 'b -> unit)[@u]) -> unit
 val forEach : ('a, 'b) t -> ('a -> 'b -> unit) -> unit
-val mapU : ('c, 'a) t -> (('a -> 'b)[@bs]) -> ('c, 'b) t
+val mapU : ('c, 'a) t -> (('a -> 'b)[@u]) -> ('c, 'b) t
 val map : ('c, 'a) t -> ('a -> 'b) -> ('c, 'b) t
-val mapWithKeyU : ('a, 'b) t -> (('a -> 'b -> 'c)[@bs]) -> ('a, 'c) t
+val mapWithKeyU : ('a, 'b) t -> (('a -> 'b -> 'c)[@u]) -> ('a, 'c) t
 val mapWithKey : ('a, 'b) t -> ('a -> 'b -> 'c) -> ('a, 'c) t
-val reduceU : ('a, 'b) t -> 'c -> (('c -> 'a -> 'b -> 'c)[@bs]) -> 'c
+val reduceU : ('a, 'b) t -> 'c -> (('c -> 'a -> 'b -> 'c)[@u]) -> 'c
 val reduce : ('a, 'b) t -> 'c -> ('c -> 'a -> 'b -> 'c) -> 'c
-val everyU : ('a, 'b) t -> (('a -> 'b -> bool)[@bs]) -> bool
+val everyU : ('a, 'b) t -> (('a -> 'b -> bool)[@u]) -> bool
 val every : ('a, 'b) t -> ('a -> 'b -> bool) -> bool
-val someU : ('a, 'b) t -> (('a -> 'b -> bool)[@bs]) -> bool
+val someU : ('a, 'b) t -> (('a -> 'b -> bool)[@u]) -> bool
 val some : ('a, 'b) t -> ('a -> 'b -> bool) -> bool
 val join : ('a, 'b) t -> 'a -> 'b -> ('a, 'b) t -> ('a, 'b) t
 val concat : ('a, 'b) t -> ('a, 'b) t -> ('a, 'b) t
 val concatOrJoin : ('a, 'b) t -> 'a -> 'b option -> ('a, 'b) t -> ('a, 'b) t
-val keepSharedU : ('a, 'b) t -> (('a -> 'b -> bool)[@bs]) -> ('a, 'b) t
+val keepSharedU : ('a, 'b) t -> (('a -> 'b -> bool)[@u]) -> ('a, 'b) t
 val keepShared : ('a, 'b) t -> ('a -> 'b -> bool) -> ('a, 'b) t
-val keepMapU : ('a, 'b) t -> (('a -> 'b -> 'c option)[@bs]) -> ('a, 'c) t
+val keepMapU : ('a, 'b) t -> (('a -> 'b -> 'c option)[@u]) -> ('a, 'c) t
 val keepMap : ('a, 'b) t -> ('a -> 'b -> 'c option) -> ('a, 'c) t
 
 (* seems no sharing, could be shared with mutation *)
 val partitionSharedU :
-  ('a, 'b) t -> (('a -> 'b -> bool)[@bs]) -> ('a, 'b) t * ('a, 'b) t
+  ('a, 'b) t -> (('a -> 'b -> bool)[@u]) -> ('a, 'b) t * ('a, 'b) t
 
 val partitionShared :
   ('a, 'b) t -> ('a -> 'b -> bool) -> ('a, 'b) t * ('a, 'b) t
@@ -100,7 +100,7 @@ val cmpU :
   ('a, 'b) t ->
   ('a, 'c) t ->
   kcmp:('a, _) cmp ->
-  vcmp:(('b -> 'c -> int)[@bs]) ->
+  vcmp:(('b -> 'c -> int)[@u]) ->
   int
 
 val cmp :
@@ -110,7 +110,7 @@ val eqU :
   ('a, 'b) t ->
   ('a, 'c) t ->
   kcmp:('a, _) cmp ->
-  veq:(('b -> 'c -> bool)[@bs]) ->
+  veq:(('b -> 'c -> bool)[@u]) ->
   bool
 
 val eq :

@@ -33,7 +33,7 @@ let assertIsNotFound (x : Js.Promise.error) =
   | Some _ -> h
   | _ -> assert false
 
-(** would be nice to have [%bs.open? Stack_overflow]*)
+(** would be nice to have [%mel.open? Stack_overflow]*)
 let catchTest () =
   let p = reject Not_found in
   p |> then_ fail |> catch (fun error -> assertIsNotFound error)

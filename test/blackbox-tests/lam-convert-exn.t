@@ -2,7 +2,7 @@ A test case for some exn in lam_convert
 
   $ . ./setup.sh
   $ cat > x.ml <<EOF
-  > let t = (Pervasives.abs_float  [@ocaml.alert "-deprecated"]);
+  > let t = (Stdlib.abs_float  [@ocaml.alert "-deprecated"]);
   > EOF
 
   $ melc x.ml

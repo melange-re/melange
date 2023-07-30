@@ -92,7 +92,7 @@ function test(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_simple_obj.ml",
+            "jscomp/test/test_simple_obj.ml",
             21,
             4
           ],
@@ -103,7 +103,7 @@ function test(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_simple_obj.ml",
+            "jscomp/test/test_simple_obj.ml",
             22,
             4
           ],
@@ -114,7 +114,7 @@ function test(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_simple_obj.ml",
+            "jscomp/test/test_simple_obj.ml",
             23,
             4
           ],
@@ -125,7 +125,7 @@ function test(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_simple_obj.ml",
+            "jscomp/test/test_simple_obj.ml",
             25,
             4
           ],
@@ -136,7 +136,7 @@ function test(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_simple_obj.ml",
+            "jscomp/test/test_simple_obj.ml",
             26,
             4
           ],
@@ -147,7 +147,7 @@ function test(param) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "test_simple_obj.ml",
+            "jscomp/test/test_simple_obj.ml",
             27,
             4
           ],
@@ -160,7 +160,7 @@ function test(param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "test_simple_obj.ml",
+          "jscomp/test/test_simple_obj.ml",
           28,
           4
         ],

@@ -256,7 +256,7 @@ function unbalanced_left(param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "rbset.ml",
+          "jscomp/test/rbset.ml",
           57,
           9
         ],
@@ -321,7 +321,7 @@ function unbalanced_right(param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "rbset.ml",
+          "jscomp/test/rbset.ml",
           63,
           9
         ],
@@ -556,7 +556,7 @@ function remove_min(param) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "rbset.ml",
+              "jscomp/test/rbset.ml",
               115,
               4
             ],
@@ -591,7 +591,7 @@ function remove_min(param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "rbset.ml",
+          "jscomp/test/rbset.ml",
           115,
           4
         ],

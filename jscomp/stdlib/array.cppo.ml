@@ -28,7 +28,7 @@ external create: int -> 'a -> 'a array = "caml_make_vect"
 external unsafe_sub : 'a array -> int -> int -> 'a array = "caml_array_sub"
 #ifdef BS
 external append_prim : 'a array -> 'a array -> 'a array = "concat"
-[@@bs.send]
+[@@mel.send]
 #else
 external append_prim : 'a array -> 'a array -> 'a array = "caml_array_append"
 #endif
@@ -38,7 +38,6 @@ external unsafe_blit :
 (* external unsafe_fill : *)
   (* 'a array -> int -> int -> 'a -> unit = "caml_array_fill" *)
 external create_float: int -> float array = "caml_make_float_vect"
-let make_float = create_float
 
 module Floatarray = struct
   external create : int -> floatarray = "caml_floatarray_create"
@@ -68,8 +67,6 @@ let make_matrix sx sy init =
     unsafe_set res x (create sy init)
   done;
   res
-
-let create_matrix = make_matrix
 
 let copy a =
   let l = length a in if l = 0 then [||] else unsafe_sub a 0 l
@@ -114,6 +111,16 @@ let map f a =
     done;
     r
   end
+
+let map_inplace f a =
+  for i = 0 to length a - 1 do
+    unsafe_set a i (f (unsafe_get a i))
+  done
+
+let mapi_inplace f a =
+  for i = 0 to length a - 1 do
+    unsafe_set a i (f i (unsafe_get a i))
+  done
 
 let map2 f a b =
   let la = length a in
@@ -253,12 +260,31 @@ let find_opt p a =
   in
   loop 0
 
+let find_index p a =
+  let n = length a in
+  let rec loop i =
+    if i = n then None
+    else if p (unsafe_get a i) then Some i
+    else loop (succ i) in
+  loop 0
+
 let find_map f a =
   let n = length a in
   let rec loop i =
     if i = n then None
     else
       match f (unsafe_get a i) with
+      | None -> loop (succ i)
+      | Some _ as r -> r
+  in
+  loop 0
+
+let find_mapi f a =
+  let n = length a in
+  let rec loop i =
+    if i = n then None
+    else
+      match f i (unsafe_get a i) with
       | None -> loop (succ i)
       | Some _ as r -> r
   in

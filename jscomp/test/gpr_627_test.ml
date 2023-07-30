@@ -1,8 +1,8 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc (x, y) = 
-  incr test_id ; 
-  suites := 
+let eq loc (x, y) =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
 
 
@@ -14,8 +14,8 @@ let v =
   let x = 3. in
   object (self)
     method hi x y =
-      let u = [%bs.obj{ x  }] in      
-      self##say u##x +. y +.x                            
+      let u = [%mel.obj{ x  }] in
+      self##say u##x +. y +.x
     method say  = fun x ->  x *. self## x ()
     method x () = x
   end [@bs]
@@ -28,4 +28,3 @@ let () =
 
 
 let () = Mt.from_pair_suites __MODULE__ !suites
-

@@ -2,10 +2,10 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
 var Stdlib__Hashtbl = require("melange/hashtbl.js");
-var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 
 function Make(funarg) {
   var $$let = funarg.V;
@@ -41,7 +41,7 @@ function Make(funarg) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "gpr_405_test.ml",
+                "jscomp/test/gpr_405_test.ml",
                 43,
                 6
               ],
@@ -52,7 +52,7 @@ function Make(funarg) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "gpr_405_test.ml",
+                "jscomp/test/gpr_405_test.ml",
                 44,
                 6
               ],

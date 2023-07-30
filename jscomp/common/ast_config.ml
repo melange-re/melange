@@ -45,7 +45,7 @@ let rec iter_on_bs_config_stru (x : Parsetree.structure) =
       Parsetree.pstr_desc =
         Pstr_attribute
           {
-            attr_name = { txt = "bs.config" | "config"; loc };
+            attr_name = { txt = "mel.config" | "bs.config" | "config"; loc };
             attr_payload = payload;
             _;
           };
@@ -90,7 +90,7 @@ let rec iter_on_bs_config_sigi (x : Parsetree.signature) =
       psig_desc =
         Psig_attribute
           {
-            attr_name = { txt = "bs.config" | "config"; loc };
+            attr_name = { txt = "mel.config" | "bs.config" | "config"; loc };
             attr_payload = payload;
             _;
           };

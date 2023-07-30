@@ -2,36 +2,36 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
-var Curry = require("melange.js/curry.js");
-var Stdlib = require("melange/stdlib.js");
-var Caml_io = require("melange.js/caml_io.js");
-var Caml_obj = require("melange.js/caml_obj.js");
-var Caml_sys = require("melange.js/caml_sys.js");
 var Caml_array = require("melange.js/caml_array.js");
 var Caml_bytes = require("melange.js/caml_bytes.js");
+var Caml_exceptions = require("melange.js/caml_exceptions.js");
+var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
+var Caml_format = require("melange.js/caml_format.js");
 var Caml_int32 = require("melange.js/caml_int32.js");
 var Caml_int64 = require("melange.js/caml_int64.js");
-var Caml_format = require("melange.js/caml_format.js");
+var Caml_io = require("melange.js/caml_io.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
+var Caml_obj = require("melange.js/caml_obj.js");
 var Caml_option = require("melange.js/caml_option.js");
 var Caml_string = require("melange.js/caml_string.js");
+var Caml_sys = require("melange.js/caml_sys.js");
+var CamlinternalLazy = require("melange/camlinternalLazy.js");
+var Curry = require("melange.js/curry.js");
+var Stdlib = require("melange/stdlib.js");
 var Stdlib__Arg = require("melange/arg.js");
-var Stdlib__Sys = require("melange/sys.js");
-var Stdlib__Char = require("melange/char.js");
-var Stdlib__List = require("melange/list.js");
 var Stdlib__Array = require("melange/array.js");
-var Stdlib__Bytes = require("melange/bytes.js");
 var Stdlib__Buffer = require("melange/buffer.js");
+var Stdlib__Bytes = require("melange/bytes.js");
+var Stdlib__Char = require("melange/char.js");
+var Stdlib__Filename = require("melange/filename.js");
 var Stdlib__Format = require("melange/format.js");
+var Stdlib__Hashtbl = require("melange/hashtbl.js");
 var Stdlib__Lexing = require("melange/lexing.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Parsing = require("melange/parsing.js");
 var Stdlib__Printf = require("melange/printf.js");
 var Stdlib__String = require("melange/string.js");
-var Caml_exceptions = require("melange.js/caml_exceptions.js");
-var Stdlib__Hashtbl = require("melange/hashtbl.js");
-var Stdlib__Parsing = require("melange/parsing.js");
-var CamlinternalLazy = require("melange/camlinternalLazy.js");
-var Stdlib__Filename = require("melange/filename.js");
-var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
+var Stdlib__Sys = require("melange/sys.js");
 
 var standard_library_default = "/Users/chenglou/Github/bucklescript/vendor/ocaml/lib/ocaml";
 
@@ -920,16 +920,16 @@ function samelist(pred, _l1, _l2) {
   };
 }
 
-function may(f, x) {
-  if (x !== undefined) {
-    return Curry._1(f, Caml_option.valFromOption(x));
+function may(f, param) {
+  if (param !== undefined) {
+    return Curry._1(f, Caml_option.valFromOption(param));
   }
   
 }
 
-function may_map(f, x) {
-  if (x !== undefined) {
-    return Caml_option.some(Curry._1(f, Caml_option.valFromOption(x)));
+function may_map(f, param) {
+  if (param !== undefined) {
+    return Caml_option.some(Curry._1(f, Caml_option.valFromOption(param)));
   }
   
 }
@@ -997,7 +997,7 @@ function find_in_path_rel(path, name) {
 }
 
 function find_in_path_uncap(path, name) {
-  var uname = Caml_bytes.bytes_to_string(Stdlib__Bytes.uncapitalize(Caml_bytes.bytes_of_string(name)));
+  var uname = Caml_bytes.bytes_to_string(Stdlib__Bytes.uncapitalize_ascii(Caml_bytes.bytes_of_string(name)));
   var _param = path;
   while(true) {
     var param = _param;
@@ -1025,12 +1025,12 @@ function remove_file(filename) {
   try {
     return Caml_external_polyfill.resolve("caml_sys_remove")(filename);
   }
-  catch (raw_msg){
-    var msg = Caml_js_exceptions.internalToOCamlException(raw_msg);
-    if (msg.RE_EXN_ID === Stdlib.Sys_error) {
+  catch (raw_exn){
+    var exn = Caml_js_exceptions.internalToOCamlException(raw_exn);
+    if (exn.RE_EXN_ID === Stdlib.Sys_error) {
       return ;
     }
-    throw msg;
+    throw exn;
   }
 }
 
@@ -1477,15 +1477,15 @@ function ansi_of_color(param) {
   }
 }
 
-function code_of_style(c) {
-  if (typeof c !== "number") {
-    if (c.TAG === /* FG */0) {
-      return "3" + ansi_of_color(c._0);
+function code_of_style(param) {
+  if (typeof param !== "number") {
+    if (param.TAG === /* FG */0) {
+      return "3" + ansi_of_color(param._0);
     } else {
-      return "4" + ansi_of_color(c._0);
+      return "4" + ansi_of_color(param._0);
     }
   }
-  switch (c) {
+  switch (param) {
     case /* Bold */0 :
         return "1";
     case /* Reset */1 :
@@ -1542,43 +1542,55 @@ function set_styles(s) {
   cur_styles.contents = s;
 }
 
-function style_of_tag(s) {
-  switch (s) {
-    case "dim" :
-        return {
-                hd: /* Dim */2,
-                tl: /* [] */0
-              };
-    case "error" :
-        return cur_styles.contents.error;
-    case "filename" :
-        return {
-                hd: {
-                  TAG: /* FG */0,
-                  _0: /* Cyan */6
-                },
-                tl: /* [] */0
-              };
-    case "info" :
-        return {
-                hd: /* Bold */0,
-                tl: {
+function style_of_tag(param) {
+  if (param.RE_EXN_ID === Stdlib__Format.String_tag) {
+    switch (param._1) {
+      case "dim" :
+          return {
+                  hd: /* Dim */2,
+                  tl: /* [] */0
+                };
+      case "error" :
+          return cur_styles.contents.error;
+      case "filename" :
+          return {
                   hd: {
                     TAG: /* FG */0,
-                    _0: /* Yellow */3
+                    _0: /* Cyan */6
                   },
                   tl: /* [] */0
-                }
-              };
-    case "loc" :
-        return cur_styles.contents.loc;
-    case "warning" :
-        return cur_styles.contents.warning;
-    default:
-      throw {
-            RE_EXN_ID: Stdlib.Not_found,
-            Error: new Error()
-          };
+                };
+      case "info" :
+          return {
+                  hd: /* Bold */0,
+                  tl: {
+                    hd: {
+                      TAG: /* FG */0,
+                      _0: /* Yellow */3
+                    },
+                    tl: /* [] */0
+                  }
+                };
+      case "loc" :
+          return cur_styles.contents.loc;
+      case "warning" :
+          return cur_styles.contents.warning;
+      default:
+        throw {
+              RE_EXN_ID: Stdlib.Not_found,
+              Error: new Error()
+            };
+    }
+  } else {
+    throw {
+          RE_EXN_ID: "Match_failure",
+          _1: [
+            "misc.ml",
+            428,
+            19
+          ],
+          Error: new Error()
+        };
   }
 }
 
@@ -1587,10 +1599,10 @@ var color_enabled = {
 };
 
 function set_color_tag_handling(ppf) {
-  var functions = Stdlib__Format.pp_get_formatter_tag_functions(ppf, undefined);
-  var partial_arg = functions.mark_open_tag;
-  var partial_arg$1 = functions.mark_close_tag;
-  var functions$p_mark_open_tag = function (param) {
+  var functions = Stdlib__Format.pp_get_formatter_stag_functions(ppf, undefined);
+  var partial_arg = functions.mark_open_stag;
+  var partial_arg$1 = functions.mark_close_stag;
+  var functions$p_mark_open_stag = function (param) {
     try {
       var style = style_of_tag(param);
       if (color_enabled.contents) {
@@ -1607,7 +1619,7 @@ function set_color_tag_handling(ppf) {
       throw exn;
     }
   };
-  var functions$p_mark_close_tag = function (param) {
+  var functions$p_mark_close_stag = function (param) {
     try {
       style_of_tag(param);
       if (color_enabled.contents) {
@@ -1627,16 +1639,16 @@ function set_color_tag_handling(ppf) {
       throw exn;
     }
   };
-  var functions$p_print_open_tag = functions.print_open_tag;
-  var functions$p_print_close_tag = functions.print_close_tag;
+  var functions$p_print_open_stag = functions.print_open_stag;
+  var functions$p_print_close_stag = functions.print_close_stag;
   var functions$p = {
-    mark_open_tag: functions$p_mark_open_tag,
-    mark_close_tag: functions$p_mark_close_tag,
-    print_open_tag: functions$p_print_open_tag,
-    print_close_tag: functions$p_print_close_tag
+    mark_open_stag: functions$p_mark_open_stag,
+    mark_close_stag: functions$p_mark_close_stag,
+    print_open_stag: functions$p_print_open_stag,
+    print_close_stag: functions$p_print_close_stag
   };
   ppf.pp_mark_tags = true;
-  Stdlib__Format.pp_set_formatter_tag_functions(ppf, functions$p);
+  Stdlib__Format.pp_set_formatter_stag_functions(ppf, functions$p);
 }
 
 var first = {
@@ -2147,7 +2159,7 @@ function parse_opt(error, active, flags, s) {
                 Error: new Error()
               };
         }
-        Stdlib__List.iter(set, letter(Stdlib__Char.lowercase(Caml_string.get(s, i))));
+        Stdlib__List.iter(set, letter(Stdlib__Char.lowercase_ascii(Caml_string.get(s, i))));
         _i = i + 1 | 0;
         continue ;
       }
@@ -2212,7 +2224,7 @@ function parse_opt(error, active, flags, s) {
               Error: new Error()
             };
       }
-      Stdlib__List.iter(myset, letter(Stdlib__Char.lowercase(Caml_string.get(s, i))));
+      Stdlib__List.iter(myset, letter(Stdlib__Char.lowercase_ascii(Caml_string.get(s, i))));
       return loop(i + 1 | 0);
     }
     if (match > 57 || match < 48) {
@@ -2249,9 +2261,9 @@ parse_options(false, defaults_w);
 
 parse_options(true, defaults_warn_error);
 
-function message(s) {
-  if (typeof s === "number") {
-    switch (s) {
+function message(param) {
+  if (typeof param === "number") {
+    switch (param) {
       case /* Comment_start */0 :
           return "this is the start of a comment.";
       case /* Comment_not_end */1 :
@@ -2289,18 +2301,18 @@ function message(s) {
       
     }
   } else {
-    switch (s.TAG | 0) {
+    switch (param.TAG | 0) {
       case /* Deprecated */0 :
-          return "deprecated: " + s._0;
+          return "deprecated: " + param._0;
       case /* Fragile_match */1 :
-          var s$1 = s._0;
-          if (s$1 === "") {
+          var s = param._0;
+          if (s === "") {
             return "this pattern-matching is fragile.";
           } else {
-            return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s$1 + ".");
+            return "this pattern-matching is fragile.\nIt will remain exhaustive when constructors are added to type " + (s + ".");
           }
       case /* Method_override */2 :
-          var match = s._0;
+          var match = param._0;
           if (match) {
             var lab = match.hd;
             if (match.tl) {
@@ -2328,16 +2340,16 @@ function message(s) {
                 Error: new Error()
               };
       case /* Partial_match */3 :
-          var s$2 = s._0;
-          if (s$2 === "") {
+          var s$1 = param._0;
+          if (s$1 === "") {
             return "this pattern-matching is not exhaustive.";
           } else {
-            return "this pattern-matching is not exhaustive.\nHere is an example of a value that is not matched:\n" + s$2;
+            return "this pattern-matching is not exhaustive.\nHere is an example of a value that is not matched:\n" + s$1;
           }
       case /* Non_closed_record_pattern */4 :
-          return "the following labels are not bound in this record pattern:\n" + (s._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
+          return "the following labels are not bound in this record pattern:\n" + (param._0 + "\nEither bind these labels explicitly or add '; _' to the pattern.");
       case /* Instance_variable_override */5 :
-          var match$1 = s._0;
+          var match$1 = param._0;
           if (match$1) {
             var lab$1 = match$1.hd;
             if (match$1.tl) {
@@ -2365,20 +2377,20 @@ function message(s) {
                 Error: new Error()
               };
       case /* Implicit_public_methods */6 :
-          return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", s._0) + ".");
+          return "the following private methods were made public implicitly:\n " + (Stdlib__String.concat(" ", param._0) + ".");
       case /* Undeclared_virtual_method */7 :
-          return "the virtual method " + (s._0 + " is not declared.");
+          return "the virtual method " + (param._0 + " is not declared.");
       case /* Not_principal */8 :
-          return s._0 + " is not principal.";
+          return param._0 + " is not principal.";
       case /* Without_principality */9 :
-          return s._0 + " without principality.";
+          return param._0 + " without principality.";
       case /* Preprocessor */10 :
-          return s._0;
+          return param._0;
       case /* Bad_module_name */11 :
-          return "bad source file name: \"" + (s._0 + "\" is not a valid module name.");
+          return "bad source file name: \"" + (param._0 + "\" is not a valid module name.");
       case /* Unused_var */12 :
       case /* Unused_var_strict */13 :
-          return "unused variable " + (s._0 + ".");
+          return "unused variable " + (param._0 + ".");
       case /* Duplicate_definitions */14 :
           return Curry._4(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2419,7 +2431,7 @@ function message(s) {
                             }
                           },
                           _1: "the %s %s is defined in both types %s and %s."
-                        }), s._0, s._1, s._2, s._3);
+                        }), param._0, param._1, param._2, param._3);
       case /* Multiple_definition */15 :
           return Curry._3(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2448,42 +2460,42 @@ function message(s) {
                             }
                           },
                           _1: "files %s and %s both define a module named %s"
-                        }), s._1, s._2, s._0);
+                        }), param._1, param._2, param._0);
       case /* Unused_value_declaration */16 :
-          return "unused value " + (s._0 + ".");
+          return "unused value " + (param._0 + ".");
       case /* Unused_open */17 :
-          return "unused open " + (s._0 + ".");
+          return "unused open " + (param._0 + ".");
       case /* Unused_type_declaration */18 :
-          return "unused type " + (s._0 + ".");
+          return "unused type " + (param._0 + ".");
       case /* Unused_for_index */19 :
-          return "unused for-loop index " + (s._0 + ".");
+          return "unused for-loop index " + (param._0 + ".");
       case /* Unused_ancestor */20 :
-          return "unused ancestor variable " + (s._0 + ".");
+          return "unused ancestor variable " + (param._0 + ".");
       case /* Unused_constructor */21 :
-          var s$3 = s._0;
-          if (s._1) {
-            return "constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
-          } else if (s._2) {
-            return "constructor " + (s$3 + " is never used to build values.\nIts type is exported as a private type.");
+          var s$2 = param._0;
+          if (param._1) {
+            return "constructor " + (s$2 + " is never used to build values.\n(However, this constructor appears in patterns.)");
+          } else if (param._2) {
+            return "constructor " + (s$2 + " is never used to build values.\nIts type is exported as a private type.");
           } else {
-            return "unused constructor " + (s$3 + ".");
+            return "unused constructor " + (s$2 + ".");
           }
       case /* Unused_extension */22 :
-          var s$4 = s._0;
-          if (s._1) {
-            return "extension constructor " + (s$4 + " is never used to build values.\n(However, this constructor appears in patterns.)");
-          } else if (s._2) {
-            return "extension constructor " + (s$4 + " is never used to build values.\nIt is exported or rebound as a private extension.");
+          var s$3 = param._0;
+          if (param._1) {
+            return "extension constructor " + (s$3 + " is never used to build values.\n(However, this constructor appears in patterns.)");
+          } else if (param._2) {
+            return "extension constructor " + (s$3 + " is never used to build values.\nIt is exported or rebound as a private extension.");
           } else {
-            return "unused extension constructor " + (s$4 + ".");
+            return "unused extension constructor " + (s$3 + ".");
           }
       case /* Name_out_of_scope */23 :
-          var slist = s._1;
-          var ty = s._0;
-          if (slist && !slist.tl && !s._2) {
+          var slist = param._1;
+          var ty = param._0;
+          if (slist && !slist.tl && !param._2) {
             return slist.hd + (" was selected from type " + (ty + ".\nIt is not visible in the current scope, and will not \nbe selected if the type becomes unknown."));
           }
-          if (s._2) {
+          if (param._2) {
             return "this record of type " + (ty + (" contains fields that are \nnot visible in the current scope: " + (Stdlib__String.concat(" ", slist) + ".\nThey will not be selected if the type becomes unknown.")));
           }
           throw {
@@ -2497,12 +2509,12 @@ function message(s) {
               };
           break;
       case /* Ambiguous_name */24 :
-          var slist$1 = s._0;
-          if (slist$1 && !slist$1.tl && !s._2) {
-            return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
+          var slist$1 = param._0;
+          if (slist$1 && !slist$1.tl && !param._2) {
+            return slist$1.hd + (" belongs to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong."));
           }
-          if (s._2) {
-            return "these field labels belong to several types: " + (Stdlib__String.concat(" ", s._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
+          if (param._2) {
+            return "these field labels belong to several types: " + (Stdlib__String.concat(" ", param._1) + "\nThe first one was selected. Please disambiguate if this is wrong.");
           }
           throw {
                 RE_EXN_ID: "Assert_failure",
@@ -2515,9 +2527,9 @@ function message(s) {
               };
           break;
       case /* Disambiguated_name */25 :
-          return "this use of " + (s._0 + " required disambiguation.");
+          return "this use of " + (param._0 + " required disambiguation.");
       case /* Nonoptional_label */26 :
-          return "the label " + (s._0 + " is not optional.");
+          return "the label " + (param._0 + " is not optional.");
       case /* Open_shadow_identifier */27 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2542,7 +2554,7 @@ function message(s) {
                             }
                           },
                           _1: "this open statement shadows the %s identifier %s (which is later used)"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Open_shadow_label_constructor */28 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2567,7 +2579,7 @@ function message(s) {
                             }
                           },
                           _1: "this open statement shadows the %s %s (which is later used)"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Bad_env_variable */29 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2588,7 +2600,7 @@ function message(s) {
                             }
                           },
                           _1: "illegal environment variable %s : %s"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Attribute_payload */30 :
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
@@ -2609,9 +2621,9 @@ function message(s) {
                             }
                           },
                           _1: "illegal payload for attribute '%s'.\n%s"
-                        }), s._0, s._1);
+                        }), param._0, param._1);
       case /* Eliminated_optional_arguments */31 :
-          var sl = s._0;
+          var sl = param._0;
           return Curry._2(Stdlib__Printf.sprintf(/* Format */{
                           _0: {
                             TAG: /* String_literal */11,
@@ -2633,19 +2645,19 @@ function message(s) {
                           _1: "implicit elimination of optional argument%s %s"
                         }), Stdlib__List.length(sl) === 1 ? "" : "s", Stdlib__String.concat(", ", sl));
       case /* No_cmi_file */32 :
-          return "no cmi file was found in path for module " + s._0;
+          return "no cmi file was found in path for module " + param._0;
       case /* Bad_docstring */33 :
-          if (s._0) {
+          if (param._0) {
             return "unattached documentation comment (ignored)";
           } else {
             return "ambiguous documentation comment";
           }
       case /* Bs_unused_attribute */34 :
-          return "Unused BuckleScript attribute: " + s._0;
+          return "Unused BuckleScript attribute: " + param._0;
       case /* Bs_ffi_warning */35 :
-          return "BuckleScript FFI warning: " + s._0;
+          return "BuckleScript FFI warning: " + param._0;
       case /* Bs_derive_warning */36 :
-          return "BuckleScript bs.deriving warning: " + s._0;
+          return "BuckleScript bs.deriving warning: " + param._0;
       
     }
   }
@@ -3081,7 +3093,7 @@ function help_warnings(param) {
                     }
                   },
                   _1: "  %c warnings %s.\n"
-                }), Stdlib__Char.uppercase(c), Stdlib__String.concat(", ", Stdlib__List.map((function (prim) {
+                }), Stdlib__Char.uppercase_ascii(c), Stdlib__String.concat(", ", Stdlib__List.map((function (prim) {
                         return String(prim);
                       }), l)));
       } else {
@@ -3109,7 +3121,7 @@ function help_warnings(param) {
                     }
                   },
                   _1: "  %c warning %i\n"
-                }), Stdlib__Char.uppercase(c), l.hd);
+                }), Stdlib__Char.uppercase_ascii(c), l.hd);
       }
     }
     
@@ -3982,8 +3994,8 @@ function error_of_printer_file(print, x) {
   return error_of_printer(in_file(input_name.contents), print, x);
 }
 
-register_error_of_exn(function (msg) {
-      if (msg.RE_EXN_ID === Stdlib.Sys_error) {
+register_error_of_exn(function (param) {
+      if (param.RE_EXN_ID === Stdlib.Sys_error) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -3995,8 +4007,8 @@ register_error_of_exn(function (msg) {
                           }
                         },
                         _1: "I/O error: %s"
-                      }), msg._1);
-      } else if (msg.RE_EXN_ID === Errors) {
+                      }), param._1);
+      } else if (param.RE_EXN_ID === Errors) {
         return Curry._1(errorf(in_file(input_name.contents), undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
@@ -4014,7 +4026,7 @@ register_error_of_exn(function (msg) {
                           }
                         },
                         _1: "Some fatal warnings were triggered (%d occurrences)"
-                      }), msg._1);
+                      }), param._1);
       } else {
         return ;
       }
@@ -4071,9 +4083,9 @@ function report_exception(ppf, exn) {
 
 var $$Error = /* @__PURE__ */Caml_exceptions.create("Parser_api.Location.Error");
 
-register_error_of_exn(function (e) {
-      if (e.RE_EXN_ID === $$Error) {
-        return e._1;
+register_error_of_exn(function (param) {
+      if (param.RE_EXN_ID === $$Error) {
+        return param._1;
       }
       
     });
@@ -4148,20 +4160,20 @@ var Asttypes = {};
 
 function flatten(lid) {
   var _accu = /* [] */0;
-  var _s = lid;
+  var _param = lid;
   while(true) {
-    var s = _s;
+    var param = _param;
     var accu = _accu;
-    switch (s.TAG | 0) {
+    switch (param.TAG | 0) {
       case /* Lident */0 :
           return {
-                  hd: s._0,
+                  hd: param._0,
                   tl: accu
                 };
       case /* Ldot */1 :
-          _s = s._0;
+          _param = param._0;
           _accu = {
-            hd: s._1,
+            hd: param._1,
             tl: accu
           };
           continue ;
@@ -4172,12 +4184,12 @@ function flatten(lid) {
   };
 }
 
-function last(s) {
-  switch (s.TAG | 0) {
+function last(param) {
+  switch (param.TAG | 0) {
     case /* Lident */0 :
-        return s._0;
+        return param._0;
     case /* Ldot */1 :
-        return s._1;
+        return param._1;
     case /* Lapply */2 :
         return fatal_error("Longident.last");
     
@@ -6567,13 +6579,13 @@ var $$Error$1 = /* @__PURE__ */Caml_exceptions.create("Parser_api.Syntaxerr.Erro
 
 var Escape_error = /* @__PURE__ */Caml_exceptions.create("Parser_api.Syntaxerr.Escape_error");
 
-function prepare_error(loc) {
-  switch (loc.TAG | 0) {
+function prepare_error(param) {
+  switch (param.TAG | 0) {
     case /* Unclosed */0 :
-        var closing = loc._3;
-        var opening = loc._1;
-        return Curry._1(errorf(loc._2, {
-                        hd: Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        var closing = param._3;
+        var opening = param._1;
+        return Curry._1(errorf(param._2, {
+                        hd: Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                                   _0: {
                                     TAG: /* String_literal */11,
                                     _0: "This '",
@@ -6630,7 +6642,7 @@ function prepare_error(loc) {
                         _1: "Syntax error: '%s' expected"
                       }), closing);
     case /* Expecting */1 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: ",
@@ -6645,9 +6657,9 @@ function prepare_error(loc) {
                           }
                         },
                         _1: "Syntax error: %s expected."
-                      }), loc._1);
+                      }), param._1);
     case /* Not_expecting */2 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "Syntax error: ",
@@ -6662,9 +6674,9 @@ function prepare_error(loc) {
                           }
                         },
                         _1: "Syntax error: %s not expected."
-                      }), loc._1);
+                      }), param._1);
     case /* Applicative_path */3 :
-        return errorf(loc._0, undefined, undefined, /* Format */{
+        return errorf(param._0, undefined, undefined, /* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set.",
@@ -6673,8 +6685,8 @@ function prepare_error(loc) {
                     _1: "Syntax error: applicative paths of the form F(X).t are not supported when the option -no-app-func is set."
                   });
     case /* Variable_in_scope */4 :
-        var $$var = loc._1;
-        return Curry._2(errorf(loc._0, undefined, undefined, /* Format */{
+        var $$var = param._1;
+        return Curry._2(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "In this scoped type, variable '",
@@ -6699,7 +6711,7 @@ function prepare_error(loc) {
                         _1: "In this scoped type, variable '%s is reserved for the local type %s."
                       }), $$var, $$var);
     case /* Other */5 :
-        return errorf(loc._0, undefined, undefined, /* Format */{
+        return errorf(param._0, undefined, undefined, /* Format */{
                     _0: {
                       TAG: /* String_literal */11,
                       _0: "Syntax error",
@@ -6708,7 +6720,7 @@ function prepare_error(loc) {
                     _1: "Syntax error"
                   });
     case /* Ill_formed_ast */6 :
-        return Curry._1(errorf(loc._0, undefined, undefined, /* Format */{
+        return Curry._1(errorf(param._0, undefined, undefined, /* Format */{
                         _0: {
                           TAG: /* String_literal */11,
                           _0: "broken invariant in parsetree: ",
@@ -6719,14 +6731,14 @@ function prepare_error(loc) {
                           }
                         },
                         _1: "broken invariant in parsetree: %s"
-                      }), loc._1);
+                      }), param._1);
     
   }
 }
 
-register_error_of_exn(function (err) {
-      if (err.RE_EXN_ID === $$Error$1) {
-        return prepare_error(err._1);
+register_error_of_exn(function (param) {
+      if (param.RE_EXN_ID === $$Error$1) {
+        return prepare_error(param._1);
       }
       
     });
@@ -7079,7 +7091,7 @@ function mkexp_constraint(e, param) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "parser.mly",
+          "parsing/parser.mly",
           153,
           18
         ],
@@ -7356,19 +7368,19 @@ function varify_constructors(var_names, t) {
             ptyp_attributes: t.ptyp_attributes
           };
   };
-  var loop_row_field = function (t) {
-    if (t.TAG === /* Rtag */0) {
+  var loop_row_field = function (param) {
+    if (param.TAG === /* Rtag */0) {
       return {
               TAG: /* Rtag */0,
-              _0: t._0,
-              _1: t._1,
-              _2: t._2,
-              _3: Stdlib__List.map(loop, t._3)
+              _0: param._0,
+              _1: param._1,
+              _2: param._2,
+              _3: Stdlib__List.map(loop, param._3)
             };
     } else {
       return {
               TAG: /* Rinherit */1,
-              _0: loop(t._0)
+              _0: loop(param._0)
             };
     }
   };
@@ -14213,7 +14225,7 @@ function query(loc, str) {
 }
 
 function define_key_value(key, v) {
-  if (!(key.length !== 0 && Stdlib__Char.uppercase(Caml_string.get(key, 0)) === Caml_string.get(key, 0))) {
+  if (!(key.length !== 0 && Stdlib__Char.uppercase_ascii(Caml_string.get(key, 0)) === Caml_string.get(key, 0))) {
     return false;
   }
   var tmp;
@@ -14345,7 +14357,7 @@ function directive_parse(token_with_comments, lexbuf) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "lexer.mll",
+              "parsing/lexer.mll",
               312,
               4
             ],
@@ -14462,7 +14474,7 @@ function directive_parse(token_with_comments, lexbuf) {
         throw {
               RE_EXN_ID: "Assert_failure",
               _1: [
-                "lexer.mll",
+                "parsing/lexer.mll",
                 331,
                 17
               ],
@@ -14478,38 +14490,6 @@ function directive_parse(token_with_comments, lexbuf) {
       }
     }
     
-  };
-  var parse_or_aux = function (calc, v) {
-    var e = token(undefined);
-    if (e === 8) {
-      var calc$1 = calc && !v;
-      var b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
-      if (v) {
-        return true;
-      } else {
-        return b;
-      }
-    }
-    push(e);
-    return v;
-  };
-  var parse_and_aux = function (calc, v) {
-    var e = token(undefined);
-    if (typeof e === "number") {
-      if (e) {
-        push(e);
-        return v;
-      }
-      var calc$1 = calc && v;
-      var b = parse_and_aux(calc$1, parse_relation(calc$1));
-      if (v) {
-        return b;
-      } else {
-        return false;
-      }
-    }
-    push(e);
-    return v;
   };
   var parse_relation = function (calc) {
     var curr_token = token(undefined);
@@ -14654,6 +14634,38 @@ function directive_parse(token_with_comments, lexbuf) {
               };
       }
     }
+  };
+  var parse_and_aux = function (calc, v) {
+    var e = token(undefined);
+    if (typeof e === "number") {
+      if (e) {
+        push(e);
+        return v;
+      }
+      var calc$1 = calc && v;
+      var b = parse_and_aux(calc$1, parse_relation(calc$1));
+      if (v) {
+        return b;
+      } else {
+        return false;
+      }
+    }
+    push(e);
+    return v;
+  };
+  var parse_or_aux = function (calc, v) {
+    var e = token(undefined);
+    if (e === 8) {
+      var calc$1 = calc && !v;
+      var b = parse_or_aux(calc$1, parse_and_aux(calc$1, parse_relation(calc$1)));
+      if (v) {
+        return true;
+      } else {
+        return b;
+      }
+    }
+    push(e);
+    return v;
   };
   var v = parse_or_aux(true, parse_and_aux(true, parse_relation(true)));
   var match = token(undefined);
@@ -15202,7 +15214,7 @@ function cvt_nativeint_literal(s) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "lexer.mll",
+          "parsing/lexer.mll",
           622,
           30
         ],
@@ -15295,9 +15307,9 @@ function comments(param) {
   return Stdlib__List.rev(comment_list.contents);
 }
 
-function report_error$2(ppf, c) {
-  if (typeof c === "number") {
-    switch (c) {
+function report_error$2(ppf, param) {
+  if (typeof param === "number") {
+    switch (param) {
       case /* Unterminated_string */0 :
           return Stdlib__Format.fprintf(ppf)(/* Format */{
                       _0: {
@@ -15364,7 +15376,7 @@ function report_error$2(ppf, c) {
       
     }
   } else {
-    switch (c.TAG | 0) {
+    switch (param.TAG | 0) {
       case /* Illegal_character */0 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15381,7 +15393,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Illegal character (%s)"
-                        }), Stdlib__Char.escaped(c._0));
+                        }), Stdlib__Char.escaped(param._0));
       case /* Illegal_escape */1 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15398,7 +15410,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Illegal backslash escape in string or character (%s)"
-                        }), c._0);
+                        }), param._0);
       case /* Unterminated_comment */2 :
           return Stdlib__Format.fprintf(ppf)(/* Format */{
                       _0: {
@@ -15427,7 +15439,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "This comment contains an unterminated string literal@.%aString literal begins here"
-                        }), print_error, c._1);
+                        }), print_error, param._1);
       case /* Keyword_as_label */4 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15444,7 +15456,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "`%s' is a keyword, it cannot be used as label name"
-                        }), c._0);
+                        }), param._0);
       case /* Literal_overflow */5 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15457,7 +15469,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Integer literal exceeds the range of representable integers of type %s"
-                        }), c._0);
+                        }), param._0);
       case /* Illegal_semver */6 :
           return Curry._1(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15470,7 +15482,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Illegal semantic version string %s"
-                        }), c._0);
+                        }), param._0);
       case /* Conditional_expr_expected_type */7 :
           return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
                           _0: {
@@ -15495,7 +15507,7 @@ function report_error$2(ppf, c) {
                             }
                           },
                           _1: "Conditional expression type mismatch (%s,%s)"
-                        }), string_of_type_directive(c._0), string_of_type_directive(c._1));
+                        }), string_of_type_directive(param._0), string_of_type_directive(param._1));
       
     }
   }
@@ -16118,6 +16130,10 @@ function string(lexbuf) {
   };
 }
 
+function comment(lexbuf) {
+  return __ocaml_lex_comment_rec(lexbuf, 132);
+}
+
 function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
   while(true) {
     var __ocaml_lex_state = ___ocaml_lex_state;
@@ -16146,7 +16162,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           throw {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
-                  "lexer.mll",
+                  "parsing/lexer.mll",
                   992,
                   16
                 ],
@@ -16185,7 +16201,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                 throw {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
-                        "lexer.mll",
+                        "parsing/lexer.mll",
                         1006,
                         18
                       ],
@@ -16235,7 +16251,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                 throw {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
-                        "lexer.mll",
+                        "parsing/lexer.mll",
                         1026,
                         18
                       ],
@@ -16275,7 +16291,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
           throw {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
-                  "lexer.mll",
+                  "parsing/lexer.mll",
                   1056,
                   16
                 ],
@@ -16301,10 +16317,6 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
         continue ;
     }
   };
-}
-
-function comment(lexbuf) {
-  return __ocaml_lex_comment_rec(lexbuf, 132);
 }
 
 function skip_sharp_bang(lexbuf) {

@@ -27,7 +27,7 @@
 type t = string
 
 external make : 'a -> t = "String"
-  [@@bs.val]
+  [@@mel.val]
 (** [make value] converts the given value to a string
 
 {[
@@ -37,7 +37,7 @@ external make : 'a -> t = "String"
 *)
 
 external fromCharCode : int -> t = "String.fromCharCode"
-  [@@bs.val]
+  [@@mel.val]
 (** [fromCharCode n]
   creates a string containing the character corresponding to that number; {i n} ranges from 0 to 65535. If out of range, the lower 16 bits of the value are used. Thus, [fromCharCode 0x1F63A] gives the same result as [fromCharCode 0xF63A].
 
@@ -50,7 +50,7 @@ external fromCharCode : int -> t = "String.fromCharCode"
 *)
 
 external fromCharCodeMany : int array -> t = "String.fromCharCode"
-  [@@bs.val] [@@bs.splice]
+  [@@mel.val] [@@mel.splice]
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given numbers, using the same rules as [fromCharCode].
 
 {[
@@ -70,7 +70,7 @@ external fromCharCodeMany : int array -> t = "String.fromCharCode"
 
 *)
 external fromCodePoint : int -> t = "String.fromCodePoint"
-  [@@bs.val]
+  [@@mel.val]
 (** ES2015 *)
 
 (** [fromCharCodeMany \[|n1;n2;n3|\]] creates a string from the characters corresponding to the given code point numbers, using the same rules as [fromCodePoint].
@@ -80,13 +80,13 @@ external fromCodePoint : int -> t = "String.fromCodePoint"
 ]}
 *)
 external fromCodePointMany : int array -> t = "String.fromCodePoint"
-  [@@bs.val] [@@bs.splice]
+  [@@mel.val] [@@mel.splice]
 (** ES2015 *)
 
 (* String.raw: ES2015, meant to be used with template strings, not directly *)
 
 external length : t -> int = "length"
-  [@@bs.get]
+  [@@mel.get]
 (** [length s] returns the length of the given string.
 
 {[
@@ -96,7 +96,7 @@ external length : t -> int = "length"
 *)
 
 external get : t -> int -> t = ""
-  [@@bs.get_index]
+  [@@mel.get_index]
 (** [get s n] returns as a string the character at the given index number. If [n] is out of range, this function returns [undefined], so at some point this function may be modified to return [t option].
 
 {[
@@ -107,7 +107,7 @@ external get : t -> int -> t = ""
 *)
 
 external charAt : t -> int -> t = "charAt"
-  [@@bs.send]
+  [@@mel.send]
 (** [charAt n s] gets the character at index [n] within string [s]. If [n] is negative or greater than the length of [s], returns the empty string. If the string contains characters outside the range [\u0000-\uffff], it will return the first 16-bit value at that position in the string.
 
 {[
@@ -118,7 +118,7 @@ external charAt : t -> int -> t = "charAt"
 *)
 
 external charCodeAt : t -> int -> float = "charCodeAt"
-  [@@bs.send]
+  [@@mel.send]
 (** [charCodeAt n s] returns the character code at position [n] in string [s]; the result is in the range 0-65535, unlke [codePointAt], so it will not work correctly for characters with code points greater than or equal to [0x10000].
 The return type is [float] because this function returns [NaN] if [n] is less than zero or greater than the length of the string.
 
@@ -137,11 +137,11 @@ The return type is [float] because this function returns [NaN] if [n] is less th
 ]}
 *)
 external codePointAt : t -> int -> int option = "codePointAt"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 external concat : t -> t -> t = "concat"
-  [@@bs.send]
+  [@@mel.send]
 (** [concat append original] returns a new string with [append] added after [original].
 
 {[
@@ -150,7 +150,7 @@ external concat : t -> t -> t = "concat"
 *)
 
 external concatMany : t -> t array -> t = "concat"
-  [@@bs.send] [@@bs.splice]
+  [@@mel.send] [@@mel.splice]
 (** [concat arr original] returns a new string consisting of each item of an array of strings added to the [original] string.
 
 {[
@@ -159,7 +159,7 @@ external concatMany : t -> t array -> t = "concat"
 *)
 
 external endsWith : t -> t -> bool = "endsWith"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015:
     [endsWith substr str] returns [true] if the [str] ends with [substr], [false] otherwise.
 
@@ -180,7 +180,7 @@ external endsWith : t -> t -> bool = "endsWith"
 ]}
 *)
 external endsWithFrom : t -> t -> int -> bool = "endsWith"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 (**
@@ -194,7 +194,7 @@ external endsWithFrom : t -> t -> int -> bool = "endsWith"
 ]}
 *)
 external includes : t -> t -> bool = "includes"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 (**
@@ -207,11 +207,11 @@ external includes : t -> t -> bool = "includes"
 ]}
 *)
 external includesFrom : t -> t -> int -> bool = "includes"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 external indexOf : t -> t -> int = "indexOf"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [indexOf searchValue s] returns the position at which [searchValue] was first found within [s], or [-1] if [searchValue] is not in [s].
 
@@ -224,7 +224,7 @@ external indexOf : t -> t -> int = "indexOf"
 *)
 
 external indexOfFrom : t -> t -> int -> int = "indexOf"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [indexOfFrom searchValue start s] returns the position at which [searchValue] was found within [s] starting at character position [start], or [-1] if [searchValue] is not found in that portion of [s]. The return value is relative to the beginning of the string, no matter where the search started from.
 
@@ -237,7 +237,7 @@ external indexOfFrom : t -> t -> int -> int = "indexOf"
 *)
 
 external lastIndexOf : t -> t -> int = "lastIndexOf"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [lastIndexOf searchValue s] returns the position of the {i last} occurrence of [searchValue] within [s], searching backwards from the end of the string. Returns [-1] if [searchValue] is not in [s]. The return value is always relative to the beginning of the string.
 
@@ -249,7 +249,7 @@ external lastIndexOf : t -> t -> int = "lastIndexOf"
 *)
 
 external lastIndexOfFrom : t -> t -> int -> int = "lastIndexOf"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [lastIndexOfFrom searchValue start s] returns the position of the {i last} occurrence of [searchValue] within [s], searching backwards from the given [start] position. Returns [-1] if [searchValue] is not in [s]. The return value is always relative to the beginning of the string.
 
@@ -264,7 +264,7 @@ external lastIndexOfFrom : t -> t -> int -> int = "lastIndexOf"
 (* extended by ECMA-402 *)
 
 external localeCompare : t -> t -> float = "localeCompare"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [localeCompare comparison reference] returns
 
@@ -282,7 +282,7 @@ external localeCompare : t -> t -> float = "localeCompare"
 *)
 
 external match_ : t -> Js_re.t -> t option array option = "match"
-  [@@bs.send] [@@bs.return { null_to_opt }]
+  [@@mel.send] [@@mel.return { null_to_opt }]
 (**
   [match regexp str] matches a string against the given [regexp]. If there is no match, it returns [None].
   For regular expressions without the [g] modifier, if there is a match, the return value is [Some array] where the array contains:
@@ -310,11 +310,11 @@ Consider the character [ã], which can be represented as the single codepoint [\
 @see <https://www.unicode.org/reports/tr15/tr15-45.html> Unicode technical report for details
 *)
 external normalize : t -> t = "normalize"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 external normalizeByForm : t -> t -> t = "normalize"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [normalize str form] (ES2015) returns the normalized Unicode string using the specified form of normalization, which may be one of:
 
@@ -337,11 +337,11 @@ external normalizeByForm : t -> t -> t = "normalize"
 ]}
 *)
 external repeat : t -> int -> t = "repeat"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 external replace : t -> t -> t -> t = "replace"
-  [@@bs.send]
+  [@@mel.send]
 (** [replace substr newSubstr string] returns a new string which is
 identical to [string] except with the first matching instance of [substr]
 replaced by [newSubstr].
@@ -356,7 +356,7 @@ expression.
 *)
 
 external replaceByRe : t -> Js_re.t -> t -> t = "replace"
-  [@@bs.send]
+  [@@mel.send]
 (** [replaceByRe regex replacement string] returns a new string where occurrences matching [regex]
 have been replaced by [replacement].
 
@@ -367,8 +367,8 @@ have been replaced by [replacement].
 *)
 
 external unsafeReplaceBy0 :
-  t -> Js_re.t -> ((t -> int -> t -> t)[@bs.uncurry]) -> t = "replace"
-  [@@bs.send]
+  t -> Js_re.t -> ((t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+  [@@mel.send]
 (** returns a new string with some or all matches of a pattern with no capturing
 parentheses replaced by the value returned from the given function.
 The function receives as its parameters the matched string, the offset at which the
@@ -389,8 +389,8 @@ let () = Js.log replaced (* prints "bEAUtifUl vOwEls" *)
 *)
 
 external unsafeReplaceBy1 :
-  t -> Js_re.t -> ((t -> t -> int -> t -> t)[@bs.uncurry]) -> t = "replace"
-  [@@bs.send]
+  t -> Js_re.t -> ((t -> t -> int -> t -> t)[@mel.uncurry]) -> t = "replace"
+  [@@mel.send]
 (** returns a new string with some or all matches of a pattern with one set of capturing
 parentheses replaced by the value returned from the given function.
 The function receives as its parameters the matched string, the captured string,
@@ -411,8 +411,9 @@ let () = Js.log replaced (* prints "increment 23 is 24" *)
 *)
 
 external unsafeReplaceBy2 :
-  t -> Js_re.t -> ((t -> t -> t -> int -> t -> t)[@bs.uncurry]) -> t = "replace"
-  [@@bs.send]
+  t -> Js_re.t -> ((t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
+  = "replace"
+  [@@mel.send]
 (** returns a new string with some or all matches of a pattern with two sets of capturing
 parentheses replaced by the value returned from the given function.
 The function receives as its parameters the matched string, the captured strings,
@@ -433,9 +434,9 @@ let () = Js.log replaced (* prints "42" *)
 *)
 
 external unsafeReplaceBy3 :
-  t -> Js_re.t -> ((t -> t -> t -> t -> int -> t -> t)[@bs.uncurry]) -> t
+  t -> Js_re.t -> ((t -> t -> t -> t -> int -> t -> t)[@mel.uncurry]) -> t
   = "replace"
-  [@@bs.send]
+  [@@mel.send]
 (** returns a new string with some or all matches of a pattern with three sets of capturing
 parentheses replaced by the value returned from the given function.
 The function receives as its parameters the matched string, the captured strings,
@@ -445,7 +446,7 @@ the offset at which the match begins, and the whole string being matched.
 *)
 
 external search : t -> Js_re.t -> int = "search"
-  [@@bs.send]
+  [@@mel.send]
 (** [search regexp str] returns the starting position of the first match of [regexp] in the given [str], or -1 if there is no match.
 
 {[
@@ -455,7 +456,7 @@ search "no numbers" [%re "/\\d+/"] = -1;;
 *)
 
 external slice : t -> from:int -> to_:int -> t = "slice"
-  [@@bs.send]
+  [@@mel.send]
 (** [slice from:n1 to_:n2 str] returns the substring of [str] starting at character [n1] up to but not including [n2]
 
 If either [n1] or [n2] is negative, then it is evaluated as [length str - n1] (or [length str - n2].
@@ -473,7 +474,7 @@ If [n1] is greater than [n2], [slice] returns the empty string.
 *)
 
 external sliceToEnd : t -> from:int -> t = "slice"
-  [@@bs.send]
+  [@@mel.send]
 (** [sliceToEnd from: n str] returns the substring of [str] starting at character [n] to the end of the string
 
 If [n] is negative, then it is evaluated as [length str - n].
@@ -488,7 +489,7 @@ If [n] is greater than the length of [str], then [sliceToEnd] returns the empty 
 *)
 
 external split : t -> t -> t array = "split"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [split delimiter str] splits the given [str] at every occurrence of [delimiter] and returns an
   array of the resulting substrings.
@@ -502,7 +503,7 @@ external split : t -> t -> t array = "split"
 *)
 
 external splitAtMost : t -> t -> limit:int -> t array = "split"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [splitAtMost delimiter ~limit: n str] splits the given [str] at every occurrence of [delimiter] and returns an array of the first [n] resulting substrings. If [n] is negative or greater than the number of substrings, the array will contain all the substrings.
 
@@ -514,7 +515,7 @@ external splitAtMost : t -> t -> limit:int -> t array = "split"
 *)
 
 external splitByRe : t -> Js_re.t -> t option array = "split"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [splitByRe regex str] splits the given [str] at every occurrence of [regex] and returns an
   array of the resulting substrings.
@@ -526,7 +527,7 @@ external splitByRe : t -> Js_re.t -> t option array = "split"
 *)
 
 external splitByReAtMost : t -> Js_re.t -> limit:int -> t option array = "split"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [splitByReAtMost regex ~limit: n str] splits the given [str] at every occurrence of [regex] and returns an
   array of the first [n] resulting substrings. If [n] is negative or greater than the number of substrings, the array will contain all the substrings.
@@ -539,7 +540,7 @@ external splitByReAtMost : t -> Js_re.t -> limit:int -> t option array = "split"
 *)
 
 external startsWith : t -> t -> bool = "startsWith"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015:
     [startsWith substr str] returns [true] if the [str] starts with [substr], [false] otherwise.
 
@@ -551,7 +552,7 @@ external startsWith : t -> t -> bool = "startsWith"
 *)
 
 external startsWithFrom : t -> t -> int -> bool = "startsWith"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015:
     [startsWithFrom substr n str] returns [true] if the [str] starts with [substr] starting at position [n], [false] otherwise. If [n] is negative, the search starts at the beginning of [str].
 
@@ -563,7 +564,7 @@ external startsWithFrom : t -> t -> int -> bool = "startsWith"
 *)
 
 external substr : t -> from:int -> t = "substr"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [substr ~from: n str] returns the substring of [str] from position [n] to the end of the string.
 
@@ -579,7 +580,7 @@ external substr : t -> from:int -> t = "substr"
 *)
 
 external substrAtMost : t -> from:int -> length:int -> t = "substr"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [substrAtMost ~from: pos ~length: n str] returns the substring of [str] of length [n] starting at position [pos].
 
@@ -597,7 +598,7 @@ external substrAtMost : t -> from:int -> length:int -> t = "substr"
 *)
 
 external substring : t -> from:int -> to_:int -> t = "substring"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [substring ~from: start ~to_: finish str] returns characters [start] up to but not including [finish] from [str].
 
@@ -615,7 +616,7 @@ external substring : t -> from:int -> to_:int -> t = "substring"
 *)
 
 external substringToEnd : t -> from:int -> t = "substring"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [substringToEnd ~from: start str] returns the substring of [str] from position [start] to the end.
 
@@ -631,7 +632,7 @@ external substringToEnd : t -> from:int -> t = "substring"
 *)
 
 external toLowerCase : t -> t = "toLowerCase"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [toLowerCase str] converts [str] to lower case using the locale-insensitive case mappings in the Unicode Character Database. Notice that the conversion can give different results depending upon context, for example with the Greek letter sigma, which has two different lower case forms when it is the last character in a string or not.
 
@@ -643,13 +644,13 @@ external toLowerCase : t -> t = "toLowerCase"
 *)
 
 external toLocaleLowerCase : t -> t = "toLocaleLowerCase"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [toLocaleLowerCase str] converts [str] to lower case using the current locale
 *)
 
 external toUpperCase : t -> t = "toUpperCase"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [toUpperCase str] converts [str] to upper case using the locale-insensitive case mappings in the Unicode Character Database. Notice that the conversion can expand the number of letters in the result; for example the German [ß] capitalizes to two [S]es in a row.
 
@@ -661,13 +662,13 @@ external toUpperCase : t -> t = "toUpperCase"
 *)
 
 external toLocaleUpperCase : t -> t = "toLocaleUpperCase"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [toLocaleUpperCase str] converts [str] to upper case using the current locale
 *)
 
 external trim : t -> t = "trim"
-  [@@bs.send]
+  [@@mel.send]
 (**
   [trim str] returns a string that is [str] with whitespace stripped from both ends. Internal whitespace is not removed.
 
@@ -687,7 +688,7 @@ external trim : t -> t = "trim"
 ]}
 *)
 external anchor : t -> t -> t = "anchor"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 (**
@@ -698,11 +699,11 @@ external anchor : t -> t -> t = "anchor"
 ]}
 *)
 external link : t -> t -> t = "link"
-  [@@bs.send]
+  [@@mel.send]
 (** ES2015 *)
 
 external castToArrayLike : t -> t Js_array2.array_like = "%identity"
 (* FIXME: we should not encourage people to use [%identity], better
-    to provide something using [@@bs.val] so that we can track such
+    to provide something using [@@mel.val] so that we can track such
     casting
 *)

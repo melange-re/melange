@@ -2,21 +2,21 @@
 'use strict';
 
 var Caml = require("melange.js/caml.js");
+var Caml_bytes = require("melange.js/caml_bytes.js");
+var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
+var Caml_io = require("melange.js/caml_io.js");
+var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Curry = require("melange.js/curry.js");
 var Stdlib = require("melange/stdlib.js");
-var Caml_io = require("melange.js/caml_io.js");
-var Caml_bytes = require("melange.js/caml_bytes.js");
-var Stdlib__Sys = require("melange/sys.js");
-var Stdlib__Char = require("melange/char.js");
-var Stdlib__List = require("melange/list.js");
-var Stdlib__Bytes = require("melange/bytes.js");
 var Stdlib__Buffer = require("melange/buffer.js");
+var Stdlib__Bytes = require("melange/bytes.js");
+var Stdlib__Char = require("melange/char.js");
 var Stdlib__Format = require("melange/format.js");
+var Stdlib__List = require("melange/list.js");
+var Stdlib__Printexc = require("melange/printexc.js");
 var Stdlib__Printf = require("melange/printf.js");
 var Stdlib__String = require("melange/string.js");
-var Stdlib__Printexc = require("melange/printexc.js");
-var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
-var Caml_external_polyfill = require("melange.js/caml_external_polyfill.js");
+var Stdlib__Sys = require("melange/sys.js");
 
 function _with_in(filename, f) {
   var ic = Stdlib.open_in_bin(filename);
@@ -431,7 +431,7 @@ function _get(t) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "sexpm.ml",
+            "jscomp/test/sexpm.ml",
             152,
             4
           ],
@@ -545,7 +545,7 @@ function expr_starting_with(c, k, t) {
             throw {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
-                    "sexpm.ml",
+                    "jscomp/test/sexpm.ml",
                     183,
                     27
                   ],
@@ -579,7 +579,7 @@ function expr_starting_with(c, k, t) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "sexpm.ml",
+            "jscomp/test/sexpm.ml",
             183,
             27
           ],
@@ -1043,7 +1043,7 @@ function MakeDecode(funarg) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "sexpm.ml",
+              "jscomp/test/sexpm.ml",
               152,
               4
             ],
@@ -1153,7 +1153,7 @@ function MakeDecode(funarg) {
               throw {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
-                      "sexpm.ml",
+                      "jscomp/test/sexpm.ml",
                       183,
                       27
                     ],
@@ -1187,7 +1187,7 @@ function MakeDecode(funarg) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "sexpm.ml",
+              "jscomp/test/sexpm.ml",
               183,
               27
             ],

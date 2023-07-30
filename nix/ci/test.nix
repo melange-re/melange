@@ -2,25 +2,38 @@
 
 let
   lock = builtins.fromJSON (builtins.readFile ./../../flake.lock);
-  findFlakeSrc = name: fetchGit {
+  findFlakeSrc = { name, allRefs ? false }: fetchGit {
     url = with lock.nodes.${name}.locked;"https://github.com/${owner}/${repo}";
     inherit (lock.nodes.${name}.locked) rev;
+    inherit allRefs;
   };
 
-  src = findFlakeSrc "nixpkgs";
-  nix-filter-src = findFlakeSrc "nix-filter";
-  melange-compiler-libs-src = findFlakeSrc "melange-compiler-libs";
+  src = findFlakeSrc { name = "nixpkgs"; };
+  nix-filter-src = findFlakeSrc { name = "nix-filter"; };
+  melange-compiler-libs-src = findFlakeSrc {
+    name = "melange-compiler-libs";
+  };
   nix-filter = import "${nix-filter-src}";
 
   pkgs = import src {
     extraOverlays = [
       (self: super: {
-        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope' (oself: osuper: {
-          sedlex = osuper.sedlex.overrideAttrs (_: {
-            # depends on ppx_expect, which is not available for 4.13
-            doCheck = false;
+        ocamlPackages = super.ocaml-ng."ocamlPackages_${ocamlVersion}".overrideScope'
+          (oself: osuper: {
+            reason = osuper.reason.overrideAttrs (_: {
+              src = super.fetchFromGitHub {
+                owner = "reasonml";
+                repo = "reason";
+                rev = "366fefa23f39a437a07097f050fbb53d9767c6c9";
+                hash = "sha256-bTaqD3hhD83QnGfgBvuUeb/I796isXfAseEGyyeQOVA=";
+              };
+            });
+
+            sedlex = osuper.sedlex.overrideAttrs (_: {
+              # depends on ppx_expect, which is not available for 4.13
+              doCheck = false;
+            });
           });
-        });
       })
     ];
   };

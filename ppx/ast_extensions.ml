@@ -36,7 +36,7 @@ open Ast_helper
 let handle_external loc (x : string) : Parsetree.expression =
   let raw_exp =
     let str_exp =
-      Exp.constant ~loc (Pconst_string (x, loc, Some Ext_string.empty))
+      Exp.constant ~loc (Pconst_string (x, loc, Some String.empty))
     in
     {
       str_exp with
@@ -67,7 +67,7 @@ let handle_debugger loc payload =
       Ast_external_mk.local_external_apply loc ~pval_prim:[ "#debugger" ]
         ~pval_type:(Typ.arrow Nolabel (Typ.any ()) [%type: unit])
         [ [%expr ()] ]
-  | _ -> Location.raise_errorf ~loc "bs.debugger does not accept payload"
+  | _ -> Location.raise_errorf ~loc "mel.debugger does not accept payload"
 
 let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
     (x : Parsetree.payload) : Parsetree.expression option =
@@ -121,7 +121,7 @@ let raw_as_string_exp_exn ~(kind : Js_raw_info.raw_kind) ?is_function
 let handle_raw ~kind loc payload =
   let is_function = ref false in
   match raw_as_string_exp_exn ~kind ~is_function payload with
-  | None -> Location.raise_errorf ~loc "bs.raw can only be applied to a string"
+  | None -> Location.raise_errorf ~loc "mel.raw can only be applied to a string"
   | Some exp ->
       {
         exp with
@@ -146,6 +146,6 @@ let handle_raw_structure loc payload =
               ~pval_type:(Typ.arrow Nolabel (Typ.any ()) (Typ.any ()))
               [ exp ];
         }
-  | None -> Location.raise_errorf ~loc "bs.raw can only be applied to a string"
+  | None -> Location.raise_errorf ~loc "mel.raw can only be applied to a string"
 
 (* module Make = Ast_external_mk *)

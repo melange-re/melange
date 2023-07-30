@@ -27,7 +27,7 @@ type label = Types.label_description
 let find_name (attr : Parsetree.attribute) =
   match attr with
   | {
-   attr_name = { txt = "bs.as" | "as"; _ };
+   attr_name = { txt = "mel.as" | "bs.as" | "as"; _ };
    attr_payload =
      PStr
        [
@@ -47,7 +47,7 @@ let find_name_with_loc (attr : Parsetree.attribute) : string Asttypes.loc option
     =
   match attr with
   | {
-   attr_name = { txt = "bs.as" | "as"; loc };
+   attr_name = { txt = "mel.as" | "bs.as" | "as"; loc };
    attr_payload =
      PStr
        [
@@ -76,8 +76,10 @@ let fld_record_set (lbl : label) =
 
 let blk_record fields =
   let all_labels_info =
-    Ext_array.map fields (fun ((lbl : label), _) ->
+    Array.map
+      (fun ((lbl : label), _) ->
         Ext_list.find_def lbl.Types.lbl_attributes find_name lbl.lbl_name)
+      fields
   in
   Lambda.Blk_record all_labels_info
 

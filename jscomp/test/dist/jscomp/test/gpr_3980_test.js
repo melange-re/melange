@@ -10,7 +10,7 @@ if (match !== undefined) {
     throw {
           RE_EXN_ID: "Assert_failure",
           _1: [
-            "gpr_3980_test.ml",
+            "jscomp/test/gpr_3980_test.ml",
             16,
             10
           ],
@@ -23,7 +23,7 @@ if (match !== undefined) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "gpr_3980_test.ml",
+              "jscomp/test/gpr_3980_test.ml",
               14,
               12
             ],
@@ -37,7 +37,7 @@ if (match !== undefined) {
   throw {
         RE_EXN_ID: "Assert_failure",
         _1: [
-          "gpr_3980_test.ml",
+          "jscomp/test/gpr_3980_test.ml",
           16,
           10
         ],

@@ -32,7 +32,7 @@ module String = Belt_SortArrayString
 (** Specalized when key type is [string], more efficient
     than the generic type *)
 
-val strictlySortedLengthU : 'a array -> (('a -> 'a -> bool)[@bs]) -> int
+val strictlySortedLengthU : 'a array -> (('a -> 'a -> bool)[@u]) -> int
 
 val strictlySortedLength : 'a array -> ('a -> 'a -> bool) -> int
 (**
@@ -48,7 +48,7 @@ val strictlySortedLength : 'a array -> ('a -> 'a -> bool) -> int
   ]}
 *)
 
-val isSortedU : 'a array -> (('a -> 'a -> int)[@bs]) -> bool
+val isSortedU : 'a array -> (('a -> 'a -> int)[@u]) -> bool
 
 val isSorted : 'a array -> ('a -> 'a -> int) -> bool
 (** [isSorted arr cmp]
@@ -58,7 +58,7 @@ val isSorted : 'a array -> ('a -> 'a -> int) -> bool
    ]}
 *)
 
-val stableSortInPlaceByU : 'a array -> (('a -> 'a -> int)[@bs]) -> unit
+val stableSortInPlaceByU : 'a array -> (('a -> 'a -> int)[@u]) -> unit
 
 val stableSortInPlaceBy : 'a array -> ('a -> 'a -> int) -> unit
 (** [stableSortBy xs cmp]
@@ -67,7 +67,7 @@ val stableSortInPlaceBy : 'a array -> ('a -> 'a -> int) -> unit
     are equal, their order will be preserved
 *)
 
-val stableSortByU : 'a array -> (('a -> 'a -> int)[@bs]) -> 'a array
+val stableSortByU : 'a array -> (('a -> 'a -> int)[@u]) -> 'a array
 
 val stableSortBy : 'a array -> ('a -> 'a -> int) -> 'a array
 (** [stableSort xs cmp]
@@ -76,7 +76,7 @@ val stableSortBy : 'a array -> ('a -> 'a -> int) -> 'a array
     The same as {!stableSortInPlaceBy} except that [xs] is  not modified
 *)
 
-val binarySearchByU : 'a array -> 'a -> (('a -> 'a -> int)[@bs]) -> int
+val binarySearchByU : 'a array -> 'a -> (('a -> 'a -> int)[@u]) -> int
 
 val binarySearchBy : 'a array -> 'a -> ('a -> 'a -> int) -> int
 (**
@@ -109,7 +109,7 @@ val unionU :
   int ->
   'a array ->
   int ->
-  (('a -> 'a -> int)[@bs]) ->
+  (('a -> 'a -> int)[@u]) ->
   int
 
 val union :
@@ -139,7 +139,7 @@ val intersectU :
   int ->
   'a array ->
   int ->
-  (('a -> 'a -> int)[@bs]) ->
+  (('a -> 'a -> int)[@u]) ->
   int
 
 val intersect :
@@ -166,7 +166,7 @@ val diffU :
   int ->
   'a array ->
   int ->
-  (('a -> 'a -> int)[@bs]) ->
+  (('a -> 'a -> int)[@u]) ->
   int
 
 val diff :

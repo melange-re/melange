@@ -32,7 +32,7 @@
  (synopsis "Toolchain to produce JS from Reason/OCaml")
  (depends
   (ocaml
-   (>= "4.13.0"))
+   (>= "5.1"))
   (cmdliner
    (>= "1.1.0"))
   (base64

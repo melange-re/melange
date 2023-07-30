@@ -24,7 +24,7 @@ function ff(x) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "bb.ml",
+              "jscomp/test/bb.ml",
               17,
               9
             ],
@@ -49,7 +49,7 @@ function test(x) {
       throw {
             RE_EXN_ID: "Assert_failure",
             _1: [
-              "bb.ml",
+              "jscomp/test/bb.ml",
               26,
               13
             ],

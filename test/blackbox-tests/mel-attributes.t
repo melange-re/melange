@@ -36,51 +36,67 @@
   File "x.ml", line 2, characters 63-69:
   2 | external clipboardData : t -> < .. > Js.t = "clipboardData" [@@bs.get]
                                                                      ^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
+  
   File "x.ml", line 3, characters 54-60:
   3 | external set_title : t -> string -> unit = "title" [@@bs.set]
                                                             ^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
+  
   File "x.ml", line 6, characters 26-32:
   6 |   unit -> unit = "err" [@@bs.val]
                                 ^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
+  
   File "x.ml", line 5, characters 35-44:
   5 |   x:([`a of int | `b of string ] [@bs.string]) ->
                                          ^^^^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
+  
   File "x.ml", line 7, characters 48-55:
   7 | external set_onload : t -> ((t -> int -> unit)[@bs.this]) -> unit = "onload"
                                                       ^^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
+  
   File "x.ml", line 8, characters 38-45:
   8 | let handlePromiseFailure = function [@bs.open]
                                             ^^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
+  
   File "x.ml", line 12, characters 35-37:
   12 |   -> 'b array -> ('a -> 'b -> 'c [@bs]) -> 'c array = "map"
                                           ^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs]' uncurry attribute is deprecated and will be removed in the next release.
+  Use `[@u]' instead.
+  
   File "x.ml", line 13, characters 14-16:
   13 | let f = fun [@bs] x y -> x + y
                      ^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs]' uncurry attribute is deprecated and will be removed in the next release.
+  Use `[@u]' instead.
+  
   File "x.ml", line 14, characters 18-20:
   14 | let x = (object [@bs] method hi x y =x + y end )
                          ^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs]' uncurry attribute is deprecated and will be removed in the next release.
+  Use `[@u]' instead.
+  
   File "x.ml", line 15, characters 43-49:
   15 | external mk : ?hi:int -> unit -> _ = "" [@@bs.obj]
                                                   ^^^^^^
-  Alert deprecated: The `bs.*' attribute namespace is deprecated and will be removed in the next release.
-  Use `mel.*' instead.
+  Alert deprecated: The `[@bs.*]' attributes are deprecated and will be removed in the
+  next release.
+  Use `[@mel.*]' instead.
 

@@ -35,7 +35,7 @@ function sum(a,b){
 
 var h = sum(1.0, 2.0);
 
-eq("File \"uncurry_external_test.ml\", line 25, characters 5-12", h, 3);
+eq("File \"jscomp/test/uncurry_external_test.ml\", line 25, characters 5-12", h, 3);
 
 Mt.from_pair_suites("Uncurry_external_test", suites.contents);
 

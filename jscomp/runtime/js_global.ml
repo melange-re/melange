@@ -32,7 +32,7 @@ type timeoutId
 (** Identify timeout started by {! setTimeout} *)
 
 external clearInterval : intervalId -> unit = "clearInterval"
-  [@@bs.val]
+  [@@mel.val]
 (** Clear an interval started by {! setInterval}
 
 {[
@@ -43,10 +43,10 @@ let interval = ref Js.Nullable.null
 let remind () =
   Js.log "Wake Up!";
   IO.punchSleepyGuy ()
-  
+
 let snooze mins =
   interval := Js.Nullable.return (Js.Global.setInterval remind (mins * 60 * 1000))
-  
+
 let cancel () =
   Js.Nullable.iter !interval (fun[\@bs] intervalId -> Js.Global.clearInterval intervalId)
 ]}
@@ -55,7 +55,7 @@ let cancel () =
 *)
 
 external clearTimeout : timeoutId -> unit = "clearTimeout"
-  [@@bs.val]
+  [@@mel.val]
 (** Clear a timeout started by {! setTimeout}
 {[
 (* A simple model of a code monkey's brain *)
@@ -74,7 +74,7 @@ let procrastinate mins =
 *)
 
 external setInterval : (unit -> unit) -> int -> intervalId = "setInterval"
-  [@@bs.val]
+  [@@mel.val]
 (** {i Repeatedly} executes a callback with a specified interval (in milliseconds) between calls
 
 {b Return} an {! intervalId} that can be passed to {! clearInterval} to cancel the timeout
@@ -96,7 +96,7 @@ let _ =
 
 external setIntervalFloat : (unit -> unit) -> float -> intervalId
   = "setInterval"
-  [@@bs.val]
+  [@@mel.val]
 (** {i Repeatedly} executes a callback with a specified interval (in milliseconds) between calls
 
 {b Return} an {! intervalId} that can be passed to {! clearInterval} to cancel the timeout
@@ -117,7 +117,7 @@ let _ =
 *)
 
 external setTimeout : (unit -> unit) -> int -> timeoutId = "setTimeout"
-  [@@bs.val]
+  [@@mel.val]
 (** Execute a callback after a specified delay (in milliseconds)
 
 {b returns} a {! timeoutId} that can be passed to {! clearTimeout} to cancel the timeout
@@ -135,7 +135,7 @@ let _ =
 *)
 
 external setTimeoutFloat : (unit -> unit) -> float -> timeoutId = "setTimeout"
-  [@@bs.val]
+  [@@mel.val]
 (** Execute a callback after a specified delay (in milliseconds)
 
 {b returns} a {! timeoutId} that can be passed to {! clearTimeout} to cancel the timeout
@@ -153,28 +153,28 @@ let _ =
 *)
 
 external encodeURI : string -> string = "encodeURI"
-  [@@bs.val]
+  [@@mel.val]
 (** URL-encodes a string.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI> MDN
 *)
 
 external decodeURI : string -> string = "decodeURI"
-  [@@bs.val]
+  [@@mel.val]
 (** Decodes a URL-enmcoded string produced by [encodeURI]
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI> MDN
 *)
 
 external encodeURIComponent : string -> string = "encodeURIComponent"
-  [@@bs.val]
+  [@@mel.val]
 (** URL-encodes a string, including characters with special meaning in a URI.
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent> MDN
 *)
 
 external decodeURIComponent : string -> string = "decodeURIComponent"
-  [@@bs.val]
+  [@@mel.val]
 (** Decodes a URL-enmcoded string produced by [encodeURIComponent]
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURIComponent> MDN

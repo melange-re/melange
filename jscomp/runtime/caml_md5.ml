@@ -191,7 +191,7 @@ let state = [| seed_a; seed_b; seed_c; seed_d |]
 let md5blk =
   [| 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l; 0l |]
 
-external ( .![] ) : string -> int -> int32 = "charCodeAt" [@@bs.send]
+external ( .![] ) : string -> int -> int32 = "charCodeAt" [@@mel.send]
 
 let caml_md5_string (s : string) start len =
   let module Array = Caml_array_extern (* reuse the sugar .. *) in

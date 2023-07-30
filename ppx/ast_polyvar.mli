@@ -38,7 +38,7 @@ val is_enum_constructors : Parsetree.constructor_declaration list -> bool
 
 val map_row_fields_into_ints :
   Location.t -> Parsetree.row_field list -> (string * int) list
-(** side effect: it will mark used attributes `bs.as`  *)
+(** side effect: it will mark used attributes `mel.as`  *)
 
 val map_row_fields_into_strings :
   Location.t -> Parsetree.row_field list -> External_arg_spec.attr

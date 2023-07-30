@@ -74,7 +74,7 @@ type action = lid * Parsetree.expression option
     {[ { x = exp }]}
 *)
 
-let unrecognizedConfigRecord text = "bs.deriving: " ^ text
+let unrecognizedConfigRecord text = "deriving: " ^ text
 
 let ident_or_record_as_config (x : t) :
     ((string Location.loc * Parsetree.expression option) list, string) result =

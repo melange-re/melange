@@ -31,14 +31,14 @@ type t = Caml_js_exceptions.t
 exception Error = Caml_js_exceptions.Error
 
 external asJsExn : exn -> t option = "caml_as_js_exn"
-external stack : t -> string option = "stack" [@@bs.get]
-external message : t -> string option = "message" [@@bs.get]
-external name : t -> string option = "name" [@@bs.get]
-external fileName : t -> string option = "fileName" [@@bs.get]
+external stack : t -> string option = "stack" [@@mel.get]
+external message : t -> string option = "message" [@@mel.get]
+external name : t -> string option = "name" [@@mel.get]
+external fileName : t -> string option = "fileName" [@@mel.get]
 
 type error
 
-external makeError : string -> error = "Error" [@@bs.new]
+external makeError : string -> error = "Error" [@@mel.new]
 external isCamlExceptionOrOpenVariant : 'a -> bool = "caml_is_extension"
 
 let anyToExnInternal x =
@@ -48,14 +48,14 @@ let raiseError str = raise (Obj.magic (makeError str : error) : exn)
 
 type eval_error
 
-external makeEvalError : string -> eval_error = "EvalError" [@@bs.new]
+external makeEvalError : string -> eval_error = "EvalError" [@@mel.new]
 
 let raiseEvalError str =
   raise (Obj.magic (makeEvalError str : eval_error) : exn)
 
 type range_error
 
-external makeRangeError : string -> range_error = "RangeError" [@@bs.new]
+external makeRangeError : string -> range_error = "RangeError" [@@mel.new]
 
 let raiseRangeError str =
   raise (Obj.magic (makeRangeError str : range_error) : exn)
@@ -63,25 +63,25 @@ let raiseRangeError str =
 type reference_error
 
 external makeReferenceError : string -> reference_error = "ReferenceError"
-  [@@bs.new]
+  [@@mel.new]
 
 let raiseReferenceError str = raise (Obj.magic (makeReferenceError str))
 
 type syntax_error
 
-external makeSyntaxError : string -> syntax_error = "SyntaxError" [@@bs.new]
+external makeSyntaxError : string -> syntax_error = "SyntaxError" [@@mel.new]
 
 let raiseSyntaxError str = raise (Obj.magic (makeSyntaxError str))
 
 type type_error
 
-external makeTypeError : string -> type_error = "TypeError" [@@bs.new]
+external makeTypeError : string -> type_error = "TypeError" [@@mel.new]
 
 let raiseTypeError str = raise (Obj.magic (makeTypeError str))
 
 type uri_error
 
-external makeURIError : string -> uri_error = "URIError" [@@bs.new]
+external makeURIError : string -> uri_error = "URIError" [@@mel.new]
 
 let raiseUriError str = raise (Obj.magic (makeURIError str))
 

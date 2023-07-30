@@ -29,13 +29,15 @@ module Warnings = struct
     | Unused_attribute of string
     | Fragile_external of string
     | Redundant_bs_string
+    | Deprecated_uncurry_attribute
     | Deprecated_attribute_namespace
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_bs_string -> "redundant"
-    | Deprecated_attribute_namespace -> "deprecated"
+    | Deprecated_uncurry_attribute | Deprecated_attribute_namespace ->
+        "deprecated"
 
   let pp fmt t =
     match t with
@@ -52,12 +54,17 @@ module Warnings = struct
           s
     | Redundant_bs_string ->
         Format.fprintf fmt
-          "[@bs.string] is redundant here, you can safely remove it"
+          "[@mel.string] is redundant here, you can safely remove it"
+    | Deprecated_uncurry_attribute ->
+        Format.fprintf fmt
+          "The `[@bs]' uncurry attribute is deprecated and will be removed in \
+           the next release.@\n\
+           Use `[@u]' instead."
     | Deprecated_attribute_namespace ->
         Format.fprintf fmt
-          "The `bs.*' attribute namespace is deprecated and will be removed in \
-           the next release.@\n\
-           Use `mel.*' instead."
+          "The `[@bs.*]' attributes are deprecated and will be removed in the\n\
+           next release.@\n\
+           Use `[@mel.*]' instead."
 end
 
 let warn ~loc msg =
@@ -76,11 +83,16 @@ let warn ~loc msg =
 *)
 let is_bs_attribute txt =
   let len = String.length txt in
-  len >= 2
-  (*TODO: check the stringing padding rule, this preciate may not be needed *)
-  && String.unsafe_get txt 0 = 'b'
-  && String.unsafe_get txt 1 = 's'
-  && (len = 2 || String.unsafe_get txt 2 = '.')
+  (len = 1 && String.unsafe_get txt 0 = 'u')
+  || len >= 2
+     (*TODO: check the stringing padding rule, this predicate may not be needed *)
+     && String.unsafe_get txt 0 = 'b'
+     && String.unsafe_get txt 1 = 's'
+     && (len = 2 || String.unsafe_get txt 2 = '.')
+  || String.unsafe_get txt 0 = 'm'
+     && String.unsafe_get txt 1 = 'e'
+     && String.unsafe_get txt 2 = 'l'
+     && String.unsafe_get txt 3 = '.'
 
 let used_attributes : string Asttypes.loc Hash_set_poly.t =
   Hash_set_poly.create 16
@@ -127,7 +139,7 @@ let emit_external_warnings : Ast_traverse.iter =
       List.iter
         (fun attr ->
           match attr with
-          | { attr_name = { txt = "bs.as" | "as"; _ }; _ } ->
+          | { attr_name = { txt = "mel.as" | "bs.as" | "as"; _ }; _ } ->
               mark_used_bs_attribute attr
           | _ -> ())
         lbl.pld_attributes;

@@ -39,17 +39,17 @@ let set (m : _ t) k v =
     m.data <-v
 
 let forEachU d f = N.forEachU d.data f
-let forEach d f = forEachU d (fun[@bs] a b -> f a b)
+let forEach d f = forEachU d (fun[@u] a b -> f a b)
 let mapU d f = {data = N.mapU d.data f}
-let map d f = mapU d (fun[@bs] a -> f a )
+let map d f = mapU d (fun[@u] a -> f a )
 let mapWithKeyU d f = { data = (N.mapWithKeyU d.data f)}
-let mapWithKey d f = mapWithKeyU d (fun [@bs] a b -> f a b)
+let mapWithKey d f = mapWithKeyU d (fun [@u] a b -> f a b)
 let reduceU d acc f  = N.reduceU d.data acc f
-let reduce d acc f = reduceU d acc (fun[@bs] a b c -> f a b c)
+let reduce d acc f = reduceU d acc (fun[@u] a b c -> f a b c)
 let everyU d f = N.everyU d.data f
-let every d f = everyU d (fun[@bs] a b -> f a b)
+let every d f = everyU d (fun[@u] a b -> f a b)
 let someU d f = N.someU d.data f
-let some d f = someU d (fun[@bs] a b -> f a b)
+let some d f = someU d (fun[@u] a b -> f a b)
 let size d = N.size d.data
 let toList d = N.toList d.data
 let toArray d = N.toArray d.data
@@ -98,14 +98,14 @@ let remove d v =
 let rec updateDone t (x : key)  f  =
   match  t with
   | None ->
-    (match f None [@bs] with
+    (match f None [@u] with
     | Some data -> N.singleton x data
     | None -> t)
   | Some nt ->
     let k = nt.N.key in
-    (* let  c = (Belt_Cmp.getCmpInternal cmp) x k [@bs] in   *)
+    (* let  c = (Belt_Cmp.getCmpInternal cmp) x k [@u] in   *)
     if k = x then begin
-      match f (Some nt.value) [@bs] with
+      match f (Some nt.value) [@u] with
       | None ->
         let {N.left = l; right = r; _} = nt in
         begin match  l,  r with
@@ -134,7 +134,7 @@ let updateU t x f =
   let newRoot = updateDone oldRoot x f  in
   if newRoot != oldRoot then
     t.data <- newRoot
-let update t x f = updateU t x (fun[@bs] a -> f a )
+let update t x f = updateU t x (fun[@u] a -> f a )
 let rec removeArrayMutateAux t xs i len   =
   if i < len then
     let ele = A.getUnsafe xs i in
@@ -165,11 +165,11 @@ let fromArray xs =
 
 let cmpU d0 d1 f =
   I.cmpU d0.data d1.data f
-let cmp d0 d1 f = cmpU d0 d1 (fun[@bs] a b -> f a b)
+let cmp d0 d1 f = cmpU d0 d1 (fun[@u] a b -> f a b)
 
 let eqU d0 d1 f =
   I.eqU d0.data d1.data f
-let eq d0 d1 f = eqU d0 d1 (fun[@bs] a b -> f a b)
+let eq d0 d1 f = eqU d0 d1 (fun[@u] a b -> f a b)
 
 let get d x =   I.get d.data x
 let getUndefined d x = I.getUndefined d.data x

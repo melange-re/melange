@@ -1,5 +1,4 @@
-
-[%%bs.raw{|
+[%%mel.raw{|
 function x(v){return [v]}
 |}]
 

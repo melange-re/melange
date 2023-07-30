@@ -39,7 +39,8 @@ and check_pat (pat : Parsetree.pattern) =
       check_pat l;
       check_pat r
   | _ ->
-      Location.raise_errorf ~loc:pat.ppat_loc "Unsupported pattern in `bs.open`"
+      Location.raise_errorf ~loc:pat.ppat_loc
+        "Unsupported pattern in `mel.open`"
 
 let convertBsErrorFunction loc (self : Ast_traverse.map) attrs
     (cases : Parsetree.case list) =

@@ -24,35 +24,35 @@
 
 (**
   {[
-    _open -> open 
-    _in -> in 
+    _open -> open
+    _in -> in
     _MAX_LENGTH -> MAX_LENGTH
-    _Capital -> Capital 
-    
-    _open__ ->  _open
-    open__ -> open 
-    
-    _'x -> 'x 
+    _Capital -> Capital
 
-    _Capital__ -> _Capital 
+    _open__ ->  _open
+    open__ -> open
+
+    _'x -> 'x
+
+    _Capital__ -> _Capital
     _MAX__ -> _MAX
-    __ -> __ 
-    __x -> __x 
-    ___ -> _     
+    __ -> __
+    __x -> __x
+    ___ -> _
     ____ -> __
-    _ -> _  (* error *)   
-    
+    _ -> _  (* error *)
+
 
   ]}
-  First we scan '__' from end to start, 
+  First we scan '__' from end to start,
   If found, discard it.
   Otherwise, check if it is [_ + keyword] or followed by capital letter,
   If so, discard [_].
 
-  Limitations: user can not have [_Capital__, _Capital__other] to 
+  Limitations: user can not have [_Capital__, _Capital__other] to
   make it all compile to [Capital].
   Keyword is fine [open__, open__other].
-  So we loose polymorphism over capital letter. 
+  So we loose polymorphism over capital letter.
   It is okay, otherwise, if [_Captial__] is interpreted as [Capital], then
   there is no way to express [_Capital]
 *)
@@ -131,7 +131,7 @@ let double_underscore = "__"
 let valid_start_char x = match x with '_' | 'a' .. 'z' -> true | _ -> false
 
 let translate name =
-  assert (not @@ Ext_string.is_empty name);
+  assert (String.length name > 0);
   let i = Ext_string.rfind ~sub:double_underscore name in
   if i < 0 then
     let name_len = String.length name in

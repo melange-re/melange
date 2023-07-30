@@ -25,14 +25,14 @@
 open Melange_mini_stdlib
 
 (* borrowed from others/js_math.ml *)
-external _LOG2E : float = "Math.LOG2E" [@@bs.val]
-external _LOG10E : float = "Math.LOG10E" [@@bs.val]
-external abs_float : float -> float = "Math.abs" [@@bs.val]
-external floor : float -> float = "Math.floor" [@@bs.val]
-external exp : float -> float = "exp" [@@bs.val] [@@bs.scope "Math"]
-external log : float -> float = "Math.log" [@@bs.val]
-external sqrt : float -> float = "sqrt" [@@bs.val] [@@bs.scope "Math"]
-external pow_float : base:float -> exp:float -> float = "Math.pow" [@@bs.val]
+external _LOG2E : float = "Math.LOG2E" [@@mel.val]
+external _LOG10E : float = "Math.LOG10E" [@@mel.val]
+external abs_float : float -> float = "Math.abs" [@@mel.val]
+external floor : float -> float = "Math.floor" [@@mel.val]
+external exp : float -> float = "exp" [@@mel.val] [@@mel.scope "Math"]
+external log : float -> float = "Math.log" [@@mel.val]
+external sqrt : float -> float = "sqrt" [@@mel.val] [@@mel.scope "Math"]
+external pow_float : base:float -> exp:float -> float = "Math.pow" [@@mel.val]
 external int_of_float : float -> int = "%intoffloat"
 external float_of_int : int -> float = "%floatofint"
 

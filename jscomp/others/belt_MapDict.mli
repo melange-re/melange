@@ -1,5 +1,5 @@
 (* Copyright (C) 2017 Authors of ReScript
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
@@ -33,7 +33,7 @@ val cmpU :
   ('k, 'v, 'id) t ->
   ('k, 'v, 'id) t ->
   kcmp:('k, 'id) cmp ->
-  vcmp:(('v -> 'v -> int)[@bs]) ->
+  vcmp:(('v -> 'v -> int)[@u]) ->
   int
 
 val cmp :
@@ -47,7 +47,7 @@ val eqU :
   ('k, 'a, 'id) t ->
   ('k, 'a, 'id) t ->
   kcmp:('k, 'id) cmp ->
-  veq:(('a -> 'a -> bool)[@bs]) ->
+  veq:(('a -> 'a -> bool)[@u]) ->
   bool
 
 val eq :
@@ -62,7 +62,7 @@ val eq :
     the data associated with the keys. *)
 
 val findFirstByU :
-  ('k, 'v, 'id) t -> (('k -> 'v -> bool)[@bs]) -> ('k * 'v) option
+  ('k, 'v, 'id) t -> (('k -> 'v -> bool)[@u]) -> ('k * 'v) option
 
 val findFirstBy : ('k, 'v, 'id) t -> ('k -> 'v -> bool) -> ('k * 'v) option
 (** [findFirstBy m p] uses funcion [f] to find the first key value pair
@@ -74,7 +74,7 @@ val findFirstBy : ('k, 'v, 'id) t -> ('k -> 'v -> bool) -> ('k * 'v) option
     ]}
 *)
 
-val forEachU : ('k, 'a, 'id) t -> (('k -> 'a -> unit)[@bs]) -> unit
+val forEachU : ('k, 'a, 'id) t -> (('k -> 'a -> unit)[@u]) -> unit
 
 val forEach : ('k, 'a, 'id) t -> ('k -> 'a -> unit) -> unit
 (** [forEach m f] applies [f] to all bindings in map [m].
@@ -82,20 +82,20 @@ val forEach : ('k, 'a, 'id) t -> ('k -> 'a -> unit) -> unit
     as second argument. The bindings are passed to [f] in increasing
     order with respect to the ordering over the type of the keys. *)
 
-val reduceU : ('k, 'a, 'id) t -> 'b -> (('b -> 'k -> 'a -> 'b)[@bs]) -> 'b
+val reduceU : ('k, 'a, 'id) t -> 'b -> (('b -> 'k -> 'a -> 'b)[@u]) -> 'b
 
 val reduce : ('k, 'a, 'id) t -> 'b -> ('b -> 'k -> 'a -> 'b) -> 'b
 (** [reduce m a f] computes [(f kN dN ... (f k1 d1 a)...)],
     where [k1 ... kN] are the keys of all bindings in [m]
     (in increasing order), and [d1 ... dN] are the associated data. *)
 
-val everyU : ('k, 'a, 'id) t -> (('k -> 'a -> bool)[@bs]) -> bool
+val everyU : ('k, 'a, 'id) t -> (('k -> 'a -> bool)[@u]) -> bool
 
 val every : ('k, 'a, 'id) t -> ('k -> 'a -> bool) -> bool
 (** [every m p] checks if all the bindings of the map
     satisfy the predicate [p]. Order unspecified *)
 
-val someU : ('k, 'a, 'id) t -> (('k -> 'a -> bool)[@bs]) -> bool
+val someU : ('k, 'a, 'id) t -> (('k -> 'a -> bool)[@u]) -> bool
 
 val some : ('k, 'a, 'id) t -> ('k -> 'a -> bool) -> bool
 (** [some m p] checks if at least one binding of the map
@@ -143,7 +143,7 @@ val set : ('a, 'b, 'id) t -> 'a -> 'b -> cmp:('a, 'id) cmp -> ('a, 'b, 'id) t
 val updateU :
   ('a, 'b, 'id) t ->
   'a ->
-  (('b option -> 'b option)[@bs]) ->
+  (('b option -> 'b option)[@u]) ->
   cmp:('a, 'id) cmp ->
   ('a, 'b, 'id) t
 
@@ -157,7 +157,7 @@ val update :
 val mergeU :
   ('a, 'b, 'id) t ->
   ('a, 'c, 'id) t ->
-  (('a -> 'b option -> 'c option -> 'd option)[@bs]) ->
+  (('a -> 'b option -> 'c option -> 'd option)[@u]) ->
   cmp:('a, 'id) cmp ->
   ('a, 'd, 'id) t
 
@@ -175,7 +175,7 @@ val merge :
 val mergeMany :
   ('a, 'b, 'id) t -> ('a * 'b) array -> cmp:('a, 'id) cmp -> ('a, 'b, 'id) t
 
-val keepU : ('k, 'a, 'id) t -> (('k -> 'a -> bool)[@bs]) -> ('k, 'a, 'id) t
+val keepU : ('k, 'a, 'id) t -> (('k -> 'a -> bool)[@u]) -> ('k, 'a, 'id) t
 
 val keep : ('k, 'a, 'id) t -> ('k -> 'a -> bool) -> ('k, 'a, 'id) t
 (** [keep m p] returns the map with all the bindings in [m]
@@ -183,7 +183,7 @@ val keep : ('k, 'a, 'id) t -> ('k -> 'a -> bool) -> ('k, 'a, 'id) t
 
 val partitionU :
   ('k, 'a, 'id) t ->
-  (('k -> 'a -> bool)[@bs]) ->
+  (('k -> 'a -> bool)[@u]) ->
   ('k, 'a, 'id) t * ('k, 'a, 'id) t
 
 val partition :
@@ -208,7 +208,7 @@ val split :
       or [Some v] if [m] binds [v] to [x].
  *)
 
-val mapU : ('k, 'a, 'id) t -> (('a -> 'b)[@bs]) -> ('k, 'b, 'id) t
+val mapU : ('k, 'a, 'id) t -> (('a -> 'b)[@u]) -> ('k, 'b, 'id) t
 
 val map : ('k, 'a, 'id) t -> ('a -> 'b) -> ('k, 'b, 'id) t
 (** [map m f] returns a map with same domain as [m], where the
@@ -217,5 +217,5 @@ val map : ('k, 'a, 'id) t -> ('a -> 'b) -> ('k, 'b, 'id) t
     The bindings are passed to [f] in increasing order
     with respect to the ordering over the type of the keys. *)
 
-val mapWithKeyU : ('k, 'a, 'id) t -> (('k -> 'a -> 'b)[@bs]) -> ('k, 'b, 'id) t
+val mapWithKeyU : ('k, 'a, 'id) t -> (('k -> 'a -> 'b)[@u]) -> ('k, 'b, 'id) t
 val mapWithKey : ('k, 'a, 'id) t -> ('k -> 'a -> 'b) -> ('k, 'b, 'id) t

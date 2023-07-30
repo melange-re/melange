@@ -40,7 +40,7 @@ function unary(a) {
 
 var xx = unary(3);
 
-eq("File \"ppx_apply_test.ml\", line 17, characters 5-12", u, 3);
+eq("File \"jscomp/test/ppx_apply_test.ml\", line 17, characters 5-12", u, 3);
 
 function h(a) {
   return xx(a);

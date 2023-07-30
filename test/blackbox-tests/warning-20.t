@@ -13,7 +13,7 @@ Melange turns off warning 20 by default ([ignored-extra-argument])
   > EOF
 
   $ cat > foo.ml <<EOF
-  > let addOne = [%bs.raw {|
+  > let addOne = [%mel.raw {|
   >   function (a) {
   >     return a + 1;
   >   }

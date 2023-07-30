@@ -88,9 +88,7 @@ external ( != ) : 'a -> 'a -> bool = "%noteq"
 (* Boolean operations *)
 
 external not : bool -> bool = "%boolnot"
-external ( & ) : bool -> bool -> bool = "%sequand"
 external ( && ) : bool -> bool -> bool = "%sequand"
-external ( or ) : bool -> bool -> bool = "%sequor"
 external ( || ) : bool -> bool -> bool = "%sequor"
 
 (* Integer operations *)
@@ -130,8 +128,8 @@ external ( *. ) : float -> float -> float = "%mulfloat"
 external ( /. ) : float -> float -> float = "%divfloat"
 
 #ifdef BS
-external ( ** ) : float -> float -> float = "pow" [@@bs.val] [@@bs.scope "Math"]
-external exp : float -> float = "exp" [@@bs.val][@@bs.scope "Math"]
+external ( ** ) : float -> float -> float = "pow" [@@mel.val] [@@mel.scope "Math"]
+external exp : float -> float = "exp" [@@mel.val][@@mel.scope "Math"]
 #else
 external ( ** ) : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
@@ -141,10 +139,10 @@ external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
   [@@unboxed] [@@noalloc]
 
 #ifdef BS
-external acos : float -> float =  "acos" [@@bs.val] [@@bs.scope "Math"]
-external asin : float -> float = "asin" [@@bs.val] [@@bs.scope "Math"]
-external atan : float -> float = "atan" [@@bs.val] [@@bs.scope "Math"]
-external atan2 : float -> float -> float = "atan2" [@@bs.val] [@@bs.scope "Math"]
+external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
+external asin : float -> float = "asin" [@@mel.val] [@@mel.scope "Math"]
+external atan : float -> float = "atan" [@@mel.val] [@@mel.scope "Math"]
+external atan2 : float -> float -> float = "atan2" [@@mel.val] [@@mel.scope "Math"]
 #else
 external acos : float -> float = "caml_acos_float" "acos"
   [@@unboxed] [@@noalloc]
@@ -159,22 +157,22 @@ external hypot : float -> float -> float
                = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
 
 #ifdef BS
-external cos : float -> float = "cos" [@@bs.val] [@@bs.scope "Math"]
-external cosh : float -> float = "cosh" [@@bs.val] [@@bs.scope "Math"]
-external acosh : float -> float = "acosh"  [@@bs.val] [@@bs.scope "Math"]
-external log : float -> float =  "log" [@@bs.val] [@@bs.scope "Math"]
-external log10 : float -> float = "log10"[@@bs.val] [@@bs.scope "Math"]
-external log1p : float -> float = "log1p" [@@bs.val] [@@bs.scope "Math"]
-external sin : float -> float =  "sin" [@@bs.val] [@@bs.scope "Math"]
-external sinh : float -> float = "sinh" [@@bs.val] [@@bs.scope "Math"]
-external asinh : float -> float = "asinh" [@@bs.val] [@@bs.scope "Math"]
-external sqrt : float -> float =  "sqrt" [@@bs.val] [@@bs.scope "Math"]
-external tan : float -> float =  "tan" [@@bs.val] [@@bs.scope "Math"]
-external tanh : float -> float =  "tanh" [@@bs.val] [@@bs.scope "Math"]
-external atanh : float -> float =  "atanh" [@@bs.val] [@@bs.scope "Math"]
-external ceil : float -> float =  "ceil" [@@bs.val] [@@bs.scope "Math"]
-external floor : float -> float =  "floor" [@@bs.val] [@@bs.scope "Math"]
-external abs_float : float -> float = "abs"[@@bs.val] [@@bs.scope "Math"]
+external cos : float -> float = "cos" [@@mel.val] [@@mel.scope "Math"]
+external cosh : float -> float = "cosh" [@@mel.val] [@@mel.scope "Math"]
+external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
+external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
+external log10 : float -> float = "log10"[@@mel.val] [@@mel.scope "Math"]
+external log1p : float -> float = "log1p" [@@mel.val] [@@mel.scope "Math"]
+external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
+external sinh : float -> float = "sinh" [@@mel.val] [@@mel.scope "Math"]
+external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
+external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
+external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
+external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
+external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
+external ceil : float -> float =  "ceil" [@@mel.val] [@@mel.scope "Math"]
+external floor : float -> float =  "floor" [@@mel.val] [@@mel.scope "Math"]
+external abs_float : float -> float = "abs"[@@mel.val] [@@mel.scope "Math"]
 #else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
 external cosh : float -> float = "caml_cosh_float" "cosh"
@@ -232,7 +230,7 @@ external float_of_bits : int64 -> float
 let infinity = 0x1p2047
 let neg_infinity = -0x1p2047
 external nan : float = "NaN"
-[@@bs.val]  [@@bs.scope "Number"]
+[@@mel.val]  [@@mel.scope "Number"]
 let max_float = 1.79769313486231571e+308 (*0x1.ffff_ffff_ffff_fp+1023*)
 let min_float = 2.22507385850720138e-308 (* 0x1p-1022 *)
 let epsilon_float = 2.22044604925031308e-16 (* 0x1p-52 *)
@@ -242,7 +240,7 @@ let infinity =
 let neg_infinity =
   float_of_bits 0xFF_F0_00_00_00_00_00_00L
 let nan =
-  float_of_bits 0x7F_F0_00_00_00_00_00_01L
+  float_of_bits 0x7F_F8_00_00_00_00_00_01L
 let max_float =
   float_of_bits 0x7F_EF_FF_FF_FF_FF_FF_FFL
 let min_float =
@@ -260,13 +258,13 @@ type fpclass =
 
 #ifdef BS
 let classify_float (x : float) : fpclass =
-  if ([%raw{|isFinite|}] : _ -> _ [@bs]) x [@bs] then
+  if ([%raw{|isFinite|}] : _ -> _ [@u]) x [@u] then
     if abs_float x >= (* 0x1p-1022 *) (* 2.22507385850720138e-308*) min_float  then
       FP_normal
     else if x <> 0. then FP_subnormal
     else FP_zero
   else
-  if ([%raw{|isNaN|}] : _ -> _ [@bs])  x [@bs] then
+  if ([%raw{|isNaN|}] : _ -> _ [@u])  x [@u] then
     FP_nan
   else FP_infinite
 #else
@@ -334,6 +332,7 @@ type ('a,'b) result = ('a, 'b) Belt.Result.t = Ok of 'a | Error of 'b
 #else
 external format_int : string -> int -> string = "caml_format_int"
 #endif
+
 external format_float : string -> float -> string = "caml_format_float"
 
 let string_of_bool b =
@@ -349,7 +348,7 @@ let bool_of_string_opt = function
   | _ -> None
 
 #ifdef BS
-external string_of_int : int -> string = "String" [@@bs.val]
+external string_of_int : int -> string = "String" [@@mel.val]
 #else
 let string_of_int n =
   format_int "%d" n
@@ -385,10 +384,12 @@ let float_of_string_opt s =
 
 (* List operations -- more in module List *)
 
-let rec ( @ ) l1 l2 =
+let[@tail_mod_cons] rec ( @ ) l1 l2 =
   match l1 with
-    [] -> l2
-  | hd :: tl -> hd :: (tl @ l2)
+  | [] -> l2
+  | h1 :: [] -> h1 :: l2
+  | h1 :: h2 :: [] -> h1 :: h2 :: l2
+  | h1 :: h2 :: h3 :: tl -> h1 :: h2 :: h3 :: (tl @ l2)
 
 (* I/O operations *)
 
@@ -579,7 +580,7 @@ let print_float f = output_string stdout (string_of_float f)
 
 #ifdef BS
 external print_endline : string -> unit = "log"
-[@@bs.val] [@@bs.scope "console"]
+[@@mel.val] [@@mel.scope "console"]
 #else
 let print_endline s =
   output_string stdout s; output_char stdout '\n'; flush stdout
@@ -595,7 +596,7 @@ let prerr_int i = output_string stderr (string_of_int i)
 let prerr_float f = output_string stderr (string_of_float f)
 #ifdef BS
 external prerr_endline : string -> unit = "error"
-[@@bs.val] [@@bs.scope "console"]
+[@@mel.val] [@@mel.scope "console"]
 #else
 let prerr_endline s =
   output_string stderr s; output_char stderr '\n'; flush stderr
@@ -648,21 +649,55 @@ let ( ^^ ) (Format (fmt1, str1)) (Format (fmt2, str2)) =
 
 external sys_exit : int -> 'a = "caml_sys_exit"
 
-let exit_function = CamlinternalAtomic.make flush_all
+#ifdef BS
+#else
+(* for at_exit *)
+type 'a atomic_t
+external atomic_make : 'a -> 'a atomic_t = "%makemutable"
+external atomic_get : 'a atomic_t -> 'a = "%atomic_load"
+external atomic_compare_and_set : 'a atomic_t -> 'a -> 'a -> bool
+  = "%atomic_cas"
+#endif
 
-let rec at_exit f =
-  let module Atomic = CamlinternalAtomic in
+let exit_function = ref flush_all
+
+#ifdef BS
+let at_exit f =
   (* MPR#7253, MPR#7796: make sure "f" is executed only once *)
-  let f_yet_to_run = Atomic.make true in
-  let old_exit = Atomic.get exit_function in
+  let f_yet_to_run = ref true in
+  let old_exit = !exit_function in
   let new_exit () =
-    if Atomic.compare_and_set f_yet_to_run true false then f () ;
+    if not !f_yet_to_run then begin
+      f_yet_to_run := false;
+      f()
+    end;
     old_exit ()
   in
-  let success = Atomic.compare_and_set exit_function old_exit new_exit in
+  exit_function := new_exit
+#else
+let rec at_exit f =
+  (* MPR#7253, MPR#7796: make sure "f" is executed only once *)
+  let f_yet_to_run = atomic_make true in
+  let old_exit = atomic_get exit_function in
+  let new_exit () =
+    if atomic_compare_and_set f_yet_to_run true false then f () ;
+    old_exit ()
+  in
+  let success = atomic_compare_and_set exit_function old_exit new_exit in
   if not success then at_exit f
+#endif
 
-let do_at_exit () = (CamlinternalAtomic.get exit_function) ()
+let do_domain_local_at_exit = ref (fun () -> ())
+
+#ifdef BS
+let do_at_exit () =
+  (!do_domain_local_at_exit) ();
+  (!exit_function) ()
+#else
+let do_at_exit () =
+  (!do_domain_local_at_exit) ();
+  (atomic_get exit_function) ()
+#endif
 
 let exit retcode =
   do_at_exit ();
@@ -672,10 +707,6 @@ let exit retcode =
 #else
 let _ = register_named_value "Pervasives.do_at_exit" do_at_exit
 
-external major : unit -> unit = "caml_gc_major"
-external naked_pointers_checked : unit -> bool
-  = "caml_sys_const_naked_pointers_checked"
-let () = if naked_pointers_checked () then at_exit major
 #endif
 
 
@@ -695,7 +726,10 @@ module BytesLabels  = BytesLabels
 module Callback     = Callback
 module Char         = Char
 module Complex      = Complex
+module Condition      = Condition
 module Digest       = Digest
+module Domain         = Domain
+module Effect         = Effect
 module Either       = Either
 #ifdef BS
 #else
@@ -706,7 +740,6 @@ module Float        = Float
 module Format       = Format
 module Fun          = Fun
 module Gc           = Gc
-module Genlex       = Genlex
 module Hashtbl      = Hashtbl
 module In_channel   = In_channel
 module Int          = Int
@@ -719,6 +752,7 @@ module ListLabels   = ListLabels
 module Map          = Map
 module Marshal      = Marshal
 module MoreLabels   = MoreLabels
+module Mutex          = Mutex
 #ifdef BS
 #else
 module Nativeint    = Nativeint
@@ -728,21 +762,21 @@ module Oo           = Oo
 module Option       = Option
 module Out_channel  = Out_channel
 module Parsing      = Parsing
-module Pervasives   = Pervasives
 module Printexc     = Printexc
 module Printf       = Printf
 module Queue        = Queue
 module Random       = Random
 module Result       = Result
 module Scanf        = Scanf
+module Semaphore      = Semaphore
 module Seq          = Seq
 module Set          = Set
 module Stack        = Stack
 module StdLabels    = StdLabels
-module Stream       = Stream
 module String       = String
 module StringLabels = StringLabels
 module Sys          = Sys
+module Type           = Type
 module Uchar        = Uchar
 module Unit         = Unit
 module Weak         = Weak

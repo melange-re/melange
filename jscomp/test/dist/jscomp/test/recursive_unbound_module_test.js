@@ -16,7 +16,7 @@ function Make(X) {
 }
 
 var B = Caml_module.init_mod([
-      "recursive_unbound_module_test.ml",
+      "jscomp/test/recursive_unbound_module_test.ml",
       18,
       0
     ], {

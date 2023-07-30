@@ -251,7 +251,7 @@ let narrow table vars virt_meths concr_meths =
   table.vars <-
 #ifdef BS
      Vars.reduceU table.vars Vars.empty
-      (fun[@bs] tvars lab info  ->
+      (fun[@u] tvars lab info  ->
         if List.mem lab vars then Vars.set tvars lab info  else tvars);
 #else
     Vars.fold
