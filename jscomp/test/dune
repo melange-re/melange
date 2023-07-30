@@ -33,7 +33,6 @@
   (wrapped false)
   (preprocess
    (pps melange.ppx reason-react-ppx))
-  (modules :standard \ res_debug record_regression)
   (melange.compile_flags
    -w
    -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104

@@ -43,9 +43,6 @@ let
       inherit nix-filter;
       melange-compiler-libs-vendor-dir = melange-compiler-libs-src;
     };
-    rescript-syntax = pkgs.lib.callPackageWith pkgs.ocamlPackages ../rescript-syntax.nix {
-      inherit nix-filter melange;
-    };
   };
   inputString =
     builtins.substring
@@ -81,7 +78,6 @@ stdenv.mkDerivation {
   ];
   buildInputs = [
     packages.melange
-    packages.rescript-syntax
     reason-react-ppx
     js_of_ocaml-compiler
   ];

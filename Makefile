@@ -21,7 +21,7 @@ dev:
 
 .PHONY: test
 test:
-	opam exec -- dune runtest -p melange,rescript-syntax
+	opam exec -- dune runtest -p melange
 
 .PHONY: opam-create-switch
 opam-create-switch: ## Create opam switch
@@ -32,7 +32,6 @@ opam-install-test: ## Install test dependencies
 	opam pin add reason.dev -y git+https://github.com/reasonml/reason.git
 	opam pin add reason-react-ppx.dev -y git+https://github.com/reasonml/reason-react.git#anmonteiro/mel-attrs
 	opam pin add melange.dev . --with-test -y
-	opam pin add rescript-syntax.dev . --with-test -y
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies

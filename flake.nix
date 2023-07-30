@@ -50,10 +50,6 @@
         packages = {
           inherit melange;
           default = melange;
-          rescript-syntax = pkgs.ocamlPackages.callPackage ./nix/rescript-syntax.nix {
-            inherit melange;
-            nix-filter = nix-filter.lib;
-          };
           melange-playground = pkgs.ocamlPackages.callPackage ./nix/melange-playground.nix {
             inherit melange;
             nix-filter = nix-filter.lib;
