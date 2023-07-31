@@ -523,7 +523,9 @@ and vident cxt (v : J.vident) =
   | Qualified ({ id; kind = Ml | Runtime }, Some name) ->
       let cxt = ident cxt id in
       string cxt L.dot;
-      string cxt (Ext_ident.convert name);
+      string cxt
+        (if name = Js_dump_import_export.default_export then name
+         else Ext_ident.convert name);
       cxt
   | Qualified ({ id; kind = External _ }, Some name) ->
       let cxt = ident cxt id in
