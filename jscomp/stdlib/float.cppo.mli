@@ -97,7 +97,11 @@ val pred : float -> float
    {!next_after}.
    @since 4.08 *)
 
+#ifdef BS
+external abs : float -> float = "abs"[@@mel.val] [@@mel.scope "Math"]
+#else
 external abs : float -> float = "%absfloat"
+#endif
 (** [abs f] returns the absolute value of [f]. *)
 
 val infinity : float
@@ -213,22 +217,38 @@ external classify_float : (float [@unboxed]) -> fpclass =
 (** Return the class of the given floating-point number:
     normal, subnormal, zero, infinite, or not a number. *)
 
+#ifdef BS
+external pow : float -> float -> float = "pow" [@@mel.val] [@@mel.scope "Math"]
+#else
 external pow : float -> float -> float = "caml_power_float" "pow"
 [@@unboxed] [@@noalloc]
+#endif
 (** Exponentiation. *)
 
+#ifdef BS
+external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
+#else
 external sqrt : float -> float = "caml_sqrt_float" "sqrt"
 [@@unboxed] [@@noalloc]
+#endif
 (** Square root. *)
 
+#ifdef BS
+external cbrt : float -> float = "cbrt" [@@mel.val] [@@mel.scope "Math"]
+#else
 external cbrt : float -> float = "caml_cbrt_float" "caml_cbrt"
   [@@unboxed] [@@noalloc]
+#endif
 (** Cube root.
 
     @since 4.13
 *)
 
+#ifdef BS
+external exp : float -> float = "exp" [@@mel.val][@@mel.scope "Math"]
+#else
 external exp : float -> float = "caml_exp_float" "exp" [@@unboxed] [@@noalloc]
+#endif
 (** Exponential. *)
 
 external exp2 : float -> float = "caml_exp2_float" "caml_exp2"
@@ -238,11 +258,19 @@ external exp2 : float -> float = "caml_exp2_float" "caml_exp2"
     @since 4.13
 *)
 
+#ifdef BS
+external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
+#else
 external log : float -> float = "caml_log_float" "log" [@@unboxed] [@@noalloc]
+#endif
 (** Natural logarithm. *)
 
+#ifdef BS
+external log10 : float -> float = "log10"[@@mel.val] [@@mel.scope "Math"]
+#else
 external log10 : float -> float = "caml_log10_float" "log10"
 [@@unboxed] [@@noalloc]
+#endif
 (** Base 10 logarithm. *)
 
 external log2 : float -> float = "caml_log2_float" "caml_log2"
@@ -257,37 +285,69 @@ external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
 (** [expm1 x] computes [exp x -. 1.0], giving numerically-accurate results
     even if [x] is close to [0.0]. *)
 
+#ifdef BS
+external log1p : float -> float = "log1p" [@@mel.val] [@@mel.scope "Math"]
+#else
 external log1p : float -> float = "caml_log1p_float" "caml_log1p"
 [@@unboxed] [@@noalloc]
+#endif
 (** [log1p x] computes [log(1.0 +. x)] (natural logarithm),
     giving numerically-accurate results even if [x] is close to [0.0]. *)
 
+#ifdef BS
+external cos : float -> float = "cos" [@@mel.val] [@@mel.scope "Math"]
+#else
 external cos : float -> float = "caml_cos_float" "cos" [@@unboxed] [@@noalloc]
+#endif
 (** Cosine.  Argument is in radians. *)
 
+#ifdef BS
+external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
+#else
 external sin : float -> float = "caml_sin_float" "sin" [@@unboxed] [@@noalloc]
+#endif
 (** Sine.  Argument is in radians. *)
 
+#ifdef BS
+external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
+#else
 external tan : float -> float = "caml_tan_float" "tan" [@@unboxed] [@@noalloc]
+#endif
 (** Tangent.  Argument is in radians. *)
 
+#ifdef BS
+external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
+#else
 external acos : float -> float = "caml_acos_float" "acos"
 [@@unboxed] [@@noalloc]
+#endif
 (** Arc cosine.  The argument must fall within the range [[-1.0, 1.0]].
     Result is in radians and is between [0.0] and [pi]. *)
 
+#ifdef BS
+external asin : float -> float = "asin" [@@mel.val] [@@mel.scope "Math"]
+#else
 external asin : float -> float = "caml_asin_float" "asin"
 [@@unboxed] [@@noalloc]
+#endif
 (** Arc sine.  The argument must fall within the range [[-1.0, 1.0]].
     Result is in radians and is between [-pi/2] and [pi/2]. *)
 
+#ifdef BS
+external atan : float -> float = "atan" [@@mel.val] [@@mel.scope "Math"]
+#else
 external atan : float -> float = "caml_atan_float" "atan"
 [@@unboxed] [@@noalloc]
+#endif
 (** Arc tangent.
     Result is in radians and is between [-pi/2] and [pi/2]. *)
 
+#ifdef BS
+external atan2 : float -> float -> float = "atan2" [@@mel.val] [@@mel.scope "Math"]
+#else
 external atan2 : float -> float -> float = "caml_atan2_float" "atan2"
 [@@unboxed] [@@noalloc]
+#endif
 (** [atan2 y x] returns the arc tangent of [y /. x].  The signs of [x]
     and [y] are used to determine the quadrant of the result.
     Result is in radians and is between [-pi] and [pi]. *)
@@ -300,20 +360,36 @@ external hypot : float -> float -> float = "caml_hypot_float" "caml_hypot"
     to origin.  If one of [x] or [y] is infinite, returns [infinity]
     even if the other is [nan]. *)
 
+#ifdef BS
+external cosh : float -> float = "cosh" [@@mel.val] [@@mel.scope "Math"]
+#else
 external cosh : float -> float = "caml_cosh_float" "cosh"
 [@@unboxed] [@@noalloc]
+#endif
 (** Hyperbolic cosine.  Argument is in radians. *)
 
+#ifdef BS
+external sinh : float -> float = "sinh" [@@mel.val] [@@mel.scope "Math"]
+#else
 external sinh : float -> float = "caml_sinh_float" "sinh"
 [@@unboxed] [@@noalloc]
+#endif
 (** Hyperbolic sine.  Argument is in radians. *)
 
+#ifdef BS
+external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
+#else
 external tanh : float -> float = "caml_tanh_float" "tanh"
 [@@unboxed] [@@noalloc]
+#endif
 (** Hyperbolic tangent.  Argument is in radians. *)
 
+#ifdef BS
+external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
+#else
 external acosh : float -> float = "caml_acosh_float" "caml_acosh"
   [@@unboxed] [@@noalloc]
+#endif
 (** Hyperbolic arc cosine.  The argument must fall within the range
     [[1.0, inf]].
     Result is in radians and is between [0.0] and [inf].
@@ -321,8 +397,12 @@ external acosh : float -> float = "caml_acosh_float" "caml_acosh"
     @since 4.13
 *)
 
+#ifdef BS
+external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
+#else
 external asinh : float -> float = "caml_asinh_float" "caml_asinh"
   [@@unboxed] [@@noalloc]
+#endif
 (** Hyperbolic arc sine.  The argument and result range over the entire
     real line.
     Result is in radians.
@@ -330,8 +410,12 @@ external asinh : float -> float = "caml_asinh_float" "caml_asinh"
     @since 4.13
 *)
 
+#ifdef BS
+external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
+#else
 external atanh : float -> float = "caml_atanh_float" "caml_atanh"
   [@@unboxed] [@@noalloc]
+#endif
 (** Hyperbolic arc tangent.  The argument must fall within the range
     [[-1.0, 1.0]].
     Result is in radians and ranges over the entire real line.
