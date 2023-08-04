@@ -23,7 +23,11 @@ external rem : float -> float -> float = "caml_fmod_float" "fmod"
   [@@unboxed] [@@noalloc]
 external fma : float -> float -> float -> float = "caml_fma_float" "caml_fma"
   [@@unboxed] [@@noalloc]
+#ifdef BS
+external abs : float -> float = "abs"[@@mel.val] [@@mel.scope "Math"]
+#else
 external abs : float -> float = "%absfloat"
+#endif
 
 let zero = 0.
 let one = 1.
@@ -57,6 +61,49 @@ type fpclass = Stdlib.fpclass =
   | FP_nan
 external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
+
+#ifdef BS
+external pow : float -> float -> float = "pow" [@@mel.val] [@@mel.scope "Math"]
+external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
+external cbrt : float -> float = "cbrt" [@@mel.val] [@@mel.scope "Math"]
+external exp : float -> float = "exp" [@@mel.val][@@mel.scope "Math"]
+external exp2 : float -> float = "caml_exp2_float" "caml_exp2"
+  [@@unboxed] [@@noalloc]
+external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
+external log10 : float -> float = "log10"[@@mel.val] [@@mel.scope "Math"]
+external log2 : float -> float = "caml_log2_float" "caml_log2"
+  [@@unboxed] [@@noalloc]
+external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
+  [@@unboxed] [@@noalloc]
+external log1p : float -> float = "log1p" [@@mel.val] [@@mel.scope "Math"]
+external cos : float -> float = "cos" [@@mel.val] [@@mel.scope "Math"]
+external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
+external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
+external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
+external asin : float -> float = "asin" [@@mel.val] [@@mel.scope "Math"]
+external atan : float -> float = "atan" [@@mel.val] [@@mel.scope "Math"]
+external atan2 : float -> float -> float = "atan2" [@@mel.val] [@@mel.scope "Math"]
+external hypot : float -> float -> float
+               = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
+external cosh : float -> float = "cosh" [@@mel.val] [@@mel.scope "Math"]
+external sinh : float -> float = "sinh" [@@mel.val] [@@mel.scope "Math"]
+external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
+external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
+external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
+external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
+external erf : float -> float = "caml_erf_float" "caml_erf"
+  [@@unboxed] [@@noalloc]
+external erfc : float -> float = "caml_erfc_float" "caml_erfc"
+  [@@unboxed] [@@noalloc]
+external trunc : float -> float = "caml_trunc_float" "caml_trunc"
+  [@@unboxed] [@@noalloc]
+external round : float -> float = "caml_round_float" "caml_round"
+  [@@unboxed] [@@noalloc]
+external ceil : float -> float = "caml_ceil_float" "ceil"
+  [@@unboxed] [@@noalloc]
+external floor : float -> float = "caml_floor_float" "floor"
+[@@unboxed] [@@noalloc]
+#else
 external pow : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
 external sqrt : float -> float = "caml_sqrt_float" "sqrt"
@@ -112,6 +159,9 @@ external ceil : float -> float = "caml_ceil_float" "ceil"
   [@@unboxed] [@@noalloc]
 external floor : float -> float = "caml_floor_float" "floor"
 [@@unboxed] [@@noalloc]
+#endif
+
+
 
 let is_integer x = x = trunc x && is_finite x
 
