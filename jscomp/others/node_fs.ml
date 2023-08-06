@@ -28,14 +28,14 @@
 *)
 
 external readdirSync : string -> string array = "readdirSync"
-  [@@mel.module "fs"]
+[@@mel.module "fs"]
 (** Most fs functions let you omit the callback argument. If you do, a default
     callback is used that rethrows errors. To get a trace to the original call
     site, set the `NODE_DEBUG` environment variable:
 *)
 
 external renameSync : string -> string -> unit = "renameSync"
-  [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 type fd = private int
 
@@ -55,10 +55,10 @@ module Watch = struct
     ?encoding:Js.String.t ->
     unit ->
     config = ""
-    [@@mel.obj]
+  [@@mel.obj]
 
   external watch : string -> ?config:config -> unit -> t = "watch"
-    [@@mel.module "fs"]
+  [@@mel.module "fs"]
   (** there is no need to accept listener, since we return a [watcher]
       back it can register event listener there .
       Currently we introduce a type [string_buffer], for the
@@ -73,7 +73,7 @@ module Watch = struct
      | `error of (unit -> unit[@u]) ]
     [@mel.string]) ->
     t = "on"
-    [@@mel.send.pipe: t] [@@deprecated "Please use `Node.Fs.on_` instead "]
+  [@@mel.send.pipe: t] [@@deprecated "Please use `Node.Fs.on_` instead "]
 
   external on_ :
     t ->
@@ -82,7 +82,7 @@ module Watch = struct
      | `error of (unit -> unit[@u]) ]
     [@mel.string]) ->
     t = "on"
-    [@@mel.send]
+  [@@mel.send]
 
   external close : t -> unit = "close" [@@mel.send]
 end
@@ -90,13 +90,13 @@ end
 external ftruncateSync : fd -> int -> unit = "ftruncateSync" [@@mel.module "fs"]
 
 external truncateSync : string -> int -> unit = "truncateSync"
-  [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 external chownSync : string -> uid:int -> gid:int -> unit = "chownSync"
-  [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 external fchownSync : fd -> uid:int -> gid:int -> unit = "fchownSync"
-  [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 external readlinkSync : string -> string = "readlinkSync" [@@mel.module "fs"]
 external unlinkSync : string -> unit = "unlinkSync" [@@mel.module "fs"]
@@ -118,7 +118,7 @@ external openSync :
    | `Append_read_fail_if_exists [@mel.as "ax+"] ]
   [@mel.string]) ->
   unit = "openSync"
-  [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 type encoding =
   [ `hex
@@ -132,18 +132,17 @@ type encoding =
   | `utf16le ]
 
 external readFileSync : string -> encoding -> string = "readFileSync"
-  [@@mel.val] [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 external readFileAsUtf8Sync : string -> (_[@mel.as "utf8"]) -> string
   = "readFileSync"
-  [@@mel.val] [@@mel.module "fs"]
+[@@mel.module "fs"]
 
-external existsSync : string -> bool = "existsSync"
-  [@@mel.val] [@@mel.module "fs"]
+external existsSync : string -> bool = "existsSync" [@@mel.module "fs"]
 
 external writeFileSync : string -> string -> encoding -> unit = "writeFileSync"
-  [@@mel.val] [@@mel.module "fs"]
+[@@mel.module "fs"]
 
 external writeFileAsUtf8Sync : string -> string -> (_[@mel.as "utf8"]) -> unit
   = "writeFileSync"
-  [@@mel.val] [@@mel.module "fs"]
+[@@mel.module "fs"]

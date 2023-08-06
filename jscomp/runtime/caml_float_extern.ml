@@ -1,14 +1,14 @@
-external _NaN : float = "NaN" [@@mel.val]
-external isNaN : float -> bool = "isNaN" [@@mel.val]
-external isFinite : float -> bool = "isFinite" [@@mel.val]
+external _NaN : float = "NaN"
+external isNaN : float -> bool = "isNaN"
+external isFinite : float -> bool = "isFinite"
 
 external toExponentialWithPrecision : float -> digits:int -> string
   = "toExponential"
-  [@@mel.send]
+[@@mel.send]
 
 external toFixed : float -> string = "toFixed" [@@mel.send]
 
 external toFixedWithPrecision : float -> digits:int -> string = "toFixed"
-  [@@mel.send]
+[@@mel.send]
 
-external fromString : string -> float = "Number" [@@mel.val]
+external fromString : string -> float = "Number"

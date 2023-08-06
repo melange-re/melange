@@ -24,7 +24,7 @@ external rem : float -> float -> float = "caml_fmod_float" "fmod"
 external fma : float -> float -> float -> float = "caml_fma_float" "caml_fma"
   [@@unboxed] [@@noalloc]
 #ifdef BS
-external abs : float -> float = "abs"[@@mel.val] [@@mel.scope "Math"]
+external abs : float -> float = "abs" [@@mel.scope "Math"]
 #else
 external abs : float -> float = "%absfloat"
 #endif
@@ -63,34 +63,34 @@ external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
 
 #ifdef BS
-external pow : float -> float -> float = "pow" [@@mel.val] [@@mel.scope "Math"]
-external sqrt : float -> float =  "sqrt" [@@mel.val] [@@mel.scope "Math"]
-external cbrt : float -> float = "cbrt" [@@mel.val] [@@mel.scope "Math"]
-external exp : float -> float = "exp" [@@mel.val][@@mel.scope "Math"]
+external pow : float -> float -> float = "pow"  [@@mel.scope "Math"]
+external sqrt : float -> float =  "sqrt"  [@@mel.scope "Math"]
+external cbrt : float -> float = "cbrt"  [@@mel.scope "Math"]
+external exp : float -> float = "exp" [@@mel.scope "Math"]
 external exp2 : float -> float = "caml_exp2_float" "caml_exp2"
   [@@unboxed] [@@noalloc]
-external log : float -> float =  "log" [@@mel.val] [@@mel.scope "Math"]
-external log10 : float -> float = "log10"[@@mel.val] [@@mel.scope "Math"]
+external log : float -> float =  "log"  [@@mel.scope "Math"]
+external log10 : float -> float = "log10" [@@mel.scope "Math"]
 external log2 : float -> float = "caml_log2_float" "caml_log2"
   [@@unboxed] [@@noalloc]
 external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
   [@@unboxed] [@@noalloc]
-external log1p : float -> float = "log1p" [@@mel.val] [@@mel.scope "Math"]
-external cos : float -> float = "cos" [@@mel.val] [@@mel.scope "Math"]
-external sin : float -> float =  "sin" [@@mel.val] [@@mel.scope "Math"]
-external tan : float -> float =  "tan" [@@mel.val] [@@mel.scope "Math"]
-external acos : float -> float =  "acos" [@@mel.val] [@@mel.scope "Math"]
-external asin : float -> float = "asin" [@@mel.val] [@@mel.scope "Math"]
-external atan : float -> float = "atan" [@@mel.val] [@@mel.scope "Math"]
-external atan2 : float -> float -> float = "atan2" [@@mel.val] [@@mel.scope "Math"]
+external log1p : float -> float = "log1p"  [@@mel.scope "Math"]
+external cos : float -> float = "cos"  [@@mel.scope "Math"]
+external sin : float -> float =  "sin"  [@@mel.scope "Math"]
+external tan : float -> float =  "tan"  [@@mel.scope "Math"]
+external acos : float -> float =  "acos"  [@@mel.scope "Math"]
+external asin : float -> float = "asin"  [@@mel.scope "Math"]
+external atan : float -> float = "atan"  [@@mel.scope "Math"]
+external atan2 : float -> float -> float = "atan2"  [@@mel.scope "Math"]
 external hypot : float -> float -> float
                = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
-external cosh : float -> float = "cosh" [@@mel.val] [@@mel.scope "Math"]
-external sinh : float -> float = "sinh" [@@mel.val] [@@mel.scope "Math"]
-external tanh : float -> float =  "tanh" [@@mel.val] [@@mel.scope "Math"]
-external acosh : float -> float = "acosh"  [@@mel.val] [@@mel.scope "Math"]
-external asinh : float -> float = "asinh" [@@mel.val] [@@mel.scope "Math"]
-external atanh : float -> float =  "atanh" [@@mel.val] [@@mel.scope "Math"]
+external cosh : float -> float = "cosh"  [@@mel.scope "Math"]
+external sinh : float -> float = "sinh"  [@@mel.scope "Math"]
+external tanh : float -> float =  "tanh"  [@@mel.scope "Math"]
+external acosh : float -> float = "acosh"   [@@mel.scope "Math"]
+external asinh : float -> float = "asinh"  [@@mel.scope "Math"]
+external atanh : float -> float =  "atanh"  [@@mel.scope "Math"]
 external erf : float -> float = "caml_erf_float" "caml_erf"
   [@@unboxed] [@@noalloc]
 external erfc : float -> float = "caml_erfc_float" "caml_erfc"

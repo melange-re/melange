@@ -26,14 +26,14 @@
 *)
 
 external _NaN : float = "NaN"
-  [@@mel.val]
+
 (** The special value "Not a Number"
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN> MDN
 *)
 
 external isNaN : float -> bool = "isNaN"
-  [@@mel.val] [@@mel.scope "Number"]
+[@@mel.scope "Number"]
 (** Tests if the given value is [_NaN]
 
 Note that both [_NaN = _NaN] and [_NaN == _NaN] will return [false]. [isNaN] is
@@ -45,7 +45,7 @@ therefore necessary to test for [_NaN].
 *)
 
 external isFinite : float -> bool = "isFinite"
-  [@@mel.val] [@@mel.scope "Number"]
+[@@mel.scope "Number"]
 (** Tests if the given value is finite
 
 {b Returns} [true] if the given value is a finite number, [false] otherwise
@@ -68,7 +68,7 @@ let _ = Js.Float.isFinite 1234
 *)
 
 external toExponential : float -> string = "toExponential"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] using exponential (scientific) notation
 
 {b Returns} a [string] representing the given value in exponential notation
@@ -88,7 +88,7 @@ external toExponential : float -> string = "toExponential"
 
 external toExponentialWithPrecision : float -> digits:int -> string
   = "toExponential"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -110,7 +110,7 @@ The output will be rounded or padded with zeroes if necessary.
 *)
 
 external toFixed : float -> string = "toFixed"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] using fixed point notation
 
 {b Returns} a [string] representing the given value in fixed-point notation (usually)
@@ -129,7 +129,7 @@ external toFixed : float -> string = "toFixed"
 *)
 
 external toFixedWithPrecision : float -> digits:int -> string = "toFixed"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] using fixed point notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -153,7 +153,7 @@ The output will be rounded or padded with zeroes if necessary.
 *)
 
 external toPrecision : float -> string = "toPrecision"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] using some fairly arbitrary rules
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -178,7 +178,7 @@ decimal point.
 
 external toPrecisionWithPrecision : float -> digits:int -> string
   = "toPrecision"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The
@@ -209,7 +209,7 @@ before the decimal point.
 *)
 
 external toString : float -> string = "toString"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] as a string
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -223,7 +223,7 @@ external toString : float -> string = "toString"
 *)
 
 external toStringWithRadix : float -> radix:int -> string = "toString"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [float] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The
@@ -251,7 +251,7 @@ value must be in the range \[2, 36\] (inclusive).
 *)
 
 external fromString : string -> float = "Number"
-  [@@mel.val]
+
 (** Parses the given [string] into a [float] using JavaScript semantics
 
 {b Returns} the number as a [float] if successfully parsed, [_NaN] otherwise.

@@ -43,10 +43,7 @@ external raise : exn -> 'a = "%raise"
 external ignore : 'a -> unit = "%ignore"
 external ( |> ) : 'a -> ('a -> 'b) -> 'b = "%revapply"
 external ( @@ ) : ('a -> 'b) -> 'a -> 'b = "%apply"
-
-external ( ** ) : float -> float -> float = "pow"
-  [@@mel.val] [@@mel.scope "Math"]
-
+external ( ** ) : float -> float -> float = "pow" [@@mel.scope "Math"]
 external ( ~-. ) : float -> float = "%negfloat"
 external ( +. ) : float -> float -> float = "%addfloat"
 external ( -. ) : float -> float -> float = "%subfloat"
