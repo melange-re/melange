@@ -31,6 +31,7 @@ module Warnings : sig
     | Redundant_bs_string
     | Deprecated_uncurry_attribute
     | Deprecated_attribute_namespace
+    | Deprecated_val
 end
 
 val warn : loc:Location.t -> Warnings.t -> unit
