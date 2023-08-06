@@ -45,6 +45,10 @@ Unreleased
   [#664](https://github.com/melange-re/melange/pull/664))
 - [melange]: Upgrade the OCaml typechecker version to 5.1
   ([#668](https://github.com/melange-re/melange/pull/668))
+- [melange.ppx]: Deprecate `[@@mel.val]` and suggest its removal. This
+  attribute is redundant and unnecessary
+  ([#675](https://github.com/melange-re/melange/issues/675),
+  [#678](https://github.com/melange-re/melange/pull/678))
 
 1.0.0 2023-05-31
 ---------------
