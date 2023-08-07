@@ -36,7 +36,7 @@ val get : 'a t -> key -> 'a option
     dictionary, [Some value] otherwise *)
 
 external unsafeGet : 'a t -> key -> 'a = ""
-  [@@mel.get_index]
+[@@mel.get_index]
 (** [unsafeGet dict key] return the value if the [key] exists,
     otherwise an {b undefined} value is returned. Must be used only
     when the existence of a key is certain. (i.e. when having called [keys]
@@ -48,15 +48,15 @@ Array.iter (fun key -> Js.log (Js_dict.unsafeGet dic key)) (Js_dict.keys dict)
 *)
 
 external set : 'a t -> key -> 'a -> unit = ""
-  [@@mel.set_index]
+[@@mel.set_index]
 (** [set dict key value] sets the [key]/[value] in [dict] *)
 
 external keys : 'a t -> string array = "Object.keys"
-  [@@mel.val]
+
 (** [keys dict] returns all the keys in the dictionary [dict]*)
 
 external empty : unit -> 'a t = ""
-  [@@mel.obj]
+[@@mel.obj]
 (** [empty ()] returns an empty dictionary *)
 
 module Js := Js_internal
@@ -64,11 +64,11 @@ module Js := Js_internal
 val unsafeDeleteKey : (string t -> string -> unit[@u])
 (** Experimental internal function *)
 
-(* external entries : 'a t -> (key * 'a) array = "Object.entries" [@@mel.val] *)
+(* external entries : 'a t -> (key * 'a) array = "Object.entries"  *)
 val entries : 'a t -> (key * 'a) array
 (** [entries dict] returns the key value pairs in [dict] (ES2017) *)
 
-(* external values : 'a t -> 'a array = "Object.values" [@@mel.val] *)
+(* external values : 'a t -> 'a array = "Object.values"  *)
 val values : 'a t -> 'a array
 (** [values dict] returns the values in [dict] (ES2017) *)
 

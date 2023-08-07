@@ -258,6 +258,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
           Ast_attributes.warn_if_bs ~loc txt;
           match txt with
           | "mel.val" | "bs.val" | "val" ->
+              Bs_ast_invariant.warn ~loc Deprecated_val;
               if no_arguments then
                 { st with val_name = name_from_payload_or_prim ~loc payload }
               else

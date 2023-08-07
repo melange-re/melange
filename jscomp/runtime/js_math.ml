@@ -26,83 +26,80 @@ open Melange_mini_stdlib
 
 (** JavaScript Math API *)
 
-external _E : float = "E" [@@mel.val] [@@mel.scope "Math"]
+external _E : float = "E" [@@mel.scope "Math"]
 (** Euler's number *)
 
-external _LN2 : float = "LN2"
-  [@@mel.val] [@@mel.scope "Math"]
+external _LN2 : float = "LN2" [@@mel.scope "Math"]
 (** natural logarithm of 2 *)
 
 external _LN10 : float = "LN10"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** natural logarithm of 10 *)
 
 external _LOG2E : float = "LOG2E"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** base 2 logarithm of E *)
 
 external _LOG10E : float = "LOG10E"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** base 10 logarithm of E *)
 
 external _PI : float = "PI"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** Pi... (ratio of the circumference and diameter of a circle) *)
 
 external _SQRT1_2 : float = "SQRT1_2"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** square root of 1/2 *)
 
-external _SQRT2 : float = "SQRT2"
-  [@@mel.val] [@@mel.scope "Math"]
+external _SQRT2 : float = "SQRT2" [@@mel.scope "Math"]
 (** square root of 2 *)
 
-external abs_int : int -> int = "abs"
-  [@@mel.val] [@@mel.scope "Math"]
+external abs_int : int -> int = "abs" [@@mel.scope "Math"]
 (** absolute value *)
 
 external abs_float : float -> float = "abs"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** absolute value *)
 
 external acos : float -> float = "acos"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** arccosine in radians, can return NaN *)
 
 external acosh : float -> float = "acosh"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** hyperbolic arccosine in raidans, can return NaN, ES2015 *)
 
 external asin : float -> float = "asin"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** arcsine in radians, can return NaN *)
 
 external asinh : float -> float = "asinh"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** hyperbolic arcsine in raidans, ES2015 *)
 
 external atan : float -> float = "atan"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** arctangent in radians *)
 
 external atanh : float -> float = "atanh"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** hyperbolic arctangent in radians, can return NaN, ES2015 *)
 
 external atan2 : y:float -> x:float -> unit -> float = "atan2"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** arctangent of the quotient of x and y, mostly... this one's a bit weird *)
 
 external cbrt : float -> float = "cbrt"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** cube root, can return NaN, ES2015 *)
 
 external unsafe_ceil_int : float -> int = "ceil"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** may return values not representable by [int] *)
 
 let unsafe_ceil = unsafe_ceil_int
-  [@@deprecated "Please use `unsafe_ceil_int` instead"]
+[@@deprecated "Please use `unsafe_ceil_int` instead"]
 
 (** smallest int greater than or equal to the argument *)
 let ceil_int (f : float) : int =
@@ -113,36 +110,36 @@ let ceil_int (f : float) : int =
 let ceil = ceil_int [@@deprecated "Please use `ceil_int` instead"]
 
 external ceil_float : float -> float = "ceil"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** smallest float greater than or equal to the argument *)
 
 external clz32 : int -> int = "clz32"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** number of leading zero bits of the argument's 32 bit int representation, ES2015 *)
 (* can convert string, float etc. to number *)
 
 external cos : float -> float = "cos"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** cosine in radians *)
 
 external cosh : float -> float = "cosh"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** hyperbolic cosine in radians, ES2015 *)
 
 external exp : float -> float = "exp"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** natural exponentional *)
 
 external expm1 : float -> float = "expm1"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** natural exponential minus 1, ES2015 *)
 
 external unsafe_floor_int : float -> int = "floor"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** may return values not representable by [int] *)
 
 let unsafe_floor = unsafe_floor_int
-  [@@deprecated "Please use `unsafe_floor_int` instead"]
+[@@deprecated "Please use `unsafe_floor_int` instead"]
 
 (** largest int greater than or equal to the arugment *)
 let floor_int f =
@@ -152,129 +149,127 @@ let floor_int f =
 
 let floor = floor_int [@@deprecated "Please use `floor_int` instead"]
 
-external floor_float : float -> float = "floor" [@@mel.val] [@@mel.scope "Math"]
+external floor_float : float -> float = "floor" [@@mel.scope "Math"]
 
 external fround : float -> float = "fround"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** round to nearest single precision float, ES2015 *)
 
 external hypot : float -> float -> float = "hypot"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** pythagorean equation, ES2015 *)
 
 external hypotMany : float array -> float = "hypot"
-  [@@mel.val] [@@mel.splice] [@@mel.scope "Math"]
+[@@mel.splice] [@@mel.scope "Math"]
 (** generalized pythagorean equation, ES2015 *)
 
 external imul : int -> int -> int = "imul"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** 32-bit integer multiplication, ES2015 *)
 
 external log : float -> float = "log"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** natural logarithm, can return NaN *)
 
 external log1p : float -> float = "log1p"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** natural logarithm of 1 + the argument, can return NaN, ES2015 *)
 
 external log10 : float -> float = "log10"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** base 10 logarithm, can return NaN, ES2015 *)
 
 external log2 : float -> float = "log2"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** base 2 logarithm, can return NaN, ES2015 *)
 
 external max_int : int -> int -> int = "max"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** max value *)
 
 external maxMany_int : int array -> int = "max"
-  [@@mel.val] [@@mel.splice] [@@mel.scope "Math"]
+[@@mel.splice] [@@mel.scope "Math"]
 (** max value *)
 
 external max_float : float -> float -> float = "max"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** max value *)
 
 external maxMany_float : float array -> float = "max"
-  [@@mel.val] [@@mel.splice] [@@mel.scope "Math"]
+[@@mel.splice] [@@mel.scope "Math"]
 (** max value *)
 
 external min_int : int -> int -> int = "min"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** min value *)
 
 external minMany_int : int array -> int = "min"
-  [@@mel.val] [@@mel.splice] [@@mel.scope "Math"]
+[@@mel.splice] [@@mel.scope "Math"]
 (** min value *)
 
 external min_float : float -> float -> float = "min"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** min value *)
 
 external minMany_float : float array -> float = "min"
-  [@@mel.val] [@@mel.splice] [@@mel.scope "Math"]
+[@@mel.splice] [@@mel.scope "Math"]
 (** min value *)
 
 external pow_int : base:int -> exp:int -> int = "pow"
-  [@@mel.val]
-  [@@mel.scope "Math"]
-  [@@deprecated "use `pow_float` instead, the return type may be not int"]
+[@@mel.scope "Math"]
+[@@deprecated "use `pow_float` instead, the return type may be not int"]
 (** base to the power of the exponent *)
 
 external pow_float : base:float -> exp:float -> float = "pow"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** base to the power of the exponent *)
 
 external random : unit -> float = "random"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** random number in \[0,1) *)
 
 (** random number in \[min,max) *)
 let random_int min max = floor (random () *. Js_int.toFloat (max - min)) + min
 
 external unsafe_round : float -> int = "round"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** rounds to nearest integer, returns a value not representable as [int] if NaN *)
 
 external round : float -> float = "round"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** rounds to nearest integer *)
 
 external sign_int : int -> int = "sign"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** the sign of the argument, 1, -1 or 0, ES2015 *)
 
 external sign_float : float -> float = "sign"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** the sign of the argument, 1, -1, 0, -0 or NaN, ES2015 *)
 
-external sin : float -> float = "sin"
-  [@@mel.val] [@@mel.scope "Math"]
+external sin : float -> float = "sin" [@@mel.scope "Math"]
 (** sine in radians *)
 
 external sinh : float -> float = "sinh"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** hyperbolic sine in radians, ES2015 *)
 
 external sqrt : float -> float = "sqrt"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** square root, can return NaN *)
 
 external tan : float -> float = "tan"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** tangent in radians *)
 
 external tanh : float -> float = "tanh"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** hyperbolic tangent in radians, ES2015 *)
 
 external unsafe_trunc : float -> int = "trunc"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** truncate, ie. remove fractional digits, returns a value not representable as [int] if NaN, ES2015 *)
 
 external trunc : float -> float = "trunc"
-  [@@mel.val] [@@mel.scope "Math"]
+[@@mel.scope "Math"]
 (** truncate, ie. remove fractional digits, returns a value not representable as [int] if NaN, ES2015 *)

@@ -31,6 +31,11 @@
   >   unit -> unit = "err" [@@mel.val]
   > EOF
   $ melc -ppx melppx x.ml
+  File "x.ml", line 3, characters 26-33:
+  3 |   unit -> unit = "err" [@@mel.val]
+                                ^^^^^^^
+  Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
+  Consider removing them from any external declarations.
   File "x.ml", lines 1-3, characters 0-34:
   1 | external err :
   2 |   ?hi_should_error:([`a of int | `b of string ] [@mel.string]) ->
@@ -47,6 +52,11 @@ Each [@mel.unwrap] variant constructor requires an argument
   >   unit -> unit = "err" [@@mel.val]
   > EOF
   $ melc -ppx melppx x.ml
+  File "x.ml", line 3, characters 26-33:
+  3 |   unit -> unit = "err" [@@mel.val]
+                                ^^^^^^^
+  Alert deprecated: `[@mel.val]' attributes are redundant and will be removed in the next release.
+  Consider removing them from any external declarations.
   File "x.ml", line 2, characters 20-36:
   2 |   ?hi_should_error:([`a of int | `b] [@mel.unwrap]) ->
                           ^^^^^^^^^^^^^^^^

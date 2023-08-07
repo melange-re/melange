@@ -23,7 +23,11 @@ external rem : float -> float -> float = "caml_fmod_float" "fmod"
   [@@unboxed] [@@noalloc]
 external fma : float -> float -> float -> float = "caml_fma_float" "caml_fma"
   [@@unboxed] [@@noalloc]
+#ifdef BS
+external abs : float -> float = "abs" [@@mel.scope "Math"]
+#else
 external abs : float -> float = "%absfloat"
+#endif
 
 let zero = 0.
 let one = 1.
@@ -31,6 +35,11 @@ let minus_one = -1.
 let infinity = Stdlib.infinity
 let neg_infinity = Stdlib.neg_infinity
 let nan = Stdlib.nan
+let quiet_nan = nan
+external float_of_bits : int64 -> float
+  = "caml_int64_float_of_bits" "caml_int64_float_of_bits_unboxed"
+  [@@unboxed] [@@noalloc]
+let signaling_nan = float_of_bits 0x7F_F0_00_00_00_00_00_01L
 let is_finite (x: float) = x -. x = 0.
 let is_infinite (x: float) = 1. /. x = 0.
 let is_nan (x: float) = x <> x
@@ -52,6 +61,49 @@ type fpclass = Stdlib.fpclass =
   | FP_nan
 external classify_float : (float [@unboxed]) -> fpclass =
   "caml_classify_float" "caml_classify_float_unboxed" [@@noalloc]
+
+#ifdef BS
+external pow : float -> float -> float = "pow"  [@@mel.scope "Math"]
+external sqrt : float -> float =  "sqrt"  [@@mel.scope "Math"]
+external cbrt : float -> float = "cbrt"  [@@mel.scope "Math"]
+external exp : float -> float = "exp" [@@mel.scope "Math"]
+external exp2 : float -> float = "caml_exp2_float" "caml_exp2"
+  [@@unboxed] [@@noalloc]
+external log : float -> float =  "log"  [@@mel.scope "Math"]
+external log10 : float -> float = "log10" [@@mel.scope "Math"]
+external log2 : float -> float = "caml_log2_float" "caml_log2"
+  [@@unboxed] [@@noalloc]
+external expm1 : float -> float = "caml_expm1_float" "caml_expm1"
+  [@@unboxed] [@@noalloc]
+external log1p : float -> float = "log1p"  [@@mel.scope "Math"]
+external cos : float -> float = "cos"  [@@mel.scope "Math"]
+external sin : float -> float =  "sin"  [@@mel.scope "Math"]
+external tan : float -> float =  "tan"  [@@mel.scope "Math"]
+external acos : float -> float =  "acos"  [@@mel.scope "Math"]
+external asin : float -> float = "asin"  [@@mel.scope "Math"]
+external atan : float -> float = "atan"  [@@mel.scope "Math"]
+external atan2 : float -> float -> float = "atan2"  [@@mel.scope "Math"]
+external hypot : float -> float -> float
+               = "caml_hypot_float" "caml_hypot" [@@unboxed] [@@noalloc]
+external cosh : float -> float = "cosh"  [@@mel.scope "Math"]
+external sinh : float -> float = "sinh"  [@@mel.scope "Math"]
+external tanh : float -> float =  "tanh"  [@@mel.scope "Math"]
+external acosh : float -> float = "acosh"   [@@mel.scope "Math"]
+external asinh : float -> float = "asinh"  [@@mel.scope "Math"]
+external atanh : float -> float =  "atanh"  [@@mel.scope "Math"]
+external erf : float -> float = "caml_erf_float" "caml_erf"
+  [@@unboxed] [@@noalloc]
+external erfc : float -> float = "caml_erfc_float" "caml_erfc"
+  [@@unboxed] [@@noalloc]
+external trunc : float -> float = "caml_trunc_float" "caml_trunc"
+  [@@unboxed] [@@noalloc]
+external round : float -> float = "caml_round_float" "caml_round"
+  [@@unboxed] [@@noalloc]
+external ceil : float -> float = "caml_ceil_float" "ceil"
+  [@@unboxed] [@@noalloc]
+external floor : float -> float = "caml_floor_float" "floor"
+[@@unboxed] [@@noalloc]
+#else
 external pow : float -> float -> float = "caml_power_float" "pow"
   [@@unboxed] [@@noalloc]
 external sqrt : float -> float = "caml_sqrt_float" "sqrt"
@@ -107,6 +159,9 @@ external ceil : float -> float = "caml_ceil_float" "ceil"
   [@@unboxed] [@@noalloc]
 external floor : float -> float = "caml_floor_float" "floor"
 [@@unboxed] [@@noalloc]
+#endif
+
+
 
 let is_integer x = x = trunc x && is_finite x
 
@@ -159,8 +214,9 @@ let[@inline] min_max_num (x: float) (y: float) =
   else if is_nan y then (x,x)
   else if y > x || (not(sign_bit y) && sign_bit x) then (x,y) else (y,x)
 
-external seeded_hash_param : int -> int -> int -> float -> int
-                           = "caml_hash" [@@noalloc]
+external seeded_hash_param :
+  int -> int -> int -> 'a -> int = "caml_hash" [@@noalloc]
+let seeded_hash seed x = seeded_hash_param 10 100 seed x
 let hash x = seeded_hash_param 10 100 0 x
 
 module Array = struct
@@ -280,6 +336,12 @@ module Array = struct
     done;
     r
 
+  (* duplicated from array.ml *)
+  let map_inplace f a =
+    for i = 0 to length a - 1 do
+      unsafe_set a i (f (unsafe_get a i))
+    done
+
   let map2 f a b =
     let la = length a in
     let lb = length b in
@@ -304,6 +366,12 @@ module Array = struct
       unsafe_set r i (f i (unsafe_get a i))
     done;
     r
+
+  (* duplicated from array.ml *)
+  let mapi_inplace f a =
+    for i = 0 to length a - 1 do
+      unsafe_set a i (f i (unsafe_get a i))
+    done
 
   (* duplicated from array.ml *)
   let fold_left f x a =
@@ -356,6 +424,51 @@ module Array = struct
       if i = n then false
       else if x = (unsafe_get a i) then true
       else loop (i + 1)
+    in
+    loop 0
+
+  (* duplicated from array.ml *)
+  let find_opt p a =
+    let n = length a in
+    let rec loop i =
+      if i = n then None
+      else
+        let x = unsafe_get a i in
+        if p x then Some x
+        else loop (i + 1)
+    in
+    loop 0
+
+  (* duplicated from array.ml *)
+  let find_index p a =
+    let n = length a in
+    let rec loop i =
+      if i = n then None
+      else if p (unsafe_get a i) then Some i
+      else loop (i + 1) in
+    loop 0
+
+  (* duplicated from array.ml *)
+  let find_map f a =
+    let n = length a in
+    let rec loop i =
+      if i = n then None
+      else
+        match f (unsafe_get a i) with
+        | None -> loop (i + 1)
+        | Some _ as r -> r
+    in
+    loop 0
+
+  (* duplicated from array.ml *)
+  let find_mapi f a =
+    let n = length a in
+    let rec loop i =
+      if i = n then None
+      else
+        match f i (unsafe_get a i) with
+        | None -> loop (i + 1)
+        | Some _ as r -> r
     in
     loop 0
 

@@ -25,4 +25,3 @@
 (** Node Module API *)
 
 external module_ : < __cache : Node.node_module Js.Dict.t > Js.t = "module"
-  [@@mel.val]

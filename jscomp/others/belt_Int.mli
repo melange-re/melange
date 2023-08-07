@@ -29,7 +29,7 @@
 external toFloat : int -> float = "%identity"
 external fromFloat : float -> int = "%intoffloat"
 val fromString : string -> int option
-external toString : int -> string = "String" [@@mel.val]
+external toString : int -> string = "String"
 external ( + ) : int -> int -> int = "%addint"
 external ( - ) : int -> int -> int = "%subint"
 external ( * ) : int -> int -> int = "%mulint"

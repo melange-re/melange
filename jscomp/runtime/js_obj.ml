@@ -26,13 +26,13 @@
 *)
 
 external empty : unit -> < .. > Js_internal.t = ""
-  [@@mel.obj]
+[@@mel.obj]
 (** [empty ()] returns the empty object [\{\}] *)
 
 external assign :
   < .. > Js_internal.t -> < .. > Js_internal.t -> < .. > Js_internal.t
   = "Object.assign"
-  [@@mel.val]
+
 (** [assign target source] copies properties from [source] to [target]
 
 Properties in [target] will be overwritten by properties in [source] if they
@@ -103,7 +103,7 @@ let _ = Js.log target
 *)
 
 external keys : _ Js_internal.t -> string array = "Object.keys"
-  [@@mel.val]
+
 (** [keys obj] returns an array of the keys of [obj]'s own enumerable properties
 
 @see <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys> MDN

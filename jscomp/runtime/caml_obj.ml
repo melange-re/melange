@@ -27,7 +27,7 @@ open Melange_mini_stdlib
 type t = Obj.t
 
 module O = struct
-  external isArray : 'a -> bool = "Array.isArray" [@@mel.val]
+  external isArray : 'a -> bool = "Array.isArray"
 
   type key = string
 
@@ -38,7 +38,7 @@ module O = struct
       |}]
 
   external hasOwnProperty : t -> key -> bool = "call"
-    [@@mel.scope "Object", "prototype", "hasOwnProperty"] [@@mel.val]
+  [@@mel.scope "Object", "prototype", "hasOwnProperty"]
   (**
      JS objects are not guaranteed to have `Object` in their prototype
      chain so calling `some_obj.hasOwnProperty(key)` can sometimes throw
@@ -369,7 +369,7 @@ let caml_equal_nullable (x : Obj.t) (y : Obj.t Js_internal.nullable) =
 
 let isNumberOrBigInt a =
   Js_internal.typeof a = "number" || Js_internal.typeof a = "bigint"
-  [@@inline]
+[@@inline]
 
 let canNumericCompare a b = isNumberOrBigInt a && isNumberOrBigInt b [@@inline]
 

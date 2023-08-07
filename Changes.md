@@ -43,6 +43,10 @@ Unreleased
 - [melange]: Fix field access code generation when `open`in inline functor
   applications ([#661](https://github.com/melange-re/melange/pull/661),
   [#664](https://github.com/melange-re/melange/pull/664))
+- [melange.ppx]: Deprecate `[@@mel.val]` and suggest its removal. This
+  attribute is redundant and unnecessary
+  ([#675](https://github.com/melange-re/melange/issues/675),
+  [#678](https://github.com/melange-re/melange/pull/678))
 
 1.0.0 2023-05-31
 ---------------

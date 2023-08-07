@@ -88,7 +88,7 @@ val decodeNull : t -> 'a Js_null.t option
 *)
 
 external null : t = "null"
-  [@@mel.val]
+
 (** [null] is the singleton null JSON value *)
 
 external string : string -> t = "%identity"
@@ -125,7 +125,7 @@ external objectArray : t Js_dict.t array -> t = "%identity"
 (** {2 String conversion} *)
 
 external parseExn : string -> t = "parse"
-  [@@mel.val] [@@mel.scope "JSON"]
+[@@mel.scope "JSON"]
 (** [parseExn s] parses the string [s] into a JSON data structure
 
 {b Returns} a JSON data structure
@@ -179,7 +179,7 @@ let getIds s =
 *)
 
 external stringify : t -> string = "stringify"
-  [@@mel.val] [@@mel.scope "JSON"]
+[@@mel.scope "JSON"]
 (** [stringify json] formats the JSON data structure as a string
 
 {b Returns} the string representation of a given JSON data structure
@@ -201,7 +201,7 @@ Js.log (Js.Json.stringify (Js.Json.object_ dict))
 
 external stringifyWithSpace :
   t -> (_[@mel.as {json|null|json}]) -> int -> string = "stringify"
-  [@@mel.val] [@@mel.scope "JSON"]
+[@@mel.scope "JSON"]
 (** [stringify json] formats the JSON data structure as a string
 
 {b Returns} the string representation of a given JSON data structure
@@ -222,7 +222,7 @@ Js.Dict.set dict "likes"
 *)
 
 external stringifyAny : 'a -> string option = "stringify"
-  [@@mel.val] [@@mel.scope "JSON"]
+[@@mel.scope "JSON"]
 (** [stringifyAny value] formats any [value] into a JSON string
 
 {[
