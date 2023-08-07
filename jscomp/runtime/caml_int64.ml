@@ -223,11 +223,11 @@ let rec of_float (x : float) : t =
       ~lo:(Caml_nativeint_extern.of_float (mod_float x two_ptr_32_dbl))
       ~hi:(Caml_nativeint_extern.of_float (x /. two_ptr_32_dbl))
 
-external log2 : float = "LN2" [@@mel.val] [@@mel.scope "Math"]
-external log : float -> float = "log" [@@mel.val] [@@mel.scope "Math"]
-external ceil : float -> float = "ceil" [@@mel.val] [@@mel.scope "Math"]
-external floor : float -> float = "floor" [@@mel.val] [@@mel.scope "Math"]
-(* external maxFloat : float -> float -> float = "Math.max" [@@mel.val] *)
+external log2 : float = "LN2" [@@mel.scope "Math"]
+external log : float -> float = "log" [@@mel.scope "Math"]
+external ceil : float -> float = "ceil" [@@mel.scope "Math"]
+external floor : float -> float = "floor" [@@mel.scope "Math"]
+(* external maxFloat : float -> float -> float = "Math.max"  *)
 
 (* either top 11 bits are all 0 or all 1
    when it is all 1, we need exclude -2^53
@@ -237,7 +237,7 @@ let isSafeInteger { hi; lo } =
   top11Bits = 0
   || (top11Bits = -1 && Pervasives.not (lo = 0 && hi = 0xff_e0_00_00))
 
-external string_of_float : float -> string = "String" [@@mel.val]
+external string_of_float : float -> string = "String"
 
 let rec to_string (self : int64) =
   let ({ hi = self_hi; _ } as self) = unsafe_of_int64 self in

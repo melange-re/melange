@@ -26,18 +26,18 @@
 
 type t = Node.buffer
 
-external isBuffer : 'a -> bool = "Buffer.isBuffer" [@@mel.val]
-external fromString : string -> t = "Buffer.from" [@@mel.val]
+external isBuffer : 'a -> bool = "Buffer.isBuffer"
+external fromString : string -> t = "Buffer.from"
 
 type encoding =
   [ `ascii | `utf8 | `utf16le | `usc2 | `base64 | `latin1 | `binary | `hex ]
 
 external fromStringWithEncoding : string -> encoding -> t = "from"
-  [@@mel.val] [@@mel.scope "Buffer"]
+[@@mel.scope "Buffer"]
 
 external toString : t -> string = "toString" [@@mel.send]
 
 external toStringWithEncoding : t -> encoding -> string = "toString"
-  [@@mel.send]
+[@@mel.send]
 
-external concat : t array -> t = "Buffer.concat" [@@mel.val]
+external concat : t array -> t = "Buffer.concat"

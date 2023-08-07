@@ -33,7 +33,7 @@
 *)
 
 (*ATT: this relies on we encode `char' as int *)
-external of_char : char -> string = "String.fromCharCode" [@@mel.val]
+external of_char : char -> string = "String.fromCharCode"
 external get_string_unsafe : string -> int -> string = "" [@@mel.get_index]
 external toUpperCase : string -> string = "toUpperCase" [@@mel.send]
 external of_int : int -> base:int -> string = "toString" [@@mel.send]
@@ -44,10 +44,9 @@ external index_of : string -> string -> int = "indexOf" [@@mel.send]
 external of_small_int_array :
   (_[@mel.as {json|null|json}]) -> int array -> string
   = "String.fromCharCode.apply"
-  [@@mel.val]
 
 external of_small_int32_array : int32 array -> string = "String.fromCharCode"
-  [@@mel.val] [@@mel.splice]
+[@@mel.splice]
 
 external lastIndexOf : string -> string -> int = "lastIndexOf" [@@mel.send]
 (* used in {!Caml_io} *)

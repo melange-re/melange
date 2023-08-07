@@ -26,15 +26,15 @@
     Utililites for Float
 *)
 
-external isNaN : float -> bool = "isNaN" [@@mel.val]
+external isNaN : float -> bool = "isNaN"
 external toInt : float -> int = "%intoffloat"
 external fromInt : int -> float = "%identity"
-external fromString : string -> float = "parseFloat" [@@mel.val]
+external fromString : string -> float = "parseFloat"
 
 let fromString i =
   match fromString i with i when isNaN i -> None | i -> Some i
 
-external toString : float -> string = "String" [@@mel.val]
+external toString : float -> string = "String"
 external ( + ) : float -> float -> float = "%addfloat"
 external ( - ) : float -> float -> float = "%subfloat"
 external ( * ) : float -> float -> float = "%mulfloat"

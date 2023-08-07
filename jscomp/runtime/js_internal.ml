@@ -85,7 +85,7 @@ module Internal = struct
 
   (* Use opaque instead of [._n] to prevent some optimizations happening *)
   external run : 'a arity0 -> 'a = "#run"
-    [@@ocaml.warning "-unboxable-type-in-prim-decl"]
+  [@@ocaml.warning "-unboxable-type-in-prim-decl"]
 
   external opaque : 'a -> 'a = "%opaque"
 end
@@ -125,19 +125,15 @@ external typeof : 'a -> string = "#typeof"
 *)
 
 external log : 'a -> unit = "log"
-  [@@mel.val] [@@mel.scope "console"]
+[@@mel.scope "console"]
 (** A convenience function to log everything *)
 
-external log2 : 'a -> 'b -> unit = "log" [@@mel.val] [@@mel.scope "console"]
-
-external log3 : 'a -> 'b -> 'c -> unit = "log"
-  [@@mel.val] [@@mel.scope "console"]
-
-external log4 : 'a -> 'b -> 'c -> 'd -> unit = "log"
-  [@@mel.val] [@@mel.scope "console"]
+external log2 : 'a -> 'b -> unit = "log" [@@mel.scope "console"]
+external log3 : 'a -> 'b -> 'c -> unit = "log" [@@mel.scope "console"]
+external log4 : 'a -> 'b -> 'c -> 'd -> unit = "log" [@@mel.scope "console"]
 
 external logMany : 'a array -> unit = "log"
-  [@@mel.val] [@@mel.scope "console"] [@@mel.splice]
+[@@mel.scope "console"] [@@mel.splice]
 (** A convenience function to log more than 4 arguments *)
 
 external eqNull : 'a -> 'a null -> bool = "%bs_equal_null"

@@ -40,42 +40,38 @@ external make :
   ((resolve:(('a -> unit)[@u]) -> reject:((exn -> unit)[@u]) -> unit)
   [@mel.uncurry]) ->
   'a t = "Promise"
-  [@@mel.new]
+[@@mel.new]
 
 (* [make (fun resolve reject -> .. )] *)
-external resolve : 'a -> 'a t = "resolve" [@@mel.val] [@@mel.scope "Promise"]
-external reject : exn -> 'a t = "reject" [@@mel.val] [@@mel.scope "Promise"]
-
-external all : 'a t array -> 'a array t = "all"
-  [@@mel.val] [@@mel.scope "Promise"]
-
-external all2 : 'a0 t * 'a1 t -> ('a0 * 'a1) t = "all"
-  [@@mel.val] [@@mel.scope "Promise"]
+external resolve : 'a -> 'a t = "resolve" [@@mel.scope "Promise"]
+external reject : exn -> 'a t = "reject" [@@mel.scope "Promise"]
+external all : 'a t array -> 'a array t = "all" [@@mel.scope "Promise"]
+external all2 : 'a0 t * 'a1 t -> ('a0 * 'a1) t = "all" [@@mel.scope "Promise"]
 
 external all3 : 'a0 t * 'a1 t * 'a2 t -> ('a0 * 'a1 * 'a2) t = "all"
-  [@@mel.val] [@@mel.scope "Promise"]
+[@@mel.scope "Promise"]
 
 external all4 : 'a0 t * 'a1 t * 'a2 t * 'a3 t -> ('a0 * 'a1 * 'a2 * 'a3) t
   = "all"
-  [@@mel.val] [@@mel.scope "Promise"]
+[@@mel.scope "Promise"]
 
 external all5 :
   'a0 t * 'a1 t * 'a2 t * 'a3 t * 'a4 t -> ('a0 * 'a1 * 'a2 * 'a3 * 'a4) t
   = "all"
-  [@@mel.val] [@@mel.scope "Promise"]
+[@@mel.scope "Promise"]
 
 external all6 :
   'a0 t * 'a1 t * 'a2 t * 'a3 t * 'a4 t * 'a5 t ->
   ('a0 * 'a1 * 'a2 * 'a3 * 'a4 * 'a5) t = "all"
-  [@@mel.val] [@@mel.scope "Promise"]
+[@@mel.scope "Promise"]
 
-external race : 'a t array -> 'a t = "race" [@@mel.val] [@@mel.scope "Promise"]
+external race : 'a t array -> 'a t = "race" [@@mel.scope "Promise"]
 
 external then_ : (('a -> 'b t)[@mel.uncurry]) -> 'b t = "then"
-  [@@mel.send.pipe: 'a t]
+[@@mel.send.pipe: 'a t]
 
 external catch : ((error -> 'a t)[@mel.uncurry]) -> 'a t = "catch"
-  [@@mel.send.pipe: 'a t]
+[@@mel.send.pipe: 'a t]
 (* [ p|> catch handler]
     Note in JS the returned promise type is actually runtime dependent,
     if promise is rejected, it will pick the [handler] otherwise the original promise,

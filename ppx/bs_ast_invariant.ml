@@ -31,12 +31,14 @@ module Warnings = struct
     | Redundant_bs_string
     | Deprecated_uncurry_attribute
     | Deprecated_attribute_namespace
+    | Deprecated_val
 
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
     | Redundant_bs_string -> "redundant"
-    | Deprecated_uncurry_attribute | Deprecated_attribute_namespace ->
+    | Deprecated_uncurry_attribute | Deprecated_attribute_namespace
+    | Deprecated_val ->
         "deprecated"
 
   let pp fmt t =
@@ -65,6 +67,11 @@ module Warnings = struct
           "The `[@bs.*]' attributes are deprecated and will be removed in the\n\
            next release.@\n\
            Use `[@mel.*]' instead."
+    | Deprecated_val ->
+        Format.fprintf fmt
+          "`[@mel.val]' attributes are redundant and will be removed in the \
+           next release.@\n\
+           Consider removing them from any external declarations."
 end
 
 let warn ~loc msg =

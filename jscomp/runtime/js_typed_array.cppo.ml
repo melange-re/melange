@@ -48,8 +48,8 @@ module ArrayBuffer = struct
 
   (* ArrayBuffer.isView: seems pointless with a type system *)
   (* experimental
-  external transfer : array_buffer -> t = "ArrayBuffer.transfer" [@@mel.val]
-  external transferWithLength : array_buffer -> int -> t = "ArrayBuffer.transfer" [@@mel.val]
+  external transfer : array_buffer -> t = "ArrayBuffer.transfer"
+  external transferWithLength : array_buffer -> int -> t = "ArrayBuffer.transfer"
   *)
 
   external byteLength : t -> int = "byteLength" [@@mel.get]
@@ -263,7 +263,7 @@ end
   external some : (elt  -> bool [@u]) -> bool = "some" [@@mel.send.pipe: t]\
   external somei : (elt  -> int -> bool [@u]) -> bool = "some" [@@mel.send.pipe: t]\
   \
-  external _BYTES_PER_ELEMENT: int = STRINGIFY(moduleName.BYTES_PER_ELEMENT) [@@mel.val]\
+  external _BYTES_PER_ELEMENT: int = STRINGIFY(moduleName.BYTES_PER_ELEMENT) \
   \
   external make : elt array -> t = STRINGIFY(moduleName) [@@mel.new]\
   external fromBuffer : array_buffer -> t = STRINGIFY(moduleName) [@@mel.new]\
@@ -278,7 +278,7 @@ end
       @param offset is in bytes, length in elements *)\
   \
   external fromLength : int -> t = STRINGIFY(moduleName) [@@mel.new]\
-  external from : elt array_like -> t = STRINGIFY(moduleName.from) [@@mel.val]\
+  external from : elt array_like -> t = STRINGIFY(moduleName.from) \
   (* *Array.of is redundant, use make *)
 
   (* commented out until bs has a plan for iterators
