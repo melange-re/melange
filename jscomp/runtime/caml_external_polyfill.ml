@@ -46,7 +46,7 @@ let resolve : (string -> dyn[@u]) =
     {|function(s){
   var myGlobal = getGlobalThis();
   if (myGlobal[s] === undefined){
-    throw new Error(s + " not polyfilled by ReScript yet\n")
+    throw new Error(s + " not polyfilled by Melange yet\n")
   }
   return myGlobal[s]
 }|}]
