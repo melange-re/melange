@@ -70,7 +70,6 @@ val all_module_aliases : bool ref
 val no_stdlib : bool ref
 val no_export : bool ref
 val as_ppx : bool ref
-val customize_runtime : string option ref
 val as_pp : bool ref
 val modules : bool ref
 val preamble : string option ref
