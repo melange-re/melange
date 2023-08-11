@@ -57,6 +57,12 @@
   (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
 
 (rule
+ (deps bool.cppo.ml)
+ (target bool.ml)
+ (action
+  (run cppo -D=BS %{env:CPPO_FLAGS=} %{deps} -o %{target})))
+
+(rule
  (deps bytes.cppo.ml)
  (target bytes.ml)
  (action

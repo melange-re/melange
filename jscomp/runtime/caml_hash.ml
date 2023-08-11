@@ -97,7 +97,10 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
         hash.contents <-
           caml_hash_mix_string hash.contents (Obj.magic obj : string);
         num.contents <- num.contents - 1)
-      else if Js_internal.typeof obj = "boolean" then ()
+      else if Js_internal.typeof obj = "boolean" then (
+        let u = match (Obj.magic obj : bool) with false -> 0 | true -> 1 in
+        hash.contents <- caml_hash_mix_int hash.contents (u + u + 1);
+        num.contents <- num.contents - 1)
       else if Js_internal.typeof obj = "undefined" then ()
       else if Js_internal.typeof obj = "symbol" then ()
       else if Js_internal.typeof obj = "function" then ()
@@ -130,7 +133,8 @@ let caml_hash (count : int) _limit (seed : int) (obj : Obj.t) : int =
             }
             return size
           }|}]
-               obj (fun [@u] v -> push_back queue v) [@u])
+               obj (fun [@u] v -> push_back queue v)
+            [@u])
           in
           hash.contents <- caml_hash_mix_int hash.contents ((size lsl 10) lor 0)
       (*tag*)
