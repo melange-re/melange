@@ -186,7 +186,7 @@ let print_standard_library () =
 
 let bs_version_string =
   "Melange " ^ Melange_version.version ^
-  " ( Using OCaml:" ^ Config.version ^ " )"
+  " (Using OCaml:" ^ Config.version ^ ")"
 
 let print_version_string () =
 #ifndef BS_RELEASE_BUILD
