@@ -115,9 +115,6 @@ let no_export = ref false
 let as_ppx = ref false
 
 
-(* option to config `@rescript/std`*)
-let customize_runtime : string option ref = ref None
-
 let as_pp = ref false
 
 let modules = ref false

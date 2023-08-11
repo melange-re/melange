@@ -67,21 +67,17 @@ let get_runtime_module_path ~package_info ~output_info
           let dep_path =
             Literals.lib // Ext_module_system.runtime_dir module_system
           in
-          (* TODO: This doesn't work yet *)
+          (* TODO(anmonteiro): This doesn't work yet *)
           Ext_path.rel_normalized_absolute_path
             ~from:
               (Js_packages_info.get_output_dir
                  package_info
                  (* ~package_dir:(Lazy.force Ext_path.package_dir) *)
                  ~package_dir:(Sys.getcwd ()) module_system)
-            (*Invariant: the package path to bs-platform, it is used to
-              calculate relative js path
-            *)
-            (match !Js_config.customize_runtime with
-            | None ->
-                Filename.dirname (Filename.dirname Sys.executable_name)
-                // dep_path // js_file
-            | Some path -> path // dep_path // js_file))
+            (* Invariant: the package path to bs-platform, it is used to
+               calculate relative js path *)
+            (Filename.dirname (Filename.dirname Sys.executable_name)
+            // dep_path // js_file))
 
 (* [output_dir] is decided by the command line argument *)
 let string_of_module_id ~package_info ~output_info
