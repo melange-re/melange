@@ -164,9 +164,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     let env = Res_compmisc.initial_env () in
     Env.set_unit_name modulename;
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
-      Typemod.type_implementation_more
-        ?check_exists:(if !Js_config.force_cmi then None else Some ())
-        fname outputprefix modulename env ast
+      Typemod.type_implementation fname outputprefix modulename env ast
     in
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
