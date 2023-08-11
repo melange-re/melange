@@ -49,6 +49,9 @@ Unreleased
   attribute is redundant and unnecessary
   ([#675](https://github.com/melange-re/melange/issues/675),
   [#678](https://github.com/melange-re/melange/pull/678))
+- [melange]: remove old, unused CLI flags: `-bs-ns`, `-bs-cmi`, `-bs-cmj`,
+  `-bs-no-builtin-ppx`, `-bs-super-errors`
+  ([#686](https://github.com/melange-re/melange/pull/686)).
 
 1.0.0 2023-05-31
 ---------------
