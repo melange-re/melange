@@ -221,7 +221,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       nostdlib;
       color;
       bs_eval;
-      bs_e;
       bs_cmi_only;
       bs_cmi;
       bs_cmj;
@@ -375,9 +374,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Option.iter (fun s ->
         ignore (eval s: _ Cmdliner.Term.ret ))
       bs_eval;
-    Option.iter (fun s ->
-        ignore (eval s: _ Cmdliner.Term.ret ))
-      bs_e;
     Option.iter (fun suffix -> Config.interface_suffix := suffix) intf_suffix;
     if g then Clflags.debug := g;
     if opaque then Clflags.opaque := opaque;
