@@ -211,7 +211,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       bs_g;
       bs_package_name;
       bs_module_name;
-      bs_ns;
       as_ppx;
       as_pp;
       no_alias_deps;
@@ -222,10 +221,7 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       color;
       bs_eval;
       bs_cmi_only;
-      bs_cmi;
-      bs_cmj;
       bs_no_version_header;
-      bs_no_builtin_ppx;
       bs_cross_module_opt;
       bs_diagnose;
       where;
@@ -321,8 +317,6 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
       raise (Arg.Bad ("Can't pass both `-bs-package-output` and `-bs-module-type`"))
     end;
 
-    Option.iter Js_packages_state.set_package_map bs_ns ;
-
     if as_ppx then Js_config.as_ppx := as_ppx;
     if as_pp then (
       Js_config.as_pp := true;
@@ -338,11 +332,8 @@ let main: Melc_cli.t -> _ Cmdliner.Term.ret
     Option.iter set_color_option color;
 
     if bs_cmi_only then Js_config.cmi_only := bs_cmi_only;
-    if bs_cmi then Js_config.force_cmi := bs_cmi;
-    if bs_cmj then Js_config.force_cmj := bs_cmj;
     if bs_no_version_header then
       Js_config.no_version_header := bs_no_version_header;
-    if bs_no_builtin_ppx then Js_config.no_builtin_ppx := bs_no_builtin_ppx;
     if bs_diagnose then Js_config.diagnose := bs_diagnose;
     if where then print_standard_library ();
     if verbose then Clflags.verbose := verbose;

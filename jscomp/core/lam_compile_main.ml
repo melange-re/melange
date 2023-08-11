@@ -291,9 +291,7 @@ js
         coerced_input.export_map
     in
     (if not !Clflags.dont_write_files then
-       Js_cmj_format.to_file
-         ~check_exists:(not !Js_config.force_cmj)
-         (output_prefix ^ Literals.suffix_cmj) cmj);
+       Js_cmj_format.to_file (output_prefix ^ Literals.suffix_cmj) cmj);
     delayed_program
   )
 ;;

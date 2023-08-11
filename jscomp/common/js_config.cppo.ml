@@ -79,8 +79,6 @@ let no_version_header = ref false
 let cross_module_inline = ref false
 let diagnose = ref false
 
-let no_builtin_ppx = ref false
-
 let tool_name = "Melange"
 
 let check_div_by_zero = ref true
@@ -95,9 +93,6 @@ let debug = ref false
 
 let cmi_only = ref false
 let cmj_only = ref false
-
-let force_cmi = ref false
-let force_cmj = ref false
 
 let refmt = ref None
 

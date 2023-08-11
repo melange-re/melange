@@ -28,10 +28,6 @@ let output_info = ref None
 let set_package_name name =
   packages_info := Js_packages_info.from_name ~t:!packages_info name
 
-let set_package_map module_name =
-  Bs_clflags.dont_record_crc_unit := Some module_name;
-  Clflags.open_modules := module_name :: !Clflags.open_modules
-
 let update_npm_package_path ?module_name path =
   packages_info :=
     Js_packages_info.add_npm_package_path ?module_name !packages_info path

@@ -48,9 +48,6 @@ val cross_module_inline : bool ref
 val diagnose : bool ref
 (** diagnose option *)
 
-val no_builtin_ppx : bool ref
-(** options for builtin ppx *)
-
 val check_div_by_zero : bool ref
 (** check-div-by-zero option *)
 
@@ -62,8 +59,6 @@ val cmi_only : bool ref
 val cmj_only : bool ref
 
 (* stopped after generating cmj *)
-val force_cmi : bool ref
-val force_cmj : bool ref
 val refmt : string option ref
 val js_stdout : bool ref
 val all_module_aliases : bool ref

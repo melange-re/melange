@@ -106,8 +106,7 @@ let compile =
       in
       let typed_tree =
         let { Typedtree.structure; coercion; shape = _; signature } =
-          Typemod.type_implementation_more modulename modulename modulename env
-            ast
+          Typemod.type_implementation modulename modulename modulename env ast
         in
         (* finalenv := c ; *)
         types_signature := signature;
