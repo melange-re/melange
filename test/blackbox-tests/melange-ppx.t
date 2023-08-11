@@ -16,7 +16,7 @@ It's not very useful since the melange ppx is separate, and it acts more like
 
 Preprocess with `--as-pp`
 
-  $ melc --bs-no-builtin-ppx --as-pp x.ml > x.pp.ml
+  $ melc --as-pp x.ml > x.pp.ml
   $ head -c9 x.pp.ml
   Caml1999M
 
