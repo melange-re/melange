@@ -50,7 +50,6 @@ buildDunePackage {
   nativeBuildInputs = [ menhir cppo git makeWrapper ];
   propagatedBuildInputs = [
     dune-build-info
-    base64
     cmdliner
     ppxlib
     menhirLib
