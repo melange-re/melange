@@ -35,8 +35,6 @@
    (>= "5.1"))
   (cmdliner
    (>= "1.1.0"))
-  (base64
-   (>= "3.1.0"))
   dune-build-info
   (cppo :build)
   (ounit :with-test)
@@ -44,7 +42,6 @@
    (and
     :with-test
     (>= "3.9.0")))
-  (js_of_ocaml :with-test)
   (ppxlib
    (>= "0.24.0"))
   (menhir
