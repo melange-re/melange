@@ -48,7 +48,7 @@
   core
   js_of_ocaml-compiler.runtime
   melange.ppx
-  reason-react-ppx
+  reactjs-jsx-ppx
   reason))
 
 (install
