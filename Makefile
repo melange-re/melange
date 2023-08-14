@@ -32,6 +32,7 @@ opam-install-test: ## Install test dependencies
 	opam pin add reactjs-jsx-ppx.dev . --with-test -y
 	opam pin add melange.dev . --with-test -y
 	opam pin add rescript-syntax.dev . --with-test -y
+	opam pin add melange-playground.dev . --with-test -y
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies
@@ -40,3 +41,19 @@ opam-install-dev: opam-install-test ## Install development dependencies
 
 .PHONY: opam-init
 opam-init: opam-create-switch opam-install-test ## Configure everything to develop this repository in local
+
+.PHONY: playground
+playground:
+	opam exec -- dune build --profile=release jscomp/main/jsoo_main.bc.js
+
+.PHONY: playground-dev
+playground-dev:
+	opam exec -- dune build --profile=dev jscomp/main/jsoo_main.bc.js
+
+.PHONY: playground-dev-test
+playground-dev-test:
+	opam exec -- dune build --profile=dev @@test/melange-playground/playground
+
+.PHONY: playground-test
+playground-test:
+	opam exec -- dune build --profile=release @@test/melange-playground/playground

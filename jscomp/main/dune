@@ -37,3 +37,45 @@
  (modes native)
  (modules ounit_tests_main)
  (libraries ounit2 ounit_tests))
+
+(executable
+ (name jsoo_main)
+ (public_name playground)
+ (package melange-playground)
+ (modules jsoo_main jsoo_common)
+ (modes byte js)
+ (libraries
+  core
+  js_of_ocaml-compiler.runtime
+  melange.ppx
+  reason-react-ppx
+  reason))
+
+(install
+ (section bin)
+ (package melange-playground)
+ (files jsoo_main.bc.js melange-cmijs.js))
+
+(rule
+ (deps
+  (package melange)
+  %{bin:js_of_ocaml}
+  (:some-js-cmi %{lib:melange:js/melange/js.cmi})
+  (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
+  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi}))
+ (target cmi-files.txt)
+ (action
+  (progn
+   (bash
+    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+   (bash
+    "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
+   (bash
+    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
+
+(rule
+ (deps cmi-files.txt)
+ (alias playground-cmijs)
+ (target melange-cmijs.js)
+ (action
+  (bash "cat %{deps} | xargs js_of_ocaml build-fs -o %{target}")))
