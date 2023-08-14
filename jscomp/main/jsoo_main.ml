@@ -25,6 +25,12 @@
 open Melange_compiler_libs
 module Js = Jsoo_common.Js
 
+module Melange_ast = struct
+  external to_ppxlib :
+    Melange_compiler_libs.Parsetree.structure ->
+    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure = "%identity"
+end
+
 let warnings_collected : Location.report list ref = ref []
 
 (* We need to overload the original warning printer to capture the warnings
@@ -58,97 +64,102 @@ let error_of_exn e =
       | Some (`Ok e) -> Some e
       | Some `Already_displayed | None -> None)
 
-module Melange_ast = struct
-  external to_ppxlib :
-    Melange_compiler_libs.Parsetree.structure ->
-    Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure = "%identity"
-end
-
 module From_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_414)
 
-module To_ppxlib =
-  Ppxlib_ast.Convert (Ppxlib_ast__.Versions.OCaml_414) (Ppxlib_ast.Selected_ast)
+external to_parsetree :
+  Ppxlib_ast.Compiler_version.Ast.Parsetree.structure -> Parsetree.structure
+  = "%identity"
 
-let compile
-    ~(impl :
-       Lexing.lexbuf -> Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
-    str : Js.t =
-  let modulename = "Test" in
-  (* let env = !Toploop.toplevel_env in *)
-  (* Res_compmisc.init_path false; *)
-  (* let modulename = module_of_filename ppf sourcefile outputprefix in *)
-  (* Env.set_unit_name modulename; *)
-  Lam_compile_env.reset ();
-  let env = Res_compmisc.initial_env () in
-  (* Question ?? *)
-  (* let finalenv = ref Env.empty in *)
-  let types_signature = ref [] in
-  warnings_collected := [];
-  try
-    (* default *)
-    let ast = impl (Lexing.from_string str) in
-    let ast =
-      let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
-        (* Copy to ppxlib version *)
-        To_ppxlib.copy_structure
-          (Obj.magic ast
-            : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
+let compile =
+  let module To_ppxlib =
+    Ppxlib_ast.Convert
+      (Ppxlib_ast__.Versions.OCaml_414)
+      (Ppxlib_ast.Selected_ast)
+  in
+  fun ~(impl :
+         Lexing.lexbuf ->
+         Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure) str : Js.t ->
+    let modulename = "Test" in
+    (* let env = !Toploop.toplevel_env in *)
+    (* Res_compmisc.init_path false; *)
+    (* let modulename = module_of_filename ppf sourcefile outputprefix in *)
+    (* Env.set_unit_name modulename; *)
+    Lam_compile_env.reset ();
+    let env = Res_compmisc.initial_env () in
+    (* Question ?? *)
+    (* let finalenv = ref Env.empty in *)
+    let types_signature = ref [] in
+    warnings_collected := [];
+    try
+      (* default *)
+      let ast = impl (Lexing.from_string str) in
+      let ast =
+        Melange_ppx_lib.Ppx_entry.rewrite_implementation (to_parsetree ast)
       in
-      let melange_converted_ast =
-        From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
-      in
-      (Obj.magic melange_converted_ast
-        : Melange_compiler_libs.Parsetree.structure)
-    in
-    let typed_tree =
-      let { Typedtree.structure; coercion; shape = _; signature } =
-        Typemod.type_implementation modulename modulename modulename env ast
-      in
-      (* finalenv := c ; *)
-      types_signature := signature;
-      (structure, coercion)
-    in
-    typed_tree |> Translmod.transl_implementation modulename
-    |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam; _ } ->
-    let buffer = Buffer.create 1000 in
-    let () =
-      Js_dump_program.pp_deps_program ~output_prefix:""
-        ~package_info:Js_packages_info.empty
-        ~output_info:
-          {
-            Js_packages_info.module_system = Es6;
-            suffix = Ext_js_suffix.default;
-          }
-        (Ext_pp.from_buffer buffer)
-        (Lam_compile_main.compile "" lam)
-    in
-    let v = Buffer.contents buffer in
-    Js.(obj [| ("js_code", Js.string v) |])
-    (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
-  with e -> (
-    match error_of_exn e with
-    | Some error -> Jsoo_common.mk_js_error error
-    | None -> (
-        let default =
-          lazy Js.(obj [| ("js_error_msg", Js.string (Printexc.to_string e)) |])
+      let ast =
+        let ppxlib_ast : Ppxlib_ast.Parsetree.structure =
+          (* Copy to ppxlib version *)
+          To_ppxlib.copy_structure
+            (Obj.magic ast
+              : Ppxlib_ast__.Versions.OCaml_414.Ast.Parsetree.structure)
         in
-        match e with
-        | Warnings.Errors -> (
-            let warnings = !warnings_collected in
-            match warnings with
-            | [] -> Lazy.force default
-            | warnings ->
-                let type_ = "warning_errors" in
-                let jsErrors =
-                  List.rev_map Jsoo_common.mk_js_error warnings |> Array.of_list
-                in
-                Js.obj
-                  [|
-                    ("warning_errors", Js.array jsErrors);
-                    ("type", Js.string type_);
-                  |])
-        | _ -> Lazy.force default))
+        let melange_converted_ast =
+          From_ppxlib.copy_structure (Ppxlib.Driver.map_structure ppxlib_ast)
+        in
+        (Obj.magic melange_converted_ast
+          : Melange_compiler_libs.Parsetree.structure)
+      in
+      let typed_tree =
+        let { Typedtree.structure; coercion; shape = _; signature } =
+          Typemod.type_implementation modulename modulename modulename env ast
+        in
+        (* finalenv := c ; *)
+        types_signature := signature;
+        (structure, coercion)
+      in
+      typed_tree |> Translmod.transl_implementation modulename
+      |> (* Printlambda.lambda ppf *) fun { Lambda.code = lam; _ } ->
+      let buffer = Buffer.create 1000 in
+      let () =
+        Js_dump_program.pp_deps_program ~output_prefix:""
+          ~package_info:Js_packages_info.empty
+          ~output_info:
+            {
+              Js_packages_info.module_system = Es6;
+              suffix = Ext_js_suffix.default;
+            }
+          (Ext_pp.from_buffer buffer)
+          (Lam_compile_main.compile "" lam)
+      in
+      let v = Buffer.contents buffer in
+      Js.(obj [| ("js_code", Js.string v) |])
+      (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
+    with e -> (
+      match error_of_exn e with
+      | Some error -> Jsoo_common.mk_js_error error
+      | None -> (
+          let default =
+            lazy
+              Js.(obj [| ("js_error_msg", Js.string (Printexc.to_string e)) |])
+          in
+          match e with
+          | Warnings.Errors -> (
+              let warnings = !warnings_collected in
+              match warnings with
+              | [] -> Lazy.force default
+              | warnings ->
+                  let type_ = "warning_errors" in
+                  let jsErrors =
+                    List.rev_map Jsoo_common.mk_js_error warnings
+                    |> Array.of_list
+                  in
+                  Js.obj
+                    [|
+                      ("warning_errors", Js.array jsErrors);
+                      ("type", Js.string type_);
+                    |])
+          | _ -> Lazy.force default))
 
 let export (field : Js.t) v = Js.set (Js.pure_js_expr "globalThis") field v
 
