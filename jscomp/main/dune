@@ -60,14 +60,14 @@
  (deps
   (package melange)
   %{bin:js_of_ocaml}
-  (:some-js-cmi %{lib:melange:js/melange/js.cmi})
+  (:some-runtime-cmi %{lib:melange:runtime/melange/js.cmi})
   (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
   (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi}))
  (target cmi-files.txt)
  (action
   (progn
    (bash
-    "find $(dirname %{some-js-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
+    "find $(dirname %{some-runtime-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" > %{target}")
    (bash
     "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
    (bash

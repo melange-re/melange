@@ -1,8 +1,8 @@
 Prepare an input file to test some snippets to exercise common functionality
 
   $ cat > input.js <<EOF
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
-  > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/jscomp/main/jsoo_main.bc.js');
+  > require(process.env.DUNE_SOURCEROOT + '/_build/default/jscomp/main/melange-cmijs.js');
   > console.log(ocaml.compileML("let t = 1"));
   > console.log(ocaml.compileML(\`let john = [%bs.obj { name = "john"; age = 99 }] let t = john##name\`));
   > console.log(ocaml.compileML(\`let foo = Belt.List.map\`));
