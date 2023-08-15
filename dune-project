@@ -76,6 +76,4 @@
   (reason
    (>= "3.9.0"))
   (melange
-   (= :version))
-  (reason-react-ppx
-   (= "dev"))))
+   (= :version))))
