@@ -51,8 +51,8 @@ playground-dev:
 
 .PHONY: playground-dev-test
 playground-dev-test:
-	opam exec -- dune build --profile=dev @@test/blackbox-tests/playground
+	opam exec -- dune build --profile=dev @@test/blackbox-tests/melange-playground/playground
 
 .PHONY: playground-test
 playground-test:
-	opam exec -- dune build --profile=release @@test/blackbox-tests/playground
+	opam exec -- dune build --profile=release @@test/blackbox-tests/melange-playground/playground
