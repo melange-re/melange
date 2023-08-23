@@ -52,6 +52,8 @@ Unreleased
 - [melange]: remove old, unused CLI flags: `-bs-ns`, `-bs-cmi`, `-bs-cmj`,
   `-bs-no-builtin-ppx`, `-bs-super-errors`
   ([#686](https://github.com/melange-re/melange/pull/686)).
+- [melange]: generate correct code for types with the `option` shape
+  ([#700](https://github.com/melange-re/melange/pull/700)).
 
 1.0.0 2023-05-31
 ---------------

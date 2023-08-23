@@ -8,7 +8,7 @@ var TotallyNotOption = {};
 
 var NotOption2 = {};
 
-var a = /* None */0;
+var a;
 
 var b = 1;
 
@@ -16,7 +16,7 @@ var c;
 
 var d = 1;
 
-var e = /* None */0;
+var e;
 
 var f = 1;
 

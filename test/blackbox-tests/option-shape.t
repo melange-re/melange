@@ -14,7 +14,7 @@
   
   var X = {};
   
-  console.log("A BUG!");
+  console.log("OK");
   
   exports.X = X;
   /*  Not a pure module */
