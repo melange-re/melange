@@ -25,7 +25,8 @@
 module P = Ext_pp
 module L = Js_dump_lit
 
-let default_export = "default"
+let default_export_id = "__es6__default_export"
+let default_export_es6_name = "default"
 let esModule = ("__esModule", "true")
 (* Exports printer *)
 
@@ -48,9 +49,9 @@ let exports cxt f (idents : Ident.t list) =
         let s = Ext_ident.convert id_name in
         let str, cxt = Ext_pp_scope.str_of_ident cxt id in
         ( cxt,
-          if id_name = default_export then
+          if id_name = default_export_id then
             (* TODO check how it will affect AMDJS*)
-            esModule :: (default_export, str) :: acc
+            esModule :: (default_export_es6_name, str) :: acc
           else (s, str) :: acc ))
       (cxt, []) idents
   in
@@ -78,8 +79,8 @@ let es6_export cxt f (idents : Ident.t list) =
         let s = Ext_ident.convert id_name in
         let str, cxt = Ext_pp_scope.str_of_ident cxt id in
         ( cxt,
-          if id_name = default_export then
-            (default_export, str) :: acc
+          if id_name = default_export_id then
+            (default_export_es6_name, str) :: acc
           else (s, str) :: acc ))
       (cxt, []) idents
   in
