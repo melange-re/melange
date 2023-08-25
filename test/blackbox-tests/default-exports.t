@@ -15,7 +15,6 @@ With commonjs
   
   var $$default = 1;
   
-  exports.$$default = $$default;
   exports.default = $$default;
   exports.__esModule = true;
   /* No side effect */
@@ -30,7 +29,6 @@ With es6
   var $$default = 1;
   
   export {
-    $$default ,
     $$default as default,
   }
   /* No side effect */
