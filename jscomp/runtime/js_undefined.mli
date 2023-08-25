@@ -34,8 +34,8 @@ external return : 'a -> 'a t = "%identity"
 
 val testAny : 'a -> bool
 (**
-   @since 1.6.1
    Returns [true] if the given value is [empty] ([undefined])
+   @since 1.6.1
 *)
 
 external empty : 'a t = "#undefined"
