@@ -32,6 +32,7 @@ opam-install-test: ## Install test dependencies
 	opam pin add reason.dev -y git+https://github.com/reasonml/reason.git
 	opam pin add reason-react-ppx.dev -y git+https://github.com/reasonml/reason-react.git#anmonteiro/mel-attrs
 	opam pin add melange.dev . --with-test -y
+	opam pin add melange-playground.dev . --with-test -y
 
 .PHONY: opam-install-dev
 opam-install-dev: opam-install-test ## Install development dependencies
