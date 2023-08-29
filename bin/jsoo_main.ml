@@ -82,10 +82,10 @@ let compile =
          Ppxlib_ast__.Versions.OCaml_501.Ast.Parsetree.structure) str : Js.t ->
     let modulename = "Test" in
     (* let env = !Toploop.toplevel_env in *)
-    (* Res_compmisc.init_path false; *)
     (* let modulename = module_of_filename ppf sourcefile outputprefix in *)
     (* Env.set_unit_name modulename; *)
     Lam_compile_env.reset ();
+    Env.reset_cache ();
     let env = Res_compmisc.initial_env () in
     (* Question ?? *)
     (* let finalenv = ref Env.empty in *)

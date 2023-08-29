@@ -4,7 +4,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/jsoo_main.bc.js');
   > require(process.env.DUNE_SOURCEROOT + '/_build/default/bin/melange-cmijs.js');
   > console.log(ocaml.compileML("let t = 1"));
-  > console.log(ocaml.compileML(\`let john = [%bs.obj { name = "john"; age = 99 }] let t = john##name\`));
+  > console.log(ocaml.compileML(\`let john = [%mel.obj { name = "john"; age = 99 }] let t = john##name\`));
   > console.log(ocaml.compileML(\`let foo = Belt.List.map\`));
   > console.log(ocaml.compileML(\`let +foo\`));
   > console.log(ocaml.compileML(\`let foo = "" + 2\`));
@@ -16,7 +16,7 @@ Prepare an input file to test some snippets to exercise common functionality
   > let person1: person = person ~name:"joe" ~age:10\`));
   > console.log(ocaml.printML(ocaml.parseRE(\`let foo = <div />\`)));
   > console.log(ocaml.printML(ocaml.parseRE("//")));
-  > console.log(ocaml.compileML("let t = [%bs.obj 2]"));
+  > console.log(ocaml.compileML("let t = [%mel.obj 2]"));
   > try { ocaml.parseRE("type t = 2") } catch (e) { console.log(e); };
   > console.log(ocaml.compileRE("let t = 1;"));
   > console.log(ocaml.compileRE("let sum = item => swiftch (item) { | Leaf => 0 };").js_error_msg.trim()); // Some Reason errors dont have locations
@@ -105,7 +105,7 @@ Prepare an input file to test some snippets to exercise common functionality
     row: 0,
     column: 8,
     endRow: 0,
-    endColumn: 19,
+    endColumn: 20,
     text: 'Expect a record expression here',
     type: 'error'
   }
