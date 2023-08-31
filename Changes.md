@@ -54,6 +54,9 @@ Unreleased
   ([#686](https://github.com/melange-re/melange/pull/686)).
 - [melange]: generate correct code for types with the `option` shape
   ([#700](https://github.com/melange-re/melange/pull/700)).
+- [melange]: stop exporting `$$default` in the generated JavaScript when using
+  ES6 default exports `let default = ..`
+  ([#708](https://github.com/melange-re/melange/pull/708)).
 
 1.0.0 2023-05-31
 ---------------
