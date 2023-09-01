@@ -1539,10 +1539,16 @@ module Bool         = Bool
 module Buffer       = Buffer
 module Bytes        = Bytes
 module BytesLabels  = BytesLabels
+#ifdef BS
+#else
 module Callback     = Callback
+#endif
 module Char         = Char
 module Complex      = Complex
+#ifdef BS
+#else
 module Condition      = Condition
+#endif
 module Digest       = Digest
 module Domain         = Domain
 [@@alert "-unstable"]
@@ -1588,7 +1594,10 @@ module Queue        = Queue
 module Random       = Random
 module Result       = Result
 module Scanf        = Scanf
+#ifdef BS
+#else
 module Semaphore      = Semaphore
+#endif
 module Seq          = Seq
 module Set          = Set
 module Stack        = Stack
