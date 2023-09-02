@@ -87,6 +87,12 @@ type t =
   | Pbytessetu
   | Pbytesrefs
   | Pbytessets
+  | Pbytes_load_16 of bool
+  | Pbytes_load_32 of bool
+  | Pbytes_load_64 of bool
+  | Pbytes_set_16 of bool
+  | Pbytes_set_32 of bool
+  | Pbytes_set_64 of bool
   (* Array operations *)
   | Pmakearray
   | Parraylength
@@ -116,6 +122,8 @@ type t =
   | Pasrint64
   (* Compile time constants *)
   | Pctconst of Lam_compat.compile_time_constant
+  | Pbswap16
+  | Pbbswap of Lam_compat.boxed_integer
   (* Integer to external pointer *)
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }

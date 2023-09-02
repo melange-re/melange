@@ -382,9 +382,16 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
       | Pint64 -> prim ~primitive:Pasrint64 ~args loc)
   | Pbigarraydim _ | Pbigstring_load_16 _ | Pbigstring_load_32 _
   | Pbigstring_load_64 _ | Pbigstring_set_16 _ | Pbigstring_set_32 _
-  | Pbigstring_set_64 _ | Pbytes_load_16 _ | Pbytes_load_32 _ | Pbytes_load_64 _
-  | Pbytes_set_16 _ | Pbytes_set_32 _ | Pbytes_set_64 _ | Pstring_load_16 _
-  | Pstring_load_32 _ | Pstring_load_64 _ | Pbigarrayref _ | Pbigarrayset _ ->
+  | Pbigstring_set_64 _ ->
+      Location.raise_errorf ~loc "unsupported primitive"
+  | Pbytes_load_16 b -> prim ~primitive:(Pbytes_load_16 b) ~args loc
+  | Pbytes_load_32 b -> prim ~primitive:(Pbytes_load_32 b) ~args loc
+  | Pbytes_load_64 b -> prim ~primitive:(Pbytes_load_64 b) ~args loc
+  | Pbytes_set_16 b -> prim ~primitive:(Pbytes_set_16 b) ~args loc
+  | Pbytes_set_32 b -> prim ~primitive:(Pbytes_set_32 b) ~args loc
+  | Pbytes_set_64 b -> prim ~primitive:(Pbytes_set_64 b) ~args loc
+  | Pstring_load_16 _ | Pstring_load_32 _ | Pstring_load_64 _ | Pbigarrayref _
+  | Pbigarrayset _ ->
       Location.raise_errorf ~loc "unsupported primitive"
   | Pctconst x -> (
       match x with
@@ -410,7 +417,9 @@ let lam_prim ~primitive:(p : Lambda.primitive) ~args loc : Lam.t =
   | Pfield_computed -> prim ~primitive:Pfield_computed ~args loc
   | Popaque -> List.hd args
   | Psetfield_computed _ -> prim ~primitive:Psetfield_computed ~args loc
-  | Pbbswap _ | Pbswap16 | Pduparray _ -> assert false
+  | Pbbswap i -> prim ~primitive:(Pbbswap i) ~args loc
+  | Pbswap16 -> prim ~primitive:Pbswap16 ~args loc
+  | Pduparray _ -> assert false
   | Prunstack | Pperform | Presume | Preperform | Patomic_exchange | Patomic_cas
   | Patomic_fetch_add | Pdls_get | Patomic_load _ ->
       Location.raise_errorf ~loc

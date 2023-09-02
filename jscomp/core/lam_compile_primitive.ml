@@ -241,6 +241,24 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
       | [ e; e1 ] -> Js_of_lam_string.ref_byte e e1
       | _ -> assert false)
   | Pbytesrefs -> E.runtime_call Js_runtime_modules.bytes "get" args
+  | Pbytes_load_16 unsafe ->
+      let fn = if unsafe then "get16u" else "get16" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_load_32 unsafe ->
+      let fn = if unsafe then "get32u" else "get32" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_load_64 unsafe ->
+      let fn = if unsafe then "get64u" else "get64" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_set_16 unsafe ->
+      let fn = if unsafe then "set16u" else "set16" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_set_32 unsafe ->
+      let fn = if unsafe then "set32u" else "set32" in
+      E.runtime_call Js_runtime_modules.bytes fn args
+  | Pbytes_set_64 unsafe ->
+      let fn = if unsafe then "set64u" else "set64" in
+      E.runtime_call Js_runtime_modules.bytes fn args
   | Pstringrefs -> E.runtime_call Js_runtime_modules.string "get" args
   (* For bytes and string, they both return [int] in ocaml
       we need tell Pbyteref from Pstringref
@@ -313,6 +331,10 @@ let translate loc (cxt : Lam_compile_context.t) (prim : Lam_primitive.t)
             (Blk_constructor { name = "Other"; num_nonconst = 1 })
             [ E.str "BS" ]
             Immutable)
+  | Pbswap16 -> E.runtime_call Js_runtime_modules.bytes "bswap16" args
+  | Pbbswap Pnativeint -> assert false
+  | Pbbswap Pint32 -> E.runtime_call Js_runtime_modules.bytes "bswap32" args
+  | Pbbswap Pint64 -> E.runtime_call Js_runtime_modules.bytes "bswap64" args
   | Pduprecord (Record_regular | Record_extension | Record_inlined _) ->
       Lam_dispatch_primitive.translate loc "caml_obj_dup" args
   | Plazyforce

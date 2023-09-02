@@ -97,6 +97,12 @@ type t =
   | Pbytessetu
   | Pbytesrefs
   | Pbytessets
+  | Pbytes_load_16 of bool
+  | Pbytes_load_32 of bool
+  | Pbytes_load_64 of bool
+  | Pbytes_set_16 of bool
+  | Pbytes_set_32 of bool
+  | Pbytes_set_64 of bool
   (* Array operations *)
   | Pmakearray
   | Parraylength
@@ -126,6 +132,8 @@ type t =
   (* Compile time constants *)
   | Pctconst of
       Lam_compat.compile_time_constant (* Integer to external pointer *)
+  | Pbswap16
+  | Pbbswap of Lam_compat.boxed_integer
   | Pdebugger
   | Pjs_unsafe_downgrade of { name : string; setter : bool; loc : Location.t }
   | Pinit_mod
@@ -227,6 +235,18 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
   | Pbytessetu -> rhs = Pbytessetu
   | Pbytesrefs -> rhs = Pbytesrefs
   | Pbytessets -> rhs = Pbytessets
+  | Pbytes_load_16 b1 -> (
+      match rhs with Pbytes_load_16 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_load_32 b1 -> (
+      match rhs with Pbytes_load_32 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_load_64 b1 -> (
+      match rhs with Pbytes_load_64 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_set_16 b1 -> (
+      match rhs with Pbytes_set_16 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_set_32 b1 -> (
+      match rhs with Pbytes_set_32 b2 -> b1 = b2 | _ -> false)
+  | Pbytes_set_64 b1 -> (
+      match rhs with Pbytes_set_64 b2 -> b1 = b2 | _ -> false)
   | Pundefined_to_opt -> rhs = Pundefined_to_opt
   | Pnull_to_opt -> rhs = Pnull_to_opt
   | Pnull_undefined_to_opt -> rhs = Pnull_undefined_to_opt
@@ -324,6 +344,8 @@ let eq_primitive_approx (lhs : t) (rhs : t) =
           Lam_compat.eq_compile_time_constant compile_time_constant
             compile_time_constant1
       | _ -> false)
+  | Pbswap16 -> rhs = Pbswap16
+  | Pbbswap i1 -> ( match rhs with Pbbswap i2 -> i1 = i2 | _ -> false)
   | Pjs_unsafe_downgrade { name; loc = _; setter } -> (
       match rhs with
       | Pjs_unsafe_downgrade rhs -> name = rhs.name && setter = rhs.setter
