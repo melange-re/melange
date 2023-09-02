@@ -3373,6 +3373,35 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
+  var branch$p = function (_left) {
+    while(true) {
+      var left = _left;
+      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
+        return seq$2(Stdlib__List.rev(left));
+      }
+      _left = {
+        hd: piece(undefined),
+        tl: left
+      };
+      continue ;
+    };
+  };
+  var regexp$p = function (_left) {
+    while(true) {
+      var left = _left;
+      if (!accept(/* '|' */124)) {
+        return left;
+      }
+      _left = alt$1({
+            hd: left,
+            tl: {
+              hd: branch$p(/* [] */0),
+              tl: /* [] */0
+            }
+          });
+      continue ;
+    };
+  };
   var piece = function (param) {
     var r = atom(undefined);
     if (accept(/* '*' */42)) {
@@ -3407,15 +3436,83 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
     i.contents = i.contents - 1 | 0;
     return r;
   };
-  var branch$p = function (_left) {
+  var bracket = function (_s) {
     while(true) {
-      var left = _left;
-      if (i.contents === l || test(/* '|' */124) || test(/* ')' */41)) {
-        return seq$2(Stdlib__List.rev(left));
+      var s = _s;
+      if (Caml_obj.caml_notequal(s, /* [] */0) && accept(/* ']' */93)) {
+        return s;
       }
-      _left = {
-        hd: piece(undefined),
-        tl: left
+      var match = $$char(undefined);
+      if (match.NAME === "Char") {
+        var c = match.VAL;
+        if (accept(/* '-' */45)) {
+          if (accept(/* ']' */93)) {
+            return {
+                    hd: {
+                      TAG: /* Set */0,
+                      _0: single(c)
+                    },
+                    tl: {
+                      hd: {
+                        TAG: /* Set */0,
+                        _0: {
+                          hd: [
+                            /* '-' */45,
+                            /* '-' */45
+                          ],
+                          tl: /* [] */0
+                        }
+                      },
+                      tl: s
+                    }
+                  };
+          }
+          var match$1 = $$char(undefined);
+          if (match$1.NAME !== "Char") {
+            return {
+                    hd: {
+                      TAG: /* Set */0,
+                      _0: single(c)
+                    },
+                    tl: {
+                      hd: {
+                        TAG: /* Set */0,
+                        _0: {
+                          hd: [
+                            /* '-' */45,
+                            /* '-' */45
+                          ],
+                          tl: /* [] */0
+                        }
+                      },
+                      tl: {
+                        hd: match$1.VAL,
+                        tl: s
+                      }
+                    }
+                  };
+          }
+          _s = {
+            hd: {
+              TAG: /* Set */0,
+              _0: seq(c, match$1.VAL)
+            },
+            tl: s
+          };
+          continue ;
+        }
+        _s = {
+          hd: {
+            TAG: /* Set */0,
+            _0: single(c)
+          },
+          tl: s
+        };
+        continue ;
+      }
+      _s = {
+        hd: match.VAL,
+        tl: s
       };
       continue ;
     };
@@ -3715,135 +3812,6 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
-  var bracket = function (_s) {
-    while(true) {
-      var s = _s;
-      if (Caml_obj.caml_notequal(s, /* [] */0) && accept(/* ']' */93)) {
-        return s;
-      }
-      var match = $$char(undefined);
-      if (match.NAME === "Char") {
-        var c = match.VAL;
-        if (accept(/* '-' */45)) {
-          if (accept(/* ']' */93)) {
-            return {
-                    hd: {
-                      TAG: /* Set */0,
-                      _0: single(c)
-                    },
-                    tl: {
-                      hd: {
-                        TAG: /* Set */0,
-                        _0: {
-                          hd: [
-                            /* '-' */45,
-                            /* '-' */45
-                          ],
-                          tl: /* [] */0
-                        }
-                      },
-                      tl: s
-                    }
-                  };
-          }
-          var match$1 = $$char(undefined);
-          if (match$1.NAME !== "Char") {
-            return {
-                    hd: {
-                      TAG: /* Set */0,
-                      _0: single(c)
-                    },
-                    tl: {
-                      hd: {
-                        TAG: /* Set */0,
-                        _0: {
-                          hd: [
-                            /* '-' */45,
-                            /* '-' */45
-                          ],
-                          tl: /* [] */0
-                        }
-                      },
-                      tl: {
-                        hd: match$1.VAL,
-                        tl: s
-                      }
-                    }
-                  };
-          }
-          _s = {
-            hd: {
-              TAG: /* Set */0,
-              _0: seq(c, match$1.VAL)
-            },
-            tl: s
-          };
-          continue ;
-        }
-        _s = {
-          hd: {
-            TAG: /* Set */0,
-            _0: single(c)
-          },
-          tl: s
-        };
-        continue ;
-      }
-      _s = {
-        hd: match.VAL,
-        tl: s
-      };
-      continue ;
-    };
-  };
-  var regexp$p = function (_left) {
-    while(true) {
-      var left = _left;
-      if (!accept(/* '|' */124)) {
-        return left;
-      }
-      _left = alt$1({
-            hd: left,
-            tl: {
-              hd: branch$p(/* [] */0),
-              tl: /* [] */0
-            }
-          });
-      continue ;
-    };
-  };
-  var integer = function (param) {
-    if (i.contents === l) {
-      return ;
-    }
-    var d = get(undefined);
-    if (d > 57 || d < 48) {
-      i.contents = i.contents - 1 | 0;
-      return ;
-    } else {
-      var _i = d - /* '0' */48 | 0;
-      while(true) {
-        var i$1 = _i;
-        if (i.contents === l) {
-          return i$1;
-        }
-        var d$1 = get(undefined);
-        if (d$1 > 57 || d$1 < 48) {
-          i.contents = i.contents - 1 | 0;
-          return i$1;
-        }
-        var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
-        if (i$p < i$1) {
-          throw {
-                RE_EXN_ID: Parse_error,
-                Error: new Error()
-              };
-        }
-        _i = i$p;
-        continue ;
-      };
-    }
-  };
   var atom = function (param) {
     if (accept(/* '.' */46)) {
       if (dotall) {
@@ -4119,6 +4087,38 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
               TAG: /* Set */0,
               _0: single(c$1)
             };
+    }
+  };
+  var integer = function (param) {
+    if (i.contents === l) {
+      return ;
+    }
+    var d = get(undefined);
+    if (d > 57 || d < 48) {
+      i.contents = i.contents - 1 | 0;
+      return ;
+    } else {
+      var _i = d - /* '0' */48 | 0;
+      while(true) {
+        var i$1 = _i;
+        if (i.contents === l) {
+          return i$1;
+        }
+        var d$1 = get(undefined);
+        if (d$1 > 57 || d$1 < 48) {
+          i.contents = i.contents - 1 | 0;
+          return i$1;
+        }
+        var i$p = Math.imul(10, i$1) + (d$1 - /* '0' */48 | 0) | 0;
+        if (i$p < i$1) {
+          throw {
+                RE_EXN_ID: Parse_error,
+                Error: new Error()
+              };
+        }
+        _i = i$p;
+        continue ;
+      };
     }
   };
   var res = regexp$p(branch$p(/* [] */0));
