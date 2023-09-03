@@ -1,5 +1,6 @@
 Export otherwise invalid OCaml identifiers to JavaScript
 
+  $ . ./setup.sh
   $ cat > x.ml <<EOF
   > let [@mel.as POST] post= 1
   > let [@mel.as "GET"] get = 2
