@@ -371,7 +371,6 @@ module Interp = struct
   *)
   and expect_simple_var loc s offset ({ buf; s_len; _ } as cxt) =
     let v = ref offset in
-    (* prerr_endline @@ Ext_pervasives.dump (s, has_paren, (is_space s.[!v]), !v); *)
     if not (offset < s_len && valid_lead_identifier_char s.[offset]) then
       pos_error cxt ~loc (Invalid_syntax_of_var String.empty)
     else (
@@ -388,7 +387,6 @@ module Interp = struct
 
   and expect_var_paren loc s offset ({ buf; s_len; _ } as cxt) =
     let v = ref offset in
-    (* prerr_endline @@ Ext_pervasives.dump (s, has_paren, (is_space s.[!v]), !v); *)
     while !v < s_len && s.[!v] <> ')' do
       let cur_char = s.[!v] in
       Buffer.add_char buf cur_char;
