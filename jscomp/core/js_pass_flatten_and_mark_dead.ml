@@ -245,8 +245,11 @@ let subst_map (substitution : J.expression Hash_ident.t) =
             | _ ->
                 (* self#add_substitue ident e ; *)
                 S.block
-                @@ Ext_list.rev_map_append bindings [ original_statement ]
-                     (fun (id, v) -> S.define_variable ~kind:Strict id v))
+                  (List.rev_append
+                     (List.map
+                        (fun (id, v) -> S.define_variable ~kind:Strict id v)
+                        bindings)
+                     [ original_statement ]))
         | _ -> super.statement self v);
     expression =
       (fun self x ->

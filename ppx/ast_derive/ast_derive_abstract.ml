@@ -157,8 +157,7 @@ let handleTdclsInStr ~light _rf tdcls =
       (fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
-            ( ntdcl :: tdcls,
-              Ext_list.map_append value_descriptions sts Str.primitive ))
+            (ntdcl :: tdcls, List.map Str.primitive value_descriptions @ sts))
       tdcls ([], [])
   in
   (* Str.include_ (Incl.mk (Mod.structure [ Str.type_ rf tdcls ])) ::  *)
@@ -170,8 +169,7 @@ let handleTdclsInSig ~light _rf tdcls =
       (fun tdcl (tdcls, sts) ->
         match handleTdcl light tdcl with
         | ntdcl, value_descriptions ->
-            ( ntdcl :: tdcls,
-              Ext_list.map_append value_descriptions sts Sig.value ))
+            (ntdcl :: tdcls, List.map Sig.value value_descriptions @ sts))
       tdcls ([], [])
   in
   (*   Sig.type_ rf tdcls ::  *) code

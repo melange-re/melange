@@ -70,9 +70,9 @@ let flatten_map =
             match block with
             | { statement_desc = Exp last_one; _ } :: rest_rev ->
                 S.block
-                  (Ext_list.rev_map_append rest_rev
-                     [ self.statement self (S.exp (E.assign a last_one)) ]
-                     (fun x -> self.statement self x))
+                  (List.rev_append
+                     (List.map (fun x -> self.statement self x) rest_rev)
+                     [ self.statement self (S.exp (E.assign a last_one)) ])
                 (* TODO: here we introduce a block, should avoid it *)
                 (* super#statement *)
                 (*   (S.block (List.rev_append rest_rev [S.exp (E.assign a  last_one)])) *)
@@ -92,9 +92,9 @@ let flatten_map =
             | { statement_desc = Exp last_one; _ } :: rest_rev ->
                 super.statement self
                   (S.block
-                     (Ext_list.rev_map_append rest_rev
-                        [ S.return_stmt last_one ]
-                        (fun x -> self.statement self x)))
+                     (List.rev_append
+                        (List.map (fun x -> self.statement self x) rest_rev)
+                        [ S.return_stmt last_one ]))
             | _ -> assert false)
         | Block [ x ] -> self.statement self x
         | _ -> super.statement self x);

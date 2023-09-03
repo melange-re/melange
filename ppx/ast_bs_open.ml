@@ -60,8 +60,7 @@ let convertBsErrorFunction loc (self : Ast_traverse.map) attrs
           (Exp.constraint_ ~loc
              [%expr [%e Exp.ident ~loc { txt = obj_magic; loc }] [%e txt_expr]]
              [%type: exn])
-          (Ext_list.map_append cases
-             [ Exp.case (Pat.any ~loc ()) none ]
+          (List.map
              (fun x ->
                let pc_rhs = x.pc_rhs in
                let loc = pc_rhs.pexp_loc in
@@ -71,5 +70,7 @@ let convertBsErrorFunction loc (self : Ast_traverse.map) attrs
                    Exp.construct ~loc
                      { txt = Ast_literal.predef_some; loc }
                      (Some pc_rhs);
-               })))
+               })
+             cases
+          @ [ Exp.case (Pat.any ~loc ()) none ]))
        (Some none))
