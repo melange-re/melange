@@ -169,3 +169,16 @@ let table_dispatch table (action : action) =
       | exception _ ->
           Error ("Unused attribute: " ^ name)
           (* Location.raise_errorf ~loc "%s is not supported" name *))
+
+let extract_mel_as_ident ~loc x =
+  match x with
+  | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ] -> (
+      match pexp_desc with
+      | Pexp_constant (Pconst_string (name, _, _))
+      | Pexp_construct ({ txt = Lident name; _ }, _)
+      | Pexp_ident { txt = Lident name; _ } ->
+          name
+      | _ ->
+          Location.raise_errorf ~loc
+            "Invalid `%@mel.as' payload. Expected a string or an ident.")
+  | _ -> Location.raise_errorf ~loc "Invalid attribute payload."

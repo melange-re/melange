@@ -698,21 +698,6 @@ module Mapper = struct
         | _ -> super#structure_item str
 
       method! structure str =
-        let extract_mel_as_ident ~loc x =
-          match x with
-          | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ] -> (
-              match pexp_desc with
-              | Pexp_constant (Pconst_string (name, _, _))
-              | Pexp_construct ({ txt = Lident name; _ }, _)
-              | Pexp_ident { txt = Lident name; _ } ->
-                  name
-              | _ ->
-                  Location.raise_errorf ~loc
-                    "Invalid `%@mel.as' payload. Expected a string or an ident."
-              )
-          | _ -> Location.raise_errorf ~loc "Invalid attribute payload."
-        in
-
         match
           List.filter_map
             (function
@@ -734,8 +719,8 @@ module Mapper = struct
                                 Some
                                   ( pvb_loc,
                                     pval_name.txt,
-                                    extract_mel_as_ident ~loc:pvb_loc
-                                      attr_payload )
+                                    Ast_payload.extract_mel_as_ident
+                                      ~loc:pvb_loc attr_payload )
                             | None -> None)
                         | _ -> None)
                       vbs
@@ -874,6 +859,39 @@ module Mapper = struct
                           };
                     })
         | _ -> super#signature_item sigi
+
+      method! signature sig_ =
+        match
+          List.filter_map
+            (function
+              | {
+                  psig_desc =
+                    Parsetree.Psig_value
+                      { pval_loc = loc; pval_type; pval_attributes; _ };
+                  _;
+                } -> (
+                  match Ast_attributes.has_mel_as_payload pval_attributes with
+                  | Some ({ attr_payload; _ } as attr) ->
+                      Bs_ast_invariant.mark_used_bs_attribute attr;
+                      Some
+                        ( loc,
+                          pval_type,
+                          Ast_payload.extract_mel_as_ident ~loc attr_payload )
+                  | None -> None)
+              | _ -> None)
+            sig_
+        with
+        | [] -> super#signature sig_
+        | xs ->
+            let bindings =
+              List.map
+                (fun (loc, original_type, new_name) ->
+                  Ast_helper.(
+                    Sig.value ~loc
+                      (Val.mk ~loc { txt = new_name; loc } original_type)))
+                xs
+            in
+            super#signature sig_ @ bindings
     end
 end
 

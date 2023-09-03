@@ -46,3 +46,4 @@ val assert_strings : location -> t -> label list
 val is_single_string : t -> (string * string option) option
 val is_single_int : t -> int option
 val as_ident : t -> Longident.t loc option
+val extract_mel_as_ident : loc:location -> t -> string
