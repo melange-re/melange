@@ -17,10 +17,12 @@ Export otherwise invalid OCaml identifiers to JavaScript
   > let [@mel.as POST] post= 1
   > let [@mel.as "GET"] get = 2
   > let [@mel.as "put"] other = 2
+  > let [@mel.as "class"] other = 2 (* class is reserved in JS *)
   > EOF
 
   $ cat > x.mli <<EOF
   > val [@mel.as "GET"] get : int
+  > val [@mel.as "class"] other : int
   > EOF
 
   $ dune build @melange
@@ -32,8 +34,14 @@ Export otherwise invalid OCaml identifiers to JavaScript
   
   var get = 2;
   
+  var other = 2;
+  
   var GET = 2;
   
+  var $$class = 2;
+  
   exports.get = get;
+  exports.other = other;
   exports.GET = GET;
+  exports.$$class = $$class;
   /* No side effect */
