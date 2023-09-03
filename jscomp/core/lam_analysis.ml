@@ -89,7 +89,8 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Paddfloat | Psubfloat | Pmulfloat | Pdivfloat | Pfloatcomp _ | Pjscomp _
       (* String operations *)
       | Pstringlength | Pstringrefu | Pstringrefs | Pbyteslength | Pbytesrefu
-      | Pbytesrefs | Pmakearray | Parraylength | Parrayrefu | Parrayrefs
+      | Pbytesrefs | Pbytes_load_16 _ | Pbytes_load_32 _ | Pbytes_load_64 _
+      | Pmakearray | Parraylength | Parrayrefu | Parrayrefs
       (* Test if the argument is a block or an immediate integer *)
       | Pisint | Pis_poly_var_const
       (* Test if the (integer) argument is outside an interval *)
@@ -111,12 +112,13 @@ let rec no_side_effects (lam : Lam.t) : bool =
       | Pjs_unsafe_downgrade _ | Pdebugger | Pvoid_run | Pfull_apply
       | Pjs_fn_method
       (* TODO *)
-      | Praw_js_code _ | Pbytessetu | Pbytessets
+      | Praw_js_code _ | Pbytessetu | Pbytessets | Pbytes_set_16 _
+      | Pbytes_set_32 _ | Pbytes_set_64 _
       (* Operations on boxed integers (Nativeint.t, Int32.t, Int64.t) *)
       | Parraysets
       (* byte swap *)
-      | Parraysetu | Poffsetref _ | Praise | Plazyforce | Psetfield _
-      | Psetfield_computed ->
+      | Pbswap16 | Pbbswap _ | Parraysetu | Poffsetref _ | Praise | Plazyforce
+      | Psetfield _ | Psetfield_computed ->
           false)
   | Llet (_, _, arg, body) | Lmutlet (_, arg, body) ->
       no_side_effects arg && no_side_effects body

@@ -487,8 +487,6 @@ val of_seq : char Seq.t -> t
 (** Create a string from the generator
     @since 4.07 *)
 
-#ifdef BS
-#else
 (** {1:utf UTF codecs and validations}
 
     @since 4.14 *)
@@ -739,7 +737,6 @@ val set_int64_le : bytes -> int -> int64 -> unit
     starting at byte index [i] to [v].
     @since 4.08
 *)
-#endif
 
 
 (** {1:bytes_concurrency Byte sequences and concurrency safety}

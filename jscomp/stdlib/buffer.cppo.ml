@@ -320,8 +320,6 @@ let of_seq i =
   add_seq b i;
   b
 
-#ifdef BS
-#else
 (** {6 Binary encoding of integers} *)
 
 external unsafe_set_int8 : bytes -> int -> int -> unit = "%bytes_unsafe_set"
@@ -404,4 +402,3 @@ let add_uint8 = add_int8
 let add_uint16_ne = add_int16_ne
 let add_uint16_le = add_int16_le
 let add_uint16_be = add_int16_be
-#endif

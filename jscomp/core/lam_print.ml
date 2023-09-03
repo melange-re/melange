@@ -159,6 +159,12 @@ let primitive ppf (prim : Lam_primitive.t) =
   | Pbytessetu -> fprintf ppf "bytes.unsafe_set"
   | Pbytesrefs -> fprintf ppf "bytes.get"
   | Pbytessets -> fprintf ppf "bytes.set"
+  | Pbytes_load_16 b -> fprintf ppf "bytes.get16%s" (if b then "u" else "")
+  | Pbytes_load_32 b -> fprintf ppf "bytes.get32%s" (if b then "u" else "")
+  | Pbytes_load_64 b -> fprintf ppf "bytes.get64%s" (if b then "u" else "")
+  | Pbytes_set_16 b -> fprintf ppf "bytes.set16%s" (if b then "u" else "")
+  | Pbytes_set_32 b -> fprintf ppf "bytes.set32%s" (if b then "u" else "")
+  | Pbytes_set_64 b -> fprintf ppf "bytes.set64%s" (if b then "u" else "")
   | Parraylength -> fprintf ppf "array.length"
   | Pmakearray -> fprintf ppf "makearray"
   | Parrayrefu -> fprintf ppf "array.unsafe_get"
@@ -175,6 +181,10 @@ let primitive ppf (prim : Lam_primitive.t) =
         | Backend_type -> "backend_type"
       in
       fprintf ppf "sys.constant_%s" const_name
+  | Pbswap16 -> fprintf ppf "bswap16"
+  | Pbbswap Pnativeint -> fprintf ppf "bswap_nativeint"
+  | Pbbswap Pint32 -> fprintf ppf "bswap32"
+  | Pbbswap Pint64 -> fprintf ppf "bswap64"
   | Pisint -> fprintf ppf "isint"
   | Pis_poly_var_const -> fprintf ppf "#is_poly_var_const"
   | Pisout i -> fprintf ppf "isout %d" i

@@ -219,8 +219,6 @@ val of_seq : char Seq.t -> t
 (** Create a buffer from the generator
     @since 4.07 *)
 
-#ifdef BS
-#else
 (** {1 Binary encoding of integers} *)
 
 (** The functions in this section append binary encodings of integers
@@ -324,4 +322,3 @@ val add_int64_le : t -> int64 -> unit
     [i] to [b].
     @since 4.08
 *)
-#endif
