@@ -28,7 +28,6 @@ val combine_array : 'a array -> 'b list -> ('a -> 'c) -> ('c * 'b) list
 val combine_array_append :
   'a array -> 'b list -> ('c * 'b) list -> ('a -> 'c) -> ('c * 'b) list
 
-val mapi_append : 'a list -> (int -> 'a -> 'b) -> 'b list -> 'b list
 val map_snd : ('a * 'b) list -> ('b -> 'c) -> ('a * 'c) list
 
 val map_last : 'a list -> (bool -> 'a -> 'b) -> 'b list
@@ -39,7 +38,6 @@ val map_last : 'a list -> (bool -> 'a -> 'b) -> 'b list
 *)
 
 val append_one : 'a list -> 'a -> 'a list
-val map_append : 'b list -> 'a list -> ('b -> 'a) -> 'a list
 
 val fold_right3 :
   'a list -> 'b list -> 'c list -> 'd -> ('a -> 'b -> 'c -> 'd -> 'd) -> 'd
@@ -80,14 +78,6 @@ val length_ge : 'a list -> int -> bool
 
 val length_larger_than_n : 'a list -> 'a list -> int -> bool
 
-val rev_map_append : 'a list -> 'b list -> ('a -> 'b) -> 'b list
-(**
-   [rev_map_append f l1 l2]
-   [map f l1] and reverse it to append [l2]
-   This weird semantics is due to it is the most efficient operation
-   we can do
-*)
-
 val stable_group : 'a list -> ('a -> 'a -> bool) -> 'a list list
 (**
     [stable_group eq lst]
@@ -103,9 +93,6 @@ val stable_group : 'a list -> ('a -> 'a -> bool) -> 'a list list
     TODO: this is O(n^2) behavior
     which could be improved later
 *)
-
-val find_first : 'a list -> ('a -> bool) -> 'a option
-val find_first_exn : 'a list -> ('a -> bool) -> 'a
 
 val find_first_not : 'a list -> ('a -> bool) -> 'a option
 (** [find_first_not p lst ]

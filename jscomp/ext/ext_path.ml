@@ -73,7 +73,7 @@ let node_relative_path ~from:(file_or_dir_2 : t) (file_or_dir_1 : t) =
     | "." :: xs, ys -> go xs ys
     | xs, "." :: ys -> go xs ys
     | x :: xs, y :: ys when x = y -> go xs ys
-    | _, _ -> Ext_list.map_append dir2 dir1 (fun _ -> Literals.node_parent)
+    | _, _ -> List.map (fun _ -> Literals.node_parent) dir2 @ dir1
   in
   match go dir1 dir2 with
   | x :: _ as ys when x = Literals.node_parent ->

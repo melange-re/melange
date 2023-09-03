@@ -141,9 +141,8 @@ let exn_block_as_obj ~(stack : bool) (el : J.expression list) (ext : J.tag_info)
   in
   Object
     (if stack then
-       Ext_list.mapi_append el
-         (fun i e -> (Js_op.Lit (field_name i), e))
-         [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
+       List.mapi (fun i e -> (Js_op.Lit (field_name i), e)) el
+       @ [ (Js_op.Lit "Error", E.new_ (E.js_global "Error") []) ]
      else List.mapi (fun i e -> (Js_op.Lit (field_name i), e)) el)
 
 let rec iter_lst cxt ls element inter =
@@ -791,16 +790,18 @@ and expression_desc cxt ~(level : int) x : cxt =
       let not_is_cons = p.name <> Literals.cons in
       let objs =
         let tails =
-          Ext_list.mapi_append el
+          List.mapi
             (fun i e ->
               ( (match (not_is_cons, i) with
                 | false, 0 -> Js_op.Lit Literals.hd
                 | false, 1 -> Js_op.Lit Literals.tl
                 | _ -> Js_op.Lit ("_" ^ string_of_int i)),
                 e ))
-            (if !Js_config.debug && not_is_cons then
-               [ (name_symbol, E.str p.name) ]
-             else [])
+            el
+          @
+          if !Js_config.debug && not_is_cons then
+            [ (name_symbol, E.str p.name) ]
+          else []
         in
         if p.num_nonconst = 1 then tails
         else

@@ -38,8 +38,8 @@ let suites =
            =~ [ 0; 0; 0; 0; 0; 0; 1 ] );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_equal
-             (Ext_list.map_append [ 0; 1; 2 ] [ "1"; "2"; "3" ] (fun x ->
-                  string_of_int x))
+             (List.map (fun x -> string_of_int x) [ 0; 1; 2 ]
+             @ [ "1"; "2"; "3" ])
              [ "0"; "1"; "2"; "1"; "2"; "3" ] );
          ( __LOC__ >:: fun _ ->
            let a, b = Ext_list.split_at [ 1; 2; 3; 4; 5; 6 ] 3 in
@@ -65,7 +65,7 @@ let suites =
              "z" );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_raises
-             (Assert_failure ("jscomp/ext/ext_list.ml", 404, 35))
+             (Assert_failure ("jscomp/ext/ext_list.ml", 341, 35))
              (fun _ ->
                ignore
                @@ Ext_list.assoc_by_int [ (2, "x"); (3, "y"); (1, "z") ] 11 None)

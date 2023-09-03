@@ -104,15 +104,6 @@ let rec map_last l f =
       let y4 = f false x4 in
       y1 :: y2 :: y3 :: y4 :: map_last tail f
 
-let rec mapi_aux lst i f tail =
-  match lst with
-  | [] -> tail
-  | a :: l ->
-      let r = f i a in
-      r :: mapi_aux l (i + 1) f tail
-
-let mapi_append lst f tail = mapi_aux lst 0 f tail
-
 let rec append_aux l1 l2 =
   match l1 with
   | [] -> l2
@@ -126,40 +117,6 @@ let rec append_aux l1 l2 =
 
 let append l1 l2 = match l2 with [] -> l1 | _ -> append_aux l1 l2
 let append_one l1 x = append_aux l1 [ x ]
-
-let rec map_append l1 l2 f =
-  match l1 with
-  | [] -> l2
-  | [ a0 ] -> f a0 :: l2
-  | [ a0; a1 ] ->
-      let b0 = f a0 in
-      let b1 = f a1 in
-      b0 :: b1 :: l2
-  | [ a0; a1; a2 ] ->
-      let b0 = f a0 in
-      let b1 = f a1 in
-      let b2 = f a2 in
-      b0 :: b1 :: b2 :: l2
-  | [ a0; a1; a2; a3 ] ->
-      let b0 = f a0 in
-      let b1 = f a1 in
-      let b2 = f a2 in
-      let b3 = f a3 in
-      b0 :: b1 :: b2 :: b3 :: l2
-  | [ a0; a1; a2; a3; a4 ] ->
-      let b0 = f a0 in
-      let b1 = f a1 in
-      let b2 = f a2 in
-      let b3 = f a3 in
-      let b4 = f a4 in
-      b0 :: b1 :: b2 :: b3 :: b4 :: l2
-  | a0 :: a1 :: a2 :: a3 :: a4 :: rest ->
-      let b0 = f a0 in
-      let b1 = f a1 in
-      let b2 = f a2 in
-      let b3 = f a3 in
-      let b4 = f a4 in
-      b0 :: b1 :: b2 :: b3 :: b4 :: map_append rest l2 f
 
 let rec fold_right3 l r last acc f =
   match (l, r, last) with
@@ -212,17 +169,8 @@ let rec same_length xs ys =
   | _ :: xs, _ :: ys -> same_length xs ys
   | _, _ -> false
 
-let rec rev_append l1 l2 =
-  match l1 with
-  | [] -> l2
-  | [ a0 ] -> a0 :: l2 (* single element is common *)
-  | [ a0; a1 ] -> a1 :: a0 :: l2
-  | a0 :: a1 :: a2 :: rest -> rev_append rest (a2 :: a1 :: a0 :: l2)
-
-let rev l = rev_append l []
-
 let rec small_split_at n acc l =
-  if n <= 0 then (rev acc, l)
+  if n <= 0 then (List.rev acc, l)
   else
     match l with
     | x :: xs -> small_split_at (n - 1) (x :: acc) xs
@@ -233,7 +181,7 @@ let split_at l n = small_split_at n [] l
 let rec split_at_last_aux acc x =
   match x with
   | [] -> invalid_arg "Ext_list.split_at_last"
-  | [ x ] -> (rev acc, x)
+  | [ x ] -> (List.rev acc, x)
   | y0 :: ys -> split_at_last_aux (y0 :: acc) ys
 
 let split_at_last (x : 'a list) =
@@ -261,9 +209,6 @@ let filter_mapi xs f =
         | Some z -> z :: aux (i + 1) ys)
   in
   aux 0 xs
-
-let rec rev_map_append l1 l2 f =
-  match l1 with [] -> l2 | a :: l -> rev_map_append l (f a :: l2) f
 
 let rec length_compare l n =
   if n < 0 then `Gt
@@ -296,15 +241,7 @@ and aux eq (x : 'a) (xss : 'a list list) : 'a list list =
       if eq x y0 then (x :: y) :: ys else y :: aux eq x ys
   | _ :: _ -> assert false
 
-let stable_group lst eq = group eq lst |> rev
-
-let rec find_first x p =
-  match x with [] -> None | x :: l -> if p x then Some x else find_first l p
-
-let rec find_first_exn x p =
-  match x with
-  | [] -> raise Not_found
-  | x :: l -> if p x then x else find_first_exn l p
+let stable_group lst eq = group eq lst |> List.rev
 
 let rec find_first_not xs p =
   match xs with

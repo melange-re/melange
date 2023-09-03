@@ -777,7 +777,7 @@ and compile_staticcatch (lam : Lam.t) (lambda_cxt : Lam_compile_context.t) =
   match (lambda_cxt.continuation, code_table) with
   | ( EffectCall
         (Maybe_tail_is_return (Tail_with_name { in_staticcatch = false; _ }) as
-        tail_type),
+         tail_type),
       [ code_table ] )
   (* tail position and only one exit code *)
     when Lam_compile_context.no_static_raise_in_handler code_table ->
@@ -1451,8 +1451,8 @@ and compile_apply (appinfo : Lam.apply) (lambda_cxt : Lam_compile_context.t) =
             Map_ident.disjoint_merge_exn new_params ret.new_params (fun _ _ _ ->
                 assert false);
           let block =
-            Ext_list.map_append assigned_params [ S.continue_ ]
-              (fun (param, arg) -> S.assign param arg)
+            List.map (fun (param, arg) -> S.assign param arg) assigned_params
+            @ [ S.continue_ ]
           in
           (* Note true and continue needed to be handled together*)
           Js_output.make ~output_finished:True (List.append args_code block)

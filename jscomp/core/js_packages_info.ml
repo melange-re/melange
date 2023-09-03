@@ -123,9 +123,11 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
             { rel_path = module_path; pkg_rel_path = module_path; module_name })
   | Batch_compilation module_systems -> (
       match
-        Ext_list.find_first_exn module_systems (fun k ->
+        List.find
+          (fun k ->
             Ext_module_system.compatible ~dep:k.output_info.module_system
               module_system)
+          module_systems
       with
       | k ->
           let pkg_rel_path =
@@ -142,9 +144,11 @@ let query_package_infos (t : t) (module_system : Ext_module_system.t) :
 let get_js_path (module_systems : batch_info list)
     (module_system : Ext_module_system.t) : string =
   let k =
-    Ext_list.find_first_exn module_systems (fun k ->
+    List.find
+      (fun k ->
         Ext_module_system.compatible ~dep:k.output_info.module_system
           module_system)
+      module_systems
   in
   k.path
 

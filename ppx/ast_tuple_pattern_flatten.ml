@@ -74,7 +74,8 @@ let flattern_tuple_pattern_vb (self : Ast_traverse.map)
             xs es acc
       | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc)
   | Ppat_record (lid_pats, _), Pexp_pack { pmod_desc = Pmod_ident id; _ } ->
-      Ext_list.map_append lid_pats acc (fun (lid, pat) ->
+      List.map
+        (fun (lid, pat) ->
           match lid.txt with
           | Lident s ->
               {
@@ -88,6 +89,8 @@ let flattern_tuple_pattern_vb (self : Ast_traverse.map)
           | _ ->
               Location.raise_errorf ~loc:lid.loc
                 "Not supported pattern match on modules")
+        lid_pats
+      @ acc
   | _ -> { pvb_pat; pvb_expr; pvb_loc = vb.pvb_loc; pvb_attributes } :: acc
 
 (* XXX(anmonteiro): this one is a little brittle. Because it might introduce

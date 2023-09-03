@@ -253,9 +253,8 @@ let unsafe_adjust_to_arity loc ~(to_ : int) ?(from : int option) (fn : Lam.t) :
                      ~attr:Lambda.default_function_attribute
                      ~body:
                        (Lam.apply new_fn
-                          (Ext_list.map_append extra_outer_args
-                             (List.map Lam.var extra_inner_args)
-                             Lam.var)
+                          (List.map Lam.var extra_outer_args
+                          @ List.map Lam.var extra_inner_args)
                           { ap_info with ap_status = App_infer_full }))
             in
             match wrapper with
