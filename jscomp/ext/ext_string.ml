@@ -148,5 +148,3 @@ let capitalize_sub (s : string) len : string =
       Bytes.unsafe_set bytes i (String.unsafe_get s i)
     done;
     Bytes.unsafe_to_string bytes
-
-let first_marshal_char (x : string) = x <> "" && String.unsafe_get x 0 = '\132'

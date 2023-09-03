@@ -24,6 +24,43 @@
 
 open Ppxlib
 
+module UTF8 = struct
+  (* Classify is duplicated in Ext_utf8. *)
+  type byte = Single of int | Cont of int | Leading of int * int | Invalid
+
+  (** [classify chr] returns the {!byte} corresponding to [chr] *)
+  let classify chr =
+    let c = int_of_char chr in
+    (* Classify byte according to leftmost 0 bit *)
+    if c land 0b1000_0000 = 0 then Single c
+    else if (* c 0b0____*)
+            c land 0b0100_0000 = 0 then Cont (c land 0b0011_1111)
+    else if (* c 0b10___*)
+            c land 0b0010_0000 = 0 then Leading (1, c land 0b0001_1111)
+    else if (* c 0b110__*)
+            c land 0b0001_0000 = 0 then Leading (2, c land 0b0000_1111)
+    else if (* c 0b1110_ *)
+            c land 0b0000_1000 = 0 then Leading (3, c land 0b0000_0111)
+    else if (* c 0b1111_0___*)
+            c land 0b0000_0100 = 0 then Leading (4, c land 0b0000_0011)
+    else if (* c 0b1111_10__*)
+            c land 0b0000_0010 = 0 then Leading (5, c land 0b0000_0001)
+      (* c 0b1111_110__ *)
+    else Invalid
+
+  let rec next s ~remaining offset =
+    if remaining = 0 then offset
+    else
+      match classify s.[offset + 1] with
+      | Cont _cc -> next s ~remaining:(remaining - 1) (offset + 1)
+      | _ -> -1
+      | exception _ -> -1
+  (* it can happen when out of bound *)
+end
+
+let valid_hex x =
+  match x with '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' -> true | _ -> false
+
 let merge_loc (l : location) (r : location) =
   if l.loc_ghost then r
   else if r.loc_ghost then l
@@ -75,7 +112,7 @@ module Utf8_string = struct
     if byte_offset = s_len then ()
     else
       let current_char = s.[byte_offset] in
-      match Ext_utf8.classify current_char with
+      match UTF8.classify current_char with
       | Single 92 (* '\\' *) ->
           escape_code (loc + 1) buf s (byte_offset + 1) s_len
       | Single 34 ->
@@ -92,7 +129,7 @@ module Utf8_string = struct
           check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
       | Invalid | Cont _ -> error ~loc Invalid_code_point
       | Leading (n, _) ->
-          let i' = Ext_utf8.next s ~remaining:n byte_offset in
+          let i' = UTF8.next s ~remaining:n byte_offset in
           if i' < 0 then error ~loc Invalid_code_point
           else (
             for k = byte_offset to i' do
@@ -125,7 +162,7 @@ module Utf8_string = struct
     if offset + 1 >= s_len then error ~loc Invalid_hex_escape;
     (*Location.raise_errorf ~loc "\\x need at least two chars";*)
     let a, b = (s.[offset], s.[offset + 1]) in
-    if Ext_char.valid_hex a && Ext_char.valid_hex b then (
+    if valid_hex a && valid_hex b then (
       Buffer.add_char buf a;
       Buffer.add_char buf b;
       check_and_transform (loc + 2) buf s (offset + 2) s_len)
@@ -138,10 +175,7 @@ module Utf8_string = struct
     let a0, a1, a2, a3 =
       (s.[offset], s.[offset + 1], s.[offset + 2], s.[offset + 3])
     in
-    if
-      Ext_char.valid_hex a0 && Ext_char.valid_hex a1 && Ext_char.valid_hex a2
-      && Ext_char.valid_hex a3
-    then (
+    if valid_hex a0 && valid_hex a1 && valid_hex a2 && valid_hex a3 then (
       Buffer.add_char buf a0;
       Buffer.add_char buf a1;
       Buffer.add_char buf a2;
@@ -230,14 +264,26 @@ module Interp = struct
     match x with
     | 'a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_' | '\'' -> true
     | _ -> false
-  (* Invariant: [valid_lead_identifier] has to be [valid_identifier] *)
 
-  let valid_identifier s =
-    let s_len = String.length s in
-    if s_len = 0 then false
-    else
-      valid_lead_identifier_char s.[0]
-      && Ext_string.for_all_from s 1 valid_identifier_char
+  (* Invariant: [valid_lead_identifier] has to be [valid_identifier] *)
+  let valid_identifier =
+    let for_all_from =
+      let rec unsafe_for_all_range s ~start ~finish p =
+        start > finish
+        || p (String.unsafe_get s start)
+           && unsafe_for_all_range s ~start:(start + 1) ~finish p
+      in
+      fun s start p ->
+        let len = String.length s in
+        if start < 0 then invalid_arg "for_all_from"
+        else unsafe_for_all_range s ~start ~finish:(len - 1) p
+    in
+    fun s ->
+      let s_len = String.length s in
+      if s_len = 0 then false
+      else
+        valid_lead_identifier_char s.[0]
+        && for_all_from s 1 valid_identifier_char
 
   (* let is_space x =
      match x with
@@ -328,7 +374,7 @@ module Interp = struct
     if byte_offset = s_len then add_str_segment cxt loc
     else
       let current_char = s.[byte_offset] in
-      match Ext_utf8.classify current_char with
+      match UTF8.classify current_char with
       | Single 92 (* '\\' *) -> escape_code (loc + 1) s (byte_offset + 1) cxt
       | Single 34 ->
           Buffer.add_string buf "\\\"";
@@ -357,7 +403,7 @@ module Interp = struct
           check_and_transform (loc + 1) s (byte_offset + 1) cxt
       | Invalid | Cont _ -> pos_error ~loc cxt Invalid_code_point
       | Leading (n, _) ->
-          let i' = Ext_utf8.next s ~remaining:n byte_offset in
+          let i' = UTF8.next s ~remaining:n byte_offset in
           if i' < 0 then pos_error cxt ~loc Invalid_code_point
           else (
             for k = byte_offset to i' do
@@ -419,7 +465,7 @@ module Interp = struct
   and two_hex loc s offset ({ buf; s_len; _ } as cxt) =
     if offset + 1 >= s_len then pos_error cxt ~loc Invalid_hex_escape;
     let a, b = (s.[offset], s.[offset + 1]) in
-    if Ext_char.valid_hex a && Ext_char.valid_hex b then (
+    if valid_hex a && valid_hex b then (
       Buffer.add_char buf a;
       Buffer.add_char buf b;
       check_and_transform (loc + 2) s (offset + 2) cxt)
@@ -430,10 +476,7 @@ module Interp = struct
     let a0, a1, a2, a3 =
       (s.[offset], s.[offset + 1], s.[offset + 2], s.[offset + 3])
     in
-    if
-      Ext_char.valid_hex a0 && Ext_char.valid_hex a1 && Ext_char.valid_hex a2
-      && Ext_char.valid_hex a3
-    then (
+    if valid_hex a0 && valid_hex a1 && valid_hex a2 && valid_hex a3 then (
       Buffer.add_char buf a0;
       Buffer.add_char buf a1;
       Buffer.add_char buf a2;

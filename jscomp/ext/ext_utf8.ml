@@ -43,12 +43,3 @@ let classify chr =
           c land 0b0000_0010 = 0 then Leading (5, c land 0b0000_0001)
     (* c 0b1111_110__ *)
   else Invalid
-
-let rec next s ~remaining offset =
-  if remaining = 0 then offset
-  else
-    match classify s.[offset + 1] with
-    | Cont _cc -> next s ~remaining:(remaining - 1) (offset + 1)
-    | _ -> -1
-    | exception _ -> -1
-(* it can happen when out of bound *)

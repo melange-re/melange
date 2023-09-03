@@ -65,7 +65,7 @@ let suites =
              "z" );
          ( __LOC__ >:: fun _ ->
            OUnit.assert_raises
-             (Assert_failure ("jscomp/ext/ext_list.ml", 341, 35))
+             (Assert_failure ("jscomp/ext/ext_list.ml", 321, 35))
              (fun _ ->
                ignore
                @@ Ext_list.assoc_by_int [ (2, "x"); (3, "y"); (1, "z") ] 11 None)
@@ -81,14 +81,4 @@ let suites =
            OUnit.assert_bool __LOC__ (Ext_list.length_ge [ 1; 2; 3 ] 3);
            OUnit.assert_bool __LOC__ (Ext_list.length_ge [] 0);
            OUnit.assert_bool __LOC__ (not (Ext_list.length_ge [] 1)) );
-         ( __LOC__ >:: fun _ ->
-           let ( =~ ) = OUnit.assert_equal in
-
-           let f p x = Ext_list.exclude_with_val x p in
-           f (fun x -> x = 1) [ 1; 2; 3 ] =~ Some [ 2; 3 ];
-           f (fun x -> x = 4) [ 1; 2; 3 ] =~ None;
-           f (fun x -> x = 2) [ 1; 2; 3; 2 ] =~ Some [ 1; 3 ];
-           f (fun x -> x = 2) [ 1; 2; 2; 3; 2 ] =~ Some [ 1; 3 ];
-           f (fun x -> x = 2) [ 2; 2; 2 ] =~ Some [];
-           f (fun x -> x = 3) [ 2; 2; 2 ] =~ None );
        ]

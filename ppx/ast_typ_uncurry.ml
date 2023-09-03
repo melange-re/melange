@@ -67,7 +67,6 @@ let generate_method_type loc (mapper : Ast_traverse.map) ?alias_type method_name
       List.mapi
         (fun i x -> (x, Typ.var ~loc (method_name ^ string_of_int i)))
         (lbl :: Ast_pat.labels_of_fun e)
-      (* Ext_list.init arity (fun i -> Typ.var ~loc (method_name ^ string_of_int i)) *)
     in
     match tyvars with
     | (label, x) :: rest ->

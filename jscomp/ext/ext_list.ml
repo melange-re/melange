@@ -143,26 +143,6 @@ let rec fold_left_with_offset l accu i f =
   | [] -> accu
   | a :: l -> fold_left_with_offset l (f a accu i) (i + 1) f
 
-let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
-  match xs with
-  | [] -> []
-  | x :: xs -> if p x then exclude xs p else x :: exclude xs p
-
-let rec exclude_with_val l p =
-  match l with
-  | [] -> None
-  | a0 :: xs -> (
-      if p a0 then Some (exclude xs p)
-      else
-        match xs with
-        | [] -> None
-        | a1 :: rest -> (
-            if p a1 then Some (a0 :: exclude rest p)
-            else
-              match exclude_with_val rest p with
-              | None -> None
-              | Some rest -> Some (a0 :: a1 :: rest)))
-
 let rec same_length xs ys =
   match (xs, ys) with
   | [], [] -> true
@@ -343,11 +323,3 @@ let rec assoc_by_int lst (k : int) def =
 
 let rec concat_append (xss : 'a list list) (xs : 'a list) : 'a list =
   match xss with [] -> xs | l :: r -> append l (concat_append r xs)
-
-let rec fold_left l accu f =
-  match l with [] -> accu | a :: l -> fold_left l (f accu a) f
-
-let reduce_from_left lst fn =
-  match lst with
-  | first :: rest -> fold_left rest first fn
-  | _ -> invalid_arg "Ext_list.reduce_from_left"

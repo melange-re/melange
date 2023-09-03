@@ -71,6 +71,27 @@ let view_as_app (fn : exp) (s : string list) : app_pattern option =
 let inner_ops = [ "##"; "#@" ]
 let infix_ops = [ "|."; "#="; "##" ]
 
+let rec exclude_with_val =
+  let rec exclude (xs : 'a list) (p : 'a -> bool) : 'a list =
+    match xs with
+    | [] -> []
+    | x :: xs -> if p x then exclude xs p else x :: exclude xs p
+  in
+  fun l p ->
+    match l with
+    | [] -> None
+    | a0 :: xs -> (
+        if p a0 then Some (exclude xs p)
+        else
+          match xs with
+          | [] -> None
+          | a1 :: rest -> (
+              if p a1 then Some (a0 :: exclude rest p)
+              else
+                match exclude_with_val rest p with
+                | None -> None
+                | Some rest -> Some (a0 :: a1 :: rest)))
+
 let app_exp_mapper (e : exp)
     ((self, super) :
       Ast_traverse.map * (Parsetree.expression -> Parsetree.expression))
@@ -195,8 +216,7 @@ let app_exp_mapper (e : exp)
                   }
               | _ -> (
                   match
-                    ( Ext_list.exclude_with_val f_.pexp_attributes
-                        Ast_attributes.is_bs,
+                    ( exclude_with_val f_.pexp_attributes Ast_attributes.is_bs,
                       f_.pexp_desc )
                   with
                   | Some other_attributes, Pexp_apply (fn1, args) ->
@@ -310,9 +330,7 @@ let app_exp_mapper (e : exp)
             "Js object ## expect syntax like obj##(paint (a,b)) "
       | Some { op; _ } -> Location.raise_errorf "invalid %s syntax" op
       | None -> (
-          match
-            Ext_list.exclude_with_val e.pexp_attributes Ast_attributes.is_bs
-          with
+          match exclude_with_val e.pexp_attributes Ast_attributes.is_bs with
           | None -> super e
           | Some pexp_attributes ->
               {

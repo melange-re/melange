@@ -245,7 +245,8 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
         let bundle =
           let input_name = !Ocaml_common.Location.input_name in
           "./"
-          ^ Ext_filename.new_extension (Filename.basename input_name) ".gen"
+          ^ Filename.remove_extension (Filename.basename input_name)
+          ^ ".gen"
         in
         ( attr :: attrs,
           {
