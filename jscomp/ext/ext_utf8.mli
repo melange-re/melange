@@ -25,8 +25,3 @@
 type byte = Single of int | Cont of int | Leading of int * int | Invalid
 
 val classify : char -> byte
-
-val next : string -> remaining:int -> int -> int
-(**
-  return [-1] if failed
-*)

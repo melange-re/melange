@@ -348,11 +348,13 @@ let first_char_special (x : string) =
       String.starts_with x ~prefix:"caml_"
       || String.starts_with x ~prefix:"nativeint_"
 
+let first_marshal_char (x : string) = x <> "" && String.unsafe_get x 0 = '\132'
+
 let prims_to_be_encoded (attrs : string list) =
   match attrs with
   | [] -> assert false (* normal val declaration *)
   | x :: _ when first_char_special x -> false
-  | _ :: x :: _ when Ext_string.first_marshal_char x -> false
+  | _ :: x :: _ when first_marshal_char x -> false
   | _ -> true
 
 (**

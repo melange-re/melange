@@ -45,14 +45,6 @@ val fold_right3 :
 val fold_left_with_offset :
   'a list -> 'acc -> int -> ('a -> 'acc -> int -> 'acc) -> 'acc
 
-val exclude_with_val : 'a list -> ('a -> bool) -> 'a list option
-(** [excludes p l]
-    return a tuple [excluded,newl]
-    where [exluded] is true indicates that at least one
-    element is removed,[newl] is the new list where all [p x] for [x] is false
-
-*)
-
 val same_length : 'a list -> 'b list -> bool
 
 val split_at : 'a list -> int -> 'a list * 'a list
@@ -118,9 +110,6 @@ val for_all2_no_exn : 'a list -> 'b list -> ('a -> 'b -> bool) -> bool
 
 val split_map : 'a list -> ('a -> 'b * 'c) -> 'b list * 'c list
 (** [f] is applied follow the list order *)
-
-val reduce_from_left : 'a list -> ('a -> 'a -> 'a) -> 'a
-(** [fn] is applied from left to right *)
 
 val sort_via_array : 'a list -> ('a -> 'a -> int) -> 'a list
 val sort_via_arrayf : 'a list -> ('a -> 'a -> int) -> ('a -> 'b) -> 'b list

@@ -51,9 +51,11 @@ let tuple_type_pair ?loc kind arity =
     in
     match tys with
     | result :: rest ->
-        ( Ext_list.reduce_from_left tys (fun r arg ->
+        ( List.fold_left
+            (fun r arg ->
               let loc = Option.value ~default:Location.none loc in
-              [%type: [%t arg] -> [%t r]]),
+              [%type: [%t arg] -> [%t r]])
+            result rest,
           List.rev rest,
           result )
     | [] -> assert false

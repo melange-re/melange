@@ -67,4 +67,3 @@ val replace_backward_slash : string -> string
 (** if no conversion happens, reference equality holds *)
 
 val capitalize_sub : string -> int -> string
-val first_marshal_char : string -> bool
