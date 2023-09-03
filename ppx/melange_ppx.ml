@@ -697,6 +697,71 @@ module Mapper = struct
             str
         | _ -> super#structure_item str
 
+      method! structure str =
+        let extract_mel_as_ident ~loc x =
+          match x with
+          | PStr [ { pstr_desc = Pstr_eval ({ pexp_desc; _ }, _); _ } ] -> (
+              match pexp_desc with
+              | Pexp_constant (Pconst_string (name, _, _))
+              | Pexp_construct ({ txt = Lident name; _ }, _)
+              | Pexp_ident { txt = Lident name; _ } ->
+                  name
+              | _ ->
+                  Location.raise_errorf ~loc
+                    "Invalid `%@mel.as' payload. Expected a string or an ident."
+              )
+          | _ -> Location.raise_errorf ~loc "Invalid attribute payload."
+        in
+
+        match
+          List.filter_map
+            (function
+              | { pstr_desc = Parsetree.Pstr_value (_, vbs); _ } -> (
+                  match
+                    List.filter_map
+                      (function
+                        | {
+                            pvb_pat = { ppat_desc = Ppat_var pval_name; _ };
+                            pvb_attributes;
+                            pvb_loc;
+                            _;
+                          } -> (
+                            match
+                              Ast_attributes.has_mel_as_payload pvb_attributes
+                            with
+                            | Some ({ attr_payload; _ } as attr) ->
+                                Bs_ast_invariant.mark_used_bs_attribute attr;
+                                Some
+                                  ( pvb_loc,
+                                    pval_name.txt,
+                                    extract_mel_as_ident ~loc:pvb_loc
+                                      attr_payload )
+                            | None -> None)
+                        | _ -> None)
+                      vbs
+                  with
+                  | [] -> None
+                  | xs -> Some xs)
+              | _ -> None)
+            str
+        with
+        | [] -> super#structure str
+        | xs ->
+            let bindings =
+              List.map
+                (fun (loc, original_name, new_name) ->
+                  Ast_helper.(
+                    Str.value ~loc Nonrecursive
+                      [
+                        Vb.mk ~loc
+                          (Pat.var { txt = new_name; loc })
+                          (Exp.ident
+                             { txt = Longident.parse original_name; loc });
+                      ]))
+                (List.concat xs)
+            in
+            super#structure str @ bindings
+
       method! signature_item sigi =
         match sigi.psig_desc with
         | Psig_value ({ pval_attributes; pval_prim; _ } as value_desc) -> (
@@ -864,7 +929,6 @@ module Derivers = struct
 end
 
 let () =
-  (* let open Melange_compiler_libs in *)
   Ocaml_common.Location.(
     register_error_of_exn (fun exn ->
         match Melange_compiler_libs.Location.error_of_exn exn with
