@@ -57,6 +57,10 @@ Unreleased
 - [melange]: stop exporting `$$default` in the generated JavaScript when using
   ES6 default exports `let default = ..`
   ([#708](https://github.com/melange-re/melange/pull/708)).
+- [melange]: allow exporting invalid OCaml identifiers in the resulting
+  JavaScript with `@mel.as`
+  ([#714](https://github.com/melange-re/melange/pull/714), fixes
+  [#713](https://github.com/melange-re/melange/pull/713)).
 
 1.0.0 2023-05-31
 ---------------
