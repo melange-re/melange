@@ -14,15 +14,15 @@ Export otherwise invalid OCaml identifiers to JavaScript
   > EOF
 
   $ cat > x.ml <<EOF
-  > let [@mel.as POST] post= 1
-  > let [@mel.as "GET"] get = 2
-  > let [@mel.as "put"] other = 2
-  > let [@mel.as "class"] other = 2 (* class is reserved in JS *)
+  > let [@mel.for_js POST] post= 1
+  > let [@mel.for_js "GET"] get = 2
+  > let [@mel.for_js "put"] other = 2
+  > let [@mel.for_js "class"] other = 2 (* class is reserved in JS *)
   > EOF
 
   $ cat > x.mli <<EOF
-  > val [@mel.as "GET"] get : int
-  > val [@mel.as "class"] other : int
+  > val [@mel.for_js "GET"] get : int
+  > val [@mel.for_js "class"] other : int
   > EOF
 
   $ dune build @melange
