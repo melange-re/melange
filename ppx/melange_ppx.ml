@@ -578,12 +578,29 @@ module Mapper = struct
             ( Nonrecursive,
               [
                 {
-                  pvb_pat = { ppat_desc = Ppat_var pval_name; _ } as pvb_pat;
+                  pvb_pat =
+                    { ppat_desc = Ppat_var pval_name_orig; _ } as pvb_pat_orig;
                   pvb_expr;
                   pvb_attributes;
                   pvb_loc;
                 };
               ] ) -> (
+            let pvb_pat, pval_name =
+              match Ast_attributes.has_mel_as_payload pvb_attributes with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Bs_ast_invariant.mark_used_bs_attribute attr;
+                  let pval_name =
+                    {
+                      txt =
+                        Ast_payload.extract_mel_as_ident ~loc:pvb_loc
+                          attr_payload;
+                      loc = pval_name_orig.loc;
+                    }
+                  in
+                  ( { pvb_pat_orig with ppat_desc = Ppat_var pval_name },
+                    pval_name )
+              | None -> (pvb_pat_orig, pval_name_orig)
+            in
             let pvb_expr = self#expression pvb_expr in
             let pvb_attributes = self#attributes pvb_attributes in
             let has_inline_property =
@@ -697,59 +714,32 @@ module Mapper = struct
             str
         | _ -> super#structure_item str
 
-      method! structure str =
-        match
-          List.filter_map
-            (function
-              | { pstr_desc = Parsetree.Pstr_value (_, vbs); _ } -> (
-                  match
-                    List.filter_map
-                      (function
-                        | {
-                            pvb_pat = { ppat_desc = Ppat_var pval_name; _ };
-                            pvb_attributes;
-                            pvb_loc;
-                            _;
-                          } -> (
-                            match
-                              Ast_attributes.has_mel_as_payload pvb_attributes
-                            with
-                            | Some ({ attr_payload; _ } as attr) ->
-                                Bs_ast_invariant.mark_used_bs_attribute attr;
-                                Some
-                                  ( pvb_loc,
-                                    pval_name.txt,
-                                    Ast_payload.extract_mel_as_ident
-                                      ~loc:pvb_loc attr_payload )
-                            | None -> None)
-                        | _ -> None)
-                      vbs
-                  with
-                  | [] -> None
-                  | xs -> Some xs)
-              | _ -> None)
-            str
-        with
-        | [] -> super#structure str
-        | xs ->
-            let bindings =
-              List.map
-                (fun (loc, original_name, new_name) ->
-                  Ast_helper.(
-                    Str.value ~loc Nonrecursive
-                      [
-                        Vb.mk ~loc
-                          (Pat.var { txt = new_name; loc })
-                          (Exp.ident
-                             { txt = Longident.parse original_name; loc });
-                      ]))
-                (List.concat xs)
-            in
-            super#structure str @ bindings
-
       method! signature_item sigi =
         match sigi.psig_desc with
-        | Psig_value ({ pval_attributes; pval_prim; _ } as value_desc) -> (
+        | Psig_value
+            ({
+               pval_attributes;
+               pval_prim;
+               pval_name = pval_name_orig;
+               pval_loc;
+               _;
+             } as value_desc_orig) -> (
+            let value_desc =
+              match Ast_attributes.has_mel_as_payload pval_attributes with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Bs_ast_invariant.mark_used_bs_attribute attr;
+                  {
+                    value_desc_orig with
+                    pval_name =
+                      {
+                        txt =
+                          Ast_payload.extract_mel_as_ident ~loc:pval_loc
+                            attr_payload;
+                        loc = pval_name_orig.loc;
+                      };
+                  }
+              | None -> value_desc_orig
+            in
             let pval_attributes = self#attributes pval_attributes in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
               Ast_external.handleExternalInSig self value_desc sigi
@@ -859,39 +849,6 @@ module Mapper = struct
                           };
                     })
         | _ -> super#signature_item sigi
-
-      method! signature sig_ =
-        match
-          List.filter_map
-            (function
-              | {
-                  psig_desc =
-                    Parsetree.Psig_value
-                      { pval_loc = loc; pval_type; pval_attributes; _ };
-                  _;
-                } -> (
-                  match Ast_attributes.has_mel_as_payload pval_attributes with
-                  | Some ({ attr_payload; _ } as attr) ->
-                      Bs_ast_invariant.mark_used_bs_attribute attr;
-                      Some
-                        ( loc,
-                          pval_type,
-                          Ast_payload.extract_mel_as_ident ~loc attr_payload )
-                  | None -> None)
-              | _ -> None)
-            sig_
-        with
-        | [] -> super#signature sig_
-        | xs ->
-            let bindings =
-              List.map
-                (fun (loc, original_type, new_name) ->
-                  Ast_helper.(
-                    Sig.value ~loc
-                      (Val.mk ~loc { txt = new_name; loc } original_type)))
-                xs
-            in
-            super#signature sig_ @ bindings
     end
 end
 
