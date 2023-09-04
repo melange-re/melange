@@ -586,7 +586,7 @@ module Mapper = struct
                 };
               ] ) -> (
             let pvb_pat, pval_name =
-              match Ast_attributes.has_mel_for_js_payload pvb_attributes with
+              match Ast_attributes.has_mel_as_payload pvb_attributes with
               | Some ({ attr_payload; _ } as attr) ->
                   Bs_ast_invariant.mark_used_bs_attribute attr;
                   let pval_name =
@@ -725,7 +725,7 @@ module Mapper = struct
                _;
              } as value_desc_orig) -> (
             let value_desc =
-              match Ast_attributes.has_mel_for_js_payload pval_attributes with
+              match Ast_attributes.has_mel_as_payload pval_attributes with
               | Some ({ attr_payload; _ } as attr) ->
                   Bs_ast_invariant.mark_used_bs_attribute attr;
                   {

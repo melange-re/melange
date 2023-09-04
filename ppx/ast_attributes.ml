@@ -423,10 +423,7 @@ let is_mel_as : attr -> bool =
   warn_if_bs ~loc txt;
   txt = "mel.as" || txt = "bs.as" || txt = "as"
 
-let has_mel_for_js_payload (attrs : t) =
-  Ext_list.find_first attrs (fun { attr_name = { txt; loc }; _ } ->
-      warn_if_bs ~loc txt;
-      txt = "mel.for_js")
+let has_mel_as_payload (attrs : t) = Ext_list.find_first attrs is_mel_as
 
 (* We disable warning 61 in Melange externals since they're substantially
    different from OCaml externals. This warning doesn't make sense for a JS
