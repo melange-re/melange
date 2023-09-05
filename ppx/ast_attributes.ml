@@ -126,7 +126,7 @@ let process_attributes_rev (attrs : t) : attr_kind * t =
       | ("mel.meth" | "bs.meth" | "meth"), (Nothing | Method _) ->
           (Method attr, acc)
       | ("u" | "bs" | "mel.this" | "bs.this" | "this"), _ ->
-          Error.err ~loc Conflict_bs_bs_this_bs_meth
+          Error.err ~loc Conflict_u_mel_this_mel_meth
       | _, _ -> (st, attr :: acc))
     (Nothing, []) attrs
 
@@ -273,7 +273,7 @@ let iter_process_bs_string_or_int_as (attrs : Parsetree.attributes) =
                       st := Some (Js_literal_str s))
                 | _ -> Error.err ~loc Expect_int_or_string_or_json_literal)
             | Some v -> st := Some (Int v))
-          else Error.err ~loc Duplicated_bs_as
+          else Error.err ~loc Duplicated_mel_as
       | _ -> ())
     attrs;
   !st
@@ -316,7 +316,7 @@ let iter_process_bs_string_as (attrs : t) : string option =
             | Some (v, _dec) ->
                 Bs_ast_invariant.mark_used_bs_attribute attr;
                 st := Some v)
-          else Error.err ~loc Duplicated_bs_as
+          else Error.err ~loc Duplicated_mel_as
       | _ -> ())
     attrs;
   !st
@@ -397,7 +397,7 @@ let iter_process_bs_int_as (attrs : t) =
             | Some _ as v ->
                 Bs_ast_invariant.mark_used_bs_attribute attr;
                 st := v)
-          else Error.err ~loc Duplicated_bs_as
+          else Error.err ~loc Duplicated_mel_as
       | _ -> ())
     attrs;
   !st

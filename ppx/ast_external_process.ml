@@ -52,7 +52,7 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, None) ->
           Ast_polyvar.map_row_fields_into_strings ptyp.ptyp_loc row_fields
-      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_bs_string_type)
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_string_type)
   | `Ignore -> Ignore
   | `Int -> (
       match ptyp_desc with
@@ -61,13 +61,13 @@ let spec_of_ptyp (nolabel : bool) (ptyp : Parsetree.core_type) :
             Ast_polyvar.map_row_fields_into_ints ptyp.ptyp_loc row_fields
           in
           Int int_lists
-      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_bs_int_type)
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_int_type)
   | `Unwrap -> (
       match ptyp_desc with
       | Ptyp_variant (row_fields, Closed, _) when variant_unwrap row_fields ->
           Unwrap
           (* Unwrap attribute can only be attached to things like `[a of a0 | b of b0]` *)
-      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_bs_unwrap_type)
+      | _ -> Error.err ~loc:ptyp.ptyp_loc Invalid_mel_unwrap_type)
   | `Uncurry opt_arity -> (
       let real_arity = Ast_core_type.get_uncurry_arity ptyp in
       match (opt_arity, real_arity) with
@@ -215,7 +215,7 @@ let return_wrapper loc (txt : string) : External_ffi_types.return_wrapper =
   | "null_to_opt" -> Return_null_to_opt
   | "nullable" | "null_undefined_to_opt" -> Return_null_undefined_to_opt
   | "identity" -> Return_identity
-  | _ -> Error.err ~loc Not_supported_directive_in_bs_return
+  | _ -> Error.err ~loc Not_supported_directive_in_mel_return
 
 exception Not_handled_external_attribute
 
@@ -337,7 +337,7 @@ let parse_external_attributes (no_arguments : bool) (prim_name_check : string)
               match Ast_payload.ident_or_record_as_config payload with
               | Ok [ ({ txt; _ }, None) ] ->
                   { st with return_wrapper = return_wrapper loc txt }
-              | Ok _ -> Error.err ~loc Not_supported_directive_in_bs_return
+              | Ok _ -> Error.err ~loc Not_supported_directive_in_mel_return
               | Error s -> Location.raise_errorf ~loc "%s" s)
           | _ -> raise_notrace Not_handled_external_attribute
         in
@@ -373,7 +373,7 @@ let check_return_wrapper loc (wrapper : External_ffi_types.return_wrapper)
   | Return_undefined_to_opt | Return_null_to_opt | Return_null_undefined_to_opt
     ->
       if is_user_option result_type then wrapper
-      else Error.err ~loc Expect_opt_in_bs_return_to_opt
+      else Error.err ~loc Expect_opt_in_mel_return_to_opt
   | Return_replaced_with_unit ->
       assert false (* Not going to happen from user input*)
 

@@ -28,7 +28,7 @@ module Warnings = struct
   type t =
     | Unused_attribute of string
     | Fragile_external of string
-    | Redundant_bs_string
+    | Redundant_mel_string
     | Deprecated_uncurry_attribute
     | Deprecated_attribute_namespace
     | Deprecated_val
@@ -36,7 +36,7 @@ module Warnings = struct
   let kind = function
     | Unused_attribute _ -> "unused"
     | Fragile_external _ -> "fragile"
-    | Redundant_bs_string -> "redundant"
+    | Redundant_mel_string -> "redundant"
     | Deprecated_uncurry_attribute | Deprecated_attribute_namespace
     | Deprecated_val ->
         "deprecated"
@@ -54,7 +54,7 @@ module Warnings = struct
           "%s : the external name is inferred from val name is unsafe from \
            refactoring when changing value name"
           s
-    | Redundant_bs_string ->
+    | Redundant_mel_string ->
         Format.fprintf fmt
           "[@mel.string] is redundant here, you can safely remove it"
     | Deprecated_uncurry_attribute ->

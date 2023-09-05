@@ -26,17 +26,17 @@ open Ppxlib
 
 type t =
   | Unsupported_predicates
-  | Conflict_bs_bs_this_bs_meth
+  | Conflict_u_mel_this_mel_meth
   | Conflict_attributes
-  | Duplicated_bs_as
+  | Duplicated_mel_as
   | Expect_int_literal
   | Expect_string_literal
   | Expect_int_or_string_or_json_literal
   | Unhandled_poly_type
   | Invalid_underscore_type_in_external
-  | Invalid_bs_string_type
-  | Invalid_bs_int_type
-  | Invalid_bs_unwrap_type
+  | Invalid_mel_string_type
+  | Invalid_mel_int_type
+  | Invalid_mel_unwrap_type
   | Conflict_ffi_attribute of string
   | Canot_infer_arity_by_syntax
   | Illegal_attribute
@@ -44,12 +44,12 @@ type t =
   (* we still rqeuire users to have explicit annotation to avoid
      {[ (((int -> int) -> int) -> int )]}
   *)
-  | Not_supported_directive_in_bs_return
-  | Expect_opt_in_bs_return_to_opt
+  | Not_supported_directive_in_mel_return
+  | Expect_opt_in_mel_return_to_opt
   | Misplaced_label_syntax
-  | Optional_in_uncurried_bs_attribute
-  | Bs_this_simple_pattern
-  | Bs_uncurried_arity_too_large
+  | Optional_in_uncurried_mel_attribute
+  | Mel_this_simple_pattern
+  | Mel_uncurried_arity_too_large
 
 val pp_error : Format.formatter -> t -> unit
 val err : loc:Location.t -> t -> 'a
