@@ -28,7 +28,7 @@ module Warnings : sig
   type t =
     | Unused_attribute of string
     | Fragile_external of string
-    | Redundant_bs_string
+    | Redundant_mel_string
     | Deprecated_uncurry_attribute
     | Deprecated_attribute_namespace
     | Deprecated_val

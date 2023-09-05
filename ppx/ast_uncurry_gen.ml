@@ -41,7 +41,7 @@ let to_method_callback loc (self : Ast_traverse.map) label pat body :
   in
   let first_arg = self#pattern pat in
   if not (Ast_pat.is_single_variable_pattern_conservative first_arg) then
-    Error.err ~loc:first_arg.ppat_loc Bs_this_simple_pattern;
+    Error.err ~loc:first_arg.ppat_loc Mel_this_simple_pattern;
   let result, rev_extra_args = aux [ (label, first_arg) ] body in
   let body =
     List.fold_left
