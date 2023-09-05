@@ -578,12 +578,29 @@ module Mapper = struct
             ( Nonrecursive,
               [
                 {
-                  pvb_pat = { ppat_desc = Ppat_var pval_name; _ } as pvb_pat;
+                  pvb_pat =
+                    { ppat_desc = Ppat_var pval_name_orig; _ } as pvb_pat_orig;
                   pvb_expr;
                   pvb_attributes;
                   pvb_loc;
                 };
               ] ) -> (
+            let pvb_pat, pval_name =
+              match Ast_attributes.has_mel_as_payload pvb_attributes with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Bs_ast_invariant.mark_used_bs_attribute attr;
+                  let pval_name =
+                    {
+                      txt =
+                        Ast_payload.extract_mel_as_ident ~loc:pvb_loc
+                          attr_payload;
+                      loc = pval_name_orig.loc;
+                    }
+                  in
+                  ( { pvb_pat_orig with ppat_desc = Ppat_var pval_name },
+                    pval_name )
+              | None -> (pvb_pat_orig, pval_name_orig)
+            in
             let pvb_expr = self#expression pvb_expr in
             let pvb_attributes = self#attributes pvb_attributes in
             let has_inline_property =
@@ -699,7 +716,30 @@ module Mapper = struct
 
       method! signature_item sigi =
         match sigi.psig_desc with
-        | Psig_value ({ pval_attributes; pval_prim; _ } as value_desc) -> (
+        | Psig_value
+            ({
+               pval_attributes;
+               pval_prim;
+               pval_name = pval_name_orig;
+               pval_loc;
+               _;
+             } as value_desc_orig) -> (
+            let value_desc =
+              match Ast_attributes.has_mel_as_payload pval_attributes with
+              | Some ({ attr_payload; _ } as attr) ->
+                  Bs_ast_invariant.mark_used_bs_attribute attr;
+                  {
+                    value_desc_orig with
+                    pval_name =
+                      {
+                        txt =
+                          Ast_payload.extract_mel_as_ident ~loc:pval_loc
+                            attr_payload;
+                        loc = pval_name_orig.loc;
+                      };
+                  }
+              | None -> value_desc_orig
+            in
             let pval_attributes = self#attributes pval_attributes in
             if Ast_attributes.rs_externals pval_attributes pval_prim then
               Ast_external.handleExternalInSig self value_desc sigi
@@ -864,7 +904,6 @@ module Derivers = struct
 end
 
 let () =
-  (* let open Melange_compiler_libs in *)
   Ocaml_common.Location.(
     register_error_of_exn (fun exn ->
         match Melange_compiler_libs.Location.error_of_exn exn with

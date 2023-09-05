@@ -420,6 +420,13 @@ let is_inline : attr -> bool =
 
 let has_inline_payload (attrs : t) = List.find_opt is_inline attrs
 
+let is_mel_as : attr -> bool =
+ fun { attr_name = { txt; loc }; _ } ->
+  warn_if_bs ~loc txt;
+  txt = "mel.as" || txt = "bs.as" || txt = "as"
+
+let has_mel_as_payload (attrs : t) = List.find_opt is_mel_as attrs
+
 (* We disable warning 61 in Melange externals since they're substantially
    different from OCaml externals. This warning doesn't make sense for a JS
    runtime *)
