@@ -61,6 +61,10 @@ Unreleased
   JavaScript with `@mel.as`
   ([#714](https://github.com/melange-re/melange/pull/714), fixes
   [#713](https://github.com/melange-re/melange/pull/713)).
+- [melange]: Allow using `@mel.as` in external declarations without explicitly
+  annotating `@mel.{string,int}`
+  ([#722](https://github.com/melange-re/melange/pull/714), fixes
+  [#578](https://github.com/melange-re/melange/pull/713)).
 
 1.0.0 2023-05-31
 ---------------
