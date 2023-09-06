@@ -68,6 +68,9 @@ Unreleased
 - [melange]: Allow using `@mel.unwrap` in external declarations with `@mel.obj`
   ([#724](https://github.com/melange-re/melange/pull/724), fixes
   [#679](https://github.com/melange-re/melange/issues/679)).
+- [melange]: Support renaming fields in inline records / record extensions with
+  `@mel.as` ([#732](https://github.com/melange-re/melange/pull/732), fixes
+  [#730](https://github.com/melange-re/melange/issues/730)).
 
 1.0.0 2023-05-31
 ---------------
