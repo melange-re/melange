@@ -532,6 +532,17 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                                   { Asttypes.txt = name; loc }
                                   [%type: string]
                                 :: result_types )
+                          | Unwrap ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label = External_arg_spec.obj_label s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  ty
+                                :: result_types )
                           | Fn_uncurry_arity _ ->
                               Location.raise_errorf ~loc
                                 "The combination of @obj, @uncurry is not \
@@ -542,12 +553,6 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                                 (Location.raise_errorf ~loc
                                    "%@obj label %s does not support such arg \
                                     type"
-                                   name)
-                          | Unwrap ->
-                              raise
-                                (Location.raise_errorf ~loc
-                                   "%@obj label %s does not support %@unwrap \
-                                    arguments"
                                    name)))
                   | Optional name -> (
                       match get_opt_arg_type ~nolabel:false ty with
@@ -604,6 +609,20 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                                      { txt = Ast_literal.js_undefined; loc }
                                      [ [%type: string] ])
                                 :: result_types )
+                          | Unwrap ->
+                              let s = Lam_methname.translate name in
+                              ( {
+                                  obj_arg_label =
+                                    External_arg_spec.optional false s;
+                                  obj_arg_type;
+                                },
+                                param_type :: arg_types,
+                                Ast_helper.Of.tag
+                                  { Asttypes.txt = name; loc }
+                                  (Ast_helper.Typ.constr ~loc
+                                     { txt = Ast_literal.js_undefined; loc }
+                                     [ ty ])
+                                :: result_types )
                           | Arg_cst _ ->
                               Location.raise_errorf ~loc
                                 "@as is not supported with optional yet"
@@ -615,11 +634,6 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           | Poly_var _ ->
                               Location.raise_errorf ~loc
                                 "%@obj label %s does not support such arg type"
-                                name
-                          | Unwrap ->
-                              Location.raise_errorf ~loc
-                                "%@obj label %s does not support %@unwrap \
-                                 arguments"
                                 name))
                 in
                 (new_arg_label :: arg_labels, new_arg_types, output_tys))
