@@ -500,7 +500,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                             arg_types,
                             (* ignored in [arg_types], reserved in [result_types] *)
                             result_types )
-                      | Nothing ->
+                      | Nothing | Unwrap ->
                           let s = Lam_methname.translate name in
                           ( {
                               obj_arg_label = External_arg_spec.obj_label s;
@@ -531,15 +531,6 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                               { Asttypes.txt = name; loc }
                               [%type: string]
                             :: result_types )
-                      | Unwrap ->
-                          let s = Lam_methname.translate name in
-                          ( {
-                              obj_arg_label = External_arg_spec.obj_label s;
-                              obj_arg_type;
-                            },
-                            param_type :: arg_types,
-                            Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
-                            :: result_types )
                       | Fn_uncurry_arity _ ->
                           Location.raise_errorf ~loc
                             "The combination of @obj, @uncurry is not \
@@ -557,7 +548,7 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           ( External_arg_spec.empty_kind obj_arg_type,
                             param_type :: arg_types,
                             result_types )
-                      | Nothing ->
+                      | Nothing | Unwrap ->
                           let s = Lam_methname.translate name in
                           (* XXX(anmonteiro): it's unsafe to just read the type of the
                                                               labelled argument declaration, since it could be `'a` in
@@ -600,19 +591,6 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                               (Ast_helper.Typ.constr ~loc
                                  { txt = Ast_literal.js_undefined; loc }
                                  [ [%type: string] ])
-                            :: result_types )
-                      | Unwrap ->
-                          let s = Lam_methname.translate name in
-                          ( {
-                              obj_arg_label = External_arg_spec.optional false s;
-                              obj_arg_type;
-                            },
-                            param_type :: arg_types,
-                            Ast_helper.Of.tag
-                              { Asttypes.txt = name; loc }
-                              (Ast_helper.Typ.constr ~loc
-                                 { txt = Ast_literal.js_undefined; loc }
-                                 [ ty ])
                             :: result_types )
                       | Arg_cst _ ->
                           Location.raise_errorf ~loc
