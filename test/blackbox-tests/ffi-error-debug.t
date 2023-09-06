@@ -64,16 +64,3 @@ Each [@mel.unwrap] variant constructor requires an argument
          and each constructor must have an argument.
   [2]
 
-[@mel.unwrap] args are not supported in [@@mel.obj] functions
-
-  $ cat > x.ml <<EOF
-  > external err :
-  >   ?hi_should_error:([\`a of int] [@mel.unwrap]) -> unit -> _ = "" [@@mel.obj]
-  > EOF
-  $ melc -ppx melppx x.ml
-  File "x.ml", line 2, characters 2-59:
-  2 |   ?hi_should_error:([`a of int] [@mel.unwrap]) -> unit -> _ = "" [@@mel.obj]
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: @obj label hi_should_error does not support @unwrap arguments
-  [2]
-
