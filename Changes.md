@@ -63,8 +63,11 @@ Unreleased
   [#713](https://github.com/melange-re/melange/pull/713)).
 - [melange]: Allow using `@mel.as` in external declarations without explicitly
   annotating `@mel.{string,int}`
-  ([#722](https://github.com/melange-re/melange/pull/714), fixes
-  [#578](https://github.com/melange-re/melange/pull/713)).
+  ([#722](https://github.com/melange-re/melange/pull/722), fixes
+  [#578](https://github.com/melange-re/melange/issues/578)).
+- [melange]: Allow using `@mel.unwrap` in external declarations with `@mel.obj`
+  ([#724](https://github.com/melange-re/melange/pull/724), fixes
+  [#679](https://github.com/melange-re/melange/issues/679)).
 
 1.0.0 2023-05-31
 ---------------
