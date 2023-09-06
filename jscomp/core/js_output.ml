@@ -97,8 +97,8 @@ let to_break_block (x : t) : J.block * bool =
       (* value does not matter when [finished] is true
           TODO: check if it has side efects
       *)
-  | { value = None; output_finished; _ } -> (
-      (block, match output_finished with True -> false | False | Dummy -> true))
+  | { value = None; output_finished; _ } ->
+      (block, match output_finished with True -> false | False | Dummy -> true)
   | { value = Some _ as opt; _ } -> (block_with_opt_expr block opt, true)
 
 (** TODO: make everything expression make inlining hard, and code not readable?

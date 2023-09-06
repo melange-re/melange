@@ -101,7 +101,7 @@ val reverse : 'a t -> 'a t
 *)
 
 external makeUninitialized : int -> 'a Js.undefined array = "Array"
-  [@@mel.new]
+[@@mel.new]
 (**
   [makeUninitialized n] creates an array of length [n] filled with the undefined value.
   You must specify the type of data that will eventually fill the array.
@@ -113,7 +113,7 @@ external makeUninitialized : int -> 'a Js.undefined array = "Array"
 *)
 
 external makeUninitializedUnsafe : int -> 'a t = "Array"
-  [@@mel.new]
+[@@mel.new]
 (**
   `makeUninitializedUnsafe n`
 
@@ -277,7 +277,7 @@ val sliceToEnd : 'a t -> int -> 'a t
 *)
 
 external copy : 'a t -> (_[@mel.as 0]) -> 'a t = "slice"
-  [@@mel.send]
+[@@mel.send]
 (** [copy a]
 
     @return a copy of [a];that is;a fresh array
@@ -653,7 +653,7 @@ val eq : 'a t -> 'a t -> ('a -> 'a -> bool) -> bool
 *)
 
 external truncateToLengthUnsafe : 'a t -> int -> unit = "length"
-  [@@mel.set]
+[@@mel.set]
 (** {b Unsafe}
   [truncateToLengthUnsafe xs n] sets length of array [xs] to [n].
 
@@ -673,7 +673,7 @@ val initU : int -> ((int -> 'a)[@u]) -> 'a t
 val init : int -> (int -> 'a) -> 'a t
 
 external push : 'a t -> 'a -> unit = "push"
-  [@@send]
+[@@send]
 (**
   [arr->push(item)]
   push element `item` into the array

@@ -34,7 +34,7 @@ open Melange_mini_stdlib
 (* + conversion*)
 
 external toExponential : int -> string = "toExponential"
-  [@@mel.send]
+[@@mel.send]
 (** Formats an [int] using exponential (scientific) notation
 
 {b Returns} a [string] representing the given value in exponential notation
@@ -51,7 +51,7 @@ external toExponential : int -> string = "toExponential"
 
 external toExponentialWithPrecision : int -> digits:int -> string
   = "toExponential"
-  [@@mel.send]
+[@@mel.send]
 (** Formats an [int] using exponential (scientific) notation
 
 {b digits} specifies how many digits should appear after the decimal point. The
@@ -75,7 +75,7 @@ The output will be rounded or padded with zeroes if necessary.
 *)
 
 external toPrecision : int -> string = "toPrecision"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [int] using some fairly arbitrary rules
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -96,7 +96,7 @@ decimal point.
 (* equivalent to `toString` I think *)
 
 external toPrecisionWithPrecision : int -> digits:int -> string = "toPrecision"
-  [@@mel.send]
+[@@mel.send]
 (** Formats an [int] using some fairly arbitrary rules
 
 {b digits} specifies how many digits should appear in total. The
@@ -127,7 +127,7 @@ before the decimal point.
 *)
 
 external toString : int -> string = "toString"
-  [@@mel.send]
+[@@mel.send]
 (** Formats a [int] as a string
 
 {b Returns} a [string] representing the given value in fixed-point (usually)
@@ -141,7 +141,7 @@ external toString : int -> string = "toString"
 *)
 
 external toStringWithRadix : int -> radix:int -> string = "toString"
-  [@@mel.send]
+[@@mel.send]
 (** Formats an [int] as a string
 
 {b radix} specifies the radix base to use for the formatted number. The

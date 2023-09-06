@@ -72,7 +72,7 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
             ((Js_op.Lit label, x) :: accs, List.append new_eff eff, assign)
         (* evaluation order is undefined *))
     | ( ({ obj_arg_label = Obj_optional { name = label; _ }; obj_arg_type } as
-        arg_kind)
+         arg_kind)
         :: labels,
         arg :: args ) ->
         let ((accs, eff, assign) as r) = aux labels args in
@@ -94,11 +94,11 @@ let assemble_obj_args (labels : External_arg_spec.obj_params)
   in
   let map, eff, assignment = aux labels args in
   match assignment with
-  | [] -> (
+  | [] ->
       ( [],
         match eff with
         | [] -> E.obj map
-        | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map) ))
+        | x :: xs -> E.seq (E.fuse_to_seq x xs) (E.obj map) )
   | _ ->
       let v = Ext_ident.create_tmp () in
       let var_v = E.var v in

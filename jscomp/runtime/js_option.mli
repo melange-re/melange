@@ -37,8 +37,8 @@ val map : (('a -> 'b)[@u]) -> 'a option -> 'b option
 val getWithDefault : 'a -> 'a option -> 'a
 
 val default : 'a -> 'a option -> 'a
-  [@@deprecated
-    "Use getWithDefault instead since default has special meaning in ES module"]
+[@@deprecated
+  "Use getWithDefault instead since default has special meaning in ES module"]
 
 val filter : (('a -> bool)[@u]) -> 'a option -> 'a option
 val firstSome : 'a option -> 'a option -> 'a option

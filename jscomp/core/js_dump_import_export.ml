@@ -78,8 +78,7 @@ let es6_export cxt f (idents : Ident.t list) =
         let s = Ext_ident.convert id_name in
         let str, cxt = Ext_pp_scope.str_of_ident cxt id in
         ( cxt,
-          if id_name = default_export then
-            (default_export, str) :: acc
+          if id_name = default_export then (default_export, str) :: acc
           else (s, str) :: acc ))
       (cxt, []) idents
   in

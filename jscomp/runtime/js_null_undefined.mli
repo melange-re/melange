@@ -91,4 +91,4 @@ external toOption : 'a t -> 'a option = "#nullable_to_opt"
 *)
 
 external to_opt : 'a t -> 'a option = "#nullable_to_opt"
-  [@@deprecated "Use toOption instead"]
+[@@deprecated "Use toOption instead"]
