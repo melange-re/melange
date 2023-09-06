@@ -246,7 +246,7 @@ let if_ ?comment ?declaration ?else_ (e : J.expression) (then_ : J.block) : t =
                         Bin
                           ( Eq,
                             ({ expression_desc = Var (Id var_ifso); _ } as
-                            lhs_ifso),
+                             lhs_ifso),
                             rhs_ifso );
                       _;
                     };

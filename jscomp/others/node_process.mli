@@ -40,7 +40,7 @@ external exit : int -> 'a = "exit" [@@mel.module "process"]
 external cwd : unit -> string = "cwd" [@@mel.module "process"]
 
 external uptime : t -> unit -> float = "uptime"
-  [@@mel.send]
+[@@mel.send]
 (** The process.uptime() method returns the number of seconds
    the current Node.js process has been running.) *)
 

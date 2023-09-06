@@ -27,13 +27,13 @@
 external basename : string -> string = "basename" [@@mel.module "path"]
 
 external basename_ext : string -> string -> string = "basename"
-  [@@mel.module "path"]
+[@@mel.module "path"]
 
 external delimiter : string = "delimiter" [@@mel.module "path"]
 external dirname : string -> string = "dirname" [@@mel.module "path"]
 
 external dirname_ext : string -> string -> string = "dirname"
-  [@@mel.module "path"]
+[@@mel.module "path"]
 
 type pathObject =
   < dir : string
@@ -50,7 +50,7 @@ external isAbsolute : string -> bool = "isAbsolute" [@@mel.module "path"]
 external join2 : string -> string -> string = "join" [@@mel.module "path"]
 
 external join : string array -> string = "join"
-  [@@mel.module "path"] [@@mel.splice]
+[@@mel.module "path"] [@@mel.splice]
 
 external normalize : string -> string = "normalize" [@@mel.module "path"]
 
@@ -60,7 +60,7 @@ external parse : string -> pathObject = "parse" [@@mel.module "path"]
 (* TODO: provide bindings to [path.posix]*)
 
 external relative : from:string -> to_:string -> unit -> string = "relative"
-  [@@mel.module "path"]
+[@@mel.module "path"]
 
 (* TODO: improve after rest calling convention *)
 external resolve : string -> string -> string = "resolve" [@@mel.module "path"]

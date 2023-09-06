@@ -31,7 +31,7 @@ external return : 'a -> 'a t = "%identity"
 (** Constructs a value of ['a Js.null] containing a value of ['a] *)
 
 val test : 'a t -> bool
-  [@@deprecated "Use = Js.null directly "]
+[@@deprecated "Use = Js.null directly "]
 (** Returns [true] if the given value is [empty] ([null]), [false] otherwise *)
 
 external empty : 'a t = "#null"
@@ -91,4 +91,4 @@ external toOption : 'a t -> 'a option = "#null_to_opt"
 *)
 
 external to_opt : 'a t -> 'a option = "#null_to_opt"
-  [@@deprecated "Use toOption instead"]
+[@@deprecated "Use toOption instead"]

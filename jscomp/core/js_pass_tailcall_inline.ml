@@ -137,7 +137,7 @@ let subst (export_set : Set_ident.t) stats =
              statement_desc =
                Variable
                  ({ value = Some ({ expression_desc = Fun _; _ } as v); _ } as
-                 vd);
+                  vd);
              comment = _;
            } as st)
           :: rest -> (

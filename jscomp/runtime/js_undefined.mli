@@ -33,7 +33,7 @@ external return : 'a -> 'a t = "%identity"
 (** Constructs a value of ['a Js.undefined] containing a value of ['a] *)
 
 val test : 'a t -> bool
-  [@@deprecated "Use = Js.undefined directly"]
+[@@deprecated "Use = Js.undefined directly"]
 (** Returns [true] if the given value is [empty] ([undefined]), [false] otherwise *)
 
 val testAny : 'a -> bool
@@ -97,4 +97,4 @@ external toOption : 'a t -> 'a option = "#undefined_to_opt"
 *)
 
 external to_opt : 'a t -> 'a option = "#undefined_to_opt"
-  [@@deprecated "use toOption instead"]
+[@@deprecated "use toOption instead"]
