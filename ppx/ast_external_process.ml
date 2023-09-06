@@ -178,7 +178,7 @@ let get_opt_arg_type ~(nolabel : bool) (ptyp : Parsetree.core_type) :
     External_arg_spec.attr =
   if ptyp.ptyp_desc = Ptyp_any then
     (* (_[@as ])*)
-    (* extenral f : ?x:_ -> y:int -> _ = "" [@@obj] is not allowed *)
+    (* external f : ?x:_ -> y:int -> _ = "" [@@obj] is not allowed *)
     Error.err ~loc:ptyp.ptyp_loc Invalid_underscore_type_in_external;
   (* ([`a|`b] [@@string]) *)
   spec_of_ptyp nolabel ptyp
@@ -483,158 +483,149 @@ let process_obj (loc : Location.t) (st : external_desc) (prim_name : string)
                           Location.raise_errorf ~loc
                             "expect label, optional, or unit here")
                   | Labelled name -> (
-                      match refine_obj_arg_type ~nolabel:false ty with
-                      | obj_arg_type -> (
-                          match obj_arg_type with
-                          | Ignore ->
-                              ( External_arg_spec.empty_kind obj_arg_type,
-                                param_type :: arg_types,
-                                result_types )
-                          | Arg_cst _ ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label = External_arg_spec.obj_label s;
-                                  obj_arg_type;
-                                },
-                                arg_types,
-                                (* ignored in [arg_types], reserved in [result_types] *)
-                                result_types )
-                          | Nothing ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label = External_arg_spec.obj_label s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  ty
-                                :: result_types )
-                          | Int _ ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label = External_arg_spec.obj_label s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  [%type: int]
-                                :: result_types )
-                          | Poly_var_string _ ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label = External_arg_spec.obj_label s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  [%type: string]
-                                :: result_types )
-                          | Unwrap ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label = External_arg_spec.obj_label s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  ty
-                                :: result_types )
-                          | Fn_uncurry_arity _ ->
-                              Location.raise_errorf ~loc
-                                "The combination of @obj, @uncurry is not \
-                                 supported yet"
-                          | Extern_unit -> assert false
-                          | Poly_var _ ->
-                              raise
-                                (Location.raise_errorf ~loc
-                                   "%@obj label %s does not support such arg \
-                                    type"
-                                   name)))
+                      let obj_arg_type =
+                        refine_obj_arg_type ~nolabel:false ty
+                      in
+                      match obj_arg_type with
+                      | Ignore ->
+                          ( External_arg_spec.empty_kind obj_arg_type,
+                            param_type :: arg_types,
+                            result_types )
+                      | Arg_cst _ ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.obj_label s;
+                              obj_arg_type;
+                            },
+                            arg_types,
+                            (* ignored in [arg_types], reserved in [result_types] *)
+                            result_types )
+                      | Nothing ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.obj_label s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
+                            :: result_types )
+                      | Int _ ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.obj_label s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag
+                              { Asttypes.txt = name; loc }
+                              [%type: int]
+                            :: result_types )
+                      | Poly_var_string _ ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.obj_label s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag
+                              { Asttypes.txt = name; loc }
+                              [%type: string]
+                            :: result_types )
+                      | Unwrap ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.obj_label s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag { Asttypes.txt = name; loc } ty
+                            :: result_types )
+                      | Fn_uncurry_arity _ ->
+                          Location.raise_errorf ~loc
+                            "The combination of @obj, @uncurry is not \
+                             supported yet"
+                      | Extern_unit -> assert false
+                      | Poly_var _ ->
+                          raise
+                            (Location.raise_errorf ~loc
+                               "%@obj label %s does not support such arg type"
+                               name))
                   | Optional name -> (
-                      match get_opt_arg_type ~nolabel:false ty with
-                      | obj_arg_type -> (
-                          match obj_arg_type with
-                          | Ignore ->
-                              ( External_arg_spec.empty_kind obj_arg_type,
-                                param_type :: arg_types,
-                                result_types )
-                          | Nothing ->
-                              let s = Lam_methname.translate name in
-                              (* XXX(anmonteiro): it's unsafe to just read the type of the
-                                 labelled argument declaration, since it could be `'a` in
-                                 the implementation, and e.g. `bool` in the interface. See
-                                 https://github.com/melange-re/melange/pull/58 for
-                                 a test case. *)
-                              ( {
-                                  obj_arg_label =
-                                    External_arg_spec.optional false s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  (Ast_helper.Typ.constr ~loc
-                                     { txt = Ast_literal.js_undefined; loc }
-                                     [ ty ])
-                                :: result_types )
-                          | Int _ ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label =
-                                    External_arg_spec.optional true s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  (Ast_helper.Typ.constr ~loc
-                                     { txt = Ast_literal.js_undefined; loc }
-                                     [ [%type: int] ])
-                                :: result_types )
-                          | Poly_var_string _ ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label =
-                                    External_arg_spec.optional true s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  (Ast_helper.Typ.constr ~loc
-                                     { txt = Ast_literal.js_undefined; loc }
-                                     [ [%type: string] ])
-                                :: result_types )
-                          | Unwrap ->
-                              let s = Lam_methname.translate name in
-                              ( {
-                                  obj_arg_label =
-                                    External_arg_spec.optional false s;
-                                  obj_arg_type;
-                                },
-                                param_type :: arg_types,
-                                Ast_helper.Of.tag
-                                  { Asttypes.txt = name; loc }
-                                  (Ast_helper.Typ.constr ~loc
-                                     { txt = Ast_literal.js_undefined; loc }
-                                     [ ty ])
-                                :: result_types )
-                          | Arg_cst _ ->
-                              Location.raise_errorf ~loc
-                                "@as is not supported with optional yet"
-                          | Fn_uncurry_arity _ ->
-                              Location.raise_errorf ~loc
-                                "The combination of @obj, @uncurry is not \
-                                 supported yet"
-                          | Extern_unit -> assert false
-                          | Poly_var _ ->
-                              Location.raise_errorf ~loc
-                                "%@obj label %s does not support such arg type"
-                                name))
+                      let obj_arg_type = get_opt_arg_type ~nolabel:false ty in
+                      match obj_arg_type with
+                      | Ignore ->
+                          ( External_arg_spec.empty_kind obj_arg_type,
+                            param_type :: arg_types,
+                            result_types )
+                      | Nothing ->
+                          let s = Lam_methname.translate name in
+                          (* XXX(anmonteiro): it's unsafe to just read the type of the
+                                                              labelled argument declaration, since it could be `'a` in
+                             the implementation, and e.g. `bool` in the interface. See
+                                                              https://github.com/melange-re/melange/pull/58 for
+                                                              a test case. *)
+                          ( {
+                              obj_arg_label = External_arg_spec.optional false s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag
+                              { Asttypes.txt = name; loc }
+                              (Ast_helper.Typ.constr ~loc
+                                 { txt = Ast_literal.js_undefined; loc }
+                                 [ ty ])
+                            :: result_types )
+                      | Int _ ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.optional true s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag
+                              { Asttypes.txt = name; loc }
+                              (Ast_helper.Typ.constr ~loc
+                                 { txt = Ast_literal.js_undefined; loc }
+                                 [ [%type: int] ])
+                            :: result_types )
+                      | Poly_var_string _ ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.optional true s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag
+                              { Asttypes.txt = name; loc }
+                              (Ast_helper.Typ.constr ~loc
+                                 { txt = Ast_literal.js_undefined; loc }
+                                 [ [%type: string] ])
+                            :: result_types )
+                      | Unwrap ->
+                          let s = Lam_methname.translate name in
+                          ( {
+                              obj_arg_label = External_arg_spec.optional false s;
+                              obj_arg_type;
+                            },
+                            param_type :: arg_types,
+                            Ast_helper.Of.tag
+                              { Asttypes.txt = name; loc }
+                              (Ast_helper.Typ.constr ~loc
+                                 { txt = Ast_literal.js_undefined; loc }
+                                 [ ty ])
+                            :: result_types )
+                      | Arg_cst _ ->
+                          Location.raise_errorf ~loc
+                            "@as is not supported with optional yet"
+                      | Fn_uncurry_arity _ ->
+                          Location.raise_errorf ~loc
+                            "The combination of @obj, @uncurry is not \
+                             supported yet"
+                      | Extern_unit -> assert false
+                      | Poly_var _ ->
+                          Location.raise_errorf ~loc
+                            "%@obj label %s does not support such arg type" name
+                      )
                 in
                 (new_arg_label :: arg_labels, new_arg_types, output_tys))
               arg_types_ty ([], [], [])
