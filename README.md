@@ -21,7 +21,10 @@ Melange produces robust JavaScript code.
 
 Sponsored by:
 
-<img src="./docs/images/ahrefs-logo.png" height="50px">
+<div style="display: inline;">
+  <img src="./docs/images/ahrefs-logo.png" height="50px">
+  <img src="./docs/images/ocsf_logo.svg" height="50px">
+</div>
 
 ## Installation
 
