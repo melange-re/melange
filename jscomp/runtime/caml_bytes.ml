@@ -287,9 +287,7 @@ let set16 b idx newval =
     raise (Invalid_argument "index out of bounds");
   set16u b idx newval
 
-let set32 str idx newval =
-  if idx < 0 || idx + 3 >= length str then
-    raise (Invalid_argument "index out of bounds");
+let set32u str idx newval =
   let b4 = 0xFFl &~ (newval >>~ 24) in
   let b3 = 0xFFl &~ (newval >>~ 16) in
   let b2 = 0xFFl &~ (newval >>~ 8) in
@@ -299,10 +297,13 @@ let set32 str idx newval =
   str.![idx + 2] <- unsafe_code (Caml_int32_extern.to_int b3);
   str.![idx + 3] <- unsafe_code (Caml_int32_extern.to_int b4)
 
-let set64 str idx newval =
-  let newval = Caml_int64.unsafe_of_int64 newval in
-  if idx < 0 || idx + 7 >= length str then
+let set32 str idx newval =
+  if idx < 0 || idx + 3 >= length str then
     raise (Invalid_argument "index out of bounds");
+  set32u str idx newval
+
+let set64u str idx newval =
+  let newval = Caml_int64.unsafe_of_int64 newval in
   let b8 = 0xFF land Caml_int64.to_int32 (newval >>>~ 56) in
   let b7 = 0xFF land Caml_int64.to_int32 (newval >>>~ 48) in
   let b6 = 0xFF land Caml_int64.to_int32 (newval >>>~ 40) in
@@ -319,3 +320,8 @@ let set64 str idx newval =
   str.![idx + 5] <- unsafe_code b6;
   str.![idx + 6] <- unsafe_code b7;
   str.![idx + 7] <- unsafe_code b8
+
+let set64 str idx newval =
+  if idx < 0 || idx + 7 >= length str then
+    raise (Invalid_argument "index out of bounds");
+  set64u str idx newval
