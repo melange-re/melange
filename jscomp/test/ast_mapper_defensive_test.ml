@@ -14,7 +14,7 @@ type a =
   | A2
 and  b =
   | B0
-  | B1 [@bs.as 3]
+  | B1 [@mel.as 3]
   | B2
 and c = [
   | `c0

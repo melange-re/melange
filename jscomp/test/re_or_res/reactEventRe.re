@@ -1,50 +1,50 @@
 type synthetic('a) = ReactEvent.synthetic('a);
 
 module MakeSyntheticWrapper = (Type: {type t;}) => {
-  [@bs.get] external bubbles: Type.t => bool = "bubbles";
-  [@bs.get] external cancelable: Type.t => bool = "cancelable";
-  [@bs.get] external currentTarget: Type.t => Dom.element = "currentTarget"; /* Should return Dom.evetTarget */
-  [@bs.get] external defaultPrevented: Type.t => bool = "defaultPrevented";
-  [@bs.get] external eventPhase: Type.t => int = "eventPhase";
-  [@bs.get] external isTrusted: Type.t => bool = "isTrusted";
-  [@bs.get] external nativeEvent: Type.t => Js.t({..}) = "nativeEvent"; /* Should return Dom.event */
-  [@bs.send.pipe: Type.t] external preventDefault: unit = "preventDefault";
-  [@bs.send.pipe: Type.t]
+  [@mel.get] external bubbles: Type.t => bool = "bubbles";
+  [@mel.get] external cancelable: Type.t => bool = "cancelable";
+  [@mel.get] external currentTarget: Type.t => Dom.element = "currentTarget"; /* Should return Dom.evetTarget */
+  [@mel.get] external defaultPrevented: Type.t => bool = "defaultPrevented";
+  [@mel.get] external eventPhase: Type.t => int = "eventPhase";
+  [@mel.get] external isTrusted: Type.t => bool = "isTrusted";
+  [@mel.get] external nativeEvent: Type.t => Js.t({..}) = "nativeEvent"; /* Should return Dom.event */
+  [@mel.send.pipe: Type.t] external preventDefault: unit = "preventDefault";
+  [@mel.send.pipe: Type.t]
   external isDefaultPrevented: bool = "isDefaultPrevented";
-  [@bs.send.pipe: Type.t] external stopPropagation: unit = "stopPropagation";
-  [@bs.send.pipe: Type.t]
+  [@mel.send.pipe: Type.t] external stopPropagation: unit = "stopPropagation";
+  [@mel.send.pipe: Type.t]
   external isPropagationStopped: bool = "isPropagationStopped";
-  [@bs.get] external target: Type.t => Dom.element = "target"; /* Should return Dom.evetTarget */
-  [@bs.get] external timeStamp: Type.t => float = "timeStamp";
-  [@bs.get] external _type: Type.t => string = "type";
-  [@bs.send.pipe: Type.t] external persist: unit = "persist";
+  [@mel.get] external target: Type.t => Dom.element = "target"; /* Should return Dom.evetTarget */
+  [@mel.get] external timeStamp: Type.t => float = "timeStamp";
+  [@mel.get] external _type: Type.t => string = "type";
+  [@mel.send.pipe: Type.t] external persist: unit = "persist";
 };
 
 module Synthetic = {
   type tag = ReactEvent.Synthetic.tag;
   type t = ReactEvent.Synthetic.t;
-  [@bs.get] external bubbles: synthetic('a) => bool = "bubbles";
-  [@bs.get] external cancelable: synthetic('a) => bool = "cancelable";
-  [@bs.get]
+  [@mel.get] external bubbles: synthetic('a) => bool = "bubbles";
+  [@mel.get] external cancelable: synthetic('a) => bool = "cancelable";
+  [@mel.get]
   external currentTarget: synthetic('a) => Dom.element = "currentTarget"; /* Should return Dom.evetTarget */
-  [@bs.get]
+  [@mel.get]
   external defaultPrevented: synthetic('a) => bool = "defaultPrevented";
-  [@bs.get] external eventPhase: synthetic('a) => int = "eventPhase";
-  [@bs.get] external isTrusted: synthetic('a) => bool = "isTrusted";
-  [@bs.get]
+  [@mel.get] external eventPhase: synthetic('a) => int = "eventPhase";
+  [@mel.get] external isTrusted: synthetic('a) => bool = "isTrusted";
+  [@mel.get]
   external nativeEvent: synthetic('a) => Js.t({..}) = "nativeEvent"; /* Should return Dom.event */
-  [@bs.send.pipe: synthetic('a)]
+  [@mel.send.pipe: synthetic('a)]
   external preventDefault: unit = "preventDefault";
-  [@bs.send.pipe: synthetic('a)]
+  [@mel.send.pipe: synthetic('a)]
   external isDefaultPrevented: bool = "isDefaultPrevented";
-  [@bs.send.pipe: synthetic('a)]
+  [@mel.send.pipe: synthetic('a)]
   external stopPropagation: unit = "stopPropagation";
-  [@bs.send.pipe: synthetic('a)]
+  [@mel.send.pipe: synthetic('a)]
   external isPropagationStopped: bool = "isPropagationStopped";
-  [@bs.get] external target: synthetic('a) => Dom.element = "target"; /* Should return Dom.evetTarget */
-  [@bs.get] external timeStamp: synthetic('a) => float = "timeStamp";
-  [@bs.get] external _type: synthetic('a) => string = "type";
-  [@bs.send.pipe: synthetic('a)] external persist: unit = "persist";
+  [@mel.get] external target: synthetic('a) => Dom.element = "target"; /* Should return Dom.evetTarget */
+  [@mel.get] external timeStamp: synthetic('a) => float = "timeStamp";
+  [@mel.get] external _type: synthetic('a) => string = "type";
+  [@mel.send.pipe: synthetic('a)] external persist: unit = "persist";
 };
 
 /* Cast any event type to the general synthetic type. This is safe, since synthetic is more general */
@@ -56,7 +56,7 @@ module Clipboard = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external clipboardData: t => Js.t({..}) = "clipboardData"; /* Should return Dom.dataTransfer */
+  [@mel.get] external clipboardData: t => Js.t({..}) = "clipboardData"; /* Should return Dom.dataTransfer */
 };
 
 module Composition = {
@@ -65,7 +65,7 @@ module Composition = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external data: t => string = "data";
+  [@mel.get] external data: t => string = "data";
 };
 
 module Keyboard = {
@@ -74,19 +74,19 @@ module Keyboard = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external altKey: t => bool = "altKey";
-  [@bs.get] external charCode: t => int = "charCode";
-  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
-  [@bs.send.pipe: t]
+  [@mel.get] external altKey: t => bool = "altKey";
+  [@mel.get] external charCode: t => int = "charCode";
+  [@mel.get] external ctrlKey: t => bool = "ctrlKey";
+  [@mel.send.pipe: t]
   external getModifierState: string => bool = "getModifierState";
-  [@bs.get] external key: t => string = "key";
-  [@bs.get] external keyCode: t => int = "keyCode";
-  [@bs.get] external locale: t => string = "locale";
-  [@bs.get] external location: t => int = "location";
-  [@bs.get] external metaKey: t => bool = "metaKey";
-  [@bs.get] external repeat: t => bool = "repeat";
-  [@bs.get] external shiftKey: t => bool = "shiftKey";
-  [@bs.get] external which: t => int = "which";
+  [@mel.get] external key: t => string = "key";
+  [@mel.get] external keyCode: t => int = "keyCode";
+  [@mel.get] external locale: t => string = "locale";
+  [@mel.get] external location: t => int = "location";
+  [@mel.get] external metaKey: t => bool = "metaKey";
+  [@mel.get] external repeat: t => bool = "repeat";
+  [@mel.get] external shiftKey: t => bool = "shiftKey";
+  [@mel.get] external which: t => int = "which";
 };
 
 module Focus = {
@@ -95,7 +95,7 @@ module Focus = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external relatedTarget: t => Dom.element = "relatedTarget"; /* Should return Dom.eventTarget */
+  [@mel.get] external relatedTarget: t => Dom.element = "relatedTarget"; /* Should return Dom.eventTarget */
 };
 
 module Form = {
@@ -112,21 +112,21 @@ module Mouse = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external altKey: t => bool = "altKey";
-  [@bs.get] external button: t => int = "button";
-  [@bs.get] external buttons: t => int = "buttons";
-  [@bs.get] external clientX: t => int = "clientX";
-  [@bs.get] external clientY: t => int = "clientY";
-  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
-  [@bs.send.pipe: t]
+  [@mel.get] external altKey: t => bool = "altKey";
+  [@mel.get] external button: t => int = "button";
+  [@mel.get] external buttons: t => int = "buttons";
+  [@mel.get] external clientX: t => int = "clientX";
+  [@mel.get] external clientY: t => int = "clientY";
+  [@mel.get] external ctrlKey: t => bool = "ctrlKey";
+  [@mel.send.pipe: t]
   external getModifierState: string => bool = "getModifierState";
-  [@bs.get] external metaKey: t => bool = "metaKey";
-  [@bs.get] external pageX: t => int = "pageX";
-  [@bs.get] external pageY: t => int = "pageY";
-  [@bs.get] external relatedTarget: t => Dom.element = "relatedTarget"; /* Should return Dom.eventTarget */
-  [@bs.get] external screenX: t => int = "screenX";
-  [@bs.get] external screenY: t => int = "screenY";
-  [@bs.get] external shiftKey: t => bool = "shiftKey";
+  [@mel.get] external metaKey: t => bool = "metaKey";
+  [@mel.get] external pageX: t => int = "pageX";
+  [@mel.get] external pageY: t => int = "pageY";
+  [@mel.get] external relatedTarget: t => Dom.element = "relatedTarget"; /* Should return Dom.eventTarget */
+  [@mel.get] external screenX: t => int = "screenX";
+  [@mel.get] external screenY: t => int = "screenY";
+  [@mel.get] external shiftKey: t => bool = "shiftKey";
 };
 
 module Selection = {
@@ -143,15 +143,15 @@ module Touch = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external altKey: t => bool = "altKey";
-  [@bs.get] external changedTouches: t => Js.t({..}) = "changedTouches"; /* Should return Dom.touchList */
-  [@bs.get] external ctrlKey: t => bool = "ctrlKey";
-  [@bs.send.pipe: t]
+  [@mel.get] external altKey: t => bool = "altKey";
+  [@mel.get] external changedTouches: t => Js.t({..}) = "changedTouches"; /* Should return Dom.touchList */
+  [@mel.get] external ctrlKey: t => bool = "ctrlKey";
+  [@mel.send.pipe: t]
   external getModifierState: string => bool = "getModifierState";
-  [@bs.get] external metaKey: t => bool = "metaKey";
-  [@bs.get] external shiftKey: t => bool = "shiftKey";
-  [@bs.get] external targetTouches: t => Js.t({..}) = "targetTouches"; /* Should return Dom.touchList */
-  [@bs.get] external touches: t => Js.t({..}) = "touches"; /* Should return Dom.touchList */
+  [@mel.get] external metaKey: t => bool = "metaKey";
+  [@mel.get] external shiftKey: t => bool = "shiftKey";
+  [@mel.get] external targetTouches: t => Js.t({..}) = "targetTouches"; /* Should return Dom.touchList */
+  [@mel.get] external touches: t => Js.t({..}) = "touches"; /* Should return Dom.touchList */
 };
 
 module UI = {
@@ -160,8 +160,8 @@ module UI = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external detail: t => int = "detail";
-  [@bs.get] external view: t => Dom.window = "view"; /* Should return DOMAbstractView/WindowProxy */
+  [@mel.get] external detail: t => int = "detail";
+  [@mel.get] external view: t => Dom.window = "view"; /* Should return DOMAbstractView/WindowProxy */
 };
 
 module Wheel = {
@@ -170,10 +170,10 @@ module Wheel = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external deltaMode: t => int = "deltaMode";
-  [@bs.get] external deltaX: t => float = "deltaX";
-  [@bs.get] external deltaY: t => float = "deltaY";
-  [@bs.get] external deltaZ: t => float = "deltaZ";
+  [@mel.get] external deltaMode: t => int = "deltaMode";
+  [@mel.get] external deltaX: t => float = "deltaX";
+  [@mel.get] external deltaY: t => float = "deltaY";
+  [@mel.get] external deltaZ: t => float = "deltaZ";
 };
 
 module Media = {
@@ -198,9 +198,9 @@ module Animation = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external animationName: t => string = "animationName";
-  [@bs.get] external pseudoElement: t => string = "pseudoElement";
-  [@bs.get] external elapsedTime: t => float = "elapsedTime";
+  [@mel.get] external animationName: t => string = "animationName";
+  [@mel.get] external pseudoElement: t => string = "pseudoElement";
+  [@mel.get] external elapsedTime: t => float = "elapsedTime";
 };
 
 module Transition = {
@@ -209,7 +209,7 @@ module Transition = {
   include MakeSyntheticWrapper({
     type nonrec t = t;
   });
-  [@bs.get] external propertyName: t => string = "propertyName";
-  [@bs.get] external pseudoElement: t => string = "pseudoElement";
-  [@bs.get] external elapsedTime: t => float = "elapsedTime";
+  [@mel.get] external propertyName: t => string = "propertyName";
+  [@mel.get] external pseudoElement: t => string = "pseudoElement";
+  [@mel.get] external elapsedTime: t => float = "elapsedTime";
 };

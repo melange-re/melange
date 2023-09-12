@@ -1,52 +1,52 @@
 type config1_expect = <  v : int >  Js.t
-external config1 : stdio:(_ [@bs.as "inherit"]) -> v:int -> unit ->  _  = "" [@@bs.obj]
+external config1 : stdio:(_ [@mel.as "inherit"]) -> v:int -> unit ->  _  = "" [@@mel.obj]
 
 let v1 : config1_expect = config1 ~v:3 ()
 
 type config2_expect = <  v : int >  Js.t
 
-external config2 : stdio:(_ [@bs.as 1 ]) -> v:int -> unit ->  _  = "" [@@bs.obj]
+external config2 : stdio:(_ [@mel.as 1 ]) -> v:int -> unit ->  _  = "" [@@mel.obj]
 let v2 : config2_expect = config2 ~v:2 ()
 
-(* external config3 : stdio:(_ [@bs.as {json|null|json}]) -> v:int -> unit ->  _  = "" [@@bs.obj] *)
+(* external config3 : stdio:(_ [@mel.as {json|null|json}]) -> v:int -> unit ->  _  = "" [@@mel.obj] *)
 (* let v_3 = config3 ~v:33 () *)
 
 external on_exit :
-    (_ [@bs.as "exit"]) ->
+    (_ [@mel.as "exit"]) ->
     (int -> string) ->
     unit = "process.on"
-    [@@bs.val]
+
 
 let () =
     on_exit (fun exit_code -> string_of_int exit_code)
 
 
 external on_exit_int :
-    (_ [@bs.as 1]) ->
+    (_ [@mel.as 1]) ->
     (int -> unit) ->
     unit = "process.on"
-    [@@bs.val]
+
 
 let () =
     on_exit_int (fun _ -> ())
 
-external on_exit3 :     (int -> string ) -> (_ [@bs.as "exit"]) -> unit =
+external on_exit3 :     (int -> string ) -> (_ [@mel.as "exit"]) -> unit =
     "process.on"
-    [@@bs.val]
+
 
 let ()  = on_exit3 (fun i -> string_of_int i )
 
-external on_exit4 :     (int -> string ) -> (_ [@bs.as 1]) -> unit =
+external on_exit4 :     (int -> string ) -> (_ [@mel.as 1]) -> unit =
     "process.on"
-    [@@bs.val]
+
 
 
 let () =
     on_exit4 (fun i -> string_of_int i)
 
 external on_exit_slice :
-    int -> (_ [@bs.as 3]) -> (_ [@bs.as "xxx"]) -> string array -> unit =
-    "xx"   [@@bs.val] [@@bs.splice]
+    int -> (_ [@mel.as 3]) -> (_ [@mel.as "xxx"]) -> string array -> unit =
+    "xx"    [@@mel.splice]
 
 let () =
     on_exit_slice 3 [|"a";"b"|]
@@ -56,52 +56,52 @@ let () =
 type t
 
 external on_exit_slice1 :
-    int -> int array -> unit = "xx" [@@bs.send.pipe: t]
+    int -> int array -> unit = "xx" [@@mel.send.pipe: t]
 
 external on_exit_slice2 :
     int
-    -> (_ [@bs.as 3])
-    -> (_ [@bs.as "xxx"]) -> int array -> unit =
-    "xx"    [@@bs.send.pipe: t]
+    -> (_ [@mel.as 3])
+    -> (_ [@mel.as "xxx"]) -> int array -> unit =
+    "xx"    [@@mel.send.pipe: t]
 
 external on_exit_slice3 :
     int
-    -> (_ [@bs.as 3])
-    -> (_ [@bs.as "xxx"])
+    -> (_ [@mel.as 3])
+    -> (_ [@mel.as "xxx"])
     -> int array
     -> unit
     =
-    "xx"    [@@bs.send.pipe: t] [@@bs.splice]
+    "xx"    [@@mel.send.pipe: t] [@@mel.splice]
 
 external on_exit_slice4 :
     int
-    -> (_ [@bs.as 3])
-    -> (_ [@bs.as "xxx"])
+    -> (_ [@mel.as 3])
+    -> (_ [@mel.as "xxx"])
     -> ([`a|`b|`c] [@int])
     -> ([`a|`b|`c] )
     -> int array
     -> unit
     =
-    "xx" [@@bs.send.pipe: t] [@@bs.splice]
+    "xx" [@@mel.send.pipe: t] [@@mel.splice]
 
 
 external on_exit_slice5 :
     int
-    -> (_ [@bs.as 3])
-    -> (_ [@bs.as {json|true|json}])
-    -> (_ [@bs.as {json|false|json}])
-    -> (_ [@bs.as {json|"你好"|json}])
-    -> (_ [@bs.as {json| ["你好",1,2,3] |json}])
-    -> (_ [@bs.as {json| [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] |json}])
-    -> (_ [@bs.as {json| [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] |json}])
-    -> (_ [@bs.as "xxx"])
-    -> ([`a|`b|`c] [@bs.int])
-    -> (_ [@bs.as "yyy"])
+    -> (_ [@mel.as 3])
+    -> (_ [@mel.as {json|true|json}])
+    -> (_ [@mel.as {json|false|json}])
+    -> (_ [@mel.as {json|"你好"|json}])
+    -> (_ [@mel.as {json| ["你好",1,2,3] |json}])
+    -> (_ [@mel.as {json| [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] |json}])
+    -> (_ [@mel.as {json| [{ "arr" : ["你好",1,2,3], "encoding" : "utf8"}] |json}])
+    -> (_ [@mel.as "xxx"])
+    -> ([`a|`b|`c] [@mel.int])
+    -> (_ [@mel.as "yyy"])
     -> ([`a|`b|`c] )
     -> int array
     -> unit
     =
-    "xx" [@@bs.send.pipe: t] [@@bs.splice]
+    "xx" [@@mel.send.pipe: t] [@@mel.splice]
 
 
 (**
@@ -114,8 +114,8 @@ let f (x : t) =
     x |> on_exit_slice4 __LINE__ `a `b [|1;2;3;4;5|];
     x |> on_exit_slice5 __LINE__ `a `b [|1;2;3;4;5|]
 
-external process_on_exit : (_ [@bs.as "exit"]) -> (int -> unit) -> unit =
-  "process.on" [@@bs.val]
+external process_on_exit : (_ [@mel.as "exit"]) -> (int -> unit) -> unit =
+  "process.on"
 
 let () =
     process_on_exit (fun exit_code ->
@@ -124,13 +124,13 @@ let () =
 
 type process
 
-external on_exit :  (_ [@bs.as "exit"]) -> (int -> unit) -> unit =
-    "on" [@@bs.send.pipe: process]
+external on_exit :  (_ [@mel.as "exit"]) -> (int -> unit) -> unit =
+    "on" [@@mel.send.pipe: process]
 let register (p : process) =
         p |> on_exit (fun i -> Js.log i )
 
 
 external io_config :
-    stdio:( _ [@bs.as "inherit"]) -> cwd:string -> unit -> _  = "" [@@bs.obj]
+    stdio:( _ [@mel.as "inherit"]) -> cwd:string -> unit -> _  = "" [@@mel.obj]
 
 let config = io_config ~cwd:"." ()

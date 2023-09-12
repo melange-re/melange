@@ -9,7 +9,7 @@ let eq loc x y =
 type u =
   [ `D
   | `C
-  | `f [@bs.as "x"]
+  | `f [@mel.as "x"]
   ]
 [@@deriving jsConverter]
 
@@ -31,7 +31,7 @@ let () =
 
 type v =
   | A0
-  | A1 [@bs.as 3]
+  | A1 [@mel.as 3]
   | A2
   | A3
 [@@deriving jsConverter]
@@ -70,7 +70,7 @@ let () =
 
 (** TODO: add newType support *)
 type v2 =
-  | C0  [@bs.as 2 ]
+  | C0  [@mel.as 2 ]
   | C1
   | C2
   | C3

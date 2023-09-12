@@ -1,15 +1,15 @@
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
-let eq loc x y = 
-  incr test_id ; 
-  suites := 
+let eq loc x y =
+  incr test_id ;
+  suites :=
     (loc ^" id " ^ (string_of_int !test_id), (fun _ -> Mt.Eq(x,y))) :: !suites
-let add suite = 
+let add suite =
   suites := suite :: !suites
 
 
 module  rec Int3 : sig
-  val u : int -> int 
+  val u : int -> int
 end = Int3
 
 
@@ -26,11 +26,11 @@ module Fact = struct
 end
 
 
-let () = 
+let () =
   eq __LOC__ 120 (Fact.fact 5)
 
 
-let () = 
+let () =
   add (__LOC__, (fun _ -> Mt.ThrowAny (fun _ -> ignore (Int3.u 3))))
 
 

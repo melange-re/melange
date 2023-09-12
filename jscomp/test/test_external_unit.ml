@@ -3,9 +3,9 @@
 type v = unit
 
 
-external log : 'a -> unit = "console.log" [@@bs.val]
+external log : 'a -> unit = "console.log"
 
-external log2 : 'a -> v = "console.log" [@@bs.val]
+external log2 : 'a -> v = "console.log"
 
 
 let u = log 3

@@ -7,8 +7,8 @@ let eq loc x y =
 
 
 external map :
-     ('a -> 'b [@bs.uncurry]) -> 'b array =
-     "map" [@@bs.send.pipe: 'a array]
+     ('a -> 'b [@mel.uncurry]) -> 'b array =
+     "map" [@@mel.send.pipe: 'a array]
 
 
 [%%raw{|
@@ -18,7 +18,7 @@ function hi (cb){
 }
 |}]
 
-external hi : (unit -> unit [@bs.uncurry]) -> unit = "hi" [@@bs.val]
+external hi : (unit -> unit [@mel.uncurry]) -> unit = "hi"
 
 let () =
     let xs = ref [] in

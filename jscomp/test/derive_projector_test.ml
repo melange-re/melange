@@ -46,8 +46,8 @@ type hh = Xx of int
 (* type xx = < x : int > Js.t [@@deriving accessors] *)
 
 type t =
-  | A of (int -> int [@bs])
+  | A of (int -> int [@u])
   [@@deriving accessors]
 
 
-let f = a (fun [@bs] x -> x)
+let f = a (fun [@u] x -> x)

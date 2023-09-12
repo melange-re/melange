@@ -1,5 +1,5 @@
 [@@@warning "-22"]
-(* [@@@bs.config no_export] *)
+(* [@@@mel.config no_export] *)
 (* let for_each n =
   ([%raw{|
 	for (var key in n){
@@ -12,15 +12,15 @@
 let sum : int -> int -> int  =  [%raw{|(a,b) => a + b
 |}]
 
-let v = sum 1 2 
+let v = sum 1 2
 
-let f a = a + [%raw {|3|}] 
+let f a = a + [%raw {|3|}]
 
 
-let b = f 1 
-let c = f 2 
+let b = f 1
+let c = f 2
 
-let forIn = 
+let forIn =
    [%raw{|(o,foo)=> {
   for (var i in o){
     foo(o)
@@ -28,33 +28,33 @@ let forIn =
   }|}]
 
 
-let forIn : 'a -> (string -> unit [@bs]) -> unit = forIn  
+let forIn : 'a -> (string -> unit [@u]) -> unit = forIn
 
 
 (*
-let%raw forIn : 'a -> (string -> unit [@bs]) -> unit = fun o foo -> {|
+let%raw forIn : 'a -> (string -> unit [@u]) -> unit = fun o foo -> {|
   for (var i in o){
     foo(o)
   }
 |}
 *)
-module N  : sig 
-  val log2 : string -> unit [@bs]
-end  = struct 
-let log = fun [@bs] x -> Js.log x 
+module N  : sig
+  val log2 : string -> unit [@u]
+end  = struct
+let log = fun [@u] x -> Js.log x
 
-let log2 : 'a -> unit [@bs] = log 
-end 
+let log2 : 'a -> unit [@u] = log
+end
 
 (* let log : 'a -> unit = fun%raw x -> {|console.log (x)|}   *)
 
-;;   forIn   [%obj{x = 3 }]  (fun[@bs] x -> Js.log x)
-;;   forIn   [%obj{x = 3 ; y = 3}]  (fun[@bs] x -> Js.log x)
+;;   forIn   [%obj{x = 3 }]  (fun[@u] x -> Js.log x)
+;;   forIn   [%obj{x = 3 ; y = 3}]  (fun[@u] x -> Js.log x)
 
 
-let f3  : unit -> bool [@bs] = [%raw"()=>true"]
+let f3  : unit -> bool [@u] = [%raw"()=>true"]
 
-let bbbb  = f3 () [@bs]
+let bbbb  = f3 () [@u]
 
 ;;assert (bbbb)
 

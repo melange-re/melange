@@ -11,13 +11,13 @@ let v  =
     method x () = x
     method say x = x *. self## x ()
     method hi x y = self##say x +. y
-  end [@bs]
+  end [@u]
 (** compile infer
 class type js_obj =  object
   method x : unit -> float
   method say : float -> float
   method hi : float -> float -> float
-end [@bs]
+end [@u]
 val js_obj : js_obj Js.t
 *)
 
@@ -27,7 +27,7 @@ let v2  =
     method hi x  = fun y -> self##say x +. y
     method say  = fun x ->  x *. self## x ()
     method x () = x
-  end [@bs]
+  end [@u]
 
 
 let v3 =
@@ -38,19 +38,19 @@ let v3 =
       self##say u##x +. y +.x
     method say  = fun x ->  x *. self## x ()
     method x () = x
-  end [@bs]
+  end [@u]
 
 let v4 =
   object
     method hi x y = x +. y
     method say x = x
     method x () = 1.
-  end [@bs]
+  end [@u]
 
 (* let v5 =  *)
 (*   object *)
 (*     method x = x      *)
-(*   end [@bs]     *)
+(*   end [@u]     *)
 
 (** guarantee they have the same type *)
 let collection = [| v ; v2 ; v3 ; v4 |]

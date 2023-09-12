@@ -13,7 +13,7 @@ function hey(x, y) {
   }
 |}
 ]
-external xx : ?x:int -> y:int -> unit -> int  = "hey" [@@bs.val]
+external xx : ?x:int -> y:int -> unit -> int  = "hey"
 
 let u = xx ~y:3 ()
 
@@ -23,16 +23,16 @@ let () =
   eq __LOC__ ((u,z), (6,8))
 
 let counter = ref 0
-let side_effect = fun [@bs] x -> incr x ; !x
+let side_effect = fun [@u] x -> incr x ; !x
 
 let bug_to_fix f x =
-  xx ~x:(f x [@bs]) ~y: 3 () (* : [f x] is done once *)
+  xx ~x:(f x [@u]) ~y: 3 () (* : [f x] is done once *)
 
 let bug_to_fix2 f x =
-  xx ?x:(f x [@bs]) ~y: 3 () (* : [f x] is done once *)
+  xx ?x:(f x [@u]) ~y: 3 () (* : [f x] is done once *)
 
 let counter2 = ref 0
-let side_effect2 = fun [@bs] x -> incr x ; Some (!x )
+let side_effect2 = fun [@u] x -> incr x ; Some (!x )
 
 let () =
   let v = bug_to_fix side_effect counter in
@@ -50,7 +50,7 @@ function heystr(x, y) {
   }
   |}]
 
-external kk : ?name:string -> string -> string = "heystr" [@@bs.val]
+external kk : ?name:string -> string -> string = "heystr"
 
 let () =
   let pair = ("name4", kk ~name:"name" "4") in

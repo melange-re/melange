@@ -46,20 +46,20 @@ let id x =
 let () =
   eq __LOC__ (Js.List.toVector [1;2;3]) [|1;2;3|];
   eq  __LOC__
-    ( Js.Vector.map (fun [@bs] x -> x + 1) [|1;2;3|] )
+    ( Js.Vector.map (fun [@u] x -> x + 1) [|1;2;3|] )
     [|2;3;4|];
   eq __LOC__  (Js.Vector.make 5 3)
     [|3;3;3;3;3|];
   eq __LOC__
-    ( let a = Js.Vector.init 5  (fun [@bs] i -> i + 1) in
-      Js.Vector.filterInPlace (fun [@bs] j -> j mod 2 = 0) a ;
+    ( let a = Js.Vector.init 5  (fun [@u] i -> i + 1) in
+      Js.Vector.filterInPlace (fun [@u] j -> j mod 2 = 0) a ;
       a
     )
     [|2;4|];
 
   eq __LOC__
-    ( let a = Js.Vector.init 5  (fun [@bs] i -> i + 1) in
-      Js.Vector.filterInPlace (fun [@bs] j -> j mod 2 <> 0) a ;
+    ( let a = Js.Vector.init 5  (fun [@u] i -> i + 1) in
+      Js.Vector.filterInPlace (fun [@u] j -> j mod 2 <> 0) a ;
       a
     )
     [|1;3;5|];
@@ -71,7 +71,7 @@ let () =
   id []  ;
   id [1];
   id [1;2;3;4;5];
-  id (Js.Vector.(toList @@ init 100 (fun [@bs] i -> i  ) ))
+  id (Js.Vector.(toList @@ init 100 (fun [@u] i -> i  ) ))
 
 let add = fun  x y -> x + y
 let () =
@@ -105,7 +105,7 @@ let () =
   eq __LOC__ (A.reduceWithIndex [|1;2;3;4|] 0 (fun acc x i -> acc + x + i)) 16;
   b __LOC__
     (A.reduceReverse2 [|1;2;3|] [|1;2|] 0 (fun acc x y -> acc + x + y) = 6)
-let addone = fun [@bs] x -> x + 1
+let addone = fun [@u] x -> x + 1
 
 let makeMatrixExn sx sy init =
   (* let open A in *)
@@ -342,12 +342,12 @@ let () =
   eq __LOC__ (A.getIndexBy [|1;2;3|] (fun x -> x > 3)) None
 
 
-let ()= 
-  let arr =   
-    [||]  in 
-  arr |. push 3 ; 
-  arr |. push  2 ; 
-  arr |. push 1 ; 
+let ()=
+  let arr =
+    [||]  in
+  arr |. push 3 ;
+  arr |. push  2 ;
+  arr |. push 1 ;
   eq __LOC__ arr [|3;2;1|]
-  
+
 ;; Mt.from_pair_suites __LOC__ !suites

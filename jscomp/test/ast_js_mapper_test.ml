@@ -16,9 +16,9 @@ let vx = tFromJs [%obj{ xx = 3; yy = "2"; zz = 1,2; cc = 3}]
 (* type u =
   [ `D
   | `C
-  | `f [@bs.as "x"]
+  | `f [@mel.as "x"]
   ]
-  [@@bs.deriving jsConverter] *)
+  [@@deriving jsConverter] *)
 
 let rec searchAux i (xs : (int * _) array) (k : int) =
   let (a,b) = Array.unsafe_get xs i in
@@ -31,7 +31,7 @@ let searchForSureExists xs k =
 
 type a =
   | A0
-  | A1 [@bs.as 3]
+  | A1 [@mel.as 3]
   | A2
   | A3
 and b =

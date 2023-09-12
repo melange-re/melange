@@ -31,6 +31,6 @@ let suites = Mt.[
     Eq([|("x", 23); ("y", 46)|], fromArray [|("x", 23); ("y", 46)|] |> entries));
   "map", (fun _ ->
     Eq( [%obj { foo = "43"; bar = "86" }] |> Obj.magic,
-        map (fun [@bs] i -> string_of_int i) (obj ())))
+        map (fun [@u] i -> string_of_int i) (obj ())))
 ]
 ;; Mt.from_pair_suites __MODULE__ suites

@@ -2,19 +2,19 @@
 
 
 
-module M ( U : sig val f : int -> string -> string [@bs] end ) = 
+module M ( U : sig val f : int -> string -> string [@u] end ) =
 struct
-  let v = U.f 100 "x" [@bs]
+  let v = U.f 100 "x" [@u]
 end
 
 
-let f = fun [@bs] () -> 3 
+let f = fun [@u] () -> 3
 
 
-let u = f () [@bs]
+let u = f () [@u]
 
-let (+>) = fun [@bs]  a (h : _ -> int [@bs]) -> h a [@bs]
+let (+>) = fun [@u]  a (h : _ -> int [@u]) -> h a [@u]
 
-let u h = 3 +> h  [@bs]
+let u h = 3 +> h  [@u]
 
-    
+

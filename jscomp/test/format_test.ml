@@ -19,13 +19,13 @@ let u () = "xx %s" ^^ "yy"
 
 module M = struct
   external infinity : float = "POSITIVE_INFINITY"
-  [@@val]  [@@scope "Number"]
+    [@@scope "Number"]
   external neg_infinity : float = "NEGATIVE_INFINITY"
-  [@@bs.val]  [@@bs.scope "Number"]
+    [@@mel.scope "Number"]
   external nan : float = "NaN"
-  [@@bs.val]  [@@bs.scope "Number"]
+    [@@mel.scope "Number"]
   external max_float : float = "MAX_VALUE"
-  [@@bs.val]  [@@bs.scope "Number"]
+    [@@mel.scope "Number"]
 end
 let () =
   eq __LOC__ (Format.asprintf (u ()) "x") ("xx x" ^ "yy");

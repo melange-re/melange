@@ -1,13 +1,13 @@
-external log  : 'a -> unit = "caml_ignore"  [@@bs.val "console.log"]
-(** we should also allow js function call from an external js module 
-    
+external log  : 'a -> unit = "console.log"
+(** we should also allow js function call from an external js module
+
 *)
 
-let v u = 
+let v u =
   log u;
   u
 
-external test_f : (module Set.OrderedType) -> unit = "caml_update_dummy" [@@bs.val "t"]
+external test_f : (module Set.OrderedType) -> unit = "t"
 
 let v u =  test_f (module String)
 
