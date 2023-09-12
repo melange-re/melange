@@ -27,16 +27,7 @@
       let
         pkgs = nixpkgs.legacyPackages."${system}".appendOverlays [
           (self: super: {
-            ocamlPackages = super.ocaml-ng.ocamlPackages_5_1.overrideScope' (oself: osuper: {
-              reason = osuper.reason.overrideAttrs (_: {
-                src = super.fetchFromGitHub {
-                  owner = "reasonml";
-                  repo = "reason";
-                  rev = "366fefa23f39a437a07097f050fbb53d9767c6c9";
-                  hash = "sha256-bTaqD3hhD83QnGfgBvuUeb/I796isXfAseEGyyeQOVA=";
-                };
-              });
-            });
+            ocamlPackages = super.ocaml-ng.ocamlPackages_5_1;
           })
         ];
 
