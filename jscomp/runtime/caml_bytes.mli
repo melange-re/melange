@@ -45,5 +45,7 @@ val get32 : bytes -> int -> int32
 val get64 : bytes -> int -> int64
 val set16u : bytes -> int -> int -> unit
 val set16 : bytes -> int -> int -> unit
+val set32u : bytes -> int -> int32 -> unit
 val set32 : bytes -> int -> int32 -> unit
+val set64u : bytes -> int -> int64 -> unit
 val set64 : bytes -> int -> int64 -> unit
