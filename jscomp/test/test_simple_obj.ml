@@ -1,4 +1,4 @@
-external log : 'a -> unit = "" [@@bs.val "console.log"]
+external log : 'a -> unit = "console.log"
 let u = object
   method hi v z = v + z
   method id1 = 3
@@ -16,14 +16,14 @@ let v =
     (* method hi x = self#add x 32 *)
   end
 
-let test () = 
+let test () =
   begin
     assert (uu# id = "uu");
     assert ( uuu# add 1 20 = 21);
     assert (v#add 3 7 = 10);
     (* log @@ v#hi 31 *)
     assert ( u#id1 = 3);
-    assert (u#id2 = 4);         
+    assert (u#id2 = 4);
     assert ( u#hi 1 2 = 3);
     assert (u#hello 32 = 32);
     (* assert (1 <> 1); *)
@@ -35,5 +35,5 @@ let test () =
 
   end
 
-  
+
 

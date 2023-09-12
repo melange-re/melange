@@ -1,18 +1,18 @@
 type t
 
-external catch : t -> 'a -> 'b = "catch" [@@bs.send]
+external catch : t -> 'a -> 'b = "catch" [@@mel.send]
 
 let f p =
   catch p 3
 
 class type ['b] promise =
-  object [@bs]
+  object [@u]
     method _then : 'a -> 'b promise Js.t
     method catch : 'a -> 'b
   end
 
 external new_promise : unit -> _ promise Js.t =
-  "Promise" [@@bs.new] [@@bs.module "sys-bluebird"]
+  "Promise" [@@mel.new] [@@mel.module "sys-bluebird"]
 
 let () =
   let p = new_promise() in

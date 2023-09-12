@@ -3,13 +3,13 @@
 type t = {
 
   mutable hi : int
-    [@bs.as "Content-Type"];
+    [@mel.as "Content-Type"];
   mutable low : int
-    [@bs.as "l"];
+    [@mel.as "l"];
   mutable x : int;
-    [@bs.as "open"]
+    [@mel.as "open"]
 } [@@deriving abstract]
-  (* [@@bs.x] *)
+  (* [@@mel.x] *)
 
 
 let v = t ~hi:3 ~low:2 ~x:2
@@ -37,7 +37,7 @@ type a = {
 
 (**
 external a : ?low:int -> hi:int -> a
-low: a -> int option [@@bs.return undefined_to_opt]
+low: a -> int option [@@mel.return undefined_to_opt]
 lowSet : a -> int -> unit
 *)
 let h0 =
@@ -66,38 +66,38 @@ let hh2 x =
 type css =
   {
     a0 : int option
-    [@bs.optional] ;
+    [@mel.optional] ;
     a1 : int option
-    [@bs.optional];
+    [@mel.optional];
     a2 : int option
-    [@bs.optional];
+    [@mel.optional];
     a3 : int option
-    [@bs.optional];
+    [@mel.optional];
     a4 : int option
-    [@bs.optional];
+    [@mel.optional];
     a5 : int option
-    [@bs.optional];
+    [@mel.optional];
     a6 : int option
-    [@bs.optional];
+    [@mel.optional];
     a7 : int option
-    [@bs.optional];
+    [@mel.optional];
     a8 : int option
-    [@bs.optional];
+    [@mel.optional];
     a9 : int option
-    [@bs.optional]
-    [@bs.as "xx-yy"];
+    [@mel.optional]
+    [@mel.as "xx-yy"];
     a10 : int option
-    [@bs.optional];
+    [@mel.optional];
     a11 : int option
-    [@bs.optional];
+    [@mel.optional];
     a12 : int option
-    [@bs.optional];
+    [@mel.optional];
     a13 : int option
-    [@bs.optional];
+    [@mel.optional];
     a14 : int option
-    [@bs.optional];
+    [@mel.optional];
     a15 : int option
-    [@bs.optional] ;
+    [@mel.optional] ;
   }
   [@@deriving abstract]
 

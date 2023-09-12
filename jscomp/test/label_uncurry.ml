@@ -2,25 +2,25 @@
 
 open Js.Fn
 
-type t = x:int -> y:string -> int [@bs]
+type t = x:int -> y:string -> int [@u]
 
 type u =  (x:int -> y:string -> int) arity2
 
 let f (x : t) : u = x
 
-let u : u = fun [@bs] ~x ~y -> x + int_of_string y 
+let u : u = fun [@u] ~x ~y -> x + int_of_string y
 
-let u1  (f : u) = 
-  (f  ~y:"x" ~x:2  [@bs]) |. Js.log ;
-  (f  ~x:2 ~y:"x"   [@bs]) |. Js.log 
-let h = fun [@bs] ~x:unit -> 3
+let u1  (f : u) =
+  (f  ~y:"x" ~x:2  [@u]) |. Js.log ;
+  (f  ~x:2 ~y:"x"   [@u]) |. Js.log
+let h = fun [@u] ~x:unit -> 3
 
 let a = u1 u
 
 
 
-type u0 = ?x:int -> y : string -> int [@bs]
+type u0 = ?x:int -> y : string -> int [@u]
 
-(*let f = fun[@bs] ?x y -> x + y *)
+(*let f = fun[@u] ?x y -> x + y *)
 
-(* let h (x :u0) = x ~y:"x" ~x:3 [@bs] *)
+(* let h (x :u0) = x ~y:"x" ~x:3 [@u] *)

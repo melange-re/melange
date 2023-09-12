@@ -4,22 +4,22 @@ let u : 'self =
       [%obj{
         x = 3 ;
         y = 32 ;
-        bark = (fun [@bs] this x y -> Js.log (this##length, this##x, this##y));
+        bark = (fun [@u] this x y -> Js.log (this##length, this##x, this##y));
         length = 32
       }] :
         <
         x : int ;
       y : int ;
-      bark : 'self -> int ->  int -> unit [@bs];
+      bark : 'self -> int ->  int -> unit [@u];
       length : int >      Js.t )
 
 
 
 let u  = u#@bark u 1 2
 
-let uux_this : < length : int > Js.t -> int -> int -> int [@bs.this]
+let uux_this : < length : int > Js.t -> int -> int -> int [@mel.this]
   =
-  fun[@bs.this] o x y -> o##length + x + y
+  fun[@mel.this] o x y -> o##length + x + y
 
 
 type (-'this, +'tuple) u
@@ -37,12 +37,12 @@ let hh (x : 'a fn) = h (x : _ fn :>   (< l : int ; y :int > Js.t, int) u )
 
 (* let m = [%mel.method fun o (x,y) -> o##length < x && o##length > y ] *)
 
-let should_okay = fun [@bs.this] self y u -> self + y + u
-let should_okay2 = fun [@bs.this] (self : _ ) y u -> y + u
-(* let should_fail = fun [@bs.this] (Some x as v) y u -> y + u *)
+let should_okay = fun [@mel.this] self y u -> self + y + u
+let should_okay2 = fun [@mel.this] (self : _ ) y u -> y + u
+(* let should_fail = fun [@mel.this] (Some x as v) y u -> y + u *)
 
-(*let f_fail = fun [@bs.this] (Some _ as x ) y u -> y + u*)
-let f_okay = fun [@bs.this] ( _ as x ) y u -> y + u + x
+(*let f_fail = fun [@mel.this] (Some _ as x ) y u -> y + u*)
+let f_okay = fun [@mel.this] ( _ as x ) y u -> y + u + x
 
 
 
@@ -57,14 +57,14 @@ let uu : 'self =
         x = 3 ;
         y = 32 ;
         bark =
-          (fun [@bs.this] (o : 'self) (x : int) (y : int) ->
+          (fun [@mel.this] (o : 'self) (x : int) (y : int) ->
                Js.log (o##length, o##x, o##y,x,y));
         length = 32
       }] :
         <
         x : int ;
       y : int ;
-      bark : ('self -> int -> int -> _ [@bs.this]);
+      bark : ('self -> int -> int -> _ [@mel.this]);
       length : int >       Js.t)
 
 
@@ -74,7 +74,7 @@ let js_obj : 'self =
         x = 3 ;
         y = 32 ;
         bark =
-          (fun [@bs.this] (o : 'self) x y ->
+          (fun [@mel.this] (o : 'self) x y ->
             Js.log (o##length, o##x, o##y,x,y);
             x + y
           );

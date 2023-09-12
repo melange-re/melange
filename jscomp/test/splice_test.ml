@@ -6,18 +6,18 @@ let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 module Caml_splice_call = struct
 end
 external f : int -> int array -> int = "Math.max"
-  [@@bs.splice] [@@bs.val]
+  [@@mel.splice]
 
 ;; f 1 [||] |. ignore
 
 external send : int -> int array -> int = "send"
-  [@@bs.splice] [@@bs.send]
+  [@@mel.splice] [@@mel.send]
 
 let f00 a b =
   a |. send [|b|]
 
 external push : int array -> int -> int array -> unit =
-  "push" [@@bs.send] [@@bs.splice]
+  "push" [@@mel.send] [@@mel.splice]
 
 (* This is only test, the binding maybe wrong
   since in OCaml array'length is not mutable
@@ -42,7 +42,7 @@ let dynamic arr =
    so at least two parameters are needed
 *)
 external newArr : int -> int -> int array -> int array = "Array"
-  [@@bs.splice] [@@bs.new]
+  [@@mel.splice] [@@mel.new]
 
 let () =
   let a = newArr 1 2 [|3;4|] in
@@ -58,7 +58,7 @@ let dynamicNew arr =
 
 module Pipe = struct
   external push :  int -> int array -> unit =
-    "push" [@@bs.send.pipe: int array ] [@@bs.splice]
+    "push" [@@mel.send.pipe: int array ] [@@mel.splice]
 
   (* This is only test, the binding maybe wrong
      since in OCaml array'length is not mutable

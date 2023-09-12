@@ -1,4 +1,4 @@
-external bigint : string -> float = "BigInt" [@@bs.val]
+external bigint : string -> float = "BigInt"
 let isLessThan title small big =
   [
     ("compare: " ^ title, fun _ -> Mt.Eq (true, compare big small > 0));

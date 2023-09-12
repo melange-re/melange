@@ -2,12 +2,12 @@
 let f = [%mel.error? (Not_found | Invalid_argument _)]
 
 
-let u = fun [@bs.exn] e ->
+let u = fun [@mel.exn] e ->
   match e with
   |
 *)
 
-let f = function [@bs.open]
+let f = function [@mel.open]
   | Not_found -> 0
   | ( Invalid_argument _
     | Stack_overflow ) -> 1
@@ -16,7 +16,7 @@ let f = function [@bs.open]
 type exn += A of int
 type exn += B of int
 
-let g = function [@bs.open]
+let g = function [@mel.open]
   | (Not_found
     | Invalid_argument _  )-> 0
   | Sys_error _ -> 2
@@ -36,7 +36,7 @@ let () =
 let () =
   Mt.from_pair_suites __MODULE__ !suites
 (* type v = A  *)
-(* let f = function [@bs.open] *)
+(* let f = function [@mel.open] *)
 (*   | A -> 1  *)
 
 

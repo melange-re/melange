@@ -29,7 +29,7 @@ let andThenTest () =
 let h = resolve ()
 
 let assertIsNotFound (x : Js.Promise.error) =
-  match (function[@bs.open] Not_found -> 0) x with
+  match (function[@mel.open] Not_found -> 0) x with
   | Some _ -> h
   | _ -> assert false
 
@@ -71,7 +71,7 @@ let orElseRejectedRejectTest () =
   |> catch (fun _ -> reject Stack_overflow)
   |> then_ fail
   |> catch (fun error ->
-         match (function[@bs.open] Stack_overflow -> 0) error with
+         match (function[@mel.open] Stack_overflow -> 0) error with
          | Some _ -> h
          | None -> assert false
          (* resolve @@ assert_bool (Obj.magic error == Stack_overflow) *))
@@ -131,13 +131,13 @@ let raceTest () =
   race promises |> then_ (fun resolved -> h) |> catch fail
 
 let createPromiseRejectTest () =
-  make (fun ~resolve ~reject -> (reject Not_found [@bs]))
+  make (fun ~resolve ~reject -> (reject Not_found [@u]))
   |> catch (fun error ->
          assert_bool (is_not_found (Obj.magic error));
          h)
 
 let createPromiseFulfillTest () =
-  make (fun ~resolve ~reject:_ -> (resolve "success" [@bs]))
+  make (fun ~resolve ~reject:_ -> (resolve "success" [@u]))
   |> then_ (fun resolved ->
          assert_bool (Obj.magic resolved = "success");
          h)

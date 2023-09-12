@@ -881,11 +881,11 @@ function factory(ReactComponent, isValidElement, ReactNoopUpdateQueue) {
 |}
 ];
 
-[@bs.module "react"] external reactComponent: 'a = "Component";
+[@mel.module "react"] external reactComponent: 'a = "Component";
 
-[@bs.module "react"] external reactIsValidElement: bool = "isValidElement";
+[@mel.module "react"] external reactIsValidElement: bool = "isValidElement";
 
-[@bs.module "react"] [@bs.new]
+[@mel.module "react"] [@mel.new]
 external newReactComponent: unit => {. "updater": 'a} = "Component";
 
 let reactNoopUpdateQueue = newReactComponent()##updater;

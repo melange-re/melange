@@ -3,7 +3,7 @@ let suites = Mt.[
     __LOC__ , (fun _ ->
         Eq ([|2;4|],
             let  x = [|1;2;3;4;5|] in
-            Js.Vector.filterInPlace (fun[@bs] x ->  x mod 2 = 0) x;
+            Js.Vector.filterInPlace (fun[@u] x ->  x mod 2 = 0) x;
             x
 
            )
@@ -11,7 +11,7 @@ let suites = Mt.[
     __LOC__, (fun _ ->
         Eq ( true,
              let  x= [|1;2;3;4;5|] in
-             Js.Vector.filterInPlace  (fun [@bs] x -> x > 10) x ;
+             Js.Vector.filterInPlace  (fun [@u] x -> x > 10) x ;
              Array.length x = 0
            )
       );
@@ -29,7 +29,7 @@ let suites = Mt.[
         [| (-1); 0 |],
         Js.Array2.fromMap
           ([| "a"; "b" |] |. Js.Array2.keys)
-          ((fun x -> x - 1) [@bs]))
+          ((fun x -> x - 1) [@u]))
     );
     *)
 

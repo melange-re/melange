@@ -13,7 +13,7 @@ let v = linked_list ~hd:3 ~tl:Js.null
 
 ;; tlSet v (Js.Null.return v)
 
-type[@warning "-unused-type-declaration"] t = int -> int -> bool [@bs]
+type[@warning "-unused-type-declaration"] t = int -> int -> bool [@u]
 and x = {
   k : t;
   y : string
@@ -23,7 +23,7 @@ and x = {
 let x0 k = x ~k ~y:"xx"
 let x1 k = x ~k ~y:"xx"
 
-let f = x ~k:(fun[@bs] x y -> x = y) ~y:"x"
+let f = x ~k:(fun[@u] x y -> x = y) ~y:"x"
 
 type u = {
   x : int ;
@@ -38,16 +38,16 @@ let uf2 u = u |. y1Get 1 2
 
 type u1 = {
   x : int;
-  yyyy : (int -> int [@bs]);
-  yyyy1 : (int -> int -> int  [@bs]);
-  yyyy2 : (int -> int) option  [@bs.optional]
+  yyyy : (int -> int [@u]);
+  yyyy1 : (int -> int -> int  [@u]);
+  yyyy2 : (int -> int) option  [@mel.optional]
 } [@@deriving abstract]
 
 let uff f =
-  (f |. yyyyGet) 1 [@bs]
+  (f |. yyyyGet) 1 [@u]
 
 let uff2 f =
-  (f |. yyyy1Get) 1 2 [@bs]
+  (f |. yyyy1Get) 1 2 [@u]
 
 let uff3 f =
   match f |. yyyy2Get with
@@ -58,9 +58,9 @@ let uff3 f =
 
 type u3 = {
   x : int;
-  yyyy : (int -> int [@bs]);
-  yyyy1 : (int -> int -> int  [@bs]);
-  yyyy2 : (int -> int) option  [@bs.optional]
+  yyyy : (int -> int [@u]);
+  yyyy1 : (int -> int -> int  [@u]);
+  yyyy2 : (int -> int) option  [@mel.optional]
 } [@@deriving abstract { light} ]
 
 

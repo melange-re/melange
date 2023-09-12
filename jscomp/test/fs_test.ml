@@ -7,12 +7,12 @@ let eq loc (x, y) =
 
 
 external readFileSync : string -> ([`utf8 | `ascii] ) -> string
-  = "readFileSync" [@@bs.module "fs"]
+  = "readFileSync" [@@mel.module "fs"]
 
 
 type watcher
 
-external watch : unit -> watcher = "watch" [@@bs.module "fs"]
+external watch : unit -> watcher = "watch" [@@mel.module "fs"]
 
 type error
 
@@ -22,9 +22,9 @@ external on :
   (
     [
       | `change of (string (* event*) -> string (*filename*) -> unit )
-      | `error of (error -> unit [@bs]) ]
-      [@bs.string]
-  ) -> unit = "on" [@@bs.send]
+      | `error of (error -> unit [@u]) ]
+      [@mel.string]
+  ) -> unit = "on" [@@mel.send]
 
 open Node
 let () =

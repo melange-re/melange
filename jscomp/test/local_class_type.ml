@@ -2,12 +2,12 @@
 
 
 class type _u = object
-  method height : int [@@bs.set]
-end[@bs]
+  method height : int [@@mel.set]
+end[@u]
 
 type u = _u Js.t
 
-let f (x : u) = 
+let f (x : u) =
   x##height #= 3
 
 class type v = object

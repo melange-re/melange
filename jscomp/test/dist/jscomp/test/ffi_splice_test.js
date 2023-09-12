@@ -41,10 +41,10 @@ Make.prototype.sum = function(){
     result = result + this.data[k]
   };
   return result
-}  
+}
 
 Make.prototype.add = function(){
-  
+
 }
 ;
 

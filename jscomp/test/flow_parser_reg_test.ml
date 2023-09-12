@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module Loc
 = struct
 #1 "loc.ml"
@@ -13323,7 +13323,7 @@ module Flow_parser_js
  *
  *)
 
-external createRegex : string -> string -> 'a = "RegExp" [@@bs.new]
+external createRegex : string -> string -> 'a = "RegExp" [@@mel.new]
 
 module JsTranslator : sig
   val translation_errors: (Loc.t * Parse_error.t) list ref
@@ -13352,7 +13352,7 @@ end = struct
     regexp
 end
 
-external throw : 'a -> 'b = "throw" [@@bs.val]
+external throw : 'a -> 'b = "throw"
 
 (* let parse_options jsopts = Parser_env.(
   let opts = default_parse_options in
@@ -13385,9 +13385,9 @@ external throw : 'a -> 'b = "throw" [@@bs.val]
   opts
 ) *)
 
-external setRetErrors : 'a -> string -> 'b -> unit = "" [@@bs.set_index]
-external setEName : 'a -> string -> 'b -> unit = "" [@@bs.set_index]
-external newError : 'a -> 'b = "Error" [@@bs.new]
+external setRetErrors : 'a -> string -> 'b -> unit = "" [@@mel.set_index]
+external setEName : 'a -> string -> 'b -> unit = "" [@@mel.set_index]
+external newError : 'a -> 'b = "Error" [@@mel.new]
 
 let parse content options =
   (* let parse_options = Some (parse_options options) in *)

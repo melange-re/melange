@@ -10,7 +10,7 @@ type reactElement = React.element;
 
 type reactRef;
 
-[@bs.val] external null: reactElement = "null";
+ external null: reactElement = "null";
 
 external string: string => reactElement = "%identity";
 
@@ -18,17 +18,17 @@ external array: array(reactElement) => reactElement = "%identity";
 
 external refToJsObj: reactRef => Js.t({..}) = "%identity";
 
-[@bs.splice] [@bs.val] [@bs.module "react"]
+[@mel.splice]  [@mel.module "react"]
 external createElement:
   (reactClass, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "createElement";
 
-[@bs.splice] [@bs.module "react"]
+[@mel.splice] [@mel.module "react"]
 external cloneElement:
   (reactElement, ~props: Js.t({..})=?, array(reactElement)) => reactElement =
   "cloneElement";
 
-[@bs.val] [@bs.module "react"]
+ [@mel.module "react"]
 external createElementVerbatim: 'a = "createElement";
 
 let createDomElement = (s, ~props, children) => {
@@ -38,7 +38,7 @@ let createDomElement = (s, ~props, children) => {
   Obj.magic(createElementVerbatim)##apply(Js.Nullable.null, vararg);
 };
 
-[@bs.val] external magicNull: 'a = "null";
+ external magicNull: 'a = "null";
 
 type reactClassInternal = reactClass;
 
@@ -131,7 +131,7 @@ type jsComponentThis('state, 'props, 'retainedProps, 'action) = {
   "state": totalState('state, 'retainedProps, 'action),
   "props": {. "reasonProps": 'props},
   "setState":
-    [@bs.meth] (
+    [@mel.meth] (
       (
         (totalState('state, 'retainedProps, 'action), 'props) =>
         totalState('state, 'retainedProps, 'action),
@@ -190,7 +190,7 @@ let convertPropsIfTheyreFromJs = (props, jsPropsToReason, debugName) => {
 let createClass =
     (type reasonState, type retainedProps, type action, debugName): reactClass =>
   ReasonReactOptimizedCreateClass.createClass(.
-    [@bs]
+    [@u]
     {
       /***
        * TODO: Null out fields that aren't overridden beyond defaults in
@@ -734,6 +734,6 @@ module WrapProps = {
 
 let wrapJsForReason = WrapProps.wrapJsForReason;
 
-[@bs.module "react"] external fragment: 'a = "Fragment";
+[@mel.module "react"] external fragment: 'a = "Fragment";
 
 module Router = ReasonReactRouter;

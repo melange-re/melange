@@ -1,5 +1,5 @@
 [@@@warning "A-61-42-40-70"]
-let o = object [@bs]
+let o = object [@u]
   method hi x y = x + y
 end
 (* Error (warning 61): This primitive declaration uses type Js_OO.Callback.arity3, which is unannotated and
@@ -26,11 +26,11 @@ or [@@unboxed]. *)
 
 (* let h u =
   let m = u##hi in
-  m 1 2 [@bs]
+  m 1 2 [@u]
 
-;; h (object [@bs] method hi x y =x + y end )
+;; h (object [@u] method hi x y =x + y end )
 
 Error: This expression has type < hi : (int -> int -> int [@bs.meth]) > Js.t
        but an expression was expected of type
-         < hi : (int -> int -> 'a [@bs]); .. > Js.t
+         < hi : (int -> int -> 'a [@u]); .. > Js.t
        Types for method hi are incompatible *)

@@ -16194,7 +16194,7 @@ function mkexp_constraint(e, param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          12335,
+          12327,
           18
         ],
         Error: new Error()
@@ -23179,7 +23179,7 @@ function directive_parse(token_with_comments, lexbuf) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              24615,
+              24607,
               4
             ],
             Error: new Error()
@@ -23412,7 +23412,7 @@ function directive_parse(token_with_comments, lexbuf) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                24634,
+                24626,
                 17
               ],
               Error: new Error()
@@ -24151,7 +24151,7 @@ function cvt_nativeint_literal(s) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          24922,
+          24914,
           30
         ],
         Error: new Error()
@@ -25095,7 +25095,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  26852,
+                  26844,
                   16
                 ],
                 Error: new Error()
@@ -25134,7 +25134,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        26869,
+                        26861,
                         18
                       ],
                       Error: new Error()
@@ -25184,7 +25184,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        26892,
+                        26884,
                         18
                       ],
                       Error: new Error()
@@ -25224,7 +25224,7 @@ function __ocaml_lex_comment_rec(lexbuf, ___ocaml_lex_state) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  26942,
+                  26934,
                   16
                 ],
                 Error: new Error()
@@ -28035,7 +28035,7 @@ function is_object_type(path) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                30169,
+                30161,
                 23
               ],
               Error: new Error()
@@ -28221,7 +28221,7 @@ function object_fields(ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            30304,
+            30296,
             27
           ],
           Error: new Error()
@@ -28234,7 +28234,7 @@ function object_fields(ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          30304,
+          30296,
           27
         ],
         Error: new Error()
@@ -28431,7 +28431,7 @@ function close_object(ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            30371,
+            30363,
             25
           ],
           Error: new Error()
@@ -28448,7 +28448,7 @@ function close_object(ty) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                30367,
+                30359,
                 30
               ],
               Error: new Error()
@@ -28465,7 +28465,7 @@ function close_object(ty) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  30367,
+                  30359,
                   30
                 ],
                 Error: new Error()
@@ -28477,7 +28477,7 @@ function close_object(ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          30371,
+          30363,
           25
         ],
         Error: new Error()
@@ -28491,7 +28491,7 @@ function row_variable(ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            30385,
+            30377,
             23
           ],
           Error: new Error()
@@ -28508,7 +28508,7 @@ function row_variable(ty) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                30381,
+                30373,
                 30
               ],
               Error: new Error()
@@ -28525,7 +28525,7 @@ function row_variable(ty) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  30381,
+                  30373,
                   30
                 ],
                 Error: new Error()
@@ -28537,7 +28537,7 @@ function row_variable(ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          30385,
+          30377,
           23
         ],
         Error: new Error()
@@ -28551,7 +28551,7 @@ function set_object_name(id, rv, params, ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            30395,
+            30387,
             6
           ],
           Error: new Error()
@@ -28573,7 +28573,7 @@ function set_object_name(id, rv, params, ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          30395,
+          30387,
           6
         ],
         Error: new Error()
@@ -28587,7 +28587,7 @@ function hide_private_methods(ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            30417,
+            30409,
             6
           ],
           Error: new Error()
@@ -28609,7 +28609,7 @@ function hide_private_methods(ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          30417,
+          30409,
           6
         ],
         Error: new Error()
@@ -29722,7 +29722,7 @@ function copy(env, partial, keep_names, ty) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              31004,
+              30996,
               16
             ],
             Error: new Error()
@@ -29869,7 +29869,7 @@ function copy(env, partial, keep_names, ty) {
                           RE_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/ocaml_typedtree_test.ml",
-                            31067,
+                            31059,
                             24
                           ],
                           Error: new Error()
@@ -30096,7 +30096,7 @@ function instance_constructor(in_pattern, cstr) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                31190,
+                31182,
                 8
               ],
               Error: new Error()
@@ -30391,7 +30391,7 @@ function instance_poly(keep_namesOpt, fixed, univars, sch) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              31327,
+              31319,
               11
             ],
             Error: new Error()
@@ -30411,7 +30411,7 @@ function instance_poly(keep_namesOpt, fixed, univars, sch) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            31327,
+            31319,
             11
           ],
           Error: new Error()
@@ -30492,7 +30492,7 @@ function subst(env, level, priv, abbrev, ty, params, args, body) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                31367,
+                31359,
                 8
               ],
               Error: new Error()
@@ -30507,7 +30507,7 @@ function subst(env, level, priv, abbrev, ty, params, args, body) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                31367,
+                31359,
                 8
               ],
               Error: new Error()
@@ -30556,7 +30556,7 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            31476,
+            31468,
             6
           ],
           Error: new Error()
@@ -30656,7 +30656,7 @@ function expand_abbrev_gen(kind, find_type_expansion, env, ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          31476,
+          31468,
           6
         ],
         Error: new Error()
@@ -30680,7 +30680,7 @@ function expand_head_once(env, ty) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              31484,
+              31476,
               56
             ],
             Error: new Error()
@@ -30905,7 +30905,7 @@ function enforce_constraints(env, ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            31594,
+            31586,
             6
           ],
           Error: new Error()
@@ -30935,7 +30935,7 @@ function enforce_constraints(env, ty) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            31594,
+            31586,
             6
           ],
           Error: new Error()
@@ -31646,7 +31646,7 @@ function get_newtype_level(param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          31969,
+          31961,
           12
         ],
         Error: new Error()
@@ -31714,7 +31714,7 @@ function reify(env, t) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        32007,
+                        31999,
                         19
                       ],
                       Error: new Error()
@@ -31744,7 +31744,7 @@ function reify(env, t) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        32007,
+                        31999,
                         19
                       ],
                       Error: new Error()
@@ -31930,7 +31930,7 @@ function mcomp(type_pairs, env, _t1, _t2) {
                               RE_EXN_ID: "Assert_failure",
                               _1: [
                                 "jscomp/test/ocaml_typedtree_test.ml",
-                                32071,
+                                32063,
                                 30
                               ],
                               Error: new Error()
@@ -32601,7 +32601,7 @@ function mcomp_fields(type_pairs, env, ty1, ty2) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            32116,
+            32108,
             59
           ],
           Error: new Error()
@@ -32756,7 +32756,7 @@ function find_newtype_level(env, path) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            32247,
+            32239,
             12
           ],
           Error: new Error()
@@ -32769,7 +32769,7 @@ function find_newtype_level(env, path) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              32248,
+              32240,
               20
             ],
             Error: new Error()
@@ -32825,7 +32825,7 @@ var nondep_type$p = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              32270,
+              32262,
               37
             ],
             Error: new Error()
@@ -32839,7 +32839,7 @@ var package_subtype = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              32271,
+              32263,
               48
             ],
             Error: new Error()
@@ -33272,7 +33272,7 @@ function unify_kind(k1, k2) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          32644,
+          32636,
           37
         ],
         Error: new Error()
@@ -37108,7 +37108,7 @@ function match_class_declarations(env, patt_params, patt_type, subj_params, subj
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  33620,
+                  33612,
                   34
                 ],
                 Error: new Error()
@@ -37370,7 +37370,7 @@ function find_cltype_for_path(env, p) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            33727,
+            33719,
             12
           ],
           Error: new Error()
@@ -37567,7 +37567,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                         RE_EXN_ID: "Assert_failure",
                         _1: [
                           "jscomp/test/ocaml_typedtree_test.ml",
-                          33790,
+                          33782,
                           10
                         ],
                         Error: new Error()
@@ -37594,7 +37594,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                           RE_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/ocaml_typedtree_test.ml",
-                            33794,
+                            33786,
                             50
                           ],
                           Error: new Error()
@@ -37759,7 +37759,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                33885,
+                33877,
                 6
               ],
               Error: new Error()
@@ -37787,7 +37787,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                         RE_EXN_ID: "Assert_failure",
                         _1: [
                           "jscomp/test/ocaml_typedtree_test.ml",
-                          33852,
+                          33844,
                           17
                         ],
                         Error: new Error()
@@ -37848,7 +37848,7 @@ function build_subtype(env, visited, loops, posi, level, t) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        33852,
+                        33844,
                         17
                       ],
                       Error: new Error()
@@ -38894,7 +38894,7 @@ function unalias_object(ty) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              34149,
+              34141,
               6
             ],
             Error: new Error()
@@ -39608,7 +39608,7 @@ function nondep_class_declaration(env, id, decl) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            34469,
+            34461,
             2
           ],
           Error: new Error()
@@ -39637,7 +39637,7 @@ function nondep_cltype_declaration(env, id, decl) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            34488,
+            34480,
             2
           ],
           Error: new Error()
@@ -40244,11 +40244,11 @@ function print_simple_out_type(ppf, ty) {
                                                               TAG: /* Formatting_lit */17,
                                                               _0: {
                                                                 TAG: /* Scan_indic */2,
-                                                                _0: /* 'b' */98
+                                                                _0: /* 'm' */109
                                                               },
                                                               _1: {
                                                                 TAG: /* String_literal */11,
-                                                                _0: "s.this])",
+                                                                _0: "el.this])",
                                                                 _1: {
                                                                   TAG: /* Formatting_lit */17,
                                                                   _0: /* Close_box */0,
@@ -40261,7 +40261,7 @@ function print_simple_out_type(ppf, ty) {
                                                       }
                                                     }
                                                   },
-                                                  _1: "@[<0>(%a@ [@bs.this])@]"
+                                                  _1: "@[<0>(%a@ [@mel.this])@]"
                                                 }), print_out_type_1, res);
                                 }
                                 
@@ -40407,11 +40407,11 @@ function print_simple_out_type(ppf, ty) {
                                                                 TAG: /* Formatting_lit */17,
                                                                 _0: {
                                                                   TAG: /* Scan_indic */2,
-                                                                  _0: /* 'b' */98
+                                                                  _0: /* 'u' */117
                                                                 },
                                                                 _1: {
                                                                   TAG: /* String_literal */11,
-                                                                  _0: "s])",
+                                                                  _0: "])",
                                                                   _1: {
                                                                     TAG: /* Formatting_lit */17,
                                                                     _0: /* Close_box */0,
@@ -40424,7 +40424,7 @@ function print_simple_out_type(ppf, ty) {
                                                         }
                                                       }
                                                     },
-                                                    _1: "@[<0>(%a@ [@bs])@]"
+                                                    _1: "@[<0>(%a@ [@u])@]"
                                                   }), print_out_type_1, res$1);
                                 case "meth" :
                                     return Curry._2(Stdlib__Format.fprintf(ppf)(/* Format */{
@@ -40461,11 +40461,11 @@ function print_simple_out_type(ppf, ty) {
                                                                 TAG: /* Formatting_lit */17,
                                                                 _0: {
                                                                   TAG: /* Scan_indic */2,
-                                                                  _0: /* 'b' */98
+                                                                  _0: /* 'm' */109
                                                                 },
                                                                 _1: {
                                                                   TAG: /* String_literal */11,
-                                                                  _0: "s.meth])",
+                                                                  _0: "el.meth])",
                                                                   _1: {
                                                                     TAG: /* Formatting_lit */17,
                                                                     _0: /* Close_box */0,
@@ -40478,14 +40478,14 @@ function print_simple_out_type(ppf, ty) {
                                                         }
                                                       }
                                                     },
-                                                    _1: "@[<0>(%a@ [@bs.meth])@]"
+                                                    _1: "@[<0>(%a@ [@mel.meth])@]"
                                                   }), print_out_type_1, res$1);
                                 default:
                                   throw {
                                         RE_EXN_ID: "Assert_failure",
                                         _1: [
                                           "jscomp/test/ocaml_typedtree_test.ml",
-                                          34918,
+                                          34910,
                                           17
                                         ],
                                         Error: new Error()
@@ -46399,7 +46399,7 @@ function tree_of_typobject(sch, fi, nm) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              36179,
+              36171,
               6
             ],
             Error: new Error()
@@ -48085,7 +48085,7 @@ function mismatch(unif, param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          36830,
+          36822,
           9
         ],
         Error: new Error()
@@ -49173,7 +49173,7 @@ function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      36929,
+                      36921,
                       20
                     ],
                     Error: new Error()
@@ -49184,7 +49184,7 @@ function report_unification_error(ppf, env, unifOpt, tr, txt1, txt2) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    36929,
+                    36921,
                     20
                   ],
                   Error: new Error()
@@ -52737,7 +52737,7 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  38382,
+                  38374,
                   6
                 ],
                 Error: new Error()
@@ -52751,7 +52751,7 @@ function try_modtypes(env, cxt, subst, _mty1, mty2) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              38382,
+              38374,
               6
             ],
             Error: new Error()
@@ -53075,7 +53075,7 @@ function signature_components(old_env, env, cxt, subst, paired) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          38507,
+          38499,
           6
         ],
         Error: new Error()
@@ -54303,7 +54303,7 @@ function path_of_context(param) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                38678,
+                38670,
                 15
               ],
               Error: new Error()
@@ -54314,7 +54314,7 @@ function path_of_context(param) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            38680,
+            38672,
             9
           ],
           Error: new Error()
@@ -54324,7 +54324,7 @@ function path_of_context(param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          38680,
+          38672,
           9
         ],
         Error: new Error()
@@ -54990,7 +54990,7 @@ function compat(_p, _q) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  39149,
+                  39141,
                   6
                 ],
                 Error: new Error()
@@ -55017,7 +55017,7 @@ function compats(_ps, _qs) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              39154,
+              39146,
               12
             ],
             Error: new Error()
@@ -55030,7 +55030,7 @@ function compats(_ps, _qs) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            39154,
+            39146,
             12
           ],
           Error: new Error()
@@ -56456,7 +56456,7 @@ function do_set_args(erase_mutable, q, r) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    39493,
+                    39485,
                     13
                   ],
                   Error: new Error()
@@ -56946,7 +56946,7 @@ function row_of_pat(pat) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            39645,
+            39637,
             9
           ],
           Error: new Error()
@@ -56959,7 +56959,7 @@ function row_of_pat(pat) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          39645,
+          39637,
           9
         ],
         Error: new Error()
@@ -56973,7 +56973,7 @@ function generalized_constructor(x) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            39656,
+            39648,
             9
           ],
           Error: new Error()
@@ -56986,7 +56986,7 @@ function generalized_constructor(x) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          39656,
+          39648,
           9
         ],
         Error: new Error()
@@ -57049,7 +57049,7 @@ function full_match(ignore_generalized, closing, env) {
                         RE_EXN_ID: "Assert_failure",
                         _1: [
                           "jscomp/test/ocaml_typedtree_test.ml",
-                          39683,
+                          39675,
                           17
                         ],
                         Error: new Error()
@@ -57062,7 +57062,7 @@ function full_match(ignore_generalized, closing, env) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        39683,
+                        39675,
                         17
                       ],
                       Error: new Error()
@@ -57157,7 +57157,7 @@ function complete_tags(nconsts, nconstrs, tags) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        39746,
+                        39738,
                         14
                       ],
                       Error: new Error()
@@ -57346,7 +57346,7 @@ function build_other(ext, env) {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    39900,
+                                    39892,
                                     55
                                   ],
                                   Error: new Error()
@@ -57376,7 +57376,7 @@ function build_other(ext, env) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              39875,
+                              39867,
                               15
                             ],
                             Error: new Error()
@@ -57466,7 +57466,7 @@ function build_other(ext, env) {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    39921,
+                                    39913,
                                     21
                                   ],
                                   Error: new Error()
@@ -57496,7 +57496,7 @@ function build_other(ext, env) {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    39927,
+                                    39919,
                                     21
                                   ],
                                   Error: new Error()
@@ -57525,7 +57525,7 @@ function build_other(ext, env) {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    39905,
+                                    39897,
                                     57
                                   ],
                                   Error: new Error()
@@ -57552,7 +57552,7 @@ function build_other(ext, env) {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    39910,
+                                    39902,
                                     57
                                   ],
                                   Error: new Error()
@@ -57571,7 +57571,7 @@ function build_other(ext, env) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      39917,
+                      39909,
                       33
                     ],
                     Error: new Error()
@@ -57656,7 +57656,7 @@ function build_other(ext, env) {
                         RE_EXN_ID: "Assert_failure",
                         _1: [
                           "jscomp/test/ocaml_typedtree_test.ml",
-                          39844,
+                          39836,
                           23
                         ],
                         Error: new Error()
@@ -57669,7 +57669,7 @@ function build_other(ext, env) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        39844,
+                        39836,
                         23
                       ],
                       Error: new Error()
@@ -57725,7 +57725,7 @@ function build_other(ext, env) {
                         RE_EXN_ID: "Assert_failure",
                         _1: [
                           "jscomp/test/ocaml_typedtree_test.ml",
-                          39936,
+                          39928,
                           15
                         ],
                         Error: new Error()
@@ -57738,7 +57738,7 @@ function build_other(ext, env) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        39936,
+                        39928,
                         15
                       ],
                       Error: new Error()
@@ -57786,7 +57786,7 @@ function build_other_gadt(ext, env) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          39960,
+          39952,
           11
         ],
         Error: new Error()
@@ -57949,7 +57949,7 @@ function orify_many(param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          40032,
+          40024,
           12
         ],
         Error: new Error()
@@ -58178,7 +58178,7 @@ function exhaust_gadt$1(ext, pss, n) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      40208,
+                      40200,
                       19
                     ],
                     Error: new Error()
@@ -58190,7 +58190,7 @@ function exhaust_gadt$1(ext, pss, n) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  40208,
+                  40200,
                   19
                 ],
                 Error: new Error()
@@ -58299,7 +58299,7 @@ function is_var_column(rs) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        40317,
+                        40309,
                         14
                       ],
                       Error: new Error()
@@ -58316,7 +58316,7 @@ function or_args(_p) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              40324,
+              40316,
               23
             ],
             Error: new Error()
@@ -58336,7 +58336,7 @@ function or_args(_p) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                40324,
+                40316,
                 23
               ],
               Error: new Error()
@@ -58358,7 +58358,7 @@ function remove$1(r) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          40329,
+          40321,
           12
         ],
         Error: new Error()
@@ -58381,7 +58381,7 @@ function push_no_or(r) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          40336,
+          40328,
           8
         ],
         Error: new Error()
@@ -58404,7 +58404,7 @@ function push_or(r) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          40340,
+          40332,
           8
         ],
         Error: new Error()
@@ -58490,7 +58490,7 @@ function filter_one$1(q, rs) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              40357,
+              40349,
               14
             ],
             Error: new Error()
@@ -58552,7 +58552,7 @@ function extract_columns(pss, qs) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            40400,
+            40392,
             8
           ],
           Error: new Error()
@@ -58635,7 +58635,7 @@ function every_satisfiables(_pss, _qs) {
                                 RE_EXN_ID: "Assert_failure",
                                 _1: [
                                   "jscomp/test/ocaml_typedtree_test.ml",
-                                  40437,
+                                  40429,
                                   23
                                 ],
                                 Error: new Error()
@@ -58669,7 +58669,7 @@ function every_satisfiables(_pss, _qs) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              40437,
+                              40429,
                               23
                             ],
                             Error: new Error()
@@ -59302,7 +59302,7 @@ function conv(typed) {
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    40772,
+                                    40764,
                                     28
                                   ],
                                   Error: new Error()
@@ -59881,7 +59881,7 @@ function warning_leave_scope(param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          41350,
+          41342,
           10
         ],
         Error: new Error()
@@ -60188,7 +60188,7 @@ var transl_modtype_longident = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              41497,
+              41489,
               45
             ],
             Error: new Error()
@@ -60202,7 +60202,7 @@ var transl_modtype = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              41498,
+              41490,
               35
             ],
             Error: new Error()
@@ -60379,7 +60379,7 @@ function transl_type_param(env, styp) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          41583,
+          41575,
           9
         ],
         Error: new Error()
@@ -60723,7 +60723,7 @@ function transl_type(env, policy, styp) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        41709,
+                        41701,
                         57
                       ],
                       Error: new Error()
@@ -60806,7 +60806,7 @@ function transl_type(env, policy, styp) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  41757,
+                  41749,
                   10
                 ],
                 Error: new Error()
@@ -60900,7 +60900,7 @@ function transl_type(env, policy, styp) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    41757,
+                    41749,
                     10
                   ],
                   Error: new Error()
@@ -61264,7 +61264,7 @@ function transl_type(env, policy, styp) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              41870,
+                              41862,
                               24
                             ],
                             Error: new Error()
@@ -61297,7 +61297,7 @@ function transl_type(env, policy, styp) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              41870,
+                              41862,
                               24
                             ],
                             Error: new Error()
@@ -62577,7 +62577,7 @@ var type_module = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              42448,
+              42440,
               22
             ],
             Error: new Error()
@@ -62591,7 +62591,7 @@ var type_open = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              42454,
+              42446,
               16
             ],
             Error: new Error()
@@ -62605,7 +62605,7 @@ var type_package = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              42459,
+              42451,
               16
             ],
             Error: new Error()
@@ -62619,7 +62619,7 @@ var type_object = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              42463,
+              42455,
               20
             ],
             Error: new Error()
@@ -62983,7 +62983,7 @@ function extract_option_type(env, ty) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          42646,
+          42638,
           9
         ],
         Error: new Error()
@@ -63058,7 +63058,7 @@ function extract_label_names(sexp, env, ty) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              42664,
+              42656,
               4
             ],
             Error: new Error()
@@ -63163,7 +63163,7 @@ function get_newtype_level$1(param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          42702,
+          42694,
           12
         ],
         Error: new Error()
@@ -63180,7 +63180,7 @@ function unify_pat_types_gadt(loc, env, ty, ty$p) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            42707,
+            42699,
             14
           ],
           Error: new Error()
@@ -63274,7 +63274,7 @@ function finalize_variant(pat) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            42733,
+            42725,
             15
           ],
           Error: new Error()
@@ -63289,7 +63289,7 @@ function finalize_variant(pat) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            42733,
+            42725,
             15
           ],
           Error: new Error()
@@ -63332,7 +63332,7 @@ function finalize_variant(pat) {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              42741,
+              42733,
               40
             ],
             Error: new Error()
@@ -64028,7 +64028,7 @@ function get_type_path$1(env, d) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            42973,
+            42965,
             11
           ],
           Error: new Error()
@@ -64041,7 +64041,7 @@ function get_type_path$1(env, d) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          42973,
+          42965,
           11
         ],
         Error: new Error()
@@ -64499,7 +64499,7 @@ function type_label_a_list(labels, loc, closed, env, type_lbl_a, opath, lid_a_li
                                   RE_EXN_ID: "Assert_failure",
                                   _1: [
                                     "jscomp/test/ocaml_typedtree_test.ml",
-                                    43190,
+                                    43182,
                                     17
                                   ],
                                   Error: new Error()
@@ -64613,7 +64613,7 @@ function get_type_path$2(env, d) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            42973,
+            42965,
             11
           ],
           Error: new Error()
@@ -64626,7 +64626,7 @@ function get_type_path$2(env, d) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          42973,
+          42965,
           11
         ],
         Error: new Error()
@@ -64873,7 +64873,7 @@ function unify_head_only(loc, env, ty, constr) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            43263,
+            43255,
             9
           ],
           Error: new Error()
@@ -64895,7 +64895,7 @@ function unify_head_only(loc, env, ty, constr) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          43263,
+          43255,
           9
         ],
         Error: new Error()
@@ -65458,7 +65458,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      43326,
+                      43318,
                       13
                     ],
                     Error: new Error()
@@ -65500,7 +65500,7 @@ function type_pat(constrs, labels, no_existentials, mode, env, sp, expected_ty) 
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    43326,
+                    43318,
                     13
                   ],
                   Error: new Error()
@@ -66882,7 +66882,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              44144,
+                              44136,
                               38
                             ],
                             Error: new Error()
@@ -67071,7 +67071,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    44223,
+                    44215,
                     6
                   ],
                   Error: new Error()
@@ -67196,7 +67196,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              44274,
+                              44266,
                               65
                             ],
                             Error: new Error()
@@ -67453,7 +67453,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  45506,
+                  45498,
                   11
                 ],
                 Error: new Error()
@@ -67784,7 +67784,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    44463,
+                    44455,
                     15
                   ],
                   Error: new Error()
@@ -67801,7 +67801,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  44466,
+                  44458,
                   38
                 ],
                 Error: new Error()
@@ -68340,7 +68340,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              44755,
+                              44747,
                               18
                             ],
                             Error: new Error()
@@ -68419,7 +68419,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              44755,
+                              44747,
                               18
                             ],
                             Error: new Error()
@@ -68456,7 +68456,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    44781,
+                    44773,
                     14
                   ],
                   Error: new Error()
@@ -68492,7 +68492,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      44781,
+                      44773,
                       14
                     ],
                     Error: new Error()
@@ -68697,7 +68697,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  44865,
+                  44857,
                   10
                 ],
                 Error: new Error()
@@ -68753,7 +68753,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                44865,
+                44857,
                 10
               ],
               Error: new Error()
@@ -68875,7 +68875,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  44971,
+                  44963,
                   15
                 ],
                 Error: new Error()
@@ -68946,7 +68946,7 @@ function type_expect_(in_function, env, sexp, ty_expected) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    44971,
+                    44963,
                     15
                   ],
                   Error: new Error()
@@ -69235,7 +69235,7 @@ function type_function(in_function, loc, attrs, env, ty_expected, l, caselist) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                45077,
+                45069,
                 24
               ],
               Error: new Error()
@@ -69332,7 +69332,7 @@ function type_format(loc, str, env) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          45130,
+          45122,
           1
         ],
         Error: new Error()
@@ -69867,7 +69867,7 @@ function type_application(env, funct, sargs) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        45381,
+                        45373,
                         16
                       ],
                       Error: new Error()
@@ -70489,7 +70489,7 @@ function type_cases(in_function, env, ty_arg, ty_res, partial_flag, loc, caselis
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      40990,
+                      40982,
                       48
                     ],
                     Error: new Error()
@@ -72039,7 +72039,7 @@ register_error_of_exn(function (param) {
                                                               RE_EXN_ID: "Assert_failure",
                                                               _1: [
                                                                 "jscomp/test/ocaml_typedtree_test.ml",
-                                                                37077,
+                                                                37069,
                                                                 12
                                                               ],
                                                               Error: new Error()
@@ -72902,7 +72902,7 @@ function set_fixed_row(env, loc, p, decl) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            46335,
+            46327,
             14
           ],
           Error: new Error()
@@ -73235,7 +73235,7 @@ function check_constraints_rec(env, loc, visited, _ty) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      46582,
+                      46574,
                       28
                     ],
                     Error: new Error()
@@ -74123,7 +74123,7 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
           RE_EXN_ID: "Assert_failure",
           _1: [
             "jscomp/test/ocaml_typedtree_test.ml",
-            47031,
+            47023,
             13
           ],
           Error: new Error()
@@ -74159,7 +74159,7 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    47020,
+                    47012,
                     37
                   ],
                   Error: new Error()
@@ -74184,7 +74184,7 @@ function compute_variance_gadt(env, check, rloc, decl, param) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          47031,
+          47023,
           13
         ],
         Error: new Error()
@@ -74276,7 +74276,7 @@ function compute_variance_decl(env, check, decl, rloc) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/ocaml_typedtree_test.ml",
-          47070,
+          47062,
           15
         ],
         Error: new Error()
@@ -74877,7 +74877,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  46523,
+                  46515,
                   26
                 ],
                 Error: new Error()
@@ -75044,7 +75044,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        46631,
+                        46623,
                         59
                       ],
                       Error: new Error()
@@ -75057,7 +75057,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      46631,
+                      46623,
                       59
                     ],
                     Error: new Error()
@@ -75079,7 +75079,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        46635,
+                        46627,
                         16
                       ],
                       Error: new Error()
@@ -75096,7 +75096,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        46604,
+                        46596,
                         58
                       ],
                       Error: new Error()
@@ -75109,7 +75109,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      46604,
+                      46596,
                       58
                     ],
                     Error: new Error()
@@ -75133,7 +75133,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                               RE_EXN_ID: "Assert_failure",
                               _1: [
                                 "jscomp/test/ocaml_typedtree_test.ml",
-                                46617,
+                                46609,
                                 30
                               ],
                               Error: new Error()
@@ -75164,7 +75164,7 @@ function transl_type_decl(env, rec_flag, sdecl_list) {
                   RE_EXN_ID: "Assert_failure",
                   _1: [
                     "jscomp/test/ocaml_typedtree_test.ml",
-                    46650,
+                    46642,
                     63
                   ],
                   Error: new Error()
@@ -75301,7 +75301,7 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              47384,
+              47376,
               17
             ],
             Error: new Error()
@@ -75319,7 +75319,7 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              47384,
+              47376,
               17
             ],
             Error: new Error()
@@ -75385,7 +75385,7 @@ function transl_extension_constructor(env, check_open, type_path, type_params, t
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  47409,
+                  47401,
                   17
                 ],
                 Error: new Error()
@@ -77748,7 +77748,7 @@ function inheritance(self_type, env, ovf, concr_meths, warn_vals, loc, parent) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      48288,
+                      48280,
                       12
                     ],
                     Error: new Error()
@@ -78394,7 +78394,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      48787,
+                      48779,
                       18
                     ],
                     Error: new Error()
@@ -78780,7 +78780,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              48689,
+                              48681,
                               17
                             ],
                             Error: new Error()
@@ -78806,7 +78806,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                               RE_EXN_ID: "Assert_failure",
                               _1: [
                                 "jscomp/test/ocaml_typedtree_test.ml",
-                                48689,
+                                48681,
                                 17
                               ],
                               Error: new Error()
@@ -78817,7 +78817,7 @@ function class_structure(cl_num, $$final, val_env, met_env, loc, param) {
                           RE_EXN_ID: "Assert_failure",
                           _1: [
                             "jscomp/test/ocaml_typedtree_test.ml",
-                            48691,
+                            48683,
                             13
                           ],
                           Error: new Error()
@@ -79533,7 +79533,7 @@ function class_expr(cl_num, val_env, met_env, _scl) {
                                       RE_EXN_ID: "Assert_failure",
                                       _1: [
                                         "jscomp/test/ocaml_typedtree_test.ml",
-                                        49044,
+                                        49036,
                                         20
                                       ],
                                       Error: new Error()
@@ -80545,7 +80545,7 @@ function type_classes(define_class, approx, kind, env, cls) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        49589,
+                        49581,
                         15
                       ],
                       Error: new Error()
@@ -80556,7 +80556,7 @@ function type_classes(define_class, approx, kind, env, cls) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      49589,
+                      49581,
                       15
                     ],
                     Error: new Error()
@@ -80691,7 +80691,7 @@ function unify_parents_struct(env, ty, st) {
                             RE_EXN_ID: "Assert_failure",
                             _1: [
                               "jscomp/test/ocaml_typedtree_test.ml",
-                              49666,
+                              49658,
                               15
                             ],
                             Error: new Error()
@@ -82205,7 +82205,7 @@ function path_concat(head, p) {
               RE_EXN_ID: "Assert_failure",
               _1: [
                 "jscomp/test/ocaml_typedtree_test.ml",
-                50024,
+                50016,
                 16
               ],
               Error: new Error()
@@ -82282,7 +82282,7 @@ var type_module_type_of_fwd = {
             RE_EXN_ID: "Assert_failure",
             _1: [
               "jscomp/test/ocaml_typedtree_test.ml",
-              50069,
+              50061,
               22
             ],
             Error: new Error()
@@ -82757,7 +82757,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      50216,
+                      50208,
                       38
                     ],
                     Error: new Error()
@@ -82857,7 +82857,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                       RE_EXN_ID: "Assert_failure",
                       _1: [
                         "jscomp/test/ocaml_typedtree_test.ml",
-                        50233,
+                        50225,
                         68
                       ],
                       Error: new Error()
@@ -82878,7 +82878,7 @@ function merge_constraint(initial_env, loc, sg, constr) {
                     RE_EXN_ID: "Assert_failure",
                     _1: [
                       "jscomp/test/ocaml_typedtree_test.ml",
-                      50239,
+                      50231,
                       38
                     ],
                     Error: new Error()
@@ -85737,7 +85737,7 @@ function type_package$1(env, m, p, nl, tl) {
                 RE_EXN_ID: "Assert_failure",
                 _1: [
                   "jscomp/test/ocaml_typedtree_test.ml",
-                  51535,
+                  51527,
                   11
                 ],
                 Error: new Error()
@@ -86765,7 +86765,7 @@ if (match$1) {
       if (match$6.name === "int") {
         var match$7 = match$6.flags;
         if (match$7 !== 0) {
-          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
         } else {
           var match$8 = match$5.typ_name;
           if (match$8.txt === "int") {
@@ -86776,7 +86776,7 @@ if (match$1) {
               if (match$11.pos_fname === "" && !(match$11.pos_lnum !== 2 || match$11.pos_bol !== 1 || match$11.pos_cnum !== 9 || match$9.loc_ghost || match$5.typ_params)) {
                 var match$12 = match$5.typ_type;
                 if (match$12.type_params || match$12.type_arity !== 0) {
-                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                 } else {
                   var match$13 = match$12.type_kind;
                   if (typeof match$13 === "number" && !(match$13 || !(match$12.type_private && !(match$12.type_manifest !== undefined || match$12.type_variance || match$12.type_newtype_level !== undefined)))) {
@@ -86806,7 +86806,7 @@ if (match$1) {
                                       if (match$27.name === "~-") {
                                         var match$28 = match$27.flags;
                                         if (match$28 !== 0) {
-                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                         } else {
                                           var match$29 = match$26.val_name;
                                           if (match$29.txt === "~-") {
@@ -86818,12 +86818,12 @@ if (match$1) {
                                                 var match$33 = match$26.val_desc;
                                                 var match$34 = match$33.ctyp_desc;
                                                 if (typeof match$34 === "number" || !(match$34.TAG === /* Ttyp_arrow */1 && match$34._0 === "")) {
-                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                 } else {
                                                   var match$35 = match$34._1;
                                                   var match$36 = match$35.ctyp_desc;
                                                   if (typeof match$36 === "number" || match$36.TAG !== /* Ttyp_constr */3) {
-                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                   } else {
                                                     var match$37 = match$36._0;
                                                     switch (match$37.TAG | 0) {
@@ -86832,7 +86832,7 @@ if (match$1) {
                                                           if (match$38.name === "int") {
                                                             var match$39 = match$38.flags;
                                                             if (match$39 !== 0) {
-                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                             } else {
                                                               var match$40 = match$36._1;
                                                               var match$41 = match$40.txt;
@@ -86847,7 +86847,7 @@ if (match$1) {
                                                                           var match$45 = match$35.ctyp_type;
                                                                           var match$46 = match$45.desc;
                                                                           if (typeof match$46 === "number" || match$46.TAG !== /* Tconstr */3) {
-                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                           } else {
                                                                             var match$47 = match$46._0;
                                                                             switch (match$47.TAG | 0) {
@@ -86856,7 +86856,7 @@ if (match$1) {
                                                                                   if (match$48.name === "int") {
                                                                                     var match$49 = match$48.flags;
                                                                                     if (match$49 !== 0 || match$46._1) {
-                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                     } else {
                                                                                       var match$50 = match$46._2.contents;
                                                                                       if (typeof match$50 === "number") {
@@ -86868,7 +86868,7 @@ if (match$1) {
                                                                                             var match$54 = match$34._2;
                                                                                             var match$55 = match$54.ctyp_desc;
                                                                                             if (typeof match$55 === "number" || match$55.TAG !== /* Ttyp_constr */3) {
-                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                             } else {
                                                                                               var match$56 = match$55._0;
                                                                                               switch (match$56.TAG | 0) {
@@ -86877,7 +86877,7 @@ if (match$1) {
                                                                                                     if (match$57.name === "int") {
                                                                                                       var match$58 = match$57.flags;
                                                                                                       if (match$58 !== 0) {
-                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                       } else {
                                                                                                         var match$59 = match$55._1;
                                                                                                         var match$60 = match$59.txt;
@@ -86892,7 +86892,7 @@ if (match$1) {
                                                                                                                     var match$64 = match$54.ctyp_type;
                                                                                                                     var match$65 = match$64.desc;
                                                                                                                     if (typeof match$65 === "number" || match$65.TAG !== /* Tconstr */3) {
-                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                     } else {
                                                                                                                       var match$66 = match$65._0;
                                                                                                                       switch (match$66.TAG | 0) {
@@ -86901,7 +86901,7 @@ if (match$1) {
                                                                                                                             if (match$67.name === "int") {
                                                                                                                               var match$68 = match$67.flags;
                                                                                                                               if (match$68 !== 0 || match$65._1) {
-                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                               } else {
                                                                                                                                 var match$69 = match$65._2.contents;
                                                                                                                                 if (typeof match$69 === "number") {
@@ -86913,11 +86913,11 @@ if (match$1) {
                                                                                                                                       var match$73 = match$33.ctyp_type;
                                                                                                                                       var match$74 = match$73.desc;
                                                                                                                                       if (typeof match$74 === "number" || !(match$74.TAG === /* Tarrow */1 && match$74._0 === "")) {
-                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                       } else {
                                                                                                                                         var match$75 = match$74._1.desc;
                                                                                                                                         if (typeof match$75 === "number" || match$75.TAG !== /* Tconstr */3) {
-                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                         } else {
                                                                                                                                           var match$76 = match$75._0;
                                                                                                                                           switch (match$76.TAG | 0) {
@@ -86926,13 +86926,13 @@ if (match$1) {
                                                                                                                                                 if (match$77.name === "int") {
                                                                                                                                                   var match$78 = match$77.flags;
                                                                                                                                                   if (match$78 !== 0 || match$75._1) {
-                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                   } else {
                                                                                                                                                     var match$79 = match$75._2.contents;
                                                                                                                                                     if (typeof match$79 === "number") {
                                                                                                                                                       var match$80 = match$74._2.desc;
                                                                                                                                                       if (typeof match$80 === "number" || match$80.TAG !== /* Tconstr */3) {
-                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                       } else {
                                                                                                                                                         var match$81 = match$80._0;
                                                                                                                                                         switch (match$81.TAG | 0) {
@@ -86941,7 +86941,7 @@ if (match$1) {
                                                                                                                                                               if (match$82.name === "int") {
                                                                                                                                                                 var match$83 = match$82.flags;
                                                                                                                                                                 if (match$83 !== 0 || match$80._1) {
-                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                 } else {
                                                                                                                                                                   var match$84 = match$80._2.contents;
                                                                                                                                                                   if (typeof match$84 === "number") {
@@ -86955,11 +86955,11 @@ if (match$1) {
                                                                                                                                                                           var match$89 = match$26.val_val;
                                                                                                                                                                           var match$90 = match$89.val_type.desc;
                                                                                                                                                                           if (typeof match$90 === "number" || !(match$90.TAG === /* Tarrow */1 && match$90._0 === "")) {
-                                                                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                           } else {
                                                                                                                                                                             var match$91 = match$90._1.desc;
                                                                                                                                                                             if (typeof match$91 === "number" || match$91.TAG !== /* Tconstr */3) {
-                                                                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                             } else {
                                                                                                                                                                               var match$92 = match$91._0;
                                                                                                                                                                               switch (match$92.TAG | 0) {
@@ -86968,13 +86968,13 @@ if (match$1) {
                                                                                                                                                                                     if (match$93.name === "int") {
                                                                                                                                                                                       var match$94 = match$93.flags;
                                                                                                                                                                                       if (match$94 !== 0 || match$91._1) {
-                                                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                       } else {
                                                                                                                                                                                         var match$95 = match$91._2.contents;
                                                                                                                                                                                         if (typeof match$95 === "number") {
                                                                                                                                                                                           var match$96 = match$90._2.desc;
                                                                                                                                                                                           if (typeof match$96 === "number" || match$96.TAG !== /* Tconstr */3) {
-                                                                                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                           } else {
                                                                                                                                                                                             var match$97 = match$96._0;
                                                                                                                                                                                             switch (match$97.TAG | 0) {
@@ -86983,7 +86983,7 @@ if (match$1) {
                                                                                                                                                                                                   if (match$98.name === "int") {
                                                                                                                                                                                                     var match$99 = match$98.flags;
                                                                                                                                                                                                     if (match$99 !== 0 || match$96._1) {
-                                                                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                     } else {
                                                                                                                                                                                                       var match$100 = match$96._2.contents;
                                                                                                                                                                                                       if (typeof match$100 === "number") {
@@ -86991,7 +86991,7 @@ if (match$1) {
                                                                                                                                                                                                         if (typeof match$101 === "number" && !match$101) {
                                                                                                                                                                                                           var match$102 = match$89.val_kind;
                                                                                                                                                                                                           if (typeof match$102 === "number" || match$102.TAG !== /* Val_prim */0) {
-                                                                                                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                           } else {
                                                                                                                                                                                                             var match$103 = match$102._0;
                                                                                                                                                                                                             if (match$103.prim_name === "%negint" && !(match$103.prim_arity !== 1 || !(match$103.prim_alloc && match$103.prim_native_name === "" && !match$103.prim_native_float))) {
@@ -87000,255 +87000,255 @@ if (match$1) {
                                                                                                                                                                                                               if (match$105.pos_fname === "" && !(match$105.pos_lnum !== 3 || match$105.pos_bol !== 10 || match$105.pos_cnum !== 10)) {
                                                                                                                                                                                                                 var match$106 = match$104.loc_end;
                                                                                                                                                                                                                 if (match$106.pos_fname === "" && !(match$106.pos_lnum !== 3 || match$106.pos_bol !== 10 || match$106.pos_cnum !== 50 || match$104.loc_ghost || match$89.val_attributes)) {
-                                                                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52036, characters 14-21", true, true);
+                                                                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52028, characters 14-21", true, true);
                                                                                                                                                                                                                 } else {
-                                                                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                                 }
                                                                                                                                                                                                               } else {
-                                                                                                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                               }
                                                                                                                                                                                                             } else {
-                                                                                                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                             }
                                                                                                                                                                                                           }
                                                                                                                                                                                                         } else {
-                                                                                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                         }
                                                                                                                                                                                                       } else {
-                                                                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                       }
                                                                                                                                                                                                     }
                                                                                                                                                                                                   } else {
-                                                                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                   }
                                                                                                                                                                                                   break;
                                                                                                                                                                                               case /* Pdot */1 :
                                                                                                                                                                                               case /* Papply */2 :
-                                                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                                   break;
                                                                                                                                                                                               
                                                                                                                                                                                             }
                                                                                                                                                                                           }
                                                                                                                                                                                         } else {
-                                                                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                         }
                                                                                                                                                                                       }
                                                                                                                                                                                     } else {
-                                                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                     }
                                                                                                                                                                                     break;
                                                                                                                                                                                 case /* Pdot */1 :
                                                                                                                                                                                 case /* Papply */2 :
-                                                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                                     break;
                                                                                                                                                                                 
                                                                                                                                                                               }
                                                                                                                                                                             }
                                                                                                                                                                           }
                                                                                                                                                                         } else {
-                                                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                         }
                                                                                                                                                                       } else {
-                                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                       }
                                                                                                                                                                     } else {
-                                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                     }
                                                                                                                                                                   } else {
-                                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                                   }
                                                                                                                                                                 }
                                                                                                                                                               } else {
-                                                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                               }
                                                                                                                                                               break;
                                                                                                                                                           case /* Pdot */1 :
                                                                                                                                                           case /* Papply */2 :
-                                                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                               break;
                                                                                                                                                           
                                                                                                                                                         }
                                                                                                                                                       }
                                                                                                                                                     } else {
-                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                     }
                                                                                                                                                   }
                                                                                                                                                 } else {
-                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                 }
                                                                                                                                                 break;
                                                                                                                                             case /* Pdot */1 :
                                                                                                                                             case /* Papply */2 :
-                                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                                 break;
                                                                                                                                             
                                                                                                                                           }
                                                                                                                                         }
                                                                                                                                       }
                                                                                                                                     } else {
-                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                     }
                                                                                                                                   } else {
-                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                   }
                                                                                                                                 } else {
-                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                                 }
                                                                                                                               }
                                                                                                                             } else {
-                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                             }
                                                                                                                             break;
                                                                                                                         case /* Pdot */1 :
                                                                                                                         case /* Papply */2 :
-                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                             break;
                                                                                                                         
                                                                                                                       }
                                                                                                                     }
                                                                                                                   } else {
-                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                   }
                                                                                                                 } else {
-                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                                 }
                                                                                                               } else {
-                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                               }
                                                                                                               break;
                                                                                                           case /* Ldot */1 :
                                                                                                           case /* Lapply */2 :
-                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                               break;
                                                                                                           
                                                                                                         }
                                                                                                       }
                                                                                                     } else {
-                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                     }
                                                                                                     break;
                                                                                                 case /* Pdot */1 :
                                                                                                 case /* Papply */2 :
-                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                                     break;
                                                                                                 
                                                                                               }
                                                                                             }
                                                                                           } else {
-                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                           }
                                                                                         } else {
-                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                         }
                                                                                       } else {
-                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                       }
                                                                                     }
                                                                                   } else {
-                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                   }
                                                                                   break;
                                                                               case /* Pdot */1 :
                                                                               case /* Papply */2 :
-                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                                   break;
                                                                               
                                                                             }
                                                                           }
                                                                         } else {
-                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                         }
                                                                       } else {
-                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                       }
                                                                     } else {
-                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                     }
                                                                     break;
                                                                 case /* Ldot */1 :
                                                                 case /* Lapply */2 :
-                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                                     break;
                                                                 
                                                               }
                                                             }
                                                           } else {
-                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                           }
                                                           break;
                                                       case /* Pdot */1 :
                                                       case /* Papply */2 :
-                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                                           break;
                                                       
                                                     }
                                                   }
                                                 }
                                               } else {
-                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                               }
                                             } else {
-                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                             }
                                           } else {
-                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                           }
                                         }
                                       } else {
-                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                       }
                                     } else {
-                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                     }
                                   } else {
-                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                   }
                                 } else {
-                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                                 }
                               } else {
-                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                               }
                             } else {
-                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                             }
                           } else {
-                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                           }
                         } else {
-                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                          eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                         }
                       } else {
-                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                       }
                     } else {
-                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                     }
                   } else {
-                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
                   }
                 }
               } else {
-                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+                eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
               }
             } else {
-              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+              eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
             }
           } else {
-            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+            eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
           }
         }
       } else {
-        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+        eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
       }
     } else {
-      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+      eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
     }
   } else {
-    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+    eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
   }
 } else {
-  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52037, characters 12-19", true, false);
+  eq("File \"jscomp/test/ocaml_typedtree_test.ml\", line 52029, characters 12-19", true, false);
 }
 
 from_pair_suites("Ocaml_typedtree_test", suites.contents);

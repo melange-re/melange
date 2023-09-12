@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module Config : sig
 (*#1 "config.mli"*)
 (***********************************************************************)
@@ -11621,47 +11621,39 @@ end = struct
 
 
 
-external describe : string -> (unit -> unit[@bs]) -> unit = "describe"
-[@@bs.val]
+external describe : string -> (unit -> unit[@u]) -> unit = "describe"
 
-external it : string -> (unit -> unit[@bs.uncurry]) -> unit = "it"
-[@@bs.val]
 
-external it_promise : string -> (unit -> _ Js.Promise.t [@bs.uncurry]) -> unit = "it"
-[@@bs.val]
+external it : string -> (unit -> unit[@mel.uncurry]) -> unit = "it"
+
+
+external it_promise : string -> (unit -> _ Js.Promise.t [@mel.uncurry]) -> unit = "it"
+
 
 external eq : 'a -> 'a -> unit = "deepEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external neq : 'a -> 'a -> unit = "notDeepEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external strict_eq : 'a -> 'a -> unit = "strictEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external strict_neq : 'a -> 'a -> unit = "notStrictEqual"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external ok : bool -> unit = "ok"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 external fail : 'a -> 'a -> string Js.undefined -> string -> unit = "fail"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 
 
 external dump : 'a array -> unit = "console.log"
-[@@bs.val]
-[@@bs.splice]
+[@@mel.splice]
 
 external throws : (unit -> unit) -> unit = "throws"
-[@@bs.val]
-[@@bs.module "assert"]
+[@@mel.module "assert"]
 (** There is a problem --
     it does not return [unit]
 *)
@@ -11685,7 +11677,7 @@ let from_suites name (suite :  (string * ('a -> unit)) list) =
   match Array.to_list Node.Process.process##argv with
   | cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           List.iter (fun (name, code) -> it name code) suite)
 
   | _ -> ()
@@ -11744,7 +11736,7 @@ let from_pair_suites name (suites :  pair_suites) =
   match Array.to_list Node.Process.process##argv with
   | cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           suites |>
           List.iter (fun (name, code) ->
               it name (fun _ ->
@@ -11759,7 +11751,7 @@ let from_promise_suites name (suites : (string * _ Js.Promise.t ) list) =
   match Array.to_list Node.Process.process##argv with
   | cmd :: _ ->
     if is_mocha () then
-      describe name (fun [@bs] () ->
+      describe name (fun [@u] () ->
           suites |>
           List.iter (fun (name, code) ->
               it_promise name (fun _ ->
@@ -34912,9 +34904,9 @@ and print_simple_out_type ppf =
       | res ->
           begin match name  with
           | "fn" ->
-              fprintf ppf "@[<0>(%a@ [@bs])@]" print_out_type_1 res
+              fprintf ppf "@[<0>(%a@ [@u])@]" print_out_type_1 res
           | "meth" ->
-              fprintf ppf "@[<0>(%a@ [@bs.meth])@]" print_out_type_1 res
+              fprintf ppf "@[<0>(%a@ [@mel.meth])@]" print_out_type_1 res
           | _ -> assert false
           end
       end
@@ -34941,7 +34933,7 @@ and print_simple_out_type ppf =
             pp_close_box ppf ()
           end
       | res ->
-          fprintf ppf "@[<0>(%a@ [@bs.this])@]" print_out_type_1 res
+          fprintf ppf "@[<0>(%a@ [@mel.this])@]" print_out_type_1 res
 
       end
 

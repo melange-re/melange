@@ -35,5 +35,5 @@ type hh = Xx of int
 [@@deriving accessors]
 
 type t =
-  | A of (int -> int [@bs])
+  | A of (int -> int [@u])
   [@@deriving accessors]

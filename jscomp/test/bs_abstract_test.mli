@@ -7,7 +7,7 @@ mutable tl : 'a linked_list Js.null
 
 
 
-  type t = int -> int -> bool [@bs]
+  type t = int -> int -> bool [@u]
   and x = private {
     k : t;
     y : string

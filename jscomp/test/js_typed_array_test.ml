@@ -1,6 +1,6 @@
 open Js.Typed_array
 
-external arrayFrom : 'a -> 'b array = "Array.from" [@@bs.val]
+external arrayFrom : 'a -> 'b array = "Array.from"
 
 let mkI8 a = Int8Array.make a
 let via make f arr = arrayFrom (f (make arr))
@@ -131,7 +131,7 @@ let suites = Mt.[
     "typed_array - sortInPlaceWith", (fun _ ->
       Eq(mkI8 [| 3; 2; 1 |],
          mkI8 [| 3; 1; 2 |]
-         |> Int8Array.sortInPlaceWith ((fun a b -> b - a) [@bs]))
+         |> Int8Array.sortInPlaceWith ((fun a b -> b - a) [@u]))
     );
 
     (* es2016 *)
@@ -199,56 +199,56 @@ let suites = Mt.[
     "typed_array - every", (fun _ ->
       Eq(true,
          mkI8 [| 1; 2; 3 |]
-         |> Int8Array.every ((fun n -> (n > 0)) [@bs]))
+         |> Int8Array.every ((fun n -> (n > 0)) [@u]))
     );
     "typed_array - everyi", (fun _ ->
       Eq(false,
          mkI8 [| 1; 2; 3 |]
-         |> Int8Array.everyi ((fun _ i -> (i > 0)) [@bs]))
+         |> Int8Array.everyi ((fun _ i -> (i > 0)) [@u]))
     );
 
     "typed_array - filter", (fun _ ->
       Eq(mkI8 [| 2; 4 |],
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.filter ((fun n -> n mod 2 = 0) [@bs]))
+         |> Int8Array.filter ((fun n -> n mod 2 = 0) [@u]))
     );
     "typed_array - filteri", (fun _ ->
       Eq(mkI8 [| 1; 3 |],
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.filteri ((fun _ i -> (i mod 2 = 0)) [@bs]))
+         |> Int8Array.filteri ((fun _ i -> (i mod 2 = 0)) [@u]))
     );
 
     "typed_array - find", (fun _ ->
       Eq(Js.Undefined.return 2,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.find ((fun n -> n mod 2 = 0) [@bs]))
+         |> Int8Array.find ((fun n -> n mod 2 = 0) [@u]))
     );
     "typed_array - findi", (fun _ ->
       Eq(Js.Undefined.return 1,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.findi ((fun _ i -> i mod 2 = 0) [@bs]))
+         |> Int8Array.findi ((fun _ i -> i mod 2 = 0) [@u]))
     );
 
     "typed_array - findIndex", (fun _ ->
       Eq(1, mkI8 [| 1; 2; 3; 4 |]
-        |> Int8Array.findIndex ((fun n -> n mod 2 = 0) [@bs]))
+        |> Int8Array.findIndex ((fun n -> n mod 2 = 0) [@u]))
     );
     "typed_array - findIndexi", (fun _ ->
       Eq(0, mkI8 [| 1; 2; 3; 4 |]
-        |> Int8Array.findIndexi ((fun _ i -> i mod 2 = 0) [@bs]))
+        |> Int8Array.findIndexi ((fun _ i -> i mod 2 = 0) [@u]))
     );
 
     "typed_array - forEach", (fun _ ->
       let sum = ref 0 in
       let _ = mkI8 [| 1; 2; 3; |]
-        |> Int8Array.forEach ((fun n -> sum := !sum + n) [@bs]) in
+        |> Int8Array.forEach ((fun n -> sum := !sum + n) [@u]) in
 
       Eq(6, !sum)
     );
     "typed_array - forEachi", (fun _ ->
       let sum = ref 0 in
       let _ = mkI8 [| 1; 2; 3; |]
-        |> Int8Array.forEachi ((fun _ i -> sum := !sum + i) [@bs]) in
+        |> Int8Array.forEachi ((fun _ i -> sum := !sum + i) [@u]) in
 
       Eq(3, !sum)
     );
@@ -262,44 +262,44 @@ let suites = Mt.[
 
     "typed_array - map", (fun _ ->
       Eq(mkI8 [| 2; 4; 6; 8 |],
-         mkI8 [| 1; 2; 3; 4 |] |> Int8Array.map ((fun n -> n * 2) [@bs]))
+         mkI8 [| 1; 2; 3; 4 |] |> Int8Array.map ((fun n -> n * 2) [@u]))
     );
     "typed_array - map", (fun _ ->
       Eq(mkI8 [| 0; 2; 4; 6 |],
-         mkI8 [| 1; 2; 3; 4 |] |> Int8Array.mapi ((fun _ i -> i * 2) [@bs]))
+         mkI8 [| 1; 2; 3; 4 |] |> Int8Array.mapi ((fun _ i -> i * 2) [@u]))
     );
 
     "typed_array - reduce", (fun _ ->
       Eq(-10,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.reduce ((fun acc n -> acc - n) [@bs]) 0)
+         |> Int8Array.reduce ((fun acc n -> acc - n) [@u]) 0)
     );
     "typed_array - reducei", (fun _ ->
       Eq(-6,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.reducei ((fun acc _ i -> acc - i) [@bs]) 0)
+         |> Int8Array.reducei ((fun acc _ i -> acc - i) [@u]) 0)
     );
 
     "typed_array - reduceRight", (fun _ ->
       Eq(-10,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.reduceRight ((fun acc n -> acc - n) [@bs]) 0)
+         |> Int8Array.reduceRight ((fun acc n -> acc - n) [@u]) 0)
     );
     "typed_array - reduceRighti", (fun _ ->
       Eq(-6,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.reduceRighti ((fun acc _ i -> acc - i) [@bs]) 0)
+         |> Int8Array.reduceRighti ((fun acc _ i -> acc - i) [@u]) 0)
     );
 
     "typed_array - some", (fun _ ->
       Eq(false,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.some ((fun n -> (n <= 0)) [@bs]))
+         |> Int8Array.some ((fun n -> (n <= 0)) [@u]))
     );
     "typed_array - somei", (fun _ ->
       Eq(true,
          mkI8 [| 1; 2; 3; 4 |]
-         |> Int8Array.somei ((fun _ i -> (i <= 0)) [@bs]))
+         |> Int8Array.somei ((fun _ i -> (i <= 0)) [@u]))
     );
 
     (* es2015, iterator
