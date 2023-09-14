@@ -1,4 +1,4 @@
-Unreleased
+2.0.0 2023-09-13
 ---------------
 
 - Build executables for bytecode-only platforms too
