@@ -152,6 +152,7 @@ val array_index : ?loc:Location.t -> ?comment:string -> t -> t -> t
 val array_index_by_int : ?loc:Location.t -> ?comment:string -> t -> Int32.t -> t
 val record_access : t -> string -> Int32.t -> t
 val inline_record_access : t -> string -> Int32.t -> t
+val variant_pos : constr:string -> int32 -> string
 val variant_access : t -> int32 -> t
 val cons_access : t -> int32 -> t
 val extension_access : t -> string option -> Int32.t -> t

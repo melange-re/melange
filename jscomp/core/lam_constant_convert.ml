@@ -40,6 +40,9 @@ let rec convert_constant (const : Lambda.structured_constant) : Lam_constant.t =
               i = Int32.of_int i;
               comment = Pt_constructor { name; const; non_const };
             }
+      | Pt_constructor_access { cstr_name } ->
+          Const_pointer
+            (Js_exp_make.variant_pos ~constr:cstr_name (Int32.of_int i))
       | Pt_variant { name } -> Const_pointer name
       | Pt_na -> Const_int { i = Int32.of_int i; comment = None })
   | Const_base (Const_char i, _) -> Const_char i
