@@ -64,7 +64,9 @@ jobs:
 
       - name: Install all deps
         working-directory: melange-opam-template
-        run: npm install
+        run: |
+          opam install -y reason-react
+          npm install
 
       - name: Build basic template
         working-directory: melange-opam-template
