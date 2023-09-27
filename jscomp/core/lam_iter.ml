@@ -84,6 +84,7 @@ let inner_iter (l : t) (f : t -> unit) : unit =
       f met;
       f obj;
       List.iter f args
+  | Lifused (_v, e) -> f e
 
 let option_exists v f = match v with None -> false | Some x -> f x
 
@@ -124,3 +125,4 @@ let inner_exists (l : t) (f : t -> bool) : bool =
   | Lfor (_v, e1, e2, _dir, e3) -> f e1 || f e2 || f e3
   | Lassign (_id, e) -> f e
   | Lsend (_k, met, obj, args, _loc) -> f met || f obj || List.exists f args
+  | Lifused (_v, e) -> f e

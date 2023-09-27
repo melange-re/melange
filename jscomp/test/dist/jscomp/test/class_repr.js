@@ -18,12 +18,10 @@ var shared$1 = [
 var shared$2 = ["x"];
 
 function x0_init($$class) {
-  var v = CamlinternalOO.new_variable($$class, "");
   var x = CamlinternalOO.new_variable($$class, "x");
-  return function (env, self, v$1) {
+  return function (env, self, v) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
-    self$1[v] = v$1;
-    self$1[x] = v$1 + 2 | 0;
+    self$1[x] = v + 2 | 0;
     return self$1;
   };
 }
@@ -31,17 +29,15 @@ function x0_init($$class) {
 var x0 = CamlinternalOO.make_class(0, x0_init);
 
 function x_init($$class) {
-  var v = CamlinternalOO.new_variable($$class, "");
   var ids = CamlinternalOO.new_methods_variables($$class, shared, shared$2);
   var get_x = ids[0];
   var x = ids[1];
   CamlinternalOO.set_method($$class, get_x, (function (self$2) {
           return self$2[x];
         }));
-  return function (env, self, v$1) {
+  return function (env, self, v) {
     var self$1 = CamlinternalOO.create_object_opt(self, $$class);
-    self$1[v] = v$1;
-    self$1[x] = v$1;
+    self$1[x] = v;
     return self$1;
   };
 }

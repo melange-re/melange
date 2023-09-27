@@ -25,15 +25,12 @@ var suites_0 = [
   (function (param) {
       if (!object_tables.key) {
         var $$class = CamlinternalOO.create_table(["say"]);
-        var env = CamlinternalOO.new_variable($$class, "");
         var say = CamlinternalOO.get_method_label($$class, "say");
         CamlinternalOO.set_method($$class, say, (function (self$1, x) {
                 return 1 + x | 0;
               }));
-        var env_init = function (env$1) {
-          var self = CamlinternalOO.create_object_opt(undefined, $$class);
-          self[env] = env$1;
-          return self;
+        var env_init = function (env) {
+          return CamlinternalOO.create_object_opt(undefined, $$class);
         };
         CamlinternalOO.init_class($$class);
         object_tables.key = env_init;

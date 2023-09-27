@@ -46,30 +46,24 @@ var object_tables$1 = /* Cons */{
 function step1(param) {
   if (!object_tables.key) {
     var $$class = CamlinternalOO.create_table(["step2"]);
-    var env = CamlinternalOO.new_variable($$class, "");
     var step2 = CamlinternalOO.get_method_label($$class, "step2");
     CamlinternalOO.set_method($$class, step2, (function (self$1) {
             if (!object_tables$1.key) {
               var $$class = CamlinternalOO.create_table(["step3"]);
-              var env = CamlinternalOO.new_variable($$class, "");
               var step3 = CamlinternalOO.get_method_label($$class, "step3");
               CamlinternalOO.set_method($$class, step3, (function (self$2) {
                       return 33;
                     }));
-              var env_init = function (env$1) {
-                var self = CamlinternalOO.create_object_opt(undefined, $$class);
-                self[env] = env$1;
-                return self;
+              var env_init = function (env) {
+                return CamlinternalOO.create_object_opt(undefined, $$class);
               };
               CamlinternalOO.init_class($$class);
               object_tables$1.key = env_init;
             }
             return Curry._1(object_tables$1.key, undefined);
           }));
-    var env_init = function (env$1) {
-      var self = CamlinternalOO.create_object_opt(undefined, $$class);
-      self[env] = env$1;
-      return self;
+    var env_init = function (env) {
+      return CamlinternalOO.create_object_opt(undefined, $$class);
     };
     CamlinternalOO.init_class($$class);
     object_tables.key = env_init;

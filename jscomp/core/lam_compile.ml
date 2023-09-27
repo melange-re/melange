@@ -1748,3 +1748,4 @@ and compile_lambda (lambda_cxt : Lam_compile_context.t) (cur_lam : Lam.t) :
       compile_trywith lam id catch lambda_cxt
   | Lsend (meth_kind, met, obj, args, _loc) ->
       compile_send meth_kind met obj args lambda_cxt
+  | Lifused (_, lam) -> compile_lambda lambda_cxt lam

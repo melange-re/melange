@@ -114,6 +114,7 @@ let count_helper ~try_depth (lam : Lam.t) : collection =
         count m;
         count o;
         List.iter count ll
+    | Lifused (_v, e) -> count e
   and count_default sw =
     match sw.sw_failaction with
     | None -> ()

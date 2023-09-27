@@ -167,5 +167,6 @@ let collect_info (meta : Lam_stats.t) (lam : Lam.t) =
         collect m;
         collect o;
         List.iter collect ll
+    | Lifused (_v, e) -> collect e
   in
   collect lam
