@@ -29,8 +29,6 @@ opam-create-switch: ## Create opam switch
 
 .PHONY: opam-install-test
 opam-install-test: ## Install test dependencies
-	opam pin add reason.dev -y git+https://github.com/reasonml/reason.git
-	opam pin add reason-react-ppx.dev -y git+https://github.com/reasonml/reason-react.git#next
 	opam pin add melange.dev . --with-test -y
 	opam pin add melange-playground.dev . --with-test -y
 
