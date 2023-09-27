@@ -30,6 +30,3 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/melange-re/melange.git"
-pin-depends: [
-  [ "reason-react-ppx.dev" "git+https://github.com/reasonml/reason-react.git#9e70d7548918816f1c0d8be8bdc66b6deabd339a" ]
-]
