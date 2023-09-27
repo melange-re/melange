@@ -8,7 +8,6 @@ Melange produces robust JavaScript code.
 + [Melange](#melange)
   * [Installation](#installation)
     - [OPAM](#opam)
-    - [Esy](#esy)
     - [Nix](#nix)
     - [OCaml version compatibility](#ocaml-version-compatibility)
   * [Editor integration](#editor-integration)
