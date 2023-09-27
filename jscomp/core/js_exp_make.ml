@@ -304,17 +304,19 @@ let record_access (e : t) (name : string) (pos : int32) =
 
 (* The same as {!record_access} except tag*)
 let inline_record_access = record_access
+let noncons_pos pos = "_" ^ Int32.to_string pos
+
+let cons_pos pos =
+  match pos with 0l -> Literals.hd | 1l -> Literals.tl | _ -> noncons_pos pos
+
+let variant_pos ~constr pos =
+  match constr with "::" -> cons_pos pos | _ -> noncons_pos pos
 
 let variant_access (e : t) (pos : int32) =
-  inline_record_access e ("_" ^ Int32.to_string pos) pos
+  inline_record_access e (noncons_pos pos) pos
 
 let cons_access (e : t) (pos : int32) =
-  inline_record_access e
-    (match pos with
-    | 0l -> Literals.hd
-    | 1l -> Literals.tl
-    | _ -> "_" ^ Int32.to_string pos)
-    pos
+  inline_record_access e (cons_pos pos) pos
 
 let poly_var_tag_access (e : t) =
   match e.expression_desc with
