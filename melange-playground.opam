@@ -10,9 +10,9 @@ depends: [
   "dune" {>= "3.8"}
   "ocaml"
   "js_of_ocaml"
-  "reason" {>= "3.9.0"}
+  "reason" {>= "3.10.0"}
   "melange" {= version}
-  "reason-react-ppx" {= "dev"}
+  "reason-react-ppx"
   "odoc" {with-doc}
 ]
 build: [
