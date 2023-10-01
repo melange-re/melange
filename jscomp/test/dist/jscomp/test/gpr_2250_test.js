@@ -43,7 +43,6 @@ function create(param) {
           "add",
           "get"
         ]);
-    var env = CamlinternalOO.new_variable($$class, "");
     var ids = CamlinternalOO.new_methods_variables($$class, [
           "get",
           "add"
@@ -62,10 +61,9 @@ function create(param) {
               return self$1[data];
             })
         ]);
-    var env_init = function (env$1) {
+    var env_init = function (env) {
       var self = CamlinternalOO.create_object_opt(undefined, $$class);
       self[data] = 0;
-      self[env] = env$1;
       return self;
     };
     CamlinternalOO.init_class($$class);

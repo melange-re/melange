@@ -108,6 +108,7 @@ module Types = struct
     | Lfor of ident * t * t * Asttypes.direction_flag * t
     | Lassign of ident * t
     | Lsend of Lam_compat.meth_kind * t * t * t list * Location.t
+    | Lifused of ident * t
 end
 
 module X = struct
@@ -157,6 +158,7 @@ module X = struct
     | Lfor of ident * t * t * Asttypes.direction_flag * t
     | Lassign of ident * t
     | Lsend of Lam_compat.meth_kind * t * t * t list * Location.t
+    | Lifused of ident * t
 end
 
 include Types
@@ -256,6 +258,7 @@ let inner_map (l : t) (f : t -> X.t) : X.t =
       let obj = f obj in
       let args = List.map f args in
       Lsend (k, met, obj, args, loc)
+  | Lifused (v, e) -> Lifused (v, f e)
 
 exception Not_simple_form
 
@@ -411,6 +414,10 @@ let rec eq_approx (l1 : t) (l2 : t) =
   | Lfor (_, _, _, _, _)
   | Lsend _ ->
       false
+  | Lifused (v1, e1) -> (
+      match l2 with
+      | Lifused (v2, e2) -> Ident.equal v1 v2 && eq_approx e1 e2
+      | _ -> false)
 
 and eq_option l1 l2 =
   match l1 with
@@ -465,6 +472,7 @@ let letrec bindings body : t = Lletrec (bindings, body)
 let while_ a b : t = Lwhile (a, b)
 let try_ body id handler : t = Ltrywith (body, id, handler)
 let for_ v e1 e2 dir e3 : t = Lfor (v, e1, e2, dir, e3)
+let ifused v l : t = Lifused (v, l)
 let assign v l : t = Lassign (v, l)
 let send u m o ll v : t = Lsend (u, m, o, ll, v)
 let staticcatch a b c : t = Lstaticcatch (a, b, c)

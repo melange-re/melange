@@ -144,6 +144,7 @@ let free_variables (export_idents : Set_ident.t) (params : stats Map_ident.t)
         iter sink_pos met;
         iter sink_pos obj;
         List.iter (iter sink_pos) args
+    | Lifused (_v, e) -> iter sink_pos e
   in
   iter Lam_var_stats.fresh_env lam;
   !fv

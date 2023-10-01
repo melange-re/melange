@@ -322,5 +322,6 @@ let deep_flatten (lam : Lam.t) : Lam.t =
            v's refaux *)
         Lam.assign v (aux l)
     | Lsend (u, m, o, ll, v) -> Lam.send u (aux m) (aux o) (List.map aux ll) v
+    | Lifused (v, l) -> Lam.ifused v (aux l)
   in
   aux lam

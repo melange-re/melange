@@ -106,6 +106,7 @@ let exception_id_destructed (l : Lam.t) (fv : Ident.t) : bool =
     | Lsequence (e1, e2) -> hit e1 || hit e2
     | Lwhile (e1, e2) -> hit e1 || hit e2
     | Lsend (_k, met, obj, args, _) -> hit met || hit obj || hit_list args
+    | Lifused (_v, e) -> hit e
   in
   hit l
 
@@ -762,7 +763,7 @@ let convert (exports : Set_ident.t) (lam : Lambda.lambda) :
             Lam.send kind a b ls
               (Debuginfo.Scoped_location.to_location outer_loc))
     | Levent (e, _ev) -> convert_aux e
-    | Lifused (_, e) -> convert_aux e (* TODO: remove it ASAP *)
+    | Lifused (v, e) -> Lam.ifused v (convert_aux e)
   and convert_let (kind : Lam_compat.let_kind) id (e : Lambda.lambda) body :
       Lam.t =
     let e = convert_aux e in

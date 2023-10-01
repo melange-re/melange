@@ -48,6 +48,7 @@ and no_bounded_variables (l : Lam.t) =
   | Lwhile (e1, e2) -> no_bounded_variables e1 && no_bounded_variables e2
   | Lsend (_k, met, obj, args, _) ->
       no_bounded_variables met && no_bounded_variables obj && no_list args
+  | Lifused (_v, e) -> no_bounded_variables e
   | Lstaticcatch (e1, (_, vars), e2) ->
       vars = [] && no_bounded_variables e1 && no_bounded_variables e2
   | Lfunction { body; params; _ } -> params = [] && no_bounded_variables body
@@ -241,6 +242,7 @@ let subst_helper ~try_depth (subst : subst_tbl)
     | Lassign (v, l) -> Lam.assign v (simplif l)
     | Lsend (k, m, o, ll, loc) ->
         Lam.send k (simplif m) (simplif o) (List.map simplif ll) loc
+    | Lifused (v, l) -> Lam.ifused v (simplif l)
   in
   simplif lam
 

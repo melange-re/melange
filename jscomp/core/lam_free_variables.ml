@@ -90,6 +90,7 @@ let pass_free_variables (l : Lam.t) : Set_ident.t =
         free met;
         free obj;
         free_list args
+    | Lifused (_v, e) -> free e
   in
   free l;
   !fv

@@ -405,6 +405,8 @@ let lambda ppf v =
           | Public None -> ""
         in
         fprintf ppf "@[<2>(send%s@ %a@ %a%a)@]" kind lam obj lam met args largs
+    | Lifused (id, expr) ->
+        fprintf ppf "@[<2>(ifused@ %a@ %a)@]" Ident.print id lam expr
   and sequence ppf = function
     | Lsequence (l1, l2) -> fprintf ppf "%a@ %a" sequence l1 sequence l2
     | l -> lam ppf l

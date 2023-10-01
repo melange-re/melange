@@ -91,6 +91,7 @@ let check file lam =
     | Lsequence (e1, e2) -> check_list [ e1; e2 ] cxt
     | Lassign (_id, e) -> check_staticfails e cxt
     | Lsend (_k, met, obj, args, _) -> check_list (met :: obj :: args) cxt
+    | Lifused (_v, e) -> check_staticfails e cxt
   in
   let rec iter_list xs = List.iter iter xs
   and iter_list_snd : 'a. ('a * Lam.t) list -> unit =
@@ -158,6 +159,7 @@ let check file lam =
         iter met;
         iter obj;
         iter_list args
+    | Lifused (_v, e) -> iter e
   in
 
   check_staticfails lam Set_int.empty;

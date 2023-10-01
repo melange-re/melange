@@ -78,6 +78,7 @@ and t = private
   | Lfor of ident * t * t * Asttypes.direction_flag * t
   | Lassign of ident * t
   | Lsend of Lambda.meth_kind * t * t * t list * Location.t
+  | Lifused of ident * t
 (* | Levent of t * Lambda.lambda_event
    [Levent] in the branch hurt pattern match,
    we should use record for trivial debugger info
@@ -144,6 +145,7 @@ val while_ : t -> t -> t
 
 (* val event : t -> Lambda.lambda_event -> t   *)
 val try_ : t -> ident -> t -> t
+val ifused : ident -> t -> t
 val assign : ident -> t -> t
 val send : Lambda.meth_kind -> t -> t -> t list -> Location.t -> t
 

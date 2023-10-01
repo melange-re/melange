@@ -276,5 +276,6 @@ let simplify_alias (meta : Lam_stats.t) (lam : Lam.t) : Lam.t =
         Lam.assign v (simpl l)
     | Lsend (u, m, o, ll, v) ->
         Lam.send u (simpl m) (simpl o) (List.map simpl ll) v
+    | Lifused (v, l) -> Lam.ifused v (simpl l)
   in
   simpl lam

@@ -110,3 +110,4 @@ let rec eliminate_ref id (lam : Lam.t) =
       Lam.send k (eliminate_ref id m) (eliminate_ref id o)
         (List.map (eliminate_ref id) el)
         loc
+  | Lifused (v, e) -> Lam.ifused v (eliminate_ref id e)

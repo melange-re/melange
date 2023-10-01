@@ -47,15 +47,12 @@ function a_init($$class) {
         (function (self$1) {
             if (!object_tables$1.key) {
               var $$class = CamlinternalOO.create_table(["m3"]);
-              var env = CamlinternalOO.new_variable($$class, "");
               var m3 = CamlinternalOO.get_method_label($$class, "m3");
               CamlinternalOO.set_method($$class, m3, (function (self$2) {
                       return 3;
                     }));
-              var env_init = function (env$1) {
-                var self = CamlinternalOO.create_object_opt(undefined, $$class);
-                self[env] = env$1;
-                return self;
+              var env_init = function (env) {
+                return CamlinternalOO.create_object_opt(undefined, $$class);
               };
               CamlinternalOO.init_class($$class);
               object_tables$1.key = env_init;
