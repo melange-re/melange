@@ -30,7 +30,7 @@
   Js__Melange_mini_stdlib))
 
 (library
- (modes melange)
+ (modes :standard melange)
  (name dom)
  (public_name melange.dom)
  (preprocess
