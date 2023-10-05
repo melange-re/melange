@@ -37,6 +37,12 @@ Prepare an input file to test some snippets to exercise common functionality
       '/* No side effect */\n',
     type_hints: [
       { start: [Object], end: [Object], kind: 'expression', hint: 'int' },
+      {
+        start: [Object],
+        end: [Object],
+        kind: 'pattern_type',
+        hint: 'int'
+      },
       { start: [Object], end: [Object], kind: 'binding', hint: 'int' }
     ]
   }
@@ -80,6 +86,12 @@ Prepare an input file to test some snippets to exercise common functionality
         start: [Object],
         end: [Object],
         kind: 'expression',
+        hint: 'string'
+      },
+      {
+        start: [Object],
+        end: [Object],
+        kind: 'pattern_type',
         hint: 'string'
       },
       { start: [Object], end: [Object], kind: 'binding', hint: 'string' },
@@ -141,6 +153,12 @@ Prepare an input file to test some snippets to exercise common functionality
       {
         start: [Object],
         end: [Object],
+        kind: 'pattern_type',
+        hint: '< age : int; name : string > Js.t'
+      },
+      {
+        start: [Object],
+        end: [Object],
         kind: 'binding',
         hint: '< age : int; name : string > Js.t'
       }
@@ -162,6 +180,12 @@ Prepare an input file to test some snippets to exercise common functionality
         start: [Object],
         end: [Object],
         kind: 'expression',
+        hint: "'a Belt.List.t -> ('a -> 'b) -> 'b Belt.List.t"
+      },
+      {
+        start: [Object],
+        end: [Object],
+        kind: 'pattern_type',
         hint: "'a Belt.List.t -> ('a -> 'b) -> 'b Belt.List.t"
       },
       {
@@ -233,7 +257,19 @@ Prepare an input file to test some snippets to exercise common functionality
       {
         start: [Object],
         end: [Object],
+        kind: 'pattern_type',
+        hint: 'person'
+      },
+      {
+        start: [Object],
+        end: [Object],
         kind: 'core_type',
+        hint: 'person'
+      },
+      {
+        start: [Object],
+        end: [Object],
+        kind: 'pattern_type',
         hint: 'person'
       },
       { start: [Object], end: [Object], kind: 'binding', hint: 'person' },
@@ -308,7 +344,19 @@ Prepare an input file to test some snippets to exercise common functionality
       {
         start: [Object],
         end: [Object],
+        kind: 'pattern_type',
+        hint: 'person'
+      },
+      {
+        start: [Object],
+        end: [Object],
         kind: 'expression',
+        hint: 'person -> unit'
+      },
+      {
+        start: [Object],
+        end: [Object],
+        kind: 'pattern_type',
         hint: 'person -> unit'
       },
       {
@@ -371,6 +419,12 @@ Prepare an input file to test some snippets to exercise common functionality
       '/* No side effect */\n',
     type_hints: [
       { start: [Object], end: [Object], kind: 'expression', hint: 'int' },
+      {
+        start: [Object],
+        end: [Object],
+        kind: 'pattern_type',
+        hint: 'int'
+      },
       { start: [Object], end: [Object], kind: 'binding', hint: 'int' }
     ]
   }

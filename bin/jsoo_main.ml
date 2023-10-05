@@ -76,6 +76,11 @@ module Printer = struct
     Printtyp.reset ();
     Format.asprintf "%a" !Oprint.out_type (Printtyp.tree_of_typexp Type typ)
 
+  let print_pattern pat =
+    Printtyp.reset ();
+    Format.asprintf "%a" !Oprint.out_type
+      (Printtyp.tree_of_typexp Type pat.Typedtree.pat_type)
+
   let print_decl ~recStatus name decl =
     Printtyp.reset ();
     Format.asprintf "%a" !Oprint.out_sig_item
@@ -132,6 +137,12 @@ let collect_type_hints typed_tree =
     acc := obj :: !acc;
     Tast_iterator.default_iterator.typ iter ct
   in
+  let pattern_iter iter pat =
+    let hint = Printer.print_pattern pat in
+    let obj = create_type_hint_obj pat.pat_loc "pattern_type" hint in
+    acc := obj :: !acc;
+    Tast_iterator.default_iterator.pat iter pat
+  in
   let type_declarations_iter iter ((rec_flag, _) as td) =
     let status =
       match rec_flag with
@@ -167,6 +178,7 @@ let collect_type_hints typed_tree =
       expr = expr_iter;
       value_binding = value_binding_iter;
       typ = core_type_iter;
+      pat = pattern_iter;
       type_declarations = type_declarations_iter;
       type_declaration = type_declaration_iter;
     }
