@@ -71,6 +71,121 @@ let error_of_exn e =
 module From_ppxlib =
   Ppxlib_ast.Convert (Ppxlib_ast.Selected_ast) (Ppxlib_ast__.Versions.OCaml_501)
 
+module Printer = struct
+  let print_expr typ =
+    Printtyp.reset ();
+    Format.asprintf "%a" !Oprint.out_type (Printtyp.tree_of_typexp Type typ)
+
+  let print_pattern pat =
+    Printtyp.reset ();
+    Format.asprintf "%a" !Oprint.out_type
+      (Printtyp.tree_of_typexp Type pat.Typedtree.pat_type)
+
+  let print_decl ~recStatus name decl =
+    Printtyp.reset ();
+    Format.asprintf "%a" !Oprint.out_sig_item
+      (Printtyp.tree_of_type_declaration (Ident.create_local name) decl
+         recStatus)
+end
+
+(* Collects the type information from the typed_tree, so we can use that
+ * data to display types on hover etc. *)
+let collect_type_hints typed_tree =
+  let open Typedtree in
+  let create_type_hint_obj loc kind hint =
+    let open Location in
+    let _, startline, startcol = Location.get_pos_info loc.loc_start in
+    let _, endline, endcol = Location.get_pos_info loc.loc_end in
+    Js.(
+      obj
+        [|
+          ( "start",
+            obj
+              [|
+                ("line", startline |> float_of_int |> Js.number_of_float);
+                ("col", startcol |> float_of_int |> Js.number_of_float);
+              |] );
+          ( "end",
+            obj
+              [|
+                ("line", endline |> float_of_int |> Js.number_of_float);
+                ("col", endcol |> float_of_int |> Js.number_of_float);
+              |] );
+          ("kind", Js.string kind);
+          ("hint", Js.string hint);
+        |])
+  in
+  let structure, _ = typed_tree in
+  let acc = ref [] in
+  let cur_rec_status = ref None in
+  let open Tast_iterator in
+  let expr_iter iter exp =
+    let hint = Printer.print_expr exp.exp_type in
+    let obj = create_type_hint_obj exp.exp_loc "expression" hint in
+    acc := obj :: !acc;
+    Tast_iterator.default_iterator.expr iter exp
+  in
+  let value_binding_iter iter binding =
+    let hint = Printer.print_expr binding.vb_expr.exp_type in
+    let obj = create_type_hint_obj binding.vb_loc "binding" hint in
+    acc := obj :: !acc;
+    Tast_iterator.default_iterator.value_binding iter binding
+  in
+  let core_type_iter iter ct =
+    let hint = Printer.print_expr ct.ctyp_type in
+    let obj = create_type_hint_obj ct.ctyp_loc "core_type" hint in
+    acc := obj :: !acc;
+    Tast_iterator.default_iterator.typ iter ct
+  in
+  let pattern_iter iter pat =
+    let hint = Printer.print_pattern pat in
+    let obj = create_type_hint_obj pat.pat_loc "pattern_type" hint in
+    acc := obj :: !acc;
+    Tast_iterator.default_iterator.pat iter pat
+  in
+  let type_declarations_iter iter ((rec_flag, _) as td) =
+    let status =
+      match rec_flag with
+      | Asttypes.Nonrecursive -> Types.Trec_not
+      | Recursive -> Trec_first
+    in
+    cur_rec_status := Some status;
+    Tast_iterator.default_iterator.type_declarations iter td
+  in
+  let type_declaration_iter iter tdecl =
+    let open Types in
+    let () =
+      match !cur_rec_status with
+      | Some recStatus -> (
+          let hint =
+            Printer.print_decl ~recStatus tdecl.typ_name.Asttypes.txt
+              tdecl.typ_type
+          in
+          let obj =
+            create_type_hint_obj tdecl.typ_loc "type_declaration" hint
+          in
+          acc := obj :: !acc;
+          match recStatus with
+          | Trec_not | Trec_first -> cur_rec_status := Some Trec_next
+          | _ -> ())
+      | None -> ()
+    in
+    Tast_iterator.default_iterator.type_declaration iter tdecl
+  in
+  let iterator =
+    {
+      Tast_iterator.default_iterator with
+      expr = expr_iter;
+      value_binding = value_binding_iter;
+      typ = core_type_iter;
+      pat = pattern_iter;
+      type_declarations = type_declarations_iter;
+      type_declaration = type_declaration_iter;
+    }
+  in
+  iterator.structure iterator structure;
+  Js.array (!acc |> Array.of_list)
+
 let compile =
   let module To_ppxlib =
     Ppxlib_ast.Convert
@@ -127,7 +242,8 @@ let compile =
           (Lam_compile_main.compile "" lam)
       in
       let v = Buffer.contents buffer in
-      Js.(obj [| ("js_code", Js.string v) |])
+      let type_hints = collect_type_hints typed_tree in
+      Js.(obj [| ("js_code", Js.string v); ("type_hints", type_hints) |])
       (* Format.fprintf output_ppf {| { "js_code" : %S }|} v ) *)
     with e -> (
       match error_of_exn e with
