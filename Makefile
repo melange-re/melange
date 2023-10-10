@@ -50,7 +50,7 @@ playground-dev:
 
 .PHONY: playground-dev-test
 playground-dev-test:
-	opam exec -- dune build --profile=dev @test/blackbox-tests/melange-playground/runtest
+	opam exec -- dune build --profile=dev @@test/blackbox-tests/melange-playground/runtest
 
 .PHONY: playground-test
 playground-test:
