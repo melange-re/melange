@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) 2022- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,33 +22,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let js_type_number = "number"
-let js_type_string = "string"
-let js_type_object = "object"
-let js_type_boolean = "boolean"
-let js_undefined = "undefined"
-let js_prop_length = "length"
-let param = "param"
-let partial_arg = "partial_arg"
-let tmp = "tmp"
-let create = "create" (* {!Caml_exceptions.create}*)
-let imul = "imul" (* signed int32 mul *)
-let setter_suffix = "#="
-let setter_suffix_len = String.length setter_suffix
-let unsafe_downgrade = "unsafe_downgrade"
+type t = Cmi | Cmj | Cmt | Cmti | Unknown
 
-(* nodejs *)
-let package_name = "melange"
+let to_string = function
+  | Cmi -> ".cmi"
+  | Cmj -> ".cmj"
+  | Cmt -> ".cmt"
+  | Cmti -> ".cmti"
+  | Unknown -> assert false
 
-(* Name of the library file created for each external dependency. *)
-let lib = "lib"
-let gentype_import = "genType.import"
-let exception_id = "RE_EXN_ID"
-let polyvar_hash = "NAME"
-let polyvar_value = "VAL"
-let cons = "::"
-let hd = "hd"
-let tl = "tl"
-let lazy_done = "LAZY_DONE"
-let lazy_val = "VAL"
-let pure = "@__PURE__"
+let of_string = function
+  | ".cmi" -> Cmi
+  | ".cmj" -> Cmj
+  | ".cmt" -> Cmt
+  | ".cmti" -> Cmti
+  | _ -> Unknown
+
+let append_extension fn e = fn ^ to_string e
+let ml = ".ml"
+
+module Valid_input = struct
+  type t = Ml | Mli | Cmi | Cmj | Unknown
+
+  let classify ext =
+    if ext = ml then Ml
+    else if ext = !Config.interface_suffix then Mli
+    else
+      match of_string ext with
+      | Cmi -> Cmi
+      | Cmj -> Cmj
+      | Cmt | Cmti | Unknown -> Unknown
+end

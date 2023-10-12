@@ -39,17 +39,6 @@ let set_abs_input_name sourcefile =
   Location.set_input_name sourcefile;
   sourcefile
 
-module Valid_input_extension = struct
-  type t = Ml | Mli | Cmi | Cmj | Unknown
-
-  let classify ext =
-    if ext = Literals.suffix_ml then Ml
-    else if ext = !Config.interface_suffix then Mli
-    else if ext = Literals.suffix_cmi then Cmi
-    else if ext = Literals.suffix_cmj then Cmj
-    else Unknown
-end
-
 let process_file sourcefile
   ?(kind ) ppf =
   (* This is a better default then "", it will be changed later
@@ -58,7 +47,7 @@ let process_file sourcefile
   *)
   let kind =
     match kind with
-    | None -> Valid_input_extension.classify (Ext_filename.get_extension_maybe sourcefile)
+    | None -> Artifact_extension.Valid_input.classify (Ext_filename.get_extension_maybe sourcefile)
     | Some kind -> kind in
   match kind with
   | Ml ->
@@ -182,7 +171,7 @@ let clean tmpfile =
   if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
 
 let eval (s : string) =
-  let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
+  let tmpfile = Filename.temp_file "eval" Artifact_extension.ml in
   let oc = (open_out_bin tmpfile) in
   Fun.protect
     ~finally:(fun () -> close_out oc)

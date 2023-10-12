@@ -41,7 +41,7 @@ let load_unit_no_file unit_name : Js_cmj_format.cmj_load_info =
     Bs_exception.error (Cmj_not_found unit_name) *)
 
 let load_unit unit_name : Js_cmj_format.cmj_load_info =
-  let file = unit_name ^ Literals.suffix_cmj in
+  let file = Artifact_extension.append_extension unit_name Cmj in
   match Config_util.find_opt file with
   | Some f ->
       {
