@@ -298,7 +298,7 @@ js
         coerced_input.export_map
     in
     (if not !Clflags.dont_write_files then
-       Js_cmj_format.to_file (output_prefix ^ Literals.suffix_cmj) cmj);
+       Js_cmj_format.to_file (Artifact_extension.append_extension output_prefix Cmj) cmj);
     delayed_program
   )
 ;;

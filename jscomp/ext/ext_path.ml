@@ -37,6 +37,12 @@ let split_by_sep_per_os : string -> string list =
       x
   else fun x -> Ext_string.split x '/'
 
+(** Used when produce node compatible paths *)
+let node_sep = "/"
+
+let node_parent = ".."
+let node_current = "."
+
 (** example
     {[
       "/bb/mbigc/mbig2899/bgit/bucklescript/jscomp/stdlib/external/pervasives.cmj"
@@ -73,19 +79,18 @@ let node_relative_path ~from:(file_or_dir_2 : t) (file_or_dir_1 : t) =
     | "." :: xs, ys -> go xs ys
     | xs, "." :: ys -> go xs ys
     | x :: xs, y :: ys when x = y -> go xs ys
-    | _, _ -> List.map (fun _ -> Literals.node_parent) dir2 @ dir1
+    | _, _ -> List.map (fun _ -> node_parent) dir2 @ dir1
   in
   match go dir1 dir2 with
-  | x :: _ as ys when x = Literals.node_parent ->
-      String.concat Literals.node_sep ys
-  | ys -> String.concat Literals.node_sep @@ (Literals.node_current :: ys)
+  | x :: _ as ys when x = node_parent -> String.concat node_sep ys
+  | ys -> String.concat node_sep @@ (node_current :: ys)
 
-let node_concat ~dir base = dir ^ Literals.node_sep ^ base
+let node_concat ~dir base = dir ^ node_sep ^ base
 
 let node_rebase_file ~from ~to_ file =
   node_concat
     ~dir:
-      (if from = to_ then Literals.node_current
+      (if from = to_ then node_current
        else node_relative_path ~from:(Dir from) (Dir to_))
     file
 
@@ -193,7 +198,7 @@ let rel_normalized_absolute_path ~from to_ =
     in
     let v = go paths1 paths2 in
 
-    if String.length v = 0 then Literals.node_current
+    if String.length v = 0 then node_current
     else if
       v = curd || v = pard
       || String.starts_with v ~prefix:(curd ^ Filename.dir_sep)

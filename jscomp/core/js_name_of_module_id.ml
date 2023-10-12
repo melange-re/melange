@@ -149,12 +149,12 @@ let string_of_module_id ~package_info ~output_info
                 (Ident.name dep_module_id.id)
                 case Ext_js_suffix.default
             in
-            match Config_util.find_opt js_file with
-            | Some file ->
+            match Load_path.find_uncap js_file with
+            | file ->
                 let basename = Filename.basename file in
                 let dirname = Filename.dirname file in
                 Ext_path.node_rebase_file
                   ~from:(Ext_path.absolute_cwd_path output_dir)
                   ~to_:(Ext_path.absolute_cwd_path dirname)
                   basename
-            | None -> Bs_exception.error (Js_not_found js_file))))
+            | exception Not_found -> Bs_exception.error (Js_not_found js_file))))

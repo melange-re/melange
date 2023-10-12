@@ -26,9 +26,6 @@
     is the same
 *)
 
-val find_opt : string -> string option
-(* [find filename] Input is a file name, output is absolute path *)
-
 val output_prefix : string -> string
 (* given the input, calculate the output prefix
 

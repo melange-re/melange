@@ -22,24 +22,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let ( // ) = Ext_path.( // )
-
-let find_in_path_uncap path name =
-  let uname = String.uncapitalize_ascii name in
-  let rec try_dir = function
-    | [] -> None
-    | dir :: rem ->
-        let ufullname = dir // uname in
-        if Sys.file_exists ufullname then Some ufullname
-        else
-          let fullname = dir // name in
-          if Sys.file_exists fullname then Some fullname else try_dir rem
-  in
-  try_dir path
-
-(* ATTENTION: lazy to wait [Config.load_path] populated *)
-let find_opt file = find_in_path_uncap (Load_path.get_paths ()) file
-
 let output_prefix name =
   match !Clflags.output_name with
   | None -> Filename.remove_extension name

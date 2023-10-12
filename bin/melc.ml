@@ -43,11 +43,13 @@ module Valid_input_extension = struct
   type t = Ml | Mli | Cmi | Cmj | Unknown
 
   let classify ext =
-    if ext = Literals.suffix_ml then Ml
+    if ext = Artifact_extension.ml then Ml
     else if ext = !Config.interface_suffix then Mli
-    else if ext = Literals.suffix_cmi then Cmi
-    else if ext = Literals.suffix_cmj then Cmj
-    else Unknown
+    else
+      match Artifact_extension.of_string ext with
+      | Cmi -> Cmi
+      | Cmj -> Cmj
+      | Cmt | Cmti | Unknown -> Unknown
 end
 
 let process_file sourcefile
@@ -182,7 +184,7 @@ let clean tmpfile =
   if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
 
 let eval (s : string) =
-  let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
+  let tmpfile = Filename.temp_file "eval" Artifact_extension.ml in
   let oc = (open_out_bin tmpfile) in
   Fun.protect
     ~finally:(fun () -> close_out oc)

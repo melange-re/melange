@@ -1,4 +1,4 @@
-(* Copyright (C) Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2022- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +22,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
-  match Config_util.find_opt (unit_name ^ Literals.suffix_cmi) with
-  | Some filename -> Some { filename; cmi = Cmi_format.read_cmi filename }
-  | None -> None
+type t = Cmi | Cmj | Cmt | Cmti | Unknown
+
+let to_string = function
+  | Cmi -> ".cmi"
+  | Cmj -> ".cmj"
+  | Cmt -> ".cmt"
+  | Cmti -> ".cmti"
+  | Unknown -> assert false
+
+let of_string = function
+  | ".cmi" -> Cmi
+  | ".cmj" -> Cmj
+  | ".cmt" -> Cmt
+  | ".cmti" -> Cmti
+  | _ -> Unknown
+
+let append_extension fn e = fn ^ to_string e
+let ml = ".ml"
