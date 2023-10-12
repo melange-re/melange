@@ -94,7 +94,7 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
   Js_cmj_format.query_by_name cmj_table name
 
 let get_package_path_from_cmj (id : Lam_module_ident.t) :
-    string * Js_packages_info.t * Ext_js_file_kind.case =
+    string * Js_packages_info.t * Js_packages_info.file_case =
   let cmj_load_info =
     match Lam_module_ident.Hash.find_opt cached_tbl id with
     | Some (Ml cmj_load_info) -> cmj_load_info
