@@ -26,6 +26,8 @@
 
 let ( // ) = Ext_path.( // )
 
+type file_case = Uppercase | Lowercase
+
 type output_info = {
   module_system : Ext_module_system.t;
   suffix : Ext_js_suffix.t;
@@ -224,8 +226,9 @@ let module_case t ~output_prefix =
       ->
         Filename.basename output_prefix
   in
-  if is_lower_case module_name.[0] then Ext_js_file_kind.Lowercase
-  else Uppercase
+  match is_lower_case module_name.[0] with
+  | true -> Lowercase
+  | false -> Uppercase
 
 let default_output_info =
   { suffix = Ext_js_suffix.default; module_system = Ext_module_system.default }
