@@ -26,15 +26,22 @@ module Ppx_entry = struct
     ast
 end
 
-let module_of_filename outputprefix =
-  let basename = Filename.basename outputprefix in
-  let name =
-    try
-      let pos = String.index basename '.' in
-      String.sub basename 0 pos
-    with Not_found -> basename
+(** TODO: improve efficiency
+   given a path, calculate its module name
+   Note that `ocamlc.opt -c aa.xx.mli` gives `aa.xx.cmi`
+   we can not strip all extensions, otherwise
+   we can not tell the difference between "x.cpp.ml"
+   and "x.ml"
+*)
+let module_name name =
+  let rec search_dot i name =
+    if i < 0 then String.capitalize_ascii name
+    else if String.unsafe_get name i = '.' then Ext_string.capitalize_sub name i
+    else search_dot (i - 1) name
   in
-  String.capitalize_ascii name
+  let name = Filename.basename name in
+  let name_len = String.length name in
+  search_dot (name_len - 1) name
 
 let fprintf = Format.fprintf
 
@@ -80,7 +87,7 @@ let after_parsing_sig ppf outputprefix ast =
     output_value stdout ast);
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else
-    let modulename = module_of_filename outputprefix in
+    let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
     let initial_env = Res_compmisc.initial_env () in
     Env.set_unit_name modulename;
@@ -159,7 +166,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     output_value stdout ast);
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else
-    let modulename = Ext_filename.module_name outputprefix in
+    let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
     let env = Res_compmisc.initial_env () in
     Env.set_unit_name modulename;

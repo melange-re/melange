@@ -292,7 +292,6 @@ let array_index_by_int ?loc ?comment (e : t) (pos : int32) : t =
   | _ -> make_expression ?loc (Array_index (e, int ?comment pos))
 
 let record_access (e : t) (name : string) (pos : int32) =
-  (* let name = Ext_ident.convert name in  *)
   match e.expression_desc with
   | Array (l, _) (* Float i -- should not appear here *)
   | Caml_block (l, _, _, _)

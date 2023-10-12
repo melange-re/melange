@@ -68,20 +68,3 @@ let new_extension name (ext : string) =
     else search_dot name (i - 1) ext
   in
   search_dot name (String.length name - 1) ext
-
-(** TODO: improve efficiency
-   given a path, calcuate its module name
-   Note that `ocamlc.opt -c aa.xx.mli` gives `aa.xx.cmi`
-   we can not strip all extensions, otherwise
-   we can not tell the difference between "x.cpp.ml"
-   and "x.ml"
-*)
-let module_name name =
-  let rec search_dot i name =
-    if i < 0 then String.capitalize_ascii name
-    else if String.unsafe_get name i = '.' then Ext_string.capitalize_sub name i
-    else search_dot (i - 1) name
-  in
-  let name = Filename.basename name in
-  let name_len = String.length name in
-  search_dot (name_len - 1) name
