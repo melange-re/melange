@@ -35,7 +35,6 @@
  (public_name melange.dom)
  (preprocess
   (pps melange.ppx -unsafe))
- (libraries melange.js)
  (modules dom dom_storage dom_storage2)
  (melange.compile_flags
   -bs-no-version-header
@@ -43,9 +42,7 @@
   -bs-cross-module-opt
   -unsafe
   -nopervasives
-  -nostdlib
-  -open
-  Js__Melange_mini_stdlib))
+  -nostdlib))
 
 (rule
  (deps node.pre.ml)
