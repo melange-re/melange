@@ -39,6 +39,17 @@ let set_abs_input_name sourcefile =
   Location.set_input_name sourcefile;
   sourcefile
 
+module Valid_input_extension = struct
+  type t = Ml | Mli | Cmi | Cmj | Unknown
+
+  let classify ext =
+    if ext = Literals.suffix_ml then Ml
+    else if ext = !Config.interface_suffix then Mli
+    else if ext = Literals.suffix_cmi then Cmi
+    else if ext = Literals.suffix_cmj then Cmj
+    else Unknown
+end
+
 let process_file sourcefile
   ?(kind ) ppf =
   (* This is a better default then "", it will be changed later
@@ -47,7 +58,7 @@ let process_file sourcefile
   *)
   let kind =
     match kind with
-    | None -> Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe sourcefile)
+    | None -> Valid_input_extension.classify (Ext_filename.get_extension_maybe sourcefile)
     | Some kind -> kind in
   match kind with
   | Ml ->
