@@ -99,38 +99,3 @@ let of_list_map a f =
             fill (i + 1) tl
       in
       fill 5 tl
-
-(**
-   {[
-     # rfind_with_index [|1;2;3|] (=) 2;;
-     - : int = 1
-               # rfind_with_index [|1;2;3|] (=) 1;;
-     - : int = 0
-               # rfind_with_index [|1;2;3|] (=) 3;;
-     - : int = 2
-               # rfind_with_index [|1;2;3|] (=) 4;;
-     - : int = -1
-   ]}
-*)
-let rfind_with_index arr cmp v =
-  let len = Array.length arr in
-  let rec aux i =
-    if i < 0 then i
-    else if cmp (Array.unsafe_get arr i) v then i
-    else aux (i - 1)
-  in
-  aux (len - 1)
-
-(** TODO: available since 4.03, use {!Array.exists} *)
-
-let for_alli a p =
-  let n = Array.length a in
-  let rec loop i =
-    if i = n then true
-    else if p i (Array.unsafe_get a i) then loop (succ i)
-    else false
-  in
-  loop 0
-
-let get_or arr i cb =
-  if i >= 0 && i < Array.length arr then Array.unsafe_get arr i else cb ()
