@@ -312,6 +312,20 @@ type fn_exp_state =
 
 let default_fn_exp_state = No_name { single_arg = false }
 
+let block_has_all_int_fields =
+  let exception Local of bool in
+  fun fields ->
+    let len = Array.length fields in
+    let r = ref true in
+    try
+      for i = 0 to len - 1 do
+        let k_eq_v = string_of_int i = Array.unsafe_get fields i in
+        r := !r && k_eq_v;
+        if not !r then raise (Local false)
+      done;
+      !r
+    with Local r -> r
+
 (* TODO: refactoring
    Note that {!pp_function} could print both statement and expression when [No_name] is given
 *)
@@ -752,7 +766,7 @@ and expression_desc cxt ~(level : int) x : cxt =
                 Js_op.Lit (Ext_ident.convert x))))
   (*name convention of Record is slight different from modules*)
   | Caml_block (el, mutable_flag, _, Blk_record fields) ->
-      if Ext_array.for_alli fields (fun i v -> string_of_int i = v) then
+      if block_has_all_int_fields fields then
         expression_desc cxt ~level (Array (el, mutable_flag))
       else
         expression_desc cxt ~level

@@ -28,6 +28,3 @@ val reverse_range : 'a array -> int -> int -> unit
 val reverse_of_list : 'a list -> 'a array
 val to_list_f : 'a array -> ('a -> 'b) -> 'b list
 val of_list_map : 'a list -> ('a -> 'b) -> 'b array
-val rfind_with_index : 'a array -> ('a -> 'b -> bool) -> 'b -> int
-val for_alli : 'a array -> (int -> 'a -> bool) -> bool
-val get_or : 'a array -> int -> (unit -> 'a) -> 'a
