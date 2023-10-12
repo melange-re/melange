@@ -114,6 +114,11 @@ let after_parsing_sig ppf outputprefix ast =
         initial_env sg;
       process_with_gentype (outputprefix ^ Literals.suffix_cmti))
 
+let output_prefix ?(f = Filename.remove_extension) name =
+  match !Clflags.output_name with
+  | None -> Filename.remove_extension name
+  | Some oname -> f oname
+
 let interface ~parser ppf fname =
   Res_compmisc.init_path ();
   parser fname
@@ -122,7 +127,7 @@ let interface ~parser ppf fname =
   |> Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf (Config_util.output_prefix fname)
+  |> after_parsing_sig ppf (output_prefix fname)
 
 let all_module_alias (ast : Parsetree.structure) =
   List.for_all
@@ -151,7 +156,7 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
   | _ -> rest
 
 let after_parsing_impl ppf fname (ast : Parsetree.structure) =
-  let outputprefix = Config_util.output_prefix fname in
+  let outputprefix = output_prefix fname in
   let sourceintf = Filename.remove_extension fname ^ !Config.interface_suffix in
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
@@ -212,9 +217,7 @@ let implementation_cmj _ppf fname =
      case, we need to make sure we're removing all the extensions from the
      output prefix. *)
   let output_prefix =
-    match !Clflags.output_name with
-    | None -> Filename.remove_extension fname
-    | Some oname -> Ext_filename.chop_all_extensions_maybe oname
+    output_prefix ~f:Ext_filename.chop_all_extensions_maybe fname
   in
   Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
     cmj.delayed_program output_prefix

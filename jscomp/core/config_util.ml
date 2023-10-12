@@ -39,8 +39,3 @@ let find_in_path_uncap path name =
 
 (* ATTENTION: lazy to wait [Config.load_path] populated *)
 let find_opt file = find_in_path_uncap (Load_path.get_paths ()) file
-
-let output_prefix name =
-  match !Clflags.output_name with
-  | None -> Filename.remove_extension name
-  | Some oname -> Filename.remove_extension oname
