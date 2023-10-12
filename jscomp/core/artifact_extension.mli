@@ -28,3 +28,9 @@ val to_string : t -> string
 val of_string : string -> t
 val append_extension : string -> t -> string
 val ml : string
+
+module Valid_input : sig
+  type t = Ml | Mli | Cmi | Cmj | Unknown
+
+  val classify : string -> t
+end

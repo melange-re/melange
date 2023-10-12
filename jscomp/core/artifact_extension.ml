@@ -40,3 +40,16 @@ let of_string = function
 
 let append_extension fn e = fn ^ to_string e
 let ml = ".ml"
+
+module Valid_input = struct
+  type t = Ml | Mli | Cmi | Cmj | Unknown
+
+  let classify ext =
+    if ext = ml then Ml
+    else if ext = !Config.interface_suffix then Mli
+    else
+      match of_string ext with
+      | Cmi -> Cmi
+      | Cmj -> Cmj
+      | Cmt | Cmti | Unknown -> Unknown
+end
