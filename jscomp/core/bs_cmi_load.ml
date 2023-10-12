@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
+(* Copyright (C) Hongbo Zhang, Authors of ReScript
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,25 +22,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let ( // ) = Ext_path.( // )
-
-let find_in_path_uncap path name =
-  let uname = String.uncapitalize_ascii name in
-  let rec try_dir = function
-    | [] -> None
-    | dir :: rem ->
-        let ufullname = dir // uname in
-        if Sys.file_exists ufullname then Some ufullname
-        else
-          let fullname = dir // name in
-          if Sys.file_exists fullname then Some fullname else try_dir rem
-  in
-  try_dir path
-
-(* ATTENTION: lazy to wait [Config.load_path] populated *)
-let find_opt file = find_in_path_uncap (Load_path.get_paths ()) file
-
-let output_prefix name =
-  match !Clflags.output_name with
-  | None -> Filename.remove_extension name
-  | Some oname -> Filename.remove_extension oname
+let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
+  match
+    Config_util.find_opt (Artifact_extension.append_extension unit_name Cmi)
+  with
+  | Some filename -> Some { filename; cmi = Cmi_format.read_cmi filename }
+  | None -> None

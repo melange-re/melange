@@ -42,12 +42,12 @@ let load_unit_no_file unit_name : Js_cmj_format.cmj_load_info =
 
 let load_unit unit_name : Js_cmj_format.cmj_load_info =
   let file = Artifact_extension.append_extension unit_name Cmj in
-  match Load_path.find_uncap file with
-  | f ->
+  match Config_util.find_opt file with
+  | Some f ->
       {
         package_path =
           (* hacking relying on the convention of pkg/lib/ocaml/xx.cmj*)
           Filename.dirname (Filename.dirname (Filename.dirname f));
         cmj_table = Js_cmj_format.from_file f;
       }
-  | exception Not_found -> Bs_exception.error (Cmj_not_found unit_name)
+  | None -> Bs_exception.error (Cmj_not_found unit_name)
