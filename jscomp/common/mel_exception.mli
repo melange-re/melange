@@ -25,11 +25,7 @@
 type error =
   | Cmj_not_found of string
   | Js_not_found of string
-  | Bs_duplicated_module of string * string
-  | Bs_duplicate_exports of string (* gpr_974 *)
-  | Bs_package_not_found of string
-  | Bs_main_not_exist of string
-  | Bs_invalid_path of string
+  | Mel_duplicate_exports of string (* gpr_974 *)
   | Missing_ml_dependency of string
   | Dependency_script_module_dependent_not of string
 (*

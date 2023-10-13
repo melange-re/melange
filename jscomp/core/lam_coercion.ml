@@ -90,7 +90,7 @@ let handle_exports (meta : Lam_stats.t) (lambda_exports : Lam.t list)
       (fun (original_export_id : Ident.t) (lam : Lam.t) (acc : t) ->
         let original_name = Ident.name original_export_id in
         if not @@ Hash_set_string.check_add tbl original_name then
-          Mel_exception.error (Bs_duplicate_exports original_name);
+          Mel_exception.error (Mel_duplicate_exports original_name);
         match lam with
         | Lvar id | Lmutvar id ->
             if Ident.name id = original_name then
