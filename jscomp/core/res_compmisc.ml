@@ -50,3 +50,7 @@ let initial_env () =
     ~loc:(Location.in_file "command line")
     ~initially_opened_module
     ~open_implicit_modules:(List.rev !Clflags.open_modules)
+
+(* ATTENTION: lazy to wait [Config.load_path] populated *)
+let find_in_path_exn file =
+  Misc.find_in_path_uncap (Load_path.get_paths ()) file

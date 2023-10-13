@@ -164,10 +164,10 @@ type path = string
 
 type cmj_load_info = {
   cmj_table : t;
-  package_path : path;
-      (*
-    Note it is the package path we want
-    for ES6_global module spec
-    Maybe we can employ package map in the future
-  *)
+      (* TODO(anmonteiro): re-enable for es6-global support *)
+      (* package_path : path; *)
+      (* Note it is the package path we want
+         for ES6_global module spec
+         Maybe we can employ package map in the future
+      *)
 }
