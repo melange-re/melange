@@ -31,7 +31,8 @@ let fix_path_for_windows : string -> string =
   if Sys.win32 || Sys.cygwin then Ext_string.replace_backward_slash
   else fun s -> s
 
-let js_name_of_modulename s (case : Ext_js_file_kind.case) suffix : string =
+let js_name_of_modulename s (case : Js_packages_info.file_case) suffix : string
+    =
   let s =
     match case with Lowercase -> String.uncapitalize_ascii s | Uppercase -> s
   in
@@ -96,8 +97,8 @@ let string_of_module_id ~package_info ~output_info
     | Runtime ->
         get_runtime_module_path ~package_info ~output_info dep_module_id
     | Ml -> (
-        let package_path, dep_package_info, case =
-          Lam_compile_env.get_package_path_from_cmj dep_module_id
+        let dep_package_info, case =
+          Lam_compile_env.get_dependency_info_from_cmj dep_module_id
         in
         match
           ( Js_packages_info.query_package_infos dep_package_info module_system,
@@ -107,10 +108,10 @@ let string_of_module_id ~package_info ~output_info
             (* Impossible to not find the current package. *)
             assert false
         | Package_not_found, _ ->
-            Bs_exception.error
+            Mel_exception.error
               (Missing_ml_dependency (Ident.name dep_module_id.id))
         | Package_script, Package_found _ ->
-            Bs_exception.error
+            Mel_exception.error
               (Dependency_script_module_dependent_not
                  (Ident.name dep_module_id.id))
         | Package_found path_info, Package_script ->
@@ -141,19 +142,21 @@ let string_of_module_id ~package_info ~output_info
                            (* ~package_dir:(Lazy.force Ext_path.package_dir) *)
                            (* FIXME *)
                            ~package_dir:(Sys.getcwd ()) module_system)
-                      (package_path // dep_info.rel_path // js_file)))
+                      (* FIXME: https://github.com/melange-re/melange/issues/559 *)
+                      ("$package_path" // dep_info.rel_path // js_file)))
         | Package_script, Package_script -> (
             let js_file =
               js_name_of_modulename
                 (Ident.name dep_module_id.id)
                 case Ext_js_suffix.default
             in
-            match Config_util.find_opt js_file with
-            | Some file ->
+            match Initialization.find_in_path_exn js_file with
+            | file ->
                 let basename = Filename.basename file in
                 let dirname = Filename.dirname file in
                 Ext_path.node_rebase_file
                   ~from:(Ext_path.absolute_cwd_path output_dir)
                   ~to_:(Ext_path.absolute_cwd_path dirname)
                   basename
-            | None -> Bs_exception.error (Js_not_found js_file))))
+            | exception Not_found -> Mel_exception.error (Js_not_found js_file))
+        ))

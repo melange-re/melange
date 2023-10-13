@@ -26,7 +26,7 @@ val get_dependent_module_effect :
   string option -> Lam_module_ident.t list -> string option
 
 val export_to_cmj :
-  case:Ext_js_file_kind.case ->
+  case:Js_packages_info.file_case ->
   Lam_stats.t ->
   Js_cmj_format.effect ->
   Lam.t Map_ident.t ->

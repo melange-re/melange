@@ -201,7 +201,7 @@ let compile =
     (* Env.set_unit_name modulename; *)
     Lam_compile_env.reset ();
     Env.reset_cache ();
-    let env = Res_compmisc.initial_env () in
+    let env = Initialization.Perfile.initial_env () in
     (* Question ?? *)
     (* let finalenv = ref Env.empty in *)
     let types_signature = ref [] in
@@ -274,7 +274,18 @@ let compile =
 let export (field : Js.t) v = Js.set (Js.pure_js_expr "globalThis") field v
 
 let () =
-  Bs_conditional_initial.setup_env ();
+  let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
+    match
+      Initialization.find_in_path_exn
+        (Artifact_extension.append_extension unit_name Cmi)
+    with
+    | filename -> Some { filename; cmi = Cmi_format.read_cmi filename }
+    | exception Not_found -> None
+  in
+
+  Initialization.Global.run ();
+  Persistent_env.Persistent_signature.load := load_cmi;
+
   Clflags.binary_annotations := false;
   Clflags.color := None;
   Location.warning_reporter := playground_warning_reporter;

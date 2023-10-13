@@ -4,12 +4,6 @@ type 'a t = (key, 'a)  Hash_gen.t
 let key_index (h : _ t ) (key : key) =
   (Hashtbl.hash  ((Ext_ident.stamp key), (Ident.name key)) ) land (Array.length h.data - 1)
 let eq_key = Ext_ident.equal
-#elif defined TYPE_STRING
-type key = string
-type 'a t = (key, 'a)  Hash_gen.t
-let key_index (h : _ t ) (key : key) =
-  (Hashtbl.hash key) land (Array.length h.data - 1)
-let eq_key = String.equal
 #elif defined TYPE_INT
 type key = int
 type 'a t = (key, 'a)  Hash_gen.t

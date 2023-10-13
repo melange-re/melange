@@ -213,9 +213,15 @@ let () =
   if !Js_config.diagnose then
     let f =
       Ext_filename.new_extension !Location.input_name  ".lambda" in
-    Ext_fmt.with_file_as_pp f (fun fmt ->
-      Format.pp_print_list ~pp_sep:Format.pp_print_newline
-        Lam_group.pp_group  fmt (coerced_input.groups))
+      let chan = open_out_bin f in
+      Fun.protect
+        ~finally:(fun () -> close_out chan)
+        (fun () ->
+          let fmt = Format.formatter_of_out_channel chan in
+          Format.pp_print_list ~pp_sep:Format.pp_print_newline
+            Lam_group.pp_group fmt (coerced_input.groups);
+          Format.pp_print_flush fmt ())
+
 in
 #endif
 let maybe_pure = no_side_effects groups in
@@ -292,7 +298,7 @@ js
         coerced_input.export_map
     in
     (if not !Clflags.dont_write_files then
-       Js_cmj_format.to_file (output_prefix ^ Literals.suffix_cmj) cmj);
+       Js_cmj_format.to_file (Artifact_extension.append_extension output_prefix Cmj) cmj);
     delayed_program
   )
 ;;
