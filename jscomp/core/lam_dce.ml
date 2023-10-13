@@ -30,8 +30,9 @@ let transitive_closure (initial_idents : Ident.t list)
       Hash_set_ident.add visited id;
       match Hash_ident.find_opt ident_freevars id with
       | None ->
-          Ext_fmt.failwithf ~loc:__LOC__ "%s/%d not found" (Ident.name id)
-            (Ext_ident.stamp id)
+          Format.ksprintf
+            (fun s -> failwith (__LOC__ ^ s))
+            "%s/%d not found" (Ident.name id) (Ext_ident.stamp id)
       | Some e -> Set_ident.iter e dfs)
   in
   List.iter dfs initial_idents;

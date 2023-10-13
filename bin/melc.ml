@@ -47,7 +47,7 @@ let process_file sourcefile
   *)
   let kind =
     match kind with
-    | None -> Ext_file_extensions.classify_input (Ext_filename.get_extension_maybe sourcefile)
+    | None -> Artifact_extension.Valid_input.classify (Ext_filename.get_extension_maybe sourcefile)
     | Some kind -> kind in
   match kind with
   | Ml ->
@@ -171,7 +171,7 @@ let clean tmpfile =
   if not !Clflags.verbose then try Sys.remove tmpfile with _ -> ()
 
 let eval (s : string) =
-  let tmpfile = Filename.temp_file "eval" Literals.suffix_ml in
+  let tmpfile = Filename.temp_file "eval" Artifact_extension.ml in
   let oc = (open_out_bin tmpfile) in
   Fun.protect
     ~finally:(fun () -> close_out oc)
@@ -414,7 +414,7 @@ let file_level_flags_handler (e : Parsetree.expression option) =
     Location.raise_errorf ~loc:e.pexp_loc "string array expected"
 
 let () =
-  Bs_conditional_initial.setup_env ();
+  Initialization.Global.run ();
   let flags = "flags" in
   Ast_config.add_structure
     flags file_level_flags_handler;

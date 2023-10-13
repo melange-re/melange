@@ -26,6 +26,8 @@
 
 let ( // ) = Ext_path.( // )
 
+type file_case = Uppercase | Lowercase
+
 type output_info = {
   module_system : Ext_module_system.t;
   suffix : Ext_js_suffix.t;
@@ -211,6 +213,11 @@ let add_npm_package_path (t : t) ?module_name s =
            "Can't add multiple `-bs-package-output` specs when \
             `-bs-stop-after-cmj` is present")
 
+let is_lower_case c =
+  (c >= 'a' && c <= 'z')
+  || (c >= (* à *) '\224' && c <= (* ö *) '\246')
+  || (c >= (* ø *) '\248' && c <= (* ÿ *) '\255')
+
 let module_case t ~output_prefix =
   let module_name =
     match t.info with
@@ -219,8 +226,9 @@ let module_case t ~output_prefix =
       ->
         Filename.basename output_prefix
   in
-  if Ext_char.is_lower_case module_name.[0] then Ext_js_file_kind.Lowercase
-  else Uppercase
+  match is_lower_case module_name.[0] with
+  | true -> Lowercase
+  | false -> Uppercase
 
 let default_output_info =
   { suffix = Ext_js_suffix.default; module_system = Ext_module_system.default }

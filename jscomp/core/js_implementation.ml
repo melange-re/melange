@@ -26,15 +26,22 @@ module Ppx_entry = struct
     ast
 end
 
-let module_of_filename outputprefix =
-  let basename = Filename.basename outputprefix in
-  let name =
-    try
-      let pos = String.index basename '.' in
-      String.sub basename 0 pos
-    with Not_found -> basename
+(** TODO: improve efficiency
+   given a path, calculate its module name
+   Note that `ocamlc.opt -c aa.xx.mli` gives `aa.xx.cmi`
+   we can not strip all extensions, otherwise
+   we can not tell the difference between "x.cpp.ml"
+   and "x.ml"
+*)
+let module_name name =
+  let rec search_dot i name =
+    if i < 0 then String.capitalize_ascii name
+    else if String.unsafe_get name i = '.' then Ext_string.capitalize_sub name i
+    else search_dot (i - 1) name
   in
-  String.capitalize_ascii name
+  let name = Filename.basename name in
+  let name_len = String.length name in
+  search_dot (name_len - 1) name
 
 let fprintf = Format.fprintf
 
@@ -80,9 +87,9 @@ let after_parsing_sig ppf outputprefix ast =
     output_value stdout ast);
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else
-    let modulename = module_of_filename outputprefix in
+    let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
-    let initial_env = Res_compmisc.initial_env () in
+    let initial_env = Initialization.Perfile.initial_env () in
     Env.set_unit_name modulename;
 
     let tsg = Typemod.type_interface initial_env ast in
@@ -101,21 +108,27 @@ let after_parsing_sig ppf outputprefix ast =
       let sg =
         let alerts = Builtin_attributes.alerts_of_sig ast in
         Env.save_signature ~alerts tsg.Typedtree.sig_type modulename
-          (outputprefix ^ Literals.suffix_cmi)
+          (Artifact_extension.append_extension outputprefix Cmi)
       in
       Typemod.save_signature modulename tsg outputprefix !Location.input_name
         initial_env sg;
-      process_with_gentype (outputprefix ^ Literals.suffix_cmti))
+      process_with_gentype
+        (Artifact_extension.append_extension outputprefix Cmti))
+
+let output_prefix ?(f = Filename.remove_extension) name =
+  match !Clflags.output_name with
+  | None -> Filename.remove_extension name
+  | Some oname -> f oname
 
 let interface ~parser ppf fname =
-  Res_compmisc.init_path ();
+  Initialization.Perfile.init_path ();
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
   |> Ppx_entry.rewrite_signature
   |> print_if_pipe ppf Clflags.dump_parsetree Printast.interface
   |> print_if_pipe ppf Clflags.dump_source Pprintast.signature
-  |> after_parsing_sig ppf (Config_util.output_prefix fname)
+  |> after_parsing_sig ppf (output_prefix fname)
 
 let all_module_alias (ast : Parsetree.structure) =
   List.for_all
@@ -144,7 +157,7 @@ let no_export (rest : Parsetree.structure) : Parsetree.structure =
   | _ -> rest
 
 let after_parsing_impl ppf fname (ast : Parsetree.structure) =
-  let outputprefix = Config_util.output_prefix fname in
+  let outputprefix = output_prefix fname in
   let sourceintf = Filename.remove_extension fname ^ !Config.interface_suffix in
   Js_config.all_module_aliases :=
     (not (Sys.file_exists sourceintf)) && all_module_alias ast;
@@ -159,9 +172,9 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     output_value stdout ast);
   if !Js_config.syntax_only then Warnings.check_fatal ()
   else
-    let modulename = Ext_filename.module_name outputprefix in
+    let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
-    let env = Res_compmisc.initial_env () in
+    let env = Initialization.Perfile.initial_env () in
     Env.set_unit_name modulename;
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
       Typemod.type_implementation fname outputprefix modulename env ast
@@ -184,10 +197,10 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
             package specs. *)
          let package_info = Js_packages_state.get_packages_info () in
          Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
-    process_with_gentype (outputprefix ^ Literals.suffix_cmt)
+    process_with_gentype (Artifact_extension.append_extension outputprefix Cmt)
 
 let implementation ~parser ppf fname =
-  Res_compmisc.init_path ();
+  Initialization.Perfile.init_path ();
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
@@ -198,16 +211,14 @@ let implementation ~parser ppf fname =
 
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
-  Res_compmisc.init_path ();
+  Initialization.Perfile.init_path ();
   let cmj = Js_cmj_format.from_file fname in
   (* NOTE(anmonteiro): If we're generating JS from a `.cmj`, we take the
      resulting JS extension from the `-o FILENAME.EXT1.EXT2` argument. In this
      case, we need to make sure we're removing all the extensions from the
      output prefix. *)
   let output_prefix =
-    match !Clflags.output_name with
-    | None -> Filename.remove_extension fname
-    | Some oname -> Ext_filename.chop_all_extensions_maybe oname
+    output_prefix ~f:Ext_filename.chop_all_extensions_maybe fname
   in
   Lam_compile_main.lambda_as_module ~package_info:cmj.package_spec
     cmj.delayed_program output_prefix

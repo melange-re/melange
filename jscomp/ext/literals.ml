@@ -38,37 +38,11 @@ let setter_suffix_len = String.length setter_suffix
 let unsafe_downgrade = "unsafe_downgrade"
 
 (* nodejs *)
-let node_modules = "node_modules"
-let node_modules_length = String.length node_modules
 let package_name = "melange"
 
 (* Name of the library file created for each external dependency. *)
 let lib = "lib"
-let suffix_cmj = ".cmj"
-let suffix_cmi = ".cmi"
-let suffix_ml = ".ml"
-let suffix_mli = ".mli"
-let suffix_cmt = ".cmt"
-let suffix_cmti = ".cmti"
-let suffix_js = ".js"
-let suffix_bs_js = ".bs.js"
-let suffix_mjs = ".mjs"
-let suffix_cjs = ".cjs"
-let suffix_gen_js = ".gen.js"
-let suffix_gen_tsx = ".gen.tsx"
-let suffix_impl = ".impl"
-let suffix_intf = ".intf"
-let commonjs = "commonjs"
-let es6 = "es6"
-let es6_global = "es6-global"
-
-(** Used when produce node compatible paths *)
-let node_sep = "/"
-
-let node_parent = ".."
-let node_current = "."
 let gentype_import = "genType.import"
-let bsbuild_cache = ".bsbuild"
 let exception_id = "RE_EXN_ID"
 let polyvar_hash = "NAME"
 let polyvar_value = "VAL"

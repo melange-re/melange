@@ -6,7 +6,6 @@
  (wrapped false)
  (flags
   (:standard -open Melange_compiler_libs))
- (modules_without_implementation ext_js_file_kind)
  (libraries unix melange_compiler_libs))
 
 (rule
@@ -34,12 +33,6 @@
  (deps hash_set.cppo.ml)
  (action
   (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash_set_int.ml)
- (deps hash_set.cppo.ml)
- (action
-  (run cppo -D TYPE_INT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets hash_set_ident.ml)
@@ -112,12 +105,6 @@
  (deps ordered_hash_map.cppo.ml)
  (action
   (run cppo -D TYPE_LOCAL_IDENT %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
-
-(rule
- (targets hash_string.ml)
- (deps hash.cppo.ml)
- (action
-  (run cppo -D TYPE_STRING %{env:CPPO_FLAGS=} %{deps} -o %{targets})))
 
 (rule
  (targets hash_int.ml)

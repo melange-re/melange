@@ -538,11 +538,6 @@ let cmd =
     $ Internal.short_paths $ unsafe $ warn_help $ warn_error $ bs_stop_after_cmj
     $ Internal.runtime $ filenames $ Compat.c)
 
-(* Different than Ext_cli_args because we need to normalize `-w -foo` to
- * `-w=-foo` *)
-let separator = "--"
-let is_number = function '0' .. '9' -> true | _ -> false
-
 let normalize_argv argv =
   let len = Array.length argv in
   let normalized = Array.make len "" in
@@ -587,9 +582,3 @@ let normalize_argv argv =
     incr idx
   done;
   if !nidx < len then Array.sub normalized 0 !nidx else normalized
-
-let split_argv_at_separator argv =
-  let len = Array.length argv in
-  let i = Ext_array.rfind_with_index argv String.equal separator in
-  if i < 0 then (argv, [||])
-  else (Array.sub argv 0 i, Array.sub argv (i + 1) (len - i - 1))

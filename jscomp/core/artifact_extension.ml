@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2020 Hongbo Zhang, Authors of ReScript
+(* Copyright (C) 2022- Authors of Melange
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,31 +22,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-let init_path () =
-  let dirs = !Clflags.include_dirs in
-  let exp_dirs =
-    List.map (Misc.expand_directory Config.standard_library) dirs
-  in
-  Load_path.reset ();
-  let exp_dirs = List.rev_append exp_dirs (Js_config.std_include_dirs ()) in
-  List.iter Load_path.add_dir exp_dirs;
-  Ext_log.dwarn ~__POS__ "Compiler include dirs: %s@."
-    (String.concat "; " (Load_path.get_paths ()));
+type t = Cmi | Cmj | Cmt | Cmti | Unknown
 
-  Env.reset_cache ()
+let to_string = function
+  | Cmi -> ".cmi"
+  | Cmj -> ".cmj"
+  | Cmt -> ".cmt"
+  | Cmti -> ".cmti"
+  | Unknown -> assert false
 
-(* Return the initial environment in which compilation proceeds. *)
+let of_string = function
+  | ".cmi" -> Cmi
+  | ".cmj" -> Cmj
+  | ".cmt" -> Cmt
+  | ".cmti" -> Cmti
+  | _ -> Unknown
 
-(* Note: do not do init_path() in initial_env, this breaks
-   toplevel initialization (PR#1775) *)
+let append_extension fn e = fn ^ to_string e
+let ml = ".ml"
 
-let initial_env () =
-  Ident.reinit ();
-  Types.Uid.reinit ();
-  let initially_opened_module =
-    if !Clflags.nopervasives then None else Some "Stdlib"
-  in
-  Typemod.initial_env
-    ~loc:(Location.in_file "command line")
-    ~initially_opened_module
-    ~open_implicit_modules:(List.rev !Clflags.open_modules)
+module Valid_input = struct
+  type t = Ml | Mli | Cmi | Cmj | Unknown
+
+  let classify ext =
+    if ext = ml then Ml
+    else if ext = !Config.interface_suffix then Mli
+    else
+      match of_string ext with
+      | Cmi -> Cmi
+      | Cmj -> Cmj
+      | Cmt | Cmti | Unknown -> Unknown
+end

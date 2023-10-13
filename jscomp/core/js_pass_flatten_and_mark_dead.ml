@@ -217,8 +217,10 @@ let subst_map (substitution : J.expression Hash_ident.t) =
                               match List.nth_opt fields i with
                               | None -> Printf.sprintf "%d" i
                               | Some x -> x)
-                          | Blk_record fields ->
-                              Ext_array.get_or fields i (fun _ ->
+                          | Blk_record fields -> (
+                              match Array.get fields i with
+                              | i -> i
+                              | exception Invalid_argument _ ->
                                   Printf.sprintf "%d" i)
                           | _ -> Printf.sprintf "%d" i)
                       in
