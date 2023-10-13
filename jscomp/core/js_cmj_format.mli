@@ -89,4 +89,4 @@ val from_string : string -> t
 val to_file : string -> t -> unit
 
 type path = string
-type cmj_load_info = { cmj_table : t; package_path : path }
+type cmj_load_info = { cmj_table : t (* ; package_path : path *) }

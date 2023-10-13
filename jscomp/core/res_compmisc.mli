@@ -24,3 +24,7 @@
 
 val init_path : unit -> unit
 val initial_env : unit -> Env.t
+
+val find_in_path_exn : string -> string
+(** [find_in_path_exn filename] Input is a file name, output is absolute path.
+   @raises Not_found. *)

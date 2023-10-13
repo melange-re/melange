@@ -67,8 +67,8 @@ val query_external_id_info : Ident.t -> string -> Js_cmj_format.keyed_cmj_value
 
 val is_pure_module : Lam_module_ident.t -> bool
 
-val get_package_path_from_cmj :
-  Lam_module_ident.t -> string * Js_packages_info.t * Js_packages_info.file_case
+val get_dependency_info_from_cmj :
+  Lam_module_ident.t -> Js_packages_info.t * Js_packages_info.file_case
 
 (* The second argument is mostly from [runtime] modules
     will change the input [hard_dependencies]

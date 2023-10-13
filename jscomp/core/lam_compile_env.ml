@@ -93,8 +93,8 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
   in
   Js_cmj_format.query_by_name cmj_table name
 
-let get_package_path_from_cmj (id : Lam_module_ident.t) :
-    string * Js_packages_info.t * Js_packages_info.file_case =
+let get_dependency_info_from_cmj (id : Lam_module_ident.t) :
+    Js_packages_info.t * Js_packages_info.file_case =
   let cmj_load_info =
     match Lam_module_ident.Hash.find_opt cached_tbl id with
     | Some (Ml cmj_load_info) -> cmj_load_info
@@ -113,7 +113,7 @@ let get_package_path_from_cmj (id : Lam_module_ident.t) :
             cmj_load_info)
   in
   let cmj_table = cmj_load_info.cmj_table in
-  (cmj_load_info.package_path, cmj_table.package_spec, cmj_table.case)
+  (cmj_table.package_spec, cmj_table.case)
 
 let add = Lam_module_ident.Hash_set.add
 

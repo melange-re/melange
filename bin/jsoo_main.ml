@@ -274,7 +274,17 @@ let compile =
 let export (field : Js.t) v = Js.set (Js.pure_js_expr "globalThis") field v
 
 let () =
+  let load_cmi ~unit_name : Persistent_env.Persistent_signature.t option =
+    match
+      Res_compmisc.find_in_path_exn
+        (Artifact_extension.append_extension unit_name Cmi)
+    with
+    | filename -> Some { filename; cmi = Cmi_format.read_cmi filename }
+    | exception Not_found -> None
+  in
+  Persistent_env.Persistent_signature.load := load_cmi;
   Bs_conditional_initial.setup_env ();
+
   Clflags.binary_annotations := false;
   Clflags.color := None;
   Location.warning_reporter := playground_warning_reporter;
