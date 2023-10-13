@@ -49,7 +49,7 @@ type t = {
   values : keyed_cmj_values;
   pure : bool;
   package_spec : Js_packages_info.t;
-  case : Ext_js_file_kind.case;
+  case : Js_packages_info.file_case;
   delayed_program : J.deps_program;
 }
 
@@ -164,10 +164,16 @@ type path = string
 
 type cmj_load_info = {
   cmj_table : t;
-  package_path : path;
-      (*
-    Note it is the package path we want
-    for ES6_global module spec
-    Maybe we can employ package map in the future
-  *)
+      (* TODO(anmonteiro): re-enable for es6-global support *)
+      (* package_path : path; *)
+      (* Note it is the package path we want
+         for ES6_global module spec
+         Maybe we can employ package map in the future
+      *)
 }
+
+let load_unit unit_name : cmj_load_info =
+  let file = Artifact_extension.append_extension unit_name Cmj in
+  match Initialization.find_in_path_exn file with
+  | f -> { cmj_table = from_file f }
+  | exception Not_found -> Mel_exception.error (Cmj_not_found unit_name)

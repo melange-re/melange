@@ -22,13 +22,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 [@@@warning "-32"] (* FIXME *)
-#ifdef TYPE_INT
-type key = int
-let key_index (h :  _ Hash_set_gen.t ) (key : key) =
-  (Hashtbl.hash key) land (Array.length h.data - 1)
-let eq_key = Int.equal
-type  t = key  Hash_set_gen.t
-#elif defined TYPE_STRING
+#ifdef TYPE_STRING
 type key = string
 let key_index (h :  _ Hash_set_gen.t ) (key : key) =
   (Hashtbl.hash  key) land (Array.length h.data - 1)

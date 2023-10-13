@@ -1,4 +1,4 @@
-(* Copyright (C) 2015-2020 Authors of ReScript
+(* Copyright (C) 2015-2016 Bloomberg Finance L.P.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -22,5 +22,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
-val init_path : unit -> unit
-val initial_env : unit -> Env.t
+type error =
+  | Cmj_not_found of string
+  | Js_not_found of string
+  | Mel_duplicate_exports of string (* gpr_974 *)
+  | Missing_ml_dependency of string
+  | Dependency_script_module_dependent_not of string
+      (** TODO: we need add location handling *)
+
+exception Error of error
+
+let error err = raise (Error err)
+
+let report_error ppf = function
+  | Dependency_script_module_dependent_not s ->
+      Format.fprintf ppf
+        "%s is compiled in script mode while its dependent is not" s
+  | Missing_ml_dependency s ->
+      Format.fprintf ppf "Missing dependency %s in search path" s
+  | Cmj_not_found s ->
+      Format.fprintf ppf
+        "%s not found, it means either the module does not exist or it is a \
+         namespace"
+        s
+  | Js_not_found s -> Format.fprintf ppf "%s not found, needed in script mode" s
+  | Mel_duplicate_exports str ->
+      Format.fprintf ppf "%s are exported as twice" str
+
+let () =
+  Location.register_error_of_exn (function
+    | Error err -> Some (Location.error_of_printer_file report_error err)
+    | _ -> None)

@@ -40,7 +40,9 @@ val add_npm_package_path : t -> ?module_name:string -> string -> t
   e.g [-bs-package-output commonjs:xx/path]
 *)
 
-val module_case : t -> output_prefix:string -> Ext_js_file_kind.case
+type file_case = Uppercase | Lowercase
+
+val module_case : t -> output_prefix:string -> file_case
 
 type path_info = {
   rel_path : string;

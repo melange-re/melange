@@ -17,9 +17,9 @@ let runtime_dir = function NodeJS -> "js" | Es6 | Es6_global -> "es6"
 let runtime_package_path js_file = (Literals.package_name ^ ".js") // js_file
 
 let to_string = function
-  | NodeJS -> Literals.commonjs
-  | Es6 -> Literals.es6
-  | Es6_global -> Literals.es6_global
+  | NodeJS -> "commonjs"
+  | Es6 -> "es6"
+  | Es6_global -> "es6-global"
 
 let of_string_exn = function
   | "commonjs" -> NodeJS
