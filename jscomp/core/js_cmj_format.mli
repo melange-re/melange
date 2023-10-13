@@ -90,3 +90,5 @@ val to_file : string -> t -> unit
 
 type path = string
 type cmj_load_info = { cmj_table : t (* ; package_path : path *) }
+
+val load_unit : string -> cmj_load_info

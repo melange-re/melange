@@ -85,7 +85,7 @@ let query_external_id_info (module_id : Ident.t) (name : string) : ident_info =
   let cmj_table =
     match Lam_module_ident.Hash.find_opt cached_tbl oid with
     | None ->
-        let cmj_load_info = Js_cmj_load.load_unit (Ident.name module_id) in
+        let cmj_load_info = Js_cmj_format.load_unit (Ident.name module_id) in
         oid +> Ml cmj_load_info;
         cmj_load_info.cmj_table
     | Some (Ml { cmj_table; _ }) -> cmj_table
@@ -107,7 +107,7 @@ let get_dependency_info_from_cmj (id : Lam_module_ident.t) :
         | Runtime | External _ -> assert false
         | Ml ->
             let cmj_load_info =
-              Js_cmj_load.load_unit (Lam_module_ident.name id)
+              Js_cmj_format.load_unit (Lam_module_ident.name id)
             in
             id +> Ml cmj_load_info;
             cmj_load_info)
@@ -125,7 +125,7 @@ let is_pure_module (oid : Lam_module_ident.t) =
   | Ml -> (
       match Lam_module_ident.Hash.find_opt cached_tbl oid with
       | None -> (
-          match Js_cmj_load.load_unit (Lam_module_ident.name oid) with
+          match Js_cmj_format.load_unit (Lam_module_ident.name oid) with
           | cmj_load_info ->
               oid +> Ml cmj_load_info;
               cmj_load_info.cmj_table.pure
