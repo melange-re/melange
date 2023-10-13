@@ -42,19 +42,6 @@ let rec iter_warnings_on_sigi (stru : Parsetree.signature) =
           iter_warnings_on_sigi rest
       | _ -> ())
 
-(* method! expression a = *)
-(* match a.pexp_desc with *)
-(* | Pexp_constant const -> check_constant a.pexp_loc `expr const *)
-(* | _ -> super#expression a *)
-
-(* method! pattern pat = *)
-(* match pat.ppat_desc with *)
-(* | Ppat_constant constant -> check_constant pat.ppat_loc `pat constant *)
-(* | Ppat_record ([], _) -> *)
-(* Location.raise_errorf ~loc:pat.ppat_loc *)
-(* "Empty record pattern is not supported" *)
-(* | _ -> super#pattern pat *)
-
 type iterator = Ast_iterator.iterator
 
 let super = Ast_iterator.default_iterator
