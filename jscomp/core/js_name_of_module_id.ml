@@ -108,10 +108,10 @@ let string_of_module_id ~package_info ~output_info
             (* Impossible to not find the current package. *)
             assert false
         | Package_not_found, _ ->
-            Bs_exception.error
+            Mel_exception.error
               (Missing_ml_dependency (Ident.name dep_module_id.id))
         | Package_script, Package_found _ ->
-            Bs_exception.error
+            Mel_exception.error
               (Dependency_script_module_dependent_not
                  (Ident.name dep_module_id.id))
         | Package_found path_info, Package_script ->
@@ -158,4 +158,5 @@ let string_of_module_id ~package_info ~output_info
                   ~from:(Ext_path.absolute_cwd_path output_dir)
                   ~to_:(Ext_path.absolute_cwd_path dirname)
                   basename
-            | exception Not_found -> Bs_exception.error (Js_not_found js_file))))
+            | exception Not_found -> Mel_exception.error (Js_not_found js_file))
+        ))

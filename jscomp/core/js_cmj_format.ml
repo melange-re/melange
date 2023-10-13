@@ -176,4 +176,4 @@ let load_unit unit_name : cmj_load_info =
   let file = Artifact_extension.append_extension unit_name Cmj in
   match Res_compmisc.find_in_path_exn file with
   | f -> { cmj_table = from_file f }
-  | exception Not_found -> Bs_exception.error (Cmj_not_found unit_name)
+  | exception Not_found -> Mel_exception.error (Cmj_not_found unit_name)
