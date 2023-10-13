@@ -89,7 +89,7 @@ let after_parsing_sig ppf outputprefix ast =
   else
     let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
-    let initial_env = Res_compmisc.initial_env () in
+    let initial_env = Initialization.Perfile.initial_env () in
     Env.set_unit_name modulename;
 
     let tsg = Typemod.type_interface initial_env ast in
@@ -121,7 +121,7 @@ let output_prefix ?(f = Filename.remove_extension) name =
   | Some oname -> f oname
 
 let interface ~parser ppf fname =
-  Res_compmisc.init_path ();
+  Initialization.Perfile.init_path ();
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Mli
@@ -174,7 +174,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
   else
     let modulename = module_name outputprefix in
     Lam_compile_env.reset ();
-    let env = Res_compmisc.initial_env () in
+    let env = Initialization.Perfile.initial_env () in
     Env.set_unit_name modulename;
     let ({ Typedtree.structure = typedtree; coercion; _ } as implementation) =
       Typemod.type_implementation fname outputprefix modulename env ast
@@ -200,7 +200,7 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     process_with_gentype (Artifact_extension.append_extension outputprefix Cmt)
 
 let implementation ~parser ppf fname =
-  Res_compmisc.init_path ();
+  Initialization.Perfile.init_path ();
   parser fname
   |> Cmd_ppx_apply.apply_rewriters ~restore:false ~tool_name:Js_config.tool_name
        Ml
@@ -211,7 +211,7 @@ let implementation ~parser ppf fname =
 
 let implementation_cmj _ppf fname =
   (* this is needed because the path is used to find other modules path *)
-  Res_compmisc.init_path ();
+  Initialization.Perfile.init_path ();
   let cmj = Js_cmj_format.from_file fname in
   (* NOTE(anmonteiro): If we're generating JS from a `.cmj`, we take the
      resulting JS extension from the `-o FILENAME.EXT1.EXT2` argument. In this

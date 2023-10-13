@@ -150,7 +150,7 @@ let string_of_module_id ~package_info ~output_info
                 (Ident.name dep_module_id.id)
                 case Ext_js_suffix.default
             in
-            match Res_compmisc.find_in_path_exn js_file with
+            match Initialization.find_in_path_exn js_file with
             | file ->
                 let basename = Filename.basename file in
                 let dirname = Filename.dirname file in
