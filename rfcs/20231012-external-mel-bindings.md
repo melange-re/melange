@@ -142,9 +142,7 @@ maintenance— in the Melange compiler could be eventually removed:
 - `mel.send` and `mel.send.pipe`
 - `mel.new`
 - `mel.scope`
-- `mel.splice`
-- `mel.variadic`
-- `mel.return`
+- `mel.splice` / `mel.variadic`
 
 The `mel.uncurry` and `u` attributes could be replaced by a single attribute
 `mel.called_from_js`. See the [related section](#meluncurry-and-u) below.
@@ -534,6 +532,10 @@ It is also unclear if the PPX needs to be implemented as part of the Melange
 compiler, or could be implemented outside of it first. At the very least, the
 `called_from_js` attribute requires the addition of one extra function in the
 Melange runtime.
+
+Finally, the proposal does not covered yet how to migrate away from `mel.return`
+and attributes used to annotate arguments in `external` definitions: `mel.int`,
+`mel.string`, `mel.this` and `mel.unwrap`.
 
 # References / mentions
 
