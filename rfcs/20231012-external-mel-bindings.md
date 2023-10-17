@@ -259,7 +259,7 @@ Proposed:
 
 ```ocaml
 let%js.import { dirname : string -> string } = "path"
-let root = dirname ~path:"/User/github"
+let root = dirname "/User/github"
 ```
 
 If the name of the field imported starts with an invalid character in OCaml,
