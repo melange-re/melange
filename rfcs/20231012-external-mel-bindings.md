@@ -58,7 +58,7 @@ external pi : float = "PI" [@@mel.scope "Math"]
 would be written as:
 
 ```ocaml
-let%js pi : unit -> float = "Math.PI"
+let%js pi : float = "Math.PI"
 ```
 
 ## `let%js.import`
@@ -319,7 +319,7 @@ After:
 
 ```ocaml
 type t
-let%import book: t = "Book"
+let%js.import book: t = "Book"
 let%js create_book : ~t_:t -> unit -> t = "new $t_()"
 let myBook = book |> create_book ()
 ```
@@ -460,7 +460,7 @@ After:
 
 ```ocaml
 type path
-let%import path: path = "path"
+let%js.import path: path = "path"
 let%js join : t_:path -> paths:string array -> string = "$t_.join(...$paths)"
 let v = path |> join ~paths:[| "a"; "b" |]
 ```
@@ -470,7 +470,7 @@ module for leaner bundle size:
 
 ```ocaml
 type join
-let%import { join: join } = "path"
+let%js.import { join: join } = "path"
 let%js call : t_:join -> paths:string array -> string = "$t_(...$paths)"
 let v = join |> call ~paths:[| "a"; "b" |]
 ```
@@ -489,7 +489,7 @@ After:
 
 ```ocaml
 type commands
-let%import { commands : commands } = "vscode"
+let%js.import { commands : commands } = "vscode"
 let%js execute : t_:commands -> cmd:string -> args:param array -> unit = "$t_.executeCommand($cmd,...$args)"
 
 let f a b c = commands |> execute ~cmd:"hi" ~args:[| a; b; c |]
