@@ -1,4 +1,4 @@
-(dirs :standard \ docs node_modules odoc_gen nix)
+(dirs :standard \ docs node_modules nix)
 
 (env
  (dev
