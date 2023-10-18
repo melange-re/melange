@@ -47,6 +47,9 @@
   (menhir
    (>= 20201214))
   (reason-react-ppx
+   (and :with-test :post))
+  (merlin :with-test)
+  (reason-react
    (and :with-test :post))))
 
 (package
