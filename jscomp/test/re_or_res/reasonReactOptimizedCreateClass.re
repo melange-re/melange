@@ -1,6 +1,6 @@
 let _assign = Js.Obj.assign;
 
-let emptyObject = Js.Obj.empty();
+let emptyObject: Js.t({.}) = Js.Obj.empty();
 
 [%%mel.raw
   {|
