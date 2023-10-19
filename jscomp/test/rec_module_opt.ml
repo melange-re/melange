@@ -1,10 +1,5 @@
 [@@@bs.config {
   flags = [|
-  "-drawlambda";
-  (* "-dlambda";  *)
-  (* "-dtypedtree"; *)
-  (* "-bs-diagnose" *)
-
   "-bs-no-cross-module-opt"
   |]
 }]

@@ -50,15 +50,15 @@ function u2(x) {
 
 var u3 = Caml_option.some(undefined);
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 39, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 31, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 40, characters 6-13", u1, Caml_option.some(undefined));
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 32, characters 6-13", u1, Caml_option.some(undefined));
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 41, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 33, characters 6-13", Caml_option.some(undefined), Caml_option.some(undefined));
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 42, characters 6-13", u3, Caml_option.some(undefined));
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 34, characters 6-13", u3, Caml_option.some(undefined));
 
-eq("File \"jscomp/test/unit_undefined_test.ml\", line 43, characters 6-13", undefined, undefined);
+eq("File \"jscomp/test/unit_undefined_test.ml\", line 35, characters 6-13", undefined, undefined);
 
 Mt.from_pair_suites("jscomp/test/unit_undefined_test.ml", suites.contents);
 
