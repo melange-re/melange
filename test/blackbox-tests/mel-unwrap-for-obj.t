@@ -5,14 +5,12 @@ Test `@mel.unwrap` in `@mel.obj`
   > external func :
   >   param:string ->
   >   polyParam:([ \`Str of string | \`Int of int ][@mel.unwrap]) ->
-  >   unit ->
-  >   _ Js.t = ""
+  >   unit -> _ = ""
   > [@@mel.obj]
   > external funcOpt :
   >   param:string ->
   >   ?polyParam:([ \`Str of string | \`Int of int ][@mel.unwrap]) ->
-  >   unit ->
-  >   _ Js.t = ""
+  >   unit -> _ = ""
   > [@@mel.obj]
   > let x = func ~param:"x" ~polyParam:(\`Str "hi") ()
   > let y = funcOpt ~param:"x" ~polyParam:(\`Str "hello") ()

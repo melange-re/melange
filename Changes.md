@@ -7,6 +7,9 @@ Unreleased
   ([#779](https://github.com/melange-re/melange/pull/779))
 - Fix `Sys.argv` runtime to match declared type
   ([#791](https://github.com/melange-re/melange/pull/791))
+- Make `'a Js.t` abstract (again), fixing a regression when bringing back
+  OCaml-style objects BuckleScript
+  ([#786](https://github.com/melange-re/melange/pull/786))
 
 2.0.0 2023-09-13
 ---------------
