@@ -15,21 +15,20 @@ Test case for Sys.argv
   > EOF
 
   $ cat > x.ml <<EOF
+  > let () = Js.log Sys.executable_name
   > let () = Js.log Sys.argv
   > EOF
 
   $ dune build @melange
 
   $ node _build/default/js-out/x.js a b c
+  /NODE_BIN_PATH
   [
     '/NODE_BIN_PATH',
-    [
-      '/NODE_BIN_PATH',
-      '$TESTCASE_ROOT/_build/default/js-out/x.js',
-      'a',
-      'b',
-      'c'
-    ]
+    '$TESTCASE_ROOT/_build/default/js-out/x.js',
+    'a',
+    'b',
+    'c'
   ]
 
 Compare with Node.Process.argv
