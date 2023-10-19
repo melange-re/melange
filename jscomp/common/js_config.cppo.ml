@@ -30,17 +30,10 @@ let executable_name =
 let stdlib_paths =
   lazy (
     let root =
-#ifndef BS_RELEASE_BUILD
-      (* ./bin/melc.exe -> ./ *)
-      (Lazy.force executable_name)
-      |> Filename.dirname
-      |> Filename.dirname
-#else
       (* <root>/bin/melc *)
       Lazy.force executable_name
       |> Filename.dirname
       |> Filename.dirname
-#endif
     in
     begin match Sys.getenv "MELANGELIB" with
     | value ->

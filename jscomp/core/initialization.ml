@@ -24,13 +24,17 @@
 
 module Global = struct
   let run () =
-    Translcore.wrap_single_field_record := Transl_single_field_record.wrap_single_field_record;
+    Translcore.wrap_single_field_record :=
+      Transl_single_field_record.wrap_single_field_record;
     Translmod.eval_rec_bindings := Compile_rec_module.eval_rec_bindings;
     Typemod.should_hide := Typemod_hide.should_hide;
-    Matching.make_test_sequence_variant_constant := Polyvar_pattern_match.make_test_sequence_variant_constant;
-    Matching.call_switcher_variant_constant := Polyvar_pattern_match.call_switcher_variant_constant;
-    Matching.call_switcher_variant_constr := Polyvar_pattern_match.call_switcher_variant_constr;
-    Clflags.no_std_include := true; (* `-nostdlib` *)
+    Matching.make_test_sequence_variant_constant :=
+      Polyvar_pattern_match.make_test_sequence_variant_constant;
+    Matching.call_switcher_variant_constant :=
+      Polyvar_pattern_match.call_switcher_variant_constant;
+    Matching.call_switcher_variant_constr :=
+      Polyvar_pattern_match.call_switcher_variant_constr;
+    Clflags.no_std_include := true (* `-nostdlib` *);
     ignore @@ Warnings.parse_options false Melc_warnings.defaults_w;
     ignore @@ Warnings.parse_options true Melc_warnings.defaults_warn_error;
     Clflags.locations := false;
@@ -48,27 +52,25 @@ module Global = struct
     Clflags.strict_formats := true;
     (* Turn on [-no-alias-deps] by default -- double check *)
     Oprint.out_ident := Outcome_printer_ns.out_ident;
-    Builtin_attributes.check_bs_attributes_inclusion := Record_attributes_check.check_bs_attributes_inclusion;
+    Builtin_attributes.check_bs_attributes_inclusion :=
+      Record_attributes_check.check_bs_attributes_inclusion;
     Builtin_attributes.check_duplicated_labels :=
       Record_attributes_check.check_duplicated_labels;
     Lambda.fld_record := Record_attributes_check.fld_record;
     Lambda.fld_record_set := Record_attributes_check.fld_record_set;
     Lambda.fld_record_inline := Record_attributes_check.fld_record_inline;
-    Lambda.fld_record_inline_set := Record_attributes_check.fld_record_inline_set;
+    Lambda.fld_record_inline_set :=
+      Record_attributes_check.fld_record_inline_set;
     Lambda.fld_record_extension := Record_attributes_check.fld_record_extension;
-    Lambda.fld_record_extension_set := Record_attributes_check.fld_record_extension_set;
+    Lambda.fld_record_extension_set :=
+      Record_attributes_check.fld_record_extension_set;
     Lambda.blk_record := Record_attributes_check.blk_record;
     Lambda.blk_record_inlined := Record_attributes_check.blk_record_inlined;
     Lambda.blk_record_ext := Record_attributes_check.blk_record_ext;
     Matching.names_from_construct_pattern :=
-      Matching_polyfill.names_from_construct_pattern;
-  #ifndef BS_RELEASE_BUILD
-      Printexc.record_backtrace true;
-  #endif
-  ;;
+      Matching_polyfill.names_from_construct_pattern
 
-let () =
-    at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
+  let () = at_exit (fun _ -> Format.pp_print_flush Format.err_formatter ())
 end
 
 module Perfile = struct
@@ -105,4 +107,3 @@ end
 (* ATTENTION: lazy to wait [Config.load_path] populated *)
 let find_in_path_exn file =
   Misc.find_in_path_uncap (Load_path.get_paths ()) file
-
