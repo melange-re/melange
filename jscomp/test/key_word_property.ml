@@ -1,4 +1,4 @@
-(* [@@@bs.config {flags = [|
+(* [@@@mel.config {flags = [|
   "-bs-package-output"; "es6:."
 |]}]
 *)

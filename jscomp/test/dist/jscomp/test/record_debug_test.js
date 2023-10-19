@@ -104,7 +104,7 @@ var a$1 = [
   a_5
 ];
 
-eq("File \"jscomp/test/record_debug_test.ml\", line 64, characters 3-10", a$1, [
+eq("File \"jscomp/test/record_debug_test.ml\", line 63, characters 3-10", a$1, [
       "",
       "a",
       "3",

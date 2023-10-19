@@ -1,8 +1,8 @@
-[@@@bs.config{no_export}]
+[@@@mel.config{no_export}]
 type t =
-  | A_list 
+  | A_list
   | A_hashtable
-    
+
 let string_of_associative_type = function
   | A_list -> "list"
   | A_hashtable -> "Hashtbl.t"
@@ -12,7 +12,7 @@ let string_of_associative_type = function
 
 
 type t2 =
-  | A_list 
+  | A_list
   | A_hashtable
   | A_bad
 let string_of_associative_type = function
@@ -40,7 +40,7 @@ type v =
   | E of int
   | F of int
   | G of int
-  | H of int      
+  | H of int
 
 let ff = function
   | A _ -> "A"
@@ -50,7 +50,7 @@ let ff = function
   | E _ -> "E"
   | F _ -> "F"
   | G _ -> "G"
-  | H _ -> "H"    
+  | H _ -> "H"
 
 
 ;; Js.log (ff (A 3), (function

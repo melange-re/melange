@@ -1,4 +1,4 @@
-[@@@bs.config {
+[@@@mel.config {
   flags = [|
   "-bs-no-cross-module-opt"
   |]

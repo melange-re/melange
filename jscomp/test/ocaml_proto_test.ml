@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module
 Pbpt
 = struct
@@ -6333,7 +6333,7 @@ type t = {
 
 (** {2 Default values} *)
 
-val default_t : 
+val default_t :
   ?j:int32 ->
   unit ->
   t
@@ -6354,7 +6354,7 @@ val encode_t : t -> Pbrt.Encoder.t -> unit
 
 (** {2 Formatters} *)
 
-val pp_t : Format.formatter -> t -> unit 
+val pp_t : Format.formatter -> t -> unit
 (** [pp_t v] formats v] *)
 |};
 
@@ -6368,7 +6368,7 @@ and t_mutable = {
   mutable j : int32;
 }
 
-let rec default_t 
+let rec default_t
   ?j:((j:int32) = 0l)
   () : t  = {
   j;
@@ -6380,7 +6380,7 @@ and default_t_mutable () : t_mutable = {
 
 let rec decode_t d =
   let v = default_t_mutable () in
-  let rec loop () = 
+  let rec loop () =
     match Pbrt.Decoder.key d with
     | None -> (
     )
@@ -6397,12 +6397,12 @@ let rec decode_t d =
   let v:t = Obj.magic v in
   v
 
-let rec encode_t (v:t) encoder = 
-  Pbrt.Encoder.key (1, Pbrt.Varint) encoder; 
+let rec encode_t (v:t) encoder =
+  Pbrt.Encoder.key (1, Pbrt.Varint) encoder;
   Pbrt.Encoder.int32_as_varint v.j encoder;
   ()
 
-let rec pp_t fmt (v:t) = 
+let rec pp_t fmt (v:t) =
   let pp_i fmt () =
     Format.pp_open_vbox fmt 1;
     Pbrt.Pp.pp_record_field "j" Pbrt.Pp.pp_int32 fmt v.j;

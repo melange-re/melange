@@ -1,5 +1,4 @@
-
-;;[@@@bs.config  no_export ]
+;;[@@@mel.config  no_export ]
 ;;
 
 

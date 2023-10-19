@@ -1,4 +1,4 @@
-[@@@bs.config { no_export = true }]
+[@@@mel.config { no_export = true }]
 type value =
   | Natural of int
   | Symbol of string
@@ -23,7 +23,7 @@ let rec compare context state a b =
   (*Js.log {j|$a vs $b |j};*)
   (match (a, b, context) with
    | (((Neg (x)) ),y,_)|(x,((Neg (y)) ),_)
-       -> 
+       ->
        (*Js.log "";*)
       compare context state x y
    | (Val _,Val _,_) -> 111
