@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|];no_export}]
+[@@@mel.config {flags = [|"-w";"a"|];no_export}]
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
 let eq loc x y =

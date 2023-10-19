@@ -1,15 +1,10 @@
-
-[@@@bs.config {
+[@@@mel.config {
   flags = [|
-  (* "-drawlambda"; *)
-  (* "-dlambda";  *)
-  (* "-dtypedtree"; *)
-  (* "-bs-diagnose" *)
-  "-bs-g"  
+  "-bs-g"
   |]
 }]
 
-type t = A of int * int 
+type t = A of int * int
 
 let u  = A (1,2)
 let h = [1]

@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a";"-bs-noassertfalse"|]}]
+[@@@mel.config {flags = [|"-w";"a";"-bs-noassertfalse"|]}]
 
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0

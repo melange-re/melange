@@ -1,4 +1,4 @@
-[@@@bs.config {flags = [|"-w";"a"|]}]
+[@@@mel.config {flags = [|"-w";"a"|]}]
 module
 Pbpt
 = struct

@@ -1,3 +1,2 @@
-
-[@@@bs.config  {flags = [|"-bs-unsafe-empty-array"|] } ]
+[@@@mel.config  {flags = [|"-bs-unsafe-empty-array"|] } ]
 let a = [||]
