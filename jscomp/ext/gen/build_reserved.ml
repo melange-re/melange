@@ -238,7 +238,7 @@ let binarySearch (sorted : element array) (key : element)  : bool =
 let is_reserved s = binarySearch sorted_keywords s
 |}
 
-let main keyword_file output_file =
+let main keyword_file =
   let ss = get_predefined_words keyword_file in
   let ss = fill_extra ss in
   let keywords_array =
@@ -259,4 +259,4 @@ for i = 0 to Array.length Sys.argv - 1  do
   print_endline ">"; print_string Sys.argv.(i)
 done
 ;; *)
-let () = main Sys.argv.(1) Sys.argv.(2)
+let () = main Sys.argv.(1)
