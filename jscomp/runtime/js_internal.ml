@@ -44,7 +44,8 @@
 
 (** Types for JS objects *)
 
-type 'a t = 'a
+type 'a t
+
 (** This used to be mark a Js object type. *)
 
 (* internal types for FFI, these types are not used by normal users
