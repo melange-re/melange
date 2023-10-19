@@ -26,14 +26,15 @@ type (-'this, +'tuple) u
 
 type 'a fn = (< > Js.t, 'a) u
 
-
+(* doesn't typecheck: no subtype *)
+(*
 let f (x : 'a fn) =
   (x  : 'a fn :>
      (< l : int ; y :int > Js.t, 'a) u  )
-
+ *)
 let h  (u : (< l : int ; y :int > Js.t, int) u) = u
 
-let hh (x : 'a fn) = h (x : _ fn :>   (< l : int ; y :int > Js.t, int) u )
+(* let hh (x : 'a fn) = h (x : _ fn :>   (< l : int ; y :int > Js.t, int) u ) *)
 
 (* let m = [%mel.method fun o (x,y) -> o##length < x && o##length > y ] *)
 
