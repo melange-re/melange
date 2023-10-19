@@ -84,6 +84,7 @@ CSSScale
 CSSSkew
 CSSSkewX
 CSSSkewY
+CSSStartingStyleRule
 CSSStyleDeclaration
 CSSStyleRule
 CSSStyleSheet
@@ -143,6 +144,7 @@ DelayNode
 DelegatedInkTrailPresenter
 Document
 DocumentFragment
+DocumentPictureInPictureEvent
 DocumentTimeline
 DocumentType
 DragEvent
@@ -294,6 +296,7 @@ Int8Array
 IntersectionObserver
 IntersectionObserverEntry
 Intl
+Iterator
 JSON
 KeyboardEvent
 KeyframeEffect
@@ -542,6 +545,7 @@ Scheduling
 Screen
 ScreenOrientation
 ScriptProcessorNode
+ScrollTimeline
 SecurityPolicyViolationEvent
 Selection
 Set
@@ -581,6 +585,7 @@ TextTrackCue
 TextTrackCueList
 TextTrackList
 TimeRanges
+ToggleEvent
 Touch
 TouchEvent
 TouchList
@@ -610,8 +615,10 @@ ValidityState
 VideoColorSpace
 VideoFrame
 VideoPlaybackQuality
+ViewTimeline
 ViewTransition
 VirtualKeyboardGeometryChangeEvent
+VisibilityStateEntry
 VisualViewport
 WaveShaperNode
 WeakMap
