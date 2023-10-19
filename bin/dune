@@ -23,6 +23,7 @@
  (libraries
   core
   js_of_ocaml-compiler.runtime
+  melange.dom
   melange.ppx
   reason-react-ppx
   reason))
@@ -38,7 +39,8 @@
   %{bin:js_of_ocaml}
   (:some-js-cmi %{lib:melange:js/melange/js.cmi})
   (:some-stdlib-cmi %{lib:melange:melange/stdlib.cmi})
-  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi}))
+  (:some-belt-cmi %{lib:melange:belt/melange/belt.cmi})
+  (:some-dom-cmi %{lib:melange:dom/melange/dom.cmi}))
  (target cmi-files.txt)
  (action
   (progn
@@ -47,7 +49,9 @@
    (bash
     "find $(dirname %{some-belt-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
    (bash
-    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
+    "find $(dirname %{some-stdlib-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}")
+   (bash
+    "find $(dirname %{some-dom-cmi}) -name \"*.cmi\" -or -name \"*.cmj\" >> %{target}"))))
 
 (rule
  (deps cmi-files.txt)

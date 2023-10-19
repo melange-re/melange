@@ -3,6 +3,8 @@ Unreleased
 
 - Add TRMC (Tail Recursion Modulo Cons) support
   ([#743](https://github.com/melange-re/melange/pull/743)).
+- [playground]: Add `melange.dom` to bundle
+  ([#779](https://github.com/melange-re/melange/pull/779)).
 
 2.0.0 2023-09-13
 ---------------
