@@ -37,7 +37,7 @@
           "col": -1
         },
         "kind": "expression",
-        "hint": "< age : int; name : string > Js.t Js__.Js_internal.t ->\n< age : int; name : string > Js.t"
+        "hint": "< age : int; name : string > Js__.Js_internal.t ->\n< age : int; name : string >"
       },
       {
         "start": {
@@ -49,7 +49,7 @@
           "col": 68
         },
         "kind": "expression",
-        "hint": "< age : int; name : string > Js.t"
+        "hint": "< age : int; name : string >"
       },
       {
         "start": {
