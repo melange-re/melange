@@ -34,8 +34,7 @@ module Global = struct
       Polyvar_pattern_match.call_switcher_variant_constant;
     Matching.call_switcher_variant_constr :=
       Polyvar_pattern_match.call_switcher_variant_constr;
-    Clflags.no_std_include := true;
-    (* `-nostdlib` *)
+    Clflags.no_std_include := true (* `-nostdlib` *);
     ignore @@ Warnings.parse_options false Melc_warnings.defaults_w;
     ignore @@ Warnings.parse_options true Melc_warnings.defaults_warn_error;
     Clflags.locations := false;
