@@ -11,6 +11,6 @@
   File "x.ml", line 2, characters 16-19:
   2 | let _: string = obj
                       ^^^
-  Error: This expression has type < .. > Js__.Js.t
+  Error: This expression has type < .. > Js__.Js_internal.t
          but an expression was expected of type string
   [2]
