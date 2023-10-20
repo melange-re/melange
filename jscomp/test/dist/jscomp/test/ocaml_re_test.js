@@ -3373,21 +3373,39 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
             };
     }
   };
-  var regexp$p = function (_left) {
-    while(true) {
-      var left = _left;
-      if (!accept(/* '|' */124)) {
-        return left;
+  var piece = function (param) {
+    var r = atom(undefined);
+    if (accept(/* '*' */42)) {
+      return greedy_mod(repn(r, 0, undefined));
+    }
+    if (accept(/* '+' */43)) {
+      return greedy_mod(repn(r, 1, undefined));
+    }
+    if (accept(/* '?' */63)) {
+      return greedy_mod(repn(r, 0, 1));
+    }
+    if (!accept(/* '{' */123)) {
+      return r;
+    }
+    var i$1 = integer(undefined);
+    if (i$1 !== undefined) {
+      var j = accept(/* ',' */44) ? integer(undefined) : i$1;
+      if (!accept(/* '}' */125)) {
+        throw {
+              RE_EXN_ID: Parse_error,
+              Error: new Error()
+            };
       }
-      _left = alt$1({
-            hd: left,
-            tl: {
-              hd: branch$p(/* [] */0),
-              tl: /* [] */0
-            }
-          });
-      continue ;
-    };
+      if (j !== undefined && j < i$1) {
+        throw {
+              RE_EXN_ID: Parse_error,
+              Error: new Error()
+            };
+      }
+      return greedy_mod(repn(r, i$1, j));
+    }
+    i.contents = i.contents - 1 | 0;
+    return r;
   };
   var branch$p = function (_left) {
     while(true) {
@@ -3483,39 +3501,21 @@ function parse(multiline, dollar_endonly, dotall, ungreedy, s) {
       continue ;
     };
   };
-  var piece = function (param) {
-    var r = atom(undefined);
-    if (accept(/* '*' */42)) {
-      return greedy_mod(repn(r, 0, undefined));
-    }
-    if (accept(/* '+' */43)) {
-      return greedy_mod(repn(r, 1, undefined));
-    }
-    if (accept(/* '?' */63)) {
-      return greedy_mod(repn(r, 0, 1));
-    }
-    if (!accept(/* '{' */123)) {
-      return r;
-    }
-    var i$1 = integer(undefined);
-    if (i$1 !== undefined) {
-      var j = accept(/* ',' */44) ? integer(undefined) : i$1;
-      if (!accept(/* '}' */125)) {
-        throw {
-              RE_EXN_ID: Parse_error,
-              Error: new Error()
-            };
+  var regexp$p = function (_left) {
+    while(true) {
+      var left = _left;
+      if (!accept(/* '|' */124)) {
+        return left;
       }
-      if (j !== undefined && j < i$1) {
-        throw {
-              RE_EXN_ID: Parse_error,
-              Error: new Error()
-            };
-      }
-      return greedy_mod(repn(r, i$1, j));
-    }
-    i.contents = i.contents - 1 | 0;
-    return r;
+      _left = alt$1({
+            hd: left,
+            tl: {
+              hd: branch$p(/* [] */0),
+              tl: /* [] */0
+            }
+          });
+      continue ;
+    };
   };
   var $$char = function (param) {
     if (i.contents === l) {

@@ -17,7 +17,7 @@ Try commonjs first
   > (melange.emit
   >  (target melange)
   >  (alias melange)
-  >  (libraries melange)
+  >  (libraries melange melange.belt)
   >  (emit_stdlib false)
   >  (module_systems commonjs))
   > EOF
@@ -35,7 +35,7 @@ Now es6
   > (melange.emit
   >  (target melange)
   >  (alias melange)
-  >  (libraries melange)
+  >  (libraries melange melange.belt)
   >  (emit_stdlib false)
   >  (module_systems es6))
   > EOF
@@ -47,6 +47,9 @@ Now es6
   > EOF
 
   $ cat > ./_build/default/melange/node_modules/melange.js/package.json <<EOF
+  > { "type": "module" }
+  > EOF
+  $ cat > ./_build/default/melange/node_modules/melange.belt/package.json <<EOF
   > { "type": "module" }
   > EOF
 
