@@ -26,6 +26,8 @@
 
 include Js_internal
 
+type 'a t
+
 type +'a null = 'a Js_null.t
 (** nullable, value of this type can be either [null] or ['a]
     this type is the same as type [t] in {!Null}
@@ -40,6 +42,8 @@ type +'a nullable = 'a Js_null_undefined.t
     this type is the same as type [t] n {!Null_undefined} *)
 
 type +'a null_undefined = 'a nullable
+
+external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
 
 module Array2 = Js_array2
 (** Provide bindings to Js array*)
@@ -96,8 +100,15 @@ module Json = Js_json
 module Math = Js_math
 (** Provide bindings for JS [Math] object *)
 
-module Obj = Js_obj
-(** Provide utilities for {!Js.t} *)
+module Obj = struct
+  external empty : unit -> < .. > t = "" [@@mel.obj]
+
+  external assign :
+    < .. > t -> < .. > t -> < .. > t
+    = "Object.assign"
+
+  external keys : _ t -> string array = "Object.keys"
+end
 
 module Typed_array = Js_typed_array
 (** Provide bindings for JS typed array *)

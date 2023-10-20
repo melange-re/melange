@@ -28,6 +28,7 @@ val predef_prefix_ident : t
 val predef_option : t
 val predef_some : t
 val predef_none : t
+val js : t
 val js_fn : t
 val js_internal_full_apply : t
 val opaque : t

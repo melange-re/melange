@@ -32,7 +32,7 @@ let js_property loc obj (name : string) =
     ( [%expr
         [%e
           Exp.ident
-            { txt = Ldot (Ast_literal.js_oo, Literals.unsafe_downgrade); loc }]
+            { txt = Ldot (Ast_literal.js, Literals.unsafe_downgrade); loc }]
           [%e obj]],
       { loc; txt = name } )
 
