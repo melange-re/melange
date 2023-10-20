@@ -9,7 +9,7 @@
     warning_errors: [
       {
         js_error_msg: 'Line 1, 12:\n' +
-          '  Error: (warning 109 [bucklescript-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
+          '  Error: (warning 109 [melange-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
         row: 0,
         column: 12,
         endRow: 0,
@@ -19,7 +19,7 @@
       },
       {
         js_error_msg: 'Line 1, 16:\n' +
-          '  Error: (warning 109 [bucklescript-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
+          '  Error: (warning 109 [melange-toplevel-expr-unit]) Toplevel expression is expected to have unit type.',
         row: 0,
         column: 16,
         endRow: 0,
