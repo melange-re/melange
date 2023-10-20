@@ -1,3 +1,10 @@
+Unreleased
+---------------
+
+- Remove `Belt` as a dependency of `Stdlib`
+  ([#796](https://github.com/melange-re/melange/pull/796))
+
+
 2.1.0 2023-10-22
 ---------------
 
