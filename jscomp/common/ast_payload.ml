@@ -36,7 +36,7 @@ type action = lid * Parsetree.expression option
 *)
 
 let unrecognizedConfigRecord loc text =
-  Location.prerr_warning loc (Warnings.Bs_derive_warning text)
+  Location.prerr_warning loc (Warnings.Mel_derive_warning text)
 
 let ident_or_record_as_config loc (x : t) :
     (string Location.loc * Parsetree.expression option) list =
@@ -103,5 +103,5 @@ let table_dispatch table (action : action) =
       match Map_string.find_exn table name with
       | fn -> Some (fn y)
       | exception _ ->
-          Location.prerr_warning loc (Bs_unused_attribute name);
+          Location.prerr_warning loc (Mel_unused_attribute name);
           None (* Location.raise_errorf ~loc "%s is not supported" name *))

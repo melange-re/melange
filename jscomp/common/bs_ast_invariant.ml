@@ -52,7 +52,7 @@ let check_constant loc kind (const : Parsetree.constant) =
       match kind with
       | `expr ->
           if Ast_utf8_string.is_unescaped s then
-            Location.prerr_warning loc (Bs_uninterpreted_delimiters s)
+            Location.prerr_warning loc (Mel_uninterpreted_delimiters s)
       | `pat ->
           if s = "j" then
             Location.raise_errorf ~loc
@@ -64,7 +64,7 @@ let check_constant loc kind (const : Parsetree.constant) =
          affect int ranges
       *)
       try ignore (Int32.of_string s)
-      with _ -> Location.prerr_warning loc Bs_integer_literal_overflow)
+      with _ -> Location.prerr_warning loc Mel_integer_literal_overflow)
   | Pconst_integer (_, Some 'n') ->
       Location.raise_errorf ~loc "literal with `n` suffix is not supported"
   | _ -> ()
