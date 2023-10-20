@@ -24,30 +24,6 @@
 
 [@@@mel.config { flags = [| "-unboxed-types" |] }]
 
-(* DESIGN:
-   - It does not have any code, all its code will be inlined so that
-       there will never be
-   {[ require('js')]}
-   - Its interface should be minimal
-*)
-
-(** This library provides bindings and necessary support for JS FFI.
-    It contains all bindings into [Js] namespace.
-
-    {[
-      [| 1;2;3;4|]
-      |. Js.Array2.map (fun x -> x + 1 )
-      |. Js.Array2.reduce (+) 0
-      |. Js.log
-    ]}
-*)
-
-(** Types for JS objects *)
-
-type 'a t
-
-(** This used to be mark a Js object type. *)
-
 (* internal types for FFI, these types are not used by normal users
     Absent cmi file when looking up module alias.
 *)
