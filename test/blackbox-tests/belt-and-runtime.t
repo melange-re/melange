@@ -49,6 +49,9 @@ Now es6
   $ cat > ./_build/default/melange/node_modules/melange.js/package.json <<EOF
   > { "type": "module" }
   > EOF
+  $ cat > ./_build/default/melange/node_modules/melange.belt/package.json <<EOF
+  > { "type": "module" }
+  > EOF
 
   $ cd _build/default
   $ node ./melange/x.js
