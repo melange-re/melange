@@ -64,8 +64,6 @@ type +'a nullable = 'a Js_null_undefined.t
 
 type +'a null_undefined = 'a nullable
 
-external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
-
 module Array2 = Js_array2
 (** Provide bindings to Js array*)
 
@@ -172,5 +170,15 @@ module WeakMap = Js_weakmap
 
 module Cast = Js_cast
 module MapperRt = Js_mapperRt
+
+module Private = struct
+  module Js_OO = struct
+    include Js_OO
+
+    (* NOTE(anmonteiro): unsafe_downgrade is exposed here instead of Js_OO
+       since it depends on `'a Js.t`, defined above. *)
+    external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
+  end
+end
 
 (**/**)

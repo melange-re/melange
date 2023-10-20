@@ -31,12 +31,12 @@ type t = Longident.t
 
 (* TODO should be renamed in to {!Js.fn} *)
 (* TODO should be moved into {!Js.t} Later *)
-let js : t = (Lident "Js")
+let js : t = Lident "Js"
 let js_internal : t = Ldot (js, "Internal")
 let js_internal_full_apply : t = Ldot (js_internal, "opaqueFullApply")
 let opaque : t = Ldot (js_internal, "opaque")
 let js_fn : t = Ldot (js, "Fn")
-let js_oo : t = Lident "Js__Js_OO"
+let js_oo : t = Ldot (Ldot (js, "Private"), "Js_OO")
 let js_meth : t = Ldot (js_oo, "Meth")
 let js_meth_callback : t = Ldot (js_oo, "Callback")
 let js_obj : t = Ldot (js, "t")
