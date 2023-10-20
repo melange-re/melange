@@ -35,11 +35,11 @@ function u2(b) {
   }
 }
 
-Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 25, characters 23-30", u2(/* A */0), false);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 25, characters 33-40", u2(/* A */0), false);
 
-Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 26, characters 23-30", u2(/* B */1), true);
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 26, characters 33-40", u2(/* B */1), true);
 
-Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 27, characters 23-30", u2(/* C */{
+Mt.eq_suites(id, suites, "File \"jscomp/test/gpr_4924_test.ml\", line 27, characters 33-40", u2(/* C */{
           _0: 2
         }), true);
 

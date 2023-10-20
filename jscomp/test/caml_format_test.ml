@@ -1,5 +1,5 @@
 [@@@warning "-107"]
-let of_string = 
+let of_string =
   [| (0, "0"); (3, "03"); (-3, "-03"); (-63, "-0x3f"); (-31, "-0x1f");
      (47, "0X2f"); (11, "0O13"); (8, "0o10"); (3, "0b11"); (1, "0b01");
      (0, "0b00"); (-3, "-0b11"); (-5, "-0B101"); (332, "0332"); (-32, "-32");
@@ -13,72 +13,72 @@ let of_string =
 (*      "0.", 0. *)
 (*   |] *)
 
-let from_float_of_string xs = 
-  xs 
-  |> Array.mapi (fun i (a,b) -> 
+let from_float_of_string xs =
+  xs
+  |> Array.mapi (fun i (a,b) ->
       string_of_float
     )
 
-let from_of_string xs = 
-  of_string 
-  |>  Array.mapi (fun i (a,b) -> 
+let from_of_string xs =
+  of_string
+  |>  Array.mapi (fun i (a,b) ->
       (Printf.sprintf "of_string %L" i), fun _ -> Mt.Eq(int_of_string b,a ))
-  |> Array.to_list 
+  |> Array.to_list
 
-let u v = Printf.sprintf "%33d" v 
+let u v = Printf.sprintf "%33d" v
 
 let to_str s = int_of_string s
 
 let v = Printf.sprintf "%3d" 3333
 external format_int : string -> int -> string = "caml_format_int"
 
-let suites :  Mt.pair_suites = 
+let suites :  Mt.pair_suites =
   from_of_string of_string @
-  ["isnan_of_string", (fun _ -> 
+  ["isnan_of_string", (fun _ ->
        Mt.Eq (true,classify_float( float_of_string "nan") = FP_nan))] @
   (let pairs =
     [| FP_infinite, "infinity";
-       FP_infinite, "+infinity"; 
+       FP_infinite, "+infinity";
        FP_infinite, "-infinity";
        FP_zero, "0";
        FP_zero, "0."
-    |] 
-   in 
-   pairs 
-   |> Array.mapi 
+    |]
+   in
+   pairs
+   |> Array.mapi
      (fun i (a,b) ->
         (Printf.sprintf "infinity_of_string %d" i ),
         (fun _ -> Mt.Eq(a,
-                        classify_float @@ float_of_string b))) 
-   |> Array.to_list ) @ 
+                        classify_float @@ float_of_string b)))
+   |> Array.to_list ) @
   [ "throw", (fun _ -> Mt.ThrowAny (fun _ -> ignore @@ float_of_string ""));
-    "format_int", (fun _ -> 
+    "format_int", (fun _ ->
         Mt.Eq("                              33", format_int "%32d" 33))
   ] @
   (let pairs =
     [| 3232., "32_32.0";
        1.000, "1.000";
        12.000, "12.000"
-    |] 
-   in 
-   pairs 
-   |> Array.mapi 
+    |]
+   in
+   pairs
+   |> Array.mapi
      (fun i (a,b) ->
         (Printf.sprintf "normal_float_of_string %d" i ),
         (fun _ -> Mt.Eq(a,
-                        float_of_string b))) 
-   |> Array.to_list ) 
+                        float_of_string b)))
+   |> Array.to_list )
 
 let ( ^^ ) (Format (fmt1, str1) : _ format6) (Format (fmt2, str2) : _ format6) : _ format6 =
   Format (CamlinternalFormatBasics.concat_fmt fmt1 fmt2,
           str1 ^ "%," ^ str2)
 
-    
+
 let ff = format_int "%32d"
 let a = Format.asprintf
 
 let formatter_suites = Mt.[
-    "fmt_concat", 
+    "fmt_concat",
     (fun _ -> Eq (Format.asprintf ("%s %03d %L" ^^ "%S %03d %L" ) "32" 33 33 "a" 33 3, "32 033 33\"a\" 033 3"));
     "fmt_gen",
     (fun _ -> Eq(Format.asprintf ("%s %03d %L" ^^ "%S %03d %L %a" ) "32" 33 33 "a" 33 3 (Format.pp_print_list Format.pp_print_int) [1;2;3], "32 033 33\"a\" 033 3 12\n3"));
@@ -107,7 +107,7 @@ external format_float: string -> float -> string
 (* ("%3.10f", 3e+56, *)
     (*  "300000000000000005792779041490073052596128503513888063488.0000000000"); *)
 
-let float_data = 
+let float_data =
   [|("%f", 32., "32.000000"); ("%f", nan, "nan"); ("%f", infinity, "inf");
   ("%f", neg_infinity, "-inf"); ("%1.e", 13000., "1e+04");
   ("%1.3e", 2.3e-05, "2.300e-05"); ("%3.10e", 3e+56, "3.0000000000e+56");
@@ -119,10 +119,10 @@ let float_data =
   ("%3.0g", 30000000000., "3e+10"); ("%3.g", 30000000000., "3e+10");
   ("%3.g", 3., "  3"); ("%1.1g", 2.1, "2"); ("%1.2g", 2.1, "2.1")|]
 
-let float_suites = Mt.[
+let float_suites = [
     "float_nan"
   ]
-module Lambda_suites = struct 
+module Lambda_suites = struct
   open Format;;
 
   let ident ppf s = fprintf ppf "%s" s;;
@@ -152,7 +152,7 @@ module Lambda_suites = struct
   let string_of_lambda  = Format.asprintf "%a" pr_lambda
 end
 
-let lambda_suites = 
+let lambda_suites =
   [|(Lambda_suites.Var "x", "x");
     (Lambda_suites.Apply (Lambda_suites.Var "x", Lambda_suites.Var "y"), "x y");
     (Lambda_suites.Lambda ("z",
@@ -163,8 +163,8 @@ let lambda_suites =
                                                  Lambda_suites.Apply (Lambda_suites.Var "x", Lambda_suites.Var "y"))),
      "\\z. \\z. x y")|]
 
-let from_lambda_pairs p = 
-  lambda_suites 
+let from_lambda_pairs p =
+  lambda_suites
   |> Array.mapi (fun i (a,b) -> Printf.sprintf "lambda_print %d" i, (fun _ -> Mt.Eq(Lambda_suites.string_of_lambda a, b)))
   |> Array.to_list
 
@@ -176,7 +176,7 @@ let ksprintf_suites = Mt.[
 
 (* module Mt = Mock_mt *)
 
-let int64_suites = 
+let int64_suites =
   let a = Format.asprintf in
   Mt.[
 
@@ -189,9 +189,9 @@ let int64_suites =
     "i64_simple4", (fun _ -> Eq(a "%LX" 44L, "2C"));
     "i64_simple5", (fun _ -> Eq(a "%Lx" 44L, "2c"));
     "i64_simple6", (fun _ -> Eq(a "%*Lx" 5 44L, "   2c"));
-    "i64_simple7", (fun _ -> Eq(Int64.to_string 3333L, "3333"));    
+    "i64_simple7", (fun _ -> Eq(Int64.to_string 3333L, "3333"));
     "i64_simple8", (fun _ -> Eq( a  "%Ld%018Ld" 3L 3L, "3000000000000000003"));
-    "i64_simple9", (fun _ -> Eq( a  "%Ld%018Ld" 460800000000000L 0L, 
+    "i64_simple9", (fun _ -> Eq( a  "%Ld%018Ld" 460800000000000L 0L,
                                  "460800000000000000000000000000000"));
     "i64_simple10", (fun _ -> Eq( a "%Lx" Int64.max_int,"7fffffffffffffff"
                                 ));
@@ -217,21 +217,21 @@ let int64_suites =
 
         Eq(a "%Lu" (-1L), "18446744073709551615")
       );
-    __LOC__, (fun _ -> 
+    __LOC__, (fun _ ->
         Eq (a "%Lu" (-100L), "18446744073709551516")
-    ) ; 
+    ) ;
     __LOC__, (fun _ ->
       Eq (a "%Lu" Int64.(add min_int 1L), "9223372036854775809")
     );
-    __LOC__, (fun _ -> Eq(a "%Lu" (-10000L), "18446744073709541616"));    
+    __LOC__, (fun _ -> Eq(a "%Lu" (-10000L), "18446744073709541616"));
     "i64_simple19", (fun _ -> Eq(a "%Lo" Int64.min_int , "1000000000000000000000") );
     "i64_simple13", (fun _ ->  Eq( a "%LX" Int64.(add min_int 1L),
                                    "8000000000000001"));
-    
+
     "i64_simple20", (fun _ -> Eq(a "%12Lx" 3L, "           3"));
     "i64_simple21", (fun _ -> Eq(a "%LX" 7985179176134664640L, "6ED10E27455A61C0"));
     "missing_neline", (fun _ -> Eq(Format.asprintf "%Ld\n" 32L, "32\n"));
-    "missing_newline2", (fun _ -> 
+    "missing_newline2", (fun _ ->
         Eq((let buf = Buffer.create 30 in Printf.bprintf buf "%Ld\n" 32L; Buffer.contents buf),
            "32\n"
           ))
@@ -250,7 +250,7 @@ let of_string_data =
      (113L, "0b01110001");
      (1L, "-0xffff_ffff_ffff_ffff")
   |]
-  
+
 (* module Mt = Mock_mt *)
 
 let () =
@@ -260,14 +260,13 @@ let () =
   from_lambda_pairs lambda_suites @
   ksprintf_suites @
   (Array.mapi (fun i (fmt, f,str_result) -> (Printf.sprintf "float_format %d" i ) , (fun _ -> Mt.Eq(format_float fmt f, str_result))) float_data |> Array.to_list) @
-  
+
   int64_suites @
   (of_string_data
    |>
    Array.mapi (fun i (a,b) ->
-       ((Printf.sprintf "int64_of_string %d " i),  fun _ -> Mt.Eq(Int64.of_string b, a) )      
-     ) 
+       ((Printf.sprintf "int64_of_string %d " i),  fun _ -> Mt.Eq(Int64.of_string b, a) )
+     )
    |> Array.to_list  )
 
 
-    

@@ -13,22 +13,22 @@
 
 (** balanced tree based on stdlib distribution *)
 
-type 'a t = 
-  | Empty 
-  | Node of 'a t * 'a * 'a t * int 
+type 'a t =
+  | Empty
+  | Node of 'a t * 'a * 'a t * int
 
-type 'a enumeration = 
+type 'a enumeration =
   | End | More of 'a * 'a t * 'a enumeration
 
 
-let rec cons_enum s e = 
-  match s with 
-  | Empty -> e 
+let rec cons_enum s e =
+  match s with
+  | Empty -> e
   | Node(l,v,r,_) -> cons_enum l (More(v,r,e))
 
-let rec height = function
-  | Empty -> 0 
-  | Node(_,_,_,h) -> h   
+let height = function
+  | Empty -> 0
+  | Node(_,_,_,h) -> h
 
 (* Smallest and greatest element of a set *)
 
@@ -50,11 +50,11 @@ let empty = Empty
 let is_empty = function Empty -> true | _ -> false
 
 let rec cardinal_aux acc  = function
-  | Empty -> acc 
-  | Node (l,_,r, _) -> 
-    cardinal_aux  (cardinal_aux (acc + 1)  r ) l 
+  | Empty -> acc
+  | Node (l,_,r, _) ->
+    cardinal_aux  (cardinal_aux (acc + 1)  r ) l
 
-let cardinal s = cardinal_aux 0 s 
+let cardinal s = cardinal_aux 0 s
 
 let rec elements_aux accu = function
   | Empty -> accu
@@ -83,137 +83,137 @@ let rec exists p = function
   | Node(l, v, r, _) -> p v || exists p l || exists p r
 
 
-let max_int3 (a : int) b c = 
-  if a >= b then 
-    if a >= c then a 
+let max_int3 (a : int) b c =
+  if a >= b then
+    if a >= c then a
     else c
-  else 
+  else
   if b >=c then b
-  else c     
-let max_int_2 (a : int) b =  
-  if a >= b then a else b 
+  else c
+let max_int_2 (a : int) b =
+  if a >= b then a else b
 
 
 
 exception Height_invariant_broken
-exception Height_diff_borken 
+exception Height_diff_borken
 
-let rec check_height_and_diff = 
-  function 
+let rec check_height_and_diff =
+  function
   | Empty -> 0
-  | Node(l,_,r,h) -> 
+  | Node(l,_,r,h) ->
     let hl = check_height_and_diff l in
     let hr = check_height_and_diff r in
     if h <>  max_int_2 hl hr + 1 then raise Height_invariant_broken
-    else  
-      let diff = (abs (hl - hr)) in  
-      if  diff > 2 then raise Height_diff_borken 
-      else h     
+    else
+      let diff = (abs (hl - hr)) in
+      if  diff > 2 then raise Height_diff_borken
+      else h
 
-let check tree = 
+let check tree =
   ignore (check_height_and_diff tree)
-(* 
-    Invariants: 
+(*
+    Invariants:
     1. {[ l < v < r]}
-    2. l and r balanced 
+    2. l and r balanced
     3. [height l] - [height r] <= 2
 *)
-let create l v r = 
+let create l v r =
   let hl = match l with Empty -> 0 | Node (_,_,_,h) -> h in
   let hr = match r with Empty -> 0 | Node (_,_,_,h) -> h in
-  Node(l,v,r, if hl >= hr then hl + 1 else hr + 1)         
+  Node(l,v,r, if hl >= hr then hl + 1 else hr + 1)
 
 (* Same as create, but performs one step of rebalancing if necessary.
     Invariants:
     1. {[ l < v < r ]}
-    2. l and r balanced 
+    2. l and r balanced
     3. | height l - height r | <= 3.
 
     Proof by indunction
 
-    Lemma: the height of  [bal l v r] will bounded by [max l r] + 1 
+    Lemma: the height of  [bal l v r] will bounded by [max l r] + 1
 *)
 (*
 let internal_bal l v r =
   match l with
   | Empty ->
-    begin match r with 
+    begin match r with
       | Empty -> Node(Empty,v,Empty,1)
-      | Node(rl,rv,rr,hr) -> 
+      | Node(rl,rv,rr,hr) ->
         if hr > 2 then
           begin match rl with
-            | Empty -> create (* create l v rl *) (Node (Empty,v,Empty,1)) rv rr 
-            | Node(rll,rlv,rlr,hrl) -> 
-              let hrr = height rr in 
-              if hrr >= hrl then 
-                Node  
+            | Empty -> create (* create l v rl *) (Node (Empty,v,Empty,1)) rv rr
+            | Node(rll,rlv,rlr,hrl) ->
+              let hrr = height rr in
+              if hrr >= hrl then
+                Node
                   ((Node (Empty,v,rl,hrl+1))(* create l v rl *),
-                   rv, rr, if hrr = hrl then hrr + 2 else hrr + 1) 
-              else 
-                let hrll = height rll in 
-                let hrlr = height rlr in 
+                   rv, rr, if hrr = hrl then hrr + 2 else hrr + 1)
+              else
+                let hrll = height rll in
+                let hrlr = height rlr in
                 create
-                  (Node(Empty,v,rll,hrll + 1)) 
-                  (* create l v rll *) 
-                  rlv 
+                  (Node(Empty,v,rll,hrll + 1))
+                  (* create l v rll *)
+                  rlv
                   (Node (rlr,rv,rr, if hrlr > hrr then hrlr + 1 else hrr + 1))
-                  (* create rlr rv rr *)    
-          end 
-        else Node (l,v,r, hr + 1)  
+                  (* create rlr rv rr *)
+          end
+        else Node (l,v,r, hr + 1)
     end
   | Node(ll,lv,lr,hl) ->
-    begin match r with 
+    begin match r with
       | Empty ->
-        if hl > 2 then 
+        if hl > 2 then
           (*if height ll >= height lr then create ll lv (create lr v r)
             else*)
-          begin match lr with 
-            | Empty -> 
-              create ll lv (Node (Empty,v,Empty, 1)) 
-            (* create lr v r *)  
-            | Node(lrl,lrv,lrr,hlr) -> 
-              if height ll >= hlr then 
+          begin match lr with
+            | Empty ->
+              create ll lv (Node (Empty,v,Empty, 1))
+            (* create lr v r *)
+            | Node(lrl,lrv,lrr,hlr) ->
+              if height ll >= hlr then
                 create ll lv
-                  (Node(lr,v,Empty,hlr+1)) 
+                  (Node(lr,v,Empty,hlr+1))
                   (*create lr v r*)
-              else 
-                let hlrr = height lrr in  
-                create 
+              else
+                let hlrr = height lrr in
+                create
                   (create ll lv lrl)
                   lrv
-                  (Node(lrr,v,Empty,hlrr + 1)) 
+                  (Node(lrr,v,Empty,hlrr + 1))
                   (*create lrr v r*)
-          end 
-        else Node(l,v,r, hl+1)    
+          end
+        else Node(l,v,r, hl+1)
       | Node(rl,rv,rr,hr) ->
-        if hl > hr + 2 then           
-          begin match lr with 
+        if hl > hr + 2 then
+          begin match lr with
             | Empty ->   create ll lv (create lr v r)
             | Node(lrl,lrv,lrr,_) ->
               if height ll >= height lr then create ll lv (create lr v r)
-              else 
+              else
                 create (create ll lv lrl) lrv (create lrr v r)
-          end 
+          end
         else
-        if hr > hl + 2 then             
-          begin match rl with 
+        if hr > hl + 2 then
+          begin match rl with
             | Empty ->
-              let hrr = height rr in   
+              let hrr = height rr in
               Node(
                 (Node (l,v,Empty,hl + 1))
                 (*create l v rl*)
                 ,
                 rv,
                 rr,
-                if hrr > hr then hrr + 1 else hl + 2 
+                if hrr > hr then hrr + 1 else hl + 2
               )
             | Node(rll,rlv,rlr,_) ->
-              let hrr = height rr in 
-              let hrl = height rl in 
-              if hrr >= hrl then create (create l v rl) rv rr else 
+              let hrr = height rr in
+              let hrl = height rl in
+              if hrr >= hrl then create (create l v rl) rv rr else
                 create (create l v rll) rlv (create rlr rv rr)
           end
-        else  
+        else
           Node(l,v,r, if hl >= hr then hl+1 else hr + 1)
     end
 *)
@@ -223,11 +223,11 @@ let internal_bal l v r =
   if hl > hr + 2 then begin
     match l with
       Empty -> assert false
-    | Node(ll, lv, lr, _) ->   
+    | Node(ll, lv, lr, _) ->
       if height ll >= height lr then
-        (* [ll] >~ [lr] 
-           [ll] >~ [r] 
-           [ll] ~~ [ lr ^ r]  
+        (* [ll] >~ [lr]
+           [ll] >~ [r]
+           [ll] ~~ [ lr ^ r]
         *)
         create ll lv (create lr v r)
       else begin
@@ -236,7 +236,7 @@ let internal_bal l v r =
         | Node(lrl, lrv, lrr, _)->
           (* [lr] >~ [ll]
              [lr] >~ [r]
-             [ll ^ lrl] ~~ [lrr ^ r]   
+             [ll ^ lrl] ~~ [lrr ^ r]
           *)
           create (create ll lv lrl) lrv (create lrr v r)
       end
@@ -253,19 +253,19 @@ let internal_bal l v r =
           create (create l v rll) rlv (create rlr rv rr)
       end
   end else
-    Node(l, v, r, (if hl >= hr then hl + 1 else hr + 1))    
+    Node(l, v, r, (if hl >= hr then hl + 1 else hr + 1))
 
 let rec remove_min_elt = function
     Empty -> invalid_arg "Set.remove_min_elt"
   | Node(Empty, v, r, _) -> r
   | Node(l, v, r, _) -> internal_bal (remove_min_elt l) v r
 
-let singleton x = Node(Empty, x, Empty, 1)    
+let singleton x = Node(Empty, x, Empty, 1)
 
-(* 
+(*
    All elements of l must precede the elements of r.
        Assume | height l - height r | <= 2.
-   weak form of [concat] 
+   weak form of [concat]
 *)
 
 let internal_merge l r =
@@ -291,10 +291,10 @@ let rec add_max_element v = function
   | Node (l, x, r, h) ->
     internal_bal l x (add_max_element v r)
 
-(** 
+(**
     Invariants:
-    1. l < v < r 
-    2. l and r are balanced 
+    1. l < v < r
+    2. l and r are balanced
 
     Proof by induction
     The height of output will be ~~ (max (height l) (height r) + 2)
@@ -305,19 +305,19 @@ let rec internal_join l v r =
     (Empty, _) -> add_min_element v r
   | (_, Empty) -> add_max_element v l
   | (Node(ll, lv, lr, lh), Node(rl, rv, rr, rh)) ->
-    if lh > rh + 2 then 
+    if lh > rh + 2 then
       (* proof by induction:
-         now [height of ll] is [lh - 1] 
+         now [height of ll] is [lh - 1]
       *)
-      internal_bal ll lv (internal_join lr v r) 
+      internal_bal ll lv (internal_join lr v r)
     else
-    if rh > lh + 2 then internal_bal (internal_join l v rl) rv rr 
+    if rh > lh + 2 then internal_bal (internal_join l v rl) rv rr
     else create l v r
 
 
 (*
-    Required Invariants: 
-    [t1] < [t2]  
+    Required Invariants:
+    [t1] < [t2]
 *)
 let internal_concat t1 t2 =
   match (t1, t2) with
@@ -365,38 +365,38 @@ let of_sorted_list l =
   in
   fst (sub (List.length l) l)
 
-let of_sorted_array l =   
+let of_sorted_array l =
   let rec sub start n l  =
-    if n = 0 then Empty else 
-    if n = 1 then 
+    if n = 0 then Empty else
+    if n = 1 then
       let x0 = Array.unsafe_get l start in
       Node (Empty, x0, Empty, 1)
-    else if n = 2 then     
-      let x0 = Array.unsafe_get l start in 
-      let x1 = Array.unsafe_get l (start + 1) in 
+    else if n = 2 then
+      let x0 = Array.unsafe_get l start in
+      let x1 = Array.unsafe_get l (start + 1) in
       Node (Node(Empty, x0, Empty, 1), x1, Empty, 2) else
-    if n = 3 then 
-      let x0 = Array.unsafe_get l start in 
+    if n = 3 then
+      let x0 = Array.unsafe_get l start in
       let x1 = Array.unsafe_get l (start + 1) in
       let x2 = Array.unsafe_get l (start + 2) in
       Node (Node(Empty, x0, Empty, 1), x1, Node(Empty, x2, Empty, 1), 2)
-    else 
+    else
       let nl = n / 2 in
       let left = sub start nl l in
-      let mid = start + nl in 
-      let v = Array.unsafe_get l mid in 
-      let right = sub (mid + 1) (n - nl - 1) l in        
+      let mid = start + nl in
+      let v = Array.unsafe_get l mid in
+      let right = sub (mid + 1) (n - nl - 1) l in
       create left v right
   in
-  sub 0 (Array.length l) l 
+  sub 0 (Array.length l) l
 
 let is_ordered cmp tree =
   let rec is_ordered_min_max tree =
     match tree with
     | Empty -> `Empty
-    | Node(l,v,r,_) -> 
+    | Node(l,v,r,_) ->
       begin match is_ordered_min_max l with
-        | `No -> `No 
+        | `No -> `No
         | `Empty ->
           begin match is_ordered_min_max r with
             | `No  -> `No
@@ -410,22 +410,22 @@ let is_ordered cmp tree =
         | `V(min_v,max_v)->
           begin match is_ordered_min_max r with
             | `No -> `No
-            | `Empty -> 
-              if cmp max_v v < 0 then 
+            | `Empty ->
+              if cmp max_v v < 0 then
                 `V(min_v,v)
               else
-                `No 
+                `No
             | `V(min_v_r, max_v_r) ->
               if cmp max_v min_v_r < 0 then
                 `V(min_v,max_v_r)
               else `No
           end
-      end  in 
-  is_ordered_min_max tree <> `No 
+      end  in
+  is_ordered_min_max tree <> `No
 
-let invariant cmp t = 
-  check t ; 
-  is_ordered cmp t 
+let invariant cmp t =
+  check t ;
+  is_ordered cmp t
 
 let rec compare_aux cmp e1 e2 =
   match (e1, e2) with
@@ -443,7 +443,7 @@ let compare cmp s1 s2 =
 
 
 module type S = sig
-  type elt 
+  type elt
   type t
   val empty: t
   val is_empty: t -> bool
@@ -457,7 +457,7 @@ module type S = sig
   val min_elt: t -> elt
   val max_elt: t -> elt
   val choose: t -> elt
-  val of_sorted_list : elt list -> t 
+  val of_sorted_list : elt list -> t
   val of_sorted_array : elt array -> t
   val partition: (elt -> bool) -> t -> t * t
 
@@ -476,6 +476,6 @@ module type S = sig
   val find: elt -> t -> elt
   val of_list: elt list -> t
   val of_sorted_list : elt list ->  t
-  val of_sorted_array : elt array -> t 
-  val invariant : t -> bool 
-end 
+  val of_sorted_array : elt array -> t
+  val invariant : t -> bool
+end

@@ -1,3 +1,4 @@
+[@@@ocaml.warning "-3"]
 
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0

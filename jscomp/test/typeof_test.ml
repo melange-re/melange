@@ -1,4 +1,4 @@
-let string_or_number (type t) x =
+let string_or_number x =
   let ty   = Js.Types.classify x in
   match  ty with
   | JSString v   -> Js.log (v ^ "hei") ; true (* type check *)

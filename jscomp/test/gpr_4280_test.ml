@@ -4,13 +4,13 @@ let eq loc x y = Mt.eq_suites ~test_id ~suites loc x y
 
 let u = ref 0
 let div ~children () =
-  for i = 0 to 1 do
+  for _i = 0 to 1 do
     u := 300;
     Js.log "nonline"
   done
 
 let string (s : string) =
-  for i = 0 to 1 do
+  for _i = 0 to 1 do
     u := 200;
     Js.log "no"
   done

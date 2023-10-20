@@ -18,11 +18,11 @@
  (modules :standard \ mt)
  (melange.compile_flags
   -w
-  -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
+  -27-32+104
   -bs-no-version-header
   -bs-cross-module-opt))
 
-;; same as above but no preprocessing
+;; same as above but no preprocessing with reason-react-ppx
 
 (subdir
  re_or_res
@@ -33,10 +33,7 @@
   (wrapped false)
   (preprocess
    (pps melange.ppx reason-react-ppx))
-  (melange.compile_flags
-   -w
-   -3-6-9-20-26-27-30-32..39-52-61-67-69-106+104
-   -bs-cross-module-opt)))
+  (melange.compile_flags -w -39+104 -bs-cross-module-opt)))
 
 (subdir
  es6_tests
