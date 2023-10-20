@@ -54,11 +54,11 @@ let stdlib_paths =
 #ifndef BS_RELEASE_BUILD
       [ root // "jscomp" // "stdlib" // ".stdlib.objs" // Literals.package_name
       ; root // "jscomp" // "runtime" // ".js.objs" // Literals.package_name
-      ; root // "jscomp" // "others" // ".belt.objs" // Literals.package_name ]
+      ]
 #else
       [ root // Literals.lib // Literals.package_name // Literals.package_name
       ; root // Literals.lib // Literals.package_name // "js" // Literals.package_name
-      ; root // Literals.lib // Literals.package_name // "belt" // Literals.package_name ]
+      ]
 #endif
   end)
 
