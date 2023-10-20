@@ -848,6 +848,14 @@ module Mapper = struct
                               :: pval_attributes;
                           };
                     })
+        | Psig_attribute
+            ({
+               (* TODO: remove support for bs.* *)
+               attr_name = { txt = "bs.config" | "mel.config" | "config"; _ };
+               _;
+             } as attr) ->
+            Bs_ast_invariant.mark_used_bs_attribute attr;
+            sigi
         | _ -> super#signature_item sigi
     end
 end

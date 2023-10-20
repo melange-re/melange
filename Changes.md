@@ -10,6 +10,8 @@ Unreleased
 - Make `'a Js.t` abstract (again), fixing a regression when bringing back
   OCaml-style objects BuckleScript
   ([#786](https://github.com/melange-re/melange/pull/786))
+- Don't issue "unused attribute" warning for well-formed `@@@mel.config` in
+  interface files ([#800](https://github.com/melange-re/melange/pull/800))
 
 2.0.0 2023-09-13
 ---------------

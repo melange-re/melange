@@ -23,10 +23,3 @@
   >   [@@@mel.config { flags = [|"-unboxed-types"|] }]
   > EOF
   $ melc -ppx melppx x.mli
-  File "x.mli", line 1, characters 6-16:
-  1 |   [@@@mel.config { flags = [|"-unboxed-types"|] }]
-            ^^^^^^^^^^
-  Alert unused: Unused attribute [@mel.config]
-  This means such annotation is not annotated properly.
-  For example, some annotations are only meaningful in externals
-  
