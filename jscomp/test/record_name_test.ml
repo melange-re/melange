@@ -24,7 +24,7 @@ type t0 = { x: t0 ; y : int}
 
 let f1 u =
 match u with
-| {x = { x = {x={y}}}}   ->     y
+| {x = { x = {x={y;_};_};_};_}   ->     y
 
 type t1 = {
   mutable x' : int

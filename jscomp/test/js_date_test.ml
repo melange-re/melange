@@ -1,4 +1,3 @@
-
 module N = Js.Date
 
 let date () =
@@ -438,7 +437,7 @@ let suites = Mt.[
     "toISOString", (fun _ ->
       Eq("1976-03-08T11:11:56.789Z", N.toISOString (date ())));
     "toJSON", (fun _ ->
-      Eq("1976-03-08T11:11:56.789Z", N.toJSON (date ())));
+      Eq("1976-03-08T11:11:56.789Z", N.toJSON (date ()) [@ocaml.warning "-3"]));
     "toJSONUnsafe", (fun _ ->
       Eq("1976-03-08T11:11:56.789Z", N.toJSONUnsafe (date ())));
     (* locale dependent

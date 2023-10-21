@@ -63,7 +63,7 @@ let find_ticker_by_name all_tickers ticker =
 let print_all_composite all_tickers =
   List.iter (function
     | { type_ = Market; _ } -> ()
-    | { type_ = Binary_op _; ticker_name; value; } -> (match value with
+    | { type_ = Binary_op _; ticker_name; value; _} -> (match value with
       | Some v -> (* Printf.printf "%s: %f\n"  ticker_name v  *) print_endline ticker_name
       | None   -> (* Printf.printf "%s: nan\n" ticker_name *)print_endline ticker_name
     )
@@ -121,7 +121,7 @@ let compute_update_sequences all_tickers  =
     match type_ with
     | Market -> Ticker_map.add ticker_name [ticker] map
     | _ -> (
-      let rec loop up map ({ticker_name; type_; } as ticker)  =
+      let rec loop up map ({ticker_name; type_; _} as ticker)  =
         match type_ with
         | Market ->
           let l = Ticker_map.find ticker_name map in
@@ -142,7 +142,7 @@ let compute_update_sequences all_tickers  =
   Ticker_map.fold (fun k l map ->
     let l = List.sort_uniq (fun lhs rhs ->
       match lhs, rhs with
-      | {rank = Ranked x}     , {rank = Ranked y}   -> Stdlib.compare x y
+      | {rank = Ranked x;_}     , {rank = Ranked y;_}   -> Stdlib.compare x y
       | _            , _          -> failwith "All nodes should be ranked"
     ) l in
     Ticker_map.add k l map

@@ -28,7 +28,7 @@ type t =
     }
 
 let v = ref 0
-let rec obj =
+let obj =
     { get = (fun _ -> !v);
       set = (fun i -> v := i )
     }

@@ -1,3 +1,4 @@
+[@@@ocaml.warning "-3"]
 
 let suites = Mt.[
     __LOC__ , (fun _ ->

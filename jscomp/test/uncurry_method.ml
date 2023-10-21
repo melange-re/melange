@@ -1,4 +1,3 @@
-
 let obj = object [@u]
   method hi  a b = a + b
   method say a b = a - b
@@ -51,7 +50,7 @@ end
    Js.t  *)
 type add_meth = int -> int -> int [@meth]
 
-let obj2 : <
+let[@ocaml.warning "-61"] obj2 : <
   hi : add_meth;
   say : add_meth;
   xx : add_meth

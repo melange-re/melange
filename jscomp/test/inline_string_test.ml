@@ -1,5 +1,5 @@
 [@@@mel.config{no_export}]
-type t =
+type [@ocaml.warning "-37"]t =
   | A_list
   | A_hashtable
 
@@ -11,7 +11,7 @@ let string_of_associative_type = function
 ;; Js.log (string_of_associative_type A_list)
 
 
-type t2 =
+type[@ocaml.warning "-37"] t2 =
   | A_list
   | A_hashtable
   | A_bad
@@ -32,7 +32,7 @@ let f = function
 let u v =  f (Some v )
 ;; Js.log (f v, f None, f (Some 3))
 
-type v =
+type [@ocaml.warning "-37"] v =
   | A of int
   | B of int
   | C of int

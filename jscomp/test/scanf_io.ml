@@ -1,5 +1,4 @@
 open Scanf
-open Testing
 
 (* The tscanf testbed case file name. *)
 let tscanf_data_file = "tscanf_data";;

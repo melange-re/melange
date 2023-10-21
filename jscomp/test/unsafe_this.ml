@@ -24,7 +24,7 @@ let uux_this : < length : int > Js.t -> int -> int -> int [@mel.this]
 
 type (-'this, +'tuple) u
 
-type 'a fn = (< > Js.t, 'a) u
+(* type 'a fn = (< > Js.t, 'a) u *)
 
 (* doesn't typecheck: no subtype *)
 (*

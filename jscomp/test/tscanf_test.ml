@@ -325,7 +325,7 @@ test __LOC__ (test13 ())
 ;;
 
 (* A general int list scanner. *)
-let rec scan_int_list ib =
+let scan_int_list ib =
   bscanf ib "[ " ();
   let accu = scan_elems ib [] in
   bscanf ib " ]" ();
@@ -346,7 +346,7 @@ let rec scan_elems ib accu =
      | c -> failwith "scan_elems")
 ;;
 
-let rec scan_int_list ib =
+let scan_int_list ib =
   bscanf ib "[ " ();
   scan_elems ib []
 ;;
@@ -522,7 +522,7 @@ let rec scan_elems ib accu =
 ;;
 
 (* The general int list scanner. *)
-let rec scan_int_list ib =
+let scan_int_list ib =
   bscanf ib "[ " ();
   let accu = scan_elems ib [] in
   bscanf ib " ]" ();

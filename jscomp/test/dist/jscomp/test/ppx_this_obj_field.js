@@ -158,7 +158,7 @@ var test_type2 = {
   tl: test_type2_1
 };
 
-eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 92, characters 5-12", [
+eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 94, characters 5-12", [
       6,
       v5.say()
     ]);
@@ -175,7 +175,7 @@ var c = v.say();
 
 v.incr();
 
-eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 99, characters 5-12", [
+eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 101, characters 5-12", [
       [
         3,
         4,
@@ -194,7 +194,7 @@ z.setX(32);
 
 var bb = z.getX();
 
-eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 103, characters 5-12", [
+eq("File \"jscomp/test/ppx_this_obj_field.ml\", line 105, characters 5-12", [
       [
         3,
         32

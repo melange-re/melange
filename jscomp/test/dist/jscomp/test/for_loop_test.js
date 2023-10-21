@@ -85,7 +85,7 @@ function for_6(x, u) {
   };
   var inspect_3 = -1;
   v4.contents = v4.contents + 1 | 0;
-  for(var j = 0; j <= 1; ++j){
+  for(var _j = 0; _j <= 1; ++_j){
     v5.contents = v5.contents + 1 | 0;
     var v2 = {
       contents: 0
