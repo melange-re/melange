@@ -67,6 +67,19 @@ Here are some common commands you may find useful:
 - `dune runtest` runs the native tests
 - `dune exec jscomp/main/melc.exe` is useful to run the development version of `melc`
 
+### Updating the `vendor/melange-compiler-libs` submodule:
+
+1. Make your change in
+   [`vendor/melange-compiler-libs`](./vendor/melange-compiler-libs)
+2. Commit to your fork of the [`melange-compiler-libs`
+   repo](https://github.com/melange-re/melange-compiler-libs) and get a PR
+   through
+3. Commit the updated branch to the submodule in this repository
+4. To make it build in CI, change the `melange-compiler-libs` input URL in
+   [flake.nix](https://github.com/melange-re/melange/blob/9597451da4c83fd6ba937e4592941b7cb18b45e8/flake.nix#L14)
+   (if necessary, e.g. to point to an unmerged branch), then run `nix flake
+   update` and commit the modified `flake.lock`
+
 ## Submitting a Pull Request
 
 When you are almost ready to open a PR, it's a good idea to run the full CI test suite locally to make sure everything works. First, open a new non-`nix` shell or exit your current `nix` shell by using the `exit` command or `CTRL+D`. Then, run the following command:
