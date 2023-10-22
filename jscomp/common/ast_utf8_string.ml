@@ -22,12 +22,43 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type byte = Single of int | Cont of int | Leading of int * int | Invalid
+
+(** [classify chr] returns the {!byte} corresponding to [chr] *)
+let classify chr =
+  let c = int_of_char chr in
+  (* Classify byte according to leftmost 0 bit *)
+  if c land 0b1000_0000 = 0 then Single c
+  else if (* c 0b0____*)
+          c land 0b0100_0000 = 0 then Cont (c land 0b0011_1111)
+  else if (* c 0b10___*)
+          c land 0b0010_0000 = 0 then Leading (1, c land 0b0001_1111)
+  else if (* c 0b110__*)
+          c land 0b0001_0000 = 0 then Leading (2, c land 0b0000_1111)
+  else if (* c 0b1110_ *)
+          c land 0b0000_1000 = 0 then Leading (3, c land 0b0000_0111)
+  else if (* c 0b1111_0___*)
+          c land 0b0000_0100 = 0 then Leading (4, c land 0b0000_0011)
+  else if (* c 0b1111_10__*)
+          c land 0b0000_0010 = 0 then Leading (5, c land 0b0000_0001)
+    (* c 0b1111_110__ *)
+  else Invalid
+
+let rec next s ~remaining offset =
+  if remaining = 0 then offset
+  else
+    match classify s.[offset + 1] with
+    | Cont _cc -> next s ~remaining:(remaining - 1) (offset + 1)
+    | _ -> -1
+    | exception _ -> -1
+(* it can happen when out of bound *)
+
 let rec check_no_escapes_or_unicode (s : string) (byte_offset : int)
     (s_len : int) =
   if byte_offset = s_len then true
   else
     let current_char = s.[byte_offset] in
-    match Ext_utf8.classify current_char with
+    match classify current_char with
     | Single 92 (* '\\' *) -> false
     | Single _ -> check_no_escapes_or_unicode s (byte_offset + 1) s_len
     | Invalid | Cont _ | Leading _ -> false
