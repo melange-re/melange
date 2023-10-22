@@ -24,7 +24,30 @@
 
 [@@@mel.config { flags = [| "-unboxed-types" |] }]
 
+(* DESIGN:
+   - It does not have any code, all its code will be inlined so that
+       there will never be
+   {[ require('js')]}
+   - Its interface should be minimal
+*)
+
+(** This library provides bindings and necessary support for JS FFI.
+    It contains all bindings into [Js] namespace.
+
+    {[
+      [| 1;2;3;4|]
+      |. Js.Array2.map (fun x -> x + 1 )
+      |. Js.Array2.reduce (+) 0
+      |. Js.log
+    ]}
+*)
+
 include Js_internal
+
+(** Types for JS objects *)
+
+type 'a t
+(** This used to be mark a Js object type. *)
 
 type +'a null = 'a Js_null.t
 (** nullable, value of this type can be either [null] or ['a]
@@ -96,8 +119,14 @@ module Json = Js_json
 module Math = Js_math
 (** Provide bindings for JS [Math] object *)
 
-module Obj = Js_obj
-(** Provide utilities for {!Js.t} *)
+module Obj = struct
+  external empty : unit -> < .. > t = "" [@@mel.obj]
+
+  external assign : < .. > t -> < .. > t -> < .. > t = "assign"
+  [@@mel.scope "Object"]
+
+  external keys : _ t -> string array = "keys" [@@mel.scope "Object"]
+end
 
 module Typed_array = Js_typed_array
 (** Provide bindings for JS typed array *)
@@ -141,5 +170,15 @@ module WeakMap = Js_weakmap
 
 module Cast = Js_cast
 module MapperRt = Js_mapperRt
+
+module Private = struct
+  module Js_OO = struct
+    include Js_OO
+
+    (* NOTE(anmonteiro): unsafe_downgrade is exposed here instead of Js_OO
+       since it depends on `'a Js.t`, defined above. *)
+    external unsafe_downgrade : 'a t -> 'a = "#unsafe_downgrade"
+  end
+end
 
 (**/**)
