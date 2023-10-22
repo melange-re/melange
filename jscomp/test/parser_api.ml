@@ -1375,9 +1375,9 @@ type t =
   | No_cmi_file of string                   (* 49 *)
   | Bad_docstring of bool                   (* 50 *)
 
-  | Bs_unused_attribute of string           (* 101 *)
+  | Mel_unused_attribute of string          (* 101 *)
   | Bs_polymorphic_comparison               (* 102 *)
-  | Bs_ffi_warning of string                (* 103 *)
+  | Mel_ffi_warning of string               (* 103 *)
   | Bs_derive_warning of string             (* 104 *)
 ;;
 
@@ -1480,9 +1480,9 @@ type t =
   | No_cmi_file of string                   (* 49 *)
   | Bad_docstring of bool                   (* 50 *)
 
-  | Bs_unused_attribute of string           (* 101 *)
+  | Mel_unused_attribute of string           (* 101 *)
   | Bs_polymorphic_comparison               (* 102 *)
-  | Bs_ffi_warning of string                (* 103 *)
+  | Mel_ffi_warning of string                (* 103 *)
   | Bs_derive_warning of string             (* 104 *)
 ;;
 
@@ -1544,9 +1544,9 @@ let number = function
   | No_cmi_file _ -> 49
   | Bad_docstring _ -> 50
 
-  | Bs_unused_attribute _ -> 101
+  | Mel_unused_attribute _ -> 101
   | Bs_polymorphic_comparison -> 102
-  | Bs_ffi_warning _ -> 103
+  | Mel_ffi_warning _ -> 103
   | Bs_derive_warning _ -> 104
 ;;
 
@@ -1812,11 +1812,11 @@ let message = function
   | Bad_docstring unattached ->
       if unattached then "unattached documentation comment (ignored)"
       else "ambiguous documentation comment"
-  | Bs_unused_attribute s ->
+  | Mel_unused_attribute s ->
       "Unused BuckleScript attribute: " ^ s
   | Bs_polymorphic_comparison ->
       "polymorphic comparison introduced (maybe unsafe)"
-  | Bs_ffi_warning s ->
+  | Mel_ffi_warning s ->
       "BuckleScript FFI warning: " ^ s
   | Bs_derive_warning s ->
       "BuckleScript bs.deriving warning: " ^ s

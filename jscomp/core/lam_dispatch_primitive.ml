@@ -278,7 +278,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
           E.neq_null_undefined_boolean a1 b1
       (* FIXME address_equal *)
       | _ ->
-          Location.prerr_warning loc Warnings.Bs_polymorphic_comparison;
+          Location.prerr_warning loc Warnings.Mel_polymorphic_comparison;
           call Js_runtime_modules.obj_runtime)
   | "caml_equal" -> (
       match args with
@@ -287,12 +287,12 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
         ->
           E.eq_null_undefined_boolean a1 b1 (* FIXME address_equal *)
       | _ ->
-          Location.prerr_warning loc Warnings.Bs_polymorphic_comparison;
+          Location.prerr_warning loc Warnings.Mel_polymorphic_comparison;
           call Js_runtime_modules.obj_runtime)
   | "caml_min" | "caml_max" | "caml_compare" | "caml_greaterequal"
   | "caml_greaterthan" | "caml_lessequal" | "caml_lessthan" | "caml_equal_null"
   | "caml_equal_undefined" | "caml_equal_nullable" ->
-      Location.prerr_warning loc Warnings.Bs_polymorphic_comparison;
+      Location.prerr_warning loc Warnings.Mel_polymorphic_comparison;
       call Js_runtime_modules.obj_runtime
   | "caml_obj_tag" -> (
       (* Note that in ocaml, [int] has tag [1000] and [string] has tag [252]
@@ -334,7 +334,7 @@ let translate loc (prim_name : string) (args : J.expression list) : J.expression
       | [ e1; e2 ] -> E.unchecked_int32_mul e1 e2
       | _ -> assert false)
   | _ ->
-      Location.prerr_warning loc (Bs_unimplemented_primitive prim_name);
+      Location.prerr_warning loc (Mel_unimplemented_primitive prim_name);
       E.resolve_and_apply prim_name args
 (*we dont use [throw] here, since [throw] is an statement
   so we wrap in IIFE

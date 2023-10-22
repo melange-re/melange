@@ -48,4 +48,4 @@ let check_flow_errors ~(loc : Location.t) ~offset
           loc_start = offset_pos loc_start start offset;
           loc_end = offset_pos loc_start _end offset;
         }
-        (Bs_ffi_warning (Parse_error.PP.error first_error))
+        (Mel_ffi_warning (Parse_error.PP.error first_error))
