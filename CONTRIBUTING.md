@@ -147,7 +147,7 @@ node scripts/build_reserved.js
           [`jscomp/test/dist`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist)
           and
           [`jscomp/test/dist`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist-es6))
-            - *NOTE*: these snapshots are currently built manually. To do so,
+            - **NOTE**: these snapshots are currently built manually. To do so,
               comment the only line in
               [`jscomp/dune`](https://github.com/melange-re/melange/blob/main/jscomp/dune)
               and run `dune build`.
