@@ -1,4 +1,4 @@
-Unreleased
+2.1.0 2023-10-22
 ---------------
 
 - Add TRMC (Tail Recursion Modulo Cons) support
