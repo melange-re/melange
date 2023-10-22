@@ -12,6 +12,8 @@ Unreleased
   ([#786](https://github.com/melange-re/melange/pull/786))
 - Don't issue "unused attribute" warning for well-formed `@@@mel.config` in
   interface files ([#800](https://github.com/melange-re/melange/pull/800))
+- Stop showing `Js__.Js_internal` in types and error messages
+  ([#798](https://github.com/melange-re/melange/pull/798))
 
 2.0.0 2023-09-13
 ---------------
