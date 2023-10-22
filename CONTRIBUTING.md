@@ -146,7 +146,7 @@ node scripts/build_reserved.js
         - a snapshot of their compilation to JavaScript (in
           [`jscomp/test/dist`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist)
           and
-          [`jscomp/test/dist`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist-es6))
+          [`jscomp/test/dist-es6`](https://github.com/melange-re/melange/tree/main/jscomp/test/dist-es6))
             - **NOTE**: these snapshots are currently built manually. To do so,
               comment the only line in
               [`jscomp/dune`](https://github.com/melange-re/melange/blob/main/jscomp/dune)
