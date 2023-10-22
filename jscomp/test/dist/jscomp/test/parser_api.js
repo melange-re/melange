@@ -1860,9 +1860,9 @@ function number(param) {
           return 49;
       case /* Bad_docstring */33 :
           return 50;
-      case /* Bs_unused_attribute */34 :
+      case /* Mel_unused_attribute */34 :
           return 101;
-      case /* Bs_ffi_warning */35 :
+      case /* Mel_ffi_warning */35 :
           return 103;
       case /* Bs_derive_warning */36 :
           return 104;
@@ -2652,9 +2652,9 @@ function message(param) {
           } else {
             return "ambiguous documentation comment";
           }
-      case /* Bs_unused_attribute */34 :
+      case /* Mel_unused_attribute */34 :
           return "Unused BuckleScript attribute: " + param._0;
-      case /* Bs_ffi_warning */35 :
+      case /* Mel_ffi_warning */35 :
           return "BuckleScript FFI warning: " + param._0;
       case /* Bs_derive_warning */36 :
           return "BuckleScript bs.deriving warning: " + param._0;
