@@ -1,10 +1,7 @@
-
-
-
 let f : (int * int -> int [@u]) = fun [@u] x -> let a,b = x in a + b
 
 
-let obj : < hi : (int * int -> unit [@mel.meth]) > Js.t  = object
+let[@ocaml.warning "-61"] obj : < hi : (int * int -> unit [@mel.meth]) > Js.t  = object
   method hi (x : int * int) =  Js.log x
 end [@u]
 (** expect *)

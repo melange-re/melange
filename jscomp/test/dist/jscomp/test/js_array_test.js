@@ -6,7 +6,7 @@ var Js__Js_vector = require("melange.js/js_vector.js");
 var Mt = require("./mt.js");
 
 var suites_0 = [
-  "File \"jscomp/test/js_array_test.ml\", line 3, characters 4-11",
+  "File \"jscomp/test/js_array_test.ml\", line 4, characters 4-11",
   (function (param) {
       var x = [
         1,
@@ -30,7 +30,7 @@ var suites_0 = [
 
 var suites_1 = {
   hd: [
-    "File \"jscomp/test/js_array_test.ml\", line 11, characters 4-11",
+    "File \"jscomp/test/js_array_test.ml\", line 12, characters 4-11",
     (function (param) {
         var x = [
           1,

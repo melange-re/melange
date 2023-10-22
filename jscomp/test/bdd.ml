@@ -24,8 +24,8 @@ let rec eval bdd vars =
   | Node(l, v, _, h) ->
       if vars.(v) then eval h vars else eval l vars
 
-let getId bdd = 
-  match bdd with 
+let getId bdd =
+  match bdd with
     Node(_,_,id,_) -> id
   | Zero           -> 0
   | One            -> 1
@@ -42,10 +42,10 @@ let resize newSize =
       let newSz_1 = newSize-1 in
       let newArr  = Array.make newSize [] in
       let rec copyBucket bucket =
-                match bucket with 
+                match bucket with
                   []     -> ()
-                | n :: ns ->  
-                    match n with 
+                | n :: ns ->
+                    match n with
                     | Node(l,v,_,h) ->
                        let ind = hashVal (getId l) (getId h) v land newSz_1
                        in
@@ -60,7 +60,7 @@ let resize newSize =
       sz_1 := newSz_1
 
 
-let rec insert idl idh v ind bucket newNode =
+let insert idl idh v ind bucket newNode =
         if !n_items <= !sz_1
         then ( (!htab).(ind) <- (newNode :: bucket);
                incr n_items )
@@ -80,18 +80,18 @@ let resetUnique () = (
 
 let mkNode low v high =
    let idl = getId low in
-   let idh = getId high 
+   let idh = getId high
    in
      if idl = idh
      then low
      else let ind      = hashVal idl idh v land  (!sz_1) in
           let bucket   = (!htab).(ind) in
-          let rec lookup b = 
-                    match b with 
+          let rec lookup b =
+                    match b with
                       [] -> let n = Node(low, v, (incr nodeC; !nodeC), high)
                             in
                              insert (getId low) (getId high) v ind bucket n; n
-                    | n :: ns -> 
+                    | n :: ns ->
                         match n with
                         | Node(l,v',id,h) ->
                            if v = v' && idl = getId l && idh = getId h
@@ -104,7 +104,7 @@ let mkNode low v high =
 type ordering = LESS | EQUAL | GREATER
 
 let cmpVar (x : int) (y : int) =
-  if x<y then LESS else if x>y then GREATER else EQUAL 
+  if x<y then LESS else if x>y then GREATER else EQUAL
 
 let zero = Zero
 let one  = One
@@ -123,7 +123,7 @@ let notslot1  = Array.make cacheSize 0
 let notslot2  = Array.make cacheSize one
 let hash x y  = ((x lsl 1)+y) mod cacheSize
 
-let rec not n = 
+let rec not n =
 match n with
   Zero -> One
 | One  -> Zero
@@ -134,9 +134,9 @@ match n with
                                in
                                  notslot1.(h) <- id; notslot2.(h) <- f; f
 
-let rec and2 n1 n2 = 
+let rec and2 n1 n2 =
 match n1 with
-  Node(l1, v1, i1, r1) 
+  Node(l1, v1, i1, r1)
   -> (match n2 with
         Node(l2, v2, i2, r2)
         -> let h = hash i1 i2
@@ -147,8 +147,8 @@ match n1 with
                           | LESS    -> mkNode (and2 l1 n2) v1 (and2 r1 n2)
                           | GREATER -> mkNode (and2 n1 l2) v2 (and2 n1 r2)
                   in
-                   andslot1.(h) <- i1; 
-                   andslot2.(h) <- i2; 
+                   andslot1.(h) <- i1;
+                   andslot2.(h) <- i2;
                    andslot3.(h) <- f;
                    f
      | Zero -> Zero
@@ -157,9 +157,9 @@ match n1 with
 |  One  -> n2
 
 
-let rec xor n1 n2 = 
+let rec xor n1 n2 =
 match n1 with
-  Node(l1, v1, i1, r1) 
+  Node(l1, v1, i1, r1)
   -> (match n2 with
         Node(l2, v2, i2, r2)
         -> let h = hash i1 i2
@@ -174,19 +174,19 @@ match n1 with
                    andslot2.(h) <- i2;
                    andslot3.(h) <- f;
                    f
-     | Zero -> n1 
+     | Zero -> n1
      | One  -> not n1)
 |  Zero -> n2
 |  One  -> not n2
 
-let hwb n = 
+let hwb n =
   let rec h i j = if i=j
                   then mkVar i
                   else  xor (and2 (not(mkVar j)) (h i (j-1)))
                             (and2 (mkVar j)      (g i (j-1)))
       and g i j = if i=j
                   then mkVar i
-                  else xor (and2 (not(mkVar i)) (h (i+1) j)) 
+                  else xor (and2 (not(mkVar i)) (h (i+1) j))
                            (and2 (mkVar i)      (g (i+1) j))
   in
      h 0 (n-1)
@@ -202,12 +202,12 @@ let random_vars n =
   for i = 0 to n - 1 do vars.(i) <- random() done;
   vars
 
-let bool_equal a b = 
+let bool_equal a b =
   match a, b with
-  | true, true 
+  | true, true
   | false, false
       -> true
-  |  _ -> false 
+  |  _ -> false
 
 let test_hwb bdd vars =
   (* We should have
@@ -227,7 +227,7 @@ let main () =
     (* if Array.length Sys.argv >= 3 then int_of_string Sys.argv.(2) else 100 in *)
   let bdd = hwb n in
   let succeeded = ref true in
-  for i = 1 to ntests do
+  for _i = 1 to ntests do
     succeeded := !succeeded && test_hwb bdd (random_vars n)
   done;
   assert !succeeded

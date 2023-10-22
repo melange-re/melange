@@ -4,7 +4,7 @@ exception Local
 exception B of int list
 exception C of int * int
 exception D of (int * int)
-let appf g x =
+let[@ocaml.warning "-38"] appf g x =
   let module U = struct
     exception A of int
   end in

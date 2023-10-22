@@ -368,7 +368,7 @@ function test_hwb(bdd, vars) {
 function main(param) {
   var bdd = hwb(22);
   var succeeded = true;
-  for(var i = 1; i <= 100; ++i){
+  for(var _i = 1; _i <= 100; ++_i){
     succeeded = succeeded && test_hwb(bdd, random_vars(22));
   }
   if (succeeded) {

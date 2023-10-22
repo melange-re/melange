@@ -161,7 +161,7 @@ let anyToUnit = _ => ();
 
 let anyToTrue = _ => true;
 
-let willReceivePropsDefault = ({state}) => state;
+let willReceivePropsDefault = ({state, _}) => state;
 
 let renderDefault = _self => string("RenderNotImplemented");
 
@@ -190,14 +190,13 @@ let convertPropsIfTheyreFromJs = (props, jsPropsToReason, debugName) => {
 let createClass =
     (type reasonState, type retainedProps, type action, debugName): reactClass =>
   ReasonReactOptimizedCreateClass.createClass(.
-    [@u]
-    {
+    [@u] [@ocaml.warning "-27"] {
       /***
        * TODO: Null out fields that aren't overridden beyond defaults in
        * `component`. React optimizes components that don't implement
        * lifecycles!
        */
-      val displayName = debugName;
+       val displayName = debugName;
       val mutable subscriptions = Js.null;
       /***
        * TODO: Avoid allocating this every time we need it. Should be doable.

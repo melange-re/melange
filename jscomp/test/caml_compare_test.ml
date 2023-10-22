@@ -1,7 +1,7 @@
 [@@@warning "-45"]
 type  u  = A of int | B of int * bool | C of int
 
-let function_equal_test = try ((fun x -> x + 1) = (fun x -> x + 2)) with
+let[@ocaml.warning "-52"] function_equal_test = try ((fun x -> x + 1) = (fun x -> x + 2)) with
                          | Invalid_argument "equal: functional value" -> true
                          | _ -> false
 

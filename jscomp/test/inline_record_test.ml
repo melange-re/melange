@@ -43,7 +43,7 @@ type t3 =
 let vvv : t3 = A0 {lbl = 3; more = []}
 
 
-;; eq __LOC__ (match v3 with A0 {lbl} -> lbl | _ -> assert false) 3
+;; eq __LOC__ (match v3 with A0 {lbl;_} -> lbl | _ -> assert false) 3
 
 type t4 =
   | A0 of { mutable x : int; y :int ; mutable z : int }
@@ -57,7 +57,7 @@ let ff (x : t4) =
 let v4 : t4 =  A0 { x = 0; y = 0; z = 0}
 let v5 : t4 =  A1 { z = 0 }
 
-;; for i = 0 to 10 do
+;; for _i = 0 to 10 do
     ff v4; ff v5
 done
 
@@ -75,7 +75,7 @@ let ff0 (x : exn) =
   | A4 u -> u.x <- u.x + 1 ; u.z <- u.z + 1
   | _ -> ()
 
-;; for i = 0 to 10 do
+;; for _i = 0 to 10 do
   ff0 v6
 done
 

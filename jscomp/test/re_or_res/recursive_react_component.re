@@ -1,4 +1,4 @@
-[@bs.config
+[@mel.config
   {
     flags: [|
       "-dsource",

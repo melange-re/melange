@@ -4,7 +4,7 @@ type value =
   | Symbol of string
 type context =
   | InSum
-type t =
+type [@ocaml.warning "-37"]t =
   | Val of value
   | Neg of t
   | Sum of t list
@@ -45,7 +45,7 @@ let rec compare context state a b =
    | _ -> assert false)
 let a = ((Sum ([sym "a"; Val (Natural 2) ])) )
 let b = sym "x"
-type st = {
+type[@ocaml.warning "-69"] st = {
   complex: bool;}
 let empty () = { complex = true }
 let _ = Js.log @@ (compare InSum (empty ()) a b)

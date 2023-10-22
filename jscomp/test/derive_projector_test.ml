@@ -1,4 +1,4 @@
-[@@@warning "-104"]
+[@@@warning "-30-104"]
 type a =
   { u_x : int}
 [@@deriving  accessors ]
@@ -22,7 +22,6 @@ and u =
   | Hei
 and h = {d : d ; h : h list; u_X : int}
 and e = { d : d }
-
 [@@deriving accessors]
 
 

@@ -1,6 +1,6 @@
 [@@@config {flags = [|"-w";"+unused-type-declaration";"-warn-error"; "A"|]}]
 
-type 'a linked_list =
+type[@ocaml.warning "-69"] 'a linked_list =
   {
     hd : 'a ;
     mutable tl : 'a linked_list Js.null
@@ -25,7 +25,7 @@ let x1 k = x ~k ~y:"xx"
 
 let f = x ~k:(fun[@u] x y -> x = y) ~y:"x"
 
-type u = {
+type[@ocaml.warning "-69"] u = {
   x : int ;
   y0 : int -> int;
   y1 : int -> int -> int
@@ -36,7 +36,7 @@ let uf u =  u |. y0Get 1
 let uf1 u = u |. y1Get 1
 let uf2 u = u |. y1Get 1 2
 
-type u1 = {
+type[@ocaml.warning "-69"] u1 = {
   x : int;
   yyyy : (int -> int [@u]);
   yyyy1 : (int -> int -> int  [@u]);
@@ -56,7 +56,7 @@ let uff3 f =
 
 
 
-type u3 = {
+type[@ocaml.warning "-69"] u3 = {
   x : int;
   yyyy : (int -> int [@u]);
   yyyy1 : (int -> int -> int  [@u]);

@@ -72,7 +72,7 @@ if (A0 === A0) {
         _1: [
           "jscomp/test/inline_record_test.ml",
           46,
-          52
+          54
         ],
         Error: new Error()
       };
@@ -100,7 +100,7 @@ var v5 = {
   z: 0
 };
 
-for(var i = 0; i <= 10; ++i){
+for(var _i = 0; _i <= 10; ++_i){
   ff(v4);
   ff(v5);
 }
@@ -159,7 +159,7 @@ function ff0(x) {
   
 }
 
-for(var i$1 = 0; i$1 <= 10; ++i$1){
+for(var _i$1 = 0; _i$1 <= 10; ++_i$1){
   ff0(v6);
 }
 

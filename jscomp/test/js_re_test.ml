@@ -1,4 +1,3 @@
-
 let suites = Mt.[
   "captures", (fun _ ->
     let re = [%re "/(\\d+)-(?:(\\d+))?/g"] in
@@ -45,13 +44,13 @@ let suites = Mt.[
   );
 
   "fromStringWithFlags", (fun _ ->
-    let res = Js.Re.fromStringWithFlags "foo" "g" in
+    let res = Js.Re.fromStringWithFlags "foo" ~flags:"g" in
 
     Eq(true, res |. Js.Re.global)
   );
   "result_index", (fun _ ->
     match "zbar" |. Js.Re.fromString |. Js.Re.exec_ "foobarbazbar" with
-    | Some res -> 
+    | Some res ->
       Eq(8, res |> Js.Re.index)
     | None ->
       Fail ()
@@ -60,7 +59,7 @@ let suites = Mt.[
     let input = "foobar" in
 
     match [%re "/foo/g"] |. Js.Re.exec_ input with
-    | Some res -> 
+    | Some res ->
       Eq(input,  res |> Js.Re.input)
     | None ->
       Fail ()

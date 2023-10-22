@@ -1,5 +1,3 @@
-
-
 type r = { f : 'a . ('a -> 'a ) } [@@unboxed]
 
 
@@ -12,7 +10,7 @@ let u = { f = fun x -> x }
 let sample = map_pair u (3, true)
 
 
-type _ para = C
+type [@ocaml.warning "-37"] _ para = C
 type t = H : _ para -> t [@@unboxed]
 
 
@@ -40,7 +38,7 @@ and ('a,'b)  t3_aux = {
 
 
 let rec v0 : _ t3 = `A {field = v0 }
-let rec v1 : _ t3 = `A {field = `B }
+let v1 : _ t3 = `A {field = `B }
 
 (*
 module rec R:

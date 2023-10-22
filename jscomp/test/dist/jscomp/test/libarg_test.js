@@ -17,7 +17,7 @@ var accum = {
 };
 
 function record(fmt) {
-  return Stdlib__Printf.kprintf((function (s) {
+  return Stdlib__Printf.ksprintf((function (s) {
                 accum.contents = {
                   hd: s,
                   tl: accum.contents

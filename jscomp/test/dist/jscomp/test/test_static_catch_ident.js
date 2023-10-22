@@ -13,7 +13,7 @@ function scanf_bad_input(ib, x) {
   } else {
     throw x;
   }
-  for(var i = 0; i <= 100; ++i){
+  for(var _i = 0; _i <= 100; ++_i){
     console.log(s);
     console.log("don't inlinie");
   }
