@@ -29,7 +29,6 @@ let suites =
          Ounit_hash_set_tests.suites;
          Ounit_bal_tree_tests.suites;
          Ounit_map_tests.suites;
-         Ounit_ordered_hash_set_tests.suites;
          Ounit_hashtbl_tests.suites;
          Ounit_string_tests.suites;
          Ounit_int_vec_tests.suites;
