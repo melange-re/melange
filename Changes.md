@@ -14,6 +14,8 @@ Unreleased
   interface files ([#800](https://github.com/melange-re/melange/pull/800))
 - Stop showing `Js__.Js_internal` in types and error messages
   ([#798](https://github.com/melange-re/melange/pull/798))
+- Fix printing of OCaml-style objects and uncurried application
+  ([#807](https://github.com/melange-re/melange/pull/807))
 
 2.0.0 2023-09-13
 ---------------
