@@ -21,7 +21,7 @@ An example that uses exceptions runtime
   2 | let _ = sum 4 5 [@u]
               ^^^
   Error: This expression has type int -> int -> int
-         but an expression was expected of type ('a [@bs])
+         but an expression was expected of type ('a [@u])
   [1]
 
   $ cat > x.ml <<EOF
@@ -35,7 +35,7 @@ An example that uses exceptions runtime
   3 | let result = event [ "preventDefault" ] ()
                    ^^^^^
   Error: This expression has type
-           < preventDefault : unit Js.Private.Js_OO.Meth.arity0 > Js.t
+           < preventDefault : (unit -> unit [@mel.meth]) > Js.t
          This is not a function; it cannot be applied.
   [1]
 
@@ -59,5 +59,5 @@ An example that uses exceptions runtime
    9 |       fun o v -> Js.log (resp o + v)
   10 |     end
   Error: This expression should not be a function, the expected type is
-         (x -> int -> unit) Js.Private.Js_OO.Callback.arity2
+         (x -> int -> unit [@mel.this])
   [1]
