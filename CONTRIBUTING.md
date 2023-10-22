@@ -121,7 +121,7 @@ node scripts/build_reserved.js
     - `core` defines the `core` Melange library, containing the bulk of the
       compiler backend implementation.
     - `ext` contains the sources for the `ext` private library. This is a
-      standard library extension with additional functions and data structutres
+      standard library extension with additional functions and data structures
       used throughout the Melange code.
     - `js_parser` is a vendored copy of the [Flow
       parser](https://github.com/facebook/flow/tree/main/src/parser), used in
