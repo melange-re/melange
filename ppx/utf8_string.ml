@@ -24,40 +24,6 @@
 
 open Ppxlib
 
-module UTF8 = struct
-  (* Classify is duplicated in Ext_utf8. *)
-  type byte = Single of int | Cont of int | Leading of int * int | Invalid
-
-  (** [classify chr] returns the {!byte} corresponding to [chr] *)
-  let classify chr =
-    let c = int_of_char chr in
-    (* Classify byte according to leftmost 0 bit *)
-    if c land 0b1000_0000 = 0 then Single c
-    else if (* c 0b0____*)
-            c land 0b0100_0000 = 0 then Cont (c land 0b0011_1111)
-    else if (* c 0b10___*)
-            c land 0b0010_0000 = 0 then Leading (1, c land 0b0001_1111)
-    else if (* c 0b110__*)
-            c land 0b0001_0000 = 0 then Leading (2, c land 0b0000_1111)
-    else if (* c 0b1110_ *)
-            c land 0b0000_1000 = 0 then Leading (3, c land 0b0000_0111)
-    else if (* c 0b1111_0___*)
-            c land 0b0000_0100 = 0 then Leading (4, c land 0b0000_0011)
-    else if (* c 0b1111_10__*)
-            c land 0b0000_0010 = 0 then Leading (5, c land 0b0000_0001)
-      (* c 0b1111_110__ *)
-    else Invalid
-
-  let rec next s ~remaining offset =
-    if remaining = 0 then offset
-    else
-      match classify s.[offset + 1] with
-      | Cont _cc -> next s ~remaining:(remaining - 1) (offset + 1)
-      | _ -> -1
-      | exception _ -> -1
-  (* it can happen when out of bound *)
-end
-
 let valid_hex x =
   match x with '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' -> true | _ -> false
 
@@ -112,7 +78,7 @@ module Utf8_string = struct
     if byte_offset = s_len then ()
     else
       let current_char = s.[byte_offset] in
-      match UTF8.classify current_char with
+      match Ast_utf8_string.classify current_char with
       | Single 92 (* '\\' *) ->
           escape_code (loc + 1) buf s (byte_offset + 1) s_len
       | Single 34 ->
@@ -129,7 +95,7 @@ module Utf8_string = struct
           check_and_transform (loc + 1) buf s (byte_offset + 1) s_len
       | Invalid | Cont _ -> error ~loc Invalid_code_point
       | Leading (n, _) ->
-          let i' = UTF8.next s ~remaining:n byte_offset in
+          let i' = Ast_utf8_string.next s ~remaining:n byte_offset in
           if i' < 0 then error ~loc Invalid_code_point
           else (
             for k = byte_offset to i' do
@@ -374,7 +340,7 @@ module Interp = struct
     if byte_offset = s_len then add_str_segment cxt loc
     else
       let current_char = s.[byte_offset] in
-      match UTF8.classify current_char with
+      match Ast_utf8_string.classify current_char with
       | Single 92 (* '\\' *) -> escape_code (loc + 1) s (byte_offset + 1) cxt
       | Single 34 ->
           Buffer.add_string buf "\\\"";
@@ -403,7 +369,7 @@ module Interp = struct
           check_and_transform (loc + 1) s (byte_offset + 1) cxt
       | Invalid | Cont _ -> pos_error ~loc cxt Invalid_code_point
       | Leading (n, _) ->
-          let i' = UTF8.next s ~remaining:n byte_offset in
+          let i' = Ast_utf8_string.next s ~remaining:n byte_offset in
           if i' < 0 then pos_error cxt ~loc Invalid_code_point
           else (
             for k = byte_offset to i' do

@@ -22,6 +22,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. *)
 
+type byte = Single of int | Cont of int | Leading of int * int | Invalid
+
+val classify : char -> byte
+val next : string -> remaining:int -> int -> int
+
 (* Check if the string is only == to itself (no unicode or escape tricks) *)
 val simple_comparison : string -> bool
 val is_unicode_string : string -> bool
