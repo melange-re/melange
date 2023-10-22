@@ -43,10 +43,10 @@
     :with-test
     (>= "3.9.0")))
   (ppxlib
-   (>= "0.24.0"))
+   (>= "0.30.0"))
   (menhir
    (>= 20201214))
-  (reactjs-jsx-ppx :with-test)))
+  (reason-react-ppx :with-test)))
 
 (package
  (name melange-playground)
