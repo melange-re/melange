@@ -1,4 +1,4 @@
-An example that uses exceptions runtime
+Show how certain attribute errors are printed on type mismatches
 
   $ cat > x.ml <<EOF
   > let sum a b = a + b
