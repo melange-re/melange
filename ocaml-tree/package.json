@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "nan": "^2.14.2",
-    "tree-sitter-cli": "^0.18.0"
-  },
-  "devDependencies": {
-    "web-tree-sitter": "^0.18.0"
-  }
-}
