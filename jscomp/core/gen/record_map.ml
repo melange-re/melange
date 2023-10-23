@@ -23,19 +23,20 @@ let rec mkBodyApply0 ty allNames arg =
 
 and mkBodyApply =
   let collapse_body body =
-    let rec collapse_body = function
-      | [] -> raise Not_found
-      | [ x ] -> x
-      | x :: xs -> Ast_helper.Exp.sequence x (collapse_body xs)
-    in
-    match collapse_body body with
-    | body -> Some body
-    | exception Not_found -> None
+    List.map
+      ~f:(fun ((x, e) : string * Ast.expression) ->
+        Ast_helper.(Vb.mk (Pat.var { txt = x; loc }) e))
+      body
   in
   fun tys allNames args ->
     let body =
-      List.mapi ~f:(fun i ty -> mkBodyApply0 ty allNames args.(i)) tys
-      |> List.filter_map ~f:Fun.id
+      List.mapi
+        ~f:(fun i ty ->
+          let x = args.(i) in
+          (x, mkBodyApply0 ty allNames x))
+        tys
+      |> List.filter_map ~f:(fun (x, body) ->
+             Option.map (fun body -> (x, body)) body)
     in
     collapse_body body
 
@@ -83,16 +84,19 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
            (txt |> Longident.flatten |> String.concat ~sep:"."))
   | Ptyp_tuple xs ->
       let len = List.length xs in
-      let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
-      let body =
-        let body = mkBodyApply xs allNames args in
-        Option.value body
-          ~default:(Ast_helper.Exp.construct { txt = Lident "()"; loc } None)
-      in
+      let args0 = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
+      let vbs = mkBodyApply xs allNames args0 in
       let args =
         Ast_helper.Pat.tuple
-          (Array.map ~f:(fun s -> Ast_helper.Pat.var { txt = s; loc }) args
+          (Array.map ~f:(fun s -> Ast_helper.Pat.var { txt = s; loc }) args0
           |> Array.to_list)
+      in
+      let body =
+        Ast_helper.Exp.(
+          let_ Nonrecursive vbs
+            (tuple
+               (Array.map ~f:(fun s -> ident { txt = Lident s; loc }) args0
+               |> Array.to_list)))
       in
       {
         eta = [%expr fun _self [%p args] -> [%e body]];
@@ -107,40 +111,58 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
 
 let mkBranch (branch : Ast.constructor_declaration) allNames =
   match branch.pcd_args with
+  | Pcstr_tuple [] ->
+      Ast_helper.(
+        Exp.case
+          (Pat.alias
+             (Pat.construct { txt = Lident branch.pcd_name.txt; loc } None)
+             { txt = "v"; loc })
+          (Exp.ident { txt = Lident "v"; loc }))
   | Pcstr_tuple tys -> (
-      match tys with
+      let len = List.length tys in
+      let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
+      let pat_exp =
+        Ast_helper.(
+          Pat.construct
+            { txt = Lident branch.pcd_name.txt; loc }
+            (Some
+               (match tys with
+               | [] -> assert false
+               | _ :: [] -> Ast_helper.Pat.var { txt = args.(0); loc }
+               | tys ->
+                   Ast_helper.Pat.tuple
+                     (List.mapi
+                        ~f:(fun idx _ ->
+                          Ast_helper.Pat.var { txt = args.(idx); loc })
+                        tys))))
+      in
+      match mkBodyApply tys allNames args with
       | [] ->
           Ast_helper.(
             Exp.case
-              (Pat.construct { txt = Lident branch.pcd_name.txt; loc } None)
-              (Exp.construct { txt = Lident "()"; loc } None))
-      | tys -> (
-          let len = List.length tys in
-          let args = Array.init len ~f:(fun i -> "_x" ^ string_of_int i) in
-          let pat_exp =
-            Ast_helper.(
-              Pat.construct
+              (Pat.alias
+                 (Pat.construct
+                    { txt = Lident branch.pcd_name.txt; loc }
+                    (Some (Pat.any ())))
+                 { txt = "v"; loc })
+              (Exp.ident { txt = Lident "v"; loc }))
+      | vbs ->
+          let exp =
+            Ast_helper.Exp.(
+              construct
                 { txt = Lident branch.pcd_name.txt; loc }
                 (Some
                    (match tys with
                    | [] -> assert false
-                   | _ :: [] -> Ast_helper.Pat.var { txt = args.(0); loc }
+                   | _ :: [] -> ident { txt = Lident args.(0); loc }
                    | tys ->
-                       Ast_helper.Pat.tuple
+                       tuple
                          (List.mapi
                             ~f:(fun idx _ ->
-                              Ast_helper.Pat.var { txt = args.(idx); loc })
+                              ident { txt = Lident args.(idx); loc })
                             tys))))
           in
-          match mkBodyApply tys allNames args with
-          | None ->
-              Ast_helper.(
-                Exp.case
-                  (Pat.construct
-                     { txt = Lident branch.pcd_name.txt; loc }
-                     (Some (Ast_helper.Pat.any ())))
-                  (Exp.construct { txt = Lident "()"; loc } None))
-          | Some body -> Ast_helper.(Exp.case pat_exp body)))
+          Ast_helper.Exp.(case pat_exp (let_ Nonrecursive vbs exp)))
   | Pcstr_record _ ->
       (*  TODO: add inline record support *)
       assert false
@@ -169,14 +191,22 @@ let mkBody (tdcl : Ast.type_declaration) allNames =
              lbdcls)
           Closed
       in
+      let vbs =
+        mkBodyApply
+          (List.map ~f:(fun { Ast.pld_type = ty; _ } -> ty) lbdcls)
+          allNames args
+      in
       let body =
-        let body =
-          mkBodyApply
-            (List.map ~f:(fun { Ast.pld_type = ty; _ } -> ty) lbdcls)
-            allNames args
-        in
-        Option.value body
-          ~default:(Ast_helper.Exp.construct { txt = Lident "()"; loc } None)
+        Ast_helper.Exp.(
+          let_ Nonrecursive vbs
+            (record
+               (List.mapi
+                  ~f:(fun idx { Ast.pld_name; _ } ->
+                    let { Asttypes.txt = name; loc } = pld_name in
+                    ( { pld_name with txt = Longident.Lident name },
+                      ident { txt = Lident args.(idx); loc } ))
+                  lbdcls)
+               None))
       in
       [%expr fun _self [%p pat_exp] -> [%e body]]
   | Ptype_open -> failwith "unknown"
@@ -209,7 +239,7 @@ let make type_declaration =
     let fn =
       Ast_helper.Type.mk
         ~params:[ ([%type: 'a], (NoVariance, NoInjectivity)) ]
-        ~manifest:[%type: iter -> 'a -> unit] { txt = "fn"; loc }
+        ~manifest:[%type: iter -> 'a -> 'a] { txt = "fn"; loc }
     in
     Ast_helper.Str.type_ Recursive [ iter; fn ]
   in
@@ -229,17 +259,17 @@ let make type_declaration =
   [%str
     open J
 
-    [%%i type_iter]
-
-    let unknown _ _ = ()
+    let[@inline] unknown _ x = x
 
     let[@inline] option sub self v =
-      match v with None -> () | Some v -> sub self v
+      match v with None -> None | Some v -> Some (sub self v)
 
     let rec list sub self x =
       match x with
-      | [] -> ()
+      | [] -> []
       | x :: xs ->
-          sub self x;
-          list sub self xs]
+          let v = sub self x in
+          v :: list sub self xs
+
+    [%%i type_iter]]
   @ output @ [ let_super ]

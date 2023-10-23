@@ -107,7 +107,8 @@ let inline_call (immutable_list : bool list) params (args : J.expression list)
 *)
 let super = Js_record_map.super
 
-let subst (export_set : Set_ident.t) stats =
+let subst (export_set : Set_ident.t)
+    (stats : J.variable_declaration Hash_ident.t) =
   {
     super with
     statement =

@@ -22,7 +22,8 @@ let main mode input =
   let new_ast =
     match mode with
     | Record_iter -> Record_iter.make typedefs
-    | Record_map | Record_fold -> failwith "NYI"
+    | Record_map -> Record_map.make typedefs
+    | Record_fold -> failwith "NYI"
   in
   Format.printf "%a" Pprintast.structure new_ast
 
