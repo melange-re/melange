@@ -1,0 +1,6 @@
+(executable
+ (name gen_traversal)
+ (libraries ppxlib.ast cmdliner)
+ (flags :standard -open StdLabels -open Ppxlib_ast)
+ (preprocess
+  (pps ppxlib.metaquot)))
