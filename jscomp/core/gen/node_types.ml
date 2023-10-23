@@ -1,39 +1,3 @@
-(*
-function getTypeDefs(parseOutput) {
-  var rootNode = parseOutput.rootNode;
-  var compilationUnit = nodeToObject(rootNode);
-  var type_definitions = compilationUnit.children;
-
-  // filter toplevel types has item_attribute
-  var has_deriving_type_definitions =
-      type_definitions.filter((type_defintion) => {
-        // var children = type_defintion.children;
-        var last = type_defintion.lastChild.lastChild;
-        return last.type === "item_attribute";
-      });
-  var typedefs = has_deriving_type_definitions.map((type_definition) => {
-    var excludes = new Set(extractExcludes(type_definition));
-    var all = new Set(type_definition.children.map((x) => x.mainText));
-    return {
-      names : {all, excludes},
-      types : type_definition.children.map((x) => {
-        var children = x.children;
-        // var len = children.length;
-        return {
-          name : children[0].text, // we ask no type parameter redefined
-          def : children[1],       // there maybe trailing attributes
-          // params: children.slice(0, len - 2),
-        };
-      }),
-    };
-  });
-  // .reduce((x, y) => x.concat(y));
-  console.log("typedeefs: ", typedefs[0].types.map(x => x.name));
-  return typedefs;
-}
-*)
-[@@@ocaml.warning "-26"]
-
 let extract_excludes ptype_attributes =
   match
     List.find

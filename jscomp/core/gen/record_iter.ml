@@ -55,7 +55,6 @@ and mkStructuralTy (ty : Ast.core_type) allNames =
             in
             Ast_helper.Exp.ident { txt; loc }
           in
-          (* TODO(anmonteiro): check skip_obj stuff *)
           {
             eta = [%expr fun _self arg -> [%e code] _self arg];
             beta =
@@ -150,7 +149,6 @@ let mkBranch (branch : Ast.constructor_declaration) allNames =
 let mkBody (tdcl : Ast.type_declaration) allNames =
   match tdcl.ptype_kind with
   | Ptype_variant cstrs ->
-      let _len = List.length cstrs in
       let branches =
         List.map ~f:(fun branch -> mkBranch branch allNames) cstrs
       in
