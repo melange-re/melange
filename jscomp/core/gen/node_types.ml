@@ -79,3 +79,22 @@ let get_type_defs (ast : Parsetree.structure) =
     }
   in
   typedefs
+
+let loc = Location.none
+
+type ob = {
+  eta : Ast.expression;
+  beta : string -> Ast.expression;
+  meth : Ast.expression option;
+}
+
+let skip_obj =
+  let skip = Ast_helper.Exp.ident { txt = Lident "unknown"; loc } in
+  {
+    eta = skip;
+    beta =
+      (fun x ->
+        let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
+        [%expr [%e skip] [%e x]]);
+    meth = None;
+  }

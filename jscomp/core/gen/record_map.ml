@@ -1,21 +1,4 @@
-let loc = Location.none
-
-type ob = {
-  eta : Ast.expression;
-  beta : string -> Ast.expression;
-  meth : Ast.expression option;
-}
-
-let skip_obj =
-  let skip = Ast_helper.Exp.ident { txt = Lident "unknown"; loc } in
-  {
-    eta = skip;
-    beta =
-      (fun x ->
-        let x = Ast_helper.Exp.ident { txt = Lident x; loc } in
-        [%expr [%e skip] [%e x]]);
-    meth = None;
-  }
+open Node_types
 
 let rec mkBodyApply0 ty allNames arg =
   let fn = mkStructuralTy ty allNames in
@@ -43,7 +26,7 @@ and mkBodyApply =
 and mkStructuralTy (ty : Ast.core_type) allNames =
   match ty.ptyp_desc with
   | Ptyp_constr ({ txt = def; _ }, []) -> (
-      let basic = Node_types.isSupported def allNames in
+      let basic = isSupported def allNames in
       match basic with
       | `no -> skip_obj
       | `yes _ | `exclude _ ->
@@ -221,9 +204,11 @@ let mkMethod (tdcl : Ast.type_declaration) allNames =
   [%stri let [%p name] : [%t typ] = [%e mkBody tdcl allNames]]
 
 let make type_declaration =
-  let { Node_types.names; type_declarations = typedefs } = type_declaration in
-  let customNames = Node_types.StringSet.diff names.all names.excludes in
-  let output = List.map ~f:(fun typedef -> mkMethod typedef names) typedefs in
+  let { names; type_declarations } = type_declaration in
+  let customNames = StringSet.diff names.all names.excludes in
+  let output =
+    List.map ~f:(fun typedef -> mkMethod typedef names) type_declarations
+  in
   let type_iter =
     let record =
       Parsetree.Ptype_record
@@ -233,7 +218,7 @@ let make type_declaration =
                Type.field { txt = name; loc }
                  (Typ.constr { txt = Lident "fn"; loc }
                     [ Typ.constr { txt = Lident name; loc } [] ])))
-           (Node_types.StringSet.to_list customNames))
+           (StringSet.to_list customNames))
     in
     let iter = Ast_helper.Type.mk ~kind:record { txt = "iter"; loc } in
     let fn =
@@ -250,7 +235,7 @@ let make type_declaration =
            ~f:(fun s ->
              let lid = { Asttypes.txt = Longident.Lident s; loc } in
              (lid, Ast_helper.Exp.ident lid))
-           (Node_types.StringSet.to_list customNames))
+           (StringSet.to_list customNames))
         None
     in
     [%stri let super : iter = [%e super]]
