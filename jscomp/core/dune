@@ -47,17 +47,8 @@
 
 (rule
  (targets js_record_fold.ml)
- (mode fallback)
- (deps
-  j.ml
-  (source_tree ../../ocaml-tree))
+ (deps j.ml)
  (action
-  (run
-   node
-   --no-experimental-fetch
-   ../../ocaml-tree/wasm.js
-   -record-fold
-   -i
-   %{deps}
-   -o
-   %{targets})))
+  (with-stdout-to
+   %{targets}
+   (run ./gen/gen_traversal.exe --input %{deps} --mode record-fold))))
