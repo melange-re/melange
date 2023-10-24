@@ -51,6 +51,7 @@ let print_if_pipe ppf flag printer arg =
 
 let print_if ppf flag printer arg = if !flag then fprintf ppf "%a@." printer arg
 
+(*
 let process_with_gentype filename =
   match !Bs_clflags.bs_gentype with
   | None -> ()
@@ -64,6 +65,7 @@ let process_with_gentype filename =
         prerr_endline comm;
         prerr_newline ());
       ignore (Sys.command comm)
+*)
 
 let after_parsing_sig ppf outputprefix ast =
   Ast_config.iter_on_mel_config_sigi ast;
@@ -91,16 +93,16 @@ let after_parsing_sig ppf outputprefix ast =
     ignore (Includemod.signatures initial_env ~mark:Mark_both sg sg);
     Typecore.force_delayed_checks ();
     Warnings.check_fatal ();
-    if not !Clflags.print_types then (
+    if not !Clflags.print_types then
       let sg =
         let alerts = Builtin_attributes.alerts_of_sig ast in
         Env.save_signature ~alerts tsg.Typedtree.sig_type modulename
           (Artifact_extension.append_extension outputprefix Cmi)
       in
       Typemod.save_signature modulename tsg outputprefix !Location.input_name
-        initial_env sg;
-      process_with_gentype
-        (Artifact_extension.append_extension outputprefix Cmti))
+        initial_env sg
+(* process_with_gentype *)
+(* (Artifact_extension.append_extension outputprefix Cmti) *)
 
 let output_prefix ?(f = Filename.remove_extension) name =
   match !Clflags.output_name with
@@ -167,22 +169,22 @@ let after_parsing_impl ppf fname (ast : Parsetree.structure) =
     let typedtree_coercion = (typedtree, coercion) in
     print_if ppf Clflags.dump_typedtree Printtyped.implementation_with_coercion
       implementation;
-    (if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
-     else
-       let lambda =
-         Translmod.transl_implementation modulename typedtree_coercion
-       in
-       let js_program =
-         print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code
-         |> Lam_compile_main.compile outputprefix
-       in
-       if not !Js_config.cmj_only then
-         (* XXX(anmonteiro): important that we get package_info after
-            processing, as `[@@@config {flags = [| ... |]}]` could have added to
-            package specs. *)
-         let package_info = Js_packages_state.get_packages_info () in
-         Lam_compile_main.lambda_as_module ~package_info js_program outputprefix);
-    process_with_gentype (Artifact_extension.append_extension outputprefix Cmt)
+    if !Clflags.print_types || !Js_config.cmi_only then Warnings.check_fatal ()
+    else
+      let lambda =
+        Translmod.transl_implementation modulename typedtree_coercion
+      in
+      let js_program =
+        print_if_pipe ppf Clflags.dump_rawlambda Printlambda.lambda lambda.code
+        |> Lam_compile_main.compile outputprefix
+      in
+      if not !Js_config.cmj_only then
+        (* XXX(anmonteiro): important that we get package_info after
+           processing, as `[@@@config {flags = [| ... |]}]` could have added to
+           package specs. *)
+        let package_info = Js_packages_state.get_packages_info () in
+        Lam_compile_main.lambda_as_module ~package_info js_program outputprefix
+(* process_with_gentype (Artifact_extension.append_extension outputprefix Cmt) *)
 
 let implementation ~parser ppf fname =
   Initialization.Perfile.init_path ();
