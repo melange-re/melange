@@ -4,9 +4,9 @@
 var Caml_exceptions = require("melange.js/caml_exceptions.js");
 var Caml_js_exceptions = require("melange.js/caml_js_exceptions.js");
 var Js__Js_exn = require("melange.js/js_exn.js");
-var Js__Js_option = require("melange.js/js_option.js");
 var Mt = require("./mt.js");
 var Stdlib = require("melange/stdlib.js");
+var Stdlib__Option = require("melange/option.js");
 
 var suites = {
   contents: /* [] */0
@@ -46,7 +46,7 @@ function handler(e) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/promise_catch_test.ml",
-          22,
+          21,
           9
         ],
         Error: new Error()
@@ -80,9 +80,8 @@ try {
 }
 catch (raw_e){
   var e = Caml_js_exceptions.internalToOCamlException(raw_e);
-  eq("File \"jscomp/test/promise_catch_test.ml\", line 36, characters 7-14", true, Js__Js_option.isSomeValue((function (xxx, y) {
-              return xxx === y;
-            }), 2, myHandler(e)));
+  var r = myHandler(e);
+  eq("File \"jscomp/test/promise_catch_test.ml\", line 35, characters 7-14", true, r !== undefined && 2 === Stdlib__Option.get(r));
 }
 
 if (exit === 1) {
@@ -90,7 +89,7 @@ if (exit === 1) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/promise_catch_test.ml",
-          39,
+          38,
           9
         ],
         Error: new Error()

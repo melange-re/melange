@@ -9,7 +9,7 @@ if (!Caml_obj.caml_equal(Caml_option.nullable_to_opt(""), "")) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_974_test.ml",
-          5,
+          3,
           4
         ],
         Error: new Error()
@@ -21,7 +21,7 @@ if (!Caml_obj.caml_equal(Caml_option.undefined_to_opt(""), "")) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_974_test.ml",
-          6,
+          4,
           4
         ],
         Error: new Error()
@@ -33,7 +33,7 @@ if (!Caml_obj.caml_equal(Caml_option.null_to_opt(""), "")) {
         RE_EXN_ID: "Assert_failure",
         _1: [
           "jscomp/test/gpr_974_test.ml",
-          7,
+          5,
           4
         ],
         Error: new Error()

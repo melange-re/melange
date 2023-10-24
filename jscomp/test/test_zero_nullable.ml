@@ -151,7 +151,7 @@ end
 
 
 module Test_null_def = struct
-  open Js.Null_undefined
+  open Js.Nullable
   let f1 x =
     match toOption x with
     | None ->
@@ -224,7 +224,7 @@ end
 
 let () =
   begin
-    eq __LOC__ (Test_null_def.f1 (Js.Null_undefined.return 0 )) 1 ;
+    eq __LOC__ (Test_null_def.f1 (Js.Nullable.return 0 )) 1 ;
     eq __LOC__ (Test_null_def.f1 ([%mel.raw "null"])) 3 ;
     eq __LOC__ (Test_null_def.f1 ([%mel.raw "undefined"])) 3 ;
 

@@ -1,4 +1,3 @@
-
 let suites :  Mt.pair_suites ref  = ref []
 let test_id = ref 0
 let eq loc x y =
@@ -34,8 +33,8 @@ let () =
   match Js.Json.parseExn {| 1. +  |} with
   | exception e ->
     eq __LOC__ true
-      (Js.Option.isSomeValue
-        (fun[@u] xxx y -> Js.Int.equal xxx y) 2 (myHandler e))
+      (let r =(myHandler e) in
+      Option.is_some r && Js.Int.equal 2 (Option.get r))
   | _ -> assert false
 
 ;; Mt.from_pair_suites __MODULE__ !suites

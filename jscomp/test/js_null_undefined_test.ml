@@ -1,4 +1,4 @@
-open Js.Null_undefined
+open Js.Nullable
 
 let suites = Mt.[
   "toOption - null", (fun _ -> Eq(None, null |> toOption));
