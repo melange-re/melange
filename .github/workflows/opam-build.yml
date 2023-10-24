@@ -72,7 +72,7 @@ jobs:
       - name: Build basic template
         working-directory: melange-opam-template
         run: |
-          opam exec -- dune build @react @node --display=short
+          opam exec -- dune build @react @node --profile=release --display=short
           npm run bundle
 
       - name: Run resulting .js files
